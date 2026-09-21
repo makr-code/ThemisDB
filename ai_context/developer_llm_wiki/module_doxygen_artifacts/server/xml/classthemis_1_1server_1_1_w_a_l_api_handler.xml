@@ -1,0 +1,848 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_w_a_l_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::WALApiHandler</compoundname>
+    <includes refid="wal__api__handler_8h" local="no">wal_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1aaea6037c0094b09c4a8d607855fed10f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::WALApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::WALApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="78" column="21" bodyfile="include/server/wal_api_handler.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1ae3f8ec02ffdd6219ac1fc269d989f4ae" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::WALApplier &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::WALApplier&gt; themis::server::WALApiHandler::wal_applier_</definition>
+        <argsstring></argsstring>
+        <name>wal_applier_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_applier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="79" column="21" bodyfile="include/server/wal_api_handler.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a529d2db4f1f0f865bb37cdd58135e65e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::WALManager &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::WALManager&gt; themis::server::WALApiHandler::wal_manager_</definition>
+        <argsstring></argsstring>
+        <name>wal_manager_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="80" column="21" bodyfile="include/server/wal_api_handler.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a72526079bee1be90cc55002b6737b7b7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ReplicationCoordinator &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ReplicationCoordinator&gt; themis::server::WALApiHandler::replication_coordinator_</definition>
+        <argsstring></argsstring>
+        <name>replication_coordinator_</name>
+        <qualifiedname>themis::server::WALApiHandler::replication_coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="81" column="21" bodyfile="include/server/wal_api_handler.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1aea27a955945304e4ea050fc52b0c3452" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::WALApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::WALApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="82" column="21" bodyfile="include/server/wal_api_handler.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a0f03b67c296dfdc6fbd2de051e334764" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WALApiHandler::wal_shared_secret_</definition>
+        <argsstring></argsstring>
+        <name>wal_shared_secret_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_shared_secret_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="85" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a86bedbfb83085c0fdbe187dd7ba35810" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WALApiHandler::wal_hmac_secret_</definition>
+        <argsstring></argsstring>
+        <name>wal_hmac_secret_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_hmac_secret_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="86" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a055057d490a334b63657a9a59a1ab1ba" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::WALApiHandler::wal_apply_success_</definition>
+        <argsstring></argsstring>
+        <name>wal_apply_success_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_apply_success_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="89" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a80515c53810f08f73eadaddc1bc7f912" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::WALApiHandler::wal_apply_fail_</definition>
+        <argsstring></argsstring>
+        <name>wal_apply_fail_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_apply_fail_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="90" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a0e5038d0fd63a923f7f1c40dd88c1b1a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::WALApiHandler::wal_apply_latency_le_50ms_</definition>
+        <argsstring></argsstring>
+        <name>wal_apply_latency_le_50ms_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_apply_latency_le_50ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="91" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a29c8d9de4a2e59a3038812851813c1af" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::WALApiHandler::wal_apply_latency_le_200ms_</definition>
+        <argsstring></argsstring>
+        <name>wal_apply_latency_le_200ms_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_apply_latency_le_200ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="92" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1abcc56d457ae648654a1093dfbf1f0e0f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::WALApiHandler::wal_apply_latency_le_1000ms_</definition>
+        <argsstring></argsstring>
+        <name>wal_apply_latency_le_1000ms_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_apply_latency_le_1000ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="93" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a162afdf71512f6ffc2169427710e7452" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::WALApiHandler::wal_apply_latency_gt_1000ms_</definition>
+        <argsstring></argsstring>
+        <name>wal_apply_latency_gt_1000ms_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_apply_latency_gt_1000ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="94" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a6f1b9c3d0837500d8c32eb9a6a786bf4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::WALApiHandler::wal_apply_latency_sum_us_</definition>
+        <argsstring></argsstring>
+        <name>wal_apply_latency_sum_us_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_apply_latency_sum_us_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="95" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a01f772b7655210a40a49cd1dcd1b0430" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::WALApiHandler::wal_apply_latency_count_</definition>
+        <argsstring></argsstring>
+        <name>wal_apply_latency_count_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_apply_latency_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="96" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a7d90da1c0db109920891819373561485" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::WALApiHandler::wal_metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>wal_metrics_mutex_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="97" column="31" bodyfile="include/server/wal_api_handler.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a5681f91abddafbd9ad719a82aea21136" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WALApiHandler::wal_last_applied_lsn_</definition>
+        <argsstring></argsstring>
+        <name>wal_last_applied_lsn_</name>
+        <qualifiedname>themis::server::WALApiHandler::wal_last_applied_lsn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="98" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1ab55a63b75fa384e0c3590fac4f308287" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::WALApiHandler::WALApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; sharding::WALApplier &gt; wal_applier, std::shared_ptr&lt; sharding::WALManager &gt; wal_manager, std::shared_ptr&lt; sharding::ReplicationCoordinator &gt; replication_coordinator, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth, const std::string &amp;wal_shared_secret=&quot;&quot;, const std::string &amp;wal_hmac_secret=&quot;&quot;)</argsstring>
+        <name>WALApiHandler</name>
+        <qualifiedname>themis::server::WALApiHandler::WALApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::WALApplier &gt;</type>
+          <declname>wal_applier</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::WALManager &gt;</type>
+          <declname>wal_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ReplicationCoordinator &gt;</type>
+          <declname>replication_coordinator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>wal_shared_secret</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>wal_hmac_secret</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="42" column="5" bodyfile="src/server/wal_api_handler.cpp" bodystart="30" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a13ce74e83026a147a189ca6db2907c05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::WALApiHandler::handleApply</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleApply</name>
+        <qualifiedname>themis::server::WALApiHandler::handleApply</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Apply. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), empty(), find(), end(), value(), makeErrorResponse(), hmacSha256Hex(), body(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="57" column="20" bodyfile="src/server/wal_api_handler.cpp" bodystart="55" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a2bfd36b3fa9e476758b2563376a56101" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::WALApiHandler::getApplySuccessCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getApplySuccessCount</name>
+        <qualifiedname>themis::server::WALApiHandler::getApplySuccessCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="59" column="14" bodyfile="include/server/wal_api_handler.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a912ffb242bd0ce167565fe647b07365b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::WALApiHandler::getApplyFailCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getApplyFailCount</name>
+        <qualifiedname>themis::server::WALApiHandler::getApplyFailCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="60" column="14" bodyfile="include/server/wal_api_handler.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a447c6c37cc92e1265c1f1d5c7011a1c5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::WALApiHandler::getApplyLatencyLe50ms</definition>
+        <argsstring>() const</argsstring>
+        <name>getApplyLatencyLe50ms</name>
+        <qualifiedname>themis::server::WALApiHandler::getApplyLatencyLe50ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="61" column="14" bodyfile="include/server/wal_api_handler.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a2ffe2d397c78f7f338f5ea09cd9835c8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::WALApiHandler::getApplyLatencyLe200ms</definition>
+        <argsstring>() const</argsstring>
+        <name>getApplyLatencyLe200ms</name>
+        <qualifiedname>themis::server::WALApiHandler::getApplyLatencyLe200ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="62" column="14" bodyfile="include/server/wal_api_handler.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1ab9a72c4b29e0ad88398e8d7dcb6a602a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::WALApiHandler::getApplyLatencyLe1000ms</definition>
+        <argsstring>() const</argsstring>
+        <name>getApplyLatencyLe1000ms</name>
+        <qualifiedname>themis::server::WALApiHandler::getApplyLatencyLe1000ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="63" column="14" bodyfile="include/server/wal_api_handler.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1abb6c657f07123253f69f57151c6abf59" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::WALApiHandler::getApplyLatencyGt1000ms</definition>
+        <argsstring>() const</argsstring>
+        <name>getApplyLatencyGt1000ms</name>
+        <qualifiedname>themis::server::WALApiHandler::getApplyLatencyGt1000ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="64" column="14" bodyfile="include/server/wal_api_handler.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a1cb58acd02fd66ac867e31dbf36a3bd2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::WALApiHandler::getApplyLatencySumUs</definition>
+        <argsstring>() const</argsstring>
+        <name>getApplyLatencySumUs</name>
+        <qualifiedname>themis::server::WALApiHandler::getApplyLatencySumUs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="65" column="14" bodyfile="include/server/wal_api_handler.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a8031273dc66c04d1b5cb2fe169c81744" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::WALApiHandler::getApplyLatencyCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getApplyLatencyCount</name>
+        <qualifiedname>themis::server::WALApiHandler::getApplyLatencyCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="66" column="14" bodyfile="include/server/wal_api_handler.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1ac8418cc735598cf9ad09ecf356074166" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::WALApiHandler::getLastAppliedLsn</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastAppliedLsn</name>
+        <qualifiedname>themis::server::WALApiHandler::getLastAppliedLsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="67" column="17" bodyfile="include/server/wal_api_handler.h" bodystart="67" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1adac754650795d7a43b5bf867f00c672f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::WALApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::WALApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="108" column="20" bodyfile="src/server/wal_api_handler.cpp" bodystart="173" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a2f6795bdfa901dba4010afd3cce1e854" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::WALApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::WALApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="117" column="20" bodyfile="src/server/wal_api_handler.cpp" bodystart="192" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a3c6e5f5a502bbf098b8276484e74e09f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::WALApiHandler::recordLatency</definition>
+        <argsstring>(int64_t elapsed_us)</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::server::WALApiHandler::recordLatency</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>elapsed_us</declname>
+        </param>
+        <briefdescription>
+<para>Record Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">elapsed_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">elapsed_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="124" column="10" bodyfile="src/server/wal_api_handler.cpp" bodystart="209" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a573defc9a108acca83927730491e77f3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::WALApiHandler::hmacSha256Hex</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;data)</argsstring>
+        <name>hmacSha256Hex</name>
+        <qualifiedname>themis::server::WALApiHandler::hmacSha256Hex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Hmac Sha256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: HMAC(), EVP_sha256(), data(), size(), reserve(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="131" column="17" bodyfile="src/server/wal_api_handler.cpp" bodystart="230" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_w_a_l_api_handler_1a7c69ec45b1a9729a2a5bea1750e6dc0b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::WALApiHandler::timingSafeEqual</definition>
+        <argsstring>(const std::string &amp;a, const std::string &amp;b)</argsstring>
+        <name>timingSafeEqual</name>
+        <qualifiedname>themis::server::WALApiHandler::timingSafeEqual</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Timing Safe Equal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_api_handler.h" line="138" column="10" bodyfile="src/server/wal_api_handler.cpp" bodystart="254" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/wal_api_handler.h" line="40" column="1" bodyfile="include/server/wal_api_handler.h" bodystart="40" bodyend="139"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1aea27a955945304e4ea050fc52b0c3452" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a912ffb242bd0ce167565fe647b07365b" prot="public" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>getApplyFailCount</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a8031273dc66c04d1b5cb2fe169c81744" prot="public" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>getApplyLatencyCount</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1abb6c657f07123253f69f57151c6abf59" prot="public" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>getApplyLatencyGt1000ms</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1ab9a72c4b29e0ad88398e8d7dcb6a602a" prot="public" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>getApplyLatencyLe1000ms</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a2ffe2d397c78f7f338f5ea09cd9835c8" prot="public" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>getApplyLatencyLe200ms</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a447c6c37cc92e1265c1f1d5c7011a1c5" prot="public" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>getApplyLatencyLe50ms</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a1cb58acd02fd66ac867e31dbf36a3bd2" prot="public" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>getApplyLatencySumUs</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a2bfd36b3fa9e476758b2563376a56101" prot="public" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>getApplySuccessCount</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1ac8418cc735598cf9ad09ecf356074166" prot="public" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>getLastAppliedLsn</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a13ce74e83026a147a189ca6db2907c05" prot="public" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>handleApply</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a573defc9a108acca83927730491e77f3" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>hmacSha256Hex</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1adac754650795d7a43b5bf867f00c672f" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a2f6795bdfa901dba4010afd3cce1e854" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a3c6e5f5a502bbf098b8276484e74e09f" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a72526079bee1be90cc55002b6737b7b7" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>replication_coordinator_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1aaea6037c0094b09c4a8d607855fed10f" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a7c69ec45b1a9729a2a5bea1750e6dc0b" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>timingSafeEqual</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1ae3f8ec02ffdd6219ac1fc269d989f4ae" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_applier_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a80515c53810f08f73eadaddc1bc7f912" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_apply_fail_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a01f772b7655210a40a49cd1dcd1b0430" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_apply_latency_count_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a162afdf71512f6ffc2169427710e7452" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_apply_latency_gt_1000ms_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1abcc56d457ae648654a1093dfbf1f0e0f" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_apply_latency_le_1000ms_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a29c8d9de4a2e59a3038812851813c1af" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_apply_latency_le_200ms_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a0e5038d0fd63a923f7f1c40dd88c1b1a" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_apply_latency_le_50ms_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a6f1b9c3d0837500d8c32eb9a6a786bf4" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_apply_latency_sum_us_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a055057d490a334b63657a9a59a1ab1ba" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_apply_success_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a86bedbfb83085c0fdbe187dd7ba35810" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_hmac_secret_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a5681f91abddafbd9ad719a82aea21136" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_last_applied_lsn_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a529d2db4f1f0f865bb37cdd58135e65e" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a7d90da1c0db109920891819373561485" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_metrics_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1a0f03b67c296dfdc6fbd2de051e334764" prot="private" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>wal_shared_secret_</name></member>
+      <member refid="classthemis_1_1server_1_1_w_a_l_api_handler_1ab55a63b75fa384e0c3590fac4f308287" prot="public" virt="non-virtual"><scope>themis::server::WALApiHandler</scope><name>WALApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

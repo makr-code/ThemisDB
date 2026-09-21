@@ -1,0 +1,845 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_vector_auto_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::VectorAutoBuffer</compoundname>
+    <includes refid="vector__auto__buffer_8h" local="no">vector_auto_buffer.h</includes>
+    <innerclass refid="structthemis_1_1_vector_auto_buffer_1_1_buffered_op" prot="private">themis::VectorAutoBuffer::BufferedOp</innerclass>
+    <innerclass refid="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer" prot="private">themis::VectorAutoBuffer::NamespaceBuffer</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="enum" id="classthemis_1_1_vector_auto_buffer_1a9d4d80289a163b828ac62b06da1fdf2f" prot="private" static="no" strong="yes">
+        <type></type>
+        <name>OpType</name>
+        <qualifiedname>themis::VectorAutoBuffer::OpType</qualifiedname>
+        <enumvalue id="classthemis_1_1_vector_auto_buffer_1a9d4d80289a163b828ac62b06da1fdf2fa9eeb52badb613229884838847294b90d" prot="private">
+          <name>ADD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_vector_auto_buffer_1a9d4d80289a163b828ac62b06da1fdf2fa15a8022d0ed9cd9c2a2e756822703eb4" prot="private">
+          <name>UPDATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_vector_auto_buffer_1a9d4d80289a163b828ac62b06da1fdf2fa78baf367c4626442174307cdf41c6538" prot="private">
+          <name>REMOVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="246" column="5" bodyfile="include/index/vector_auto_buffer.h" bodystart="246" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_vector_auto_buffer_1a5197ae0c1f442510bc446f8cbbe6fe1c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> *</type>
+        <definition>VectorIndexManager* themis::VectorAutoBuffer::vectorIndex_</definition>
+        <argsstring></argsstring>
+        <name>vectorIndex_</name>
+        <qualifiedname>themis::VectorAutoBuffer::vectorIndex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="297" column="24" bodyfile="include/index/vector_auto_buffer.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_auto_buffer_1a3d2b6f22cfa4f6a0d28d35e36a2f04a2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_vector_auto_buffer_config" kindref="compound">VectorAutoBufferConfig</ref></type>
+        <definition>VectorAutoBufferConfig themis::VectorAutoBuffer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::VectorAutoBuffer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="298" column="28" bodyfile="include/index/vector_auto_buffer.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_auto_buffer_1ad35244bf9182d009da199c360d6b9bd9" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, NamespaceBuffer &gt;</type>
+        <definition>std::map&lt;std::string, NamespaceBuffer&gt; themis::VectorAutoBuffer::buffers_</definition>
+        <argsstring></argsstring>
+        <name>buffers_</name>
+        <qualifiedname>themis::VectorAutoBuffer::buffers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="301" column="14" bodyfile="include/index/vector_auto_buffer.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_auto_buffer_1a65f06fd4c88966e65dd291435769d025" prot="private" static="no" mutable="yes">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex themis::VectorAutoBuffer::buffers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>buffers_mutex_</name>
+        <qualifiedname>themis::VectorAutoBuffer::buffers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="302" column="30" bodyfile="include/index/vector_auto_buffer.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_auto_buffer_1a40aa1ee1b29962c5d9f2e169a67fb958" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::VectorAutoBuffer::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::VectorAutoBuffer::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="305" column="17" bodyfile="include/index/vector_auto_buffer.h" bodystart="305" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_auto_buffer_1aab8899b7c580fdd52c000346670dbff6" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::VectorAutoBuffer::flush_thread_</definition>
+        <argsstring></argsstring>
+        <name>flush_thread_</name>
+        <qualifiedname>themis::VectorAutoBuffer::flush_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="306" column="17" bodyfile="include/index/vector_auto_buffer.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_auto_buffer_1a97fd42212cf1db0cd2afc4f14136b809" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::VectorAutoBuffer::flush_cv_</definition>
+        <argsstring></argsstring>
+        <name>flush_cv_</name>
+        <qualifiedname>themis::VectorAutoBuffer::flush_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="307" column="29" bodyfile="include/index/vector_auto_buffer.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_auto_buffer_1aa92e698e4be3fe5b1038c16607d1a7f2" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::VectorAutoBuffer::flush_mutex_</definition>
+        <argsstring></argsstring>
+        <name>flush_mutex_</name>
+        <qualifiedname>themis::VectorAutoBuffer::flush_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="308" column="16" bodyfile="include/index/vector_auto_buffer.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_auto_buffer_1a1f33db80f43aec80291ead8e90f185b8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_vector_auto_buffer_stats" kindref="compound">VectorAutoBufferStats</ref></type>
+        <definition>VectorAutoBufferStats themis::VectorAutoBuffer::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::VectorAutoBuffer::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="311" column="27" bodyfile="include/index/vector_auto_buffer.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1ad4e39934b265c4c59e963bf10a432d40" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorAutoBuffer::VectorAutoBuffer</definition>
+        <argsstring>(VectorIndexManager *vectorIndex, VectorAutoBufferConfig config=VectorAutoBufferConfig{})</argsstring>
+        <name>VectorAutoBuffer</name>
+        <qualifiedname>themis::VectorAutoBuffer::VectorAutoBuffer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> *</type>
+          <declname>vectorIndex</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_vector_auto_buffer_config" kindref="compound">VectorAutoBufferConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_vector_auto_buffer_config" kindref="compound">VectorAutoBufferConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct auto-batching buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vectorIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> instance (not owned) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="169" column="14" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="54" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1ad76a015eebe3d68b488a165e219953f3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorAutoBuffer::~VectorAutoBuffer</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~VectorAutoBuffer</name>
+        <qualifiedname>themis::VectorAutoBuffer::~VectorAutoBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="172" column="5" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="63" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1a4398ab7525f706c5a3ca37f293958581" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorAutoBuffer::VectorAutoBuffer</definition>
+        <argsstring>(const VectorAutoBuffer &amp;)=delete</argsstring>
+        <name>VectorAutoBuffer</name>
+        <qualifiedname>themis::VectorAutoBuffer::VectorAutoBuffer</qualifiedname>
+        <param>
+          <type>const VectorAutoBuffer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="175" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1a005c7843a14766c3a3db29dae9a2d7d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_vector_auto_buffer_1ad4e39934b265c4c59e963bf10a432d40" kindref="member">VectorAutoBuffer</ref> &amp;</type>
+        <definition>VectorAutoBuffer &amp; themis::VectorAutoBuffer::operator=</definition>
+        <argsstring>(const VectorAutoBuffer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::VectorAutoBuffer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_vector_auto_buffer_1ad4e39934b265c4c59e963bf10a432d40" kindref="member">VectorAutoBuffer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="176" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1a0bd7639cffc8eef3c5f66e6deeed1ab8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorAutoBuffer::VectorAutoBuffer</definition>
+        <argsstring>(VectorAutoBuffer &amp;&amp;)=delete</argsstring>
+        <name>VectorAutoBuffer</name>
+        <qualifiedname>themis::VectorAutoBuffer::VectorAutoBuffer</qualifiedname>
+        <param>
+          <type>VectorAutoBuffer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="177" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1a4e50c3980fc5556b6ea4b1c35675510e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_vector_auto_buffer_1ad4e39934b265c4c59e963bf10a432d40" kindref="member">VectorAutoBuffer</ref> &amp;</type>
+        <definition>VectorAutoBuffer &amp; themis::VectorAutoBuffer::operator=</definition>
+        <argsstring>(VectorAutoBuffer &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::VectorAutoBuffer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_vector_auto_buffer_1ad4e39934b265c4c59e963bf10a432d40" kindref="member">VectorAutoBuffer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="178" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1acedf98feaa937bfcf8a6ae5b15e647f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::VectorAutoBuffer::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::VectorAutoBuffer::start</qualifiedname>
+        <briefdescription>
+<para>Start background flush thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: exchange(), THEMIS_WARN(), THEMIS_INFO(), count(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="183" column="10" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="84" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1abefcf3a8aad39fa3b9f06c1faf8e5846" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::VectorAutoBuffer::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::VectorAutoBuffer::stop</qualifiedname>
+        <briefdescription>
+<para>Stop background flush thread and flush remaining vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: exchange(), THEMIS_INFO(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN(), <ref refid="classthemis_1_1_vector_auto_buffer_1aa9ad162a0c2b3588c85fa261e0743da3" kindref="member">flush()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="188" column="10" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="103" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1ac8f91301c534cf818a0262c948f7a709" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_vector_index_manager_1_1_status" kindref="compound">VectorIndexManager::Status</ref></type>
+        <definition>VectorIndexManager::Status themis::VectorAutoBuffer::add</definition>
+        <argsstring>(const BaseEntity &amp;entity)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::VectorAutoBuffer::add</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Add a vector entity (will be buffered). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity containing vector data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), getPrimaryKey(), empty(), <ref refid="structthemis_1_1_vector_index_manager_1_1_status_1a842e4fbf12245e41a227b80ffb32d30e" kindref="member">VectorIndexManager::Status::Error()</ref>, makeBufferKey(), lock(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="195" column="32" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="137" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1ac7bcbcdbb9be149d7de7731ea1bb8012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_vector_index_manager_1_1_status" kindref="compound">VectorIndexManager::Status</ref></type>
+        <definition>VectorIndexManager::Status themis::VectorAutoBuffer::update</definition>
+        <argsstring>(const BaseEntity &amp;entity)</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::VectorAutoBuffer::update</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Update a vector entity (will be buffered). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity with updated vector data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), getPrimaryKey(), empty(), <ref refid="structthemis_1_1_vector_index_manager_1_1_status_1a842e4fbf12245e41a227b80ffb32d30e" kindref="member">VectorIndexManager::Status::Error()</ref>, makeBufferKey(), lock(), op(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="202" column="32" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="201" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1afa11e36a281a2a632c8379821786c972" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_vector_index_manager_1_1_status" kindref="compound">VectorIndexManager::Status</ref></type>
+        <definition>VectorIndexManager::Status themis::VectorAutoBuffer::remove</definition>
+        <argsstring>(const std::string &amp;pk)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::VectorAutoBuffer::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Remove a vector entity by PK (will be buffered). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Primary key of entity to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), empty(), <ref refid="structthemis_1_1_vector_index_manager_1_1_status_1a842e4fbf12245e41a227b80ffb32d30e" kindref="member">VectorIndexManager::Status::Error()</ref>, lock(), op(), <ref refid="classthemis_1_1_vector_auto_buffer_1ac8f91301c534cf818a0262c948f7a709" kindref="member">add()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="209" column="32" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="242" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1aa9ad162a0c2b3588c85fa261e0743da3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::VectorAutoBuffer::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::VectorAutoBuffer::flush</qualifiedname>
+        <briefdescription>
+<para>Force immediate flush of all buffered vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para><simplesect kind="return"><para>Number of vectors flushed</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: flushInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="215" column="12" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="282" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1ab9867e15c125b30254d55fdb9e5adb99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::VectorAutoBuffer::flushFor</definition>
+        <argsstring>(const std::string &amp;namespace_key)</argsstring>
+        <name>flushFor</name>
+        <qualifiedname>themis::VectorAutoBuffer::flushFor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>namespace_key</declname>
+        </param>
+        <briefdescription>
+<para>Flush buffered vectors for specific namespace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush For.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>namespace_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Namespace identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of vectors flushed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">namespace_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), empty(), flushBuffer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="222" column="12" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="292" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1ad0f361da702329a8e2cc3094cdaa4055" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_vector_auto_buffer_stats" kindref="compound">VectorAutoBufferStats</ref></type>
+        <definition>VectorAutoBufferStats themis::VectorAutoBuffer::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::VectorAutoBuffer::getStats</qualifiedname>
+        <briefdescription>
+<para>Get current buffer statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="227" column="27" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="512" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1ae76958c79b6f5742760061d32ab02497" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_vector_auto_buffer_config" kindref="compound">VectorAutoBufferConfig</ref> &amp;</type>
+        <definition>const VectorAutoBufferConfig &amp; themis::VectorAutoBuffer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::VectorAutoBuffer::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="232" column="34" bodyfile="include/index/vector_auto_buffer.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1abe957da084271f49264b9ae8a6750f52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::VectorAutoBuffer::setConfig</definition>
+        <argsstring>(const VectorAutoBufferConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::VectorAutoBuffer::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_vector_auto_buffer_config" kindref="compound">VectorAutoBufferConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration (takes effect on next flush). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="237" column="10" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="541" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1ac3f89aa1a4b49b00abdd32522f451e67" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::VectorAutoBuffer::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::VectorAutoBuffer::isRunning</qualifiedname>
+        <briefdescription>
+<para>Check if buffer is running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="242" column="10" bodyfile="include/index/vector_auto_buffer.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1ac159b40016b82e6b5c05cff197bdc1fe" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::VectorAutoBuffer::makeBufferKey</definition>
+        <argsstring>(const BaseEntity &amp;entity) const</argsstring>
+        <name>makeBufferKey</name>
+        <qualifiedname>themis::VectorAutoBuffer::makeBufferKey</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="314" column="17" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="124" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1a0c97f00fdb5ca910c0cc7e00adb1673d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::VectorAutoBuffer::flushThread</definition>
+        <argsstring>()</argsstring>
+        <name>flushThread</name>
+        <qualifiedname>themis::VectorAutoBuffer::flushThread</qualifiedname>
+        <briefdescription>
+<para>Flush Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(), load(), lock(), wait_for(), shouldFlushGlobal(), unlock(), flushInternal(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="315" column="10" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="481" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1af0539aa30f29f67ec50ced193df43032" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::VectorAutoBuffer::flushInternal</definition>
+        <argsstring>(bool lock_held=false)</argsstring>
+        <name>flushInternal</name>
+        <qualifiedname>themis::VectorAutoBuffer::flushInternal</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>lock_held</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Flush Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lock_held</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), lock(), try_lock_for(), std::chrono::seconds(), THEMIS_WARN(), empty(), flushBuffer(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="316" column="12" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="309" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1a771f55295c743c240158274fabeb7623" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::VectorAutoBuffer::flushBuffer</definition>
+        <argsstring>(const std::string &amp;buffer_key, NamespaceBuffer &amp;buffer)</argsstring>
+        <name>flushBuffer</name>
+        <qualifiedname>themis::VectorAutoBuffer::flushBuffer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>buffer_key</declname>
+        </param>
+        <param>
+          <type>NamespaceBuffer &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Flush Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), Tracer::startSpan(), setAttribute(), size(), reserve(), push_back(), <ref refid="structthemis_1_1_vector_index_manager_1_1_status_1a842e4fbf12245e41a227b80ffb32d30e" kindref="member">VectorIndexManager::Status::Error()</ref>, applyCompression(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="317" column="12" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="352" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1a483405baa5b9f492128669a45cc99e7d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::VectorAutoBuffer::shouldFlushBuffer</definition>
+        <argsstring>(const NamespaceBuffer &amp;buffer) const</argsstring>
+        <name>shouldFlushBuffer</name>
+        <qualifiedname>themis::VectorAutoBuffer::shouldFlushBuffer</qualifiedname>
+        <param>
+          <type>const NamespaceBuffer &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="318" column="10" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="441" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1a8964118eb8fad17c2b78984859341aac" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::VectorAutoBuffer::shouldFlushGlobal</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldFlushGlobal</name>
+        <qualifiedname>themis::VectorAutoBuffer::shouldFlushGlobal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="319" column="10" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="456" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_auto_buffer_1aa3304be5158d6e8e9513cd6cbcb066c6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt; BaseEntity &gt; themis::VectorAutoBuffer::applyCompression</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities)</argsstring>
+        <name>applyCompression</name>
+        <qualifiedname>themis::VectorAutoBuffer::applyCompression</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <briefdescription>
+<para>Apply Compression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_DEBUG(), std::max(), reserve(), size(), extractVector(), has_value(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="322" column="17" bodyfile="src/index/vector_auto_buffer.cpp" bodystart="556" bodyend="731"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Auto-batching buffer for vector index operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically buffers single vector inserts and flushes them as batches. Thread-safe, with configurable size and time thresholds.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">VectorAutoBufferConfig<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.max_vectors_per_buffer<sp/>=<sp/>500;</highlight></codeline>
+<codeline><highlight class="normal">config.flush_interval<sp/>=<sp/>std::chrono::seconds(10);</highlight></codeline>
+<codeline><highlight class="normal">config.compression<sp/>=<sp/><ref refid="structthemis_1_1_vector_auto_buffer_config_1a2d5c460b71db38ee5f422af3640c1b8aab7e881a926255afb3375d882d0e80b4f" kindref="member">VectorAutoBufferConfig::Compression::Quantization_Int8</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_vector_auto_buffer_1ad4e39934b265c4c59e963bf10a432d40" kindref="member">VectorAutoBuffer</ref><sp/>buffer(vectorIndex,<sp/>config);</highlight></codeline>
+<codeline><highlight class="normal">buffer.start();<sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>background<sp/>flush<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Add<sp/>vectors<sp/>(will<sp/>be<sp/>buffered)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">buffer.add(entity1);</highlight></codeline>
+<codeline><highlight class="normal">buffer.add(entity2);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>vectors<sp/>are<sp/>automatically<sp/>flushed<sp/>in<sp/>batches</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">buffer.stop();<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stop<sp/>and<sp/>flush<sp/>remaining<sp/>vectors</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/index/vector_auto_buffer.h" line="162" column="1" bodyfile="include/index/vector_auto_buffer.h" bodystart="162" bodyend="323"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_vector_auto_buffer_1ac8f91301c534cf818a0262c948f7a709" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>add</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1aa3304be5158d6e8e9513cd6cbcb066c6" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>applyCompression</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1ad35244bf9182d009da199c360d6b9bd9" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>buffers_</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a65f06fd4c88966e65dd291435769d025" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>buffers_mutex_</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a3d2b6f22cfa4f6a0d28d35e36a2f04a2" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1aa9ad162a0c2b3588c85fa261e0743da3" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>flush</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a97fd42212cf1db0cd2afc4f14136b809" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>flush_cv_</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1aa92e698e4be3fe5b1038c16607d1a7f2" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>flush_mutex_</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1aab8899b7c580fdd52c000346670dbff6" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>flush_thread_</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a771f55295c743c240158274fabeb7623" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>flushBuffer</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1ab9867e15c125b30254d55fdb9e5adb99" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>flushFor</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1af0539aa30f29f67ec50ced193df43032" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>flushInternal</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a0c97f00fdb5ca910c0cc7e00adb1673d" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>flushThread</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1ae76958c79b6f5742760061d32ab02497" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1ad0f361da702329a8e2cc3094cdaa4055" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1ac3f89aa1a4b49b00abdd32522f451e67" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1ac159b40016b82e6b5c05cff197bdc1fe" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>makeBufferKey</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a005c7843a14766c3a3db29dae9a2d7d2" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a4e50c3980fc5556b6ea4b1c35675510e" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a9d4d80289a163b828ac62b06da1fdf2f" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>OpType</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1afa11e36a281a2a632c8379821786c972" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>remove</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a40aa1ee1b29962c5d9f2e169a67fb958" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>running_</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1abe957da084271f49264b9ae8a6750f52" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a483405baa5b9f492128669a45cc99e7d" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>shouldFlushBuffer</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a8964118eb8fad17c2b78984859341aac" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>shouldFlushGlobal</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1acedf98feaa937bfcf8a6ae5b15e647f5" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>start</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a1f33db80f43aec80291ead8e90f185b8" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1abefcf3a8aad39fa3b9f06c1faf8e5846" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1ac7bcbcdbb9be149d7de7731ea1bb8012" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>update</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1ad4e39934b265c4c59e963bf10a432d40" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>VectorAutoBuffer</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a4398ab7525f706c5a3ca37f293958581" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>VectorAutoBuffer</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a0bd7639cffc8eef3c5f66e6deeed1ab8" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>VectorAutoBuffer</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1a5197ae0c1f442510bc446f8cbbe6fe1c" prot="private" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>vectorIndex_</name></member>
+      <member refid="classthemis_1_1_vector_auto_buffer_1ad76a015eebe3d68b488a165e219953f3" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer</scope><name>~VectorAutoBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_distributed_txn_manager_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::DistributedTxnManagerConfig</compoundname>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a2f905665c38a7d48a95a643ef9f4273d" prot="public" static="no">
+        <type>std::function&lt; void( const std::string &amp;endpoint, const std::string &amp;txn_id, bool do_commit)&gt;</type>
+        <definition>using themis::transaction::DistributedTxnManagerConfig::Phase2RpcFn = std::function&lt;void(
+       const std::string&amp; endpoint,
+       const std::string&amp; txn_id,
+       bool               do_commit
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>Phase2RpcFn</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::Phase2RpcFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="229" column="5" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a5ce041b8d63e3182c0238266ab430c32" prot="public" static="no">
+        <type>std::function&lt; bool( const std::string &amp; endpoint, const std::string &amp; txn_id, const std::set&lt; std::string &gt; &amp; affected_keys)&gt;</type>
+        <definition>using themis::transaction::DistributedTxnManagerConfig::Phase1RpcFn = std::function&lt;bool(
+       const std::string&amp;            endpoint,
+       const std::string&amp;            txn_id,
+       const std::set&lt;std::string&gt;&amp;  affected_keys
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>Phase1RpcFn</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::Phase1RpcFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="236" column="5" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1aa28aedff638982146f458e8d771686fa" prot="public" static="no">
+        <type>std::function&lt; bool( const std::string &amp;endpoint, const std::string &amp;node_id)&gt;</type>
+        <definition>using themis::transaction::DistributedTxnManagerConfig::LivenessCheckFn = std::function&lt;bool(
+       const std::string&amp; endpoint,
+       const std::string&amp; node_id
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>LivenessCheckFn</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::LivenessCheckFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="243" column="5" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1ad1940bd99c6e5cbf387c35786919a5e2" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::transaction::DistributedTxnManagerConfig::prepare_timeout</definition>
+        <argsstring></argsstring>
+        <name>prepare_timeout</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::prepare_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="195" column="31" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="195" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a56bfcf6499a7ac185b49107c2f34294c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::transaction::DistributedTxnManagerConfig::commit_timeout</definition>
+        <argsstring></argsstring>
+        <name>commit_timeout</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::commit_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="197" column="31" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a8bcf99ca08a2ea6f883810f40135a493" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::transaction::DistributedTxnManagerConfig::default_txn_timeout</definition>
+        <argsstring></argsstring>
+        <name>default_txn_timeout</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::default_txn_timeout</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="199" column="31" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a9eff37fbf38a7ef8a23e51d81da7e2ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::DistributedTxnManagerConfig::wal_directory</definition>
+        <argsstring></argsstring>
+        <name>wal_directory</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::wal_directory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="201" column="17" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1abebda33102dd04de55d003abc4dde62a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::DistributedTxnManagerConfig::sync_wal_writes</definition>
+        <argsstring></argsstring>
+        <name>sync_wal_writes</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::sync_wal_writes</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="203" column="10" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a89c60acb109e41914642f8b56ca21318" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::DistributedTxnManagerConfig::enable_recovery_log</definition>
+        <argsstring></argsstring>
+        <name>enable_recovery_log</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::enable_recovery_log</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="205" column="10" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a9442c3eb5164c78858e8318fc2c4c97a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::DistributedTxnManagerConfig::max_active_transactions</definition>
+        <argsstring></argsstring>
+        <name>max_active_transactions</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::max_active_transactions</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="207" column="12" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1acd3c672545cbb991a30524ec4de7a66b" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::string &amp;txn_id, const std::string &amp;node_id, const std::string &amp;endpoint, const std::set&lt; std::string &gt; &amp;affected_keys)&gt;</type>
+        <definition>std::function&lt;bool( const std::string&amp; txn_id, const std::string&amp; node_id, const std::string&amp; endpoint, const std::set&lt;std::string&gt;&amp; affected_keys )&gt; themis::transaction::DistributedTxnManagerConfig::remote_phase1_dispatch</definition>
+        <argsstring></argsstring>
+        <name>remote_phase1_dispatch</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::remote_phase1_dispatch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="214" column="2" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a57465950d7d4656632bc383e380f91b8" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::string &amp;txn_id, const std::string &amp;node_id, const std::string &amp;endpoint, bool do_commit)&gt;</type>
+        <definition>std::function&lt;bool( const std::string&amp; txn_id, const std::string&amp; node_id, const std::string&amp; endpoint, bool do_commit )&gt; themis::transaction::DistributedTxnManagerConfig::remote_phase2_dispatch</definition>
+        <argsstring></argsstring>
+        <name>remote_phase2_dispatch</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::remote_phase2_dispatch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="221" column="2" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a4394356c46d62885c89b026fa2d8796a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::transaction::DistributedTxnManagerConfig::prepare_batch_window</definition>
+        <argsstring></argsstring>
+        <name>prepare_batch_window</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::prepare_batch_window</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="225" column="31" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a13cd6517eed8f381481815bc7201f1c7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::DistributedTxnManagerConfig::worker_thread_count</definition>
+        <argsstring></argsstring>
+        <name>worker_thread_count</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::worker_thread_count</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="227" column="12" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1ab30c3e7429e946ea33be0b67cf3fc5ce" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a2f905665c38a7d48a95a643ef9f4273d" kindref="member">Phase2RpcFn</ref> &gt;</type>
+        <definition>std::optional&lt;Phase2RpcFn&gt; themis::transaction::DistributedTxnManagerConfig::phase2_rpc_fn</definition>
+        <argsstring></argsstring>
+        <name>phase2_rpc_fn</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::phase2_rpc_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="234" column="19" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1ab2d23fef29ea09c3ddedcdc59234e599" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a5ce041b8d63e3182c0238266ab430c32" kindref="member">Phase1RpcFn</ref> &gt;</type>
+        <definition>std::optional&lt;Phase1RpcFn&gt; themis::transaction::DistributedTxnManagerConfig::phase1_rpc_fn</definition>
+        <argsstring></argsstring>
+        <name>phase1_rpc_fn</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::phase1_rpc_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="241" column="19" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1ad11394208a14be9a5eb05b19aa5c1f7b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1aa28aedff638982146f458e8d771686fa" kindref="member">LivenessCheckFn</ref> &gt;</type>
+        <definition>std::optional&lt;LivenessCheckFn&gt; themis::transaction::DistributedTxnManagerConfig::liveness_check_fn</definition>
+        <argsstring></argsstring>
+        <name>liveness_check_fn</name>
+        <qualifiedname>themis::transaction::DistributedTxnManagerConfig::liveness_check_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="247" column="19" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_transaction_manager.h" line="194" column="1" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="194" bodyend="248"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a56bfcf6499a7ac185b49107c2f34294c" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>commit_timeout</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a8bcf99ca08a2ea6f883810f40135a493" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>default_txn_timeout</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a89c60acb109e41914642f8b56ca21318" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>enable_recovery_log</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1ad11394208a14be9a5eb05b19aa5c1f7b" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>liveness_check_fn</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1aa28aedff638982146f458e8d771686fa" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>LivenessCheckFn</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a9442c3eb5164c78858e8318fc2c4c97a" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>max_active_transactions</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1ab2d23fef29ea09c3ddedcdc59234e599" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>phase1_rpc_fn</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a5ce041b8d63e3182c0238266ab430c32" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>Phase1RpcFn</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1ab30c3e7429e946ea33be0b67cf3fc5ce" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>phase2_rpc_fn</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a2f905665c38a7d48a95a643ef9f4273d" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>Phase2RpcFn</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a4394356c46d62885c89b026fa2d8796a" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>prepare_batch_window</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1ad1940bd99c6e5cbf387c35786919a5e2" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>prepare_timeout</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1acd3c672545cbb991a30524ec4de7a66b" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>remote_phase1_dispatch</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a57465950d7d4656632bc383e380f91b8" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>remote_phase2_dispatch</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1abebda33102dd04de55d003abc4dde62a" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>sync_wal_writes</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a9eff37fbf38a7ef8a23e51d81da7e2ea" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>wal_directory</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a13cd6517eed8f381481815bc7201f1c7" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTxnManagerConfig</scope><name>worker_thread_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

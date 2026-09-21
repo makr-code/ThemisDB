@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_registered_fingerprint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::RegisteredFingerprint</compoundname>
+    <includes refid="graph__watermark_8h" local="no">graph_watermark.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_registered_fingerprint_1a8ecd0e166ca0d44ca1414626573787f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::RegisteredFingerprint::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::graph::RegisteredFingerprint::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Owning tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="35" column="30" bodyfile="include/graph/graph_watermark.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_registered_fingerprint_1af6edbe7a7b090567f5cddee1039aa663" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::RegisteredFingerprint::fingerprint_id</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_id</name>
+        <qualifiedname>themis::graph::RegisteredFingerprint::fingerprint_id</qualifiedname>
+        <briefdescription>
+<para>Unique fingerprint ID (matches <ref refid="structthemis_1_1graph_1_1_watermarked_snapshot" kindref="compound">WatermarkedSnapshot</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="36" column="30" bodyfile="include/graph/graph_watermark.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_registered_fingerprint_1a5337bd47d7087d9653e79239aa6b8653" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::RegisteredFingerprint::watermark_node_ids</definition>
+        <argsstring></argsstring>
+        <name>watermark_node_ids</name>
+        <qualifiedname>themis::graph::RegisteredFingerprint::watermark_node_ids</qualifiedname>
+        <briefdescription>
+<para>Node IDs that constitute the watermark. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="37" column="17" bodyfile="include/graph/graph_watermark.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_watermark.h" line="34" column="1" bodyfile="include/graph/graph_watermark.h" bodystart="34" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_registered_fingerprint_1af6edbe7a7b090567f5cddee1039aa663" prot="public" virt="non-virtual"><scope>themis::graph::RegisteredFingerprint</scope><name>fingerprint_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_registered_fingerprint_1a8ecd0e166ca0d44ca1414626573787f0" prot="public" virt="non-virtual"><scope>themis::graph::RegisteredFingerprint</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_registered_fingerprint_1a5337bd47d7087d9653e79239aa6b8653" prot="public" virt="non-virtual"><scope>themis::graph::RegisteredFingerprint</scope><name>watermark_node_ids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

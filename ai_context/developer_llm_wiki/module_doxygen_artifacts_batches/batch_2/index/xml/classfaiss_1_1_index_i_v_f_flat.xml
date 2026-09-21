@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classfaiss_1_1_index_i_v_f_flat" kind="class" language="C++" prot="public">
+    <compoundname>faiss::IndexIVFFlat</compoundname>
+    <basecompoundref refid="classfaiss_1_1_index" prot="public" virt="non-virtual">faiss::Index</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>faiss::Index</label>
+        <link refid="classfaiss_1_1_index"/>
+      </node>
+      <node id="1">
+        <label>faiss::IndexIVFFlat</label>
+        <link refid="classfaiss_1_1_index_i_v_f_flat"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>faiss::Index</label>
+        <link refid="classfaiss_1_1_index"/>
+      </node>
+      <node id="1">
+        <label>faiss::IndexIVFFlat</label>
+        <link refid="classfaiss_1_1_index_i_v_f_flat"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/index/advanced_vector_index.cpp" line="55" column="9" bodyfile="src/index/advanced_vector_index.cpp" bodystart="55" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classfaiss_1_1_index_1ab79d7048c0a680ad0528848e9fc6d1a2" prot="public" virt="virtual"><scope>faiss::IndexIVFFlat</scope><name>~Index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

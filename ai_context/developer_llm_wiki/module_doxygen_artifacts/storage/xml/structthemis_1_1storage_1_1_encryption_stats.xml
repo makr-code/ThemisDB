@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_encryption_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::EncryptionStats</compoundname>
+    <includes refid="encrypted__blob__backend_8h" local="no">encrypted_blob_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_encryption_stats_1a29033dc1c1985915b89493c37739d82d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::EncryptionStats::blobs_encrypted</definition>
+        <argsstring></argsstring>
+        <name>blobs_encrypted</name>
+        <qualifiedname>themis::storage::EncryptionStats::blobs_encrypted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total <computeroutput>put()</computeroutput> calls processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="91" column="14" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_encryption_stats_1a87a86349db758cd614b8a4efbb655136" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::EncryptionStats::blobs_decrypted</definition>
+        <argsstring></argsstring>
+        <name>blobs_decrypted</name>
+        <qualifiedname>themis::storage::EncryptionStats::blobs_decrypted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total <computeroutput>get()</computeroutput> calls processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="92" column="14" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_encryption_stats_1af301dab0750dd6d699e2a08a6186c7e4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::EncryptionStats::bytes_encrypted</definition>
+        <argsstring></argsstring>
+        <name>bytes_encrypted</name>
+        <qualifiedname>themis::storage::EncryptionStats::bytes_encrypted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Plaintext bytes encrypted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="93" column="14" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_encryption_stats_1a3f7444447853437e9aab2a869297789b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::EncryptionStats::bytes_decrypted</definition>
+        <argsstring></argsstring>
+        <name>bytes_decrypted</name>
+        <qualifiedname>themis::storage::EncryptionStats::bytes_decrypted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Plaintext bytes decrypted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="94" column="14" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_encryption_stats_1a3e5757e7825f798f8871c7b6453bc6c8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::EncryptionStats::decrypt_failures</definition>
+        <argsstring></argsstring>
+        <name>decrypt_failures</name>
+        <qualifiedname>themis::storage::EncryptionStats::decrypt_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>GCM tag verification failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="95" column="14" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cumulative encryption / decryption counters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/encrypted_blob_backend.h" line="90" column="1" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="90" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_encryption_stats_1a87a86349db758cd614b8a4efbb655136" prot="public" virt="non-virtual"><scope>themis::storage::EncryptionStats</scope><name>blobs_decrypted</name></member>
+      <member refid="structthemis_1_1storage_1_1_encryption_stats_1a29033dc1c1985915b89493c37739d82d" prot="public" virt="non-virtual"><scope>themis::storage::EncryptionStats</scope><name>blobs_encrypted</name></member>
+      <member refid="structthemis_1_1storage_1_1_encryption_stats_1a3f7444447853437e9aab2a869297789b" prot="public" virt="non-virtual"><scope>themis::storage::EncryptionStats</scope><name>bytes_decrypted</name></member>
+      <member refid="structthemis_1_1storage_1_1_encryption_stats_1af301dab0750dd6d699e2a08a6186c7e4" prot="public" virt="non-virtual"><scope>themis::storage::EncryptionStats</scope><name>bytes_encrypted</name></member>
+      <member refid="structthemis_1_1storage_1_1_encryption_stats_1a3e5757e7825f798f8871c7b6453bc6c8" prot="public" virt="non-virtual"><scope>themis::storage::EncryptionStats</scope><name>decrypt_failures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

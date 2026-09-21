@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_model_delta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ModelDelta</compoundname>
+    <includes refid="model__history__contract_8h" local="no">model_history_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_delta_1a9d7d6fb50c77f99b009e8cc6d36d27b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ModelDelta::delta_type</definition>
+        <argsstring></argsstring>
+        <name>delta_type</name>
+        <qualifiedname>themis::process::ModelDelta::delta_type</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Type of delta representation: &quot;operation_log&quot; | &quot;snapshot_diff&quot; | &quot;compressed&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="199" column="17" bodyfile="include/process/model_history_contract.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_delta_1a8d7156d7427a2b6de9f92430a5823c70" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ModelDelta::base_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>base_timestamp_ns</name>
+        <qualifiedname>themis::process::ModelDelta::base_timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of base snapshot (starting point for replay). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="202" column="13" bodyfile="include/process/model_history_contract.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_delta_1af0ebfb23c98154eb9a56548d7de136be" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ModelDelta::target_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>target_timestamp_ns</name>
+        <qualifiedname>themis::process::ModelDelta::target_timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of target (ending point after replay). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="205" column="13" bodyfile="include/process/model_history_contract.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_delta_1a666e18e1d6ba149997664241bcdc27e5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_audit_record" kindref="compound">AuditRecord</ref> &gt;</type>
+        <definition>std::vector&lt;AuditRecord&gt; themis::process::ModelDelta::operations</definition>
+        <argsstring></argsstring>
+        <name>operations</name>
+        <qualifiedname>themis::process::ModelDelta::operations</qualifiedname>
+        <briefdescription>
+<para>Sequence of operations to apply (if delta_type == &quot;operation_log&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="208" column="17" bodyfile="include/process/model_history_contract.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_delta_1adf4aba9cff5d12a7a06e3dce202309a1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ModelDelta::compressed_delta</definition>
+        <argsstring></argsstring>
+        <name>compressed_delta</name>
+        <qualifiedname>themis::process::ModelDelta::compressed_delta</qualifiedname>
+        <briefdescription>
+<para>Compressed delta representation (serialized diff; opaque to consensus layer). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="211" column="17" bodyfile="include/process/model_history_contract.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_delta_1acfe44937123110892e79e1efd5e00976" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ModelDelta::added_nodes</definition>
+        <argsstring></argsstring>
+        <name>added_nodes</name>
+        <qualifiedname>themis::process::ModelDelta::added_nodes</qualifiedname>
+        <briefdescription>
+<para>List of model node IDs that were added. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="214" column="17" bodyfile="include/process/model_history_contract.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_delta_1abdcc0a713f77cd2471a57b720a1da912" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ModelDelta::removed_nodes</definition>
+        <argsstring></argsstring>
+        <name>removed_nodes</name>
+        <qualifiedname>themis::process::ModelDelta::removed_nodes</qualifiedname>
+        <briefdescription>
+<para>List of model node IDs that were removed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="217" column="17" bodyfile="include/process/model_history_contract.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_delta_1a01fbc7e74b96cf26de03ff533a27184f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ModelDelta::added_edges</definition>
+        <argsstring></argsstring>
+        <name>added_edges</name>
+        <qualifiedname>themis::process::ModelDelta::added_edges</qualifiedname>
+        <briefdescription>
+<para>List of model edge descriptions that were added. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="220" column="17" bodyfile="include/process/model_history_contract.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_delta_1a8d808fc713507190136633284e653f38" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ModelDelta::removed_edges</definition>
+        <argsstring></argsstring>
+        <name>removed_edges</name>
+        <qualifiedname>themis::process::ModelDelta::removed_edges</qualifiedname>
+        <briefdescription>
+<para>List of model edge descriptions that were removed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="223" column="17" bodyfile="include/process/model_history_contract.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_delta_1a8163c2cf5cf092bbfc6913673efd9ab5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::ModelDelta::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::process::ModelDelta::compression_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Compression ratio achieved (size_delta / size_full_snapshot). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="226" column="12" bodyfile="include/process/model_history_contract.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_model_delta_1acbd4938c70be4a1aaa5a1ff686aa5b4b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::process::ModelDelta::estimatedSize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>estimatedSize</name>
+        <qualifiedname>themis::process::ModelDelta::estimatedSize</qualifiedname>
+        <briefdescription>
+<para>Estimate size of delta in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Approximate byte size </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="232" column="12" bodyfile="include/process/model_history_contract.h" bodystart="232" bodyend="238"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Representation of model change (delta) between two versions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Delta can be operation-log based or snapshot-based; both support compression. </para>
+    </detaileddescription>
+    <location file="include/process/model_history_contract.h" line="197" column="1" bodyfile="include/process/model_history_contract.h" bodystart="197" bodyend="239"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_model_delta_1a01fbc7e74b96cf26de03ff533a27184f" prot="public" virt="non-virtual"><scope>themis::process::ModelDelta</scope><name>added_edges</name></member>
+      <member refid="structthemis_1_1process_1_1_model_delta_1acfe44937123110892e79e1efd5e00976" prot="public" virt="non-virtual"><scope>themis::process::ModelDelta</scope><name>added_nodes</name></member>
+      <member refid="structthemis_1_1process_1_1_model_delta_1a8d7156d7427a2b6de9f92430a5823c70" prot="public" virt="non-virtual"><scope>themis::process::ModelDelta</scope><name>base_timestamp_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_model_delta_1adf4aba9cff5d12a7a06e3dce202309a1" prot="public" virt="non-virtual"><scope>themis::process::ModelDelta</scope><name>compressed_delta</name></member>
+      <member refid="structthemis_1_1process_1_1_model_delta_1a8163c2cf5cf092bbfc6913673efd9ab5" prot="public" virt="non-virtual"><scope>themis::process::ModelDelta</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1process_1_1_model_delta_1a9d7d6fb50c77f99b009e8cc6d36d27b1" prot="public" virt="non-virtual"><scope>themis::process::ModelDelta</scope><name>delta_type</name></member>
+      <member refid="structthemis_1_1process_1_1_model_delta_1acbd4938c70be4a1aaa5a1ff686aa5b4b" prot="public" virt="non-virtual"><scope>themis::process::ModelDelta</scope><name>estimatedSize</name></member>
+      <member refid="structthemis_1_1process_1_1_model_delta_1a666e18e1d6ba149997664241bcdc27e5" prot="public" virt="non-virtual"><scope>themis::process::ModelDelta</scope><name>operations</name></member>
+      <member refid="structthemis_1_1process_1_1_model_delta_1a8d808fc713507190136633284e653f38" prot="public" virt="non-virtual"><scope>themis::process::ModelDelta</scope><name>removed_edges</name></member>
+      <member refid="structthemis_1_1process_1_1_model_delta_1abdcc0a713f77cd2471a57b720a1da912" prot="public" virt="non-virtual"><scope>themis::process::ModelDelta</scope><name>removed_nodes</name></member>
+      <member refid="structthemis_1_1process_1_1_model_delta_1af0ebfb23c98154eb9a56548d7de136be" prot="public" virt="non-virtual"><scope>themis::process::ModelDelta</scope><name>target_timestamp_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

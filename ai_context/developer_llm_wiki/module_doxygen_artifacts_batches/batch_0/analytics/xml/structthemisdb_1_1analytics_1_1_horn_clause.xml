@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_horn_clause" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::HornClause</compoundname>
+    <includes refid="knowledge__base_8h" local="no">knowledge_base.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_horn_clause_1a6758dc99dd8db40f1ab5b7edda907f5e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::HornClause::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themisdb::analytics::HornClause::id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="67" column="34" bodyfile="include/analytics/knowledge_base.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_horn_clause_1a63e1c6eff81e6c0607b5e4f96ccd8750" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::HornClause::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themisdb::analytics::HornClause::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Higher fires first. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="68" column="34" bodyfile="include/analytics/knowledge_base.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_horn_clause_1a45384cd2b22cd9692dfaae3fd4d60e35" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::HornClause::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themisdb::analytics::HornClause::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="69" column="34" bodyfile="include/analytics/knowledge_base.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_horn_clause_1a0aa06953b1c8203c8619ad4d3d343170" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_triple_pattern" kindref="compound">TriplePattern</ref> &gt;</type>
+        <definition>std::vector&lt;TriplePattern&gt; themisdb::analytics::HornClause::conditions</definition>
+        <argsstring></argsstring>
+        <name>conditions</name>
+        <qualifiedname>themisdb::analytics::HornClause::conditions</qualifiedname>
+        <briefdescription>
+<para>All must match (conjunction). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="70" column="19" bodyfile="include/analytics/knowledge_base.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_horn_clause_1a83e9a85db397cb1d438dbb7242add93e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_triple_pattern" kindref="compound">TriplePattern</ref> &gt;</type>
+        <definition>std::vector&lt;TriplePattern&gt; themisdb::analytics::HornClause::consequents</definition>
+        <argsstring></argsstring>
+        <name>consequents</name>
+        <qualifiedname>themisdb::analytics::HornClause::consequents</qualifiedname>
+        <briefdescription>
+<para>Derived on match. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="71" column="19" bodyfile="include/analytics/knowledge_base.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_horn_clause_1aad424d0b27aba8b3d4050f4fdf88667f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::HornClause::ml_confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>ml_confidence_threshold</name>
+        <qualifiedname>themisdb::analytics::HornClause::ml_confidence_threshold</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0.0 = no ML required </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="72" column="34" bodyfile="include/analytics/knowledge_base.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/knowledge_base.h" line="66" column="1" bodyfile="include/analytics/knowledge_base.h" bodystart="66" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_horn_clause_1a0aa06953b1c8203c8619ad4d3d343170" prot="public" virt="non-virtual"><scope>themisdb::analytics::HornClause</scope><name>conditions</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_horn_clause_1a83e9a85db397cb1d438dbb7242add93e" prot="public" virt="non-virtual"><scope>themisdb::analytics::HornClause</scope><name>consequents</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_horn_clause_1a45384cd2b22cd9692dfaae3fd4d60e35" prot="public" virt="non-virtual"><scope>themisdb::analytics::HornClause</scope><name>description</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_horn_clause_1a6758dc99dd8db40f1ab5b7edda907f5e" prot="public" virt="non-virtual"><scope>themisdb::analytics::HornClause</scope><name>id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_horn_clause_1aad424d0b27aba8b3d4050f4fdf88667f" prot="public" virt="non-virtual"><scope>themisdb::analytics::HornClause</scope><name>ml_confidence_threshold</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_horn_clause_1a63e1c6eff81e6c0607b5e4f96ccd8750" prot="public" virt="non-virtual"><scope>themisdb::analytics::HornClause</scope><name>priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

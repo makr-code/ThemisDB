@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::HotReloadManager::Config</compoundname>
+    <includes refid="hot__reload__manager_8h" local="no">hot_reload_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config_1ab374aa6a09b228cfd4a20a0d5b706fcc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::HotReloadManager::Config::verifySignature</definition>
+        <argsstring></argsstring>
+        <name>verifySignature</name>
+        <qualifiedname>themis::modules::HotReloadManager::Config::verifySignature</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Verify new module before swap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="144" column="18" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config_1a654a901ffea4c2ae18ceaaed55a37f42" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::HotReloadManager::Config::preserveState</definition>
+        <argsstring></argsstring>
+        <name>preserveState</name>
+        <qualifiedname>themis::modules::HotReloadManager::Config::preserveState</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Invoke state save/restore if set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="145" column="18" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config_1a625585e9cac7f3790ba6ce4671ba635e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::HotReloadManager::Config::enableRollback</definition>
+        <argsstring></argsstring>
+        <name>enableRollback</name>
+        <qualifiedname>themis::modules::HotReloadManager::Config::enableRollback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Retain backup for rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="146" column="18" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config_1aa627047677f537a2fe5793902d3e68e8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1modules_1_1_module_sandbox_1_1_config" kindref="compound">ModuleSandbox::Config</ref> &gt;</type>
+        <definition>std::optional&lt;ModuleSandbox::Config&gt; themis::modules::HotReloadManager::Config::sandboxConfig</definition>
+        <argsstring></argsstring>
+        <name>sandboxConfig</name>
+        <qualifiedname>themis::modules::HotReloadManager::Config::sandboxConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional resource limits applied to every module loaded by this manager. When set, each successfully loaded module is wrapped in a <ref refid="classthemis_1_1modules_1_1_module_sandbox" kindref="compound">ModuleSandbox</ref> with the given configuration (memory cap, CPU share, etc.). When empty (default), no sandboxing is applied. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="152" column="23" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration options for <ref refid="classthemis_1_1modules_1_1_hot_reload_manager" kindref="compound">HotReloadManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/hot_reload_manager.h" line="143" column="5" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="143" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config_1a625585e9cac7f3790ba6ce4671ba635e" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::Config</scope><name>enableRollback</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config_1a654a901ffea4c2ae18ceaaed55a37f42" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::Config</scope><name>preserveState</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config_1aa627047677f537a2fe5793902d3e68e8" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::Config</scope><name>sandboxConfig</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_manager_1_1_config_1ab374aa6a09b228cfd4a20a0d5b706fcc" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadManager::Config</scope><name>verifySignature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

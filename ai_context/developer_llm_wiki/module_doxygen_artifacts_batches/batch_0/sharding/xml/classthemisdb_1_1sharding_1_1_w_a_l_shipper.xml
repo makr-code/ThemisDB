@@ -1,0 +1,1045 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_w_a_l_shipper" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::WALShipper</compoundname>
+    <includes refid="wal__shipper_8h" local="no">wal_shipper.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a282f2a0752a788c06b737a7b094d7695" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config" kindref="compound">WALShipperConfig</ref></type>
+        <definition>WALShipperConfig themis::sharding::WALShipper::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::config_</qualifiedname>
+        <briefdescription>
+<para>Laufzeitkonfiguration fuer Versand, Retry, Kompression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="236" column="22" bodyfile="include/sharding/wal_shipper.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a94252ea7f29bd738c957fee2cae0ac80" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;WALManager&gt; themis::sharding::WALShipper::wal_manager_</definition>
+        <argsstring></argsstring>
+        <name>wal_manager_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::wal_manager_</qualifiedname>
+        <briefdescription>
+<para>Quelle fuer lokal persistierte WAL-Eintraege. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="237" column="21" bodyfile="include/sharding/wal_shipper.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1afcb6c8973abd56dfdc704f8120f6cef3" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::WALShipper::replicas_mutex_</definition>
+        <argsstring></argsstring>
+        <name>replicas_mutex_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::replicas_mutex_</qualifiedname>
+        <briefdescription>
+<para>Schutz der Replika-Registrierung und Zustandsdaten. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="240" column="24" bodyfile="include/sharding/wal_shipper.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a41247892e8a007ae679a196aa5b7c748" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ReplicaInfo&gt; themis::sharding::WALShipper::replicas_</definition>
+        <argsstring></argsstring>
+        <name>replicas_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::replicas_</qualifiedname>
+        <briefdescription>
+<para>Replika-Zielzustand nach replica_id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="241" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1af0f9c6e4229b81cee7d6475dfa3e1b24" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::WALShipper::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Lifecycle-Flag fuer shippingLoop(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="244" column="17" bodyfile="include/sharding/wal_shipper.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ad0d7809017a15d2b9758e3c8c08f1be8" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::thread &gt;</type>
+        <definition>std::unique_ptr&lt;std::thread&gt; themis::sharding::WALShipper::shipper_thread_</definition>
+        <argsstring></argsstring>
+        <name>shipper_thread_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::shipper_thread_</qualifiedname>
+        <briefdescription>
+<para>Hintergrundthread fuer asynchronen Versand. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="245" column="21" bodyfile="include/sharding/wal_shipper.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a2c431ddced4b1d7d65249ae9c5c7f00f" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::WALShipper::cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cv_mutex_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::cv_mutex_</qualifiedname>
+        <briefdescription>
+<para>Schutz fuer Wait/Wakeup-Synchronisierung. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="246" column="16" bodyfile="include/sharding/wal_shipper.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a08d8ab07aad07785a46430b93f782ccc" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::sharding::WALShipper::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::cv_</qualifiedname>
+        <briefdescription>
+<para>Notifikation fuer <ref refid="classthemis_1_1sharding_1_1_w_a_l_shipper_1aaef5eb7a19430fc2748d41e9b3800822" kindref="member">forceShip()</ref>/stop(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="247" column="29" bodyfile="include/sharding/wal_shipper.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a64b75e39eac9f632f449b41e1ce22e3d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::WALShipper::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::stats_mutex_</qualifiedname>
+        <briefdescription>
+<para>Schutz fuer Statistikaktualisierungen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="250" column="24" bodyfile="include/sharding/wal_shipper.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ab30ae09eb50d74092952167c405ef5cc" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats" kindref="compound">WALShipperStats</ref></type>
+        <definition>WALShipperStats themis::sharding::WALShipper::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::stats_</qualifiedname>
+        <briefdescription>
+<para>Laufzeitstatistiken des Shippers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="251" column="21" bodyfile="include/sharding/wal_shipper.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ac4cbea8b20ee61b4367433bd8f77ebe2" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client" kindref="compound">MTLSClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MTLSClient&gt; themis::sharding::WALShipper::mtls_client_</definition>
+        <argsstring></argsstring>
+        <name>mtls_client_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::mtls_client_</qualifiedname>
+        <briefdescription>
+<para>Optionaler mTLS-Transportclient. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="254" column="21" bodyfile="include/sharding/wal_shipper.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ae81891fff44ddd02e244dc7edd1fc1fc" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; class <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;class PrometheusMetrics&gt; themis::sharding::WALShipper::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themisdb::sharding::WALShipper::metrics_</qualifiedname>
+        <briefdescription>
+<para>Optionales Prometheus-Metrics-Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="257" column="21" bodyfile="include/sharding/wal_shipper.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a668bc7d4c941eabce839af6601ac1d29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::WALShipper::WALShipper</definition>
+        <argsstring>(std::shared_ptr&lt; WALManager &gt; wal_manager, const WALShipperConfig &amp;config)</argsstring>
+        <name>WALShipper</name>
+        <qualifiedname>themisdb::sharding::WALShipper::WALShipper</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+          <declname>wal_manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config" kindref="compound">WALShipperConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct WAL shipper. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wal_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>WAL source manager. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shipping configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="137" column="5" bodyfile="src/sharding/wal_shipper.cpp" bodystart="26" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a3511c678d3f66d74aee5572d38b91b75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::WALShipper::~WALShipper</definition>
+        <argsstring>()</argsstring>
+        <name>~WALShipper</name>
+        <qualifiedname>themisdb::sharding::WALShipper::~WALShipper</qualifiedname>
+        <briefdescription>
+<para>Destructor stops background shipping thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="141" column="5" bodyfile="src/sharding/wal_shipper.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a13d90a6b83976440b7a42f0d92078199" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALShipper::addReplica</definition>
+        <argsstring>(const std::string &amp;replica_id, const std::string &amp;endpoint)</argsstring>
+        <name>addReplica</name>
+        <qualifiedname>themisdb::sharding::WALShipper::addReplica</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Register replica target for shipping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Replica.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica endpoint.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), LSN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="148" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="54" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a72299f4c4fe70122bf761ea12bd7b25f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALShipper::removeReplica</definition>
+        <argsstring>(const std::string &amp;replica_id)</argsstring>
+        <name>removeReplica</name>
+        <qualifiedname>themisdb::sharding::WALShipper::removeReplica</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove replica target by id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Replica.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="151" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="71" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a3d3d6a6ac63f9177a54edb140af6d7bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALShipper::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::sharding::WALShipper::start</qualifiedname>
+        <briefdescription>
+<para>Start background shipping loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Implements start without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="154" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="80" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ad2d92004c41fe0039615e7502fefdf00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALShipper::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::sharding::WALShipper::stop</qualifiedname>
+        <briefdescription>
+<para>Stop background shipping loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: notify_all(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="157" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="93" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a5783a3ed54ae2250612afc6d8efc9eb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALShipper::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themisdb::sharding::WALShipper::isRunning</qualifiedname>
+        <briefdescription>
+<para>Return whether shipping loop is active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true, wenn der Hintergrundthread aktiv laeuft. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="163" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a0b4402a72beab19b15a2d88bf5b5fad3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ReplicaInfo &gt; themis::sharding::WALShipper::getReplicaInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getReplicaInfo</name>
+        <qualifiedname>themisdb::sharding::WALShipper::getReplicaInfo</qualifiedname>
+        <briefdescription>
+<para>Return snapshot of registered replica state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Kopie der aktuellen ReplicaInfo-Eintraege. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="169" column="17" bodyfile="src/sharding/wal_shipper.cpp" bodystart="110" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ae3ecb9c4002cfecf28580b6ecda0654d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats" kindref="compound">WALShipperStats</ref></type>
+        <definition>WALShipperStats themis::sharding::WALShipper::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::sharding::WALShipper::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return shipper statistics snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Thread-sichere Momentaufnahme der <ref refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats" kindref="compound">WALShipperStats</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="175" column="21" bodyfile="src/sharding/wal_shipper.cpp" bodystart="127" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1aaef5eb7a19430fc2748d41e9b3800822" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALShipper::forceShip</definition>
+        <argsstring>()</argsstring>
+        <name>forceShip</name>
+        <qualifiedname>themisdb::sharding::WALShipper::forceShip</qualifiedname>
+        <briefdescription>
+<para>Wake shipping loop for immediate processing cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Force Ship.</para>
+<para>Calls: notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="178" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="141" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1acf48990e12dadb4ecd8e2997b225d8dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALShipper::setMetricsExporter</definition>
+        <argsstring>(std::shared_ptr&lt; class PrometheusMetrics &gt; metrics)</argsstring>
+        <name>setMetricsExporter</name>
+        <qualifiedname>themisdb::sharding::WALShipper::setMetricsExporter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; class <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Set optional Prometheus metrics exporter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Metrics Exporter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setMetricsExporter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="181" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="150" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a6cf67e67b44ae1e522338927790b3257" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::WALShipper::calculateOptimalBatchSize</definition>
+        <argsstring>(double network_latency_ms, double cpu_utilization, size_t disk_iops_available) const</argsstring>
+        <name>calculateOptimalBatchSize</name>
+        <qualifiedname>themisdb::sharding::WALShipper::calculateOptimalBatchSize</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>network_latency_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>cpu_utilization</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>disk_iops_available</declname>
+        </param>
+        <briefdescription>
+<para>Compute adaptive batch size from current network/CPU/IOPS telemetry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>network_latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Average network round-trip latency in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cpu_utilization</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CPU utilization ratio in [0.0, 1.0]. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>disk_iops_available</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Estimated available disk IOPS. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Clamped batch size in range [min_batch_size, max_batch_size]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="190" column="12" bodyfile="src/sharding/wal_shipper.cpp" bodystart="504" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a2c28d9b3b458e765eede934bc4e8d62e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_shipper_config_1a4e963537b4a1077865b8a55dba8a2cce" kindref="member">WALShipperConfig::CompressionType</ref></type>
+        <definition>WALShipperConfig::CompressionType themis::sharding::WALShipper::selectCompressionType</definition>
+        <argsstring>(size_t payload_size, bool is_repetitive, double cpu_utilization) const</argsstring>
+        <name>selectCompressionType</name>
+        <qualifiedname>themisdb::sharding::WALShipper::selectCompressionType</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>payload_size</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_repetitive</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>cpu_utilization</declname>
+        </param>
+        <briefdescription>
+<para>Select compression strategy for one payload under current CPU load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>payload_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Payload size in bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_repetitive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True when payload is expected to compress well. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cpu_utilization</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CPU utilization ratio in [0.0, 1.0]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Selected compression type (None/LZ4/Zstd). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="201" column="39" bodyfile="src/sharding/wal_shipper.cpp" bodystart="559" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a659e6db1186400ab03944b1d96aa8218" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_snapshot_transfer_result" kindref="compound">SnapshotTransferResult</ref></type>
+        <definition>SnapshotTransferResult themis::sharding::WALShipper::sendSnapshot</definition>
+        <argsstring>(const std::string &amp;replica_id, const std::vector&lt; SnapshotChunk &gt; &amp;chunks)</argsstring>
+        <name>sendSnapshot</name>
+        <qualifiedname>themisdb::sharding::WALShipper::sendSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_snapshot_chunk" kindref="compound">SnapshotChunk</ref> &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Transfer a full snapshot to a lagging replica in fixed-size chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Snapshot.</para>
+<para>Each chunk is accompanied by a SHA-256 checksum of its payload. If the connection drops mid-transfer the caller may retry from the last confirmed chunk index; the receiver should verify each chunk&apos;s checksum before writing it to stable storage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target replica identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ordered sequence of chunks (chunk_index 0 … N-1) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transfer result with success/failure details</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1sharding_1_1_w_a_l_shipper_1ad1dbb563604ab05ebbc3f6a362e9c379" kindref="member">verifyChunkChecksum()</ref>, std::to_string(), lock(), find(), end(), spdlog::info(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="221" column="28" bodyfile="src/sharding/wal_shipper.cpp" bodystart="647" bodyend="771"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ad1dbb563604ab05ebbc3f6a362e9c379" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALShipper::verifyChunkChecksum</definition>
+        <argsstring>(const SnapshotChunk &amp;chunk)</argsstring>
+        <name>verifyChunkChecksum</name>
+        <qualifiedname>themisdb::sharding::WALShipper::verifyChunkChecksum</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_snapshot_chunk" kindref="compound">SnapshotChunk</ref> &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>Verify a snapshot chunk&apos;s integrity using its embedded checksum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Computes SHA-256 of chunk.data and compares it against chunk.checksum. Should be called by the receiver before accepting each chunk.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The chunk to verify </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the checksum matches </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="233" column="17" bodyfile="src/sharding/wal_shipper.cpp" bodystart="634" bodyend="638"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a322da789730088f7d7c4f2aa5a88311e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALShipper::shippingLoop</definition>
+        <argsstring>()</argsstring>
+        <name>shippingLoop</name>
+        <qualifiedname>themisdb::sharding::WALShipper::shippingLoop</qualifiedname>
+        <briefdescription>
+<para>Hintergrund-Loop ueber alle registrierten Repliken. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shipping Loop.</para>
+<para>Fuehrt periodisches Shipping, Lag-Berechnung und gleitende Timing-Statistik aus. Der Loop endet, sobald running_ auf false gesetzt wird.</para>
+<para>Calls: std::chrono::steady_clock::now(), lock(), push_back(), find(), end(), shipToReplica(), count(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="265" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="158" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ac7875452e26e2f2c07be141ff414b6a6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALShipper::shipToReplica</definition>
+        <argsstring>(const std::string &amp;replica_id, ReplicaInfo &amp;replica)</argsstring>
+        <name>shipToReplica</name>
+        <qualifiedname>themisdb::sharding::WALShipper::shipToReplica</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+          <declname>replica</declname>
+        </param>
+        <briefdescription>
+<para>Versendet ausstehende WAL-Eintraege an eine Replika. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ship To Replica.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replika-ID (nur fuer Kontext/Tracing). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mutable Replika-Zustandseintrag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true bei erfolgreichem Versand aller ausstehenden Batches.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getCurrentLSN(), readRange(), empty(), size(), shipBatch(), updateReplicaStatus(), back(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="273" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="216" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a94a6d2f95cc307fed04a0232742c5269" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALShipper::shipBatch</definition>
+        <argsstring>(const std::string &amp;endpoint, const std::vector&lt; WALEntry &gt; &amp;entries)</argsstring>
+        <name>shipBatch</name>
+        <qualifiedname>themisdb::sharding::WALShipper::shipBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Serialisiert/komprimiert und versendet einen WAL-Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ship Batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ziel-Endpoint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>WAL-Eintraege des Batches. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true, wenn der Endpoint den Batch akzeptiert.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isReady(), nlohmann::json::array(), <ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString()</ref>, push_back(), dump(), size(), utils::zstd_compress(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="281" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="292" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ae4e1660995c7a8d6336ea2a071fc96f8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALShipper::updateReplicaStatus</definition>
+        <argsstring>(ReplicaInfo &amp;replica, bool success, size_t bytes_shipped)</argsstring>
+        <name>updateReplicaStatus</name>
+        <qualifiedname>themisdb::sharding::WALShipper::updateReplicaStatus</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+          <declname>replica</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes_shipped</declname>
+        </param>
+        <briefdescription>
+<para>Aktualisiert Health-/Fehlerzaehler nach einem Ship-Versuch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Replica Status.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replikaeintrag. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Erfolg des Versuchs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes_shipped</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bei Erfolg versendete Nutzdatenbytes.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_shipped</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), recordWalShipBatch(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="290" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="417" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ae87bb66edae85542a43d18ff8984a9cb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALShipper::calculateLag</definition>
+        <argsstring>(ReplicaInfo &amp;replica)</argsstring>
+        <name>calculateLag</name>
+        <qualifiedname>themisdb::sharding::WALShipper::calculateLag</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+          <declname>replica</declname>
+        </param>
+        <briefdescription>
+<para>Berechnet Lag in Bytes/Zeit fuer eine Replika neu. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Lag.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replikaeintrag.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getCurrentLSN(), std::chrono::system_clock::now(), time_since_epoch(), count(), lock(), std::chrono::milliseconds(), recordWalReplicationLag(), setWalBacklogBytes(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="296" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="453" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a0ff3559393e075fa14915d91926dbf00" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALShipper::healthCheck</definition>
+        <argsstring>(ReplicaInfo &amp;replica)</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themisdb::sharding::WALShipper::healthCheck</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+          <declname>replica</declname>
+        </param>
+        <briefdescription>
+<para>Fuehrt einen Health-Probe-Request gegen den Replica-Endpoint aus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Health Check.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replikaeintrag.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isReady(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="302" column="10" bodyfile="src/sharding/wal_shipper.cpp" bodystart="492" bodyend="501"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>WAL Shipper</para>
+<para>Ships WAL entries from primary to replicas asynchronously </para>
+    </detaileddescription>
+    <location file="include/sharding/wal_shipper.h" line="130" column="1" bodyfile="include/sharding/wal_shipper.h" bodystart="130" bodyend="303"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a13d90a6b83976440b7a42f0d92078199" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>addReplica</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ae87bb66edae85542a43d18ff8984a9cb" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>calculateLag</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a6cf67e67b44ae1e522338927790b3257" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>calculateOptimalBatchSize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a282f2a0752a788c06b737a7b094d7695" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a08d8ab07aad07785a46430b93f782ccc" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>cv_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a2c431ddced4b1d7d65249ae9c5c7f00f" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>cv_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1aaef5eb7a19430fc2748d41e9b3800822" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>forceShip</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a0b4402a72beab19b15a2d88bf5b5fad3" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>getReplicaInfo</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ae3ecb9c4002cfecf28580b6ecda0654d" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a0ff3559393e075fa14915d91926dbf00" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>healthCheck</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a5783a3ed54ae2250612afc6d8efc9eb7" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>isRunning</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ae81891fff44ddd02e244dc7edd1fc1fc" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>metrics_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ac4cbea8b20ee61b4367433bd8f77ebe2" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>mtls_client_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a72299f4c4fe70122bf761ea12bd7b25f" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>removeReplica</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a41247892e8a007ae679a196aa5b7c748" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>replicas_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1afcb6c8973abd56dfdc704f8120f6cef3" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>replicas_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1af0f9c6e4229b81cee7d6475dfa3e1b24" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a2c28d9b3b458e765eede934bc4e8d62e" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>selectCompressionType</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a659e6db1186400ab03944b1d96aa8218" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>sendSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1acf48990e12dadb4ecd8e2997b225d8dd" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>setMetricsExporter</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a94a6d2f95cc307fed04a0232742c5269" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>shipBatch</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ad0d7809017a15d2b9758e3c8c08f1be8" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>shipper_thread_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a322da789730088f7d7c4f2aa5a88311e" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>shippingLoop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ac7875452e26e2f2c07be141ff414b6a6" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>shipToReplica</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a3d3d6a6ac63f9177a54edb140af6d7bc" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ab30ae09eb50d74092952167c405ef5cc" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a64b75e39eac9f632f449b41e1ce22e3d" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>stats_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ad2d92004c41fe0039615e7502fefdf00" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ae4e1660995c7a8d6336ea2a071fc96f8" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>updateReplicaStatus</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1ad1dbb563604ab05ebbc3f6a362e9c379" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>verifyChunkChecksum</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a94252ea7f29bd738c957fee2cae0ac80" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>wal_manager_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a668bc7d4c941eabce839af6601ac1d29" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>WALShipper</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper_1a3511c678d3f66d74aee5572d38b91b75" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALShipper</scope><name>~WALShipper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

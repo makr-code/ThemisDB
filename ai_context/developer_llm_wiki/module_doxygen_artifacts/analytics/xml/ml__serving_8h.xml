@@ -1,0 +1,417 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ml__serving_8h" kind="file" language="C++">
+    <compoundname>ml_serving.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="anomaly__detection_8h" local="yes">analytics/anomaly_detection.h</includes>
+    <includes refid="analytics__api__contract_8h" local="yes">analytics/analytics_api_contract.h</includes>
+    <includedby refid="bench__analytics__operability__paths_8cpp" local="yes">benchmarks/analytics/bench_analytics_operability_paths.cpp</includedby>
+    <includedby refid="ml__serving_8cpp" local="yes">src/analytics/ml_serving.cpp</includedby>
+    <includedby refid="test__analytics__bounded__execution__policy_8cpp" local="yes">tests/analytics/test_analytics_bounded_execution_policy.cpp</includedby>
+    <includedby refid="test__analytics__optional__fallback__focused_8cpp" local="yes">tests/analytics/test_analytics_optional_fallback_focused.cpp</includedby>
+    <includedby refid="test__analytics__serving__export__integration_8cpp" local="yes">tests/analytics/test_analytics_serving_export_integration.cpp</includedby>
+    <includedby refid="test__analytics__wave__d__operability_8cpp" local="yes">tests/analytics/test_analytics_wave_d_operability.cpp</includedby>
+    <includedby refid="test__ml__serving_8cpp" local="yes">tests/analytics/test_ml_serving.cpp</includedby>
+    <incdepgraph>
+      <node id="18">
+        <label>analytics/analytics_api_contract.h</label>
+        <link refid="analytics__api__contract_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>analytics/anomaly_detection.h</label>
+        <link refid="anomaly__detection_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/analytics/ml_serving.h</label>
+        <link refid="ml__serving_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="19">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>deque</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="15">
+        <label>future</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>shared_mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>variant</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/analytics/bench_analytics_operability_paths.cpp</label>
+        <link refid="bench__analytics__operability__paths_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/analytics/ml_serving.h</label>
+        <link refid="ml__serving_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/analytics/ml_serving.cpp</label>
+        <link refid="ml__serving_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/analytics/test_analytics_bounded_execution_policy.cpp</label>
+        <link refid="test__analytics__bounded__execution__policy_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/analytics/test_analytics_optional_fallback_focused.cpp</label>
+        <link refid="test__analytics__optional__fallback__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/analytics/test_analytics_serving_export_integration.cpp</label>
+        <link refid="test__analytics__serving__export__integration_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/analytics/test_analytics_wave_d_operability.cpp</label>
+        <link refid="test__analytics__wave__d__operability_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/analytics/test_ml_serving.cpp</label>
+        <link refid="test__ml__serving_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_m_l_tensor" prot="public">themisdb::analytics::MLTensor</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" prot="public">themisdb::analytics::MLServingRequest</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" prot="public">themisdb::analytics::MLServingResponse</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend" prot="public">themisdb::analytics::IMLServingBackend</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config" prot="public">themisdb::analytics::ONNXBackendConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend" prot="public">themisdb::analytics::ONNXServingBackend</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" prot="public">themisdb::analytics::TFServingConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend" prot="public">themisdb::analytics::TFServingBackend</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_m_l_serving_config" prot="public">themisdb::analytics::MLServingConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_m_l_serving_client" prot="public">themisdb::analytics::MLServingClient</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1analytics">themisdb::analytics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Re-use<sp/>DataPoint<sp/>for<sp/>seamless<sp/>integration<sp/>with<sp/>the<sp/>anomaly<sp/>detection<sp/>module.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="anomaly__detection_8h" kindref="compound">analytics/anomaly_detection.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BoundedExecutionPolicy<sp/>for<sp/>policy-aware<sp/>inference<sp/>overloads.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="analytics__api__contract_8h" kindref="compound">analytics/analytics_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend" kindref="compound">IMLServingBackend</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend" kindref="compound">ONNXServingBackend</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend" kindref="compound">TFServingBackend</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client" kindref="compound">MLServingClient</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tensor<sp/>representation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemisdb_1_1analytics_1_1_m_l_tensor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_m_l_tensor" kindref="compound">MLTensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemisdb_1_1analytics_1_1_m_l_tensor_1ac35265396fd953b2d6c7c3430fc6a343" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_tensor_1ac35265396fd953b2d6c7c3430fc6a343" kindref="member">name</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemisdb_1_1analytics_1_1_m_l_tensor_1a515a3157ad47e9bd3c3c6e642731286a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_tensor_1a515a3157ad47e9bd3c3c6e642731286a" kindref="member">shape</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemisdb_1_1analytics_1_1_m_l_tensor_1ae18683c8d7227bff450d58e4c5bfec43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_tensor_1ae18683c8d7227bff450d58e4c5bfec43" kindref="member">data</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_tensor_1a976962dba1d2e1577eacee705e637710" kindref="member">numElements</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Request<sp/>/<sp/>Response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" refkind="compound"><highlight class="normal">struct<sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" kindref="compound">MLServingRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="96" refid="structthemisdb_1_1analytics_1_1_m_l_serving_request_1a3031da876101607383bbad78ee5cefbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request_1a3031da876101607383bbad78ee5cefbb" kindref="member">model_name</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemisdb_1_1analytics_1_1_m_l_serving_request_1a2ba3a122ba299cdf0c84e72ce8704db8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request_1a2ba3a122ba299cdf0c84e72ce8704db8" kindref="member">model_version</ref>;<sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1analytics_1_1_m_l_serving_request_1aa5fe778a065831504383c7333a14ae7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MLTensor&gt;<sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request_1aa5fe778a065831504383c7333a14ae7a" kindref="member">inputs</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" kindref="member">MLServingStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="102" refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa084f4ca2c0fe703e46514a144b4d6ead" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa084f4ca2c0fe703e46514a144b4d6ead" kindref="member">UNAVAILABLE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aac063281d4adc16ebccfec66aa885b4dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aac063281d4adc16ebccfec66aa885b4dd" kindref="member">INVALID_INPUT</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aac44598cc3395b73e9fd2866f42945bd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aac44598cc3395b73e9fd2866f42945bd3" kindref="member">BACKEND_ERROR</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa070a0fb40f6c308ab544b227660aadff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa070a0fb40f6c308ab544b227660aadff" kindref="member">TIMEOUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107" refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa877d772cba43dce7b509c2f4ab139d73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa877d772cba43dce7b509c2f4ab139d73" kindref="member">POLICY_REJECTED</ref>,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" kindref="compound">MLServingResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="111" refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a1be2485a3ebb6598f214ccc09f172c4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" kindref="member">MLServingStatus</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a1be2485a3ebb6598f214ccc09f172c4a" kindref="member">status</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">MLServingStatus::OK</ref>;</highlight></codeline>
+<codeline lineno="112" refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1acf0bda71a253650d7873106d4f3aad7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1acf0bda71a253650d7873106d4f3aad7f" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="113" refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a23d36ef6d3830bde5ab07d8c75d7e08f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MLTensor&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a23d36ef6d3830bde5ab07d8c75d7e08f" kindref="member">outputs</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1abc033e554a647b4894e256b83a8a3e2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1abc033e554a647b4894e256b83a8a3e2f" kindref="member">latency_ms</ref><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a5507aebbcc3a68d0c5cf24c731d54343" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a5507aebbcc3a68d0c5cf24c731d54343" kindref="member">operation_id</ref>;</highlight></codeline>
+<codeline lineno="116" refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a319b020b97907d0b0c8dd2847dd4b0cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a319b020b97907d0b0c8dd2847dd4b0cb" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a71845749ff5643caf1937a28c16b37ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a71845749ff5643caf1937a28c16b37ed" kindref="member">failure_class</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118" refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a7ecc48b9d9dd885a3aa33cab0ce15153" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a7ecc48b9d9dd885a3aa33cab0ce15153" kindref="member">operator_hints</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a6e625937c188c6d6dd8b11bb01a439c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a6e625937c188c6d6dd8b11bb01a439c1" kindref="member">ok</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a1be2485a3ebb6598f214ccc09f172c4a" kindref="member">status</ref><sp/>==<sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">MLServingStatus::OK</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Backend<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend" kindref="compound">IMLServingBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133" refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1a9ab47d57e701d58dabe01bce5c712fe7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1a9ab47d57e701d58dabe01bce5c712fe7" kindref="member">~IMLServingBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1ab0ce459c0a7f9878648f5011adadb905" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1ab0ce459c0a7f9878648f5011adadb905" kindref="member">backendName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1ab7267e20a652b9d582cb52081fca4289" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1ab7267e20a652b9d582cb52081fca4289" kindref="member">isAvailable</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1a04af437d7078da76b9e31176869472d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" kindref="compound">MLServingResponse</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1a04af437d7078da76b9e31176869472d8" kindref="member">infer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" kindref="compound">MLServingRequest</ref>&amp;<sp/>req)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ONNX<sp/>Runtime<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config" kindref="compound">ONNXBackendConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="147" refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1ab79b0399ba3b66207d0e2f66790bf8ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1ab79b0399ba3b66207d0e2f66790bf8ed" kindref="member">model_directory</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./models&quot;</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="148" refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1a4daea45f045aca972b7522d21d5b99f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1a4daea45f045aca972b7522d21d5b99f6" kindref="member">enable_cpu</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149" refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1aafae4d312fea9b06ee8aa4321529aca6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1aafae4d312fea9b06ee8aa4321529aca6" kindref="member">enable_cuda</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1aa27ff71bccb92b2315ea787fd87cfb6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1aa27ff71bccb92b2315ea787fd87cfb6c" kindref="member">intra_op_threads</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151" refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1a6604a0639827a8b7b04fb9cacf5b7fb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1a6604a0639827a8b7b04fb9cacf5b7fb1" kindref="member">inter_op_threads</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1a4a36fceb5d5ab9e655f79fe85b1a0fdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config_1a4a36fceb5d5ab9e655f79fe85b1a0fdb" kindref="member">memory_limit_mb</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a7846b38f921537205ede55034f637e78" kindref="member">ONNXServingBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend" kindref="compound">IMLServingBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a7846b38f921537205ede55034f637e78" kindref="member">ONNXServingBackend</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config" kindref="compound">ONNXBackendConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="158" refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a1913d865b0e2c4fd9de1612a507cc572" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a1913d865b0e2c4fd9de1612a507cc572" kindref="member">~ONNXServingBackend</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1aa35e3da43397c93bd4f758c9b0eade8b" kindref="member">backendName</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a5b2888d146590107de8130211db07c29" kindref="member">isAvailable</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" kindref="compound">MLServingResponse</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a274452a05f02c545d942e0aaa5989bdf" kindref="member">infer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" kindref="compound">MLServingRequest</ref>&amp;<sp/>req)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorFlow<sp/>Serving<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" kindref="compound">TFServingConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="174" refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a386d066a59146fa2d117e2c8dc85cc36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a386d066a59146fa2d117e2c8dc85cc36" kindref="member">base_url</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://localhost:8501&quot;</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="175" refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1ab16723021559b6a6dd01643b4372d632" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1ab16723021559b6a6dd01643b4372d632" kindref="member">timeout_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176" refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a949730641517c1e246cb0bdf94b09f2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a949730641517c1e246cb0bdf94b09f2d" kindref="member">verify_ssl</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177" refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a968d0bd38fab584c45fc3b04999b8b06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a968d0bd38fab584c45fc3b04999b8b06" kindref="member">allow_insecure_transport</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178" refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a0c5f2d4f65aeef01c2292f57963b2735" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a0c5f2d4f65aeef01c2292f57963b2735" kindref="member">api_key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a3123fe2aa54bb0faa3c6f466992ed302" kindref="member">TFServingBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend" kindref="compound">IMLServingBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a3123fe2aa54bb0faa3c6f466992ed302" kindref="member">TFServingBackend</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" kindref="compound">TFServingConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="184" refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1abba2079d621edd25dfaa16b232da8582" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1abba2079d621edd25dfaa16b232da8582" kindref="member">~TFServingBackend</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a38930b47ab1980f0c2f295a2e6b0226b" kindref="member">backendName</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a22bd852d845c3479b7d8bea64f088192" kindref="member">isAvailable</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" kindref="compound">MLServingResponse</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1ad4592a70ebd720cea36eea6b95e7d562" kindref="member">infer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" kindref="compound">MLServingRequest</ref>&amp;<sp/>req)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_backend_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Unified<sp/>client</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20" kindref="member">MLBackendType</ref><sp/>{</highlight></codeline>
+<codeline lineno="200" refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20ae1f2d5134ed2543d38a0de9751cf75d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">AUTO</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201" refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20a2030dbbca057b06013e97fed36df5de5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20a2030dbbca057b06013e97fed36df5de5" kindref="member">ONNX_RUNTIME</ref>,<sp/></highlight></codeline>
+<codeline lineno="202" refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20a5491e3932d93a9d504ca320ee9fa4430" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20a5491e3932d93a9d504ca320ee9fa4430" kindref="member">TF_SERVING</ref><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="structthemisdb_1_1analytics_1_1_m_l_serving_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_config" kindref="compound">MLServingConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="206" refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1ad90f6fff255863025bf29e883ac932c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20" kindref="member">MLBackendType</ref><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1ad90f6fff255863025bf29e883ac932c1" kindref="member">backend</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">MLBackendType::AUTO</ref>;</highlight></codeline>
+<codeline lineno="207" refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1a92b650d9cfeb2ef1c9884c19b3f2db39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config" kindref="compound">ONNXBackendConfig</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1a92b650d9cfeb2ef1c9884c19b3f2db39" kindref="member">onnx_config</ref>;</highlight></codeline>
+<codeline lineno="208" refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1ac9215da32ce67ae528afa72f24fec2a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" kindref="compound">TFServingConfig</ref><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1ac9215da32ce67ae528afa72f24fec2a7" kindref="member">tf_config</ref>;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1a04df004bc1ac246e838a60a928d29211" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">::themis::analytics::BoundedExecutionPolicy</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_config_1a04df004bc1ac246e838a60a928d29211" kindref="member">default_policy</ref>;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="classthemisdb_1_1analytics_1_1_m_l_serving_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client_1a3f872259434d9d71945b61e62aeb153b" kindref="member">MLServingClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client_1a3f872259434d9d71945b61e62aeb153b" kindref="member">MLServingClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_config" kindref="compound">MLServingConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="216" refid="classthemisdb_1_1analytics_1_1_m_l_serving_client_1aca57421288bcfe7cfe28021105a78006" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client_1aca57421288bcfe7cfe28021105a78006" kindref="member">~MLServingClient</ref>();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client_1a3b098af4d634a606c783f5d6edc03e0e" kindref="member">isBackendAvailable</ref>(<ref refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20" kindref="member">MLBackendType</ref><sp/>type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client_1a60ba315d55363f2f8c764fdbdf178b80" kindref="member">activeBackendName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" kindref="compound">MLServingResponse</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client_1aa388eacde9e07bd565b73032ff9a8410" kindref="member">infer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" kindref="compound">MLServingRequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" kindref="compound">MLServingResponse</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client_1aa388eacde9e07bd565b73032ff9a8410" kindref="member">infer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" kindref="compound">MLServingRequest</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>::themis::analytics::BoundedExecutionPolicy&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" kindref="compound">MLServingResponse</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client_1aa2f7eca8ed15eb7adbf00845a779a7e5" kindref="member">inferFromDataPoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_name,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&amp;<sp/><sp/><sp/>point,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;input&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Factory<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;IMLServingBackend&gt;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_m_l_serving_client_1a863fa79e494d6b5662c922d6ad717875" kindref="member">makeONNXBackend</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config" kindref="compound">ONNXBackendConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;IMLServingBackend&gt;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>makeTFServingBackend(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" kindref="compound">TFServingConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>utilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal">std::string<sp/><ref refid="namespacethemisdb_1_1analytics_1ab50a2610f0f5548b2daf08c2240b5306" kindref="member">mlServingStatusName</ref>(<ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" kindref="member">MLServingStatus</ref><sp/>status);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal">std::string<sp/><ref refid="namespacethemisdb_1_1analytics_1ac20bf38b6d8b2e6073b7c2a2458356ee" kindref="member">mlBackendTypeName</ref>(<ref refid="namespacethemisdb_1_1analytics_1a731a5529ba88659925aef562d5e7fa20" kindref="member">MLBackendType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/ml_serving.h"/>
+  </compounddef>
+</doxygen>

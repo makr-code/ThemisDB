@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structsim_1_1_p2_p_stats" kind="struct" language="C++" prot="public">
+    <compoundname>sim::P2PStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsim_1_1_p2_p_stats_1a5044d4badb79ccc22b99f652bb4ee092" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t sim::P2PStats::total_transfers</definition>
+        <argsstring></argsstring>
+        <name>total_transfers</name>
+        <qualifiedname>sim::P2PStats::total_transfers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="83" column="12" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_p2_p_stats_1a5c8089d88500d11b4259270e7a44735a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t sim::P2PStats::bytes_transferred</definition>
+        <argsstring></argsstring>
+        <name>bytes_transferred</name>
+        <qualifiedname>sim::P2PStats::bytes_transferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="84" column="12" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_p2_p_stats_1ac0ef6aef57088cb7b5cf3989ee83fdca" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t sim::P2PStats::cpu_fallback_transfers</definition>
+        <argsstring></argsstring>
+        <name>cpu_fallback_transfers</name>
+        <qualifiedname>sim::P2PStats::cpu_fallback_transfers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="85" column="12" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_p2_p_stats_1abddd56ba6752f5dc67eaa16dfa2f831d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t sim::P2PStats::failed_transfers</definition>
+        <argsstring></argsstring>
+        <name>failed_transfers</name>
+        <qualifiedname>sim::P2PStats::failed_transfers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="86" column="12" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="82" column="1" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="82" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structsim_1_1_p2_p_stats_1a5c8089d88500d11b4259270e7a44735a" prot="public" virt="non-virtual"><scope>sim::P2PStats</scope><name>bytes_transferred</name></member>
+      <member refid="structsim_1_1_p2_p_stats_1ac0ef6aef57088cb7b5cf3989ee83fdca" prot="public" virt="non-virtual"><scope>sim::P2PStats</scope><name>cpu_fallback_transfers</name></member>
+      <member refid="structsim_1_1_p2_p_stats_1abddd56ba6752f5dc67eaa16dfa2f831d" prot="public" virt="non-virtual"><scope>sim::P2PStats</scope><name>failed_transfers</name></member>
+      <member refid="structsim_1_1_p2_p_stats_1a5044d4badb79ccc22b99f652bb4ee092" prot="public" virt="non-virtual"><scope>sim::P2PStats</scope><name>total_transfers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

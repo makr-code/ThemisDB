@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_l_l_m_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LLMResponse</compoundname>
+    <includes refid="llm__process__analyzer_8h" local="no">llm_process_analyzer.h</includes>
+    <innerclass refid="structthemis_1_1_l_l_m_response_1_1_deviation" prot="public">themis::LLMResponse::Deviation</innerclass>
+    <innerclass refid="structthemis_1_1_l_l_m_response_1_1_compliance_issue" prot="public">themis::LLMResponse::ComplianceIssue</innerclass>
+    <innerclass refid="structthemis_1_1_l_l_m_response_1_1_recommendation" prot="public">themis::LLMResponse::Recommendation</innerclass>
+    <innerclass refid="structthemis_1_1_l_l_m_response_1_1_prediction" prot="public">themis::LLMResponse::Prediction</innerclass>
+    <innerclass refid="structthemis_1_1_l_l_m_response_1_1_five_r_check" prot="public">themis::LLMResponse::FiveRCheck</innerclass>
+    <innerclass refid="structthemis_1_1_l_l_m_response_1_1_fraud_analysis" prot="public">themis::LLMResponse::FraudAnalysis</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1ade241d7e1e6f92c749e724ed3757a72e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::LLMResponse::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="88" column="10" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1ae4721ee76194a14d47840e8677d29e27" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMResponse::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::LLMResponse::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="89" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1a1b5c150a5827a9241ed4e6449e14919d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMResponse::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::LLMResponse::summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="91" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1a002724867e61d58325a74e9f1575ec27" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::LLMResponse::conformance_score</definition>
+        <argsstring></argsstring>
+        <name>conformance_score</name>
+        <qualifiedname>themis::LLMResponse::conformance_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="94" column="12" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1a475bbf5d5f7415dd7645619b03141ae1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_l_l_m_response_1_1_deviation" kindref="compound">Deviation</ref> &gt;</type>
+        <definition>std::vector&lt;Deviation&gt; themis::LLMResponse::deviations</definition>
+        <argsstring></argsstring>
+        <name>deviations</name>
+        <qualifiedname>themis::LLMResponse::deviations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="103" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1ad9b4ee9715d8ee26713053fe1e3686fa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_l_l_m_response_1_1_compliance_issue" kindref="compound">ComplianceIssue</ref> &gt;</type>
+        <definition>std::vector&lt;ComplianceIssue&gt; themis::LLMResponse::compliance_issues</definition>
+        <argsstring></argsstring>
+        <name>compliance_issues</name>
+        <qualifiedname>themis::LLMResponse::compliance_issues</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="112" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1a25007b3d82c09ac9c903a4488480b6aa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_l_l_m_response_1_1_recommendation" kindref="compound">Recommendation</ref> &gt;</type>
+        <definition>std::vector&lt;Recommendation&gt; themis::LLMResponse::recommendations</definition>
+        <argsstring></argsstring>
+        <name>recommendations</name>
+        <qualifiedname>themis::LLMResponse::recommendations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="121" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1ac83cf5574b5233965b52573c965b72ec" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_l_l_m_response_1_1_prediction" kindref="compound">Prediction</ref> &gt;</type>
+        <definition>std::vector&lt;Prediction&gt; themis::LLMResponse::predictions</definition>
+        <argsstring></argsstring>
+        <name>predictions</name>
+        <qualifiedname>themis::LLMResponse::predictions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="129" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1a802901109b5cd826398a59a5e32f63ca" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_l_l_m_response_1_1_five_r_check" kindref="compound">FiveRCheck</ref> &gt;</type>
+        <definition>std::optional&lt;FiveRCheck&gt; themis::LLMResponse::five_rights_check</definition>
+        <argsstring></argsstring>
+        <name>five_rights_check</name>
+        <qualifiedname>themis::LLMResponse::five_rights_check</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="142" column="19" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1a660c10c334e945b979b62db2e035e02e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_l_l_m_response_1_1_fraud_analysis" kindref="compound">FraudAnalysis</ref> &gt;</type>
+        <definition>std::optional&lt;FraudAnalysis&gt; themis::LLMResponse::fraud_analysis</definition>
+        <argsstring></argsstring>
+        <name>fraud_analysis</name>
+        <qualifiedname>themis::LLMResponse::fraud_analysis</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="156" column="19" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1ad5692576d24a4f3606a9efb95617652c" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::LLMResponse::raw_response</definition>
+        <argsstring></argsstring>
+        <name>raw_response</name>
+        <qualifiedname>themis::LLMResponse::raw_response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="159" column="20" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1a38fe97206123a1f24501cf9ce6108a96" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::LLMResponse::response_time_ms</definition>
+        <argsstring></argsstring>
+        <name>response_time_ms</name>
+        <qualifiedname>themis::LLMResponse::response_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="162" column="13" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1a99440d1e74bc28aafc3a5e54cf2cc074" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LLMResponse::tokens_used</definition>
+        <argsstring></argsstring>
+        <name>tokens_used</name>
+        <qualifiedname>themis::LLMResponse::tokens_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="163" column="9" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_response_1ae250116dddfe63d1f6e0ff4dda6f0c1c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LLMResponse::from_cache</definition>
+        <argsstring></argsstring>
+        <name>from_cache</name>
+        <qualifiedname>themis::LLMResponse::from_cache</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="164" column="10" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/llm_process_analyzer.h" line="87" column="1" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="87" bodyend="165"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_l_l_m_response_1ad9b4ee9715d8ee26713053fe1e3686fa" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>compliance_issues</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1a002724867e61d58325a74e9f1575ec27" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>conformance_score</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1a475bbf5d5f7415dd7645619b03141ae1" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>deviations</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1ae4721ee76194a14d47840e8677d29e27" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1a802901109b5cd826398a59a5e32f63ca" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>five_rights_check</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1a660c10c334e945b979b62db2e035e02e" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>fraud_analysis</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1ae250116dddfe63d1f6e0ff4dda6f0c1c" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>from_cache</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1ac83cf5574b5233965b52573c965b72ec" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>predictions</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1ad5692576d24a4f3606a9efb95617652c" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>raw_response</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1a25007b3d82c09ac9c903a4488480b6aa" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>recommendations</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1a38fe97206123a1f24501cf9ce6108a96" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>response_time_ms</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1ade241d7e1e6f92c749e724ed3757a72e" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>success</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1a1b5c150a5827a9241ed4e6449e14919d" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>summary</name></member>
+      <member refid="structthemis_1_1_l_l_m_response_1a99440d1e74bc28aafc3a5e54cf2cc074" prot="public" virt="non-virtual"><scope>themis::LLMResponse</scope><name>tokens_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

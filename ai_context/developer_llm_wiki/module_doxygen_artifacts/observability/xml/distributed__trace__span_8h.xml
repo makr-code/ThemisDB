@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__trace__span_8h" kind="file" language="C++">
+    <compoundname>distributed_trace_span.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">shared_mutex</includes>
+    <includedby refid="trace__instrumentation_8h" local="yes">include/observability/trace_instrumentation.h</includedby>
+    <includedby refid="distributed__trace__span_8cpp" local="yes">src/observability/distributed_trace_span.cpp</includedby>
+    <includedby refid="test__otel__exporter__stress_8cpp" local="yes">tests/observability/test_otel_exporter_stress.cpp</includedby>
+    <includedby refid="test__otel__trace__overhead_8cpp" local="yes">tests/observability/test_otel_trace_overhead.cpp</includedby>
+    <includedby refid="test__tracing__integration__replication_8cpp" local="yes">tests/observability/test_tracing_integration_replication.cpp</includedby>
+    <includedby refid="test__tracing__integration__sharding_8cpp" local="yes">tests/observability/test_tracing_integration_sharding.cpp</includedby>
+    <includedby refid="test__tracing__integration__transaction_8cpp" local="yes">tests/observability/test_tracing_integration_transaction.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/distributed_trace_span.h</label>
+        <link refid="distributed__trace__span_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/distributed_trace_span.h</label>
+        <link refid="distributed__trace__span_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/observability/trace_instrumentation.h</label>
+        <link refid="trace__instrumentation_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/observability/distributed_trace_span.cpp</label>
+        <link refid="distributed__trace__span_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/observability/trace_instrumentation.cpp</label>
+        <link refid="trace__instrumentation_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/observability/test_otel_exporter_stress.cpp</label>
+        <link refid="test__otel__exporter__stress_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/observability/test_otel_trace_overhead.cpp</label>
+        <link refid="test__otel__trace__overhead_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/observability/test_tracing_integration_replication.cpp</label>
+        <link refid="test__tracing__integration__replication_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/observability/test_tracing_integration_sharding.cpp</label>
+        <link refid="test__tracing__integration__sharding_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/observability/test_tracing_integration_transaction.cpp</label>
+        <link refid="test__tracing__integration__transaction_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_span_event" prot="public">themis::observability::SpanEvent</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_distributed_trace_span" prot="public">themis::observability::DistributedTraceSpan</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>DistributedTraceSpan class for Wave D Phase 2A observability. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.4.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-17</para>
+</simplesect>
+Provides a W3C Trace Context-compliant span implementation with baggage propagation, event recording, and low-overhead instrumentation for distributed tracing in ThemisDB.</para>
+<para>Wave D Phase 2A Gate: W4A-TRACE-01 (overhead ≤ 2% vs baseline)</para>
+<para><simplesect kind="see"><para><ulink url="https://www.w3.org/TR/trace-context/">https://www.w3.org/TR/trace-context/</ulink> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="test__otel__trace__overhead_8cpp" kindref="compound">tests/observability/test_otel_trace_overhead.cpp</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1observability_1_1_span_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_span_event_1a1c0d28ce3ba8dc9cc5756cf3a0002d1d" kindref="member">SpanEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1observability_1_1_span_event_1a7fada919e5c265abb823c5626c58d0d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_span_event_1a7fada919e5c265abb823c5626c58d0d0" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1observability_1_1_span_event_1ac108b699d8da0161d8bb246b7ef218fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_span_event_1ac108b699d8da0161d8bb246b7ef218fd" kindref="member">attributes</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1observability_1_1_span_event_1af7e5c5ee36a711bf7b10cd5d0e090707" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_span_event_1af7e5c5ee36a711bf7b10cd5d0e090707" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1observability_1_1_span_event_1a1c0d28ce3ba8dc9cc5756cf3a0002d1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_span_event_1a1c0d28ce3ba8dc9cc5756cf3a0002d1d" kindref="member">SpanEvent</ref>()<sp/>:<sp/><ref refid="structthemis_1_1observability_1_1_span_event_1af7e5c5ee36a711bf7b10cd5d0e090707" kindref="member">timestamp</ref>(std::chrono::system_clock::now())<sp/>{}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1observability_1_1_span_event_1af37216326f892ef1bc117a57bd2b89ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_span_event_1af37216326f892ef1bc117a57bd2b89ec" kindref="member">SpanEvent</ref>(std::string<sp/>event_name)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1observability_1_1_span_event_1a7fada919e5c265abb823c5626c58d0d0" kindref="member">name</ref>(std::move(event_name)),<sp/><ref refid="structthemis_1_1observability_1_1_span_event_1af7e5c5ee36a711bf7b10cd5d0e090707" kindref="member">timestamp</ref>(std::chrono::system_clock::now())<sp/>{}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198" kindref="member">SpanStatus</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198ac9f88e098f6fe4e4e112eeb05ccb9671" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198ac9f88e098f6fe4e4e112eeb05ccb9671" kindref="member">Unset</ref><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">Ok</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198a902b0d55fddef6f8d651fe1035b7d4bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198a902b0d55fddef6f8d651fe1035b7d4bd" kindref="member">Error</ref><sp/>=<sp/>2,<sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1observability_1_1_distributed_trace_span" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref><sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref>(</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>operation_name,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;<sp/>parent_context<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a961c1a85dc817527b8ecf01fc2ce6047" kindref="member">~DistributedTraceSpan</ref>();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying<sp/>(spans<sp/>are<sp/>move-only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1observability_1_1_distributed_trace_span_1a68a845a43133d4837be5a65fbd1b14f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a68a845a43133d4837be5a65fbd1b14f3" kindref="member">DistributedTraceSpan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1observability_1_1_distributed_trace_span_1a0f02d76cf77249624df290cf71f08404" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a0f02d76cf77249624df290cf71f08404" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>moving</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1observability_1_1_distributed_trace_span_1aacdc81b94d2bf20bc1786f41610e4d86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1aacdc81b94d2bf20bc1786f41610e4d86" kindref="member">DistributedTraceSpan</ref>(<ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1observability_1_1_distributed_trace_span_1ab78bae7295cc7cb58fdca4970f2bd326" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3d019ab851e4dcee13137fb6db049529" kindref="member">DistributedTraceSpan</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1observability_1_1_distributed_trace_span_1a76b4ca634c98c68a61bb8c4b3ca96942" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a76b4ca634c98c68a61bb8c4b3ca96942" kindref="member">spanId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>span_id_;<sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1observability_1_1_distributed_trace_span_1acbcd0185ef8f0cf2ebf71432618849bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1acbcd0185ef8f0cf2ebf71432618849bb" kindref="member">traceId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>trace_id_;<sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1observability_1_1_distributed_trace_span_1a02021c0e621826d63814ff6d3f7cda6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a02021c0e621826d63814ff6d3f7cda6d" kindref="member">operationName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>operation_name_;<sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1observability_1_1_distributed_trace_span_1a342938877516d5847bf1cdd494e5246c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a342938877516d5847bf1cdd494e5246c" kindref="member">startTime</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>start_time_;<sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a495893d898bd736473a86cfa103f55cf" kindref="member">addBaggage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1aa9dd33c511eb415f19a3b9df6ffac6d5" kindref="member">addEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3e7ed8ee179a48c08042e14ee9dcba5a" kindref="member">attributes</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a46dd25a8f2f1a6a951cff57e5a0df3ee" kindref="member">setAttribute</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1ae7831d2b5b4f6cebe1c56edf4593abcd" kindref="member">setStatus</ref>(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198" kindref="member">SpanStatus</ref><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1ad57564fe09e165e8412d249394b62caa" kindref="member">status</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="classthemis_1_1observability_1_1_distributed_trace_span_1ad57564fe09e165e8412d249394b62caa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198" kindref="member">SpanStatus</ref><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1ad57564fe09e165e8412d249394b62caa" kindref="member">status</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>status_.load();<sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1ad4a37120450167fc1047dada05c226c5" kindref="member">statusMessage</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1ada84bce62fef52c7955dc1c17e41441a" kindref="member">childContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>child_operation_name);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpanEvent&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a970b2d6059d9c04c69374e521608852d" kindref="member">events</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1adabbc29c9388669c02b1b769f8b1db7e" kindref="member">baggage</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a3e7ed8ee179a48c08042e14ee9dcba5a" kindref="member">attributes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1acb1a86132d6766db21efb92172d3322d" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span_1a5203a6bc98ff6c34931bf7e141e34f07" kindref="member">durationMicros</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>span_id_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>trace_id_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>operation_name_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>start_time_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;<sp/>parent_context_;<sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;SpanStatus&gt;<sp/>status_{<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198ac9f88e098f6fe4e4e112eeb05ccb9671" kindref="member">SpanStatus::Unset</ref>};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>status_mutex_;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>status_message_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpanEvent&gt;<sp/>events_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>events_mutex_;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>baggage_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>baggage_mutex_;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>attributes_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>attributes_mutex_;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>flushed_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1observability_1_1detail_1a2d62df4bcdce0355fcb25fcc82649423" kindref="member">generateSpanId</ref>();</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>flushInternal();</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/distributed_trace_span.h"/>
+  </compounddef>
+</doxygen>

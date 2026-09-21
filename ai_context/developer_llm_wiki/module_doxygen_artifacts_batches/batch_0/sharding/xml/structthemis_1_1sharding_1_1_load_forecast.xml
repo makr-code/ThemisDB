@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_load_forecast" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LoadForecast</compoundname>
+    <includes refid="shard__load__detector_8h" local="no">shard_load_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_forecast_1a1fb9ce8f6846d78c1c3df683ed25f08a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LoadForecast::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::LoadForecast::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="64" column="17" bodyfile="include/sharding/shard_load_detector.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_forecast_1a56c0fe17fdfeaccfc54394638b638476" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::LoadForecast::predicted_cpu_percent</definition>
+        <argsstring></argsstring>
+        <name>predicted_cpu_percent</name>
+        <qualifiedname>themis::sharding::LoadForecast::predicted_cpu_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="67" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_forecast_1afb61906c401a146da3371d50e2ec5b8f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::LoadForecast::predicted_storage_percent</definition>
+        <argsstring></argsstring>
+        <name>predicted_storage_percent</name>
+        <qualifiedname>themis::sharding::LoadForecast::predicted_storage_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="68" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_forecast_1a9b0af00ae1c3f08a64f578dad4b4dc13" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::LoadForecast::predicted_composite_load</definition>
+        <argsstring></argsstring>
+        <name>predicted_composite_load</name>
+        <qualifiedname>themis::sharding::LoadForecast::predicted_composite_load</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="69" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_forecast_1aaa2f2b11dcb87eb7a562fb6ac40f39c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::LoadForecast::confidence_interval</definition>
+        <argsstring></argsstring>
+        <name>confidence_interval</name>
+        <qualifiedname>themis::sharding::LoadForecast::confidence_interval</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="72" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_forecast_1a8e18838d80023a4d6b7d0749d35728d1" prot="public" static="no" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::sharding::LoadForecast::horizon</definition>
+        <argsstring></argsstring>
+        <name>horizon</name>
+        <qualifiedname>themis::sharding::LoadForecast::horizon</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="75" column="26" bodyfile="include/sharding/shard_load_detector.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_forecast_1aa393656361663906b0caf50b2a936d3b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::LoadForecast::has_sufficient_history</definition>
+        <argsstring></argsstring>
+        <name>has_sufficient_history</name>
+        <qualifiedname>themis::sharding::LoadForecast::has_sufficient_history</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="78" column="10" bodyfile="include/sharding/shard_load_detector.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Trend-based load forecast for one shard and forecast horizon. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_load_detector.h" line="63" column="1" bodyfile="include/sharding/shard_load_detector.h" bodystart="63" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_load_forecast_1aaa2f2b11dcb87eb7a562fb6ac40f39c2" prot="public" virt="non-virtual"><scope>themis::sharding::LoadForecast</scope><name>confidence_interval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_forecast_1aa393656361663906b0caf50b2a936d3b" prot="public" virt="non-virtual"><scope>themis::sharding::LoadForecast</scope><name>has_sufficient_history</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_forecast_1a8e18838d80023a4d6b7d0749d35728d1" prot="public" virt="non-virtual"><scope>themis::sharding::LoadForecast</scope><name>horizon</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_forecast_1a9b0af00ae1c3f08a64f578dad4b4dc13" prot="public" virt="non-virtual"><scope>themis::sharding::LoadForecast</scope><name>predicted_composite_load</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_forecast_1a56c0fe17fdfeaccfc54394638b638476" prot="public" virt="non-virtual"><scope>themis::sharding::LoadForecast</scope><name>predicted_cpu_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_forecast_1afb61906c401a146da3371d50e2ec5b8f" prot="public" virt="non-virtual"><scope>themis::sharding::LoadForecast</scope><name>predicted_storage_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_forecast_1a1fb9ce8f6846d78c1c3df683ed25f08a" prot="public" virt="non-virtual"><scope>themis::sharding::LoadForecast</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

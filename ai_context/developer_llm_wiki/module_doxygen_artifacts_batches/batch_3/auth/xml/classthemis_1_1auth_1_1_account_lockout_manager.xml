@@ -1,0 +1,595 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_account_lockout_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::AccountLockoutManager</compoundname>
+    <includes refid="auth__rate__limiter_8h" local="no">auth_rate_limiter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_account_lockout_manager_1a70d7acd18edd1248e12df41afeb8be7a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref></type>
+        <definition>AuthRateLimitConfig themis::auth::AccountLockoutManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="211" column="25" bodyfile="include/auth/auth_rate_limiter.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_account_lockout_manager_1a13c7d430e3b21d3ca6ead469de1a4f4e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1auth_1_1_lockout_info" kindref="compound">LockoutInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LockoutInfo&gt; themis::auth::AccountLockoutManager::lockout_state_</definition>
+        <argsstring></argsstring>
+        <name>lockout_state_</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::lockout_state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="214" column="24" bodyfile="include/auth/auth_rate_limiter.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_account_lockout_manager_1ae1aac46056056c6ec9cda7c5e8969bc1" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::auth::AccountLockoutManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="216" column="31" bodyfile="include/auth/auth_rate_limiter.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_account_lockout_manager_1a21751d3b69c79452f7588c9245ed927e" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::auth::AccountLockoutManager::last_cleanup_</definition>
+        <argsstring></argsstring>
+        <name>last_cleanup_</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::last_cleanup_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="220" column="43" bodyfile="include/auth/auth_rate_limiter.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_account_lockout_manager_1aced8c0cb8c8ed874929c34855b0c42d7" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::AccountLockoutManager::CLEANUP_INTERVAL_SECONDS</definition>
+        <argsstring></argsstring>
+        <name>CLEANUP_INTERVAL_SECONDS</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::CLEANUP_INTERVAL_SECONDS</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="219" column="31" bodyfile="include/auth/auth_rate_limiter.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1af5bb949a48c7cccdf22fa1d39ccabdf8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AccountLockoutManager::AccountLockoutManager</definition>
+        <argsstring>(const AuthRateLimitConfig &amp;config)</argsstring>
+        <name>AccountLockoutManager</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::AccountLockoutManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Account Lockout Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="132" column="14" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="33" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1aa235c539fa4727c011b3b425af3b8d50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::AccountLockoutManager::recordFailedAttempt</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;ip_address, const std::string &amp;reason)</argsstring>
+        <name>recordFailedAttempt</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::recordFailedAttempt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip_address</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Record Failed Attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), utils::Logger::warn(), clear(), push_back(), erase(), std::remove_if(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="141" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="44" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1a6fda9651d07d7c3d96c5b601f091bfdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AccountLockoutManager::recordSuccessfulAuth</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>recordSuccessfulAuth</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::recordSuccessfulAuth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Successful Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), clear(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="151" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="101" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1a47e12fab3565d17c898b49a544446b7e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::AccountLockoutManager::isAccountLocked</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>isAccountLocked</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::isAccountLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Account Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="158" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="117" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1a7759928125b5a5e1d45ad8a2f5e2ed4c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1auth_1_1_lockout_info" kindref="compound">LockoutInfo</ref> &gt;</type>
+        <definition>std::optional&lt; LockoutInfo &gt; themis::auth::AccountLockoutManager::getLockoutInfo</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>getLockoutInfo</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::getLockoutInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Lockout Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="165" column="19" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="138" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1abf9119d5a0e35f14ae68d6637e7271a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::AccountLockoutManager::unlockAccount</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>unlockAccount</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::unlockAccount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Unlock Account. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), utils::Logger::info(), clear(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="172" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="160" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1a9b4599c97cd7633f77a0bf9ee90ed678" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AccountLockoutManager::getLockedAccountCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getLockedAccountCount</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::getLockedAccountCount</qualifiedname>
+        <briefdescription>
+<para>Get Locked Account Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="178" column="12" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="177" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1a12cda879e4bf217daf3bb1f9a208e777" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AccountLockoutManager::forceLockAccount</definition>
+        <argsstring>(const std::string &amp;user_id, std::chrono::seconds duration)</argsstring>
+        <name>forceLockAccount</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::forceLockAccount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Force Lock Account. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::system_clock::now(), utils::Logger::warn(), std::to_string(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="185" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="203" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1a7ab9a7d66607cc42099ca7047018ca44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AccountLockoutManager::cleanup</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::chrono::system_clock::now(), begin(), end(), erase(), std::chrono::system_clock::from_time_t(), std::chrono::system_clock::to_time_t(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="190" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="217" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1a91b4f3716fbf969dcd3286e3fda8c941" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AccountLockoutManager::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="195" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="251" bodyend="254"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1aa8bad41c44f8d948b0c035815d82e5cc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AccountLockoutManager::lockAccount</definition>
+        <argsstring>(const std::string &amp;user_id, const LockoutInfo &amp;info)</argsstring>
+        <name>lockAccount</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::lockAccount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_lockout_info" kindref="compound">LockoutInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Lock Account. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), utils::Logger::warn(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="203" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="262" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_account_lockout_manager_1a46168b431e689b262bcef6d0b984ac3c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::AccountLockoutManager::shouldLockAccount</definition>
+        <argsstring>(const LockoutInfo &amp;info) const</argsstring>
+        <name>shouldLockAccount</name>
+        <qualifiedname>themis::auth::AccountLockoutManager::shouldLockAccount</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_lockout_info" kindref="compound">LockoutInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Should Lock Account. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="209" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="272" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_rate_limiter.h" line="125" column="1" bodyfile="include/auth/auth_rate_limiter.h" bodystart="125" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1af5bb949a48c7cccdf22fa1d39ccabdf8" prot="public" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>AccountLockoutManager</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1a7ab9a7d66607cc42099ca7047018ca44" prot="public" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1aced8c0cb8c8ed874929c34855b0c42d7" prot="private" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>CLEANUP_INTERVAL_SECONDS</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1a70d7acd18edd1248e12df41afeb8be7a" prot="private" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1a12cda879e4bf217daf3bb1f9a208e777" prot="public" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>forceLockAccount</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1a9b4599c97cd7633f77a0bf9ee90ed678" prot="public" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>getLockedAccountCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1a7759928125b5a5e1d45ad8a2f5e2ed4c" prot="public" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>getLockoutInfo</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1a47e12fab3565d17c898b49a544446b7e" prot="public" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>isAccountLocked</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1a21751d3b69c79452f7588c9245ed927e" prot="private" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>last_cleanup_</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1aa8bad41c44f8d948b0c035815d82e5cc" prot="private" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>lockAccount</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1a13c7d430e3b21d3ca6ead469de1a4f4e" prot="private" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>lockout_state_</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1ae1aac46056056c6ec9cda7c5e8969bc1" prot="private" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1aa235c539fa4727c011b3b425af3b8d50" prot="public" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>recordFailedAttempt</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1a6fda9651d07d7c3d96c5b601f091bfdc" prot="public" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>recordSuccessfulAuth</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1a91b4f3716fbf969dcd3286e3fda8c941" prot="public" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>reset</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1a46168b431e689b262bcef6d0b984ac3c" prot="private" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>shouldLockAccount</name></member>
+      <member refid="classthemis_1_1auth_1_1_account_lockout_manager_1abf9119d5a0e35f14ae68d6637e7271a7" prot="public" virt="non-virtual"><scope>themis::auth::AccountLockoutManager</scope><name>unlockAccount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

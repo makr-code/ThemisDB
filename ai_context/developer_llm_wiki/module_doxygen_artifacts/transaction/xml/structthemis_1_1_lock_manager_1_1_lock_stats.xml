@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_lock_manager_1_1_lock_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LockManager::LockStats</compoundname>
+    <includes refid="lock__manager_8h" local="no">lock_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_stats_1ada628156f157097df372916c33bcbf26" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::LockManager::LockStats::total_acquired</definition>
+        <argsstring></argsstring>
+        <name>total_acquired</name>
+        <qualifiedname>themis::LockManager::LockStats::total_acquired</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="78" column="18" bodyfile="include/transaction/lock_manager.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_stats_1ac06cb8ae74506e5845263b6238d59efc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::LockManager::LockStats::total_released</definition>
+        <argsstring></argsstring>
+        <name>total_released</name>
+        <qualifiedname>themis::LockManager::LockStats::total_released</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="79" column="18" bodyfile="include/transaction/lock_manager.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_stats_1a0af8a15a68c2f45f4d3412d6be0c97a0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::LockManager::LockStats::total_timeouts</definition>
+        <argsstring></argsstring>
+        <name>total_timeouts</name>
+        <qualifiedname>themis::LockManager::LockStats::total_timeouts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="80" column="18" bodyfile="include/transaction/lock_manager.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_stats_1ad77cb7713dd79f941be0f29b39b5b0dd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::LockManager::LockStats::total_escalations</definition>
+        <argsstring></argsstring>
+        <name>total_escalations</name>
+        <qualifiedname>themis::LockManager::LockStats::total_escalations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="81" column="18" bodyfile="include/transaction/lock_manager.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_stats_1aa060558a1d10cc25871ae9f32a38b0cb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::LockManager::LockStats::current_held</definition>
+        <argsstring></argsstring>
+        <name>current_held</name>
+        <qualifiedname>themis::LockManager::LockStats::current_held</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="82" column="18" bodyfile="include/transaction/lock_manager.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_stats_1a5bd8177ece46dbe1baaa3d5570f42a75" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::LockManager::LockStats::current_waiting</definition>
+        <argsstring></argsstring>
+        <name>current_waiting</name>
+        <qualifiedname>themis::LockManager::LockStats::current_waiting</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="83" column="18" bodyfile="include/transaction/lock_manager.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/lock_manager.h" line="77" column="5" bodyfile="include/transaction/lock_manager.h" bodystart="77" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_stats_1aa060558a1d10cc25871ae9f32a38b0cb" prot="public" virt="non-virtual"><scope>themis::LockManager::LockStats</scope><name>current_held</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_stats_1a5bd8177ece46dbe1baaa3d5570f42a75" prot="public" virt="non-virtual"><scope>themis::LockManager::LockStats</scope><name>current_waiting</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_stats_1ada628156f157097df372916c33bcbf26" prot="public" virt="non-virtual"><scope>themis::LockManager::LockStats</scope><name>total_acquired</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_stats_1ad77cb7713dd79f941be0f29b39b5b0dd" prot="public" virt="non-virtual"><scope>themis::LockManager::LockStats</scope><name>total_escalations</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_stats_1ac06cb8ae74506e5845263b6238d59efc" prot="public" virt="non-virtual"><scope>themis::LockManager::LockStats</scope><name>total_released</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_stats_1a0af8a15a68c2f45f4d3412d6be0c97a0" prot="public" virt="non-virtual"><scope>themis::LockManager::LockStats</scope><name>total_timeouts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_mptcp_connection_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::MptcpConnectionStats</compoundname>
+    <includes refid="multipath__tcp_8h" local="no">multipath_tcp.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_connection_stats_1a1e63d8908d9ec382dc50feeaaa61a47e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::MptcpConnectionStats::active_subflows</definition>
+        <argsstring></argsstring>
+        <name>active_subflows</name>
+        <qualifiedname>themis::network::MptcpConnectionStats::active_subflows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of subflows in ACTIVE state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="62" column="14" bodyfile="include/network/multipath_tcp.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_connection_stats_1a138e44bff2af50fe21439c7516f96c07" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::MptcpConnectionStats::total_subflows</definition>
+        <argsstring></argsstring>
+        <name>total_subflows</name>
+        <qualifiedname>themis::network::MptcpConnectionStats::total_subflows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total subflows (incl. backup/closing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="63" column="14" bodyfile="include/network/multipath_tcp.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_connection_stats_1a603e41767c32eecb98bb92e4c7cc3ec9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::MptcpConnectionStats::total_bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_sent</name>
+        <qualifiedname>themis::network::MptcpConnectionStats::total_bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bytes sent across all subflows. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="64" column="14" bodyfile="include/network/multipath_tcp.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_connection_stats_1a37ed2be56306b4209dd8704f4e83fbac" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::MptcpConnectionStats::total_bytes_recv</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_recv</name>
+        <qualifiedname>themis::network::MptcpConnectionStats::total_bytes_recv</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bytes received across all subflows. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="65" column="14" bodyfile="include/network/multipath_tcp.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_mptcp_connection_stats_1aba2cc6c14c177e4f42b7ae4e67cd46b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::MptcpConnectionStats::fallback_to_tcp</definition>
+        <argsstring></argsstring>
+        <name>fallback_to_tcp</name>
+        <qualifiedname>themis::network::MptcpConnectionStats::fallback_to_tcp</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if session fell back to plain TCP. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="66" column="14" bodyfile="include/network/multipath_tcp.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregate MPTCP connection statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/multipath_tcp.h" line="61" column="1" bodyfile="include/network/multipath_tcp.h" bodystart="61" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a1e63d8908d9ec382dc50feeaaa61a47e" prot="public" virt="non-virtual"><scope>themis::network::MptcpConnectionStats</scope><name>active_subflows</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_connection_stats_1aba2cc6c14c177e4f42b7ae4e67cd46b1" prot="public" virt="non-virtual"><scope>themis::network::MptcpConnectionStats</scope><name>fallback_to_tcp</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a37ed2be56306b4209dd8704f4e83fbac" prot="public" virt="non-virtual"><scope>themis::network::MptcpConnectionStats</scope><name>total_bytes_recv</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a603e41767c32eecb98bb92e4c7cc3ec9" prot="public" virt="non-virtual"><scope>themis::network::MptcpConnectionStats</scope><name>total_bytes_sent</name></member>
+      <member refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a138e44bff2af50fe21439c7516f96c07" prot="public" virt="non-virtual"><scope>themis::network::MptcpConnectionStats</scope><name>total_subflows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

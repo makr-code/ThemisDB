@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::CircuitBreakerManager::StateCount</compoundname>
+    <includes refid="circuit__breaker_8h" local="no">circuit_breaker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1a7bc0a47dbf4c117953091a88782ea764" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CircuitBreakerManager::StateCount::closed</definition>
+        <argsstring></argsstring>
+        <name>closed</name>
+        <qualifiedname>themis::sharding::CircuitBreakerManager::StateCount::closed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="199" column="16" bodyfile="include/sharding/circuit_breaker.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1aac124c083bc40ca25b8ac1857b5738e9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CircuitBreakerManager::StateCount::open</definition>
+        <argsstring></argsstring>
+        <name>open</name>
+        <qualifiedname>themis::sharding::CircuitBreakerManager::StateCount::open</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="200" column="16" bodyfile="include/sharding/circuit_breaker.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1a8a220ca4726fcd4569d1d9c123775d21" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CircuitBreakerManager::StateCount::half_open</definition>
+        <argsstring></argsstring>
+        <name>half_open</name>
+        <qualifiedname>themis::sharding::CircuitBreakerManager::StateCount::half_open</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="201" column="16" bodyfile="include/sharding/circuit_breaker.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Get count of circuit breakers in each state </para>
+    </detaileddescription>
+    <location file="include/sharding/circuit_breaker.h" line="198" column="5" bodyfile="include/sharding/circuit_breaker.h" bodystart="198" bodyend="202"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1a7bc0a47dbf4c117953091a88782ea764" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreakerManager::StateCount</scope><name>closed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1a8a220ca4726fcd4569d1d9c123775d21" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreakerManager::StateCount</scope><name>half_open</name></member>
+      <member refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1aac124c083bc40ca25b8ac1857b5738e9" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreakerManager::StateCount</scope><name>open</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

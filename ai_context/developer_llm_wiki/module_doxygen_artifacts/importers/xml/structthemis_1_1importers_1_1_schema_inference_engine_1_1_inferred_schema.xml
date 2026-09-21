@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_schema_inference_engine_1_1_inferred_schema" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::SchemaInferenceEngine::InferredSchema</compoundname>
+    <includes refid="schema__inference_8h" local="no">schema_inference.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_engine_1_1_inferred_schema_1ae739b76b1d4a2b80afbe97a271bcc931" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaInferenceEngine::InferredSchema::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::importers::SchemaInferenceEngine::InferredSchema::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="82" column="21" bodyfile="include/importers/schema_inference.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_engine_1_1_inferred_schema_1a8d4531102d659e945f2e3762413ce8e3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::SchemaInferenceEngine::InferredSchema::likely_relationships</definition>
+        <argsstring></argsstring>
+        <name>likely_relationships</name>
+        <qualifiedname>themis::importers::SchemaInferenceEngine::InferredSchema::likely_relationships</qualifiedname>
+        <briefdescription>
+<para>&quot;table_a.col -&gt; table_b.col [conf=0.87]&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="83" column="21" bodyfile="include/importers/schema_inference.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_engine_1_1_inferred_schema_1ac0bdf5f7f865b8246d2296ca5f9c7e32" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::SchemaInferenceEngine::InferredSchema::denormalization_candidates</definition>
+        <argsstring></argsstring>
+        <name>denormalization_candidates</name>
+        <qualifiedname>themis::importers::SchemaInferenceEngine::InferredSchema::denormalization_candidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="84" column="21" bodyfile="include/importers/schema_inference.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_engine_1_1_inferred_schema_1a617d4ef321b8e9c135947eec2239a132" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::importers::SchemaInferenceEngine::InferredSchema::cardinality_distribution</definition>
+        <argsstring></argsstring>
+        <name>cardinality_distribution</name>
+        <qualifiedname>themis::importers::SchemaInferenceEngine::InferredSchema::cardinality_distribution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="85" column="18" bodyfile="include/importers/schema_inference.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_engine_1_1_inferred_schema_1a629c0bb611fdb19bec5582da32b26518" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::SchemaInferenceEngine::InferredSchema::recommendations</definition>
+        <argsstring></argsstring>
+        <name>recommendations</name>
+        <qualifiedname>themis::importers::SchemaInferenceEngine::InferredSchema::recommendations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="86" column="14" bodyfile="include/importers/schema_inference.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/schema_inference.h" line="81" column="5" bodyfile="include/importers/schema_inference.h" bodystart="81" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_engine_1_1_inferred_schema_1a617d4ef321b8e9c135947eec2239a132" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceEngine::InferredSchema</scope><name>cardinality_distribution</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_engine_1_1_inferred_schema_1ac0bdf5f7f865b8246d2296ca5f9c7e32" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceEngine::InferredSchema</scope><name>denormalization_candidates</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_engine_1_1_inferred_schema_1a8d4531102d659e945f2e3762413ce8e3" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceEngine::InferredSchema</scope><name>likely_relationships</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_engine_1_1_inferred_schema_1a629c0bb611fdb19bec5582da32b26518" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceEngine::InferredSchema</scope><name>recommendations</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_engine_1_1_inferred_schema_1ae739b76b1d4a2b80afbe97a271bcc931" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceEngine::InferredSchema</scope><name>table_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

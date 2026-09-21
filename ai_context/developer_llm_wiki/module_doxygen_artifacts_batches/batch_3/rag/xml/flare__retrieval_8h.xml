@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="flare__retrieval_8h" kind="file" language="C++">
+    <compoundname>flare_retrieval.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="tensor__rag__pipeline_8h" local="yes">include/rag/tensor_rag_pipeline.h</includedby>
+    <includedby refid="flare__retrieval_8cpp" local="yes">src/rag/flare_retrieval.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/flare_retrieval.h</label>
+        <link refid="flare__retrieval_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/flare_retrieval.h</label>
+        <link refid="flare__retrieval_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/rag/tensor_rag_pipeline.h</label>
+        <link refid="tensor__rag__pipeline_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/rag/flare_retrieval.cpp</label>
+        <link refid="flare__retrieval_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/rag/tensor_rag_pipeline.cpp</label>
+        <link refid="tensor__rag__pipeline_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/rag/test_tensor_rag_provenance.cpp</label>
+        <link refid="test__tensor__rag__provenance_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1_flare_config" prot="public">themis::rag::FlareConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_flare_decision" prot="public">themis::rag::FlareDecision</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_flare_retrieval" prot="public">themis::rag::FlareRetrieval</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats" prot="public">themis::rag::FlareRetrieval::FlareStats</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_token_entry" prot="private">themis::rag::FlareRetrieval::TokenEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlareConfig<sp/>—<sp/>gating<sp/>and<sp/>regeneration<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1rag_1_1_flare_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_flare_config" kindref="compound">FlareConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rag_1_1_flare_config_1a64c22fb65ae36ae91040b557d59421fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_flare_config_1a64c22fb65ae36ae91040b557d59421fb" kindref="member">confidence_threshold</ref><sp/>=<sp/>-2.303f;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1_flare_config_1ad719edc35c9303a73ac4f3a8601d0c6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_flare_config_1ad719edc35c9303a73ac4f3a8601d0c6a" kindref="member">min_consecutive_uncertain</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1rag_1_1_flare_config_1a01b536d0b69896bf095bc78c37ca44d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_flare_config_1a01b536d0b69896bf095bc78c37ca44d9" kindref="member">retrieval_cooldown_tokens</ref><sp/>=<sp/>30;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1rag_1_1_flare_config_1ae9721a65c26fd622d277a707670a5095" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_flare_config_1ae9721a65c26fd622d277a707670a5095" kindref="member">top_k</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1rag_1_1_flare_config_1a78e601b6b6ac528339508b1f686e2f4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_flare_config_1a78e601b6b6ac528339508b1f686e2f4e" kindref="member">max_retrieval_steps</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1rag_1_1_flare_config_1aeb248fbf13df332a1fb888d4a2d2b1c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_flare_config_1aeb248fbf13df332a1fb888d4a2d2b1c5" kindref="member">query_window_tokens</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1rag_1_1_flare_config_1a95eec1479418a4dddcd306d0922a41b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_flare_config_1a95eec1479418a4dddcd306d0922a41b3" kindref="member">mask_uncertain_tokens</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1rag_1_1_flare_config_1a3c50576600ab76402e6bc276e810559c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_flare_config_1a3c50576600ab76402e6bc276e810559c" kindref="member">mask_token</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;[MASK]&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlareDecision<sp/>—<sp/>result<sp/>of<sp/>a<sp/>single<sp/>gating<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1rag_1_1_flare_decision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_flare_decision" kindref="compound">FlareDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1rag_1_1_flare_decision_1ad303f886666b95144877e80dfab707c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1rag_1_1_flare_decision_1ad303f886666b95144877e80dfab707c8" kindref="member">should_retrieve</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1rag_1_1_flare_decision_1a9cee7096a6ab33c07fc4d361a144d987" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1rag_1_1_flare_decision_1a9cee7096a6ab33c07fc4d361a144d987" kindref="member">in_cooldown</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1rag_1_1_flare_decision_1ae1a72189bf8de715c73632a70e51d4a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1rag_1_1_flare_decision_1ae1a72189bf8de715c73632a70e51d4a8" kindref="member">max_steps_reached</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1rag_1_1_flare_decision_1a65d2b0bc0783fc4bbf71012057c744d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_flare_decision_1a65d2b0bc0783fc4bbf71012057c744d3" kindref="member">last_log_prob</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1rag_1_1_flare_decision_1a8d2870806d6fc7deb3c32356fd2d3e04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_flare_decision_1a8d2870806d6fc7deb3c32356fd2d3e04" kindref="member">consecutive_uncertain</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1rag_1_1_flare_decision_1a09ab9268b59f4a3c37ae404c4eb31d56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_flare_decision_1a09ab9268b59f4a3c37ae404c4eb31d56" kindref="member">retrieval_steps_done</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlareRetrieval<sp/>—<sp/>stateful<sp/>FLARE<sp/>gating<sp/>logic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1rag_1_1_flare_retrieval" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1aab2a3dcc638ba9165fb0a4c3bb43ca18" kindref="member">FlareRetrieval</ref><sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1aab2a3dcc638ba9165fb0a4c3bb43ca18" kindref="member">FlareRetrieval</ref>(<ref refid="structthemis_1_1rag_1_1_flare_config" kindref="compound">FlareConfig</ref><sp/>cfg<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Token<sp/>notification<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1a8f35e782e191ca3420b2dc239ef9a4a1" kindref="member">notifyTokenEmitted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token_text,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>log_prob);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Gating<sp/>decision<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1rag_1_1_flare_decision" kindref="compound">FlareDecision</ref><sp/><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1abce2e41256c1de0a49ede98c4f0e6fc9" kindref="member">decide</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1aa36a6611b0e08cb6584842882f720f8a" kindref="member">shouldRetrieve</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Query<sp/>construction<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1rag_1_1_flare_retrieval_1a1a321bbdf1244e938e44ce2a877cebe3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1a1a321bbdf1244e938e44ce2a877cebe3" kindref="member">EmbeddingQueryFn</ref><sp/>=<sp/>std::function&lt;std::vector&lt;float&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1aa80863c61b8b88c5e9672ebf275e3c63" kindref="member">setEmbeddingQueryFn</ref>(<ref refid="classthemis_1_1rag_1_1_flare_retrieval_1a1a321bbdf1244e938e44ce2a877cebe3" kindref="member">EmbeddingQueryFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1ab2d07aa814e69fb4fea5ba2c780b88aa" kindref="member">buildQuery</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1a2a8a4a40305b87edbee9c8dc726da969" kindref="member">buildQueryEmbedding</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>State<sp/>management<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1a95d19d0061527bd96a7f4ed66e149b03" kindref="member">notifyRetrievalExecuted</ref>();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1a91c7fd8d1d1a94f5c73101cee522470f" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Diagnostics<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats" kindref="compound">FlareStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="241" refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a231b3ff67ee09715c608fff091d5a4ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a231b3ff67ee09715c608fff091d5a4ea" kindref="member">tokens_emitted</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="242" refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1af932e17eb3ac530cabc451f436fba63d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1af932e17eb3ac530cabc451f436fba63d" kindref="member">retrieval_triggers</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="243" refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a9f98f4d3ef98e12af9d1f70669d39f96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a9f98f4d3ef98e12af9d1f70669d39f96" kindref="member">cooldown_skips</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="244" refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a1f3ba7331c3a9b7d970e2fcc53810f99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a1f3ba7331c3a9b7d970e2fcc53810f99" kindref="member">max_steps_skips</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="245" refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a00e1999aaa7694baf0d6c7ba45f1ed17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a00e1999aaa7694baf0d6c7ba45f1ed17" kindref="member">mean_log_prob</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="246" refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a1f7311db99f82c0e4c27283961222e10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a1f7311db99f82c0e4c27283961222e10" kindref="member">min_log_prob</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="247" refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a43f02b7888847b612ec5bf78e873764d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a43f02b7888847b612ec5bf78e873764d" kindref="member">max_log_prob</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a7876a4ef3321e4fa1c5b72503766e41e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a7876a4ef3321e4fa1c5b72503766e41e" kindref="member">triggerRate</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a231b3ff67ee09715c608fff091d5a4ea" kindref="member">tokens_emitted</ref><sp/>&gt;<sp/>0</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1af932e17eb3ac530cabc451f436fba63d" kindref="member">retrieval_triggers</ref>)<sp/>/<sp/><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a231b3ff67ee09715c608fff091d5a4ea" kindref="member">tokens_emitted</ref></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="classthemis_1_1rag_1_1_flare_retrieval_1ad43c12a5e8f292932dcfc9d2fa5cc7ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats" kindref="compound">FlareStats</ref><sp/><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1ad43c12a5e8f292932dcfc9d2fa5cc7ee" kindref="member">stats</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1rag_1_1_flare_retrieval_1addebb3b0ac0f9e973eb5f77f14515678" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1addebb3b0ac0f9e973eb5f77f14515678" kindref="member">retrievalStepsDone</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>retrieval_steps_done_;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_flare_config" kindref="compound">FlareConfig</ref><sp/>cfg_;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-token<sp/>sliding<sp/>window<sp/>(most-recent<sp/>`query_window_tokens`<sp/>entries)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TokenEntry<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>text;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log_prob<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uncertain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TokenEntry&gt;<sp/>window_;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>consecutive_uncertain_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>cooldown_remaining_<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>retrieval_steps_done_<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>FlareStats<sp/>stats_;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>the<sp/>most-recently<sp/>evaluated<sp/>gate<sp/>state<sp/>said<sp/>should_retrieve.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>pending_retrieval_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>rag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/flare_retrieval.h"/>
+  </compounddef>
+</doxygen>

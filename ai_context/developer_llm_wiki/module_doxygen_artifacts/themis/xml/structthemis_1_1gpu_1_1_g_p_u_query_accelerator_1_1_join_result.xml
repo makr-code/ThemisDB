@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_join_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUQueryAccelerator::JoinResult</compoundname>
+    <includes refid="query__accelerator_8h" local="no">query_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_join_result_1ab3403a1319ed81ccd9cf2fdd2e2878b2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref>, <ref refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_row" kindref="compound">Row</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;Row, Row&gt; &gt; themis::gpu::GPUQueryAccelerator::JoinResult::pairs</definition>
+        <argsstring></argsstring>
+        <name>pairs</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::JoinResult::pairs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="135" column="21" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_join_result_1a84ccda692b474f5958b82a32dc4f7a1a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUQueryAccelerator::JoinResult::used_gpu</definition>
+        <argsstring></argsstring>
+        <name>used_gpu</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::JoinResult::used_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="136" column="14" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/query_accelerator.h" line="134" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="134" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_join_result_1ab3403a1319ed81ccd9cf2fdd2e2878b2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::JoinResult</scope><name>pairs</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_join_result_1a84ccda692b474f5958b82a32dc4f7a1a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::JoinResult</scope><name>used_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

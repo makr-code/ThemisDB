@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_fact" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::Fact</compoundname>
+    <includes refid="knowledge__base_8h" local="no">knowledge_base.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_fact_1aae825cfb4adf20494a05cff1607e5dec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Fact::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themisdb::analytics::Fact::id</qualifiedname>
+        <briefdescription>
+<para>Unique id assigned on assertion (e.g. &quot;f_0001&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="45" column="17" bodyfile="include/analytics/knowledge_base.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_fact_1ad509f3e4775bf13e214013e84c19b106" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Fact::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themisdb::analytics::Fact::subject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="46" column="17" bodyfile="include/analytics/knowledge_base.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_fact_1af9a4c141cf8e9f2b0e6ae39fb044d46f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Fact::predicate</definition>
+        <argsstring></argsstring>
+        <name>predicate</name>
+        <qualifiedname>themisdb::analytics::Fact::predicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="47" column="17" bodyfile="include/analytics/knowledge_base.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_fact_1adec5bf64a9c798c091e1eeff7d214137" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Fact::object</definition>
+        <argsstring></argsstring>
+        <name>object</name>
+        <qualifiedname>themisdb::analytics::Fact::object</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="48" column="17" bodyfile="include/analytics/knowledge_base.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_fact_1a13a14a771bd203e7c55b1ca4a2cd27f3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::Fact::asserted_at_ms</definition>
+        <argsstring></argsstring>
+        <name>asserted_at_ms</name>
+        <qualifiedname>themisdb::analytics::Fact::asserted_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix epoch ms (set by assertFact). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="49" column="17" bodyfile="include/analytics/knowledge_base.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/knowledge_base.h" line="44" column="1" bodyfile="include/analytics/knowledge_base.h" bodystart="44" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_fact_1a13a14a771bd203e7c55b1ca4a2cd27f3" prot="public" virt="non-virtual"><scope>themisdb::analytics::Fact</scope><name>asserted_at_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_fact_1aae825cfb4adf20494a05cff1607e5dec" prot="public" virt="non-virtual"><scope>themisdb::analytics::Fact</scope><name>id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_fact_1adec5bf64a9c798c091e1eeff7d214137" prot="public" virt="non-virtual"><scope>themisdb::analytics::Fact</scope><name>object</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_fact_1af9a4c141cf8e9f2b0e6ae39fb044d46f" prot="public" virt="non-virtual"><scope>themisdb::analytics::Fact</scope><name>predicate</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_fact_1ad509f3e4775bf13e214013e84c19b106" prot="public" virt="non-virtual"><scope>themisdb::analytics::Fact</scope><name>subject</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

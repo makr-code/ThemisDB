@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_simple_pki_server" kind="class" language="C++" prot="public">
+    <compoundname>SimplePkiServer</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_simple_pki_server_1a03fc5fe21ed7058a6bbeec03a2c33da4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; SimplePkiServer::responses_</definition>
+        <argsstring></argsstring>
+        <name>responses_</name>
+        <qualifiedname>SimplePkiServer::responses_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client_rest.cpp" line="54" column="17" bodyfile="tests/security/test_pki_client_rest.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simple_pki_server_1adaaf09b00ecade3a8b798a8dc4ce11b4" prot="private" static="no" mutable="no">
+        <type>boost::asio::io_context</type>
+        <definition>boost::asio::io_context SimplePkiServer::ios_</definition>
+        <argsstring></argsstring>
+        <name>ios_</name>
+        <qualifiedname>SimplePkiServer::ios_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client_rest.cpp" line="55" column="29" bodyfile="tests/security/test_pki_client_rest.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simple_pki_server_1a1dd8a672d8122637808067fbd5ec9a3f" prot="private" static="no" mutable="no">
+        <type>tcp::acceptor</type>
+        <definition>tcp::acceptor SimplePkiServer::acceptor_</definition>
+        <argsstring></argsstring>
+        <name>acceptor_</name>
+        <qualifiedname>SimplePkiServer::acceptor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client_rest.cpp" line="56" column="19" bodyfile="tests/security/test_pki_client_rest.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simple_pki_server_1a1a4d13658bd5142e10359f26a260aeb7" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread SimplePkiServer::thr_</definition>
+        <argsstring></argsstring>
+        <name>thr_</name>
+        <qualifiedname>SimplePkiServer::thr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client_rest.cpp" line="57" column="17" bodyfile="tests/security/test_pki_client_rest.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simple_pki_server_1a5e06c0783a3e449896dd5f9f19a1b683" prot="private" static="no" mutable="no">
+        <type>unsigned short</type>
+        <definition>unsigned short SimplePkiServer::port_</definition>
+        <argsstring></argsstring>
+        <name>port_</name>
+        <qualifiedname>SimplePkiServer::port_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client_rest.cpp" line="58" column="20" bodyfile="tests/security/test_pki_client_rest.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_simple_pki_server_1ac61e79504384d24faa0bba7161fa99ac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimplePkiServer::SimplePkiServer</definition>
+        <argsstring>(std::vector&lt; std::string &gt; responses, unsigned short port=0)</argsstring>
+        <name>SimplePkiServer</name>
+        <qualifiedname>SimplePkiServer::SimplePkiServer</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>responses</declname>
+        </param>
+        <param>
+          <type>unsigned short</type>
+          <declname>port</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client_rest.cpp" line="14" column="5" bodyfile="tests/security/test_pki_client_rest.cpp" bodystart="14" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_pki_server_1a564438c464a5ca1653eb6508789e0bf9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimplePkiServer::~SimplePkiServer</definition>
+        <argsstring>()</argsstring>
+        <name>~SimplePkiServer</name>
+        <qualifiedname>SimplePkiServer::~SimplePkiServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client_rest.cpp" line="24" column="5" bodyfile="tests/security/test_pki_client_rest.cpp" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_pki_server_1a30d540558d823bfae104de96f64acebf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>unsigned short</type>
+        <definition>unsigned short SimplePkiServer::port</definition>
+        <argsstring>() const</argsstring>
+        <name>port</name>
+        <qualifiedname>SimplePkiServer::port</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client_rest.cpp" line="30" column="20" bodyfile="tests/security/test_pki_client_rest.cpp" bodystart="30" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_simple_pki_server_1ac08a68fe201e2415711c6ca90c4bb664" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimplePkiServer::run</definition>
+        <argsstring>()</argsstring>
+        <name>run</name>
+        <qualifiedname>SimplePkiServer::run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client_rest.cpp" line="33" column="10" bodyfile="tests/security/test_pki_client_rest.cpp" bodystart="33" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_pki_client_rest.cpp" line="12" column="1" bodyfile="tests/security/test_pki_client_rest.cpp" bodystart="12" bodyend="59"/>
+    <listofallmembers>
+      <member refid="class_simple_pki_server_1a1dd8a672d8122637808067fbd5ec9a3f" prot="private" virt="non-virtual"><scope>SimplePkiServer</scope><name>acceptor_</name></member>
+      <member refid="class_simple_pki_server_1adaaf09b00ecade3a8b798a8dc4ce11b4" prot="private" virt="non-virtual"><scope>SimplePkiServer</scope><name>ios_</name></member>
+      <member refid="class_simple_pki_server_1a30d540558d823bfae104de96f64acebf" prot="public" virt="non-virtual"><scope>SimplePkiServer</scope><name>port</name></member>
+      <member refid="class_simple_pki_server_1a5e06c0783a3e449896dd5f9f19a1b683" prot="private" virt="non-virtual"><scope>SimplePkiServer</scope><name>port_</name></member>
+      <member refid="class_simple_pki_server_1a03fc5fe21ed7058a6bbeec03a2c33da4" prot="private" virt="non-virtual"><scope>SimplePkiServer</scope><name>responses_</name></member>
+      <member refid="class_simple_pki_server_1ac08a68fe201e2415711c6ca90c4bb664" prot="private" virt="non-virtual"><scope>SimplePkiServer</scope><name>run</name></member>
+      <member refid="class_simple_pki_server_1ac61e79504384d24faa0bba7161fa99ac" prot="public" virt="non-virtual"><scope>SimplePkiServer</scope><name>SimplePkiServer</name></member>
+      <member refid="class_simple_pki_server_1a1a4d13658bd5142e10359f26a260aeb7" prot="private" virt="non-virtual"><scope>SimplePkiServer</scope><name>thr_</name></member>
+      <member refid="class_simple_pki_server_1a564438c464a5ca1653eb6508789e0bf9" prot="public" virt="non-virtual"><scope>SimplePkiServer</scope><name>~SimplePkiServer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

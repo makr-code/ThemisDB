@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_i_wasm_runtime" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::modules::IWasmRuntime</compoundname>
+    <includes refid="wasm__runtime__injector_8h" local="no">wasm_runtime_injector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_i_wasm_runtime_1aa832eed333553b2ba85f172bc9e3c746" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::modules::IWasmRuntime::~IWasmRuntime</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IWasmRuntime</name>
+        <qualifiedname>themis::modules::IWasmRuntime::~IWasmRuntime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="40" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_i_wasm_runtime_1a6ca254d54ee8f895edce1a8dd14b6472" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::modules::IWasmRuntime::instantiate</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;wasm_bytes, const std::vector&lt; WasmHostFunction &gt; &amp;host_fns, size_t memory_limit_bytes)=0</argsstring>
+        <name>instantiate</name>
+        <qualifiedname>themis::modules::IWasmRuntime::instantiate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>wasm_bytes</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1modules_1_1_wasm_host_function" kindref="compound">WasmHostFunction</ref> &gt; &amp;</type>
+          <declname>host_fns</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>memory_limit_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Compile and instantiate a .wasm binary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wasm_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw .wasm bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>host_fns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Host functions the module may import. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>memory_limit_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum linear-memory bytes (0 = runtime default). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if compilation or instantiation fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="50" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_i_wasm_runtime_1afd69c015bb3dadcf24edbb163374ee04" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::modules::IWasmRuntime::call</definition>
+        <argsstring>(const std::string &amp;fn_name, const std::vector&lt; uint8_t &gt; &amp;args, std::vector&lt; uint8_t &gt; &amp;out)=0</argsstring>
+        <name>call</name>
+        <qualifiedname>themis::modules::IWasmRuntime::call</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fn_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Call a named export function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exported function name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serialised argument blob (plugin-defined format). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output blob written by the function. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false on trap or if the function is not exported. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="62" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_i_wasm_runtime_1ad6d8e6d1e48bb1a57257cda4ca396fc6" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint8_t *</type>
+        <definition>virtual uint8_t * themis::modules::IWasmRuntime::linearMemory</definition>
+        <argsstring>(size_t &amp;out_size)=0</argsstring>
+        <name>linearMemory</name>
+        <qualifiedname>themis::modules::IWasmRuntime::linearMemory</qualifiedname>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>out_size</declname>
+        </param>
+        <briefdescription>
+<para>Return a pointer to the instance&apos;s linear memory and its size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callers must not hold this pointer across calls to <computeroutput><ref refid="classthemis_1_1modules_1_1_i_wasm_runtime_1afd69c015bb3dadcf24edbb163374ee04" kindref="member">call()</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="71" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_i_wasm_runtime_1add409af0656fa0b15ccd91042b0682c9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::modules::IWasmRuntime::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::modules::IWasmRuntime::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable name of this runtime (e.g. &quot;wasmtime&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="76" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_i_wasm_runtime_1add879bafe78f7e1210d8e6350114851a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::modules::IWasmRuntime::version</definition>
+        <argsstring>() const =0</argsstring>
+        <name>version</name>
+        <qualifiedname>themis::modules::IWasmRuntime::version</qualifiedname>
+        <briefdescription>
+<para>Runtime version string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="81" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_i_wasm_runtime_1a07f667b4f42599fbb5cba1986bf88dc0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::modules::IWasmRuntime::isInstantiated</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isInstantiated</name>
+        <qualifiedname>themis::modules::IWasmRuntime::isInstantiated</qualifiedname>
+        <briefdescription>
+<para>True if the runtime compiled and instantiated successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_runtime_injector.h" line="86" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for a WASM execution backend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations wrap Wasmtime, WasmEdge, wasm3, or any other WASM engine. They are responsible for:<itemizedlist>
+<listitem><para>Compiling / instantiating a validated .wasm binary.</para>
+</listitem><listitem><para>Exposing host functions registered via <ref refid="structthemis_1_1modules_1_1_wasm_host_function" kindref="compound">WasmHostFunction</ref>.</para>
+</listitem><listitem><para>Enforcing linear-memory isolation and resource limits.</para>
+</listitem><listitem><para>Executing named exports and returning their result bytes. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/themis/base/wasm_runtime_injector.h" line="38" column="1" bodyfile="include/themis/base/wasm_runtime_injector.h" bodystart="38" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_i_wasm_runtime_1afd69c015bb3dadcf24edbb163374ee04" prot="public" virt="pure-virtual"><scope>themis::modules::IWasmRuntime</scope><name>call</name></member>
+      <member refid="classthemis_1_1modules_1_1_i_wasm_runtime_1a6ca254d54ee8f895edce1a8dd14b6472" prot="public" virt="pure-virtual"><scope>themis::modules::IWasmRuntime</scope><name>instantiate</name></member>
+      <member refid="classthemis_1_1modules_1_1_i_wasm_runtime_1a07f667b4f42599fbb5cba1986bf88dc0" prot="public" virt="pure-virtual"><scope>themis::modules::IWasmRuntime</scope><name>isInstantiated</name></member>
+      <member refid="classthemis_1_1modules_1_1_i_wasm_runtime_1ad6d8e6d1e48bb1a57257cda4ca396fc6" prot="public" virt="pure-virtual"><scope>themis::modules::IWasmRuntime</scope><name>linearMemory</name></member>
+      <member refid="classthemis_1_1modules_1_1_i_wasm_runtime_1add409af0656fa0b15ccd91042b0682c9" prot="public" virt="pure-virtual"><scope>themis::modules::IWasmRuntime</scope><name>name</name></member>
+      <member refid="classthemis_1_1modules_1_1_i_wasm_runtime_1add879bafe78f7e1210d8e6350114851a" prot="public" virt="pure-virtual"><scope>themis::modules::IWasmRuntime</scope><name>version</name></member>
+      <member refid="classthemis_1_1modules_1_1_i_wasm_runtime_1aa832eed333553b2ba85f172bc9e3c746" prot="public" virt="virtual"><scope>themis::modules::IWasmRuntime</scope><name>~IWasmRuntime</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

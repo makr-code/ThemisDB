@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_meeting_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::MeetingMetadata</compoundname>
+    <includes refid="voice__assistant_8h" local="no">voice_assistant.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_metadata_1a217e34310799398d9dd4d28ad5b64193" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MeetingMetadata::meeting_id</definition>
+        <argsstring></argsstring>
+        <name>meeting_id</name>
+        <qualifiedname>themis::voice::MeetingMetadata::meeting_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="65" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_metadata_1a9dde47c01e5a21dfa371f1aeb53391d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MeetingMetadata::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::voice::MeetingMetadata::title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="66" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_metadata_1a88d29519fcd09bf11f48d2125295d136" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::MeetingMetadata::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::voice::MeetingMetadata::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="67" column="13" bodyfile="include/voice/voice_assistant.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_metadata_1a7a780ce0bbbd69b7055b8d07652b7ddc" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::MeetingMetadata::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::voice::MeetingMetadata::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="68" column="13" bodyfile="include/voice/voice_assistant.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_metadata_1a76ffe4a572afc237e9db22e06d738868" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::MeetingMetadata::participants</definition>
+        <argsstring></argsstring>
+        <name>participants</name>
+        <qualifiedname>themis::voice::MeetingMetadata::participants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="69" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_metadata_1a0725bf8f378cdfb613e10351e08c22ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MeetingMetadata::organizer</definition>
+        <argsstring></argsstring>
+        <name>organizer</name>
+        <qualifiedname>themis::voice::MeetingMetadata::organizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="70" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_metadata_1a38459bdfaa1040d794e81f508b19964d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::MeetingMetadata::custom_fields</definition>
+        <argsstring></argsstring>
+        <name>custom_fields</name>
+        <qualifiedname>themis::voice::MeetingMetadata::custom_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="71" column="10" bodyfile="include/voice/voice_assistant.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Meeting metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_assistant.h" line="64" column="1" bodyfile="include/voice/voice_assistant.h" bodystart="64" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_meeting_metadata_1a38459bdfaa1040d794e81f508b19964d" prot="public" virt="non-virtual"><scope>themis::voice::MeetingMetadata</scope><name>custom_fields</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_metadata_1a7a780ce0bbbd69b7055b8d07652b7ddc" prot="public" virt="non-virtual"><scope>themis::voice::MeetingMetadata</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_metadata_1a217e34310799398d9dd4d28ad5b64193" prot="public" virt="non-virtual"><scope>themis::voice::MeetingMetadata</scope><name>meeting_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_metadata_1a0725bf8f378cdfb613e10351e08c22ec" prot="public" virt="non-virtual"><scope>themis::voice::MeetingMetadata</scope><name>organizer</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_metadata_1a76ffe4a572afc237e9db22e06d738868" prot="public" virt="non-virtual"><scope>themis::voice::MeetingMetadata</scope><name>participants</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_metadata_1a88d29519fcd09bf11f48d2125295d136" prot="public" virt="non-virtual"><scope>themis::voice::MeetingMetadata</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_metadata_1a9dde47c01e5a21dfa371f1aeb53391d5" prot="public" virt="non-virtual"><scope>themis::voice::MeetingMetadata</scope><name>title</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

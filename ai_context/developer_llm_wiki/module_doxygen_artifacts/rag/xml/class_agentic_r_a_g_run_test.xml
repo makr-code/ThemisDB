@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_agentic_r_a_g_run_test" kind="class" language="C++" prot="public">
+    <compoundname>AgenticRAGRunTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_agentic_r_a_g_run_test_1a6ce178838777d6ad1741363afbdc429d" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" kindref="compound">AgenticRAGConfig</ref></type>
+        <definition>AgenticRAGConfig AgenticRAGRunTest::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>AgenticRAGRunTest::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_agentic.cpp" line="158" column="22" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_agentic_r_a_g_run_test_1a80383b6a3641207ec90584497ae2efe0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AgenticRAGRunTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AgenticRAGRunTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_agentic.cpp" line="160" column="10" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="160" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AgenticRAGRunTest</label>
+        <link refid="class_agentic_r_a_g_run_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AgenticRAGRunTest</label>
+        <link refid="class_agentic_r_a_g_run_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::agentic::AgenticRAGConfig</label>
+        <link refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>judge_config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>gap_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::rag::judge::RAGJudgeConfig</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config"/>
+      </node>
+      <node id="5">
+        <label>themis::rag::knowledge_gap::KnowledgeGapConfig</label>
+        <link refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_agentic.cpp" line="156" column="1" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="156" bodyend="163"/>
+    <listofallmembers>
+      <member refid="class_agentic_r_a_g_run_test_1a6ce178838777d6ad1741363afbdc429d" prot="protected" virt="non-virtual"><scope>AgenticRAGRunTest</scope><name>config</name></member>
+      <member refid="class_agentic_r_a_g_run_test_1a80383b6a3641207ec90584497ae2efe0" prot="protected" virt="non-virtual"><scope>AgenticRAGRunTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

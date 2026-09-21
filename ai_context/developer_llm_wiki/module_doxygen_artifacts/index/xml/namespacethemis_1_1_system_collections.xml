@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1_system_collections" kind="namespace" language="C++">
+    <compoundname>themis::SystemCollections</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1_system_collections_1a740bb67f81fd9647faf39f2f25a1ba07" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::SystemCollections::PROCESS_DEFINITIONS</definition>
+        <argsstring></argsstring>
+        <name>PROCESS_DEFINITIONS</name>
+        <qualifiedname>themis::SystemCollections::PROCESS_DEFINITIONS</qualifiedname>
+        <initializer>= &quot;_process_definitions&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="121" column="26" bodyfile="include/index/process_graph.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_system_collections_1a06d83eb88345471ff741fb51789b472f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::SystemCollections::PROCESS_NODES</definition>
+        <argsstring></argsstring>
+        <name>PROCESS_NODES</name>
+        <qualifiedname>themis::SystemCollections::PROCESS_NODES</qualifiedname>
+        <initializer>= &quot;_process_nodes&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="122" column="26" bodyfile="include/index/process_graph.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_system_collections_1ad9b7d2b67f2a4d97f98b87b4bfbebce1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::SystemCollections::PROCESS_EDGES</definition>
+        <argsstring></argsstring>
+        <name>PROCESS_EDGES</name>
+        <qualifiedname>themis::SystemCollections::PROCESS_EDGES</qualifiedname>
+        <initializer>= &quot;_process_edges&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="123" column="26" bodyfile="include/index/process_graph.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_system_collections_1ae413143ea85e0863b85d2e99dc18c55d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::SystemCollections::PROCESS_INSTANCES</definition>
+        <argsstring></argsstring>
+        <name>PROCESS_INSTANCES</name>
+        <qualifiedname>themis::SystemCollections::PROCESS_INSTANCES</qualifiedname>
+        <initializer>= &quot;_process_instances&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="124" column="26" bodyfile="include/index/process_graph.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_system_collections_1adaa8882efae4c6091d973e706f7a53ed" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::SystemCollections::PROCESS_TOKENS</definition>
+        <argsstring></argsstring>
+        <name>PROCESS_TOKENS</name>
+        <qualifiedname>themis::SystemCollections::PROCESS_TOKENS</qualifiedname>
+        <initializer>= &quot;_process_tokens&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="125" column="26" bodyfile="include/index/process_graph.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_system_collections_1a7cf98ac5705778fcc7182ad5c6af6985" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::SystemCollections::PROCESS_HISTORY</definition>
+        <argsstring></argsstring>
+        <name>PROCESS_HISTORY</name>
+        <qualifiedname>themis::SystemCollections::PROCESS_HISTORY</qualifiedname>
+        <initializer>= &quot;_process_history&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="126" column="26" bodyfile="include/index/process_graph.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>System-Collections für Prozesse. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="120" column="1"/>
+  </compounddef>
+</doxygen>

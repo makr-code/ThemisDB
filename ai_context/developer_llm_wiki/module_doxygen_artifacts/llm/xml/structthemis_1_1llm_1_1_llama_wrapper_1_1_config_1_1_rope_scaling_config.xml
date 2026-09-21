@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LlamaWrapper::Config::RopeScalingConfig</compoundname>
+    <includes refid="llama__wrapper_8h" local="no">llama_wrapper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a2bb1f93ea83a08c916be9efc9e2cd072" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LlamaWrapper::Config::RopeScalingConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::LlamaWrapper::Config::RopeScalingConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="181" column="18" bodyfile="include/llm/llama_wrapper.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a1b80011adca62e6cdd85b596781f7da0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a3a59081d81ae8f82b3d63f2d5dc09a91" kindref="member">RopeScalingMethod</ref></type>
+        <definition>RopeScalingMethod themis::llm::LlamaWrapper::Config::RopeScalingConfig::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::llm::LlamaWrapper::Config::RopeScalingConfig::method</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a3a59081d81ae8f82b3d63f2d5dc09a91a215e5b61846641a598a43f7e71f31e40" kindref="member">RopeScalingMethod::YARN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="182" column="31" bodyfile="include/llm/llama_wrapper.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a8da2aa4404208f358f6e46942a1cd0cf" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LlamaWrapper::Config::RopeScalingConfig::max_context</definition>
+        <argsstring></argsstring>
+        <name>max_context</name>
+        <qualifiedname>themis::llm::LlamaWrapper::Config::RopeScalingConfig::max_context</qualifiedname>
+        <initializer>= 32768</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="183" column="17" bodyfile="include/llm/llama_wrapper.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a106364c93cc353971e1df2a647b9924a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LlamaWrapper::Config::RopeScalingConfig::original_context</definition>
+        <argsstring></argsstring>
+        <name>original_context</name>
+        <qualifiedname>themis::llm::LlamaWrapper::Config::RopeScalingConfig::original_context</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="184" column="17" bodyfile="include/llm/llama_wrapper.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a8e022ace8361f460ee2ad778e38fbcb4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LlamaWrapper::Config::RopeScalingConfig::yarn_ext_factor</definition>
+        <argsstring></argsstring>
+        <name>yarn_ext_factor</name>
+        <qualifiedname>themis::llm::LlamaWrapper::Config::RopeScalingConfig::yarn_ext_factor</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="187" column="19" bodyfile="include/llm/llama_wrapper.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a7b737017a7b4968eefc60cf056fe78d0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LlamaWrapper::Config::RopeScalingConfig::yarn_attn_factor</definition>
+        <argsstring></argsstring>
+        <name>yarn_attn_factor</name>
+        <qualifiedname>themis::llm::LlamaWrapper::Config::RopeScalingConfig::yarn_attn_factor</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="188" column="19" bodyfile="include/llm/llama_wrapper.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a73b533fc3ec633d7d499971bf3cb741d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LlamaWrapper::Config::RopeScalingConfig::yarn_beta_fast</definition>
+        <argsstring></argsstring>
+        <name>yarn_beta_fast</name>
+        <qualifiedname>themis::llm::LlamaWrapper::Config::RopeScalingConfig::yarn_beta_fast</qualifiedname>
+        <initializer>= 32.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="189" column="19" bodyfile="include/llm/llama_wrapper.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a1bcbe934f958f762b50ed58e182d18ca" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LlamaWrapper::Config::RopeScalingConfig::yarn_beta_slow</definition>
+        <argsstring></argsstring>
+        <name>yarn_beta_slow</name>
+        <qualifiedname>themis::llm::LlamaWrapper::Config::RopeScalingConfig::yarn_beta_slow</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="190" column="19" bodyfile="include/llm/llama_wrapper.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llama_wrapper.h" line="180" column="9" bodyfile="include/llm/llama_wrapper.h" bodystart="180" bodyend="191"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a2bb1f93ea83a08c916be9efc9e2cd072" prot="public" virt="non-virtual"><scope>themis::llm::LlamaWrapper::Config::RopeScalingConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a8da2aa4404208f358f6e46942a1cd0cf" prot="public" virt="non-virtual"><scope>themis::llm::LlamaWrapper::Config::RopeScalingConfig</scope><name>max_context</name></member>
+      <member refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a1b80011adca62e6cdd85b596781f7da0" prot="public" virt="non-virtual"><scope>themis::llm::LlamaWrapper::Config::RopeScalingConfig</scope><name>method</name></member>
+      <member refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a106364c93cc353971e1df2a647b9924a" prot="public" virt="non-virtual"><scope>themis::llm::LlamaWrapper::Config::RopeScalingConfig</scope><name>original_context</name></member>
+      <member refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a7b737017a7b4968eefc60cf056fe78d0" prot="public" virt="non-virtual"><scope>themis::llm::LlamaWrapper::Config::RopeScalingConfig</scope><name>yarn_attn_factor</name></member>
+      <member refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a73b533fc3ec633d7d499971bf3cb741d" prot="public" virt="non-virtual"><scope>themis::llm::LlamaWrapper::Config::RopeScalingConfig</scope><name>yarn_beta_fast</name></member>
+      <member refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a1bcbe934f958f762b50ed58e182d18ca" prot="public" virt="non-virtual"><scope>themis::llm::LlamaWrapper::Config::RopeScalingConfig</scope><name>yarn_beta_slow</name></member>
+      <member refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config_1a8e022ace8361f460ee2ad778e38fbcb4" prot="public" virt="non-virtual"><scope>themis::llm::LlamaWrapper::Config::RopeScalingConfig</scope><name>yarn_ext_factor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

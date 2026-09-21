@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_disjunctive_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::DisjunctiveQuery</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_disjunctive_query_1aa209a58318c8df33e3816acd8c764aa9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::DisjunctiveQuery::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::query::DisjunctiveQuery::table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="291" column="17" bodyfile="include/query/query_engine.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_disjunctive_query_1a10a4f89335d77b33fd1436fb86b1adbd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref> &gt;</type>
+        <definition>std::vector&lt;ConjunctiveQuery&gt; themis::query::DisjunctiveQuery::disjuncts</definition>
+        <argsstring></argsstring>
+        <name>disjuncts</name>
+        <qualifiedname>themis::query::DisjunctiveQuery::disjuncts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="292" column="17" bodyfile="include/query/query_engine.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_disjunctive_query_1acfd3cb7b60ce74220c5add45442aab23" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="struct_order_by" kindref="compound">OrderBy</ref> &gt;</type>
+        <definition>std::optional&lt;OrderBy&gt; themis::query::DisjunctiveQuery::orderBy</definition>
+        <argsstring></argsstring>
+        <name>orderBy</name>
+        <qualifiedname>themis::query::DisjunctiveQuery::orderBy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="293" column="19" bodyfile="include/query/query_engine.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="290" column="1" bodyfile="include/query/query_engine.h" bodystart="290" bodyend="294"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_disjunctive_query_1a10a4f89335d77b33fd1436fb86b1adbd" prot="public" virt="non-virtual"><scope>themis::query::DisjunctiveQuery</scope><name>disjuncts</name></member>
+      <member refid="structthemis_1_1query_1_1_disjunctive_query_1acfd3cb7b60ce74220c5add45442aab23" prot="public" virt="non-virtual"><scope>themis::query::DisjunctiveQuery</scope><name>orderBy</name></member>
+      <member refid="structthemis_1_1query_1_1_disjunctive_query_1aa209a58318c8df33e3816acd8c764aa9" prot="public" virt="non-virtual"><scope>themis::query::DisjunctiveQuery</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

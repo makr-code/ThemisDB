@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gov__source__catalog_8h" kind="file" language="C++">
+    <compoundname>gov_source_catalog.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">stdexcept</includes>
+    <includedby refid="scraper__plugin_8h" local="yes">include/scraper/scraper_plugin.h</includedby>
+    <includedby refid="gov__source__catalog_8cpp" local="yes">src/scraper/gov_source_catalog.cpp</includedby>
+    <includedby refid="test__scraper__plugin_8cpp" local="yes">tests/scraper/test_scraper_plugin.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/scraper/gov_source_catalog.h</label>
+        <link refid="gov__source__catalog_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/scraper/gov_source_catalog.h</label>
+        <link refid="gov__source__catalog_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/scraper/scraper_plugin.h</label>
+        <link refid="scraper__plugin_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/scraper/gov_source_catalog.cpp</label>
+        <link refid="gov__source__catalog_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/scraper/scraper_plugin.cpp</label>
+        <link refid="scraper__plugin_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/scraper/test_scraper_plugin.cpp</label>
+        <link refid="test__scraper__plugin_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/scraper/test_scraper_v12_features_focused.cpp</label>
+        <link refid="test__scraper__v12__features__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1scraper_1_1_gov_data_source" prot="public">themis::scraper::GovDataSource</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_gov_source_catalog" prot="public">themis::scraper::GovSourceCatalog</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.11 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1scraper" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Source<sp/>type<sp/>&amp;<sp/>search<sp/>style</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13" kindref="member">GovSourceType</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13ac60e6316aa881493c62b053a250e6236" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13ac60e6316aa881493c62b053a250e6236" kindref="member">BUND</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13ae5e8bdc8fc29210ce4576de4bfa78229" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13ae5e8bdc8fc29210ce4576de4bfa78229" kindref="member">BUNDESLAND</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13af2e6e3b9bff59f293f0e9019a1ecabc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13af2e6e3b9bff59f293f0e9019a1ecabc5" kindref="member">EU</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13a03570470bad94692ce93e32700d2e1cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13a03570470bad94692ce93e32700d2e1cb" kindref="member">OTHER</ref></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0a" kindref="member">GovSearchStyle</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aab60114f9e3077485884e742824ee1131" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aab60114f9e3077485884e742824ee1131" kindref="member">HTML_FORM</ref>,</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aaf767fc59557ceab5af7b19d58f1c7fae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aaf767fc59557ceab5af7b19d58f1c7fae" kindref="member">REST_JSON</ref>,</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aa721fdf49f8f28dc2fbc87b9dc6b1854e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aa721fdf49f8f28dc2fbc87b9dc6b1854e" kindref="member">EURLEX_API</ref>,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aaed3a568b3ce9a82f32b167f49b3dbc66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aaed3a568b3ce9a82f32b167f49b3dbc66" kindref="member">LISTING</ref>,</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aaff10b6230cad81f15021736f34406c7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aaff10b6230cad81f15021736f34406c7d" kindref="member">SITEMAP</ref></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GovDataSource</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1scraper_1_1_gov_data_source" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Identity<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1scraper_1_1_gov_data_source_1ae7b738078d84dd70e0272c7316d9062c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1ae7b738078d84dd70e0272c7316d9062c" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1scraper_1_1_gov_data_source_1a6585eba2322b4c4b3c04b51c08833c89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a6585eba2322b4c4b3c04b51c08833c89" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1scraper_1_1_gov_data_source_1a7e1a42d0c0c4458a0b1f6933c9f697fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13" kindref="member">GovSourceType</ref><sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a7e1a42d0c0c4458a0b1f6933c9f697fe" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1scraper_1_1_gov_data_source_1afec14d97008569bdb402c6223126ee2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0a" kindref="member">GovSearchStyle</ref><sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1afec14d97008569bdb402c6223126ee2c" kindref="member">search_style</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1scraper_1_1_gov_data_source_1abf04d95dab289b8165d9f888730e10b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1abf04d95dab289b8165d9f888730e10b9" kindref="member">bundesland</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1scraper_1_1_gov_data_source_1aab727acf723df73adc0b461d8e840925" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1aab727acf723df73adc0b461d8e840925" kindref="member">language</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>URLs<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1scraper_1_1_gov_data_source_1a4a3fbd2a3173f4768b68647d90f74fec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a4a3fbd2a3173f4768b68647d90f74fec" kindref="member">base_url</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1scraper_1_1_gov_data_source_1a586b1b7ad2b9c6368f92a93d356ae334" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a586b1b7ad2b9c6368f92a93d356ae334" kindref="member">search_url</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1scraper_1_1_gov_data_source_1ac1546b991388ea3702d87d2dbf1e90af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1ac1546b991388ea3702d87d2dbf1e90af" kindref="member">sitemap_url</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Search<sp/>parameters<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1scraper_1_1_gov_data_source_1ad39a316438f918489e6767296852c4c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1ad39a316438f918489e6767296852c4c4" kindref="member">search_param</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1scraper_1_1_gov_data_source_1a5938ba5b16ce2e4fbb454c702fb761bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a5938ba5b16ce2e4fbb454c702fb761bc" kindref="member">page_param</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1scraper_1_1_gov_data_source_1a68b552043efd3d75749bd262a4c3512f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a68b552043efd3d75749bd262a4c3512f" kindref="member">results_per_page</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1scraper_1_1_gov_data_source_1ac897acaaad932318c5474526dcb972fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1ac897acaaad932318c5474526dcb972fe" kindref="member">form_method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1scraper_1_1_gov_data_source_1ad2805927d65e45e9d0c4f8bfb4a0b703" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1ad2805927d65e45e9d0c4f8bfb4a0b703" kindref="member">extra_params</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Result<sp/>parsing<sp/>hints<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1scraper_1_1_gov_data_source_1a7e93f9d6078a7cc412452eb3036a7dca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a7e93f9d6078a7cc412452eb3036a7dca" kindref="member">result_list_selector</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1scraper_1_1_gov_data_source_1a24c83f9b57f8368e400520457b753f5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a24c83f9b57f8368e400520457b753f5f" kindref="member">next_page_selector</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>API<sp/>specifics<sp/>(REST_JSON<sp/>/<sp/>EURLEX_API)<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1scraper_1_1_gov_data_source_1aa18b4a301374c36e2b93ebd40a23cd6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1aa18b4a301374c36e2b93ebd40a23cd6f" kindref="member">api_endpoint</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1scraper_1_1_gov_data_source_1a59a84eb4548fc33ca8447d862cdbf53d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a59a84eb4548fc33ca8447d862cdbf53d" kindref="member">api_results_field</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1scraper_1_1_gov_data_source_1a68193e6e2b114553dde63bec687cb178" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a68193e6e2b114553dde63bec687cb178" kindref="member">api_cursor_field</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1scraper_1_1_gov_data_source_1a58fe80126f0cd5843588e6a8db6d9816" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a58fe80126f0cd5843588e6a8db6d9816" kindref="member">api_key_env</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Metadata<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1scraper_1_1_gov_data_source_1a28cc9ff0eeda4120c3d4ebd162985c1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a28cc9ff0eeda4120c3d4ebd162985c1a" kindref="member">notes</ref>;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1scraper_1_1_gov_data_source_1a80f95938bf674fe67d274cf068d74ee6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a80f95938bf674fe67d274cf068d74ee6" kindref="member">requires_auth</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1scraper_1_1_gov_data_source_1a6eaf19c387ec56e76e00cdb928b30ec8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1a6eaf19c387ec56e76e00cdb928b30ec8" kindref="member">enabled</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Catalog</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1scraper_1_1_gov_source_catalog" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref><sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref>();</highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1scraper_1_1_gov_source_catalog_1afbfa25f52063e7a4ad1850e3a6767853" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1afbfa25f52063e7a4ad1850e3a6767853" kindref="member">~GovSourceCatalog</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1scraper_1_1_gov_source_catalog_1add2953d2c2e693daace1f5af82fab394" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1add2953d2c2e693daace1f5af82fab394" kindref="member">GovSourceCatalog</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a736bde465f50708618c8036d0524b088" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref>&amp;<sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a736bde465f50708618c8036d0524b088" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a207c60895520339e508d67d7e0391bec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a207c60895520339e508d67d7e0391bec" kindref="member">GovSourceCatalog</ref>(<ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a8ec7791b6c0c6c29eff76cf523d3da0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Querying<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref>&gt;&amp;<sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a36dafba7d783ce42ddaf95cdb3c4fc74" kindref="member">all</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref>*<sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a1f2d4a82c6c2ba26f8844c81fac502fe" kindref="member">findById</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>const;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;const<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref>*&gt;<sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a7edab909dd7825b5032618a70770964c" kindref="member">byType</ref>(<ref refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13" kindref="member">GovSourceType</ref><sp/>type)<sp/>const;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;const<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref>*&gt;<sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1ae59dd82556ef7e1b221145a7ecfbe97f" kindref="member">byBundesland</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>iso)<sp/>const;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;const<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref>*&gt;<sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a5dd4a83b38bce8fa44141ce6d962668a" kindref="member">enabled</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;const<sp/><ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref>*&gt;<sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1acb07b6b80afbce6dd9e170114824cb14" kindref="member">byIds</ref>(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&amp;<sp/>ids)<sp/>const;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Mutation<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a9f74439c50e118c2152eb7ad7187b6f7" kindref="member">upsert</ref>(<ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref><sp/>source);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a93d77c47cbe0612e972777182980579c" kindref="member">setEnabled</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a5dd4a83b38bce8fa44141ce6d962668a" kindref="member">enabled</ref>);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Persistence<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1ad8c3dbe98ac99e97b26ad1c12df7b25e" kindref="member">loadFromYaml</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>yaml_content);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a068b60f3e0f72081f3dd0730dc003053" kindref="member">loadFromFile</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>populateBuiltinBund();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>populateBuiltinBundeslaender();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>populateBuiltinEU();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref>&gt;<sp/>sources_;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scraper/gov_source_catalog.h"/>
+  </compounddef>
+</doxygen>

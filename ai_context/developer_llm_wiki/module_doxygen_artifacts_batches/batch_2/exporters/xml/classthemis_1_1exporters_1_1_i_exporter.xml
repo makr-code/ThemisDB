@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_i_exporter" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::exporters::IExporter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter" prot="public" virt="non-virtual">themis::exporters::ArrowIPCExporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_hugging_face_exporter" prot="public" virt="non-virtual">themis::exporters::HuggingFaceExporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_incremental_exporter" prot="public" virt="non-virtual">themis::exporters::IncrementalExporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter" prot="public" virt="non-virtual">themis::exporters::JSONLLLMExporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_join_exporter" prot="public" virt="non-virtual">themis::exporters::JoinExporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_parquet_exporter" prot="public" virt="non-virtual">themis::exporters::ParquetExporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1exporters_1_1_streaming_exporter" prot="public" virt="non-virtual">themis::exporters::StreamingExporter</derivedcompoundref>
+    <includes refid="exporter__interface_8h" local="no">exporter_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_i_exporter_1ad03adade7179148b1494ef958b64f267" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::exporters::IExporter::~IExporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IExporter</name>
+        <qualifiedname>themis::exporters::IExporter::~IExporter</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1exporters_1_1_i_exporter" kindref="compound">IExporter</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="141" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_i_exporter_1a8bb28742250134dd32801cba9ba2acff" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref></type>
+        <definition>virtual ExportStats themis::exporters::IExporter::exportEntities</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities, const ExportOptions &amp;options)=0</argsstring>
+        <name>exportEntities</name>
+        <qualifiedname>themis::exporters::IExporter::exportEntities</qualifiedname>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1ab63315c1029f2d2f8e1421d8e3cccece">exportEntities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a601e018a68f66eb64aa1543bf33880f9">exportEntities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_incremental_exporter_1aaaa176e4444caccfeafcbc4167011198">exportEntities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_join_exporter_1af9e17be6ff813fd97decdcf901bc8fb3">exportEntities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1adf3df9aa55db73e9c36e486184ff2f89">exportEntities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_parquet_exporter_1add693e30e55af88a5a4babc0b8e24380">exportEntities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_streaming_exporter_1a25b106c8603e3aabece973506c236d6e">exportEntities</reimplementedby>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="143" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_i_exporter_1a747594ff4d4052ad41e9046bc63c6287" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::exporters::IExporter::getSupportedFormats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getSupportedFormats</name>
+        <qualifiedname>themis::exporters::IExporter::getSupportedFormats</qualifiedname>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a81dc849ce7d8a2db5df85954972ac687">getSupportedFormats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a86dd014007887d464e7363c275e0da85">getSupportedFormats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_incremental_exporter_1a7a63c0c22fb58dbda462e18428727a3c">getSupportedFormats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_join_exporter_1ab30662fd4942a7d977583662f0fa81e6">getSupportedFormats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a5cb68f5e1dd38e224a80a174d157d0b1">getSupportedFormats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_parquet_exporter_1ac6efd8a04fcca62c937a3b4144fa129d">getSupportedFormats</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_streaming_exporter_1a6f32d0eb87d35fbcedff03a673d8dc63">getSupportedFormats</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="148" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_i_exporter_1a1a950d7bc59a0667a314b5a1c44e41e9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::exporters::IExporter::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::exporters::IExporter::getName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1a0b7ec0db82d019781e0ea98cf3f8bec5">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a7c921cd3efcf552f06303e69d4b377a6">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_incremental_exporter_1a246f4dfee48c83493c7f8e3e2f3c55b7">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_join_exporter_1ae8428409cbe2e8c8feca938343b0b2e2">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a463d920af4801f48ef0c25eaf650ae60">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_parquet_exporter_1a538f311091b21b3e32e27f45b5803fe4">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_streaming_exporter_1ae3d8938a989c57ea3e61d9206db4e4e5">getName</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="150" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_i_exporter_1a9729d229cd3934db0e6d3c948b526908" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::exporters::IExporter::getVersion</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::exporters::IExporter::getVersion</qualifiedname>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter_1ac22fa4b26420e2e9a2a063f39b9e6694">getVersion</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1aae69e4d674fc8176e7b302d6716c86db">getVersion</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_incremental_exporter_1a337bb3380dc943763a092a5f6c9e5c30">getVersion</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_join_exporter_1aecf3d934910f900af27bcd06c5f0fec1">getVersion</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a9cb341c2de6b8c04ac61d62b34c50e45">getVersion</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_parquet_exporter_1a16d46196cdaf20ba4bb7ccbf4ab98344">getVersion</reimplementedby>
+        <reimplementedby refid="classthemis_1_1exporters_1_1_streaming_exporter_1ac120a14e06bf679027d5c3a8230fffb6">getVersion</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="152" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::exporters::ArrowIPCExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_arrow_i_p_c_exporter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::exporters::HuggingFaceExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_hugging_face_exporter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::exporters::IExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_i_exporter"/>
+      </node>
+      <node id="4">
+        <label>themis::exporters::IncrementalExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_incremental_exporter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::exporters::JSONLLLMExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::exporters::JoinExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_join_exporter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::exporters::ParquetExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_parquet_exporter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::exporters::StreamingExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_streaming_exporter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/exporters/exporter_interface.h" line="135" column="1" bodyfile="include/exporters/exporter_interface.h" bodystart="135" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_i_exporter_1a8bb28742250134dd32801cba9ba2acff" prot="public" virt="pure-virtual"><scope>themis::exporters::IExporter</scope><name>exportEntities</name></member>
+      <member refid="classthemis_1_1exporters_1_1_i_exporter_1a1a950d7bc59a0667a314b5a1c44e41e9" prot="public" virt="pure-virtual"><scope>themis::exporters::IExporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1exporters_1_1_i_exporter_1a747594ff4d4052ad41e9046bc63c6287" prot="public" virt="pure-virtual"><scope>themis::exporters::IExporter</scope><name>getSupportedFormats</name></member>
+      <member refid="classthemis_1_1exporters_1_1_i_exporter_1a9729d229cd3934db0e6d3c948b526908" prot="public" virt="pure-virtual"><scope>themis::exporters::IExporter</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1exporters_1_1_i_exporter_1ad03adade7179148b1494ef958b64f267" prot="public" virt="virtual"><scope>themis::exporters::IExporter</scope><name>~IExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

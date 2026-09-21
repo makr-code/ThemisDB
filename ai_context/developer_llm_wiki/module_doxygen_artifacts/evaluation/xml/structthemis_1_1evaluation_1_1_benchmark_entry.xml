@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_benchmark_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::BenchmarkEntry</compoundname>
+    <includes refid="benchmark__matrix_8h" local="no">benchmark_matrix.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_entry_1adb4c570f9d25c5b4102aa33f2bd31d5b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref></type>
+        <definition>BenchmarkScenario themis::evaluation::BenchmarkEntry::scenario</definition>
+        <argsstring></argsstring>
+        <name>scenario</name>
+        <qualifiedname>themis::evaluation::BenchmarkEntry::scenario</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Column group. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="222" column="23" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_entry_1a692a2935675eb11a1e3fb698a4f9fc27" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref></type>
+        <definition>BenchmarkDimension themis::evaluation::BenchmarkEntry::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::evaluation::BenchmarkEntry::dimension</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Row. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="223" column="24" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_entry_1a3bf16db6be3948b094e92aec366e6604" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref></type>
+        <definition>BenchmarkResult themis::evaluation::BenchmarkEntry::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::evaluation::BenchmarkEntry::result</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Measured value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="224" column="21" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_entry_1a9ede6e09b1064eb586da5c0b52998904" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::BenchmarkEntry::dataset_tag</definition>
+        <argsstring></argsstring>
+        <name>dataset_tag</name>
+        <qualifiedname>themis::evaluation::BenchmarkEntry::dataset_tag</qualifiedname>
+        <briefdescription>
+<para>Identifier of the dataset used (e.g., &quot;msmarco-1M&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="225" column="17" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_entry_1aa641a682e40bcb4d9b41543d106a9a30" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::BenchmarkEntry::hardware_tag</definition>
+        <argsstring></argsstring>
+        <name>hardware_tag</name>
+        <qualifiedname>themis::evaluation::BenchmarkEntry::hardware_tag</qualifiedname>
+        <briefdescription>
+<para>Hardware profile (e.g., &quot;cpu-avx2&quot;, &quot;rtx3090&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="226" column="17" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_entry_1a86efd546d178365caafaad31b8097a7c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::BenchmarkEntry::runner_version</definition>
+        <argsstring></argsstring>
+        <name>runner_version</name>
+        <qualifiedname>themis::evaluation::BenchmarkEntry::runner_version</qualifiedname>
+        <briefdescription>
+<para>Version string of the benchmark binary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="227" column="17" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::evaluation::BenchmarkEntry</label>
+        <link refid="structthemis_1_1evaluation_1_1_benchmark_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>result</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::evaluation::BenchmarkResult</label>
+        <link refid="structthemis_1_1evaluation_1_1_benchmark_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/evaluation/include/benchmark_matrix.h" line="221" column="1" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="221" bodyend="228"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1a9ede6e09b1064eb586da5c0b52998904" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkEntry</scope><name>dataset_tag</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1a692a2935675eb11a1e3fb698a4f9fc27" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkEntry</scope><name>dimension</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1aa641a682e40bcb4d9b41543d106a9a30" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkEntry</scope><name>hardware_tag</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1a3bf16db6be3948b094e92aec366e6604" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkEntry</scope><name>result</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1a86efd546d178365caafaad31b8097a7c" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkEntry</scope><name>runner_version</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1adb4c570f9d25c5b4102aa33f2bd31d5b" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkEntry</scope><name>scenario</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

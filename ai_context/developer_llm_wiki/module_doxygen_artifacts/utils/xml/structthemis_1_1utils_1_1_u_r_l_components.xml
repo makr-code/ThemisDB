@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_u_r_l_components" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::URLComponents</compoundname>
+    <includes refid="http__client__pool_8h" local="no">http_client_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_u_r_l_components_1ae4d57a5e6b2f79cf74fb4ffc6c42090f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::URLComponents::protocol</definition>
+        <argsstring></argsstring>
+        <name>protocol</name>
+        <qualifiedname>themis::utils::URLComponents::protocol</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="69" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_u_r_l_components_1ae8b206698d747ed260ca52a61e914d79" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::URLComponents::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::utils::URLComponents::host</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="70" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_u_r_l_components_1a95b4fe33a634238339c1c0d419075afd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::URLComponents::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::utils::URLComponents::port</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="71" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_u_r_l_components_1a131b82a9d12e9e81fe9048727a5b18b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::URLComponents::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::utils::URLComponents::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="72" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_u_r_l_components_1ab696b018aeee5d1944a2f78b8395a460" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::URLComponents::is_https</definition>
+        <argsstring>() const</argsstring>
+        <name>is_https</name>
+        <qualifiedname>themis::utils::URLComponents::is_https</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="74" column="10" bodyfile="include/utils/http_client_pool.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>URL components for parsing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/http_client_pool.h" line="68" column="1" bodyfile="include/utils/http_client_pool.h" bodystart="68" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_u_r_l_components_1ae8b206698d747ed260ca52a61e914d79" prot="public" virt="non-virtual"><scope>themis::utils::URLComponents</scope><name>host</name></member>
+      <member refid="structthemis_1_1utils_1_1_u_r_l_components_1ab696b018aeee5d1944a2f78b8395a460" prot="public" virt="non-virtual"><scope>themis::utils::URLComponents</scope><name>is_https</name></member>
+      <member refid="structthemis_1_1utils_1_1_u_r_l_components_1a131b82a9d12e9e81fe9048727a5b18b0" prot="public" virt="non-virtual"><scope>themis::utils::URLComponents</scope><name>path</name></member>
+      <member refid="structthemis_1_1utils_1_1_u_r_l_components_1a95b4fe33a634238339c1c0d419075afd" prot="public" virt="non-virtual"><scope>themis::utils::URLComponents</scope><name>port</name></member>
+      <member refid="structthemis_1_1utils_1_1_u_r_l_components_1ae4d57a5e6b2f79cf74fb4ffc6c42090f" prot="public" virt="non-virtual"><scope>themis::utils::URLComponents</scope><name>protocol</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

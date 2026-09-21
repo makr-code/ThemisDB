@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_span_attributes" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::SpanAttributes</compoundname>
+    <includes refid="federated__span__contract_8h" local="no">federated_span_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_span_attributes_1a682c05eb8d7dfd8a2fe6368ece5aaaf8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::SpanAttributes::service_name</definition>
+        <argsstring></argsstring>
+        <name>service_name</name>
+        <qualifiedname>themis::process::SpanAttributes::service_name</qualifiedname>
+        <initializer>= &quot;themisdb-process&quot;</initializer>
+        <briefdescription>
+<para>Standard: service name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="282" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_span_attributes_1a35187d464fb07f1c8c82f148bc1294b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::SpanAttributes::service_version</definition>
+        <argsstring></argsstring>
+        <name>service_version</name>
+        <qualifiedname>themis::process::SpanAttributes::service_version</qualifiedname>
+        <briefdescription>
+<para>Standard: service version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="285" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_span_attributes_1a77a7556a9821ea7f44b0bab55b63efed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::SpanAttributes::span_kind</definition>
+        <argsstring></argsstring>
+        <name>span_kind</name>
+        <qualifiedname>themis::process::SpanAttributes::span_kind</qualifiedname>
+        <initializer>= &quot;INTERNAL&quot;</initializer>
+        <briefdescription>
+<para>Standard: span kind (&quot;INTERNAL&quot;, &quot;CLIENT&quot;, &quot;SERVER&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="288" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_span_attributes_1a9f51056d953fb16f39332c695401bdb7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::SpanAttributes::span_name</definition>
+        <argsstring></argsstring>
+        <name>span_name</name>
+        <qualifiedname>themis::process::SpanAttributes::span_name</qualifiedname>
+        <briefdescription>
+<para>Standard: operation name (e.g., &quot;process.import&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="291" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_span_attributes_1a7ed1f5ae981cfba02cef62ccc9499f0b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::SpanAttributes::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::process::SpanAttributes::shard_id</qualifiedname>
+        <briefdescription>
+<para>Process module: local shard ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="294" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_span_attributes_1a9f41e55d3516fef9b553120a337e424f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::SpanAttributes::principal_id</definition>
+        <argsstring></argsstring>
+        <name>principal_id</name>
+        <qualifiedname>themis::process::SpanAttributes::principal_id</qualifiedname>
+        <briefdescription>
+<para>Process module: principal (user/service) ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="297" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_span_attributes_1a229ae78aac3bd07f3c42b6071f9419d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::SpanAttributes::operation_type</definition>
+        <argsstring></argsstring>
+        <name>operation_type</name>
+        <qualifiedname>themis::process::SpanAttributes::operation_type</qualifiedname>
+        <briefdescription>
+<para>Process module: operation type (import, link, federation_sync, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="300" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_span_attributes_1a60d79893240748583a428b277aab9092" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::process::SpanAttributes::generic_attributes</definition>
+        <argsstring></argsstring>
+        <name>generic_attributes</name>
+        <qualifiedname>themis::process::SpanAttributes::generic_attributes</qualifiedname>
+        <briefdescription>
+<para>Generic attributes (additional key-value pairs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="303" column="14" bodyfile="include/process/federated_span_contract.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_span_attributes_1a1b2d62e5167a41923e77da58e6d1935f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::SpanAttributes::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::process::SpanAttributes::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Add a generic attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="310" column="10" bodyfile="include/process/federated_span_contract.h" bodystart="310" bodyend="312"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Attributes attached to a span. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Key-value pairs describing the span&apos;s context and operation details. </para>
+    </detaileddescription>
+    <location file="include/process/federated_span_contract.h" line="280" column="1" bodyfile="include/process/federated_span_contract.h" bodystart="280" bodyend="313"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_span_attributes_1a60d79893240748583a428b277aab9092" prot="public" virt="non-virtual"><scope>themis::process::SpanAttributes</scope><name>generic_attributes</name></member>
+      <member refid="structthemis_1_1process_1_1_span_attributes_1a229ae78aac3bd07f3c42b6071f9419d8" prot="public" virt="non-virtual"><scope>themis::process::SpanAttributes</scope><name>operation_type</name></member>
+      <member refid="structthemis_1_1process_1_1_span_attributes_1a9f41e55d3516fef9b553120a337e424f" prot="public" virt="non-virtual"><scope>themis::process::SpanAttributes</scope><name>principal_id</name></member>
+      <member refid="structthemis_1_1process_1_1_span_attributes_1a682c05eb8d7dfd8a2fe6368ece5aaaf8" prot="public" virt="non-virtual"><scope>themis::process::SpanAttributes</scope><name>service_name</name></member>
+      <member refid="structthemis_1_1process_1_1_span_attributes_1a35187d464fb07f1c8c82f148bc1294b2" prot="public" virt="non-virtual"><scope>themis::process::SpanAttributes</scope><name>service_version</name></member>
+      <member refid="structthemis_1_1process_1_1_span_attributes_1a1b2d62e5167a41923e77da58e6d1935f" prot="public" virt="non-virtual"><scope>themis::process::SpanAttributes</scope><name>setAttribute</name></member>
+      <member refid="structthemis_1_1process_1_1_span_attributes_1a7ed1f5ae981cfba02cef62ccc9499f0b" prot="public" virt="non-virtual"><scope>themis::process::SpanAttributes</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1process_1_1_span_attributes_1a77a7556a9821ea7f44b0bab55b63efed" prot="public" virt="non-virtual"><scope>themis::process::SpanAttributes</scope><name>span_kind</name></member>
+      <member refid="structthemis_1_1process_1_1_span_attributes_1a9f51056d953fb16f39332c695401bdb7" prot="public" virt="non-virtual"><scope>themis::process::SpanAttributes</scope><name>span_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_heartbeat" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::Heartbeat</compoundname>
+    <includes refid="raft__consensus_8h" local="no">raft_consensus.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_heartbeat_1a654b4a254db2bb4122bf39bb968c4c4c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::Heartbeat::leader_id</definition>
+        <argsstring></argsstring>
+        <name>leader_id</name>
+        <qualifiedname>themisdb::sharding::Heartbeat::leader_id</qualifiedname>
+        <briefdescription>
+<para>Current leader node ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="31" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_heartbeat_1a211b66f1a050b0d1b6fe330f0ab81fc5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::Heartbeat::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themisdb::sharding::Heartbeat::term</qualifiedname>
+        <briefdescription>
+<para>Leader term associated with heartbeat. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="32" column="14" bodyfile="include/sharding/raft_consensus.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_heartbeat_1aae1592f8a349ab993b5c50ed3696955b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::Heartbeat::commit_index</definition>
+        <argsstring></argsstring>
+        <name>commit_index</name>
+        <qualifiedname>themisdb::sharding::Heartbeat::commit_index</qualifiedname>
+        <briefdescription>
+<para>Leader commit index at send time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="33" column="14" bodyfile="include/sharding/raft_consensus.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_heartbeat_1a6f31cce233fcea99743e52a2addef514" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::sharding::Heartbeat::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::sharding::Heartbeat::timestamp</qualifiedname>
+        <briefdescription>
+<para>Local send timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="34" column="43" bodyfile="include/sharding/raft_consensus.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_heartbeat_1a56cb004ea2e2fe8586dbcb782b0a90d3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::Heartbeat::reachable_nodes</definition>
+        <argsstring></argsstring>
+        <name>reachable_nodes</name>
+        <qualifiedname>themisdb::sharding::Heartbeat::reachable_nodes</qualifiedname>
+        <briefdescription>
+<para>Peers currently reachable by the leader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="35" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemisdb_1_1sharding_1_1_heartbeat" kindref="compound">Heartbeat</ref> message for partition detection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raft_consensus.h" line="30" column="1" bodyfile="include/sharding/raft_consensus.h" bodystart="30" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_heartbeat_1aae1592f8a349ab993b5c50ed3696955b" prot="public" virt="non-virtual"><scope>themisdb::sharding::Heartbeat</scope><name>commit_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_heartbeat_1a654b4a254db2bb4122bf39bb968c4c4c" prot="public" virt="non-virtual"><scope>themisdb::sharding::Heartbeat</scope><name>leader_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_heartbeat_1a56cb004ea2e2fe8586dbcb782b0a90d3" prot="public" virt="non-virtual"><scope>themisdb::sharding::Heartbeat</scope><name>reachable_nodes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_heartbeat_1a211b66f1a050b0d1b6fe330f0ab81fc5" prot="public" virt="non-virtual"><scope>themisdb::sharding::Heartbeat</scope><name>term</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_heartbeat_1a6f31cce233fcea99743e52a2addef514" prot="public" virt="non-virtual"><scope>themisdb::sharding::Heartbeat</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

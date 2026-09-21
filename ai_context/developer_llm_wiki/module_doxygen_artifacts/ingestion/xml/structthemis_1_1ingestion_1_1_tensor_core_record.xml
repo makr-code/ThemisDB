@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_tensor_core_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::TensorCoreRecord</compoundname>
+    <includes refid="inference__backend_8h" local="no">inference_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_tensor_core_record_1a862252c8ba9bbc89cb05ce6b8f18329f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::TensorCoreRecord::chunk_id</definition>
+        <argsstring></argsstring>
+        <name>chunk_id</name>
+        <qualifiedname>themis::ingestion::TensorCoreRecord::chunk_id</qualifiedname>
+        <briefdescription>
+<para>Matches <ref refid="structthemis_1_1ingestion_1_1_vector_record_1a98e0d93b83a78f864020c34c4e573ee0" kindref="member">VectorRecord::chunk_id</ref> (file_id:seq). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="384" column="18" bodyfile="include/ingestion/inference_backend.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_tensor_core_record_1a899d1c909ffa0ab18cb086bd774d9edf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::TensorCoreRecord::source_file_id</definition>
+        <argsstring></argsstring>
+        <name>source_file_id</name>
+        <qualifiedname>themis::ingestion::TensorCoreRecord::source_file_id</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the originating file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="385" column="18" bodyfile="include/ingestion/inference_backend.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_tensor_core_record_1ad9d318d150e9150ff33ec17ca4a33288" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::TensorCoreRecord::order</definition>
+        <argsstring></argsstring>
+        <name>order</name>
+        <qualifiedname>themis::ingestion::TensorCoreRecord::order</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>TT order (number of cores / modes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="386" column="18" bodyfile="include/ingestion/inference_backend.h" bodystart="386" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_tensor_core_record_1a0e69124e750b7e91936dd52e0221d949" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::TensorCoreRecord::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::ingestion::TensorCoreRecord::max_rank</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Maximum bond dimension achieved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="387" column="18" bodyfile="include/ingestion/inference_backend.h" bodystart="387" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_tensor_core_record_1a461c287d4c83283cdff180aba3b030c3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::TensorCoreRecord::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::ingestion::TensorCoreRecord::compression_ratio</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>dense_elements / tt_parameters </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="388" column="18" bodyfile="include/ingestion/inference_backend.h" bodystart="388" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_tensor_core_record_1a9b31f179ea16e0ac5c507dfad42fa55e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::TensorCoreRecord::achieved_eps</definition>
+        <argsstring></argsstring>
+        <name>achieved_eps</name>
+        <qualifiedname>themis::ingestion::TensorCoreRecord::achieved_eps</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>‖T-T_approx‖_F / ‖T‖_F </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="389" column="18" bodyfile="include/ingestion/inference_backend.h" bodystart="389" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_tensor_core_record_1a482fc76aa32529a2a8266f14c5a39fe3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1a04c885ce9b95dea972ca54311754eb8a" kindref="member">SerializedTTTrain</ref></type>
+        <definition>SerializedTTTrain themis::ingestion::TensorCoreRecord::serialized_train</definition>
+        <argsstring></argsstring>
+        <name>serialized_train</name>
+        <qualifiedname>themis::ingestion::TensorCoreRecord::serialized_train</qualifiedname>
+        <briefdescription>
+<para>Raw bytes from TTTrain::serialize(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="390" column="23" bodyfile="include/ingestion/inference_backend.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_tensor_core_record_1a78e9b6c7c2e8e9b16a5113da24484cf0" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::ingestion::TensorCoreRecord::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::ingestion::TensorCoreRecord::metadata</qualifiedname>
+        <briefdescription>
+<para>Provenance: &quot;source_file&quot;, &quot;page&quot;, &quot;section_ref&quot;, &quot;tenant_id&quot;, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="391" column="24" bodyfile="include/ingestion/inference_backend.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One TT-decomposed record produced by <computeroutput>builtin.chunk_tt_decompose</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Kept as a forward-declared-friendly struct so <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref></computeroutput> does not need to include any tensor headers. </para>
+    </detaileddescription>
+    <location file="include/ingestion/inference_backend.h" line="383" column="1" bodyfile="include/ingestion/inference_backend.h" bodystart="383" bodyend="393"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a9b31f179ea16e0ac5c507dfad42fa55e" prot="public" virt="non-virtual"><scope>themis::ingestion::TensorCoreRecord</scope><name>achieved_eps</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a862252c8ba9bbc89cb05ce6b8f18329f" prot="public" virt="non-virtual"><scope>themis::ingestion::TensorCoreRecord</scope><name>chunk_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a461c287d4c83283cdff180aba3b030c3" prot="public" virt="non-virtual"><scope>themis::ingestion::TensorCoreRecord</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a0e69124e750b7e91936dd52e0221d949" prot="public" virt="non-virtual"><scope>themis::ingestion::TensorCoreRecord</scope><name>max_rank</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a78e9b6c7c2e8e9b16a5113da24484cf0" prot="public" virt="non-virtual"><scope>themis::ingestion::TensorCoreRecord</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_tensor_core_record_1ad9d318d150e9150ff33ec17ca4a33288" prot="public" virt="non-virtual"><scope>themis::ingestion::TensorCoreRecord</scope><name>order</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a482fc76aa32529a2a8266f14c5a39fe3" prot="public" virt="non-virtual"><scope>themis::ingestion::TensorCoreRecord</scope><name>serialized_train</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_tensor_core_record_1a899d1c909ffa0ab18cb086bd774d9edf" prot="public" virt="non-virtual"><scope>themis::ingestion::TensorCoreRecord</scope><name>source_file_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

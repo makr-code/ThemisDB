@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_bundle_import_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::BundleImportResult</compoundname>
+    <includes refid="project__bundle_8h" local="no">project_bundle.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_bundle_import_result_1a98412cdc36de945ac19c83010a1f60d3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::projects::BundleImportResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::projects::BundleImportResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="39" column="10" bodyfile="include/projects/project_bundle.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_bundle_import_result_1a0e39ce96748c767df5daf4b81e8f6534" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::BundleImportResult::project_id</definition>
+        <argsstring></argsstring>
+        <name>project_id</name>
+        <qualifiedname>themis::projects::BundleImportResult::project_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="40" column="17" bodyfile="include/projects/project_bundle.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_bundle_import_result_1a5192d861b38b5afa4d08c29778f3b432" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::projects::BundleImportResult::collections_imported</definition>
+        <argsstring></argsstring>
+        <name>collections_imported</name>
+        <qualifiedname>themis::projects::BundleImportResult::collections_imported</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="41" column="9" bodyfile="include/projects/project_bundle.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_bundle_import_result_1a86c6d1af4f995591ead0e93be6d75467" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::projects::BundleImportResult::documents_imported</definition>
+        <argsstring></argsstring>
+        <name>documents_imported</name>
+        <qualifiedname>themis::projects::BundleImportResult::documents_imported</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="42" column="9" bodyfile="include/projects/project_bundle.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_bundle_import_result_1a658af8ea5895655d7201c26d60404006" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::projects::BundleImportResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::projects::BundleImportResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="43" column="17" bodyfile="include/projects/project_bundle.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/project_bundle.h" line="38" column="1" bodyfile="include/projects/project_bundle.h" bodystart="38" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_bundle_import_result_1a5192d861b38b5afa4d08c29778f3b432" prot="public" virt="non-virtual"><scope>themis::projects::BundleImportResult</scope><name>collections_imported</name></member>
+      <member refid="structthemis_1_1projects_1_1_bundle_import_result_1a86c6d1af4f995591ead0e93be6d75467" prot="public" virt="non-virtual"><scope>themis::projects::BundleImportResult</scope><name>documents_imported</name></member>
+      <member refid="structthemis_1_1projects_1_1_bundle_import_result_1a0e39ce96748c767df5daf4b81e8f6534" prot="public" virt="non-virtual"><scope>themis::projects::BundleImportResult</scope><name>project_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_bundle_import_result_1a98412cdc36de945ac19c83010a1f60d3" prot="public" virt="non-virtual"><scope>themis::projects::BundleImportResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1projects_1_1_bundle_import_result_1a658af8ea5895655d7201c26d60404006" prot="public" virt="non-virtual"><scope>themis::projects::BundleImportResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

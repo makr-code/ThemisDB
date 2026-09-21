@@ -1,0 +1,500 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__spatial__join__filter_8cpp" kind="file" language="C++">
+    <compoundname>test_spatial_join_filter.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="spatial__join__filter_8h" local="yes">geo/spatial_join_filter.h</includes>
+    <includes refid="geo__json__geometry_8h" local="yes">geo/geo_json_geometry.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>geo/geo_json_geometry.h</label>
+        <link refid="geo__json__geometry_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>geo/spatial_join_filter.h</label>
+        <link refid="spatial__join__filter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_spatial_join_filter.cpp</label>
+        <link refid="test__spatial__join__filter_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cmath</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SpatialJoinFilter, SJF01_Intersects_Overlap_True)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref></type>
+        </param>
+        <param>
+          <type>SJF01_Intersects_Overlap_True</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_join_filter.cpp" line="50" column="1" bodyfile="tests/geo/test_spatial_join_filter.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__join__filter_8cpp_1a6c7f5cf20fe318ed585c65623299f594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SpatialJoinFilter, SJF02_Intersects_NoOverlap_False)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref></type>
+        </param>
+        <param>
+          <type>SJF02_Intersects_NoOverlap_False</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_join_filter.cpp" line="61" column="1" bodyfile="tests/geo/test_spatial_join_filter.cpp" bodystart="61" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__join__filter_8cpp_1ab9a4b7c9b634564f43f7306a1f7858dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SpatialJoinFilter, SJF03_Contains_AContainsB)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref></type>
+        </param>
+        <param>
+          <type>SJF03_Contains_AContainsB</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_join_filter.cpp" line="72" column="1" bodyfile="tests/geo/test_spatial_join_filter.cpp" bodystart="72" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__join__filter_8cpp_1a5c072069aadaa77536bb8a0d51cf7ee3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SpatialJoinFilter, SJF04_Within_AWithinB)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref></type>
+        </param>
+        <param>
+          <type>SJF04_Within_AWithinB</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_join_filter.cpp" line="84" column="1" bodyfile="tests/geo/test_spatial_join_filter.cpp" bodystart="84" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__join__filter_8cpp_1a7accb267ee47db2ddf04b5bfdcca75fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SpatialJoinFilter, SJF05_Touches_EdgeTouch_True)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref></type>
+        </param>
+        <param>
+          <type>SJF05_Touches_EdgeTouch_True</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_join_filter.cpp" line="96" column="1" bodyfile="tests/geo/test_spatial_join_filter.cpp" bodystart="96" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__join__filter_8cpp_1a5ddfd7fbf2866c9caa27158bd729c881" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SpatialJoinFilter, SJF05b_Touches_Overlapping_False)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref></type>
+        </param>
+        <param>
+          <type>SJF05b_Touches_Overlapping_False</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_join_filter.cpp" line="104" column="1" bodyfile="tests/geo/test_spatial_join_filter.cpp" bodystart="104" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__join__filter_8cpp_1ad1690446bb9b4b914e5b037f0ec85e2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SpatialJoinFilter, SJF06_DWithin_Within)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref></type>
+        </param>
+        <param>
+          <type>SJF06_DWithin_Within</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_join_filter.cpp" line="119" column="1" bodyfile="tests/geo/test_spatial_join_filter.cpp" bodystart="119" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__join__filter_8cpp_1ad04d4d477176be9ec16c4f9fa1f3f92c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SpatialJoinFilter, SJF07_DWithin_NegativeRadius_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref></type>
+        </param>
+        <param>
+          <type>SJF07_DWithin_NegativeRadius_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_join_filter.cpp" line="135" column="1" bodyfile="tests/geo/test_spatial_join_filter.cpp" bodystart="135" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__join__filter_8cpp_1ac53fd8497ecb84dd5834ff607a239818" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SpatialJoinFilter, SJF08_And_BothMustHold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref></type>
+        </param>
+        <param>
+          <type>SJF08_And_BothMustHold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_join_filter.cpp" line="148" column="1" bodyfile="tests/geo/test_spatial_join_filter.cpp" bodystart="148" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__join__filter_8cpp_1abcd209c744219a8caf727bf3540eed37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SpatialJoinFilter, SJF09_Or_AtLeastOneMustHold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref></type>
+        </param>
+        <param>
+          <type>SJF09_Or_AtLeastOneMustHold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_join_filter.cpp" line="173" column="1" bodyfile="tests/geo/test_spatial_join_filter.cpp" bodystart="173" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__join__filter_8cpp_1ad0ef4ee10439c93906611037114a9382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SpatialJoinFilter, SJF10_Not_Negation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref></type>
+        </param>
+        <param>
+          <type>SJF10_Not_Negation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_join_filter.cpp" line="196" column="1" bodyfile="tests/geo/test_spatial_join_filter.cpp" bodystart="196" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Test<sp/>suite:<sp/>Spatial<sp/>JOIN<sp/>Filter<sp/>API<sp/>(spatial_join_filter.h)</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Tests:<sp/>SJF-01<sp/>…<sp/>SJF-10</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>Covers:</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/>SJF-01<sp/><sp/>IntersectsFilter:<sp/>overlapping<sp/>MBRs<sp/>→<sp/>true</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/><sp/>SJF-02<sp/><sp/>IntersectsFilter:<sp/>non-overlapping<sp/>MBRs<sp/>→<sp/>false</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/>SJF-03<sp/><sp/>ContainsFilter:<sp/>a<sp/>contains<sp/>b<sp/>→<sp/>true;<sp/>b<sp/>contains<sp/>a<sp/>→<sp/>false</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/>SJF-04<sp/><sp/>WithinFilter:<sp/>a<sp/>within<sp/>b<sp/>→<sp/>true;<sp/>b<sp/>within<sp/>a<sp/>→<sp/>false</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/><sp/>SJF-05<sp/><sp/>TouchesFilter:<sp/>edge-touching<sp/>MBRs<sp/>→<sp/>true</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/><sp/>SJF-06<sp/><sp/>DWithinFilter:<sp/>centroid<sp/>distance<sp/>≤<sp/>radius<sp/>→<sp/>true;<sp/>&gt;<sp/>radius<sp/>→<sp/>false</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/><sp/>SJF-07<sp/><sp/>DWithinFilter:<sp/>invalid<sp/>(negative)<sp/>radius<sp/>→<sp/>exception</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/><sp/>SJF-08<sp/><sp/>AndFilter:<sp/>both<sp/>must<sp/>hold</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/><sp/>SJF-09<sp/><sp/>OrFilter:<sp/>at<sp/>least<sp/>one<sp/>must<sp/>hold</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/><sp/>SJF-10<sp/><sp/>NotFilter:<sp/>negation</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="spatial__join__filter_8h" kindref="compound">geo/spatial_join_filter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__json__geometry_8h" kindref="compound">geo/geo_json_geometry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers:<sp/>build<sp/>simple<sp/>GeoPolygon<sp/>instances<sp/>from<sp/>known<sp/>bounding<sp/>boxes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_geo_polygon" kindref="compound">GeoPolygon</ref><sp/>makeBox(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x0,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y0,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y1,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6" kindref="member">CrsId</ref><sp/>crs<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" kindref="member">GeoPolygon::Ring</ref><sp/>ring<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{x0,<sp/>y0},<sp/>{x1,<sp/>y0},<sp/>{x1,<sp/>y1},<sp/>{x0,<sp/>y1},<sp/>{x0,<sp/>y0}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_polygon" kindref="compound">GeoPolygon</ref>({ring},<sp/>crs);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJF-01<sp/>IntersectsFilter:<sp/>overlapping<sp/>MBRs<sp/>→<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref>,<sp/>SJF01_Intersects_Overlap_True)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a119a42d309fb2d265ec65913db837805" kindref="member">SpatialJoinFilter::intersects</ref>();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>2.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>makeBox(1.0,<sp/>1.0,<sp/>3.0,<sp/>3.0);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(f-&gt;matches(a,<sp/>b));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJF-02<sp/>IntersectsFilter:<sp/>non-overlapping<sp/>MBRs<sp/>→<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref>,<sp/>SJF02_Intersects_NoOverlap_False)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a119a42d309fb2d265ec65913db837805" kindref="member">SpatialJoinFilter::intersects</ref>();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>makeBox(2.0,<sp/>2.0,<sp/>3.0,<sp/>3.0);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(f-&gt;matches(a,<sp/>b));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJF-03<sp/>ContainsFilter:<sp/>a<sp/>contains<sp/>b</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref>,<sp/>SJF03_Contains_AContainsB)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a635a4c0e39bf8247466f957db95f872b" kindref="member">SpatialJoinFilter::contains</ref>();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>outer<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>10.0,<sp/>10.0);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>inner<sp/>=<sp/>makeBox(2.0,<sp/>2.0,<sp/><sp/>8.0,<sp/><sp/>8.0);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(f-&gt;matches(outer,<sp/>inner))<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;outer<sp/>contains<sp/>inner&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(f-&gt;matches(inner,<sp/>outer))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;inner<sp/>does<sp/>not<sp/>contain<sp/>outer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJF-04<sp/>WithinFilter:<sp/>a<sp/>within<sp/>b</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref>,<sp/>SJF04_Within_AWithinB)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a55a69b5bb41b96b9d0b0c3def425d63f" kindref="member">SpatialJoinFilter::within</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>small<sp/>=<sp/>makeBox(2.0,<sp/>2.0,<sp/>4.0,<sp/>4.0);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>large<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>6.0,<sp/>6.0);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(f-&gt;matches(small,<sp/>large))<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;small<sp/>is<sp/>within<sp/>large&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(f-&gt;matches(large,<sp/>small))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;large<sp/>is<sp/>not<sp/>within<sp/>small&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJF-05<sp/>TouchesFilter:<sp/>edge-touching<sp/>MBRs<sp/>→<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref>,<sp/>SJF05_Touches_EdgeTouch_True)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a287071235d89fb424c2584f9930703cd" kindref="member">SpatialJoinFilter::touches</ref>();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Boxes<sp/>share<sp/>the<sp/>x=1<sp/>edge<sp/>(no<sp/>interior<sp/>overlap)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>makeBox(1.0,<sp/>0.0,<sp/>2.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(f-&gt;matches(a,<sp/>b))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Boxes<sp/>sharing<sp/>x=1<sp/>edge<sp/>should<sp/>touch&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref>,<sp/>SJF05b_Touches_Overlapping_False)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a287071235d89fb424c2584f9930703cd" kindref="member">SpatialJoinFilter::touches</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>2.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>makeBox(1.0,<sp/>1.0,<sp/>3.0,<sp/>3.0);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>overlap<sp/>in<sp/>their<sp/>interiors<sp/>—<sp/>this<sp/>is<sp/>a<sp/>degenerate<sp/>case:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>touch()<sp/>returns<sp/>false<sp/>for<sp/>overlapping,<sp/>non-touching<sp/>boxes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(touching<sp/>means<sp/>share<sp/>boundary<sp/>but<sp/>no<sp/>interior)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>this<sp/>is<sp/>a<sp/>bbox-level<sp/>check;<sp/>interior<sp/>overlap<sp/>≠<sp/>touch.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(f-&gt;matches(a,<sp/>b))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Overlapping<sp/>boxes<sp/>do<sp/>not<sp/>touch&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJF-06<sp/>DWithinFilter:<sp/>centroid<sp/>distance<sp/>≤<sp/>radius<sp/>→<sp/>true;<sp/>&gt;<sp/>radius<sp/>→<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref>,<sp/>SJF06_DWithin_Within)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>points<sp/>~111<sp/>km<sp/>apart<sp/>(1°<sp/>latitude<sp/>≈<sp/>111<sp/>km)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_point" kindref="compound">GeoPoint</ref><sp/>a({13.0,<sp/>52.0},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_point" kindref="compound">GeoPoint</ref><sp/>b({13.0,<sp/>53.0},<sp/><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6a5dda43a21474cf33e7088b8247f19c4b" kindref="member">CrsId::WGS84</ref>);<sp/><sp/></highlight><highlight class="comment">//<sp/>1°<sp/>north</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>within200km<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a3d57f78b9e79c5d6235d757655bb49db" kindref="member">SpatialJoinFilter::dWithin</ref>(200&apos;000.0);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(within200km-&gt;matches(a,<sp/>b))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;1°<sp/>latitude<sp/>≈<sp/>111<sp/>km<sp/>should<sp/>be<sp/>within<sp/>200<sp/>km&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>within50km<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a3d57f78b9e79c5d6235d757655bb49db" kindref="member">SpatialJoinFilter::dWithin</ref>(50&apos;000.0);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(within50km-&gt;matches(a,<sp/>b))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;1°<sp/>latitude<sp/>≈<sp/>111<sp/>km<sp/>should<sp/>NOT<sp/>be<sp/>within<sp/>50<sp/>km&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJF-07<sp/>DWithinFilter:<sp/>invalid<sp/>(negative)<sp/>radius<sp/>→<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref>,<sp/>SJF07_DWithin_NegativeRadius_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>filter<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a3d57f78b9e79c5d6235d757655bb49db" kindref="member">SpatialJoinFilter::dWithin</ref>(-1.0);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(filter);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJF-08<sp/>AndFilter:<sp/>both<sp/>must<sp/>hold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref>,<sp/>SJF08_And_BothMustHold)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>overlapping<sp/>boxes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>2.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>makeBox(1.0,<sp/>1.0,<sp/>3.0,<sp/>3.0);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>and_filter<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a09f0664904cec43b7399e8f24d8954d7" kindref="member">SpatialJoinFilter::and_</ref>(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a119a42d309fb2d265ec65913db837805" kindref="member">SpatialJoinFilter::intersects</ref>(),</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a3d57f78b9e79c5d6235d757655bb49db" kindref="member">SpatialJoinFilter::dWithin</ref>(1&apos;000&apos;000.0));<sp/><sp/></highlight><highlight class="comment">//<sp/>surely<sp/>within<sp/>1000<sp/>km</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(and_filter-&gt;matches(a,<sp/>b));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>very<sp/>small<sp/>radius<sp/>that<sp/>won&apos;t<sp/>hold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>and_filter_fail<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a09f0664904cec43b7399e8f24d8954d7" kindref="member">SpatialJoinFilter::and_</ref>(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a119a42d309fb2d265ec65913db837805" kindref="member">SpatialJoinFilter::intersects</ref>(),</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a3d57f78b9e79c5d6235d757655bb49db" kindref="member">SpatialJoinFilter::dWithin</ref>(0.0));<sp/><sp/></highlight><highlight class="comment">//<sp/>radius<sp/>0<sp/>m<sp/>fails<sp/>for<sp/>non-coincident</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>boxes<sp/>have<sp/>centroid<sp/>distance<sp/>&gt;<sp/>0,<sp/>so<sp/>this<sp/>may<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>centroid<sp/>=<sp/>(1.0,<sp/>1.0),<sp/>b<sp/>centroid<sp/>=<sp/>(2.0,<sp/>2.0)<sp/>→<sp/>dist<sp/>&gt;<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(and_filter_fail-&gt;matches(a,<sp/>b));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJF-09<sp/>OrFilter:<sp/>at<sp/>least<sp/>one<sp/>must<sp/>hold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref>,<sp/>SJF09_Or_AtLeastOneMustHold)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>makeBox(5.0,<sp/>5.0,<sp/>6.0,<sp/>6.0);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Neither<sp/>intersects<sp/>nor<sp/>is<sp/>within<sp/>1<sp/>m<sp/>of<sp/>the<sp/>other</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>or_filter<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a7f27e110afaf214e40f787b07549962a" kindref="member">SpatialJoinFilter::or_</ref>(</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a119a42d309fb2d265ec65913db837805" kindref="member">SpatialJoinFilter::intersects</ref>(),</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a3d57f78b9e79c5d6235d757655bb49db" kindref="member">SpatialJoinFilter::dWithin</ref>(1.0));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(or_filter-&gt;matches(a,<sp/>b))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Neither<sp/>intersects<sp/>nor<sp/>d≤1m&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>But<sp/>one<sp/>of<sp/>them:<sp/>within<sp/>2000<sp/>km<sp/>should<sp/>hold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>or_filter_holds<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a7f27e110afaf214e40f787b07549962a" kindref="member">SpatialJoinFilter::or_</ref>(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a119a42d309fb2d265ec65913db837805" kindref="member">SpatialJoinFilter::intersects</ref>(),</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a3d57f78b9e79c5d6235d757655bb49db" kindref="member">SpatialJoinFilter::dWithin</ref>(2&apos;000&apos;000.0));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(or_filter_holds-&gt;matches(a,<sp/>b));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJF-10<sp/>NotFilter:<sp/>negation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__spatial__join__filter_8cpp_1a3d9ba77fd7e82509b4e237086a0a7265" kindref="member">TEST</ref>(<ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter" kindref="compound">SpatialJoinFilter</ref>,<sp/>SJF10_Not_Negation)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>makeBox(0.0,<sp/>0.0,<sp/>2.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>makeBox(1.0,<sp/>1.0,<sp/>3.0,<sp/>3.0);<sp/><sp/></highlight><highlight class="comment">//<sp/>overlaps<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>not_intersects<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1aeaa7a0004e342c542fae47ccfec32e32" kindref="member">SpatialJoinFilter::not_</ref>(</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1_1_spatial_join_filter_1a119a42d309fb2d265ec65913db837805" kindref="member">SpatialJoinFilter::intersects</ref>());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(not_intersects-&gt;matches(a,<sp/>b))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;NOT(intersects)<sp/>should<sp/>be<sp/>false<sp/>for<sp/>overlapping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-overlapping<sp/>pair</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/>makeBox(10.0,<sp/>10.0,<sp/>11.0,<sp/>11.0);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(not_intersects-&gt;matches(a,<sp/>c))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;NOT(intersects)<sp/>should<sp/>be<sp/>true<sp/>for<sp/>non-overlapping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_spatial_join_filter.cpp"/>
+  </compounddef>
+</doxygen>

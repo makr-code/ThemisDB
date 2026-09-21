@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_rewrite_rule_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryRewriteRuleTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_rewrite_rule_test_1a9ec65e210c3e76c9932b5af3edabf9df" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_predicate_pushdown_rule" kindref="compound">PredicatePushdownRule</ref></type>
+        <definition>PredicatePushdownRule themis::query::QueryRewriteRuleTest::rule_</definition>
+        <argsstring></argsstring>
+        <name>rule_</name>
+        <qualifiedname>themis::query::QueryRewriteRuleTest::rule_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_safety_fixes.cpp" line="34" column="27" bodyfile="tests/query/test_query_safety_fixes.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_rewrite_rule_test_1ac9e56e5173519f632d33edb4d6fcf8de" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref></type>
+        <definition>RewriteContext themis::query::QueryRewriteRuleTest::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>themis::query::QueryRewriteRuleTest::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_safety_fixes.cpp" line="35" column="20" bodyfile="tests/query/test_query_safety_fixes.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryRewriteRuleTest</label>
+        <link refid="classthemis_1_1query_1_1_query_rewrite_rule_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::query::IQueryRewriteRule</label>
+        <link refid="classthemis_1_1query_1_1_i_query_rewrite_rule"/>
+      </node>
+      <node id="3">
+        <label>themis::query::PredicatePushdownRule</label>
+        <link refid="classthemis_1_1query_1_1_predicate_pushdown_rule"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryRewriteRuleTest</label>
+        <link refid="classthemis_1_1query_1_1_query_rewrite_rule_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>rule_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>ctx_</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::query::RewriteContext</label>
+        <link refid="structthemis_1_1query_1_1_rewrite_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_safety_fixes.cpp" line="32" column="1" bodyfile="tests/query/test_query_safety_fixes.cpp" bodystart="32" bodyend="36"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_rewrite_rule_test_1ac9e56e5173519f632d33edb4d6fcf8de" prot="protected" virt="non-virtual"><scope>themis::query::QueryRewriteRuleTest</scope><name>ctx_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_rewrite_rule_test_1a9ec65e210c3e76c9932b5af3edabf9df" prot="protected" virt="non-virtual"><scope>themis::query::QueryRewriteRuleTest</scope><name>rule_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

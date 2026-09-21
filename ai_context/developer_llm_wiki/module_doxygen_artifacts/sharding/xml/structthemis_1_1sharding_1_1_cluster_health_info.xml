@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_cluster_health_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ClusterHealthInfo</compoundname>
+    <includes refid="health__check_8h" local="no">health_check.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cluster_health_info_1a9de709b133fcb549d165a02b646a649b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7" kindref="member">HealthStatus</ref></type>
+        <definition>HealthStatus themis::sharding::ClusterHealthInfo::cluster_status</definition>
+        <argsstring></argsstring>
+        <name>cluster_status</name>
+        <qualifiedname>themis::sharding::ClusterHealthInfo::cluster_status</qualifiedname>
+        <briefdescription>
+<para>Computed aggregate cluster health status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="62" column="18" bodyfile="include/sharding/health_check.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cluster_health_info_1a1277507a73a420d69c09bf5a4ede2b83" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::ClusterHealthInfo::total_shards</definition>
+        <argsstring></argsstring>
+        <name>total_shards</name>
+        <qualifiedname>themis::sharding::ClusterHealthInfo::total_shards</qualifiedname>
+        <briefdescription>
+<para>Total number of monitored shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="64" column="9" bodyfile="include/sharding/health_check.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cluster_health_info_1a0e20a118d629aac2a0b4c8ff89edd4e4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::ClusterHealthInfo::healthy_shards</definition>
+        <argsstring></argsstring>
+        <name>healthy_shards</name>
+        <qualifiedname>themis::sharding::ClusterHealthInfo::healthy_shards</qualifiedname>
+        <briefdescription>
+<para>Count of shards in HEALTHY state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="66" column="9" bodyfile="include/sharding/health_check.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cluster_health_info_1a8025bc0336c8d022d3c5436ca4c930be" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::ClusterHealthInfo::degraded_shards</definition>
+        <argsstring></argsstring>
+        <name>degraded_shards</name>
+        <qualifiedname>themis::sharding::ClusterHealthInfo::degraded_shards</qualifiedname>
+        <briefdescription>
+<para>Count of shards in DEGRADED state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="68" column="9" bodyfile="include/sharding/health_check.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cluster_health_info_1a945d09379a606e0521c88138eff8ed15" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::ClusterHealthInfo::unhealthy_shards</definition>
+        <argsstring></argsstring>
+        <name>unhealthy_shards</name>
+        <qualifiedname>themis::sharding::ClusterHealthInfo::unhealthy_shards</qualifiedname>
+        <briefdescription>
+<para>Count of shards in UNHEALTHY state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="70" column="9" bodyfile="include/sharding/health_check.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cluster_health_info_1a2d557c1c97a06bbcb32a3acdfa4d71e7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::ClusterHealthInfo::critical_shards</definition>
+        <argsstring></argsstring>
+        <name>critical_shards</name>
+        <qualifiedname>themis::sharding::ClusterHealthInfo::critical_shards</qualifiedname>
+        <briefdescription>
+<para>Count of shards in CRITICAL state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="72" column="9" bodyfile="include/sharding/health_check.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cluster_health_info_1ac7d5d5c88f90bf7a5059bfba6a91487a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ClusterHealthInfo::has_quorum</definition>
+        <argsstring></argsstring>
+        <name>has_quorum</name>
+        <qualifiedname>themis::sharding::ClusterHealthInfo::has_quorum</qualifiedname>
+        <briefdescription>
+<para>True when strict majority of shards are healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="74" column="10" bodyfile="include/sharding/health_check.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cluster_health_info_1aa11865a91febb8782919fdd8cc5d81fa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_health_info" kindref="compound">ShardHealthInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ShardHealthInfo&gt; themis::sharding::ClusterHealthInfo::shard_health</definition>
+        <argsstring></argsstring>
+        <name>shard_health</name>
+        <qualifiedname>themis::sharding::ClusterHealthInfo::shard_health</qualifiedname>
+        <briefdescription>
+<para>Per-shard health snapshots used for aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="76" column="17" bodyfile="include/sharding/health_check.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cluster_health_info_1aa757325707d7bec26237350e00775871" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ClusterHealthInfo::cluster_warnings</definition>
+        <argsstring></argsstring>
+        <name>cluster_warnings</name>
+        <qualifiedname>themis::sharding::ClusterHealthInfo::cluster_warnings</qualifiedname>
+        <briefdescription>
+<para>Cluster-level warnings (e.g., quorum loss). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="78" column="17" bodyfile="include/sharding/health_check.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated health snapshot across all monitored shards. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/health_check.h" line="60" column="1" bodyfile="include/sharding/health_check.h" bodystart="60" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_cluster_health_info_1a9de709b133fcb549d165a02b646a649b" prot="public" virt="non-virtual"><scope>themis::sharding::ClusterHealthInfo</scope><name>cluster_status</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cluster_health_info_1aa757325707d7bec26237350e00775871" prot="public" virt="non-virtual"><scope>themis::sharding::ClusterHealthInfo</scope><name>cluster_warnings</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cluster_health_info_1a2d557c1c97a06bbcb32a3acdfa4d71e7" prot="public" virt="non-virtual"><scope>themis::sharding::ClusterHealthInfo</scope><name>critical_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cluster_health_info_1a8025bc0336c8d022d3c5436ca4c930be" prot="public" virt="non-virtual"><scope>themis::sharding::ClusterHealthInfo</scope><name>degraded_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cluster_health_info_1ac7d5d5c88f90bf7a5059bfba6a91487a" prot="public" virt="non-virtual"><scope>themis::sharding::ClusterHealthInfo</scope><name>has_quorum</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cluster_health_info_1a0e20a118d629aac2a0b4c8ff89edd4e4" prot="public" virt="non-virtual"><scope>themis::sharding::ClusterHealthInfo</scope><name>healthy_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cluster_health_info_1aa11865a91febb8782919fdd8cc5d81fa" prot="public" virt="non-virtual"><scope>themis::sharding::ClusterHealthInfo</scope><name>shard_health</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cluster_health_info_1a1277507a73a420d69c09bf5a4ede2b83" prot="public" virt="non-virtual"><scope>themis::sharding::ClusterHealthInfo</scope><name>total_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cluster_health_info_1a945d09379a606e0521c88138eff8ed15" prot="public" virt="non-virtual"><scope>themis::sharding::ClusterHealthInfo</scope><name>unhealthy_shards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

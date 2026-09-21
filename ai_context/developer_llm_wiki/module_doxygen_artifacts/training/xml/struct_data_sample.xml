@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_data_sample" kind="struct" language="C++" prot="public">
+    <compoundname>DataSample</compoundname>
+    <includes refid="lora__data__selection_8h" local="no">lora_data_selection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_data_sample_1aae16dbbc3f15d3dbc8540b9e02d84e6f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::DataSample::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>DataSample::id</qualifiedname>
+        <briefdescription>
+<para>Unique document / sample identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="124" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_data_sample_1ad660caf9ed1354b0d6148a86f1f838e2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::DataSample::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>DataSample::text</qualifiedname>
+        <briefdescription>
+<para>Full text content (input + output concatenated or separate). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="125" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_data_sample_1a84e5d8b9384e3231e1c5b9fb1b113466" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::DataSample::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>DataSample::language</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Detected language (ISO 639-1) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="126" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_data_sample_1a45dea9fd24ef8a4603734067836299eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::DataSample::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>DataSample::domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional domain tag (e.g. &quot;legal&quot;, &quot;medical&quot;, &quot;tech&quot;). When set, BM25 domain relevance scoring uses only the keywords for this domain instead of aggregating across all domains. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="130" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_data_sample_1a2322ce8aa36a9f4c59e23e32a4f92554" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DataSample::quality_score</definition>
+        <argsstring></argsstring>
+        <name>quality_score</name>
+        <qualifiedname>DataSample::quality_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Combined quality score [0..1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="133" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_data_sample_1a124f63a8efd25f2509d7b2453b281b52" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DataSample::difficulty_score</definition>
+        <argsstring></argsstring>
+        <name>difficulty_score</name>
+        <qualifiedname>DataSample::difficulty_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Difficulty estimate [0..1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="134" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_data_sample_1adf2db462385c95ce1794ace1e688db8b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::DataSample::is_duplicate</definition>
+        <argsstring></argsstring>
+        <name>is_duplicate</name>
+        <qualifiedname>DataSample::is_duplicate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="135" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_data_sample_1a1c1b95ff5a1883a426d2cf14568cf044" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::DataSample::DataSample</definition>
+        <argsstring>()=default</argsstring>
+        <name>DataSample</name>
+        <qualifiedname>DataSample::DataSample</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_data_sample_1a8c58a13db176d14a10189b6146306cb7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::DataSample::DataSample</definition>
+        <argsstring>(std::string id_, std::string text_)</argsstring>
+        <name>DataSample</name>
+        <qualifiedname>DataSample::DataSample</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>id_</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>text_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="138" column="5" bodyfile="include/training/lora_data_selection.h" bodystart="138" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single training sample as used by the data selection pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/lora_data_selection.h" line="123" column="1" bodyfile="include/training/lora_data_selection.h" bodystart="123" bodyend="140"/>
+    <listofallmembers>
+      <member refid="struct_data_sample_1a1c1b95ff5a1883a426d2cf14568cf044" prot="public" virt="non-virtual"><scope>DataSample</scope><name>DataSample</name></member>
+      <member refid="struct_data_sample_1a8c58a13db176d14a10189b6146306cb7" prot="public" virt="non-virtual"><scope>DataSample</scope><name>DataSample</name></member>
+      <member refid="struct_data_sample_1a124f63a8efd25f2509d7b2453b281b52" prot="public" virt="non-virtual"><scope>DataSample</scope><name>difficulty_score</name></member>
+      <member refid="struct_data_sample_1a45dea9fd24ef8a4603734067836299eb" prot="public" virt="non-virtual"><scope>DataSample</scope><name>domain</name></member>
+      <member refid="struct_data_sample_1aae16dbbc3f15d3dbc8540b9e02d84e6f" prot="public" virt="non-virtual"><scope>DataSample</scope><name>id</name></member>
+      <member refid="struct_data_sample_1adf2db462385c95ce1794ace1e688db8b" prot="public" virt="non-virtual"><scope>DataSample</scope><name>is_duplicate</name></member>
+      <member refid="struct_data_sample_1a84e5d8b9384e3231e1c5b9fb1b113466" prot="public" virt="non-virtual"><scope>DataSample</scope><name>language</name></member>
+      <member refid="struct_data_sample_1a2322ce8aa36a9f4c59e23e32a4f92554" prot="public" virt="non-virtual"><scope>DataSample</scope><name>quality_score</name></member>
+      <member refid="struct_data_sample_1ad660caf9ed1354b0d6148a86f1f838e2" prot="public" virt="non-virtual"><scope>DataSample</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

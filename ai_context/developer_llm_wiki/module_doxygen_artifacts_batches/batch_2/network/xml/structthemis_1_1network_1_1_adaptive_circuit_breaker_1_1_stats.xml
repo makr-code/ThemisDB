@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::AdaptiveCircuitBreaker::Stats</compoundname>
+    <includes refid="adaptive__circuit__breaker_8h" local="no">adaptive_circuit_breaker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1add667ac8d619c8554226bd15cfa3debc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bd" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::network::AdaptiveCircuitBreaker::Stats::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Stats::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="149" column="22" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1a3a59c1d90482b211a510f44b2820c02c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveCircuitBreaker::Stats::total_calls</definition>
+        <argsstring></argsstring>
+        <name>total_calls</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Stats::total_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="150" column="18" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1aec6b1d3e62ab1b0502ed1938a9a8fe1d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveCircuitBreaker::Stats::successful_calls</definition>
+        <argsstring></argsstring>
+        <name>successful_calls</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Stats::successful_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="151" column="18" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1abe8ea1b103eea91cbd18b2001aa7deaa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveCircuitBreaker::Stats::failed_calls</definition>
+        <argsstring></argsstring>
+        <name>failed_calls</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Stats::failed_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="152" column="18" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1a3ef421cd1904d45487859b0b05df7595" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AdaptiveCircuitBreaker::Stats::rejected_calls</definition>
+        <argsstring></argsstring>
+        <name>rejected_calls</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Stats::rejected_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests fast-failed when OPEN. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="153" column="18" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1afcc4726ef1e3e336ddd4fbf0b41ad939" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptiveCircuitBreaker::Stats::current_failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>current_failure_threshold</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Stats::current_failure_threshold</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="154" column="18" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1a8875e92f2e170d79ae5bb54c920384c5" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::network::AdaptiveCircuitBreaker::Stats::last_state_change</definition>
+        <argsstring></argsstring>
+        <name>last_state_change</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Stats::last_state_change</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="155" column="47" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1ab1da3ca441e47b7ce2e68f8bfc2fd47b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker_1af0b789e5b34fd8c5ac1b7c94f919fcb4" kindref="member">ErrorClass</ref>, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;ErrorClass, uint64_t&gt; themis::network::AdaptiveCircuitBreaker::Stats::error_class_failures</definition>
+        <argsstring></argsstring>
+        <name>error_class_failures</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Stats::error_class_failures</qualifiedname>
+        <briefdescription>
+<para>Per-error-class failure counters (consecutive, since last reset/close). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="158" column="28" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of circuit breaker statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/adaptive_circuit_breaker.h" line="148" column="5" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="148" bodyend="159"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1afcc4726ef1e3e336ddd4fbf0b41ad939" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Stats</scope><name>current_failure_threshold</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1ab1da3ca441e47b7ce2e68f8bfc2fd47b" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Stats</scope><name>error_class_failures</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1abe8ea1b103eea91cbd18b2001aa7deaa" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Stats</scope><name>failed_calls</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1a8875e92f2e170d79ae5bb54c920384c5" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Stats</scope><name>last_state_change</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1a3ef421cd1904d45487859b0b05df7595" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Stats</scope><name>rejected_calls</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1add667ac8d619c8554226bd15cfa3debc" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Stats</scope><name>state</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1aec6b1d3e62ab1b0502ed1938a9a8fe1d" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Stats</scope><name>successful_calls</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_stats_1a3a59c1d90482b211a510f44b2820c02c" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Stats</scope><name>total_calls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

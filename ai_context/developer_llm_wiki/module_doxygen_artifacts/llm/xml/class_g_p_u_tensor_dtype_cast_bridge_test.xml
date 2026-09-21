@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_tensor_dtype_cast_bridge_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUTensorDtypeCastBridgeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_tensor_dtype_cast_bridge_test_1a06eca34fbb10959f14dcb571b9da22a1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUTensorDtypeCastBridgeTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUTensorDtypeCastBridgeTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" line="25" column="10" bodyfile="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_tensor_dtype_cast_bridge_test_1a810ef2112130971730b224d99260977b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUTensorDtypeCastBridgeTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GPUTensorDtypeCastBridgeTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" line="29" column="10" bodyfile="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUTensorDtypeCastBridgeTest</label>
+        <link refid="class_g_p_u_tensor_dtype_cast_bridge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUTensorDtypeCastBridgeTest</label>
+        <link refid="class_g_p_u_tensor_dtype_cast_bridge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" line="23" column="1" bodyfile="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" bodystart="23" bodyend="33"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_tensor_dtype_cast_bridge_test_1a06eca34fbb10959f14dcb571b9da22a1" prot="protected" virt="non-virtual"><scope>GPUTensorDtypeCastBridgeTest</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_tensor_dtype_cast_bridge_test_1a810ef2112130971730b224d99260977b" prot="protected" virt="non-virtual"><scope>GPUTensorDtypeCastBridgeTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

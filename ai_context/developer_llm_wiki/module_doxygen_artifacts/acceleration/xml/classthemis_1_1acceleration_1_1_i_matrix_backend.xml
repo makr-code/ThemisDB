@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_i_matrix_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::acceleration::IMatrixBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_compute_backend" prot="public" virt="non-virtual">themis::acceleration::IComputeBackend</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend" prot="public" virt="non-virtual">themis::acceleration::CPUMatrixBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend" prot="public" virt="non-virtual">themis::acceleration::CUDAMatrixBackend</derivedcompoundref>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_matrix_backend_1ad2ab99ee6fd682485df93c38216c05af" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::acceleration::IMatrixBackend::~IMatrixBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IMatrixBackend</name>
+        <qualifiedname>themis::acceleration::IMatrixBackend::~IMatrixBackend</qualifiedname>
+        <briefdescription>
+<para>IMatrix Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="496" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_matrix_backend_1ac6de88c47aa872e43820aa67cd71938f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int themis::acceleration::IMatrixBackend::matmul</definition>
+        <argsstring>(const MatrixKernelParams &amp;params, void *opaque_stream=nullptr)=0</argsstring>
+        <name>matmul</name>
+        <qualifiedname>themis::acceleration::IMatrixBackend::matmul</qualifiedname>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a94bb29d73ffabb92f8928635f693a4d9">matmul</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a00f8d25e2b8920d0b9ae08dec643ef8b">matmul</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params" kindref="compound">MatrixKernelParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>opaque_stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="498" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_matrix_backend_1ae37036f1d8b54e8abde396456f512be8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch" kindref="compound">MatrixKernelDispatch</ref></type>
+        <definition>virtual MatrixKernelDispatch themis::acceleration::IMatrixBackend::populateMatrixDispatch</definition>
+        <argsstring>() const</argsstring>
+        <name>populateMatrixDispatch</name>
+        <qualifiedname>themis::acceleration::IMatrixBackend::populateMatrixDispatch</qualifiedname>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a8142c78cde2f3881d34e9f4f57b09e63">populateMatrixDispatch</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a6f17a6b7a1d47fecf7becee86af6d864">populateMatrixDispatch</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="500" column="34" bodyfile="include/acceleration/compute_backend.h" bodystart="500" bodyend="500"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::acceleration::CPUMatrixBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::CUDAMatrixBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::IMatrixBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_matrix_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::IMatrixBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_matrix_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/compute_backend.h" line="490" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="490" bodyend="501"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6" prot="public" virt="pure-virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa" prot="public" virt="pure-virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f" prot="public" virt="pure-virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_matrix_backend_1ac6de88c47aa872e43820aa67cd71938f" prot="public" virt="pure-virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>matmul</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab" prot="public" virt="pure-virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_matrix_backend_1ae37036f1d8b54e8abde396456f512be8" prot="public" virt="virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>populateMatrixDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00" prot="public" virt="pure-virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22" prot="public" virt="pure-virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_matrix_backend_1ad2ab99ee6fd682485df93c38216c05af" prot="public" virt="virtual"><scope>themis::acceleration::IMatrixBackend</scope><name>~IMatrixBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

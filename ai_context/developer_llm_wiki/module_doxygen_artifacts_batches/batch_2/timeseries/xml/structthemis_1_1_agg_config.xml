@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_agg_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AggConfig</compoundname>
+    <includes refid="continuous__agg_8h" local="no">continuous_agg.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_agg_config_1a4acd74743b850437971fc7bc9b6823eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AggConfig::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::AggConfig::metric</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="33" column="17" bodyfile="include/timeseries/continuous_agg.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_agg_config_1acf0d0aec9c772c0a784e22b368728d4d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::AggConfig::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>themis::AggConfig::entity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="34" column="19" bodyfile="include/timeseries/continuous_agg.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_agg_config_1ae60bd95d356d20e104ac99fe4c8b8471" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_agg_window" kindref="compound">AggWindow</ref></type>
+        <definition>AggWindow themis::AggConfig::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <qualifiedname>themis::AggConfig::window</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="35" column="15" bodyfile="include/timeseries/continuous_agg.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::AggConfig</label>
+        <link refid="structthemis_1_1_agg_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>window</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::AggWindow</label>
+        <link refid="structthemis_1_1_agg_window"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/timeseries/continuous_agg.h" line="32" column="1" bodyfile="include/timeseries/continuous_agg.h" bodystart="32" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_agg_config_1acf0d0aec9c772c0a784e22b368728d4d" prot="public" virt="non-virtual"><scope>themis::AggConfig</scope><name>entity</name></member>
+      <member refid="structthemis_1_1_agg_config_1a4acd74743b850437971fc7bc9b6823eb" prot="public" virt="non-virtual"><scope>themis::AggConfig</scope><name>metric</name></member>
+      <member refid="structthemis_1_1_agg_config_1ae60bd95d356d20e104ac99fe4c8b8471" prot="public" virt="non-virtual"><scope>themis::AggConfig</scope><name>window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

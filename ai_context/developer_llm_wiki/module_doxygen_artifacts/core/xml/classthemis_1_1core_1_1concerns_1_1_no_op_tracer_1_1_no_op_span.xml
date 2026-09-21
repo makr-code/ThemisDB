@@ -1,0 +1,305 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::NoOpTracer::NoOpSpan</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" prot="public" virt="non-virtual">themis::core::concerns::ITracer::ISpan</basecompoundref>
+    <includes refid="noop__implementations_8h" local="no">noop_implementations.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1a0bd1b621ff0d85c5d1be64aaba777f93" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpTracer::NoOpSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::NoOpSpan::setAttribute</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a96acd6638cedaec546b157aebf5f32f5">setAttribute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="72" column="14" bodyfile="include/core/concerns/noop_implementations.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1a5c51d57cc7e4820e896c0bcfd0f1266b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpTracer::NoOpSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, int64_t value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::NoOpSpan::setAttribute</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a6d11fb42cf9cca6f5b3adc9095157226">setAttribute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="73" column="14" bodyfile="include/core/concerns/noop_implementations.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1ae1cd08463f3dbaca3e3d99ad40d2e72e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpTracer::NoOpSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, double value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::NoOpSpan::setAttribute</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1aa7277333f2cbc8db7432fcfd09ed2cbf">setAttribute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="74" column="14" bodyfile="include/core/concerns/noop_implementations.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1ae31c7129b5fa368b111b2a2b76df7eb2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpTracer::NoOpSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, bool value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::NoOpSpan::setAttribute</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a8a8de5bef02666ba8c68110978df6277">setAttribute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="75" column="14" bodyfile="include/core/concerns/noop_implementations.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1afcdc8ee537e415ee4293730313d1b9e5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpTracer::NoOpSpan::recordError</definition>
+        <argsstring>(const std::string &amp;errorMessage) override</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::NoOpSpan::recordError</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a69238391988b9586a0d2a1fe2e476b22">recordError</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>errorMessage</declname>
+        </param>
+        <briefdescription>
+<para>Record Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">errorMessage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="76" column="14" bodyfile="include/core/concerns/noop_implementations.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1a66fd7a411e5e6e0b10e0149aa806609e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpTracer::NoOpSpan::setStatus</definition>
+        <argsstring>(bool ok, const std::string &amp;description=&quot;&quot;) override</argsstring>
+        <name>setStatus</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::NoOpSpan::setStatus</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1aebc2feea9611b1816502e49e2dfd7f8a">setStatus</reimplements>
+        <param>
+          <type>bool</type>
+          <declname>ok</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="77" column="14" bodyfile="include/core/concerns/noop_implementations.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1a2da8942eae99744345f4bd1d02aac215" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpTracer::NoOpSpan::end</definition>
+        <argsstring>() override</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::NoOpSpan::end</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a77772aeef6a0451b2fd17f1df66f15d9">end</reimplements>
+        <briefdescription>
+<para>End. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="78" column="14" bodyfile="include/core/concerns/noop_implementations.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1ae710d8537cfe9aafe3f7a544fc6d6612" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::NoOpTracer::NoOpSpan::isValid</definition>
+        <argsstring>() const override</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::core::concerns::NoOpTracer::NoOpSpan::isValid</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1ad9d3eb82995df9ff0e99de4ce2bd772b">isValid</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="79" column="14" bodyfile="include/core/concerns/noop_implementations.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>No op span. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::ITracer::ISpan</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpTracer::NoOpSpan</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::ITracer::ISpan</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpTracer::NoOpSpan</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/noop_implementations.h" line="70" column="5" bodyfile="include/core/concerns/noop_implementations.h" bodystart="70" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1a2da8942eae99744345f4bd1d02aac215" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer::NoOpSpan</scope><name>end</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1ae710d8537cfe9aafe3f7a544fc6d6612" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer::NoOpSpan</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1afcdc8ee537e415ee4293730313d1b9e5" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer::NoOpSpan</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1a0bd1b621ff0d85c5d1be64aaba777f93" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer::NoOpSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1a5c51d57cc7e4820e896c0bcfd0f1266b" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer::NoOpSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1ae1cd08463f3dbaca3e3d99ad40d2e72e" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer::NoOpSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1ae31c7129b5fa368b111b2a2b76df7eb2" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer::NoOpSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a559cf3e3447ba350ad9baa41b38dbcac" prot="public" virt="non-virtual" ambiguityscope="themis::core::concerns::ITracer::ISpan::"><scope>themis::core::concerns::NoOpTracer::NoOpSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer_1_1_no_op_span_1a66fd7a411e5e6e0b10e0149aa806609e" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer::NoOpSpan</scope><name>setStatus</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a23caa738013a02c2f55e54f45017e3b5" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpTracer::NoOpSpan</scope><name>~ISpan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_bm25_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLBm25Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_bm25_test_1a6e288bd8dd5fbc84fce2d1a428266b64" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AQLBm25Test::dbPath_</definition>
+        <argsstring></argsstring>
+        <name>dbPath_</name>
+        <qualifiedname>AQLBm25Test::dbPath_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bm25.cpp" line="87" column="17" bodyfile="tests/aql/test_aql_bm25.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_bm25_test_1af82e20043b1fe32f690405a865b7dd31" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; AQLBm25Test::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>AQLBm25Test::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bm25.cpp" line="88" column="21" bodyfile="tests/aql/test_aql_bm25.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_bm25_test_1a5cca2edf0ec12f25cb71c0547b42b19b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; AQLBm25Test::idx_</definition>
+        <argsstring></argsstring>
+        <name>idx_</name>
+        <qualifiedname>AQLBm25Test::idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bm25.cpp" line="89" column="21" bodyfile="tests/aql/test_aql_bm25.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_bm25_test_1a6a64f08e468a51e799053440123d9ae5" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; QueryEngine &gt;</type>
+        <definition>std::shared_ptr&lt;QueryEngine&gt; AQLBm25Test::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>AQLBm25Test::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bm25.cpp" line="90" column="21" bodyfile="tests/aql/test_aql_bm25.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_q_l_bm25_test_1a0801fc41b3a34feb6df1387d3d0261e6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLBm25Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AQLBm25Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bm25.cpp" line="31" column="10" bodyfile="tests/aql/test_aql_bm25.cpp" bodystart="31" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_q_l_bm25_test_1a2b3620297f0ae48ccbcd83b720e9b8c1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLBm25Test::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AQLBm25Test::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bm25.cpp" line="78" column="10" bodyfile="tests/aql/test_aql_bm25.cpp" bodystart="78" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLBm25Test</label>
+        <link refid="class_a_q_l_bm25_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLBm25Test</label>
+        <link refid="class_a_q_l_bm25_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_bm25.cpp" line="29" column="1" bodyfile="tests/aql/test_aql_bm25.cpp" bodystart="29" bodyend="91"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_bm25_test_1af82e20043b1fe32f690405a865b7dd31" prot="protected" virt="non-virtual"><scope>AQLBm25Test</scope><name>db_</name></member>
+      <member refid="class_a_q_l_bm25_test_1a6e288bd8dd5fbc84fce2d1a428266b64" prot="protected" virt="non-virtual"><scope>AQLBm25Test</scope><name>dbPath_</name></member>
+      <member refid="class_a_q_l_bm25_test_1a6a64f08e468a51e799053440123d9ae5" prot="protected" virt="non-virtual"><scope>AQLBm25Test</scope><name>engine_</name></member>
+      <member refid="class_a_q_l_bm25_test_1a5cca2edf0ec12f25cb71c0547b42b19b" prot="protected" virt="non-virtual"><scope>AQLBm25Test</scope><name>idx_</name></member>
+      <member refid="class_a_q_l_bm25_test_1a0801fc41b3a34feb6df1387d3d0261e6" prot="protected" virt="non-virtual"><scope>AQLBm25Test</scope><name>SetUp</name></member>
+      <member refid="class_a_q_l_bm25_test_1a2b3620297f0ae48ccbcd83b720e9b8c1" prot="protected" virt="non-virtual"><scope>AQLBm25Test</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_gremlin_parser_1_1_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::GremlinParser::Token</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_parser_1_1_token_1a7e187f1813367dd0526ad1bc50e675ba" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a555d990411c42b1ca492ab00e4c5e838" kindref="member">GremlinTokenType</ref></type>
+        <definition>GremlinTokenType themis::query::GremlinParser::Token::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::GremlinParser::Token::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="57" column="22" bodyfile="src/query/gremlin_parser.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_parser_1_1_token_1aee5b547ef3da1828963b2832eb2a9d5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::GremlinParser::Token::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::GremlinParser::Token::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="58" column="17" bodyfile="src/query/gremlin_parser.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_parser_1_1_token_1a81e05ea4c456f24d6163b4623da63f42" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::GremlinParser::Token::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>themis::query::GremlinParser::Token::position</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="59" column="12" bodyfile="src/query/gremlin_parser.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/gremlin_parser.cpp" line="56" column="1" bodyfile="src/query/gremlin_parser.cpp" bodystart="56" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_token_1a81e05ea4c456f24d6163b4623da63f42" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Token</scope><name>position</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_token_1a7e187f1813367dd0526ad1bc50e675ba" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Token</scope><name>type</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_token_1aee5b547ef3da1828963b2832eb2a9d5b" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Token</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

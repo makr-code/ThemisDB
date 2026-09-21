@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TensorRouter::DataProfile</compoundname>
+    <includes refid="tensor__router_8h" local="no">tensor_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1ab60ef3448cf55d0c2336db132cd48d27" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorRouter::DataProfile::dim</definition>
+        <argsstring></argsstring>
+        <name>dim</name>
+        <qualifiedname>themis::storage::TensorRouter::DataProfile::dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Embedding / tensor dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="195" column="21" bodyfile="include/storage/tensor_router.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1a38f98ae2508a3c0055b65462da1f87ec" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorRouter::DataProfile::num_vectors</definition>
+        <argsstring></argsstring>
+        <name>num_vectors</name>
+        <qualifiedname>themis::storage::TensorRouter::DataProfile::num_vectors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Expected number of vectors </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="196" column="21" bodyfile="include/storage/tensor_router.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1a4a6a0bc7148c227cb69beea02057b80f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TensorRouter::DataProfile::kappa_estimate</definition>
+        <argsstring></argsstring>
+        <name>kappa_estimate</name>
+        <qualifiedname>themis::storage::TensorRouter::DataProfile::kappa_estimate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pre-computed κ compressibility estimate (from dimension heuristic or external measurement). κ ≥ 1.7 → TENSOR_TRAIN, κ ≥ 1.3 → HYBRID, otherwise → HNSW. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="200" column="21" bodyfile="include/storage/tensor_router.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight profiling descriptor used at index-creation time. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides enough information to apply heuristic routing thresholds without running a pilot TT-SVD (which requires actual data). </para>
+    </detaileddescription>
+    <location file="include/storage/tensor_router.h" line="194" column="5" bodyfile="include/storage/tensor_router.h" bodystart="194" bodyend="201"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1ab60ef3448cf55d0c2336db132cd48d27" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::DataProfile</scope><name>dim</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1a4a6a0bc7148c227cb69beea02057b80f" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::DataProfile</scope><name>kappa_estimate</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile_1a38f98ae2508a3c0055b65462da1f87ec" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::DataProfile</scope><name>num_vectors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

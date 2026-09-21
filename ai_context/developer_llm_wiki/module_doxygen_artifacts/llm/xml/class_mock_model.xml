@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_model" kind="class" language="C++" prot="public">
+    <compoundname>MockModel</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_model_1a7539f1a2cec0666ff2a79922351e697e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockModel::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>MockModel::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="103" column="17" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_model_1ad700aeadc6481384b4c6e25c70c3f3cf" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockModel::unloaded_</definition>
+        <argsstring></argsstring>
+        <name>unloaded_</name>
+        <qualifiedname>MockModel::unloaded_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="104" column="10" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_model_1ae422e65f26c99b794bd1e3205fe097fd" prot="private" static="no" mutable="no">
+        <type><ref refid="class_sim_alloc_guard" kindref="compound">SimAllocGuard</ref></type>
+        <definition>SimAllocGuard MockModel::alloc_guard_</definition>
+        <argsstring></argsstring>
+        <name>alloc_guard_</name>
+        <qualifiedname>MockModel::alloc_guard_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="105" column="19" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_model_1a3e7675a90a168450d3bc0ef8f157d8ab" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockModel::MockModel</definition>
+        <argsstring>(const std::string &amp;name=&quot;test_model&quot;)</argsstring>
+        <name>MockModel</name>
+        <qualifiedname>MockModel::MockModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+          <defval>&quot;test_model&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="89" column="14" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="89" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_model_1ad3b3a65ac57d267b8f1ac677f5884c86" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockModel::~MockModel</definition>
+        <argsstring>()</argsstring>
+        <name>~MockModel</name>
+        <qualifiedname>MockModel::~MockModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="92" column="5" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_model_1a8feddc9938d85929771ae5859b7addaa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockModel::unload</definition>
+        <argsstring>()</argsstring>
+        <name>unload</name>
+        <qualifiedname>MockModel::unload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="94" column="10" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="94" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_model_1a0f05f958c848bf0250404d99ec4cc098" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockModel::is_unloaded</definition>
+        <argsstring>() const</argsstring>
+        <name>is_unloaded</name>
+        <qualifiedname>MockModel::is_unloaded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="100" column="10" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_phase1_hardening.cpp" line="87" column="1" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="87" bodyend="106"/>
+    <listofallmembers>
+      <member refid="class_mock_model_1ae422e65f26c99b794bd1e3205fe097fd" prot="private" virt="non-virtual"><scope>MockModel</scope><name>alloc_guard_</name></member>
+      <member refid="class_mock_model_1a0f05f958c848bf0250404d99ec4cc098" prot="public" virt="non-virtual"><scope>MockModel</scope><name>is_unloaded</name></member>
+      <member refid="class_mock_model_1a3e7675a90a168450d3bc0ef8f157d8ab" prot="public" virt="non-virtual"><scope>MockModel</scope><name>MockModel</name></member>
+      <member refid="class_mock_model_1a7539f1a2cec0666ff2a79922351e697e" prot="private" virt="non-virtual"><scope>MockModel</scope><name>name_</name></member>
+      <member refid="class_mock_model_1a8feddc9938d85929771ae5859b7addaa" prot="public" virt="non-virtual"><scope>MockModel</scope><name>unload</name></member>
+      <member refid="class_mock_model_1ad700aeadc6481384b4c6e25c70c3f3cf" prot="private" virt="non-virtual"><scope>MockModel</scope><name>unloaded_</name></member>
+      <member refid="class_mock_model_1ad3b3a65ac57d267b8f1ac677f5884c86" prot="public" virt="non-virtual"><scope>MockModel</scope><name>~MockModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

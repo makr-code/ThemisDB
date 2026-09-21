@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_document_store_test" kind="class" language="C++" prot="public">
+    <compoundname>DocumentStoreTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_document_store_test_1aee647c307bc61bf8460e4905ed4f6f44" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_store" kindref="compound">InMemoryDocumentStore</ref></type>
+        <definition>InMemoryDocumentStore DocumentStoreTest::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>DocumentStoreTest::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="99" column="27" bodyfile="tests/document/test_document_store.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_document_store_test_1a3e7a73da1f2680881cc65835ce2cef19" prot="protected" static="no" mutable="no">
+        <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref></type>
+        <definition>const CollectionId DocumentStoreTest::kCol</definition>
+        <argsstring></argsstring>
+        <name>kCol</name>
+        <qualifiedname>DocumentStoreTest::kCol</qualifiedname>
+        <initializer>{&quot;docs&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="100" column="27" bodyfile="tests/document/test_document_store.cpp" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DocumentStoreTest</label>
+        <link refid="class_document_store_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DocumentStoreTest</label>
+        <link refid="class_document_store_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>store_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_store"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_store.cpp" line="97" column="1" bodyfile="tests/document/test_document_store.cpp" bodystart="97" bodyend="101"/>
+    <listofallmembers>
+      <member refid="class_document_store_test_1a3e7a73da1f2680881cc65835ce2cef19" prot="protected" virt="non-virtual"><scope>DocumentStoreTest</scope><name>kCol</name></member>
+      <member refid="class_document_store_test_1aee647c307bc61bf8460e4905ed4f6f44" prot="protected" virt="non-virtual"><scope>DocumentStoreTest</scope><name>store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_calibration_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CalibrationMetrics</compoundname>
+    <includes refid="calibration__manager_8h" local="no">calibration_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1adb6d8b53c40a09604cdf58655a6038e0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CalibrationMetrics::expected_calibration_error</definition>
+        <argsstring></argsstring>
+        <name>expected_calibration_error</name>
+        <qualifiedname>themis::rag::judge::CalibrationMetrics::expected_calibration_error</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>ECE. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="55" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1ae697521e295b06850ecadd67f27595f3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CalibrationMetrics::brier_score</definition>
+        <argsstring></argsstring>
+        <name>brier_score</name>
+        <qualifiedname>themis::rag::judge::CalibrationMetrics::brier_score</qualifiedname>
+        <briefdescription>
+<para>Brier score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="56" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1a4164db304adfbb7d62ace122ec5a8178" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CalibrationMetrics::correlation</definition>
+        <argsstring></argsstring>
+        <name>correlation</name>
+        <qualifiedname>themis::rag::judge::CalibrationMetrics::correlation</qualifiedname>
+        <briefdescription>
+<para>Correlation with ground truth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="57" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1aa55534a0c4157fdd639393a45609c72e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CalibrationMetrics::mae</definition>
+        <argsstring></argsstring>
+        <name>mae</name>
+        <qualifiedname>themis::rag::judge::CalibrationMetrics::mae</qualifiedname>
+        <briefdescription>
+<para>Mean absolute error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="58" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1a263452a9760ea855ebc2257d0940632f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CalibrationMetrics::rmse</definition>
+        <argsstring></argsstring>
+        <name>rmse</name>
+        <qualifiedname>themis::rag::judge::CalibrationMetrics::rmse</qualifiedname>
+        <briefdescription>
+<para>Root mean squared error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="59" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1ad481d7a975a6fc3a36319ef63c905810" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::rag::judge::CalibrationMetrics::per_dimension_ece</definition>
+        <argsstring></argsstring>
+        <name>per_dimension_ece</name>
+        <qualifiedname>themis::rag::judge::CalibrationMetrics::per_dimension_ece</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="61" column="24" bodyfile="include/rag/calibration_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Calibration metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/calibration_manager.h" line="54" column="1" bodyfile="include/rag/calibration_manager.h" bodystart="54" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1ae697521e295b06850ecadd67f27595f3" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationMetrics</scope><name>brier_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1a4164db304adfbb7d62ace122ec5a8178" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationMetrics</scope><name>correlation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1adb6d8b53c40a09604cdf58655a6038e0" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationMetrics</scope><name>expected_calibration_error</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1aa55534a0c4157fdd639393a45609c72e" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationMetrics</scope><name>mae</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1ad481d7a975a6fc3a36319ef63c905810" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationMetrics</scope><name>per_dimension_ece</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1a263452a9760ea855ebc2257d0940632f" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationMetrics</scope><name>rmse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

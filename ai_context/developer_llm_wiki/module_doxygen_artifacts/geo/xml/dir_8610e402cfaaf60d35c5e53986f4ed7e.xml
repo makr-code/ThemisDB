@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8610e402cfaaf60d35c5e53986f4ed7e" kind="dir">
+    <compoundname>benchmarks/geo</compoundname>
+    <innerfile refid="bench__geo__cpu__gpu_8cpp">bench_geo_cpu_gpu.cpp</innerfile>
+    <innerfile refid="bench__geo__cuda__kernel__gating_8cpp">bench_geo_cuda_kernel_gating.cpp</innerfile>
+    <innerfile refid="bench__geo__dbscan_8cpp">bench_geo_dbscan.cpp</innerfile>
+    <innerfile refid="bench__geo__release__gates_8cpp">bench_geo_release_gates.cpp</innerfile>
+    <innerfile refid="bench__geojson__parse_8cpp">bench_geojson_parse.cpp</innerfile>
+    <innerfile refid="bench__spatial__index_8cpp">bench_spatial_index.cpp</innerfile>
+    <innerfile refid="bench__spatial__join_8cpp">bench_spatial_join.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/geo/"/>
+  </compounddef>
+</doxygen>

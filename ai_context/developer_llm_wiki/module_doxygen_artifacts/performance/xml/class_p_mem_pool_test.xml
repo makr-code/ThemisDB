@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_p_mem_pool_test" kind="class" language="C++" prot="public">
+    <compoundname>PMemPoolTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_p_mem_pool_test_1a7b2f603411379bb7ef6eab5efd3b99c0" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PMemPoolTest::pool_path_</definition>
+        <argsstring></argsstring>
+        <name>pool_path_</name>
+        <qualifiedname>PMemPoolTest::pool_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="21" column="17" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="21" bodyend="21"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_p_mem_pool_test_1a22ee23f3be4d788f5cc748372a9cb779" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PMemPoolTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PMemPoolTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="23" column="10" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="23" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_mem_pool_test_1a29b09771102198c8edb0e195e7aac83d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PMemPoolTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PMemPoolTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="29" column="10" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_mem_pool_test_1a9d34fd22b7ef8a1196114c28a686a158" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config" kindref="compound">PMemPool::Config</ref></type>
+        <definition>PMemPool::Config PMemPoolTest::make_config</definition>
+        <argsstring>(size_t size=4 *1024 *1024)</argsstring>
+        <name>make_config</name>
+        <qualifiedname>PMemPoolTest::make_config</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+          <defval>4 *1024 *1024</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="33" column="22" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="33" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PMemPoolTest</label>
+        <link refid="class_p_mem_pool_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PMemPoolTest</label>
+        <link refid="class_p_mem_pool_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/performance/phase4/test_pmem_storage.cpp" line="19" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="19" bodyend="43"/>
+    <listofallmembers>
+      <member refid="class_p_mem_pool_test_1a9d34fd22b7ef8a1196114c28a686a158" prot="protected" virt="non-virtual"><scope>PMemPoolTest</scope><name>make_config</name></member>
+      <member refid="class_p_mem_pool_test_1a7b2f603411379bb7ef6eab5efd3b99c0" prot="protected" virt="non-virtual"><scope>PMemPoolTest</scope><name>pool_path_</name></member>
+      <member refid="class_p_mem_pool_test_1a22ee23f3be4d788f5cc748372a9cb779" prot="protected" virt="non-virtual"><scope>PMemPoolTest</scope><name>SetUp</name></member>
+      <member refid="class_p_mem_pool_test_1a29b09771102198c8edb0e195e7aac83d" prot="protected" virt="non-virtual"><scope>PMemPoolTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

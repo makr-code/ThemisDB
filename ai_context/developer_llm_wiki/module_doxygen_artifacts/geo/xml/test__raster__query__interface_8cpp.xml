@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__raster__query__interface_8cpp" kind="file" language="C++">
+    <compoundname>test_raster_query_interface.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="raster__query__interface_8h" local="yes">geo/raster_query_interface.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>geo/raster.h</label>
+        <link refid="raster_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>geo/raster_query_interface.h</label>
+        <link refid="raster__query__interface_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>geo/tile_server.h</label>
+        <link refid="tile__server_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_raster_query_interface.cpp</label>
+        <link refid="test__raster__query__interface_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>limits</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__raster__query__interface_8cpp_1ab4bd3785ae20a163904b4116f9c5eff2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterQueryInterface, RQI01_NoOp_QueryTile_NotSupported)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RasterQueryInterface</type>
+        </param>
+        <param>
+          <type>RQI01_NoOp_QueryTile_NotSupported</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_raster_query_interface.cpp" line="41" column="1" bodyfile="tests/geo/test_raster_query_interface.cpp" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__raster__query__interface_8cpp_1ab8419237bbbac80fb940ad9e188078ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterQueryInterface, RQI02_NoOp_QueryBBox_NotSupported)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RasterQueryInterface</type>
+        </param>
+        <param>
+          <type>RQI02_NoOp_QueryBBox_NotSupported</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_raster_query_interface.cpp" line="54" column="1" bodyfile="tests/geo/test_raster_query_interface.cpp" bodystart="54" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__raster__query__interface_8cpp_1a21adcaaa2fed88698e61b0c2dbcb05c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterQueryInterface, RQI03_Factory_EmptyGrid_NoOp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RasterQueryInterface</type>
+        </param>
+        <param>
+          <type>RQI03_Factory_EmptyGrid_NoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_raster_query_interface.cpp" line="66" column="1" bodyfile="tests/geo/test_raster_query_interface.cpp" bodystart="66" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__raster__query__interface_8cpp_1ad794d28e1685277eab5b56917aca7d94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterQueryInterface, RQI04_Factory_NonEmptyGrid_OK)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RasterQueryInterface</type>
+        </param>
+        <param>
+          <type>RQI04_Factory_NonEmptyGrid_OK</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_raster_query_interface.cpp" line="78" column="1" bodyfile="tests/geo/test_raster_query_interface.cpp" bodystart="78" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__raster__query__interface_8cpp_1a32a63b4e0c656e52730ab214638039de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterQueryInterface, RQI05_QueryBBox_Valid_OK)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RasterQueryInterface</type>
+        </param>
+        <param>
+          <type>RQI05_QueryBBox_Valid_OK</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_raster_query_interface.cpp" line="93" column="1" bodyfile="tests/geo/test_raster_query_interface.cpp" bodystart="93" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__raster__query__interface_8cpp_1a6e880bde0a4d811114ecf0bae37b41ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterQueryInterface, RQI06_QueryBBox_InvalidResolution)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RasterQueryInterface</type>
+        </param>
+        <param>
+          <type>RQI06_QueryBBox_InvalidResolution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_raster_query_interface.cpp" line="108" column="1" bodyfile="tests/geo/test_raster_query_interface.cpp" bodystart="108" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__raster__query__interface_8cpp_1a9672874842d46d01999954b72ad0181c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterQueryInterface, RQI07_QueryTile_OutOfRange_InvalidKey)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RasterQueryInterface</type>
+        </param>
+        <param>
+          <type>RQI07_QueryTile_OutOfRange_InvalidKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_raster_query_interface.cpp" line="119" column="1" bodyfile="tests/geo/test_raster_query_interface.cpp" bodystart="119" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__raster__query__interface_8cpp_1ac73a17b1d2ba224f927961e74da480f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RasterQueryInterface, RQI08_QueryBBox_TileTooLarge)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RasterQueryInterface</type>
+        </param>
+        <param>
+          <type>RQI08_QueryBBox_TileTooLarge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_raster_query_interface.cpp" line="131" column="1" bodyfile="tests/geo/test_raster_query_interface.cpp" bodystart="131" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Test<sp/>suite:<sp/>Raster<sp/>Query<sp/>Interface<sp/>(raster_query_interface.h)</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Tests:<sp/>RQI-01<sp/>…<sp/>RQI-08</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>RQI-01<sp/><sp/>NoOpRasterQueryImpl:<sp/>queryTile()<sp/>returns<sp/>NOT_SUPPORTED</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>RQI-02<sp/><sp/>NoOpRasterQueryImpl:<sp/>queryBBox()<sp/>returns<sp/>NOT_SUPPORTED</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>RQI-03<sp/><sp/>makeRasterQueryInterface():<sp/>empty<sp/>grid<sp/>→<sp/>NoOp<sp/>(NOT_SUPPORTED)</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/>RQI-04<sp/><sp/>makeRasterQueryInterface():<sp/>non-empty<sp/>grid<sp/>→<sp/>RasterGridQueryImpl<sp/>(OK)</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/>RQI-05<sp/><sp/>RasterGridQueryImpl:<sp/>queryBBox()<sp/>with<sp/>valid<sp/>bbox<sp/>→<sp/>OK<sp/>+<sp/>correct<sp/>dims</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/>RQI-06<sp/><sp/>RasterGridQueryImpl:<sp/>queryBBox()<sp/>with<sp/>invalid<sp/>resolution<sp/>→<sp/>INVALID_BBOX</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>RQI-07<sp/><sp/>RasterGridQueryImpl:<sp/>queryTile()<sp/>with<sp/>out-of-range<sp/>tile<sp/>→<sp/>INVALID_KEY</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>RQI-08<sp/><sp/>RasterGridQueryImpl:<sp/>queryBBox()<sp/>exceeding<sp/>maxTileSizeBytes<sp/>→<sp/>TILE_TOO_LARGE</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="raster__query__interface_8h" kindref="compound">geo/raster_query_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref><sp/>makeSmallGrid()<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref>{0.0,<sp/>0.0,<sp/>4.0,<sp/>4.0,<sp/>4,<sp/>4,<sp/>1.0f};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RQI-01<sp/>NoOpRasterQueryImpl:<sp/>queryTile()<sp/>returns<sp/>NOT_SUPPORTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__raster__query__interface_8cpp_1ab4bd3785ae20a163904b4116f9c5eff2" kindref="member">TEST</ref>(RasterQueryInterface,<sp/>RQI01_NoOp_QueryTile_NotSupported)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_no_op_raster_query_impl" kindref="compound">NoOpRasterQueryImpl</ref><sp/>noop;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>tile{0,<sp/>0,<sp/>0};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>noop.<ref refid="classthemis_1_1geo_1_1_no_op_raster_query_impl_1a47874e19b4cf3fbe40efde3335350b21" kindref="member">queryTile</ref>(tile);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a5343bcd21aad65124478a61831f6949e" kindref="member">RasterStatus::NOT_SUPPORTED</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.ok());</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.error_message.empty());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RQI-02<sp/>NoOpRasterQueryImpl:<sp/>queryBBox()<sp/>returns<sp/>NOT_SUPPORTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__raster__query__interface_8cpp_1ab4bd3785ae20a163904b4116f9c5eff2" kindref="member">TEST</ref>(RasterQueryInterface,<sp/>RQI02_NoOp_QueryBBox_NotSupported)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_no_op_raster_query_impl" kindref="compound">NoOpRasterQueryImpl</ref><sp/>noop;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox{0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>noop.<ref refid="classthemis_1_1geo_1_1_no_op_raster_query_impl_1a80bca6f637daa5ddba7c532e0a7bfc36" kindref="member">queryBBox</ref>(bbox,<sp/>0.01);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a5343bcd21aad65124478a61831f6949e" kindref="member">RasterStatus::NOT_SUPPORTED</ref>);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.ok());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RQI-03<sp/>makeRasterQueryInterface():<sp/>empty<sp/>grid<sp/>→<sp/>NoOp<sp/>(NOT_SUPPORTED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__raster__query__interface_8cpp_1ab4bd3785ae20a163904b4116f9c5eff2" kindref="member">TEST</ref>(RasterQueryInterface,<sp/>RQI03_Factory_EmptyGrid_NoOp)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>iface<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1af61097a5c34ac0962f11486dba012779" kindref="member">makeRasterQueryInterface</ref>(<ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref>{});</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(iface,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>tile{0,<sp/>0,<sp/>0};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>iface-&gt;queryTile(tile);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a5343bcd21aad65124478a61831f6949e" kindref="member">RasterStatus::NOT_SUPPORTED</ref>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RQI-04<sp/>makeRasterQueryInterface():<sp/>non-empty<sp/>grid<sp/>→<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__raster__query__interface_8cpp_1ab4bd3785ae20a163904b4116f9c5eff2" kindref="member">TEST</ref>(RasterQueryInterface,<sp/>RQI04_Factory_NonEmptyGrid_OK)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>iface<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1af61097a5c34ac0962f11486dba012779" kindref="member">makeRasterQueryInterface</ref>(makeSmallGrid(),<sp/></highlight><highlight class="stringliteral">&quot;EPSG:4326&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(iface,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>a<sp/>tile<sp/>that<sp/>covers<sp/>the<sp/>grid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>tile{0,<sp/>0,<sp/>1};<sp/><sp/></highlight><highlight class="comment">//<sp/>zoom=1,<sp/>top-left<sp/>tile</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>iface-&gt;queryTile(tile);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>tile<sp/>may<sp/>or<sp/>may<sp/>not<sp/>overlap<sp/>the<sp/>grid<sp/>fully;<sp/>just<sp/>check<sp/>no<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Status<sp/>is<sp/>either<sp/>OK<sp/>or<sp/>TILE_TOO_LARGE<sp/>—<sp/>not<sp/>NOT_SUPPORTED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(r.status,<sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a5343bcd21aad65124478a61831f6949e" kindref="member">RasterStatus::NOT_SUPPORTED</ref>);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RQI-05<sp/>RasterGridQueryImpl:<sp/>queryBBox()<sp/>with<sp/>valid<sp/>bbox<sp/>→<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__raster__query__interface_8cpp_1ab4bd3785ae20a163904b4116f9c5eff2" kindref="member">TEST</ref>(RasterQueryInterface,<sp/>RQI05_QueryBBox_Valid_OK)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_raster_grid_query_impl" kindref="compound">RasterGridQueryImpl</ref><sp/>impl(makeSmallGrid(),<sp/></highlight><highlight class="stringliteral">&quot;EPSG:4326&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox{0.5,<sp/>0.5,<sp/>2.5,<sp/>2.5};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>impl.queryBBox(bbox,<sp/>0.5);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">RasterStatus::OK</ref>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.ok());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.crs_wkt,<sp/></highlight><highlight class="stringliteral">&quot;EPSG:4326&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.band_count,<sp/>1u);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(r.resolution_x,<sp/>0.5);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RQI-06<sp/>RasterGridQueryImpl:<sp/>queryBBox()<sp/>with<sp/>resolution<sp/>&lt;=<sp/>0<sp/>→<sp/>INVALID_BBOX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__raster__query__interface_8cpp_1ab4bd3785ae20a163904b4116f9c5eff2" kindref="member">TEST</ref>(RasterQueryInterface,<sp/>RQI06_QueryBBox_InvalidResolution)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_raster_grid_query_impl" kindref="compound">RasterGridQueryImpl</ref><sp/>impl(makeSmallGrid());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox{0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>impl.queryBBox(bbox,<sp/>0.0);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a1bbad5fdeb17bedd0504511459bfed05" kindref="member">RasterStatus::INVALID_BBOX</ref>);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RQI-07<sp/>RasterGridQueryImpl:<sp/>queryTile()<sp/>with<sp/>out-of-range<sp/>zoom<sp/>→<sp/>INVALID_KEY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__raster__query__interface_8cpp_1ab4bd3785ae20a163904b4116f9c5eff2" kindref="member">TEST</ref>(RasterQueryInterface,<sp/>RQI07_QueryTile_OutOfRange_InvalidKey)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_raster_grid_query_impl" kindref="compound">RasterGridQueryImpl</ref><sp/>impl(makeSmallGrid());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>zoom<sp/>&gt;<sp/>22<sp/>is<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>bad_tile{0,<sp/>0,<sp/>25};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>impl.queryTile(bad_tile);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a14eddb1ed548833eb26b0325f17b967e" kindref="member">RasterStatus::INVALID_KEY</ref>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RQI-08<sp/>queryBBox():<sp/>exceeding<sp/>maxTileSizeBytes<sp/>→<sp/>TILE_TOO_LARGE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__raster__query__interface_8cpp_1ab4bd3785ae20a163904b4116f9c5eff2" kindref="member">TEST</ref>(RasterQueryInterface,<sp/>RQI08_QueryBBox_TileTooLarge)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_raster_grid_query_impl" kindref="compound">RasterGridQueryImpl</ref><sp/>impl(makeSmallGrid());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox{0.0,<sp/>0.0,<sp/>4.0,<sp/>4.0};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>a<sp/>very<sp/>small<sp/>max<sp/>tile<sp/>size<sp/>—<sp/>1<sp/>byte<sp/>—<sp/>to<sp/>force<sp/>the<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref><sp/>tight_config{1};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>impl.queryBBox(bbox,<sp/>0.001,<sp/>tight_config);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a7973564e71ebe3dd91127d70c4f09c6f" kindref="member">RasterStatus::TILE_TOO_LARGE</ref>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_raster_query_interface.cpp"/>
+  </compounddef>
+</doxygen>

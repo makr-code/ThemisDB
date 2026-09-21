@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_table_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TableStats</compoundname>
+    <includes refid="statistics__collector_8h" local="no">statistics_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_table_stats_1a13743a386be6a25230ee2762dc5c251e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TableStats::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::TableStats::table_name</qualifiedname>
+        <briefdescription>
+<para>Table/collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="128" column="17" bodyfile="include/metadata/statistics_collector.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_table_stats_1abae3a3c4d211e4597d55fadf370ea7c9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TableStats::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::TableStats::row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated total row count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="129" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_table_stats_1a9db9a1e78f6c8dabeee4ee1acf055241" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TableStats::total_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_size_bytes</name>
+        <qualifiedname>themis::TableStats::total_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated total size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="130" column="14" bodyfile="include/metadata/statistics_collector.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_table_stats_1a178417f020267c6168a74ffa1cc6cbb8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TableStats::avg_row_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>avg_row_size_bytes</name>
+        <qualifiedname>themis::TableStats::avg_row_size_bytes</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Average row size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="131" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_table_stats_1af3de1ba1d7cd6248c284b6848a3df2e1" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1_column_stats" kindref="compound">ColumnStats</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ColumnStats&gt; themis::TableStats::column_stats</definition>
+        <argsstring></argsstring>
+        <name>column_stats</name>
+        <qualifiedname>themis::TableStats::column_stats</qualifiedname>
+        <briefdescription>
+<para>Per-column statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="132" column="14" bodyfile="include/metadata/statistics_collector.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_table_stats_1a850c53440979a28861962833317c235f" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::TableStats::last_updated</definition>
+        <argsstring></argsstring>
+        <name>last_updated</name>
+        <qualifiedname>themis::TableStats::last_updated</qualifiedname>
+        <briefdescription>
+<para>When statistics were last refreshed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="133" column="43" bodyfile="include/metadata/statistics_collector.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_table_stats_1a5b1d8bb46c70c28eef79b181562a0177" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TableStats::sample_size</definition>
+        <argsstring></argsstring>
+        <name>sample_size</name>
+        <qualifiedname>themis::TableStats::sample_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of rows sampled during collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="134" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_table_stats_1a1dbc2c762a186df489b5d512f12a9cf3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::TableStats::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::TableStats::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="136" column="10" bodyfile="src/metadata/statistics_collector.cpp" bodystart="102" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-table statistics for query planning and cardinality estimation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/statistics_collector.h" line="127" column="1" bodyfile="include/metadata/statistics_collector.h" bodystart="127" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_table_stats_1a178417f020267c6168a74ffa1cc6cbb8" prot="public" virt="non-virtual"><scope>themis::TableStats</scope><name>avg_row_size_bytes</name></member>
+      <member refid="structthemis_1_1_table_stats_1af3de1ba1d7cd6248c284b6848a3df2e1" prot="public" virt="non-virtual"><scope>themis::TableStats</scope><name>column_stats</name></member>
+      <member refid="structthemis_1_1_table_stats_1a850c53440979a28861962833317c235f" prot="public" virt="non-virtual"><scope>themis::TableStats</scope><name>last_updated</name></member>
+      <member refid="structthemis_1_1_table_stats_1abae3a3c4d211e4597d55fadf370ea7c9" prot="public" virt="non-virtual"><scope>themis::TableStats</scope><name>row_count</name></member>
+      <member refid="structthemis_1_1_table_stats_1a5b1d8bb46c70c28eef79b181562a0177" prot="public" virt="non-virtual"><scope>themis::TableStats</scope><name>sample_size</name></member>
+      <member refid="structthemis_1_1_table_stats_1a13743a386be6a25230ee2762dc5c251e" prot="public" virt="non-virtual"><scope>themis::TableStats</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1_table_stats_1a1dbc2c762a186df489b5d512f12a9cf3" prot="public" virt="non-virtual"><scope>themis::TableStats</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1_table_stats_1a9db9a1e78f6c8dabeee4ee1acf055241" prot="public" virt="non-virtual"><scope>themis::TableStats</scope><name>total_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

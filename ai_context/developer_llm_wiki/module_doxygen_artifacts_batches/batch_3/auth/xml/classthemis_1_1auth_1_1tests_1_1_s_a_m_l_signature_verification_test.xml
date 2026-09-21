@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_signature_verification_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::SAMLSignatureVerificationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_signature_verification_test_1a7c37e704df8ad27ee825c935df98ba00" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator" kindref="compound">SAMLAuthenticator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SAMLAuthenticator&gt; themis::auth::tests::SAMLSignatureVerificationTest::authenticator_</definition>
+        <argsstring></argsstring>
+        <name>authenticator_</name>
+        <qualifiedname>themis::auth::tests::SAMLSignatureVerificationTest::authenticator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_saml_authenticator_focused.cpp" line="464" column="21" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="464" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_signature_verification_test_1a69c2af97651bd27f61e481b053e059ef" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::tests::SAMLSignatureVerificationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::auth::tests::SAMLSignatureVerificationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_saml_authenticator_focused.cpp" line="466" column="10" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="466" bodyend="475"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::SAMLSignatureVerificationTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_signature_verification_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::SAMLSignatureVerificationTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_signature_verification_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_saml_authenticator_focused.cpp" line="462" column="1" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="462" bodyend="476"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_signature_verification_test_1a7c37e704df8ad27ee825c935df98ba00" prot="protected" virt="non-virtual"><scope>themis::auth::tests::SAMLSignatureVerificationTest</scope><name>authenticator_</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_signature_verification_test_1a69c2af97651bd27f61e481b053e059ef" prot="protected" virt="non-virtual"><scope>themis::auth::tests::SAMLSignatureVerificationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

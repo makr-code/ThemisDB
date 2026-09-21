@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ClusterUpdateManager::Config</compoundname>
+    <includes refid="cluster__update__manager_8h" local="no">cluster_update_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config_1a81b0b812ab38e03b6e3508bd68cdfe39" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_cluster_node" kindref="compound">ClusterNode</ref> &gt;</type>
+        <definition>std::vector&lt;ClusterNode&gt; themis::updates::ClusterUpdateManager::Config::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::Config::nodes</qualifiedname>
+        <briefdescription>
+<para>All nodes that participate in the update. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="272" column="21" bodyfile="include/updates/cluster_update_manager.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config_1a5fffbe1050c35aa68325214d1566ee56" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_cluster_update_options" kindref="compound">ClusterUpdateOptions</ref></type>
+        <definition>ClusterUpdateOptions themis::updates::ClusterUpdateManager::Config::default_options</definition>
+        <argsstring></argsstring>
+        <name>default_options</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::Config::default_options</qualifiedname>
+        <briefdescription>
+<para>Default options applied when none are passed to <ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1ad300e2f371876179d27163198ee57258" kindref="member">updateCluster()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="275" column="30" bodyfile="include/updates/cluster_update_manager.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Static configuration supplied at construction time. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::updates::ClusterUpdateManager::Config</label>
+        <link refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>default_options</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::updates::ClusterUpdateOptions</label>
+        <link refid="structthemis_1_1updates_1_1_cluster_update_options"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/updates/cluster_update_manager.h" line="270" column="5" bodyfile="include/updates/cluster_update_manager.h" bodystart="270" bodyend="276"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config_1a5fffbe1050c35aa68325214d1566ee56" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager::Config</scope><name>default_options</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config_1a81b0b812ab38e03b6e3508bd68cdfe39" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager::Config</scope><name>nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

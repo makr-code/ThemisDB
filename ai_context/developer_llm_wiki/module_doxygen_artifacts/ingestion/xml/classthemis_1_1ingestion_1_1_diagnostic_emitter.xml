@@ -1,0 +1,491 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_diagnostic_emitter" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::DiagnosticEmitter</compoundname>
+    <includes refid="ingestion__diagnostic__emitter_8h" local="no">ingestion_diagnostic_emitter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a6f38b900b94d89009ec78cc6dae586b9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::DiagnosticEmitter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="319" column="24" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1abd0b1eac89ed8bbd27aae7ed62669310" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::DiagnosticEmitter::next_listener_id_</definition>
+        <argsstring></argsstring>
+        <name>next_listener_id_</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::next_listener_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="320" column="9" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a73382e2d384498c0cd826a795e6d26e4" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, <ref refid="namespacethemis_1_1ingestion_1af0786d6b7230c0190cb5b6dba0b84fa9" kindref="member">DiagnosticListener</ref> &gt;</type>
+        <definition>std::map&lt;int, DiagnosticListener&gt; themis::ingestion::DiagnosticEmitter::listeners_</definition>
+        <argsstring></argsstring>
+        <name>listeners_</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::listeners_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="321" column="14" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a2b929258da8932208a581f0f674677fb" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, std::size_t &gt;</type>
+        <definition>std::map&lt;int, std::size_t&gt; themis::ingestion::DiagnosticEmitter::incident_counts_</definition>
+        <argsstring></argsstring>
+        <name>incident_counts_</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::incident_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="322" column="14" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a905208a9947a014f4639fc0240246170" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DiagnosticEmitter::DiagnosticEmitter</definition>
+        <argsstring>()=default</argsstring>
+        <name>DiagnosticEmitter</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::DiagnosticEmitter</qualifiedname>
+        <briefdescription>
+<para>Construct a diagnostic emitter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="170" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a63eecd4ce4b68e6528ce63f8f6c97366" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DiagnosticEmitter::~DiagnosticEmitter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DiagnosticEmitter</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::~DiagnosticEmitter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="172" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a5d3f6728b49ba5407f3c262747e597bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DiagnosticEmitter::DiagnosticEmitter</definition>
+        <argsstring>(const DiagnosticEmitter &amp;)=delete</argsstring>
+        <name>DiagnosticEmitter</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::DiagnosticEmitter</qualifiedname>
+        <param>
+          <type>const DiagnosticEmitter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="175" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a470c0a573d24a308c460703b3fb268cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a905208a9947a014f4639fc0240246170" kindref="member">DiagnosticEmitter</ref> &amp;</type>
+        <definition>DiagnosticEmitter &amp; themis::ingestion::DiagnosticEmitter::operator=</definition>
+        <argsstring>(const DiagnosticEmitter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a905208a9947a014f4639fc0240246170" kindref="member">DiagnosticEmitter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="176" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a97f0ccd7e4eb5f9d13a63070775326d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::ingestion::DiagnosticEmitter::registerListener</definition>
+        <argsstring>(DiagnosticListener listener)</argsstring>
+        <name>registerListener</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::registerListener</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1af0786d6b7230c0190cb5b6dba0b84fa9" kindref="member">DiagnosticListener</ref></type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>Register a listener for all incident notifications. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Multiple listeners can be registered and will all be invoked when an incident is emitted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback function to invoke on incidents </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Listener ID (can be used to unregister) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="189" column="9" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="189" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a22f3442c22578a1a42a3d03ccdc6def3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::DiagnosticEmitter::unregisterListener</definition>
+        <argsstring>(int listener_id)</argsstring>
+        <name>unregisterListener</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::unregisterListener</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>listener_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a previously registered listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>listener_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID returned by <ref refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a97f0ccd7e4eb5f9d13a63070775326d7" kindref="member">registerListener()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the listener was found and removed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="201" column="10" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="201" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a70499d588b2b9049674e6fa613504c24" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DiagnosticEmitter::clearListeners</definition>
+        <argsstring>()</argsstring>
+        <name>clearListeners</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::clearListeners</qualifiedname>
+        <briefdescription>
+<para>Clear all registered listeners. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="209" column="10" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="209" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a15a6909235f2abadd7b9075ee38b8fb6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::DiagnosticEmitter::getListenerCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getListenerCount</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::getListenerCount</qualifiedname>
+        <briefdescription>
+<para>Get the number of registered listeners. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="217" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="217" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a86b84df3c28a305c5f4b6ea1a9af1949" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DiagnosticEmitter::emit</definition>
+        <argsstring>(DiagnosticIncident incident)</argsstring>
+        <name>emit</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::emit</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident" kindref="compound">DiagnosticIncident</ref></type>
+          <declname>incident</declname>
+        </param>
+        <briefdescription>
+<para>Emit a diagnostic incident. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Invokes all registered listeners with the incident details. Thread-safe; can be called from multiple threads.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incident</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Diagnostic incident to emit </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="232" column="10" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="232" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a44edaeb19cad06cc979b9af5cd5d7bba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DiagnosticEmitter::emitFromError</definition>
+        <argsstring>(const ErrorContext &amp;error_context)</argsstring>
+        <name>emitFromError</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::emitFromError</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>error_context</declname>
+        </param>
+        <briefdescription>
+<para>Emit an incident based on an error context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Converts an <ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref> into a <ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident" kindref="compound">DiagnosticIncident</ref> and emits it.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error context to convert </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generated incident ID </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="268" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="268" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1abe91d91a9b70bd733d8b83ce57b86dbf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::DiagnosticEmitter::getIncidentCount</definition>
+        <argsstring>(IncidentCategory category) const</argsstring>
+        <name>getIncidentCount</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::getIncidentCount</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285" kindref="member">IncidentCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Get statistics for incidents in a category. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Incident category </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of incidents in this category since emitter creation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="291" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="291" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a7ae4b3a6bfdf149e311fdd84e8daa153" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::DiagnosticEmitter::getTotalIncidentCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalIncidentCount</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::getTotalIncidentCount</qualifiedname>
+        <briefdescription>
+<para>Get total incident count across all categories. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="301" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="301" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a7860523323e250c86490e0fb942fd0c0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DiagnosticEmitter::resetCounters</definition>
+        <argsstring>()</argsstring>
+        <name>resetCounters</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::resetCounters</qualifiedname>
+        <briefdescription>
+<para>Reset all incident counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="313" column="10" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="313" bodyend="316"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a2f1e1b50ec31d0e99c8b94302acdac7c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DiagnosticEmitter::generateIncidentId</definition>
+        <argsstring>()</argsstring>
+        <name>generateIncidentId</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::generateIncidentId</qualifiedname>
+        <briefdescription>
+<para>Generate a unique incident identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="327" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="327" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a151a0c33d33cc317700dccbfa260074c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285" kindref="member">IncidentCategory</ref></type>
+        <definition>IncidentCategory themis::ingestion::DiagnosticEmitter::categorizeError</definition>
+        <argsstring>(IngestionErrorCode code)</argsstring>
+        <name>categorizeError</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::categorizeError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Categorize an error code into an incident category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="335" column="22" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="335" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a675a8a2682f8de9a3b8778f3d6e17bc1" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1ingestion_1a995ea25701009e934f28ad5e8777f983" kindref="member">DiagnosticSeverity</ref></type>
+        <definition>DiagnosticSeverity themis::ingestion::DiagnosticEmitter::calculateSeverity</definition>
+        <argsstring>(IncidentCategory category)</argsstring>
+        <name>calculateSeverity</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::calculateSeverity</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285" kindref="member">IncidentCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Calculate severity level for an incident category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="380" column="24" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="380" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a253b76e0c1d63d3920465b78c6760a36" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DiagnosticEmitter::getRemediationHint</definition>
+        <argsstring>(IncidentCategory category)</argsstring>
+        <name>getRemediationHint</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::getRemediationHint</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285" kindref="member">IncidentCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Get remediation hint for an incident category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="403" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="403" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a593c3bafe077599156d02e92e4dab470" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DiagnosticEmitter::getRunbookLink</definition>
+        <argsstring>(IncidentCategory category)</argsstring>
+        <name>getRunbookLink</name>
+        <qualifiedname>themis::ingestion::DiagnosticEmitter::getRunbookLink</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285" kindref="member">IncidentCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Get runbook link for an incident category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="437" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="437" bodyend="457"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Emits diagnostic incidents for operator visibility. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses listener pattern (observer) for decoupled notification of diagnostic events. Multiple listeners can be registered.</para>
+<para>Thread-safe for multi-threaded ingestion pipelines.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a905208a9947a014f4639fc0240246170" kindref="member">DiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Register<sp/>listener<sp/>for<sp/>all<sp/>incidents</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">emitter.onIncident([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DiagnosticIncident&amp;<sp/>incident)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Incident:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>incident.title<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Severity:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(incident.severity)<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Remedy:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>incident.remediation_hint<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Runbook:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>incident.runbook_link<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Emit<sp/>incidents</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">DiagnosticIncident<sp/>incident;</highlight></codeline>
+<codeline><highlight class="normal">incident.category<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a56dd875b9533f84982fa8542fc1ae5c1" kindref="member">IncidentCategory::NETWORK_CONNECTIVITY</ref>;</highlight></codeline>
+<codeline><highlight class="normal">incident.severity<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a995ea25701009e934f28ad5e8777f983a320f86f60f25459ba5550e000b2c3929" kindref="member">DiagnosticSeverity::ALERT</ref>;</highlight></codeline>
+<codeline><highlight class="normal">incident.title<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;API<sp/>connection<sp/>timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">incident.remediation_hint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Check<sp/>network<sp/>connectivity<sp/>and<sp/>API<sp/>health&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">incident.runbook_link<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://wiki/ops/api-timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">emitter.emit(incident);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="165" column="1" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="165" bodyend="458"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a675a8a2682f8de9a3b8778f3d6e17bc1" prot="private" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>calculateSeverity</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a151a0c33d33cc317700dccbfa260074c" prot="private" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>categorizeError</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a70499d588b2b9049674e6fa613504c24" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>clearListeners</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a905208a9947a014f4639fc0240246170" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>DiagnosticEmitter</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a5d3f6728b49ba5407f3c262747e597bc" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>DiagnosticEmitter</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a86b84df3c28a305c5f4b6ea1a9af1949" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>emit</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a44edaeb19cad06cc979b9af5cd5d7bba" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>emitFromError</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a2f1e1b50ec31d0e99c8b94302acdac7c" prot="private" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>generateIncidentId</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1abe91d91a9b70bd733d8b83ce57b86dbf" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>getIncidentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a15a6909235f2abadd7b9075ee38b8fb6" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>getListenerCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a253b76e0c1d63d3920465b78c6760a36" prot="private" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>getRemediationHint</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a593c3bafe077599156d02e92e4dab470" prot="private" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>getRunbookLink</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a7ae4b3a6bfdf149e311fdd84e8daa153" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>getTotalIncidentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a2b929258da8932208a581f0f674677fb" prot="private" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>incident_counts_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a73382e2d384498c0cd826a795e6d26e4" prot="private" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>listeners_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a6f38b900b94d89009ec78cc6dae586b9" prot="private" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1abd0b1eac89ed8bbd27aae7ed62669310" prot="private" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>next_listener_id_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a470c0a573d24a308c460703b3fb268cf" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a97f0ccd7e4eb5f9d13a63070775326d7" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>registerListener</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a7860523323e250c86490e0fb942fd0c0" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>resetCounters</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a22f3442c22578a1a42a3d03ccdc6def3" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>unregisterListener</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_diagnostic_emitter_1a63eecd4ce4b68e6528ce63f8f6c97366" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticEmitter</scope><name>~DiagnosticEmitter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

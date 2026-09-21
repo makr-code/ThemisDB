@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_scoped_latency_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::ScopedLatencyTracker</compoundname>
+    <includes refid="llm__metrics__collector_8h" local="no">llm_metrics_collector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_scoped_latency_tracker_1a25221a19efa5c1c3e4bea6b4f574e4ac" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::aql::ScopedLatencyTracker::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::aql::ScopedLatencyTracker::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="149" column="43" bodyfile="include/aql/llm_metrics_collector.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_scoped_latency_tracker_1a7f60f227c8d5aedbfc6f9d914b5a84f4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::ScopedLatencyTracker::ScopedLatencyTracker</definition>
+        <argsstring>()</argsstring>
+        <name>ScopedLatencyTracker</name>
+        <qualifiedname>themis::aql::ScopedLatencyTracker::ScopedLatencyTracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="139" column="5" bodyfile="include/aql/llm_metrics_collector.h" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_scoped_latency_tracker_1a139e2224db6eb170667d75860b0a4c03" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::aql::ScopedLatencyTracker::elapsed</definition>
+        <argsstring>() const</argsstring>
+        <name>elapsed</name>
+        <qualifiedname>themis::aql::ScopedLatencyTracker::elapsed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_metrics_collector.h" line="143" column="31" bodyfile="include/aql/llm_metrics_collector.h" bodystart="143" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_metrics_collector.h" line="137" column="1" bodyfile="include/aql/llm_metrics_collector.h" bodystart="137" bodyend="150"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_scoped_latency_tracker_1a139e2224db6eb170667d75860b0a4c03" prot="public" virt="non-virtual"><scope>themis::aql::ScopedLatencyTracker</scope><name>elapsed</name></member>
+      <member refid="classthemis_1_1aql_1_1_scoped_latency_tracker_1a7f60f227c8d5aedbfc6f9d914b5a84f4" prot="public" virt="non-virtual"><scope>themis::aql::ScopedLatencyTracker</scope><name>ScopedLatencyTracker</name></member>
+      <member refid="classthemis_1_1aql_1_1_scoped_latency_tracker_1a25221a19efa5c1c3e4bea6b4f574e4ac" prot="private" virt="non-virtual"><scope>themis::aql::ScopedLatencyTracker</scope><name>start_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

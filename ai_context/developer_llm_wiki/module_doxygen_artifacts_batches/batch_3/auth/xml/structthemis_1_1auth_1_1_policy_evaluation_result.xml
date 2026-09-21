@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_policy_evaluation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::PolicyEvaluationResult</compoundname>
+    <includes refid="authorization__policy_8h" local="no">authorization_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_policy_evaluation_result_1af00e926f1869b4193ef1c9520ccde402" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0" kindref="member">PolicyDecision</ref></type>
+        <definition>PolicyDecision themis::auth::PolicyEvaluationResult::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::auth::PolicyEvaluationResult::decision</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0aeb7295999e22b161fe9136ac2a60c0d5" kindref="member">PolicyDecision::NOT_APPLICABLE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="73" column="26" bodyfile="include/auth/authorization_policy.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_policy_evaluation_result_1ad173a0e3d9819efe4dd2f08e42d2efd7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PolicyEvaluationResult::policy_id</definition>
+        <argsstring></argsstring>
+        <name>policy_id</name>
+        <qualifiedname>themis::auth::PolicyEvaluationResult::policy_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="74" column="26" bodyfile="include/auth/authorization_policy.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_policy_evaluation_result_1a40d43efaf7a4c3872546ae339f48f5ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PolicyEvaluationResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::auth::PolicyEvaluationResult::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="75" column="26" bodyfile="include/auth/authorization_policy.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_policy_evaluation_result_1a7e953ebee2461066d64c721c72726251" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::PolicyEvaluationResult::applicable_policies</definition>
+        <argsstring></argsstring>
+        <name>applicable_policies</name>
+        <qualifiedname>themis::auth::PolicyEvaluationResult::applicable_policies</qualifiedname>
+        <briefdescription>
+<para>IDs of all matched sub-policies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="76" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/authorization_policy.h" line="72" column="1" bodyfile="include/auth/authorization_policy.h" bodystart="72" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_policy_evaluation_result_1a7e953ebee2461066d64c721c72726251" prot="public" virt="non-virtual"><scope>themis::auth::PolicyEvaluationResult</scope><name>applicable_policies</name></member>
+      <member refid="structthemis_1_1auth_1_1_policy_evaluation_result_1af00e926f1869b4193ef1c9520ccde402" prot="public" virt="non-virtual"><scope>themis::auth::PolicyEvaluationResult</scope><name>decision</name></member>
+      <member refid="structthemis_1_1auth_1_1_policy_evaluation_result_1ad173a0e3d9819efe4dd2f08e42d2efd7" prot="public" virt="non-virtual"><scope>themis::auth::PolicyEvaluationResult</scope><name>policy_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_policy_evaluation_result_1a40d43efaf7a4c3872546ae339f48f5ef" prot="public" virt="non-virtual"><scope>themis::auth::PolicyEvaluationResult</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_retry_policy_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::RetryPolicy::Config</compoundname>
+    <includes refid="llm__timeout__manager_8h" local="no">llm_timeout_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a0d164fd1357e455e12743ce5afa03d64" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::aql::RetryPolicy::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::aql::RetryPolicy::Config::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="255" column="16" bodyfile="include/aql/llm_timeout_manager.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a6e01dde025e6f91a567890d762a23987" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::aql::RetryPolicy::Config::initial_delay</definition>
+        <argsstring></argsstring>
+        <name>initial_delay</name>
+        <qualifiedname>themis::aql::RetryPolicy::Config::initial_delay</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="256" column="35" bodyfile="include/aql/llm_timeout_manager.h" bodystart="256" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a6d8a62281d1ab16a19036d076b5cebbb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::aql::RetryPolicy::Config::backoff_multiplier</definition>
+        <argsstring></argsstring>
+        <name>backoff_multiplier</name>
+        <qualifiedname>themis::aql::RetryPolicy::Config::backoff_multiplier</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="257" column="16" bodyfile="include/aql/llm_timeout_manager.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_retry_policy_1_1_config_1abfc918387e6b6adf4272c99b3b21a63d" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::aql::RetryPolicy::Config::max_delay</definition>
+        <argsstring></argsstring>
+        <name>max_delay</name>
+        <qualifiedname>themis::aql::RetryPolicy::Config::max_delay</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="258" column="35" bodyfile="include/aql/llm_timeout_manager.h" bodystart="258" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a8d9e0f9866c8fa178fa4aa9a0d84f7ec" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::aql::RetryPolicy::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::aql::RetryPolicy::Config::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="264" column="23" bodyfile="include/aql/llm_timeout_manager.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_timeout_manager.h" line="254" column="5" bodyfile="include/aql/llm_timeout_manager.h" bodystart="254" bodyend="265"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a6d8a62281d1ab16a19036d076b5cebbb" prot="public" virt="non-virtual"><scope>themis::aql::RetryPolicy::Config</scope><name>backoff_multiplier</name></member>
+      <member refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a8d9e0f9866c8fa178fa4aa9a0d84f7ec" prot="public" virt="non-virtual"><scope>themis::aql::RetryPolicy::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a6e01dde025e6f91a567890d762a23987" prot="public" virt="non-virtual"><scope>themis::aql::RetryPolicy::Config</scope><name>initial_delay</name></member>
+      <member refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1abfc918387e6b6adf4272c99b3b21a63d" prot="public" virt="non-virtual"><scope>themis::aql::RetryPolicy::Config</scope><name>max_delay</name></member>
+      <member refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a0d164fd1357e455e12743ce5afa03d64" prot="public" virt="non-virtual"><scope>themis::aql::RetryPolicy::Config</scope><name>max_retries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

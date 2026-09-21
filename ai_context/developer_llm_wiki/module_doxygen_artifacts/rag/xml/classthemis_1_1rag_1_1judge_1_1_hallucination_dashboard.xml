@@ -1,0 +1,724 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::HallucinationDashboard</compoundname>
+    <includes refid="hallucination__dashboard_8h" local="no">hallucination_dashboard.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1_1_impl" prot="public">themis::rag::judge::HallucinationDashboard::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a69f16ff0eb8b791e0703dda9ccaa0609" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert" kindref="compound">HallucinationAlert</ref> &amp;)&gt;</type>
+        <definition>using themis::rag::judge::HallucinationDashboard::AlertCallback = std::function&lt;void(const HallucinationAlert&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AlertCallback</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::AlertCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="171" column="5" bodyfile="include/rag/hallucination_dashboard.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a80851dbf0ebd5c292032b4825c99cef4" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::HallucinationDashboard::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="222" column="21" bodyfile="include/rag/hallucination_dashboard.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a4793e023aa185793d7c3a6d7b8bdb7d8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config" kindref="compound">HallucinationDashboardConfig</ref></type>
+        <definition>HallucinationDashboardConfig themis::rag::judge::HallucinationDashboard::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="223" column="34" bodyfile="include/rag/hallucination_dashboard.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a6968f93e1568638a360a0f4a92485e17" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a69f16ff0eb8b791e0703dda9ccaa0609" kindref="member">AlertCallback</ref></type>
+        <definition>AlertCallback themis::rag::judge::HallucinationDashboard::alert_callback_</definition>
+        <argsstring></argsstring>
+        <name>alert_callback_</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::alert_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="224" column="19" bodyfile="include/rag/hallucination_dashboard.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a207f86ef02c04f08b34620af89f6cc8f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::HallucinationDashboard::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="225" column="24" bodyfile="include/rag/hallucination_dashboard.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a5b6b4309e9d3a8127df62a22fdec9dc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::HallucinationDashboard::HallucinationDashboard</definition>
+        <argsstring>()</argsstring>
+        <name>HallucinationDashboard</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::HallucinationDashboard</qualifiedname>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="110" column="5" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="37" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a3c6b3bc7cc0c0e9d1b57bb0f19585802" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::HallucinationDashboard::HallucinationDashboard</definition>
+        <argsstring>(const HallucinationDashboardConfig &amp;config)</argsstring>
+        <name>HallucinationDashboard</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::HallucinationDashboard</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config" kindref="compound">HallucinationDashboardConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dashboard configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="116" column="14" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="40" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a18f1e74274a7ffe20550b7df2550b9c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::HallucinationDashboard::~HallucinationDashboard</definition>
+        <argsstring>()</argsstring>
+        <name>~HallucinationDashboard</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::~HallucinationDashboard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="118" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a800d782f65903aa285c737ef833befd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::HallucinationDashboard::record</definition>
+        <argsstring>(const EvaluationResult &amp;result, const std::string &amp;query=&quot;&quot;, const std::string &amp;mode=&quot;BALANCED&quot;)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::record</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mode</declname>
+          <defval>&quot;BALANCED&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record a full RAG evaluation result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record.</para>
+<para>Extracts the faithfulness score and query metadata from the result. The <computeroutput>query</computeroutput> string is stored for display purposes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation result produced by <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query associated with the evaluation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation mode (&quot;FAST&quot;, &quot;BALANCED&quot;, &quot;THOROUGH&quot;)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a561429e96c8d5acae7d48ef2695799c9" kindref="member">recordFaithfulness()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="132" column="10" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="65" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a561429e96c8d5acae7d48ef2695799c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::HallucinationDashboard::recordFaithfulness</definition>
+        <argsstring>(double faithfulness_score, const std::string &amp;query=&quot;&quot;, const std::string &amp;mode=&quot;BALANCED&quot;)</argsstring>
+        <name>recordFaithfulness</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::recordFaithfulness</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>faithfulness_score</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mode</declname>
+          <defval>&quot;BALANCED&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record a faithfulness score directly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Faithfulness.</para>
+<para>Useful when only the faithfulness score is available without a full <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>faithfulness_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Score in [0, 1] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation mode string</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">faithfulness_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::max(), std::min(), std::chrono::system_clock::now(), recordEntry(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="146" column="10" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="78" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a786130e85d468e2643be4ef528ea1fa5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot" kindref="compound">DashboardSnapshot</ref></type>
+        <definition>DashboardSnapshot themis::rag::judge::HallucinationDashboard::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::snapshot</qualifiedname>
+        <briefdescription>
+<para>Compute and return a point-in-time statistics snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="155" column="23" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="161" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a597a55bc36bbb3d4472ab4e520e2591b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::HallucinationDashboard::hallucinationRate</definition>
+        <argsstring>() const</argsstring>
+        <name>hallucinationRate</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::hallucinationRate</qualifiedname>
+        <briefdescription>
+<para>Current hallucination rate over the rolling window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Fraction [0, 1] of evaluations classified as hallucinations </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="161" column="12" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="142" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a6745560c2563eef8fc1e8b4ac236a217" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry" kindref="compound">HallucinationEntry</ref> &gt;</type>
+        <definition>std::vector&lt; HallucinationEntry &gt; themis::rag::judge::HallucinationDashboard::recentEntries</definition>
+        <argsstring>(size_t n=0) const</argsstring>
+        <name>recentEntries</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::recentEntries</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Return the N most recent hallucination entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of entries to return (0 = all) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="167" column="17" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="240" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a7d47c37fefaeb5353f1397927d5a112c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::HallucinationDashboard::setAlertCallback</definition>
+        <argsstring>(AlertCallback callback)</argsstring>
+        <name>setAlertCallback</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::setAlertCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a69f16ff0eb8b791e0703dda9ccaa0609" kindref="member">AlertCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked whenever an alert is generated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Alert Callback.</para>
+<para>The callback is called while the internal mutex is NOT held, so callers may safely call any dashboard method from within it.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="179" column="10" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="264" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a86eb06df7f84498650122de2b55b5afa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert" kindref="compound">HallucinationAlert</ref> &gt;</type>
+        <definition>std::vector&lt; HallucinationAlert &gt; themis::rag::judge::HallucinationDashboard::checkAlerts</definition>
+        <argsstring>()</argsstring>
+        <name>checkAlerts</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::checkAlerts</qualifiedname>
+        <briefdescription>
+<para>Manually check thresholds and fire callbacks if exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Alerts.</para>
+<para>Called automatically after every <ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a800d782f65903aa285c737ef833befd4" kindref="member">record()</ref>, but can also be triggered explicitly.</para>
+<para><simplesect kind="return"><para>Alerts generated during this check (may be empty)</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a786130e85d468e2643be4ef528ea1fa5" kindref="member">snapshot()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="189" column="17" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="274" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a48dca9703d9479f640de4d2923edc926" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::HallucinationDashboard::exportCSV</definition>
+        <argsstring>(const std::string &amp;filepath) const</argsstring>
+        <name>exportCSV</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::exportCSV</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Export entries in the current window to a CSV file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Columns: timestamp_epoch_s, query, faithfulness_score, is_hallucination, evaluation_mode</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination file path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if the file could not be opened </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="202" column="10" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="331" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a08343c8007126e97519e0c7d5876b605" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::HallucinationDashboard::printReport</definition>
+        <argsstring>(std::ostream &amp;os=std::cout) const</argsstring>
+        <name>printReport</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::printReport</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>os</declname>
+          <defval>std::cout</defval>
+        </param>
+        <briefdescription>
+<para>Print a human-readable dashboard report to an output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>os</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target stream (default: std::cout) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="208" column="10" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="362" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a55660c02e53761f890f6d1f1ed05402d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::HallucinationDashboard::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all recorded data and statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), clear(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="213" column="10" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="402" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1ad847f072d127c8db4da001346f1c8893" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config" kindref="compound">HallucinationDashboardConfig</ref> &amp;</type>
+        <definition>const HallucinationDashboardConfig &amp; themis::rag::judge::HallucinationDashboard::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::config</qualifiedname>
+        <briefdescription>
+<para>Return the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="218" column="40" bodyfile="include/rag/hallucination_dashboard.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1aa1fe58294aa86f1d60518082dd2cbd6c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::HallucinationDashboard::recordEntry</definition>
+        <argsstring>(HallucinationEntry entry)</argsstring>
+        <name>recordEntry</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::recordEntry</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry" kindref="compound">HallucinationEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Record Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), pop_front(), empty(), fireAlertsUnlocked(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="227" column="10" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="99" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a7f9090a510373b73d68e441a0579bd13" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::HallucinationDashboard::fireAlertsUnlocked</definition>
+        <argsstring>(double rate)</argsstring>
+        <name>fireAlertsUnlocked</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::fireAlertsUnlocked</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+<para>Fire Alerts Unlocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), std::chrono::system_clock::now(), THEMIS_WARN(), THEMIS_DEBUG(), cb(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="228" column="10" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="284" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a4aa330df8cd053c10e1cce1e630a77c6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::HallucinationDashboard::computeMean</definition>
+        <argsstring>(const std::deque&lt; double &gt; &amp;data) const</argsstring>
+        <name>computeMean</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::computeMean</qualifiedname>
+        <param>
+          <type>const std::deque&lt; double &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="230" column="12" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="414" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a9467bd83774ff652ed9682be178b5b20" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::HallucinationDashboard::computeStdDev</definition>
+        <argsstring>(const std::deque&lt; double &gt; &amp;data, double mean) const</argsstring>
+        <name>computeStdDev</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::computeStdDev</qualifiedname>
+        <param>
+          <type>const std::deque&lt; double &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mean</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="231" column="12" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="422" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1aa627af92863d5e14f3a0f10a747e1aea" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::HallucinationDashboard::computeTrend</definition>
+        <argsstring>(const std::deque&lt; double &gt; &amp;data) const</argsstring>
+        <name>computeTrend</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::computeTrend</qualifiedname>
+        <param>
+          <type>const std::deque&lt; double &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="232" column="12" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="436" bodyend="455"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hallucination rate tracking dashboard. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe sliding-window tracker that accepts RAG evaluation results and exposes aggregated statistics for monitoring and alerting. </para>
+    </detaileddescription>
+    <location file="include/rag/hallucination_dashboard.h" line="105" column="1" bodyfile="include/rag/hallucination_dashboard.h" bodystart="105" bodyend="233"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a6968f93e1568638a360a0f4a92485e17" prot="private" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>alert_callback_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a69f16ff0eb8b791e0703dda9ccaa0609" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>AlertCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a86eb06df7f84498650122de2b55b5afa" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>checkAlerts</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a4aa330df8cd053c10e1cce1e630a77c6" prot="private" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>computeMean</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a9467bd83774ff652ed9682be178b5b20" prot="private" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>computeStdDev</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1aa627af92863d5e14f3a0f10a747e1aea" prot="private" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>computeTrend</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1ad847f072d127c8db4da001346f1c8893" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>config</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a4793e023aa185793d7c3a6d7b8bdb7d8" prot="private" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a48dca9703d9479f640de4d2923edc926" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>exportCSV</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a7f9090a510373b73d68e441a0579bd13" prot="private" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>fireAlertsUnlocked</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a5b6b4309e9d3a8127df62a22fdec9dc9" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>HallucinationDashboard</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a3c6b3bc7cc0c0e9d1b57bb0f19585802" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>HallucinationDashboard</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a597a55bc36bbb3d4472ab4e520e2591b" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>hallucinationRate</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a80851dbf0ebd5c292032b4825c99cef4" prot="private" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a207f86ef02c04f08b34620af89f6cc8f" prot="private" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a08343c8007126e97519e0c7d5876b605" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>printReport</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a6745560c2563eef8fc1e8b4ac236a217" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>recentEntries</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a800d782f65903aa285c737ef833befd4" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>record</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1aa1fe58294aa86f1d60518082dd2cbd6c" prot="private" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>recordEntry</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a561429e96c8d5acae7d48ef2695799c9" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>recordFaithfulness</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a55660c02e53761f890f6d1f1ed05402d" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>reset</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a7d47c37fefaeb5353f1397927d5a112c" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>setAlertCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a786130e85d468e2643be4ef528ea1fa5" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a18f1e74274a7ffe20550b7df2550b9c5" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard</scope><name>~HallucinationDashboard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_data_point" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::DataPoint</compoundname>
+    <includes refid="time__series_8h" local="no">time_series.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_data_point_1a4ca30b4e3874708c439db30edca89927" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" kindref="member">TimePoint</ref></type>
+        <definition>TimePoint themis::analytics::DataPoint::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::analytics::DataPoint::timestamp</qualifiedname>
+        <briefdescription>
+<para>Nanoseconds since epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="42" column="15" bodyfile="include/analytics/time_series.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_data_point_1a6f479c73d3be9f25d1ada105590411cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::DataPoint::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::analytics::DataPoint::value</qualifiedname>
+        <briefdescription>
+<para>Observed value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="43" column="15" bodyfile="include/analytics/time_series.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_data_point_1a916b7634be7f299242d0bb3c188c7ac0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::DataPoint::operator&lt;</definition>
+        <argsstring>(const DataPoint &amp;rhs) const noexcept</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themis::analytics::DataPoint::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="45" column="5" bodyfile="include/analytics/time_series.h" bodystart="45" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/time_series.h" line="41" column="1" bodyfile="include/analytics/time_series.h" bodystart="41" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_data_point_1a916b7634be7f299242d0bb3c188c7ac0" prot="public" virt="non-virtual"><scope>themis::analytics::DataPoint</scope><name>operator&lt;</name></member>
+      <member refid="structthemis_1_1analytics_1_1_data_point_1a4ca30b4e3874708c439db30edca89927" prot="public" virt="non-virtual"><scope>themis::analytics::DataPoint</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1analytics_1_1_data_point_1a6f479c73d3be9f25d1ada105590411cc" prot="public" virt="non-virtual"><scope>themis::analytics::DataPoint</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

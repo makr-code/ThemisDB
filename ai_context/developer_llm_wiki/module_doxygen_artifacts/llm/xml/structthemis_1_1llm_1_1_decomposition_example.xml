@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_decomposition_example" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DecompositionExample</compoundname>
+    <includes refid="task__decomposer_8h" local="no">task_decomposer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decomposition_example_1a8273547a9a77db3a21e674c33ce59af0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DecompositionExample::task</definition>
+        <argsstring></argsstring>
+        <name>task</name>
+        <qualifiedname>themis::llm::DecompositionExample::task</qualifiedname>
+        <briefdescription>
+<para>Example complex task string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="74" column="17" bodyfile="include/llm/task_decomposer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decomposition_example_1adfbd0b6090aee83a9c9bec4dcad5e2d6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt;json&gt; themis::llm::DecompositionExample::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::llm::DecompositionExample::steps</qualifiedname>
+        <briefdescription>
+<para>Expected JSON subtask array for that task. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="75" column="17" bodyfile="include/llm/task_decomposer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/task_decomposer.h" line="73" column="1" bodyfile="include/llm/task_decomposer.h" bodystart="73" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_decomposition_example_1adfbd0b6090aee83a9c9bec4dcad5e2d6" prot="public" virt="non-virtual"><scope>themis::llm::DecompositionExample</scope><name>steps</name></member>
+      <member refid="structthemis_1_1llm_1_1_decomposition_example_1a8273547a9a77db3a21e674c33ce59af0" prot="public" virt="non-virtual"><scope>themis::llm::DecompositionExample</scope><name>task</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fault_recovery_tests" kind="class" language="C++" prot="public">
+    <compoundname>FaultRecoveryTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_fault_recovery_tests_1a6c6d35d65547d067cd823585dabaf139" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; FaultRecoveryTests::fault_count</definition>
+        <argsstring></argsstring>
+        <name>fault_count</name>
+        <qualifiedname>FaultRecoveryTests::fault_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="434" column="17" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="434" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fault_recovery_tests_1af372e2ecd88b43339c81ebce9b521481" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; FaultRecoveryTests::recovered</definition>
+        <argsstring></argsstring>
+        <name>recovered</name>
+        <qualifiedname>FaultRecoveryTests::recovered</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="435" column="17" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="435" bodyend="435"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FaultRecoveryTests</label>
+        <link refid="class_fault_recovery_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FaultRecoveryTests</label>
+        <link refid="class_fault_recovery_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_phase1_hardening.cpp" line="432" column="1" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="432" bodyend="436"/>
+    <listofallmembers>
+      <member refid="class_fault_recovery_tests_1a6c6d35d65547d067cd823585dabaf139" prot="protected" virt="non-virtual"><scope>FaultRecoveryTests</scope><name>fault_count</name></member>
+      <member refid="class_fault_recovery_tests_1af372e2ecd88b43339c81ebce9b521481" prot="protected" virt="non-virtual"><scope>FaultRecoveryTests</scope><name>recovered</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

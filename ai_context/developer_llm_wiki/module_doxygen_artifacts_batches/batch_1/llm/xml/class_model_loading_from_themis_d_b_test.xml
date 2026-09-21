@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_model_loading_from_themis_d_b_test" kind="class" language="C++" prot="public">
+    <compoundname>ModelLoadingFromThemisDBTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_model_loading_from_themis_d_b_test_1a31f74f0e825d14274b82780a9b0d73ee" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path ModelLoadingFromThemisDBTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="133" column="14" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_model_loading_from_themis_d_b_test_1a1c23a17369d2e8c877e10b31f0506580" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path ModelLoadingFromThemisDBTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="134" column="14" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_model_loading_from_themis_d_b_test_1a0081f05f05de6cc66cc810e1b74ea9fb" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path ModelLoadingFromThemisDBTest::blob_path_</definition>
+        <argsstring></argsstring>
+        <name>blob_path_</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::blob_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="135" column="14" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_model_loading_from_themis_d_b_test_1a74a9051d1727c131fdf5b12d2e769872" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path ModelLoadingFromThemisDBTest::test_model_path_</definition>
+        <argsstring></argsstring>
+        <name>test_model_path_</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::test_model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="136" column="14" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_model_loading_from_themis_d_b_test_1a5dd111e55e4eb8c15bc6773035b2c8be" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; ModelLoadingFromThemisDBTest::test_model_data_</definition>
+        <argsstring></argsstring>
+        <name>test_model_data_</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::test_model_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="137" column="17" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_model_loading_from_themis_d_b_test_1a74a69978be2de79fb694ceead4f38e33" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; ModelLoadingFromThemisDBTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="139" column="21" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_model_loading_from_themis_d_b_test_1a686927df03650f438aebd3387572b272" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; BlobStorageManager &gt;</type>
+        <definition>std::shared_ptr&lt;BlobStorageManager&gt; ModelLoadingFromThemisDBTest::blob_manager_</definition>
+        <argsstring></argsstring>
+        <name>blob_manager_</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::blob_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="140" column="21" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_model_loading_from_themis_d_b_test_1a30de97049fbeed1d557013c5c33d036b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_l_l_m_model_storage" kindref="compound">LLMModelStorage</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LLMModelStorage&gt; ModelLoadingFromThemisDBTest::model_storage_</definition>
+        <argsstring></argsstring>
+        <name>model_storage_</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::model_storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="141" column="21" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_model_loading_from_themis_d_b_test_1a3449c28433a9a764b6c06a912d8648b1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ModelLoadingFromThemisDBTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="39" column="10" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="39" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_model_loading_from_themis_d_b_test_1a3290570e387e5f9759ddf77e0cabb32e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ModelLoadingFromThemisDBTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="80" column="10" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="80" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_model_loading_from_themis_d_b_test_1a250dba28210efa8c7ffd9479e70dfeb9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ModelLoadingFromThemisDBTest::createTestModelFile</definition>
+        <argsstring>()</argsstring>
+        <name>createTestModelFile</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::createTestModelFile</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="97" column="10" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="97" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="class_model_loading_from_themis_d_b_test_1ad5ba7e70d1b7ec5fbb9a30d9c9433e9f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata" kindref="compound">LLMModelMetadata</ref></type>
+        <definition>LLMModelMetadata ModelLoadingFromThemisDBTest::createTestMetadata</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>createTestMetadata</name>
+        <qualifiedname>ModelLoadingFromThemisDBTest::createTestMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="117" column="22" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="117" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ModelLoadingFromThemisDBTest</label>
+        <link refid="class_model_loading_from_themis_d_b_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ModelLoadingFromThemisDBTest</label>
+        <link refid="class_model_loading_from_themis_d_b_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="37" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="37" bodyend="142"/>
+    <listofallmembers>
+      <member refid="class_model_loading_from_themis_d_b_test_1a686927df03650f438aebd3387572b272" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>blob_manager_</name></member>
+      <member refid="class_model_loading_from_themis_d_b_test_1a0081f05f05de6cc66cc810e1b74ea9fb" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>blob_path_</name></member>
+      <member refid="class_model_loading_from_themis_d_b_test_1ad5ba7e70d1b7ec5fbb9a30d9c9433e9f" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>createTestMetadata</name></member>
+      <member refid="class_model_loading_from_themis_d_b_test_1a250dba28210efa8c7ffd9479e70dfeb9" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>createTestModelFile</name></member>
+      <member refid="class_model_loading_from_themis_d_b_test_1a74a69978be2de79fb694ceead4f38e33" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>db_</name></member>
+      <member refid="class_model_loading_from_themis_d_b_test_1a1c23a17369d2e8c877e10b31f0506580" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>db_path_</name></member>
+      <member refid="class_model_loading_from_themis_d_b_test_1a30de97049fbeed1d557013c5c33d036b" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>model_storage_</name></member>
+      <member refid="class_model_loading_from_themis_d_b_test_1a3449c28433a9a764b6c06a912d8648b1" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>SetUp</name></member>
+      <member refid="class_model_loading_from_themis_d_b_test_1a3290570e387e5f9759ddf77e0cabb32e" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>TearDown</name></member>
+      <member refid="class_model_loading_from_themis_d_b_test_1a31f74f0e825d14274b82780a9b0d73ee" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>test_dir_</name></member>
+      <member refid="class_model_loading_from_themis_d_b_test_1a5dd111e55e4eb8c15bc6773035b2c8be" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>test_model_data_</name></member>
+      <member refid="class_model_loading_from_themis_d_b_test_1a74a9051d1727c131fdf5b12d2e769872" prot="protected" virt="non-virtual"><scope>ModelLoadingFromThemisDBTest</scope><name>test_model_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

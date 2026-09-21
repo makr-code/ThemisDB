@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llamacpp" kind="namespace" language="C++">
+    <compoundname>themis::llamacpp</compoundname>
+    <innerclass refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" prot="public">themis::llamacpp::LlamaCppPlugin</innerclass>
+    <innerclass refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar" prot="public">themis::llamacpp::LlamaCppPluginRegistrar</innerclass>
+    <innerclass refid="classthemis_1_1llamacpp_1_1_model_loading_guard" prot="public">themis::llamacpp::ModelLoadingGuard</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::llamacpp::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::llamacpp::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llama_cpp/llama_cpp_plugin.h" line="30" column="1" bodyfile="include/llama_cpp/llama_cpp_plugin.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llamacpp_1adda93201662d0e2afe2fde187677c6be" prot="public" static="no">
+        <type>std::function&lt; bool( const std::string &amp;model_path, const nlohmann::json &amp;config)&gt;</type>
+        <definition>using themis::llamacpp::LlamaPluginValidator = std::function&lt;bool(
+   const std::string&amp; model_path,
+   const nlohmann::json&amp; config)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LlamaPluginValidator</name>
+        <qualifiedname>themis::llamacpp::LlamaPluginValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="344" column="1" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="344" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1a2dcb816881c65a5fdb931e9e0d384f28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::detectCudaAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>detectCudaAvailable</name>
+        <qualifiedname>themis::llamacpp::detectCudaAvailable</qualifiedname>
+        <briefdescription>
+<para>============================================================================ SECTION 2: CUDA Capability Detection with Caching ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::getenv(), std::string(), THEMIS_INFO(), std::chrono::steady_clock::now(), count(), THEMIS_DEBUG(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="67" column="6" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="67" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1a1a16629458aab5608eacf02271c3d54f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::validateTokenLimits</definition>
+        <argsstring>(const themis::llm::InferenceRequest &amp;request, size_t context_length, std::string &amp;error_msg)</argsstring>
+        <name>validateTokenLimits</name>
+        <qualifiedname>themis::llamacpp::validateTokenLimits</qualifiedname>
+        <param>
+          <type>const themis::llm::InferenceRequest &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>context_length</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_msg</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ SECTION 3: Token Limit Validation ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="119" column="6" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="119" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1a14b52ae9bb8c8c7b8f8ae2c44471e676" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::validateModelInitialization</definition>
+        <argsstring>(const std::string &amp;model_path, const nlohmann::json &amp;config, std::string &amp;error_msg)</argsstring>
+        <name>validateModelInitialization</name>
+        <qualifiedname>themis::llamacpp::validateModelInitialization</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_msg</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ SECTION 4: Fail-Closed Model Initialization ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="177" column="6" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="177" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1a11cc4a4a81b863dde2ee1186375f8640" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::validateMemoryAllocation</definition>
+        <argsstring>(size_t model_size, int gpu_layers, std::string &amp;error_msg)</argsstring>
+        <name>validateMemoryAllocation</name>
+        <qualifiedname>themis::llamacpp::validateMemoryAllocation</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>model_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>gpu_layers</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_msg</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ SECTION 5: Memory Allocation Validation ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_layers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="258" column="6" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="258" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llamacpp_1a8469e409379d91f7f2faaa49b08ac8aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llamacpp_1adda93201662d0e2afe2fde187677c6be" kindref="member">LlamaPluginValidator</ref></type>
+        <definition>LlamaPluginValidator themis::llamacpp::getLlamaPluginValidator</definition>
+        <argsstring>()</argsstring>
+        <name>getLlamaPluginValidator</name>
+        <qualifiedname>themis::llamacpp::getLlamaPluginValidator</qualifiedname>
+        <briefdescription>
+<para>Get Llama Plugin Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llamacpp_1a14b52ae9bb8c8c7b8f8ae2c44471e676" kindref="member">validateModelInitialization()</ref>, THEMIS_ERROR(), contains(), is_number(), <ref refid="namespacethemis_1_1llamacpp_1a11cc4a4a81b863dde2ee1186375f8640" kindref="member">validateMemoryAllocation()</ref>, <ref refid="namespacethemis_1_1llamacpp_1a2dcb816881c65a5fdb931e9e0d384f28" kindref="member">detectCudaAvailable()</ref>, THEMIS_WARN(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="353" column="22" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="353" bodyend="390"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llama_cpp/llama_cpp_plugin.h" line="28" column="1"/>
+  </compounddef>
+</doxygen>

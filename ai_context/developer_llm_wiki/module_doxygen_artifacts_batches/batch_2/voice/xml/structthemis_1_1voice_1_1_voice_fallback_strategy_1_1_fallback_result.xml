@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceFallbackStrategy::FallbackResult</compoundname>
+    <includes refid="voice__error__handler_8h" local="no">voice_error_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1ab532c2a18676ad67a4b18e7b9b08f890" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceFallbackStrategy::FallbackResult::used_fallback</definition>
+        <argsstring></argsstring>
+        <name>used_fallback</name>
+        <qualifiedname>themis::voice::VoiceFallbackStrategy::FallbackResult::used_fallback</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="185" column="14" bodyfile="include/voice/voice_error_handler.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1ae8179fffdd51e0dafb1fb15c6742bafa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceFallbackStrategy::FallbackResult::fallback_type</definition>
+        <argsstring></argsstring>
+        <name>fallback_type</name>
+        <qualifiedname>themis::voice::VoiceFallbackStrategy::FallbackResult::fallback_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="186" column="21" bodyfile="include/voice/voice_error_handler.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1a53dcdcf3d3cedef096a1fd616c12ccf0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceFallbackStrategy::FallbackResult::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::voice::VoiceFallbackStrategy::FallbackResult::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="187" column="21" bodyfile="include/voice/voice_error_handler.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_error_handler.h" line="184" column="5" bodyfile="include/voice/voice_error_handler.h" bodystart="184" bodyend="188"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1ae8179fffdd51e0dafb1fb15c6742bafa" prot="public" virt="non-virtual"><scope>themis::voice::VoiceFallbackStrategy::FallbackResult</scope><name>fallback_type</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1a53dcdcf3d3cedef096a1fd616c12ccf0" prot="public" virt="non-virtual"><scope>themis::voice::VoiceFallbackStrategy::FallbackResult</scope><name>result</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1ab532c2a18676ad67a4b18e7b9b08f890" prot="public" virt="non-virtual"><scope>themis::voice::VoiceFallbackStrategy::FallbackResult</scope><name>used_fallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

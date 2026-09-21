@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1_0d276143063033214215363235223307241140221224075166" kind="namespace" language="C++">
+    <compoundname>themis::llm::@276143063033214215363235223307241140221224075166</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/multi_lora_manager.cpp" line="63" column="1"/>
+  </compounddef>
+</doxygen>

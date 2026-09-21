@@ -1,0 +1,1099 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_policy_conflict_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyConflictDetector</compoundname>
+    <includes refid="policy__conflict__detector_8h" local="no">policy_conflict_detector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_conflict_detector_1ab07e52b72351f71ba758b3921c0d20bc" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::governance::PolicyConflictDetector::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="287" column="31" bodyfile="include/governance/policy_conflict_detector.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_conflict_detector_1ad4c1923fb32f82a7df5507c69ac0e56e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_conflict" kindref="compound">PolicyConflict</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;PolicyConflict&gt; &gt; themis::governance::PolicyConflictDetector::conflict_cache_</definition>
+        <argsstring></argsstring>
+        <name>conflict_cache_</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::conflict_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="288" column="24" bodyfile="include/governance/policy_conflict_detector.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a21b62419cd4445f810448f8623bd12fb" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyConflictDetector::cache_timestamp_</definition>
+        <argsstring></argsstring>
+        <name>cache_timestamp_</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::cache_timestamp_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="289" column="13" bodyfile="include/governance/policy_conflict_detector.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_conflict_detector_1af586192cc259c62096998372268fd72a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyConflictDetector::caching_enabled_</definition>
+        <argsstring></argsstring>
+        <name>caching_enabled_</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::caching_enabled_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="290" column="10" bodyfile="include/governance/policy_conflict_detector.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a4401704e7014d71a5c9cade2c9143559" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::governance::PolicyConflictDetector::total_detections_</definition>
+        <argsstring></argsstring>
+        <name>total_detections_</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::total_detections_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="291" column="14" bodyfile="include/governance/policy_conflict_detector.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a2e7582d9db12bce9aca7984e3f78cef0" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint64_t&gt; themis::governance::PolicyConflictDetector::conflict_type_counts_</definition>
+        <argsstring></argsstring>
+        <name>conflict_type_counts_</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::conflict_type_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="292" column="24" bodyfile="include/governance/policy_conflict_detector.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a97b9360161c726c2bcffdc6b21b64dcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyConflictDetector::PolicyConflictDetector</definition>
+        <argsstring>()</argsstring>
+        <name>PolicyConflictDetector</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::PolicyConflictDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="109" column="5" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a7b8694dcd33151383343e02d3fda2b51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyConflictDetector::~PolicyConflictDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PolicyConflictDetector</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::~PolicyConflictDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a53ef97efb8986f84bc5bbeeebff8f3c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyConflictDetector::PolicyConflictDetector</definition>
+        <argsstring>(const PolicyConflictDetector &amp;)=delete</argsstring>
+        <name>PolicyConflictDetector</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::PolicyConflictDetector</qualifiedname>
+        <param>
+          <type>const PolicyConflictDetector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="113" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a0f03d1d5cbace3338881b529c421e321" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a97b9360161c726c2bcffdc6b21b64dcd" kindref="member">PolicyConflictDetector</ref> &amp;</type>
+        <definition>PolicyConflictDetector &amp; themis::governance::PolicyConflictDetector::operator=</definition>
+        <argsstring>(const PolicyConflictDetector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a97b9360161c726c2bcffdc6b21b64dcd" kindref="member">PolicyConflictDetector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="114" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1aedb623f1582fbd3b8b66291b63c1eddf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyConflictDetector::PolicyConflictDetector</definition>
+        <argsstring>(PolicyConflictDetector &amp;&amp;) noexcept=default</argsstring>
+        <name>PolicyConflictDetector</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::PolicyConflictDetector</qualifiedname>
+        <param>
+          <type>PolicyConflictDetector &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="115" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a10b63a9896d770ce59a93984a940b862" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a97b9360161c726c2bcffdc6b21b64dcd" kindref="member">PolicyConflictDetector</ref> &amp;</type>
+        <definition>PolicyConflictDetector &amp; themis::governance::PolicyConflictDetector::operator=</definition>
+        <argsstring>(PolicyConflictDetector &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a97b9360161c726c2bcffdc6b21b64dcd" kindref="member">PolicyConflictDetector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="116" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1af42409f437b83acccfeb48997f4bad90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_conflict" kindref="compound">PolicyConflict</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyConflict &gt; themis::governance::PolicyConflictDetector::detectAllConflicts</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr)</argsstring>
+        <name>detectAllConflicts</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::detectAllConflicts</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect All Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a7eeeac6b9460def9392910820dd6cd76" kindref="member">detectPermitDenyConflicts()</ref>, insert(), end(), begin(), <ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a9e537ea07c708c6c9a2bb4d9590efb10" kindref="member">detectOverlappingConflicts()</ref>, <ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1ad2112c60738b03757034b125ad2138f9" kindref="member">detectCircularDependencies()</ref>, lock(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="123" column="17" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="103" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a7eeeac6b9460def9392910820dd6cd76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_conflict" kindref="compound">PolicyConflict</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyConflict &gt; themis::governance::PolicyConflictDetector::detectPermitDenyConflicts</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr)</argsstring>
+        <name>detectPermitDenyConflicts</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::detectPermitDenyConflicts</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect Permit Deny Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: listRules(), size(), <ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a615a10f5125856d061ce72b3566b5ccb" kindref="member">checkRuleConflict()</ref>, push_back(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="130" column="17" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="137" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a9e537ea07c708c6c9a2bb4d9590efb10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_conflict" kindref="compound">PolicyConflict</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyConflict &gt; themis::governance::PolicyConflictDetector::detectOverlappingConflicts</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr)</argsstring>
+        <name>detectOverlappingConflicts</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::detectOverlappingConflicts</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect Overlapping Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: listRules(), size(), empty(), back(), substr(), length(), matches_pattern(), <ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a615a10f5125856d061ce72b3566b5ccb" kindref="member">checkRuleConflict()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="137" column="17" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="162" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1ad2112c60738b03757034b125ad2138f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_conflict" kindref="compound">PolicyConflict</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyConflict &gt; themis::governance::PolicyConflictDetector::detectCircularDependencies</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr)</argsstring>
+        <name>detectCircularDependencies</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::detectCircularDependencies</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect Circular Dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: listRules(), hasCircularDependency(), generateConflictId(), fmt::format(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="144" column="17" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="250" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a70e2c2ba0fbc913b3e10189301322dbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_precedence_evaluation" kindref="compound">PrecedenceEvaluation</ref></type>
+        <definition>PrecedenceEvaluation themis::governance::PolicyConflictDetector::evaluateRulePrecedence</definition>
+        <argsstring>(const std::string &amp;rule_id, const PolicyManager &amp;policy_mgr)</argsstring>
+        <name>evaluateRulePrecedence</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::evaluateRulePrecedence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Rule Precedence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getRule(), value(), find(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::max(), listRules(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="152" column="26" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="289" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1afb39d2f41a4219b886e3729173057d80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_precedence_evaluation" kindref="compound">PrecedenceEvaluation</ref> &gt;</type>
+        <definition>std::unordered_map&lt; std::string, PrecedenceEvaluation &gt; themis::governance::PolicyConflictDetector::evaluateAllPrecedence</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr)</argsstring>
+        <name>evaluateAllPrecedence</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::evaluateAllPrecedence</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="157" column="24" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="382" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a61b76bceb9beb55ce60318eb692adb93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_atomic_update_result" kindref="compound">AtomicUpdateResult</ref></type>
+        <definition>AtomicUpdateResult themis::governance::PolicyConflictDetector::atomicAddRule</definition>
+        <argsstring>(const PolicyRule &amp;rule, PolicyManager &amp;policy_mgr)</argsstring>
+        <name>atomicAddRule</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::atomicAddRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Atomic Add Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateConflictId(), std::chrono::high_resolution_clock::now(), getRule(), addRule(), <ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1af42409f437b83acccfeb48997f4bad90" kindref="member">detectAllConflicts()</ref>, empty(), updateRule(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="167" column="24" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="401" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1ac7a0ea784ca7f90d3b504efa3338a3bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_atomic_update_result" kindref="compound">AtomicUpdateResult</ref></type>
+        <definition>AtomicUpdateResult themis::governance::PolicyConflictDetector::atomicUpdateRule</definition>
+        <argsstring>(const PolicyRule &amp;rule, PolicyManager &amp;policy_mgr)</argsstring>
+        <name>atomicUpdateRule</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::atomicUpdateRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Atomic Update Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateConflictId(), std::chrono::high_resolution_clock::now(), getRule(), fmt::format(), updateRule(), <ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1af42409f437b83acccfeb48997f4bad90" kindref="member">detectAllConflicts()</ref>, empty(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="178" column="24" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="465" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a27f299e0ecb043cc93597eecc87fe7b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_atomic_update_result" kindref="compound">AtomicUpdateResult</ref></type>
+        <definition>AtomicUpdateResult themis::governance::PolicyConflictDetector::atomicRemoveRule</definition>
+        <argsstring>(const std::string &amp;rule_id, PolicyManager &amp;policy_mgr)</argsstring>
+        <name>atomicRemoveRule</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::atomicRemoveRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Atomic Remove Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateConflictId(), std::chrono::high_resolution_clock::now(), getRule(), fmt::format(), removeRule(), <ref refid="classthemis_1_1governance_1_1_policy_conflict_detector_1af42409f437b83acccfeb48997f4bad90" kindref="member">detectAllConflicts()</ref>, addRule(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="189" column="24" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="529" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a615a10f5125856d061ce72b3566b5ccb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_policy_conflict" kindref="compound">PolicyConflict</ref> &gt;</type>
+        <definition>std::optional&lt; PolicyConflict &gt; themis::governance::PolicyConflictDetector::checkRuleConflict</definition>
+        <argsstring>(const PolicyRule &amp;rule1, const PolicyRule &amp;rule2)</argsstring>
+        <name>checkRuleConflict</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::checkRuleConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule2</declname>
+        </param>
+        <briefdescription>
+<para>Check Rule Conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rulesMatch(), generateConflictId(), fmt::format(), computeSeverity(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="200" column="19" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="583" bodyend="630"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1adef2bd53b1f434e42ebc935a7fd84fd5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_conflict" kindref="compound">PolicyConflict</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyConflict &gt; themis::governance::PolicyConflictDetector::getCachedConflicts</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>getCachedConflicts</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::getCachedConflicts</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Get Cached Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="210" column="17" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="632" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a552a76147263bc9b62349af36cbc0ad0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyConflictDetector::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="215" column="10" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="660" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1abff52067d4813849ed78fee8855b4eba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyConflictDetector::setCachingEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setCachingEnabled</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::setCachingEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Caching Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setCachingEnabled without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="222" column="10" bodyfile="include/governance/policy_conflict_detector.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a69edbdc2695a18ef50b0560edc8026cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyConflictDetector::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="228" column="20" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="666" bodyend="683"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1ac1a9f6743a1788e225f61cad4ef8e668" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyConflictDetector::rulesMatch</definition>
+        <argsstring>(const PolicyRule &amp;rule1, const PolicyRule &amp;rule2) const</argsstring>
+        <name>rulesMatch</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::rulesMatch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule2</declname>
+        </param>
+        <briefdescription>
+<para>Rules Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="237" column="10" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="687" bodyend="737"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a59f8150f0854f7137c8f96f93061c283" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyConflictDetector::hasSameScope</definition>
+        <argsstring>(const PolicyRule &amp;rule1, const PolicyRule &amp;rule2) const</argsstring>
+        <name>hasSameScope</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::hasSameScope</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule2</declname>
+        </param>
+        <briefdescription>
+<para>Has Same Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="245" column="10" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="739" bodyend="742"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a877f37bbf5b084c758588c65ca746833" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a46755033d4d222a4f4347b7d4f0494c3" kindref="member">ConflictSeverity</ref></type>
+        <definition>ConflictSeverity themis::governance::PolicyConflictDetector::computeSeverity</definition>
+        <argsstring>(const PolicyRule &amp;rule1, const PolicyRule &amp;rule2, ConflictType conflict_type) const</argsstring>
+        <name>computeSeverity</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::computeSeverity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule2</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1adb963c34ad179c05ed5f5251cbae62f4" kindref="member">ConflictType</ref></type>
+          <declname>conflict_type</declname>
+        </param>
+        <briefdescription>
+<para>Compute Severity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="254" column="22" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="744" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a21f9edf1748b141a76f4850ba2008f2c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyConflictDetector::generateConflictId</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;rule_ids, ConflictType conflict_type) const</argsstring>
+        <name>generateConflictId</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::generateConflictId</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>rule_ids</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1adb963c34ad179c05ed5f5251cbae62f4" kindref="member">ConflictType</ref></type>
+          <declname>conflict_type</declname>
+        </param>
+        <briefdescription>
+<para>Generate Conflict Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="266" column="17" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="773" bodyend="798"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_conflict_detector_1a07da8a1ec9c9ff469f2d8103d78b2428" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyConflictDetector::hasCircularDependency</definition>
+        <argsstring>(const std::string &amp;rule_id, std::unordered_set&lt; std::string &gt; &amp;visited, std::unordered_set&lt; std::string &gt; &amp;rec_stack, const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>hasCircularDependency</name>
+        <qualifiedname>themis::governance::PolicyConflictDetector::hasCircularDependency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>visited</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>rec_stack</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Has Circular Dependency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">visited</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rec_stack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_conflict_detector.h" line="279" column="10" bodyfile="src/governance/policy_conflict_detector.cpp" bodystart="800" bodyend="841"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_conflict_detector.h" line="107" column="1" bodyfile="include/governance/policy_conflict_detector.h" bodystart="107" bodyend="293"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a61b76bceb9beb55ce60318eb692adb93" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>atomicAddRule</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a27f299e0ecb043cc93597eecc87fe7b2" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>atomicRemoveRule</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1ac7a0ea784ca7f90d3b504efa3338a3bf" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>atomicUpdateRule</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a21b62419cd4445f810448f8623bd12fb" prot="private" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>cache_timestamp_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1af586192cc259c62096998372268fd72a" prot="private" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>caching_enabled_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a615a10f5125856d061ce72b3566b5ccb" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>checkRuleConflict</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a552a76147263bc9b62349af36cbc0ad0" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a877f37bbf5b084c758588c65ca746833" prot="private" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>computeSeverity</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1ad4c1923fb32f82a7df5507c69ac0e56e" prot="private" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>conflict_cache_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a2e7582d9db12bce9aca7984e3f78cef0" prot="private" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>conflict_type_counts_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1af42409f437b83acccfeb48997f4bad90" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>detectAllConflicts</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1ad2112c60738b03757034b125ad2138f9" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>detectCircularDependencies</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a9e537ea07c708c6c9a2bb4d9590efb10" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>detectOverlappingConflicts</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a7eeeac6b9460def9392910820dd6cd76" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>detectPermitDenyConflicts</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1afb39d2f41a4219b886e3729173057d80" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>evaluateAllPrecedence</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a70e2c2ba0fbc913b3e10189301322dbf" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>evaluateRulePrecedence</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a21f9edf1748b141a76f4850ba2008f2c" prot="private" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>generateConflictId</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1adef2bd53b1f434e42ebc935a7fd84fd5" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>getCachedConflicts</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a69edbdc2695a18ef50b0560edc8026cf" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a07da8a1ec9c9ff469f2d8103d78b2428" prot="private" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>hasCircularDependency</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a59f8150f0854f7137c8f96f93061c283" prot="private" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>hasSameScope</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a0f03d1d5cbace3338881b529c421e321" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a10b63a9896d770ce59a93984a940b862" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a97b9360161c726c2bcffdc6b21b64dcd" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>PolicyConflictDetector</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a53ef97efb8986f84bc5bbeeebff8f3c0" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>PolicyConflictDetector</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1aedb623f1582fbd3b8b66291b63c1eddf" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>PolicyConflictDetector</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1ac1a9f6743a1788e225f61cad4ef8e668" prot="private" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>rulesMatch</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1abff52067d4813849ed78fee8855b4eba" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>setCachingEnabled</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1ab07e52b72351f71ba758b3921c0d20bc" prot="private" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>state_mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a4401704e7014d71a5c9cade2c9143559" prot="private" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>total_detections_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_conflict_detector_1a7b8694dcd33151383343e02d3fda2b51" prot="public" virt="non-virtual"><scope>themis::governance::PolicyConflictDetector</scope><name>~PolicyConflictDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

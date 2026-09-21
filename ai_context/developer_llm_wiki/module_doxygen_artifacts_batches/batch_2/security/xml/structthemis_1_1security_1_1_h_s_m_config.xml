@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_h_s_m_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::HSMConfig</compoundname>
+    <includes refid="hsm__provider_8h" local="no">hsm_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMConfig::library_path</definition>
+        <argsstring></argsstring>
+        <name>library_path</name>
+        <qualifiedname>themis::security::HSMConfig::library_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="28" column="17" bodyfile="include/security/hsm_provider.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_config_1acc0b927b3d4bc134a5ab326d18b1d42c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::HSMConfig::slot_id</definition>
+        <argsstring></argsstring>
+        <name>slot_id</name>
+        <qualifiedname>themis::security::HSMConfig::slot_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="31" column="14" bodyfile="include/security/hsm_provider.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_config_1ab4b51ff96783bff418c4114490403178" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMConfig::pin</definition>
+        <argsstring></argsstring>
+        <name>pin</name>
+        <qualifiedname>themis::security::HSMConfig::pin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="34" column="17" bodyfile="include/security/hsm_provider.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_config_1add4ca1795671e240fe683c6751a9e9c2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMConfig::token_label</definition>
+        <argsstring></argsstring>
+        <name>token_label</name>
+        <qualifiedname>themis::security::HSMConfig::token_label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="37" column="17" bodyfile="include/security/hsm_provider.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_config_1a25d57848f7c031867a66c6051e3c6d1c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMConfig::signature_algorithm</definition>
+        <argsstring></argsstring>
+        <name>signature_algorithm</name>
+        <qualifiedname>themis::security::HSMConfig::signature_algorithm</qualifiedname>
+        <initializer>= &quot;RSA-SHA256&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="40" column="17" bodyfile="include/security/hsm_provider.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_config_1af31c0565e8cf0b9c0c70fe66dae610df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMConfig::key_label</definition>
+        <argsstring></argsstring>
+        <name>key_label</name>
+        <qualifiedname>themis::security::HSMConfig::key_label</qualifiedname>
+        <initializer>= &quot;themis-signing-key&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="43" column="17" bodyfile="include/security/hsm_provider.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_config_1ae6b7ce3b482979be560f86d3cbd8d18a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::HSMConfig::verbose</definition>
+        <argsstring></argsstring>
+        <name>verbose</name>
+        <qualifiedname>themis::security::HSMConfig::verbose</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="46" column="10" bodyfile="include/security/hsm_provider.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_config_1a4059b7cb6493c529f7f044b43019efbd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::HSMConfig::session_pool_size</definition>
+        <argsstring></argsstring>
+        <name>session_pool_size</name>
+        <qualifiedname>themis::security::HSMConfig::session_pool_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="49" column="14" bodyfile="include/security/hsm_provider.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/hsm_provider.h" line="26" column="1" bodyfile="include/security/hsm_provider.h" bodystart="26" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_h_s_m_config_1af31c0565e8cf0b9c0c70fe66dae610df" prot="public" virt="non-virtual"><scope>themis::security::HSMConfig</scope><name>key_label</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" prot="public" virt="non-virtual"><scope>themis::security::HSMConfig</scope><name>library_path</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_config_1ab4b51ff96783bff418c4114490403178" prot="public" virt="non-virtual"><scope>themis::security::HSMConfig</scope><name>pin</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_config_1a4059b7cb6493c529f7f044b43019efbd" prot="public" virt="non-virtual"><scope>themis::security::HSMConfig</scope><name>session_pool_size</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_config_1a25d57848f7c031867a66c6051e3c6d1c" prot="public" virt="non-virtual"><scope>themis::security::HSMConfig</scope><name>signature_algorithm</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_config_1acc0b927b3d4bc134a5ab326d18b1d42c" prot="public" virt="non-virtual"><scope>themis::security::HSMConfig</scope><name>slot_id</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_config_1add4ca1795671e240fe683c6751a9e9c2" prot="public" virt="non-virtual"><scope>themis::security::HSMConfig</scope><name>token_label</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_config_1ae6b7ce3b482979be560f86d3cbd8d18a" prot="public" virt="non-virtual"><scope>themis::security::HSMConfig</scope><name>verbose</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

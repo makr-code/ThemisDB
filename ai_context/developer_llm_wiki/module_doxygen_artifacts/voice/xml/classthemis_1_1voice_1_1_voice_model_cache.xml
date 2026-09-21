@@ -1,0 +1,732 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_model_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceModelCache</compoundname>
+    <includes refid="voice__model__cache_8h" local="no">voice_model_cache.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_model_cache_1ab65389602c35e7168187ff2c2b2e4b60" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_model_cache_config" kindref="compound">ModelCacheConfig</ref></type>
+        <definition>ModelCacheConfig themis::voice::VoiceModelCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::VoiceModelCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="111" column="22" bodyfile="include/voice/voice_model_cache.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_model_cache_1ae230f49cf35a75c16bdfd851ebcf0f8a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::VoiceModelCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::voice::VoiceModelCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="112" column="24" bodyfile="include/voice/voice_model_cache.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_model_cache_1a6b2ac5386a7002d385a1ab063c90064d" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1voice_1_1_cached_model" kindref="compound">CachedModel</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CachedModel&gt; themis::voice::VoiceModelCache::models_</definition>
+        <argsstring></argsstring>
+        <name>models_</name>
+        <qualifiedname>themis::voice::VoiceModelCache::models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="114" column="14" bodyfile="include/voice/voice_model_cache.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_model_cache_1aa5eaa243e1bee90bb7f6ef7bf8f3e049" prot="private" static="no" mutable="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>std::list&lt;std::string&gt; themis::voice::VoiceModelCache::lru_order_</definition>
+        <argsstring></argsstring>
+        <name>lru_order_</name>
+        <qualifiedname>themis::voice::VoiceModelCache::lru_order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="115" column="15" bodyfile="include/voice/voice_model_cache.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_model_cache_1a9fc0538fa5736cef6181d364c9ab195c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::list&lt; std::string &gt;::iterator &gt;</type>
+        <definition>std::map&lt;std::string, std::list&lt;std::string&gt;::iterator&gt; themis::voice::VoiceModelCache::lru_map_</definition>
+        <argsstring></argsstring>
+        <name>lru_map_</name>
+        <qualifiedname>themis::voice::VoiceModelCache::lru_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="116" column="15" bodyfile="include/voice/voice_model_cache.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_model_cache_1ae8399502035ab82535289bccff3242aa" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1_1voice_1a59df69c327db56528ebdafd76f5c9eed" kindref="member">ModelLoader</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ModelLoader&gt; themis::voice::VoiceModelCache::loaders_</definition>
+        <argsstring></argsstring>
+        <name>loaders_</name>
+        <qualifiedname>themis::voice::VoiceModelCache::loaders_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="118" column="14" bodyfile="include/voice/voice_model_cache.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_model_cache_1a4d47f1c3374a718606ab5b00d09f8674" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1_1voice_1a7f4bbab961b5536356dae6e6faf9caa9" kindref="member">ModelUnloader</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ModelUnloader&gt; themis::voice::VoiceModelCache::unloaders_</definition>
+        <argsstring></argsstring>
+        <name>unloaders_</name>
+        <qualifiedname>themis::voice::VoiceModelCache::unloaders_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="119" column="14" bodyfile="include/voice/voice_model_cache.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_model_cache_1ab73639889bc1b48a35ca1f1c7fa9b3a9" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceModelCache::current_memory_bytes_</definition>
+        <argsstring></argsstring>
+        <name>current_memory_bytes_</name>
+        <qualifiedname>themis::voice::VoiceModelCache::current_memory_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="121" column="12" bodyfile="include/voice/voice_model_cache.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_model_cache_1a5e183aaeb9d5fefe177e3f856e7de440" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceModelCache::cache_hits_</definition>
+        <argsstring></argsstring>
+        <name>cache_hits_</name>
+        <qualifiedname>themis::voice::VoiceModelCache::cache_hits_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="123" column="22" bodyfile="include/voice/voice_model_cache.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_model_cache_1a613e0a2e8cea70c1a50ab0a52406e0f0" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceModelCache::cache_misses_</definition>
+        <argsstring></argsstring>
+        <name>cache_misses_</name>
+        <qualifiedname>themis::voice::VoiceModelCache::cache_misses_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="124" column="22" bodyfile="include/voice/voice_model_cache.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_model_cache_1abc9e3ae30e95883cbeb690c851455a2b" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceModelCache::evictions_</definition>
+        <argsstring></argsstring>
+        <name>evictions_</name>
+        <qualifiedname>themis::voice::VoiceModelCache::evictions_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="125" column="14" bodyfile="include/voice/voice_model_cache.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1aebf42f34a6fcd2288b78d257ca0f51de" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceModelCache::VoiceModelCache</definition>
+        <argsstring>(const ModelCacheConfig &amp;config={})</argsstring>
+        <name>VoiceModelCache</name>
+        <qualifiedname>themis::voice::VoiceModelCache::VoiceModelCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_model_cache_config" kindref="compound">ModelCacheConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="73" column="14" bodyfile="src/voice/voice_model_cache.cpp" bodystart="17" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1aba1f7a8b88ba081eebf79200e7fda75b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceModelCache::~VoiceModelCache</definition>
+        <argsstring>()</argsstring>
+        <name>~VoiceModelCache</name>
+        <qualifiedname>themis::voice::VoiceModelCache::~VoiceModelCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="74" column="5" bodyfile="src/voice/voice_model_cache.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1a30350f5297ee86b2cd7d4f1c80504ed4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceModelCache::registerLoader</definition>
+        <argsstring>(const std::string &amp;model_type, ModelLoader loader, ModelUnloader unloader)</argsstring>
+        <name>registerLoader</name>
+        <qualifiedname>themis::voice::VoiceModelCache::registerLoader</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_type</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1a59df69c327db56528ebdafd76f5c9eed" kindref="member">ModelLoader</ref></type>
+          <declname>loader</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1a7f4bbab961b5536356dae6e6faf9caa9" kindref="member">ModelUnloader</ref></type>
+          <declname>unloader</declname>
+        </param>
+        <briefdescription>
+<para>Register Loader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">loader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">unloader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="77" column="10" bodyfile="src/voice/voice_model_cache.cpp" bodystart="30" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1ad9fbc86096a347184f55e0eef7fb15dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1voice_1_1_cached_model" kindref="compound">CachedModel</ref> &gt;</type>
+        <definition>std::optional&lt; CachedModel &gt; themis::voice::VoiceModelCache::get</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;model_path, const std::string &amp;model_type, const json &amp;config={})</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::voice::VoiceModelCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="80" column="19" bodyfile="src/voice/voice_model_cache.cpp" bodystart="53" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1acbf9a69ec97b0957e01d0865afddf12b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceModelCache::isCached</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>isCached</name>
+        <qualifiedname>themis::voice::VoiceModelCache::isCached</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="84" column="10" bodyfile="src/voice/voice_model_cache.cpp" bodystart="139" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1ad195f4bbb19ffb059c7f20d7c6e3ddff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceModelCache::insert</definition>
+        <argsstring>(const CachedModel &amp;model)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::voice::VoiceModelCache::insert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_cached_model" kindref="compound">CachedModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), count(), size(), evictLRUOne(), push_front(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="87" column="10" bodyfile="src/voice/voice_model_cache.cpp" bodystart="155" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1aae0fd5cbc1e152a966416ba83e64530c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceModelCache::evict</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>evict</name>
+        <qualifiedname>themis::voice::VoiceModelCache::evict</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Evict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), second(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="90" column="10" bodyfile="src/voice/voice_model_cache.cpp" bodystart="191" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1a13de962cc9a76412a06a4b93fc21ae40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceModelCache::pin</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>pin</name>
+        <qualifiedname>themis::voice::VoiceModelCache::pin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Pin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="93" column="10" bodyfile="src/voice/voice_model_cache.cpp" bodystart="224" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1a53b293572d5e25dc33475f36eecb2c55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceModelCache::unpin</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>unpin</name>
+        <qualifiedname>themis::voice::VoiceModelCache::unpin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Unpin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="94" column="10" bodyfile="src/voice/voice_model_cache.cpp" bodystart="240" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1ad8d7fb9c0fc046761a0f0c0451b1c766" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceModelCache::evictToFree</definition>
+        <argsstring>(size_t memory_needed)</argsstring>
+        <name>evictToFree</name>
+        <qualifiedname>themis::voice::VoiceModelCache::evictToFree</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>memory_needed</declname>
+        </param>
+        <briefdescription>
+<para>Evict To Free. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">memory_needed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), evictLRUOne(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="97" column="12" bodyfile="src/voice/voice_model_cache.cpp" bodystart="256" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1acb0c82faa5199b707b1c09df587417fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceModelCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::voice::VoiceModelCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), find(), end(), second(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="100" column="10" bodyfile="src/voice/voice_model_cache.cpp" bodystart="274" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1a5b005a647e6497b20e4ee76d3d0fadc8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_model_cache_stats" kindref="compound">ModelCacheStats</ref></type>
+        <definition>ModelCacheStats themis::voice::VoiceModelCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::voice::VoiceModelCache::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="103" column="21" bodyfile="src/voice/voice_model_cache.cpp" bodystart="291" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1ad3cc97c1ec778689ddd2038dafd8de1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceModelCache::getDetailedStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getDetailedStats</name>
+        <qualifiedname>themis::voice::VoiceModelCache::getDetailedStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="104" column="10" bodyfile="src/voice/voice_model_cache.cpp" bodystart="319" bodyend="349"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceModelCache::isSafeModelPath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>isSafeModelPath</name>
+        <qualifiedname>themis::voice::VoiceModelCache::isSafeModelPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Is Safe Model Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="108" column="17" bodyfile="src/voice/voice_model_cache.cpp" bodystart="404" bodyend="424"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1a00c4d75e40d702a624c0466e90a099b4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceModelCache::touchLRU</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>touchLRU</name>
+        <qualifiedname>themis::voice::VoiceModelCache::touchLRU</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> Private helpers -<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), erase(), push_front(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="127" column="10" bodyfile="src/voice/voice_model_cache.cpp" bodystart="357" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1aaef303a5de6cf03fed839a0044f587b3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceModelCache::evictLRUOne</definition>
+        <argsstring>()</argsstring>
+        <name>evictLRUOne</name>
+        <qualifiedname>themis::voice::VoiceModelCache::evictLRUOne</qualifiedname>
+        <briefdescription>
+<para>Evict LRUOne. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: rbegin(), rend(), find(), end(), second(), erase(), std::next(), base(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="128" column="10" bodyfile="src/voice/voice_model_cache.cpp" bodystart="371" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_model_cache_1ab140096e11937ee7eefbb87dbe11bc83" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceModelCache::nowMs</definition>
+        <argsstring>() const</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::voice::VoiceModelCache::nowMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="129" column="13" bodyfile="src/voice/voice_model_cache.cpp" bodystart="393" bodyend="396"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1voice_1_1_voice_model_cache" kindref="compound">VoiceModelCache</ref>: Phase 10 – LRU model cache. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_model_cache.h" line="71" column="1" bodyfile="include/voice/voice_model_cache.h" bodystart="71" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1a5e183aaeb9d5fefe177e3f856e7de440" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>cache_hits_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1a613e0a2e8cea70c1a50ab0a52406e0f0" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>cache_misses_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1acb0c82faa5199b707b1c09df587417fd" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1ab65389602c35e7168187ff2c2b2e4b60" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1ab73639889bc1b48a35ca1f1c7fa9b3a9" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>current_memory_bytes_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1aae0fd5cbc1e152a966416ba83e64530c" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>evict</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1abc9e3ae30e95883cbeb690c851455a2b" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>evictions_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1aaef303a5de6cf03fed839a0044f587b3" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>evictLRUOne</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1ad8d7fb9c0fc046761a0f0c0451b1c766" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>evictToFree</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1ad9fbc86096a347184f55e0eef7fb15dc" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1ad3cc97c1ec778689ddd2038dafd8de1b" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>getDetailedStats</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1a5b005a647e6497b20e4ee76d3d0fadc8" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1ad195f4bbb19ffb059c7f20d7c6e3ddff" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>insert</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1acbf9a69ec97b0957e01d0865afddf12b" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>isCached</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>isSafeModelPath</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1ae8399502035ab82535289bccff3242aa" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>loaders_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1a9fc0538fa5736cef6181d364c9ab195c" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>lru_map_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1aa5eaa243e1bee90bb7f6ef7bf8f3e049" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>lru_order_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1a6b2ac5386a7002d385a1ab063c90064d" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>models_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1ae230f49cf35a75c16bdfd851ebcf0f8a" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1ab140096e11937ee7eefbb87dbe11bc83" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1a13de962cc9a76412a06a4b93fc21ae40" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>pin</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1a30350f5297ee86b2cd7d4f1c80504ed4" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>registerLoader</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1a00c4d75e40d702a624c0466e90a099b4" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>touchLRU</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1a4d47f1c3374a718606ab5b00d09f8674" prot="private" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>unloaders_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1a53b293572d5e25dc33475f36eecb2c55" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>unpin</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1aebf42f34a6fcd2288b78d257ca0f51de" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>VoiceModelCache</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_model_cache_1aba1f7a8b88ba081eebf79200e7fda75b" prot="public" virt="non-virtual"><scope>themis::voice::VoiceModelCache</scope><name>~VoiceModelCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

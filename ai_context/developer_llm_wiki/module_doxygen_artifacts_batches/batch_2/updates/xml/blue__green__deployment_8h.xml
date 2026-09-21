@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="blue__green__deployment_8h" kind="file" language="C++">
+    <compoundname>blue_green_deployment.h</compoundname>
+    <includes refid="hot__reload__engine_8h" local="yes">updates/hot_reload_engine.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__updates__canary__resilience_8cpp" local="yes">benchmarks/updates/bench_updates_canary_resilience.cpp</includedby>
+    <includedby refid="blue__green__deployment_8cpp" local="yes">src/updates/blue_green_deployment.cpp</includedby>
+    <includedby refid="test__updates__batch5__finalization_8cpp" local="yes">tests/updates/test_updates_batch5_finalization.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/updates/blue_green_deployment.h</label>
+        <link refid="blue__green__deployment_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>updates/hot_reload_engine.h</label>
+        <link refid="hot__reload__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>updates/manifest_database.h</label>
+        <link refid="manifest__database_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>updates/release_manifest.h</label>
+        <link refid="release__manifest_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>updates/update_history_logger.h</label>
+        <link refid="update__history__logger_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>acceleration/plugin_security.h</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>utils/update_checker.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/updates/bench_updates_canary_resilience.cpp</label>
+        <link refid="bench__updates__canary__resilience_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/updates/blue_green_deployment.h</label>
+        <link refid="blue__green__deployment_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/updates/blue_green_deployment.cpp</label>
+        <link refid="blue__green__deployment_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/updates/test_updates_batch5_finalization.cpp</label>
+        <link refid="test__updates__batch5__finalization_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1updates_1_1_blue_green_config" prot="public">themis::updates::BlueGreenConfig</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_blue_green_status" prot="public">themis::updates::BlueGreenStatus</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_blue_green_deployment" prot="public">themis::updates::BlueGreenDeployment</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hot__reload__engine_8h" kindref="compound">updates/hot_reload_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1b3e1ee9bff86431dea6b181365ba65f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1b3e1ee9bff86431dea6b181365ba65f" kindref="member">BLUE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a9de0e5dd94e861317e74964bed179fa0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a9de0e5dd94e861317e74964bed179fa0" kindref="member">GREEN</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1updates_1_1_blue_green_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_blue_green_config" kindref="compound">BlueGreenConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1updates_1_1_blue_green_config_1a4a70e194c782a7878853b6d4bba945d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_config_1a4a70e194c782a7878853b6d4bba945d8" kindref="member">initial_active_slot</ref><sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1b3e1ee9bff86431dea6b181365ba65f" kindref="member">DeploymentSlot::BLUE</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1updates_1_1_blue_green_config_1a33742bb4f8025b77659174b42f541aa8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_config_1a33742bb4f8025b77659174b42f541aa8" kindref="member">error_rate_threshold</ref><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1updates_1_1_blue_green_config_1a095f3f0638cc83752074fec6d35e38cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_config_1a095f3f0638cc83752074fec6d35e38cd" kindref="member">min_sample_count</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1updates_1_1_blue_green_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_blue_green_status" kindref="compound">BlueGreenStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1updates_1_1_blue_green_status_1a73c338f042533c14752bc103951b9098" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_status_1a73c338f042533c14752bc103951b9098" kindref="member">active_slot</ref><sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1b3e1ee9bff86431dea6b181365ba65f" kindref="member">DeploymentSlot::BLUE</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1updates_1_1_blue_green_status_1ad0996dfdc9e2f2aa2be9b1a6eb0522ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_blue_green_status_1ad0996dfdc9e2f2aa2be9b1a6eb0522ec" kindref="member">blue_version</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1updates_1_1_blue_green_status_1a44b0c197568b69652a2581f4944f7096" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_blue_green_status_1a44b0c197568b69652a2581f4944f7096" kindref="member">green_version</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1updates_1_1_blue_green_status_1ae2fc01f8c4e8b1a4425d8e6d989da0ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_status_1ae2fc01f8c4e8b1a4425d8e6d989da0ea" kindref="member">standby_is_deployed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1updates_1_1_blue_green_status_1ace95ec0396410cf6c5789687d5fb8387" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_status_1ace95ec0396410cf6c5789687d5fb8387" kindref="member">is_promoted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1updates_1_1_blue_green_status_1a40607f00f9e29bc05fe9709c44eb43ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_status_1a40607f00f9e29bc05fe9709c44eb43ea" kindref="member">is_rolled_back</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1updates_1_1_blue_green_status_1a8fb372bd1ae3ff4d0dcbfbc6d7b511d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_blue_green_status_1a8fb372bd1ae3ff4d0dcbfbc6d7b511d9" kindref="member">rollback_reason</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1updates_1_1_blue_green_status_1ab46b4356b0184f1b06976781c6d6591f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_blue_green_status_1ab46b4356b0184f1b06976781c6d6591f" kindref="member">rollback_id</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1updates_1_1_blue_green_status_1abc8ba7223b94a56bff6539797b3b231e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_status_1abc8ba7223b94a56bff6539797b3b231e" kindref="member">observed_error_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1updates_1_1_blue_green_status_1a9e46b36170f51fef3d2d924f7ec0b101" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_status_1a9e46b36170f51fef3d2d924f7ec0b101" kindref="member">sample_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1updates_1_1_blue_green_deployment" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1acc8d3e417c77a26fbf96d3ae21262506" kindref="member">BlueGreenDeployment</ref><sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1updates_1_1_blue_green_deployment_1adf2c9473e0dff1b4907629441f9d5b2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1adf2c9473e0dff1b4907629441f9d5b2d" kindref="member">PromotionCallback</ref><sp/>=</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(<ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref><sp/></highlight><highlight class="comment">/*active_slot*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*version*/</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1updates_1_1_blue_green_deployment_1ad463bf17c8f7a554e80bbd816c0a2e14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1ad463bf17c8f7a554e80bbd816c0a2e14" kindref="member">RollbackCallback</ref><sp/>=</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*reason*/</highlight><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1acc8d3e417c77a26fbf96d3ae21262506" kindref="member">BlueGreenDeployment</ref>(std::shared_ptr&lt;HotReloadEngine&gt;<sp/>engine,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_config" kindref="compound">BlueGreenConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1updates_1_1_blue_green_deployment_1ab2e61e6abbd5e4e421b858ebfa04864c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1ab2e61e6abbd5e4e421b858ebfa04864c" kindref="member">~BlueGreenDeployment</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1updates_1_1_blue_green_deployment_1af6ffa8522a5aa261f2cbc9aa4d94cbc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1af6ffa8522a5aa261f2cbc9aa4d94cbc2" kindref="member">BlueGreenDeployment</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1acc8d3e417c77a26fbf96d3ae21262506" kindref="member">BlueGreenDeployment</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1updates_1_1_blue_green_deployment_1afb2cbd0e09783e8b389426628f2d2cd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1acc8d3e417c77a26fbf96d3ae21262506" kindref="member">BlueGreenDeployment</ref>&amp;<sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1afb2cbd0e09783e8b389426628f2d2cd0" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1acc8d3e417c77a26fbf96d3ae21262506" kindref="member">BlueGreenDeployment</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Deployment<sp/>lifecycle<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_reload_result" kindref="compound">ReloadResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a756257daf738ef972a002af457eb1e73" kindref="member">deployToStandby</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1aaf419ff04ab5ca9d4a217a5413fce72b" kindref="member">promote</ref>();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a967065f5f9f336f6253d1ef268f77a44" kindref="member">rollback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Health<sp/>tracking<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a79a249df0b8cfd3ca3a7964d91f4ca9c" kindref="member">reportSuccess</ref>();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1ad4036023b4750492a065056d29c6ebe2" kindref="member">reportError</ref>();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a7b938b77011868de1a31a0e7ebe5150e" kindref="member">errorRate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a160d9cd9248d2dfb6571f6f34d328059" kindref="member">shouldRollback</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Status<sp/>&amp;<sp/>accessors<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_status" kindref="compound">BlueGreenStatus</ref><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a235ecebfbc154057f14bb822a584faaa" kindref="member">status</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a1024fc84f70b3a32fa70335e7c965d4d" kindref="member">activeSlot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a9b99e4bfa92af7e47047d913ac1170db" kindref="member">slotVersion</ref>(<ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref><sp/>slot)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----------<sp/>Callbacks<sp/>----------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a33bdaceade4641a7abbf338d3f02ea3f" kindref="member">setPromotionCallback</ref>(<ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1adf2c9473e0dff1b4907629441f9d5b2d" kindref="member">PromotionCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1a52c26327cc9356cc8973c1df4af3a056" kindref="member">setRollbackCallback</ref>(<ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1ad463bf17c8f7a554e80bbd816c0a2e14" kindref="member">RollbackCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref><sp/>standbySlot()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;HotReloadEngine&gt;<sp/>engine_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_blue_green_config" kindref="compound">BlueGreenConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref><sp/>active_slot_;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>blue_version_;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>green_version_;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>standby_deployed_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_promoted_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_rolled_back_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>rollback_id_;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>rollback_reason_;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-promotion<sp/>health<sp/>counters<sp/>(reset<sp/>on<sp/>promote())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>success_count_{0};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>error_count_{0};</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1adf2c9473e0dff1b4907629441f9d5b2d" kindref="member">PromotionCallback</ref><sp/>promotion_cb_;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_blue_green_deployment_1ad463bf17c8f7a554e80bbd816c0a2e14" kindref="member">RollbackCallback</ref><sp/><sp/>rollback_cb_;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/updates/blue_green_deployment.h"/>
+  </compounddef>
+</doxygen>

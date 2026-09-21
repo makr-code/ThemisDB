@@ -12,6 +12,22 @@ endif()
 
 file(MAKE_DIRECTORY "${DST_DIR}")
 
+function(_is_windows_system_path INPUT_PATH OUT_VAR)
+    if(NOT INPUT_PATH OR "${INPUT_PATH}" STREQUAL "")
+        set(${OUT_VAR} FALSE PARENT_SCOPE)
+        return()
+    endif()
+
+    file(TO_CMAKE_PATH "${INPUT_PATH}" _input_norm)
+    string(TOLOWER "${_input_norm}" _input_lower)
+
+    if(_input_lower MATCHES "^[a-z]:/windows/(system32|syswow64|winsxs)/")
+        set(${OUT_VAR} TRUE PARENT_SCOPE)
+    else()
+        set(${OUT_VAR} FALSE PARENT_SCOPE)
+    endif()
+endfunction()
+
 function(_copy_single_file_if_needed SOURCE_PATH DEST_DIR)
     if(NOT SOURCE_PATH OR "${SOURCE_PATH}" STREQUAL "")
         return()
@@ -119,23 +135,80 @@ if(DEFINED TARGET_FILE AND NOT "${TARGET_FILE}" STREQUAL "")
 
     list(REMOVE_DUPLICATES _dep_dirs)
 
+    # Some vcpkg ports only ship a runtime DLL in one variant directory.
+    # To avoid loader failures in Debug builds (e.g. missing lz4.dll), search
+    # both debug/bin and bin when either sibling exists.
+    set(_expanded_dep_dirs ${_dep_dirs})
+    foreach(_dir IN LISTS _dep_dirs)
+        if(NOT _dir OR NOT EXISTS "${_dir}")
+            continue()
+        endif()
+
+        file(TO_CMAKE_PATH "${_dir}" _dir_norm)
+        if(_dir_norm MATCHES "/debug/bin$")
+            string(REGEX REPLACE "/debug/bin$" "/bin" _paired_dir "${_dir_norm}")
+            if(EXISTS "${_paired_dir}")
+                list(APPEND _expanded_dep_dirs "${_paired_dir}")
+            endif()
+        elseif(_dir_norm MATCHES "/bin$")
+            set(_paired_dir "${_dir_norm}/../debug/bin")
+            if(EXISTS "${_paired_dir}")
+                list(APPEND _expanded_dep_dirs "${_paired_dir}")
+            endif()
+        endif()
+    endforeach()
+    list(REMOVE_DUPLICATES _expanded_dep_dirs)
+
     file(GET_RUNTIME_DEPENDENCIES
         EXECUTABLES "${TARGET_FILE}"
         RESOLVED_DEPENDENCIES_VAR _resolved_deps
         UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
-        DIRECTORIES ${_dep_dirs}
+        CONFLICTING_DEPENDENCIES_PREFIX _conflicting_deps
+        DIRECTORIES ${_expanded_dep_dirs}
         POST_EXCLUDE_REGEXES "^api-ms-win-.*" "^ext-ms-win-.*"
     )
 
     foreach(_dep IN LISTS _resolved_deps)
         if(EXISTS "${_dep}")
+            _is_windows_system_path("${_dep}" _dep_is_system)
+            if(_dep_is_system)
+                continue()
+            endif()
             _copy_single_file_if_needed("${_dep}" "${DST_DIR}")
         endif()
     endforeach()
 
     foreach(_dep IN LISTS _unresolved_deps)
+        if(_dep MATCHES "^(api-ms-|ext-ms-)")
+            continue()
+        endif()
         message(WARNING "[CopyRuntimeDlls] Unresolved runtime dependency for ${TARGET_FILE}: ${_dep}")
     endforeach()
+
+    if(DEFINED _conflicting_deps_FILENAMES)
+        foreach(_dll_name IN LISTS _conflicting_deps_FILENAMES)
+            set(_conflict_var "_conflicting_deps_${_dll_name}")
+            if(DEFINED ${_conflict_var})
+                set(_conflict_candidates "${${_conflict_var}}")
+                set(_has_system_candidate FALSE)
+                set(_has_non_system_candidate FALSE)
+                foreach(_candidate IN LISTS _conflict_candidates)
+                    _is_windows_system_path("${_candidate}" _candidate_is_system)
+                    if(_candidate_is_system)
+                        set(_has_system_candidate TRUE)
+                    else()
+                        set(_has_non_system_candidate TRUE)
+                    endif()
+                endforeach()
+
+                if(_has_system_candidate AND _has_non_system_candidate)
+                    continue()
+                endif()
+
+                message(WARNING "[CopyRuntimeDlls] Conflicting runtime dependency candidates for ${_dll_name}: ${_conflict_candidates}")
+            endif()
+        endforeach()
+    endif()
 
     return()
 endif()

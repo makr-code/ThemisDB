@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::lora::LRScheduler</compoundname>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_constant_l_r" prot="public" virt="non-virtual">themis::llm::lora::ConstantLR</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_l_r" prot="public" virt="non-virtual">themis::llm::lora::CosineAnnealingLR</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r" prot="public" virt="non-virtual">themis::llm::lora::CosineAnnealingWarmRestartsLR</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r" prot="public" virt="non-virtual">themis::llm::lora::CyclicLR</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_exponential_l_r" prot="public" virt="non-virtual">themis::llm::lora::ExponentialLR</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_linear_l_r" prot="public" virt="non-virtual">themis::llm::lora::LinearLR</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_one_cycle_l_r" prot="public" virt="non-virtual">themis::llm::lora::OneCycleLR</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r" prot="public" virt="non-virtual">themis::llm::lora::PolynomialLR</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_step_l_r" prot="public" virt="non-virtual">themis::llm::lora::StepLR</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r" prot="public" virt="non-virtual">themis::llm::lora::WarmupConstantLR</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_warmup_cosine_l_r" prot="public" virt="non-virtual">themis::llm::lora::WarmupCosineLR</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1lora_1_1_warmup_linear_l_r" prot="public" virt="non-virtual">themis::llm::lora::WarmupLinearLR</derivedcompoundref>
+    <includes refid="lr__scheduler_8h" local="no">lr_scheduler.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a55400958819352469981cae8a4cfc66d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::LRScheduler::~LRScheduler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LRScheduler</name>
+        <qualifiedname>themis::llm::lora::LRScheduler::~LRScheduler</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler" kindref="compound">LRScheduler</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="141" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a905c0c3ee0eaac8261866f2e6bec5688" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>float</type>
+        <definition>virtual float themis::llm::lora::LRScheduler::get_lr</definition>
+        <argsstring>(int step) const =0</argsstring>
+        <name>get_lr</name>
+        <qualifiedname>themis::llm::lora::LRScheduler::get_lr</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_constant_l_r_1ac00a038c79f42159b1252fdb8722b419">get_lr</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_l_r_1a0cb19c49d874b60470a42ee69715e98b">get_lr</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1abf4ff7e4f899a8992beb72f6264a0dfe">get_lr</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1af08b6816e2c3c824045f33e1b1b46b30">get_lr</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_exponential_l_r_1ac7ba25bd304a5542295344cb6d56d2db">get_lr</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_linear_l_r_1a0566f1ac62abdb70db268449d2c87aa4">get_lr</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_one_cycle_l_r_1a03230745086ba6fd9d8ce96d01fd6eb9">get_lr</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a41900610b9c7a189b4cec241f74989cd">get_lr</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a4562dc407d9e2c3ca93c1d08e33fe487">get_lr</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1ac0017d83eb26690bf6a81bbd3870771f">get_lr</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_warmup_cosine_l_r_1aa65f4998e25768d751d439c5e71a3be3">get_lr</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_warmup_linear_l_r_1a48a84a4cdac2ea0fc45392977ca794ac">get_lr</reimplementedby>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Get lr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="148" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a7048b5e15ba36ca63863eac93bc1ca1e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359" kindref="member">SchedulerType</ref></type>
+        <definition>virtual SchedulerType themis::llm::lora::LRScheduler::type</definition>
+        <argsstring>() const =0</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::lora::LRScheduler::type</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_constant_l_r_1a8b1b5e58fa6dc4c42b8fed1c33c7a455">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_l_r_1affb686aa64792617622a5333940e5579">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1acf104fc13fb18f71baada3f1a005f9f5">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a18c92c164fa1d1753b53043e17192686">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_exponential_l_r_1aeb3d3cfe5c77f29c009855b8c03a1e99">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_linear_l_r_1a8a90e4a7a755bd6db348a11ac537d420">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_one_cycle_l_r_1a7430697109f28fec4002f93016de2703">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a7acca2a9cd9f823d12715153630cc0c2">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a4b06394237f74dd9b694d7d94c852659">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1ac0de8f69aab48a528fbf35eb23174f7d">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_warmup_cosine_l_r_1a4d825a88758614d615472916f508b05a">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_warmup_linear_l_r_1a03a5441e6c563a6260b16e043c077168">type</reimplementedby>
+        <briefdescription>
+<para>Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="154" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a90c87567122b5d4efe777820ffa5109a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_l_r_scheduler_config" kindref="compound">LRSchedulerConfig</ref></type>
+        <definition>virtual LRSchedulerConfig themis::llm::lora::LRScheduler::config</definition>
+        <argsstring>() const =0</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::LRScheduler::config</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_constant_l_r_1a2ed7b1e61a30475a2008f42d8293821c">config</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_l_r_1ab55a528f5ac07cf2f0345308297e63ed">config</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1a9fcd4a27036c60f90f04749d5c6e8a74">config</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r_1a14f0be76721b72250a4815512fb5aff2">config</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_exponential_l_r_1ade9170d48c9930e141424aabc7875dd6">config</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_linear_l_r_1a4b3ee1ebbb859d28af943d40411a601b">config</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_one_cycle_l_r_1addf25026fd2a26cbb2ab1177f64bf6d2">config</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a22b69cb92316eaaabfce80f9338cdf30">config</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a1ec28ffebda6d3635e11b5f4421316a4">config</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r_1a6d0240e369b8039dbc0ff94e2bf5b4fe">config</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_warmup_cosine_l_r_1aa4d4c1ef6847e1a70feca78e61e42f37">config</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1lora_1_1_warmup_linear_l_r_1a36f3a0ff26e174566673969200a3052b">config</reimplementedby>
+        <briefdescription>
+<para>Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="160" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::lora::ConstantLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_constant_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::CosineAnnealingLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::llm::lora::CosineAnnealingWarmRestartsLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::llm::lora::CyclicLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_cyclic_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::llm::lora::ExponentialLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_exponential_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::LRScheduler</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler"/>
+      </node>
+      <node id="7">
+        <label>themis::llm::lora::LinearLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_linear_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::llm::lora::OneCycleLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_one_cycle_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::llm::lora::PolynomialLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis::llm::lora::StepLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_step_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>themis::llm::lora::WarmupConstantLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_warmup_constant_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>themis::llm::lora::WarmupCosineLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_warmup_cosine_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>themis::llm::lora::WarmupLinearLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_warmup_linear_l_r"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/lora_framework/lr_scheduler.h" line="135" column="1" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="135" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a90c87567122b5d4efe777820ffa5109a" prot="public" virt="pure-virtual"><scope>themis::llm::lora::LRScheduler</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a905c0c3ee0eaac8261866f2e6bec5688" prot="public" virt="pure-virtual"><scope>themis::llm::lora::LRScheduler</scope><name>get_lr</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a7048b5e15ba36ca63863eac93bc1ca1e" prot="public" virt="pure-virtual"><scope>themis::llm::lora::LRScheduler</scope><name>type</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a55400958819352469981cae8a4cfc66d" prot="public" virt="virtual"><scope>themis::llm::lora::LRScheduler</scope><name>~LRScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1489 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_ingestion_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionBuilder</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <innerclass refid="structthemis_1_1ingestion_1_1_ingestion_builder_1_1_opts" prot="private">themis::ingestion::IngestionBuilder::Opts</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a37c75847fa3b685e65e6b8c6cee1c287" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Opts &gt;</type>
+        <definition>std::unique_ptr&lt;Opts&gt; themis::ingestion::IngestionBuilder::opts_</definition>
+        <argsstring></argsstring>
+        <name>opts_</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::opts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1885" column="21" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1885" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionBuilder::IngestionBuilder</definition>
+        <argsstring>(const std::string &amp;db_connection)</argsstring>
+        <name>IngestionBuilder</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::IngestionBuilder</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_connection</declname>
+        </param>
+        <briefdescription>
+<para>Construct builder targeting the specified database connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db_connection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Database connection string or handle </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1560" column="14" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2632" bodyend="2635"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1ac60c9d3543dcb31c62d4b1834f85d95c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionBuilder::~IngestionBuilder</definition>
+        <argsstring>()</argsstring>
+        <name>~IngestionBuilder</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::~IngestionBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1562" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a2b3e6b09596f5041354d8b9a2488fbab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionBuilder::IngestionBuilder</definition>
+        <argsstring>(const IngestionBuilder &amp;)=delete</argsstring>
+        <name>IngestionBuilder</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::IngestionBuilder</qualifiedname>
+        <param>
+          <type>const IngestionBuilder &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1565" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a33b48875146a42fe0e1d43f2cd9f8d2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::operator=</definition>
+        <argsstring>(const IngestionBuilder &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1566" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a7281653fa893953db170f0bf4059b6ee" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionBuilder::IngestionBuilder</definition>
+        <argsstring>(IngestionBuilder &amp;&amp;) noexcept</argsstring>
+        <name>IngestionBuilder</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::IngestionBuilder</qualifiedname>
+        <param>
+          <type>IngestionBuilder &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1567" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1af8bcae79843d5d8dfacc88308fc619d7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::operator=</definition>
+        <argsstring>(IngestionBuilder &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1568" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1aa15f0e2ba1b0986525582979ad40d375" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withHuggingFaceSource</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;dataset, std::unordered_map&lt; std::string, std::string &gt; options={}, int priority=5)</argsstring>
+        <name>withHuggingFaceSource</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withHuggingFaceSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Register a HuggingFace dataset source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique source identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dataset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dataset name (e.g., &quot;lexlms/ger_legal_data&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional key/value options (split, streaming, token, …) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source priority (default 5) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1578" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2641" bodyend="2655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a6f2abe3469f3cb37cf164b25b231e10f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withFilesystemSource</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;path, std::unordered_map&lt; std::string, std::string &gt; options={}, int priority=5)</argsstring>
+        <name>withFilesystemSource</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withFilesystemSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Register a filesystem source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique source identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filesystem path (file or directory) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional key/value options (recursive, format, …) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source priority (default 5) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1592" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2657" bodyend="2671"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1af5008c5faea62e1da884fb56c37ba4ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withApiSource</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;endpoint, std::unordered_map&lt; std::string, std::string &gt; options={}, int priority=5)</argsstring>
+        <name>withApiSource</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withApiSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Register a REST API source (supports cursor and offset/limit pagination). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Registers a <computeroutput><ref refid="classthemis_1_1ingestion_1_1_generic_api_connector" kindref="compound">GenericApiConnector</ref></computeroutput> source. Pagination behaviour is controlled through the <computeroutput>options</computeroutput> map:</para>
+<para><table rows="8" cols="3"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry><entry thead="yes"><para>Default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>api_key</computeroutput>  </para>
+</entry><entry thead="no"><para>Bearer token for <computeroutput>Authorization: Bearer &lt;token&gt;</computeroutput>  </para>
+</entry><entry thead="no"><para>(none)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>page_size</computeroutput>  </para>
+</entry><entry thead="no"><para>Items per page  </para>
+</entry><entry thead="no"><para><computeroutput>100</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>pagination_mode</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>"offset"</computeroutput> (numeric) or <computeroutput>"cursor"</computeroutput> (opaque token)  </para>
+</entry><entry thead="no"><para><computeroutput>"offset"</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>cursor_param</computeroutput>  </para>
+</entry><entry thead="no"><para>Query-parameter name for the cursor / offset  </para>
+</entry><entry thead="no"><para><computeroutput>"offset"</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>cursor_response_field</computeroutput>  </para>
+</entry><entry thead="no"><para>JSON key in response containing the next cursor  </para>
+</entry><entry thead="no"><para><computeroutput>"next_cursor"</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>text_field</computeroutput>  </para>
+</entry><entry thead="no"><para>JSON key whose value is the document text  </para>
+</entry><entry thead="no"><para><computeroutput>"text"</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_pages</computeroutput>  </para>
+</entry><entry thead="no"><para>Maximum pages to fetch (0 = unlimited)  </para>
+</entry><entry thead="no"><para><computeroutput>0</computeroutput>  </para>
+</entry></row>
+</table>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique source identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base URL of the REST API endpoint </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional key/value options (see table above) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source priority (default 5) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1620" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2673" bodyend="2687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a9f9740ffe8cadaed86d140e0ed265058" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withKafkaSource</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;brokers, const std::string &amp;topic, std::unordered_map&lt; std::string, std::string &gt; options={}, int priority=5)</argsstring>
+        <name>withKafkaSource</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withKafkaSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>brokers</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topic</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Register a Kafka consumer source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Registers a <computeroutput><ref refid="classthemis_1_1ingestion_1_1_kafka_connector" kindref="compound">KafkaConnector</ref></computeroutput> source. Behaviour is controlled through the <computeroutput>options</computeroutput> map:</para>
+<para><table rows="10" cols="3"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry><entry thead="yes"><para>Default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>consumer_group</computeroutput>  </para>
+</entry><entry thead="no"><para>Consumer group ID  </para>
+</entry><entry thead="no"><para><computeroutput>themis-ingestion</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>message_format</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>"<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>"</computeroutput> (default) or <computeroutput>"avro"</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput><ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref></computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>text_field</computeroutput>  </para>
+</entry><entry thead="no"><para>JSON key whose value is the document text  </para>
+</entry><entry thead="no"><para><computeroutput>text</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>schema_registry_url</computeroutput>  </para>
+</entry><entry thead="no"><para>Avro Schema Registry URL (avro format only)  </para>
+</entry><entry thead="no"><para>(none)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>poll_timeout_ms</computeroutput>  </para>
+</entry><entry thead="no"><para>Per-poll timeout in milliseconds  </para>
+</entry><entry thead="no"><para><computeroutput>1000</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_messages</computeroutput>  </para>
+</entry><entry thead="no"><para>Maximum messages per run (0 = unlimited)  </para>
+</entry><entry thead="no"><para><computeroutput>0</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>session_timeout_ms</computeroutput>  </para>
+</entry><entry thead="no"><para>Consumer session timeout in milliseconds  </para>
+</entry><entry thead="no"><para><computeroutput>10000</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>security_protocol</computeroutput>  </para>
+</entry><entry thead="no"><para>Security protocol  </para>
+</entry><entry thead="no"><para><computeroutput>plaintext</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>auto_offset_reset</computeroutput>  </para>
+</entry><entry thead="no"><para>Start offset when no committed offset: <computeroutput>"earliest"</computeroutput>, <computeroutput>"latest"</computeroutput>, <computeroutput>"none"</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>earliest</computeroutput>  </para>
+</entry></row>
+</table>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique source identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>brokers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Comma-separated broker list (e.g. <computeroutput>"host:9092"</computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Kafka topic name to subscribe to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional key/value options (see table above) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source priority (default 5) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1651" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2689" bodyend="2705"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a68669af70dfbe614c783378a0baec8ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withObjectStorageSource</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;bucket, std::unordered_map&lt; std::string, std::string &gt; options={}, int priority=5)</argsstring>
+        <name>withObjectStorageSource</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withObjectStorageSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bucket</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Register an object-storage source (S3, GCS, or Azure Blob). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Supported <computeroutput>options</computeroutput> keys — see <computeroutput><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector" kindref="compound">ObjectStorageConnector</ref></computeroutput> documentation for the full table. Key options: <table rows="4" cols="3"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry><entry thead="yes"><para>Default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>provider</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>"s3"</computeroutput>, <computeroutput>"gcs"</computeroutput>, or <computeroutput>"azure"</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>s3</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>prefix</computeroutput>  </para>
+</entry><entry thead="no"><para>Object key prefix filter  </para>
+</entry><entry thead="no"><para>(none)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_keys</computeroutput>  </para>
+</entry><entry thead="no"><para>Max objects to process (0=all)  </para>
+</entry><entry thead="no"><para><computeroutput>0</computeroutput>  </para>
+</entry></row>
+</table>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique source identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bucket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bucket or container name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional key/value options </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source priority (default 5) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1675" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2707" bodyend="2721"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a22e8fb4642a5a2f6ed7927062155e730" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withDatabaseSource</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;jdbc_url, std::unordered_map&lt; std::string, std::string &gt; options={}, int priority=5)</argsstring>
+        <name>withDatabaseSource</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withDatabaseSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jdbc_url</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Register a JDBC-compatible database source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Registers a <computeroutput><ref refid="classthemis_1_1ingestion_1_1_database_connector" kindref="compound">DatabaseConnector</ref></computeroutput> source backed by ODBC. Behaviour is controlled through the <computeroutput>options</computeroutput> map:</para>
+<para><table rows="10" cols="3"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry><entry thead="yes"><para>Default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>query</computeroutput>  </para>
+</entry><entry thead="no"><para>SQL SELECT statement to execute  </para>
+</entry><entry thead="no"><para><computeroutput>SELECT * FROM &lt;table&gt;</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>table</computeroutput>  </para>
+</entry><entry thead="no"><para>Table name used when <computeroutput>query</computeroutput> is not set  </para>
+</entry><entry thead="no"><para>(required if no query)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>text_columns</computeroutput>  </para>
+</entry><entry thead="no"><para>Comma-separated column names to use as document text  </para>
+</entry><entry thead="no"><para>(all columns as JSON)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>batch_size</computeroutput>  </para>
+</entry><entry thead="no"><para>Rows per iteration  </para>
+</entry><entry thead="no"><para><computeroutput>500</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_rows</computeroutput>  </para>
+</entry><entry thead="no"><para>Maximum total rows (0 = unlimited)  </para>
+</entry><entry thead="no"><para><computeroutput>0</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>username</computeroutput>  </para>
+</entry><entry thead="no"><para>Database user (never logged)  </para>
+</entry><entry thead="no"><para>(from DSN)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>password</computeroutput>  </para>
+</entry><entry thead="no"><para>Database password (never logged)  </para>
+</entry><entry thead="no"><para>(from DSN)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>driver</computeroutput>  </para>
+</entry><entry thead="no"><para>ODBC driver name override  </para>
+</entry><entry thead="no"><para>(inferred from URL)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>timeout_s</computeroutput>  </para>
+</entry><entry thead="no"><para>Login and query timeout in seconds  </para>
+</entry><entry thead="no"><para><computeroutput>30</computeroutput>  </para>
+</entry></row>
+</table>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique source identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>jdbc_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JDBC connection URL (e.g. <computeroutput>jdbc:postgresql://host:5432/db</computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional key/value options (see table above) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source priority (default 5) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1705" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2723" bodyend="2737"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a2679a9a03b31b71950c60c2e01e1755c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withWebCrawlerSource</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;seed_url, std::unordered_map&lt; std::string, std::string &gt; options={}, int priority=5)</argsstring>
+        <name>withWebCrawlerSource</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withWebCrawlerSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>seed_url</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Register a web crawler and sitemap source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Registers a <computeroutput><ref refid="classthemis_1_1ingestion_1_1_web_crawler_connector" kindref="compound">WebCrawlerConnector</ref></computeroutput> source. Behaviour is controlled through the <computeroutput>options</computeroutput> map:</para>
+<para><table rows="7" cols="3"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry><entry thead="yes"><para>Default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_depth</computeroutput>  </para>
+</entry><entry thead="no"><para>Maximum crawl depth (0 = seed URL only)  </para>
+</entry><entry thead="no"><para><computeroutput>3</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_pages</computeroutput>  </para>
+</entry><entry thead="no"><para>Maximum pages to crawl (0 = unlimited)  </para>
+</entry><entry thead="no"><para><computeroutput>0</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>user_agent</computeroutput>  </para>
+</entry><entry thead="no"><para>HTTP User-Agent header value  </para>
+</entry><entry thead="no"><para><computeroutput>ThemisDB-Crawler/1.0</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>follow_sitemaps</computeroutput>  </para>
+</entry><entry thead="no"><para>Parse XML sitemap at /sitemap.xml automatically  </para>
+</entry><entry thead="no"><para><computeroutput>true</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>respect_robots</computeroutput>  </para>
+</entry><entry thead="no"><para>Honour robots.txt disallow rules  </para>
+</entry><entry thead="no"><para><computeroutput>true</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>same_domain_only</computeroutput>  </para>
+</entry><entry thead="no"><para>Follow only URLs on the same domain as the seed  </para>
+</entry><entry thead="no"><para><computeroutput>true</computeroutput>  </para>
+</entry></row>
+</table>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique source identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>seed_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting URL (or sitemap URL when <computeroutput>follow_sitemaps=true</computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional key/value options (see table above) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source priority (default 5) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1732" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2739" bodyend="2753"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1acfc3741fe1a2ee67a7663fe031c07d96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withCdcSource</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;connection_url, std::unordered_map&lt; std::string, std::string &gt; options={}, int priority=5)</argsstring>
+        <name>withCdcSource</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withCdcSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connection_url</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Register a CDC (Change-Data-Capture) source for live database streams. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Registers a <computeroutput><ref refid="classthemis_1_1ingestion_1_1_cdc_connector" kindref="compound">CdcConnector</ref></computeroutput> source that consumes change events from a live database replication stream (PostgreSQL logical replication, MySQL binlog, or compatible CDC source) and ingests each event as a document.</para>
+<para>Supported <computeroutput>options</computeroutput> keys: <table rows="9" cols="3"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry><entry thead="yes"><para>Default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>slot_name</computeroutput>  </para>
+</entry><entry thead="no"><para>Replication slot name (PostgreSQL) or equivalent  </para>
+</entry><entry thead="no"><para><computeroutput>themis_cdc</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>table_filter</computeroutput>  </para>
+</entry><entry thead="no"><para>Comma-separated table names to capture (empty = all)  </para>
+</entry><entry thead="no"><para>(all tables)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>operations</computeroutput>  </para>
+</entry><entry thead="no"><para>Comma-separated ops to capture: <computeroutput>INSERT,UPDATE,DELETE</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>INSERT,UPDATE,DELETE</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>text_columns</computeroutput>  </para>
+</entry><entry thead="no"><para>Comma-separated columns to use as document text  </para>
+</entry><entry thead="no"><para>(full event JSON)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>batch_size</computeroutput>  </para>
+</entry><entry thead="no"><para>Events per fetch batch  </para>
+</entry><entry thead="no"><para><computeroutput>500</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_events</computeroutput>  </para>
+</entry><entry thead="no"><para>Maximum events to consume (0 = unlimited)  </para>
+</entry><entry thead="no"><para><computeroutput>0</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>poll_timeout_ms</computeroutput>  </para>
+</entry><entry thead="no"><para>Poll timeout waiting for new events (milliseconds)  </para>
+</entry><entry thead="no"><para><computeroutput>1000</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>from_lsn</computeroutput>  </para>
+</entry><entry thead="no"><para>Start from this LSN / binlog position (empty = start)  </para>
+</entry><entry thead="no"><para>(from beginning)  </para>
+</entry></row>
+</table>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique source identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>connection_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Database connection URL (e.g. <computeroutput>postgresql://host:5432/db</computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional key/value options (see table above) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source priority (default 5) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1764" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2755" bodyend="2769"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1ac5381ef338381457ee8dd21e329c9b9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withPluginSource</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;plugin_name, const std::string &amp;location=&quot;&quot;, std::unordered_map&lt; std::string, std::string &gt; options={}, int priority=5)</argsstring>
+        <name>withPluginSource</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withPluginSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>location</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Register a plugin-backed source connector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The source will be driven by a connector instance produced by the factory previously registered under <computeroutput>plugin_name</computeroutput> (via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a20516b3a1207e703d99ee44b9aff6579" kindref="member">withConnectorPlugin()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager_1a371c906b97604a33f6a9ebd8e9a607fb" kindref="member">IngestionManager::registerConnectorPlugin()</ref></computeroutput>).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique source identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the registered plugin factory </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>location</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional location string passed to the connector via <computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">SourceConfig::location</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional key/value options forwarded to the connector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source priority (default 5) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1785" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2771" bodyend="2787"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a20516b3a1207e703d99ee44b9aff6579" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withConnectorPlugin</definition>
+        <argsstring>(const std::string &amp;plugin_name, ConnectorFactory factory)</argsstring>
+        <name>withConnectorPlugin</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withConnectorPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a8c07b97537327bffabda2bb574e1edb1" kindref="member">ConnectorFactory</ref></type>
+          <declname>factory</declname>
+        </param>
+        <briefdescription>
+<para>Register a connector factory with the builder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Connector Plugin.</para>
+<para>The factory is transferred to the <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref></computeroutput> produced by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a73f9f4a060d923e55e638cbe7d3f72a2" kindref="member">build()</ref></computeroutput>. Call this method once per plugin before <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1ac5381ef338381457ee8dd21e329c9b9c" kindref="member">withPluginSource()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-empty identifier for the plugin </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-argument callable returning a new connector </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1802" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2796" bodyend="2800"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a1e51cf59dbe7fd53f9c7c8e3851ed587" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withRetryConfig</definition>
+        <argsstring>(const RetryConfig &amp;config)</argsstring>
+        <name>withRetryConfig</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withRetryConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set retry configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Retry Config.</para>
+<para><simplesect kind="return"><para>*this for chaining</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withRetryConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1809" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2808" bodyend="2811"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1ab4ecbcd6a4d1bd8f05e98dc92db259ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withRateLimitConfig</definition>
+        <argsstring>(const RateLimitConfig &amp;config)</argsstring>
+        <name>withRateLimitConfig</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withRateLimitConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_rate_limit_config" kindref="compound">RateLimitConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set rate-limit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Rate Limit Config.</para>
+<para><simplesect kind="return"><para>*this for chaining</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withRateLimitConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1815" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2819" bodyend="2822"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a6e748af032f174d5b494f2ab1c8ff042" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withParallelProcessing</definition>
+        <argsstring>(bool enabled, size_t max_threads=0)</argsstring>
+        <name>withParallelProcessing</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withParallelProcessing</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_threads</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Enable parallel processing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Parallel Processing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to use parallel ingestion </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_threads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Max concurrent sources (0 = hardware_concurrency) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_threads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withParallelProcessing without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1823" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2831" bodyend="2836"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a272835bde5432eef8cfa328cfad7ec54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withTargetCollection</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>withTargetCollection</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withTargetCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Set the target collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Target Collection.</para>
+<para><simplesect kind="return"><para>*this for chaining</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withTargetCollection without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1830" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2844" bodyend="2848"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a942341efd2f67835d4ae15fe8bf61909" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withDryRun</definition>
+        <argsstring>(bool enabled=true)</argsstring>
+        <name>withDryRun</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withDryRun</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Enable dry-run mode (no actual writes). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>*this for chaining </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1836" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2850" bodyend="2853"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a2e8f8dcdde4459216d25b73fdbfe01a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withSchemaValidation</definition>
+        <argsstring>(const std::string &amp;source_id, const SchemaConfig &amp;config)</argsstring>
+        <name>withSchemaValidation</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withSchemaValidation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_schema_config" kindref="compound">SchemaConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Register a per-source schema validation configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Schema Validation.</para>
+<para>Equivalent to calling <computeroutput>IngestionManager::setSchemaConfig(source_id, config)</computeroutput> after <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a73f9f4a060d923e55e638cbe7d3f72a2" kindref="member">build()</ref></computeroutput>. Multiple calls with different <computeroutput>source_id</computeroutput> values are supported; they accumulate independently.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source whose documents the schema should validate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Schema rules to enforce before each write </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withSchemaValidation without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1849" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2862" bodyend="2866"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a982019bd7317b2828d0f391d8147ee2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref> &amp;</type>
+        <definition>IngestionBuilder &amp; themis::ingestion::IngestionBuilder::withLegalIngestionConfig</definition>
+        <argsstring>(const std::string &amp;source_id, const LegalIngestionConfig &amp;config)</argsstring>
+        <name>withLegalIngestionConfig</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::withLegalIngestionConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_legal_ingestion_config" kindref="compound">LegalIngestionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Register a legal ingestion pipeline configuration for a source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Legal Ingestion Config.</para>
+<para>Equivalent to calling <computeroutput>IngestionManager::setLegalIngestionConfig(source_id, config)</computeroutput> after <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a73f9f4a060d923e55e638cbe7d3f72a2" kindref="member">build()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source whose documents the legal pipeline should process </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Legal ingestion configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for chaining</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withLegalIngestionConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1862" column="22" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2875" bodyend="2879"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_builder_1a73f9f4a060d923e55e638cbe7d3f72a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IngestionManager &gt; themis::ingestion::IngestionBuilder::build</definition>
+        <argsstring>()</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::ingestion::IngestionBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build and return the configured <ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build.</para>
+<para><simplesect kind="return"><para>Unique pointer to the fully configured manager</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: setRetryConfig(), setRateLimitConfig(), setParallelProcessing(), setTargetCollection(), setDryRun(), registerSource(), setSchemaConfig(), setLegalIngestionConfig(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1869" column="21" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2886" bodyend="2912"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fluent builder for constructing and configuring an <ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a convenient, chainable API to register sources and configure behaviour before running ingestion.</para>
+<para>Example usage: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" kindref="member">IngestionBuilder</ref>(</highlight><highlight class="stringliteral">&quot;my_db&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.withHuggingFaceSource(</highlight><highlight class="stringliteral">&quot;hf_legal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lexlms/ger_legal_data&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;split&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;train&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;streaming&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">}})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a6f2abe3469f3cb37cf164b25b231e10f" kindref="member">withFilesystemSource</ref>(</highlight><highlight class="stringliteral">&quot;custom_docs&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/mnt/documents&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;recursive&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">}})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a1e51cf59dbe7fd53f9c7c8e3851ed587" kindref="member">withRetryConfig</ref>({.max_attempts=5,<sp/>.initial_delay_ms=200.0})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a6e748af032f174d5b494f2ab1c8ff042" kindref="member">withParallelProcessing</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>4)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a272835bde5432eef8cfa328cfad7ec54" kindref="member">withTargetCollection</ref>(</highlight><highlight class="stringliteral">&quot;legal_documents&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a73f9f4a060d923e55e638cbe7d3f72a2" kindref="member">build</ref>();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>mgr-&gt;ingestAll();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="1554" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1554" bodyend="1886"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a73f9f4a060d923e55e638cbe7d3f72a2" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2085633cd521ae8b56a84b66839b4542" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>IngestionBuilder</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2b3e6b09596f5041354d8b9a2488fbab" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>IngestionBuilder</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a7281653fa893953db170f0bf4059b6ee" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>IngestionBuilder</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a33b48875146a42fe0e1d43f2cd9f8d2d" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1af8bcae79843d5d8dfacc88308fc619d7" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a37c75847fa3b685e65e6b8c6cee1c287" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>opts_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1af5008c5faea62e1da884fb56c37ba4ab" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withApiSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1acfc3741fe1a2ee67a7663fe031c07d96" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withCdcSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a20516b3a1207e703d99ee44b9aff6579" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withConnectorPlugin</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a22e8fb4642a5a2f6ed7927062155e730" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withDatabaseSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a942341efd2f67835d4ae15fe8bf61909" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withDryRun</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a6f2abe3469f3cb37cf164b25b231e10f" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withFilesystemSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1aa15f0e2ba1b0986525582979ad40d375" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withHuggingFaceSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a9f9740ffe8cadaed86d140e0ed265058" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withKafkaSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a982019bd7317b2828d0f391d8147ee2c" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withLegalIngestionConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a68669af70dfbe614c783378a0baec8ed" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withObjectStorageSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a6e748af032f174d5b494f2ab1c8ff042" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withParallelProcessing</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1ac5381ef338381457ee8dd21e329c9b9c" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withPluginSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1ab4ecbcd6a4d1bd8f05e98dc92db259ce" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withRateLimitConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a1e51cf59dbe7fd53f9c7c8e3851ed587" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withRetryConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2e8f8dcdde4459216d25b73fdbfe01a8" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withSchemaValidation</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a272835bde5432eef8cfa328cfad7ec54" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withTargetCollection</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1a2679a9a03b31b71950c60c2e01e1755c" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>withWebCrawlerSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_builder_1ac60c9d3543dcb31c62d4b1834f85d95c" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionBuilder</scope><name>~IngestionBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__analytics__streaming__limits__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_analytics_streaming_limits_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="analytics__api__contract_8h" local="yes">analytics/analytics_api_contract.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>analytics/analytics_api_contract.h</label>
+        <link refid="analytics__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/analytics/test_analytics_streaming_limits_focused.cpp</label>
+        <link refid="test__analytics__streaming__limits__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingRuntimeLimits, DefaultIsUnconstrained)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></type>
+        </param>
+        <param>
+          <type>DefaultIsUnconstrained</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para>SRL-01: Default-constructed <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> is unconstrained. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_streaming_limits_focused.cpp" line="45" column="1" bodyfile="tests/analytics/test_analytics_streaming_limits_focused.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__streaming__limits__focused_8cpp_1a8c21faedff6fa45fae9218e6104a260c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingRuntimeLimits, EventsPerWindowMakesConstrained)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></type>
+        </param>
+        <param>
+          <type>EventsPerWindowMakesConstrained</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000010"><xreftitle>Test</xreftitle><xrefdescription><para>SRL-02: Setting max_events_per_window makes the struct constrained. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_streaming_limits_focused.cpp" line="55" column="1" bodyfile="tests/analytics/test_analytics_streaming_limits_focused.cpp" bodystart="55" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__streaming__limits__focused_8cpp_1a381ec4a592d2c8ae3cf5c022e2a712ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingRuntimeLimits, MemoryLimitMakesConstrained)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></type>
+        </param>
+        <param>
+          <type>MemoryLimitMakesConstrained</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000011"><xreftitle>Test</xreftitle><xrefdescription><para>SRL-03: Setting max_window_memory_bytes makes the struct constrained. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_streaming_limits_focused.cpp" line="64" column="1" bodyfile="tests/analytics/test_analytics_streaming_limits_focused.cpp" bodystart="64" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__streaming__limits__focused_8cpp_1a16e204f9ce40a941db5150a75c25b909" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingRuntimeLimits, BackPressureModeValuesDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></type>
+        </param>
+        <param>
+          <type>BackPressureModeValuesDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000012"><xreftitle>Test</xreftitle><xrefdescription><para>SRL-04: <ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1" kindref="member">BackPressureMode</ref> values are distinct. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_streaming_limits_focused.cpp" line="77" column="1" bodyfile="tests/analytics/test_analytics_streaming_limits_focused.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__streaming__limits__focused_8cpp_1a8cc51768aa3a4ab15aba8256d107a0a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingRuntimeLimits, DefaultModeIsDrop)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></type>
+        </param>
+        <param>
+          <type>DefaultModeIsDrop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000013"><xreftitle>Test</xreftitle><xrefdescription><para>SRL-05: Default back_pressure_mode is DROP. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_streaming_limits_focused.cpp" line="86" column="1" bodyfile="tests/analytics/test_analytics_streaming_limits_focused.cpp" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__streaming__limits__focused_8cpp_1ae5b5e529381b3b9dc31fbc6d7db59bb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingRuntimeLimits, AllModesHandledInSwitch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></type>
+        </param>
+        <param>
+          <type>AllModesHandledInSwitch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000014"><xreftitle>Test</xreftitle><xrefdescription><para>SRL-06: All three <ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1" kindref="member">BackPressureMode</ref> values can be used in a switch statement. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_streaming_limits_focused.cpp" line="94" column="1" bodyfile="tests/analytics/test_analytics_streaming_limits_focused.cpp" bodystart="94" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__streaming__limits__focused_8cpp_1a7ef4b27bd77caa26386430b4540fe568" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingRuntimeLimits, DropModeWithEventsLimitIsConstrained)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></type>
+        </param>
+        <param>
+          <type>DropModeWithEventsLimitIsConstrained</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000015"><xreftitle>Test</xreftitle><xrefdescription><para>SRL-07: <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> with DROP and events limit is constrained. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_streaming_limits_focused.cpp" line="115" column="1" bodyfile="tests/analytics/test_analytics_streaming_limits_focused.cpp" bodystart="115" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__streaming__limits__focused_8cpp_1aadc13a3c5dcbe44b22f8c29bcb6aa92c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingRuntimeLimits, BlockModeWithBothLimitsIsConstrained)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></type>
+        </param>
+        <param>
+          <type>BlockModeWithBothLimitsIsConstrained</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000016"><xreftitle>Test</xreftitle><xrefdescription><para>SRL-08: <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> with BLOCK mode and both limits set is constrained. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_streaming_limits_focused.cpp" line="125" column="1" bodyfile="tests/analytics/test_analytics_streaming_limits_focused.cpp" bodystart="125" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__streaming__limits__focused_8cpp_1adea8338ea1156cbc1b835f45407f41b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingRuntimeLimits, ShedModeWithMemoryLimitIsConstrained)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></type>
+        </param>
+        <param>
+          <type>ShedModeWithMemoryLimitIsConstrained</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000017"><xreftitle>Test</xreftitle><xrefdescription><para>SRL-09: SHED mode with memory-only limit is constrained. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_streaming_limits_focused.cpp" line="137" column="1" bodyfile="tests/analytics/test_analytics_streaming_limits_focused.cpp" bodystart="137" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__streaming__limits__focused_8cpp_1af281867730a012335595d6b64d66589c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingRuntimeLimits, UnconstrainedLimitsAndPolicyBothFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></type>
+        </param>
+        <param>
+          <type>UnconstrainedLimitsAndPolicyBothFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000018"><xreftitle>Test</xreftitle><xrefdescription><para>SRL-10: Unconstrained <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> and unconstrained <ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref> are both false. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_streaming_limits_focused.cpp" line="148" column="1" bodyfile="tests/analytics/test_analytics_streaming_limits_focused.cpp" bodystart="148" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Streaming + distributed runtime limits under load — Wave B gap closure. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests the <computeroutput><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></computeroutput> struct and <computeroutput><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1" kindref="member">BackPressureMode</ref></computeroutput> semantics defined in <computeroutput><ref refid="analytics__api__contract_8h" kindref="compound">analytics_api_contract.h</ref></computeroutput>.</para>
+<sect1 id="test__analytics__streaming__limits__focused_8cpp_1autotoc_md11_1s1"><sect2 id="test__analytics__streaming__limits__focused_8cpp_1autotoc_md11">
+<title>Test families (SRL-01..SRL-10)</title><para><heading level="3">SRL-01..03 — Struct semantics</heading>
+</para>
+<para>SRL-01 Default <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> is unconstrained (isConstrained() == false) SRL-02 Setting max_events_per_window makes it constrained SRL-03 Setting max_window_memory_bytes makes it constrained</para>
+<para><heading level="3">SRL-04..06 — <ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1" kindref="member">BackPressureMode</ref> enum</heading>
+</para>
+<para>SRL-04 BackPressureMode::DROP has distinct value from BLOCK and SHED SRL-05 Default back_pressure_mode is DROP SRL-06 All three modes are usable in switch statements</para>
+<para><heading level="3">SRL-07..10 — Composition with <ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref></heading>
+</para>
+<para>SRL-07 <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> with DROP, constrained SRL-08 <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> with BLOCK mode, both limits set SRL-09 <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> with SHED mode, memory limit only SRL-10 Unconstrained limits + unconstrained policy = both unconstrained</para>
+<para><simplesect kind="see"><para><ref refid="analytics__api__contract_8h" kindref="compound">include/analytics/analytics_api_contract.h</ref> — <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="analytics__api__contract_8h" kindref="compound">analytics/analytics_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">themis::analytics</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRL-01..03<sp/>—<sp/>Struct<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" kindref="member">TEST</ref>(<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref>,<sp/>DefaultIsUnconstrained)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a6e60a0e78119068059040e119f0cfb90" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1ad5f0948f264ffdf025f935f25d51a7aa" kindref="member">max_events_per_window</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a8b1266fd78ac3b6c037055069a0939d4" kindref="member">max_window_memory_bytes</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" kindref="member">TEST</ref>(<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref>,<sp/>EventsPerWindowMakesConstrained)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1ad5f0948f264ffdf025f935f25d51a7aa" kindref="member">max_events_per_window</ref><sp/>=<sp/>10&apos;000u;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a6e60a0e78119068059040e119f0cfb90" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" kindref="member">TEST</ref>(<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref>,<sp/>MemoryLimitMakesConstrained)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a8b1266fd78ac3b6c037055069a0939d4" kindref="member">max_window_memory_bytes</ref><sp/>=<sp/>64u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;<sp/><sp/></highlight><highlight class="comment">//<sp/>64<sp/>MiB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a6e60a0e78119068059040e119f0cfb90" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRL-04..06<sp/>—<sp/>BackPressureMode<sp/>enum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" kindref="member">TEST</ref>(<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref>,<sp/>BackPressureModeValuesDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1abf8f3be424eb6a72b21549fbb24ffb57" kindref="member">BackPressureMode::DROP</ref>,<sp/><sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1a4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BackPressureMode::BLOCK</ref>);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1abf8f3be424eb6a72b21549fbb24ffb57" kindref="member">BackPressureMode::DROP</ref>,<sp/><sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1afb12a2e8635fdd07c25989eeffa8fb42" kindref="member">BackPressureMode::SHED</ref>);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1a4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BackPressureMode::BLOCK</ref>,<sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1afb12a2e8635fdd07c25989eeffa8fb42" kindref="member">BackPressureMode::SHED</ref>);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" kindref="member">TEST</ref>(<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref>,<sp/>DefaultModeIsDrop)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1af4c5f17b1f6f05e3f2b91e5a30576bc7" kindref="member">back_pressure_mode</ref>,<sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1abf8f3be424eb6a72b21549fbb24ffb57" kindref="member">BackPressureMode::DROP</ref>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" kindref="member">TEST</ref>(<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref>,<sp/>AllModesHandledInSwitch)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>modeLabel<sp/>=<sp/>[](<ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1" kindref="member">BackPressureMode</ref><sp/>m)<sp/>-&gt;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(m)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1abf8f3be424eb6a72b21549fbb24ffb57" kindref="member">BackPressureMode::DROP</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DROP&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1a4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BackPressureMode::BLOCK</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BLOCK&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1afb12a2e8635fdd07c25989eeffa8fb42" kindref="member">BackPressureMode::SHED</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;SHED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(modeLabel(<ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1abf8f3be424eb6a72b21549fbb24ffb57" kindref="member">BackPressureMode::DROP</ref>),<sp/><sp/></highlight><highlight class="stringliteral">&quot;DROP&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(modeLabel(<ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1a4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BackPressureMode::BLOCK</ref>),<sp/></highlight><highlight class="stringliteral">&quot;BLOCK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(modeLabel(<ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1afb12a2e8635fdd07c25989eeffa8fb42" kindref="member">BackPressureMode::SHED</ref>),<sp/><sp/></highlight><highlight class="stringliteral">&quot;SHED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRL-07..10<sp/>—<sp/>Composition<sp/>with<sp/>BoundedExecutionPolicy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" kindref="member">TEST</ref>(<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref>,<sp/>DropModeWithEventsLimitIsConstrained)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1ad5f0948f264ffdf025f935f25d51a7aa" kindref="member">max_events_per_window</ref><sp/>=<sp/>50&apos;000u;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1af4c5f17b1f6f05e3f2b91e5a30576bc7" kindref="member">back_pressure_mode</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1abf8f3be424eb6a72b21549fbb24ffb57" kindref="member">BackPressureMode::DROP</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a6e60a0e78119068059040e119f0cfb90" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" kindref="member">TEST</ref>(<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref>,<sp/>BlockModeWithBothLimitsIsConstrained)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1ad5f0948f264ffdf025f935f25d51a7aa" kindref="member">max_events_per_window</ref><sp/><sp/><sp/>=<sp/>100&apos;000u;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a8b1266fd78ac3b6c037055069a0939d4" kindref="member">max_window_memory_bytes</ref><sp/>=<sp/>128u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1af4c5f17b1f6f05e3f2b91e5a30576bc7" kindref="member">back_pressure_mode</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1a4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BackPressureMode::BLOCK</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a6e60a0e78119068059040e119f0cfb90" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1af4c5f17b1f6f05e3f2b91e5a30576bc7" kindref="member">back_pressure_mode</ref>,<sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1a4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BackPressureMode::BLOCK</ref>);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" kindref="member">TEST</ref>(<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref>,<sp/>ShedModeWithMemoryLimitIsConstrained)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a8b1266fd78ac3b6c037055069a0939d4" kindref="member">max_window_memory_bytes</ref><sp/>=<sp/>32u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1af4c5f17b1f6f05e3f2b91e5a30576bc7" kindref="member">back_pressure_mode</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1afb12a2e8635fdd07c25989eeffa8fb42" kindref="member">BackPressureMode::SHED</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a6e60a0e78119068059040e119f0cfb90" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" kindref="member">TEST</ref>(<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref>,<sp/>UnconstrainedLimitsAndPolicyBothFalse)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(limits.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a6e60a0e78119068059040e119f0cfb90" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.<ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1aef276700dac4052924524e4fd7dc7c6f" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_analytics_streaming_limits_focused.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_text_extractor_1_1_extraction_result" kind="struct" language="C++" prot="public">
+    <compoundname>TextExtractor::ExtractionResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_text_extractor_1_1_extraction_result_1a361660841464358f0b06b7033398936c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TextExtractor::ExtractionResult::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>TextExtractor::ExtractionResult::text</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="14" column="21" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="14" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_text_extractor_1_1_extraction_result_1afe80f7dbd2abbdfdd1dd4d685ef929a6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t TextExtractor::ExtractionResult::character_count</definition>
+        <argsstring></argsstring>
+        <name>character_count</name>
+        <qualifiedname>TextExtractor::ExtractionResult::character_count</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="15" column="16" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="15" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_text_extractor_1_1_extraction_result_1a682ea1db849fb32fae766f083772f380" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double TextExtractor::ExtractionResult::quality_score</definition>
+        <argsstring></argsstring>
+        <name>quality_score</name>
+        <qualifiedname>TextExtractor::ExtractionResult::quality_score</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="16" column="16" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="16" bodyend="16"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/content/bench_text_extraction.cpp" line="13" column="5" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="13" bodyend="17"/>
+    <listofallmembers>
+      <member refid="struct_text_extractor_1_1_extraction_result_1afe80f7dbd2abbdfdd1dd4d685ef929a6" prot="public" virt="non-virtual"><scope>TextExtractor::ExtractionResult</scope><name>character_count</name></member>
+      <member refid="struct_text_extractor_1_1_extraction_result_1a682ea1db849fb32fae766f083772f380" prot="public" virt="non-virtual"><scope>TextExtractor::ExtractionResult</scope><name>quality_score</name></member>
+      <member refid="struct_text_extractor_1_1_extraction_result_1a361660841464358f0b06b7033398936c" prot="public" virt="non-virtual"><scope>TextExtractor::ExtractionResult</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

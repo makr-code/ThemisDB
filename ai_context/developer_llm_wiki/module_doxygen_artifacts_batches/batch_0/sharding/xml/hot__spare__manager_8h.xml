@@ -1,0 +1,700 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hot__spare__manager_8h" kind="file" language="C++">
+    <compoundname>hot_spare_manager.h</compoundname>
+    <includes refid="redundancy__strategy_8h" local="yes">sharding/redundancy_strategy.h</includes>
+    <includes refid="shard__topology_8h" local="yes">sharding/shard_topology.h</includes>
+    <includes refid="shard__repair__engine_8h" local="yes">sharding/shard_repair_engine.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">set</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">condition_variable</includes>
+    <includedby refid="hot__spare__manager_8cpp" local="yes">src/sharding/hot_spare_manager.cpp</includedby>
+    <includedby refid="test__sharding__repair_8cpp" local="yes">tests/sharding/test_sharding_repair.cpp</includedby>
+    <incdepgraph>
+      <node id="24">
+        <label>sharding/consistent_hash.h</label>
+        <link refid="consistent__hash_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/hot_spare_manager.h</label>
+        <link refid="hot__spare__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>sharding/prometheus_metrics.h</label>
+        <link refid="prometheus__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/redundancy_strategy.h</label>
+        <link refid="redundancy__strategy_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>sharding/shard_repair_engine.h</label>
+        <link refid="shard__repair__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>sharding/shard_topology.h</label>
+        <link refid="shard__topology_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>sharding/slo_monitor.h</label>
+        <link refid="slo__monitor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sharding/truetime.h</label>
+        <link refid="truetime_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>sharding/urn.h</label>
+        <link refid="urn_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>sharding/write_concern.h</label>
+        <link refid="write__concern_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>algorithm</label>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="32">
+        <label>condition_variable</label>
+      </node>
+      <node id="16">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="14">
+        <label>future</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="33">
+        <label>queue</label>
+      </node>
+      <node id="27">
+        <label>regex</label>
+      </node>
+      <node id="22">
+        <label>set</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="26">
+        <label>string_view</label>
+      </node>
+      <node id="18">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="31">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="30">
+        <label>utils/thread_pool_manager.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/hot_spare_manager.h</label>
+        <link refid="hot__spare__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/sharding/hot_spare_manager.cpp</label>
+        <link refid="hot__spare__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/sharding/test_sharding_repair.cpp</label>
+        <link refid="test__sharding__repair_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_hot_spare_config" prot="public">themis::sharding::HotSpareConfig</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_spare_shard_info" prot="public">themis::sharding::SpareShardInfo</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_rebuild_status" prot="public">themis::sharding::RebuildStatus</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_hot_spare_failover_event" prot="public">themis::sharding::HotSpareFailoverEvent</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_hot_spare_manager" prot="public">themis::sharding::HotSpareManager</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats" prot="public">themis::sharding::HotSpareManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task" prot="private">themis::sharding::HotSpareManager::RebuildTask</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="redundancy__strategy_8h" kindref="compound">sharding/redundancy_strategy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__topology_8h" kindref="compound">sharding/shard_topology.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__repair__engine_8h" kindref="compound">sharding/shard_repair_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Hot<sp/>Spare<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162" kindref="member">RebuildPriority</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162a41bc94cbd8eebea13ce0491b2ac11b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">LOW</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>rebuild,<sp/>minimal<sp/>impact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162ac87f3be66ffc3c0d4249f1c2cc5f3cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162ac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">MEDIUM</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Balanced<sp/>rebuild</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162ab89de3b4b81c4facfac906edf29aec8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162ab89de3b4b81c4facfac906edf29aec8c" kindref="member">HIGH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggressive<sp/>rebuild,<sp/>faster<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>speed,<sp/>may<sp/>impact<sp/>production</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9a" kindref="member">SpareState</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9aa1588118736b5ecdb1ac20c16428d8ea7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae7dbd98fca358a63e17d72e4fb7ca28ea1588118736b5ecdb1ac20c16428d8ea7" kindref="member">AVAILABLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ready<sp/>for<sp/>activation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9aaf0e310ac027b783acc3f0772af161652" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9aaf0e310ac027b783acc3f0772af161652" kindref="member">ACTIVATING</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Being<sp/>promoted<sp/>to<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9aa18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Currently<sp/>serving<sp/>traffic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9aa509579b889462e42f8ff497733516749" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9aa509579b889462e42f8ff497733516749" kindref="member">REBUILDING</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Receiving<sp/>data<sp/>from<sp/>replicas</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9aa0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7a0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rebuild<sp/>failed<sp/>or<sp/>incomplete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9aa7ed929f45ba34eff59d81d74d4f80a58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9aa7ed929f45ba34eff59d81d74d4f80a58" kindref="member">OFFLINE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1sharding_1_1_hot_spare_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_hot_spare_config" kindref="compound">HotSpareConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1sharding_1_1_hot_spare_config_1a757087bbf2628cbe233ac7af496b9c92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1a757087bbf2628cbe233ac7af496b9c92" kindref="member">enable</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1sharding_1_1_hot_spare_config_1a6ef6476bf7303c5b86589a9574f93a5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1a6ef6476bf7303c5b86589a9574f93a5e" kindref="member">spare_shards</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>of<sp/>spare<sp/>shard<sp/>IDs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Automatic<sp/>rebuild<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1sharding_1_1_hot_spare_config_1ad92b5241c472eb6a50d5661ab70eba2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1ad92b5241c472eb6a50d5661ab70eba2d" kindref="member">auto_rebuild</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1sharding_1_1_hot_spare_config_1ae915d6cf5b642c6149b243c7cf03abea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162" kindref="member">RebuildPriority</ref><sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1ae915d6cf5b642c6149b243c7cf03abea" kindref="member">rebuild_priority</ref><sp/>=<sp/><ref refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162ab89de3b4b81c4facfac906edf29aec8c" kindref="member">RebuildPriority::HIGH</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1sharding_1_1_hot_spare_config_1ab624ed41e3b1372956a22d990ac50f76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1ab624ed41e3b1372956a22d990ac50f76" kindref="member">rebuild_throttle_mbps</ref><sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>Bandwidth<sp/>limit<sp/>in<sp/>MB/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1sharding_1_1_hot_spare_config_1a63a19f4eadb9df31494079165ea79269" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1a63a19f4eadb9df31494079165ea79269" kindref="member">health_check_interval</ref>{30};</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1sharding_1_1_hot_spare_config_1af6f89b2e483b2c37deae87aa8aede06c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1af6f89b2e483b2c37deae87aa8aede06c" kindref="member">failure_threshold</ref><sp/>=<sp/>3;<sp/><sp/></highlight><highlight class="comment">//<sp/>Failures<sp/>before<sp/>marking<sp/>shard<sp/>down</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rebuild<sp/>behavior</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1sharding_1_1_hot_spare_config_1af14662532f98333b6f41f9d10bd96193" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1af14662532f98333b6f41f9d10bd96193" kindref="member">max_concurrent_rebuilds</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1sharding_1_1_hot_spare_config_1ade665fe912693499899f5aeb7462f589" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1ade665fe912693499899f5aeb7462f589" kindref="member">rebuild_in_chunks</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1sharding_1_1_hot_spare_config_1a8a8c230c34a82bec7099f0ee9f57e33e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1a8a8c230c34a82bec7099f0ee9f57e33e" kindref="member">rebuild_chunk_size_mb</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alerting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1sharding_1_1_hot_spare_config_1ab0fd1b7d65ca870fe6fece0f82021083" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1ab0fd1b7d65ca870fe6fece0f82021083" kindref="member">enable_alerts</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1sharding_1_1_hot_spare_config_1a37b5297c4298219d2a72b21e3f3efef1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1a37b5297c4298219d2a72b21e3f3efef1" kindref="member">alert_callback</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_1a8459c9517c5df1f715340abf90a68827" kindref="member">validate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1sharding_1_1_spare_shard_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_spare_shard_info" kindref="compound">SpareShardInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1sharding_1_1_spare_shard_info_1a67d12b73bec9937100f92bc641fb7e3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a67d12b73bec9937100f92bc641fb7e3b" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1sharding_1_1_spare_shard_info_1ad0594fb0124e8a88ed2f2636446b4ad1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9a" kindref="member">SpareState</ref><sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1ad0594fb0124e8a88ed2f2636446b4ad1" kindref="member">state</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1sharding_1_1_spare_shard_info_1ac4abc845b8fa9d2474b7107be9c70949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1ac4abc845b8fa9d2474b7107be9c70949" kindref="member">state_changed</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>rebuilding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1sharding_1_1_spare_shard_info_1ab63f2b4163c9c9e5b1ed6b373c3cb4f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1ab63f2b4163c9c9e5b1ed6b373c3cb4f4" kindref="member">source_shard_id</ref>;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1sharding_1_1_spare_shard_info_1a5beeeca930cbc0357daa00dae03ce16f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a5beeeca930cbc0357daa00dae03ce16f" kindref="member">bytes_rebuilt</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1sharding_1_1_spare_shard_info_1a6f49d44b182fe9e6ec852d79b225f501" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a6f49d44b182fe9e6ec852d79b225f501" kindref="member">total_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1sharding_1_1_spare_shard_info_1ab29d2934953e6cbf1a08e8ed54bad02d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1ab29d2934953e6cbf1a08e8ed54bad02d" kindref="member">rebuild_started</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1sharding_1_1_spare_shard_info_1abe74a0deba492bbf678060dd483fe835" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1abe74a0deba492bbf678060dd483fe835" kindref="member">consecutive_failures</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1sharding_1_1_spare_shard_info_1a519883ecc63511f40fd556e9a3665512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a519883ecc63511f40fd556e9a3665512" kindref="member">last_health_check</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Progress<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1sharding_1_1_spare_shard_info_1aecfe8713e5d19737879f964a1e6c994a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1aecfe8713e5d19737879f964a1e6c994a" kindref="member">getProgressPercentage</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a6f49d44b182fe9e6ec852d79b225f501" kindref="member">total_bytes</ref><sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a5beeeca930cbc0357daa00dae03ce16f" kindref="member">bytes_rebuilt</ref><sp/>*<sp/>100.0)<sp/>/<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a6f49d44b182fe9e6ec852d79b225f501" kindref="member">total_bytes</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1sharding_1_1_spare_shard_info_1a65a5bac951a64406f3b7a86f42c99398" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a65a5bac951a64406f3b7a86f42c99398" kindref="member">getEstimatedTimeRemaining</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a5beeeca930cbc0357daa00dae03ce16f" kindref="member">bytes_rebuilt</ref><sp/>==<sp/>0<sp/>||<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a6f49d44b182fe9e6ec852d79b225f501" kindref="member">total_bytes</ref><sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::seconds(0);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::system_clock::now()<sp/>-<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1ab29d2934953e6cbf1a08e8ed54bad02d" kindref="member">rebuild_started</ref>;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>elapsed_seconds<sp/>=<sp/>std::chrono::duration&lt;double&gt;(elapsed).count();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(elapsed_seconds<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::seconds(0);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>bytes_per_second<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a5beeeca930cbc0357daa00dae03ce16f" kindref="member">bytes_rebuilt</ref><sp/>/<sp/>elapsed_seconds;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(bytes_per_second<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::seconds(0);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>remaining_bytes<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a6f49d44b182fe9e6ec852d79b225f501" kindref="member">total_bytes</ref><sp/>-<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a5beeeca930cbc0357daa00dae03ce16f" kindref="member">bytes_rebuilt</ref>;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::seconds(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(remaining_bytes<sp/>/<sp/>bytes_per_second));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1sharding_1_1_spare_shard_info_1a8db5aa0735e9f3b957ed9cc0bfccd6aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a8db5aa0735e9f3b957ed9cc0bfccd6aa" kindref="member">getRebuildThroughputMBps</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1ad0594fb0124e8a88ed2f2636446b4ad1" kindref="member">state</ref><sp/>!=<sp/><ref refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9aa509579b889462e42f8ff497733516749" kindref="member">SpareState::REBUILDING</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::system_clock::now()<sp/>-<sp/><ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1ab29d2934953e6cbf1a08e8ed54bad02d" kindref="member">rebuild_started</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>elapsed_seconds<sp/>=<sp/>std::chrono::duration&lt;double&gt;(elapsed).count();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(elapsed_seconds<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1sharding_1_1_spare_shard_info_1a5beeeca930cbc0357daa00dae03ce16f" kindref="member">bytes_rebuilt</ref><sp/>/<sp/>(1024.0<sp/>*<sp/>1024.0))<sp/>/<sp/>elapsed_seconds;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1sharding_1_1_rebuild_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_rebuild_status" kindref="compound">RebuildStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1sharding_1_1_rebuild_status_1aca7895a14d083b32d4332c3b6e396686" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_rebuild_status_1aca7895a14d083b32d4332c3b6e396686" kindref="member">is_rebuilding</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1sharding_1_1_rebuild_status_1ae7672b184910ac12d4160be3b85577eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_rebuild_status_1ae7672b184910ac12d4160be3b85577eb" kindref="member">active_rebuilds</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1sharding_1_1_rebuild_status_1ac071c40a4d2b14fb9e4c11564a169314" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpareShardInfo&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_rebuild_status_1ac071c40a4d2b14fb9e4c11564a169314" kindref="member">rebuilding_spares</ref>;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overall<sp/>progress</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1sharding_1_1_rebuild_status_1a5e07e20a1ec0ce9d5dea51bcf1ad7f87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_rebuild_status_1a5e07e20a1ec0ce9d5dea51bcf1ad7f87" kindref="member">overall_progress</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1sharding_1_1_rebuild_status_1ac340f25999302b15e6d04bb47d7197c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1sharding_1_1_rebuild_status_1ac340f25999302b15e6d04bb47d7197c0" kindref="member">estimated_time_remaining</ref>{0};</highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1sharding_1_1_rebuild_status_1ab949d40682808d65b056f82713797f49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_rebuild_status_1ab949d40682808d65b056f82713797f49" kindref="member">average_throughput_mbps</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1sharding_1_1_rebuild_status_1aa2cf9173bd669cd090aa1ce0a98f1e79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_rebuild_status_1aa2cf9173bd669cd090aa1ce0a98f1e79" kindref="member">total_rebuilds_completed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1sharding_1_1_rebuild_status_1a61fc44542e6f06498c82babcce667439" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_rebuild_status_1a61fc44542e6f06498c82babcce667439" kindref="member">total_rebuilds_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1sharding_1_1_rebuild_status_1a63346a8edd127c22c3d42e9d3e454734" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_rebuild_status_1a63346a8edd127c22c3d42e9d3e454734" kindref="member">average_rebuild_time</ref>{0};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1sharding_1_1_hot_spare_failover_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_hot_spare_failover_event" kindref="compound">HotSpareFailoverEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a75c66953500ad81c6ccd7431d0e90c85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a75c66953500ad81c6ccd7431d0e90c85" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1aa41c13e0f477786b45d9adab4ee436d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1aa41c13e0f477786b45d9adab4ee436d5" kindref="member">failed_shard_id</ref>;</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a945e54f9c2d61033e78818cb604758a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a945e54f9c2d61033e78818cb604758a9" kindref="member">spare_shard_id</ref>;</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a0e8315ec518ef3b69d2c3ffc22a7b757" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a0e8315ec518ef3b69d2c3ffc22a7b757" kindref="member">failover_duration</ref>;</highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a789f4f990fe94aba2d4f83b3dedc5c8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a789f4f990fe94aba2d4f83b3dedc5c8e" kindref="member">success</ref>;</highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a24733c2cecee4032247fb7e6db209edf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_failover_event_1a24733c2cecee4032247fb7e6db209edf" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Hot<sp/>Spare<sp/>Manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1sharding_1_1_hot_spare_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a49bbf017caaf5c73e2db813ffef1a4a2" kindref="member">HotSpareManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="216" refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aebb530709a04f13f05993eaa853c02df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aebb530709a04f13f05993eaa853c02df" kindref="member">WriteHandler</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc_id,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)&gt;;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220" refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a0c7dcf2a2e48520a1a1b7034aae85282" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a0c7dcf2a2e48520a1a1b7034aae85282" kindref="member">ReadHandler</ref><sp/>=<sp/>std::function&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;(</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc_id)&gt;;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aed5289971b8f2e9509fcc699134e7601" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aed5289971b8f2e9509fcc699134e7601" kindref="member">DocumentIterator</ref><sp/>=<sp/>std::function&lt;std::vector&lt;std::string&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)&gt;;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a49bbf017caaf5c73e2db813ffef1a4a2" kindref="member">HotSpareManager</ref>(</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config" kindref="compound">HotSpareConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref>&amp;<sp/>strategy,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref>&amp;<sp/>topology</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aae09ef702d9cb8d6521a8f2c0754e8fc" kindref="member">~HotSpareManager</ref>();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a370826c448b8b8cdaf6ac587f1d6c6fc" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1af6c3ac393a390608f69119c6a96dc8f3" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aa57b28392a682dcbd204e6b11f877f56" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spare<sp/>pool<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a2160be2c6f177e951bb6dd5c1e15a912" kindref="member">addSpare</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a813b81fd9f3a4c51d1e716e2adb96323" kindref="member">removeSpare</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1af047a034605ec8a5421a16f3d79af63e" kindref="member">getAvailableSpares</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpareShardInfo&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a059ab64f17fc13b0b6c3dad4dfc4cdc2" kindref="member">getAllSpares</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failover<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1ad4ef5e57094239cdcdcd6696bf8f1c8e" kindref="member">activateSpare</ref>(</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failed_shard_id,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref>&amp;<sp/>ring,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a0c7dcf2a2e48520a1a1b7034aae85282" kindref="member">ReadHandler</ref><sp/>read_handler,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aebb530709a04f13f05993eaa853c02df" kindref="member">WriteHandler</ref><sp/>write_handler,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aed5289971b8f2e9509fcc699134e7601" kindref="member">DocumentIterator</ref><sp/>doc_iterator</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manual<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a6ea53605a75e97f2cddaa374c45bd0a7" kindref="member">triggerRebuild</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>spare_shard_id);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a841dadd8a970a1907dbafe9159b6e66a" kindref="member">pauseRebuild</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>spare_shard_id);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a7184528f99e508e39df41854588357ed" kindref="member">resumeRebuild</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>spare_shard_id);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1add79b7aaf2b67d210ec48b29def7b825" kindref="member">cancelRebuild</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>spare_shard_id);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_rebuild_status" kindref="compound">RebuildStatus</ref><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a87f47de9e7d7954ca1caf7e44bf60a86" kindref="member">getRebuildStatus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;SpareShardInfo&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a88624c64fd993c245a478be22fb07a08" kindref="member">getSpareInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HotSpareFailoverEvent&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1af4ddbbc6636e548fc08b6ebbd302482c" kindref="member">getFailoverHistory</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_count<sp/>=<sp/>100)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266" refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a6d5eaa8db4efcae9421aeeb6374a41b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config" kindref="compound">HotSpareConfig</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a6d5eaa8db4efcae9421aeeb6374a41b6" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a1c7ed56996a6829760a45a5adbbb449d" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_config" kindref="compound">HotSpareConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="271" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1ab5efca244bcb4e7c5b2b2ce8df540794" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1ab5efca244bcb4e7c5b2b2ce8df540794" kindref="member">total_failovers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="272" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a756878c9e5d5dc6477b24274bfb72eb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a756878c9e5d5dc6477b24274bfb72eb7" kindref="member">successful_failovers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="273" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1aec81d08677f08f26974ffeceafe9c31e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1aec81d08677f08f26974ffeceafe9c31e" kindref="member">failed_failovers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="274" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a7b24303f5d6089a0cc2325364d985447" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a7b24303f5d6089a0cc2325364d985447" kindref="member">total_rebuilds</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="275" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a6c32994d2ed40903aea54655eda5eea0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a6c32994d2ed40903aea54655eda5eea0" kindref="member">successful_rebuilds</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="276" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a51a1fc625775647aca225ba83e1157d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a51a1fc625775647aca225ba83e1157d0" kindref="member">failed_rebuilds</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="277" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a7228c92f5bb125845f13ccc0e4d26662" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a7228c92f5bb125845f13ccc0e4d26662" kindref="member">spares_available</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="278" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a26d1934e7884afe2a9f270a601141dc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a26d1934e7884afe2a9f270a601141dc9" kindref="member">spares_active</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="279" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a396e7c706ced2e4eaf95c64d37945a3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a396e7c706ced2e4eaf95c64d37945a3c" kindref="member">spares_rebuilding</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="280" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a9ab8183895f8131614be06d7658f0e30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1a9ab8183895f8131614be06d7658f0e30" kindref="member">avg_failover_time</ref>{0};</highlight></codeline>
+<codeline lineno="281" refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1aa49d2b4525c6dfe6f2bb2f1a5ce8cccc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_stats_1aa49d2b4525c6dfe6f2bb2f1a5ce8cccc" kindref="member">avg_rebuild_time</ref>{0};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a6a9c5c5fa0169499cb0778fe04e313b2" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prometheus<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a30fd4ed63908c0fdd414731f6276334f" kindref="member">exportPrometheusMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a732a65742ac9690a79653aba947c4d05" kindref="member">setRepairEngine</ref>(std::shared_ptr&lt;themis::sharding::ShardRepairEngine&gt;<sp/>engine);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>healthCheckLoop();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rebuildLoop();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkSpareHealth(<ref refid="structthemis_1_1sharding_1_1_spare_shard_info" kindref="compound">SpareShardInfo</ref>&amp;<sp/>spare);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleShardFailure(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rebuild<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RebuildTask<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>spare_shard_id;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>source_shard_id;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>documents;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>total_bytes;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>paused<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Handlers<sp/>for<sp/>data<sp/>transfer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref>*<sp/>ring;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a0c7dcf2a2e48520a1a1b7034aae85282" kindref="member">ReadHandler</ref><sp/>read_handler;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aebb530709a04f13f05993eaa853c02df" kindref="member">WriteHandler</ref><sp/>write_handler;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>rebuildShard(RebuildTask&amp;<sp/>task);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spare<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>selectBestSpare()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alerting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendAlert(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>and<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>HotSpareConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>RedundancyStrategy&amp;<sp/>strategy_;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>ShardTopology&amp;<sp/>topology_;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Threading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>health_check_thread_;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>rebuild_thread_;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spare<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>spares_mutex_;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>SpareShardInfo&gt;<sp/>spares_;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rebuild<sp/>queue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>rebuild_mutex_;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>rebuild_cv_;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>std::queue&lt;RebuildTask&gt;<sp/>rebuild_queue_;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>bool&gt;<sp/>rebuild_paused_;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failover<sp/>history</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>history_mutex_;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HotSpareFailoverEvent&gt;<sp/>failover_history_;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_HISTORY_SIZE<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/>stats_;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>repair<sp/>engine:<sp/>triggers<sp/>rebuild<sp/>via<sp/>ShardRepairEngine<sp/>after<sp/>failover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::sharding::ShardRepairEngine&gt;<sp/>repair_engine_;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Backward<sp/>compatibility<sp/>shim:<sp/>expose<sp/>under<sp/>themisdb::sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::sharding;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="368"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/hot_spare_manager.h"/>
+  </compounddef>
+</doxygen>

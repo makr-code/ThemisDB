@@ -1,0 +1,526 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wave7__bm25__positional__fts_8cpp" kind="file" language="C++">
+    <compoundname>test_wave7_bm25_positional_fts.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="wiki__index__store_8h" local="yes">rag/wiki_index_store.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>rag/wiki_index_store.h</label>
+        <link refid="wiki__index__store_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_wave7_bm25_positional_fts.cpp</label>
+        <link refid="test__wave7__bm25__positional__fts_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>utility</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1a9cc98e8016ed197261a4fc2f8707a2bb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool resultContainsDoc</definition>
+        <argsstring>(const std::vector&lt; IndexResult &gt; &amp;results, const std::string &amp;doc_id)</argsstring>
+        <name>resultContainsDoc</name>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="35" column="13" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_01_BM25BaselineScore)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_01_BM25BaselineScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="45" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="45" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1aa54bb379d6521f36f1e70cdd8c45b4ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_02_PositionalIndexPopulated)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_02_PositionalIndexPopulated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="60" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1a4bd20a959c2dbb05e9d80d56a4d8aa4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_03_PhrasePresentReturnsDoc)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_03_PhrasePresentReturnsDoc</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="74" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="74" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1a448a50180f4ffb1b584021587b06d8c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_04_PhraseAbsentReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_04_PhraseAbsentReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="90" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="90" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1adadaab33a33abf540c9573ea8be7f5e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_05_SingleTermPhraseLikeBM25)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_05_SingleTermPhraseLikeBM25</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="102" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="102" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1acc96f8599ef94eccd7d01c3f6b0efd3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_06_EmptyPhraseReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_06_EmptyPhraseReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="121" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="121" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1ad6c086f7eb1264eb5639bc9e64147c1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_07_PartialPhraseNotMatched)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_07_PartialPhraseNotMatched</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="133" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="133" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1aa2c2774c36fe27ca3ca3f07a5610d829" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_08_ProximityWithinDistanceFound)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_08_ProximityWithinDistanceFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="146" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="146" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1ab6c3a613a3126b0c11109e449f21c2aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_09_ProximityOutsideDistanceNotFound)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_09_ProximityOutsideDistanceNotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="162" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="162" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1aca5391b7da79c2e7772da7d37c5e7672" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_10_ProximityDistanceOne)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_10_ProximityDistanceOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="175" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="175" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1a0a71c0fc3bcdbb731912ad665b57def8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_11_SameTermTwoOccurrencesClose)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_11_SameTermTwoOccurrencesClose</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="194" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="194" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave7__bm25__positional__fts_8cpp_1a254c605ce81677dbd06e07d7f2a3eccd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave7BM25Positional, W7_POS_12_MissingTermReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave7BM25Positional</type>
+        </param>
+        <param>
+          <type>W7_POS_12_MissingTermReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave7_bm25_positional_fts.cpp" line="210" column="1" bodyfile="tests/rag/test_wave7_bm25_positional_fts.cpp" bodystart="210" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave 7 — BM25+ Positional Scorer and FTS phrase/proximity operator tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Labels: wave_b, release_critical</para>
+<para>Test IDs (12 total): W7-POS-01 BM25+ baseline: score &gt; 0 for relevant doc, 0 for empty doc W7-POS-02 Positional index populated after addDocument W7-POS-03 searchPhrase: exact phrase found in correct doc W7-POS-04 searchPhrase: phrase NOT present → not returned W7-POS-05 searchPhrase: single-term phrase → same as BM25 search W7-POS-06 searchPhrase: empty phrase → empty result W7-POS-07 searchPhrase: partial phrase (only 1 of 2 terms present) → not matched W7-POS-08 searchProximity: terms within distance → found W7-POS-09 searchProximity: terms outside distance → not found W7-POS-10 searchProximity: distance=1 (adjacent only) W7-POS-11 searchProximity: term1==term2 with 2 occurrences close together W7-POS-12 searchProximity: missing term → empty result </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wiki__index__store_8h" kindref="compound">rag/wiki_index_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>resultContainsDoc(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;IndexResult&gt;&amp;<sp/>results,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>doc_id)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::any_of(results.begin(),<sp/>results.end(),</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref>&amp;<sp/>r){<sp/>return<sp/>r.doc_id<sp/>==<sp/>doc_id;<sp/>});</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-01:<sp/>BM25+<sp/>baseline<sp/>score<sp/>consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_01_BM25BaselineScore)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>quick<sp/>brown<sp/>fox&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a<sp/>slow<sp/>tortoise<sp/>rests&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ad3cb30be102a90f28a1b86f31de9cb33" kindref="member">searchBM25</ref>({</highlight><highlight class="stringliteral">&quot;quick&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fox&quot;</highlight><highlight class="normal">},<sp/>5);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(results.empty());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].doc_id,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(results[0].score,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-02:<sp/>Positional<sp/>index<sp/>populated<sp/>after<sp/>addDocument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_02_PositionalIndexPopulated)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alpha<sp/>beta<sp/>gamma&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Proximity(alpha,<sp/>gamma,<sp/>distance=2)<sp/>should<sp/>find<sp/>doc1<sp/>(positions<sp/>0<sp/>and<sp/>2).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a78de316f31f92b97500dea573f75616c" kindref="member">searchProximity</ref>(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;gamma&quot;</highlight><highlight class="normal">,<sp/>2,<sp/>10);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(results.empty());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].doc_id,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-03:<sp/>searchPhrase<sp/>—<sp/>exact<sp/>phrase<sp/>found<sp/>in<sp/>correct<sp/>doc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_03_PhrasePresentReturnsDoc)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>quick<sp/>brown<sp/>fox<sp/>jumps<sp/>over<sp/>the<sp/>lazy<sp/>dog&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a<sp/>quick<sp/>fox<sp/>ran<sp/>fast&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;quick<sp/>brown<sp/>fox&quot;<sp/>is<sp/>a<sp/>consecutive<sp/>triple<sp/>only<sp/>in<sp/>doc1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a94210a9579e690216e27d1b417c70776" kindref="member">searchPhrase</ref>(</highlight><highlight class="stringliteral">&quot;quick<sp/>brown<sp/>fox&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(results.empty());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resultContainsDoc(results,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resultContainsDoc(results,<sp/></highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-04:<sp/>searchPhrase<sp/>—<sp/>phrase<sp/>NOT<sp/>present<sp/>→<sp/>not<sp/>returned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_04_PhraseAbsentReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a94210a9579e690216e27d1b417c70776" kindref="member">searchPhrase</ref>(</highlight><highlight class="stringliteral">&quot;world<sp/>hello&quot;</highlight><highlight class="normal">,<sp/>10);<sp/></highlight><highlight class="comment">//<sp/>Reversed<sp/>order.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resultContainsDoc(results,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-05:<sp/>searchPhrase<sp/>—<sp/>single-term<sp/>phrase<sp/>→<sp/>same<sp/>as<sp/>BM25</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_05_SingleTermPhraseLikeBM25)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;machine<sp/>learning<sp/>rocks&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;deep<sp/>learning<sp/>is<sp/>powerful&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>phrase_results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a94210a9579e690216e27d1b417c70776" kindref="member">searchPhrase</ref>(</highlight><highlight class="stringliteral">&quot;learning&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bm25_results<sp/><sp/><sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ad3cb30be102a90f28a1b86f31de9cb33" kindref="member">searchBM25</ref>({</highlight><highlight class="stringliteral">&quot;learning&quot;</highlight><highlight class="normal">},<sp/>10);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(phrase_results.size(),<sp/>bm25_results.size());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>result<sp/>sets<sp/>must<sp/>contain<sp/>the<sp/>same<sp/>doc_ids.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>bm25_results)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(resultContainsDoc(phrase_results,<sp/>r.doc_id));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-06:<sp/>searchPhrase<sp/>—<sp/>empty<sp/>phrase<sp/>→<sp/>empty<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_06_EmptyPhraseReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;some<sp/>content<sp/>here&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a94210a9579e690216e27d1b417c70776" kindref="member">searchPhrase</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-07:<sp/>searchPhrase<sp/>—<sp/>partial<sp/>phrase<sp/>→<sp/>not<sp/>matched</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_07_PartialPhraseNotMatched)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;natural&quot;<sp/>is<sp/>present<sp/>but<sp/>&quot;language&quot;<sp/>and<sp/>&quot;processing&quot;<sp/>are<sp/>absent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;natural<sp/>selection<sp/>is<sp/>a<sp/>biological<sp/>process&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a94210a9579e690216e27d1b417c70776" kindref="member">searchPhrase</ref>(</highlight><highlight class="stringliteral">&quot;natural<sp/>language<sp/>processing&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resultContainsDoc(results,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-08:<sp/>searchProximity<sp/>—<sp/>terms<sp/>within<sp/>distance<sp/>→<sp/>found</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_08_ProximityWithinDistanceFound)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;cat&quot;<sp/>at<sp/>pos<sp/>1,<sp/>&quot;sat&quot;<sp/>at<sp/>pos<sp/>3<sp/>→<sp/>distance<sp/>=<sp/>2.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>cat<sp/>quickly<sp/>sat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>dog<sp/>ran<sp/>far<sp/>away&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a78de316f31f92b97500dea573f75616c" kindref="member">searchProximity</ref>(</highlight><highlight class="stringliteral">&quot;cat&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sat&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>10);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(results.empty());</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resultContainsDoc(results,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resultContainsDoc(results,<sp/></highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-09:<sp/>searchProximity<sp/>—<sp/>terms<sp/>outside<sp/>distance<sp/>→<sp/>not<sp/>found</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_09_ProximityOutsideDistanceNotFound)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;alpha&quot;<sp/>at<sp/>pos<sp/>0,<sp/>&quot;omega&quot;<sp/>at<sp/>pos<sp/>4<sp/>→<sp/>distance<sp/>=<sp/>4;<sp/>ask<sp/>for<sp/>≤2.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alpha<sp/>beta<sp/>gamma<sp/>delta<sp/>omega&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a78de316f31f92b97500dea573f75616c" kindref="member">searchProximity</ref>(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;omega&quot;</highlight><highlight class="normal">,<sp/>2,<sp/>10);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resultContainsDoc(results,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-10:<sp/>searchProximity<sp/>—<sp/>distance=1<sp/>(adjacent<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_10_ProximityDistanceOne)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;fox&quot;<sp/>at<sp/>pos<sp/>2,<sp/>&quot;jumps&quot;<sp/>at<sp/>pos<sp/>3<sp/>→<sp/>distance<sp/>1;<sp/>&quot;fox&quot;<sp/>and<sp/>&quot;over&quot;<sp/>→<sp/>3.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>quick<sp/>fox<sp/>jumps<sp/>over&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fox<sp/>and<sp/>hound&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>find<sp/>doc1<sp/>(&quot;fox<sp/>jumps&quot;<sp/>are<sp/>adjacent).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results_found<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a78de316f31f92b97500dea573f75616c" kindref="member">searchProximity</ref>(</highlight><highlight class="stringliteral">&quot;fox&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jumps&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>10);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resultContainsDoc(results_found,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;fox&quot;<sp/>and<sp/>&quot;over&quot;<sp/>are<sp/>3<sp/>apart<sp/>—<sp/>distance=1<sp/>should<sp/>miss.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results_miss<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a78de316f31f92b97500dea573f75616c" kindref="member">searchProximity</ref>(</highlight><highlight class="stringliteral">&quot;fox&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;over&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>10);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resultContainsDoc(results_miss,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-11:<sp/>searchProximity<sp/>—<sp/>term1==term2<sp/>with<sp/>2<sp/>close<sp/>occurrences</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_11_SameTermTwoOccurrencesClose)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;echo&quot;<sp/>at<sp/>positions<sp/>0<sp/>and<sp/>2<sp/>→<sp/>distance<sp/>2.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;echo<sp/>and<sp/>echo<sp/>resounds&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;echo&quot;<sp/>only<sp/>once.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>echo<sp/>of<sp/>silence&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a78de316f31f92b97500dea573f75616c" kindref="member">searchProximity</ref>(</highlight><highlight class="stringliteral">&quot;echo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;echo&quot;</highlight><highlight class="normal">,<sp/>2,<sp/>10);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resultContainsDoc(results,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resultContainsDoc(results,<sp/></highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7-POS-12:<sp/>searchProximity<sp/>—<sp/>missing<sp/>term<sp/>→<sp/>empty<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__wave7__bm25__positional__fts_8cpp_1a63277ff0f30770ec76f4c471d78d800f" kindref="member">TEST</ref>(Wave7BM25Positional,<sp/>W7_POS_12_MissingTermReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>quick<sp/>brown<sp/>fox&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;xyzzy&quot;<sp/>is<sp/>not<sp/>in<sp/>the<sp/>index.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a78de316f31f92b97500dea573f75616c" kindref="member">searchProximity</ref>(</highlight><highlight class="stringliteral">&quot;quick&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;xyzzy&quot;</highlight><highlight class="normal">,<sp/>5,<sp/>10);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_wave7_bm25_positional_fts.cpp"/>
+  </compounddef>
+</doxygen>

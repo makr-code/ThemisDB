@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_l_l_m_operator_cost" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::LLMOperatorCost</compoundname>
+    <includes refid="llm__generate__operator_8h" local="no">llm_generate_operator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_l_l_m_operator_cost_1a9d865893be4f9c1b28a2c80cd5b99d77" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::LLMOperatorCost::estimated_input_tokens</definition>
+        <argsstring></argsstring>
+        <name>estimated_input_tokens</name>
+        <qualifiedname>themis::query::LLMOperatorCost::estimated_input_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Estimated number of input tokens (prompt + context). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="83" column="14" bodyfile="include/query/llm_generate_operator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_l_l_m_operator_cost_1abeddaf3da459c0f157154af95d4c7307" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::LLMOperatorCost::estimated_output_tokens</definition>
+        <argsstring></argsstring>
+        <name>estimated_output_tokens</name>
+        <qualifiedname>themis::query::LLMOperatorCost::estimated_output_tokens</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Estimated number of output tokens (generated response). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="86" column="14" bodyfile="include/query/llm_generate_operator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_l_l_m_operator_cost_1a4a95a44c39937cc55ebf7d0a4766384e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::LLMOperatorCost::latency_budget_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_budget_ms</name>
+        <qualifiedname>themis::query::LLMOperatorCost::latency_budget_ms</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Target latency budget for the entire LLM step in milliseconds. Zero = no limit (unlimited budget; not recommended for production). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="90" column="14" bodyfile="include/query/llm_generate_operator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_l_l_m_operator_cost_1a5ded0fb48bc31565554145b2a828bcf5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::LLMOperatorCost::estimated_cost_units</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost_units</name>
+        <qualifiedname>themis::query::LLMOperatorCost::estimated_cost_units</qualifiedname>
+        <initializer>= 5000.0</initializer>
+        <briefdescription>
+<para>Estimated cost in abstract &quot;cost units&quot; (consistent with <ref refid="classthemis_1_1_optimizer_cost_model" kindref="compound">OptimizerCostModel</ref> units used for other operators). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Formula: <computeroutput><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1a9d865893be4f9c1b28a2c80cd5b99d77" kindref="member">estimated_input_tokens</ref> * latency_per_token_ms<itemizedlist>
+<listitem><para><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1abeddaf3da459c0f157154af95d4c7307" kindref="member">estimated_output_tokens</ref> * latency_per_token_ms</para>
+</listitem><listitem><para><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1ae6e016991d0a539d4cfd565637d8dee7" kindref="member">kvcache_miss_penalty_ms</ref></para>
+</listitem></itemizedlist>
+</computeroutput></para>
+<para>Default value is a conservative upper-bound estimate. The actual cost model should be calibrated against measured throughput data. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="103" column="12" bodyfile="include/query/llm_generate_operator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_l_l_m_operator_cost_1ac588409ebfa8024a6a1fafe84f22fa11" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::LLMOperatorCost::kvcache_miss_expected</definition>
+        <argsstring></argsstring>
+        <name>kvcache_miss_expected</name>
+        <qualifiedname>themis::query::LLMOperatorCost::kvcache_miss_expected</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether a KV-cache miss is expected for this request&apos;s prompt prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, <computeroutput><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1ae6e016991d0a539d4cfd565637d8dee7" kindref="member">kvcache_miss_penalty_ms</ref></computeroutput> is added to <computeroutput><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1a5ded0fb48bc31565554145b2a828bcf5" kindref="member">estimated_cost_units</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="110" column="10" bodyfile="include/query/llm_generate_operator.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_l_l_m_operator_cost_1ae6e016991d0a539d4cfd565637d8dee7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::LLMOperatorCost::kvcache_miss_penalty_ms</definition>
+        <argsstring></argsstring>
+        <name>kvcache_miss_penalty_ms</name>
+        <qualifiedname>themis::query::LLMOperatorCost::kvcache_miss_penalty_ms</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Penalty (ms) added to cost estimate when KV-cache miss is expected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="113" column="14" bodyfile="include/query/llm_generate_operator.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cost model parameters for a single <computeroutput><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator" kindref="compound">LLMGenerateOperator</ref></computeroutput> invocation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The optimizer uses these estimates to decide whether to include the LLM operator in the plan, how to budget its resources, and when to activate the fallback policy. </para>
+    </detaileddescription>
+    <location file="include/query/llm_generate_operator.h" line="81" column="1" bodyfile="include/query/llm_generate_operator.h" bodystart="81" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1a5ded0fb48bc31565554145b2a828bcf5" prot="public" virt="non-virtual"><scope>themis::query::LLMOperatorCost</scope><name>estimated_cost_units</name></member>
+      <member refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1a9d865893be4f9c1b28a2c80cd5b99d77" prot="public" virt="non-virtual"><scope>themis::query::LLMOperatorCost</scope><name>estimated_input_tokens</name></member>
+      <member refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1abeddaf3da459c0f157154af95d4c7307" prot="public" virt="non-virtual"><scope>themis::query::LLMOperatorCost</scope><name>estimated_output_tokens</name></member>
+      <member refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1ac588409ebfa8024a6a1fafe84f22fa11" prot="public" virt="non-virtual"><scope>themis::query::LLMOperatorCost</scope><name>kvcache_miss_expected</name></member>
+      <member refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1ae6e016991d0a539d4cfd565637d8dee7" prot="public" virt="non-virtual"><scope>themis::query::LLMOperatorCost</scope><name>kvcache_miss_penalty_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_l_l_m_operator_cost_1a4a95a44c39937cc55ebf7d0a4766384e" prot="public" virt="non-virtual"><scope>themis::query::LLMOperatorCost</scope><name>latency_budget_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

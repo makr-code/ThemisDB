@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_lifecycle_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::LifecycleMetadata</compoundname>
+    <includes refid="artifact__lifecycle_8h" local="no">artifact_lifecycle.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aa61bd872dde6a971a7021503d89c0cbe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::LifecycleMetadata::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="220" column="17" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a42725718ef42cc828ce9f14ff14f74c8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1" kindref="member">LifecycleState</ref></type>
+        <definition>LifecycleState themis::evaluation::LifecycleMetadata::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a491ca4a69e8dd441c32a551d1339552c" kindref="member">LifecycleState::PRISTINE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="222" column="20" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1ad0a02efd9d95f95c1b27670398562041" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0b" kindref="member">InvalidationReason</ref></type>
+        <definition>InvalidationReason themis::evaluation::LifecycleMetadata::invalidation_reason</definition>
+        <argsstring></argsstring>
+        <name>invalidation_reason</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::invalidation_reason</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0ba696b031073e74bf2cb98e5ef201d4aa3" kindref="member">InvalidationReason::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="224" column="24" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1ac93b4d9942fa55a859c21c3d1a0fe331" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::evaluation::LifecycleMetadata::source_seq_start</definition>
+        <argsstring></argsstring>
+        <name>source_seq_start</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::source_seq_start</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="226" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a2c13ecc7b9b27a8c0ceaecb5b98ed220" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::evaluation::LifecycleMetadata::source_seq_end</definition>
+        <argsstring></argsstring>
+        <name>source_seq_end</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::source_seq_end</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="228" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a1554e057e755a48ad1ca5db8cbd25e79" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::evaluation::LifecycleMetadata::delta_lag</definition>
+        <argsstring></argsstring>
+        <name>delta_lag</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::delta_lag</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="230" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aaaff3de124b46e62a39bfbc5c813c956" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::evaluation::LifecycleMetadata::artifact_age_ms</definition>
+        <argsstring></argsstring>
+        <name>artifact_age_ms</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::artifact_age_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="232" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a4f2b0bb339f758448c8be37b102eadf3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::LifecycleMetadata::approximation_residual</definition>
+        <argsstring></argsstring>
+        <name>approximation_residual</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::approximation_residual</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="234" column="12" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a1a13cd0215e5bb163e74187c0723f892" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::LifecycleMetadata::residual_variance</definition>
+        <argsstring></argsstring>
+        <name>residual_variance</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::residual_variance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="236" column="12" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a426d74d321b9e576871a54e7542b5237" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::evaluation::LifecycleMetadata::max_permissible_rank</definition>
+        <argsstring></argsstring>
+        <name>max_permissible_rank</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::max_permissible_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="238" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a05f8df130ab25db84e7a6de21775b3ff" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::evaluation::LifecycleMetadata::state_change_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>state_change_timestamp_ms</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::state_change_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="240" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1abc8caf666bb25439c03b136f6ae84109" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::evaluation::LifecycleMetadata::rebuild_attempt_count</definition>
+        <argsstring></argsstring>
+        <name>rebuild_attempt_count</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::rebuild_attempt_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="242" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aacdc2ff671af6edaf6c7f26f2808129d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::uint64_t &gt;</type>
+        <definition>std::optional&lt;std::uint64_t&gt; themis::evaluation::LifecycleMetadata::last_successful_rebuild_ms</definition>
+        <argsstring></argsstring>
+        <name>last_successful_rebuild_ms</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::last_successful_rebuild_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="244" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a4e122a4c4fa0747466c37a2d5420db6c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::uint64_t &gt;</type>
+        <definition>std::optional&lt;std::uint64_t&gt; themis::evaluation::LifecycleMetadata::last_failed_rebuild_ms</definition>
+        <argsstring></argsstring>
+        <name>last_failed_rebuild_ms</name>
+        <qualifiedname>themis::evaluation::LifecycleMetadata::last_failed_rebuild_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="246" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/artifact_lifecycle.h" line="219" column="1" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="219" bodyend="247"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a4f2b0bb339f758448c8be37b102eadf3" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>approximation_residual</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aaaff3de124b46e62a39bfbc5c813c956" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>artifact_age_ms</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aa61bd872dde6a971a7021503d89c0cbe" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a1554e057e755a48ad1ca5db8cbd25e79" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>delta_lag</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1ad0a02efd9d95f95c1b27670398562041" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>invalidation_reason</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a4e122a4c4fa0747466c37a2d5420db6c" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>last_failed_rebuild_ms</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aacdc2ff671af6edaf6c7f26f2808129d" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>last_successful_rebuild_ms</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a426d74d321b9e576871a54e7542b5237" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>max_permissible_rank</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1abc8caf666bb25439c03b136f6ae84109" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>rebuild_attempt_count</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a1a13cd0215e5bb163e74187c0723f892" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>residual_variance</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a2c13ecc7b9b27a8c0ceaecb5b98ed220" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>source_seq_end</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1ac93b4d9942fa55a859c21c3d1a0fe331" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>source_seq_start</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a42725718ef42cc828ce9f14ff14f74c8" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>state</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a05f8df130ab25db84e7a6de21775b3ff" prot="public" virt="non-virtual"><scope>themis::evaluation::LifecycleMetadata</scope><name>state_change_timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

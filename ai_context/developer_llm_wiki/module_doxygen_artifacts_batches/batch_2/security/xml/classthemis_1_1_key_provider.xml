@@ -1,0 +1,567 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_key_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::KeyProvider</compoundname>
+    <basecompoundref prot="public" virt="virtual">IKeyProvider</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1_mock_key_provider" prot="public" virt="virtual">themis::MockKeyProvider</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1_signing_provider" prot="public" virt="virtual">themis::SigningProvider</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter" prot="public" virt="non-virtual">themis::security::HSMKeyProviderAdapter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_p_k_i_key_provider" prot="public" virt="non-virtual">themis::security::PKIKeyProvider</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_post_quantum_key_provider" prot="public" virt="non-virtual">themis::security::PostQuantumKeyProvider</derivedcompoundref>
+    <includes refid="include_2security_2key__provider_8h" local="no">key_provider.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::KeyProvider::KeyProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>KeyProvider</name>
+        <qualifiedname>themis::KeyProvider::KeyProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="95" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1a0489069eb96edc05fbef315bb529904f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::KeyProvider::KeyProvider</definition>
+        <argsstring>(const KeyProvider &amp;)=default</argsstring>
+        <name>KeyProvider</name>
+        <qualifiedname>themis::KeyProvider::KeyProvider</qualifiedname>
+        <param>
+          <type>const KeyProvider &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1ad05f0c6aca228e305cbae15f1095ea9d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::KeyProvider::KeyProvider</definition>
+        <argsstring>(KeyProvider &amp;&amp;) noexcept=default</argsstring>
+        <name>KeyProvider</name>
+        <qualifiedname>themis::KeyProvider::KeyProvider</qualifiedname>
+        <param>
+          <type>KeyProvider &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="97" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1a2b066e3e2b46a13e8a196f4f497a9fc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" kindref="member">KeyProvider</ref> &amp;</type>
+        <definition>KeyProvider &amp; themis::KeyProvider::operator=</definition>
+        <argsstring>(const KeyProvider &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::KeyProvider::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" kindref="member">KeyProvider</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="98" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1a11404d5e39ec25310eb458e032f8aaf2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" kindref="member">KeyProvider</ref> &amp;</type>
+        <definition>KeyProvider &amp; themis::KeyProvider::operator=</definition>
+        <argsstring>(KeyProvider &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::KeyProvider::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" kindref="member">KeyProvider</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="99" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1a4a1126cba8c95254bcdefe5fe77d1fa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::KeyProvider::~KeyProvider</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~KeyProvider</name>
+        <qualifiedname>themis::KeyProvider::~KeyProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1a9017c934ab52d6cc42fa7225d3add21e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::KeyProvider::get_key</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>get_key</name>
+        <qualifiedname>themis::KeyProvider::get_key</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="103" column="17" bodyfile="include/security/key_provider.h" bodystart="103" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1adfb0562381565d524992c9128baa0464" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::KeyProvider::rotate_key</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>rotate_key</name>
+        <qualifiedname>themis::KeyProvider::rotate_key</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="108" column="17" bodyfile="include/security/key_provider.h" bodystart="108" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1add63db6d99568ab764123f07893cc7d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::KeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id)=0</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::KeyProvider::getKey</qualifiedname>
+        <reimplementedby refid="class_h_s_m_key_provider_adapter_1a09ba73c363dbe4985a37dbe0ea505be7">getKey</reimplementedby>
+        <reimplementedby refid="class_test_key_provider_1a0ec382ba833597931f936d4f5b318e3d">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_mock_key_provider_1a59113f0899ec042210ab749b2cc91923">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a09ba73c363dbe4985a37dbe0ea505be7">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a856cd7ea0e210a7a047562e5b5dc5fe8">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a3641b23a448f85f2c1d791243b703756">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_key_provider_1a416bf6b899372a54338abc014c93b83d">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_signing_provider_1aef93b60df9945cbc139993e247e07497">getKey</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="119" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1ac16b28cd3ba6e684a92e7f4383e5ea58" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::KeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version)=0</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::KeyProvider::getKey</qualifiedname>
+        <reimplementedby refid="class_h_s_m_key_provider_adapter_1a6b48036e0445ca201acec6e595e60338">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_mock_key_provider_1ae517e60f95636724e9bc004cfd463e7d">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a6b48036e0445ca201acec6e595e60338">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_p_k_i_key_provider_1abb3c0b53d1446ca548b4fb245ba9e2cf">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_post_quantum_key_provider_1aabe1bc73139d6037eaa1afe45f710080">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_key_provider_1a20ee9f1fc1cd890d046cc081d307dead">getKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_signing_provider_1acea326bc9186f8aacb820a67e342d8ce">getKey</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="127" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1a21794661f33eafc159d0948ee3e204ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::KeyProvider::rotateKey</definition>
+        <argsstring>(const std::string &amp;key_id)=0</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>themis::KeyProvider::rotateKey</qualifiedname>
+        <reimplementedby refid="class_h_s_m_key_provider_adapter_1a1fe5a82d19447a79517a49702d48ee3a">rotateKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_mock_key_provider_1a745bead2afd340df0368e98072ad6229">rotateKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a1fe5a82d19447a79517a49702d48ee3a">rotateKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a57bca4245d32c176e7d7d339b88d1bd3">rotateKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a2f2c05398b504f83aee2bb09567418a0">rotateKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_key_provider_1ae74aa2adbd6c33aa4d82aec1140c6567">rotateKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_signing_provider_1a8d7708cae622c42bd40f1c4b3bbc8f1a">rotateKey</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Rotate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="134" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1ab4d31df1258d4f7583fee68f77813810" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &gt;</type>
+        <definition>virtual std::vector&lt; KeyMetadata &gt; themis::KeyProvider::listKeys</definition>
+        <argsstring>()=0</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::KeyProvider::listKeys</qualifiedname>
+        <reimplementedby refid="class_h_s_m_key_provider_adapter_1a06dd2f04a7abbb75421feca4c3031687">listKeys</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_mock_key_provider_1a2cb88836bfa990d873834cc244a163b8">listKeys</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a06dd2f04a7abbb75421feca4c3031687">listKeys</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a90e93140db1b65817c5187b478f7f1af">listKeys</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a353c42fd1e5e15b729755ca3b8f7e3b9">listKeys</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_key_provider_1ac8d245fe4d27ae367e9a6b01eba200c0">listKeys</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_signing_provider_1ac0b1a2b6385944770e540c3a656ef414">listKeys</reimplementedby>
+        <briefdescription>
+<para>List Keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="140" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1a74f1a932e3aa36781382fb35f2e7c2e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref></type>
+        <definition>virtual KeyMetadata themis::KeyProvider::getKeyMetadata</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0)=0</argsstring>
+        <name>getKeyMetadata</name>
+        <qualifiedname>themis::KeyProvider::getKeyMetadata</qualifiedname>
+        <reimplementedby refid="class_h_s_m_key_provider_adapter_1a34fe703a7ec3df903afc9c4160491a69">getKeyMetadata</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_mock_key_provider_1afa00d95322e63b1d80bef373fcb72d22">getKeyMetadata</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a34fe703a7ec3df903afc9c4160491a69">getKeyMetadata</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a83ec2b4e7901aeff4eef3e7c5d6733d7">getKeyMetadata</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a18f41a4e705da9e290091d3d6286de14">getKeyMetadata</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_key_provider_1a50c9ef2f9e359a47f4004d59e3f6ab69">getKeyMetadata</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_signing_provider_1a5be9ff42556f48e32c740b8276988d3c">getKeyMetadata</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="142" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1aa9815c2d74023ab0fbd4a911b55b42f4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::KeyProvider::getCurrentVersion</definition>
+        <argsstring>(const std::string &amp;key_id)</argsstring>
+        <name>getCurrentVersion</name>
+        <qualifiedname>themis::KeyProvider::getCurrentVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Current Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_key_provider_1add63db6d99568ab764123f07893cc7d1" kindref="member">getKey()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="150" column="22" bodyfile="include/security/key_provider.h" bodystart="150" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1ab1381dbbc3f8af4308678d2324b51b99" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::KeyProvider::deleteKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version)=0</argsstring>
+        <name>deleteKey</name>
+        <qualifiedname>themis::KeyProvider::deleteKey</qualifiedname>
+        <reimplementedby refid="class_h_s_m_key_provider_adapter_1a20ab6c01cf9dc3a20317f5f8b1d90acc">deleteKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_mock_key_provider_1a6ded819cb933c14825a5e122d1c2abf6">deleteKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a20ab6c01cf9dc3a20317f5f8b1d90acc">deleteKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_p_k_i_key_provider_1a84919c6c9829bb7b5ebc8a991ad57f70">deleteKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a818347daab05e42a447d9f97193313fe">deleteKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_key_provider_1a67140dbdc27c8448629b5a10ef9faf20">deleteKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_signing_provider_1a492452b9f262c2ff2f6ee1c77d5deae4">deleteKey</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Delete Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="179" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1a24990fabb3111c177d5ea5be78446824" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::KeyProvider::hasKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0)=0</argsstring>
+        <name>hasKey</name>
+        <qualifiedname>themis::KeyProvider::hasKey</qualifiedname>
+        <reimplementedby refid="class_h_s_m_key_provider_adapter_1af4bf011798cdf3ad91933d397832e4d7">hasKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_mock_key_provider_1a1806079a6a98d28879e4d86bb254af48">hasKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1af4bf011798cdf3ad91933d397832e4d7">hasKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_p_k_i_key_provider_1aff99fc25d0986296d8f9d351583d5b06">hasKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_post_quantum_key_provider_1ae7b956320c6c7c8262501a65f15ad099">hasKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_key_provider_1a50d1cbe8b8b45dd6fb1df86d75baecc8">hasKey</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_signing_provider_1ad8602771667694c9243e05c9c389643a">hasKey</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="181" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_1adb7353f54d3975fcf60572403a25c243" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::KeyProvider::createKeyFromBytes</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;key_bytes, const KeyMetadata &amp;metadata=KeyMetadata())=0</argsstring>
+        <name>createKeyFromBytes</name>
+        <qualifiedname>themis::KeyProvider::createKeyFromBytes</qualifiedname>
+        <reimplementedby refid="classthemis_1_1_mock_key_provider_1a67f4e26c42dd2c9a4abb479393954825">createKeyFromBytes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1af63b20cad3248d85abe1712a4aa5a5f2">createKeyFromBytes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_p_k_i_key_provider_1af3a84e85b11d5ba8b9c39e2f2f7b03d2">createKeyFromBytes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_post_quantum_key_provider_1a1ad69bcd1b9c717e0e757b733237a8f0">createKeyFromBytes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_key_provider_1aca7f6e5863ebc5aaaee92d748880b5cd">createKeyFromBytes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_signing_provider_1a7b3d469a3eaff7d798b67e2f7e728bab">createKeyFromBytes</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="183" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="4">
+        <label>TestKeyProvider</label>
+        <link refid="class_test_key_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::MockKeyProvider</label>
+        <link refid="classthemis_1_1_mock_key_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::SigningProvider</label>
+        <link refid="classthemis_1_1_signing_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::VaultKeyProvider</label>
+        <link refid="classthemis_1_1_vault_key_provider"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::VaultSigningProvider</label>
+        <link refid="classthemis_1_1_vault_signing_provider"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::security::HSMKeyProviderAdapter</label>
+        <link refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::security::PKIKeyProvider</label>
+        <link refid="classthemis_1_1security_1_1_p_k_i_key_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis::security::PostQuantumKeyProvider</label>
+        <link refid="classthemis_1_1security_1_1_post_quantum_key_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="1">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/key_provider.h" line="93" column="1" bodyfile="include/security/key_provider.h" bodystart="93" bodyend="187"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_key_provider_1adb7353f54d3975fcf60572403a25c243" prot="public" virt="pure-virtual"><scope>themis::KeyProvider</scope><name>createKeyFromBytes</name></member>
+      <member refid="classthemis_1_1_key_provider_1ab1381dbbc3f8af4308678d2324b51b99" prot="public" virt="pure-virtual"><scope>themis::KeyProvider</scope><name>deleteKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a9017c934ab52d6cc42fa7225d3add21e" prot="public" virt="non-virtual"><scope>themis::KeyProvider</scope><name>get_key</name></member>
+      <member refid="classthemis_1_1_key_provider_1aa9815c2d74023ab0fbd4a911b55b42f4" prot="public" virt="virtual"><scope>themis::KeyProvider</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1_key_provider_1add63db6d99568ab764123f07893cc7d1" prot="public" virt="pure-virtual"><scope>themis::KeyProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1ac16b28cd3ba6e684a92e7f4383e5ea58" prot="public" virt="pure-virtual"><scope>themis::KeyProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a74f1a932e3aa36781382fb35f2e7c2e3" prot="public" virt="pure-virtual"><scope>themis::KeyProvider</scope><name>getKeyMetadata</name></member>
+      <member refid="classthemis_1_1_key_provider_1a24990fabb3111c177d5ea5be78446824" prot="public" virt="pure-virtual"><scope>themis::KeyProvider</scope><name>hasKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" prot="public" virt="non-virtual"><scope>themis::KeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1a0489069eb96edc05fbef315bb529904f" prot="public" virt="non-virtual"><scope>themis::KeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1ad05f0c6aca228e305cbae15f1095ea9d" prot="public" virt="non-virtual"><scope>themis::KeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1ab4d31df1258d4f7583fee68f77813810" prot="public" virt="pure-virtual"><scope>themis::KeyProvider</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1_key_provider_1a2b066e3e2b46a13e8a196f4f497a9fc7" prot="public" virt="non-virtual"><scope>themis::KeyProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_key_provider_1a11404d5e39ec25310eb458e032f8aaf2" prot="public" virt="non-virtual"><scope>themis::KeyProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_key_provider_1adfb0562381565d524992c9128baa0464" prot="public" virt="non-virtual"><scope>themis::KeyProvider</scope><name>rotate_key</name></member>
+      <member refid="classthemis_1_1_key_provider_1a21794661f33eafc159d0948ee3e204ae" prot="public" virt="pure-virtual"><scope>themis::KeyProvider</scope><name>rotateKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a4a1126cba8c95254bcdefe5fe77d1fa5" prot="public" virt="non-virtual"><scope>themis::KeyProvider</scope><name>~KeyProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

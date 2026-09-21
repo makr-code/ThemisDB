@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_fragment_load_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::FragmentLoadRequest</compoundname>
+    <includes refid="include_2distributed__tensor_2distributed__planner_8h" local="no">distributed_planner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a1dd21341cf54635bae10b442dbf158c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::FragmentLoadRequest::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_tensor::FragmentLoadRequest::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="144" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a1993ea88596addb6048ab8dccace02e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::FragmentLoadRequest::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::FragmentLoadRequest::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="145" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a0a698d75ddb3f5bc1ee3365427f33e08" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::FragmentLoadRequest::expedited</definition>
+        <argsstring></argsstring>
+        <name>expedited</name>
+        <qualifiedname>themis::distributed_tensor::FragmentLoadRequest::expedited</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="146" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a26dd53c7b2072b5b8a0662d9033ec6fe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::FragmentLoadRequest::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::distributed_tensor::FragmentLoadRequest::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="147" column="10" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a38be327f3b7ac8bb98e8b1b569d51230" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::FragmentLoadRequest::codec_hint</definition>
+        <argsstring></argsstring>
+        <name>codec_hint</name>
+        <qualifiedname>themis::distributed_tensor::FragmentLoadRequest::codec_hint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="148" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/distributed_planner.h" line="143" column="1" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="143" bodyend="149"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a1993ea88596addb6048ab8dccace02e8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FragmentLoadRequest</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a38be327f3b7ac8bb98e8b1b569d51230" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FragmentLoadRequest</scope><name>codec_hint</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a0a698d75ddb3f5bc1ee3365427f33e08" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FragmentLoadRequest</scope><name>expedited</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a1dd21341cf54635bae10b442dbf158c6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FragmentLoadRequest</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a26dd53c7b2072b5b8a0662d9033ec6fe" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FragmentLoadRequest</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

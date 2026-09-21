@@ -1,0 +1,778 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ingestion__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_ingestion_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ingestion__api__contract_8h" local="yes">ingestion/ingestion_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>ingestion/ingestion_api_contract.h</label>
+        <link refid="ingestion__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ingestion/test_ingestion_contract_hardening_focused.cpp</label>
+        <link refid="test__ingestion__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>random</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>utils/retry_contract.h</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacestd_1_1chrono__literals">std::chrono_literals</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH01, AckImpliesDurability)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH01</type>
+        </param>
+        <param>
+          <type>AckImpliesDurability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="156" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="156" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a24381a9e9e779e4b497916f3dcc573e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH02, BufferFullSignalNotSilentBlock)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH02</type>
+        </param>
+        <param>
+          <type>BufferFullSignalNotSilentBlock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="171" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="171" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1af1d60bd3730881af3e3942dbfb88403e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH03, BufferFullIsBackOff)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH03</type>
+        </param>
+        <param>
+          <type>BufferFullIsBackOff</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="185" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="185" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a465cc1cd4c38c3dcc8f2389fe8279c41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH04, BackPressureSignalDeadlineContract)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH04</type>
+        </param>
+        <param>
+          <type>BackPressureSignalDeadlineContract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="194" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="194" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1af78c0c17c571065a0588ea19680c9bab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH05, PartialBatchNotVisiblePreCommit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH05</type>
+        </param>
+        <param>
+          <type>PartialBatchNotVisiblePreCommit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="215" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="215" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a83d00925a7b1c29f7b6d5df828c55a06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH06, BatchCommitPreservesOrdering)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH06</type>
+        </param>
+        <param>
+          <type>BatchCommitPreservesOrdering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="230" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="230" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a5419c2c990c34d02fc155c5840e2220e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH07, RollbackNoRowsVisible)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH07</type>
+        </param>
+        <param>
+          <type>RollbackNoRowsVisible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="247" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="247" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a5a5bd269ab10308fcafc85b41c3c3f2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH08, BatchSizeLimitEnforced)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH08</type>
+        </param>
+        <param>
+          <type>BatchSizeLimitEnforced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="261" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="261" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a27a04dfd9edcc2817be6258125fd70ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH09, ValidSchemaAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH09</type>
+        </param>
+        <param>
+          <type>ValidSchemaAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="282" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="282" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a9d83731aef52851c8ee1f63ed4594089" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH10, InvalidSchemaRejectedBeforeAck)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH10</type>
+        </param>
+        <param>
+          <type>InvalidSchemaRejectedBeforeAck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="295" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="295" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1ad4450bf3c80a9cfcb0e4b6f1607d7520" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH11, SchemaValidationBeforeDataWrite)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH11</type>
+        </param>
+        <param>
+          <type>SchemaValidationBeforeDataWrite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="309" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="309" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a7a98dcaa6691bb5d9da5a4bf77eb1b32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH12, SchemaInvalidIsPermanentRejection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH12</type>
+        </param>
+        <param>
+          <type>SchemaInvalidIsPermanentRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="324" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="324" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a1e07f0fe0e5ffd0d36cf06de07ba1cb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH13, BackPressureExplicitSignal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH13</type>
+        </param>
+        <param>
+          <type>BackPressureExplicitSignal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="333" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="333" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a0d6ddde0509e2e222c6f4819dad1806c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH14, QuotaExceededSurfaced)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH14</type>
+        </param>
+        <param>
+          <type>QuotaExceededSurfaced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="348" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="348" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a7ef6a6d324127ac3754191ff471457ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH15, QuotaExceededIsBackOff)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH15</type>
+        </param>
+        <param>
+          <type>QuotaExceededIsBackOff</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="359" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="359" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1a54a5425b65faef835af256b23bfeeecf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningINCH16, StrongAckDurabilityLevels)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningINCH16</type>
+        </param>
+        <param>
+          <type>StrongAckDurabilityLevels</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="368" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="368" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__contract__hardening__focused_8cpp_1af3db2cf77a6379c90413ded4ba099690" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionContractHardeningRetryContract, CanonicalRetryMappings)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionContractHardeningRetryContract</type>
+        </param>
+        <param>
+          <type>CanonicalRetryMappings</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" line="377" column="1" bodyfile="tests/ingestion/test_ingestion_contract_hardening_focused.cpp" bodystart="377" bodyend="389"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 — Ingestion contract hardening focused tests (INCH-01..INCH-16). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests are fully self-contained: no network I/O, no filesystem I/O. All external interactions are mocked inline. The canonical PRNG seed is kIngestionContractSeed = 42.</para>
+<sect1 id="test__ingestion__contract__hardening__focused_8cpp_1autotoc_md25_1s1"><sect2 id="test__ingestion__contract__hardening__focused_8cpp_1autotoc_md25">
+<title>Test families</title><para><heading level="3">INCH-01..04 — Write-path durability contract</heading>
+</para>
+<para>INCH-01 Ack implies durability: no silent drop after ack INCH-02 Buffer full → INGESTION_BUFFER_FULL signal (not silent block) INCH-03 INGESTION_BUFFER_FULL is a back-off error (isBackOffCode = true) INCH-04 Back-pressure signal delivered within kBackPressureSignalDeadline</para>
+<para><heading level="3">INCH-05..08 — Batch atomicity contract</heading>
+</para>
+<para>INCH-05 Partial batch not visible before commit INCH-06 Batch commit preserves row ordering INCH-07 Rollback on partial failure — no rows visible INCH-08 Batch size ≤ kMaxBatchSize enforced</para>
+<para><heading level="3">INCH-09..12 — Schema validation contract</heading>
+</para>
+<para>INCH-09 Valid schema → write accepted and acked INCH-10 Invalid schema → INGESTION_SCHEMA_INVALID before ack INCH-11 Schema validation happens before any data is written INCH-12 INGESTION_SCHEMA_INVALID is a permanent rejection (not retryable)</para>
+<para><heading level="3">INCH-13..16 — Back-pressure and quota</heading>
+</para>
+<para>INCH-13 Producer back-pressure signal is explicit (not silent) INCH-14 Quota exceeded → INGESTION_QUOTA_EXCEEDED INCH-15 INGESTION_QUOTA_EXCEEDED is a back-off error INCH-16 Strong-ack durability levels identified correctly</para>
+<para><simplesect kind="see"><para><ref refid="ingestion__api__contract_8h" kindref="compound">include/ingestion/ingestion_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/ingestion/ROADMAP.md — Phase 4 item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__api__contract_8h" kindref="compound">ingestion/ingestion_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">themis::ingestion</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kIngestionContractSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockRow<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>value;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schema_valid<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>ingestion<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockBuffer<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>capacity<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>used<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isFull()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>used<sp/>&gt;=<sp/>capacity;<sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref><sp/>push(std::size_t<sp/>count<sp/>=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(used<sp/>+<sp/>count<sp/>&gt;<sp/>capacity)</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>IngestionErrorCode::INGESTION_BUFFER_FULL;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>used<sp/>+=<sp/>count;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>IngestionErrorCode::OK;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>batch<sp/>writer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockBatchResult<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref><sp/><sp/><sp/>code<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>IngestionErrorCode::OK;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>committed;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>visible<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>only<sp/>true<sp/>after<sp/>commit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acked<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockBatchWriter<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/>max_batch_size<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac41233ce5868e2d0ebe59568701a1c7d" kindref="member">kDefaultBatchSize</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391" kindref="member">DurabilityLevel</ref><sp/>durability<sp/><sp/><sp/>=<sp/>DurabilityLevel::LocalWal;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBatchResult<sp/>write(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MockRow&gt;&amp;<sp/>rows,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>simulate_partial_fail<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MockBatchResult<sp/>result;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Batch<sp/>size<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rows.size()<sp/>&gt;<sp/>max_batch_size)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.code<sp/>=<sp/>IngestionErrorCode::INGESTION_QUOTA_EXCEEDED;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schema<sp/>validation<sp/>before<sp/>any<sp/>write</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!r.schema_valid)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.code<sp/>=<sp/>IngestionErrorCode::INGESTION_SCHEMA_INVALID;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>data<sp/>written</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>partial<sp/>failure<sp/>mid-commit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(simulate_partial_fail)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.code<sp/>=<sp/>IngestionErrorCode::INGESTION_BATCH_ROLLBACK;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;<sp/><sp/></highlight><highlight class="comment">//<sp/>nothing<sp/>committed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Commit<sp/>atomically<sp/>(row<sp/>ordering<sp/>preserved)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.committed<sp/>=<sp/>rows;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.visible<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.acked<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>quota<sp/>checker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockQuotaChecker<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/>limit;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/>used<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref><sp/>checkAndConsume(std::uint64_t<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(limit<sp/>==<sp/>0u)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>IngestionErrorCode::OK;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(used<sp/>+<sp/>rows<sp/>&gt;<sp/>limit)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>IngestionErrorCode::INGESTION_QUOTA_EXCEEDED;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>used<sp/>+=<sp/>rows;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>IngestionErrorCode::OK;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-01<sp/>—<sp/>Ack<sp/>implies<sp/>durability:<sp/>no<sp/>silent<sp/>drop<sp/>after<sp/>ack</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH01,<sp/>AckImpliesDurability)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBatchWriter<sp/>writer;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{{0,<sp/></highlight><highlight class="stringliteral">&quot;v0&quot;</highlight><highlight class="normal">},<sp/>{1,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>writer.write(rows);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">IngestionErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.acked)<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Ack<sp/>must<sp/>be<sp/>sent<sp/>after<sp/>successful<sp/>commit&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.visible)&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Data<sp/>must<sp/>be<sp/>committed<sp/>(durable)<sp/>before<sp/>ack&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed.size(),<sp/>2u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>silent<sp/>drop:<sp/>all<sp/>rows<sp/>must<sp/>be<sp/>committed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-02<sp/>—<sp/>Buffer<sp/>full<sp/>→<sp/>INGESTION_BUFFER_FULL<sp/>(not<sp/>silent<sp/>block)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH02,<sp/>BufferFullSignalNotSilentBlock)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBuffer<sp/>buf{</highlight><highlight class="comment">/*capacity=*/</highlight><highlight class="normal">2};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buf.push(2),<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">IngestionErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buf.isFull());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>buf.push(1);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rc,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a451adab527f14e522e5948e8f319e3f7" kindref="member">IngestionErrorCode::INGESTION_BUFFER_FULL</ref>)</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Buffer-full<sp/>must<sp/>surface<sp/>INGESTION_BUFFER_FULL<sp/>signal&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-03<sp/>—<sp/>INGESTION_BUFFER_FULL<sp/>is<sp/>a<sp/>back-off<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH03,<sp/>BufferFullIsBackOff)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a593d8436ad408de8103656c2de8f0cef" kindref="member">isBackOffCode</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a451adab527f14e522e5948e8f319e3f7" kindref="member">IngestionErrorCode::INGESTION_BUFFER_FULL</ref>));</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1ingestion_1a7008d0431cf0f4443e4e3ea6dab1b9b6" kindref="member">isPermanentRejection</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a451adab527f14e522e5948e8f319e3f7" kindref="member">IngestionErrorCode::INGESTION_BUFFER_FULL</ref>));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-04<sp/>—<sp/>Back-pressure<sp/>signal<sp/>delivered<sp/>within<sp/>kBackPressureSignalDeadline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH04,<sp/>BackPressureSignalDeadlineContract)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(<ref refid="namespacethemis_1_1ingestion_1ab2e91bd9e5d867318d73a84ae4c2f1a1" kindref="member">kBackPressureSignalDeadline</ref>.count(),<sp/>50)</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Back-pressure<sp/>signal<sp/>must<sp/>be<sp/>delivered<sp/>within<sp/>50<sp/>ms<sp/>per<sp/>contract&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(<ref refid="namespacethemis_1_1ingestion_1ab2e91bd9e5d867318d73a84ae4c2f1a1" kindref="member">kBackPressureSignalDeadline</ref>.count(),<sp/>1);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate:<sp/>signal<sp/>generated<sp/>immediately<sp/>on<sp/>buffer-full<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBuffer<sp/>buf{1};</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push(1);<sp/><sp/></highlight><highlight class="comment">//<sp/>full</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>signal_code<sp/>=<sp/>buf.push(1);<sp/><sp/></highlight><highlight class="comment">//<sp/>triggers<sp/>signal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t1<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(signal_code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a451adab527f14e522e5948e8f319e3f7" kindref="member">IngestionErrorCode::INGESTION_BUFFER_FULL</ref>);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(t1<sp/>-<sp/>t0,<sp/><ref refid="namespacethemis_1_1ingestion_1ab2e91bd9e5d867318d73a84ae4c2f1a1" kindref="member">kBackPressureSignalDeadline</ref>)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;In-memory<sp/>signal<sp/>must<sp/>be<sp/>delivered<sp/>well<sp/>within<sp/>the<sp/>deadline&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-05<sp/>—<sp/>Partial<sp/>batch<sp/>not<sp/>visible<sp/>before<sp/>commit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH05,<sp/>PartialBatchNotVisiblePreCommit)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate:<sp/>simulate_partial_fail<sp/>=<sp/>true<sp/>→<sp/>nothing<sp/>committed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBatchWriter<sp/>writer;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{{0,<sp/></highlight><highlight class="stringliteral">&quot;v0&quot;</highlight><highlight class="normal">},<sp/>{1,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>writer.write(rows,<sp/></highlight><highlight class="comment">/*simulate_partial_fail=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a0d661cad95f1026e2a0b6dca3cfe501f" kindref="member">IngestionErrorCode::INGESTION_BATCH_ROLLBACK</ref>);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.visible)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Partial<sp/>batch<sp/>must<sp/>not<sp/>be<sp/>visible<sp/>after<sp/>rollback&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-06<sp/>—<sp/>Batch<sp/>commit<sp/>preserves<sp/>row<sp/>ordering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH06,<sp/>BatchCommitPreservesOrdering)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBatchWriter<sp/>writer;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>rows.push_back({i,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)});</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>writer.write(rows);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">IngestionErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(r.committed.size(),<sp/>10u);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed[i].index,<sp/>i)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Row<sp/>ordering<sp/>must<sp/>be<sp/>preserved&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-07<sp/>—<sp/>Rollback<sp/>on<sp/>partial<sp/>failure<sp/>—<sp/>no<sp/>rows<sp/>visible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH07,<sp/>RollbackNoRowsVisible)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBatchWriter<sp/>writer;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{{0,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">},<sp/>{1,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">},<sp/>{2,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>writer.write(rows,<sp/></highlight><highlight class="comment">/*simulate_partial_fail=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(r.code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">IngestionErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed.size(),<sp/>0u)</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Rollback:<sp/>zero<sp/>rows<sp/>must<sp/>be<sp/>committed<sp/>on<sp/>partial<sp/>failure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-08<sp/>—<sp/>Batch<sp/>size<sp/>≤<sp/>kMaxBatchSize<sp/>enforced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH08,<sp/>BatchSizeLimitEnforced)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kMaxBatchSize<sp/>is<sp/>the<sp/>contract<sp/>constant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="namespacethemis_1_1ingestion_1a8b2cff25da505816163e23dd103f4e29" kindref="member">kMaxBatchSize</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(<ref refid="namespacethemis_1_1ingestion_1a8b2cff25da505816163e23dd103f4e29" kindref="member">kMaxBatchSize</ref>,<sp/><ref refid="namespacethemis_1_1ingestion_1ac41233ce5868e2d0ebe59568701a1c7d" kindref="member">kDefaultBatchSize</ref>);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBatchWriter<sp/>writer;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>writer.max_batch_size<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>big_batch<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>6;<sp/>++i)<sp/>big_batch.push_back({i,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>writer.write(big_batch);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3b64f51e8e5c60c21cad22b97b8c688b" kindref="member">IngestionErrorCode::INGESTION_QUOTA_EXCEEDED</ref>)</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Batch<sp/>exceeding<sp/>max<sp/>size<sp/>must<sp/>be<sp/>rejected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-09<sp/>—<sp/>Valid<sp/>schema<sp/>→<sp/>write<sp/>accepted<sp/>and<sp/>acked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH09,<sp/>ValidSchemaAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBatchWriter<sp/>writer;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{{0,<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*schema_valid=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>writer.write(rows);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">IngestionErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.acked);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-10<sp/>—<sp/>Invalid<sp/>schema<sp/>→<sp/>INGESTION_SCHEMA_INVALID<sp/>before<sp/>ack</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH10,<sp/>InvalidSchemaRejectedBeforeAck)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBatchWriter<sp/>writer;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{{0,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*schema_valid=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>writer.write(rows);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3ff8bba7faa6aea40d088617d7105a9e" kindref="member">IngestionErrorCode::INGESTION_SCHEMA_INVALID</ref>);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.acked)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>ack<sp/>must<sp/>be<sp/>sent<sp/>when<sp/>schema<sp/>is<sp/>invalid&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed.size(),<sp/>0u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>data<sp/>must<sp/>be<sp/>written<sp/>on<sp/>schema<sp/>error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-11<sp/>—<sp/>Schema<sp/>validation<sp/>happens<sp/>before<sp/>any<sp/>data<sp/>is<sp/>written</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH11,<sp/>SchemaValidationBeforeDataWrite)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBatchWriter<sp/>writer;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mix:<sp/>valid<sp/>rows,<sp/>then<sp/>one<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{{0,<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">},<sp/>{1,<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">},<sp/>{2,<sp/></highlight><highlight class="stringliteral">&quot;bad&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>writer.write(rows);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3ff8bba7faa6aea40d088617d7105a9e" kindref="member">IngestionErrorCode::INGESTION_SCHEMA_INVALID</ref>);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed.size(),<sp/>0u)</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Schema<sp/>validation<sp/>must<sp/>abort<sp/>before<sp/>any<sp/>row<sp/>is<sp/>written&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-12<sp/>—<sp/>INGESTION_SCHEMA_INVALID<sp/>is<sp/>a<sp/>permanent<sp/>rejection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH12,<sp/>SchemaInvalidIsPermanentRejection)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a7008d0431cf0f4443e4e3ea6dab1b9b6" kindref="member">isPermanentRejection</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3ff8bba7faa6aea40d088617d7105a9e" kindref="member">IngestionErrorCode::INGESTION_SCHEMA_INVALID</ref>));</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1ingestion_1a593d8436ad408de8103656c2de8f0cef" kindref="member">isBackOffCode</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3ff8bba7faa6aea40d088617d7105a9e" kindref="member">IngestionErrorCode::INGESTION_SCHEMA_INVALID</ref>));</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-13<sp/>—<sp/>Producer<sp/>back-pressure<sp/>signal<sp/>is<sp/>explicit<sp/>(not<sp/>silent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH13,<sp/>BackPressureExplicitSignal)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBuffer<sp/>buf{3};</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push(3);<sp/><sp/></highlight><highlight class="comment">//<sp/>fill<sp/>to<sp/>capacity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Next<sp/>push<sp/>must<sp/>return<sp/>explicit<sp/>error<sp/>code<sp/>(not<sp/>hang/block<sp/>silently)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>buf.push(1);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rc,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a451adab527f14e522e5948e8f319e3f7" kindref="member">IngestionErrorCode::INGESTION_BUFFER_FULL</ref>);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(rc,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">IngestionErrorCode::OK</ref>)</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Back-pressure<sp/>must<sp/>produce<sp/>an<sp/>explicit<sp/>error,<sp/>not<sp/>silent<sp/>blocking&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-14<sp/>—<sp/>Quota<sp/>exceeded<sp/>→<sp/>INGESTION_QUOTA_EXCEEDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH14,<sp/>QuotaExceededSurfaced)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>MockQuotaChecker<sp/>qc{</highlight><highlight class="comment">/*limit=*/</highlight><highlight class="normal">100u};</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(qc.checkAndConsume(100u),<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">IngestionErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>qc.checkAndConsume(1u);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rc,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3b64f51e8e5c60c21cad22b97b8c688b" kindref="member">IngestionErrorCode::INGESTION_QUOTA_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-15<sp/>—<sp/>INGESTION_QUOTA_EXCEEDED<sp/>is<sp/>a<sp/>back-off<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH15,<sp/>QuotaExceededIsBackOff)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a593d8436ad408de8103656c2de8f0cef" kindref="member">isBackOffCode</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3b64f51e8e5c60c21cad22b97b8c688b" kindref="member">IngestionErrorCode::INGESTION_QUOTA_EXCEEDED</ref>));</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1ingestion_1a7008d0431cf0f4443e4e3ea6dab1b9b6" kindref="member">isPermanentRejection</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3b64f51e8e5c60c21cad22b97b8c688b" kindref="member">IngestionErrorCode::INGESTION_QUOTA_EXCEEDED</ref>));</highlight></codeline>
+<codeline lineno="362"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCH-16<sp/>—<sp/>Strong-ack<sp/>durability<sp/>levels<sp/>identified<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningINCH16,<sp/>StrongAckDurabilityLevels)<sp/>{</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1ingestion_1a8d26bf6ce68fe78c9ea41a1654b66286" kindref="member">isStrongAck</ref>(<ref refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391aa8fe3686e80a31ab94abacbc41b036f4" kindref="member">DurabilityLevel::LocalWal</ref>))</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LocalWal<sp/>is<sp/>not<sp/>a<sp/>strong-ack<sp/>level&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a8d26bf6ce68fe78c9ea41a1654b66286" kindref="member">isStrongAck</ref>(<ref refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391a17bc2ef8f82aabbd992eec53a8f97f40" kindref="member">DurabilityLevel::QuorumSync</ref>))</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;QuorumSync<sp/>is<sp/>a<sp/>strong-ack<sp/>level&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a8d26bf6ce68fe78c9ea41a1654b66286" kindref="member">isStrongAck</ref>(<ref refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391adf1838b6b9963c10f8df48c6a96f9e89" kindref="member">DurabilityLevel::FsyncLocal</ref>))</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FsyncLocal<sp/>is<sp/>a<sp/>strong-ack<sp/>level&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><ref refid="test__ingestion__contract__hardening__focused_8cpp_1a129ad2bf002c388bef01c6ce224b9276" kindref="member">TEST</ref>(IngestionContractHardeningRetryContract,<sp/>CanonicalRetryMappings)<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1ingestion_1a3600e78124854ab9ffde55b7ca762941" kindref="member">toRetryTimeoutSource</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a814a62aa5cd29b56bf7ff8f6bb30b73d" kindref="member">IngestionErrorCode::INGESTION_TIMEOUT</ref>),</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::utils::RetryTimeoutSource::PER_ATTEMPT);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1ingestion_1a3600e78124854ab9ffde55b7ca762941" kindref="member">toRetryTimeoutSource</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a6ef83b00a91a98de11f4422367abb4c6" kindref="member">IngestionErrorCode::INGESTION_BACKEND_UNAVAILABLE</ref>),</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::utils::RetryTimeoutSource::BACKEND);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1ingestion_1a3600e78124854ab9ffde55b7ca762941" kindref="member">toRetryTimeoutSource</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3ff8bba7faa6aea40d088617d7105a9e" kindref="member">IngestionErrorCode::INGESTION_SCHEMA_INVALID</ref>),</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::utils::RetryTimeoutSource::NONE);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1ingestion_1ada2e3842fe206750e2dfa30e380fa0e7" kindref="member">toRetryExhaustionReason</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3ff8bba7faa6aea40d088617d7105a9e" kindref="member">IngestionErrorCode::INGESTION_SCHEMA_INVALID</ref>,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::utils::RetryExhaustionReason::NON_RETRYABLE);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1ingestion_1ada2e3842fe206750e2dfa30e380fa0e7" kindref="member">toRetryExhaustionReason</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a814a62aa5cd29b56bf7ff8f6bb30b73d" kindref="member">IngestionErrorCode::INGESTION_TIMEOUT</ref>,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::utils::RetryExhaustionReason::MAX_ATTEMPTS_REACHED);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ingestion/test_ingestion_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

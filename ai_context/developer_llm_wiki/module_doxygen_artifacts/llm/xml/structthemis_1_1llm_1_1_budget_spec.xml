@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_budget_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::BudgetSpec</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_budget_spec_1a59fdb277d36d167b2c3f4c8617e4ade8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::BudgetSpec::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::llm::BudgetSpec::max_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="86" column="12" bodyfile="include/llm/ai_orchestrator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_budget_spec_1ac3f97eb3ad8aa054c15536795db5970a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::BudgetSpec::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::llm::BudgetSpec::timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="87" column="12" bodyfile="include/llm/ai_orchestrator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_budget_spec_1af5bf6a47edc91677f1701efc43bc0c22" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::BudgetSpec::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::llm::BudgetSpec::max_retries</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="88" column="12" bodyfile="include/llm/ai_orchestrator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_budget_spec_1a3fca155cb1852b46bbd6356559a0c14d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::BudgetSpec::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::llm::BudgetSpec::temperature</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="89" column="12" bodyfile="include/llm/ai_orchestrator.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_budget_spec_1a2963fa7e24ff16cdf8b7e07e7e71a05b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::BudgetSpec::top_p</definition>
+        <argsstring></argsstring>
+        <name>top_p</name>
+        <qualifiedname>themis::llm::BudgetSpec::top_p</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="90" column="12" bodyfile="include/llm/ai_orchestrator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_budget_spec_1aa3c82127dfa6ac54e0a8351a58fb31b8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::BudgetSpec::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::llm::BudgetSpec::top_k</qualifiedname>
+        <initializer>= 40</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="91" column="12" bodyfile="include/llm/ai_orchestrator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="85" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="85" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_budget_spec_1af5bf6a47edc91677f1701efc43bc0c22" prot="public" virt="non-virtual"><scope>themis::llm::BudgetSpec</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1llm_1_1_budget_spec_1a59fdb277d36d167b2c3f4c8617e4ade8" prot="public" virt="non-virtual"><scope>themis::llm::BudgetSpec</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_budget_spec_1a3fca155cb1852b46bbd6356559a0c14d" prot="public" virt="non-virtual"><scope>themis::llm::BudgetSpec</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1llm_1_1_budget_spec_1ac3f97eb3ad8aa054c15536795db5970a" prot="public" virt="non-virtual"><scope>themis::llm::BudgetSpec</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_budget_spec_1aa3c82127dfa6ac54e0a8351a58fb31b8" prot="public" virt="non-virtual"><scope>themis::llm::BudgetSpec</scope><name>top_k</name></member>
+      <member refid="structthemis_1_1llm_1_1_budget_spec_1a2963fa7e24ff16cdf8b7e07e7e71a05b" prot="public" virt="non-virtual"><scope>themis::llm::BudgetSpec</scope><name>top_p</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

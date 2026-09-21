@@ -1,0 +1,855 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="function__registry_8h" kind="file" language="C++">
+    <compoundname>function_registry.h</compoundname>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">stdexcept</includes>
+    <includedby refid="ai__ml__functions_8h" local="yes">include/query/functions/ai_ml_functions.h</includedby>
+    <includedby refid="array__functions_8h" local="yes">include/query/functions/array_functions.h</includedby>
+    <includedby refid="collection__functions_8h" local="yes">include/query/functions/collection_functions.h</includedby>
+    <includedby refid="crs__functions_8h" local="yes">include/query/functions/crs_functions.h</includedby>
+    <includedby refid="date__functions_8h" local="yes">include/query/functions/date_functions.h</includedby>
+    <includedby refid="document__functions_8h" local="yes">include/query/functions/document_functions.h</includedby>
+    <includedby refid="ethics__functions_8h" local="yes">include/query/functions/ethics_functions.h</includedby>
+    <includedby refid="file__functions_8h" local="yes">include/query/functions/file_functions.h</includedby>
+    <includedby refid="function__adapter_8h" local="yes">include/query/functions/function_adapter.h</includedby>
+    <includedby refid="geo__functions_8h" local="yes">include/query/functions/geo_functions.h</includedby>
+    <includedby refid="graph__extensions_8h" local="yes">include/query/functions/graph_extensions.h</includedby>
+    <includedby refid="graph__functions_8h" local="yes">include/query/functions/graph_functions.h</includedby>
+    <includedby refid="graphql__functions_8h" local="yes">include/query/functions/graphql_functions.h</includedby>
+    <includedby refid="json__path__functions_8h" local="yes">include/query/functions/json_path_functions.h</includedby>
+    <includedby refid="lora__functions_8h" local="yes">include/query/functions/lora_functions.h</includedby>
+    <includedby refid="math__functions_8h" local="yes">include/query/functions/math_functions.h</includedby>
+    <includedby refid="process__functions_8h" local="yes">include/query/functions/process_functions.h</includedby>
+    <includedby refid="process__mining__functions_8h" local="yes">include/query/functions/process_mining_functions.h</includedby>
+    <includedby refid="relational__functions_8h" local="yes">include/query/functions/relational_functions.h</includedby>
+    <includedby refid="retention__functions_8h" local="yes">include/query/functions/retention_functions.h</includedby>
+    <includedby refid="security__functions_8h" local="yes">include/query/functions/security_functions.h</includedby>
+    <includedby refid="string__functions_8h" local="yes">include/query/functions/string_functions.h</includedby>
+    <includedby refid="tensor__functions_8h" local="yes">include/query/functions/tensor_functions.h</includedby>
+    <includedby refid="udf__registry_8h" local="yes">include/query/functions/udf_registry.h</includedby>
+    <includedby refid="vector__functions_8h" local="yes">include/query/functions/vector_functions.h</includedby>
+    <includedby refid="fulltext__functions_8cpp" local="yes">src/query/functions/fulltext_functions.cpp</includedby>
+    <includedby refid="function__registry_8cpp" local="yes">src/query/functions/function_registry.cpp</includedby>
+    <includedby refid="tensor__functions_8cpp" local="yes">src/query/functions/tensor_functions.cpp</includedby>
+    <includedby refid="let__evaluator_8cpp" local="yes">src/query/let_evaluator.cpp</includedby>
+    <includedby refid="test__pagerank_8cpp" local="yes">tests/query/test_pagerank.cpp</includedby>
+    <includedby refid="test__tensor__contraction__engine_8cpp" local="yes">tests/query/test_tensor_contraction_engine.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/functions/function_registry.h</label>
+        <link refid="function__registry_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/query/functions/ai_ml_functions.h</label>
+        <link refid="ai__ml__functions_8h"/>
+      </node>
+      <node id="3">
+        <label>include/query/functions/array_functions.h</label>
+        <link refid="array__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/query/functions/collection_functions.h</label>
+        <link refid="collection__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/query/functions/crs_functions.h</label>
+        <link refid="crs__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/query/functions/date_functions.h</label>
+        <link refid="date__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/query/functions/document_functions.h</label>
+        <link refid="document__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/query/functions/ethics_functions.h</label>
+        <link refid="ethics__functions_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/query/functions/file_functions.h</label>
+        <link refid="file__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/query/functions/function_adapter.h</label>
+        <link refid="function__adapter_8h"/>
+      </node>
+      <node id="1">
+        <label>include/query/functions/function_registry.h</label>
+        <link refid="function__registry_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/query/functions/geo_functions.h</label>
+        <link refid="geo__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/query/functions/graph_extensions.h</label>
+        <link refid="graph__extensions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/query/functions/graph_functions.h</label>
+        <link refid="graph__functions_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/query/functions/graphql_functions.h</label>
+        <link refid="graphql__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/query/functions/json_path_functions.h</label>
+        <link refid="json__path__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/query/functions/lora_functions.h</label>
+        <link refid="lora__functions_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/query/functions/math_functions.h</label>
+        <link refid="math__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/query/functions/process_functions.h</label>
+        <link refid="process__functions_8h"/>
+      </node>
+      <node id="23">
+        <label>include/query/functions/process_mining_functions.h</label>
+        <link refid="process__mining__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/query/functions/relational_functions.h</label>
+        <link refid="relational__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/query/functions/retention_functions.h</label>
+        <link refid="retention__functions_8h"/>
+      </node>
+      <node id="27">
+        <label>include/query/functions/security_functions.h</label>
+        <link refid="security__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/query/functions/string_functions.h</label>
+        <link refid="string__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/query/functions/tensor_functions.h</label>
+        <link refid="tensor__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>include/query/functions/udf_registry.h</label>
+        <link refid="udf__registry_8h"/>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/query/functions/vector_functions.h</label>
+        <link refid="vector__functions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>src/query/functions/ethics_functions.cpp</label>
+        <link refid="ethics__functions_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/query/functions/fulltext_functions.cpp</label>
+        <link refid="fulltext__functions_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/query/functions/function_registry.cpp</label>
+        <link refid="function__registry_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/query/functions/lora_functions.cpp</label>
+        <link refid="lora__functions_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/query/functions/process_mining_functions.cpp</label>
+        <link refid="process__mining__functions_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/query/functions/tensor_functions.cpp</label>
+        <link refid="tensor__functions_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/query/functions/udf_registry.cpp</label>
+        <link refid="udf__registry_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/query/let_evaluator.cpp</label>
+        <link refid="let__evaluator_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/query/test_pagerank.cpp</label>
+        <link refid="test__pagerank_8cpp"/>
+      </node>
+      <node id="31">
+        <label>tests/query/test_tensor_contraction_engine.cpp</label>
+        <link refid="test__tensor__contraction__engine_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1functions_1_1_arg_spec" prot="public">themis::query::functions::ArgSpec</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1functions_1_1_function_cost" prot="public">themis::query::functions::FunctionCost</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1functions_1_1_function_signature" prot="public">themis::query::functions::FunctionSignature</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_function_context" prot="public">themis::query::functions::FunctionContext</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_i_function" prot="public">themis::query::functions::IFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_function_registry" prot="public">themis::query::functions::FunctionRegistry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query_1_1functions">themis::query::functions</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="function__registry_8h_1a997d204d4caca2eb8444575f193110e2" prot="public" static="no">
+        <name>REGISTER_AQL_FUNCTION</name>
+        <param><defname>FuncClass</defname></param>
+        <initializer>FunctionRegistry::instance().registerFunction(std::make_unique&lt;FuncClass&gt;())</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="612" column="9" bodyfile="include/query/functions/function_registry.h" bodystart="612" bodyend="613"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1adb85a5093dceeb884c6b226f8f8f0dc8" kindref="member">GraphIndexManager</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">GraphAnalytics;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">SecondaryIndexManager</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ProcessMining;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1functions" kindref="compound">functions</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Function<sp/>Argument<sp/>Types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19" kindref="member">ArgType</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Canonical<sp/>names<sp/>(UPPERCASE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8e1bde3c3d303163521522cf1d62f21f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8e1bde3c3d303163521522cf1d62f21f" kindref="member">ANY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a63b588d5559f64f89a416e656880b949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a63b588d5559f64f89a416e656880b949" kindref="member">STRING</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a34f55eca38e0605a84f169ff61a2a396" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a34f55eca38e0605a84f169ff61a2a396" kindref="member">NUMBER</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a5d5cd46919fa987731fb2edefe0f2a0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a5d5cd46919fa987731fb2edefe0f2a0c" kindref="member">INTEGER</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ac48d5da12d702e73d6966069f2687376" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ac48d5da12d702e73d6966069f2687376" kindref="member">BOOLEAN</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19acb4fb1757fb37c43cded35d3eb857c43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19acb4fb1757fb37c43cded35d3eb857c43" kindref="member">ARRAY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8eee8e217391199668cbac89472ace53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8eee8e217391199668cbac89472ace53" kindref="member">OBJECT</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ab22957ad8078e8d73de61aef53d13a74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ab22957ad8078e8d73de61aef53d13a74" kindref="member">GEOMETRY</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a87752381b583740610f1dfeb07fdad7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a87752381b583740610f1dfeb07fdad7e" kindref="member">VECTOR</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ac231fa48df3ee393c92dccac4dba5e7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ac231fa48df3ee393c92dccac4dba5e7d" kindref="member">DOCUMENT</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a21a19c7b85ebfb987f64f2c48217e973" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a21a19c7b85ebfb987f64f2c48217e973" kindref="member">NULLABLE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compatibility<sp/>aliases<sp/>(PascalCase)<sp/>to<sp/>support<sp/>existing<sp/>uses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19aed36a1ef76a59ee3f15180e0441188ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19aed36a1ef76a59ee3f15180e0441188ad" kindref="member">Any</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8e1bde3c3d303163521522cf1d62f21f" kindref="member">ANY</ref>,</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a27118326006d3829667a400ad23d5d98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a27118326006d3829667a400ad23d5d98" kindref="member">String</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a63b588d5559f64f89a416e656880b949" kindref="member">STRING</ref>,</highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ab2ee912b91d69b435159c7c3f6df7f5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ab2ee912b91d69b435159c7c3f6df7f5f" kindref="member">Number</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a34f55eca38e0605a84f169ff61a2a396" kindref="member">NUMBER</ref>,</highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19aa0faef0851b4294c06f2b94bb1cb2044" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19aa0faef0851b4294c06f2b94bb1cb2044" kindref="member">Integer</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a5d5cd46919fa987731fb2edefe0f2a0c" kindref="member">INTEGER</ref>,</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a27226c864bac7454a8504f8edb15d95b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a27226c864bac7454a8504f8edb15d95b" kindref="member">Boolean</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ac48d5da12d702e73d6966069f2687376" kindref="member">BOOLEAN</ref>,</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a4410ec34d9e6c1a68100ca0ce033fb17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a4410ec34d9e6c1a68100ca0ce033fb17" kindref="member">Array</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19acb4fb1757fb37c43cded35d3eb857c43" kindref="member">ARRAY</ref>,</highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a497031794414a552435f90151ac3b54b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a497031794414a552435f90151ac3b54b" kindref="member">Object</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8eee8e217391199668cbac89472ace53" kindref="member">OBJECT</ref>,</highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ad9c6333623e6357515fcbf17be806273" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ad9c6333623e6357515fcbf17be806273" kindref="member">Geometry</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ab22957ad8078e8d73de61aef53d13a74" kindref="member">GEOMETRY</ref>,</highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a57dea6f5039281b7fee517fc43bf3110" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a57dea6f5039281b7fee517fc43bf3110" kindref="member">Vector</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a87752381b583740610f1dfeb07fdad7e" kindref="member">VECTOR</ref>,</highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a0945359809dad1fbf3dea1c95a0da951" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a0945359809dad1fbf3dea1c95a0da951" kindref="member">Document</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ac231fa48df3ee393c92dccac4dba5e7d" kindref="member">DOCUMENT</ref>,</highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a46ad517b8b7aa4e368a7cc226533bfb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a46ad517b8b7aa4e368a7cc226533bfb6" kindref="member">Nullable</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a21a19c7b85ebfb987f64f2c48217e973" kindref="member">NULLABLE</ref></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1query_1_1functions_1_1_arg_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec" kindref="compound">ArgSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a9badecae211aa1815ca812e75a0d8679" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a9badecae211aa1815ca812e75a0d8679" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a10597291052ed20ee0f439b672bbb445" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19" kindref="member">ArgType</ref><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a10597291052ed20ee0f439b672bbb445" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8e1bde3c3d303163521522cf1d62f21f" kindref="member">ArgType::ANY</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1aa92074c4f8d9a866e174938f36a613cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1aa92074c4f8d9a866e174938f36a613cc" kindref="member">required</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a7783b7b351e28483145fce0d7a444419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a7783b7b351e28483145fce0d7a444419" kindref="member">default_value</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a095b4a69afab0789e36594c95bcb913a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a095b4a69afab0789e36594c95bcb913a" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0" kindref="member">CostComplexity</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a8d6b5cada83510220f59e00ce86d4d92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a8d6b5cada83510220f59e00ce86d4d92" kindref="member">CONSTANT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0aaac544aacc3615aada24897a215f5046" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0aaac544aacc3615aada24897a215f5046" kindref="member">LINEAR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a46f142e73ca1c88db3d4d801caa37588" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a46f142e73ca1c88db3d4d801caa37588" kindref="member">LINEARITHMIC</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0aa6ef2e8b7424bfa9d56315aca733861c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0aa6ef2e8b7424bfa9d56315aca733861c" kindref="member">QUADRATIC</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a7480c2820154d14ec47fdf08bb008aeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a7480c2820154d14ec47fdf08bb008aeb" kindref="member">INDEXED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a3932d629fb5e2be9d09b3a4485b3cc9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a3932d629fb5e2be9d09b3a4485b3cc9d" kindref="member">EXTERNAL</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1query_1_1functions_1_1_function_cost" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1functions_1_1_function_cost" kindref="compound">FunctionCost</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a431c3f90af70fb24f43ddde05a479cea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0" kindref="member">CostComplexity</ref><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a431c3f90af70fb24f43ddde05a479cea" kindref="member">complexity</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a8d6b5cada83510220f59e00ce86d4d92" kindref="member">CostComplexity::CONSTANT</ref>;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1query_1_1functions_1_1_function_cost_1aad9eddd2ee887d8f0640acc52dcef3ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_cost_1aad9eddd2ee887d8f0640acc52dcef3ad" kindref="member">base_cost</ref><sp/>=<sp/>1.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1query_1_1functions_1_1_function_cost_1ad584a009606f58f8f81726189f22e4a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_cost_1ad584a009606f58f8f81726189f22e4a9" kindref="member">per_element_cost</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a62825566b61fce6f5324065c54b52891" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a62825566b61fce6f5324065c54b52891" kindref="member">can_use_index</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a296fcdd28781a4e41985aec0c96da407" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a296fcdd28781a4e41985aec0c96da407" kindref="member">is_parallelizable</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a70e8e4226b4c473adca2d9664009797b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_cost_1a70e8e4226b4c473adca2d9664009797b" kindref="member">index_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1query_1_1functions_1_1_function_signature" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a39ed964d31578b19457f1eae8c35cfbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a39ed964d31578b19457f1eae8c35cfbd" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1query_1_1functions_1_1_function_signature_1aec587bbb28bcc1561d93c1d51e353508" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature_1aec587bbb28bcc1561d93c1d51e353508" kindref="member">category</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a89c9f67c162835b1e165bc2dcfcb9d6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a89c9f67c162835b1e165bc2dcfcb9d6b" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a53c9ca060f3569aca0a31ddf3ede77e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ArgSpec&gt;<sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a53c9ca060f3569aca0a31ddf3ede77e7" kindref="member">arguments</ref>;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a8bec7a906655227200e6c6279b881b2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19" kindref="member">ArgType</ref><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a8bec7a906655227200e6c6279b881b2b" kindref="member">return_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8e1bde3c3d303163521522cf1d62f21f" kindref="member">ArgType::ANY</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1query_1_1functions_1_1_function_signature_1ab86c2466a0ece42045a3560222ccd8c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature_1ab86c2466a0ece42045a3560222ccd8c1" kindref="member">is_deterministic</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1query_1_1functions_1_1_function_signature_1ae83dad410ef463d519ccdeb5e00135a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature_1ae83dad410ef463d519ccdeb5e00135a8" kindref="member">is_aggregate</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a87185b0445242f0a03058926beef4ec8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a87185b0445242f0a03058926beef4ec8" kindref="member">examples</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>optimizer<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a4e33becf744fcfbeec6f7806e34ae5c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_cost" kindref="compound">FunctionCost</ref><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature_1a4e33becf744fcfbeec6f7806e34ae5c8" kindref="member">cost</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_cost" kindref="compound">FunctionCost</ref>{};<sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Function<sp/>Context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1query_1_1functions_1_1_function_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a7e52c8d82bb295f26993251051a4901e" kindref="member">FunctionContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a7e52c8d82bb295f26993251051a4901e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a7e52c8d82bb295f26993251051a4901e" kindref="member">FunctionContext</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1query_1_1functions_1_1_function_context_1ac2ecff97c60f2727b54d2240d028da53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1ac2ecff97c60f2727b54d2240d028da53" kindref="member">FunctionContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>doc)<sp/>:<sp/>current_doc_(doc)<sp/>{}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>document</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a6d350c583226f44efc6dd8cccb170f89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a6d350c583226f44efc6dd8cccb170f89" kindref="member">currentDocument</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_doc_;<sp/>}</highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a50cbfd274b8335355ef12519b38babe8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a50cbfd274b8335355ef12519b38babe8" kindref="member">setCurrentDocument</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>doc)<sp/>{<sp/>current_doc_<sp/>=<sp/>doc;<sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Variable<sp/>bindings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a9878dbfc31663a26a74b3b1477f52cba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a9878dbfc31663a26a74b3b1477f52cba" kindref="member">getVariable</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>variables_.find(name);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it<sp/>!=<sp/>variables_.end()<sp/>?<sp/>it-&gt;second<sp/>:<sp/>nlohmann::json(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1query_1_1functions_1_1_function_context_1aaeae2735f0c4bea6b9bf0f0ac8bd95ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1aaeae2735f0c4bea6b9bf0f0ac8bd95ec" kindref="member">setVariable</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>variables_[name]<sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Database<sp/>access<sp/>callback<sp/>(for<sp/>DOCUMENT,<sp/>COLLECTION,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1query_1_1functions_1_1_function_context_1ae7bc58296af1cd856294a25ef60cf231" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1ae7bc58296af1cd856294a25ef60cf231" kindref="member">DocumentLoader</ref><sp/>=<sp/>std::function&lt;nlohmann::json(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;;</highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1query_1_1functions_1_1_function_context_1ac8a0aa6bdded022e9ca562e6661e80d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1ac8a0aa6bdded022e9ca562e6661e80d2" kindref="member">setDocumentLoader</ref>(<ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1ae7bc58296af1cd856294a25ef60cf231" kindref="member">DocumentLoader</ref><sp/>loader)<sp/>{<sp/>doc_loader_<sp/>=<sp/>std::move(loader);<sp/>}</highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a83625123a028c161976eb320897b0402" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a83625123a028c161976eb320897b0402" kindref="member">loadDocument</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(doc_loader_)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>doc_loader_(collection,<sp/>key);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Document<sp/>loader<sp/>not<sp/>configured&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>context<sp/>(for<sp/>permission<sp/>checks)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1query_1_1functions_1_1_function_context_1ac3d11ea05fae14428922620af3bb2119" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1ac3d11ea05fae14428922620af3bb2119" kindref="member">userId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>user_id_;<sp/>}</highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1query_1_1functions_1_1_function_context_1afc62d8fd4fc8da71dad31f91d37ca872" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1afc62d8fd4fc8da71dad31f91d37ca872" kindref="member">setUserId</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>{<sp/>user_id_<sp/>=<sp/>id;<sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a4eada5f57bc006933724125983a2b05d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a4eada5f57bc006933724125983a2b05d" kindref="member">setGraphIndexManager</ref>(<ref refid="namespacethemis_1_1query_1adb85a5093dceeb884c6b226f8f8f0dc8" kindref="member">themis::GraphIndexManager</ref>*<sp/>mgr)<sp/>{<sp/>graph_mgr_<sp/>=<sp/>mgr;<sp/>}</highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1query_1_1functions_1_1_function_context_1acdb8428404a7eb9c42a85f058ab2e6bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1adb85a5093dceeb884c6b226f8f8f0dc8" kindref="member">themis::GraphIndexManager</ref>*<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1acdb8428404a7eb9c42a85f058ab2e6bd" kindref="member">getGraphIndexManager</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>graph_mgr_;<sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1query_1_1functions_1_1_function_context_1ab379e5e7274340fe8e6060614976af42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1ab379e5e7274340fe8e6060614976af42" kindref="member">setGraphAnalytics</ref>(themis::GraphAnalytics*<sp/>analytics)<sp/>{<sp/>graph_analytics_<sp/>=<sp/>analytics;<sp/>}</highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8ebbd486d1ad0f8996438457d3dfe5af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::GraphAnalytics*<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8ebbd486d1ad0f8996438457d3dfe5af" kindref="member">getGraphAnalytics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>graph_analytics_;<sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a79317431155a6f13375ce251b73d5ca4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a79317431155a6f13375ce251b73d5ca4" kindref="member">setSecondaryIndexManager</ref>(<ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">themis::SecondaryIndexManager</ref>*<sp/>mgr)<sp/>{<sp/>secondary_idx_mgr_<sp/>=<sp/>mgr;<sp/>}</highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a353ead611689270e4f6ba9dcacf4a92b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">themis::SecondaryIndexManager</ref>*<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a353ead611689270e4f6ba9dcacf4a92b" kindref="member">getSecondaryIndexManager</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>secondary_idx_mgr_;<sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a5a7cbc553dc917eee2bbbeef6c0293e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a5a7cbc553dc917eee2bbbeef6c0293e5" kindref="member">setProcessMining</ref>(themis::ProcessMining*<sp/>pm)<sp/>{<sp/>process_mining_<sp/>=<sp/>pm;<sp/>}</highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1query_1_1functions_1_1_function_context_1adaf6e6561609d4efabff435bc13a0ad4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::ProcessMining*<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1adaf6e6561609d4efabff435bc13a0ad4" kindref="member">getProcessMining</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>process_mining_;<sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Collection<sp/>scan<sp/>callback<sp/>(for<sp/>functions<sp/>that<sp/>query<sp/>collections<sp/>by<sp/>filter)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>an<sp/>array<sp/>of<sp/>matching<sp/>document<sp/>objects.<sp/>An<sp/>empty<sp/>array<sp/>on<sp/>no<sp/>match.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a33017af2c0c39cc27a8c85efd138bc89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a33017af2c0c39cc27a8c85efd138bc89" kindref="member">CollectionScanner</ref><sp/>=<sp/>std::function&lt;std::vector&lt;nlohmann::json&gt;(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)&gt;&amp;<sp/>predicate)&gt;;</highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1query_1_1functions_1_1_function_context_1afdec15d4870a96424511b5eeb1882cab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1afdec15d4870a96424511b5eeb1882cab" kindref="member">setCollectionScanner</ref>(<ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a33017af2c0c39cc27a8c85efd138bc89" kindref="member">CollectionScanner</ref><sp/>scanner)<sp/>{<sp/>collection_scanner_<sp/>=<sp/>std::move(scanner);<sp/>}</highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a530e7c317eba6d2c9db8da85d1358534" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;nlohmann::json&gt;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a530e7c317eba6d2c9db8da85d1358534" kindref="member">scanCollection</ref>(</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)&gt;&amp;<sp/>predicate)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="215"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(collection_scanner_)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>collection_scanner_(collection,<sp/>predicate);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Administrative<sp/>process-model<sp/>registry<sp/>(stub<sp/>#283)<sp/>─────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8f12146c56655de4e969a3b118804f73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8f12146c56655de4e969a3b118804f73" kindref="member">AdminModelLoadFn</ref><sp/>=<sp/>std::function&lt;nlohmann::json(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id)&gt;;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8b39a6cb5a6a57a75d3eb96d2d327fe8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8b39a6cb5a6a57a75d3eb96d2d327fe8" kindref="member">AdminModelListFn</ref><sp/>=<sp/>std::function&lt;nlohmann::json()&gt;;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a898c3b2c439a7d3f0cfc2edf55c9491e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a898c3b2c439a7d3f0cfc2edf55c9491e" kindref="member">setAdminModelLoadFn</ref>(<ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8f12146c56655de4e969a3b118804f73" kindref="member">AdminModelLoadFn</ref><sp/>fn)<sp/>{<sp/>admin_model_load_fn_<sp/>=<sp/>std::move(fn);<sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="classthemis_1_1query_1_1functions_1_1_function_context_1ab3b7d6492a68f7ff68aee6c1f0f563aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1ab3b7d6492a68f7ff68aee6c1f0f563aa" kindref="member">setAdminModelListFn</ref>(<ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8b39a6cb5a6a57a75d3eb96d2d327fe8" kindref="member">AdminModelListFn</ref><sp/>fn)<sp/>{<sp/>admin_model_list_fn_<sp/>=<sp/>std::move(fn);<sp/>}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a14911556c62780849de3475772a6375a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8f12146c56655de4e969a3b118804f73" kindref="member">AdminModelLoadFn</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a14911556c62780849de3475772a6375a" kindref="member">adminModelLoadFn</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>admin_model_load_fn_;<sp/>}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a33cd33ff0df87038722428dd8a6ceae5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8b39a6cb5a6a57a75d3eb96d2d327fe8" kindref="member">AdminModelListFn</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a33cd33ff0df87038722428dd8a6ceae5" kindref="member">adminModelListFn</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>admin_model_list_fn_;<sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Task<sp/>scheduler<sp/>injection<sp/>bridge<sp/>───────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1query_1_1functions_1_1_function_context_1acc667345bda7dd10b4639dd48d362eca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1acc667345bda7dd10b4639dd48d362eca" kindref="member">RegisterTaskFn</ref><sp/>=<sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>task_config)&gt;;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8582cf520fb85779165b45aae57ede8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8582cf520fb85779165b45aae57ede8e" kindref="member">ListTasksFn</ref><sp/>=<sp/>std::function&lt;nlohmann::json()&gt;;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a53b208b7123372de1ccfc47a511796e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a53b208b7123372de1ccfc47a511796e7" kindref="member">CancelTaskFn</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id)&gt;;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a3d26fc36057ab377f2dd6c99eb199669" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a3d26fc36057ab377f2dd6c99eb199669" kindref="member">setRegisterTaskFn</ref>(<ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1acc667345bda7dd10b4639dd48d362eca" kindref="member">RegisterTaskFn</ref><sp/>fn)<sp/>{<sp/>register_task_fn_<sp/>=<sp/>std::move(fn);<sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a99ff351ac6e609fe1f76b60778ca8fa9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a99ff351ac6e609fe1f76b60778ca8fa9" kindref="member">setListTasksFn</ref>(<ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8582cf520fb85779165b45aae57ede8e" kindref="member">ListTasksFn</ref><sp/>fn)<sp/>{<sp/>list_tasks_fn_<sp/>=<sp/>std::move(fn);<sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a0ce29c1b7b88e4f5587430b3d744ca04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a0ce29c1b7b88e4f5587430b3d744ca04" kindref="member">setCancelTaskFn</ref>(<ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a53b208b7123372de1ccfc47a511796e7" kindref="member">CancelTaskFn</ref><sp/>fn)<sp/>{<sp/>cancel_task_fn_<sp/>=<sp/>std::move(fn);<sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a4356be279aa84b4388d7e3d8e9254f6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1acc667345bda7dd10b4639dd48d362eca" kindref="member">RegisterTaskFn</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a4356be279aa84b4388d7e3d8e9254f6c" kindref="member">registerTaskFn</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>register_task_fn_;<sp/>}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a6ea891f1253c95f4ebd1dbe651cbbc8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8582cf520fb85779165b45aae57ede8e" kindref="member">ListTasksFn</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a6ea891f1253c95f4ebd1dbe651cbbc8e" kindref="member">listTasksFn</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>list_tasks_fn_;<sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279" refid="classthemis_1_1query_1_1functions_1_1_function_context_1a76e0bd768a301ec2ea8544197cc80346" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a53b208b7123372de1ccfc47a511796e7" kindref="member">CancelTaskFn</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a76e0bd768a301ec2ea8544197cc80346" kindref="member">cancelTaskFn</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cancel_task_fn_;<sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>current_doc_;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>nlohmann::json&gt;<sp/>variables_;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1ae7bc58296af1cd856294a25ef60cf231" kindref="member">DocumentLoader</ref><sp/>doc_loader_;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>user_id_;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1adb85a5093dceeb884c6b226f8f8f0dc8" kindref="member">themis::GraphIndexManager</ref>*<sp/>graph_mgr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::GraphAnalytics*<sp/>graph_analytics_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">themis::SecondaryIndexManager</ref>*<sp/>secondary_idx_mgr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::ProcessMining*<sp/>process_mining_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a33017af2c0c39cc27a8c85efd138bc89" kindref="member">CollectionScanner</ref><sp/>collection_scanner_;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8f12146c56655de4e969a3b118804f73" kindref="member">AdminModelLoadFn</ref><sp/>admin_model_load_fn_;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8b39a6cb5a6a57a75d3eb96d2d327fe8" kindref="member">AdminModelListFn</ref><sp/>admin_model_list_fn_;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1acc667345bda7dd10b4639dd48d362eca" kindref="member">RegisterTaskFn</ref><sp/>register_task_fn_;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a8582cf520fb85779165b45aae57ede8e" kindref="member">ListTasksFn</ref><sp/><sp/><sp/><sp/>list_tasks_fn_;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a53b208b7123372de1ccfc47a511796e7" kindref="member">CancelTaskFn</ref><sp/><sp/><sp/>cancel_task_fn_;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Function<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302" refid="classthemis_1_1query_1_1functions_1_1_i_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="308" refid="classthemis_1_1query_1_1functions_1_1_i_function_1a484cc337101f6131acd1ee83ac31563b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a484cc337101f6131acd1ee83ac31563b" kindref="member">~IFunction</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="314" refid="classthemis_1_1query_1_1functions_1_1_i_function_1a14ab2d91e8a0195c5b73a4ef05151478" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a14ab2d91e8a0195c5b73a4ef05151478" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322" refid="classthemis_1_1query_1_1functions_1_1_i_function_1a7e3401607dd70b42df4da3a392e24c60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a7e3401607dd70b42df4da3a392e24c60" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="327" refid="classthemis_1_1query_1_1functions_1_1_i_function_1a3c825841f6247644e1301cbf65c2d8ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a3c825841f6247644e1301cbf65c2d8ad" kindref="member">validateArgs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>sig<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a14ab2d91e8a0195c5b73a4ef05151478" kindref="member">signature</ref>();</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>required<sp/>argument<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>requiredCount<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>arg<sp/>:<sp/>sig.arguments)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(arg.required)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requiredCount++;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(args.size()<sp/>&lt;<sp/>requiredCount)<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(sig.name<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>requires<sp/>at<sp/>least<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(requiredCount)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>arguments&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(args.size()<sp/>&gt;<sp/>sig.arguments.size())<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(sig.name<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>accepts<sp/>at<sp/>most<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(sig.arguments.size())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>arguments&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Type<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>args.size();<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1adea209cca3e5f9a99bb163a9bc333694" kindref="member">validateArgType</ref>(args[i],<sp/>sig.arguments[i],<sp/>sig.name);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="363" refid="classthemis_1_1query_1_1functions_1_1_i_function_1adea209cca3e5f9a99bb163a9bc333694" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1adea209cca3e5f9a99bb163a9bc333694" kindref="member">validateArgType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>arg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec" kindref="compound">ArgSpec</ref>&amp;<sp/>spec,<sp/></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>funcName)<sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(arg.is_null()<sp/>&amp;&amp;<sp/>spec.<ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a10597291052ed20ee0f439b672bbb445" kindref="member">type</ref><sp/>!=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a21a19c7b85ebfb987f64f2c48217e973" kindref="member">ArgType::NULLABLE</ref><sp/>&amp;&amp;<sp/>spec.<ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a10597291052ed20ee0f439b672bbb445" kindref="member">type</ref><sp/>!=<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8e1bde3c3d303163521522cf1d62f21f" kindref="member">ArgType::ANY</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spec.<ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1aa92074c4f8d9a866e174938f36a613cc" kindref="member">required</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(funcName<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>argument<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>spec.<ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a9badecae211aa1815ca812e75a0d8679" kindref="member">name</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>cannot<sp/>be<sp/>null&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>valid<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(spec.<ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a10597291052ed20ee0f439b672bbb445" kindref="member">type</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a63b588d5559f64f89a416e656880b949" kindref="member">ArgType::STRING</ref>:<sp/><sp/><sp/>valid<sp/>=<sp/>arg.is_string();<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a34f55eca38e0605a84f169ff61a2a396" kindref="member">ArgType::NUMBER</ref>:<sp/><sp/><sp/>valid<sp/>=<sp/>arg.is_number();<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a5d5cd46919fa987731fb2edefe0f2a0c" kindref="member">ArgType::INTEGER</ref>:<sp/><sp/>valid<sp/>=<sp/>arg.is_number_integer();<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ac48d5da12d702e73d6966069f2687376" kindref="member">ArgType::BOOLEAN</ref>:<sp/><sp/>valid<sp/>=<sp/>arg.is_boolean();<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19acb4fb1757fb37c43cded35d3eb857c43" kindref="member">ArgType::ARRAY</ref>:<sp/><sp/><sp/><sp/>valid<sp/>=<sp/>arg.is_array();<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8eee8e217391199668cbac89472ace53" kindref="member">ArgType::OBJECT</ref>:<sp/><sp/><sp/>valid<sp/>=<sp/>arg.is_object();<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ab22957ad8078e8d73de61aef53d13a74" kindref="member">ArgType::GEOMETRY</ref>:<sp/>valid<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a42971eed20f17673a764546eed8e1462" kindref="member">isGeometry</ref>(arg);<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a87752381b583740610f1dfeb07fdad7e" kindref="member">ArgType::VECTOR</ref>:<sp/><sp/><sp/>valid<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a8141e01394e9c7a14ca2f7152684721e" kindref="member">isVector</ref>(arg);<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8e1bde3c3d303163521522cf1d62f21f" kindref="member">ArgType::ANY</ref>:</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a21a19c7b85ebfb987f64f2c48217e973" kindref="member">ArgType::NULLABLE</ref>:</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ac231fa48df3ee393c92dccac4dba5e7d" kindref="member">ArgType::DOCUMENT</ref>:</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>valid<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!valid)<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(funcName<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>argument<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>spec.<ref refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a9badecae211aa1815ca812e75a0d8679" kindref="member">name</ref><sp/>+<sp/></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>has<sp/>invalid<sp/>type&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="400" refid="classthemis_1_1query_1_1functions_1_1_i_function_1a42971eed20f17673a764546eed8e1462" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a42971eed20f17673a764546eed8e1462" kindref="member">isGeometry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>val)<sp/>{</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!val.is_object())<sp/>{</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>val.contains(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>val.contains(</highlight><highlight class="stringliteral">&quot;coordinates&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="413" refid="classthemis_1_1query_1_1functions_1_1_i_function_1a8141e01394e9c7a14ca2f7152684721e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a8141e01394e9c7a14ca2f7152684721e" kindref="member">isVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>val)<sp/>{</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!val.is_array())<sp/>{</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>elem<sp/>:<sp/>val)<sp/>{</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!elem.is_number())<sp/>{</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="432" refid="classthemis_1_1query_1_1functions_1_1_i_function_1a13b10298be193ff19480b033de127f80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a13b10298be193ff19480b033de127f80" kindref="member">toNumber</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>val)<sp/>{</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val.is_number())<sp/>{</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>val.get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val.is_string())<sp/>{</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::stod(val.get&lt;std::string&gt;());</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val.is_boolean())<sp/>{</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>val.get&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;()<sp/>?<sp/>1.0<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Cannot<sp/>convert<sp/>value<sp/>to<sp/>number&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="451" refid="classthemis_1_1query_1_1functions_1_1_i_function_1a1eaeedaa323352a073c63b5ca631fd7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a1eaeedaa323352a073c63b5ca631fd7c" kindref="member">toString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>val)<sp/>{</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val.is_string())<sp/>{</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>val.get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>val.dump();</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="464" refid="classthemis_1_1query_1_1functions_1_1_i_function_1a68ea2fe431937c2a2e5a001027bfd15f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function_1a68ea2fe431937c2a2e5a001027bfd15f" kindref="member">toBool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>val)<sp/>{</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val.is_boolean())<sp/>{</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>val.get&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val.is_null())<sp/>{</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val.is_number())<sp/>{</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>val.get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;()<sp/>!=<sp/>0;</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val.is_string())<sp/>{</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!val.get&lt;std::string&gt;().empty();</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val.is_array()<sp/>||<sp/>val.is_object())<sp/>{</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!val.empty();</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="482"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Function<sp/>Registry<sp/>(Singleton)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="488" refid="classthemis_1_1query_1_1functions_1_1_function_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">FunctionRegistry<sp/>{</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="495" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>FunctionRegistry&amp;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">instance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>FunctionRegistry<sp/>registry;</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>registry;</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="505" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a1fe62d39a57fc59a0e44287f08d8b31e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a1fe62d39a57fc59a0e44287f08d8b31e" kindref="member">registerFunction</ref>(std::unique_ptr&lt;IFunction&gt;<sp/>func)<sp/>{</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>func-&gt;signature();</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>functions_[sig.name]<sp/>=<sp/>std::move(func);</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="510" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1ab05542c9b52fcc05873c0da327c51149" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1ab05542c9b52fcc05873c0da327c51149" kindref="member">getFunction</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>functions_.find(name);</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>functions_.end())<sp/>{</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Unknown<sp/>function:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>name);</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*it-&gt;second;</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="518" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a5c5230432814762dd702a2a96f753694" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a5c5230432814762dd702a2a96f753694" kindref="member">call</ref>(</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>resolvedName<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a33d79f791bca61c5fed76b50d11f684b" kindref="member">resolveAlias</ref>(name);</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>func<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1ab05542c9b52fcc05873c0da327c51149" kindref="member">getFunction</ref>(resolvedName);</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>func.validateArgs(args);</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>func.execute(args,<sp/>context);</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="529" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a8ab9b94c9ea5240f1bc9048d82eb372d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a8ab9b94c9ea5240f1bc9048d82eb372d" kindref="member">hasFunction</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>resolvedName<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a33d79f791bca61c5fed76b50d11f684b" kindref="member">resolveAlias</ref>(name);</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>functions_.find(resolvedName)<sp/>!=<sp/>functions_.end();</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="534" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a09b65b62d0158bbc55951252f255453b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FunctionSignature&gt;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a09b65b62d0158bbc55951252f255453b" kindref="member">getAllSignatures</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;FunctionSignature&gt;<sp/>sigs<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"></highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[name,<sp/>func]<sp/>:<sp/>functions_)<sp/>{</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sigs.push_back(func-&gt;signature());</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sigs;</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="543" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1aa2368332c56d2543b341ec734ad80d02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FunctionSignature&gt;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1aa2368332c56d2543b341ec734ad80d02" kindref="member">getByCategory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>category)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;FunctionSignature&gt;<sp/>sigs<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"></highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[name,<sp/>func]<sp/>:<sp/>functions_)<sp/>{</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>func-&gt;signature();</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sig.category<sp/>==<sp/>category)<sp/>{</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sigs.push_back(sig);</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sigs;</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="555" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1aa7c06e75dcc203ff17a934caf1e25f0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1aa7c06e75dcc203ff17a934caf1e25f0a" kindref="member">getCategories</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;<sp/>cats<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"></highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[name,<sp/>func]<sp/>:<sp/>functions_)<sp/>{</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cats[func-&gt;signature().category]<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[cat,<sp/>_]<sp/>:<sp/>cats)<sp/>{</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(cat);</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="576" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a4727ff7b087abfcb933948d67abc592a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a4727ff7b087abfcb933948d67abc592a" kindref="member">registerAlias</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>alias,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target)<sp/>{</highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aliases_[alias]<sp/>=<sp/>target;</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="580" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a33d79f791bca61c5fed76b50d11f684b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a33d79f791bca61c5fed76b50d11f684b" kindref="member">resolveAlias</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>aliases_.find(name);</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it<sp/>!=<sp/>aliases_.end()<sp/>?<sp/>it-&gt;second<sp/>:<sp/>name;</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="585" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a3d77f96550dbbc89977f869ccbb49e03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a3d77f96550dbbc89977f869ccbb49e03" kindref="member">getAliases</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>aliases_;</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="589" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a8e486e6c227d5926a93ae1c96a2b62b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a8e486e6c227d5926a93ae1c96a2b62b8" kindref="member">isAlias</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>aliases_.find(name)<sp/>!=<sp/>aliases_.end();</highlight></codeline>
+<codeline lineno="591"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"></highlight></codeline>
+<codeline lineno="598" refid="classthemis_1_1query_1_1functions_1_1_function_registry_1ad928b434ea508fffbeeb775f103c1648" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1ad928b434ea508fffbeeb775f103c1648" kindref="member">unregisterFunction</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>functions_.erase(name);</highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="601"><highlight class="normal"></highlight></codeline>
+<codeline lineno="602"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IFunction&gt;&gt;<sp/>functions_;</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>aliases_;<sp/><sp/></highlight></codeline>
+<codeline lineno="606"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="607"><highlight class="normal"></highlight></codeline>
+<codeline lineno="608"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="609"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Function<sp/>Registration<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="610"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="611"><highlight class="normal"></highlight></codeline>
+<codeline lineno="612" refid="function__registry_8h_1a997d204d4caca2eb8444575f193110e2" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>REGISTER_AQL_FUNCTION(FuncClass)<sp/>\</highlight></codeline>
+<codeline lineno="613"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>FunctionRegistry::instance().registerFunction(std::make_unique&lt;FuncClass&gt;())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="614"><highlight class="normal"></highlight></codeline>
+<codeline lineno="618"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1af8ad580507df1f9d7f896e7c833e95a7" kindref="member">registerBuiltinFunctions</ref>();</highlight></codeline>
+<codeline lineno="619"><highlight class="normal"></highlight></codeline>
+<codeline lineno="620"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="621"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="622"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/functions/function_registry.h"/>
+  </compounddef>
+</doxygen>

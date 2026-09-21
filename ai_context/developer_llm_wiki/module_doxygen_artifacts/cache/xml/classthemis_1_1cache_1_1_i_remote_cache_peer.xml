@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_i_remote_cache_peer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::IRemoteCachePeer</compoundname>
+    <derivedcompoundref refid="class_degradation_mock_peer" prot="public" virt="non-virtual">DegradationMockPeer</derivedcompoundref>
+    <derivedcompoundref refid="class_mock_remote_cache_peer" prot="public" virt="non-virtual">MockRemoteCachePeer</derivedcompoundref>
+    <derivedcompoundref refid="class_mock_remote_peer2" prot="public" virt="non-virtual">MockRemotePeer2</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1cache_1_1_grpc_remote_cache_peer" prot="public" virt="non-virtual">themis::cache::GrpcRemoteCachePeer</derivedcompoundref>
+    <includes refid="cache__replication__coordinator_8h" local="no">cache_replication_coordinator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_remote_cache_peer_1ac1cc66cde7d38641496ec2bb4dada445" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::IRemoteCachePeer::~IRemoteCachePeer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRemoteCachePeer</name>
+        <qualifiedname>themis::cache::IRemoteCachePeer::~IRemoteCachePeer</qualifiedname>
+        <briefdescription>
+<para>IRemote Cache Peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="189" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_remote_cache_peer_1af1d6df3103c57fcab0e74d3cdae9a1e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IRemoteCachePeer::invalidate</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;tenant_id=&quot;&quot;)=0</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::cache::IRemoteCachePeer::invalidate</qualifiedname>
+        <reimplementedby refid="class_degradation_mock_peer_1a3e1a14f5edae3c1f52f6ac88d9b13928">invalidate</reimplementedby>
+        <reimplementedby refid="class_mock_remote_cache_peer_1aa612604f23d133ad190da79efc06c4d7">invalidate</reimplementedby>
+        <reimplementedby refid="class_mock_remote_peer2_1ab1f9b0d1754b11b56f5ff82a8b72daf6">invalidate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_grpc_remote_cache_peer_1a890d8c61edc12eef21cd78c4567b7fa6">invalidate</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="191" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_remote_cache_peer_1a901da52e94352d0673c09c3a7ed27955" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IRemoteCachePeer::invalidateTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)=0</argsstring>
+        <name>invalidateTenant</name>
+        <qualifiedname>themis::cache::IRemoteCachePeer::invalidateTenant</qualifiedname>
+        <reimplementedby refid="class_degradation_mock_peer_1a91952e8574ddc52442e40047dcc62a5d">invalidateTenant</reimplementedby>
+        <reimplementedby refid="class_mock_remote_cache_peer_1a6b34a12f77b00416ef8032c16ca297e9">invalidateTenant</reimplementedby>
+        <reimplementedby refid="class_mock_remote_peer2_1a69e2ab645ab200123bd0b2416eddfe43">invalidateTenant</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_grpc_remote_cache_peer_1aa79f057d54a1915cd782fdc9a3057af2">invalidateTenant</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="198" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_remote_cache_peer_1a354262a618b2c22f9ce5c152f08c7dd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::cache::IRemoteCachePeer::address</definition>
+        <argsstring>() const =0</argsstring>
+        <name>address</name>
+        <qualifiedname>themis::cache::IRemoteCachePeer::address</qualifiedname>
+        <reimplementedby refid="class_degradation_mock_peer_1aff37bcf98be5b84843baedee30e2a101">address</reimplementedby>
+        <reimplementedby refid="class_mock_remote_cache_peer_1a16cef2544f46792b763009d7a768eb59">address</reimplementedby>
+        <reimplementedby refid="class_mock_remote_peer2_1ae5a6556711ea1a879b46c8ce47c1f464">address</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_grpc_remote_cache_peer_1a1a235ef611264143de2881b81ff30e8c">address</reimplementedby>
+        <briefdescription>
+<para>Address. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="204" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_remote_cache_peer_1a2194e5b9e864bc661600031c6d8cbef1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cache::IRemoteCachePeer::isHealthy</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::cache::IRemoteCachePeer::isHealthy</qualifiedname>
+        <reimplementedby refid="class_degradation_mock_peer_1abf533e50519ae0a09d5e39a3a5c594ba">isHealthy</reimplementedby>
+        <reimplementedby refid="class_mock_remote_cache_peer_1a994815037f3d4e766cd6fe8c6e61e880">isHealthy</reimplementedby>
+        <reimplementedby refid="class_mock_remote_peer2_1a7cc02c554f213436a8389a029970d082">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_grpc_remote_cache_peer_1a69e6d04b43a513bab492e1409e2805ee">isHealthy</reimplementedby>
+        <briefdescription>
+<para>Is Healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="210" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>DegradationMockPeer</label>
+        <link refid="class_degradation_mock_peer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>MockRemoteCachePeer</label>
+        <link refid="class_mock_remote_cache_peer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>MockRemotePeer2</label>
+        <link refid="class_mock_remote_peer2"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::cache::GrpcRemoteCachePeer</label>
+        <link refid="classthemis_1_1cache_1_1_grpc_remote_cache_peer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cache::IRemoteCachePeer</label>
+        <link refid="classthemis_1_1cache_1_1_i_remote_cache_peer"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/cache/cache_replication_coordinator.h" line="183" column="1" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="183" bodyend="211"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1a354262a618b2c22f9ce5c152f08c7dd8" prot="public" virt="pure-virtual"><scope>themis::cache::IRemoteCachePeer</scope><name>address</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1af1d6df3103c57fcab0e74d3cdae9a1e6" prot="public" virt="pure-virtual"><scope>themis::cache::IRemoteCachePeer</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1a901da52e94352d0673c09c3a7ed27955" prot="public" virt="pure-virtual"><scope>themis::cache::IRemoteCachePeer</scope><name>invalidateTenant</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1a2194e5b9e864bc661600031c6d8cbef1" prot="public" virt="pure-virtual"><scope>themis::cache::IRemoteCachePeer</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1ac1cc66cde7d38641496ec2bb4dada445" prot="public" virt="virtual"><scope>themis::cache::IRemoteCachePeer</scope><name>~IRemoteCachePeer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

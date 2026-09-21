@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_proximity_call_expr" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ProximityCallExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_expression" prot="public" virt="non-virtual">themis::query::Expression</basecompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_proximity_call_expr_1aaf57567f53451bfed313ca8c0d48de13" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;Expression&gt; &gt; themis::query::ProximityCallExpr::arguments</definition>
+        <argsstring></argsstring>
+        <name>arguments</name>
+        <qualifiedname>themis::query::ProximityCallExpr::arguments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="272" column="17" bodyfile="include/query/aql_parser.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_proximity_call_expr_1a182da9649b70346050712551a4fb986b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ProximityCallExpr::ProximityCallExpr</definition>
+        <argsstring>(std::vector&lt; std::shared_ptr&lt; Expression &gt; &gt; args)</argsstring>
+        <name>ProximityCallExpr</name>
+        <qualifiedname>themis::query::ProximityCallExpr::ProximityCallExpr</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &gt;</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="273" column="5" bodyfile="include/query/aql_parser.h" bodystart="273" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_proximity_call_expr_1a6d0ba115b3776ce1fbd1ce7e096e2dea" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>ASTNodeType themis::query::ProximityCallExpr::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::query::ProximityCallExpr::getType</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1aca4fd2bf776bf08dc9b0462450184d89">getType</reimplements>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="274" column="17" bodyfile="include/query/aql_parser.h" bodystart="274" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_proximity_call_expr_1a2a498a792d34cdfa47129816a7cd6dae" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::ProximityCallExpr::toJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::ProximityCallExpr::toJSON</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1a50a0c87d39931ce188c1391b61794e20">toJSON</reimplements>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="275" column="20" bodyfile="include/query/aql_parser.h" bodystart="275" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="1">
+        <label>themis::query::ProximityCallExpr</label>
+        <link refid="structthemis_1_1query_1_1_proximity_call_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="1">
+        <label>themis::query::ProximityCallExpr</label>
+        <link refid="structthemis_1_1query_1_1_proximity_call_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="271" column="1" bodyfile="include/query/aql_parser.h" bodystart="271" bodyend="282"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_proximity_call_expr_1aaf57567f53451bfed313ca8c0d48de13" prot="public" virt="non-virtual"><scope>themis::query::ProximityCallExpr</scope><name>arguments</name></member>
+      <member refid="structthemis_1_1query_1_1_proximity_call_expr_1a6d0ba115b3776ce1fbd1ce7e096e2dea" prot="public" virt="virtual"><scope>themis::query::ProximityCallExpr</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_proximity_call_expr_1a182da9649b70346050712551a4fb986b" prot="public" virt="non-virtual"><scope>themis::query::ProximityCallExpr</scope><name>ProximityCallExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_proximity_call_expr_1a2a498a792d34cdfa47129816a7cd6dae" prot="public" virt="virtual"><scope>themis::query::ProximityCallExpr</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1ab3ecf845da63bc89b3c506c43c6afc78" prot="public" virt="virtual"><scope>themis::query::ProximityCallExpr</scope><name>~Expression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

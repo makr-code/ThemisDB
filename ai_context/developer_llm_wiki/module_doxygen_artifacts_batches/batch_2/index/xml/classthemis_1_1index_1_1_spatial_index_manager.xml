@@ -1,0 +1,1489 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_spatial_index_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::SpatialIndexManager</compoundname>
+    <includes refid="spatial__index_8h" local="no">spatial_index.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" prot="public">themis::index::SpatialIndexManager::Status</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics" prot="public">themis::index::SpatialIndexManager::Metrics</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats" prot="public">themis::index::SpatialIndexManager::IndexStats</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_sidecar_entry" prot="private">themis::index::SpatialIndexManager::SidecarEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_spatial_index_manager_1a09fb8bc0621fd647cd857b273e892b19" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::index::SpatialIndexManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::index::SpatialIndexManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="277" column="20" bodyfile="include/index/spatial_index.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_spatial_index_manager_1a41ed774700ea8966877288ab6b48b637" prot="private" static="no" mutable="no">
+        <type>geo::ISpatialComputeBackend *</type>
+        <definition>geo::ISpatialComputeBackend* themis::index::SpatialIndexManager::exact_backend_</definition>
+        <argsstring></argsstring>
+        <name>exact_backend_</name>
+        <qualifiedname>themis::index::SpatialIndexManager::exact_backend_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="278" column="33" bodyfile="include/index/spatial_index.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_spatial_index_manager_1a1c90a3e0851adddc4f03acfd4497239a" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::index::SpatialIndexManager::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::index::SpatialIndexManager::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="279" column="21" bodyfile="include/index/spatial_index.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_spatial_index_manager_1a5c1e71b39e9a0d0fdb8497afbaeb82e5" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, geo::GeoRTree &gt;</type>
+        <definition>std::unordered_map&lt;std::string, geo::GeoRTree&gt; themis::index::SpatialIndexManager::rtrees_</definition>
+        <argsstring></argsstring>
+        <name>rtrees_</name>
+        <qualifiedname>themis::index::SpatialIndexManager::rtrees_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="285" column="32" bodyfile="include/index/spatial_index.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_spatial_index_manager_1a82831c0a745c4c45563e5509a5f6d7ef" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, geo::MBR &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, geo::MBR&gt; &gt; themis::index::SpatialIndexManager::mbr_cache_</definition>
+        <argsstring></argsstring>
+        <name>mbr_cache_</name>
+        <qualifiedname>themis::index::SpatialIndexManager::mbr_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="289" column="2" bodyfile="include/index/spatial_index.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_spatial_index_manager_1a14959d23a9dbfa55c3b015cfe6416218" prot="private" static="no" mutable="yes">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::index::SpatialIndexManager::rtree_built_</definition>
+        <argsstring></argsstring>
+        <name>rtree_built_</name>
+        <qualifiedname>themis::index::SpatialIndexManager::rtree_built_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="291" column="32" bodyfile="include/index/spatial_index.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_spatial_index_manager_1a9e9b18af0d10ad405236ad5c08a91cf4" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::index::SpatialIndexManager::rtree_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rtree_mutex_</name>
+        <qualifiedname>themis::index::SpatialIndexManager::rtree_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="308" column="31" bodyfile="include/index/spatial_index.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a4ffbf32d770f5a7fc9eab542aa5c070e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::SpatialIndexManager::SpatialIndexManager</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>SpatialIndexManager</name>
+        <qualifiedname>themis::index::SpatialIndexManager::SpatialIndexManager</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="117" column="14" bodyfile="src/index/spatial_index.cpp" bodystart="247" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a1584864558718a00cda3b7f00b946709" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::SpatialIndexManager::~SpatialIndexManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SpatialIndexManager</name>
+        <qualifiedname>themis::index::SpatialIndexManager::~SpatialIndexManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="118" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a9ad445b4399caff5049bbfde62c9ec64" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::SpatialIndexManager::setExactBackend</definition>
+        <argsstring>(geo::ISpatialComputeBackend *backend)</argsstring>
+        <name>setExactBackend</name>
+        <qualifiedname>themis::index::SpatialIndexManager::setExactBackend</qualifiedname>
+        <param>
+          <type>geo::ISpatialComputeBackend *</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="121" column="10" bodyfile="include/index/spatial_index.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1adc6d13ef4ecc06e0ad027e9ed19b6776" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics" kindref="compound">Metrics</ref> &amp;</type>
+        <definition>const Metrics &amp; themis::index::SpatialIndexManager::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::index::SpatialIndexManager::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="124" column="19" bodyfile="include/index/spatial_index.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1aa38febae1a5a611436b4899cf910515b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_metrics" kindref="compound">Metrics</ref> &amp;</type>
+        <definition>Metrics &amp; themis::index::SpatialIndexManager::getMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::index::SpatialIndexManager::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="125" column="13" bodyfile="include/index/spatial_index.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a543d95b1824512572c53c103ec5678e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::SpatialIndexManager::resetMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>resetMetrics</name>
+        <qualifiedname>themis::index::SpatialIndexManager::resetMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="126" column="10" bodyfile="include/index/spatial_index.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1ae523163fd554119897d9b454f889b440" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SpatialIndexManager::Status themis::index::SpatialIndexManager::createSpatialIndex</definition>
+        <argsstring>(std::string_view table, std::string_view geometry_column=&quot;geometry&quot;, const RTreeConfig &amp;config={})</argsstring>
+        <name>createSpatialIndex</name>
+        <qualifiedname>themis::index::SpatialIndexManager::createSpatialIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>geometry_column</declname>
+          <defval>&quot;geometry&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_r_tree_config" kindref="compound">RTreeConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create spatial index for ANY table (relational, graph, vector, content, time-series). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Spatial Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">geometry_column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: geo::MBR(), table_str(), lock(), erase(), saveConfig(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="131" column="12" bodyfile="src/index/spatial_index.cpp" bodystart="458" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a2972ec8990280ebdb8aea32e91e43d11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SpatialIndexManager::Status themis::index::SpatialIndexManager::dropSpatialIndex</definition>
+        <argsstring>(std::string_view table)</argsstring>
+        <name>dropSpatialIndex</name>
+        <qualifiedname>themis::index::SpatialIndexManager::dropSpatialIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>Drop spatial index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Drop Spatial Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: del(), getConfigKey(), getSpatialKeyPrefix(), scanRange(), table_str(), lock(), erase(), <ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a1fd7fff5d014a00e940e8ab20323b5c4" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="138" column="12" bodyfile="src/index/spatial_index.cpp" bodystart="492" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a4dc251f895215fb470bcb697167ad403" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::SpatialIndexManager::hasSpatialIndex</definition>
+        <argsstring>(std::string_view table) const</argsstring>
+        <name>hasSpatialIndex</name>
+        <qualifiedname>themis::index::SpatialIndexManager::hasSpatialIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>Check if table has spatial index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="141" column="10" bodyfile="src/index/spatial_index.cpp" bodystart="517" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a9b25fdce0f3e345052eeb1427e5244c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats" kindref="compound">IndexStats</ref></type>
+        <definition>SpatialIndexManager::IndexStats themis::index::SpatialIndexManager::getStats</definition>
+        <argsstring>(std::string_view table) const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::index::SpatialIndexManager::getStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="150" column="16" bodyfile="src/index/spatial_index.cpp" bodystart="1647" bodyend="1677"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a01718324d1fd10369f52151606595018" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SpatialIndexManager::Status themis::index::SpatialIndexManager::bulkLoad</definition>
+        <argsstring>(std::string_view table, const std::vector&lt; std::pair&lt; std::string, geo::GeoSidecar &gt; &gt; &amp;entries)</argsstring>
+        <name>bulkLoad</name>
+        <qualifiedname>themis::index::SpatialIndexManager::bulkLoad</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, geo::GeoSidecar &gt; &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Bulk-load a collection of (primary_key, sidecar) pairs into the spatial index for a given table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses STR (Sort-Tile-Recursive) packing via GeoRTree::bulkLoad(), which is 3–5× faster than incremental insertion for read-heavy workloads. Replaces any previously cached in-memory R-tree for the table.</para>
+<para>Memory usage is reported as a structured log entry with field <computeroutput>geo_index_bytes_allocated</computeroutput> after the bulk load completes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table whose spatial index should be populated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of {primary_key, GeoSidecar} pairs to index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a1fd7fff5d014a00e940e8ab20323b5c4" kindref="member">Status::OK()</ref> on success or <ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a6ba580dd01cba154c3a2cecca703b3f7" kindref="member">Status::Error()</ref> if the table has no spatial index registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Table str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global R-tree protection) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rtree_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global R-tree protection) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rtree_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global R-tree protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rtree_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="170" column="12" bodyfile="src/index/spatial_index.cpp" bodystart="582" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1aed31858877abd3e59351b62911925cd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SpatialIndexManager::Status themis::index::SpatialIndexManager::insert</definition>
+        <argsstring>(std::string_view table, std::string_view primary_key, const geo::GeoSidecar &amp;sidecar)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::index::SpatialIndexManager::insert</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <param>
+          <type>const geo::GeoSidecar &amp;</type>
+          <declname>sidecar</declname>
+        </param>
+        <briefdescription>
+<para>Insert entity into spatial index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sidecar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getConfig(), <ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a6ba580dd01cba154c3a2cecca703b3f7" kindref="member">Status::Error()</ref>, std::string(), <ref refid="classthemis_1_1index_1_1_morton_encoder_1a7231bc68a244f05eda919e3f4436d472" kindref="member">MortonEncoder::encode2D()</ref>, makeSpatialKey(), get(), s(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="178" column="12" bodyfile="src/index/spatial_index.cpp" bodystart="698" bodyend="775"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a32f79082599ec97c512fcc308a170a36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SpatialIndexManager::Status themis::index::SpatialIndexManager::insertBatch</definition>
+        <argsstring>(RocksDBWrapper::WriteBatchWrapper &amp;batch, std::string_view table, std::string_view primary_key, const geo::GeoSidecar &amp;sidecar)</argsstring>
+        <name>insertBatch</name>
+        <qualifiedname>themis::index::SpatialIndexManager::insertBatch</qualifiedname>
+        <param>
+          <type>RocksDBWrapper::WriteBatchWrapper &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <param>
+          <type>const geo::GeoSidecar &amp;</type>
+          <declname>sidecar</declname>
+        </param>
+        <briefdescription>
+<para>Insert with WriteBatch (atomic). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert entity into spatial index using WriteBatch (atomic with entity write) This is used by GeoIndexHooks::onEntityPutAtomic for transactional updates</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sidecar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getConfig(), <ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a6ba580dd01cba154c3a2cecca703b3f7" kindref="member">Status::Error()</ref>, std::string(), <ref refid="classthemis_1_1index_1_1_morton_encoder_1a7231bc68a244f05eda919e3f4436d472" kindref="member">MortonEncoder::encode2D()</ref>, makeSpatialPerPKKey(), dump(), pk_bytes(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="186" column="12" bodyfile="src/index/spatial_index.cpp" bodystart="786" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a38d442f483acba29a12942d820af8537" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SpatialIndexManager::Status themis::index::SpatialIndexManager::removeBatch</definition>
+        <argsstring>(RocksDBWrapper::WriteBatchWrapper &amp;batch, std::string_view table, std::string_view primary_key, const geo::GeoSidecar &amp;sidecar)</argsstring>
+        <name>removeBatch</name>
+        <qualifiedname>themis::index::SpatialIndexManager::removeBatch</qualifiedname>
+        <param>
+          <type>RocksDBWrapper::WriteBatchWrapper &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <param>
+          <type>const geo::GeoSidecar &amp;</type>
+          <declname>sidecar</declname>
+        </param>
+        <briefdescription>
+<para>Remove entity from spatial index using WriteBatch (atomic). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove with WriteBatch (atomic).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sidecar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getConfig(), <ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a1fd7fff5d014a00e940e8ab20323b5c4" kindref="member">Status::OK()</ref>, <ref refid="classthemis_1_1index_1_1_morton_encoder_1a7231bc68a244f05eda919e3f4436d472" kindref="member">MortonEncoder::encode2D()</ref>, makeSpatialPerPKKey(), del(), makeSpatialKey(), get(), s(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="194" column="12" bodyfile="src/index/spatial_index.cpp" bodystart="855" bodyend="931"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1afb45df74dcedf9546233fffb1b72030e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SpatialIndexManager::Status themis::index::SpatialIndexManager::update</definition>
+        <argsstring>(std::string_view table, std::string_view primary_key, const geo::GeoSidecar &amp;old_sidecar, const geo::GeoSidecar &amp;new_sidecar)</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::index::SpatialIndexManager::update</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <param>
+          <type>const geo::GeoSidecar &amp;</type>
+          <declname>old_sidecar</declname>
+        </param>
+        <param>
+          <type>const geo::GeoSidecar &amp;</type>
+          <declname>new_sidecar</declname>
+        </param>
+        <briefdescription>
+<para>Update entity location. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_sidecar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_sidecar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1index_1_1_spatial_index_manager_1ae89c160bb265570bd3dc354e33afafed" kindref="member">remove()</ref>, <ref refid="classthemis_1_1index_1_1_spatial_index_manager_1aed31858877abd3e59351b62911925cd2" kindref="member">insert()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="202" column="12" bodyfile="src/index/spatial_index.cpp" bodystart="1029" bodyend="1044"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1ae89c160bb265570bd3dc354e33afafed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SpatialIndexManager::Status themis::index::SpatialIndexManager::remove</definition>
+        <argsstring>(std::string_view table, std::string_view primary_key, const geo::GeoSidecar &amp;sidecar)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::index::SpatialIndexManager::remove</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <param>
+          <type>const geo::GeoSidecar &amp;</type>
+          <declname>sidecar</declname>
+        </param>
+        <briefdescription>
+<para>Remove entity from spatial index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sidecar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getConfig(), <ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a1fd7fff5d014a00e940e8ab20323b5c4" kindref="member">Status::OK()</ref>, <ref refid="classthemis_1_1index_1_1_morton_encoder_1a7231bc68a244f05eda919e3f4436d472" kindref="member">MortonEncoder::encode2D()</ref>, makeSpatialKey(), get(), s(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="210" column="12" bodyfile="src/index/spatial_index.cpp" bodystart="942" bodyend="1017"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1aa756b338be2b8a2f0c5bd2d067f2ceb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_spatial_result" kindref="compound">SpatialResult</ref> &gt;</type>
+        <definition>std::vector&lt; SpatialResult &gt; themis::index::SpatialIndexManager::searchIntersects</definition>
+        <argsstring>(std::string_view table, const geo::MBR &amp;query_bbox) const</argsstring>
+        <name>searchIntersects</name>
+        <qualifiedname>themis::index::SpatialIndexManager::searchIntersects</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const geo::MBR &amp;</type>
+          <declname>query_bbox</declname>
+        </param>
+        <briefdescription>
+<para>Find all entities intersecting with query MBR. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Table str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global R-tree protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rtree_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Query geom. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Polygon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Query geom. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Polygon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="219" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="1067" bodyend="1281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a996f31d1bdb22fed578d37fa0d70f841" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_spatial_result" kindref="compound">SpatialResult</ref> &gt;</type>
+        <definition>std::vector&lt; SpatialResult &gt; themis::index::SpatialIndexManager::searchWithin</definition>
+        <argsstring>(std::string_view table, const geo::MBR &amp;query_bbox, double z_min=-DBL_MAX, double z_max=DBL_MAX) const</argsstring>
+        <name>searchWithin</name>
+        <qualifiedname>themis::index::SpatialIndexManager::searchWithin</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const geo::MBR &amp;</type>
+          <declname>query_bbox</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z_min</declname>
+          <defval>-DBL_MAX</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z_max</declname>
+          <defval>DBL_MAX</defval>
+        </param>
+        <briefdescription>
+<para>Find all entities within query MBR. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="225" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="1284" bodyend="1312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a73189858be20d6d4413c68edbcd222a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_spatial_result" kindref="compound">SpatialResult</ref> &gt;</type>
+        <definition>std::vector&lt; SpatialResult &gt; themis::index::SpatialIndexManager::searchContains</definition>
+        <argsstring>(std::string_view table, double x, double y, std::optional&lt; double &gt; z=std::nullopt) const</argsstring>
+        <name>searchContains</name>
+        <qualifiedname>themis::index::SpatialIndexManager::searchContains</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; double &gt;</type>
+          <declname>z</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Find all entities containing a point. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Table str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global R-tree protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rtree_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="233" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="1315" bodyend="1395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a744f2cb5f77d1aa62906922d2009a06a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_spatial_result" kindref="compound">SpatialResult</ref> &gt;</type>
+        <definition>std::vector&lt; SpatialResult &gt; themis::index::SpatialIndexManager::searchNearby</definition>
+        <argsstring>(std::string_view table, double x, double y, double max_distance_meters, std::optional&lt; double &gt; z=std::nullopt, size_t limit=100) const</argsstring>
+        <name>searchNearby</name>
+        <qualifiedname>themis::index::SpatialIndexManager::searchNearby</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>max_distance_meters</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; double &gt;</type>
+          <declname>z</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Find all entities within distance from point (2D Haversine or 3D Euclidean). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="241" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="1398" bodyend="1437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a3780e364a5967b61ccb3552524ced3d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_spatial_result" kindref="compound">SpatialResult</ref> &gt;</type>
+        <definition>std::vector&lt; SpatialResult &gt; themis::index::SpatialIndexManager::searchKNN</definition>
+        <argsstring>(std::string_view table, double x, double y, size_t k, std::optional&lt; double &gt; z=std::nullopt) const</argsstring>
+        <name>searchKNN</name>
+        <qualifiedname>themis::index::SpatialIndexManager::searchKNN</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; double &gt;</type>
+          <declname>z</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>K-Nearest Neighbors search (spatial only, no exact geometry check). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="251" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="1444" bodyend="1510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1ac6c3e18cb8520544ff979609e2d81f6d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_spatial_result" kindref="compound">SpatialResult</ref> &gt;</type>
+        <definition>std::vector&lt; SpatialResult &gt; themis::index::SpatialIndexManager::searchZRange</definition>
+        <argsstring>(std::string_view table, double z_min, double z_max) const</argsstring>
+        <name>searchZRange</name>
+        <qualifiedname>themis::index::SpatialIndexManager::searchZRange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z_max</declname>
+        </param>
+        <briefdescription>
+<para>Find entities within Z-range (elevation filtering). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Table str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="262" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="1514" bodyend="1574"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a64e8cf78850daefe716a4fead64cea0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_spatial_result" kindref="compound">SpatialResult</ref> &gt;</type>
+        <definition>std::vector&lt; SpatialResult &gt; themis::index::SpatialIndexManager::searchIntersectsWithZ</definition>
+        <argsstring>(std::string_view table, const geo::MBR &amp;query_bbox, double z_min, double z_max) const</argsstring>
+        <name>searchIntersectsWithZ</name>
+        <qualifiedname>themis::index::SpatialIndexManager::searchIntersectsWithZ</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const geo::MBR &amp;</type>
+          <declname>query_bbox</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z_max</declname>
+        </param>
+        <briefdescription>
+<para>Combine spatial + Z-range filter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="269" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="1586" bodyend="1644"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a8f506ede1b97f2d9a82dc1a67f975ffc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::SpatialIndexManager::ensureRTree</definition>
+        <argsstring>(std::string_view table) const</argsstring>
+        <name>ensureRTree</name>
+        <qualifiedname>themis::index::SpatialIndexManager::ensureRTree</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Table str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global R-tree protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rtree_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Slow path: acquire exclusive write lock and build. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rtree_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global R-tree protection) — Phase 3 A-5</para>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="312" column="10" bodyfile="src/index/spatial_index.cpp" bodystart="305" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a61361f0170729c4aad7eb65c342ed32d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::SpatialIndexManager::getSpatialKeyPrefix</definition>
+        <argsstring>(std::string_view table) const</argsstring>
+        <name>getSpatialKeyPrefix</name>
+        <qualifiedname>themis::index::SpatialIndexManager::getSpatialKeyPrefix</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="318" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="251" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a542c437059e7eb86e895c5194044c8ba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::SpatialIndexManager::getZRangeKeyPrefix</definition>
+        <argsstring>(std::string_view table) const</argsstring>
+        <name>getZRangeKeyPrefix</name>
+        <qualifiedname>themis::index::SpatialIndexManager::getZRangeKeyPrefix</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="319" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="255" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1abc92d82f31936df98aae974647c71cc9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::SpatialIndexManager::getConfigKey</definition>
+        <argsstring>(std::string_view table) const</argsstring>
+        <name>getConfigKey</name>
+        <qualifiedname>themis::index::SpatialIndexManager::getConfigKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="320" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="259" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a32f7e07adb332f2809c371d69e116e02" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::SpatialIndexManager::makeSpatialKey</definition>
+        <argsstring>(std::string_view table, uint64_t morton_code) const</argsstring>
+        <name>makeSpatialKey</name>
+        <qualifiedname>themis::index::SpatialIndexManager::makeSpatialKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>morton_code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="323" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="263" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a546528f722167dd13bf68cef0a16e831" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::SpatialIndexManager::makeZRangeKey</definition>
+        <argsstring>(std::string_view table, int z_bucket) const</argsstring>
+        <name>makeZRangeKey</name>
+        <qualifiedname>themis::index::SpatialIndexManager::makeZRangeKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>z_bucket</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="324" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="269" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a4a048d45119cbc3160c750bfd215f277" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::SpatialIndexManager::makeSpatialPerPKKey</definition>
+        <argsstring>(std::string_view table, uint64_t morton_code, std::string_view pk) const</argsstring>
+        <name>makeSpatialPerPKKey</name>
+        <qualifiedname>themis::index::SpatialIndexManager::makeSpatialPerPKKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>morton_code</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="328" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="278" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a60d777f45f07360f00cb612dad860616" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1index_1_1_r_tree_config" kindref="compound">RTreeConfig</ref> &gt;</type>
+        <definition>std::optional&lt; RTreeConfig &gt; themis::index::SpatialIndexManager::getConfig</definition>
+        <argsstring>(std::string_view table) const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::index::SpatialIndexManager::getConfig</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="335" column="19" bodyfile="src/index/spatial_index.cpp" bodystart="391" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a039030ac925dc6181d15bda5a439241a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SpatialIndexManager::Status themis::index::SpatialIndexManager::saveConfig</definition>
+        <argsstring>(std::string_view table, const RTreeConfig &amp;config)</argsstring>
+        <name>saveConfig</name>
+        <qualifiedname>themis::index::SpatialIndexManager::saveConfig</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_r_tree_config" kindref="compound">RTreeConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Save Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dump(), bytes(), begin(), end(), put(), getConfigKey(), <ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a1fd7fff5d014a00e940e8ab20323b5c4" kindref="member">Status::OK()</ref>, <ref refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_status_1a6ba580dd01cba154c3a2cecca703b3f7" kindref="member">Status::Error()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="336" column="12" bodyfile="src/index/spatial_index.cpp" bodystart="433" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1ac509f5931ee4864117dbbb1bc4519647" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::index::SpatialIndexManager::haversineDistance</definition>
+        <argsstring>(double lat1, double lon1, double lat2, double lon2) const</argsstring>
+        <name>haversineDistance</name>
+        <qualifiedname>themis::index::SpatialIndexManager::haversineDistance</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lat1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="339" column="12" bodyfile="src/index/spatial_index.cpp" bodystart="1047" bodyend="1049"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a306177e2006825e7184aed2a00a39997" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::index::SpatialIndexManager::euclidean3DDistance</definition>
+        <argsstring>(double x1, double y1, double z1, double x2, double y2, double z2) const</argsstring>
+        <name>euclidean3DDistance</name>
+        <qualifiedname>themis::index::SpatialIndexManager::euclidean3DDistance</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>x2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="342" column="12" bodyfile="src/index/spatial_index.cpp" bodystart="1052" bodyend="1059"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1acaca82bfb6e383cdda3838513943d840" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::index::SpatialIndexManager::getZBucket</definition>
+        <argsstring>(double z) const</argsstring>
+        <name>getZBucket</name>
+        <qualifiedname>themis::index::SpatialIndexManager::getZBucket</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="345" column="9" bodyfile="src/index/spatial_index.cpp" bodystart="1062" bodyend="1064"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1ab3642e229e6f0c1e67eb5d1294e461eb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; SidecarEntry &gt;</type>
+        <definition>std::vector&lt; SpatialIndexManager::SidecarEntry &gt; themis::index::SpatialIndexManager::parseSidecarList</definition>
+        <argsstring>(const std::string &amp;value) const</argsstring>
+        <name>parseSidecarList</name>
+        <qualifiedname>themis::index::SpatialIndexManager::parseSidecarList</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="352" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="522" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1a0987c621260c79dd0650f3952a9a6c9c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::SpatialIndexManager::serializeSidecarList</definition>
+        <argsstring>(const std::vector&lt; SidecarEntry &gt; &amp;entries) const</argsstring>
+        <name>serializeSidecarList</name>
+        <qualifiedname>themis::index::SpatialIndexManager::serializeSidecarList</qualifiedname>
+        <param>
+          <type>const std::vector&lt; SidecarEntry &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="353" column="17" bodyfile="src/index/spatial_index.cpp" bodystart="555" bodyend="579"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_spatial_index_manager_1afa101f105fbc0cef5faeb24e2921d748" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>geo::GeometryInfo</type>
+        <definition>geo::GeometryInfo themis::index::SpatialIndexManager::mbrToGeometryInfo</definition>
+        <argsstring>(const geo::MBR &amp;mbr)</argsstring>
+        <name>mbrToGeometryInfo</name>
+        <qualifiedname>themis::index::SpatialIndexManager::mbrToGeometryInfo</qualifiedname>
+        <param>
+          <type>const geo::MBR &amp;</type>
+          <declname>mbr</declname>
+        </param>
+        <briefdescription>
+<para>── R-tree helpers ──────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mbr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: g(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="315" column="30" bodyfile="src/index/spatial_index.cpp" bodystart="295" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Spatial Index Manager (table-agnostic, works for all 5 models). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/spatial_index.h" line="83" column="1" bodyfile="include/index/spatial_index.h" bodystart="83" bodyend="354"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a01718324d1fd10369f52151606595018" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>bulkLoad</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1ae523163fd554119897d9b454f889b440" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>createSpatialIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a09fb8bc0621fd647cd857b273e892b19" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a2972ec8990280ebdb8aea32e91e43d11" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>dropSpatialIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a8f506ede1b97f2d9a82dc1a67f975ffc" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>ensureRTree</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a306177e2006825e7184aed2a00a39997" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>euclidean3DDistance</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a41ed774700ea8966877288ab6b48b637" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>exact_backend_</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a60d777f45f07360f00cb612dad860616" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1abc92d82f31936df98aae974647c71cc9" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>getConfigKey</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1adc6d13ef4ecc06e0ad027e9ed19b6776" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1aa38febae1a5a611436b4899cf910515b" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a61361f0170729c4aad7eb65c342ed32d" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>getSpatialKeyPrefix</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a9b25fdce0f3e345052eeb1427e5244c1" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1acaca82bfb6e383cdda3838513943d840" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>getZBucket</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a542c437059e7eb86e895c5194044c8ba" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>getZRangeKeyPrefix</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a4dc251f895215fb470bcb697167ad403" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>hasSpatialIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1ac509f5931ee4864117dbbb1bc4519647" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>haversineDistance</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1aed31858877abd3e59351b62911925cd2" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>insert</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a32f79082599ec97c512fcc308a170a36" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>insertBatch</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a32f7e07adb332f2809c371d69e116e02" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>makeSpatialKey</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a4a048d45119cbc3160c750bfd215f277" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>makeSpatialPerPKKey</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a546528f722167dd13bf68cef0a16e831" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>makeZRangeKey</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a82831c0a745c4c45563e5509a5f6d7ef" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>mbr_cache_</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1afa101f105fbc0cef5faeb24e2921d748" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>mbrToGeometryInfo</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a1c90a3e0851adddc4f03acfd4497239a" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1ab3642e229e6f0c1e67eb5d1294e461eb" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>parseSidecarList</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1ae89c160bb265570bd3dc354e33afafed" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>remove</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a38d442f483acba29a12942d820af8537" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>removeBatch</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a543d95b1824512572c53c103ec5678e7" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>resetMetrics</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a14959d23a9dbfa55c3b015cfe6416218" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>rtree_built_</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a9e9b18af0d10ad405236ad5c08a91cf4" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>rtree_mutex_</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a5c1e71b39e9a0d0fdb8497afbaeb82e5" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>rtrees_</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a039030ac925dc6181d15bda5a439241a" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>saveConfig</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a73189858be20d6d4413c68edbcd222a5" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>searchContains</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1aa756b338be2b8a2f0c5bd2d067f2ceb7" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>searchIntersects</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a64e8cf78850daefe716a4fead64cea0b" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>searchIntersectsWithZ</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a3780e364a5967b61ccb3552524ced3d4" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>searchKNN</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a744f2cb5f77d1aa62906922d2009a06a" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>searchNearby</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a996f31d1bdb22fed578d37fa0d70f841" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>searchWithin</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1ac6c3e18cb8520544ff979609e2d81f6d" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>searchZRange</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a0987c621260c79dd0650f3952a9a6c9c" prot="private" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>serializeSidecarList</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a9ad445b4399caff5049bbfde62c9ec64" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>setExactBackend</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a4ffbf32d770f5a7fc9eab542aa5c070e" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>SpatialIndexManager</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1afb45df74dcedf9546233fffb1b72030e" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>update</name></member>
+      <member refid="classthemis_1_1index_1_1_spatial_index_manager_1a1584864558718a00cda3b7f00b946709" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager</scope><name>~SpatialIndexManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

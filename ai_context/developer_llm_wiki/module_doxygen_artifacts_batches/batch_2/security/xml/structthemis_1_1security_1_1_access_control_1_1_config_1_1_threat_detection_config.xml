@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessControl::Config::ThreatDetectionConfig</compoundname>
+    <includes refid="access__control_8h" local="no">access_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config_1a242b07a58cf0d8dd69079ac1a53526be" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::ThreatDetectionConfig::enable_anomaly_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_anomaly_detection</name>
+        <qualifiedname>themis::security::AccessControl::Config::ThreatDetectionConfig::enable_anomaly_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="89" column="18" bodyfile="include/security/access_control.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config_1ad360c27a028453a15ac69d6c8df25523" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::ThreatDetectionConfig::enable_sql_injection_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_sql_injection_detection</name>
+        <qualifiedname>themis::security::AccessControl::Config::ThreatDetectionConfig::enable_sql_injection_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="90" column="18" bodyfile="include/security/access_control.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config_1a78c4fa9ce52d9477d795c9be647a61ad" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::ThreatDetectionConfig::enable_suspicious_query_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_suspicious_query_detection</name>
+        <qualifiedname>themis::security::AccessControl::Config::ThreatDetectionConfig::enable_suspicious_query_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="91" column="18" bodyfile="include/security/access_control.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config_1a4bb78374fe8e515a3b8ce86c54d9769e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::security::AccessControl::Config::ThreatDetectionConfig::anomaly_threshold</definition>
+        <argsstring></argsstring>
+        <name>anomaly_threshold</name>
+        <qualifiedname>themis::security::AccessControl::Config::ThreatDetectionConfig::anomaly_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="92" column="20" bodyfile="include/security/access_control.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control.h" line="88" column="9" bodyfile="include/security/access_control.h" bodystart="88" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config_1a4bb78374fe8e515a3b8ce86c54d9769e" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::ThreatDetectionConfig</scope><name>anomaly_threshold</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config_1a242b07a58cf0d8dd69079ac1a53526be" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::ThreatDetectionConfig</scope><name>enable_anomaly_detection</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config_1ad360c27a028453a15ac69d6c8df25523" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::ThreatDetectionConfig</scope><name>enable_sql_injection_detection</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config_1a78c4fa9ce52d9477d795c9be647a61ad" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::ThreatDetectionConfig</scope><name>enable_suspicious_query_detection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

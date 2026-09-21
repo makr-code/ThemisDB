@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C01_TransientErrorClassification)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>ING3C-01: Transient errors are correctly classified </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1a539848fd93dcc56a50589c99dd80c273" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C02_PermanentErrorClassification)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>ING3C-02: Permanent errors are correctly classified </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1a6f99a63884b127547d89caa7e10af885" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C03_ResourceExhaustionClassification)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>ING3C-03: Resource exhaustion errors are correctly classified </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1a989656f4976416845748e77bbeb5e4fa" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C04_BackpressureErrorClassification)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>ING3C-04: Backpressure errors are correctly classified </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1a3e3aeda9d6cda7dc5418e16ef59294b1" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C05_ErrorContextBasicSerialization)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>ING3C-05: <ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref> basic serialization to JSON </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1ace8f40f02ed41d078d3251ead899e472" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C06_ErrorContextNestedErrors)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>ING3C-06: <ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref> with nested errors </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1a2c82f60ffb8e512cb3283d752bc5c606" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C07_ErrorMessageLookup)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>ING3C-07: Error message lookup for all error codes </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1a260d94157df0f8fad1578f6726a474d4" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C08_ErrorClassificationConsistency)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>ING3C-08: Error classification consistency </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1a7dd4f746f6101e2bd95b2103dda20d98" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C09_FailClosedPolicy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>ING3C-09: Fail-closed escape valve policy </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1ad0b3beffb389e08e689db2194a058a25" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C10_FailOpenPolicy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>ING3C-10: Fail-open escape valve policy </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1abc548ac1b70e32611e4f0c286cb8da1b" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C11_DeferPolicy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>ING3C-11: Defer escape valve policy </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1a2ec13dfce68e0f36444bd3d06c72a435" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C12_FailSafeContractSpecification)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>ING3C-12: Fail-safe contract specification </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1af224cf93034e0f666936d8ce3d831ed3" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C13_DiagnosticEmitterListeners)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>ING3C-13: Diagnostic emitter listener registration and invocation </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1ac41380fd3aa955bba3ca39ce51d5f637" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C14_IncidentCategorization)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>ING3C-14: Diagnostic incident categorization from errors </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1ae5b739522affa0b848b566293268596a" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C15_IncidentTracking)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>ING3C-15: Diagnostic incident tracking and counters </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1ingestion_1a39f8117374db99856187b0e386a27cf7" kindref="member">themis::ingestion::TEST</ref>  (ErrorContractPhase3, ING3C16_IncidentSerialization)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>ING3C-16: Diagnostic incident JSON serialization</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

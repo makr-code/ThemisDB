@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_model_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ModelGuard</compoundname>
+    <includes refid="model__guard_8h" local="no">model_guard.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename ModelT</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_model_guard_1a6efaa180b8d6cf3041244f41b12a1219" prot="private" static="no" mutable="no">
+        <type>ILLMPlugin *</type>
+        <definition>ILLMPlugin* themis::llm::ModelGuard&lt; ModelT &gt;::plugin_</definition>
+        <argsstring></argsstring>
+        <name>plugin_</name>
+        <qualifiedname>themis::llm::ModelGuard::plugin_</qualifiedname>
+        <briefdescription>
+<para>Plugin instance (not owned). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="180" column="16" bodyfile="include/llm/model_guard.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_model_guard_1ae6d4248782fcc195aa8c7468f98ddedf" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelGuard&lt; ModelT &gt;::model_id_</definition>
+        <argsstring></argsstring>
+        <name>model_id_</name>
+        <qualifiedname>themis::llm::ModelGuard::model_id_</qualifiedname>
+        <briefdescription>
+<para>Model identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="181" column="17" bodyfile="include/llm/model_guard.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_model_guard_1aa0ab7e97a23f89371aa40812bbbd2ecc" prot="private" static="no" mutable="no">
+        <type>ModelT *</type>
+        <definition>ModelT* themis::llm::ModelGuard&lt; ModelT &gt;::model_</definition>
+        <argsstring></argsstring>
+        <name>model_</name>
+        <qualifiedname>themis::llm::ModelGuard::model_</qualifiedname>
+        <briefdescription>
+<para>Pointer to loaded model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="182" column="12" bodyfile="include/llm/model_guard.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1a38add4ee5346b4a97ed880efbe253fac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ModelGuard&lt; ModelT &gt;::ModelGuard</definition>
+        <argsstring>(ILLMPlugin *plugin, const std::string &amp;model_id)</argsstring>
+        <name>ModelGuard</name>
+        <qualifiedname>themis::llm::ModelGuard::ModelGuard</qualifiedname>
+        <param>
+          <type>ILLMPlugin *</type>
+          <declname>plugin</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="29" column="5" bodyfile="include/llm/model_guard.h" bodystart="29" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1ad673f28f1d213500bac48c7c95d9fd07" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ModelGuard&lt; ModelT &gt;::~ModelGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ModelGuard</name>
+        <qualifiedname>themis::llm::ModelGuard::~ModelGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="69" column="5" bodyfile="include/llm/model_guard.h" bodystart="69" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1ada9ee3dd8abe26968f38081c1c399d67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ModelGuard&lt; ModelT &gt;::ModelGuard</definition>
+        <argsstring>(const ModelGuard &amp;)=delete</argsstring>
+        <name>ModelGuard</name>
+        <qualifiedname>themis::llm::ModelGuard::ModelGuard</qualifiedname>
+        <param>
+          <type>const ModelGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1a14ef7bf841216113bdc48c3a101615e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_model_guard_1a38add4ee5346b4a97ed880efbe253fac" kindref="member">ModelGuard</ref> &amp;</type>
+        <definition>ModelGuard &amp; themis::llm::ModelGuard&lt; ModelT &gt;::operator=</definition>
+        <argsstring>(const ModelGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ModelGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_model_guard_1a38add4ee5346b4a97ed880efbe253fac" kindref="member">ModelGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="83" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1ae3423eacebe391238c11027cb1f257ab" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ModelGuard&lt; ModelT &gt;::ModelGuard</definition>
+        <argsstring>(ModelGuard &amp;&amp;other) noexcept</argsstring>
+        <name>ModelGuard</name>
+        <qualifiedname>themis::llm::ModelGuard::ModelGuard</qualifiedname>
+        <param>
+          <type>ModelGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="86" column="5" bodyfile="include/llm/model_guard.h" bodystart="86" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1add0f0d485b3dc82b622d66bd4bdd4da5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_model_guard_1a38add4ee5346b4a97ed880efbe253fac" kindref="member">ModelGuard</ref> &amp;</type>
+        <definition>ModelGuard &amp; themis::llm::ModelGuard&lt; ModelT &gt;::operator=</definition>
+        <argsstring>(ModelGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ModelGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_model_guard_1a38add4ee5346b4a97ed880efbe253fac" kindref="member">ModelGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="93" column="16" bodyfile="include/llm/model_guard.h" bodystart="93" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1ae6f6c3497a3c5203ba8523ae88112f78" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ModelT &amp;</type>
+        <definition>ModelT &amp; themis::llm::ModelGuard&lt; ModelT &gt;::Get</definition>
+        <argsstring>()</argsstring>
+        <name>Get</name>
+        <qualifiedname>themis::llm::ModelGuard::Get</qualifiedname>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements Get without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="120" column="12" bodyfile="include/llm/model_guard.h" bodystart="120" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1ab111bbc5280c48a5e73c03fa00aab05a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const ModelT &amp;</type>
+        <definition>const ModelT &amp; themis::llm::ModelGuard&lt; ModelT &gt;::Get</definition>
+        <argsstring>() const</argsstring>
+        <name>Get</name>
+        <qualifiedname>themis::llm::ModelGuard::Get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="127" column="18" bodyfile="include/llm/model_guard.h" bodystart="127" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1a3491bec85069cc4b112af0d558278c87" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>ModelT *</type>
+        <definition>ModelT * themis::llm::ModelGuard&lt; ModelT &gt;::GetPtr</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>GetPtr</name>
+        <qualifiedname>themis::llm::ModelGuard::GetPtr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="134" column="12" bodyfile="include/llm/model_guard.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1a576e037be2dae5b3b6b2e613316ee480" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const ModelT *</type>
+        <definition>const ModelT * themis::llm::ModelGuard&lt; ModelT &gt;::GetPtr</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>GetPtr</name>
+        <qualifiedname>themis::llm::ModelGuard::GetPtr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="135" column="18" bodyfile="include/llm/model_guard.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1a47bcf1d5ad011d7193e0b4f813a410b4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelGuard&lt; ModelT &gt;::IsValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>IsValid</name>
+        <qualifiedname>themis::llm::ModelGuard::IsValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="137" column="10" bodyfile="include/llm/model_guard.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1a79f2a14e5dd8fd8b7e17d11fd9a40964" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::ModelGuard&lt; ModelT &gt;::GetModelId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>GetModelId</name>
+        <qualifiedname>themis::llm::ModelGuard::GetModelId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="139" column="23" bodyfile="include/llm/model_guard.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1a332d63ea85c2c198bb79c24a841e4827" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>ModelT *</type>
+        <definition>ModelT * themis::llm::ModelGuard&lt; ModelT &gt;::Release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>Release</name>
+        <qualifiedname>themis::llm::ModelGuard::Release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="141" column="12" bodyfile="include/llm/model_guard.h" bodystart="141" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1a2f8c6fd279e99d87fad2bfd2dce6f810" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ModelT *</type>
+        <definition>ModelT * themis::llm::ModelGuard&lt; ModelT &gt;::LoadModelInternal</definition>
+        <argsstring>()</argsstring>
+        <name>LoadModelInternal</name>
+        <qualifiedname>themis::llm::ModelGuard::LoadModelInternal</qualifiedname>
+        <briefdescription>
+<para>Load Model Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements LoadModelInternal without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="153" column="12" bodyfile="include/llm/model_guard.h" bodystart="153" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1a38819427140f357894d7aff25335a3f0" prot="private" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelGuard&lt; ModelT &gt;::ValidateModel</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ValidateModel</name>
+        <qualifiedname>themis::llm::ModelGuard::ValidateModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="159" column="10" bodyfile="include/llm/model_guard.h" bodystart="159" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_guard_1a68e942d5198a05bc7465e78b2f62386e" prot="private" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ModelGuard&lt; ModelT &gt;::CleanupModelInternal</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>CleanupModelInternal</name>
+        <qualifiedname>themis::llm::ModelGuard::CleanupModelInternal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_guard.h" line="168" column="10" bodyfile="include/llm/model_guard.h" bodystart="168" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_guard.h" line="27" column="1" bodyfile="include/llm/model_guard.h" bodystart="27" bodyend="183"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1a68e942d5198a05bc7465e78b2f62386e" prot="private" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>CleanupModelInternal</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1ae6f6c3497a3c5203ba8523ae88112f78" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>Get</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1ab111bbc5280c48a5e73c03fa00aab05a" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>Get</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1a79f2a14e5dd8fd8b7e17d11fd9a40964" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>GetModelId</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1a3491bec85069cc4b112af0d558278c87" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>GetPtr</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1a576e037be2dae5b3b6b2e613316ee480" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>GetPtr</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1a47bcf1d5ad011d7193e0b4f813a410b4" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>IsValid</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1a2f8c6fd279e99d87fad2bfd2dce6f810" prot="private" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>LoadModelInternal</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1aa0ab7e97a23f89371aa40812bbbd2ecc" prot="private" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>model_</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1ae6d4248782fcc195aa8c7468f98ddedf" prot="private" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>model_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1a38add4ee5346b4a97ed880efbe253fac" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>ModelGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1ada9ee3dd8abe26968f38081c1c399d67" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>ModelGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1ae3423eacebe391238c11027cb1f257ab" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>ModelGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1a14ef7bf841216113bdc48c3a101615e5" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1add0f0d485b3dc82b622d66bd4bdd4da5" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1a6efaa180b8d6cf3041244f41b12a1219" prot="private" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>plugin_</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1a332d63ea85c2c198bb79c24a841e4827" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>Release</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1a38819427140f357894d7aff25335a3f0" prot="private" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>ValidateModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_guard_1ad673f28f1d213500bac48c7c95d9fd07" prot="public" virt="non-virtual"><scope>themis::llm::ModelGuard</scope><name>~ModelGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

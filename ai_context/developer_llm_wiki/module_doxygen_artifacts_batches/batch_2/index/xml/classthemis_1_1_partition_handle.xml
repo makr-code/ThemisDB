@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_partition_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::PartitionHandle</compoundname>
+    <includes refid="partition__manager_8h" local="no">partition_manager.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1_partition_handle_1ab22950639e08c9d5eea03ca6df3ce973" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class PartitionManager</definition>
+        <argsstring></argsstring>
+        <name>PartitionManager</name>
+        <qualifiedname>themis::PartitionHandle::PartitionManager</qualifiedname>
+        <param>
+          <type>PartitionManager</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/partition_manager.h" line="56" column="18" bodyfile="include/index/partition_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_partition_handle_1a6a67773c75ba05d9a9f25ad1d4429390" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::PartitionHandle::partition_id_</definition>
+        <argsstring></argsstring>
+        <name>partition_id_</name>
+        <qualifiedname>themis::PartitionHandle::partition_id_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/partition_manager.h" line="58" column="14" bodyfile="include/index/partition_manager.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_partition_handle_1ab40f1e82850c95679d4e0ee9ddf2b4cb" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::PartitionHandle::epoch_</definition>
+        <argsstring></argsstring>
+        <name>epoch_</name>
+        <qualifiedname>themis::PartitionHandle::epoch_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/partition_manager.h" line="59" column="14" bodyfile="include/index/partition_manager.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_partition_handle_1a6e2719938a1e59ec2ce2a29c71f749d1" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_partition_handle_1ab22950639e08c9d5eea03ca6df3ce973" kindref="member">PartitionManager</ref> *</type>
+        <definition>PartitionManager* themis::PartitionHandle::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::PartitionHandle::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/partition_manager.h" line="60" column="22" bodyfile="include/index/partition_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_partition_handle_1a4c3358992e90cf1854d70becd9f14a43" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PartitionHandle::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::PartitionHandle::isValid</qualifiedname>
+        <briefdescription>
+<para>Check if this handle is still valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if partition still exists and hasn&apos;t been rebuilt </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/partition_manager.h" line="41" column="10" bodyfile="src/index/partition_manager.cpp" bodystart="32" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_partition_handle_1a8bd6f48711f36e4151f54d08e25f50f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::PartitionHandle::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::PartitionHandle::id</qualifiedname>
+        <briefdescription>
+<para>Get the partition ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Partition identifier </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/partition_manager.h" line="47" column="14" bodyfile="include/index/partition_manager.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_partition_handle_1a18e9659de4da9798fac6c6445585f975" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::PartitionHandle::epoch</definition>
+        <argsstring>() const</argsstring>
+        <name>epoch</name>
+        <qualifiedname>themis::PartitionHandle::epoch</qualifiedname>
+        <briefdescription>
+<para>Get the epoch when this handle was created. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Epoch value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/partition_manager.h" line="53" column="14" bodyfile="include/index/partition_manager.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_partition_handle_1ad256c24f922d999002ea14a9b8fc8c35" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::PartitionHandle::PartitionHandle</definition>
+        <argsstring>(uint32_t id, uint64_t epoch, PartitionManager *mgr)</argsstring>
+        <name>PartitionHandle</name>
+        <qualifiedname>themis::PartitionHandle::PartitionHandle</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_partition_handle_1ab22950639e08c9d5eea03ca6df3ce973" kindref="member">PartitionManager</ref> *</type>
+          <declname>mgr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/partition_manager.h" line="62" column="5" bodyfile="include/index/partition_manager.h" bodystart="62" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Handle for safe partition access with lifetime tracking. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides stable access to partition data even after structural modifications. Uses epoch counters to detect invalidation.</para>
+<para><simplesect kind="note"><para>Gap A-2-01: Handle-based validity tracking for iterator safety </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/index/partition_manager.h" line="35" column="1" bodyfile="include/index/partition_manager.h" bodystart="35" bodyend="64"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_partition_handle_1a18e9659de4da9798fac6c6445585f975" prot="public" virt="non-virtual"><scope>themis::PartitionHandle</scope><name>epoch</name></member>
+      <member refid="classthemis_1_1_partition_handle_1ab40f1e82850c95679d4e0ee9ddf2b4cb" prot="private" virt="non-virtual"><scope>themis::PartitionHandle</scope><name>epoch_</name></member>
+      <member refid="classthemis_1_1_partition_handle_1a8bd6f48711f36e4151f54d08e25f50f2" prot="public" virt="non-virtual"><scope>themis::PartitionHandle</scope><name>id</name></member>
+      <member refid="classthemis_1_1_partition_handle_1a4c3358992e90cf1854d70becd9f14a43" prot="public" virt="non-virtual"><scope>themis::PartitionHandle</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1_partition_handle_1a6e2719938a1e59ec2ce2a29c71f749d1" prot="private" virt="non-virtual"><scope>themis::PartitionHandle</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1_partition_handle_1a6a67773c75ba05d9a9f25ad1d4429390" prot="private" virt="non-virtual"><scope>themis::PartitionHandle</scope><name>partition_id_</name></member>
+      <member refid="classthemis_1_1_partition_handle_1ad256c24f922d999002ea14a9b8fc8c35" prot="private" virt="non-virtual"><scope>themis::PartitionHandle</scope><name>PartitionHandle</name></member>
+      <member refid="classthemis_1_1_partition_handle_1ab22950639e08c9d5eea03ca6df3ce973" prot="private" virt="non-virtual"><scope>themis::PartitionHandle</scope><name>PartitionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

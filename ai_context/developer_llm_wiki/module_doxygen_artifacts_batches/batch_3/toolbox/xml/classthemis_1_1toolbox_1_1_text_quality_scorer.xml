@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1toolbox_1_1_text_quality_scorer" kind="class" language="C++" prot="public">
+    <compoundname>themis::toolbox::TextQualityScorer</compoundname>
+    <includes refid="text__quality__scorer_8h" local="no">text_quality_scorer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_quality_scorer_1a45483edb6c24d428531799f410ad2777" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::TextQualityScorer::TextQualityScorer</definition>
+        <argsstring>()=default</argsstring>
+        <name>TextQualityScorer</name>
+        <qualifiedname>themis::toolbox::TextQualityScorer::TextQualityScorer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_quality_scorer.h" line="70" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_quality_scorer_1a58c8133d13438b98d99f6972e20c8bfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::TextQualityScorer::~TextQualityScorer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TextQualityScorer</name>
+        <qualifiedname>themis::toolbox::TextQualityScorer::~TextQualityScorer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_quality_scorer.h" line="71" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_quality_scorer_1af8a6ea484b2264835e8790cb75d4030a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::TextQualityScorer::TextQualityScorer</definition>
+        <argsstring>(const TextQualityScorer &amp;)=default</argsstring>
+        <name>TextQualityScorer</name>
+        <qualifiedname>themis::toolbox::TextQualityScorer::TextQualityScorer</qualifiedname>
+        <param>
+          <type>const TextQualityScorer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_quality_scorer.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_quality_scorer_1a628728dc487c39f0e12740acbb6a6e4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1a45483edb6c24d428531799f410ad2777" kindref="member">TextQualityScorer</ref> &amp;</type>
+        <definition>TextQualityScorer &amp; themis::toolbox::TextQualityScorer::operator=</definition>
+        <argsstring>(const TextQualityScorer &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::TextQualityScorer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1a45483edb6c24d428531799f410ad2777" kindref="member">TextQualityScorer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_quality_scorer.h" line="74" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_quality_scorer_1ace03734554f3ebed2f1e881ac427a532" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1toolbox_1_1_text_quality_score" kindref="compound">TextQualityScore</ref></type>
+        <definition>TextQualityScore themis::toolbox::TextQualityScorer::score</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::toolbox::TextQualityScorer::score</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Compute a quality score for <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <computeroutput><ref refid="structthemis_1_1toolbox_1_1_text_quality_score" kindref="compound">TextQualityScore</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_quality_scorer.h" line="82" column="22" bodyfile="src/toolbox/text_quality_scorer.cpp" bodystart="68" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight text quality scorer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Computes <computeroutput><ref refid="structthemis_1_1toolbox_1_1_text_quality_score" kindref="compound">TextQualityScore</ref></computeroutput> fields in a single linear pass over the input:<orderedlist>
+<listitem><para>Count bytes and whitespace-separated tokens.</para>
+</listitem><listitem><para>Detect language via <computeroutput><ref refid="classthemis_1_1toolbox_1_1_default_language_detector" kindref="compound">DefaultLanguageDetector</ref></computeroutput>.</para>
+</listitem><listitem><para>Evaluate boilerplate heuristics.</para>
+</listitem></orderedlist>
+</para>
+<para>Uses <computeroutput>utils::Normalizer</computeroutput> internally to fold umlauts before tokenisation so that German texts are handled correctly.</para>
+<para>Thread-safety: stateless; instances may be shared across threads. </para>
+    </detaileddescription>
+    <location file="include/toolbox/text_quality_scorer.h" line="68" column="1" bodyfile="include/toolbox/text_quality_scorer.h" bodystart="68" bodyend="83"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1a628728dc487c39f0e12740acbb6a6e4f" prot="public" virt="non-virtual"><scope>themis::toolbox::TextQualityScorer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1ace03734554f3ebed2f1e881ac427a532" prot="public" virt="non-virtual"><scope>themis::toolbox::TextQualityScorer</scope><name>score</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1a45483edb6c24d428531799f410ad2777" prot="public" virt="non-virtual"><scope>themis::toolbox::TextQualityScorer</scope><name>TextQualityScorer</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1af8a6ea484b2264835e8790cb75d4030a" prot="public" virt="non-virtual"><scope>themis::toolbox::TextQualityScorer</scope><name>TextQualityScorer</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1a58c8133d13438b98d99f6972e20c8bfc" prot="public" virt="non-virtual"><scope>themis::toolbox::TextQualityScorer</scope><name>~TextQualityScorer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

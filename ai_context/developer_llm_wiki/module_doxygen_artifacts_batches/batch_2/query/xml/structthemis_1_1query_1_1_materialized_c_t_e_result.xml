@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_materialized_c_t_e_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MaterializedCTEResult</compoundname>
+    <includes refid="materialized__cte_8h" local="no">materialized_cte.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_c_t_e_result_1a63e085b3f2ad30570e3c86ef8d33ff1c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_materialized_c_t_e_row" kindref="compound">MaterializedCTERow</ref> &gt;</type>
+        <definition>std::vector&lt;MaterializedCTERow&gt; themis::query::MaterializedCTEResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::query::MaterializedCTEResult::rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="107" column="23" bodyfile="include/query/materialized_cte.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_c_t_e_result_1aaf01f941f4d651c194c810f4dcebbdef" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::MaterializedCTEResult::total_rows</definition>
+        <argsstring></argsstring>
+        <name>total_rows</name>
+        <qualifiedname>themis::query::MaterializedCTEResult::total_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="108" column="43" bodyfile="include/query/materialized_cte.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_c_t_e_result_1a0cdaad9293e165165a7a98e683ec8c56" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::MaterializedCTEResult::is_stale</definition>
+        <argsstring></argsstring>
+        <name>is_stale</name>
+        <qualifiedname>themis::query::MaterializedCTEResult::is_stale</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="109" column="43" bodyfile="include/query/materialized_cte.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_c_t_e_result_1ac261de92d086069cfb972834f9631ea0" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::query::MaterializedCTEResult::last_update</definition>
+        <argsstring></argsstring>
+        <name>last_update</name>
+        <qualifiedname>themis::query::MaterializedCTEResult::last_update</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="110" column="43" bodyfile="include/query/materialized_cte.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/materialized_cte.h" line="106" column="1" bodyfile="include/query/materialized_cte.h" bodystart="106" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_materialized_c_t_e_result_1a0cdaad9293e165165a7a98e683ec8c56" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEResult</scope><name>is_stale</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_c_t_e_result_1ac261de92d086069cfb972834f9631ea0" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEResult</scope><name>last_update</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_c_t_e_result_1a63e085b3f2ad30570e3c86ef8d33ff1c" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEResult</scope><name>rows</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_c_t_e_result_1aaf01f941f4d651c194c810f4dcebbdef" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTEResult</scope><name>total_rows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

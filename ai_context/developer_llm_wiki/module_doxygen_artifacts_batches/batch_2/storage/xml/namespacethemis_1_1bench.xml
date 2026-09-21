@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench" kind="namespace" language="C++">
+    <compoundname>themis::bench</compoundname>
+    <innernamespace refid="namespacethemis_1_1bench_1_1sgrg">themis::bench::sgrg</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1st__dg">themis::bench::st_dg</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1a871893e77d37004fac61ee070363232e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <qualifiedname>themis::bench::kCanonicalRngSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_ssm_phase0_baseline.cpp" line="19" column="24" bodyfile="benchmarks/storage/bench_ssm_phase0_baseline.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/storage/bench_ssm_phase0_baseline.cpp" line="18" column="1"/>
+  </compounddef>
+</doxygen>

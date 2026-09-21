@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_grafana_metrics_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMGrafanaMetricsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_grafana_metrics_test_1aa30fe5fe21bbd51b0a63a39c852c1fe5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PrometheusExporter&gt; LLMGrafanaMetricsTest::exporter_</definition>
+        <argsstring></argsstring>
+        <name>exporter_</name>
+        <qualifiedname>LLMGrafanaMetricsTest::exporter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_grafana_metrics.cpp" line="55" column="21" bodyfile="tests/llm/test_llm_grafana_metrics.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_l_l_m_grafana_metrics_test_1a0220a4a9907e8ae8fa83cce97aab2c15" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector" kindref="compound">LLMMetricsCollector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LLMMetricsCollector&gt; LLMGrafanaMetricsTest::metrics_collector_</definition>
+        <argsstring></argsstring>
+        <name>metrics_collector_</name>
+        <qualifiedname>LLMGrafanaMetricsTest::metrics_collector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_grafana_metrics.cpp" line="56" column="21" bodyfile="tests/llm/test_llm_grafana_metrics.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_l_l_m_grafana_metrics_test_1a4e1e11abe0e978dfa440fe939f5dd566" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_llama_wrapper" kindref="compound">LlamaWrapper</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LlamaWrapper&gt; LLMGrafanaMetricsTest::wrapper_</definition>
+        <argsstring></argsstring>
+        <name>wrapper_</name>
+        <qualifiedname>LLMGrafanaMetricsTest::wrapper_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_grafana_metrics.cpp" line="57" column="21" bodyfile="tests/llm/test_llm_grafana_metrics.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_grafana_metrics_test_1a58cc69b90e85d695270af4b00c5d9f87" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMGrafanaMetricsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMGrafanaMetricsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_grafana_metrics.cpp" line="16" column="10" bodyfile="tests/llm/test_llm_grafana_metrics.cpp" bodystart="16" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_grafana_metrics_test_1ad752ed1880083a640fb9f7916a636086" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMGrafanaMetricsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LLMGrafanaMetricsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_grafana_metrics.cpp" line="49" column="10" bodyfile="tests/llm/test_llm_grafana_metrics.cpp" bodystart="49" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMGrafanaMetricsTest</label>
+        <link refid="class_l_l_m_grafana_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMGrafanaMetricsTest</label>
+        <link refid="class_l_l_m_grafana_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_grafana_metrics.cpp" line="14" column="1" bodyfile="tests/llm/test_llm_grafana_metrics.cpp" bodystart="14" bodyend="58"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_grafana_metrics_test_1aa30fe5fe21bbd51b0a63a39c852c1fe5" prot="protected" virt="non-virtual"><scope>LLMGrafanaMetricsTest</scope><name>exporter_</name></member>
+      <member refid="class_l_l_m_grafana_metrics_test_1a0220a4a9907e8ae8fa83cce97aab2c15" prot="protected" virt="non-virtual"><scope>LLMGrafanaMetricsTest</scope><name>metrics_collector_</name></member>
+      <member refid="class_l_l_m_grafana_metrics_test_1a58cc69b90e85d695270af4b00c5d9f87" prot="protected" virt="non-virtual"><scope>LLMGrafanaMetricsTest</scope><name>SetUp</name></member>
+      <member refid="class_l_l_m_grafana_metrics_test_1ad752ed1880083a640fb9f7916a636086" prot="protected" virt="non-virtual"><scope>LLMGrafanaMetricsTest</scope><name>TearDown</name></member>
+      <member refid="class_l_l_m_grafana_metrics_test_1a4e1e11abe0e978dfa440fe939f5dd566" prot="protected" virt="non-virtual"><scope>LLMGrafanaMetricsTest</scope><name>wrapper_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1966 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_metrics_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::MetricsCollector</compoundname>
+    <includes refid="metrics__collector_8h" local="no">metrics_collector.h</includes>
+    <innerclass refid="structthemis_1_1observability_1_1_metrics_collector_1_1_exporter_incident_stats" prot="public">themis::observability::MetricsCollector::ExporterIncidentStats</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram" prot="private">themis::observability::MetricsCollector::Histogram</innerclass>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1observability_1_1_metrics_collector_1a1ffa2c53a5fcc79e0f7dc5c1fb2d4aa1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class LatencyTracker</definition>
+        <argsstring></argsstring>
+        <name>LatencyTracker</name>
+        <qualifiedname>themis::observability::MetricsCollector::LatencyTracker</qualifiedname>
+        <param>
+          <type>LatencyTracker</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="240" column="18" bodyfile="include/observability/metrics_collector.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_collector_1a8fa69eac2aff63e7b4f407cd5023b566" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::MetricsCollector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::MetricsCollector::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="241" column="31" bodyfile="include/observability/metrics_collector.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_collector_1a90a323bccde83eebfee7a37783c1650c" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MetricsCollector::cardinality_limit_</definition>
+        <argsstring></argsstring>
+        <name>cardinality_limit_</name>
+        <qualifiedname>themis::observability::MetricsCollector::cardinality_limit_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="244" column="12" bodyfile="include/observability/metrics_collector.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_collector_1a5b7e0ec90d94baba2e07b42995864b10" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::observability::MetricsCollector::series_count_per_metric_</definition>
+        <argsstring></argsstring>
+        <name>series_count_per_metric_</name>
+        <qualifiedname>themis::observability::MetricsCollector::series_count_per_metric_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="246" column="14" bodyfile="include/observability/metrics_collector.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_collector_1afdc113178e8c0dc86bba9fced6d3483e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::observability::MetricsCollector::dropped_series_</definition>
+        <argsstring></argsstring>
+        <name>dropped_series_</name>
+        <qualifiedname>themis::observability::MetricsCollector::dropped_series_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="248" column="17" bodyfile="include/observability/metrics_collector.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_collector_1a56a3a730b3b477fbd1a63c12e06f60a3" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::atomic&lt; int64_t &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::atomic&lt;int64_t&gt; &gt; themis::observability::MetricsCollector::counters_</definition>
+        <argsstring></argsstring>
+        <name>counters_</name>
+        <qualifiedname>themis::observability::MetricsCollector::counters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="251" column="14" bodyfile="include/observability/metrics_collector.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_collector_1a3d78b665e51d7aba3a8c2f7a421ca88b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::atomic&lt; double &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::atomic&lt;double&gt; &gt; themis::observability::MetricsCollector::gauges_</definition>
+        <argsstring></argsstring>
+        <name>gauges_</name>
+        <qualifiedname>themis::observability::MetricsCollector::gauges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="254" column="14" bodyfile="include/observability/metrics_collector.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_collector_1a03b57cfd18e175484f05547431abe6bf" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; Histogram &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;Histogram&gt; &gt; themis::observability::MetricsCollector::histograms_</definition>
+        <argsstring></argsstring>
+        <name>histograms_</name>
+        <qualifiedname>themis::observability::MetricsCollector::histograms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="270" column="14" bodyfile="include/observability/metrics_collector.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_metrics_collector_1af7269fcccc5ed7426b468946bb073ec3" kindref="member">MetricsCollector</ref> &amp;</type>
+        <definition>MetricsCollector &amp; themis::observability::MetricsCollector::getInstance</definition>
+        <argsstring>()</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::observability::MetricsCollector::getInstance</qualifiedname>
+        <briefdescription>
+<para>Get Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getInstance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="78" column="29" bodyfile="src/observability/metrics_collector.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1af7269fcccc5ed7426b468946bb073ec3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricsCollector::MetricsCollector</definition>
+        <argsstring>(const MetricsCollector &amp;)=delete</argsstring>
+        <name>MetricsCollector</name>
+        <qualifiedname>themis::observability::MetricsCollector::MetricsCollector</qualifiedname>
+        <param>
+          <type>const MetricsCollector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="81" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a6c70be0c172a88beb7b5788c1ea79fd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_metrics_collector_1af7269fcccc5ed7426b468946bb073ec3" kindref="member">MetricsCollector</ref> &amp;</type>
+        <definition>MetricsCollector &amp; themis::observability::MetricsCollector::operator=</definition>
+        <argsstring>(const MetricsCollector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::MetricsCollector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_metrics_collector_1af7269fcccc5ed7426b468946bb073ec3" kindref="member">MetricsCollector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="82" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a42c81c3f66efee15e8342d2dd0cc9769" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordTSStoreWrite</definition>
+        <argsstring>(const std::string &amp;metric, size_t batch_size, double latency_ms)</argsstring>
+        <name>recordTSStoreWrite</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordTSStoreWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record TSStore Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" kindref="member">observeHistogram()</ref>, <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="85" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="59" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a4de261912fd06aa0179821b76cc51a21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordTSStoreQuery</definition>
+        <argsstring>(const std::string &amp;metric, size_t result_count, double latency_ms)</argsstring>
+        <name>recordTSStoreQuery</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordTSStoreQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>result_count</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record TSStore Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>, <ref refid="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" kindref="member">observeHistogram()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="86" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1aea81d3107ee284e1aaf5222e57e154fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordTSStoreAggregate</definition>
+        <argsstring>(const std::string &amp;metric, size_t point_count, double latency_ms)</argsstring>
+        <name>recordTSStoreAggregate</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordTSStoreAggregate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>point_count</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record TSStore Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">point_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>, <ref refid="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" kindref="member">observeHistogram()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="87" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="86" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1aae82ae6ef97b5502c35f737cb819fe7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordTSStoreCompression</definition>
+        <argsstring>(const std::string &amp;compression_type, double ratio)</argsstring>
+        <name>recordTSStoreCompression</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordTSStoreCompression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>compression_type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ratio</declname>
+        </param>
+        <briefdescription>
+<para>Record TSStore Compression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">compression_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ratio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" kindref="member">observeHistogram()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="88" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="98" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a0a2377e1306bcfd436eb457197aaf399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordQuery</definition>
+        <argsstring>(const std::string &amp;query_type, double latency_ms, size_t result_count)</argsstring>
+        <name>recordQuery</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>result_count</declname>
+        </param>
+        <briefdescription>
+<para>Record Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" kindref="member">observeHistogram()</ref>, <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="91" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1aeef4a5cfe592b224bc3829d947b7676f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordIndexScan</definition>
+        <argsstring>(const std::string &amp;index_type, size_t keys_scanned)</argsstring>
+        <name>recordIndexScan</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordIndexScan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_type</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>keys_scanned</declname>
+        </param>
+        <briefdescription>
+<para>Record Index Scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keys_scanned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="92" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="123" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a11a898c3462b13ee271d588f951f07a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordFullScan</definition>
+        <argsstring>(const std::string &amp;table, size_t keys_scanned)</argsstring>
+        <name>recordFullScan</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordFullScan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>keys_scanned</declname>
+        </param>
+        <briefdescription>
+<para>Record Full Scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keys_scanned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="93" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="134" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1ac3067ff363b7e24ff214aebd5a1211f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordCacheHit</definition>
+        <argsstring>(const std::string &amp;cache_type)</argsstring>
+        <name>recordCacheHit</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordCacheHit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_type</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="96" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="145" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a99fc6d0711b8180f0a3826322fd31f24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordCacheMiss</definition>
+        <argsstring>(const std::string &amp;cache_type)</argsstring>
+        <name>recordCacheMiss</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordCacheMiss</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_type</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="97" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a372de3e30320d7a201044ca4bebd8357" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordCacheEviction</definition>
+        <argsstring>(const std::string &amp;cache_type)</argsstring>
+        <name>recordCacheEviction</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordCacheEviction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_type</declname>
+        </param>
+        <briefdescription>
+<para>Record Cache Eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="98" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="163" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1af08888164b2470509c512c1ecdb305fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordShardRequest</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;operation)</argsstring>
+        <name>recordShardRequest</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordShardRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+<para>Record Shard Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="101" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="174" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1ab34713b768ef001f7cadc29b7b125ead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordShardLatency</definition>
+        <argsstring>(const std::string &amp;shard_id, double latency_ms)</argsstring>
+        <name>recordShardLatency</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordShardLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Shard Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" kindref="member">observeHistogram()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="102" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="184" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1ad28c4bd803e820ed4b7a589510fdac08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordRebalanceProgress</definition>
+        <argsstring>(const std::string &amp;operation_id, int64_t records, double percent)</argsstring>
+        <name>recordRebalanceProgress</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordRebalanceProgress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>records</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>percent</declname>
+        </param>
+        <briefdescription>
+<para>Record Rebalance Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the operation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="103" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="195" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1ab1135e256dff77be21f7d24300a3a3c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordContentImport</definition>
+        <argsstring>(const std::string &amp;mime_type, size_t size_bytes)</argsstring>
+        <name>recordContentImport</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordContentImport</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Content Import. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="106" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="207" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1adb0787446b3cf937cc2ffb190fb3b2a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordChunkCreation</definition>
+        <argsstring>(size_t chunk_count)</argsstring>
+        <name>recordChunkCreation</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordChunkCreation</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>chunk_count</declname>
+        </param>
+        <briefdescription>
+<para>Record Chunk Creation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="107" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="217" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a32914fbd55296042ebed893f7af00b53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordEmbeddingGeneration</definition>
+        <argsstring>(size_t count, double latency_ms)</argsstring>
+        <name>recordEmbeddingGeneration</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordEmbeddingGeneration</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Embedding Generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>, <ref refid="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" kindref="member">observeHistogram()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="108" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="227" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a8c77a929b28413d453189108ba59bd1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordAuthAttempt</definition>
+        <argsstring>(bool success)</argsstring>
+        <name>recordAuthAttempt</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordAuthAttempt</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Record Auth Attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="111" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="238" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1aa996498fdf21ae652b84a049db8a15a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordPolicyEvaluation</definition>
+        <argsstring>(bool allowed, double latency_ms)</argsstring>
+        <name>recordPolicyEvaluation</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordPolicyEvaluation</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>allowed</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Policy Evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">allowed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" kindref="member">observeHistogram()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="112" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="248" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1ae40a3c773ece739814f380a5ae2ca94a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordEncryptionOperation</definition>
+        <argsstring>(const std::string &amp;operation, double latency_ms)</argsstring>
+        <name>recordEncryptionOperation</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordEncryptionOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Encryption Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" kindref="member">observeHistogram()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="113" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="259" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a4413a909c64bc8dcdba009f01e3ec64f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordMemoryUsage</definition>
+        <argsstring>(size_t bytes)</argsstring>
+        <name>recordMemoryUsage</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordMemoryUsage</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Memory Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="116" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="270" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1aa5b59c88ef5567c78b8777d57d94cdcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordCPUUsage</definition>
+        <argsstring>(double percent)</argsstring>
+        <name>recordCPUUsage</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordCPUUsage</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>percent</declname>
+        </param>
+        <briefdescription>
+<para>Record CPUUsage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">percent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="117" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="279" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1aa4fb6e3a8253fdbf38d75484edcdac48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordDiskIOps</definition>
+        <argsstring>(size_t read_ops, size_t write_ops)</argsstring>
+        <name>recordDiskIOps</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordDiskIOps</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>read_ops</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>write_ops</declname>
+        </param>
+        <briefdescription>
+<para>Record Disk IOps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">read_ops</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">write_ops</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="118" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="289" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a6cf415b185fc97e5cf47c7ac53ea4097" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordSpanDuration</definition>
+        <argsstring>(const std::string &amp;span_name, double duration_ms)</argsstring>
+        <name>recordSpanDuration</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordSpanDuration</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>span_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Span Duration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">span_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the span. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" kindref="member">observeHistogram()</ref>, incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="121" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="303" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a53d495838362e6d8d6becee6db3355a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordActiveSpans</definition>
+        <argsstring>(int64_t count)</argsstring>
+        <name>recordActiveSpans</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordActiveSpans</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Record Active Spans. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="122" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="313" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a376aab3bc58f1973511a57f19a33c7e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordTotalSpans</definition>
+        <argsstring>(int64_t count)</argsstring>
+        <name>recordTotalSpans</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordTotalSpans</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Record Total Spans. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="123" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="322" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a15f7ac7baf7c067ac23f544d90d7d304" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricsCollector::getPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getPrometheusMetrics</name>
+        <qualifiedname>themis::observability::MetricsCollector::getPrometheusMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="126" column="17" bodyfile="src/observability/metrics_collector.cpp" bodystart="328" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a6343aabf9c38e8b94d37cf2365487356" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::MetricsCollector::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all collected metric state to defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Clears counters, gauges, histograms, cardinality tracking, dropped-series counters, and restores the cardinality limit to the default disabled state (<computeroutput>0</computeroutput>). Intended primarily for tests and process-wide reinitialization.</para>
+<para>Calls: lock(), clear(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="135" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="401" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a5f036e06e3745c05ea4c63be39d1b836" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::setCardinalityLimit</definition>
+        <argsstring>(size_t limit)</argsstring>
+        <name>setCardinalityLimit</name>
+        <qualifiedname>themis::observability::MetricsCollector::setCardinalityLimit</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+<para>Set the maximum number of unique label-set combinations per metric name. When the limit is reached, new series are silently dropped and a counter is incremented. Set to 0 to disable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Cardinality Limit.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="143" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="417" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a6720895605edb0adb816e5770abe310b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MetricsCollector::getCardinalityLimit</definition>
+        <argsstring>() const</argsstring>
+        <name>getCardinalityLimit</name>
+        <qualifiedname>themis::observability::MetricsCollector::getCardinalityLimit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="144" column="12" bodyfile="src/observability/metrics_collector.cpp" bodystart="422" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a0a533867ded240464e9cf8431952236d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::MetricsCollector::getDroppedSeriesCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getDroppedSeriesCount</name>
+        <qualifiedname>themis::observability::MetricsCollector::getDroppedSeriesCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the number of metric observations dropped due to cardinality overflow. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="147" column="13" bodyfile="src/observability/metrics_collector.cpp" bodystart="432" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a54b0c93a3e05c4ec7cb49425b7e13d77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordExporterFailure</definition>
+        <argsstring>(const std::string &amp;exporter_name)</argsstring>
+        <name>recordExporterFailure</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordExporterFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>exporter_name</declname>
+        </param>
+        <briefdescription>
+<para>Record Exporter Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record a transient failure contacting an exporter (OTLP, Pushgateway, etc.).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">exporter_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the exporter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="151" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="476" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a026e4be719748658415e3ddb20a9d37d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordExporterRecovery</definition>
+        <argsstring>(const std::string &amp;exporter_name)</argsstring>
+        <name>recordExporterRecovery</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordExporterRecovery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>exporter_name</declname>
+        </param>
+        <briefdescription>
+<para>Record Exporter Recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record that an exporter has recovered after previous failures.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">exporter_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the exporter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: incrementCounter(), <ref refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" kindref="member">setGauge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="153" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="486" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a393fd0514f4781cf1ccfaf4b45e005a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::recordMalformedTelemetry</definition>
+        <argsstring>(const std::string &amp;metric_name, const std::string &amp;reason)</argsstring>
+        <name>recordMalformedTelemetry</name>
+        <qualifiedname>themis::observability::MetricsCollector::recordMalformedTelemetry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Record Malformed Telemetry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record an exporter rejection caused by malformed telemetry input.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: sanitizeDiagnosticLabelValue(), incrementCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="155" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="497" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a3c2f2751b486c16fafc24b9e751afed1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_metrics_collector_1_1_exporter_incident_stats" kindref="compound">ExporterIncidentStats</ref></type>
+        <definition>MetricsCollector::ExporterIncidentStats themis::observability::MetricsCollector::getExporterIncidentStats</definition>
+        <argsstring>(const std::string &amp;exporter_name) const</argsstring>
+        <name>getExporterIncidentStats</name>
+        <qualifiedname>themis::observability::MetricsCollector::getExporterIncidentStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>exporter_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="176" column="28" bodyfile="src/observability/metrics_collector.cpp" bodystart="507" bodyend="526"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a2d0b466fb3f40e25c1a288562dda7114" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::addCounter</definition>
+        <argsstring>(const std::string &amp;name, int64_t delta, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>addCounter</name>
+        <qualifiedname>themis::observability::MetricsCollector::addCounter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Add <computeroutput>delta</computeroutput> to a named counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Suitable for use by adapter layers that need a generic counter with an arbitrary increment step (e.g. PrometheusMetricsAdapter). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="187" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="530" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::setGauge</definition>
+        <argsstring>(const std::string &amp;name, double value, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>setGauge</name>
+        <qualifiedname>themis::observability::MetricsCollector::setGauge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Set a named gauge to an absolute value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Public interface for adapter layers; internally delegates to the same implementation used by domain-specific record*() methods. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="196" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="592" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1ab83cbc31464ebbd486cc621f42823f14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::modifyGauge</definition>
+        <argsstring>(const std::string &amp;name, double delta, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>modifyGauge</name>
+        <qualifiedname>themis::observability::MetricsCollector::modifyGauge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Add <computeroutput>delta</computeroutput> to a named gauge (positive or negative). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs a thread-safe read-modify-write on the gauge. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="204" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="550" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::observeHistogram</definition>
+        <argsstring>(const std::string &amp;name, double value, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>observeHistogram</name>
+        <qualifiedname>themis::observability::MetricsCollector::observeHistogram</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Record an observation in a named histogram. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Public interface for adapter layers. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="212" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="611" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1ab0fabeae19ae604ba282030981c427d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::observeHistogramWithExemplar</definition>
+        <argsstring>(const std::string &amp;name, double value, const Exemplar &amp;exemplar, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>observeHistogramWithExemplar</name>
+        <qualifiedname>themis::observability::MetricsCollector::observeHistogramWithExemplar</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_exemplar" kindref="compound">Exemplar</ref> &amp;</type>
+          <declname>exemplar</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Record an observation in a named histogram and attach an exemplar. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Works identically to <computeroutput>observeHistogram</computeroutput> but additionally stores an <computeroutput><ref refid="structthemis_1_1observability_1_1_exemplar" kindref="compound">Exemplar</ref></computeroutput> that links the observation to a specific trace context. Only the most recent exemplar per metric series is retained.</para>
+<para>The exemplar is emitted alongside the Prometheus summary output: <programlisting><codeline><highlight class="normal">some_latency_ms{quantile=</highlight><highlight class="stringliteral">&quot;0.99&quot;</highlight><highlight class="normal">}<sp/>42.0<sp/>#<sp/>{traceID=</highlight><highlight class="stringliteral">&quot;3e561c74cee40c12&quot;</highlight><highlight class="normal">}<sp/>42.0<sp/>1712000000.000</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>exemplar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_exemplar" kindref="compound">Exemplar</ref> carrying the trace ID and observation context. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional label set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="232" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="635" bodyend="663"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a423696155236f4cb94ed139fbcd12fd6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricsCollector::MetricsCollector</definition>
+        <argsstring>()=default</argsstring>
+        <name>MetricsCollector</name>
+        <qualifiedname>themis::observability::MetricsCollector::MetricsCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="237" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a2d4cb5461c3a6ae7bbe92232d630154e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricsCollector::~MetricsCollector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MetricsCollector</name>
+        <qualifiedname>themis::observability::MetricsCollector::~MetricsCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="238" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1ababca5e7d46bb5d9fa3e8dba083154f6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::incrementCounter</definition>
+        <argsstring>(const std::string &amp;name, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>incrementCounter</name>
+        <qualifiedname>themis::observability::MetricsCollector::incrementCounter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="273" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="573" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a682ce9c61d17d737efdb75b2712858f9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::MetricsCollector::checkCardinality</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;key)</argsstring>
+        <name>checkCardinality</name>
+        <qualifiedname>themis::observability::MetricsCollector::checkCardinality</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a new series (name + labels combination) is allowed by the cardinality limit. Returns true if the observation should proceed, false if it should be dropped. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Cardinality.</para>
+<para>Caller MUST hold mutex_ exclusively (unique_lock) before calling this.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: count(), makeKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="282" column="10" bodyfile="src/observability/metrics_collector.cpp" bodystart="447" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a026dabfa3b33726338eac393a8e0b0d9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricsCollector::makeKey</definition>
+        <argsstring>(const std::string &amp;name, const std::map&lt; std::string, std::string &gt; &amp;labels) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::observability::MetricsCollector::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="284" column="17" bodyfile="src/observability/metrics_collector.cpp" bodystart="665" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1accff832f594b481dffe9aec794b6feb2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricsCollector::formatLabels</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;labels) const</argsstring>
+        <name>formatLabels</name>
+        <qualifiedname>themis::observability::MetricsCollector::formatLabels</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="285" column="17" bodyfile="src/observability/metrics_collector.cpp" bodystart="675" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1a2468d39d1598c54d981a52e4c2550abd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricsCollector::formatMetricLine</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;labels, double value) const</argsstring>
+        <name>formatMetricLine</name>
+        <qualifiedname>themis::observability::MetricsCollector::formatMetricLine</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="286" column="17" bodyfile="src/observability/metrics_collector.cpp" bodystart="694" bodyend="698"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1adba2a90fb5ad0d76dbe9f91f7b32c1ee" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricsCollector::formatExemplar</definition>
+        <argsstring>(const Exemplar &amp;exemplar)</argsstring>
+        <name>formatExemplar</name>
+        <qualifiedname>themis::observability::MetricsCollector::formatExemplar</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_exemplar" kindref="compound">Exemplar</ref> &amp;</type>
+          <declname>exemplar</declname>
+        </param>
+        <briefdescription>
+<para>Format <ref refid="structthemis_1_1observability_1_1_exemplar" kindref="compound">Exemplar</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Format an exemplar for Prometheus OpenMetrics output. Returns an empty string if the exemplar has no trace_id.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">exemplar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), time_since_epoch(), count(), std::setprecision(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="289" column="24" bodyfile="src/observability/metrics_collector.cpp" bodystart="706" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_collector_1afc6edc44d8974db7d41f3e54452e846c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::MetricsCollector::areLabelsValid</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;labels, std::string *failure_reason=nullptr)</argsstring>
+        <name>areLabelsValid</name>
+        <qualifiedname>themis::observability::MetricsCollector::areLabelsValid</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>failure_reason</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="290" column="17" bodyfile="src/observability/metrics_collector.cpp" bodystart="725" bodyend="750"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Central metrics collector for ThemisDB observability.</para>
+<para>Aggregates metrics from all subsystems (TSStore, Query Engine, Sharding, Cache, etc.) and exposes them in Prometheus text format via /metrics endpoint.</para>
+<para>Thread-Safety:<itemizedlist>
+<listitem><para>All public methods are thread-safe</para>
+</listitem><listitem><para>Read operations (getPrometheusMetrics, getCardinalityLimit) use std::shared_lock, allowing multiple concurrent readers</para>
+</listitem><listitem><para>Write operations (record*, increment*, setGauge, observeHistogram, reset) use std::unique_lock for exclusive access</para>
+</listitem><listitem><para>Counter and gauge operations are protected during map insertion</para>
+</listitem><listitem><para>Histogram operations are fully synchronized</para>
+</listitem><listitem><para>Safe for concurrent access from multiple threads</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe singleton pattern for global access. </para>
+    </detaileddescription>
+    <location file="include/observability/metrics_collector.h" line="76" column="1" bodyfile="include/observability/metrics_collector.h" bodystart="76" bodyend="292"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a2d0b466fb3f40e25c1a288562dda7114" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>addCounter</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1afc6edc44d8974db7d41f3e54452e846c" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>areLabelsValid</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a90a323bccde83eebfee7a37783c1650c" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>cardinality_limit_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a682ce9c61d17d737efdb75b2712858f9" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>checkCardinality</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a56a3a730b3b477fbd1a63c12e06f60a3" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>counters_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1afdc113178e8c0dc86bba9fced6d3483e" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>dropped_series_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1adba2a90fb5ad0d76dbe9f91f7b32c1ee" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>formatExemplar</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1accff832f594b481dffe9aec794b6feb2" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>formatLabels</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a2468d39d1598c54d981a52e4c2550abd" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>formatMetricLine</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a3d78b665e51d7aba3a8c2f7a421ca88b" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>gauges_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a6720895605edb0adb816e5770abe310b" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>getCardinalityLimit</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a0a533867ded240464e9cf8431952236d" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>getDroppedSeriesCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a3c2f2751b486c16fafc24b9e751afed1" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>getExporterIncidentStats</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a15f7ac7baf7c067ac23f544d90d7d304" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>getPrometheusMetrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a03b57cfd18e175484f05547431abe6bf" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>histograms_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1ababca5e7d46bb5d9fa3e8dba083154f6" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>incrementCounter</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a1ffa2c53a5fcc79e0f7dc5c1fb2d4aa1" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>LatencyTracker</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a026dabfa3b33726338eac393a8e0b0d9" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1af7269fcccc5ed7426b468946bb073ec3" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>MetricsCollector</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a423696155236f4cb94ed139fbcd12fd6" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>MetricsCollector</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1ab83cbc31464ebbd486cc621f42823f14" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>modifyGauge</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a8fa69eac2aff63e7b4f407cd5023b566" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1ad97f5ccab93cedbf74249c9b83465256" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>observeHistogram</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1ab0fabeae19ae604ba282030981c427d0" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>observeHistogramWithExemplar</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a6c70be0c172a88beb7b5788c1ea79fd1" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a53d495838362e6d8d6becee6db3355a7" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordActiveSpans</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a8c77a929b28413d453189108ba59bd1e" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordAuthAttempt</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a372de3e30320d7a201044ca4bebd8357" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordCacheEviction</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1ac3067ff363b7e24ff214aebd5a1211f0" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordCacheHit</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a99fc6d0711b8180f0a3826322fd31f24" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordCacheMiss</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1adb0787446b3cf937cc2ffb190fb3b2a5" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordChunkCreation</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1ab1135e256dff77be21f7d24300a3a3c8" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordContentImport</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1aa5b59c88ef5567c78b8777d57d94cdcf" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordCPUUsage</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1aa4fb6e3a8253fdbf38d75484edcdac48" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordDiskIOps</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a32914fbd55296042ebed893f7af00b53" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordEmbeddingGeneration</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1ae40a3c773ece739814f380a5ae2ca94a" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordEncryptionOperation</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a54b0c93a3e05c4ec7cb49425b7e13d77" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordExporterFailure</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a026e4be719748658415e3ddb20a9d37d" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordExporterRecovery</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a11a898c3462b13ee271d588f951f07a6" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordFullScan</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1aeef4a5cfe592b224bc3829d947b7676f" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordIndexScan</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a393fd0514f4781cf1ccfaf4b45e005a8" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordMalformedTelemetry</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a4413a909c64bc8dcdba009f01e3ec64f" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordMemoryUsage</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1aa996498fdf21ae652b84a049db8a15a1" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordPolicyEvaluation</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a0a2377e1306bcfd436eb457197aaf399" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordQuery</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1ad28c4bd803e820ed4b7a589510fdac08" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordRebalanceProgress</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1ab34713b768ef001f7cadc29b7b125ead" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordShardLatency</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1af08888164b2470509c512c1ecdb305fe" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordShardRequest</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a6cf415b185fc97e5cf47c7ac53ea4097" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordSpanDuration</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a376aab3bc58f1973511a57f19a33c7e1" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordTotalSpans</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1aea81d3107ee284e1aaf5222e57e154fc" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordTSStoreAggregate</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1aae82ae6ef97b5502c35f737cb819fe7e" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordTSStoreCompression</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a4de261912fd06aa0179821b76cc51a21" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordTSStoreQuery</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a42c81c3f66efee15e8342d2dd0cc9769" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>recordTSStoreWrite</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a6343aabf9c38e8b94d37cf2365487356" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>reset</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a5b7e0ec90d94baba2e07b42995864b10" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>series_count_per_metric_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a5f036e06e3745c05ea4c63be39d1b836" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>setCardinalityLimit</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1aac8f23cc72373ea1e0af7914aa9c472d" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>setGauge</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_collector_1a2d4cb5461c3a6ae7bbe92232d630154e" prot="private" virt="non-virtual"><scope>themis::observability::MetricsCollector</scope><name>~MetricsCollector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

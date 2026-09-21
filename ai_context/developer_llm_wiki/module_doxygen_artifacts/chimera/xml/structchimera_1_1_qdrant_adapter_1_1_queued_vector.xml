@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structchimera_1_1_qdrant_adapter_1_1_queued_vector" kind="struct" language="C++" prot="private">
+    <compoundname>chimera::QdrantAdapter::QueuedVector</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structchimera_1_1_qdrant_adapter_1_1_queued_vector_1abc4712b4cd654c9d739c8988a1ef90df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::QdrantAdapter::QueuedVector::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>chimera::QdrantAdapter::QueuedVector::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="213" column="21" bodyfile="include/chimera/qdrant_adapter.hpp" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_qdrant_adapter_1_1_queued_vector_1aae74fe168dd84caf8f2abd0b3c82cba8" prot="public" static="no" mutable="no">
+        <type>Vector</type>
+        <definition>Vector chimera::QdrantAdapter::QueuedVector::vector</definition>
+        <argsstring></argsstring>
+        <name>vector</name>
+        <qualifiedname>chimera::QdrantAdapter::QueuedVector::vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="214" column="16" bodyfile="include/chimera/qdrant_adapter.hpp" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_qdrant_adapter_1_1_queued_vector_1a19cc11b5fa267bccb935983b609d5739" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::QdrantAdapter::QueuedVector::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>chimera::QdrantAdapter::QueuedVector::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/qdrant_adapter.hpp" line="215" column="21" bodyfile="include/chimera/qdrant_adapter.hpp" bodystart="215" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/qdrant_adapter.hpp" line="212" column="5" bodyfile="include/chimera/qdrant_adapter.hpp" bodystart="212" bodyend="216"/>
+    <listofallmembers>
+      <member refid="structchimera_1_1_qdrant_adapter_1_1_queued_vector_1abc4712b4cd654c9d739c8988a1ef90df" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter::QueuedVector</scope><name>collection</name></member>
+      <member refid="structchimera_1_1_qdrant_adapter_1_1_queued_vector_1a19cc11b5fa267bccb935983b609d5739" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter::QueuedVector</scope><name>id</name></member>
+      <member refid="structchimera_1_1_qdrant_adapter_1_1_queued_vector_1aae74fe168dd84caf8f2abd0b3c82cba8" prot="public" virt="non-virtual"><scope>chimera::QdrantAdapter::QueuedVector</scope><name>vector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

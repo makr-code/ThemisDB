@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::BidirectionalReplicationManager::BidiConfig</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1ae65f57f3eeeff09f5ff2db9e007dfaec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::BidirectionalReplicationManager::BidiConfig::local_node_id</definition>
+        <argsstring></argsstring>
+        <name>local_node_id</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConfig::local_node_id</qualifiedname>
+        <briefdescription>
+<para>Identifier for this node (e.g. &quot;us-west-1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2244" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1af1f3c2e14f3aeb431d809847d4622962" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::BidirectionalReplicationManager::BidiConfig::remote_node_id</definition>
+        <argsstring></argsstring>
+        <name>remote_node_id</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConfig::remote_node_id</qualifiedname>
+        <briefdescription>
+<para>Identifier for the peer node (e.g. &quot;us-east-1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2245" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1ad51a100fb5545b8d2069f5681dff5258" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::BidirectionalReplicationManager::BidiConfig::remote_endpoint</definition>
+        <argsstring></argsstring>
+        <name>remote_endpoint</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConfig::remote_endpoint</qualifiedname>
+        <briefdescription>
+<para>Network address of the peer (e.g. &quot;host:port&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2246" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1a5c19f187caf3c7d8d774020c21a3b6ee" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17" kindref="member">ConflictResolution</ref></type>
+        <definition>ConflictResolution themisdb::replication::BidirectionalReplicationManager::BidiConfig::default_strategy</definition>
+        <argsstring></argsstring>
+        <name>default_strategy</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConfig::default_strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17a3247ad84b54dd5dd5cdf48354b0f4058" kindref="member">ConflictResolution::LAST_WRITE_WINS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2249" column="28" bodyfile="include/replication/replication_manager.h" bodystart="2249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1a3c0d435268ebbdac57caf55d1260f3df" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17" kindref="member">ConflictResolution</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ConflictResolution&gt; themisdb::replication::BidirectionalReplicationManager::BidiConfig::collection_strategies</definition>
+        <argsstring></argsstring>
+        <name>collection_strategies</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConfig::collection_strategies</qualifiedname>
+        <briefdescription>
+<para>Per-collection overrides. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2250" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1af146d7976864ab7593688e05f6d6e437" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::BidiConfig::track_origin</definition>
+        <argsstring></argsstring>
+        <name>track_origin</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConfig::track_origin</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Tag every write with its origin node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2253" column="14" bodyfile="include/replication/replication_manager.h" bodystart="2253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1acaaf8805f42b4c57b710d243aa0ecd69" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::BidiConfig::replicate_foreign_changes</definition>
+        <argsstring></argsstring>
+        <name>replicate_foreign_changes</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConfig::replicate_foreign_changes</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If false (default), suppress re-forwarding changes whose origin is the remote peer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2254" column="14" bodyfile="include/replication/replication_manager.h" bodystart="2254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1ab5fc5cffe616d0e1ac06edda67e5d754" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::BidirectionalReplicationManager::BidiConfig::sync_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>sync_interval_ms</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConfig::sync_interval_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>How often to push pending changes (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2258" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1a2910adb7ffe5f780a87b8343ddf628ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::BidiConfig::bidirectional_sync</definition>
+        <argsstring></argsstring>
+        <name>bidirectional_sync</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConfig::bidirectional_sync</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable the reverse (peer→local) replication path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2259" column="14" bodyfile="include/replication/replication_manager.h" bodystart="2259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1a46a85e6478bbb234a53e9398f5628f10" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::BidiConfig::replicate_ddl</definition>
+        <argsstring></argsstring>
+        <name>replicate_ddl</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConfig::replicate_ddl</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Forward schema changes to the peer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2262" column="14" bodyfile="include/replication/replication_manager.h" bodystart="2262" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="2243" column="5" bodyfile="include/replication/replication_manager.h" bodystart="2243" bodyend="2263"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1a2910adb7ffe5f780a87b8343ddf628ae" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConfig</scope><name>bidirectional_sync</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1a3c0d435268ebbdac57caf55d1260f3df" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConfig</scope><name>collection_strategies</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1a5c19f187caf3c7d8d774020c21a3b6ee" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConfig</scope><name>default_strategy</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1ae65f57f3eeeff09f5ff2db9e007dfaec" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConfig</scope><name>local_node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1ad51a100fb5545b8d2069f5681dff5258" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConfig</scope><name>remote_endpoint</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1af1f3c2e14f3aeb431d809847d4622962" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConfig</scope><name>remote_node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1a46a85e6478bbb234a53e9398f5628f10" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConfig</scope><name>replicate_ddl</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1acaaf8805f42b4c57b710d243aa0ecd69" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConfig</scope><name>replicate_foreign_changes</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1ab5fc5cffe616d0e1ac06edda67e5d754" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConfig</scope><name>sync_interval_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_config_1af146d7976864ab7593688e05f6d6e437" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConfig</scope><name>track_origin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_degradation_harness" kind="struct" language="C++" prot="public">
+    <compoundname>DegradationHarness</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_degradation_harness_1a3cda5a59242a26eb46943c0828903800" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_degradation_mock_peer" kindref="compound">DegradationMockPeer</ref> * &gt;</type>
+        <definition>std::vector&lt;DegradationMockPeer*&gt; DegradationHarness::raw_peers</definition>
+        <argsstring></argsstring>
+        <name>raw_peers</name>
+        <qualifiedname>DegradationHarness::raw_peers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="121" column="28" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_degradation_harness_1ad6c697fde887927c570b87bd5e76ba6b" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_fixed_cluster_view" kindref="compound">FixedClusterView</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;FixedClusterView&gt; DegradationHarness::cluster_view</definition>
+        <argsstring></argsstring>
+        <name>cluster_view</name>
+        <qualifiedname>DegradationHarness::cluster_view</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="122" column="32" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_degradation_harness_1a175095997a7d4ab2d02e26aca8345f09" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1cache_1_1_cache_replication_coordinator" kindref="compound">CacheReplicationCoordinator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CacheReplicationCoordinator&gt; DegradationHarness::coordinator</definition>
+        <argsstring></argsstring>
+        <name>coordinator</name>
+        <qualifiedname>DegradationHarness::coordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="123" column="21" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="struct_degradation_harness_1ab6bcd90fa3cd8144be52a972f454bb98" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_degradation_harness" kindref="compound">DegradationHarness</ref></type>
+        <definition>static DegradationHarness DegradationHarness::make</definition>
+        <argsstring>(int n_peers, std::vector&lt; int &gt; degraded_indices={})</argsstring>
+        <name>make</name>
+        <qualifiedname>DegradationHarness::make</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n_peers</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt;</type>
+          <declname>degraded_indices</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Build harness with <computeroutput>n_peers</computeroutput>; peers at indices in <computeroutput>degraded_indices</computeroutput> start in a degraded (throwing) state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="127" column="31" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="127" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="120" column="1" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="120" bodyend="164"/>
+    <listofallmembers>
+      <member refid="struct_degradation_harness_1ad6c697fde887927c570b87bd5e76ba6b" prot="public" virt="non-virtual"><scope>DegradationHarness</scope><name>cluster_view</name></member>
+      <member refid="struct_degradation_harness_1a175095997a7d4ab2d02e26aca8345f09" prot="public" virt="non-virtual"><scope>DegradationHarness</scope><name>coordinator</name></member>
+      <member refid="struct_degradation_harness_1ab6bcd90fa3cd8144be52a972f454bb98" prot="public" virt="non-virtual"><scope>DegradationHarness</scope><name>make</name></member>
+      <member refid="struct_degradation_harness_1a3cda5a59242a26eb46943c0828903800" prot="public" virt="non-virtual"><scope>DegradationHarness</scope><name>raw_peers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

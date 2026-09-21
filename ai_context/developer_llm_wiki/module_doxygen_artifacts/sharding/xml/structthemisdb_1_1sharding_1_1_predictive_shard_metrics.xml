@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PredictiveShardMetrics</compoundname>
+    <includes refid="predictive__detector_8h" local="no">predictive_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a7b319f10d0914f5bef40c8747aecf39c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::PredictiveShardMetrics::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="65" column="17" bodyfile="include/sharding/predictive_detector.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a6c453d99a4211f32ccd22559aab1af26" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::PredictiveShardMetrics::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="66" column="43" bodyfile="include/sharding/predictive_detector.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a5176a0bbdd42549515500089113c62af" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themisdb::sharding::PredictiveShardMetrics::smart_attributes</definition>
+        <argsstring></argsstring>
+        <name>smart_attributes</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::smart_attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="69" column="14" bodyfile="include/sharding/predictive_detector.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a5195a0954c94b5026a67abcf84740ee0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::PredictiveShardMetrics::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::avg_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="72" column="12" bodyfile="include/sharding/predictive_detector.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a1f7af44ebcf092cde6f3194e53a8bf4a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::PredictiveShardMetrics::p95_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_latency_ms</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::p95_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="73" column="12" bodyfile="include/sharding/predictive_detector.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1aaee8aeaabfb292d0a1b4d94a31ea1a1e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::PredictiveShardMetrics::p99_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_latency_ms</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::p99_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="74" column="12" bodyfile="include/sharding/predictive_detector.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a14d37b724c4a8945b32dd48704523967" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PredictiveShardMetrics::throughput_ops_per_sec</definition>
+        <argsstring></argsstring>
+        <name>throughput_ops_per_sec</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::throughput_ops_per_sec</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="75" column="14" bodyfile="include/sharding/predictive_detector.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a638b9e49ef876f7cb369cc07a91e8261" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PredictiveShardMetrics::read_errors</definition>
+        <argsstring></argsstring>
+        <name>read_errors</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::read_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="78" column="14" bodyfile="include/sharding/predictive_detector.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a3599b5af6c757e8f002b6ac8c8098c64" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PredictiveShardMetrics::write_errors</definition>
+        <argsstring></argsstring>
+        <name>write_errors</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::write_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="79" column="14" bodyfile="include/sharding/predictive_detector.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1ae3c0688dcf8e30d50d94d7b1d9568438" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PredictiveShardMetrics::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="80" column="14" bodyfile="include/sharding/predictive_detector.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1ac93721f797d4b1d01a4002feb034a204" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::PredictiveShardMetrics::failed_health_checks</definition>
+        <argsstring></argsstring>
+        <name>failed_health_checks</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::failed_health_checks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="83" column="14" bodyfile="include/sharding/predictive_detector.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a3d2f4e81a0fedeb2a5d9bc4ba50fd90a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::PredictiveShardMetrics::recovery_attempts</definition>
+        <argsstring></argsstring>
+        <name>recovery_attempts</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::recovery_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="84" column="14" bodyfile="include/sharding/predictive_detector.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a7dc03a52616f7c98d7c7c32ac0a2292e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::sharding::PredictiveShardMetrics::recovery_success_rate</definition>
+        <argsstring></argsstring>
+        <name>recovery_success_rate</name>
+        <qualifiedname>themisdb::sharding::PredictiveShardMetrics::recovery_success_rate</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="85" column="11" bodyfile="include/sharding/predictive_detector.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/predictive_detector.h" line="64" column="1" bodyfile="include/sharding/predictive_detector.h" bodystart="64" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a5195a0954c94b5026a67abcf84740ee0" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1ac93721f797d4b1d01a4002feb034a204" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>failed_health_checks</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a1f7af44ebcf092cde6f3194e53a8bf4a" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>p95_latency_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1aaee8aeaabfb292d0a1b4d94a31ea1a1e" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>p99_latency_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a638b9e49ef876f7cb369cc07a91e8261" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>read_errors</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a3d2f4e81a0fedeb2a5d9bc4ba50fd90a" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>recovery_attempts</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a7dc03a52616f7c98d7c7c32ac0a2292e" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>recovery_success_rate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1ae3c0688dcf8e30d50d94d7b1d9568438" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>retry_count</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a7b319f10d0914f5bef40c8747aecf39c" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>shard_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a5176a0bbdd42549515500089113c62af" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>smart_attributes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a14d37b724c4a8945b32dd48704523967" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>throughput_ops_per_sec</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a6c453d99a4211f32ccd22559aab1af26" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics_1a3599b5af6c757e8f002b6ac8c8098c64" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveShardMetrics</scope><name>write_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

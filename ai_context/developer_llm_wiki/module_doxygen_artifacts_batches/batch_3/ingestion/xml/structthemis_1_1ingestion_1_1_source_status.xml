@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_source_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::SourceStatus</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_status_1a99b9b647470ec990d0c02d4948dfa264" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::SourceStatus::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::ingestion::SourceStatus::source_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1896" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1896" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_status_1a49f3704e01012481b0e83d058e1c0975" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755f" kindref="member">SourceType</ref></type>
+        <definition>SourceType themis::ingestion::SourceStatus::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::ingestion::SourceStatus::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1897" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1897" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_status_1a61fbfad9d944620e39a57a6c541a1ba8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::SourceStatus::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::ingestion::SourceStatus::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1898" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1898" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_status_1aa725f1a02035f2ee295642a9fb77c976" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::SourceStatus::available</definition>
+        <argsstring></argsstring>
+        <name>available</name>
+        <qualifiedname>themis::ingestion::SourceStatus::available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Result of isAvailable() poll. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1899" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1899" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_status_1ac5d329067077b4710bc82d8d718e810b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::SourceStatus::doc_count</definition>
+        <argsstring></argsstring>
+        <name>doc_count</name>
+        <qualifiedname>themis::ingestion::SourceStatus::doc_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Last known document count (0 = unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1900" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1900" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_status_1a3a66c98d790f93a20d95af57f6a29004" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::ingestion::SourceStatus::last_run</definition>
+        <argsstring></argsstring>
+        <name>last_run</name>
+        <qualifiedname>themis::ingestion::SourceStatus::last_run</qualifiedname>
+        <briefdescription>
+<para>Last successful run time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1901" column="43" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1901" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_source_status_1a618701c2b180206542814f4341af4d73" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::SourceStatus::has_last_run</definition>
+        <argsstring></argsstring>
+        <name>has_last_run</name>
+        <qualifiedname>themis::ingestion::SourceStatus::has_last_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1902" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1902" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_source_status_1a232a137fe9ab705d48d0da6bdbe9dce7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::SourceStatus::SourceStatus</definition>
+        <argsstring>()=default</argsstring>
+        <name>SourceStatus</name>
+        <qualifiedname>themis::ingestion::SourceStatus::SourceStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1904" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Source status snapshot for admin queries. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="1895" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1895" bodyend="1905"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_source_status_1aa725f1a02035f2ee295642a9fb77c976" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceStatus</scope><name>available</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_status_1ac5d329067077b4710bc82d8d718e810b" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceStatus</scope><name>doc_count</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_status_1a61fbfad9d944620e39a57a6c541a1ba8" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceStatus</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_status_1a618701c2b180206542814f4341af4d73" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceStatus</scope><name>has_last_run</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_status_1a3a66c98d790f93a20d95af57f6a29004" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceStatus</scope><name>last_run</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_status_1a99b9b647470ec990d0c02d4948dfa264" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceStatus</scope><name>source_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_status_1a232a137fe9ab705d48d0da6bdbe9dce7" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceStatus</scope><name>SourceStatus</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_source_status_1a49f3704e01012481b0e83d058e1c0975" prot="public" virt="non-virtual"><scope>themis::ingestion::SourceStatus</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

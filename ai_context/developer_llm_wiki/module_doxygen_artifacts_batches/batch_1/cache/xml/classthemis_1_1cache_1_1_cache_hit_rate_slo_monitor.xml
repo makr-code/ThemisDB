@@ -1,0 +1,1435 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::CacheHitRateSloMonitor</compoundname>
+    <includes refid="cache__hit__rate__slo__monitor_8h" local="no">cache_hit_rate_slo_monitor.h</includes>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config" prot="public">themis::cache::CacheHitRateSloMonitor::Config</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" prot="public">themis::cache::CacheHitRateSloMonitor::EvaluationResult</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_latency_histogram" prot="private">themis::cache::CacheHitRateSloMonitor::LatencyHistogram</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ViolationLevel</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::ViolationLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>Hit rate is within SLO. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86a059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <briefdescription>
+<para>Hit rate is below warning threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>Hit rate is below critical threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="35" column="5" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9" prot="public" static="no" strong="yes">
+        <type>std::size_t</type>
+        <name>Tier</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::Tier</qualifiedname>
+        <enumvalue id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a9ec4c0afd450ceac7adb81c3bcfc9732" prot="public">
+          <name>L1</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>In-process LRU tier. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a7e6aa2d53f6ee2b1a34b017fa403cb76" prot="public">
+          <name>L2</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Secondary (e.g. off-heap or Redis) tier. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a842ce6eb510f7e7047da883915ec90e0" prot="public">
+          <name>L3</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Tertiary (e.g. disk) tier. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a4905ac9d6a22bdfc1ae096094ce6248d" prot="public">
+          <name>COUNT</name>
+          <briefdescription>
+<para>Sentinel – number of tiers. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="41" column="5" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="41" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a9105ff18045c8f1d48418a2101699c7f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::cache::CacheHitRateSloMonitor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="302" column="12" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ab13aedcf4e23c4d63e74a595c7d3066d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; observability::Alertmanager &gt;</type>
+        <definition>std::shared_ptr&lt;observability::Alertmanager&gt; themis::cache::CacheHitRateSloMonitor::alertmanager_</definition>
+        <argsstring></argsstring>
+        <name>alertmanager_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::alertmanager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="303" column="21" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ad4a1c2a74d8d36953d8c3fd5fb967c40" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::CacheHitRateSloMonitor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="305" column="24" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a311ccfa921a4b3569714553d150b43e7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::cache::CacheHitRateSloMonitor::last_result_</definition>
+        <argsstring></argsstring>
+        <name>last_result_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::last_result_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="308" column="22" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a59cf7a90cd41b33fdd539a38710009fc" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+        <definition>ViolationLevel themis::cache::CacheHitRateSloMonitor::active_violation_</definition>
+        <argsstring></argsstring>
+        <name>active_violation_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::active_violation_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86ab50339a10e1de285ac99d4c3990b8693" kindref="member">ViolationLevel::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="311" column="20" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a74c49694f1cfc467104f6bd479e74287" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheHitRateSloMonitor::active_warning_alert_id_</definition>
+        <argsstring></argsstring>
+        <name>active_warning_alert_id_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::active_warning_alert_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="312" column="17" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a1561ee848e86bc24306529815bf44619" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheHitRateSloMonitor::active_critical_alert_id_</definition>
+        <argsstring></argsstring>
+        <name>active_critical_alert_id_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::active_critical_alert_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="313" column="17" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1aa47d8f39960a737d9c69bbc494a4352f" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cache::CacheHitRateSloMonitor::last_warning_alert_time_</definition>
+        <argsstring></argsstring>
+        <name>last_warning_alert_time_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::last_warning_alert_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="314" column="43" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a1248b2a3a94415c0caa748ca3111d77b" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cache::CacheHitRateSloMonitor::last_critical_alert_time_</definition>
+        <argsstring></argsstring>
+        <name>last_critical_alert_time_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::last_critical_alert_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="315" column="43" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a64f02ad86eecfdd8cdc41afb586f755d" prot="private" static="no" mutable="no">
+        <type>LatencyHistogram</type>
+        <definition>LatencyHistogram themis::cache::CacheHitRateSloMonitor::latency_hist_[static_cast&lt; std::size_t &gt;(Tier::COUNT)]</definition>
+        <argsstring>[static_cast&lt; std::size_t &gt;(Tier::COUNT)]</argsstring>
+        <name>latency_hist_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::latency_hist_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="318" column="22" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a97a4c5984e71e1a0d12e6ec33b19d6f2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+        <definition>ViolationLevel themis::cache::CacheHitRateSloMonitor::active_latency_violation_</definition>
+        <argsstring></argsstring>
+        <name>active_latency_violation_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::active_latency_violation_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86ab50339a10e1de285ac99d4c3990b8693" kindref="member">ViolationLevel::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="321" column="20" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a02307b0f02453caca7cc1e38cff68251" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheHitRateSloMonitor::active_latency_warning_alert_id_</definition>
+        <argsstring></argsstring>
+        <name>active_latency_warning_alert_id_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::active_latency_warning_alert_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="322" column="17" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5d3ff83bf8a545f416acb0c29324c4c7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheHitRateSloMonitor::active_latency_critical_alert_id_</definition>
+        <argsstring></argsstring>
+        <name>active_latency_critical_alert_id_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::active_latency_critical_alert_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="323" column="17" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ac8094431b0edfce4d3cd957c96c5a337" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cache::CacheHitRateSloMonitor::last_latency_warning_alert_time_</definition>
+        <argsstring></argsstring>
+        <name>last_latency_warning_alert_time_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::last_latency_warning_alert_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="324" column="43" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a0f3fdd297cfe38f2a5ebc305fb1fc01e" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cache::CacheHitRateSloMonitor::last_latency_critical_alert_time_</definition>
+        <argsstring></argsstring>
+        <name>last_latency_critical_alert_time_</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::last_latency_critical_alert_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="325" column="43" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::CacheHitRateSloMonitor::CacheHitRateSloMonitor</definition>
+        <argsstring>(std::shared_ptr&lt; observability::Alertmanager &gt; alertmanager=nullptr)</argsstring>
+        <name>CacheHitRateSloMonitor</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::CacheHitRateSloMonitor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; observability::Alertmanager &gt;</type>
+          <declname>alertmanager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="141" column="14" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="25" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a8a57c52fc8273dbfb781e01760335ca5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::CacheHitRateSloMonitor::CacheHitRateSloMonitor</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; observability::Alertmanager &gt; alertmanager=nullptr)</argsstring>
+        <name>CacheHitRateSloMonitor</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::CacheHitRateSloMonitor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; observability::Alertmanager &gt;</type>
+          <declname>alertmanager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="143" column="5" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="28" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1adac6839089b75850bdd08e2b95f2d100" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::CacheHitRateSloMonitor::~CacheHitRateSloMonitor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CacheHitRateSloMonitor</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::~CacheHitRateSloMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="147" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7bb27a06430b62f35199ec7137981fc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::CacheHitRateSloMonitor::CacheHitRateSloMonitor</definition>
+        <argsstring>(const CacheHitRateSloMonitor &amp;)=delete</argsstring>
+        <name>CacheHitRateSloMonitor</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::CacheHitRateSloMonitor</qualifiedname>
+        <param>
+          <type>const CacheHitRateSloMonitor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="150" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a64c479a5571c092a903172af912e38d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref> &amp;</type>
+        <definition>CacheHitRateSloMonitor &amp; themis::cache::CacheHitRateSloMonitor::operator=</definition>
+        <argsstring>(const CacheHitRateSloMonitor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="151" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1adad6bd9adb74ca6c0d280ce4dce54d51" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::CacheHitRateSloMonitor::CacheHitRateSloMonitor</definition>
+        <argsstring>(CacheHitRateSloMonitor &amp;&amp;) noexcept=default</argsstring>
+        <name>CacheHitRateSloMonitor</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::CacheHitRateSloMonitor</qualifiedname>
+        <param>
+          <type>CacheHitRateSloMonitor &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="152" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a668662e0d35f0c08cf1e09b7d01af11a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref> &amp;</type>
+        <definition>CacheHitRateSloMonitor &amp; themis::cache::CacheHitRateSloMonitor::operator=</definition>
+        <argsstring>(CacheHitRateSloMonitor &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="153" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1aab976f240d9ee3aa412288e1a643e6da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>CacheHitRateSloMonitor::EvaluationResult themis::cache::CacheHitRateSloMonitor::evaluate</definition>
+        <argsstring>(const CacheMetrics &amp;metrics)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::evaluate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_cache_metrics" kindref="compound">CacheMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), load(), percentileFromCombined(), isLatencyCooldownExpired(), resolveLatencyAlerts(), fireLatencyAlert(), isCooldownExpired(), resolveActiveAlerts(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="164" column="22" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="62" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a67045d332ffa322c8b75ade8f50b282e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheHitRateSloMonitor::recordLatency</definition>
+        <argsstring>(Tier tier, double latency_ms)</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::recordLatency</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9" kindref="member">Tier</ref></type>
+          <declname>tier</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: record(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="171" column="10" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="46" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ab32922996b952433fece6bf2a082c64b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>CacheHitRateSloMonitor::EvaluationResult themis::cache::CacheHitRateSloMonitor::getLastResult</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastResult</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::getLastResult</qualifiedname>
+        <briefdescription>
+<para>Get Last Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="181" column="22" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="185" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a88b017ab2a3de822382cb35a29419715" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+        <definition>CacheHitRateSloMonitor::ViolationLevel themis::cache::CacheHitRateSloMonitor::getCurrentViolationLevel</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentViolationLevel</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::getCurrentViolationLevel</qualifiedname>
+        <briefdescription>
+<para>Get Current Violation Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="187" column="20" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="195" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a8dc5eb1e0c7ded8fb6c7059cc73ea2e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheHitRateSloMonitor::isSloViolated</definition>
+        <argsstring>() const</argsstring>
+        <name>isSloViolated</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::isSloViolated</qualifiedname>
+        <briefdescription>
+<para>Is Slo Violated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="193" column="10" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="205" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a005d796ce2461643ec15ffdb18ef41e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cache::CacheHitRateSloMonitor::getStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::getStatus</qualifiedname>
+        <briefdescription>
+<para>Get Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="199" column="20" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="215" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7f55d422e2fd2931da6b779f57378178" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::cache::CacheHitRateSloMonitor::getActiveAlertIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveAlertIds</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::getActiveAlertIds</qualifiedname>
+        <briefdescription>
+<para>Get Active Alert Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="205" column="17" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="273" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a373065267f7ce5418a250a8ecc2e3c4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheHitRateSloMonitor::recordTenantEvictionRate</definition>
+        <argsstring>(const std::string &amp;tenant_id, double eviction_rate, double threshold)</argsstring>
+        <name>recordTenantEvictionRate</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::recordTenantEvictionRate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>eviction_rate</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Record Tenant Eviction Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Per-tenant eviction rate diagnostics (Wave D — Q4 2026) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">eviction_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">eviction_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="214" column="10" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="600" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a29360b402b169e97eacc72de7b76dfb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheHitRateSloMonitor::setAlertmanager</definition>
+        <argsstring>(std::shared_ptr&lt; observability::Alertmanager &gt; alertmanager)</argsstring>
+        <name>setAlertmanager</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::setAlertmanager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; observability::Alertmanager &gt;</type>
+          <declname>alertmanager</declname>
+        </param>
+        <briefdescription>
+<para>Set Alertmanager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alertmanager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alertmanager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="222" column="10" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="296" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7f7fb60e8322aff9dbcba26889a15e34" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheHitRateSloMonitor::violationLevelToString</definition>
+        <argsstring>(ViolationLevel level)</argsstring>
+        <name>violationLevelToString</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::violationLevelToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Violation Level To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements violationLevelToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="229" column="24" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="311" bodyend="321"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a1291a2456ad3350e4ff3f823bcbd1c8a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheHitRateSloMonitor::fireAlert</definition>
+        <argsstring>(ViolationLevel level, double hit_rate, uint64_t total_requests, EvaluationResult &amp;result)</argsstring>
+        <name>fireAlert</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::fireAlert</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>hit_rate</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>total_requests</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Fire Alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hit_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_requests</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hit_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_requests</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: buildAlert(), std::chrono::steady_clock::now(), THEMIS_WARN(), <ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7f7fb60e8322aff9dbcba26889a15e34" kindref="member">violationLevelToString()</ref>, sendAlert(), THEMIS_ERROR(), error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="335" column="10" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="335" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a73900ee12e75e64eaa0ec4a06abe2961" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheHitRateSloMonitor::resolveActiveAlerts</definition>
+        <argsstring>(EvaluationResult &amp;result)</argsstring>
+        <name>resolveActiveAlerts</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::resolveActiveAlerts</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Active Alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), THEMIS_INFO(), resolveAlert(), THEMIS_ERROR(), error(), message(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="340" column="10" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="376" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a09d2b2dc4d713d674a9e1eefe5300beb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>observability::Alert</type>
+        <definition>observability::Alert themis::cache::CacheHitRateSloMonitor::buildAlert</definition>
+        <argsstring>(ViolationLevel level, double hit_rate, uint64_t total_requests) const</argsstring>
+        <name>buildAlert</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::buildAlert</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>hit_rate</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>total_requests</declname>
+        </param>
+        <briefdescription>
+<para>Build Alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hit_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_requests</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="348" column="26" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="406" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ab8a2c53cae31526e4b7487edd624a023" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheHitRateSloMonitor::isCooldownExpired</definition>
+        <argsstring>(ViolationLevel level) const</argsstring>
+        <name>isCooldownExpired</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::isCooldownExpired</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Is Cooldown Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="354" column="10" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="438" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a0be792e9154ba8ddfdd346c7cc917385" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheHitRateSloMonitor::fireLatencyAlert</definition>
+        <argsstring>(ViolationLevel level, double p99_ms, EvaluationResult &amp;result)</argsstring>
+        <name>fireLatencyAlert</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::fireLatencyAlert</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>p99_ms</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Fire Latency Alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p99_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p99_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: buildLatencyAlert(), std::chrono::steady_clock::now(), THEMIS_WARN(), <ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7f7fb60e8322aff9dbcba26889a15e34" kindref="member">violationLevelToString()</ref>, sendAlert(), THEMIS_ERROR(), error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="370" column="10" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="473" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a8d773bfac9543a8f94b846797adc6c0a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheHitRateSloMonitor::resolveLatencyAlerts</definition>
+        <argsstring>(EvaluationResult &amp;result)</argsstring>
+        <name>resolveLatencyAlerts</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::resolveLatencyAlerts</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Latency Alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), THEMIS_INFO(), resolveAlert(), THEMIS_ERROR(), error(), message(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="375" column="10" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="511" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a27ffec0df9a7af18e9dcf6b41ffa81ca" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>observability::Alert</type>
+        <definition>observability::Alert themis::cache::CacheHitRateSloMonitor::buildLatencyAlert</definition>
+        <argsstring>(ViolationLevel level, double p99_ms) const</argsstring>
+        <name>buildLatencyAlert</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::buildLatencyAlert</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>p99_ms</declname>
+        </param>
+        <briefdescription>
+<para>Build Latency Alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p99_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="382" column="26" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="541" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5576462ceefcd5de896ac142c4a16f24" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheHitRateSloMonitor::isLatencyCooldownExpired</definition>
+        <argsstring>(ViolationLevel level) const</argsstring>
+        <name>isLatencyCooldownExpired</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::isLatencyCooldownExpired</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Is Latency Cooldown Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="388" column="10" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="566" bodyend="578"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae1178aabdf12daf8904e4cd592107e5a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheHitRateSloMonitor::makeAlertId</definition>
+        <argsstring>(const std::string &amp;cache_name, ViolationLevel level)</argsstring>
+        <name>makeAlertId</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::makeAlertId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Make Alert Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the cache. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the cache. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeAlertId without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="361" column="24" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="458" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a2ef7702a6e83df1bbe2b6f7c61b2c52f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheHitRateSloMonitor::makeLatencyAlertId</definition>
+        <argsstring>(const std::string &amp;cache_name, ViolationLevel level)</argsstring>
+        <name>makeLatencyAlertId</name>
+        <qualifiedname>themis::cache::CacheHitRateSloMonitor::makeLatencyAlertId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Make Latency Alert Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the cache. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the cache. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeLatencyAlertId without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_hit_rate_slo_monitor.h" line="395" column="24" bodyfile="src/cache/cache_hit_rate_slo_monitor.cpp" bodystart="587" bodyend="589"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_hit_rate_slo_monitor.h" line="29" column="1" bodyfile="include/cache/cache_hit_rate_slo_monitor.h" bodystart="29" bodyend="396"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a1561ee848e86bc24306529815bf44619" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>active_critical_alert_id_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5d3ff83bf8a545f416acb0c29324c4c7" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>active_latency_critical_alert_id_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a97a4c5984e71e1a0d12e6ec33b19d6f2" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>active_latency_violation_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a02307b0f02453caca7cc1e38cff68251" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>active_latency_warning_alert_id_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a59cf7a90cd41b33fdd539a38710009fc" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>active_violation_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a74c49694f1cfc467104f6bd479e74287" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>active_warning_alert_id_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ab13aedcf4e23c4d63e74a595c7d3066d" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>alertmanager_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a09d2b2dc4d713d674a9e1eefe5300beb" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>buildAlert</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a27ffec0df9a7af18e9dcf6b41ffa81ca" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>buildLatencyAlert</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>CacheHitRateSloMonitor</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a8a57c52fc8273dbfb781e01760335ca5" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>CacheHitRateSloMonitor</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7bb27a06430b62f35199ec7137981fc3" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>CacheHitRateSloMonitor</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1adad6bd9adb74ca6c0d280ce4dce54d51" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>CacheHitRateSloMonitor</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a9105ff18045c8f1d48418a2101699c7f" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1aab976f240d9ee3aa412288e1a643e6da" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a1291a2456ad3350e4ff3f823bcbd1c8a" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>fireAlert</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a0be792e9154ba8ddfdd346c7cc917385" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>fireLatencyAlert</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7f55d422e2fd2931da6b779f57378178" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>getActiveAlertIds</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a88b017ab2a3de822382cb35a29419715" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>getCurrentViolationLevel</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ab32922996b952433fece6bf2a082c64b" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>getLastResult</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a005d796ce2461643ec15ffdb18ef41e8" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>getStatus</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ab8a2c53cae31526e4b7487edd624a023" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>isCooldownExpired</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5576462ceefcd5de896ac142c4a16f24" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>isLatencyCooldownExpired</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a8dc5eb1e0c7ded8fb6c7059cc73ea2e1" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>isSloViolated</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a1248b2a3a94415c0caa748ca3111d77b" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>last_critical_alert_time_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a0f3fdd297cfe38f2a5ebc305fb1fc01e" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>last_latency_critical_alert_time_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ac8094431b0edfce4d3cd957c96c5a337" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>last_latency_warning_alert_time_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a311ccfa921a4b3569714553d150b43e7" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>last_result_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1aa47d8f39960a737d9c69bbc494a4352f" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>last_warning_alert_time_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a64f02ad86eecfdd8cdc41afb586f755d" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>latency_hist_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae1178aabdf12daf8904e4cd592107e5a" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>makeAlertId</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a2ef7702a6e83df1bbe2b6f7c61b2c52f" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>makeLatencyAlertId</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ad4a1c2a74d8d36953d8c3fd5fb967c40" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a64c479a5571c092a903172af912e38d4" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a668662e0d35f0c08cf1e09b7d01af11a" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a67045d332ffa322c8b75ade8f50b282e" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a373065267f7ce5418a250a8ecc2e3c4e" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>recordTenantEvictionRate</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a73900ee12e75e64eaa0ec4a06abe2961" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>resolveActiveAlerts</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a8d773bfac9543a8f94b846797adc6c0a" prot="private" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>resolveLatencyAlerts</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a29360b402b169e97eacc72de7b76dfb3" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>setAlertmanager</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>Tier</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>ViolationLevel</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7f7fb60e8322aff9dbcba26889a15e34" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>violationLevelToString</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1adac6839089b75850bdd08e2b95f2d100" prot="public" virt="non-virtual"><scope>themis::cache::CacheHitRateSloMonitor</scope><name>~CacheHitRateSloMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

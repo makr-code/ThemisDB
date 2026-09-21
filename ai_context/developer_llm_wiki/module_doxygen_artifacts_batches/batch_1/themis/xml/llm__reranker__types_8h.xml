@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__reranker__types_8h" kind="file" language="C++">
+    <compoundname>llm_reranker_types.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="llm__reranker__interface_8h" local="yes">include/themis/search/llm_reranker_interface.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/search/llm_reranker_types.h</label>
+        <link refid="llm__reranker__types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>include/themis/search/llm_reranker_factory.h</label>
+        <link refid="llm__reranker__factory_8h"/>
+      </node>
+      <node id="2">
+        <label>include/themis/search/llm_reranker_interface.h</label>
+        <link refid="llm__reranker__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/search/llm_reranker_types.h</label>
+        <link refid="llm__reranker__types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_llm_rerank_candidate" prot="public">themis::LlmRerankCandidate</innerclass>
+    <innerclass refid="structthemis_1_1_llm_rerank_result" prot="public">themis::LlmRerankResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="structthemis_1_1_llm_rerank_candidate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_llm_rerank_candidate" kindref="compound">LlmRerankCandidate</ref><sp/>{</highlight></codeline>
+<codeline lineno="9" refid="structthemis_1_1_llm_rerank_candidate_1a28f1e3ba7a36819e391678a15c969a58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_llm_rerank_candidate_1a28f1e3ba7a36819e391678a15c969a58" kindref="member">document_id</ref>;</highlight></codeline>
+<codeline lineno="10" refid="structthemis_1_1_llm_rerank_candidate_1a2c7a7b1bfbbf02f75309a183b124c102" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_llm_rerank_candidate_1a2c7a7b1bfbbf02f75309a183b124c102" kindref="member">content</ref>;</highlight></codeline>
+<codeline lineno="11" refid="structthemis_1_1_llm_rerank_candidate_1a1855bb3c07e4e099c1b52abc73bc24ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_rerank_candidate_1a1855bb3c07e4e099c1b52abc73bc24ee" kindref="member">initial_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="structthemis_1_1_llm_rerank_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_llm_rerank_result" kindref="compound">LlmRerankResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="15" refid="structthemis_1_1_llm_rerank_result_1ae08e1c66a19b6389f254f9d5fe9aa9f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_llm_rerank_result_1ae08e1c66a19b6389f254f9d5fe9aa9f1" kindref="member">document_id</ref>;</highlight></codeline>
+<codeline lineno="16" refid="structthemis_1_1_llm_rerank_result_1a90b3314a08a13786510f0e1c8f717d10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_rerank_result_1a90b3314a08a13786510f0e1c8f717d10" kindref="member">llm_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="17" refid="structthemis_1_1_llm_rerank_result_1a96d87175ce352a1572447dd01193cc2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_rerank_result_1a96d87175ce352a1572447dd01193cc2f" kindref="member">initial_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="18" refid="structthemis_1_1_llm_rerank_result_1ad75b9b122fd8543f6376a5319558cf03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_rerank_result_1ad75b9b122fd8543f6376a5319558cf03" kindref="member">final_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="19" refid="structthemis_1_1_llm_rerank_result_1a55edc0fb290e5bd47b3c9ab84ea7c6e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_rerank_result_1a55edc0fb290e5bd47b3c9ab84ea7c6e3" kindref="member">llm_scored</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/search/llm_reranker_types.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,759 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__transport__security__checker_8cpp" kind="file" language="C++">
+    <compoundname>test_transport_security_checker.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">security/transport_security_checker.h</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/network/test_transport_security_checker.cpp</label>
+        <link refid="test__transport__security__checker_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdlib</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>security/transport_security_checker.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_transport_security_checker_test" prot="public">TransportSecurityCheckerTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" prot="public" static="no">
+        <name>SETENV</name>
+        <param><defname>name</defname></param>
+        <param><defname>value</defname></param>
+        <initializer>setenv(name, value, 1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="12" column="14" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" prot="public" static="no">
+        <name>UNSETENV</name>
+        <param><defname>name</defname></param>
+        <initializer>unsetenv(name)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="13" column="13" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, DetectProductionModeFromTHEMIS_PRODUCTION_MODE_true)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>DetectProductionModeFromTHEMIS_PRODUCTION_MODE_true</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="85" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a9e088676382f34b456d64e3b8a6c59d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, DetectProductionModeFromTHEMIS_PRODUCTION_MODE_1)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>DetectProductionModeFromTHEMIS_PRODUCTION_MODE_1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="90" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="90" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a3d63ccd2c25547833261b6d9c8335e2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, DetectProductionModeFromTHEMIS_PRODUCTION_MODE_production)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>DetectProductionModeFromTHEMIS_PRODUCTION_MODE_production</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="95" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a68118486b9846afe5aafe002e4444426" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, DetectDevelopmentModeFromTHEMIS_PRODUCTION_MODE_false)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>DetectDevelopmentModeFromTHEMIS_PRODUCTION_MODE_false</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="100" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="100" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a99b16799683f0a239eefd7df75b0665a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, DetectProductionModeFromTHEMIS_ENVIRONMENT_production)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>DetectProductionModeFromTHEMIS_ENVIRONMENT_production</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="105" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="105" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a3346b1b5a196c760ea8f475f2c276e51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, DetectProductionModeFromTHEMIS_ENVIRONMENT_prod)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>DetectProductionModeFromTHEMIS_ENVIRONMENT_prod</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="111" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1ac9a9d829ddf0d7fd939fea0125e9f41d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, DetectDevelopmentModeByDefault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>DetectDevelopmentModeByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="117" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="117" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a958af13aaf082d3536cb0f1edcb8c382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, DetectOverrideFlag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>DetectOverrideFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="127" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a708686b59bf78413223d2676ece01636" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, NoOverrideFlagWithoutFlag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>NoOverrideFlagWithoutFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="132" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="132" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1aa9ea8c3af66eea2ffa606bb89c69a33a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, NoOverrideFlagWithNoArgs)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>NoOverrideFlagWithNoArgs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="137" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="137" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1abc21b6d0ddaeb56d1839e99e530618ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, AllowInsecureTransportInDevelopmentMode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>AllowInsecureTransportInDevelopmentMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="146" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="146" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1ae19369c42876ec16b95d7f0b84f12b94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, AllowSecureTransportInDevelopmentMode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>AllowSecureTransportInDevelopmentMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="159" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="159" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a2a33cc2e074ee82b5b584ccb66709cbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, BlockInsecureTransportInProductionMode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>BlockInsecureTransportInProductionMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="172" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="172" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a59864fe2b90ef6b529d3c5f127006467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, AllowSecureTransportInProductionMode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>AllowSecureTransportInProductionMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="184" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="184" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1aecc0ea8101f86d753ffe89977c4a4b31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, AllowInsecureTransportWithOverrideFlag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>AllowInsecureTransportWithOverrideFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="196" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="196" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a2c9c225e22ebf31db3a1b4f60f061c04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, NoWarningInDevelopmentMode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>NoWarningInDevelopmentMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="212" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="212" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1af5002389032f4af3c14a3336c9aec89a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, NoWarningWhenTLSEnabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>NoWarningWhenTLSEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="220" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="220" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a62db1fcd94251bcb9fd47f8235022004" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, WarningWhenTLSDisabledInProduction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>WarningWhenTLSDisabledInProduction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="227" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="227" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a4576f92621fa22593e7f5b6d98ace756" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, FullValidationFlow_ProductionWithTLS)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>FullValidationFlow_ProductionWithTLS</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="240" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="240" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a8c15054ba74957a3733b6620947ff043" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, FullValidationFlow_ProductionWithoutTLS)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>FullValidationFlow_ProductionWithoutTLS</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="257" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="257" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transport__security__checker_8cpp_1a9bc720f1b620816fe6e7dc5a636dde2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TransportSecurityCheckerTest, FullValidationFlow_DevelopmentWithoutTLS)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref></type>
+        </param>
+        <param>
+          <type>FullValidationFlow_DevelopmentWithoutTLS</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_transport_security_checker.cpp" line="270" column="1" bodyfile="tests/network/test_transport_security_checker.cpp" bodystart="270" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/transport_security_checker.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Windows-compatible<sp/>environment<sp/>variable<sp/>macros</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>SETENV(name,<sp/>value)<sp/>_putenv_s(name,<sp/>value)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>UNSETENV(name)<sp/>_putenv(name<sp/>&quot;=&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>SETENV(name,<sp/>value)<sp/>setenv(name,<sp/>value,<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>UNSETENV(name)<sp/>unsetenv(name)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::security;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="class_transport_security_checker_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_transport_security_checker_test_1a994de94f80cb8db34c3cfb7093545e5c" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>original<sp/>environment<sp/>variables<sp/>as<sp/>copies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>prod_mode<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(prod_mode)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transport_security_checker_test_1ac202be7b44244484953cb6131ab24ece" kindref="member">saved_prod_mode_</ref><sp/>=<sp/>std::string(prod_mode);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>environment<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(environment)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transport_security_checker_test_1abd356bd5a8389497b24430b57dac22d2" kindref="member">saved_environment_</ref><sp/>=<sp/>std::string(environment);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>environment<sp/>for<sp/>clean<sp/>test<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE=&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT=&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_transport_security_checker_test_1a136097aa528486af49967f73e38dd7f6" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Restore<sp/>original<sp/>environment<sp/>from<sp/>copies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_transport_security_checker_test_1ac202be7b44244484953cb6131ab24ece" kindref="member">saved_prod_mode_</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv_s(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_transport_security_checker_test_1ac202be7b44244484953cb6131ab24ece" kindref="member">saved_prod_mode_</ref>.value().c_str());</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE=&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_transport_security_checker_test_1abd356bd5a8389497b24430b57dac22d2" kindref="member">saved_environment_</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv_s(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_transport_security_checker_test_1abd356bd5a8389497b24430b57dac22d2" kindref="member">saved_environment_</ref>.value().c_str());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT=&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_transport_security_checker_test_1ac202be7b44244484953cb6131ab24ece" kindref="member">saved_prod_mode_</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_transport_security_checker_test_1ac202be7b44244484953cb6131ab24ece" kindref="member">saved_prod_mode_</ref>.value().c_str(),<sp/>1);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_transport_security_checker_test_1abd356bd5a8389497b24430b57dac22d2" kindref="member">saved_environment_</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_transport_security_checker_test_1abd356bd5a8389497b24430b57dac22d2" kindref="member">saved_environment_</ref>.value().c_str(),<sp/>1);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="class_transport_security_checker_test_1ac202be7b44244484953cb6131ab24ece" kindref="member">saved_prod_mode_</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="class_transport_security_checker_test_1abd356bd5a8389497b24430b57dac22d2" kindref="member">saved_environment_</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Mode<sp/>Detection<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>DetectProductionModeFromTHEMIS_PRODUCTION_MODE_true)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::isProductionMode());</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>DetectProductionModeFromTHEMIS_PRODUCTION_MODE_1)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::isProductionMode());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>DetectProductionModeFromTHEMIS_PRODUCTION_MODE_production)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::isProductionMode());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>DetectDevelopmentModeFromTHEMIS_PRODUCTION_MODE_false)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(TransportSecurityChecker::isProductionMode());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>DetectProductionModeFromTHEMIS_ENVIRONMENT_production)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::isProductionMode());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>DetectProductionModeFromTHEMIS_ENVIRONMENT_prod)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;prod&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::isProductionMode());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>DetectDevelopmentModeByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(TransportSecurityChecker::isProductionMode());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Override<sp/>Flag<sp/>Detection<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>DetectOverrideFlag)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--allow-insecure-wire-protocol&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::hasAllowInsecureFlag(2,<sp/>argv));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>NoOverrideFlagWithoutFlag)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--other-flag&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(TransportSecurityChecker::hasAllowInsecureFlag(2,<sp/>argv));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>NoOverrideFlagWithNoArgs)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(TransportSecurityChecker::hasAllowInsecureFlag(1,<sp/>argv));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Transport<sp/>Security<sp/>Validation<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>AllowInsecureTransportInDevelopmentMode)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Development<sp/>mode<sp/>(no<sp/>env<sp/>vars<sp/>set)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_tls<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>allow<sp/>insecure<sp/>transport<sp/>in<sp/>development</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enable_tls,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>argv));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>AllowSecureTransportInDevelopmentMode)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Development<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_tls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>allow<sp/>secure<sp/>transport<sp/>in<sp/>development</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enable_tls,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>argv));</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>BlockInsecureTransportInProductionMode)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Production<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_tls<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>block<sp/>insecure<sp/>transport<sp/>in<sp/>production</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(TransportSecurityChecker::validateProductionSafety(</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enable_tls,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>argv));</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>AllowSecureTransportInProductionMode)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Production<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_tls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>allow<sp/>secure<sp/>transport<sp/>in<sp/>production</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enable_tls,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>argv));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>AllowInsecureTransportWithOverrideFlag)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Production<sp/>mode<sp/>with<sp/>override<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--allow-insecure-wire-protocol&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_tls<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>allow<sp/>with<sp/>override<sp/>flag<sp/>(but<sp/>log<sp/>critical<sp/>warning)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enable_tls,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">,<sp/>2,<sp/>argv));</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Periodic<sp/>Warning<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>NoWarningInDevelopmentMode)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/>TransportSecurityChecker::getPeriodicWarning(</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(warning.empty());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>NoWarningWhenTLSEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/>TransportSecurityChecker::getPeriodicWarning(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(warning.empty());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>WarningWhenTLSDisabledInProduction)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/>TransportSecurityChecker::getPeriodicWarning(</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(warning.empty());</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(warning.find(</highlight><highlight class="stringliteral">&quot;PRODUCTION<sp/>SECURITY<sp/>ALERT&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(warning.find(</highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>Test:<sp/>Full<sp/>Security<sp/>Validation<sp/>Flow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>FullValidationFlow_ProductionWithTLS)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>production<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>server<sp/>startup<sp/>with<sp/>TLS<sp/>enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;config.yaml&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_tls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>should<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enable_tls,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>argv));</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>periodic<sp/>warnings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/>TransportSecurityChecker::getPeriodicWarning(enable_tls,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(warning.empty());</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>FullValidationFlow_ProductionWithoutTLS)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>production<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a4aefabadef6c14c7d814ad8870b9ec45" kindref="member">SETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>server<sp/>startup<sp/>with<sp/>TLS<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;config.yaml&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_tls<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>should<sp/>fail<sp/>(block<sp/>startup)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(TransportSecurityChecker::validateProductionSafety(</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enable_tls,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>argv));</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__transport__security__checker_8cpp_1a76ab8d5650e2965e7c12bda99ed89bd2" kindref="member">TEST_F</ref>(<ref refid="class_transport_security_checker_test" kindref="compound">TransportSecurityCheckerTest</ref>,<sp/>FullValidationFlow_DevelopmentWithoutTLS)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Development<sp/>mode<sp/>(default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transport__security__checker_8cpp_1a570a5fb52b72f75f856565c6cdeaeeb2" kindref="member">UNSETENV</ref>(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>server<sp/>startup<sp/>with<sp/>TLS<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;config.yaml&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_tls<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>should<sp/>pass<sp/>in<sp/>development</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enable_tls,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>argv));</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>periodic<sp/>warnings<sp/>in<sp/>development</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/>TransportSecurityChecker::getPeriodicWarning(enable_tls,<sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(warning.empty());</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_transport_security_checker.cpp"/>
+  </compounddef>
+</doxygen>

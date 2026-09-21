@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::JWKSSecureFetcher</compoundname>
+    <includes refid="jwks__security_8h" local="no">jwks_security.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats" prot="public">themis::auth::JWKSSecureFetcher::FetchStats</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl" prot="public">themis::auth::JWKSSecureFetcher::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a4e73332d27e91596889623c3113a070f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::auth::JWKSSecureFetcher::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="157" column="21" bodyfile="include/auth/jwks_security.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWKSSecureFetcher::JWKSSecureFetcher</definition>
+        <argsstring>(const JWKSSecurityConfig::Config &amp;config)</argsstring>
+        <name>JWKSSecureFetcher</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::JWKSSecureFetcher</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">JWKSSecurityConfig::Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>JWKSSecure Fetcher. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="116" column="14" bodyfile="src/auth/jwks_security.cpp" bodystart="268" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a557ca1310ddf9571b236f251d02f027d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWKSSecureFetcher::~JWKSSecureFetcher</definition>
+        <argsstring>()</argsstring>
+        <name>~JWKSSecureFetcher</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::~JWKSSecureFetcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="117" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a8e2e07035706a12e232941c4419dd44c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWKSSecureFetcher::JWKSSecureFetcher</definition>
+        <argsstring>(const JWKSSecureFetcher &amp;)=delete</argsstring>
+        <name>JWKSSecureFetcher</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::JWKSSecureFetcher</qualifiedname>
+        <param>
+          <type>const JWKSSecureFetcher &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="120" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a05fbc8151242ffb6df183f29c35eafcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref> &amp;</type>
+        <definition>JWKSSecureFetcher &amp; themis::auth::JWKSSecureFetcher::operator=</definition>
+        <argsstring>(const JWKSSecureFetcher &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="121" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a94be550ac80635d6a495d58c3a3401e9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWKSSecureFetcher::JWKSSecureFetcher</definition>
+        <argsstring>(JWKSSecureFetcher &amp;&amp;) noexcept</argsstring>
+        <name>JWKSSecureFetcher</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::JWKSSecureFetcher</qualifiedname>
+        <param>
+          <type>JWKSSecureFetcher &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="122" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a135d102266e0df2316b5398e1c235609" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref> &amp;</type>
+        <definition>JWKSSecureFetcher &amp; themis::auth::JWKSSecureFetcher::operator=</definition>
+        <argsstring>(JWKSSecureFetcher &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" kindref="member">JWKSSecureFetcher</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="123" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ab272d552bd1d66187f1d26590db551f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWKSSecureFetcher::fetch</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>fetch</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::fetch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Fetch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="130" column="17" bodyfile="src/auth/jwks_security.cpp" bodystart="287" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ad6674822ec7dbd28faf9b786b1c12d9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSSecureFetcher::verifyPinning</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;cert_chain)</argsstring>
+        <name>verifyPinning</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::verifyPinning</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>cert_chain</declname>
+        </param>
+        <briefdescription>
+<para>Verify Pinning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_chain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_chain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: computeSPKIHash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="137" column="10" bodyfile="src/auth/jwks_security.cpp" bodystart="382" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a4a5f73aa7cb58bc13a506aad157b3615" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats" kindref="compound">FetchStats</ref></type>
+        <definition>JWKSSecureFetcher::FetchStats themis::auth::JWKSSecureFetcher::getLastFetchStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastFetchStats</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::getLastFetchStats</qualifiedname>
+        <briefdescription>
+<para>Get Last Fetch Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="153" column="16" bodyfile="src/auth/jwks_security.cpp" bodystart="404" bodyend="406"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1af78a596f6edfba3a1b004c23b50e5e23" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWKSSecureFetcher::computeSPKIHash</definition>
+        <argsstring>(const std::string &amp;cert_data)</argsstring>
+        <name>computeSPKIHash</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::computeSPKIHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_data</declname>
+        </param>
+        <briefdescription>
+<para>Compute SPKI hash from certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute SPKIHash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SHA256(), c_str(), size(), base64Encode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="164" column="17" bodyfile="src/auth/jwks_security.cpp" bodystart="414" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1abf69f79df4a0ead862e1ff133c612ff4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::JWKSSecureFetcher::setupTLSContext</definition>
+        <argsstring>()</argsstring>
+        <name>setupTLSContext</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::setupTLSContext</qualifiedname>
+        <briefdescription>
+<para>Setup TLS context with config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Setup TLSContext.</para>
+<para>Implements setupTLSContext without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="169" column="10" bodyfile="src/auth/jwks_security.cpp" bodystart="426" bodyend="429"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwks_security.h" line="109" column="1" bodyfile="include/auth/jwks_security.h" bodystart="109" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1af78a596f6edfba3a1b004c23b50e5e23" prot="private" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>computeSPKIHash</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ab272d552bd1d66187f1d26590db551f4" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>fetch</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a4a5f73aa7cb58bc13a506aad157b3615" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>getLastFetchStats</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a4e73332d27e91596889623c3113a070f" prot="private" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ac62053fcac74b16a2ff50c6c4637a971" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>JWKSSecureFetcher</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a8e2e07035706a12e232941c4419dd44c" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>JWKSSecureFetcher</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a94be550ac80635d6a495d58c3a3401e9" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>JWKSSecureFetcher</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a05fbc8151242ffb6df183f29c35eafcb" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a135d102266e0df2316b5398e1c235609" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1abf69f79df4a0ead862e1ff133c612ff4" prot="private" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>setupTLSContext</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1ad6674822ec7dbd28faf9b786b1c12d9a" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>verifyPinning</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1a557ca1310ddf9571b236f251d02f027d" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher</scope><name>~JWKSSecureFetcher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

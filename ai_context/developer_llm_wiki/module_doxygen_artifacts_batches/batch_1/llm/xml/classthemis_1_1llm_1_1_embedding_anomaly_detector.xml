@@ -1,0 +1,415 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_embedding_anomaly_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::EmbeddingAnomalyDetector</compoundname>
+    <includes refid="lora__security__validator_8h" local="no">lora_security_validator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config" prot="public">themis::llm::EmbeddingAnomalyDetector::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a62d5cd4f1b0ca5781c93dae71e068249" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::EmbeddingAnomalyDetector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="361" column="12" bodyfile="include/llm/lora_security_validator.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1acf6064aa76b17b867c9ad19285239c5d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::EmbeddingAnomalyDetector::mean_embedding_</definition>
+        <argsstring></argsstring>
+        <name>mean_embedding_</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::mean_embedding_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="364" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a917f9c32c24752725194e2712e203811" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::EmbeddingAnomalyDetector::stddev_embedding_</definition>
+        <argsstring></argsstring>
+        <name>stddev_embedding_</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::stddev_embedding_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="365" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1afb0871454aff37d6b881aac7d175d23a" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::EmbeddingAnomalyDetector::sample_count_</definition>
+        <argsstring></argsstring>
+        <name>sample_count_</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::sample_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="366" column="12" bodyfile="include/llm/lora_security_validator.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a37c1bdb2f2b445dea045015536388184" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::EmbeddingAnomalyDetector::EmbeddingAnomalyDetector</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>EmbeddingAnomalyDetector</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::EmbeddingAnomalyDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_embedding_anomaly_detector_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Embedding Anomaly Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="333" column="14" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1265" bodyend="1268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a17894a95f64293a42ff5692d01ea8bc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::EmbeddingAnomalyDetector::~EmbeddingAnomalyDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EmbeddingAnomalyDetector</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::~EmbeddingAnomalyDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="334" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1ae9f70ac564f1cd673845eaba39e8bf16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::EmbeddingAnomalyDetector::getAnomalyScore</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>getAnomalyScore</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::getAnomalyScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Get Anomaly Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), spdlog::error(), calculateEuclideanDistance(), calculateCosineSimilarity(), isOutlier(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="341" column="11" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1276" bodyend="1304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1aa1fe00a047a5329092011cb600219188" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EmbeddingAnomalyDetector::updateBaseline</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>updateBaseline</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::updateBaseline</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Update Baseline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), resize(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="347" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1311" bodyend="1327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a11d04555256c91cce34d223851280d49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EmbeddingAnomalyDetector::resetBaseline</definition>
+        <argsstring>()</argsstring>
+        <name>resetBaseline</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::resetBaseline</qualifiedname>
+        <briefdescription>
+<para>Reset Baseline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="352" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1333" bodyend="1338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1aceaaf18e7118a24df76edb27a8ca81f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::EmbeddingAnomalyDetector::getBaselineStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getBaselineStats</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::getBaselineStats</qualifiedname>
+        <briefdescription>
+<para>Get Baseline Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="358" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1340" bodyend="1355"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a99cf65d3b8a0add5e83ca0c9f67aa130" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::EmbeddingAnomalyDetector::calculateCosineSimilarity</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>calculateCosineSimilarity</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::calculateCosineSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Cosine Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="375" column="11" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1364" bodyend="1380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1aa689f7087bdb5e944b5f3a7fae5e6218" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::EmbeddingAnomalyDetector::calculateEuclideanDistance</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>calculateEuclideanDistance</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::calculateEuclideanDistance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Euclidean Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), max(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="385" column="11" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1389" bodyend="1404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedding_anomaly_detector_1aa1b0551396a133414f3763a83b4ca52f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EmbeddingAnomalyDetector::isOutlier</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>isOutlier</name>
+        <qualifiedname>themis::llm::EmbeddingAnomalyDetector::isOutlier</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Is Outlier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), std::sqrt(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="394" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1412" bodyend="1427"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_security_validator.h" line="319" column="1" bodyfile="include/llm/lora_security_validator.h" bodystart="319" bodyend="395"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a99cf65d3b8a0add5e83ca0c9f67aa130" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>calculateCosineSimilarity</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1aa689f7087bdb5e944b5f3a7fae5e6218" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>calculateEuclideanDistance</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a62d5cd4f1b0ca5781c93dae71e068249" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a37c1bdb2f2b445dea045015536388184" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>EmbeddingAnomalyDetector</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1ae9f70ac564f1cd673845eaba39e8bf16" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>getAnomalyScore</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1aceaaf18e7118a24df76edb27a8ca81f2" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>getBaselineStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1aa1b0551396a133414f3763a83b4ca52f" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>isOutlier</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1acf6064aa76b17b867c9ad19285239c5d" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>mean_embedding_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a11d04555256c91cce34d223851280d49" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>resetBaseline</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1afb0871454aff37d6b881aac7d175d23a" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>sample_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a917f9c32c24752725194e2712e203811" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>stddev_embedding_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1aa1fe00a047a5329092011cb600219188" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>updateBaseline</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedding_anomaly_detector_1a17894a95f64293a42ff5692d01ea8bc6" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddingAnomalyDetector</scope><name>~EmbeddingAnomalyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

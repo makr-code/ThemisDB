@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_slo_reporter_1_1_sample" kind="struct" language="C++" prot="private">
+    <compoundname>themis::observability::SloReporter::Sample</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_reporter_1_1_sample_1a3faac99fc409cfcaa6c99a00b9bcdc1d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::SloReporter::Sample::ts</definition>
+        <argsstring></argsstring>
+        <name>ts</name>
+        <qualifiedname>themis::observability::SloReporter::Sample::ts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="288" column="47" bodyfile="include/observability/slo_reporter.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_reporter_1_1_sample_1a59d7ccdfaf6914c3058d46dfb762f886" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::SloReporter::Sample::good</definition>
+        <argsstring></argsstring>
+        <name>good</name>
+        <qualifiedname>themis::observability::SloReporter::Sample::good</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="289" column="14" bodyfile="include/observability/slo_reporter.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single timestamped request sample. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/slo_reporter.h" line="287" column="5" bodyfile="include/observability/slo_reporter.h" bodystart="287" bodyend="290"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_slo_reporter_1_1_sample_1a59d7ccdfaf6914c3058d46dfb762f886" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter::Sample</scope><name>good</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_reporter_1_1_sample_1a3faac99fc409cfcaa6c99a00b9bcdc1d" prot="public" virt="non-virtual"><scope>themis::observability::SloReporter::Sample</scope><name>ts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

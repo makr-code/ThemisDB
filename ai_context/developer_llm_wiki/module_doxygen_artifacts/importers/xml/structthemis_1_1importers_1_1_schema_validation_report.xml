@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_schema_validation_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::SchemaValidationReport</compoundname>
+    <includes refid="schema__validator_8h" local="no">schema_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_validation_report_1a529acb7841ba4630edd06cf9cbd87a88" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::SchemaValidationReport::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::importers::SchemaValidationReport::is_valid</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="91" column="10" bodyfile="include/importers/schema_validator.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_validation_report_1aac1315e02f1741085d5954e8cfba6d0c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a535638a7f3e11e6c2002fd71c7137432" kindref="member">SchemaValidationLevel</ref></type>
+        <definition>SchemaValidationLevel themis::importers::SchemaValidationReport::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::importers::SchemaValidationReport::level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="93" column="27" bodyfile="include/importers/schema_validator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_validation_report_1a003342445cce00876dc3c221af9fae95" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_schema_error" kindref="compound">SchemaError</ref> &gt;</type>
+        <definition>std::vector&lt;SchemaError&gt; themis::importers::SchemaValidationReport::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::importers::SchemaValidationReport::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="95" column="17" bodyfile="include/importers/schema_validator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_validation_report_1a5a70dd2adf96e0aa561b5e5dad090b7c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::SchemaValidationReport::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::importers::SchemaValidationReport::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="97" column="17" bodyfile="include/importers/schema_validator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_validation_report_1af0c2eb2dc96e59e1c5fd393ae1d7dc08" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::SchemaValidationReport::suggestions</definition>
+        <argsstring></argsstring>
+        <name>suggestions</name>
+        <qualifiedname>themis::importers::SchemaValidationReport::suggestions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="99" column="17" bodyfile="include/importers/schema_validator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_validation_report_1a6ab99494c2f04732d777bac90de8d21e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_detected_schema" kindref="compound">DetectedSchema</ref></type>
+        <definition>DetectedSchema themis::importers::SchemaValidationReport::repaired_schema</definition>
+        <argsstring></argsstring>
+        <name>repaired_schema</name>
+        <qualifiedname>themis::importers::SchemaValidationReport::repaired_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="101" column="20" bodyfile="include/importers/schema_validator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_validation_report_1ad8fe8990b0058fe9d3f9ba803f3610d8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::SchemaValidationReport::validation_time_ms</definition>
+        <argsstring></argsstring>
+        <name>validation_time_ms</name>
+        <qualifiedname>themis::importers::SchemaValidationReport::validation_time_ms</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="103" column="14" bodyfile="include/importers/schema_validator.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_schema_validation_report_1a8c6e375983b7538ae37d83d928b7b6aa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::SchemaValidationReport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::SchemaValidationReport::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="105" column="10" bodyfile="include/importers/schema_validator.h" bodystart="105" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::DetectedSchema</label>
+        <link refid="structthemis_1_1importers_1_1_detected_schema"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::SchemaValidationReport</label>
+        <link refid="structthemis_1_1importers_1_1_schema_validation_report"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>repaired_schema</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/schema_validator.h" line="90" column="1" bodyfile="include/importers/schema_validator.h" bodystart="90" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_schema_validation_report_1a003342445cce00876dc3c221af9fae95" prot="public" virt="non-virtual"><scope>themis::importers::SchemaValidationReport</scope><name>errors</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_validation_report_1a529acb7841ba4630edd06cf9cbd87a88" prot="public" virt="non-virtual"><scope>themis::importers::SchemaValidationReport</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_validation_report_1aac1315e02f1741085d5954e8cfba6d0c" prot="public" virt="non-virtual"><scope>themis::importers::SchemaValidationReport</scope><name>level</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_validation_report_1a6ab99494c2f04732d777bac90de8d21e" prot="public" virt="non-virtual"><scope>themis::importers::SchemaValidationReport</scope><name>repaired_schema</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_validation_report_1af0c2eb2dc96e59e1c5fd393ae1d7dc08" prot="public" virt="non-virtual"><scope>themis::importers::SchemaValidationReport</scope><name>suggestions</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_validation_report_1a8c6e375983b7538ae37d83d928b7b6aa" prot="public" virt="non-virtual"><scope>themis::importers::SchemaValidationReport</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_validation_report_1ad8fe8990b0058fe9d3f9ba803f3610d8" prot="public" virt="non-virtual"><scope>themis::importers::SchemaValidationReport</scope><name>validation_time_ms</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_validation_report_1a5a70dd2adf96e0aa561b5e5dad090b7c" prot="public" virt="non-virtual"><scope>themis::importers::SchemaValidationReport</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

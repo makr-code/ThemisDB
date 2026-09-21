@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1ahp_1_1_latency_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::ahp::LatencySummary</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1abf1bd2b7923cf475e93d655e1ed37ea2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::ahp::LatencySummary::p50_us</definition>
+        <argsstring></argsstring>
+        <name>p50_us</name>
+        <qualifiedname>themis::bench::ahp::LatencySummary::p50_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="97" column="12" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1ad8e3080947cd35d483e2937328418a5c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::ahp::LatencySummary::p95_us</definition>
+        <argsstring></argsstring>
+        <name>p95_us</name>
+        <qualifiedname>themis::bench::ahp::LatencySummary::p95_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="98" column="12" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1ab4d456fe327e8c2c2d9fd320b4df4404" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::ahp::LatencySummary::p99_us</definition>
+        <argsstring></argsstring>
+        <name>p99_us</name>
+        <qualifiedname>themis::bench::ahp::LatencySummary::p99_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="99" column="12" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1a5f42d0cf2af6bdef222995e4572a04ff" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::ahp::LatencySummary::avg_us</definition>
+        <argsstring></argsstring>
+        <name>avg_us</name>
+        <qualifiedname>themis::bench::ahp::LatencySummary::avg_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="100" column="12" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="96" column="1" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="96" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1a5f42d0cf2af6bdef222995e4572a04ff" prot="public" virt="non-virtual"><scope>themis::bench::ahp::LatencySummary</scope><name>avg_us</name></member>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1abf1bd2b7923cf475e93d655e1ed37ea2" prot="public" virt="non-virtual"><scope>themis::bench::ahp::LatencySummary</scope><name>p50_us</name></member>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1ad8e3080947cd35d483e2937328418a5c" prot="public" virt="non-virtual"><scope>themis::bench::ahp::LatencySummary</scope><name>p95_us</name></member>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1ab4d456fe327e8c2c2d9fd320b4df4404" prot="public" virt="non-virtual"><scope>themis::bench::ahp::LatencySummary</scope><name>p99_us</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

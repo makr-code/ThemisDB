@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_o_c_r_extractor" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::OCRExtractor</compoundname>
+    <includes refid="modality__parser_8h" local="no">modality_parser.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_o_c_r_extractor_1a88b32d46b43e7ae3ebc9889c7b3df765" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref></type>
+        <definition>ModalityParserConfig themis::training::OCRExtractor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::training::OCRExtractor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="228" column="26" bodyfile="include/training/modality_parser.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_o_c_r_extractor_1a6d45d8a2b64e0a90ed10a608d4444d23" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::OCRExtractor::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themis::training::OCRExtractor::available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="229" column="10" bodyfile="include/training/modality_parser.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_o_c_r_extractor_1aba71abc826955be05dd88a3faedc63f1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::OCRExtractor::OCRExtractor</definition>
+        <argsstring>(const ModalityParserConfig &amp;config)</argsstring>
+        <name>OCRExtractor</name>
+        <qualifiedname>themis::training::OCRExtractor::OCRExtractor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="209" column="14" bodyfile="src/training/modality_parser.cpp" bodystart="498" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_o_c_r_extractor_1a5549866f18ca6471b7737bafee77a86f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::OCRExtractor::isAvailable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::training::OCRExtractor::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Returns true when OCR support is compiled in and initialised. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="214" column="10" bodyfile="src/training/modality_parser.cpp" bodystart="510" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_o_c_r_extractor_1aa02e98d0be278712a0a25e62158bc92a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt;</type>
+        <definition>std::vector&lt; TrainingSample &gt; themis::training::OCRExtractor::extract</definition>
+        <argsstring>(const std::string &amp;image_path, const std::string &amp;document_id) const</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::training::OCRExtractor::extract</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>image_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+<para>Run OCR on an image file and return extracted samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>image_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to TIFF / PNG / JPEG image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source document identifier for provenance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of OCR_IMAGE-typed <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> records, or empty if OCR is unavailable. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="224" column="17" bodyfile="src/training/modality_parser.cpp" bodystart="515" bodyend="560"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wraps optional OCR processing for scanned image pages. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When THEMIS_ENABLE_OCR is set at build time and a Tesseract installation is available at runtime, this extractor passes image data through OCR and wraps the resulting text as an OCR_IMAGE-modality <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref>. If OCR is unavailable the extractor compiles and links cleanly but <computeroutput><ref refid="classthemis_1_1training_1_1_o_c_r_extractor_1a5549866f18ca6471b7737bafee77a86f" kindref="member">isAvailable()</ref></computeroutput> returns <computeroutput>false</computeroutput> and <computeroutput><ref refid="classthemis_1_1training_1_1_o_c_r_extractor_1aa02e98d0be278712a0a25e62158bc92a" kindref="member">extract()</ref></computeroutput> returns an empty vector.</para>
+<para><simplesect kind="note"><para>The <computeroutput>image_path</computeroutput> argument is the filesystem path to a TIFF, PNG, or JPEG image of a scanned page. Pass the originating document_id as the second argument so provenance can be traced back. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/training/modality_parser.h" line="207" column="1" bodyfile="include/training/modality_parser.h" bodystart="207" bodyend="230"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_o_c_r_extractor_1a6d45d8a2b64e0a90ed10a608d4444d23" prot="private" virt="non-virtual"><scope>themis::training::OCRExtractor</scope><name>available_</name></member>
+      <member refid="classthemis_1_1training_1_1_o_c_r_extractor_1a88b32d46b43e7ae3ebc9889c7b3df765" prot="private" virt="non-virtual"><scope>themis::training::OCRExtractor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1training_1_1_o_c_r_extractor_1aa02e98d0be278712a0a25e62158bc92a" prot="public" virt="non-virtual"><scope>themis::training::OCRExtractor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1training_1_1_o_c_r_extractor_1a5549866f18ca6471b7737bafee77a86f" prot="public" virt="non-virtual"><scope>themis::training::OCRExtractor</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1training_1_1_o_c_r_extractor_1aba71abc826955be05dd88a3faedc63f1" prot="public" virt="non-virtual"><scope>themis::training::OCRExtractor</scope><name>OCRExtractor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::user_storage_encrypted::test::E2EIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a0ad08d65ed205b7fea7d806ca6467d64" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::user_storage_encrypted::test::E2EIntegrationTest::kTestDataDir</definition>
+        <argsstring></argsstring>
+        <name>kTestDataDir</name>
+        <qualifiedname>themis::user_storage_encrypted::test::E2EIntegrationTest::kTestDataDir</qualifiedname>
+        <initializer>= &quot;/tmp/themis_e2e_test_data&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="66" column="33" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a90a33946c83290c3529ef8fa47e64824" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::user_storage_encrypted::test::E2EIntegrationTest::kTestMntDir</definition>
+        <argsstring></argsstring>
+        <name>kTestMntDir</name>
+        <qualifiedname>themis::user_storage_encrypted::test::E2EIntegrationTest::kTestMntDir</qualifiedname>
+        <initializer>= &quot;/tmp/themis_e2e_test_mnt&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="67" column="33" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a44524a3c67e54d6401d1401fdbd8e021" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::user_storage_encrypted::test::E2EIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::user_storage_encrypted::test::E2EIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="69" column="10" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="69" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a76065b4f6e3fd8e569e716b8916b2b98" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::user_storage_encrypted::test::E2EIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::user_storage_encrypted::test::E2EIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="75" column="10" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="75" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a7c8d1cba0e1067764e59c0def7941624" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::user_storage_encrypted::test::E2EIntegrationTest::MakeTempContainer</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>MakeTempContainer</name>
+        <qualifiedname>themis::user_storage_encrypted::test::E2EIntegrationTest::MakeTempContainer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="85" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1ae09d9a3206fa4c21692c01f8b9c10994" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::user_storage_encrypted::test::E2EIntegrationTest::MakeTempMountPoint</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>MakeTempMountPoint</name>
+        <qualifiedname>themis::user_storage_encrypted::test::E2EIntegrationTest::MakeTempMountPoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="91" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="91" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::user_storage_encrypted::test::E2EIntegrationTest</label>
+        <link refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::user_storage_encrypted::test::E2EIntegrationTest</label>
+        <link refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="64" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="64" bodyend="96"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a0ad08d65ed205b7fea7d806ca6467d64" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::E2EIntegrationTest</scope><name>kTestDataDir</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a90a33946c83290c3529ef8fa47e64824" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::E2EIntegrationTest</scope><name>kTestMntDir</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a7c8d1cba0e1067764e59c0def7941624" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::E2EIntegrationTest</scope><name>MakeTempContainer</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1ae09d9a3206fa4c21692c01f8b9c10994" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::E2EIntegrationTest</scope><name>MakeTempMountPoint</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a44524a3c67e54d6401d1401fdbd8e021" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::E2EIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a76065b4f6e3fd8e569e716b8916b2b98" prot="protected" virt="non-virtual"><scope>themis::user_storage_encrypted::test::E2EIntegrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

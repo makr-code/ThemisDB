@@ -1,0 +1,784 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_index_analyzer" kind="class" language="C++" prot="public">
+    <compoundname>themis::IndexAnalyzer</compoundname>
+    <includes refid="index__analyzer_8h" local="no">index_analyzer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_index_analyzer_1a1f2dbe1887a76e32f8280cf36e50681a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::IndexAnalyzer::db_wrapper_</definition>
+        <argsstring></argsstring>
+        <name>db_wrapper_</name>
+        <qualifiedname>themis::IndexAnalyzer::db_wrapper_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="367" column="27" bodyfile="include/storage/index_analyzer.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_analyzer_1a378b1e89ce459594dd366130009a3378" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::IndexAnalyzer::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::IndexAnalyzer::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="368" column="43" bodyfile="include/storage/index_analyzer.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_analyzer_1ab5700d00cd7c30119b6fc7d3c9d104bf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_index_analyze_config" kindref="compound">IndexAnalyzeConfig</ref></type>
+        <definition>IndexAnalyzeConfig themis::IndexAnalyzer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::IndexAnalyzer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="369" column="43" bodyfile="include/storage/index_analyzer.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_analyzer_1ac7ba38680dd91991c41ca55fa732e452" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_i_index_analysis_advisor" kindref="compound">IIndexAnalysisAdvisor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IIndexAnalysisAdvisor&gt; themis::IndexAnalyzer::advisor_</definition>
+        <argsstring></argsstring>
+        <name>advisor_</name>
+        <qualifiedname>themis::IndexAnalyzer::advisor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="370" column="21" bodyfile="include/storage/index_analyzer.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_analyzer_1a48f76741c2b984a60e036fb086d48226" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::IndexAnalyzer::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::IndexAnalyzer::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="373" column="37" bodyfile="include/storage/index_analyzer.h" bodystart="373" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_analyzer_1ae9f7a9b7dec78247d1ff154d804aff54" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::IndexAnalyzer::scheduler_thread_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_thread_</name>
+        <qualifiedname>themis::IndexAnalyzer::scheduler_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="374" column="43" bodyfile="include/storage/index_analyzer.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_analyzer_1ab27e58a93f6cd8354543b818eba0e6f9" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::IndexAnalyzer::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::IndexAnalyzer::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="375" column="43" bodyfile="include/storage/index_analyzer.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_analyzer_1a993cea03e1ee3053f981a8dcc560a556" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_index_analysis_report" kindref="compound">IndexAnalysisReport</ref> &gt;</type>
+        <definition>std::vector&lt;IndexAnalysisReport&gt; themis::IndexAnalyzer::last_reports_</definition>
+        <argsstring></argsstring>
+        <name>last_reports_</name>
+        <qualifiedname>themis::IndexAnalyzer::last_reports_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="378" column="22" bodyfile="include/storage/index_analyzer.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_analyzer_1a21d0eb42ad53e79fc674b5c9ccce1517" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt;std::chrono::system_clock::time_point&gt; themis::IndexAnalyzer::last_run_time_</definition>
+        <argsstring></argsstring>
+        <name>last_run_time_</name>
+        <qualifiedname>themis::IndexAnalyzer::last_run_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="379" column="19" bodyfile="include/storage/index_analyzer.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1a62a6b0a5f1a1295f8d1bebb7f242cbb2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::IndexAnalyzer::IndexAnalyzer</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db_wrapper, IndexAnalyzeConfig config=IndexAnalyzeConfig{})</argsstring>
+        <name>IndexAnalyzer</name>
+        <qualifiedname>themis::IndexAnalyzer::IndexAnalyzer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+          <declname>db_wrapper</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_index_analyze_config" kindref="compound">IndexAnalyzeConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_index_analyze_config" kindref="compound">IndexAnalyzeConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with an existing RocksDB wrapper and loaded config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db_wrapper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-null shared pointer to the active RocksDB instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully populated <ref refid="structthemis_1_1_index_analyze_config" kindref="compound">IndexAnalyzeConfig</ref> (from YAML or default). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="253" column="14" bodyfile="src/storage/index_analyzer.cpp" bodystart="211" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1aa325482a01f4a371c22806e9b92ea82d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::IndexAnalyzer::~IndexAnalyzer</definition>
+        <argsstring>()</argsstring>
+        <name>~IndexAnalyzer</name>
+        <qualifiedname>themis::IndexAnalyzer::~IndexAnalyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="257" column="5" bodyfile="src/storage/index_analyzer.cpp" bodystart="226" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1a1cb59a5d225c66f93f1158d351ca0cc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::IndexAnalyzer::IndexAnalyzer</definition>
+        <argsstring>(const IndexAnalyzer &amp;)=delete</argsstring>
+        <name>IndexAnalyzer</name>
+        <qualifiedname>themis::IndexAnalyzer::IndexAnalyzer</qualifiedname>
+        <param>
+          <type>const IndexAnalyzer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="260" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1a8087f6b5de515db1c7b3095a7a6f4708" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_index_analyzer_1a62a6b0a5f1a1295f8d1bebb7f242cbb2" kindref="member">IndexAnalyzer</ref> &amp;</type>
+        <definition>IndexAnalyzer &amp; themis::IndexAnalyzer::operator=</definition>
+        <argsstring>(const IndexAnalyzer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::IndexAnalyzer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_index_analyzer_1a62a6b0a5f1a1295f8d1bebb7f242cbb2" kindref="member">IndexAnalyzer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="261" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1ae4102f4259ad4ef22dc0222608c1597a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::IndexAnalyzer::IndexAnalyzer</definition>
+        <argsstring>(IndexAnalyzer &amp;&amp;)=delete</argsstring>
+        <name>IndexAnalyzer</name>
+        <qualifiedname>themis::IndexAnalyzer::IndexAnalyzer</qualifiedname>
+        <param>
+          <type>IndexAnalyzer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="262" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1a405167792dab6ceab4183de6194ac779" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_index_analyzer_1a62a6b0a5f1a1295f8d1bebb7f242cbb2" kindref="member">IndexAnalyzer</ref> &amp;</type>
+        <definition>IndexAnalyzer &amp; themis::IndexAnalyzer::operator=</definition>
+        <argsstring>(IndexAnalyzer &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::IndexAnalyzer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_index_analyzer_1a62a6b0a5f1a1295f8d1bebb7f242cbb2" kindref="member">IndexAnalyzer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="263" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1af9972725384deaa0f6637ebc4fb7cb42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::IndexAnalyzer::setConfig</definition>
+        <argsstring>(IndexAnalyzeConfig config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::IndexAnalyzer::setConfig</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_index_analyze_config" kindref="compound">IndexAnalyzeConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the current configuration at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para>If the background thread is running, the new cron expression and index list take effect at the next scheduler wake-up.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), notify_all(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="273" column="10" bodyfile="src/storage/index_analyzer.cpp" bodystart="239" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1af6713ce5c98893c67d65f0d55d5e6c84" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_index_analyze_config" kindref="compound">IndexAnalyzeConfig</ref> &amp;</type>
+        <definition>const IndexAnalyzeConfig &amp; themis::IndexAnalyzer::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::IndexAnalyzer::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="275" column="30" bodyfile="src/storage/index_analyzer.cpp" bodystart="247" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1abb23348d6be913ef4057f16ae8a66fc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::IndexAnalyzer::setAdvisor</definition>
+        <argsstring>(std::shared_ptr&lt; IIndexAnalysisAdvisor &gt; advisor)</argsstring>
+        <name>setAdvisor</name>
+        <qualifiedname>themis::IndexAnalyzer::setAdvisor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_i_index_analysis_advisor" kindref="compound">IIndexAnalysisAdvisor</ref> &gt;</type>
+          <declname>advisor</declname>
+        </param>
+        <briefdescription>
+<para>Register an AI/ML advisor for post-analysis recommendation override. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Advisor.</para>
+<para>Pass nullptr to remove the current advisor (reverts to rule-based only).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">advisor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="284" column="10" bodyfile="src/storage/index_analyzer.cpp" bodystart="266" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1a140b91a116c593b9d581d7fdbe8af4d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1_index_analysis_report" kindref="compound">IndexAnalysisReport</ref> &gt;</type>
+        <definition>Result&lt; IndexAnalysisReport &gt; themis::IndexAnalyzer::analyze</definition>
+        <argsstring>(const std::string &amp;index_name, storage::StorageTierLevel tier, std::optional&lt; TierThresholds &gt; overrides=std::nullopt)</argsstring>
+        <name>analyze</name>
+        <qualifiedname>themis::IndexAnalyzer::analyze</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">storage::StorageTierLevel</ref></type>
+          <declname>tier</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="structthemis_1_1_tier_thresholds" kindref="compound">TierThresholds</ref> &gt;</type>
+          <declname>overrides</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Analyse a single index and return the report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the index to analyse. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage tier the index currently resides on. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>overrides</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional per-call threshold overrides (nullopt = use config).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">overrides</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lock(), value_or(), thresholdsFor(), computeReport(), applyAdvisor(), std::move(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="295" column="12" bodyfile="src/storage/index_analyzer.cpp" bodystart="284" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1ae7902c4b5033818fa7f1504d393acdd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_index_analysis_report" kindref="compound">IndexAnalysisReport</ref> &gt;</type>
+        <definition>std::vector&lt; IndexAnalysisReport &gt; themis::IndexAnalyzer::analyzeAll</definition>
+        <argsstring>()</argsstring>
+        <name>analyzeAll</name>
+        <qualifiedname>themis::IndexAnalyzer::analyzeAll</qualifiedname>
+        <briefdescription>
+<para>Analyse all indices registered in the config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze All.</para>
+<para>Skips indices with <computeroutput>enabled = false</computeroutput>. <simplesect kind="return"><para>Vector of reports (one per enabled index).</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), reserve(), size(), value_or(), thresholdsFor(), computeReport(), applyAdvisor(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="306" column="17" bodyfile="src/storage/index_analyzer.cpp" bodystart="313" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1a67704cbe7169dc574674a88bf5b8119c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::IndexAnalyzer::startScheduled</definition>
+        <argsstring>()</argsstring>
+        <name>startScheduled</name>
+        <qualifiedname>themis::IndexAnalyzer::startScheduled</qualifiedname>
+        <briefdescription>
+<para>Start the background cron scheduler thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Scheduled.</para>
+<para>The scheduler waits until the next time matching the configured cron_expression, then calls <ref refid="classthemis_1_1_index_analyzer_1ae7902c4b5033818fa7f1504d393acdd8" kindref="member">analyzeAll()</ref> and stores the results. Idempotent – calling start() twice has no effect.</para>
+<para><simplesect kind="return"><para>Error if cron_expression is invalid or already started.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: exchange(), ErrVoid(), lock(), empty(), CronExpression::parse(), std::thread(), THEMIS_INFO(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="319" column="12" bodyfile="src/storage/index_analyzer.cpp" bodystart="369" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1a19376174ee242519acd72a6578eebc78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::IndexAnalyzer::stopScheduled</definition>
+        <argsstring>()</argsstring>
+        <name>stopScheduled</name>
+        <qualifiedname>themis::IndexAnalyzer::stopScheduled</qualifiedname>
+        <briefdescription>
+<para>Stop the background cron scheduler thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Scheduled.</para>
+<para>Blocks until the thread has exited. Idempotent.</para>
+<para>Calls: exchange(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="326" column="10" bodyfile="src/storage/index_analyzer.cpp" bodystart="397" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1ad448259e77afc96fcbbd48ab92768528" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::IndexAnalyzer::isScheduled</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isScheduled</name>
+        <qualifiedname>themis::IndexAnalyzer::isScheduled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the background scheduler is currently running. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="329" column="10" bodyfile="src/storage/index_analyzer.cpp" bodystart="407" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1a55906df231a345de5e325489d82dba8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_index_analysis_report" kindref="compound">IndexAnalysisReport</ref> &gt;</type>
+        <definition>std::vector&lt; IndexAnalysisReport &gt; themis::IndexAnalyzer::lastReports</definition>
+        <argsstring>() const</argsstring>
+        <name>lastReports</name>
+        <qualifiedname>themis::IndexAnalyzer::lastReports</qualifiedname>
+        <briefdescription>
+<para>Return the reports from the most recent <ref refid="classthemis_1_1_index_analyzer_1ae7902c4b5033818fa7f1504d393acdd8" kindref="member">analyzeAll()</ref> run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns an empty vector if no analysis has been performed yet. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="338" column="17" bodyfile="src/storage/index_analyzer.cpp" bodystart="415" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1a6688d3a2191b75a9a37087e90d9f892f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt; std::chrono::system_clock::time_point &gt; themis::IndexAnalyzer::lastRunTime</definition>
+        <argsstring>() const</argsstring>
+        <name>lastRunTime</name>
+        <qualifiedname>themis::IndexAnalyzer::lastRunTime</qualifiedname>
+        <briefdescription>
+<para>Return the timestamp of the last scheduled analysis run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns nullopt if no scheduled run has completed yet. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="345" column="19" bodyfile="src/storage/index_analyzer.cpp" bodystart="425" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1a6757b1a603483fb3a2940d1c97993c19" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::IndexAnalyzer::schedulerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>schedulerLoop</name>
+        <qualifiedname>themis::IndexAnalyzer::schedulerLoop</qualifiedname>
+        <briefdescription>
+<para>Scheduler Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(), load(), lock(), empty(), wait_for(), std::chrono::minutes(), CronExpression::parse(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="349" column="10" bodyfile="src/storage/index_analyzer.cpp" bodystart="443" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1af67d9615d4c05027650ef9f42e9b79f5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_index_analysis_report" kindref="compound">IndexAnalysisReport</ref></type>
+        <definition>IndexAnalysisReport themis::IndexAnalyzer::computeReport</definition>
+        <argsstring>(const std::string &amp;index_name, storage::StorageTierLevel tier, const TierThresholds &amp;thresholds)</argsstring>
+        <name>computeReport</name>
+        <qualifiedname>themis::IndexAnalyzer::computeReport</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">storage::StorageTierLevel</ref></type>
+          <declname>tier</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_tier_thresholds" kindref="compound">TierThresholds</ref> &amp;</type>
+          <declname>thresholds</declname>
+        </param>
+        <briefdescription>
+<para>Compute Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">thresholds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), getRawDB(), THEMIS_WARN(), GetProperty(), std::stoull(), GetIntProperty(), std::min(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="352" column="25" bodyfile="src/storage/index_analyzer.cpp" bodystart="539" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1a540828315938fdfb7c4feb1927665662" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::IndexAnalyzer::applyAdvisor</definition>
+        <argsstring>(IndexAnalysisReport &amp;report)</argsstring>
+        <name>applyAdvisor</name>
+        <qualifiedname>themis::IndexAnalyzer::applyAdvisor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_index_analysis_report" kindref="compound">IndexAnalysisReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Private – AI/ML advisor dispatch ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), advise(), THEMIS_INFO(), value(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="358" column="10" bodyfile="src/storage/index_analyzer.cpp" bodystart="660" bodyend="687"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_index_analyzer_1aa56345fe854be475f3dbcef356b41950" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a542b33165945b485e60ef2095f726cda" kindref="member">IndexRecommendation</ref></type>
+        <definition>IndexRecommendation themis::IndexAnalyzer::classify</definition>
+        <argsstring>(double frag_pct, bool stats_stale, const TierThresholds &amp;thresholds)</argsstring>
+        <name>classify</name>
+        <qualifiedname>themis::IndexAnalyzer::classify</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>frag_pct</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>stats_stale</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_tier_thresholds" kindref="compound">TierThresholds</ref> &amp;</type>
+          <declname>thresholds</declname>
+          <defname>t</defname>
+        </param>
+        <briefdescription>
+<para>Classify the semantic intent of a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">frag_pct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_stale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements classify without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="361" column="32" bodyfile="src/storage/index_analyzer.cpp" bodystart="701" bodyend="717"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-index analysis engine with cron scheduling and AI/ML advisor hook. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1_index_analyzer_1autotoc_md6_1s1"><sect2 id="classthemis_1_1_index_analyzer_1autotoc_md6">
+<title>Responsibilities</title><para><itemizedlist>
+<listitem><para>Compute fragmentation, orphan entries, statistics staleness per index.</para>
+</listitem><listitem><para>Apply tier-aware thresholds to derive a maintenance recommendation (NONE / UPDATE_STATS / REORGANIZE / PARTIAL_REBUILD / FULL_REBUILD).</para>
+</listitem><listitem><para>Optionally forward the preliminary report to a registered <ref refid="classthemis_1_1_i_index_analysis_advisor" kindref="compound">IIndexAnalysisAdvisor</ref> (AI/ML model) which may override the recommendation.</para>
+</listitem><listitem><para>Run analysis on a cron schedule (background thread); results are retrievable via <ref refid="classthemis_1_1_index_analyzer_1a55906df231a345de5e325489d82dba8a" kindref="member">lastReports()</ref> without blocking the caller.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_index_analyzer_1autotoc_md7_1s1"><sect2 id="classthemis_1_1_index_analyzer_1autotoc_md7">
+<title>Thread safety</title><para>All public methods are thread-safe.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_index_analyzer_1autotoc_md8_1s1"><sect2 id="classthemis_1_1_index_analyzer_1autotoc_md8">
+<title>Usage example</title><para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/><ref refid="structthemis_1_1_index_analyze_config_1a532822b8ee9ddb83a694877045e40a02" kindref="member">IndexAnalyzeConfig::fromYamlFile</ref>(</highlight><highlight class="stringliteral">&quot;config/index_analyze.yaml&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_index_analyzer_1a62a6b0a5f1a1295f8d1bebb7f242cbb2" kindref="member">IndexAnalyzer</ref><sp/>analyzer(db_wrapper,<sp/>*cfg);</highlight></codeline>
+<codeline><highlight class="normal">analyzer.setAdvisor(my_ml_advisor);</highlight></codeline>
+<codeline><highlight class="normal">analyzer.startScheduled();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>reports<sp/>=<sp/>analyzer.analyzeAll();</highlight></codeline>
+<codeline><highlight class="normal">analyzer.stopScheduled();</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/storage/index_analyzer.h" line="246" column="1" bodyfile="include/storage/index_analyzer.h" bodystart="246" bodyend="380"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_index_analyzer_1ac7ba38680dd91991c41ca55fa732e452" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>advisor_</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a140b91a116c593b9d581d7fdbe8af4d6" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>analyze</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1ae7902c4b5033818fa7f1504d393acdd8" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>analyzeAll</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a540828315938fdfb7c4feb1927665662" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>applyAdvisor</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1aa56345fe854be475f3dbcef356b41950" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>classify</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1af67d9615d4c05027650ef9f42e9b79f5" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>computeReport</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1af6713ce5c98893c67d65f0d55d5e6c84" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>config</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1ab5700d00cd7c30119b6fc7d3c9d104bf" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1ab27e58a93f6cd8354543b818eba0e6f9" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a1f2dbe1887a76e32f8280cf36e50681a" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>db_wrapper_</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a62a6b0a5f1a1295f8d1bebb7f242cbb2" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>IndexAnalyzer</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a1cb59a5d225c66f93f1158d351ca0cc7" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>IndexAnalyzer</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1ae4102f4259ad4ef22dc0222608c1597a" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>IndexAnalyzer</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1ad448259e77afc96fcbbd48ab92768528" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>isScheduled</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a993cea03e1ee3053f981a8dcc560a556" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>last_reports_</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a21d0eb42ad53e79fc674b5c9ccce1517" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>last_run_time_</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a55906df231a345de5e325489d82dba8a" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>lastReports</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a6688d3a2191b75a9a37087e90d9f892f" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>lastRunTime</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a378b1e89ce459594dd366130009a3378" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a8087f6b5de515db1c7b3095a7a6f4708" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a405167792dab6ceab4183de6194ac779" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a48f76741c2b984a60e036fb086d48226" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>running_</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1ae9f7a9b7dec78247d1ff154d804aff54" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>scheduler_thread_</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a6757b1a603483fb3a2940d1c97993c19" prot="private" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>schedulerLoop</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1abb23348d6be913ef4057f16ae8a66fc4" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>setAdvisor</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1af9972725384deaa0f6637ebc4fb7cb42" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a67704cbe7169dc574674a88bf5b8119c" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>startScheduled</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1a19376174ee242519acd72a6578eebc78" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>stopScheduled</name></member>
+      <member refid="classthemis_1_1_index_analyzer_1aa325482a01f4a371c22806e9b92ea82d" prot="public" virt="non-virtual"><scope>themis::IndexAnalyzer</scope><name>~IndexAnalyzer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

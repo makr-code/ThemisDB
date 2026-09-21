@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_streaming_exporter_test" kind="class" language="C++" prot="public">
+    <compoundname>StreamingExporterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_streaming_exporter_test_1a6feed9e37084bdc3a53921b57cb72aef" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StreamingExporterTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>StreamingExporterTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_streaming_exporter.cpp" line="69" column="17" bodyfile="tests/exporters/test_streaming_exporter.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_streaming_exporter_test_1a7fa1ccfa0b31675f533ca0ee4a07fc30" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt;BaseEntity&gt; StreamingExporterTest::test_entities_</definition>
+        <argsstring></argsstring>
+        <name>test_entities_</name>
+        <qualifiedname>StreamingExporterTest::test_entities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_streaming_exporter.cpp" line="70" column="17" bodyfile="tests/exporters/test_streaming_exporter.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_streaming_exporter_test_1a4e9d6003d4d192f698435386345f191f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StreamingExporterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>StreamingExporterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_streaming_exporter.cpp" line="29" column="10" bodyfile="tests/exporters/test_streaming_exporter.cpp" bodystart="29" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_streaming_exporter_test_1a42eca72862cb11b0b113d206c51faaaf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StreamingExporterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>StreamingExporterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_streaming_exporter.cpp" line="39" column="10" bodyfile="tests/exporters/test_streaming_exporter.cpp" bodystart="39" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_streaming_exporter_test_1a7f9a23ee78ca63daa054c51882c39925" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StreamingExporterTest::createTestEntities</definition>
+        <argsstring>(int count=20)</argsstring>
+        <name>createTestEntities</name>
+        <qualifiedname>StreamingExporterTest::createTestEntities</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+          <defval>20</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_streaming_exporter.cpp" line="45" column="10" bodyfile="tests/exporters/test_streaming_exporter.cpp" bodystart="45" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_streaming_exporter_test_1a43f3c5c33289a73bd1b0454e17e62a54" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; StreamingExporterTest::readLines</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readLines</name>
+        <qualifiedname>StreamingExporterTest::readLines</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_streaming_exporter.cpp" line="57" column="17" bodyfile="tests/exporters/test_streaming_exporter.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StreamingExporterTest</label>
+        <link refid="class_streaming_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StreamingExporterTest</label>
+        <link refid="class_streaming_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_streaming_exporter.cpp" line="27" column="1" bodyfile="tests/exporters/test_streaming_exporter.cpp" bodystart="27" bodyend="71"/>
+    <listofallmembers>
+      <member refid="class_streaming_exporter_test_1a7f9a23ee78ca63daa054c51882c39925" prot="protected" virt="non-virtual"><scope>StreamingExporterTest</scope><name>createTestEntities</name></member>
+      <member refid="class_streaming_exporter_test_1a43f3c5c33289a73bd1b0454e17e62a54" prot="protected" virt="non-virtual"><scope>StreamingExporterTest</scope><name>readLines</name></member>
+      <member refid="class_streaming_exporter_test_1a4e9d6003d4d192f698435386345f191f" prot="protected" virt="non-virtual"><scope>StreamingExporterTest</scope><name>SetUp</name></member>
+      <member refid="class_streaming_exporter_test_1a42eca72862cb11b0b113d206c51faaaf" prot="protected" virt="non-virtual"><scope>StreamingExporterTest</scope><name>TearDown</name></member>
+      <member refid="class_streaming_exporter_test_1a6feed9e37084bdc3a53921b57cb72aef" prot="protected" virt="non-virtual"><scope>StreamingExporterTest</scope><name>test_dir_</name></member>
+      <member refid="class_streaming_exporter_test_1a7fa1ccfa0b31675f533ca0ee4a07fc30" prot="protected" virt="non-virtual"><scope>StreamingExporterTest</scope><name>test_entities_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d311320147230175333302033267022212101344206004335" kind="namespace" language="C++">
+    <compoundname>@311320147230175333302033267022212101344206004335</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/test_replication_geo_placement_wal_shipping_focused.cpp" line="57" column="1"/>
+  </compounddef>
+</doxygen>

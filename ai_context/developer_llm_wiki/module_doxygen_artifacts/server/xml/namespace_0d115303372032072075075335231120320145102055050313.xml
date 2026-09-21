@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d115303372032072075075335231120320145102055050313" kind="namespace" language="C++">
+    <compoundname>@115303372032072075075335231120320145102055050313</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d115303372032072075075335231120320145102055050313_1a80881751360622f53ffc7bdb78f573d6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ErrorCode</name>
+        <qualifiedname>@115303372032072075075335231120320145102055050313::ErrorCode</qualifiedname>
+        <enumvalue id="namespace_0d115303372032072075075335231120320145102055050313_1a80881751360622f53ffc7bdb78f573d6a1e3c4c5d2883d366b2c18e0e44c9a186" prot="public">
+          <name>FeatureDisabled</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d115303372032072075075335231120320145102055050313_1a80881751360622f53ffc7bdb78f573d6a05f6ffa53682f5ecd6164f8a3524733a" prot="public">
+          <name>ConfigurationError</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/api_gateway.cpp" line="48" column="5" bodyfile="src/server/api_gateway.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/server/api_gateway.cpp" line="38" column="1"/>
+  </compounddef>
+</doxygen>

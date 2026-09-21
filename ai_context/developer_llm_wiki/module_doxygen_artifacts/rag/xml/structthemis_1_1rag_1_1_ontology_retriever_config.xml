@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_ontology_retriever_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::OntologyRetrieverConfig</compoundname>
+    <includes refid="ontology__aware__retriever_8h" local="no">ontology_aware_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_ontology_retriever_config_1a06e8d098d142586f5078375a2c4f6dcf" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::OntologyRetrieverConfig::max_traversal_depth</definition>
+        <argsstring></argsstring>
+        <name>max_traversal_depth</name>
+        <qualifiedname>themis::rag::OntologyRetrieverConfig::max_traversal_depth</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Maximum BFS hops in the knowledge graph (passed to KGRetrieverConfig). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="34" column="17" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_ontology_retriever_config_1a530d94fc5101c472aa132588b7953326" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::OntologyRetrieverConfig::kg_score_weight</definition>
+        <argsstring></argsstring>
+        <name>kg_score_weight</name>
+        <qualifiedname>themis::rag::OntologyRetrieverConfig::kg_score_weight</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+<para>KG score fusion weight [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="37" column="12" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_ontology_retriever_config_1a7809f7085e8a7b313f16b00809cb22d9" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::OntologyRetrieverConfig::max_superclass_expansion</definition>
+        <argsstring></argsstring>
+        <name>max_superclass_expansion</name>
+        <qualifiedname>themis::rag::OntologyRetrieverConfig::max_superclass_expansion</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum concept-expansion ancestors to include per entity concept. Bounds the number of superclass IDs added to the alias lookup set. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="41" column="17" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_ontology_retriever_config_1a1280f5fe650a0ddd44631b7d1f36752f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::OntologyRetrieverConfig::filter_by_allowed_edge_types</definition>
+        <argsstring></argsstring>
+        <name>filter_by_allowed_edge_types</name>
+        <qualifiedname>themis::rag::OntologyRetrieverConfig::filter_by_allowed_edge_types</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, filter KG traversal to only edges allowed by the ontology&apos;s axioms (via OntologyManager::allowedEdgeTypes). When false, all edges with sufficient weight are followed (same as plain KGRetriever). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="46" column="10" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_ontology_retriever_config_1ade9c932ba295a9e1986d6cb35dc3f8d8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" kindref="compound">kg::EntityLinkerConfig</ref></type>
+        <definition>kg::EntityLinkerConfig themis::rag::OntologyRetrieverConfig::linker_config</definition>
+        <argsstring></argsstring>
+        <name>linker_config</name>
+        <qualifiedname>themis::rag::OntologyRetrieverConfig::linker_config</qualifiedname>
+        <briefdescription>
+<para>Entity linker configuration forwarded to the underlying KGRetriever. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="49" column="28" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::OntologyRetrieverConfig</label>
+        <link refid="structthemis_1_1rag_1_1_ontology_retriever_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>linker_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::kg::EntityLinkerConfig</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/ontology_aware_retriever.h" line="32" column="1" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="32" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_ontology_retriever_config_1a1280f5fe650a0ddd44631b7d1f36752f" prot="public" virt="non-virtual"><scope>themis::rag::OntologyRetrieverConfig</scope><name>filter_by_allowed_edge_types</name></member>
+      <member refid="structthemis_1_1rag_1_1_ontology_retriever_config_1a530d94fc5101c472aa132588b7953326" prot="public" virt="non-virtual"><scope>themis::rag::OntologyRetrieverConfig</scope><name>kg_score_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1_ontology_retriever_config_1ade9c932ba295a9e1986d6cb35dc3f8d8" prot="public" virt="non-virtual"><scope>themis::rag::OntologyRetrieverConfig</scope><name>linker_config</name></member>
+      <member refid="structthemis_1_1rag_1_1_ontology_retriever_config_1a7809f7085e8a7b313f16b00809cb22d9" prot="public" virt="non-virtual"><scope>themis::rag::OntologyRetrieverConfig</scope><name>max_superclass_expansion</name></member>
+      <member refid="structthemis_1_1rag_1_1_ontology_retriever_config_1a06e8d098d142586f5078375a2c4f6dcf" prot="public" virt="non-virtual"><scope>themis::rag::OntologyRetrieverConfig</scope><name>max_traversal_depth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

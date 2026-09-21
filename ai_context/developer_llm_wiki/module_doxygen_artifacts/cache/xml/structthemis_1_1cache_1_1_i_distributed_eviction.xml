@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_i_distributed_eviction" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::IDistributedEviction</compoundname>
+    <derivedcompoundref refid="class_mock_distributed_eviction" prot="public" virt="non-virtual">MockDistributedEviction</derivedcompoundref>
+    <includes refid="distributed__eviction_8h" local="no">distributed_eviction.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_distributed_eviction_1a0284ec035f1008ef4f03b0fec9c7768a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::IDistributedEviction::~IDistributedEviction</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDistributedEviction</name>
+        <qualifiedname>themis::cache::IDistributedEviction::~IDistributedEviction</qualifiedname>
+        <briefdescription>
+<para>IDistributed Eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="68" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_distributed_eviction_1af6172f91579c9eddcecd07c2611f0820" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IDistributedEviction::evict</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;tenant_id=&quot;&quot;, DistributedEvictionReason reason=DistributedEvictionReason::CAPACITY_PRESSURE)=0</argsstring>
+        <name>evict</name>
+        <qualifiedname>themis::cache::IDistributedEviction::evict</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_eviction_1a92a4ead49b9e6893e7ae569ddaa8f4f8">evict</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929" kindref="member">DistributedEvictionReason</ref></type>
+          <declname>reason</declname>
+          <defval><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929ae069607ebd993cd70f61c9b2ecb1b0ec" kindref="member">DistributedEvictionReason::CAPACITY_PRESSURE</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="74" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_distributed_eviction_1a0526c8697665da894309e4fb350b73c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IDistributedEviction::evictByPattern</definition>
+        <argsstring>(const std::string &amp;pattern, const std::string &amp;tenant_id=&quot;&quot;)=0</argsstring>
+        <name>evictByPattern</name>
+        <qualifiedname>themis::cache::IDistributedEviction::evictByPattern</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_eviction_1a6a5968baed0005ee5450b842ffadfd81">evictByPattern</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="79" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_distributed_eviction_1ae8e575d1a8ba67266084d7b4d6000181" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IDistributedEviction::evictByTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)=0</argsstring>
+        <name>evictByTenant</name>
+        <qualifiedname>themis::cache::IDistributedEviction::evictByTenant</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_eviction_1a828460e605801e6052e20aba0304d7f0">evictByTenant</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Evict By Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="86" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_distributed_eviction_1a3ee7fe4bd99197d0ec521bce8760fe81" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IDistributedEviction::flush</definition>
+        <argsstring>(const std::string &amp;tenant_id=&quot;&quot;)=0</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::cache::IDistributedEviction::flush</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_eviction_1a1c4360a2b09f8b184b1f94b5d09316e1">flush</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="88" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_distributed_eviction_1a0ae0891cf332880e998949d417dbb9e3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::cache::IDistributedEviction::registerEvictionListener</definition>
+        <argsstring>(DistributedEvictionListener listener)=0</argsstring>
+        <name>registerEvictionListener</name>
+        <qualifiedname>themis::cache::IDistributedEviction::registerEvictionListener</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_eviction_1a40f359fd9b137863bd5ba92ab0ced692">registerEvictionListener</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a8ccf6d50f436cfecacaa417d735628e4" kindref="member">DistributedEvictionListener</ref></type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="94" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_distributed_eviction_1a05e10babf42a9ae1e4f3f3f59bb8fb42" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IDistributedEviction::unregisterEvictionListener</definition>
+        <argsstring>(uint64_t handle)=0</argsstring>
+        <name>unregisterEvictionListener</name>
+        <qualifiedname>themis::cache::IDistributedEviction::unregisterEvictionListener</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_eviction_1a31688fe54b55fffbd7f94a47b7620c0a">unregisterEvictionListener</reimplementedby>
+        <param>
+          <type>uint64_t</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Eviction Listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="100" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_distributed_eviction_1a0b40509052ca09b047d76a51c845f961" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_distributed_eviction_stats" kindref="compound">DistributedEvictionStats</ref></type>
+        <definition>virtual DistributedEvictionStats themis::cache::IDistributedEviction::stats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::cache::IDistributedEviction::stats</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_eviction_1a9998fd957c4fcaa763dd25fa9cd2f60a">stats</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="106" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_distributed_eviction_1a0b5d1773cc54e951870a80a2aded4f5c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::cache::IDistributedEviction::peerCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>peerCount</name>
+        <qualifiedname>themis::cache::IDistributedEviction::peerCount</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_eviction_1ace745fb8e19c61de693cef3a9dcca426">peerCount</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="108" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_distributed_eviction_1a38208e684627b75d1dff93b6f81e51ad" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cache::IDistributedEviction::isHealthy</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::cache::IDistributedEviction::isHealthy</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_eviction_1a16d7808b34b0dbc1c66efe8582d03dc5">isHealthy</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="110" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockDistributedEviction</label>
+        <link refid="class_mock_distributed_eviction"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cache::IDistributedEviction</label>
+        <link refid="structthemis_1_1cache_1_1_i_distributed_eviction"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/cache/distributed_eviction.h" line="63" column="1" bodyfile="include/cache/distributed_eviction.h" bodystart="63" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_i_distributed_eviction_1af6172f91579c9eddcecd07c2611f0820" prot="public" virt="pure-virtual"><scope>themis::cache::IDistributedEviction</scope><name>evict</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0526c8697665da894309e4fb350b73c0" prot="public" virt="pure-virtual"><scope>themis::cache::IDistributedEviction</scope><name>evictByPattern</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_distributed_eviction_1ae8e575d1a8ba67266084d7b4d6000181" prot="public" virt="pure-virtual"><scope>themis::cache::IDistributedEviction</scope><name>evictByTenant</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a3ee7fe4bd99197d0ec521bce8760fe81" prot="public" virt="pure-virtual"><scope>themis::cache::IDistributedEviction</scope><name>flush</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a38208e684627b75d1dff93b6f81e51ad" prot="public" virt="pure-virtual"><scope>themis::cache::IDistributedEviction</scope><name>isHealthy</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0b5d1773cc54e951870a80a2aded4f5c" prot="public" virt="pure-virtual"><scope>themis::cache::IDistributedEviction</scope><name>peerCount</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0ae0891cf332880e998949d417dbb9e3" prot="public" virt="pure-virtual"><scope>themis::cache::IDistributedEviction</scope><name>registerEvictionListener</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0b40509052ca09b047d76a51c845f961" prot="public" virt="pure-virtual"><scope>themis::cache::IDistributedEviction</scope><name>stats</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a05e10babf42a9ae1e4f3f3f59bb8fb42" prot="public" virt="pure-virtual"><scope>themis::cache::IDistributedEviction</scope><name>unregisterEvictionListener</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0284ec035f1008ef4f03b0fec9c7768a" prot="public" virt="virtual"><scope>themis::cache::IDistributedEviction</scope><name>~IDistributedEviction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

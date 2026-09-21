@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metrics_collector_1_1_exporter_incident_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::MetricsCollector::ExporterIncidentStats</compoundname>
+    <includes refid="metrics__collector_8h" local="no">metrics_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_collector_1_1_exporter_incident_stats_1a99a78bbb71615d7f41e53af55d9cd52d" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::observability::MetricsCollector::ExporterIncidentStats::failures</definition>
+        <argsstring></argsstring>
+        <name>failures</name>
+        <qualifiedname>themis::observability::MetricsCollector::ExporterIncidentStats::failures</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="172" column="22" bodyfile="include/observability/metrics_collector.h" bodystart="172" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_collector_1_1_exporter_incident_stats_1a2a4d06d95f4eaa0f893d153f3a3263e4" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::observability::MetricsCollector::ExporterIncidentStats::recoveries</definition>
+        <argsstring></argsstring>
+        <name>recoveries</name>
+        <qualifiedname>themis::observability::MetricsCollector::ExporterIncidentStats::recoveries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="173" column="22" bodyfile="include/observability/metrics_collector.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_collector_1_1_exporter_incident_stats_1a0d4abb24fae7f0cc17460a5c1f9ac293" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::observability::MetricsCollector::ExporterIncidentStats::malformed_rejections</definition>
+        <argsstring></argsstring>
+        <name>malformed_rejections</name>
+        <qualifiedname>themis::observability::MetricsCollector::ExporterIncidentStats::malformed_rejections</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="174" column="22" bodyfile="include/observability/metrics_collector.h" bodystart="174" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot exporter incident counters for a single exporter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The current observability hardening slice tracks exporter reachability incidents only. Malformed telemetry rejections remain metric-scoped and are surfaced via <computeroutput>malformed_telemetry_rejections_total{metric=...,reason=...}</computeroutput> instead of being attributed to an exporter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>exporter_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical exporter name such as <computeroutput>otlp</computeroutput> or <computeroutput>prometheus</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Current failure and recovery counters for the exporter. The malformed-rejection field remains zero until exporter-specific attribution is implemented as a separate contract change. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/observability/metrics_collector.h" line="171" column="5" bodyfile="include/observability/metrics_collector.h" bodystart="171" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metrics_collector_1_1_exporter_incident_stats_1a99a78bbb71615d7f41e53af55d9cd52d" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector::ExporterIncidentStats</scope><name>failures</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_collector_1_1_exporter_incident_stats_1a0d4abb24fae7f0cc17460a5c1f9ac293" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector::ExporterIncidentStats</scope><name>malformed_rejections</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_collector_1_1_exporter_incident_stats_1a2a4d06d95f4eaa0f893d153f3a3263e4" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector::ExporterIncidentStats</scope><name>recoveries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

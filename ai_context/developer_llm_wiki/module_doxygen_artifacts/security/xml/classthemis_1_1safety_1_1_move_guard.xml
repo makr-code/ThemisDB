@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1safety_1_1_move_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::safety::MoveGuard</compoundname>
+    <includes refid="move__safety__helpers_8h" local="no">move_safety_helpers.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1safety_1_1_move_guard_1a5a4a74afa992b7df9a1372473469478c" prot="private" static="no" mutable="no">
+        <type>T &amp;</type>
+        <definition>T&amp; themis::safety::MoveGuard&lt; T &gt;::obj_</definition>
+        <argsstring></argsstring>
+        <name>obj_</name>
+        <qualifiedname>themis::safety::MoveGuard::obj_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="181" column="7" bodyfile="include/security/move_safety_helpers.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1safety_1_1_move_guard_1a1828f42599f59d9156838604f341a2fc" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::safety::MoveGuard&lt; T &gt;::MoveGuard</definition>
+        <argsstring>(T &amp;obj)</argsstring>
+        <name>MoveGuard</name>
+        <qualifiedname>themis::safety::MoveGuard::MoveGuard</qualifiedname>
+        <param>
+          <type>T &amp;</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="166" column="14" bodyfile="include/security/move_safety_helpers.h" bodystart="166" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1safety_1_1_move_guard_1a4111e060a72c53b309acd8ae62b00f2e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::safety::MoveGuard&lt; T &gt;::~MoveGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~MoveGuard</name>
+        <qualifiedname>themis::safety::MoveGuard::~MoveGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="173" column="5" bodyfile="include/security/move_safety_helpers.h" bodystart="173" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Guard that detects use-after-move in debug builds. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>In production, this is a no-op. In debug mode, it detects invalid access.</para>
+<para>Usage: <programlisting filename=".cpp"><codeline><highlight class="normal">T<sp/>obj<sp/>=<sp/>create();</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1safety_1_1_move_guard_1a1828f42599f59d9156838604f341a2fc" kindref="member">MoveGuard&lt;T&gt;</ref><sp/>guard(obj);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>container<sp/>=<sp/>std::move(obj);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Guard<sp/>destructor<sp/>verifies<sp/>obj<sp/>not<sp/>used<sp/>after<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>obj.foo();<sp/><sp/>//<sp/>This<sp/>would<sp/>be<sp/>flagged<sp/>(or<sp/>UB)</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/security/move_safety_helpers.h" line="164" column="1" bodyfile="include/security/move_safety_helpers.h" bodystart="164" bodyend="182"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1safety_1_1_move_guard_1a1828f42599f59d9156838604f341a2fc" prot="public" virt="non-virtual"><scope>themis::safety::MoveGuard</scope><name>MoveGuard</name></member>
+      <member refid="classthemis_1_1safety_1_1_move_guard_1a5a4a74afa992b7df9a1372473469478c" prot="private" virt="non-virtual"><scope>themis::safety::MoveGuard</scope><name>obj_</name></member>
+      <member refid="classthemis_1_1safety_1_1_move_guard_1a4111e060a72c53b309acd8ae62b00f2e" prot="public" virt="non-virtual"><scope>themis::safety::MoveGuard</scope><name>~MoveGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

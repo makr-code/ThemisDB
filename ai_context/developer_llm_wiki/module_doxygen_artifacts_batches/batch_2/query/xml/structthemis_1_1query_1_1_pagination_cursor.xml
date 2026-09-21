@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_pagination_cursor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::PaginationCursor</compoundname>
+    <includes refid="result__stream_8h" local="no">result_stream.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_pagination_cursor_1aa04344659b62d1ca5d4302e5b09f8929" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PaginationCursor::last_key</definition>
+        <argsstring></argsstring>
+        <name>last_key</name>
+        <qualifiedname>themis::query::PaginationCursor::last_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="33" column="17" bodyfile="include/query/result_stream.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_pagination_cursor_1aaee81d74cdb81558399eb21e72a7f3d8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::query::PaginationCursor::last_value</definition>
+        <argsstring></argsstring>
+        <name>last_value</name>
+        <qualifiedname>themis::query::PaginationCursor::last_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="34" column="19" bodyfile="include/query/result_stream.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_pagination_cursor_1a0653ac32eb2f58e7340acd0b2e460609" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::PaginationCursor::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::query::PaginationCursor::offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="35" column="12" bodyfile="include/query/result_stream.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_pagination_cursor_1a9aecad3dfe427519a323434cf97af6ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::PaginationCursor::has_more</definition>
+        <argsstring></argsstring>
+        <name>has_more</name>
+        <qualifiedname>themis::query::PaginationCursor::has_more</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="36" column="10" bodyfile="include/query/result_stream.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/result_stream.h" line="32" column="1" bodyfile="include/query/result_stream.h" bodystart="32" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_pagination_cursor_1a9aecad3dfe427519a323434cf97af6ee" prot="public" virt="non-virtual"><scope>themis::query::PaginationCursor</scope><name>has_more</name></member>
+      <member refid="structthemis_1_1query_1_1_pagination_cursor_1aa04344659b62d1ca5d4302e5b09f8929" prot="public" virt="non-virtual"><scope>themis::query::PaginationCursor</scope><name>last_key</name></member>
+      <member refid="structthemis_1_1query_1_1_pagination_cursor_1aaee81d74cdb81558399eb21e72a7f3d8" prot="public" virt="non-virtual"><scope>themis::query::PaginationCursor</scope><name>last_value</name></member>
+      <member refid="structthemis_1_1query_1_1_pagination_cursor_1a0653ac32eb2f58e7340acd0b2e460609" prot="public" virt="non-virtual"><scope>themis::query::PaginationCursor</scope><name>offset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

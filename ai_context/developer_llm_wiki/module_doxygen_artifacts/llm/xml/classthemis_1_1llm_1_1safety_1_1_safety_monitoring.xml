@@ -1,0 +1,345 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::safety::SafetyMonitoring</compoundname>
+    <includes refid="monitoring_8h" local="no">monitoring.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a841dc2a4ba0182c3cb16af80b821ac70" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event" kindref="compound">SafetyEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::llm::safety::SafetyMonitoring::ExporterSink = std::function&lt;void(const SafetyEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ExporterSink</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::ExporterSink</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="45" column="5" bodyfile="include/llm/safety/monitoring.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a53bc0959d5076fe8a597bc8ea3e7722d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::uint64_t &gt;</type>
+        <definition>std::atomic&lt;std::uint64_t&gt; themis::llm::safety::SafetyMonitoring::allowed_</definition>
+        <argsstring></argsstring>
+        <name>allowed_</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::allowed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="87" column="17" bodyfile="include/llm/safety/monitoring.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a144fb0ae2ad75ebb5d74c48e79613115" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::uint64_t &gt;</type>
+        <definition>std::atomic&lt;std::uint64_t&gt; themis::llm::safety::SafetyMonitoring::review_</definition>
+        <argsstring></argsstring>
+        <name>review_</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::review_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="88" column="17" bodyfile="include/llm/safety/monitoring.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1afce29c9f7c53d98d03d2d3a765a96b8c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::uint64_t &gt;</type>
+        <definition>std::atomic&lt;std::uint64_t&gt; themis::llm::safety::SafetyMonitoring::blocked_</definition>
+        <argsstring></argsstring>
+        <name>blocked_</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::blocked_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="89" column="17" bodyfile="include/llm/safety/monitoring.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1af6ea0b25de70befd9c372b8913a83872" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::safety::SafetyMonitoring::durable_sink_path_</definition>
+        <argsstring></argsstring>
+        <name>durable_sink_path_</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::durable_sink_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="91" column="19" bodyfile="include/llm/safety/monitoring.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a4c7e68cc32cb92dfa24e5595d54f4064" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a841dc2a4ba0182c3cb16af80b821ac70" kindref="member">ExporterSink</ref></type>
+        <definition>ExporterSink themis::llm::safety::SafetyMonitoring::exporter_sink_</definition>
+        <argsstring></argsstring>
+        <name>exporter_sink_</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::exporter_sink_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="92" column="18" bodyfile="include/llm/safety/monitoring.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a957de21294910124d5b42a97ccad83dd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::safety::SafetyMonitoring::sink_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sink_mutex_</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::sink_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="94" column="24" bodyfile="include/llm/safety/monitoring.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a305467e2a64765889ff5ed3d821b52c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::safety::SafetyMonitoring::setDurableSinkPath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>setDurableSinkPath</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::setDurableSinkPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Set Durable Sink Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lock(), sink_path(), has_parent_path(), std::filesystem::create_directories(), parent_path(), <ref refid="namespacethemis_1_1llm_1_1test" kindref="compound">test()</ref>, is_open(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="52" column="10" bodyfile="src/llm/safety/monitoring.cpp" bodystart="69" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1ae4c5f2197fe7e6aec77503749dc34ff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::safety::SafetyMonitoring::clearDurableSinkPath</definition>
+        <argsstring>()</argsstring>
+        <name>clearDurableSinkPath</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::clearDurableSinkPath</qualifiedname>
+        <briefdescription>
+<para>Clear Durable Sink Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="56" column="10" bodyfile="src/llm/safety/monitoring.cpp" bodystart="97" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a0bbc06cd682bef215d68847da539da92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::safety::SafetyMonitoring::setExporterSink</definition>
+        <argsstring>(ExporterSink sink)</argsstring>
+        <name>setExporterSink</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::setExporterSink</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a841dc2a4ba0182c3cb16af80b821ac70" kindref="member">ExporterSink</ref></type>
+          <declname>sink</declname>
+        </param>
+        <briefdescription>
+<para>Set Exporter Sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sink</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sink</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="62" column="10" bodyfile="src/llm/safety/monitoring.cpp" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1adc55411ee29f6481570a4598a3e9e4aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::safety::SafetyMonitoring::clearExporterSink</definition>
+        <argsstring>()</argsstring>
+        <name>clearExporterSink</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::clearExporterSink</qualifiedname>
+        <briefdescription>
+<para>Clear Exporter Sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="66" column="10" bodyfile="src/llm/safety/monitoring.cpp" bodystart="116" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a9657bbfa4e266aa524527336b33dda2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::safety::SafetyMonitoring::record</definition>
+        <argsstring>(const SafetyEvent &amp;event)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::record</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event" kindref="compound">SafetyEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), lock(), exporter_sink_(), out(), is_open(), toJsonLine(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="72" column="10" bodyfile="src/llm/safety/monitoring.cpp" bodystart="126" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a05f201e044ed79b4ae68a54b935d0755" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot" kindref="compound">SafetyCountersSnapshot</ref></type>
+        <definition>SafetyCountersSnapshot themis::llm::safety::SafetyMonitoring::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::snapshot</qualifiedname>
+        <briefdescription>
+<para>Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="77" column="28" bodyfile="src/llm/safety/monitoring.cpp" bodystart="153" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1ae9f245008f268979cd2197ba1c23fd79" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::safety::SafetyMonitoring::toJsonLine</definition>
+        <argsstring>(const SafetyEvent &amp;event)</argsstring>
+        <name>toJsonLine</name>
+        <qualifiedname>themis::llm::safety::SafetyMonitoring::toJsonLine</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event" kindref="compound">SafetyEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>To Json Line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: jsonEscape(), toString(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="85" column="24" bodyfile="src/llm/safety/monitoring.cpp" bodystart="167" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/safety/monitoring.h" line="43" column="1" bodyfile="include/llm/safety/monitoring.h" bodystart="43" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a53bc0959d5076fe8a597bc8ea3e7722d" prot="private" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>allowed_</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1afce29c9f7c53d98d03d2d3a765a96b8c" prot="private" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>blocked_</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1ae4c5f2197fe7e6aec77503749dc34ff0" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>clearDurableSinkPath</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1adc55411ee29f6481570a4598a3e9e4aa" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>clearExporterSink</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1af6ea0b25de70befd9c372b8913a83872" prot="private" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>durable_sink_path_</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a4c7e68cc32cb92dfa24e5595d54f4064" prot="private" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>exporter_sink_</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a841dc2a4ba0182c3cb16af80b821ac70" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>ExporterSink</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a9657bbfa4e266aa524527336b33dda2b" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>record</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a144fb0ae2ad75ebb5d74c48e79613115" prot="private" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>review_</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a305467e2a64765889ff5ed3d821b52c1" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>setDurableSinkPath</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a0bbc06cd682bef215d68847da539da92" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>setExporterSink</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a957de21294910124d5b42a97ccad83dd" prot="private" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>sink_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a05f201e044ed79b4ae68a54b935d0755" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1ae9f245008f268979cd2197ba1c23fd79" prot="private" virt="non-virtual"><scope>themis::llm::safety::SafetyMonitoring</scope><name>toJsonLine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

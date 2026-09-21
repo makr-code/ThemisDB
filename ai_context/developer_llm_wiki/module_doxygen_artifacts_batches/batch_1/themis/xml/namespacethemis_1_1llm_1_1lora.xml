@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1lora" kind="namespace" language="C++">
+    <compoundname>themis::llm::lora</compoundname>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info" prot="public">themis::llm::lora::LoRAJobInfo</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator" prot="public">themis::llm::lora::ILoRAOrchestrator</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/llm/lora_orchestrator_interface.h" line="11" column="1"/>
+  </compounddef>
+</doxygen>

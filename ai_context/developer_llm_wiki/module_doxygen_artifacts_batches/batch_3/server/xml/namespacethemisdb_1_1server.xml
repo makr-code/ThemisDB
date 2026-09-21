@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1server" kind="namespace" language="C++">
+    <compoundname>themisdb::server</compoundname>
+    <innerclass refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler" prot="public">themisdb::server::BufferBinaryProtocolHandler</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/buffer_binary_protocol.h" line="31" column="1"/>
+  </compounddef>
+</doxygen>

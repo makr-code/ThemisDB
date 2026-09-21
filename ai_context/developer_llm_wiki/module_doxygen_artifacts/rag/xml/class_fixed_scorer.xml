@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fixed_scorer" kind="class" language="C++" prot="public">
+    <compoundname>FixedScorer</compoundname>
+    <basecompoundref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" prot="public" virt="non-virtual">themis::rag::ILLMScorer</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_fixed_scorer_1af7dde77f73325e8fa00ed2bfaeb1d135" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double FixedScorer::score_</definition>
+        <argsstring></argsstring>
+        <name>score_</name>
+        <qualifiedname>FixedScorer::score_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_replug_retriever.cpp" line="97" column="17" bodyfile="tests/rag/test_rag_replug_retriever.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fixed_scorer_1a019929a07e69e88faf190e21d76b9047" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string FixedScorer::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>FixedScorer::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_replug_retriever.cpp" line="98" column="17" bodyfile="tests/rag/test_rag_replug_retriever.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_fixed_scorer_1a8c2cce264287a2eead258357b88db83d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FixedScorer::FixedScorer</definition>
+        <argsstring>(double fixed_score, const std::string &amp;n=&quot;FixedScorer&quot;)</argsstring>
+        <name>FixedScorer</name>
+        <qualifiedname>FixedScorer::FixedScorer</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>fixed_score</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>n</declname>
+          <defval>&quot;FixedScorer&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_replug_retriever.cpp" line="85" column="14" bodyfile="tests/rag/test_rag_replug_retriever.cpp" bodystart="85" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fixed_scorer_1a2f0ad7ee782cad1b0794091cc171788c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>double FixedScorer::score</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;) const override</argsstring>
+        <name>score</name>
+        <qualifiedname>FixedScorer::score</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a07ee0f571f37c796b89a152f46a230ed">score</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+<para>Score how well the document supports the query from the LLM&apos;s perspective (higher = more likely / lower perplexity). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user&apos;s query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate document content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Score in [0, 1]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_replug_retriever.cpp" line="88" column="12" bodyfile="tests/rag/test_rag_replug_retriever.cpp" bodystart="88" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fixed_scorer_1a5e1deaf8d570256f9e4f260265f2110c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string FixedScorer::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>FixedScorer::name</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1ab1e53805042ea6241d3dadadc581955e">name</reimplements>
+        <briefdescription>
+<para>Human-readable name for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_replug_retriever.cpp" line="94" column="17" bodyfile="tests/rag/test_rag_replug_retriever.cpp" bodystart="94" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FixedScorer</label>
+        <link refid="class_fixed_scorer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::ILLMScorer</label>
+        <link refid="classthemis_1_1rag_1_1_i_l_l_m_scorer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FixedScorer</label>
+        <link refid="class_fixed_scorer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::ILLMScorer</label>
+        <link refid="classthemis_1_1rag_1_1_i_l_l_m_scorer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_replug_retriever.cpp" line="83" column="1" bodyfile="tests/rag/test_rag_replug_retriever.cpp" bodystart="83" bodyend="99"/>
+    <listofallmembers>
+      <member refid="class_fixed_scorer_1a8c2cce264287a2eead258357b88db83d" prot="public" virt="non-virtual"><scope>FixedScorer</scope><name>FixedScorer</name></member>
+      <member refid="class_fixed_scorer_1a5e1deaf8d570256f9e4f260265f2110c" prot="public" virt="virtual"><scope>FixedScorer</scope><name>name</name></member>
+      <member refid="class_fixed_scorer_1a019929a07e69e88faf190e21d76b9047" prot="private" virt="non-virtual"><scope>FixedScorer</scope><name>name_</name></member>
+      <member refid="class_fixed_scorer_1a2f0ad7ee782cad1b0794091cc171788c" prot="public" virt="virtual"><scope>FixedScorer</scope><name>score</name></member>
+      <member refid="class_fixed_scorer_1af7dde77f73325e8fa00ed2bfaeb1d135" prot="private" virt="non-virtual"><scope>FixedScorer</scope><name>score_</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a9cc6e7ded3cbd84d6ad17926f31a7d2e" prot="public" virt="virtual"><scope>FixedScorer</scope><name>~ILLMScorer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

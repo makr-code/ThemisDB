@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_storage_op_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::StorageOpStats</compoundname>
+    <includes refid="storage__profiler_8h" local="no">storage_profiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_storage_op_stats_1afc1d304ac950a9222cd5e4447499265b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fd" kindref="member">StorageOpType</ref></type>
+        <definition>StorageOpType themis::observability::StorageOpStats::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::observability::StorageOpStats::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="50" column="19" bodyfile="include/observability/storage_profiler.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_storage_op_stats_1a10f5cd0cd6be293c324bf0e4e401f7e8" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::observability::StorageOpStats::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::observability::StorageOpStats::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="51" column="31" bodyfile="include/observability/storage_profiler.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_storage_op_stats_1a47430410126fcd217cec39b7401e6115" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::StorageOpStats::bytes_read</definition>
+        <argsstring></argsstring>
+        <name>bytes_read</name>
+        <qualifiedname>themis::observability::StorageOpStats::bytes_read</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="52" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_storage_op_stats_1a85d38008d2d5aa5d1078f8ada4244ee2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::StorageOpStats::bytes_written</definition>
+        <argsstring></argsstring>
+        <name>bytes_written</name>
+        <qualifiedname>themis::observability::StorageOpStats::bytes_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="53" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_storage_op_stats_1ab3867d4cd16710aaa4cb84fa9c86ddef" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::StorageOpStats::keys_processed</definition>
+        <argsstring></argsstring>
+        <name>keys_processed</name>
+        <qualifiedname>themis::observability::StorageOpStats::keys_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="54" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_storage_op_stats_1a368076fb752deda132d8ef31b2a10025" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::StorageOpStats::cache_hit</definition>
+        <argsstring></argsstring>
+        <name>cache_hit</name>
+        <qualifiedname>themis::observability::StorageOpStats::cache_hit</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="55" column="10" bodyfile="include/observability/storage_profiler.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_storage_op_stats_1aa69495eaaca5d7b69555fd29825041c4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::StorageOpStats::from_sst</definition>
+        <argsstring></argsstring>
+        <name>from_sst</name>
+        <qualifiedname>themis::observability::StorageOpStats::from_sst</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="56" column="10" bodyfile="include/observability/storage_profiler.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_storage_op_stats_1a9d16545089463c7388f957fc030f7742" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::StorageOpStats::from_memtable</definition>
+        <argsstring></argsstring>
+        <name>from_memtable</name>
+        <qualifiedname>themis::observability::StorageOpStats::from_memtable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="57" column="10" bodyfile="include/observability/storage_profiler.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_storage_op_stats_1a8e4421332c9f6a65951e7ccc41d2964a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::StorageOpStats::sst_reads</definition>
+        <argsstring></argsstring>
+        <name>sst_reads</name>
+        <qualifiedname>themis::observability::StorageOpStats::sst_reads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="58" column="12" bodyfile="include/observability/storage_profiler.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_storage_op_stats_1abbacf75a18d366d76ab32f6d8868ada7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::StorageOpStats::column_family</definition>
+        <argsstring></argsstring>
+        <name>column_family</name>
+        <qualifiedname>themis::observability::StorageOpStats::column_family</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="59" column="17" bodyfile="include/observability/storage_profiler.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_storage_op_stats_1a335ce5139e8aab8ab2e7f209cd9f31b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::StorageOpStats::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::observability::StorageOpStats::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="61" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="43" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Storage operation statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/storage_profiler.h" line="49" column="1" bodyfile="include/observability/storage_profiler.h" bodystart="49" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_storage_op_stats_1a47430410126fcd217cec39b7401e6115" prot="public" virt="non-virtual"><scope>themis::observability::StorageOpStats</scope><name>bytes_read</name></member>
+      <member refid="structthemis_1_1observability_1_1_storage_op_stats_1a85d38008d2d5aa5d1078f8ada4244ee2" prot="public" virt="non-virtual"><scope>themis::observability::StorageOpStats</scope><name>bytes_written</name></member>
+      <member refid="structthemis_1_1observability_1_1_storage_op_stats_1a368076fb752deda132d8ef31b2a10025" prot="public" virt="non-virtual"><scope>themis::observability::StorageOpStats</scope><name>cache_hit</name></member>
+      <member refid="structthemis_1_1observability_1_1_storage_op_stats_1abbacf75a18d366d76ab32f6d8868ada7" prot="public" virt="non-virtual"><scope>themis::observability::StorageOpStats</scope><name>column_family</name></member>
+      <member refid="structthemis_1_1observability_1_1_storage_op_stats_1a10f5cd0cd6be293c324bf0e4e401f7e8" prot="public" virt="non-virtual"><scope>themis::observability::StorageOpStats</scope><name>duration</name></member>
+      <member refid="structthemis_1_1observability_1_1_storage_op_stats_1a9d16545089463c7388f957fc030f7742" prot="public" virt="non-virtual"><scope>themis::observability::StorageOpStats</scope><name>from_memtable</name></member>
+      <member refid="structthemis_1_1observability_1_1_storage_op_stats_1aa69495eaaca5d7b69555fd29825041c4" prot="public" virt="non-virtual"><scope>themis::observability::StorageOpStats</scope><name>from_sst</name></member>
+      <member refid="structthemis_1_1observability_1_1_storage_op_stats_1ab3867d4cd16710aaa4cb84fa9c86ddef" prot="public" virt="non-virtual"><scope>themis::observability::StorageOpStats</scope><name>keys_processed</name></member>
+      <member refid="structthemis_1_1observability_1_1_storage_op_stats_1a8e4421332c9f6a65951e7ccc41d2964a" prot="public" virt="non-virtual"><scope>themis::observability::StorageOpStats</scope><name>sst_reads</name></member>
+      <member refid="structthemis_1_1observability_1_1_storage_op_stats_1a335ce5139e8aab8ab2e7f209cd9f31b2" prot="public" virt="non-virtual"><scope>themis::observability::StorageOpStats</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1observability_1_1_storage_op_stats_1afc1d304ac950a9222cd5e4447499265b" prot="public" virt="non-virtual"><scope>themis::observability::StorageOpStats</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

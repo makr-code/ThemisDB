@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ingestion__api__contract_8h" kind="file" language="C++">
+    <compoundname>ingestion_api_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="yes">utils/retry_contract.h</includes>
+    <includedby refid="bench__ingestion__release__gates_8cpp" local="yes">benchmarks/ingestion/bench_ingestion_release_gates.cpp</includedby>
+    <includedby refid="test__ingestion__contract__hardening__focused_8cpp" local="yes">tests/ingestion/test_ingestion_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ingestion/ingestion_api_contract.h</label>
+        <link refid="ingestion__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>utils/retry_contract.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/ingestion/bench_ingestion_release_gates.cpp</label>
+        <link refid="bench__ingestion__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/ingestion/ingestion_api_contract.h</label>
+        <link refid="ingestion__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/ingestion/test_ingestion_contract_hardening_focused.cpp</label>
+        <link refid="test__ingestion__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Frozen ingestion contract: write-path durability, back-pressure, batch atomicity, schema validation, and error taxonomy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for the ingestion module. All ingestion components (IngestionCoordinator, IngestionManager, workflow engine, connector adapters, schema validators) must honour these semantics within v1.x.</para>
+<sect1 id="ingestion__api__contract_8h_1autotoc_md16_1s1"><sect2 id="ingestion__api__contract_8h_1autotoc_md16">
+<title>Write-Path Durability Contract</title><para>Once an ack is returned to the producer, the data MUST be durable (either written to a WAL or accepted by a quorum of replicas). Silent drops after ack are a contract violation.</para>
+</sect2></sect1>
+<sect1 id="ingestion__api__contract_8h_1autotoc_md17_1s1"><sect2 id="ingestion__api__contract_8h_1autotoc_md17">
+<title>Back-Pressure Contract</title><para>When the ingestion buffer is full, the producer receives an explicit INGESTION_BUFFER_FULL signal. Silent blocking (holding the producer without signalling) is a contract violation. The signal must be returned within kBackPressureSignalDeadline of the buffer-full condition being detected.</para>
+</sect2></sect1>
+<sect1 id="ingestion__api__contract_8h_1autotoc_md18_1s1"><sect2 id="ingestion__api__contract_8h_1autotoc_md18">
+<title>Batch Atomicity Contract</title><para>A batch is committed atomically: readers see either zero rows (pre-commit) or all rows (post-commit) of the batch. A partial batch is never visible. On partial failure during commit, the entire batch is rolled back.</para>
+</sect2></sect1>
+<sect1 id="ingestion__api__contract_8h_1autotoc_md19_1s1"><sect2 id="ingestion__api__contract_8h_1autotoc_md19">
+<title>Schema Validation Contract</title><para>Schema validation is performed BEFORE the ack is sent to the producer. A schema violation surfaces INGESTION_SCHEMA_INVALID and no data is written.</para>
+</sect2></sect1>
+<sect1 id="ingestion__api__contract_8h_1autotoc_md20_1s1"><sect2 id="ingestion__api__contract_8h_1autotoc_md20">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump.</para>
+<para><simplesect kind="see"><para>src/ingestion/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="ingestion__coordinator_8h" kindref="compound">include/ingestion/ingestion_coordinator.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="ingestion__manager_8h" kindref="compound">include/ingestion/ingestion_manager.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="semantic__validator_8h" kindref="compound">include/ingestion/semantic_validator.h</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/retry_contract.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Buffer<sp/>and<sp/>batch<sp/>sizing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1ingestion_1ae1fc31b23ba597bf0cbbf1de7370e101" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1ingestion_1ae1fc31b23ba597bf0cbbf1de7370e101" kindref="member">kDefaultBufferCapacity</ref><sp/>=<sp/>65&apos;536u;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1ingestion_1a2ba29c03d9abc176e6724b97b7607c50" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1ingestion_1a2ba29c03d9abc176e6724b97b7607c50" kindref="member">kMaxBufferCapacity</ref><sp/>=<sp/>1&apos;000&apos;000u;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1ingestion_1ac41233ce5868e2d0ebe59568701a1c7d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1ingestion_1ac41233ce5868e2d0ebe59568701a1c7d" kindref="member">kDefaultBatchSize</ref><sp/>=<sp/>1&apos;000u;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1ingestion_1a8b2cff25da505816163e23dd103f4e29" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1ingestion_1a8b2cff25da505816163e23dd103f4e29" kindref="member">kMaxBatchSize</ref><sp/>=<sp/>100&apos;000u;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Timing<sp/>contracts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1ingestion_1ab2e91bd9e5d867318d73a84ae4c2f1a1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1ingestion_1ab2e91bd9e5d867318d73a84ae4c2f1a1" kindref="member">kBackPressureSignalDeadline</ref>{50};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1ingestion_1a6aad13157f0d65309fae678b93868233" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1ingestion_1a6aad13157f0d65309fae678b93868233" kindref="member">kDefaultWriteTimeout</ref>{10};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1ingestion_1ae851f77c9e61e85478b7db4f21d30311" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1ingestion_1ae851f77c9e61e85478b7db4f21d30311" kindref="member">kMaxWriteTimeout</ref>{120};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1ingestion_1a76893e9d815e87692b396673253459ef" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1ingestion_1a76893e9d815e87692b396673253459ef" kindref="member">kDefaultBatchFlushInterval</ref>{500};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Quota<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="namespacethemis_1_1ingestion_1a94143ba33b892a5ff91a8fc2dcea9cf0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="namespacethemis_1_1ingestion_1a94143ba33b892a5ff91a8fc2dcea9cf0" kindref="member">kDefaultProducerRateLimit</ref><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1ingestion_1ab86769a751b6d3c6f961d5f4a1dfb54b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="namespacethemis_1_1ingestion_1ab86769a751b6d3c6f961d5f4a1dfb54b" kindref="member">kDefaultProducerBytesRateLimit</ref><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Durability<sp/>levels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391" kindref="member">DurabilityLevel</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="106" refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391aa8fe3686e80a31ab94abacbc41b036f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391aa8fe3686e80a31ab94abacbc41b036f4" kindref="member">LocalWal</ref><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="108" refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391a17bc2ef8f82aabbd992eec53a8f97f40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391a17bc2ef8f82aabbd992eec53a8f97f40" kindref="member">QuorumSync</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="110" refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391adf1838b6b9963c10f8df48c6a96f9e89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391adf1838b6b9963c10f8df48c6a96f9e89" kindref="member">FsyncLocal</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a451adab527f14e522e5948e8f319e3f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a451adab527f14e522e5948e8f319e3f7" kindref="member">INGESTION_BUFFER_FULL</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3ff8bba7faa6aea40d088617d7105a9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3ff8bba7faa6aea40d088617d7105a9e" kindref="member">INGESTION_SCHEMA_INVALID</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a5c7fc8f2cb20b87d690e6b5b32d686df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a5c7fc8f2cb20b87d690e6b5b32d686df" kindref="member">INGESTION_DUPLICATE_KEY</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3b64f51e8e5c60c21cad22b97b8c688b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3b64f51e8e5c60c21cad22b97b8c688b" kindref="member">INGESTION_QUOTA_EXCEEDED</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a814a62aa5cd29b56bf7ff8f6bb30b73d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a814a62aa5cd29b56bf7ff8f6bb30b73d" kindref="member">INGESTION_TIMEOUT</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a0d661cad95f1026e2a0b6dca3cfe501f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a0d661cad95f1026e2a0b6dca3cfe501f" kindref="member">INGESTION_BATCH_ROLLBACK</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a6ef83b00a91a98de11f4422367abb4c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a6ef83b00a91a98de11f4422367abb4c6" kindref="member">INGESTION_BACKEND_UNAVAILABLE</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a5f95003902d277e3631dd08547a73d2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a5f95003902d277e3631dd08547a73d2c" kindref="member">INGESTION_CONNECTOR_FAILED</ref><sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>9,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="namespacethemis_1_1ingestion_1a593d8436ad408de8103656c2de8f0cef" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a593d8436ad408de8103656c2de8f0cef" kindref="member">isBackOffCode</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a451adab527f14e522e5948e8f319e3f7" kindref="member">IngestionErrorCode::INGESTION_BUFFER_FULL</ref></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3b64f51e8e5c60c21cad22b97b8c688b" kindref="member">IngestionErrorCode::INGESTION_QUOTA_EXCEEDED</ref></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a814a62aa5cd29b56bf7ff8f6bb30b73d" kindref="member">IngestionErrorCode::INGESTION_TIMEOUT</ref></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a6ef83b00a91a98de11f4422367abb4c6" kindref="member">IngestionErrorCode::INGESTION_BACKEND_UNAVAILABLE</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="namespacethemis_1_1ingestion_1a7008d0431cf0f4443e4e3ea6dab1b9b6" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a7008d0431cf0f4443e4e3ea6dab1b9b6" kindref="member">isPermanentRejection</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3ff8bba7faa6aea40d088617d7105a9e" kindref="member">IngestionErrorCode::INGESTION_SCHEMA_INVALID</ref></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a5c7fc8f2cb20b87d690e6b5b32d686df" kindref="member">IngestionErrorCode::INGESTION_DUPLICATE_KEY</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="namespacethemis_1_1ingestion_1a3600e78124854ab9ffde55b7ca762941" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>themis::utils::RetryTimeoutSource<sp/><ref refid="namespacethemis_1_1ingestion_1a3600e78124854ab9ffde55b7ca762941" kindref="member">toRetryTimeoutSource</ref>(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(code<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a814a62aa5cd29b56bf7ff8f6bb30b73d" kindref="member">IngestionErrorCode::INGESTION_TIMEOUT</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::utils::RetryTimeoutSource::PER_ATTEMPT;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(code<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a6ef83b00a91a98de11f4422367abb4c6" kindref="member">IngestionErrorCode::INGESTION_BACKEND_UNAVAILABLE</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::utils::RetryTimeoutSource::BACKEND;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::utils::RetryTimeoutSource::NONE;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>themis::utils::RetryExhaustionReason</highlight></codeline>
+<codeline lineno="186" refid="namespacethemis_1_1ingestion_1ada2e3842fe206750e2dfa30e380fa0e7" refkind="member"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1ada2e3842fe206750e2dfa30e380fa0e7" kindref="member">toRetryExhaustionReason</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref><sp/>code,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>retries_exhausted)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1ingestion_1a7008d0431cf0f4443e4e3ea6dab1b9b6" kindref="member">isPermanentRejection</ref>(code))<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::utils::RetryExhaustionReason::NON_RETRYABLE;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(retries_exhausted<sp/>&amp;&amp;<sp/><ref refid="namespacethemis_1_1ingestion_1a593d8436ad408de8103656c2de8f0cef" kindref="member">isBackOffCode</ref>(code))<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::utils::RetryExhaustionReason::MAX_ATTEMPTS_REACHED;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(code<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a814a62aa5cd29b56bf7ff8f6bb30b73d" kindref="member">IngestionErrorCode::INGESTION_TIMEOUT</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::utils::RetryExhaustionReason::TIME_BUDGET_EXCEEDED;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::utils::RetryExhaustionReason::NONE;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Ack<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>An<sp/>ack<sp/>MUST<sp/>NOT<sp/>be<sp/>sent<sp/>until<sp/>ALL<sp/>of<sp/>the<sp/>following<sp/>are<sp/>true:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>Schema<sp/>validation<sp/>passed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>The<sp/>data<sp/>has<sp/>been<sp/>written<sp/>to<sp/>the<sp/>WAL<sp/>(or<sp/>quorum,<sp/>per<sp/>durability<sp/>level).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>The<sp/>batch<sp/>sequence<sp/>number<sp/>has<sp/>been<sp/>assigned.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sending<sp/>an<sp/>early<sp/>ack<sp/>followed<sp/>by<sp/>a<sp/>write<sp/>failure<sp/>is<sp/>a<sp/>contract<sp/>violation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="namespacethemis_1_1ingestion_1a8d26bf6ce68fe78c9ea41a1654b66286" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a8d26bf6ce68fe78c9ea41a1654b66286" kindref="member">isStrongAck</ref>(<ref refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391" kindref="member">DurabilityLevel</ref><sp/>level)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>level<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391a17bc2ef8f82aabbd992eec53a8f97f40" kindref="member">DurabilityLevel::QuorumSync</ref><sp/>||<sp/>level<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1aced2b39e71af98c825231080b8185391adf1838b6b9963c10f8df48c6a96f9e89" kindref="member">DurabilityLevel::FsyncLocal</ref>;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/ingestion_api_contract.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_labeled_db_sample" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::LabeledDbSample</compoundname>
+    <includes refid="database__domain__auto__labeler_8h" local="no">database_domain_auto_labeler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_labeled_db_sample_1a44ccf17b02e9ad87b6577b2db559bb4a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LabeledDbSample::query_text</definition>
+        <argsstring></argsstring>
+        <name>query_text</name>
+        <qualifiedname>themis::training::LabeledDbSample::query_text</qualifiedname>
+        <briefdescription>
+<para>SQL query text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="40" column="17" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_labeled_db_sample_1a3408ba241a2e97b870e138b21469aa19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LabeledDbSample::plan_json</definition>
+        <argsstring></argsstring>
+        <name>plan_json</name>
+        <qualifiedname>themis::training::LabeledDbSample::plan_json</qualifiedname>
+        <briefdescription>
+<para>Query execution plan (JSON). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="41" column="17" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_labeled_db_sample_1a1967cd732a46af0ef59bc1247058cf9b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1training_1a619b2dcb68d4e906fdc0e573c7dd512a" kindref="member">DomainType</ref></type>
+        <definition>DomainType themis::training::LabeledDbSample::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::training::LabeledDbSample::label</qualifiedname>
+        <briefdescription>
+<para>Domain label (always DATABASE_OPTIMIZER for this labeler). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="42" column="17" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_labeled_db_sample_1a1abe819cff2cf01da47bd2f8fb55f5cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::LabeledDbSample::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::training::LabeledDbSample::confidence</qualifiedname>
+        <briefdescription>
+<para>[0.0, 1.0] </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="43" column="17" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_labeled_db_sample_1ad8222caa33fcac6f2078a96827051a29" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LabeledDbSample::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::training::LabeledDbSample::source</qualifiedname>
+        <briefdescription>
+<para>&quot;bao_log&quot; | &quot;dba_feedback&quot; | &quot;synthetic&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="44" column="17" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_labeled_db_sample_1a4c1f0850f2390c88590d7f49c994e475" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::LabeledDbSample::delta_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>delta_p99_ms</name>
+        <qualifiedname>themis::training::LabeledDbSample::delta_p99_ms</qualifiedname>
+        <briefdescription>
+<para>Raw latency delta that produced this sample. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="45" column="17" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A labeled training sample for the database-optimizer domain. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/database_domain_auto_labeler.h" line="39" column="1" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="39" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_labeled_db_sample_1a1abe819cff2cf01da47bd2f8fb55f5cc" prot="public" virt="non-virtual"><scope>themis::training::LabeledDbSample</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_labeled_db_sample_1a4c1f0850f2390c88590d7f49c994e475" prot="public" virt="non-virtual"><scope>themis::training::LabeledDbSample</scope><name>delta_p99_ms</name></member>
+      <member refid="structthemis_1_1training_1_1_labeled_db_sample_1a1967cd732a46af0ef59bc1247058cf9b" prot="public" virt="non-virtual"><scope>themis::training::LabeledDbSample</scope><name>label</name></member>
+      <member refid="structthemis_1_1training_1_1_labeled_db_sample_1a3408ba241a2e97b870e138b21469aa19" prot="public" virt="non-virtual"><scope>themis::training::LabeledDbSample</scope><name>plan_json</name></member>
+      <member refid="structthemis_1_1training_1_1_labeled_db_sample_1a44ccf17b02e9ad87b6577b2db559bb4a" prot="public" virt="non-virtual"><scope>themis::training::LabeledDbSample</scope><name>query_text</name></member>
+      <member refid="structthemis_1_1training_1_1_labeled_db_sample_1ad8222caa33fcac6f2078a96827051a29" prot="public" virt="non-virtual"><scope>themis::training::LabeledDbSample</scope><name>source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cluster_cost_estimate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ClusterCostEstimate</compoundname>
+    <includes refid="cross__cluster__federation_8h" local="no">cross_cluster_federation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cluster_cost_estimate_1a1724ba36ff2ceccdd4fb075e65f7c6c2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ClusterCostEstimate::cluster_id</definition>
+        <argsstring></argsstring>
+        <name>cluster_id</name>
+        <qualifiedname>themis::query::ClusterCostEstimate::cluster_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="38" column="17" bodyfile="include/query/cross_cluster_federation.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cluster_cost_estimate_1a974ebee94e7e2dfe5c840f21e1f03be8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::ClusterCostEstimate::estimated_rows</definition>
+        <argsstring></argsstring>
+        <name>estimated_rows</name>
+        <qualifiedname>themis::query::ClusterCostEstimate::estimated_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="39" column="17" bodyfile="include/query/cross_cluster_federation.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cluster_cost_estimate_1a7df1bc4a8c013a29c36373696a13b207" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::ClusterCostEstimate::network_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>network_latency_ms</name>
+        <qualifiedname>themis::query::ClusterCostEstimate::network_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="40" column="17" bodyfile="include/query/cross_cluster_federation.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cluster_cost_estimate_1a4f6ab5ec1bc13bb2eeaaa8bbab11fc5c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::ClusterCostEstimate::total_cost</definition>
+        <argsstring></argsstring>
+        <name>total_cost</name>
+        <qualifiedname>themis::query::ClusterCostEstimate::total_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Composite cost score (lower = cheaper). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="41" column="17" bodyfile="include/query/cross_cluster_federation.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cluster_cost_estimate_1a96cdf11c228ff31a953270a4ff3d8ac9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ClusterCostEstimate::should_include</definition>
+        <argsstring></argsstring>
+        <name>should_include</name>
+        <qualifiedname>themis::query::ClusterCostEstimate::should_include</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether to include this cluster in the query plan. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="42" column="17" bodyfile="include/query/cross_cluster_federation.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cross_cluster_federation.h" line="37" column="1" bodyfile="include/query/cross_cluster_federation.h" bodystart="37" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cluster_cost_estimate_1a1724ba36ff2ceccdd4fb075e65f7c6c2" prot="public" virt="non-virtual"><scope>themis::query::ClusterCostEstimate</scope><name>cluster_id</name></member>
+      <member refid="structthemis_1_1query_1_1_cluster_cost_estimate_1a974ebee94e7e2dfe5c840f21e1f03be8" prot="public" virt="non-virtual"><scope>themis::query::ClusterCostEstimate</scope><name>estimated_rows</name></member>
+      <member refid="structthemis_1_1query_1_1_cluster_cost_estimate_1a7df1bc4a8c013a29c36373696a13b207" prot="public" virt="non-virtual"><scope>themis::query::ClusterCostEstimate</scope><name>network_latency_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_cluster_cost_estimate_1a96cdf11c228ff31a953270a4ff3d8ac9" prot="public" virt="non-virtual"><scope>themis::query::ClusterCostEstimate</scope><name>should_include</name></member>
+      <member refid="structthemis_1_1query_1_1_cluster_cost_estimate_1a4f6ab5ec1bc13bb2eeaaa8bbab11fc5c" prot="public" virt="non-virtual"><scope>themis::query::ClusterCostEstimate</scope><name>total_cost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_governance_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpGovernanceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_governance_test_1a06295808f81b6b88e105d43834a3f046" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpGovernanceTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpGovernanceTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="163" column="21" bodyfile="tests/network/test_http_governance.cpp" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_governance_test_1a8f61c70f3ac5c3067af0bed4758eecc8" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpGovernanceTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpGovernanceTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="164" column="21" bodyfile="tests/network/test_http_governance.cpp" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_governance_test_1aa34a65cffe73ce4b2a3dd0fe7ac3a13b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpGovernanceTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpGovernanceTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="165" column="21" bodyfile="tests/network/test_http_governance.cpp" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_governance_test_1adcc4fc04f83992a053d94574e5f44eb0" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpGovernanceTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpGovernanceTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="166" column="21" bodyfile="tests/network/test_http_governance.cpp" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_governance_test_1a30cbe35523e4b50857facd30cc230413" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpGovernanceTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpGovernanceTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="167" column="21" bodyfile="tests/network/test_http_governance.cpp" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_governance_test_1acee289e0c7b5678bfb9ee1d0ae1cdbc8" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpGovernanceTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpGovernanceTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="168" column="21" bodyfile="tests/network/test_http_governance.cpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_governance_test_1a61e15d71020446e395d9c9e789096eab" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpGovernanceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpGovernanceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="29" column="10" bodyfile="tests/network/test_http_governance.cpp" bodystart="29" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_governance_test_1aa3ed8812df76573d8e944d71891bbe20" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpGovernanceTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpGovernanceTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="62" column="10" bodyfile="tests/network/test_http_governance.cpp" bodystart="62" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_governance_test_1a094aecb8cf241c3c5a3311b3def4e470" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpGovernanceTest::post_with_headers</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body, const std::map&lt; std::string, std::string &gt; &amp;headers={})</argsstring>
+        <name>post_with_headers</name>
+        <qualifiedname>HttpGovernanceTest::post_with_headers</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="74" column="20" bodyfile="tests/network/test_http_governance.cpp" bodystart="74" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_governance_test_1a55b52532e3b4796e88597b6aeb81c17b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpGovernanceTest::get_with_headers</definition>
+        <argsstring>(const std::string &amp;target, const std::map&lt; std::string, std::string &gt; &amp;headers={})</argsstring>
+        <name>get_with_headers</name>
+        <qualifiedname>HttpGovernanceTest::get_with_headers</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="115" column="20" bodyfile="tests/network/test_http_governance.cpp" bodystart="115" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_governance_test_1a93d7b826f523921001ac9e367f13bea8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool HttpGovernanceTest::has_header</definition>
+        <argsstring>(const http::response&lt; http::string_body &gt; &amp;res, const std::string &amp;header_name)</argsstring>
+        <name>has_header</name>
+        <qualifiedname>HttpGovernanceTest::has_header</qualifiedname>
+        <param>
+          <type>const http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="151" column="10" bodyfile="tests/network/test_http_governance.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_governance_test_1a2a95aec74026cafaea45b9f10766f50e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string HttpGovernanceTest::get_header</definition>
+        <argsstring>(const http::response&lt; http::string_body &gt; &amp;res, const std::string &amp;header_name)</argsstring>
+        <name>get_header</name>
+        <qualifiedname>HttpGovernanceTest::get_header</qualifiedname>
+        <param>
+          <type>const http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_governance.cpp" line="155" column="17" bodyfile="tests/network/test_http_governance.cpp" bodystart="155" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpGovernanceTest</label>
+        <link refid="class_http_governance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpGovernanceTest</label>
+        <link refid="class_http_governance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_governance.cpp" line="27" column="1" bodyfile="tests/network/test_http_governance.cpp" bodystart="27" bodyend="169"/>
+    <listofallmembers>
+      <member refid="class_http_governance_test_1a2a95aec74026cafaea45b9f10766f50e" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>get_header</name></member>
+      <member refid="class_http_governance_test_1a55b52532e3b4796e88597b6aeb81c17b" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>get_with_headers</name></member>
+      <member refid="class_http_governance_test_1adcc4fc04f83992a053d94574e5f44eb0" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_governance_test_1a93d7b826f523921001ac9e367f13bea8" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>has_header</name></member>
+      <member refid="class_http_governance_test_1a094aecb8cf241c3c5a3311b3def4e470" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>post_with_headers</name></member>
+      <member refid="class_http_governance_test_1aa34a65cffe73ce4b2a3dd0fe7ac3a13b" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_governance_test_1a06295808f81b6b88e105d43834a3f046" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>server_</name></member>
+      <member refid="class_http_governance_test_1a61e15d71020446e395d9c9e789096eab" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>SetUp</name></member>
+      <member refid="class_http_governance_test_1a8f61c70f3ac5c3067af0bed4758eecc8" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>storage_</name></member>
+      <member refid="class_http_governance_test_1aa3ed8812df76573d8e944d71891bbe20" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>TearDown</name></member>
+      <member refid="class_http_governance_test_1acee289e0c7b5678bfb9ee1d0ae1cdbc8" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_governance_test_1a30cbe35523e4b50857facd30cc230413" prot="protected" virt="non-virtual"><scope>HttpGovernanceTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1_typename_function" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::TypenameFunction</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1functions_1_1_i_function" prot="public" virt="non-virtual">themis::query::functions::IFunction</basecompoundref>
+    <includes refid="document__functions_8h" local="no">document_functions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_typename_function_1ae113a0ce27e4a807bf52ce48a2120995" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::TypenameFunction::~TypenameFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~TypenameFunction</name>
+        <qualifiedname>themis::query::functions::TypenameFunction::~TypenameFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/document_functions.h" line="346" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_typename_function_1afcf15361a60fa3e1d560a567308ba315" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref></type>
+        <definition>FunctionSignature themis::query::functions::TypenameFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::query::functions::TypenameFunction::signature</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a14ab2d91e8a0195c5b73a4ef05151478">signature</reimplements>
+        <briefdescription>
+<para>Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/document_functions.h" line="347" column="23" bodyfile="include/query/functions/document_functions.h" bodystart="347" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_typename_function_1af54402d19b01e52269b2439c3e84d328" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::functions::TypenameFunction::execute</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;args, const FunctionContext &amp;) const override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::functions::TypenameFunction::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a7e3401607dd70b42df4da3a392e24c60">execute</reimplements>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/document_functions.h" line="363" column="20" bodyfile="include/query/functions/document_functions.h" bodystart="363" bodyend="388"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::TypenameFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_typename_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::TypenameFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_typename_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/document_functions.h" line="344" column="1" bodyfile="include/query/functions/document_functions.h" bodystart="344" bodyend="389"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1_typename_function_1af54402d19b01e52269b2439c3e84d328" prot="public" virt="virtual"><scope>themis::query::functions::TypenameFunction</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a42971eed20f17673a764546eed8e1462" prot="protected" virt="non-virtual"><scope>themis::query::functions::TypenameFunction</scope><name>isGeometry</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a8141e01394e9c7a14ca2f7152684721e" prot="protected" virt="non-virtual"><scope>themis::query::functions::TypenameFunction</scope><name>isVector</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_typename_function_1afcf15361a60fa3e1d560a567308ba315" prot="public" virt="virtual"><scope>themis::query::functions::TypenameFunction</scope><name>signature</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a68ea2fe431937c2a2e5a001027bfd15f" prot="protected" virt="non-virtual"><scope>themis::query::functions::TypenameFunction</scope><name>toBool</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a13b10298be193ff19480b033de127f80" prot="protected" virt="non-virtual"><scope>themis::query::functions::TypenameFunction</scope><name>toNumber</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a1eaeedaa323352a073c63b5ca631fd7c" prot="protected" virt="non-virtual"><scope>themis::query::functions::TypenameFunction</scope><name>toString</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a3c825841f6247644e1301cbf65c2d8ad" prot="public" virt="virtual"><scope>themis::query::functions::TypenameFunction</scope><name>validateArgs</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1adea209cca3e5f9a99bb163a9bc333694" prot="protected" virt="non-virtual"><scope>themis::query::functions::TypenameFunction</scope><name>validateArgType</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a484cc337101f6131acd1ee83ac31563b" prot="public" virt="virtual"><scope>themis::query::functions::TypenameFunction</scope><name>~IFunction</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_typename_function_1ae113a0ce27e4a807bf52ce48a2120995" prot="public" virt="non-virtual"><scope>themis::query::functions::TypenameFunction</scope><name>~TypenameFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

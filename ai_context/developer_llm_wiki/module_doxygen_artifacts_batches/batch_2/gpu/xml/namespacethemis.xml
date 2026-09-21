@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="classthemis_1_1_g_p_u_memory_manager" prot="public">themis::GPUMemoryManager</innerclass>
+    <innerclass refid="classthemis_1_1_g_p_u_memory_manager_stub" prot="public">themis::GPUMemoryManagerStub</innerclass>
+    <innerclass refid="classthemis_1_1_g_p_u_backend" prot="public">themis::GPUBackend</innerclass>
+    <innerclass refid="classthemis_1_1_g_p_u_backend_stub" prot="public">themis::GPUBackendStub</innerclass>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1test">themis::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1a6dbb458a3fefe2f4b6c91dfecca33cee" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GPUBackendType</name>
+        <qualifiedname>themis::GPUBackendType</qualifiedname>
+        <enumvalue id="namespacethemis_1a6dbb458a3fefe2f4b6c91dfecca33ceeab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a6dbb458a3fefe2f4b6c91dfecca33ceeaa33b7755e5f9b504d2d038eaca4ff28d" prot="public">
+          <name>CUDA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a6dbb458a3fefe2f4b6c91dfecca33ceea4577407264c219de8c96e39f0e4cae2a" prot="public">
+          <name>ROCM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a6dbb458a3fefe2f4b6c91dfecca33ceea542f952490e2db695a1d544338a70cda" prot="public">
+          <name>OPENCL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a6dbb458a3fefe2f4b6c91dfecca33ceeac60cacb57b9e78f018a9d973bee2f801" prot="public">
+          <name>VULKAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a6dbb458a3fefe2f4b6c91dfecca33ceea74108a89672c573afee1fae6de8e4e0b" prot="public">
+          <name>METAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a6dbb458a3fefe2f4b6c91dfecca33ceeaeee703cc0a96c14f0661af3ae9420d08" prot="public">
+          <name>DIRECTX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="120" column="1" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="120" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/cuda_operations.h" line="33" column="1"/>
+  </compounddef>
+</doxygen>

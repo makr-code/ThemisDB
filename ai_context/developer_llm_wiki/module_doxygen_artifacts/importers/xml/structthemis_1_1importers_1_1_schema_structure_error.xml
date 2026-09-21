@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_schema_structure_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::SchemaStructureError</compoundname>
+    <includes refid="schema__inference_8h" local="no">schema_inference.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1importers_1_1_schema_structure_error_1a41f16b3c20ebe9d41fa3d177177cbf45" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ViolationType</name>
+        <qualifiedname>themis::importers::SchemaStructureError::ViolationType</qualifiedname>
+        <enumvalue id="structthemis_1_1importers_1_1_schema_structure_error_1a41f16b3c20ebe9d41fa3d177177cbf45af3b659d4be88d0b398509464f83bc29f" prot="public">
+          <name>NULL_TABLE_NAME</name>
+          <briefdescription>
+<para>Table has empty/null name. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1importers_1_1_schema_structure_error_1a41f16b3c20ebe9d41fa3d177177cbf45a971ceaba8c484b00ccbdd758d533f438" prot="public">
+          <name>NULL_COLUMN_NAME</name>
+          <briefdescription>
+<para>Column has empty/null name. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1importers_1_1_schema_structure_error_1a41f16b3c20ebe9d41fa3d177177cbf45ad85dba7715409f5e0fe0de1dfe0cbce6" prot="public">
+          <name>DUPLICATE_COLUMN</name>
+          <briefdescription>
+<para>Column name appears multiple times. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1importers_1_1_schema_structure_error_1a41f16b3c20ebe9d41fa3d177177cbf45adc2aaa4d8e655151b2ebec3a278c0fcd" prot="public">
+          <name>INVALID_TYPE_STRING</name>
+          <briefdescription>
+<para>Unknown/invalid type string. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1importers_1_1_schema_structure_error_1a41f16b3c20ebe9d41fa3d177177cbf45a8bf64be284c13d1e27eb0501364d2834" prot="public">
+          <name>OVERSIZED_IDENTIFIER</name>
+          <briefdescription>
+<para>Identifier exceeds max length. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1importers_1_1_schema_structure_error_1a41f16b3c20ebe9d41fa3d177177cbf45ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No violation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="60" column="5" bodyfile="include/importers/schema_inference.h" bodystart="60" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_structure_error_1a38f14b2e850931c4725d59470c35021c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_schema_structure_error_1a41f16b3c20ebe9d41fa3d177177cbf45" kindref="member">ViolationType</ref></type>
+        <definition>ViolationType themis::importers::SchemaStructureError::violation_type</definition>
+        <argsstring></argsstring>
+        <name>violation_type</name>
+        <qualifiedname>themis::importers::SchemaStructureError::violation_type</qualifiedname>
+        <initializer>{<ref refid="structthemis_1_1importers_1_1_schema_structure_error_1a41f16b3c20ebe9d41fa3d177177cbf45ab50339a10e1de285ac99d4c3990b8693" kindref="member">ViolationType::NONE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="69" column="19" bodyfile="include/importers/schema_inference.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_structure_error_1a0c51a6792b534c7ec4850dfe7bc1e2bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaStructureError::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::importers::SchemaStructureError::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="70" column="17" bodyfile="include/importers/schema_inference.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_structure_error_1aed5a1e7ba71adaa116b43f72f3a85d5e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaStructureError::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::importers::SchemaStructureError::column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="71" column="17" bodyfile="include/importers/schema_inference.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_structure_error_1aac90b97854a9d22ab9a0af1bd15d27dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaStructureError::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::importers::SchemaStructureError::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="72" column="17" bodyfile="include/importers/schema_inference.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/schema_inference.h" line="59" column="1" bodyfile="include/importers/schema_inference.h" bodystart="59" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_schema_structure_error_1aed5a1e7ba71adaa116b43f72f3a85d5e" prot="public" virt="non-virtual"><scope>themis::importers::SchemaStructureError</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_structure_error_1aac90b97854a9d22ab9a0af1bd15d27dc" prot="public" virt="non-virtual"><scope>themis::importers::SchemaStructureError</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_structure_error_1a0c51a6792b534c7ec4850dfe7bc1e2bb" prot="public" virt="non-virtual"><scope>themis::importers::SchemaStructureError</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_structure_error_1a38f14b2e850931c4725d59470c35021c" prot="public" virt="non-virtual"><scope>themis::importers::SchemaStructureError</scope><name>violation_type</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_structure_error_1a41f16b3c20ebe9d41fa3d177177cbf45" prot="public" virt="non-virtual"><scope>themis::importers::SchemaStructureError</scope><name>ViolationType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

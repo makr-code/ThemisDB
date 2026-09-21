@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1execution_1_1_query_scheduler_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::execution::QueryScheduler::Config</compoundname>
+    <includes refid="query__scheduler_8h" local="no">query_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1ac9ed69ebf8ba1d393419c7a2b4b4ca5c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::execution::QueryScheduler::Config::max_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth</name>
+        <qualifiedname>themis::execution::QueryScheduler::Config::max_queue_depth</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Backpressure threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="80" column="21" bodyfile="include/execution/query_scheduler.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1aeccc8b8c6e6942c81d21b92fa9f46613" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::execution::QueryScheduler::Config::shed_threshold</definition>
+        <argsstring></argsstring>
+        <name>shed_threshold</name>
+        <qualifiedname>themis::execution::QueryScheduler::Config::shed_threshold</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Load-shed threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="81" column="21" bodyfile="include/execution/query_scheduler.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1a9e8fa9b222beb801e3d6078bb7dd0868" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::execution::QueryScheduler::Config::urgent_window_ms</definition>
+        <argsstring></argsstring>
+        <name>urgent_window_ms</name>
+        <qualifiedname>themis::execution::QueryScheduler::Config::urgent_window_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="82" column="21" bodyfile="include/execution/query_scheduler.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1a316bd63b5b3c210f02b206ac6c207989" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::execution::QueryScheduler::Config::default_sla_ms</definition>
+        <argsstring></argsstring>
+        <name>default_sla_ms</name>
+        <qualifiedname>themis::execution::QueryScheduler::Config::default_sla_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="83" column="21" bodyfile="include/execution/query_scheduler.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/execution/query_scheduler.h" line="79" column="5" bodyfile="include/execution/query_scheduler.h" bodystart="79" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1a316bd63b5b3c210f02b206ac6c207989" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Config</scope><name>default_sla_ms</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1ac9ed69ebf8ba1d393419c7a2b4b4ca5c" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Config</scope><name>max_queue_depth</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1aeccc8b8c6e6942c81d21b92fa9f46613" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Config</scope><name>shed_threshold</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1a9e8fa9b222beb801e3d6078bb7dd0868" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Config</scope><name>urgent_window_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

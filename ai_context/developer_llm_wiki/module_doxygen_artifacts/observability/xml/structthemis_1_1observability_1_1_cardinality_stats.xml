@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_cardinality_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::CardinalityStats</compoundname>
+    <includes refid="high__cardinality__metrics_8h" local="no">high_cardinality_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_cardinality_stats_1ac73c41214323a49d397cc8b4827b3287" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::observability::CardinalityStats::current_series_count</definition>
+        <argsstring></argsstring>
+        <name>current_series_count</name>
+        <qualifiedname>themis::observability::CardinalityStats::current_series_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Current number of distinct label-set combinations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="66" column="17" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_cardinality_stats_1aa0f7df936bf33683e087a71475d082b9" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::observability::CardinalityStats::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::observability::CardinalityStats::limit</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Configured maximum cardinality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="69" column="17" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_cardinality_stats_1a6552526de67de41e812d164d533a999b" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::observability::CardinalityStats::rejected_sets_total</definition>
+        <argsstring></argsstring>
+        <name>rejected_sets_total</name>
+        <qualifiedname>themis::observability::CardinalityStats::rejected_sets_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of times a new label-set was rejected due to cardinality limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="72" column="19" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_cardinality_stats_1ab77c613e335889c50bf98d6b5a1fbfef" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::observability::CardinalityStats::aggregated_sets_total</definition>
+        <argsstring></argsstring>
+        <name>aggregated_sets_total</name>
+        <qualifiedname>themis::observability::CardinalityStats::aggregated_sets_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of times new label-sets were aggregated into &quot;__other&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="75" column="19" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_cardinality_stats_1ae5340f32b4050574b0def62c8774fbbb" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::observability::CardinalityStats::last_updated_ns</definition>
+        <argsstring></argsstring>
+        <name>last_updated_ns</name>
+        <qualifiedname>themis::observability::CardinalityStats::last_updated_ns</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Timestamp when cardinality was last updated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="78" column="18" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_cardinality_stats_1a22ff6983c122ae2ed41c1a2c10341499" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::CardinalityStats::at_limit</definition>
+        <argsstring></argsstring>
+        <name>at_limit</name>
+        <qualifiedname>themis::observability::CardinalityStats::at_limit</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether the metric is currently at or above the cardinality limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="81" column="10" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_cardinality_stats_1a815dbb6ec82164e5c04300d5823a2f89" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::CardinalityStats::utilization_percent</definition>
+        <argsstring></argsstring>
+        <name>utilization_percent</name>
+        <qualifiedname>themis::observability::CardinalityStats::utilization_percent</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Percentage of cardinality limit currently in use (0-100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="84" column="12" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cardinality statistics for a single metric. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Snapshot of cardinality information at a point in time. </para>
+    </detaileddescription>
+    <location file="include/observability/high_cardinality_metrics.h" line="64" column="1" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="64" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_cardinality_stats_1ab77c613e335889c50bf98d6b5a1fbfef" prot="public" virt="non-virtual"><scope>themis::observability::CardinalityStats</scope><name>aggregated_sets_total</name></member>
+      <member refid="structthemis_1_1observability_1_1_cardinality_stats_1a22ff6983c122ae2ed41c1a2c10341499" prot="public" virt="non-virtual"><scope>themis::observability::CardinalityStats</scope><name>at_limit</name></member>
+      <member refid="structthemis_1_1observability_1_1_cardinality_stats_1ac73c41214323a49d397cc8b4827b3287" prot="public" virt="non-virtual"><scope>themis::observability::CardinalityStats</scope><name>current_series_count</name></member>
+      <member refid="structthemis_1_1observability_1_1_cardinality_stats_1ae5340f32b4050574b0def62c8774fbbb" prot="public" virt="non-virtual"><scope>themis::observability::CardinalityStats</scope><name>last_updated_ns</name></member>
+      <member refid="structthemis_1_1observability_1_1_cardinality_stats_1aa0f7df936bf33683e087a71475d082b9" prot="public" virt="non-virtual"><scope>themis::observability::CardinalityStats</scope><name>limit</name></member>
+      <member refid="structthemis_1_1observability_1_1_cardinality_stats_1a6552526de67de41e812d164d533a999b" prot="public" virt="non-virtual"><scope>themis::observability::CardinalityStats</scope><name>rejected_sets_total</name></member>
+      <member refid="structthemis_1_1observability_1_1_cardinality_stats_1a815dbb6ec82164e5c04300d5823a2f89" prot="public" virt="non-virtual"><scope>themis::observability::CardinalityStats</scope><name>utilization_percent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

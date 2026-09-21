@@ -1,0 +1,1540 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::HSMKeyProviderAdapter</compoundname>
+    <basecompoundref refid="classthemis_1_1_key_provider" prot="public" virt="non-virtual">themis::KeyProvider</basecompoundref>
+    <includes refid="hsm__key__provider__adapter_8h" local="no">hsm_key_provider_adapter.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_config" prot="public">themis::security::HSMKeyProviderAdapter::Config</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_cached_d_e_k" prot="private">themis::security::HSMKeyProviderAdapter::CachedDEK</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_stats" prot="private">themis::security::HSMKeyProviderAdapter::Stats</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_key_version_data" prot="private">themis::security::HSMKeyProviderAdapter::KeyVersionData</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1affd8257b9cbf11aa2ffa7c8a57f9413e" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; uint8_t &gt;(const std::vector&lt; uint8_t &gt; &amp;plaintext_dek)&gt;</type>
+        <definition>using themis::security::HSMKeyProviderAdapter::WrapDEKFn = std::function&lt;std::vector&lt;uint8_t&gt;(const std::vector&lt;uint8_t&gt;&amp; plaintext_dek)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WrapDEKFn</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::WrapDEKFn</qualifiedname>
+        <briefdescription>
+<para>Signature for a DEK wrap (encrypt) callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="238" column="5" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a306ed65375d4958bddeeb4afe313699d" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; uint8_t &gt;(const std::vector&lt; uint8_t &gt; &amp;encrypted_dek)&gt;</type>
+        <definition>using themis::security::HSMKeyProviderAdapter::UnwrapDEKFn = std::function&lt;std::vector&lt;uint8_t&gt;(const std::vector&lt;uint8_t&gt;&amp; encrypted_dek)&gt;</definition>
+        <argsstring></argsstring>
+        <name>UnwrapDEKFn</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::UnwrapDEKFn</qualifiedname>
+        <briefdescription>
+<para>Signature for a DEK unwrap (decrypt) callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="240" column="5" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a518bcea9e7ec799f5edf239f3d80bf8b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HSMProvider&gt; themis::security::HSMKeyProviderAdapter::hsm_</definition>
+        <argsstring></argsstring>
+        <name>hsm_</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::hsm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="265" column="21" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a791bcb6496ee1a0fdc704a1813942a07" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::security::HSMKeyProviderAdapter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="266" column="12" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a8ed2c51868956418eee0eb8da09e22b1" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, CachedDEK &gt;</type>
+        <definition>std::map&lt;std::string, CachedDEK&gt; themis::security::HSMKeyProviderAdapter::dek_cache_</definition>
+        <argsstring></argsstring>
+        <name>dek_cache_</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::dek_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="283" column="14" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a317de7d84d74f6a2e34b39e641201b35" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::security::HSMKeyProviderAdapter::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="284" column="24" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a75fe7858bc7e39862d236330a0a99b83" prot="private" static="no" mutable="yes">
+        <type>Stats</type>
+        <definition>Stats themis::security::HSMKeyProviderAdapter::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="295" column="19" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a3dcb6bd95c7f522ba0b7db41602f6610" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; uint32_t, KeyVersionData &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;uint32_t, KeyVersionData&gt; &gt; themis::security::HSMKeyProviderAdapter::key_store_</definition>
+        <argsstring></argsstring>
+        <name>key_store_</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::key_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="302" column="14" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a2a930d530b557117c0cdb7f2682e9bcb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::security::HSMKeyProviderAdapter::store_mutex_</definition>
+        <argsstring></argsstring>
+        <name>store_mutex_</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::store_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="303" column="24" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1ac5f26546a17a2de979dc3450abe8198d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::HSMKeyProviderAdapter::HSMKeyProviderAdapter</definition>
+        <argsstring>(std::shared_ptr&lt; HSMProvider &gt; hsm, const Config &amp;config)</argsstring>
+        <name>HSMKeyProviderAdapter</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::HSMKeyProviderAdapter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> &gt;</type>
+          <declname>hsm</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct HSM key provider adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hsm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initialized HSM provider </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if hsm is null or not initialized </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="98" column="14" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="57" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1af79296141090e53d9e36d245878a6b34" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::HSMKeyProviderAdapter::HSMKeyProviderAdapter</definition>
+        <argsstring>(std::shared_ptr&lt; HSMProvider &gt; hsm)</argsstring>
+        <name>HSMKeyProviderAdapter</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::HSMKeyProviderAdapter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> &gt;</type>
+          <declname>hsm</declname>
+        </param>
+        <briefdescription>
+<para>Constructor with default config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="104" column="14" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1ad8a494aed8f5cf938db9ee70dfaa56f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::HSMKeyProviderAdapter::~HSMKeyProviderAdapter</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~HSMKeyProviderAdapter</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::~HSMKeyProviderAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="108" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a09ba73c363dbe4985a37dbe0ea505be7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::HSMKeyProviderAdapter::getKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1add63db6d99568ab764123f07893cc7d1">getKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Get encryption key (DEK) for key_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Key.</para>
+<para>Process:<orderedlist>
+<listitem><para>Check cache for DEK</para>
+</listitem><listitem><para>If not cached: retrieve encrypted DEK from metadata store</para>
+</listitem><listitem><para>Use HSM to decrypt DEK (KEK unwraps DEK)</para>
+</listitem><listitem><para>Cache decrypted DEK with TTL</para>
+</listitem><listitem><para>Return DEK for data encryption</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical key identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DEK bytes (32 bytes for AES-256) </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if key doesn&apos;t exist </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if HSM operation fails</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="127" column="17" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="89" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a6b48036e0445ca201acec6e595e60338" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::HSMKeyProviderAdapter::getKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ac16b28cd3ba6e684a92e7f4383e5ea58">getKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Get specific version of encryption key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical key identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key version </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DEK bytes (32 bytes for AES-256) </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if key version doesn&apos;t exist</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeCacheKey(), getCachedDEK(), lock(), find(), end(), std::to_string(), unwrapDEK(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="137" column="17" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="122" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a1fe5a82d19447a79517a49702d48ee3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::HSMKeyProviderAdapter::rotateKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::rotateKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a21794661f33eafc159d0948ee3e204ae">rotateKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Rotate key (create new version). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rotate Key.</para>
+<para>Process:<orderedlist>
+<listitem><para>Generate new random DEK</para>
+</listitem><listitem><para>Use HSM to encrypt DEK with KEK</para>
+</listitem><listitem><para>Store encrypted DEK as new version</para>
+</listitem><listitem><para>Mark old version as DEPRECATED</para>
+</listitem><listitem><para>Return new version number</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to rotate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>New version number </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if HSM operation fails</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getLatestVersion(), generateRandomDEK(), wrapDEK(), std::string(), what(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="153" column="14" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="176" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a06dd2f04a7abbb75421feca4c3031687" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; KeyMetadata &gt; themis::security::HSMKeyProviderAdapter::listKeys</definition>
+        <argsstring>() override</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::listKeys</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab4d31df1258d4f7583fee68f77813810">listKeys</reimplements>
+        <briefdescription>
+<para>List all keys with metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>List Keys.</para>
+<para><simplesect kind="return"><para>Vector of key metadata</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), size(), reserve(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="160" column="17" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="228" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a34fe703a7ec3df903afc9c4160491a69" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref></type>
+        <definition>KeyMetadata themis::security::HSMKeyProviderAdapter::getKeyMetadata</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>getKeyMetadata</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::getKeyMetadata</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a74f1a932e3aa36781382fb35f2e7c2e3">getKeyMetadata</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Get metadata for specific key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Key Metadata.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key version (0 = latest) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Key metadata </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if key doesn&apos;t exist</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="170" column="17" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="253" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a20ab6c01cf9dc3a20317f5f8b1d90acc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMKeyProviderAdapter::deleteKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>deleteKey</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::deleteKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab1381dbbc3f8af4308678d2324b51b99">deleteKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Delete a key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key version to delete </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if key is ACTIVE</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::to_string(), makeCacheKey(), cache_lock(), erase(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="179" column="10" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="288" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1af4bf011798cdf3ad91933d397832e4d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::security::HSMKeyProviderAdapter::hasKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>hasKey</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::hasKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a24990fabb3111c177d5ea5be78446824">hasKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Check if key exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Has Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key version (0 = any version) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if key exists</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="188" column="10" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="324" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1af63b20cad3248d85abe1712a4aa5a5f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::HSMKeyProviderAdapter::createKeyFromBytes</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;key_bytes, const KeyMetadata &amp;metadata=KeyMetadata()) override</argsstring>
+        <name>createKeyFromBytes</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::createKeyFromBytes</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1adb7353f54d3975fcf60572403a25c243">createKeyFromBytes</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Create key from provided bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Key From Bytes.</para>
+<para>Process:<orderedlist>
+<listitem><para>Validate key_bytes (must be 32 bytes)</para>
+</listitem><listitem><para>Use HSM to encrypt bytes with KEK</para>
+</listitem><listitem><para>Store encrypted DEK</para>
+</listitem><listitem><para>Return version number</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw key material (32 bytes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key metadata </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Version number </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if key_bytes.size() != 32 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if HSM operation fails</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), lock(), getLatestVersion(), wrapDEK(), std::string(), what(), empty(), getCurrentTimeMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="206" column="14" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="349" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1afab32af5bb5f14516a6d262bf38f96d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::HSMKeyProviderAdapter::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::getStats</qualifiedname>
+        <briefdescription>
+<para>Get statistics about adapter operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON with stats (cache hits, HSM operations, etc.) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">store_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="217" column="20" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="404" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a3a3228b64c53895980ca00b6f1613b1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMKeyProviderAdapter::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear DEK cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Cache.</para>
+<para>Calls: lock(), clear(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="222" column="10" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="452" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1ac7268f6a17a0aa4cb43763d1cb18d6c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::HSMKeyProviderAdapter::isHSMReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isHSMReady</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::isHSMReady</qualifiedname>
+        <briefdescription>
+<para>Check if HSM is ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if HSM is initialized and ready </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="229" column="10" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="458" bodyend="460"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aba0fab296fc2c671d78d9fe95eb2fdd2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMKeyProviderAdapter::setWrapDEKFn</definition>
+        <argsstring>(WrapDEKFn fn)</argsstring>
+        <name>setWrapDEKFn</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::setWrapDEKFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1affd8257b9cbf11aa2ffa7c8a57f9413e" kindref="member">WrapDEKFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register a process-wide DEK wrap callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Wrap DEKFn.</para>
+<para>When set, wrapDEK() calls <computeroutput>fn</computeroutput> instead of the <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref>. Pass an empty function to clear the override (default).</para>
+<para>Thread-safe. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="251" column="17" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="735" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aeefdbc70540ac563471fa4c95faa00f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMKeyProviderAdapter::setUnwrapDEKFn</definition>
+        <argsstring>(UnwrapDEKFn fn)</argsstring>
+        <name>setUnwrapDEKFn</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::setUnwrapDEKFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a306ed65375d4958bddeeb4afe313699d" kindref="member">UnwrapDEKFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register a process-wide DEK unwrap callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Unwrap DEKFn.</para>
+<para>When set, unwrapDEK() calls <computeroutput>fn</computeroutput> instead of the <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref>. Pass an empty function to clear the override (default).</para>
+<para>Thread-safe. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="262" column="17" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="745" bodyend="748"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1ae92476b05d652b775fe9517027216eae" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::HSMKeyProviderAdapter::generateRandomDEK</definition>
+        <argsstring>() const</argsstring>
+        <name>generateRandomDEK</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::generateRandomDEK</qualifiedname>
+        <briefdescription>
+<para>Helper methods. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="309" column="17" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="464" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aebb1e53f813929282460a40e4cc7de94" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::HSMKeyProviderAdapter::wrapDEK</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;dek)</argsstring>
+        <name>wrapDEK</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::wrapDEK</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>dek</declname>
+        </param>
+        <briefdescription>
+<para>Wrap DEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dek</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dek</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), fn(), std::string(), what(), isStubProvider(), isStubHsmDekWrapAllowed(), encryptData(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="315" column="17" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="484" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a287bf73ac80d3681b2be1578235116ec" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::HSMKeyProviderAdapter::unwrapDEK</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;encrypted_dek)</argsstring>
+        <name>unwrapDEK</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::unwrapDEK</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>encrypted_dek</declname>
+        </param>
+        <briefdescription>
+<para>Unwrap DEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted_dek</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted_dek</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), fn(), std::string(), what(), isStubProvider(), isStubHsmDekWrapAllowed(), decryptData(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="321" column="17" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="563" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a6d5a995d1aa98e7d1e3aa8fa9d45796c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMKeyProviderAdapter::makeCacheKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) const</argsstring>
+        <name>makeCacheKey</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::makeCacheKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Make Cache Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="328" column="17" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="624" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aee6c828a67d3db0136a8492bf4fac000" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMKeyProviderAdapter::makeStoreKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) const</argsstring>
+        <name>makeStoreKey</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::makeStoreKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Make Store Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="335" column="17" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="628" bodyend="630"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a1fbc04ca3d12da1acf51753a0065fabb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::HSMKeyProviderAdapter::getCachedDEK</definition>
+        <argsstring>(const std::string &amp;cache_key, std::vector&lt; uint8_t &gt; &amp;out_dek)</argsstring>
+        <name>getCachedDEK</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::getCachedDEK</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_key</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>out_dek</declname>
+        </param>
+        <briefdescription>
+<para>Get Cached DEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_dek</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_dek</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), evictExpiredCache(), find(), end(), isExpired(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="342" column="10" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="639" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a0680ae9a190ee6809fcf422ae6a2f2fd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMKeyProviderAdapter::putCachedDEK</definition>
+        <argsstring>(const std::string &amp;cache_key, const std::vector&lt; uint8_t &gt; &amp;dek)</argsstring>
+        <name>putCachedDEK</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::putCachedDEK</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>dek</declname>
+        </param>
+        <briefdescription>
+<para>Put Cached DEK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dek</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dek</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), begin(), end(), erase(), getCurrentTimeMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="348" column="10" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="666" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aa29189b27b742d56b28b977e61a9e0bb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMKeyProviderAdapter::evictExpiredCache</definition>
+        <argsstring>()</argsstring>
+        <name>evictExpiredCache</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::evictExpiredCache</qualifiedname>
+        <briefdescription>
+<para>Evict Expired Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: begin(), end(), isExpired(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="352" column="10" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="693" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a343c1fc519f3f4fda4f7a2d9b84e0840" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::HSMKeyProviderAdapter::getLatestVersion</definition>
+        <argsstring>(const std::string &amp;key_id) const</argsstring>
+        <name>getLatestVersion</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::getLatestVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Latest Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="358" column="14" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="705" bodyend="720"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aea1df300d546811774c3bdbb5b2469e4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::HSMKeyProviderAdapter::getCurrentTimeMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+<para>Get Current Time Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="363" column="13" bodyfile="src/security/hsm_key_provider_adapter.cpp" bodystart="722" bodyend="726"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adapter to use <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> with <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref> interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This adapter bridges <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> (which provides signing/verification) with <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref> interface (which provides encryption key management).</para>
+<para>Implementation Strategy: Envelope Encryption<itemizedlist>
+<listitem><para>Data Encryption Key (DEK): Random AES-256 key generated per adapter</para>
+</listitem><listitem><para>Key Encryption Key (KEK): RSA key stored in HSM</para>
+</listitem><listitem><para>DEK is encrypted by HSM KEK and stored with adapter metadata</para>
+</listitem><listitem><para>Actual data encryption uses DEK (fast AES-GCM)</para>
+</listitem><listitem><para>HSM only used for DEK wrap/unwrap (slow but secure)</para>
+</listitem></itemizedlist>
+</para>
+<para>Benefits:<itemizedlist>
+<listitem><para>HSM provides hardware-backed security for KEK</para>
+</listitem><listitem><para>Fast data encryption (AES-GCM with cached DEK)</para>
+</listitem><listitem><para>Supports large data without HSM size limits</para>
+</listitem><listitem><para>KEK never leaves HSM hardware</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance:<itemizedlist>
+<listitem><para>DEK caching reduces HSM operations</para>
+</listitem><listitem><para>Cache TTL: 5 minutes (configurable)</para>
+</listitem><listitem><para>HSM operation: ~10-50ms per DEK wrap/unwrap</para>
+</listitem><listitem><para>Data encryption: ~0.5ms per 1KB (AES-GCM)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread Safety:<itemizedlist>
+<listitem><para>All methods are thread-safe</para>
+</listitem><listitem><para>Uses mutex for cache access</para>
+</listitem><listitem><para><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> handles its own thread safety</para>
+</listitem></itemizedlist>
+</para>
+<para>Example Usage: <programlisting><codeline><highlight class="comment">//<sp/>Create<sp/>HSM<sp/>provider</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">HSMConfig<sp/>hsm_config;</highlight></codeline>
+<codeline><highlight class="normal">hsm_config.library_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/usr/lib/softhsm/libsofthsm2.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">hsm_config.slot_id<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">hsm_config.pin<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1234&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">hsm_config.key_label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lora-adapter-kek&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hsm<sp/>=<sp/>std::make_shared&lt;HSMProvider&gt;(hsm_config);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hsm-&gt;initialize())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;HSM<sp/>init<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Create<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;HSMKeyProviderAdapter&gt;(hsm,<sp/></highlight><highlight class="stringliteral">&quot;lora-adapter-kek&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Use<sp/>with<sp/>FieldEncryption</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>encryption<sp/>=<sp/>std::make_shared&lt;FieldEncryption&gt;(adapter);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::HSMKeyProviderAdapter</label>
+        <link refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::HSMKeyProviderAdapter</label>
+        <link refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/hsm_key_provider_adapter.h" line="78" column="1" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="78" bodyend="364"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a317de7d84d74f6a2e34b39e641201b35" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a3a3228b64c53895980ca00b6f1613b1e" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a791bcb6496ee1a0fdc704a1813942a07" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1af63b20cad3248d85abe1712a4aa5a5f2" prot="public" virt="virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>createKeyFromBytes</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a8ed2c51868956418eee0eb8da09e22b1" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>dek_cache_</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a20ab6c01cf9dc3a20317f5f8b1d90acc" prot="public" virt="virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>deleteKey</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aa29189b27b742d56b28b977e61a9e0bb" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>evictExpiredCache</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1ae92476b05d652b775fe9517027216eae" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>generateRandomDEK</name></member>
+      <member refid="classthemis_1_1_key_provider_1a9017c934ab52d6cc42fa7225d3add21e" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>get_key</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a1fbc04ca3d12da1acf51753a0065fabb" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>getCachedDEK</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aea1df300d546811774c3bdbb5b2469e4" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>getCurrentTimeMs</name></member>
+      <member refid="classthemis_1_1_key_provider_1aa9815c2d74023ab0fbd4a911b55b42f4" prot="public" virt="virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a09ba73c363dbe4985a37dbe0ea505be7" prot="public" virt="virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a6b48036e0445ca201acec6e595e60338" prot="public" virt="virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a34fe703a7ec3df903afc9c4160491a69" prot="public" virt="virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>getKeyMetadata</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a343c1fc519f3f4fda4f7a2d9b84e0840" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>getLatestVersion</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1afab32af5bb5f14516a6d262bf38f96d6" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1af4bf011798cdf3ad91933d397832e4d7" prot="public" virt="virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>hasKey</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a518bcea9e7ec799f5edf239f3d80bf8b" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>hsm_</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1ac5f26546a17a2de979dc3450abe8198d" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>HSMKeyProviderAdapter</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1af79296141090e53d9e36d245878a6b34" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>HSMKeyProviderAdapter</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1ac7268f6a17a0aa4cb43763d1cb18d6c0" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>isHSMReady</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a3dcb6bd95c7f522ba0b7db41602f6610" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>key_store_</name></member>
+      <member refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1a0489069eb96edc05fbef315bb529904f" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1ad05f0c6aca228e305cbae15f1095ea9d" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a06dd2f04a7abbb75421feca4c3031687" prot="public" virt="virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a6d5a995d1aa98e7d1e3aa8fa9d45796c" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>makeCacheKey</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aee6c828a67d3db0136a8492bf4fac000" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>makeStoreKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a2b066e3e2b46a13e8a196f4f497a9fc7" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_key_provider_1a11404d5e39ec25310eb458e032f8aaf2" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a0680ae9a190ee6809fcf422ae6a2f2fd" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>putCachedDEK</name></member>
+      <member refid="classthemis_1_1_key_provider_1adfb0562381565d524992c9128baa0464" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>rotate_key</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a1fe5a82d19447a79517a49702d48ee3a" prot="public" virt="virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>rotateKey</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aeefdbc70540ac563471fa4c95faa00f7" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>setUnwrapDEKFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aba0fab296fc2c671d78d9fe95eb2fdd2" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>setWrapDEKFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a75fe7858bc7e39862d236330a0a99b83" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a2a930d530b557117c0cdb7f2682e9bcb" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>store_mutex_</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a287bf73ac80d3681b2be1578235116ec" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>unwrapDEK</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1a306ed65375d4958bddeeb4afe313699d" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>UnwrapDEKFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1aebb1e53f813929282460a40e4cc7de94" prot="private" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>wrapDEK</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1affd8257b9cbf11aa2ffa7c8a57f9413e" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>WrapDEKFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_key_provider_adapter_1ad8a494aed8f5cf938db9ee70dfaa56f1" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>~HSMKeyProviderAdapter</name></member>
+      <member refid="classthemis_1_1_key_provider_1a4a1126cba8c95254bcdefe5fe77d1fa5" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter</scope><name>~KeyProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

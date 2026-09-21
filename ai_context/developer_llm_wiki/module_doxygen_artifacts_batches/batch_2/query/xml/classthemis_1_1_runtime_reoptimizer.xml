@@ -1,0 +1,523 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_runtime_reoptimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::RuntimeReoptimizer</compoundname>
+    <includes refid="runtime__reoptimizer_8h" local="no">runtime_reoptimizer.h</includes>
+    <innerclass refid="structthemis_1_1_runtime_reoptimizer_1_1_execution_context" prot="public">themis::RuntimeReoptimizer::ExecutionContext</innerclass>
+    <innerclass refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard" prot="public">themis::RuntimeReoptimizer::ExecutionGuard</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_runtime_reoptimizer_1a3f0979f30c3c34cc585e5b2380e3d62a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_adaptive_query_stats" kindref="compound">AdaptiveQueryStats</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdaptiveQueryStats&gt; themis::RuntimeReoptimizer::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::RuntimeReoptimizer::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="133" column="21" bodyfile="include/query/runtime_reoptimizer.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_runtime_reoptimizer_1a8f4b580b5b4757c542c3845f0468cc74" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_adaptive_plan_selector" kindref="compound">AdaptivePlanSelector</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdaptivePlanSelector&gt; themis::RuntimeReoptimizer::selector_</definition>
+        <argsstring></argsstring>
+        <name>selector_</name>
+        <qualifiedname>themis::RuntimeReoptimizer::selector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="134" column="21" bodyfile="include/query/runtime_reoptimizer.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_runtime_reoptimizer_1ad0c54971eb27b5570bd89c3c490cbabb" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RuntimeReoptimizer::enabled_</definition>
+        <argsstring></argsstring>
+        <name>enabled_</name>
+        <qualifiedname>themis::RuntimeReoptimizer::enabled_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="135" column="10" bodyfile="include/query/runtime_reoptimizer.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1aadfd16f7da283cf3abfa7cb0fd63e35f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RuntimeReoptimizer::RuntimeReoptimizer</definition>
+        <argsstring>()</argsstring>
+        <name>RuntimeReoptimizer</name>
+        <qualifiedname>themis::RuntimeReoptimizer::RuntimeReoptimizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="56" column="5" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1a0611fbf800816428dac24ac9f0428f71" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_runtime_reoptimizer_1_1_execution_context" kindref="compound">ExecutionContext</ref></type>
+        <definition>RuntimeReoptimizer::ExecutionContext themis::RuntimeReoptimizer::beginExecution</definition>
+        <argsstring>(const std::string &amp;query_hash, size_t estimated_rows) const</argsstring>
+        <name>beginExecution</name>
+        <qualifiedname>themis::RuntimeReoptimizer::beginExecution</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_hash</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_rows</declname>
+        </param>
+        <briefdescription>
+<para>Begin Execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="71" column="22" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="108" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1a844029b033fd1d548822424e6c2520c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard" kindref="compound">ExecutionGuard</ref></type>
+        <definition>RuntimeReoptimizer::ExecutionGuard themis::RuntimeReoptimizer::beginExecutionGuard</definition>
+        <argsstring>(const std::string &amp;query_hash, size_t estimated_rows)</argsstring>
+        <name>beginExecutionGuard</name>
+        <qualifiedname>themis::RuntimeReoptimizer::beginExecutionGuard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_hash</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_rows</declname>
+        </param>
+        <briefdescription>
+<para>Begin Execution Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="80" column="20" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="118" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1abecc981c4b283efa119a2aac81537da1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RuntimeReoptimizer::shouldReoptimize</definition>
+        <argsstring>(const std::string &amp;query_hash, size_t rows_so_far, size_t estimated_total, double progress, double threshold=5.0) const</argsstring>
+        <name>shouldReoptimize</name>
+        <qualifiedname>themis::RuntimeReoptimizer::shouldReoptimize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_hash</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rows_so_far</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_total</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>progress</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+          <defval>5.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="83" column="10" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="128" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1afe785b0814a3ec2d60da02c0e0861eb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RuntimeReoptimizer::recordExecution</definition>
+        <argsstring>(const std::string &amp;query_hash, size_t estimated_rows, size_t actual_rows, double execution_time_ms)</argsstring>
+        <name>recordExecution</name>
+        <qualifiedname>themis::RuntimeReoptimizer::recordExecution</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_hash</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_rows</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>actual_rows</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>execution_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">execution_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">execution_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="96" column="10" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="148" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1a26720fb6a797c50db7b2c0fdcf0fcddc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::RuntimeReoptimizer::getAdjustmentFactor</definition>
+        <argsstring>(const std::string &amp;query_hash) const</argsstring>
+        <name>getAdjustmentFactor</name>
+        <qualifiedname>themis::RuntimeReoptimizer::getAdjustmentFactor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_hash</declname>
+        </param>
+        <briefdescription>
+<para>Get Adjustment Factor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="106" column="12" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="169" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1a6c233f7fe1816bb11ceb91958c2dd74e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RuntimeReoptimizer::hasMisestimation</definition>
+        <argsstring>(const std::string &amp;query_hash, double threshold=2.0) const</argsstring>
+        <name>hasMisestimation</name>
+        <qualifiedname>themis::RuntimeReoptimizer::hasMisestimation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_hash</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+          <defval>2.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="108" column="10" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="177" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1ab65778e5fdf495fcc4fd11bc8780cf8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RuntimeReoptimizer::pruneOldStats</definition>
+        <argsstring>(std::chrono::hours retention=std::chrono::hours(24))</argsstring>
+        <name>pruneOldStats</name>
+        <qualifiedname>themis::RuntimeReoptimizer::pruneOldStats</qualifiedname>
+        <param>
+          <type>std::chrono::hours</type>
+          <declname>retention</declname>
+          <defval>std::chrono::hours(24)</defval>
+        </param>
+        <briefdescription>
+<para>Prune Old Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">retention</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements pruneOldStats without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="111" column="10" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="187" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1a45c8fa5e286f54e7bbdfbf40cd601065" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RuntimeReoptimizer::enable</definition>
+        <argsstring>(bool enabled=true)</argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::RuntimeReoptimizer::enable</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Enable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="113" column="10" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="196" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1a74759c40b4cc14a4c40d21f0af450193" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RuntimeReoptimizer::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::RuntimeReoptimizer::isEnabled</qualifiedname>
+        <briefdescription>
+<para>Is Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="118" column="10" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="202" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1a2458c258867295b0aa82ac61c75e8e2f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::RuntimeReoptimizer::totalExecutions</definition>
+        <argsstring>() const</argsstring>
+        <name>totalExecutions</name>
+        <qualifiedname>themis::RuntimeReoptimizer::totalExecutions</qualifiedname>
+        <briefdescription>
+<para>Total Executions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="124" column="12" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="206" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1ac92c75a5d197ba1e6ccb24a8a62b051c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1query_1_1_adaptive_query_stats" kindref="compound">AdaptiveQueryStats</ref> &amp;</type>
+        <definition>const AdaptiveQueryStats &amp; themis::RuntimeReoptimizer::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::RuntimeReoptimizer::stats</qualifiedname>
+        <briefdescription>
+<para>Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="130" column="30" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="210" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1a3c79af97cda5cbee5b40c97ff0c0685c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::RuntimeReoptimizer::computeQueryHash</definition>
+        <argsstring>(const std::string &amp;aql_text)</argsstring>
+        <name>computeQueryHash</name>
+        <qualifiedname>themis::RuntimeReoptimizer::computeQueryHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_text</declname>
+        </param>
+        <briefdescription>
+<para>Compute <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fnv1a_hex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="63" column="24" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/runtime_reoptimizer.h" line="24" column="1" bodyfile="include/query/runtime_reoptimizer.h" bodystart="24" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1a0611fbf800816428dac24ac9f0428f71" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>beginExecution</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1a844029b033fd1d548822424e6c2520c3" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>beginExecutionGuard</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1a3c79af97cda5cbee5b40c97ff0c0685c" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>computeQueryHash</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1a45c8fa5e286f54e7bbdfbf40cd601065" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>enable</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1ad0c54971eb27b5570bd89c3c490cbabb" prot="private" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>enabled_</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1a26720fb6a797c50db7b2c0fdcf0fcddc" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>getAdjustmentFactor</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1a6c233f7fe1816bb11ceb91958c2dd74e" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>hasMisestimation</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1a74759c40b4cc14a4c40d21f0af450193" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1ab65778e5fdf495fcc4fd11bc8780cf8c" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>pruneOldStats</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1afe785b0814a3ec2d60da02c0e0861eb2" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>recordExecution</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1aadfd16f7da283cf3abfa7cb0fd63e35f" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>RuntimeReoptimizer</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1a8f4b580b5b4757c542c3845f0468cc74" prot="private" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>selector_</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1abecc981c4b283efa119a2aac81537da1" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>shouldReoptimize</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1ac92c75a5d197ba1e6ccb24a8a62b051c" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>stats</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1a3f0979f30c3c34cc585e5b2380e3d62a" prot="private" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1a2458c258867295b0aa82ac61c75e8e2f" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer</scope><name>totalExecutions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

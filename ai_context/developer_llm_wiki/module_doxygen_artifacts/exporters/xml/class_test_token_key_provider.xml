@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_test_token_key_provider" kind="class" language="C++" prot="public">
+    <compoundname>TestTokenKeyProvider</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">themis::KeyProvider</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_test_token_key_provider_1a1490d92603d8aaeed978b6b04267a05b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;uint8_t&gt; &gt; TestTokenKeyProvider::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>TestTokenKeyProvider::tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_hub_client.cpp" line="227" column="14" bodyfile="tests/exporters/test_huggingface_hub_client.cpp" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_test_token_key_provider_1a1c57f059e9aa0311101bd409971de273" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TestTokenKeyProvider::storeToken</definition>
+        <argsstring>(const std::string &amp;kek_id, const std::string &amp;token)</argsstring>
+        <name>storeToken</name>
+        <qualifiedname>TestTokenKeyProvider::storeToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kek_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Register a token for the given kek_id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_hub_client.cpp" line="188" column="10" bodyfile="tests/exporters/test_huggingface_hub_client.cpp" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_token_key_provider_1a2652f207957a974fdb87ccb42c2bd595" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; TestTokenKeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>TestTokenKeyProvider::getKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_hub_client.cpp" line="192" column="17" bodyfile="tests/exporters/test_huggingface_hub_client.cpp" bodystart="192" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_token_key_provider_1a5b831ca50ff6adcd1a6de3eca3828cb8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; TestTokenKeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>TestTokenKeyProvider::getKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_hub_client.cpp" line="200" column="17" bodyfile="tests/exporters/test_huggingface_hub_client.cpp" bodystart="200" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_token_key_provider_1a4da7535af850ee2c0ea9ac30691a08c6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t TestTokenKeyProvider::rotateKey</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>TestTokenKeyProvider::rotateKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_hub_client.cpp" line="204" column="14" bodyfile="tests/exporters/test_huggingface_hub_client.cpp" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_token_key_provider_1a3c0376356acaab14645501b33cd6b82a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; themis::KeyMetadata &gt;</type>
+        <definition>std::vector&lt; themis::KeyMetadata &gt; TestTokenKeyProvider::listKeys</definition>
+        <argsstring>() override</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>TestTokenKeyProvider::listKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_hub_client.cpp" line="205" column="17" bodyfile="tests/exporters/test_huggingface_hub_client.cpp" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_token_key_provider_1a6f9a04dd5d30654d7700691cd4b18746" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::KeyMetadata</type>
+        <definition>themis::KeyMetadata TestTokenKeyProvider::getKeyMetadata</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t=0) override</argsstring>
+        <name>getKeyMetadata</name>
+        <qualifiedname>TestTokenKeyProvider::getKeyMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_hub_client.cpp" line="207" column="25" bodyfile="tests/exporters/test_huggingface_hub_client.cpp" bodystart="207" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_token_key_provider_1aa078167121aa8bdb0ea205675168632b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TestTokenKeyProvider::deleteKey</definition>
+        <argsstring>(const std::string &amp;, uint32_t) override</argsstring>
+        <name>deleteKey</name>
+        <qualifiedname>TestTokenKeyProvider::deleteKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>uint32_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_hub_client.cpp" line="213" column="10" bodyfile="tests/exporters/test_huggingface_hub_client.cpp" bodystart="213" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_token_key_provider_1aa15e82b73aed24b6add3f913b888557b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool TestTokenKeyProvider::hasKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t=0) override</argsstring>
+        <name>hasKey</name>
+        <qualifiedname>TestTokenKeyProvider::hasKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_hub_client.cpp" line="215" column="10" bodyfile="tests/exporters/test_huggingface_hub_client.cpp" bodystart="215" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_token_key_provider_1ad75350999468f298cb542d2e5de7821e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t TestTokenKeyProvider::createKeyFromBytes</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;key_bytes, const themis::KeyMetadata &amp;={}) override</argsstring>
+        <name>createKeyFromBytes</name>
+        <qualifiedname>TestTokenKeyProvider::createKeyFromBytes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_bytes</declname>
+        </param>
+        <param>
+          <type>const themis::KeyMetadata &amp;</type>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_huggingface_hub_client.cpp" line="219" column="14" bodyfile="tests/exporters/test_huggingface_hub_client.cpp" bodystart="219" bodyend="224"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Minimal in-test KeyProvider that stores variable-length byte sequences (HF tokens are UTF-8 strings, not fixed-size AES-256 keys). NOT for production use. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TestTokenKeyProvider</label>
+        <link refid="class_test_token_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TestTokenKeyProvider</label>
+        <link refid="class_test_token_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_huggingface_hub_client.cpp" line="185" column="1" bodyfile="tests/exporters/test_huggingface_hub_client.cpp" bodystart="185" bodyend="228"/>
+    <listofallmembers>
+      <member refid="class_test_token_key_provider_1ad75350999468f298cb542d2e5de7821e" prot="public" virt="non-virtual"><scope>TestTokenKeyProvider</scope><name>createKeyFromBytes</name></member>
+      <member refid="class_test_token_key_provider_1aa078167121aa8bdb0ea205675168632b" prot="public" virt="non-virtual"><scope>TestTokenKeyProvider</scope><name>deleteKey</name></member>
+      <member refid="class_test_token_key_provider_1a2652f207957a974fdb87ccb42c2bd595" prot="public" virt="non-virtual"><scope>TestTokenKeyProvider</scope><name>getKey</name></member>
+      <member refid="class_test_token_key_provider_1a5b831ca50ff6adcd1a6de3eca3828cb8" prot="public" virt="non-virtual"><scope>TestTokenKeyProvider</scope><name>getKey</name></member>
+      <member refid="class_test_token_key_provider_1a6f9a04dd5d30654d7700691cd4b18746" prot="public" virt="non-virtual"><scope>TestTokenKeyProvider</scope><name>getKeyMetadata</name></member>
+      <member refid="class_test_token_key_provider_1aa15e82b73aed24b6add3f913b888557b" prot="public" virt="non-virtual"><scope>TestTokenKeyProvider</scope><name>hasKey</name></member>
+      <member refid="class_test_token_key_provider_1a3c0376356acaab14645501b33cd6b82a" prot="public" virt="non-virtual"><scope>TestTokenKeyProvider</scope><name>listKeys</name></member>
+      <member refid="class_test_token_key_provider_1a4da7535af850ee2c0ea9ac30691a08c6" prot="public" virt="non-virtual"><scope>TestTokenKeyProvider</scope><name>rotateKey</name></member>
+      <member refid="class_test_token_key_provider_1a1c57f059e9aa0311101bd409971de273" prot="public" virt="non-virtual"><scope>TestTokenKeyProvider</scope><name>storeToken</name></member>
+      <member refid="class_test_token_key_provider_1a1490d92603d8aaeed978b6b04267a05b" prot="private" virt="non-virtual"><scope>TestTokenKeyProvider</scope><name>tokens_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

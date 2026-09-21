@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_dependency_resolution_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::DependencyResolutionResult</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_dependency_resolution_result_1a9ed44442bc17062733285bbda57ff5ca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::DependencyResolutionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::modules::DependencyResolutionResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="852" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="852" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_dependency_resolution_result_1a31d0143cdb8c82d0a64d1e30f8055f71" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::modules::DependencyResolutionResult::loadOrder</definition>
+        <argsstring></argsstring>
+        <name>loadOrder</name>
+        <qualifiedname>themis::modules::DependencyResolutionResult::loadOrder</qualifiedname>
+        <briefdescription>
+<para>Resolved load order (deps first). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="853" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="853" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_dependency_resolution_result_1aba40820456e3f86c51a988e8ef855a6d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::modules::DependencyResolutionResult::missingRequired</definition>
+        <argsstring></argsstring>
+        <name>missingRequired</name>
+        <qualifiedname>themis::modules::DependencyResolutionResult::missingRequired</qualifiedname>
+        <briefdescription>
+<para>Required deps absent from registry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="854" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="854" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_dependency_resolution_result_1a78f57a077c3ceddf7acf7c075bad39fa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::string&gt; &gt; themis::modules::DependencyResolutionResult::cycles</definition>
+        <argsstring></argsstring>
+        <name>cycles</name>
+        <qualifiedname>themis::modules::DependencyResolutionResult::cycles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Detected dependency cycles </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="855" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="855" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_dependency_resolution_result_1acc88c9a5660ef71d872b665971ba8caa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::modules::DependencyResolutionResult::versionMismatches</definition>
+        <argsstring></argsstring>
+        <name>versionMismatches</name>
+        <qualifiedname>themis::modules::DependencyResolutionResult::versionMismatches</qualifiedname>
+        <briefdescription>
+<para>Version-constraint violations: each entry is &quot;module→dep (got X, need ≥Y ≤Z)&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="857" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="857" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_dependency_resolution_result_1af6fad7196e42635ff2e85a6886a79912" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::DependencyResolutionResult::errorMessage</definition>
+        <argsstring></argsstring>
+        <name>errorMessage</name>
+        <qualifiedname>themis::modules::DependencyResolutionResult::errorMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="858" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="858" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a dependency resolution pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/module_loader.h" line="851" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="851" bodyend="859"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_dependency_resolution_result_1a78f57a077c3ceddf7acf7c075bad39fa" prot="public" virt="non-virtual"><scope>themis::modules::DependencyResolutionResult</scope><name>cycles</name></member>
+      <member refid="structthemis_1_1modules_1_1_dependency_resolution_result_1af6fad7196e42635ff2e85a6886a79912" prot="public" virt="non-virtual"><scope>themis::modules::DependencyResolutionResult</scope><name>errorMessage</name></member>
+      <member refid="structthemis_1_1modules_1_1_dependency_resolution_result_1a31d0143cdb8c82d0a64d1e30f8055f71" prot="public" virt="non-virtual"><scope>themis::modules::DependencyResolutionResult</scope><name>loadOrder</name></member>
+      <member refid="structthemis_1_1modules_1_1_dependency_resolution_result_1aba40820456e3f86c51a988e8ef855a6d" prot="public" virt="non-virtual"><scope>themis::modules::DependencyResolutionResult</scope><name>missingRequired</name></member>
+      <member refid="structthemis_1_1modules_1_1_dependency_resolution_result_1a9ed44442bc17062733285bbda57ff5ca" prot="public" virt="non-virtual"><scope>themis::modules::DependencyResolutionResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1modules_1_1_dependency_resolution_result_1acc88c9a5660ef71d872b665971ba8caa" prot="public" virt="non-virtual"><scope>themis::modules::DependencyResolutionResult</scope><name>versionMismatches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

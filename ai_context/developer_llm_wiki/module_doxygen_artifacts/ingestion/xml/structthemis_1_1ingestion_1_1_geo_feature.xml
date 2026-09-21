@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_geo_feature" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::GeoFeature</compoundname>
+    <includes refid="extraction__context_8h" local="no">extraction_context.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_geo_feature_1af982ddbead5217f538b8427463361a39" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::GeoFeature::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::ingestion::GeoFeature::id</qualifiedname>
+        <briefdescription>
+<para>Stable identifier (e.g. from SHP attribute or generated). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="53" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_geo_feature_1a99c059a1bae12400d0700e66bf07f5f8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::GeoFeature::geometry_wkt</definition>
+        <argsstring></argsstring>
+        <name>geometry_wkt</name>
+        <qualifiedname>themis::ingestion::GeoFeature::geometry_wkt</qualifiedname>
+        <briefdescription>
+<para>WKT representation (POINT / LINESTRING / POLYGON / …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="54" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_geo_feature_1aae997cd3205fca526023eb429bd29b10" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::GeoFeature::geometry_type</definition>
+        <argsstring></argsstring>
+        <name>geometry_type</name>
+        <qualifiedname>themis::ingestion::GeoFeature::geometry_type</qualifiedname>
+        <briefdescription>
+<para>&quot;Point&quot; | &quot;LineString&quot; | &quot;Polygon&quot; | &quot;MultiPolygon&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="55" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_geo_feature_1a9e04d5124dfe58b82a8f61b92d56985b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::ingestion::GeoFeature::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::ingestion::GeoFeature::attributes</qualifiedname>
+        <briefdescription>
+<para>All SHP / GeoJSON feature properties mapped to strings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="56" column="24" bodyfile="include/ingestion/extraction_context.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A geo-spatial feature produced by <computeroutput>builtin.parse_geo</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Simplified enough to carry SHP point/polygon data into the entity assembler without pulling in a full geometry library as a public dependency. </para>
+    </detaileddescription>
+    <location file="include/ingestion/extraction_context.h" line="52" column="1" bodyfile="include/ingestion/extraction_context.h" bodystart="52" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_geo_feature_1a9e04d5124dfe58b82a8f61b92d56985b" prot="public" virt="non-virtual"><scope>themis::ingestion::GeoFeature</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_geo_feature_1aae997cd3205fca526023eb429bd29b10" prot="public" virt="non-virtual"><scope>themis::ingestion::GeoFeature</scope><name>geometry_type</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_geo_feature_1a99c059a1bae12400d0700e66bf07f5f8" prot="public" virt="non-virtual"><scope>themis::ingestion::GeoFeature</scope><name>geometry_wkt</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_geo_feature_1af982ddbead5217f538b8427463361a39" prot="public" virt="non-virtual"><scope>themis::ingestion::GeoFeature</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

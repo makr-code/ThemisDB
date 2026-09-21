@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_capabilities" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginCapabilities</compoundname>
+    <includes refid="plugin__interface_8h" local="no">plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_capabilities_1aa24a71785e298050062d7f13d7a92232" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginCapabilities::supports_streaming</definition>
+        <argsstring></argsstring>
+        <name>supports_streaming</name>
+        <qualifiedname>themis::plugins::PluginCapabilities::supports_streaming</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="198" column="10" bodyfile="include/plugins/plugin_interface.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_capabilities_1a43c68e94813196a474d147eb4d7c71e6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginCapabilities::supports_batching</definition>
+        <argsstring></argsstring>
+        <name>supports_batching</name>
+        <qualifiedname>themis::plugins::PluginCapabilities::supports_batching</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="199" column="10" bodyfile="include/plugins/plugin_interface.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_capabilities_1a428d4e30c284aa39eedab01ed7c041db" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginCapabilities::supports_transactions</definition>
+        <argsstring></argsstring>
+        <name>supports_transactions</name>
+        <qualifiedname>themis::plugins::PluginCapabilities::supports_transactions</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="200" column="10" bodyfile="include/plugins/plugin_interface.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_capabilities_1ad6eb6df5a49d52082ef70e8415debef6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginCapabilities::thread_safe</definition>
+        <argsstring></argsstring>
+        <name>thread_safe</name>
+        <qualifiedname>themis::plugins::PluginCapabilities::thread_safe</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="201" column="10" bodyfile="include/plugins/plugin_interface.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_capabilities_1a8333f8d1069958db1775de6fc9153270" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginCapabilities::gpu_accelerated</definition>
+        <argsstring></argsstring>
+        <name>gpu_accelerated</name>
+        <qualifiedname>themis::plugins::PluginCapabilities::gpu_accelerated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="202" column="10" bodyfile="include/plugins/plugin_interface.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_capabilities_1a5374c4bdbb83250a0a0bdc9e63f99cde" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginCapabilities::provides_vram_policy</definition>
+        <argsstring></argsstring>
+        <name>provides_vram_policy</name>
+        <qualifiedname>themis::plugins::PluginCapabilities::provides_vram_policy</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Supplies an IVRAMPolicy for EditionManager (v2.2.0+). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="203" column="10" bodyfile="include/plugins/plugin_interface.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_capabilities_1af76ab3548650b9c69696e76d1b008288" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginCapabilities::provides_shard_policy</definition>
+        <argsstring></argsstring>
+        <name>provides_shard_policy</name>
+        <qualifiedname>themis::plugins::PluginCapabilities::provides_shard_policy</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Supplies an IShardLimitPolicy for EditionManager (v2.2.0+). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="204" column="10" bodyfile="include/plugins/plugin_interface.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin Capabilities. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/plugin_interface.h" line="197" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="197" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_capabilities_1a8333f8d1069958db1775de6fc9153270" prot="public" virt="non-virtual"><scope>themis::plugins::PluginCapabilities</scope><name>gpu_accelerated</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_capabilities_1af76ab3548650b9c69696e76d1b008288" prot="public" virt="non-virtual"><scope>themis::plugins::PluginCapabilities</scope><name>provides_shard_policy</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_capabilities_1a5374c4bdbb83250a0a0bdc9e63f99cde" prot="public" virt="non-virtual"><scope>themis::plugins::PluginCapabilities</scope><name>provides_vram_policy</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_capabilities_1a43c68e94813196a474d147eb4d7c71e6" prot="public" virt="non-virtual"><scope>themis::plugins::PluginCapabilities</scope><name>supports_batching</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_capabilities_1aa24a71785e298050062d7f13d7a92232" prot="public" virt="non-virtual"><scope>themis::plugins::PluginCapabilities</scope><name>supports_streaming</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_capabilities_1a428d4e30c284aa39eedab01ed7c041db" prot="public" virt="non-virtual"><scope>themis::plugins::PluginCapabilities</scope><name>supports_transactions</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_capabilities_1ad6eb6df5a49d52082ef70e8415debef6" prot="public" virt="non-virtual"><scope>themis::plugins::PluginCapabilities</scope><name>thread_safe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,558 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replication_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationConfig</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a11f02fa28360a2fb0097bfb1730d8c92" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="168" column="10" bodyfile="include/replication/replication_manager.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a823ab4f0ee889792b0f735fb5b7510c0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bc" kindref="member">ReplicationMode</ref></type>
+        <definition>ReplicationMode themisdb::replication::ReplicationConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bcabe553330beb7b3d994656e0a4e66cd96" kindref="member">ReplicationMode::ASYNC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="169" column="21" bodyfile="include/replication/replication_manager.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1ab4ce9447f61a37a9ceaf09a7462a0c26" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17" kindref="member">ConflictResolution</ref></type>
+        <definition>ConflictResolution themisdb::replication::ReplicationConfig::conflict_strategy</definition>
+        <argsstring></argsstring>
+        <name>conflict_strategy</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::conflict_strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17a3247ad84b54dd5dd5cdf48354b0f4058" kindref="member">ConflictResolution::LAST_WRITE_WINS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="170" column="24" bodyfile="include/replication/replication_manager.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1aa4334cbfbe53d864edbeee2874d2255a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::heartbeat_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::heartbeat_interval_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="173" column="14" bodyfile="include/replication/replication_manager.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a321aef41845a29ba27ba045a7cfba8d9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::election_timeout_min_ms</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_min_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::election_timeout_min_ms</qualifiedname>
+        <initializer>= 3000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="174" column="14" bodyfile="include/replication/replication_manager.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a50d0531eb5d5fc4ebf0193c3d25c1eee" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::election_timeout_max_ms</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_max_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::election_timeout_max_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="175" column="14" bodyfile="include/replication/replication_manager.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a83b0130e356baa712b5f9ed517349b35" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::replication_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>replication_timeout_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::replication_timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="176" column="14" bodyfile="include/replication/replication_manager.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a1a273166daa0cd2f7ecd4e2d9d483f71" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="179" column="14" bodyfile="include/replication/replication_manager.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a6fe1f84ebd660db9dd4f3bd6526b51cb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::batch_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>batch_timeout_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::batch_timeout_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="180" column="14" bodyfile="include/replication/replication_manager.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a9cc86ab89a37fb1c17fbceecf318aa34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationConfig::wal_directory</definition>
+        <argsstring></argsstring>
+        <name>wal_directory</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::wal_directory</qualifiedname>
+        <initializer>= &quot;/var/lib/<ref refid="namespacethemisdb" kindref="compound">themisdb</ref>/wal&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="183" column="17" bodyfile="include/replication/replication_manager.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a2e3a1879da3b160d411f0f541c7622f9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ReplicationConfig::wal_segment_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>wal_segment_size_bytes</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::wal_segment_size_bytes</qualifiedname>
+        <initializer>= 64 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="184" column="14" bodyfile="include/replication/replication_manager.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1afe814fadc70b71f0a645e4b37b3f03ab" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::wal_retention_segments</definition>
+        <argsstring></argsstring>
+        <name>wal_retention_segments</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::wal_retention_segments</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="185" column="14" bodyfile="include/replication/replication_manager.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a5bb3553a3e3417a4d43aea255f90a0c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationConfig::wal_sync_on_commit</definition>
+        <argsstring></argsstring>
+        <name>wal_sync_on_commit</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::wal_sync_on_commit</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="186" column="10" bodyfile="include/replication/replication_manager.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a8ac75661cf1351f75a673440f7e62a03" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::min_sync_replicas</definition>
+        <argsstring></argsstring>
+        <name>min_sync_replicas</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::min_sync_replicas</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="189" column="14" bodyfile="include/replication/replication_manager.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a974ff19305fe7c58cc26271d3d1e851e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationConfig::allow_stale_reads</definition>
+        <argsstring></argsstring>
+        <name>allow_stale_reads</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::allow_stale_reads</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="190" column="10" bodyfile="include/replication/replication_manager.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a02c77ecec42546f401b990fc9f9e25df" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::max_replication_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>max_replication_lag_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::max_replication_lag_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="191" column="14" bodyfile="include/replication/replication_manager.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a29abf42989c7ce9598efd5b215f5ea97" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationConfig::enable_auto_failover</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_failover</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::enable_auto_failover</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="194" column="10" bodyfile="include/replication/replication_manager.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1accbd9cc493d97f7e9e7ccccc048e303d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::failure_detection_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>failure_detection_timeout_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::failure_detection_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="195" column="14" bodyfile="include/replication/replication_manager.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1ab50e575536521aecfcc2968720c5cd3c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::min_quorum_for_failover</definition>
+        <argsstring></argsstring>
+        <name>min_quorum_for_failover</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::min_quorum_for_failover</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="196" column="14" bodyfile="include/replication/replication_manager.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1abb5daa03981ec619597c58b3f14cccc3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::max_consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>max_consecutive_failures</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::max_consecutive_failures</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="197" column="14" bodyfile="include/replication/replication_manager.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a5296a8c8b4a45726d118e3b520fb9b6a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::degraded_lag_threshold_ms</definition>
+        <argsstring></argsstring>
+        <name>degraded_lag_threshold_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::degraded_lag_threshold_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="198" column="14" bodyfile="include/replication/replication_manager.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a20bb1d055d9554976c446018cd61ccff" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6" kindref="member">ReadPreference</ref></type>
+        <definition>ReadPreference themisdb::replication::ReplicationConfig::default_read_preference</definition>
+        <argsstring></argsstring>
+        <name>default_read_preference</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::default_read_preference</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6ad3df6e0a7baaedc4411417b8e2096462" kindref="member">ReadPreference::PRIMARY_PREFERRED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="199" column="20" bodyfile="include/replication/replication_manager.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1ad226dfbfd4326ff2c1d7cda9cd5d5950" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationConfig::enable_leader_lease</definition>
+        <argsstring></argsstring>
+        <name>enable_leader_lease</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::enable_leader_lease</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="202" column="10" bodyfile="include/replication/replication_manager.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1abd2eebf271be895ff863c00763e138b5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::leader_lease_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>leader_lease_duration_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::leader_lease_duration_ms</qualifiedname>
+        <initializer>= 2500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="205" column="14" bodyfile="include/replication/replication_manager.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1ab6feae8177ea0774bdd5dea60461decf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationConfig::enable_wal_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_wal_compression</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::enable_wal_compression</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="208" column="10" bodyfile="include/replication/replication_manager.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1ad40c923e8046e60ce9a312163f46f3e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationConfig::wal_compression_algorithm</definition>
+        <argsstring></argsstring>
+        <name>wal_compression_algorithm</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::wal_compression_algorithm</qualifiedname>
+        <initializer>= &quot;zstd&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="209" column="17" bodyfile="include/replication/replication_manager.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1ab2521596eb77045cdfa20b9fb906c947" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::replication::ReplicationConfig::wal_compression_level</definition>
+        <argsstring></argsstring>
+        <name>wal_compression_level</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::wal_compression_level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="210" column="9" bodyfile="include/replication/replication_manager.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1ad5702210dc54a5dc0f0d7894da6bbbd8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ReplicationConfig::wal_compression_min_batch_bytes</definition>
+        <argsstring></argsstring>
+        <name>wal_compression_min_batch_bytes</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::wal_compression_min_batch_bytes</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="211" column="14" bodyfile="include/replication/replication_manager.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a3479a246fc1f4c906c283a9b72beb7af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationConfig::cert_path</definition>
+        <argsstring></argsstring>
+        <name>cert_path</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="214" column="17" bodyfile="include/replication/replication_manager.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a3ab73e282e66487ecf18bd54654bf0df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationConfig::key_path</definition>
+        <argsstring></argsstring>
+        <name>key_path</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="215" column="17" bodyfile="include/replication/replication_manager.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1ab333b0a3d56f9bb92302250d9c2a63c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationConfig::ca_path</definition>
+        <argsstring></argsstring>
+        <name>ca_path</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::ca_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="216" column="17" bodyfile="include/replication/replication_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a387576bb295bd41f174970a2f21e60dd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationConfig::require_mtls</definition>
+        <argsstring></argsstring>
+        <name>require_mtls</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::require_mtls</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="217" column="10" bodyfile="include/replication/replication_manager.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1a142d3236c70f08064ed80c7ca4d161a7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::ReplicationConfig::seed_nodes</definition>
+        <argsstring></argsstring>
+        <name>seed_nodes</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::seed_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="220" column="17" bodyfile="include/replication/replication_manager.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_config_1aed02340bfc19fb9b0462c6b608df7238" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationConfig::file_io_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>file_io_timeout_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationConfig::file_io_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum milliseconds to wait for any blocking file-I/O operation (WAL read/sync). 0 = timeout protection disabled (not recommended for production). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="225" column="14" bodyfile="include/replication/replication_manager.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Replication Configuration </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="166" column="1" bodyfile="include/replication/replication_manager.h" bodystart="166" bodyend="226"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a974ff19305fe7c58cc26271d3d1e851e" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>allow_stale_reads</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a1a273166daa0cd2f7ecd4e2d9d483f71" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>batch_size</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a6fe1f84ebd660db9dd4f3bd6526b51cb" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>batch_timeout_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1ab333b0a3d56f9bb92302250d9c2a63c6" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>ca_path</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a3479a246fc1f4c906c283a9b72beb7af" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>cert_path</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1ab4ce9447f61a37a9ceaf09a7462a0c26" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>conflict_strategy</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a20bb1d055d9554976c446018cd61ccff" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>default_read_preference</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a5296a8c8b4a45726d118e3b520fb9b6a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>degraded_lag_threshold_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a50d0531eb5d5fc4ebf0193c3d25c1eee" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>election_timeout_max_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a321aef41845a29ba27ba045a7cfba8d9" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>election_timeout_min_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a29abf42989c7ce9598efd5b215f5ea97" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>enable_auto_failover</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1ad226dfbfd4326ff2c1d7cda9cd5d5950" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>enable_leader_lease</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1ab6feae8177ea0774bdd5dea60461decf" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>enable_wal_compression</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a11f02fa28360a2fb0097bfb1730d8c92" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>enabled</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1accbd9cc493d97f7e9e7ccccc048e303d" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>failure_detection_timeout_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1aed02340bfc19fb9b0462c6b608df7238" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>file_io_timeout_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1aa4334cbfbe53d864edbeee2874d2255a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>heartbeat_interval_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a3ab73e282e66487ecf18bd54654bf0df" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>key_path</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1abd2eebf271be895ff863c00763e138b5" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>leader_lease_duration_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1abb5daa03981ec619597c58b3f14cccc3" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>max_consecutive_failures</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a02c77ecec42546f401b990fc9f9e25df" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>max_replication_lag_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1ab50e575536521aecfcc2968720c5cd3c" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>min_quorum_for_failover</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a8ac75661cf1351f75a673440f7e62a03" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>min_sync_replicas</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a823ab4f0ee889792b0f735fb5b7510c0" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>mode</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a83b0130e356baa712b5f9ed517349b35" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>replication_timeout_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a387576bb295bd41f174970a2f21e60dd" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>require_mtls</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a142d3236c70f08064ed80c7ca4d161a7" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>seed_nodes</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1ad40c923e8046e60ce9a312163f46f3e5" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>wal_compression_algorithm</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1ab2521596eb77045cdfa20b9fb906c947" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>wal_compression_level</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1ad5702210dc54a5dc0f0d7894da6bbbd8" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>wal_compression_min_batch_bytes</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a9cc86ab89a37fb1c17fbceecf318aa34" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>wal_directory</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1afe814fadc70b71f0a645e4b37b3f03ab" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>wal_retention_segments</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a2e3a1879da3b160d411f0f541c7622f9" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>wal_segment_size_bytes</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_config_1a5bb3553a3e3417a4d43aea255f90a0c9" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationConfig</scope><name>wal_sync_on_commit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

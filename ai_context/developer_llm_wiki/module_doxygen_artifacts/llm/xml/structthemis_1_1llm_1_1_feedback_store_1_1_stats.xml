@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_feedback_store_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FeedbackStore::Stats</compoundname>
+    <includes refid="feedback__store_8h" local="no">feedback_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1acb0ef3f502b3c3bfe5107d184bb0514d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FeedbackStore::Stats::total_feedback</definition>
+        <argsstring></argsstring>
+        <name>total_feedback</name>
+        <qualifiedname>themis::llm::FeedbackStore::Stats::total_feedback</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="100" column="16" bodyfile="include/llm/feedback_store.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1a3c523a2822d3c9e79bcad3fdedb51449" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FeedbackStore::Stats::positive_count</definition>
+        <argsstring></argsstring>
+        <name>positive_count</name>
+        <qualifiedname>themis::llm::FeedbackStore::Stats::positive_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="101" column="16" bodyfile="include/llm/feedback_store.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1a35241581cc2e5e387af3dc4bc8218e67" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FeedbackStore::Stats::negative_count</definition>
+        <argsstring></argsstring>
+        <name>negative_count</name>
+        <qualifiedname>themis::llm::FeedbackStore::Stats::negative_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="102" column="16" bodyfile="include/llm/feedback_store.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1ac7fcecc89abb08004c1c48228e9efaed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FeedbackStore::Stats::pending_validation</definition>
+        <argsstring></argsstring>
+        <name>pending_validation</name>
+        <qualifiedname>themis::llm::FeedbackStore::Stats::pending_validation</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="103" column="16" bodyfile="include/llm/feedback_store.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1ab53af314c3c879fc67b967e9142cb8bc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FeedbackStore::Stats::approved_count</definition>
+        <argsstring></argsstring>
+        <name>approved_count</name>
+        <qualifiedname>themis::llm::FeedbackStore::Stats::approved_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="104" column="16" bodyfile="include/llm/feedback_store.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1a86b101b92ff0eee1564e6d2e065a4008" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FeedbackStore::Stats::rejected_count</definition>
+        <argsstring></argsstring>
+        <name>rejected_count</name>
+        <qualifiedname>themis::llm::FeedbackStore::Stats::rejected_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="105" column="16" bodyfile="include/llm/feedback_store.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1af9dfc7a048c262856add604e07735879" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FeedbackStore::Stats::unused_for_training</definition>
+        <argsstring></argsstring>
+        <name>unused_for_training</name>
+        <qualifiedname>themis::llm::FeedbackStore::Stats::unused_for_training</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="106" column="16" bodyfile="include/llm/feedback_store.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1a6563a8f17787a5b90d4127402aa8c513" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FeedbackStore::Stats::used_for_training</definition>
+        <argsstring></argsstring>
+        <name>used_for_training</name>
+        <qualifiedname>themis::llm::FeedbackStore::Stats::used_for_training</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="107" column="16" bodyfile="include/llm/feedback_store.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1add7cfbb99094a11ef0ae27441b583e21" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::FeedbackStore::Stats::positive_ratio</definition>
+        <argsstring></argsstring>
+        <name>positive_ratio</name>
+        <qualifiedname>themis::llm::FeedbackStore::Stats::positive_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/feedback_store.h" line="108" column="16" bodyfile="include/llm/feedback_store.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/feedback_store.h" line="99" column="5" bodyfile="include/llm/feedback_store.h" bodystart="99" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1ab53af314c3c879fc67b967e9142cb8bc" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::Stats</scope><name>approved_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1a35241581cc2e5e387af3dc4bc8218e67" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::Stats</scope><name>negative_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1ac7fcecc89abb08004c1c48228e9efaed" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::Stats</scope><name>pending_validation</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1a3c523a2822d3c9e79bcad3fdedb51449" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::Stats</scope><name>positive_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1add7cfbb99094a11ef0ae27441b583e21" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::Stats</scope><name>positive_ratio</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1a86b101b92ff0eee1564e6d2e065a4008" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::Stats</scope><name>rejected_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1acb0ef3f502b3c3bfe5107d184bb0514d" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::Stats</scope><name>total_feedback</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1af9dfc7a048c262856add604e07735879" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::Stats</scope><name>unused_for_training</name></member>
+      <member refid="structthemis_1_1llm_1_1_feedback_store_1_1_stats_1a6563a8f17787a5b90d4127402aa8c513" prot="public" virt="non-virtual"><scope>themis::llm::FeedbackStore::Stats</scope><name>used_for_training</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

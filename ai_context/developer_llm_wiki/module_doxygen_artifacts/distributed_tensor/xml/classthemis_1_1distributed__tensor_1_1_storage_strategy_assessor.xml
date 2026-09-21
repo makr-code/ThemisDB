@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_storage_strategy_assessor" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::StorageStrategyAssessor</compoundname>
+    <includes refid="tensor__storage__strategy_8h" local="no">tensor_storage_strategy.h</includes>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config" prot="public">themis::distributed_tensor::StorageStrategyAssessor::Config</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1a2fef9d9abcd6a07d791bb8963d83e254" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation" kindref="compound">StorageStrategyRecommendation</ref></type>
+        <definition>StorageStrategyRecommendation themis::distributed_tensor::StorageStrategyAssessor::assess</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>assess</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyAssessor::assess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Assess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1distributed__tensor_1aae6e42fd71e5907c042f7761dd9d07ba" kindref="member">packedBytesForParams()</ref>, emplace_back(), push_back(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="338" column="43" bodyfile="src/distributed_tensor/src/tensor_storage_strategy.cc" bodystart="490" bodyend="556"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/tensor_storage_strategy.h" line="324" column="1" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="324" bodyend="340"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1a2fef9d9abcd6a07d791bb8963d83e254" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyAssessor</scope><name>assess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

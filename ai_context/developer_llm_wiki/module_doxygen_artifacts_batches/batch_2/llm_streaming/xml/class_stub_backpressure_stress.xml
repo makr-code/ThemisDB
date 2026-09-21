@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_backpressure_stress" kind="class" language="C++" prot="public">
+    <compoundname>StubBackpressureStress</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_backpressure_stress_1a61b5fe9ee17f69b50596daa9567a8ba8" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StubBackpressureStress::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubBackpressureStress::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="82" column="16" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_backpressure_stress_1a4fa12e4f01e28647aea6692948247d24" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::string &gt;</type>
+        <definition>std::deque&lt;std::string&gt; StubBackpressureStress::buf_</definition>
+        <argsstring></argsstring>
+        <name>buf_</name>
+        <qualifiedname>StubBackpressureStress::buf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="83" column="16" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_backpressure_stress_1a1196055812d2e7d7a08bab3914ccbe04" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t StubBackpressureStress::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>StubBackpressureStress::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="84" column="17" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_backpressure_stress_1a51434aec320e05f521b6f18cf69a3bc7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubBackpressureStress::overflow_</definition>
+        <argsstring></argsstring>
+        <name>overflow_</name>
+        <qualifiedname>StubBackpressureStress::overflow_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="85" column="17" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="85" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_backpressure_stress_1affcc7dd64baebc2d407686e0aaa6726a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubBackpressureStress::StubBackpressureStress</definition>
+        <argsstring>(std::size_t capacity)</argsstring>
+        <name>StubBackpressureStress</name>
+        <qualifiedname>StubBackpressureStress::StubBackpressureStress</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="59" column="14" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_backpressure_stress_1a36a44f380c85001ed1e10837016d5a9e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubBackpressureStress::push</definition>
+        <argsstring>(const std::string &amp;chunk)</argsstring>
+        <name>push</name>
+        <qualifiedname>StubBackpressureStress::push</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="61" column="10" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="61" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_backpressure_stress_1a73915781fd7851f3a141f437e5c396d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubBackpressureStress::pop</definition>
+        <argsstring>(std::string &amp;out)</argsstring>
+        <name>pop</name>
+        <qualifiedname>StubBackpressureStress::pop</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="71" column="10" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="71" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_backpressure_stress_1ae473b8ed9c84ea42d96176e0381a5166" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubBackpressureStress::overflow</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>overflow</name>
+        <qualifiedname>StubBackpressureStress::overflow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="79" column="14" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" line="57" column="1" bodyfile="tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp" bodystart="57" bodyend="86"/>
+    <listofallmembers>
+      <member refid="class_stub_backpressure_stress_1a4fa12e4f01e28647aea6692948247d24" prot="private" virt="non-virtual"><scope>StubBackpressureStress</scope><name>buf_</name></member>
+      <member refid="class_stub_backpressure_stress_1a1196055812d2e7d7a08bab3914ccbe04" prot="private" virt="non-virtual"><scope>StubBackpressureStress</scope><name>capacity_</name></member>
+      <member refid="class_stub_backpressure_stress_1a61b5fe9ee17f69b50596daa9567a8ba8" prot="private" virt="non-virtual"><scope>StubBackpressureStress</scope><name>mu_</name></member>
+      <member refid="class_stub_backpressure_stress_1ae473b8ed9c84ea42d96176e0381a5166" prot="public" virt="non-virtual"><scope>StubBackpressureStress</scope><name>overflow</name></member>
+      <member refid="class_stub_backpressure_stress_1a51434aec320e05f521b6f18cf69a3bc7" prot="private" virt="non-virtual"><scope>StubBackpressureStress</scope><name>overflow_</name></member>
+      <member refid="class_stub_backpressure_stress_1a73915781fd7851f3a141f437e5c396d3" prot="public" virt="non-virtual"><scope>StubBackpressureStress</scope><name>pop</name></member>
+      <member refid="class_stub_backpressure_stress_1a36a44f380c85001ed1e10837016d5a9e" prot="public" virt="non-virtual"><scope>StubBackpressureStress</scope><name>push</name></member>
+      <member refid="class_stub_backpressure_stress_1affcc7dd64baebc2d407686e0aaa6726a" prot="public" virt="non-virtual"><scope>StubBackpressureStress</scope><name>StubBackpressureStress</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

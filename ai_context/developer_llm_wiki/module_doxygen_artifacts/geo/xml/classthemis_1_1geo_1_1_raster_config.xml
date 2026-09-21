@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_raster_config" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::RasterConfig</compoundname>
+    <includes refid="raster__query__interface_8h" local="no">raster_query_interface.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_raster_config_1a725040b964db88c34e55e4094bbd0505" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::RasterConfig::kDefaultMaxTileSizeBytes</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxTileSizeBytes</name>
+        <qualifiedname>themis::geo::RasterConfig::kDefaultMaxTileSizeBytes</qualifiedname>
+        <initializer>= 64ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="32" column="34" bodyfile="include/geo/raster_query_interface.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_raster_config_1a4fb581c823116f85949558587c94ca04" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::RasterConfig::max_tile_size_bytes_</definition>
+        <argsstring></argsstring>
+        <name>max_tile_size_bytes_</name>
+        <qualifiedname>themis::geo::RasterConfig::max_tile_size_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="42" column="17" bodyfile="include/geo/raster_query_interface.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_raster_config_1a8885670d0db43939342f0dfdef511e43" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::RasterConfig::RasterConfig</definition>
+        <argsstring>(std::size_t max_tile_size_bytes=kDefaultMaxTileSizeBytes)</argsstring>
+        <name>RasterConfig</name>
+        <qualifiedname>themis::geo::RasterConfig::RasterConfig</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_tile_size_bytes</declname>
+          <defval><ref refid="classthemis_1_1geo_1_1_raster_config_1a725040b964db88c34e55e4094bbd0505" kindref="member">kDefaultMaxTileSizeBytes</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="34" column="14" bodyfile="include/geo/raster_query_interface.h" bodystart="34" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_raster_config_1a1afa9a1fccd6ef607bd0ec1e677a9790" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::RasterConfig::maxTileSizeBytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>maxTileSizeBytes</name>
+        <qualifiedname>themis::geo::RasterConfig::maxTileSizeBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="37" column="18" bodyfile="include/geo/raster_query_interface.h" bodystart="37" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/raster_query_interface.h" line="30" column="1" bodyfile="include/geo/raster_query_interface.h" bodystart="30" bodyend="43"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_raster_config_1a725040b964db88c34e55e4094bbd0505" prot="public" virt="non-virtual"><scope>themis::geo::RasterConfig</scope><name>kDefaultMaxTileSizeBytes</name></member>
+      <member refid="classthemis_1_1geo_1_1_raster_config_1a4fb581c823116f85949558587c94ca04" prot="private" virt="non-virtual"><scope>themis::geo::RasterConfig</scope><name>max_tile_size_bytes_</name></member>
+      <member refid="classthemis_1_1geo_1_1_raster_config_1a1afa9a1fccd6ef607bd0ec1e677a9790" prot="public" virt="non-virtual"><scope>themis::geo::RasterConfig</scope><name>maxTileSizeBytes</name></member>
+      <member refid="classthemis_1_1geo_1_1_raster_config_1a8885670d0db43939342f0dfdef511e43" prot="public" virt="non-virtual"><scope>themis::geo::RasterConfig</scope><name>RasterConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

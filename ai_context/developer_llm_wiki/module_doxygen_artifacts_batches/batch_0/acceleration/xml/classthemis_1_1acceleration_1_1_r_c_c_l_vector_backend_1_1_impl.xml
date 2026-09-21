@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::RCCLVectorBackend::Impl</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_impl_1a9e32f04041ca9e23bb12673d40f1b02b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::RCCLVectorBackend::Impl::Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/rccl_vector_backend.cpp" line="821" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_impl_1acbca879c3dd311777ba68a04e4245e70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::RCCLVectorBackend::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/rccl_vector_backend.cpp" line="822" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/acceleration/rccl_vector_backend.cpp" line="819" column="1" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="819" bodyend="823"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_impl_1a9e32f04041ca9e23bb12673d40f1b02b" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_impl_1acbca879c3dd311777ba68a04e4245e70" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

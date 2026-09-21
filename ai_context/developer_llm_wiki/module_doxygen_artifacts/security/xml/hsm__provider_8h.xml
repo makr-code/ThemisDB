@@ -1,0 +1,513 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hsm__provider_8h" kind="file" language="C++">
+    <compoundname>hsm_provider.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="bench__compliance__security__governance_8cpp" local="yes">benchmarks/security/bench_compliance_security_governance.cpp</includedby>
+    <includedby refid="bench__hsm__provider_8cpp" local="yes">benchmarks/security/bench_hsm_provider.cpp</includedby>
+    <includedby refid="hsm__key__provider__adapter_8h" local="yes">include/security/hsm_key_provider_adapter.h</includedby>
+    <includedby refid="hsm__security__checker_8h" local="yes">include/security/hsm_security_checker.h</includedby>
+    <includedby refid="hsm__security__metrics_8h" local="yes">include/security/hsm_security_metrics.h</includedby>
+    <includedby refid="hsm__startup__policy_8h" local="yes">include/security/hsm_startup_policy.h</includedby>
+    <includedby refid="hsm__provider_8cpp" local="yes">src/security/hsm_provider.cpp</includedby>
+    <includedby refid="hsm__signing_8cpp" local="yes">src/security/hsm_signing.cpp</includedby>
+    <includedby refid="test__hsm__bundle__signing_8cpp" local="yes">tests/security/test_hsm_bundle_signing.cpp</includedby>
+    <includedby refid="test__hsm__key__provider__adapter_8cpp" local="yes">tests/security/test_hsm_key_provider_adapter.cpp</includedby>
+    <includedby refid="test__hsm__provider_8cpp" local="yes">tests/security/test_hsm_provider.cpp</includedby>
+    <includedby refid="test__hsm__provider__stub_8cpp" local="yes">tests/security/test_hsm_provider_stub.cpp</includedby>
+    <includedby refid="test__hsm__security__checker_8cpp" local="yes">tests/security/test_hsm_security_checker.cpp</includedby>
+    <includedby refid="test__hsm__security__metrics_8cpp" local="yes">tests/security/test_hsm_security_metrics.cpp</includedby>
+    <includedby refid="test__hsm__startup__integration_8cpp" local="yes">tests/security/test_hsm_startup_integration.cpp</includedby>
+    <includedby refid="test__hsm__stub__gating_8cpp" local="yes">tests/security/test_hsm_stub_gating.cpp</includedby>
+    <includedby refid="test__security__wavec__production__validation__focused_8cpp" local="yes">tests/security/test_security_wavec_production_validation_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/hsm_provider.h</label>
+        <link refid="hsm__provider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/security/bench_compliance_security_governance.cpp</label>
+        <link refid="bench__compliance__security__governance_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/security/bench_hsm_provider.cpp</label>
+        <link refid="bench__hsm__provider_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/security/hsm_key_provider_adapter.h</label>
+        <link refid="hsm__key__provider__adapter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/security/hsm_provider.h</label>
+        <link refid="hsm__provider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/security/hsm_security_checker.h</label>
+        <link refid="hsm__security__checker_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/security/hsm_security_metrics.h</label>
+        <link refid="hsm__security__metrics_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/security/hsm_startup_policy.h</label>
+        <link refid="hsm__startup__policy_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/security/hsm_key_provider_adapter.cpp</label>
+        <link refid="hsm__key__provider__adapter_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/security/hsm_provider.cpp</label>
+        <link refid="hsm__provider_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/security/hsm_signing.cpp</label>
+        <link refid="hsm__signing_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/security/test_hsm_bundle_signing.cpp</label>
+        <link refid="test__hsm__bundle__signing_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/security/test_hsm_dek_bridge.cpp</label>
+        <link refid="test__hsm__dek__bridge_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/security/test_hsm_key_provider_adapter.cpp</label>
+        <link refid="test__hsm__key__provider__adapter_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/security/test_hsm_provider.cpp</label>
+        <link refid="test__hsm__provider_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/security/test_hsm_provider_stub.cpp</label>
+        <link refid="test__hsm__provider__stub_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/security/test_hsm_security_checker.cpp</label>
+        <link refid="test__hsm__security__checker_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/security/test_hsm_security_metrics.cpp</label>
+        <link refid="test__hsm__security__metrics_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/security/test_hsm_startup_integration.cpp</label>
+        <link refid="test__hsm__startup__integration_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/security/test_hsm_startup_policy.cpp</label>
+        <link refid="test__hsm__startup__policy_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/security/test_hsm_stub_gating.cpp</label>
+        <link refid="test__hsm__stub__gating_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/security/test_security_wavec_production_validation_focused.cpp</label>
+        <link refid="test__security__wavec__production__validation__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_config" prot="public">themis::security::HSMConfig</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_signature_result" prot="public">themis::security::HSMSignatureResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_performance_stats" prot="public">themis::security::HSMPerformanceStats</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_key_info" prot="public">themis::security::HSMKeyInfo</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_h_s_m_provider" prot="public">themis::security::HSMProvider</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client" prot="public">themis::security::HSMPKIClient</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1security_1_1_h_s_m_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PKCS#11<sp/>library<sp/>path<sp/>(e.g.,<sp/>/usr/lib/softhsm/libsofthsm2.so)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HSM<sp/>slot<sp/>ID<sp/>(default:<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1security_1_1_h_s_m_config_1acc0b927b3d4bc134a5ab326d18b1d42c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config_1acc0b927b3d4bc134a5ab326d18b1d42c" kindref="member">slot_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>PIN<sp/>for<sp/>authentication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1security_1_1_h_s_m_config_1ab4b51ff96783bff418c4114490403178" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config_1ab4b51ff96783bff418c4114490403178" kindref="member">pin</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>Token<sp/>label<sp/>for<sp/>filtering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1security_1_1_h_s_m_config_1add4ca1795671e240fe683c6751a9e9c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config_1add4ca1795671e240fe683c6751a9e9c2" kindref="member">token_label</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Signature<sp/>algorithm<sp/>(default:<sp/>RSA-SHA256)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1security_1_1_h_s_m_config_1a25d57848f7c031867a66c6051e3c6d1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config_1a25d57848f7c031867a66c6051e3c6d1c" kindref="member">signature_algorithm</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>label<sp/>for<sp/>operations<sp/>(default:<sp/>&quot;themis-signing-key&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1security_1_1_h_s_m_config_1af31c0565e8cf0b9c0c70fe66dae610df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config_1af31c0565e8cf0b9c0c70fe66dae610df" kindref="member">key_label</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis-signing-key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>verbose<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1security_1_1_h_s_m_config_1ae6b7ce3b482979be560f86d3cbd8d18a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config_1ae6b7ce3b482979be560f86d3cbd8d18a" kindref="member">verbose</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Anzahl<sp/>paralleler<sp/>PKCS#11<sp/>Sessions<sp/>(nur<sp/>bei<sp/>realem<sp/>Provider<sp/>genutzt)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1security_1_1_h_s_m_config_1a4059b7cb6493c529f7f044b43019efbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config_1a4059b7cb6493c529f7f044b43019efbd" kindref="member">session_pool_size</ref><sp/>=<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>1<sp/>=<sp/>bisheriges<sp/>Verhalten</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1security_1_1_h_s_m_signature_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result" kindref="compound">HSMSignatureResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1security_1_1_h_s_m_signature_result_1ac94af1f25480ee9b1b2a8dfb649ba7b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result_1ac94af1f25480ee9b1b2a8dfb649ba7b2" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1security_1_1_h_s_m_signature_result_1a62358ab431597af48e3fce915be41680" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result_1a62358ab431597af48e3fce915be41680" kindref="member">signature_b64</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base64-encoded<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1security_1_1_h_s_m_signature_result_1a8633acd5ba8d75442757a71de80d4006" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result_1a8633acd5ba8d75442757a71de80d4006" kindref="member">algorithm</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Signature<sp/>algorithm<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1security_1_1_h_s_m_signature_result_1af28f6664e655c90decd555e84118acd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result_1af28f6664e655c90decd555e84118acd4" kindref="member">key_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HSM<sp/>key<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1security_1_1_h_s_m_signature_result_1af40125ec23f77a7f201acb6bf69f27b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result_1af40125ec23f77a7f201acb6bf69f27b4" kindref="member">cert_serial</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Certificate<sp/>serial<sp/>number<sp/>(if<sp/>available)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1security_1_1_h_s_m_signature_result_1af896e122c7e8640b08bc1cf5ed7b802c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result_1af896e122c7e8640b08bc1cf5ed7b802c" kindref="member">error_message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>details<sp/>on<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1security_1_1_h_s_m_signature_result_1a9759c1881d7a7f1f93db01101f181f32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result_1a9759c1881d7a7f1f93db01101f181f32" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unix<sp/>timestamp<sp/>in<sp/>milliseconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1security_1_1_h_s_m_performance_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats" kindref="compound">HSMPerformanceStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1af84f96ca141e5d5de030e2b309967445" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1af84f96ca141e5d5de030e2b309967445" kindref="member">sign_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>sign<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a8457a794aed0566c34986b02196c80a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a8457a794aed0566c34986b02196c80a8" kindref="member">verify_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>verify<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a2f04b579c0c2071d1bde82e0ac56ff1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a2f04b579c0c2071d1bde82e0ac56ff1b" kindref="member">sign_errors</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failed<sp/>sign<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a3861fb6fb4a1f9aca2a079e55cfcfa53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a3861fb6fb4a1f9aca2a079e55cfcfa53" kindref="member">verify_errors</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failed<sp/>verify<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a233c58a56c75082407353203db710897" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a233c58a56c75082407353203db710897" kindref="member">total_sign_time_us</ref><sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>Cumulative<sp/>sign<sp/>time<sp/>(microseconds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a0bfb82f4a3bc2c822ee79c1d58ae6e83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a0bfb82f4a3bc2c822ee79c1d58ae6e83" kindref="member">total_verify_time_us</ref><sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>Cumulative<sp/>verify<sp/>time<sp/>(microseconds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a2a850a0026afc7e017119a6cc6a56313" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a2a850a0026afc7e017119a6cc6a56313" kindref="member">pool_size</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configured<sp/>pool<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a910c6458936647e27ad6c216131dc071" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a910c6458936647e27ad6c216131dc071" kindref="member">pool_round_robin_hits</ref><sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>Successful<sp/>round-robin<sp/>selections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1security_1_1_h_s_m_key_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_h_s_m_key_info" kindref="compound">HSMKeyInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1security_1_1_h_s_m_key_info_1a35cbe29662d85a537afa27876cc5dc28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_key_info_1a35cbe29662d85a537afa27876cc5dc28" kindref="member">label</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>label</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1security_1_1_h_s_m_key_info_1a3cfc00c3146c722b8df9664f5d4d2315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_key_info_1a3cfc00c3146c722b8df9664f5d4d2315" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>ID<sp/>(hex)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1security_1_1_h_s_m_key_info_1acbd9301167295bb7e05fb2239773a483" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_key_info_1acbd9301167295bb7e05fb2239773a483" kindref="member">algorithm</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Algorithm<sp/>(e.g.,<sp/>RSA-2048)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1security_1_1_h_s_m_key_info_1a2c38c21197beb50c2b4fd2f404bce4b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_key_info_1a2c38c21197beb50c2b4fd2f404bce4b1" kindref="member">can_sign</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>can<sp/>be<sp/>used<sp/>for<sp/>signing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1security_1_1_h_s_m_key_info_1ae3e3313d0e003802b02e730662d14dc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_key_info_1ae3e3313d0e003802b02e730662d14dc0" kindref="member">can_verify</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>can<sp/>be<sp/>used<sp/>for<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1security_1_1_h_s_m_key_info_1abbef544552948bfc5488c7c9a5ee68ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_key_info_1abbef544552948bfc5488c7c9a5ee68ef" kindref="member">extractable</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>can<sp/>be<sp/>extracted<sp/>(should<sp/>be<sp/>false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1security_1_1_h_s_m_key_info_1a08a8270b66c1882c850207c68cf046f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_key_info_1a08a8270b66c1882c850207c68cf046f6" kindref="member">key_size</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>size<sp/>in<sp/>bits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1security_1_1_h_s_m_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>(<ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1security_1_1_h_s_m_provider_1a34eb5a2640eee1dfe0c665319f79b88e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a34eb5a2640eee1dfe0c665319f79b88e" kindref="member">~HSMProvider</ref>();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy<sp/>(HSM<sp/>sessions<sp/>are<sp/>not<sp/>copyable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1security_1_1_h_s_m_provider_1a5409892d806cf24a98f3b9cbd17c6380" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a5409892d806cf24a98f3b9cbd17c6380" kindref="member">HSMProvider</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1security_1_1_h_s_m_provider_1a84e7f1cf8cca3e237f8c304c55713378" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a84e7f1cf8cca3e237f8c304c55713378" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1security_1_1_h_s_m_provider_1a559451d0c8df88d5aa2ceb570c1ca5e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a559451d0c8df88d5aa2ceb570c1ca5e8" kindref="member">HSMProvider</ref>(<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1security_1_1_h_s_m_provider_1a4efa0bde3dce625a0eced90b6709004f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a0c5ba90379563c9c442735d2d70caeb7" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ad7c2f07e587a9bab673ccc6d7b22c6e1" kindref="member">finalize</ref>();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result" kindref="compound">HSMSignatureResult</ref><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a83d3d14e92db113fb90b69392fef7cf2" kindref="member">sign</ref>(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key_label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result" kindref="compound">HSMSignatureResult</ref><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a3462d021aa390aa401fd94ce70a1f166" kindref="member">signHash</ref>(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>hash,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key_label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a0ee3d32114e6c965ba26a8da0dc5f62b" kindref="member">verify</ref>(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>signature_b64,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key_label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1security_1_1_h_s_m_provider_1aa8a75ca22c5363b6bb2dd9b4f108c593" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1aa8a75ca22c5363b6bb2dd9b4f108c593" kindref="member">SignHashFn</ref><sp/>=</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;<ref refid="structthemis_1_1security_1_1_h_s_m_signature_result" kindref="compound">HSMSignatureResult</ref>(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>hash,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key_label)&gt;;</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1security_1_1_h_s_m_provider_1abaa76e7ae49ddbf55ef2236cda01c7ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abaa76e7ae49ddbf55ef2236cda01c7ee" kindref="member">VerifyFn</ref><sp/>=</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>signature_b64,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key_label)&gt;;</highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1security_1_1_h_s_m_provider_1acb3981a60f6831c67bf102793d57c4ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1acb3981a60f6831c67bf102793d57c4ff" kindref="member">EncryptDataFn</ref><sp/>=</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::vector&lt;uint8_t&gt;(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key_label)&gt;;</highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1security_1_1_h_s_m_provider_1a7a57eace51f34370793a5444663d709b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a7a57eace51f34370793a5444663d709b" kindref="member">DecryptDataFn</ref><sp/>=</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::vector&lt;uint8_t&gt;(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>encrypted,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key_label)&gt;;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1security_1_1_h_s_m_provider_1a82cafdbb464623a58578b221391db7aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a82cafdbb464623a58578b221391db7aa" kindref="member">setSignHashFn</ref>(<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1aa8a75ca22c5363b6bb2dd9b4f108c593" kindref="member">SignHashFn</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(signHashFnMutex());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>signHashFnStorage()<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1security_1_1_h_s_m_provider_1af16ecf54cc8286154a670fb88b7d640d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1af16ecf54cc8286154a670fb88b7d640d" kindref="member">setVerifyFn</ref>(<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abaa76e7ae49ddbf55ef2236cda01c7ee" kindref="member">VerifyFn</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(verifyFnMutex());</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>verifyFnStorage()<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1security_1_1_h_s_m_provider_1a60bcb504a5a6ee8fd506154d04da98e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a60bcb504a5a6ee8fd506154d04da98e9" kindref="member">setEncryptDataFn</ref>(<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1acb3981a60f6831c67bf102793d57c4ff" kindref="member">EncryptDataFn</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(encryptDataFnMutex());</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encryptDataFnStorage()<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1security_1_1_h_s_m_provider_1ab26ce306c335f9cc7d3dbc62ee059677" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ab26ce306c335f9cc7d3dbc62ee059677" kindref="member">setDecryptDataFn</ref>(<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a7a57eace51f34370793a5444663d709b" kindref="member">DecryptDataFn</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(decryptDataFnMutex());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decryptDataFnStorage()<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HSMKeyInfo&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a75fdc73fd6c716e445908ed03b2d55e1" kindref="member">listKeys</ref>();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a393d7a43b188b2237bbd6a2507513496" kindref="member">generateKeyPair</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>label,<sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>key_size<sp/>=<sp/>2048,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>extractable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1aa106745ccd5285c4800f75955a1c7258" kindref="member">importCertificate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_pem);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a0c5fffb072d68c42fcc41b6d17972cf0" kindref="member">getCertificate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Injectable<sp/>key-management<sp/>bridge<sp/>(STUB<sp/>#215)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1security_1_1_h_s_m_provider_1a3c55d95ab265ee24ccd8f24159b80b72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a3c55d95ab265ee24ccd8f24159b80b72" kindref="member">GenerateKeyPairFn</ref><sp/>=</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>label,<sp/>uint32_t<sp/>key_size,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>extractable)&gt;;</highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1security_1_1_h_s_m_provider_1adc799135ab90a64c2bb2c7da04a0cc1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1adc799135ab90a64c2bb2c7da04a0cc1e" kindref="member">ImportCertificateFn</ref><sp/>=</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_pem)&gt;;</highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0c91a7aadbf690288b299b778a55732" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0c91a7aadbf690288b299b778a55732" kindref="member">GetCertificateFn</ref><sp/>=</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::optional&lt;std::string&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label)&gt;;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1security_1_1_h_s_m_provider_1ab28c660169a526039d237b9eee0eeeeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ab28c660169a526039d237b9eee0eeeeb" kindref="member">setGenerateKeyPairFn</ref>(<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a3c55d95ab265ee24ccd8f24159b80b72" kindref="member">GenerateKeyPairFn</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(generateKeyPairFnMutex());</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>generateKeyPairFnStorage()<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0a508e3fbf850c35b1c52189415178a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0a508e3fbf850c35b1c52189415178a" kindref="member">setImportCertificateFn</ref>(<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1adc799135ab90a64c2bb2c7da04a0cc1e" kindref="member">ImportCertificateFn</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(importCertificateFnMutex());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>importCertificateFnStorage()<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232" refid="classthemis_1_1security_1_1_h_s_m_provider_1afc05e26e585bfddaebe88dddf166c6e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1afc05e26e585bfddaebe88dddf166c6e4" kindref="member">setGetCertificateFn</ref>(<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0c91a7aadbf690288b299b778a55732" kindref="member">GetCertificateFn</ref><sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(getCertificateFnMutex());</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>getCertificateFnStorage()<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a8f32d7c75388aafaf456055a6573abb0" kindref="member">encryptData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1aab3971ba487348d677f4e9a6c5642c3b" kindref="member">decryptData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>encrypted,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a825dd7d8d3bfaf92ad4a0ebba9c8f673" kindref="member">isReady</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a07ef101fc9e90eb643f8087a5bd9ef12" kindref="member">getTokenInfo</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ace1a272d65f3fa9a8578f6aa2889c720" kindref="member">getLastError</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats" kindref="compound">HSMPerformanceStats</ref><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a97cdb599d6e83f85e94dcd286f73141f" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a38ab02f6cd052a400677e9f73fae9059" kindref="member">resetStats</ref>();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a2c079865a72130beda7e571594882d2d" kindref="member">isStubProvider</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ae72e56d2ae904f9e9bc3df12e4f3f3e5" kindref="member">periodicSecurityCheck</ref>();</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/>signHashFnMutex()<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1aa8a75ca22c5363b6bb2dd9b4f108c593" kindref="member">SignHashFn</ref>&amp;<sp/>signHashFnStorage()<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1aa8a75ca22c5363b6bb2dd9b4f108c593" kindref="member">SignHashFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/>verifyFnMutex()<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abaa76e7ae49ddbf55ef2236cda01c7ee" kindref="member">VerifyFn</ref>&amp;<sp/>verifyFnStorage()<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abaa76e7ae49ddbf55ef2236cda01c7ee" kindref="member">VerifyFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/>encryptDataFnMutex()<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1acb3981a60f6831c67bf102793d57c4ff" kindref="member">EncryptDataFn</ref>&amp;<sp/>encryptDataFnStorage()<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1acb3981a60f6831c67bf102793d57c4ff" kindref="member">EncryptDataFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/>decryptDataFnMutex()<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a7a57eace51f34370793a5444663d709b" kindref="member">DecryptDataFn</ref>&amp;<sp/>decryptDataFnStorage()<sp/>{</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a7a57eace51f34370793a5444663d709b" kindref="member">DecryptDataFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/>generateKeyPairFnMutex()<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a3c55d95ab265ee24ccd8f24159b80b72" kindref="member">GenerateKeyPairFn</ref>&amp;<sp/>generateKeyPairFnStorage()<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a3c55d95ab265ee24ccd8f24159b80b72" kindref="member">GenerateKeyPairFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/>importCertificateFnMutex()<sp/>{</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1adc799135ab90a64c2bb2c7da04a0cc1e" kindref="member">ImportCertificateFn</ref>&amp;<sp/>importCertificateFnStorage()<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1adc799135ab90a64c2bb2c7da04a0cc1e" kindref="member">ImportCertificateFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex&amp;<sp/>getCertificateFnMutex()<sp/>{</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0c91a7aadbf690288b299b778a55732" kindref="member">GetCertificateFn</ref>&amp;<sp/>getCertificateFnStorage()<sp/>{</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0c91a7aadbf690288b299b778a55732" kindref="member">GetCertificateFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>HSMConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>last_error_;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PKCS#11<sp/>helper<sp/>discovery<sp/>functions<sp/>(only<sp/>active<sp/>when<sp/>THEMIS_ENABLE_HSM_REAL)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SessionEntry;<sp/></highlight><highlight class="comment">//<sp/>forward</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>discoverKeysSession(SessionEntry&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>discoverCertificateSession(SessionEntry&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>SessionEntry*<sp/>acquireSession();</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>releaseSession(SessionEntry*<sp/>s);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight></codeline>
+<codeline lineno="441" refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1aa31899937ce9a6d9c9537398cba200ef" kindref="member">HSMPKIClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1aa31899937ce9a6d9c9537398cba200ef" kindref="member">HSMPKIClient</ref>(<ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1a47901057964bbef71640e0f37f051825" kindref="member">~HSMPKIClient</ref>();</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result" kindref="compound">HSMSignatureResult</ref><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1afe8ea018674f882dd2931ab4bb1e4f80" kindref="member">sign</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1ab723d788463a6e00ee57bb2fc1be28b9" kindref="member">verify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>signature_b64);</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1a3beb2c410a168323c4fd5d8c00a86a53" kindref="member">getCertSerial</ref>();</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1a1cbb8eedb445c7db500d4d014c9dac5d" kindref="member">isReady</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;HSMProvider&gt;<sp/>hsm_;</highlight></codeline>
+<codeline lineno="480"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/hsm_provider.h"/>
+  </compounddef>
+</doxygen>

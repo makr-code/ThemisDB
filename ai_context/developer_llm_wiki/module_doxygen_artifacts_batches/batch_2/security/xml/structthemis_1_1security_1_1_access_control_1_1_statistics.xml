@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_1_1_statistics" kind="struct" language="C++" prot="private">
+    <compoundname>themis::security::AccessControl::Statistics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_statistics_1ae40fae082851dd9fe57f06de40fe261e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControl::Statistics::total_authentications</definition>
+        <argsstring></argsstring>
+        <name>total_authentications</name>
+        <qualifiedname>themis::security::AccessControl::Statistics::total_authentications</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="518" column="21" bodyfile="include/security/access_control.h" bodystart="518" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_statistics_1a9d1e3b6575808b000d079fcba2668b08" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControl::Statistics::successful_authentications</definition>
+        <argsstring></argsstring>
+        <name>successful_authentications</name>
+        <qualifiedname>themis::security::AccessControl::Statistics::successful_authentications</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="519" column="21" bodyfile="include/security/access_control.h" bodystart="519" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_statistics_1a01d306c73eb86b63abd6a87160f68f05" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControl::Statistics::failed_authentications</definition>
+        <argsstring></argsstring>
+        <name>failed_authentications</name>
+        <qualifiedname>themis::security::AccessControl::Statistics::failed_authentications</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="520" column="21" bodyfile="include/security/access_control.h" bodystart="520" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_statistics_1ade7eaa1036139ffb021d811e2377c1fb" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControl::Statistics::total_authorizations</definition>
+        <argsstring></argsstring>
+        <name>total_authorizations</name>
+        <qualifiedname>themis::security::AccessControl::Statistics::total_authorizations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="521" column="21" bodyfile="include/security/access_control.h" bodystart="521" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_statistics_1af0a2c24e06f3f080bb07537205eda276" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControl::Statistics::successful_authorizations</definition>
+        <argsstring></argsstring>
+        <name>successful_authorizations</name>
+        <qualifiedname>themis::security::AccessControl::Statistics::successful_authorizations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="522" column="21" bodyfile="include/security/access_control.h" bodystart="522" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_statistics_1a0c9e559271fb564bca4427b2f4082bd1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControl::Statistics::denied_authorizations</definition>
+        <argsstring></argsstring>
+        <name>denied_authorizations</name>
+        <qualifiedname>themis::security::AccessControl::Statistics::denied_authorizations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="523" column="21" bodyfile="include/security/access_control.h" bodystart="523" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_statistics_1a77ea2f21ee0de1a0561aa0bedce64f33" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControl::Statistics::rate_limited_requests</definition>
+        <argsstring></argsstring>
+        <name>rate_limited_requests</name>
+        <qualifiedname>themis::security::AccessControl::Statistics::rate_limited_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="524" column="21" bodyfile="include/security/access_control.h" bodystart="524" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_statistics_1a19804e26d19fce42b958b3b7af60d7ca" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControl::Statistics::sql_injection_attempts</definition>
+        <argsstring></argsstring>
+        <name>sql_injection_attempts</name>
+        <qualifiedname>themis::security::AccessControl::Statistics::sql_injection_attempts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="525" column="21" bodyfile="include/security/access_control.h" bodystart="525" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_statistics_1a761a17c6a234f9fd911f2044366b6c02" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::AccessControl::Statistics::suspicious_queries</definition>
+        <argsstring></argsstring>
+        <name>suspicious_queries</name>
+        <qualifiedname>themis::security::AccessControl::Statistics::suspicious_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="526" column="21" bodyfile="include/security/access_control.h" bodystart="526" bodyend="526"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control.h" line="517" column="5" bodyfile="include/security/access_control.h" bodystart="517" bodyend="527"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_statistics_1a0c9e559271fb564bca4427b2f4082bd1" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Statistics</scope><name>denied_authorizations</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_statistics_1a01d306c73eb86b63abd6a87160f68f05" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Statistics</scope><name>failed_authentications</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_statistics_1a77ea2f21ee0de1a0561aa0bedce64f33" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Statistics</scope><name>rate_limited_requests</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_statistics_1a19804e26d19fce42b958b3b7af60d7ca" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Statistics</scope><name>sql_injection_attempts</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_statistics_1a9d1e3b6575808b000d079fcba2668b08" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Statistics</scope><name>successful_authentications</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_statistics_1af0a2c24e06f3f080bb07537205eda276" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Statistics</scope><name>successful_authorizations</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_statistics_1a761a17c6a234f9fd911f2044366b6c02" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Statistics</scope><name>suspicious_queries</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_statistics_1ae40fae082851dd9fe57f06de40fe261e" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Statistics</scope><name>total_authentications</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_statistics_1ade7eaa1036139ffb021d811e2377c1fb" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Statistics</scope><name>total_authorizations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_s_s_m_l_sanitization_test" kind="class" language="C++" prot="public">
+    <compoundname>SSMLSanitizationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_s_s_m_l_sanitization_test_1a3cf1741b2216dfd9cf45cb683e5b17ac" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_t_t_s_customizer" kindref="compound">VoiceTTSCustomizer</ref></type>
+        <definition>VoiceTTSCustomizer SSMLSanitizationTest::customizer</definition>
+        <argsstring></argsstring>
+        <name>customizer</name>
+        <qualifiedname>SSMLSanitizationTest::customizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="30" column="24" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SSMLSanitizationTest</label>
+        <link refid="class_s_s_m_l_sanitization_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SSMLSanitizationTest</label>
+        <link refid="class_s_s_m_l_sanitization_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>customizer</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::voice::VoiceTTSCustomizer</label>
+        <link refid="classthemis_1_1voice_1_1_voice_t_t_s_customizer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_security_features.cpp" line="28" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="28" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_s_s_m_l_sanitization_test_1a3cf1741b2216dfd9cf45cb683e5b17ac" prot="protected" virt="non-virtual"><scope>SSMLSanitizationTest</scope><name>customizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

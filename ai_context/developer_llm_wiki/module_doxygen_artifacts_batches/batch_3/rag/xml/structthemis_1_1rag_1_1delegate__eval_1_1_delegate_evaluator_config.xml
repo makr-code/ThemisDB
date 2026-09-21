@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::delegate_eval::DelegateEvaluatorConfig</compoundname>
+    <includes refid="delegate__evaluator_8h" local="no">delegate_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1a534c8f621d0b1c1dcb084778718df8a5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::delegate_eval::DelegateEvaluatorConfig::num_round_trips</definition>
+        <argsstring></argsstring>
+        <name>num_round_trips</name>
+        <qualifiedname>themis::rag::delegate_eval::DelegateEvaluatorConfig::num_round_trips</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Number of complete forward→backward round trips to execute (default: 10). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="159" column="12" bodyfile="include/rag/delegate_evaluator.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1af4d15f4d380c4a3744a86af5c8a4c3cf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::delegate_eval::DelegateEvaluatorConfig::catastrophic_threshold</definition>
+        <argsstring></argsstring>
+        <name>catastrophic_threshold</name>
+        <qualifiedname>themis::rag::delegate_eval::DelegateEvaluatorConfig::catastrophic_threshold</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RS below this threshold counts as a &quot;catastrophic&quot; corruption event (default: 0.80, matching DELEGATE-52 paper criterion). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="163" column="12" bodyfile="include/rag/delegate_evaluator.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1af1c5b7313769c7e680bf7d5111abac9c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::delegate_eval::DelegateEvaluatorConfig::success_threshold</definition>
+        <argsstring></argsstring>
+        <name>success_threshold</name>
+        <qualifiedname>themis::rag::delegate_eval::DelegateEvaluatorConfig::success_threshold</qualifiedname>
+        <initializer>= 0.98</initializer>
+        <briefdescription>
+<para>RS at or above this value is considered a &quot;success&quot; (default: 0.98). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="166" column="12" bodyfile="include/rag/delegate_evaluator.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" kindref="compound">RoundTripSimulator</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/delegate_evaluator.h" line="157" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="157" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1af4d15f4d380c4a3744a86af5c8a4c3cf" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::DelegateEvaluatorConfig</scope><name>catastrophic_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1a534c8f621d0b1c1dcb084778718df8a5" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::DelegateEvaluatorConfig</scope><name>num_round_trips</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config_1af1c5b7313769c7e680bf7d5111abac9c" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::DelegateEvaluatorConfig</scope><name>success_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

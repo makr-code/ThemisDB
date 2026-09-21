@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_coherence_evaluator_test" kind="class" language="C++" prot="public">
+    <compoundname>CoherenceEvaluatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_coherence_evaluator_test_1a63aa35f955cbf0a322dd8489efa8b46d" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator" kindref="compound">CoherenceEvaluator</ref></type>
+        <definition>CoherenceEvaluator CoherenceEvaluatorTest::evaluator</definition>
+        <argsstring></argsstring>
+        <name>evaluator</name>
+        <qualifiedname>CoherenceEvaluatorTest::evaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase2.cpp" line="205" column="24" bodyfile="tests/rag/test_rag_judge_phase2.cpp" bodystart="205" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CoherenceEvaluatorTest</label>
+        <link refid="class_coherence_evaluator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CoherenceEvaluatorTest</label>
+        <link refid="class_coherence_evaluator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>evaluator</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::CoherenceEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_judge_phase2.cpp" line="203" column="1" bodyfile="tests/rag/test_rag_judge_phase2.cpp" bodystart="203" bodyend="206"/>
+    <listofallmembers>
+      <member refid="class_coherence_evaluator_test_1a63aa35f955cbf0a322dd8489efa8b46d" prot="protected" virt="non-virtual"><scope>CoherenceEvaluatorTest</scope><name>evaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

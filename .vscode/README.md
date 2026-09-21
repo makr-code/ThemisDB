@@ -218,6 +218,19 @@ The configurations in this directory work alongside CMake presets defined in `cm
 3. CMake Tools combines these with presets
 4. IntelliSense uses `c_cpp_properties.json` + `compile_commands.json`
 
+## Root Hygiene Tasks
+
+`tasks.json` is intentionally ignored in this repository (`.gitignore`) because it is user-local.
+
+For reusable root-log cleanup tasks, use the tracked template:
+
+- `.vscode/tasks.root-hygiene.json`
+
+To enable these tasks locally, copy both entries from `tasks.root-hygiene.json` into your local `.vscode/tasks.json`:
+
+- `Repo Hygiene: Root Logs DryRun`
+- `Repo Hygiene: Move Root Logs`
+
 ## Additional Resources
 
 - [VSCode C++ Docs](https://code.visualstudio.com/docs/languages/cpp)

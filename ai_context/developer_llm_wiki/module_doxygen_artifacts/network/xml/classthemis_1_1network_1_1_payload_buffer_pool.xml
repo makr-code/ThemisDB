@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_payload_buffer_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::PayloadBufferPool</compoundname>
+    <includes refid="wire__protocol__performance_8h" local="no">wire_protocol_performance.h</includes>
+    <innerclass refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle" prot="public">themis::network::PayloadBufferPool::Handle</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1network_1_1_payload_buffer_pool_1a1d91cf660e6a8512d6d8bf1775c1599a" prot="public" static="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>using themis::network::PayloadBufferPool::Buffer = std::vector&lt;uint8_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>Buffer</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="223" column="5" bodyfile="include/network/wire_protocol_performance.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1network_1_1_payload_buffer_pool_1a9470c7f2c90465ee28ee0cd19af986ea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class Handle</definition>
+        <argsstring></argsstring>
+        <name>Handle</name>
+        <qualifiedname>themis::network::PayloadBufferPool::Handle</qualifiedname>
+        <param>
+          <type>Handle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="282" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_payload_buffer_pool_1a4ca409efb228a863473a86a0e1335449" prot="private" static="no" mutable="no">
+        <type>const size_t</type>
+        <definition>const size_t themis::network::PayloadBufferPool::slab_size_</definition>
+        <argsstring></argsstring>
+        <name>slab_size_</name>
+        <qualifiedname>themis::network::PayloadBufferPool::slab_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="285" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_payload_buffer_pool_1a7fdef0e842614f030e3451c639ceccdd" prot="private" static="no" mutable="no">
+        <type>const size_t</type>
+        <definition>const size_t themis::network::PayloadBufferPool::pool_depth_</definition>
+        <argsstring></argsstring>
+        <name>pool_depth_</name>
+        <qualifiedname>themis::network::PayloadBufferPool::pool_depth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="286" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_payload_buffer_pool_1a4eb7e184daa9abe718f96454662ea078" prot="private" static="no" mutable="yes">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex themis::network::PayloadBufferPool::pool_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pool_mutex_</name>
+        <qualifiedname>themis::network::PayloadBufferPool::pool_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="289" column="46" bodyfile="include/network/wire_protocol_performance.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_payload_buffer_pool_1aad628fe940eb4eda5d99120d856725ab" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a1d91cf660e6a8512d6d8bf1775c1599a" kindref="member">Buffer</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;Buffer&gt; &gt; themis::network::PayloadBufferPool::idle_slabs_</definition>
+        <argsstring></argsstring>
+        <name>idle_slabs_</name>
+        <qualifiedname>themis::network::PayloadBufferPool::idle_slabs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="290" column="20" bodyfile="include/network/wire_protocol_performance.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_payload_buffer_pool_1a7f46dc74f045f6b4c2c0ca3c54c65175" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::PayloadBufferPool::hit_count_</definition>
+        <argsstring></argsstring>
+        <name>hit_count_</name>
+        <qualifiedname>themis::network::PayloadBufferPool::hit_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="292" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="292" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_payload_buffer_pool_1a981f83c250df9a268a5f5547c1c56fa5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::PayloadBufferPool::miss_count_</definition>
+        <argsstring></argsstring>
+        <name>miss_count_</name>
+        <qualifiedname>themis::network::PayloadBufferPool::miss_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="293" column="17" bodyfile="include/network/wire_protocol_performance.h" bodystart="293" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1aed7decac86fe85ae966d2816f6cd942e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::PayloadBufferPool::PayloadBufferPool</definition>
+        <argsstring>(size_t slab_size=64 *1024, size_t pool_depth=128)</argsstring>
+        <name>PayloadBufferPool</name>
+        <qualifiedname>themis::network::PayloadBufferPool::PayloadBufferPool</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>slab_size</declname>
+          <defval>64 *1024</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pool_depth</declname>
+          <defval>128</defval>
+        </param>
+        <briefdescription>
+<para>Construct a buffer pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>slab_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reserved capacity for each slab buffer (bytes). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pool_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of idle slabs kept in the pool. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="258" column="14" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="255" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1a43b509b163be542b258301967f93bd95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::PayloadBufferPool::~PayloadBufferPool</definition>
+        <argsstring>()</argsstring>
+        <name>~PayloadBufferPool</name>
+        <qualifiedname>themis::network::PayloadBufferPool::~PayloadBufferPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="261" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1a799679277210ec59af0325b170098cf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1_1_handle" kindref="compound">Handle</ref></type>
+        <definition>PayloadBufferPool::Handle themis::network::PayloadBufferPool::acquire</definition>
+        <argsstring>()</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themis::network::PayloadBufferPool::acquire</qualifiedname>
+        <briefdescription>
+<para>Acquire a buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Acquire.</para>
+<para>Returns a pooled slab if one is available, or allocates a new one. The caller may resize the buffer to any size; it is reset to <computeroutput>slab_size</computeroutput> capacity (but zero length) before being returned to pool.</para>
+<para><simplesect kind="return"><para>RAII handle owning the buffer.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), try_lock_for(), std::chrono::microseconds(), fetch_add(), reserve(), clear(), <ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a9470c7f2c90465ee28ee0cd19af986ea" kindref="member">Handle()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="272" column="12" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="267" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1af77cb36e2273c3b4919dd5a2ccc9c52a" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::PayloadBufferPool::poolDepth</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>poolDepth</name>
+        <qualifiedname>themis::network::PayloadBufferPool::poolDepth</qualifiedname>
+        <briefdescription>
+<para>Current idle slab count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="275" column="12" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="319" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1a6bd4a8f11df77b2dd6b981fca3f1c816" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::PayloadBufferPool::slabSize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>slabSize</name>
+        <qualifiedname>themis::network::PayloadBufferPool::slabSize</qualifiedname>
+        <briefdescription>
+<para>Configured slab capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="276" column="12" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="329" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1a899e96ffcd30d523e86dba2395517bb5" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::PayloadBufferPool::hitCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hitCount</name>
+        <qualifiedname>themis::network::PayloadBufferPool::hitCount</qualifiedname>
+        <briefdescription>
+<para>Acquisitions from pool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="277" column="14" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="332" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1a33fae745cdeaf3065166539b12c6d419" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::PayloadBufferPool::missCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>missCount</name>
+        <qualifiedname>themis::network::PayloadBufferPool::missCount</qualifiedname>
+        <briefdescription>
+<para>Fresh allocations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="278" column="14" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="335" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1a66acbee17577cf111381ccb294050a47" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::network::PayloadBufferPool::hitRate</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::network::PayloadBufferPool::hitRate</qualifiedname>
+        <briefdescription>
+<para>hits / (hits + misses) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="279" column="14" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="338" bodyend="341"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_payload_buffer_pool_1a18ad173f635d4aeb06c5f600ac9c1346" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::PayloadBufferPool::returnBuffer</definition>
+        <argsstring>(std::unique_ptr&lt; Buffer &gt; buf) noexcept</argsstring>
+        <name>returnBuffer</name>
+        <qualifiedname>themis::network::PayloadBufferPool::returnBuffer</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1a1d91cf660e6a8512d6d8bf1775c1599a" kindref="member">Buffer</ref> &gt;</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="283" column="10" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="301" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lock-based slab-allocator that reuses <computeroutput>std::vector&lt;uint8_t&gt;</computeroutput> payloads. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Allocating a fresh <computeroutput>std::vector</computeroutput> per request is ~2 µs due to heap allocation. Reusing a pre-warmed slab eliminates that cost for the common case where payload sizes cluster around a known maximum (configured via <computeroutput>slab_size</computeroutput>).</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_payload_buffer_pool_1aed7decac86fe85ae966d2816f6cd942e" kindref="member">PayloadBufferPool</ref><sp/>pool(4096,<sp/>64);<sp/></highlight><highlight class="comment">//<sp/>64<sp/>slabs<sp/>of<sp/>4<sp/>KiB<sp/>each</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>pool.acquire();<sp/><sp/></highlight><highlight class="comment">//<sp/>checked-out<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>buf-&gt;resize(payload_size);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>…<sp/>fill<sp/>and<sp/>send<sp/>buf<sp/>…<sp/>//</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>destructor<sp/>returns<sp/>buf<sp/>to<sp/>pool<sp/>automatically</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_performance.h" line="221" column="1" bodyfile="include/network/wire_protocol_performance.h" bodystart="221" bodyend="294"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a799679277210ec59af0325b170098cf4" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>acquire</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a1d91cf660e6a8512d6d8bf1775c1599a" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>Buffer</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a9470c7f2c90465ee28ee0cd19af986ea" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>Handle</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a7f46dc74f045f6b4c2c0ca3c54c65175" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>hit_count_</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a899e96ffcd30d523e86dba2395517bb5" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>hitCount</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a66acbee17577cf111381ccb294050a47" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>hitRate</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1aad628fe940eb4eda5d99120d856725ab" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>idle_slabs_</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a981f83c250df9a268a5f5547c1c56fa5" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>miss_count_</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a33fae745cdeaf3065166539b12c6d419" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>missCount</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1aed7decac86fe85ae966d2816f6cd942e" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>PayloadBufferPool</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a7fdef0e842614f030e3451c639ceccdd" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>pool_depth_</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a4eb7e184daa9abe718f96454662ea078" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>pool_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1af77cb36e2273c3b4919dd5a2ccc9c52a" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>poolDepth</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a18ad173f635d4aeb06c5f600ac9c1346" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>returnBuffer</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a4ca409efb228a863473a86a0e1335449" prot="private" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>slab_size_</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a6bd4a8f11df77b2dd6b981fca3f1c816" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>slabSize</name></member>
+      <member refid="classthemis_1_1network_1_1_payload_buffer_pool_1a43b509b163be542b258301967f93bd95" prot="public" virt="non-virtual"><scope>themis::network::PayloadBufferPool</scope><name>~PayloadBufferPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

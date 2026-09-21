@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::tests::GraphEdgeEmptyFieldsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1a2be196053df1917bf6a7e657013680f7" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; themis::index::tests::GraphEdgeEmptyFieldsTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::index::tests::GraphEdgeEmptyFieldsTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="56" column="21" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1a307ab2798ac0e2a86bd776666f581801" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; themis::index::tests::GraphEdgeEmptyFieldsTest::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>themis::index::tests::GraphEdgeEmptyFieldsTest::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="57" column="21" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1a10be6cd61bbaa3480b319c4ab45f213b" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::index::tests::GraphEdgeEmptyFieldsTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>themis::index::tests::GraphEdgeEmptyFieldsTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="58" column="27" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1aaaa6d564b6bb76274c50e177d7c70c4c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::tests::GraphEdgeEmptyFieldsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::index::tests::GraphEdgeEmptyFieldsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="17" column="10" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="17" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1a8800212e3ae79f4db0e0c40df678ca6a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::tests::GraphEdgeEmptyFieldsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::index::tests::GraphEdgeEmptyFieldsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="37" column="10" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1ac62f51f5102fb3fd29cd5ddc7acab639" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>BaseEntity themis::index::tests::GraphEdgeEmptyFieldsTest::createEdgeEntity</definition>
+        <argsstring>(const std::string &amp;edge_id, const std::string &amp;from_node, const std::string &amp;to_node)</argsstring>
+        <name>createEdgeEntity</name>
+        <qualifiedname>themis::index::tests::GraphEdgeEmptyFieldsTest::createEdgeEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>edge_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_node</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="45" column="16" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="45" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::index::tests::GraphEdgeEmptyFieldsTest</label>
+        <link refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::index::tests::GraphEdgeEmptyFieldsTest</label>
+        <link refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="15" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="15" bodyend="59"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1ac62f51f5102fb3fd29cd5ddc7acab639" prot="protected" virt="non-virtual"><scope>themis::index::tests::GraphEdgeEmptyFieldsTest</scope><name>createEdgeEntity</name></member>
+      <member refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1a2be196053df1917bf6a7e657013680f7" prot="protected" virt="non-virtual"><scope>themis::index::tests::GraphEdgeEmptyFieldsTest</scope><name>db_</name></member>
+      <member refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1a307ab2798ac0e2a86bd776666f581801" prot="protected" virt="non-virtual"><scope>themis::index::tests::GraphEdgeEmptyFieldsTest</scope><name>graph_mgr_</name></member>
+      <member refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1aaaa6d564b6bb76274c50e177d7c70c4c" prot="protected" virt="non-virtual"><scope>themis::index::tests::GraphEdgeEmptyFieldsTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1a8800212e3ae79f4db0e0c40df678ca6a" prot="protected" virt="non-virtual"><scope>themis::index::tests::GraphEdgeEmptyFieldsTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test_1a10be6cd61bbaa3480b319c4ab45f213b" prot="protected" virt="non-virtual"><scope>themis::index::tests::GraphEdgeEmptyFieldsTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

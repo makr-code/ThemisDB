@@ -1,0 +1,495 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_signature_scanner" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::SignatureScanner</compoundname>
+    <basecompoundref refid="classthemis_1_1security_1_1_i_malware_scanner" prot="public" virt="non-virtual">themis::security::IMalwareScanner</basecompoundref>
+    <includes refid="malware__scanner_8h" local="no">malware_scanner.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_signature_scanner_1_1_signature" prot="private">themis::security::SignatureScanner::Signature</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_signature_scanner_1ac3b882ba020de99dbad0882ee3bc6d32" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Signature &gt;</type>
+        <definition>std::vector&lt;Signature&gt; themis::security::SignatureScanner::signatures_</definition>
+        <argsstring></argsstring>
+        <name>signatures_</name>
+        <qualifiedname>themis::security::SignatureScanner::signatures_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="350" column="17" bodyfile="include/security/malware_scanner.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1a1a330e44ba00585197f41880acd0f295" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SignatureScanner::SignatureScanner</definition>
+        <argsstring>()</argsstring>
+        <name>SignatureScanner</name>
+        <qualifiedname>themis::security::SignatureScanner::SignatureScanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="312" column="5" bodyfile="src/security/malware_scanner.cpp" bodystart="498" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1a6249da991ca022446a739e99fe093429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SignatureScanner::~SignatureScanner</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~SignatureScanner</name>
+        <qualifiedname>themis::security::SignatureScanner::~SignatureScanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="313" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1ae0e25ef2a508e86098789647eb65a3ba" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::SignatureScanner::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::security::SignatureScanner::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_malware_scanner_1adf28b35923d776e693de933da377161a">getName</reimplements>
+        <briefdescription>
+<para>Get scanner name/identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="315" column="17" bodyfile="include/security/malware_scanner.h" bodystart="315" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1a41c0f9661e874a6c0025280e7827831c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SignatureScanner::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::security::SignatureScanner::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_malware_scanner_1affb4ec9f187bc6372a267fcf0d9ca4ee">isAvailable</reimplements>
+        <briefdescription>
+<para>Check if scanner is available/configured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="316" column="10" bodyfile="include/security/malware_scanner.h" bodystart="316" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1a800a9fb4a5eec5984d18a1c642be30fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1security_1_1_scan_result" kindref="compound">ScanResult</ref></type>
+        <definition>ScanResult themis::security::SignatureScanner::scan</definition>
+        <argsstring>(const std::string &amp;data, const std::string &amp;filename=&quot;&quot;, const std::string &amp;mime_type=&quot;&quot;) override</argsstring>
+        <name>scan</name>
+        <qualifiedname>themis::security::SignatureScanner::scan</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_malware_scanner_1a4a1558d361affa0d1c74ba6416b02051">scan</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), <ref refid="classthemis_1_1security_1_1_signature_scanner_1ae0e25ef2a508e86098789647eb65a3ba" kindref="member">getName()</ref>, checkDoubleExtension(), checkExecutableInDocument(), checkArchiveBomb(), find(), matchSignature(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="318" column="16" bodyfile="src/security/malware_scanner.cpp" bodystart="683" bodyend="765"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1a783020a464a808cf6d047d7d40e162fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::SignatureScanner::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::security::SignatureScanner::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_malware_scanner_1a0b60fa80b6c376fe030d4e8e5f09d8e2">getVersion</reimplements>
+        <briefdescription>
+<para>Get scanner version/signature database version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="324" column="17" bodyfile="src/security/malware_scanner.cpp" bodystart="767" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1a60820d1e648341bba2bdcaa2c144019b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt; std::chrono::system_clock::time_point &gt; themis::security::SignatureScanner::getLastUpdate</definition>
+        <argsstring>() const override</argsstring>
+        <name>getLastUpdate</name>
+        <qualifiedname>themis::security::SignatureScanner::getLastUpdate</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_malware_scanner_1ae738a8b341cd5991e3071daec356ee74">getLastUpdate</reimplements>
+        <briefdescription>
+<para>Get last signature update timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="325" column="19" bodyfile="src/security/malware_scanner.cpp" bodystart="771" bodyend="773"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1af5137ed146357301ef208872198f38b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::SignatureScanner::addSignature</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;pattern, int offset, ThreatLevel threat_level)</argsstring>
+        <name>addSignature</name>
+        <qualifiedname>themis::security::SignatureScanner::addSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" kindref="member">ThreatLevel</ref></type>
+          <declname>threat_level</declname>
+        </param>
+        <briefdescription>
+<para>Add custom signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Signature.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Signature name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Byte pattern (hex string) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Offset to check (0 = start, -1 = anywhere) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threat_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Threat level if matched</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threat_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: length(), substr(), std::stoi(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="335" column="10" bodyfile="src/security/malware_scanner.cpp" bodystart="545" bodyend="564"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1a36f764981286ed1536f3bd7de2872e67" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::SignatureScanner::loadDefaultSignatures</definition>
+        <argsstring>()</argsstring>
+        <name>loadDefaultSignatures</name>
+        <qualifiedname>themis::security::SignatureScanner::loadDefaultSignatures</qualifiedname>
+        <briefdescription>
+<para>Load Default Signatures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1security_1_1_signature_scanner_1af5137ed146357301ef208872198f38b4" kindref="member">addSignature()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="354" column="10" bodyfile="src/security/malware_scanner.cpp" bodystart="506" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1a9364e0bce94da9cf833cb167aeb7de64" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SignatureScanner::matchSignature</definition>
+        <argsstring>(const std::string &amp;data, const Signature &amp;sig) const</argsstring>
+        <name>matchSignature</name>
+        <qualifiedname>themis::security::SignatureScanner::matchSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const Signature &amp;</type>
+          <declname>sig</declname>
+        </param>
+        <briefdescription>
+<para>Match Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="361" column="10" bodyfile="src/security/malware_scanner.cpp" bodystart="566" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1a6413072db7c39ac25b05d665a4c42af0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SignatureScanner::checkExecutableInDocument</definition>
+        <argsstring>(const std::string &amp;data, const std::string &amp;mime_type) const</argsstring>
+        <name>checkExecutableInDocument</name>
+        <qualifiedname>themis::security::SignatureScanner::checkExecutableInDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+<para>Check Executable In Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="368" column="10" bodyfile="src/security/malware_scanner.cpp" bodystart="588" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1a236214cc9660c48ae7560cd255f1c39d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SignatureScanner::checkDoubleExtension</definition>
+        <argsstring>(const std::string &amp;filename) const</argsstring>
+        <name>checkDoubleExtension</name>
+        <qualifiedname>themis::security::SignatureScanner::checkDoubleExtension</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Check Double Extension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="374" column="10" bodyfile="src/security/malware_scanner.cpp" bodystart="610" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_signature_scanner_1a6e2af2f524ad9e47fa6a682003d16c15" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SignatureScanner::checkArchiveBomb</definition>
+        <argsstring>(const std::string &amp;data) const</argsstring>
+        <name>checkArchiveBomb</name>
+        <qualifiedname>themis::security::SignatureScanner::checkArchiveBomb</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Check Archive Bomb. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="380" column="10" bodyfile="src/security/malware_scanner.cpp" bodystart="644" bodyend="673"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>File signature-based scanner (built-in). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Detects known malicious file signatures and patterns:<itemizedlist>
+<listitem><para>Executable headers in non-executable MIME types</para>
+</listitem><listitem><para>Known malware file signatures</para>
+</listitem><listitem><para>Suspicious file patterns (double extensions, etc.)</para>
+</listitem><listitem><para>Archive bombs (ZIP bombs, decompression bombs) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::security::IMalwareScanner</label>
+        <link refid="classthemis_1_1security_1_1_i_malware_scanner"/>
+      </node>
+      <node id="1">
+        <label>themis::security::SignatureScanner</label>
+        <link refid="classthemis_1_1security_1_1_signature_scanner"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::security::IMalwareScanner</label>
+        <link refid="classthemis_1_1security_1_1_i_malware_scanner"/>
+      </node>
+      <node id="1">
+        <label>themis::security::SignatureScanner</label>
+        <link refid="classthemis_1_1security_1_1_signature_scanner"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/malware_scanner.h" line="310" column="1" bodyfile="include/security/malware_scanner.h" bodystart="310" bodyend="381"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1af5137ed146357301ef208872198f38b4" prot="public" virt="non-virtual"><scope>themis::security::SignatureScanner</scope><name>addSignature</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1a6e2af2f524ad9e47fa6a682003d16c15" prot="private" virt="non-virtual"><scope>themis::security::SignatureScanner</scope><name>checkArchiveBomb</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1a236214cc9660c48ae7560cd255f1c39d" prot="private" virt="non-virtual"><scope>themis::security::SignatureScanner</scope><name>checkDoubleExtension</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1a6413072db7c39ac25b05d665a4c42af0" prot="private" virt="non-virtual"><scope>themis::security::SignatureScanner</scope><name>checkExecutableInDocument</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1a60820d1e648341bba2bdcaa2c144019b" prot="public" virt="virtual"><scope>themis::security::SignatureScanner</scope><name>getLastUpdate</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1ae0e25ef2a508e86098789647eb65a3ba" prot="public" virt="virtual"><scope>themis::security::SignatureScanner</scope><name>getName</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1a783020a464a808cf6d047d7d40e162fe" prot="public" virt="virtual"><scope>themis::security::SignatureScanner</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1a41c0f9661e874a6c0025280e7827831c" prot="public" virt="virtual"><scope>themis::security::SignatureScanner</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1a36f764981286ed1536f3bd7de2872e67" prot="private" virt="non-virtual"><scope>themis::security::SignatureScanner</scope><name>loadDefaultSignatures</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1a9364e0bce94da9cf833cb167aeb7de64" prot="private" virt="non-virtual"><scope>themis::security::SignatureScanner</scope><name>matchSignature</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1a800a9fb4a5eec5984d18a1c642be30fa" prot="public" virt="virtual"><scope>themis::security::SignatureScanner</scope><name>scan</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1ac3b882ba020de99dbad0882ee3bc6d32" prot="private" virt="non-virtual"><scope>themis::security::SignatureScanner</scope><name>signatures_</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1a1a330e44ba00585197f41880acd0f295" prot="public" virt="non-virtual"><scope>themis::security::SignatureScanner</scope><name>SignatureScanner</name></member>
+      <member refid="classthemis_1_1security_1_1_i_malware_scanner_1ab4167c4c50561efac70d2eee3e3fd97f" prot="public" virt="virtual"><scope>themis::security::SignatureScanner</scope><name>~IMalwareScanner</name></member>
+      <member refid="classthemis_1_1security_1_1_signature_scanner_1a6249da991ca022446a739e99fe093429" prot="public" virt="non-virtual"><scope>themis::security::SignatureScanner</scope><name>~SignatureScanner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

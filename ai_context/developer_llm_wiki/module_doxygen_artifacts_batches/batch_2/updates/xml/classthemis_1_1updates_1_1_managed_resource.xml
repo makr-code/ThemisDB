@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_managed_resource" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::ManagedResource</compoundname>
+    <includes refid="batch5__safety__helpers_8h" local="no">batch5_safety_helpers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_managed_resource_1ae0321b769a380647e3e3989628f1d098" prot="private" static="no" mutable="no">
+        <type>int *</type>
+        <definition>int* themis::updates::ManagedResource::resource_</definition>
+        <argsstring></argsstring>
+        <name>resource_</name>
+        <qualifiedname>themis::updates::ManagedResource::resource_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="260" column="9" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_managed_resource_1ab8f4f88981cd5cd6d806e71d05ac9e59" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::ManagedResource::ManagedResource</definition>
+        <argsstring>()</argsstring>
+        <name>ManagedResource</name>
+        <qualifiedname>themis::updates::ManagedResource::ManagedResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="239" column="5" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="239" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_managed_resource_1ab0cd87123dad2a67d23a8e2ba1f83d99" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::ManagedResource::~ManagedResource</definition>
+        <argsstring>()</argsstring>
+        <name>~ManagedResource</name>
+        <qualifiedname>themis::updates::ManagedResource::~ManagedResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="244" column="5" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="244" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_managed_resource_1a643a28c86c0591d0dd3e441a9cb05b17" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int *</type>
+        <definition>int * themis::updates::ManagedResource::get</definition>
+        <argsstring>()</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::updates::ManagedResource::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="257" column="9" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Example of safe deployment state management. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Error Code: 7502</para>
+</simplesect>
+Shows the pattern for managing <ref refid="structthemis_1_1updates_1_1_deployment_state" kindref="compound">DeploymentState</ref> in <ref refid="blue__green__deployment_8cpp" kindref="compound">blue_green_deployment.cpp</ref>:</para>
+<para>void promoteSlot(...) { auto new_state = std::make_unique&lt;DeploymentState&gt;(); new_state-&gt;slot_name = &quot;GREEN&quot;; new_state-&gt;version = version;</para>
+<para>try { // Call callback - if it throws, new_state is still cleaned up callback(new_state.get()); } catch (...) { // new_state destroyed automatically here throw; } // new_state cleanup guaranteed on success too }</para>
+<para>Example of safe batch update management. <simplesect kind="note"><para>Error Code: 7503</para>
+</simplesect>
+Shows the pattern for managing <ref refid="structthemis_1_1updates_1_1_update_batch" kindref="compound">UpdateBatch</ref> in <ref refid="cluster__update__manager_8cpp" kindref="compound">cluster_update_manager.cpp</ref>:</para>
+<para>void performBatchUpdate(...) { auto batch = std::make_unique&lt;UpdateBatch&gt;(); batch-&gt;id = generateId();</para>
+<para>try { batch-&gt;update_count = updateNodes(...); set_status(...); // May throw - batch still cleaned up // Use batch-&gt;update_count, etc. } catch (...) { // batch destroyed automatically throw; } }</para>
+<para>RAII guard for manual resource cleanup with exception wrapping. <simplesect kind="note"><para>Error Code: 7504</para>
+</simplesect>
+Demonstrates the pattern for <ref refid="schema__migration_8cpp" kindref="compound">schema_migration.cpp</ref>:445 where manual cleanup must be wrapped in try-catch. </para>
+    </detaileddescription>
+    <location file="include/updates/batch5_safety_helpers.h" line="237" column="1" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="237" bodyend="261"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_managed_resource_1a643a28c86c0591d0dd3e441a9cb05b17" prot="public" virt="non-virtual"><scope>themis::updates::ManagedResource</scope><name>get</name></member>
+      <member refid="classthemis_1_1updates_1_1_managed_resource_1ab8f4f88981cd5cd6d806e71d05ac9e59" prot="public" virt="non-virtual"><scope>themis::updates::ManagedResource</scope><name>ManagedResource</name></member>
+      <member refid="classthemis_1_1updates_1_1_managed_resource_1ae0321b769a380647e3e3989628f1d098" prot="private" virt="non-virtual"><scope>themis::updates::ManagedResource</scope><name>resource_</name></member>
+      <member refid="classthemis_1_1updates_1_1_managed_resource_1ab0cd87123dad2a67d23a8e2ba1f83d99" prot="public" virt="non-virtual"><scope>themis::updates::ManagedResource</scope><name>~ManagedResource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

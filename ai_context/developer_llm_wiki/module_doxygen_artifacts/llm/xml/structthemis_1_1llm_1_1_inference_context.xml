@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_inference_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::InferenceContext</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_context_1ab847aef238a62e2f960774c61fb85f87" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceContext::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::llm::InferenceContext::valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/inference_guard.cpp" line="16" column="10" bodyfile="src/llm/inference_guard.cpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/inference_guard.cpp" line="15" column="1" bodyfile="src/llm/inference_guard.cpp" bodystart="15" bodyend="17"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_inference_context_1ab847aef238a62e2f960774c61fb85f87" prot="public" virt="non-virtual"><scope>themis::llm::InferenceContext</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

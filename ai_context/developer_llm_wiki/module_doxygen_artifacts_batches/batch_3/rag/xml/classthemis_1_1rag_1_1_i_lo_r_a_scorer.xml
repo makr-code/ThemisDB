@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_i_lo_r_a_scorer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::rag::ILoRAScorer</compoundname>
+    <derivedcompoundref refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer" prot="public" virt="non-virtual">themis::rag::HeuristicLoRAScorer</derivedcompoundref>
+    <includes refid="lora__enhanced__retriever_8h" local="no">lora_enhanced_retriever.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1a22c6579041c72bd77aae4f1e68f80026" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::rag::ILoRAScorer::~ILoRAScorer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILoRAScorer</name>
+        <qualifiedname>themis::rag::ILoRAScorer::~ILoRAScorer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="39" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1a6dd7e3e8c22fa8ab4669ef55ad968d26" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double themis::rag::ILoRAScorer::score</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;content, const std::string &amp;domain=&quot;&quot;)=0</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::ILoRAScorer::score</qualifiedname>
+        <reimplementedby refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer_1af5a199834f2b4f91464179526ae40b74">score</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Score a document for domain relevance given the query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original user query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document content to score. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional domain hint (e.g. &quot;legal&quot;, &quot;medical&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Score in [0, 1]. Higher = more relevant. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="49" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1ab6c21b232929e1101bcfdfd408288582" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::rag::ILoRAScorer::domain</definition>
+        <argsstring>() const =0</argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::rag::ILoRAScorer::domain</qualifiedname>
+        <reimplementedby refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer_1a76b839769081d8bfcee1a07e2c9ae58e">domain</reimplementedby>
+        <briefdescription>
+<para>Return the domain this scorer is specialised for (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="56" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin interface for LoRA-based document scoring. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this interface to supply a real LoRA adapter scorer. The <computeroutput><ref refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer" kindref="compound">HeuristicLoRAScorer</ref></computeroutput> provides a lightweight token-overlap baseline.</para>
+<para>Thread safety: <computeroutput><ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1a6dd7e3e8c22fa8ab4669ef55ad968d26" kindref="member">score()</ref></computeroutput> must be callable from multiple threads. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::rag::HeuristicLoRAScorer</label>
+        <link refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::rag::ILoRAScorer</label>
+        <link refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/rag/lora_enhanced_retriever.h" line="37" column="1" bodyfile="include/rag/lora_enhanced_retriever.h" bodystart="37" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1ab6c21b232929e1101bcfdfd408288582" prot="public" virt="pure-virtual"><scope>themis::rag::ILoRAScorer</scope><name>domain</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1a6dd7e3e8c22fa8ab4669ef55ad968d26" prot="public" virt="pure-virtual"><scope>themis::rag::ILoRAScorer</scope><name>score</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1a22c6579041c72bd77aae4f1e68f80026" prot="public" virt="virtual"><scope>themis::rag::ILoRAScorer</scope><name>~ILoRAScorer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

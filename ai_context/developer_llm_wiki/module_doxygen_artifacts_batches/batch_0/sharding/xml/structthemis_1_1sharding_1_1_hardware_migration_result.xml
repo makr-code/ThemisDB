@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_hardware_migration_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::HardwareMigrationResult</compoundname>
+    <includes refid="hardware__migration__manager_8h" local="no">hardware_migration_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hardware_migration_result_1a9b436172acb45dc93e64bdec11904cae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HardwareMigrationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::HardwareMigrationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="102" column="10" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hardware_migration_result_1ab19ce5114fcbb4a3de11b9d4ad9cc330" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HardwareMigrationResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::sharding::HardwareMigrationResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Human-readable summary of what was done (or what went wrong). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="105" column="17" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hardware_migration_result_1a35f25c860c21d1fa4e56fbc6d03ecca2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HardwareMigrationResult::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::HardwareMigrationResult::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>shard_id whose endpoint was updated. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="108" column="17" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hardware_migration_result_1aa12912dc657567a60c55e2d801c760c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HardwareMigrationResult::old_endpoint</definition>
+        <argsstring></argsstring>
+        <name>old_endpoint</name>
+        <qualifiedname>themis::sharding::HardwareMigrationResult::old_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Endpoint before the migration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="111" column="17" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hardware_migration_result_1a65baabe4a963221721d9f1ffd57f373b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HardwareMigrationResult::new_endpoint</definition>
+        <argsstring></argsstring>
+        <name>new_endpoint</name>
+        <qualifiedname>themis::sharding::HardwareMigrationResult::new_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Endpoint after the migration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="114" column="17" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hardware_migration_result_1afd442bdc442aab2e99db0978a9a1d629" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HardwareMigrationResult::ring_stability_verified</definition>
+        <argsstring></argsstring>
+        <name>ring_stability_verified</name>
+        <qualifiedname>themis::sharding::HardwareMigrationResult::ring_stability_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>True when ring positions were verified unchanged after the endpoint update. Only meaningful when <ref refid="structthemis_1_1sharding_1_1_hardware_migration_config_1a2c5e52da74a5fcb703673c9b4106b7e4" kindref="member">HardwareMigrationConfig::verify_ring_stability</ref> is true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="121" column="10" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/hardware_migration_manager.h" line="101" column="1" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="101" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_hardware_migration_result_1ab19ce5114fcbb4a3de11b9d4ad9cc330" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hardware_migration_result_1a65baabe4a963221721d9f1ffd57f373b" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationResult</scope><name>new_endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hardware_migration_result_1aa12912dc657567a60c55e2d801c760c0" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationResult</scope><name>old_endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hardware_migration_result_1afd442bdc442aab2e99db0978a9a1d629" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationResult</scope><name>ring_stability_verified</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hardware_migration_result_1a35f25c860c21d1fa4e56fbc6d03ecca2" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationResult</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hardware_migration_result_1a9b436172acb45dc93e64bdec11904cae" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

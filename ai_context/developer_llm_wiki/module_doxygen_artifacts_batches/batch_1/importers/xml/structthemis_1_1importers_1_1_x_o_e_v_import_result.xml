@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_x_o_e_v_import_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::XOEVImportResult</compoundname>
+    <includes refid="xoev__importer_8h" local="no">xoev_importer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a2e72fd5f69f46810e904df533c6edf34" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::XOEVImportResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::importers::XOEVImportResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="127" column="10" bodyfile="include/importers/xoev_importer.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a0f8b38e99f8436032eed4570ac4c50ae" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::XOEVImportResult::records_parsed</definition>
+        <argsstring></argsstring>
+        <name>records_parsed</name>
+        <qualifiedname>themis::importers::XOEVImportResult::records_parsed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="128" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a46933b8d66060082d37b2688bdfd5d6c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::XOEVImportResult::records_imported</definition>
+        <argsstring></argsstring>
+        <name>records_imported</name>
+        <qualifiedname>themis::importers::XOEVImportResult::records_imported</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="129" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_import_result_1ade1f11acd85bd117a979a30956d81d80" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::XOEVImportResult::records_skipped</definition>
+        <argsstring></argsstring>
+        <name>records_skipped</name>
+        <qualifiedname>themis::importers::XOEVImportResult::records_skipped</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="130" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a27c73084fc779f86e6181035406df458" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_x_o_e_v_import_error" kindref="compound">XOEVImportError</ref> &gt;</type>
+        <definition>std::vector&lt;XOEVImportError&gt; themis::importers::XOEVImportResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::importers::XOEVImportResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="131" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a0b777b37b12999bef68e447e34613797" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_x_o_e_v_record" kindref="compound">XOEVRecord</ref> &gt;</type>
+        <definition>std::vector&lt;XOEVRecord&gt; themis::importers::XOEVImportResult::records</definition>
+        <argsstring></argsstring>
+        <name>records</name>
+        <qualifiedname>themis::importers::XOEVImportResult::records</qualifiedname>
+        <briefdescription>
+<para>Imported records (populated on success). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="132" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a4a624553011b98781fc29cac8809a732" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::XOEVImportResult::hasErrors</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasErrors</name>
+        <qualifiedname>themis::importers::XOEVImportResult::hasErrors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="134" column="10" bodyfile="include/importers/xoev_importer.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/xoev_importer.h" line="126" column="1" bodyfile="include/importers/xoev_importer.h" bodystart="126" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a27c73084fc779f86e6181035406df458" prot="public" virt="non-virtual"><scope>themis::importers::XOEVImportResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a4a624553011b98781fc29cac8809a732" prot="public" virt="non-virtual"><scope>themis::importers::XOEVImportResult</scope><name>hasErrors</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a0b777b37b12999bef68e447e34613797" prot="public" virt="non-virtual"><scope>themis::importers::XOEVImportResult</scope><name>records</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a46933b8d66060082d37b2688bdfd5d6c" prot="public" virt="non-virtual"><scope>themis::importers::XOEVImportResult</scope><name>records_imported</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a0f8b38e99f8436032eed4570ac4c50ae" prot="public" virt="non-virtual"><scope>themis::importers::XOEVImportResult</scope><name>records_parsed</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_import_result_1ade1f11acd85bd117a979a30956d81d80" prot="public" virt="non-virtual"><scope>themis::importers::XOEVImportResult</scope><name>records_skipped</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_import_result_1a2e72fd5f69f46810e904df533c6edf34" prot="public" virt="non-virtual"><scope>themis::importers::XOEVImportResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

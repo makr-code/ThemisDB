@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_storage_pressure_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>StoragePressureManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_storage_pressure_manager_test_1a6cf3f62dd3c91b4c0678b760effbb903" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_storage_pressure_manager" kindref="compound">StoragePressureManager</ref></type>
+        <definition>StoragePressureManager StoragePressureManagerTest::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>StoragePressureManagerTest::mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="253" column="28" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StoragePressureManagerTest</label>
+        <link refid="class_storage_pressure_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StoragePressureManagerTest</label>
+        <link refid="class_storage_pressure_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mgr</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::storage::StoragePressureManager</label>
+        <link refid="classthemis_1_1storage_1_1_storage_pressure_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="251" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="251" bodyend="254"/>
+    <listofallmembers>
+      <member refid="class_storage_pressure_manager_test_1a6cf3f62dd3c91b4c0678b760effbb903" prot="protected" virt="non-virtual"><scope>StoragePressureManagerTest</scope><name>mgr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

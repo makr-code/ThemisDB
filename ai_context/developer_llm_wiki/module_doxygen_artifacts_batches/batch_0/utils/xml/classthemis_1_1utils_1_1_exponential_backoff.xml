@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_exponential_backoff" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::ExponentialBackoff</compoundname>
+    <includes refid="retry__policy_8h" local="no">retry_policy.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_exponential_backoff_1a4312e511de0194bace834d628433ed44" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_retry_config" kindref="compound">RetryConfig</ref></type>
+        <definition>RetryConfig themis::utils::ExponentialBackoff::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::utils::ExponentialBackoff::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_policy.h" line="115" column="17" bodyfile="include/utils/retry_policy.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_exponential_backoff_1a8afba0ea78dbdb7fec49a9175c7e004b" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::ExponentialBackoff::current_ms_</definition>
+        <argsstring></argsstring>
+        <name>current_ms_</name>
+        <qualifiedname>themis::utils::ExponentialBackoff::current_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_policy.h" line="116" column="17" bodyfile="include/utils/retry_policy.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_exponential_backoff_1acd22d9073f950eeec28b0d80a1a2e7a8" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::ExponentialBackoff::attempt_</definition>
+        <argsstring></argsstring>
+        <name>attempt_</name>
+        <qualifiedname>themis::utils::ExponentialBackoff::attempt_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_policy.h" line="117" column="17" bodyfile="include/utils/retry_policy.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_exponential_backoff_1a8a4d99036a94b5c19f4d43e9b1a52ae4" prot="private" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themis::utils::ExponentialBackoff::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themis::utils::ExponentialBackoff::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_policy.h" line="118" column="18" bodyfile="include/utils/retry_policy.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_exponential_backoff_1aad75935fb9996f40784062cbc4eeaa19" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ExponentialBackoff::ExponentialBackoff</definition>
+        <argsstring>(const RetryConfig &amp;cfg)</argsstring>
+        <name>ExponentialBackoff</name>
+        <qualifiedname>themis::utils::ExponentialBackoff::ExponentialBackoff</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_policy.h" line="69" column="14" bodyfile="include/utils/retry_policy.h" bodystart="69" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_exponential_backoff_1ac34063d3cf0c991599632491c461daf1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::ExponentialBackoff::wait</definition>
+        <argsstring>()</argsstring>
+        <name>wait</name>
+        <qualifiedname>themis::utils::ExponentialBackoff::wait</qualifiedname>
+        <briefdescription>
+<para>Sleep for the current backoff duration, then advance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>false after <computeroutput>max_attempts - 1</computeroutput> calls (no more retries remain). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_policy.h" line="80" column="10" bodyfile="include/utils/retry_policy.h" bodystart="80" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_exponential_backoff_1ac0b8a0fb74aeeb1ae75562129571e9f0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::ExponentialBackoff::current_delay_ms</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>current_delay_ms</name>
+        <qualifiedname>themis::utils::ExponentialBackoff::current_delay_ms</qualifiedname>
+        <briefdescription>
+<para>Return the current computed delay in milliseconds (before jitter). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_policy.h" line="107" column="15" bodyfile="include/utils/retry_policy.h" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_exponential_backoff_1a368c6864da323dc125feb26059131e21" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::ExponentialBackoff::attempts</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>attempts</name>
+        <qualifiedname>themis::utils::ExponentialBackoff::attempts</qualifiedname>
+        <briefdescription>
+<para>Return the number of waits performed so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_policy.h" line="112" column="15" bodyfile="include/utils/retry_policy.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateful exponential-backoff sleep helper. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Useful when the caller manages the retry loop explicitly (e.g. to check a cancellation token between attempts).</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_exponential_backoff_1aad75935fb9996f40784062cbc4eeaa19" kindref="member">ExponentialBackoff</ref><sp/>bo(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cfg.max_attempts;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(try_once())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!bo.wait())<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>max<sp/>backoff<sp/>iterations<sp/>reached</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/utils/retry_policy.h" line="67" column="1" bodyfile="include/utils/retry_policy.h" bodystart="67" bodyend="119"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_exponential_backoff_1acd22d9073f950eeec28b0d80a1a2e7a8" prot="private" virt="non-virtual"><scope>themis::utils::ExponentialBackoff</scope><name>attempt_</name></member>
+      <member refid="classthemis_1_1utils_1_1_exponential_backoff_1a368c6864da323dc125feb26059131e21" prot="public" virt="non-virtual"><scope>themis::utils::ExponentialBackoff</scope><name>attempts</name></member>
+      <member refid="classthemis_1_1utils_1_1_exponential_backoff_1a4312e511de0194bace834d628433ed44" prot="private" virt="non-virtual"><scope>themis::utils::ExponentialBackoff</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1utils_1_1_exponential_backoff_1ac0b8a0fb74aeeb1ae75562129571e9f0" prot="public" virt="non-virtual"><scope>themis::utils::ExponentialBackoff</scope><name>current_delay_ms</name></member>
+      <member refid="classthemis_1_1utils_1_1_exponential_backoff_1a8afba0ea78dbdb7fec49a9175c7e004b" prot="private" virt="non-virtual"><scope>themis::utils::ExponentialBackoff</scope><name>current_ms_</name></member>
+      <member refid="classthemis_1_1utils_1_1_exponential_backoff_1aad75935fb9996f40784062cbc4eeaa19" prot="public" virt="non-virtual"><scope>themis::utils::ExponentialBackoff</scope><name>ExponentialBackoff</name></member>
+      <member refid="classthemis_1_1utils_1_1_exponential_backoff_1a8a4d99036a94b5c19f4d43e9b1a52ae4" prot="private" virt="non-virtual"><scope>themis::utils::ExponentialBackoff</scope><name>rng_</name></member>
+      <member refid="classthemis_1_1utils_1_1_exponential_backoff_1ac34063d3cf0c991599632491c461daf1" prot="public" virt="non-virtual"><scope>themis::utils::ExponentialBackoff</scope><name>wait</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

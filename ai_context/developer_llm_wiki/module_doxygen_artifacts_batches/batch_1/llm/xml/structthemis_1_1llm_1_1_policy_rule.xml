@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_policy_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PolicyRule</compoundname>
+    <includes refid="prompt__policy_8h" local="no">prompt_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_policy_rule_1a2dd69f4e81adb21151a8bb22fd96b81d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PolicyRule::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::PolicyRule::name</qualifiedname>
+        <briefdescription>
+<para>unique rule identifier (used in audit log) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="31" column="17" bodyfile="include/llm/prompt_policy.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_policy_rule_1a2ef7171ba68f91fd4313dca2fa0f8d8c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PolicyRule::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::llm::PolicyRule::pattern</qualifiedname>
+        <briefdescription>
+<para>ECMAScript regex pattern string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="32" column="17" bodyfile="include/llm/prompt_policy.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_policy_rule_1a2da4077c58b2319ff6d8ea35878e5487" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::PolicyRule::block</definition>
+        <argsstring></argsstring>
+        <name>block</name>
+        <qualifiedname>themis::llm::PolicyRule::block</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>if true, matched prompt is blocked outright </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="33" column="10" bodyfile="include/llm/prompt_policy.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_policy_rule_1ad9f00998bcf99c86751be463fd5f1363" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PolicyRule::redact_with</definition>
+        <argsstring></argsstring>
+        <name>redact_with</name>
+        <qualifiedname>themis::llm::PolicyRule::redact_with</qualifiedname>
+        <briefdescription>
+<para>replacement text when block==false (default &quot;[REDACTED]&quot;) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="34" column="17" bodyfile="include/llm/prompt_policy.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_policy_rule_1ac3cf2a41da89bf446a97639f488135a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PolicyRule::PolicyRule</definition>
+        <argsstring>()=default</argsstring>
+        <name>PolicyRule</name>
+        <qualifiedname>themis::llm::PolicyRule::PolicyRule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_policy_rule_1a3fb72d2a3cc89fb9b43cc67a2495d953" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PolicyRule::PolicyRule</definition>
+        <argsstring>(std::string name_, std::string pattern_, bool block_, std::string redact=&quot;[REDACTED]&quot;)</argsstring>
+        <name>PolicyRule</name>
+        <qualifiedname>themis::llm::PolicyRule::PolicyRule</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name_</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>pattern_</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>block_</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>redact</declname>
+          <defval>&quot;[REDACTED]&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="37" column="5" bodyfile="include/llm/prompt_policy.h" bodystart="37" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/prompt_policy.h" line="30" column="1" bodyfile="include/llm/prompt_policy.h" bodystart="30" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_policy_rule_1a2da4077c58b2319ff6d8ea35878e5487" prot="public" virt="non-virtual"><scope>themis::llm::PolicyRule</scope><name>block</name></member>
+      <member refid="structthemis_1_1llm_1_1_policy_rule_1a2dd69f4e81adb21151a8bb22fd96b81d" prot="public" virt="non-virtual"><scope>themis::llm::PolicyRule</scope><name>name</name></member>
+      <member refid="structthemis_1_1llm_1_1_policy_rule_1a2ef7171ba68f91fd4313dca2fa0f8d8c" prot="public" virt="non-virtual"><scope>themis::llm::PolicyRule</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1llm_1_1_policy_rule_1ac3cf2a41da89bf446a97639f488135a9" prot="public" virt="non-virtual"><scope>themis::llm::PolicyRule</scope><name>PolicyRule</name></member>
+      <member refid="structthemis_1_1llm_1_1_policy_rule_1a3fb72d2a3cc89fb9b43cc67a2495d953" prot="public" virt="non-virtual"><scope>themis::llm::PolicyRule</scope><name>PolicyRule</name></member>
+      <member refid="structthemis_1_1llm_1_1_policy_rule_1ad9f00998bcf99c86751be463fd5f1363" prot="public" virt="non-virtual"><scope>themis::llm::PolicyRule</scope><name>redact_with</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

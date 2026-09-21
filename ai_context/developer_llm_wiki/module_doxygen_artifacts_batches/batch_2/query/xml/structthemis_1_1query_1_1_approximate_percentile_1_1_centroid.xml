@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_approximate_percentile_1_1_centroid" kind="struct" language="C++" prot="private">
+    <compoundname>themis::query::ApproximatePercentile::Centroid</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_approximate_percentile_1_1_centroid_1ad9beddac3a0b08c26543dfa9a9c64ee4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::ApproximatePercentile::Centroid::mean</definition>
+        <argsstring></argsstring>
+        <name>mean</name>
+        <qualifiedname>themis::query::ApproximatePercentile::Centroid::mean</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="107" column="16" bodyfile="include/query/approximate_aggregator.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_approximate_percentile_1_1_centroid_1a0d04bc962863a59889220477fac51fac" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::ApproximatePercentile::Centroid::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::query::ApproximatePercentile::Centroid::weight</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/approximate_aggregator.h" line="108" column="16" bodyfile="include/query/approximate_aggregator.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/approximate_aggregator.h" line="106" column="5" bodyfile="include/query/approximate_aggregator.h" bodystart="106" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_approximate_percentile_1_1_centroid_1ad9beddac3a0b08c26543dfa9a9c64ee4" prot="public" virt="non-virtual"><scope>themis::query::ApproximatePercentile::Centroid</scope><name>mean</name></member>
+      <member refid="structthemis_1_1query_1_1_approximate_percentile_1_1_centroid_1a0d04bc962863a59889220477fac51fac" prot="public" virt="non-virtual"><scope>themis::query::ApproximatePercentile::Centroid</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

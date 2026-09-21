@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_macro_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::MacroOptions</compoundname>
+    <includes refid="voice__macro_8h" local="no">voice_macro.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_options_1aa0bd579771ca3aa2278405b64e7b123b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::MacroOptions::require_confirmation</definition>
+        <argsstring></argsstring>
+        <name>require_confirmation</name>
+        <qualifiedname>themis::voice::MacroOptions::require_confirmation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true the assistant asks for verbal confirmation before executing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="84" column="10" bodyfile="include/voice/voice_macro.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_options_1a57c9090137645b730346e75a0eaab2ec" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::MacroOptions::required_permissions</definition>
+        <argsstring></argsstring>
+        <name>required_permissions</name>
+        <qualifiedname>themis::voice::MacroOptions::required_permissions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Permission tokens that the calling session must hold. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="86" column="17" bodyfile="include/voice/voice_macro.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_options_1a7c44d70de0e0ad85fa53c8c3e1056385" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::MacroOptions::max_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_execution_time_ms</name>
+        <qualifiedname>themis::voice::MacroOptions::max_execution_time_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Hard timeout for the entire macro execution (ms). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="88" column="9" bodyfile="include/voice/voice_macro.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_options_1a4ed16373edf85f554237c236bc4bf7c6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::MacroOptions::log_execution</definition>
+        <argsstring></argsstring>
+        <name>log_execution</name>
+        <qualifiedname>themis::voice::MacroOptions::log_execution</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Whether to write an entry to the audit log on each execution. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="90" column="10" bodyfile="include/voice/voice_macro.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_options_1afd67e0e238771130bbb188995727d7b3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8a" kindref="member">Priority</ref></type>
+        <definition>Priority themis::voice::MacroOptions::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::voice::MacroOptions::priority</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8aa1e23852820b9154316c7c06e2b7ba051" kindref="member">Priority::NORMAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execution priority. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="92" column="14" bodyfile="include/voice/voice_macro.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Options controlling macro execution behaviour. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_macro.h" line="82" column="1" bodyfile="include/voice/voice_macro.h" bodystart="82" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_macro_options_1a4ed16373edf85f554237c236bc4bf7c6" prot="public" virt="non-virtual"><scope>themis::voice::MacroOptions</scope><name>log_execution</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_options_1a7c44d70de0e0ad85fa53c8c3e1056385" prot="public" virt="non-virtual"><scope>themis::voice::MacroOptions</scope><name>max_execution_time_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_options_1afd67e0e238771130bbb188995727d7b3" prot="public" virt="non-virtual"><scope>themis::voice::MacroOptions</scope><name>priority</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_options_1aa0bd579771ca3aa2278405b64e7b123b" prot="public" virt="non-virtual"><scope>themis::voice::MacroOptions</scope><name>require_confirmation</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_options_1a57c9090137645b730346e75a0eaab2ec" prot="public" virt="non-virtual"><scope>themis::voice::MacroOptions</scope><name>required_permissions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

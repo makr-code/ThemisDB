@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_process_model_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>ProcessModelHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_process_model_hardening_test_1ade3ae8f04a132041459c083be67aeb49" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; ProcessModelHardeningTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ProcessModelHardeningTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_contract_hardening_focused.cpp" line="122" column="21" bodyfile="tests/process/test_process_contract_hardening_focused.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_model_hardening_test_1a7d65d57d72044d712ef0ef6318474b1f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ProcessModelManager&gt; ProcessModelHardeningTest::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>ProcessModelHardeningTest::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_contract_hardening_focused.cpp" line="123" column="21" bodyfile="tests/process/test_process_contract_hardening_focused.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_model_hardening_test_1ad621994b32635ac3166bdcaa49075e48" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ProcessModelHardeningTest::temp_db_path_</definition>
+        <argsstring></argsstring>
+        <name>temp_db_path_</name>
+        <qualifiedname>ProcessModelHardeningTest::temp_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_contract_hardening_focused.cpp" line="124" column="17" bodyfile="tests/process/test_process_contract_hardening_focused.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_process_model_hardening_test_1a82f58188a8ab2197935a7a5d3eeaf273" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessModelHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ProcessModelHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_contract_hardening_focused.cpp" line="103" column="10" bodyfile="tests/process/test_process_contract_hardening_focused.cpp" bodystart="103" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_process_model_hardening_test_1a5954a3ca090e579531fc92cceb6eb32d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessModelHardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ProcessModelHardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_contract_hardening_focused.cpp" line="116" column="10" bodyfile="tests/process/test_process_contract_hardening_focused.cpp" bodystart="116" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ProcessModelHardeningTest</label>
+        <link refid="class_process_model_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ProcessModelHardeningTest</label>
+        <link refid="class_process_model_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_contract_hardening_focused.cpp" line="101" column="1" bodyfile="tests/process/test_process_contract_hardening_focused.cpp" bodystart="101" bodyend="125"/>
+    <listofallmembers>
+      <member refid="class_process_model_hardening_test_1ade3ae8f04a132041459c083be67aeb49" prot="protected" virt="non-virtual"><scope>ProcessModelHardeningTest</scope><name>db_</name></member>
+      <member refid="class_process_model_hardening_test_1a7d65d57d72044d712ef0ef6318474b1f" prot="protected" virt="non-virtual"><scope>ProcessModelHardeningTest</scope><name>manager_</name></member>
+      <member refid="class_process_model_hardening_test_1a82f58188a8ab2197935a7a5d3eeaf273" prot="protected" virt="non-virtual"><scope>ProcessModelHardeningTest</scope><name>SetUp</name></member>
+      <member refid="class_process_model_hardening_test_1a5954a3ca090e579531fc92cceb6eb32d" prot="protected" virt="non-virtual"><scope>ProcessModelHardeningTest</scope><name>TearDown</name></member>
+      <member refid="class_process_model_hardening_test_1ad621994b32635ac3166bdcaa49075e48" prot="protected" virt="non-virtual"><scope>ProcessModelHardeningTest</scope><name>temp_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

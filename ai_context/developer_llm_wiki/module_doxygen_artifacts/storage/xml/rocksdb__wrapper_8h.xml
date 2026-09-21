@@ -1,0 +1,1046 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rocksdb__wrapper_8h" kind="file" language="C++">
+    <compoundname>rocksdb_wrapper.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includes refid="nvme__manager_8h" local="yes">storage/nvme_manager.h</includes>
+    <includedby refid="bench__batch__insert_8cpp" local="yes">benchmarks/storage/bench_batch_insert.cpp</includedby>
+    <includedby refid="bench__crud_8cpp" local="yes">benchmarks/storage/bench_crud.cpp</includedby>
+    <includedby refid="bench__insert__profiling_8cpp" local="yes">benchmarks/storage/bench_insert_profiling.cpp</includedby>
+    <includedby refid="bench__mvcc_8cpp" local="yes">benchmarks/storage/bench_mvcc.cpp</includedby>
+    <includedby refid="bench__simple__insert__test_8cpp" local="yes">benchmarks/storage/bench_simple_insert_test.cpp</includedby>
+    <includedby refid="bench__storage__performance_8cpp" local="yes">benchmarks/storage/bench_storage_performance.cpp</includedby>
+    <includedby refid="bench__wal__stress_8cpp" local="yes">benchmarks/storage/bench_wal_stress.cpp</includedby>
+    <includedby refid="compaction__manager_8h" local="yes">include/storage/compaction_manager.h</includedby>
+    <includedby refid="history__manager_8h" local="yes">include/storage/history_manager.h</includedby>
+    <includedby refid="mvcc__store_8h" local="yes">include/storage/mvcc_store.h</includedby>
+    <includedby refid="security__signature__manager_8h" local="yes">include/storage/security_signature_manager.h</includedby>
+    <includedby refid="storage__engine_8h" local="yes">include/storage/storage_engine.h</includedby>
+    <includedby refid="streaming__ingest__manager_8h" local="yes">include/storage/streaming_ingest_manager.h</includedby>
+    <includedby refid="backup__manager_8cpp" local="yes">src/storage/backup_manager.cpp</includedby>
+    <includedby refid="index__analyzer_8cpp" local="yes">src/storage/index_analyzer.cpp</includedby>
+    <includedby refid="index__maintenance_8cpp" local="yes">src/storage/index_maintenance.cpp</includedby>
+    <includedby refid="pitr__manager_8cpp" local="yes">src/storage/pitr_manager.cpp</includedby>
+    <includedby refid="rocksdb__wrapper_8cpp" local="yes">src/storage/rocksdb_wrapper.cpp</includedby>
+    <includedby refid="storage__engine_8cpp" local="yes">src/storage/storage_engine.cpp</includedby>
+    <includedby refid="tensor__network__storage__engine_8cpp" local="yes">src/storage/tensor_network_storage_engine.cpp</includedby>
+    <includedby refid="test__mvcc__chain__pruner_8cpp" local="yes">tests/storage/test_mvcc_chain_pruner.cpp</includedby>
+    <includedby refid="test__storage__latency__bench_8cpp" local="yes">tests/storage/test_storage_latency_bench.cpp</includedby>
+    <incdepgraph>
+      <node id="12">
+        <label>storage/nvme_manager.h</label>
+        <link refid="nvme__manager_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/rocksdb_wrapper.h</label>
+        <link refid="rocksdb__wrapper_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>condition_variable</label>
+      </node>
+      <node id="13">
+        <label>cstddef</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/storage/bench_batch_insert.cpp</label>
+        <link refid="bench__batch__insert_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/storage/bench_crud.cpp</label>
+        <link refid="bench__crud_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/storage/bench_insert_profiling.cpp</label>
+        <link refid="bench__insert__profiling_8cpp"/>
+      </node>
+      <node id="5">
+        <label>benchmarks/storage/bench_mvcc.cpp</label>
+        <link refid="bench__mvcc_8cpp"/>
+      </node>
+      <node id="6">
+        <label>benchmarks/storage/bench_simple_insert_test.cpp</label>
+        <link refid="bench__simple__insert__test_8cpp"/>
+      </node>
+      <node id="7">
+        <label>benchmarks/storage/bench_storage_performance.cpp</label>
+        <link refid="bench__storage__performance_8cpp"/>
+      </node>
+      <node id="8">
+        <label>benchmarks/storage/bench_wal_stress.cpp</label>
+        <link refid="bench__wal__stress_8cpp"/>
+      </node>
+      <node id="10">
+        <label>include/storage/adaptive_compaction.h</label>
+        <link refid="adaptive__compaction_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/storage/compaction_manager.h</label>
+        <link refid="compaction__manager_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/storage/examples/schema_layout_advisor_example.cpp</label>
+        <link refid="schema__layout__advisor__example_8cpp"/>
+      </node>
+      <node id="15">
+        <label>include/storage/history_manager.h</label>
+        <link refid="history__manager_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/storage/mvcc_chain_pruner.h</label>
+        <link refid="mvcc__chain__pruner_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/storage/mvcc_store.h</label>
+        <link refid="mvcc__store_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/storage/raft_mvcc_bridge.h</label>
+        <link refid="raft__mvcc__bridge_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/rocksdb_wrapper.h</label>
+        <link refid="rocksdb__wrapper_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/storage/security_signature_manager.h</label>
+        <link refid="security__signature__manager_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/storage/storage_engine.h</label>
+        <link refid="storage__engine_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/storage/streaming_ingest_manager.h</label>
+        <link refid="streaming__ingest__manager_8h"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>src/storage/adaptive_compaction.cpp</label>
+        <link refid="adaptive__compaction_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/storage/backup_manager.cpp</label>
+        <link refid="backup__manager_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/storage/compaction_manager.cpp</label>
+        <link refid="compaction__manager_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/storage/history_manager.cpp</label>
+        <link refid="history__manager_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/storage/index_analyzer.cpp</label>
+        <link refid="index__analyzer_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/storage/index_maintenance.cpp</label>
+        <link refid="index__maintenance_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/storage/mvcc_chain_pruner.cpp</label>
+        <link refid="mvcc__chain__pruner_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/storage/mvcc_store.cpp</label>
+        <link refid="mvcc__store_8cpp"/>
+      </node>
+      <node id="38">
+        <label>src/storage/pitr_manager.cpp</label>
+        <link refid="pitr__manager_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/storage/raft_mvcc_bridge.cpp</label>
+        <link refid="raft__mvcc__bridge_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/storage/rocksdb_wrapper.cpp</label>
+        <link refid="rocksdb__wrapper_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/storage/security_signature_manager.cpp</label>
+        <link refid="security__signature__manager_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/storage/storage_engine.cpp</label>
+        <link refid="storage__engine_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/storage/streaming_ingest_manager.cpp</label>
+        <link refid="streaming__ingest__manager_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/storage/tensor_network_storage_engine.cpp</label>
+        <link refid="tensor__network__storage__engine_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/storage/test_mvcc_chain_pruner.cpp</label>
+        <link refid="test__mvcc__chain__pruner_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/storage/test_storage_engine_di.cpp</label>
+        <link refid="test__storage__engine__di_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/storage/test_storage_engine_move_semantics.cpp</label>
+        <link refid="test__storage__engine__move__semantics_8cpp"/>
+      </node>
+      <node id="31">
+        <label>tests/storage/test_storage_engine_prod.cpp</label>
+        <link refid="test__storage__engine__prod_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/storage/test_storage_latency_bench.cpp</label>
+        <link refid="test__storage__latency__bench_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/storage/test_storage_query_index_explicit_di.cpp</label>
+        <link refid="test__storage__query__index__explicit__di_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/storage/test_wave1_critical_fixes.cpp</label>
+        <link refid="test__wave1__critical__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classrocksdb_1_1_transaction_d_b" prot="public">rocksdb::TransactionDB</innerclass>
+    <innerclass refid="classrocksdb_1_1_transaction" prot="public">rocksdb::Transaction</innerclass>
+    <innerclass refid="classrocksdb_1_1_write_batch" prot="public">rocksdb::WriteBatch</innerclass>
+    <innerclass refid="classrocksdb_1_1_write_batch_with_index" prot="public">rocksdb::WriteBatchWithIndex</innerclass>
+    <innerclass refid="structrocksdb_1_1_options" prot="public">rocksdb::Options</innerclass>
+    <innerclass refid="structrocksdb_1_1_read_options" prot="public">rocksdb::ReadOptions</innerclass>
+    <innerclass refid="structrocksdb_1_1_write_options" prot="public">rocksdb::WriteOptions</innerclass>
+    <innerclass refid="structrocksdb_1_1_transaction_d_b_options" prot="public">rocksdb::TransactionDBOptions</innerclass>
+    <innerclass refid="structrocksdb_1_1_transaction_options" prot="public">rocksdb::TransactionOptions</innerclass>
+    <innerclass refid="classrocksdb_1_1_snapshot" prot="public">rocksdb::Snapshot</innerclass>
+    <innerclass refid="classrocksdb_1_1_d_b" prot="public">rocksdb::DB</innerclass>
+    <innerclass refid="classrocksdb_1_1_column_family_handle" prot="public">rocksdb::ColumnFamilyHandle</innerclass>
+    <innerclass refid="classrocksdb_1_1_event_listener" prot="public">rocksdb::EventListener</innerclass>
+    <innerclass refid="classrocksdb_1_1_iterator" prot="public">rocksdb::Iterator</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper" prot="public">themis::RocksDBWrapper</innerclass>
+    <innerclass refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" prot="public">themis::RocksDBWrapper::Config</innerclass>
+    <innerclass refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1_1_db_path" prot="public">themis::RocksDBWrapper::Config::DbPath</innerclass>
+    <innerclass refid="structthemis_1_1_rocks_d_b_wrapper_1_1_key_value_pair" prot="public">themis::RocksDBWrapper::KeyValuePair</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper" prot="public">themis::RocksDBWrapper::WriteBatchWrapper</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper" prot="public">themis::RocksDBWrapper::WriteBatchWithIndexWrapper</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper" prot="public">themis::RocksDBWrapper::TransactionWrapper</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator" prot="public">themis::RocksDBWrapper::SafeIterator</innerclass>
+    <innerclass refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info" prot="public">themis::RocksDBWrapper::CFInfo</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard" prot="private">themis::RocksDBWrapper::OperationGuard</innerclass>
+    <innernamespace refid="namespacerocksdb">rocksdb</innernamespace>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="rocksdb__wrapper_8h_1a9d983c79d761c94d19f871b6f0f88ddb" prot="public" static="no">
+        <name>THEMIS_ROCKSDB_HEADERS_AVAILABLE</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="38" column="10" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="nvme__manager_8h" kindref="compound">storage/nvme_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RocksDB<sp/>forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Note:<sp/>rocksdb/iterator.h<sp/>is<sp/>included<sp/>for<sp/>full<sp/>Iterator<sp/>definition<sp/>needed<sp/>by<sp/>std::unique_ptr.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_ROCKSDB_AVAILABLE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_ROCKSDB_HEADERS_AVAILABLE<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__has_include)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>__has_include(&lt;rocksdb/iterator.h&gt;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_ROCKSDB_HEADERS_AVAILABLE<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_ROCKSDB_HEADERS_AVAILABLE<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="rocksdb__wrapper_8h_1a9d983c79d761c94d19f871b6f0f88ddb" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_ROCKSDB_HEADERS_AVAILABLE<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>THEMIS_ROCKSDB_HEADERS_AVAILABLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;rocksdb/iterator.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacerocksdb" kindref="compound">rocksdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>THEMIS_ROCKSDB_HEADERS_AVAILABLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">TransactionDB;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Transaction;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">WriteBatch;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">WriteBatchWithIndex;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Options;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ReadOptions;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">WriteOptions;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TransactionDBOptions;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TransactionOptions;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Snapshot;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">DB;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ColumnFamilyHandle;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">EventListener;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>declarations<sp/>when<sp/>RocksDB<sp/>is<sp/>not<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classrocksdb_1_1_transaction_d_b" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">TransactionDB</ref><sp/>{};</highlight></codeline>
+<codeline lineno="65" refid="classrocksdb_1_1_transaction" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrocksdb_1_1_transaction" kindref="compound">Transaction</ref><sp/>{};</highlight></codeline>
+<codeline lineno="67" refid="classrocksdb_1_1_write_batch" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrocksdb_1_1_write_batch" kindref="compound">WriteBatch</ref><sp/>{};</highlight></codeline>
+<codeline lineno="69" refid="classrocksdb_1_1_write_batch_with_index" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrocksdb_1_1_write_batch_with_index" kindref="compound">WriteBatchWithIndex</ref><sp/>{};</highlight></codeline>
+<codeline lineno="70" refid="structrocksdb_1_1_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structrocksdb_1_1_options" kindref="compound">Options</ref><sp/>{};</highlight></codeline>
+<codeline lineno="71" refid="structrocksdb_1_1_read_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structrocksdb_1_1_read_options" kindref="compound">ReadOptions</ref><sp/>{};</highlight></codeline>
+<codeline lineno="72" refid="structrocksdb_1_1_write_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structrocksdb_1_1_write_options" kindref="compound">WriteOptions</ref><sp/>{};</highlight></codeline>
+<codeline lineno="73" refid="structrocksdb_1_1_transaction_d_b_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structrocksdb_1_1_transaction_d_b_options" kindref="compound">TransactionDBOptions</ref><sp/>{};</highlight></codeline>
+<codeline lineno="74" refid="structrocksdb_1_1_transaction_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structrocksdb_1_1_transaction_options" kindref="compound">TransactionOptions</ref><sp/>{};</highlight></codeline>
+<codeline lineno="76" refid="classrocksdb_1_1_snapshot" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrocksdb_1_1_snapshot" kindref="compound">Snapshot</ref><sp/>{};</highlight></codeline>
+<codeline lineno="78" refid="classrocksdb_1_1_d_b" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrocksdb_1_1_d_b" kindref="compound">DB</ref><sp/>{};</highlight></codeline>
+<codeline lineno="80" refid="classrocksdb_1_1_column_family_handle" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrocksdb_1_1_column_family_handle" kindref="compound">ColumnFamilyHandle</ref><sp/>{};</highlight></codeline>
+<codeline lineno="82" refid="classrocksdb_1_1_event_listener" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrocksdb_1_1_event_listener" kindref="compound">EventListener</ref><sp/>{};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Iterator<sp/>stub<sp/>-<sp/>needs<sp/>to<sp/>be<sp/>a<sp/>real<sp/>class<sp/>for<sp/>unique_ptr<sp/>to<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classrocksdb_1_1_iterator" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrocksdb_1_1_iterator" kindref="compound">Iterator</ref><sp/>{};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">BaseEntity;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1_rocks_d_b_wrapper" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aac7b570e259673885921721d3e43aef4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aac7b570e259673885921721d3e43aef4" kindref="member">db_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/rocksdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>separates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8b02d7f473489953f11e0b6f183bd149" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8b02d7f473489953f11e0b6f183bd149" kindref="member">wal_dir</ref>;<sp/></highlight><highlight class="comment">//<sp/>wenn<sp/>leer<sp/>-&gt;<sp/>Standard<sp/>unter<sp/>db_path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1_1_db_path_1ab8b7ce64291825df701a0f9e518fb2f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1_1_db_path" kindref="compound">DbPath</ref><sp/>{<sp/>std::string<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1_1_db_path_1ab8b7ce64291825df701a0f9e518fb2f2" kindref="member">path</ref>;<sp/>uint64_t<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1_1_db_path_1afeb8a9fa873b2a95c014107992ce3de7" kindref="member">target_size_bytes</ref>;<sp/>};</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4530a4d5d195f49d7220aee0160e853b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;DbPath&gt;<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4530a4d5d195f49d7220aee0160e853b" kindref="member">db_paths</ref>;<sp/></highlight><highlight class="comment">//<sp/>für<sp/>SSTables<sp/>auf<sp/>mehreren<sp/>NVMe-Mounts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read-Only<sp/>Mode<sp/>(v1.4.0+)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Öffnet<sp/>Datenbank<sp/>im<sp/>Read-Only-Modus<sp/>-<sp/>keine<sp/>Schreiboperationen<sp/>möglich</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verhindert<sp/>WAL-Updates<sp/>und<sp/>Compactions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ideal<sp/>für:<sp/>Dokumentations-Datenbanken,<sp/>Archiv-Daten,<sp/>Backup-Verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad6081a14708c0bdde685de2490be4d47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad6081a14708c0bdde685de2490be4d47" kindref="member">read_only</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write-Amplification<sp/>Optimization<sp/>(v1.5.0+):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Larger<sp/>memtables<sp/>reduce<sp/>write-amplification<sp/>by<sp/>reducing<sp/>flush<sp/>frequency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>512MB<sp/>memtable<sp/>→<sp/>~50%<sp/>fewer<sp/>L0<sp/>files<sp/>→<sp/>~30-40%<sp/>less<sp/>write-amp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trade-off:<sp/>Higher<sp/>memory<sp/>usage,<sp/>longer<sp/>recovery<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9f7602d4738f192191261a5768826143" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9f7602d4738f192191261a5768826143" kindref="member">memtable_size_mb</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aafc6288f91766d2d39057f0a0e88d3b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aafc6288f91766d2d39057f0a0e88d3b3" kindref="member">block_cache_size_mb</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a259ddbe43090e82b6a1c6dd32635ac44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a259ddbe43090e82b6a1c6dd32635ac44" kindref="member">block_cache_shard_bits</ref><sp/>=<sp/>-1;<sp/><sp/></highlight><highlight class="comment">//<sp/>-1<sp/>=<sp/>auto,<sp/>4<sp/>=<sp/>16<sp/>shards,<sp/>6<sp/>=<sp/>64<sp/>shards<sp/>(better<sp/>for<sp/>8+<sp/>threads)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5bc4e69c18c41f1a864f2c34d39c5f79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5bc4e69c18c41f1a864f2c34d39c5f79" kindref="member">cache_index_and_filter_blocks</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad433a5f8bfc376360dc3fb95de06fe72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad433a5f8bfc376360dc3fb95de06fe72" kindref="member">pin_l0_filter_and_index_blocks_in_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3120003d0c8630b05ec0bdbbc926f67f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3120003d0c8630b05ec0bdbbc926f67f" kindref="member">partition_filters</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ac3e6b18326d9e8763f6de506bbaa9010" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ac3e6b18326d9e8763f6de506bbaa9010" kindref="member">high_pri_pool_ratio</ref><sp/>=<sp/>0.5;<sp/></highlight><highlight class="comment">//<sp/>Anteil<sp/>für<sp/>Index/Filter<sp/>im<sp/>Cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a1f5488ef74c4b34f4424eaf6d405c6c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a1f5488ef74c4b34f4424eaf6d405c6c0" kindref="member">bloom_bits_per_key</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1adc4f26507263cbaa4de37217fbb6e357" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1adc4f26507263cbaa4de37217fbb6e357" kindref="member">enable_wal</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ae30db4b39dcca5f181385bdb1018326d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ae30db4b39dcca5f181385bdb1018326d" kindref="member">enable_blobdb</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ac9e7cc86be35b0e3eb67d81471e1ad8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ac9e7cc86be35b0e3eb67d81471e1ad8c" kindref="member">enable_statistics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>allow<sp/>disabling<sp/>stats<sp/>in<sp/>microbenchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7db76263164cfbf2d6aefff033ecc18c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7db76263164cfbf2d6aefff033ecc18c" kindref="member">blob_size_threshold</ref><sp/>=<sp/>4096;<sp/><sp/></highlight><highlight class="comment">//<sp/>Files<sp/>&gt;<sp/>4KB<sp/>go<sp/>to<sp/>BlobDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8472be97835a1f2eabcdba354cf404c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8472be97835a1f2eabcdba354cf404c0" kindref="member">max_background_jobs</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2H:<sp/>Granular<sp/>background<sp/>thread<sp/>control<sp/>for<sp/>high<sp/>parallelism</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a300f80fcb9073540954a0f02a50b72b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a300f80fcb9073540954a0f02a50b72b8" kindref="member">max_background_compactions</ref><sp/>=<sp/>-1;<sp/><sp/></highlight><highlight class="comment">//<sp/>-1<sp/>=<sp/>use<sp/>max_background_jobs<sp/>(auto)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af4deed9aedfdf9e1763dfb7ee3dad220" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af4deed9aedfdf9e1763dfb7ee3dad220" kindref="member">max_background_flushes</ref><sp/>=<sp/>-1;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-1<sp/>=<sp/>use<sp/>max_background_jobs<sp/>(auto)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9daf884e28efc25cce9e537bf57cf33a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9daf884e28efc25cce9e537bf57cf33a" kindref="member">max_subcompactions</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parallel<sp/>sub-compactions<sp/>per<sp/>compaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a88744d5ac71f6242e2f7e4db13afeff7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a88744d5ac71f6242e2f7e4db13afeff7" kindref="member">background_threads_high</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Flush<sp/>thread<sp/>pool<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a89b7f7b0cb8bdd675bf48db9a549dfd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a89b7f7b0cb8bdd675bf48db9a549dfd0" kindref="member">background_threads_low</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compaction<sp/>thread<sp/>pool<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1adb223694d1b55d20c2364109d59cc706" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1adb223694d1b55d20c2364109d59cc706" kindref="member">enable_high_parallel_tuning</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Hybrid<sp/>flag:<sp/>apply<sp/>Phase<sp/>2H<sp/>presets<sp/>automatically</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3dda0982fe374a4d2b546524038744aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3dda0982fe374a4d2b546524038744aa" kindref="member">high_parallel_thread_threshold</ref><sp/>=<sp/>16;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Turn<sp/>on<sp/>tuning<sp/>at/above<sp/>this<sp/>concurrency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ace1fbb99e835c036a7da4f79c151bf4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ace1fbb99e835c036a7da4f79c151bf4e" kindref="member">use_universal_compaction</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a27d84bcfee644ed3214d4faeb4ea0834" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a27d84bcfee644ed3214d4faeb4ea0834" kindref="member">dynamic_level_bytes</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aee7b7b8f03ae854455df9d884da3cdd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aee7b7b8f03ae854455df9d884da3cdd9" kindref="member">target_file_size_base_mb</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2c0ed374a8bc79df32bb4a628d3acfad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2c0ed374a8bc79df32bb4a628d3acfad" kindref="member">max_bytes_for_level_base_mb</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>buffer<sp/>tuning<sp/>(Write-Amplification<sp/>Optimization<sp/>v1.5.0+)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>More<sp/>write<sp/>buffers<sp/>allow<sp/>writes<sp/>to<sp/>continue<sp/>while<sp/>flushing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>6<sp/>buffers<sp/>=<sp/>optimal<sp/>for<sp/>high-throughput<sp/>OLTP<sp/>(PERFORMANCE_TIPS.md)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abe1fd789914ad79f0eab27c76d8707e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abe1fd789914ad79f0eab27c76d8707e5" kindref="member">max_write_buffer_number</ref><sp/>=<sp/>6;</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a00496626ddd90db9300403d4e68540c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a00496626ddd90db9300403d4e68540c2" kindref="member">min_write_buffer_number_to_merge</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>write<sp/>buffer<sp/>across<sp/>all<sp/>CFs:<sp/>2GB<sp/>default<sp/>for<sp/>write-heavy<sp/>workloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Limits<sp/>total<sp/>memory<sp/>used<sp/>by<sp/>all<sp/>memtables<sp/>(prevents<sp/>OOM<sp/>on<sp/>many<sp/>CFs)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2cd680125de7d7119e6196ae8b185ea2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2cd680125de7d7119e6196ae8b185ea2" kindref="member">db_write_buffer_size_mb</ref><sp/>=<sp/>2048;<sp/><sp/></highlight><highlight class="comment">//<sp/>2GB<sp/>total<sp/>(was<sp/>0/unlimited)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2H:<sp/>Level0<sp/>file<sp/>control<sp/>to<sp/>prevent<sp/>write<sp/>stalls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a429eea40b79c2de93f8a29b35f9131d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a429eea40b79c2de93f8a29b35f9131d1" kindref="member">level0_file_num_compaction_trigger</ref><sp/>=<sp/>4;<sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>L0-&gt;L1<sp/>compaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9687a4a7f59b6a68bab0a7e93f47256c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9687a4a7f59b6a68bab0a7e93f47256c" kindref="member">level0_slowdown_writes_trigger</ref><sp/>=<sp/>20;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Slow<sp/>down<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a19c540d2a87dad2de88e78d3137a3a4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a19c540d2a87dad2de88e78d3137a3a4b" kindref="member">level0_stop_writes_trigger</ref><sp/>=<sp/>36;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stop<sp/>writes<sp/>completely</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aef584594e719a8cdbd3503adf150d6b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aef584594e719a8cdbd3503adf150d6b4" kindref="member">allow_concurrent_memtable_write</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1.3.0:<sp/>Allow<sp/>parallel<sp/>writes<sp/>to<sp/>different<sp/>memtables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad963c66f8b7080b5a234dcfc9f2b7959" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad963c66f8b7080b5a234dcfc9f2b7959" kindref="member">enable_pipelined_write</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1.3.0:<sp/>Disabled<sp/>for<sp/>TransactionDB<sp/>-<sp/>pipelined_writes<sp/>incompatible<sp/>with<sp/>concurrent<sp/>prepares</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abe314fcd291e6411839d35838da88621" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abe314fcd291e6411839d35838da88621" kindref="member">allow_unordered_write</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>unordered<sp/>writes<sp/>(better<sp/>concurrency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9db1897ef0f00f30436b86546523f915" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9db1897ef0f00f30436b86546523f915" kindref="member">disable_wal_for_benchmark</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WriteOptions::disableWAL<sp/>for<sp/>benchmark<sp/>mode<sp/>(NO<sp/>fsync<sp/>on<sp/>writes!)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>I/O</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a99b068ea8b8c04bc5078268910b3fd24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a99b068ea8b8c04bc5078268910b3fd24" kindref="member">use_direct_reads</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1acf2bd00b892ec480dd7bf42baf501e8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1acf2bd00b892ec480dd7bf42baf501e8b" kindref="member">use_direct_io_for_flush_and_compaction</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1.6.0<sp/>NVMe<sp/>Optimizations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>NVMe-specific<sp/>I/O<sp/>features<sp/>via<sp/>NVMeManager.<sp/><sp/>When<sp/>enabled,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RocksDBWrapper<sp/>constructs<sp/>an<sp/>NVMeManager,<sp/>calls<sp/>initialize(),<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>applies<sp/>its<sp/>recommended<sp/>Direct<sp/>I/O<sp/>flags<sp/>and<sp/>background-thread<sp/>counts.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>sub-features<sp/>(io_uring,<sp/>ZNS,<sp/>multi-queue)<sp/>are<sp/>controlled<sp/>via<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nvme_enable_*<sp/>and<sp/>nvme_*<sp/>fields<sp/>below.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5d1467521c64329f4019f84738861fe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5d1467521c64329f4019f84738861fe5" kindref="member">enable_nvme_optimizations</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Block-device<sp/>path<sp/>forwarded<sp/>to<sp/>NVMeManager<sp/>for<sp/>capability<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(e.g.<sp/>&quot;/dev/nvme0n1&quot;).<sp/><sp/>Leave<sp/>empty<sp/>to<sp/>skip<sp/>sysfs<sp/>probing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad7f5e1f1330669daffd595c008b9f2af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad7f5e1f1330669daffd595c008b9f2af" kindref="member">nvme_device_path</ref>;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>io_uring<sp/>queue<sp/>depth<sp/>(entries<sp/>per<sp/>ring);<sp/>ignored<sp/>when<sp/>enable_nvme_optimizations=false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3536c8f66a879eb7c23c2e5be3e5e9a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a3536c8f66a879eb7c23c2e5be3e5e9a7" kindref="member">nvme_io_uring_queue_depth</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>io_uring<sp/>Linux<sp/>async<sp/>I/O<sp/>(requires<sp/>THEMIS_ENABLE_IO_URING<sp/>and<sp/>Linux<sp/>≥<sp/>5.1).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2ca0151d862757f3d71b760d09cbc833" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2ca0151d862757f3d71b760d09cbc833" kindref="member">nvme_enable_io_uring</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>ZNS<sp/>zone-namespace<sp/>placement<sp/>(requires<sp/>a<sp/>ZNS<sp/>NVMe<sp/>device).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a93f3eb07ca1a3c7903a693de26346b31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a93f3eb07ca1a3c7903a693de26346b31" kindref="member">nvme_enable_zns</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1.3.0<sp/>Phase<sp/>2:<sp/>Async<sp/>I/O<sp/>with<sp/>Prefetching<sp/>(Enhanced<sp/>v1.5.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Async<sp/>I/O<sp/>improves<sp/>scan<sp/>performance<sp/>by<sp/>2-5x<sp/>through<sp/>prefetching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>for<sp/>workloads<sp/>with<sp/>sequential<sp/>scans,<sp/>range<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abbaa777b7310a4a3a4cb7bd567f20b5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abbaa777b7310a4a3a4cb7bd567f20b5d" kindref="member">enable_async_io</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>async<sp/>I/O<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a726ab386df0c85cc3636985005658e94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a726ab386df0c85cc3636985005658e94" kindref="member">async_io_readahead_size_mb</ref><sp/>=<sp/>128;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Increased<sp/>from<sp/>64MB<sp/>for<sp/>better<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad6f7376f2dd8c54e1299dfde68fcf94d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad6f7376f2dd8c54e1299dfde68fcf94d" kindref="member">async_io_multiget_batch_size</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MultiGet<sp/>batch<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab5667cc2f2588f94aabf737ee4630b2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab5667cc2f2588f94aabf737ee4630b2b" kindref="member">async_io_num_threads</ref><sp/>=<sp/>4;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Async<sp/>I/O<sp/>thread<sp/>pool<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1.4.1:<sp/>CPU-level<sp/>Prefetch<sp/>Hints<sp/>for<sp/>Random<sp/>Access<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Software<sp/>prefetch<sp/>hints<sp/>to<sp/>improve<sp/>cache<sp/>hit<sp/>rates<sp/>for<sp/>random<sp/>access<sp/>patterns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Based<sp/>on<sp/>research:<sp/>Chen,<sp/>T-F.,<sp/>Baer,<sp/>J-L.<sp/>(1995)<sp/>&quot;Effective<sp/>Hardware-Based<sp/>Data<sp/>Prefetching<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>High-Performance<sp/>Processors&quot;,<sp/>IEEE<sp/>Transactions<sp/>on<sp/>Computers,<sp/>vol.<sp/>44,<sp/>no.<sp/>5,<sp/>pp.<sp/>609-623.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DOI:<sp/>10.1109/12.381947</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a375216a162e93676a02eee00f7b36cb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a375216a162e93676a02eee00f7b36cb8" kindref="member">enable_cpu_prefetch</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>CPU<sp/>prefetch<sp/>hints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2081ba9219c2e8858b2979577dc4da93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2081ba9219c2e8858b2979577dc4da93" kindref="member">prefetch_distance</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Items<sp/>to<sp/>prefetch<sp/>ahead<sp/>(1-8,<sp/>default:<sp/>2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a267627421c4845bd839458b147bf305b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a267627421c4845bd839458b147bf305b" kindref="member">prefetch_min_batch_size</ref><sp/>=<sp/>4;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>batch<sp/>size<sp/>to<sp/>enable<sp/>prefetch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>(best-effort;<sp/>depends<sp/>on<sp/>RocksDB<sp/>build)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Values:<sp/>&quot;none&quot;,<sp/>&quot;lz4&quot;,<sp/>&quot;zstd&quot;,<sp/>&quot;snappy&quot;,<sp/>&quot;zlib&quot;,<sp/>&quot;bzip2&quot;,<sp/>&quot;lz4hc&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad598c4a96b419c948d13927bc647b51a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad598c4a96b419c948d13927bc647b51a" kindref="member">compression_default</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab142b9b8ebb7fdfdff90750d5fb8ae74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab142b9b8ebb7fdfdff90750d5fb8ae74" kindref="member">compression_bottommost</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>compatibility<sp/>flags<sp/>used<sp/>by<sp/>some<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a74d25a9d499b210095d4603f8b5c68c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a74d25a9d499b210095d4603f8b5c68c9" kindref="member">wal_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>maps<sp/>to<sp/>enable_wal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abb8a1c3d614de059603fa65b53d67489" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abb8a1c3d614de059603fa65b53d67489" kindref="member">create_if_missing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>respected<sp/>in<sp/>options<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1.1.0:<sp/>TTL<sp/>(Time-To-Live)<sp/>support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8708f67372f68bdb864a9cf85c4ec602" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a8708f67372f68bdb864a9cf85c4ec602" kindref="member">enable_ttl</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>TTL<sp/>for<sp/>automatic<sp/>data<sp/>expiration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af863d09b97bd922c0f569c7b850a4c6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af863d09b97bd922c0f569c7b850a4c6a" kindref="member">ttl_seconds</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TTL<sp/>in<sp/>seconds<sp/>(0<sp/>=<sp/>disabled)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TransactionDB<sp/>write<sp/>policy<sp/>(performance<sp/>tuning)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9af" kindref="member">WritePolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9afad49125a3717732759320fe08db32a2f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9afad49125a3717732759320fe08db32a2f8" kindref="member">WriteCommitted</ref>,</highlight></codeline>
+<codeline lineno="225" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9afac52cbba54f596ff7eda73e1829e09bc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9afac52cbba54f596ff7eda73e1829e09bc5" kindref="member">WritePrepared</ref>,</highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9afaff8b7d9f9111d998e08b778c53f26fbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9afaff8b7d9f9111d998e08b778c53f26fbf" kindref="member">WriteUnprepared</ref></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5b1285f374510549efd247d9b39d9f7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9af" kindref="member">WritePolicy</ref><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a5b1285f374510549efd247d9b39d9f7f" kindref="member">write_policy</ref><sp/>=<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9e368a18a5a4945772c42258fa46e9afaff8b7d9f9111d998e08b778c53f26fbf" kindref="member">WritePolicy::WriteUnprepared</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>v1.3.0:<sp/>Use<sp/>WriteUnprepared<sp/>for<sp/>safe<sp/>Snapshot<sp/>Isolation<sp/>+<sp/>skip_prepare<sp/>compatibility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a81526f1331492f3e4ec25476848e1ec7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a81526f1331492f3e4ec25476848e1ec7" kindref="member">two_write_queues</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>dual<sp/>write<sp/>queues<sp/>(prepare/commit)<sp/>-<sp/>reduces<sp/>lock<sp/>contention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a471294b12fb943f9757b6a02e4011420" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a471294b12fb943f9757b6a02e4011420" kindref="member">wp_commit_cache_bits</ref><sp/>=<sp/>23;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2^23<sp/>~=<sp/>8M<sp/>commit<sp/>cache<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>Integrity<sp/>&amp;<sp/>Robustness<sp/>(v1.4.1+)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Based<sp/>on<sp/>research:<sp/>Bairavasundaram<sp/>et<sp/>al.<sp/>(2008),<sp/>Bonwick<sp/>et<sp/>al.<sp/>(2010)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>See<sp/>docs/DATABASE_FILE_ROBUSTNESS.md<sp/>for<sp/>details</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a891740bbc63c6c85481338adfc19fa6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a891740bbc63c6c85481338adfc19fa6b" kindref="member">paranoid_checks</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>data<sp/>on<sp/>read<sp/>(catches<sp/>corruption<sp/>early)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2fb77d41b1bb5b600fdb6a7d1f2de75c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a2fb77d41b1bb5b600fdb6a7d1f2de75c" kindref="member">verify_checksums_on_read</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>block<sp/>checksums<sp/>on<sp/>every<sp/>read</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a86303b0e661c2471c2437681d6c386f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a86303b0e661c2471c2437681d6c386f3" kindref="member">verify_checksums_in_compaction</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Background<sp/>verification<sp/>during<sp/>compaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a629dbd1282fb88f92db72bb6d6b732dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a629dbd1282fb88f92db72bb6d6b732dc" kindref="member">force_sync_on_write</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>fsync<sp/>on<sp/>every<sp/>write<sp/>(max<sp/>durability,<sp/>~30%<sp/>overhead)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af276c5d994ce9e5abe4bb5f3b4af16b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1af276c5d994ce9e5abe4bb5f3b4af16b4" kindref="member">disable_mmap_reads</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>mmap<sp/>from<sp/>hiding<sp/>I/O<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ae756b7d1d0cfd38362152aa1c1f4e003" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ae756b7d1d0cfd38362152aa1c1f4e003" kindref="member">disable_mmap_writes</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>mmap<sp/>write<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WAL<sp/>periodic<sp/>background<sp/>flush<sp/>(v1.9+)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>&gt;<sp/>0,<sp/>RocksDB<sp/>calls<sp/>fdatasync<sp/>on<sp/>the<sp/>WAL<sp/>every<sp/>wal_bytes_per_sync<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(in<sp/>the<sp/>background<sp/>write<sp/>thread),<sp/>providing<sp/>a<sp/>durability<sp/>window<sp/>without<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>per-write<sp/>fsync<sp/>overhead<sp/>of<sp/>force_sync_on_write.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recommended<sp/>value:<sp/>1<sp/>MiB<sp/>(1048576)<sp/>for<sp/>balanced<sp/>durability/throughput.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>disabled<sp/>(OS<sp/>decides<sp/>when<sp/>to<sp/>flush;<sp/>default<sp/>for<sp/>backward<sp/>compat).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a51257cf42afb9c73968cc627fb40e229" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a51257cf42afb9c73968cc627fb40e229" kindref="member">wal_bytes_per_sync</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Checksum<sp/>algorithm<sp/>(v1.4.1+)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abf" kindref="member">ChecksumType</ref><sp/>{</highlight></codeline>
+<codeline lineno="252" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abfa19c122b00447f21a2938e2602d53ceab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abfa19c122b00447f21a2938e2602d53ceab" kindref="member">CRC32</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Standard,<sp/>compatible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abfa3e1ed64413c552ca4f1d1997a0a7ef26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abfa3e1ed64413c552ca4f1d1997a0a7ef26" kindref="member">XXH3</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fastest<sp/>(3x<sp/>faster<sp/>than<sp/>CRC32,<sp/>recommended)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="255" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7b0cf1bd79f43da4902802ce592cb1e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abf" kindref="member">ChecksumType</ref><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7b0cf1bd79f43da4902802ce592cb1e4" kindref="member">checksum_type</ref><sp/>=<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4cb4efb22b0005f6d60ca1bebb230abfa3e1ed64413c552ca4f1d1997a0a7ef26" kindref="member">ChecksumType::XXH3</ref>;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>built-in<sp/>RocksDB<sp/>MergeOperator<sp/>presets.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>SequenceU64Increment<sp/>for<sp/>CDC<sp/>Changefeed<sp/>sequence<sp/>persistence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>when<sp/>components<sp/>call<sp/>DB::Merge<sp/>on<sp/>an<sp/>uint64<sp/>LE<sp/>counter<sp/>key.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5d" kindref="member">MergeOperatorPreset</ref><sp/>{</highlight></codeline>
+<codeline lineno="261" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5da6adf97f83acf6453d4a6a4b1070f3754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5da6adf97f83acf6453d4a6a4b1070f3754" kindref="member">None</ref>,</highlight></codeline>
+<codeline lineno="262" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5da4ff680812786f0396e64c15b04711f2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5da4ff680812786f0396e64c15b04711f2d" kindref="member">SequenceU64Increment</ref></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="264" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7e121bdb28a11a81c92dd9d916c6da7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5d" kindref="member">MergeOperatorPreset</ref><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a7e121bdb28a11a81c92dd9d916c6da7b" kindref="member">merge_operator_preset</ref><sp/>=</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a6f50fa883fe534751d59f6ba20777b5da6adf97f83acf6453d4a6a4b1070f3754" kindref="member">MergeOperatorPreset::None</ref>;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v2.0.0:<sp/>Streaming<sp/>blob<sp/>write<sp/>path<sp/>(PERF-D5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Blobs<sp/>&gt;=<sp/>blob_streaming_threshold_bytes<sp/>are<sp/>split<sp/>into<sp/>128KB<sp/>chunks<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>written<sp/>in<sp/>parallel<sp/>using<sp/>a<sp/>WriteBatch<sp/>(bypasses<sp/>per-write<sp/>transaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>overhead)<sp/>and<sp/>a<sp/>compact<sp/>thread<sp/>pool<sp/>for<sp/>encoding.<sp/><sp/>The<sp/>manifest<sp/>key<sp/>+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>all<sp/>chunk<sp/>keys<sp/>are<sp/>committed<sp/>atomically<sp/>in<sp/>one<sp/>WriteBatch.Write().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>putBlob()<sp/>/<sp/>getBlob()<sp/>expose<sp/>the<sp/>streaming<sp/>API;<sp/>putBlob()<sp/>falls<sp/>back<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>put()<sp/>for<sp/>small<sp/>values<sp/>so<sp/>callers<sp/>need<sp/>no<sp/>size<sp/>checks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab2b2f2d10e024e342dc1d46841e15074" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab2b2f2d10e024e342dc1d46841e15074" kindref="member">enable_blob_streaming</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>blob<sp/>size<sp/>that<sp/>triggers<sp/>the<sp/>chunked<sp/>streaming<sp/>path<sp/>(bytes).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Blobs<sp/>smaller<sp/>than<sp/>this<sp/>threshold<sp/>are<sp/>stored<sp/>via<sp/>the<sp/>regular<sp/>put()<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a54b1c8988acba3ad7f8c036d568a0ea0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a54b1c8988acba3ad7f8c036d568a0ea0" kindref="member">blob_streaming_threshold_bytes</ref><sp/>=<sp/>65536;<sp/><sp/></highlight><highlight class="comment">//<sp/>64<sp/>KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>of<sp/>each<sp/>chunk<sp/>when<sp/>splitting<sp/>a<sp/>large<sp/>blob<sp/>(bytes).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4261c0270382519562e410f3021acdfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a4261c0270382519562e410f3021acdfe" kindref="member">blob_chunk_size_bytes</ref><sp/>=<sp/>131072;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>128<sp/>KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>threads<sp/>used<sp/>for<sp/>parallel<sp/>chunk<sp/>encoding.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>thread<sp/>encodes<sp/>(and<sp/>optionally<sp/>compresses)<sp/>one<sp/>chunk<sp/>concurrently.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a76ed9debd332159be1919e5426c6ebe7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a76ed9debd332159be1919e5426c6ebe7" kindref="member">blob_streaming_threads</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a1a26df692ea7c5f30912f7edbe2023f3" kindref="member">~RocksDBWrapper</ref>();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289" refid="classthemis_1_1_rocks_d_b_wrapper_1a0380a15533a9736cae6c3b74dfc176af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a0380a15533a9736cae6c3b74dfc176af" kindref="member">RocksDBWrapper</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290" refid="classthemis_1_1_rocks_d_b_wrapper_1a5dc9c57d913b3a33ad765bbe5267a1c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref>&amp;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a5dc9c57d913b3a33ad765bbe5267a1c3" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref>(<ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a96a9a7a14c0d4dd3f35d9423a358c32f" kindref="member">open</ref>();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a9d9c904fe8e45a5e2ff07a1dedaa3617" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a330e1509fb513ed379626808b30a0d97" kindref="member">isOpen</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a67dbe2b9a8fa4b0458d04b95c835602f" kindref="member">addEventListener</ref>(<ref refid="namespacestd" kindref="compound">std</ref>::shared_ptr&lt;<ref refid="namespacerocksdb" kindref="compound">rocksdb</ref>::EventListener&gt;<sp/>listener);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>CRUD<sp/>Operations<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::optional&lt;<ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" kindref="member">get</ref>(<ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" kindref="member">get</ref>(<ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>key,<sp/><ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>out);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad51851f9b70c77d967d45a6947877da0" kindref="member">put</ref>(<ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>key,<sp/>const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;uint8_t&gt;&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad51851f9b70c77d967d45a6947877da0" kindref="member">put</ref>(<ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>key,<sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>value);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ab37bfd09afcbae54419b7dcdfed39cc8" kindref="member">del</ref>(<ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_key_value_pair" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_key_value_pair" kindref="compound">KeyValuePair</ref><sp/>{</highlight></codeline>
+<codeline lineno="340" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_key_value_pair_1ab3f6e877262d757bf95c2cdf00e1ef49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_key_value_pair_1ab3f6e877262d757bf95c2cdf00e1ef49" kindref="member">key</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="341" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_key_value_pair_1a4caaaf1181ab25becc666fabfecd2235" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_key_value_pair_1a4caaaf1181ab25becc666fabfecd2235" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1aebee29c4150729515919c6dede05d1b5" kindref="member">putBatch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;KeyValuePair&gt;&amp;<sp/>pairs);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Streaming<sp/>Blob<sp/>API<sp/>(v2.0.0,<sp/>PERF-D5)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1aa09fa922f82ee9bf9fdcc2450e029124" kindref="member">putBlob</ref>(std::string_view<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1abc960fc142eef92bb8e34caa62599c7b" kindref="member">getBlob</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a0f9174488ae289735c900dd8a92be382" kindref="member">delBlob</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a943d0fce3409e1a9caa3317d6e0faf80" kindref="member">multiGet</ref>(</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>keys</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Atomic<sp/>Batch<sp/>Operations<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a65eea0dd52fa2daaa84dfee2f9015703" kindref="member">WriteBatchWrapper</ref><sp/>{</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a65eea0dd52fa2daaa84dfee2f9015703" kindref="member">WriteBatchWrapper</ref>(<ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a1b2aa53533c6da838570239bffa9cc10" kindref="member">RocksDBWrapper</ref>*<sp/>db);</highlight></codeline>
+<codeline lineno="382" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1adcdeb7796e4a9c560b2e0c9c9180d1f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1adcdeb7796e4a9c560b2e0c9c9180d1f9" kindref="member">~WriteBatchWrapper</ref>();</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a3ad8a089d3292e3322a2a11a87f5159c" kindref="member">put</ref>(std::string_view<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1abb4673d7593a6dd8b2b9c5743df9ad5a" kindref="member">del</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a97af9ed8495452bcd39882baa874330f" kindref="member">commit</ref>();</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1aa0d0858bba664b0db8f45c096c71b27d" kindref="member">rollback</ref>();</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a1b2aa53533c6da838570239bffa9cc10" kindref="member">RocksDBWrapper</ref>*<sp/>db_;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::WriteBatch&gt;<sp/>batch_;</highlight></codeline>
+<codeline lineno="402" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a1b2aa53533c6da838570239bffa9cc10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a1b2aa53533c6da838570239bffa9cc10" kindref="member">RocksDBWrapper</ref>;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;WriteBatchWrapper&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a982b12ca11c983a2a8ee4c7aa03396e9" kindref="member">createWriteBatch</ref>();</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1a147325caba93b5a96992640768396402" kindref="member">WriteBatchWithIndexWrapper</ref><sp/>{</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1a147325caba93b5a96992640768396402" kindref="member">WriteBatchWithIndexWrapper</ref>(<ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1a1b2aa53533c6da838570239bffa9cc10" kindref="member">RocksDBWrapper</ref>*<sp/>db,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>overwrite_key<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="415" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1aabe26c2ba7c24a5e5137b0ff442bb127" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1aabe26c2ba7c24a5e5137b0ff442bb127" kindref="member">~WriteBatchWithIndexWrapper</ref>();</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1a2fbb9a15ad147d9bb444b342e272f8bb" kindref="member">put</ref>(std::string_view<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1ae0b43fdca98e35f83ebc77f16de2c676" kindref="member">del</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1ab3a0a41bb9df8306f765ca0caed04644" kindref="member">getFromBatch</ref>(std::string_view<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1a98125d1ca689a30c49ac3394442253c0" kindref="member">getFromBatchAndDB</ref>(std::string_view<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1a3220f1c1725d75cd7eda1b63965d4f81" kindref="member">commit</ref>();</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1a9c61b88f213bd3d52a2bcf515a70714d" kindref="member">rollback</ref>();</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1a1b2aa53533c6da838570239bffa9cc10" kindref="member">RocksDBWrapper</ref>*<sp/>db_;</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::WriteBatchWithIndex&gt;<sp/>batch_;</highlight></codeline>
+<codeline lineno="441" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1a1b2aa53533c6da838570239bffa9cc10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper_1a1b2aa53533c6da838570239bffa9cc10" kindref="member">RocksDBWrapper</ref>;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;WriteBatchWithIndexWrapper&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a3153e0e8701fcb0bd5a0daef4827f0ec" kindref="member">createWriteBatchWithIndex</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>overwrite_key<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>MVCC<sp/>Transaction<sp/>Operations<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="452" refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28" kindref="member">TransactionIsolationLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="453" refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28a90ed941e4502c163cb075594c5f7df1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28a90ed941e4502c163cb075594c5f7df1c" kindref="member">ReadCommitted</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>Read<sp/>latest<sp/>committed<sp/>data<sp/>(no<sp/>snapshot<sp/>overhead)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454" refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28ad4e2713d1b1725a1592f9268589f990d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28ad4e2713d1b1725a1592f9268589f990d" kindref="member">Snapshot</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>isolation<sp/>(repeatable<sp/>reads,<sp/>point-in-time<sp/>consistency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1a21f7e4e42e746c23839d06c24d7b01d8" kindref="member">TransactionWrapper</ref><sp/>{</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="463" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31" kindref="member">State</ref><sp/>{</highlight></codeline>
+<codeline lineno="464" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31afa7be7845bc42b3491d9d0377958be94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31afa7be7845bc42b3491d9d0377958be94" kindref="member">NotStarted</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Never<sp/>attempted<sp/>to<sp/>start<sp/>(db_<sp/>was<sp/>null)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="465" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31a66cb3e7dad9091d6718c2df36cf3287b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31a66cb3e7dad9091d6718c2df36cf3287b" kindref="member">CreationFailed</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>BeginTransaction()<sp/>failed<sp/>or<sp/>operation<sp/>failed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="466" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31a4d3d769b812b6faa6b76e1a8abaece2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31a4d3d769b812b6faa6b76e1a8abaece2d" kindref="member">Active</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>is<sp/>alive<sp/>and<sp/>can<sp/>be<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="467" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31a088c3531c4f5537f7b4606de7072ac51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31a088c3531c4f5537f7b4606de7072ac51" kindref="member">Rolledback</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>rolled<sp/>back</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="468" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31afd8f656590df4b2d2b217b060b7204d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31afd8f656590df4b2d2b217b060b7204d3" kindref="member">Committed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>committed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1a21f7e4e42e746c23839d06c24d7b01d8" kindref="member">TransactionWrapper</ref>(<ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref>*<sp/>db,<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28" kindref="member">TransactionIsolationLevel</ref><sp/>isolation<sp/>=<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28a90ed941e4502c163cb075594c5f7df1c" kindref="member">TransactionIsolationLevel::ReadCommitted</ref>);</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1a317418a8674784d722a9f6e4dbb3625e" kindref="member">~TransactionWrapper</ref>();</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1a695e1cc50c2d35a7c78f99c2cb3d378e" kindref="member">get</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1ae679c4f2c1464adb8f26ae35cd065c71" kindref="member">getForUpdate</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1a0a9a5461487e734539c0f47c23fa593e" kindref="member">put</ref>(std::string_view<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1ad83af50ffc4dfe13fd5afe22e46c8ab8" kindref="member">del</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1ad7ec5b5cdc0b51e88768d29466a15aad" kindref="member">commit</ref>();</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1ac6fdc99746a9f54b2cc86f84ab7d493c" kindref="member">rollback</ref>();</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1a537b262eb9257a857a04f17e86f36af2" kindref="member">prepare</ref>();</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Savepoint<sp/>API<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1af162caf1031f3c45b50a8610d8d8dcc7" kindref="member">setSavePoint</ref>();</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1ab94897571184bf59406033310f1b6533" kindref="member">rollbackToSavePoint</ref>();</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"></highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1ae714ec161c040b40643b338d8872bf0b" kindref="member">popSavePoint</ref>();</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"></highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Accessors<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"></highlight></codeline>
+<codeline lineno="541" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1ad064ab77b9d25e6a9595015736b9435d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1ad064ab77b9d25e6a9595015736b9435d" kindref="member">isActive</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>state_<sp/>==<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31a4d3d769b812b6faa6b76e1a8abaece2d" kindref="member">State::Active</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"></highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Result&lt;const<sp/>rocksdb::Snapshot*&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1a47258becfaffebce5f300f58aa7ed7fd" kindref="member">getSnapshot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"></highlight></codeline>
+<codeline lineno="547" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1d" kindref="member">CommitFailureType</ref><sp/>{</highlight></codeline>
+<codeline lineno="548" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1da6adf97f83acf6453d4a6a4b1070f3754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1da6adf97f83acf6453d4a6a4b1070f3754" kindref="member">None</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="549" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1dad8a942ef2b04672adfafef0ad817a407" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1dad8a942ef2b04672adfafef0ad817a407" kindref="member">Busy</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="550" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1da9541eb2348d883dd8e32ae0420274c4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1da9541eb2348d883dd8e32ae0420274c4c" kindref="member">TimedOut</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="551" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1daebd61744195aaefd6ea1e66a92e25589" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1daebd61744195aaefd6ea1e66a92e25589" kindref="member">TryAgain</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="552" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1dacf3126c18225da0e44f1c754400123b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1dacf3126c18225da0e44f1c754400123b1" kindref="member">CommitError</ref>,<sp/></highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"></highlight></codeline>
+<codeline lineno="556" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1a446d09966d4aefaec550fb4c57193424" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1d" kindref="member">CommitFailureType</ref><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1a446d09966d4aefaec550fb4c57193424" kindref="member">getLastCommitFailureType</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_commit_failure_type_;<sp/>}</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"></highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref>*<sp/>db_;</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::Transaction&gt;<sp/>txn_;</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28" kindref="member">TransactionIsolationLevel</ref><sp/>isolation_;</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31" kindref="member">State</ref><sp/>state_<sp/>=<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa74220a18557f4336b5febbe97533f31afa7be7845bc42b3491d9d0377958be94" kindref="member">State::NotStarted</ref>;</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>prepared_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1d" kindref="member">CommitFailureType</ref><sp/>last_commit_failure_type_<sp/>=<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1aa30b86f9408aac94fdd320cb0237fb1da6adf97f83acf6453d4a6a4b1070f3754" kindref="member">CommitFailureType::None</ref>;</highlight></codeline>
+<codeline lineno="565" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1a1b2aa53533c6da838570239bffa9cc10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper_1a1b2aa53533c6da838570239bffa9cc10" kindref="member">RocksDBWrapper</ref>;</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"></highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TransactionWrapper&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a70998af1591a822b602b5cd63dcceeed" kindref="member">beginTransaction</ref>(<ref refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28" kindref="member">TransactionIsolationLevel</ref><sp/>isolation<sp/>=<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28a90ed941e4502c163cb075594c5f7df1c" kindref="member">TransactionIsolationLevel::ReadCommitted</ref>);</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"></highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Iteration<sp/>/<sp/>Scanning<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="571"><highlight class="normal"></highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Forward<sp/>declare<sp/>OperationGuard<sp/>for<sp/>use<sp/>in<sp/>SafeIterator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">OperationGuard;</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="583" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref><sp/>{</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="585" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref>(<ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="586" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a2b58403d55ec1641739bb5934bc6df68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref>&amp;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a2b58403d55ec1641739bb5934bc6df68" kindref="member">operator=</ref>(<ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"></highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>copying<sp/>-<sp/>enforce<sp/>move<sp/>semantics<sp/>for<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="589" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a633247f2383da7f520c2dacd7d1f9be2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a633247f2383da7f520c2dacd7d1f9be2" kindref="member">SafeIterator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="590" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1ab53ec6c187908db5ec5793cf1cd3225c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref>&amp;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1ab53ec6c187908db5ec5793cf1cd3225c" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="591"><highlight class="normal"></highlight></codeline>
+<codeline lineno="592" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1ab8a64b13e9a541f7cce15dd45cde919a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1ab8a64b13e9a541f7cce15dd45cde919a" kindref="member">~SafeIterator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="593"><highlight class="normal"></highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a026954c9e8854864f1521f2ba97b1e5b" kindref="member">Seek</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target);</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a8dd8c07b0d3a4f83bd56a055feba54c2" kindref="member">SeekToFirst</ref>();</highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a3b07815fb96859ba165b8014b9903889" kindref="member">SeekToLast</ref>();</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75f7ecfaa1036d9d3d6baaa6f6d4d970" kindref="member">Next</ref>();</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a2dab0123bdfbfba5e282b6169221260b" kindref="member">Prev</ref>();</highlight></codeline>
+<codeline lineno="607"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a719610a7e888c446f5cb55c07bfd3acd" kindref="member">Valid</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1aac789b388391bba08671d1f0d45ca356" kindref="member">key</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1af8c5b00d44047351794b7b43798d1b94" kindref="member">value</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"></highlight></codeline>
+<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>iterator<sp/>is<sp/>usable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="616" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a342203c5b2a7aa6d3df57cc0912dd982" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iterator_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="617"><highlight class="normal"></highlight></codeline>
+<codeline lineno="618"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="619" refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a1b2aa53533c6da838570239bffa9cc10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a1b2aa53533c6da838570239bffa9cc10" kindref="member">RocksDBWrapper</ref>;</highlight></codeline>
+<codeline lineno="620"><highlight class="normal"></highlight></codeline>
+<codeline lineno="621"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator_1a75695f37c63fa909a69778d9560036f6" kindref="member">SafeIterator</ref>(std::unique_ptr&lt;rocksdb::Iterator&gt;<sp/>iter,</highlight></codeline>
+<codeline lineno="622"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;OperationGuard&gt;<sp/>guard)</highlight></codeline>
+<codeline lineno="623"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>iterator_(<ref refid="namespacestd" kindref="compound">std</ref>::move(iter))</highlight></codeline>
+<codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>guard_(<ref refid="namespacestd" kindref="compound">std</ref>::move(guard))<sp/>{}</highlight></codeline>
+<codeline lineno="625"><highlight class="normal"></highlight></codeline>
+<codeline lineno="626"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::Iterator&gt;<sp/>iterator_;</highlight></codeline>
+<codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;OperationGuard&gt;<sp/>guard_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Keeps<sp/>database<sp/>alive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="628"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"></highlight></codeline>
+<codeline lineno="633"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;SafeIterator&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a5494ea7413032cd34ea1403b1e725ef3" kindref="member">newSafeIterator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structrocksdb_1_1_read_options" kindref="compound">rocksdb::ReadOptions</ref>*<sp/>read_options<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"></highlight></codeline>
+<codeline lineno="635" refid="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" kindref="member">ScanCallback</ref><sp/>=<sp/>std::function&lt;bool(std::string_view<sp/>key,<sp/>std::string_view<sp/>value)&gt;;</highlight></codeline>
+<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad40780f039e816f82691fd328dbd5e74" kindref="member">scanPrefix</ref>(std::string_view<sp/>prefix,<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" kindref="member">ScanCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="640"><highlight class="normal"></highlight></codeline>
+<codeline lineno="644"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;SafeIterator&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a0d5b658bd3c3ea5ef651aa77f5d1472e" kindref="member">prefixIterator</ref>(std::string_view<sp/>prefix);</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"></highlight></codeline>
+<codeline lineno="650"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a23965b8ea1f3bb99b732bc667b163a11" kindref="member">scanRange</ref>(std::string_view<sp/>start_key,<sp/>std::string_view<sp/>end_key,<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" kindref="member">ScanCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="651"><highlight class="normal"></highlight></codeline>
+<codeline lineno="656"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a6cb4ae3afef4dc92fed50fb5f0d5ac75" kindref="member">iterateRange</ref>(std::string_view<sp/>start_key,<sp/>std::string_view<sp/>end_key,<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" kindref="member">ScanCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="657"><highlight class="normal"></highlight></codeline>
+<codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4a3451ae73602c7ac40a68fc4610e95c" kindref="member">scanAll</ref>(<ref refid="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" kindref="member">ScanCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="661"><highlight class="normal"></highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1.3.0<sp/>Phase<sp/>2:<sp/>Async<sp/>I/O<sp/>Scan<sp/>Operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="663"><highlight class="normal"></highlight></codeline>
+<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;uint8_t&gt;&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a630ca90b04c7838c9b0b60674454baed" kindref="member">scanWithAsyncIO</ref>(</highlight></codeline>
+<codeline lineno="668"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>prefix,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>1000);</highlight></codeline>
+<codeline lineno="669"><highlight class="normal"></highlight></codeline>
+<codeline lineno="674"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;uint8_t&gt;&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1afae215db4826fd64e5c8f19e16b4283d" kindref="member">rangeQueryWithAsyncIO</ref>(</highlight></codeline>
+<codeline lineno="675"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>start_key,<sp/>std::string_view<sp/>end_key);</highlight></codeline>
+<codeline lineno="676"><highlight class="normal"></highlight></codeline>
+<codeline lineno="680"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;uint8_t&gt;&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a1f23671f2fbabd3a15f95ff536b70ac7" kindref="member">reverseScanWithAsyncIO</ref>(</highlight></codeline>
+<codeline lineno="681"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>start_key,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>1000);</highlight></codeline>
+<codeline lineno="682"><highlight class="normal"></highlight></codeline>
+<codeline lineno="686"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1abca9c172edec464743163396155cede2" kindref="member">multiGetWithAsyncIO</ref>(</highlight></codeline>
+<codeline lineno="687"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>keys);</highlight></codeline>
+<codeline lineno="688"><highlight class="normal"></highlight></codeline>
+<codeline lineno="691"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::unique_ptr&lt;rocksdb::Iterator&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a472716ce1cf1e542e37d644c8ea58ef5" kindref="member">newAsyncIterator</ref>();</highlight></codeline>
+<codeline lineno="692"><highlight class="normal"></highlight></codeline>
+<codeline lineno="695"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::unique_ptr&lt;rocksdb::Iterator&gt;&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a6e9075eec27f7fa23566e5f365a2229d" kindref="member">newIterator</ref>();</highlight></codeline>
+<codeline lineno="696"><highlight class="normal"></highlight></codeline>
+<codeline lineno="698" refid="classthemis_1_1_rocks_d_b_wrapper_1aad598bf61d0be17857eacd2073216920" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1aad598bf61d0be17857eacd2073216920" kindref="member">isAsyncIOEnabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.enable_async_io;<sp/>}</highlight></codeline>
+<codeline lineno="699"><highlight class="normal"></highlight></codeline>
+<codeline lineno="700"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Statistics<sp/>&amp;<sp/>Maintenance<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="701"><highlight class="normal"></highlight></codeline>
+<codeline lineno="704"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1af618c87ac6efbdb351c629d499b1f0a9" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="705"><highlight class="normal"></highlight></codeline>
+<codeline lineno="708"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a63c12fc2c68672bbdb677889cd55d8f6" kindref="member">getCompressionType</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="709"><highlight class="normal"></highlight></codeline>
+<codeline lineno="713"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a6ffaed37e7ef1327dc509fddff52bbc4" kindref="member">compactRange</ref>(std::string_view<sp/>start_key,<sp/>std::string_view<sp/>end_key);</highlight></codeline>
+<codeline lineno="714"><highlight class="normal"></highlight></codeline>
+<codeline lineno="716"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1aa0ed9ce049b79cc325d5e7c533db5f4e" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="717"><highlight class="normal"></highlight></codeline>
+<codeline lineno="720"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a43c668ac200cbbe88555bd149ffa4446" kindref="member">getApproximateSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="721"><highlight class="normal"></highlight></codeline>
+<codeline lineno="723" refid="classthemis_1_1_rocks_d_b_wrapper_1a06ae61d51a7e041e94691be48d195aca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a06ae61d51a7e041e94691be48d195aca" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="724"><highlight class="normal"></highlight></codeline>
+<codeline lineno="727"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a3d434c9b8a4df5e455c1d1fd1b6468c5" kindref="member">getLatestSequenceNumber</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="728"><highlight class="normal"></highlight></codeline>
+<codeline lineno="729"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Backup<sp/>&amp;<sp/>Recovery<sp/>(Checkpoints)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="733"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a78c22608dbcf21a6c52f1cea1f4751f5" kindref="member">createCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checkpoint_dir);</highlight></codeline>
+<codeline lineno="734"><highlight class="normal"></highlight></codeline>
+<codeline lineno="738"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a08215f66baeee9abebfabe9765cdc6c9" kindref="member">restoreFromCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checkpoint_dir);</highlight></codeline>
+<codeline lineno="739"><highlight class="normal"></highlight></codeline>
+<codeline lineno="740"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>v1.1.0:<sp/>Advanced<sp/>RocksDB<sp/>Features<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="741"><highlight class="normal"></highlight></codeline>
+<codeline lineno="746"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a3318d9281424267059fbf168fa24cda7" kindref="member">createIncrementalBackup</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>backup_dir,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>flush_before_backup<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="747"><highlight class="normal"></highlight></codeline>
+<codeline lineno="751"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a6d3bdea03a531adf54406c0315638476" kindref="member">restoreFromBackup</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>backup_dir);</highlight></codeline>
+<codeline lineno="752"><highlight class="normal"></highlight></codeline>
+<codeline lineno="756"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a94fb56d62d909cd40a3b6ba0c4f66f7b" kindref="member">getBackupCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>backup_dir)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="757"><highlight class="normal"></highlight></codeline>
+<codeline lineno="760"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a25247bd6b70c186371a5fb2f2ecace6a" kindref="member">exportStatisticsJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="761"><highlight class="normal"></highlight></codeline>
+<codeline lineno="765"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a71c51ba4f199d4c5430e836da90914ed" kindref="member">getStatistic</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ticker_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="766"><highlight class="normal"></highlight></codeline>
+<codeline lineno="767"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Column<sp/>Family<sp/>Management<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="768"><highlight class="normal"></highlight></codeline>
+<codeline lineno="772"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;rocksdb::ColumnFamilyHandle*&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1afe334d8d7edde636d9710e999d8e0f51" kindref="member">getOrCreateColumnFamily</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cf_name);</highlight></codeline>
+<codeline lineno="773"><highlight class="normal"></highlight></codeline>
+<codeline lineno="775" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info" kindref="compound">CFInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="776" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1a494c26f3774d5ec819016dc4f49c1315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1a494c26f3774d5ec819016dc4f49c1315" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="777" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1a5d1480d2d78bf01e5c026d04f5ac2495" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1a5d1480d2d78bf01e5c026d04f5ac2495" kindref="member">estimated_keys</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="778" refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1aa249397e49ef7d52f8c39ac7d3f9548c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1aa249397e49ef7d52f8c39ac7d3f9548c" kindref="member">approx_size_bytes</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="779"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="780"><highlight class="normal"></highlight></codeline>
+<codeline lineno="783"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CFInfo&gt;<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a970522247ba81ae54e34b3a52ebc3bac" kindref="member">listColumnFamilies</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="784"><highlight class="normal"></highlight></codeline>
+<codeline lineno="786" refid="classthemis_1_1_rocks_d_b_wrapper_1a07f61f628bbc795eeead137bcac6df23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">rocksdb::TransactionDB</ref>*<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a07f61f628bbc795eeead137bcac6df23" kindref="member">getRawDB</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>db_.get();<sp/>}</highlight></codeline>
+<codeline lineno="788" refid="classthemis_1_1_rocks_d_b_wrapper_1a2a56c4e504e80a4c33f4f0d4e9c234f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">rocksdb::TransactionDB</ref>*<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a2a56c4e504e80a4c33f4f0d4e9c234f7" kindref="member">getRawDB</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>db_.get();<sp/>}</highlight></codeline>
+<codeline lineno="790" refid="classthemis_1_1_rocks_d_b_wrapper_1a9ad6e7964322ab67160292527a291cac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">rocksdb::TransactionDB</ref>*<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a9ad6e7964322ab67160292527a291cac" kindref="member">getDB</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a07f61f628bbc795eeead137bcac6df23" kindref="member">getRawDB</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="792" refid="classthemis_1_1_rocks_d_b_wrapper_1a903b8876992b0a71cde6bd28bae8776d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">rocksdb::TransactionDB</ref>*<sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a903b8876992b0a71cde6bd28bae8776d" kindref="member">getDB</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a07f61f628bbc795eeead137bcac6df23" kindref="member">getRawDB</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="793"><highlight class="normal"></highlight></codeline>
+<codeline lineno="794"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="798"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">OperationGuard<sp/>{</highlight></codeline>
+<codeline lineno="799"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="800"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>OperationGuard(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref>*<sp/>wrapper)</highlight></codeline>
+<codeline lineno="801"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>wrapper_(wrapper),<sp/>db_(nullptr)<sp/>{</highlight></codeline>
+<codeline lineno="802"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(wrapper_)<sp/>{</highlight></codeline>
+<codeline lineno="803"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(wrapper_-&gt;db_lifecycle_mutex_);</highlight></codeline>
+<codeline lineno="804"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Refuse<sp/>to<sp/>start<sp/>a<sp/>new<sp/>operation<sp/>once<sp/>close()<sp/>has<sp/>begun<sp/>(R-1<sp/>fix):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="805"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>closing_<sp/>is<sp/>set<sp/>under<sp/>db_lifecycle_mutex_<sp/>before<sp/>db_.reset(),<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="806"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>checking<sp/>it<sp/>here<sp/>(while<sp/>holding<sp/>the<sp/>same<sp/>lock)<sp/>makes<sp/>the<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="807"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>the<sp/>db_.reset()<sp/>in<sp/>close()<sp/>mutually<sp/>exclusive<sp/>and<sp/>race-free.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="808"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(wrapper_-&gt;db_<sp/>&amp;&amp;<sp/>!wrapper_-&gt;closing_.load(std::memory_order_relaxed))<sp/>{</highlight></codeline>
+<codeline lineno="809"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wrapper_-&gt;active_operations_.fetch_add(1,<sp/>std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="810"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>db_<sp/>=<sp/>wrapper_-&gt;db_.get();</highlight></codeline>
+<codeline lineno="811"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="812"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="813"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="814"><highlight class="normal"></highlight></codeline>
+<codeline lineno="815"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>~OperationGuard()<sp/>{</highlight></codeline>
+<codeline lineno="816"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(wrapper_<sp/>&amp;&amp;<sp/>db_)<sp/>{</highlight></codeline>
+<codeline lineno="817"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wrapper_-&gt;active_operations_.fetch_sub(1,<sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="818"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="819"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="820"><highlight class="normal"></highlight></codeline>
+<codeline lineno="821"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>OperationGuard(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>OperationGuard&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="822"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>OperationGuard&amp;<sp/>operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>OperationGuard&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="823"><highlight class="normal"></highlight></codeline>
+<codeline lineno="827"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>get()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>db_;<sp/>}</highlight></codeline>
+<codeline lineno="828"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>db_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="829"><highlight class="normal"></highlight></codeline>
+<codeline lineno="830"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="831"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref>*<sp/>wrapper_;</highlight></codeline>
+<codeline lineno="832"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>db_;</highlight></codeline>
+<codeline lineno="833"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="834"><highlight class="normal"></highlight></codeline>
+<codeline lineno="835"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="836"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="837"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::TransactionDB&gt;<sp/>db_;</highlight></codeline>
+<codeline lineno="838"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::Options&gt;<sp/>options_;</highlight></codeline>
+<codeline lineno="839"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::TransactionDBOptions&gt;<sp/>txn_db_options_;</highlight></codeline>
+<codeline lineno="840"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::TransactionOptions&gt;<sp/>txn_options_;</highlight></codeline>
+<codeline lineno="841"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::ReadOptions&gt;<sp/>read_options_;</highlight></codeline>
+<codeline lineno="842"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::WriteOptions&gt;<sp/>write_options_;</highlight></codeline>
+<codeline lineno="843"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>options_mutex_;</highlight></codeline>
+<codeline lineno="844"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Track<sp/>created<sp/>column<sp/>family<sp/>handles<sp/>so<sp/>they<sp/>can<sp/>be<sp/>destroyed<sp/>before<sp/>DB<sp/>close</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="845"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;rocksdb::ColumnFamilyHandle*&gt;<sp/>cf_handles_;</highlight></codeline>
+<codeline lineno="846"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mutex<sp/>to<sp/>protect<sp/>cf_handles_<sp/>from<sp/>concurrent<sp/>access<sp/>(race<sp/>condition<sp/>fix<sp/>#1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="847"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>cf_handles_mutex_;</highlight></codeline>
+<codeline lineno="848"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mutex<sp/>to<sp/>protect<sp/>db_<sp/>lifecycle<sp/>(race<sp/>condition<sp/>fix<sp/>#3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="849"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>db_lifecycle_mutex_;</highlight></codeline>
+<codeline lineno="850"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Active<sp/>operations<sp/>counter<sp/>for<sp/>safe<sp/>close<sp/>(race<sp/>condition<sp/>fix<sp/>#3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="851"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;int&gt;<sp/>active_operations_{0};</highlight></codeline>
+<codeline lineno="852"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>to<sp/>true<sp/>inside<sp/>db_lifecycle_mutex_<sp/>when<sp/>close()<sp/>starts<sp/>so<sp/>that<sp/>new</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="853"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OperationGuards<sp/>see<sp/>it<sp/>under<sp/>the<sp/>same<sp/>lock<sp/>and<sp/>refuse<sp/>to<sp/>start<sp/>(R-1<sp/>fix).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="854"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;bool&gt;<sp/>closing_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="855"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NVMe<sp/>optimizations<sp/>manager<sp/>(null<sp/>when<sp/>enable_nvme_optimizations=false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="856"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;storage::NVMeManager&gt;<sp/>nvme_manager_;</highlight></codeline>
+<codeline lineno="857"><highlight class="normal"></highlight></codeline>
+<codeline lineno="858"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>THEMIS_DEBUG_THREADING</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="859"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Track<sp/>if<sp/>object<sp/>is<sp/>being<sp/>moved<sp/>(debug<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="860"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Used<sp/>to<sp/>detect<sp/>concurrent<sp/>move<sp/>operations<sp/>during<sp/>development</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="861"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;bool&gt;<sp/>is_being_moved_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="862"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="863"><highlight class="normal"></highlight></codeline>
+<codeline lineno="864"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>configureOptions();</highlight></codeline>
+<codeline lineno="865"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>commitBatch(rocksdb::WriteBatch*<sp/>batch);</highlight></codeline>
+<codeline lineno="866"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="867"><highlight class="normal"></highlight></codeline>
+<codeline lineno="868"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/rocksdb_wrapper.h"/>
+  </compounddef>
+</doxygen>

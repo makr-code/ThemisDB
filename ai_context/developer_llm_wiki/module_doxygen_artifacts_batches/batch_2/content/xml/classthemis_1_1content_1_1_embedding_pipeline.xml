@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_embedding_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::EmbeddingPipeline</compoundname>
+    <includes refid="embedding__pipeline_8h" local="no">embedding_pipeline.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_embedding_pipeline_1ad0e789f0d2d5bfd39989ff20544413e7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_embedding_pipeline_config" kindref="compound">EmbeddingPipelineConfig</ref></type>
+        <definition>EmbeddingPipelineConfig themis::content::EmbeddingPipeline::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="83" column="29" bodyfile="include/content/embedding_pipeline.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_embedding_pipeline_1aec3b7cbb62e3e46dade30a4d90e78421" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::EmbeddingPipeline::failure_count_</definition>
+        <argsstring></argsstring>
+        <name>failure_count_</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::failure_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="84" column="25" bodyfile="include/content/embedding_pipeline.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_embedding_pipeline_1a9e2614b42304570b3c0ad8075060983f" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::content::EmbeddingPipeline::embedding_dim_</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim_</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::embedding_dim_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="85" column="25" bodyfile="include/content/embedding_pipeline.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::EmbeddingPipeline::EmbeddingPipeline</definition>
+        <argsstring>(const EmbeddingPipelineConfig &amp;config)</argsstring>
+        <name>EmbeddingPipeline</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::EmbeddingPipeline</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_embedding_pipeline_config" kindref="compound">EmbeddingPipelineConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Embedding Pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="50" column="14" bodyfile="src/content/embedding_pipeline.cpp" bodystart="28" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1ac8a226e4e4937be4edac964059be76a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::EmbeddingPipeline::~EmbeddingPipeline</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EmbeddingPipeline</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::~EmbeddingPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1abd6905bc8f5d025163b0388498b49e1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::EmbeddingPipeline::EmbeddingPipeline</definition>
+        <argsstring>(const EmbeddingPipeline &amp;)=delete</argsstring>
+        <name>EmbeddingPipeline</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::EmbeddingPipeline</qualifiedname>
+        <param>
+          <type>const EmbeddingPipeline &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="54" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1a48e2e3627b7648b4076d6d4ee86727c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref> &amp;</type>
+        <definition>EmbeddingPipeline &amp; themis::content::EmbeddingPipeline::operator=</definition>
+        <argsstring>(const EmbeddingPipeline &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="55" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1ac13b733baae71b39fdd37ddf060ff4f7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::EmbeddingPipeline::EmbeddingPipeline</definition>
+        <argsstring>(EmbeddingPipeline &amp;&amp;) noexcept=default</argsstring>
+        <name>EmbeddingPipeline</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::EmbeddingPipeline</qualifiedname>
+        <param>
+          <type>EmbeddingPipeline &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1a59be03e2224c4e38fbd960b5229f947c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref> &amp;</type>
+        <definition>EmbeddingPipeline &amp; themis::content::EmbeddingPipeline::operator=</definition>
+        <argsstring>(EmbeddingPipeline &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="57" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1a38d7eed5d9dafdcd095e9c7ca926e9bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::EmbeddingPipeline::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::generateEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="64" column="17" bodyfile="src/content/embedding_pipeline.cpp" bodystart="115" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1add7cf4e4721185ef83845e1959759517" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::content::EmbeddingPipeline::generateEmbeddingBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;texts)</argsstring>
+        <name>generateEmbeddingBatch</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::generateEmbeddingBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>texts</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">texts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="71" column="17" bodyfile="src/content/embedding_pipeline.cpp" bodystart="128" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1a537f37b18b24a90f080c5605f7e4ef54" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::EmbeddingPipeline::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::isEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="74" column="10" bodyfile="include/content/embedding_pipeline.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1a40e5a1a377f30b0d63c60964ca6d474f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::EmbeddingPipeline::getFailureCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getFailureCount</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::getFailureCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="76" column="14" bodyfile="include/content/embedding_pipeline.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1ae55fc6a06753fdfa5b2b13a1fa5af802" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::EmbeddingPipeline::getEmbeddingDim</definition>
+        <argsstring>() const</argsstring>
+        <name>getEmbeddingDim</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::getEmbeddingDim</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="78" column="9" bodyfile="include/content/embedding_pipeline.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1aba91f1f0313c3fca5fa0a27ba554eaa9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1content_1_1_embedding_pipeline_config" kindref="compound">EmbeddingPipelineConfig</ref> &amp;</type>
+        <definition>const EmbeddingPipelineConfig &amp; themis::content::EmbeddingPipeline::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="80" column="35" bodyfile="include/content/embedding_pipeline.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1abc0f1938f14d1d8ff6c78ebaedf42b7a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::EmbeddingPipeline::embedWithTimeout</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>embedWithTimeout</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::embedWithTimeout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Embed With Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="92" column="17" bodyfile="src/content/embedding_pipeline.cpp" bodystart="66" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_embedding_pipeline_1a4355df2d5bc90d3da866a68afaea82c0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::EmbeddingPipeline::notifyFailure</definition>
+        <argsstring>() const</argsstring>
+        <name>notifyFailure</name>
+        <qualifiedname>themis::content::EmbeddingPipeline::notifyFailure</qualifiedname>
+        <briefdescription>
+<para>Notify Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/embedding_pipeline.h" line="97" column="10" bodyfile="src/content/embedding_pipeline.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/embedding_pipeline.h" line="43" column="1" bodyfile="include/content/embedding_pipeline.h" bodystart="43" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1ad0e789f0d2d5bfd39989ff20544413e7" prot="private" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>config_</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1a9e2614b42304570b3c0ad8075060983f" prot="private" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>embedding_dim_</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>EmbeddingPipeline</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1abd6905bc8f5d025163b0388498b49e1f" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>EmbeddingPipeline</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1ac13b733baae71b39fdd37ddf060ff4f7" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>EmbeddingPipeline</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1abc0f1938f14d1d8ff6c78ebaedf42b7a" prot="private" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>embedWithTimeout</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1aec3b7cbb62e3e46dade30a4d90e78421" prot="private" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>failure_count_</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1a38d7eed5d9dafdcd095e9c7ca926e9bd" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1add7cf4e4721185ef83845e1959759517" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>generateEmbeddingBatch</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1aba91f1f0313c3fca5fa0a27ba554eaa9" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1ae55fc6a06753fdfa5b2b13a1fa5af802" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>getEmbeddingDim</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1a40e5a1a377f30b0d63c60964ca6d474f" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>getFailureCount</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1a537f37b18b24a90f080c5605f7e4ef54" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1a4355df2d5bc90d3da866a68afaea82c0" prot="private" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>notifyFailure</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1a48e2e3627b7648b4076d6d4ee86727c2" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1a59be03e2224c4e38fbd960b5229f947c" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1content_1_1_embedding_pipeline_1ac8a226e4e4937be4edac964059be76a8" prot="public" virt="non-virtual"><scope>themis::content::EmbeddingPipeline</scope><name>~EmbeddingPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

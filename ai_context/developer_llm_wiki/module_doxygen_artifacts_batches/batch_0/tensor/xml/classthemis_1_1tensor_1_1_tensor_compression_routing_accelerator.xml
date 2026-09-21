@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorCompressionRoutingAccelerator</compoundname>
+    <includes refid="tensor__compression__routing__accelerator_8h" local="no">tensor_compression_routing_accelerator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a0901b5efbf46666b582048a2daca69a8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats" kindref="compound">TensorAccelerationStats</ref></type>
+        <definition>TensorAccelerationStats themis::tensor::TensorCompressionRoutingAccelerator::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::tensor::TensorCompressionRoutingAccelerator::stats_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compression_routing_accelerator.h" line="47" column="29" bodyfile="include/tensor/tensor_compression_routing_accelerator.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a947026c330986e5cf00ec2b70ea27073" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorCompressionRoutingAccelerator::TensorCompressionRoutingAccelerator</definition>
+        <argsstring>()=default</argsstring>
+        <name>TensorCompressionRoutingAccelerator</name>
+        <qualifiedname>themis::tensor::TensorCompressionRoutingAccelerator::TensorCompressionRoutingAccelerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compression_routing_accelerator.h" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a987381c65be60fa6913644c6aa026b58" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int8_t &gt;</type>
+        <definition>std::vector&lt; int8_t &gt; themis::tensor::TensorCompressionRoutingAccelerator::compressToInt8</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;input, float scale, bool force_cpu=false)</argsstring>
+        <name>compressToInt8</name>
+        <qualifiedname>themis::tensor::TensorCompressionRoutingAccelerator::compressToInt8</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force_cpu</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compression_routing_accelerator.h" line="32" column="18" bodyfile="src/tensor/tensor_compression_routing_accelerator.cpp" bodystart="28" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1ac33bdfbdb2ace90014abd9ca61ca70e7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::tensor::TensorCompressionRoutingAccelerator::computeRoutingScores</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;tensor, const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;route_weights, bool force_cpu=false)</argsstring>
+        <name>computeRoutingScores</name>
+        <qualifiedname>themis::tensor::TensorCompressionRoutingAccelerator::computeRoutingScores</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>tensor</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>route_weights</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force_cpu</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compression_routing_accelerator.h" line="36" column="18" bodyfile="src/tensor/tensor_compression_routing_accelerator.cpp" bodystart="54" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a397a85f008aea04730ecc735199eb3a8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_acceleration_stats" kindref="compound">TensorAccelerationStats</ref></type>
+        <definition>TensorAccelerationStats themis::tensor::TensorCompressionRoutingAccelerator::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::tensor::TensorCompressionRoutingAccelerator::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compression_routing_accelerator.h" line="40" column="30" bodyfile="include/tensor/tensor_compression_routing_accelerator.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1affe364ba7895e18706304d4a8f6440c3" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int8_t &gt;</type>
+        <definition>std::vector&lt; int8_t &gt; themis::tensor::TensorCompressionRoutingAccelerator::compressToInt8Cpu</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;input, float scale) const</argsstring>
+        <name>compressToInt8Cpu</name>
+        <qualifiedname>themis::tensor::TensorCompressionRoutingAccelerator::compressToInt8Cpu</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compression_routing_accelerator.h" line="43" column="18" bodyfile="src/tensor/tensor_compression_routing_accelerator.cpp" bodystart="99" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1affb90ba5e69678acd72f6873a787a1f7" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::tensor::TensorCompressionRoutingAccelerator::computeRoutingScoresCpu</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;tensor, const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;route_weights) const</argsstring>
+        <name>computeRoutingScoresCpu</name>
+        <qualifiedname>themis::tensor::TensorCompressionRoutingAccelerator::computeRoutingScoresCpu</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>tensor</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>route_weights</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compression_routing_accelerator.h" line="44" column="18" bodyfile="src/tensor/tensor_compression_routing_accelerator.cpp" bodystart="115" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tensor compression routing accelerator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_compression_routing_accelerator.h" line="28" column="1" bodyfile="include/tensor/tensor_compression_routing_accelerator.h" bodystart="28" bodyend="48"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a987381c65be60fa6913644c6aa026b58" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCompressionRoutingAccelerator</scope><name>compressToInt8</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1affe364ba7895e18706304d4a8f6440c3" prot="private" virt="non-virtual"><scope>themis::tensor::TensorCompressionRoutingAccelerator</scope><name>compressToInt8Cpu</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1ac33bdfbdb2ace90014abd9ca61ca70e7" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCompressionRoutingAccelerator</scope><name>computeRoutingScores</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1affb90ba5e69678acd72f6873a787a1f7" prot="private" virt="non-virtual"><scope>themis::tensor::TensorCompressionRoutingAccelerator</scope><name>computeRoutingScoresCpu</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a397a85f008aea04730ecc735199eb3a8" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCompressionRoutingAccelerator</scope><name>stats</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a0901b5efbf46666b582048a2daca69a8" prot="private" virt="non-virtual"><scope>themis::tensor::TensorCompressionRoutingAccelerator</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_compression_routing_accelerator_1a947026c330986e5cf00ec2b70ea27073" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCompressionRoutingAccelerator</scope><name>TensorCompressionRoutingAccelerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

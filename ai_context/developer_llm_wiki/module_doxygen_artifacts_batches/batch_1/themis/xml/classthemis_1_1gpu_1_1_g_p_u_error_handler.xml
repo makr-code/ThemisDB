@@ -1,0 +1,391 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_error_handler" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::gpu::GPUErrorHandler</compoundname>
+    <includes refid="gpu__error_8h" local="no">gpu_error.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a91e30d90fded737113059d481d5fba4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::gpu::GPUErrorHandler::~GPUErrorHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GPUErrorHandler</name>
+        <qualifiedname>themis::gpu::GPUErrorHandler::~GPUErrorHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="187" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUErrorHandler::GPUErrorHandler</definition>
+        <argsstring>(const GPUErrorHandler &amp;)=delete</argsstring>
+        <name>GPUErrorHandler</name>
+        <qualifiedname>themis::gpu::GPUErrorHandler::GPUErrorHandler</qualifiedname>
+        <param>
+          <type>const GPUErrorHandler &amp;</type>
+        </param>
+        <briefdescription>
+<para>Non-copyable, non-movable (singleton pattern). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="190" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_error_handler_1af27fa089886549dc5f935f899d7606b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" kindref="member">GPUErrorHandler</ref> &amp;</type>
+        <definition>GPUErrorHandler &amp; themis::gpu::GPUErrorHandler::operator=</definition>
+        <argsstring>(const GPUErrorHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUErrorHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" kindref="member">GPUErrorHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="191" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a657d37a0c06c7015fb83a8a6f8f2a6d2" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1gpu_1a30d47f4ddde5b64868af48c766608e57" kindref="member">ErrorRecoveryPolicy</ref></type>
+        <definition>virtual ErrorRecoveryPolicy themis::gpu::GPUErrorHandler::defaultPolicy</definition>
+        <argsstring>(GPUErrorClass error_class) const noexcept=0</argsstring>
+        <name>defaultPolicy</name>
+        <qualifiedname>themis::gpu::GPUErrorHandler::defaultPolicy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref></type>
+          <declname>error_class</declname>
+        </param>
+        <briefdescription>
+<para>Log a CUDA error to diagnostics without recovery action. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cuda_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CUDA error code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable context (e.g., &quot;cudaMalloc&quot;)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Behavior: Converts cuda_err to <ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref>, formats message, logs via spdlog. Does not apply recovery policy; caller is responsible.</para>
+<para>Log a HIP error to diagnostics without recovery action.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hip_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HIP error code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable context (e.g., &quot;hipMalloc&quot;)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Behavior: Converts hip_err to <ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref>, formats message, logs via spdlog. Does not apply recovery policy.</para>
+<para>Handle a CUDA error with recovery policy application.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cuda_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CUDA error code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Override default recovery policy for this error class (optional)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Behavior: Classifies error, logs diagnostic, applies recovery policy. May throw on critical errors depending on policy and configuration. Thread-safe.</para>
+<para>Handle a HIP error with recovery policy application.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hip_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HIP error code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Override default recovery policy for this error class (optional)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Behavior: Classifies error, logs diagnostic, applies recovery policy. May throw on critical errors depending on policy and configuration. Thread-safe.</para>
+<para>Convert CUDA error code to <ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref> taxonomy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cuda_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CUDA error code </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Classified error; kUnknown if unmapped</para>
+</simplesect>
+Behavior: Pure lookup; no side effects. May be called frequently.</para>
+<para>Convert HIP error code to <ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref> taxonomy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hip_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HIP error code </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Classified error; kUnknown if unmapped</para>
+</simplesect>
+Behavior: Pure lookup; no side effects.</para>
+<para>Get default recovery policy for error class.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_class</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error class from taxonomy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recovery policy; kFallbackCPU if unmapped</para>
+</simplesect>
+Default mappings:<itemizedlist>
+<listitem><para>kQuotaExceeded → kFallbackCPU</para>
+</listitem><listitem><para>kKernelTimeout → kFallbackCPU</para>
+</listitem><listitem><para>kBackendUnavailable → kMarkUnavailable + kFallbackCPU</para>
+</listitem><listitem><para>kMemoryCommunication → kRetryOnce</para>
+</listitem><listitem><para>kNumerical → kEmitWarning</para>
+</listitem><listitem><para>kUnsupportedOperation → kFallbackCPU </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="291" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a2269ad45790b304f135cee2be0ef5ab4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::gpu::GPUErrorHandler::errorClassName</definition>
+        <argsstring>(GPUErrorClass error_class) const noexcept=0</argsstring>
+        <name>errorClassName</name>
+        <qualifiedname>themis::gpu::GPUErrorHandler::errorClassName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref></type>
+          <declname>error_class</declname>
+        </param>
+        <briefdescription>
+<para>Get human-readable string for error class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_class</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error class </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Description (e.g., &quot;kQuotaExceeded&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="299" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a59e8ab3e1ce59eb5ca6425605764ba02" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::gpu::GPUErrorHandler::cudaErrorName</definition>
+        <argsstring>(cudaError_t cuda_err) const noexcept=0</argsstring>
+        <name>cudaErrorName</name>
+        <qualifiedname>themis::gpu::GPUErrorHandler::cudaErrorName</qualifiedname>
+        <param>
+          <type><ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+          <declname>cuda_err</declname>
+        </param>
+        <briefdescription>
+<para>Get human-readable string for CUDA error code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cuda_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CUDA error code </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Description (e.g., &quot;cudaErrorMemoryAllocation&quot;)</para>
+</simplesect>
+Wraps cudaGetErrorString() or equivalent. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="309" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7e89b421bd22983f69f6c3368edfd72f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::gpu::GPUErrorHandler::hipErrorName</definition>
+        <argsstring>(hipError_t hip_err) const noexcept=0</argsstring>
+        <name>hipErrorName</name>
+        <qualifiedname>themis::gpu::GPUErrorHandler::hipErrorName</qualifiedname>
+        <param>
+          <type><ref refid="gpu__error_8h_1a6c352248d614260de71c5548284d94fc" kindref="member">hipError_t</ref></type>
+          <declname>hip_err</declname>
+        </param>
+        <briefdescription>
+<para>Get human-readable string for HIP error code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hip_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HIP error code </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Description (e.g., &quot;hipErrorOutOfMemory&quot;)</para>
+</simplesect>
+Wraps hipGetErrorName() or equivalent. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="319" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7c9d8442a62fa478274c9ec00bae691c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" kindref="member">GPUErrorHandler</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; GPUErrorHandler &gt; themis::gpu::GPUErrorHandler::Create</definition>
+        <argsstring>()</argsstring>
+        <name>Create</name>
+        <qualifiedname>themis::gpu::GPUErrorHandler::Create</qualifiedname>
+        <briefdescription>
+<para>Factory: create singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to <ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler" kindref="compound">GPUErrorHandler</ref> instance</para>
+</simplesect>
+Behavior: Returns same instance on repeated calls (singleton). Caller should cache result for performance. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="329" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a9dc594c217e3f42cb72f1c9b369f8098" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; spdlog::logger &gt;</type>
+        <definition>static std::shared_ptr&lt; spdlog::logger &gt; themis::gpu::GPUErrorHandler::GetLogger</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>GetLogger</name>
+        <qualifiedname>themis::gpu::GPUErrorHandler::GetLogger</qualifiedname>
+        <briefdescription>
+<para>Get logger for GPU error diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>spdlog logger instance</para>
+</simplesect>
+May be configured at runtime via spdlog factory. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="338" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_error_handler_1adb7cd89bb63d9e67249b4227d5be0cdb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUErrorHandler::GPUErrorHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUErrorHandler</name>
+        <qualifiedname>themis::gpu::GPUErrorHandler::GPUErrorHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_error.h" line="341" column="3"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for unified CUDA/HIP error handling and recovery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Converts CUDA/HIP error codes to <ref refid="namespacethemis_1_1gpu_1a3a571daf696b6722a5ea7e8c31ce39be" kindref="member">GPUErrorClass</ref> taxonomy, logs diagnostics, and invokes recovery policy. Thread-safe; protected by internal mutex for concurrent stream access.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><bold>Direct error handling</bold>: <programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handler<sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7c9d8442a62fa478274c9ec00bae691c" kindref="member">GPUErrorHandler::Create</ref>();</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="gpu__error_8h_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref><sp/>err<sp/>=<sp/>cudaMalloc(&amp;ptr,<sp/>size);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err<sp/>!=<sp/><ref refid="gpu__error_8h_1a3b2ae102ff50ab2803f6670e8f73895b" kindref="member">cudaSuccess</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>handler-&gt;handleError(err,<sp/></highlight><highlight class="stringliteral">&quot;cudaMalloc&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>logs<sp/>+<sp/>applies<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><bold>Macro-based (recommended)</bold>: <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" kindref="member">CHECKED_CUDA</ref>(cudaMalloc(&amp;ptr,<sp/>size));<sp/><sp/></highlight><highlight class="comment">//<sp/>auto-logs;<sp/>throws<sp/>on<sp/>critical</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/gpu/gpu_error.h" line="185" column="1" bodyfile="include/themis/gpu/gpu_error.h" bodystart="185" bodyend="342"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7c9d8442a62fa478274c9ec00bae691c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUErrorHandler</scope><name>Create</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a59e8ab3e1ce59eb5ca6425605764ba02" prot="public" virt="pure-virtual"><scope>themis::gpu::GPUErrorHandler</scope><name>cudaErrorName</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a657d37a0c06c7015fb83a8a6f8f2a6d2" prot="public" virt="pure-virtual"><scope>themis::gpu::GPUErrorHandler</scope><name>defaultPolicy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a2269ad45790b304f135cee2be0ef5ab4" prot="public" virt="pure-virtual"><scope>themis::gpu::GPUErrorHandler</scope><name>errorClassName</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a9dc594c217e3f42cb72f1c9b369f8098" prot="public" virt="non-virtual"><scope>themis::gpu::GPUErrorHandler</scope><name>GetLogger</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a5aaa34c48e66861d346fa49233f8df79" prot="public" virt="non-virtual"><scope>themis::gpu::GPUErrorHandler</scope><name>GPUErrorHandler</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1adb7cd89bb63d9e67249b4227d5be0cdb" prot="protected" virt="non-virtual"><scope>themis::gpu::GPUErrorHandler</scope><name>GPUErrorHandler</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a7e89b421bd22983f69f6c3368edfd72f" prot="public" virt="pure-virtual"><scope>themis::gpu::GPUErrorHandler</scope><name>hipErrorName</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1af27fa089886549dc5f935f899d7606b4" prot="public" virt="non-virtual"><scope>themis::gpu::GPUErrorHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_1a91e30d90fded737113059d481d5fba4f" prot="public" virt="virtual"><scope>themis::gpu::GPUErrorHandler</scope><name>~GPUErrorHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

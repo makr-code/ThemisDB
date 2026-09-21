@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::resource::AdaptiveConnectionPool::Statistics</compoundname>
+    <includes refid="resource__pool__manager_8h" local="no">resource_pool_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a3145f944297bf8c4b98c4cfde1ee9125" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::Statistics::pool_size</definition>
+        <argsstring></argsstring>
+        <name>pool_size</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::Statistics::pool_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current pool capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="56" column="21" bodyfile="include/base/resource_pool_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1af8f7f8fbfe7430047f7b1fff2226e400" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::Statistics::available</definition>
+        <argsstring></argsstring>
+        <name>available</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::Statistics::available</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Connections currently available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="57" column="21" bodyfile="include/base/resource_pool_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a4d30faa355c78d33c0c90ee369b84ef9" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::Statistics::in_use</definition>
+        <argsstring></argsstring>
+        <name>in_use</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::Statistics::in_use</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Connections currently acquired. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="58" column="21" bodyfile="include/base/resource_pool_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a54426fe88bc20843d2ce3536d44db6cb" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::Statistics::total_acquires</definition>
+        <argsstring></argsstring>
+        <name>total_acquires</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::Statistics::total_acquires</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="59" column="21" bodyfile="include/base/resource_pool_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a9aa675386f6cefb926967150e6f23dc6" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::Statistics::total_timeouts</definition>
+        <argsstring></argsstring>
+        <name>total_timeouts</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::Statistics::total_timeouts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="60" column="21" bodyfile="include/base/resource_pool_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a44535355523bc639d9b94c35031629ba" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::Statistics::scale_up_events</definition>
+        <argsstring></argsstring>
+        <name>scale_up_events</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::Statistics::scale_up_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="61" column="21" bodyfile="include/base/resource_pool_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a0742d06370cec70386ad0204fb246dea" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::Statistics::scale_down_events</definition>
+        <argsstring></argsstring>
+        <name>scale_down_events</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::Statistics::scale_down_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="62" column="21" bodyfile="include/base/resource_pool_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a839da2334dd73353fc3772170cd661bb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::resource::AdaptiveConnectionPool::Statistics::peak_utilization</definition>
+        <argsstring></argsstring>
+        <name>peak_utilization</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::Statistics::peak_utilization</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Peak in-use / pool_size ratio seen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="63" column="21" bodyfile="include/base/resource_pool_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/base/resource_pool_manager.h" line="55" column="5" bodyfile="include/base/resource_pool_manager.h" bodystart="55" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1af8f7f8fbfe7430047f7b1fff2226e400" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool::Statistics</scope><name>available</name></member>
+      <member refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a4d30faa355c78d33c0c90ee369b84ef9" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool::Statistics</scope><name>in_use</name></member>
+      <member refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a839da2334dd73353fc3772170cd661bb" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool::Statistics</scope><name>peak_utilization</name></member>
+      <member refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a3145f944297bf8c4b98c4cfde1ee9125" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool::Statistics</scope><name>pool_size</name></member>
+      <member refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a0742d06370cec70386ad0204fb246dea" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool::Statistics</scope><name>scale_down_events</name></member>
+      <member refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a44535355523bc639d9b94c35031629ba" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool::Statistics</scope><name>scale_up_events</name></member>
+      <member refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a54426fe88bc20843d2ce3536d44db6cb" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool::Statistics</scope><name>total_acquires</name></member>
+      <member refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a9aa675386f6cefb926967150e6f23dc6" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool::Statistics</scope><name>total_timeouts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

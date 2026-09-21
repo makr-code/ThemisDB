@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacechimera_1_1_0d176273071342074350357016112351274371221013000143" kind="namespace" language="C++">
+    <compoundname>chimera::@176273071342074350357016112351274371221013000143</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/chimera/themisdb_adapter.cpp" line="40" column="1"/>
+  </compounddef>
+</doxygen>

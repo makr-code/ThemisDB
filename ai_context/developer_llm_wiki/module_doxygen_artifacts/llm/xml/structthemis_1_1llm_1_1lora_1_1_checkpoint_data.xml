@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_checkpoint_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::CheckpointData</compoundname>
+    <includes refid="gradient__checkpointing_8h" local="no">gradient_checkpointing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a8cd7ea5e6222a06877ef4af58f06c9e6" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::CheckpointData::input</definition>
+        <argsstring></argsstring>
+        <name>input</name>
+        <qualifiedname>themis::llm::lora::CheckpointData::input</qualifiedname>
+        <briefdescription>
+<para>Input tensor to the layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="71" column="15" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a8b5e2ddd761d2f212bff3814315fa8f5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a8021be19948014b1a5aef926382e8662" kindref="member">ForwardFunction</ref></type>
+        <definition>ForwardFunction themis::llm::lora::CheckpointData::forward_fn</definition>
+        <argsstring></argsstring>
+        <name>forward_fn</name>
+        <qualifiedname>themis::llm::lora::CheckpointData::forward_fn</qualifiedname>
+        <briefdescription>
+<para>Function to recompute forward pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="72" column="21" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a312047e6304ea038fad3509eda9893ea" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CheckpointData::activation_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>activation_size_bytes</name>
+        <qualifiedname>themis::llm::lora::CheckpointData::activation_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Size of activation memory saved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="73" column="12" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CheckpointData::CheckpointData</definition>
+        <argsstring>()=default</argsstring>
+        <name>CheckpointData</name>
+        <qualifiedname>themis::llm::lora::CheckpointData::CheckpointData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a7ac43be5aa3225a3c1264e721e2a9145" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CheckpointData::~CheckpointData</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CheckpointData</name>
+        <qualifiedname>themis::llm::lora::CheckpointData::~CheckpointData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="66" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a5d049f3412f25073956c030050ff8023" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CheckpointData::CheckpointData</definition>
+        <argsstring>(const CheckpointData &amp;)=delete</argsstring>
+        <name>CheckpointData</name>
+        <qualifiedname>themis::llm::lora::CheckpointData::CheckpointData</qualifiedname>
+        <param>
+          <type>const CheckpointData &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="67" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a45a3f4690303b259adf840ca68e569a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref> &amp;</type>
+        <definition>CheckpointData &amp; themis::llm::lora::CheckpointData::operator=</definition>
+        <argsstring>(const CheckpointData &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::CheckpointData::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="68" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a4328e8f287f20581b1802af891f764ff" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CheckpointData::CheckpointData</definition>
+        <argsstring>(CheckpointData &amp;&amp;) noexcept=default</argsstring>
+        <name>CheckpointData</name>
+        <qualifiedname>themis::llm::lora::CheckpointData::CheckpointData</qualifiedname>
+        <param>
+          <type>CheckpointData &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1ae59e14476a71a73d100c99a31a7d3bca" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref> &amp;</type>
+        <definition>CheckpointData &amp; themis::llm::lora::CheckpointData::operator=</definition>
+        <argsstring>(CheckpointData &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::CheckpointData::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="70" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::lora::CheckpointData</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>input</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::GPUTensor</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/gradient_checkpointing.h" line="64" column="1" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="64" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a312047e6304ea038fad3509eda9893ea" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointData</scope><name>activation_size_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointData</scope><name>CheckpointData</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a5d049f3412f25073956c030050ff8023" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointData</scope><name>CheckpointData</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a4328e8f287f20581b1802af891f764ff" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointData</scope><name>CheckpointData</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a8b5e2ddd761d2f212bff3814315fa8f5" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointData</scope><name>forward_fn</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a8cd7ea5e6222a06877ef4af58f06c9e6" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointData</scope><name>input</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a45a3f4690303b259adf840ca68e569a8" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointData</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1ae59e14476a71a73d100c99a31a7d3bca" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointData</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a7ac43be5aa3225a3c1264e721e2a9145" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointData</scope><name>~CheckpointData</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

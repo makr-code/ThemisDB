@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_resilience_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::ResilienceMetrics</compoundname>
+    <includes refid="tensor__error__handling_8h" local="no">tensor_error_handling.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_resilience_metrics_1ac742d38ae28df4de55e46cd62f64bbc4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::tensor::ResilienceMetrics::total_operations</definition>
+        <argsstring></argsstring>
+        <name>total_operations</name>
+        <qualifiedname>themis::tensor::ResilienceMetrics::total_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total operations attempted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="388" column="9" bodyfile="include/tensor/tensor_error_handling.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_resilience_metrics_1a4d55746c73e21fc39dec3b388bb53aa0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::tensor::ResilienceMetrics::successful_operations</definition>
+        <argsstring></argsstring>
+        <name>successful_operations</name>
+        <qualifiedname>themis::tensor::ResilienceMetrics::successful_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successfully completed operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="391" column="9" bodyfile="include/tensor/tensor_error_handling.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_resilience_metrics_1af8c26bca280db56e53ce2d3489b996ff" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::tensor::ResilienceMetrics::failed_operations</definition>
+        <argsstring></argsstring>
+        <name>failed_operations</name>
+        <qualifiedname>themis::tensor::ResilienceMetrics::failed_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Failed operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="394" column="9" bodyfile="include/tensor/tensor_error_handling.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_resilience_metrics_1affcd191d1546a6765f8cce1a9ce6f002" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::tensor::ResilienceMetrics::recovered_operations</definition>
+        <argsstring></argsstring>
+        <name>recovered_operations</name>
+        <qualifiedname>themis::tensor::ResilienceMetrics::recovered_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Operations recovered via fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="397" column="9" bodyfile="include/tensor/tensor_error_handling.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_resilience_metrics_1a5c9ab1a2c58c31244fc669230a6a14ca" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::ResilienceMetrics::success_rate</definition>
+        <argsstring></argsstring>
+        <name>success_rate</name>
+        <qualifiedname>themis::tensor::ResilienceMetrics::success_rate</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Success rate (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="400" column="11" bodyfile="include/tensor/tensor_error_handling.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_resilience_metrics_1a01b094f6cee7088d446dfc0ca2b3c3b1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::ResilienceMetrics::recovery_rate</definition>
+        <argsstring></argsstring>
+        <name>recovery_rate</name>
+        <qualifiedname>themis::tensor::ResilienceMetrics::recovery_rate</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Recovery rate of failed operations (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="403" column="11" bodyfile="include/tensor/tensor_error_handling.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_resilience_metrics_1aa6faaa17ebaafdf46b88db42c4aeffa3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::ResilienceMetrics::total_error_handling_ms</definition>
+        <argsstring></argsstring>
+        <name>total_error_handling_ms</name>
+        <qualifiedname>themis::tensor::ResilienceMetrics::total_error_handling_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Total time spent in error handling (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="406" column="12" bodyfile="include/tensor/tensor_error_handling.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_resilience_metrics_1ab18058eb8b7703f3f48c1119951dd8ac" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::ResilienceMetrics::avg_recovery_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_recovery_latency_ms</name>
+        <qualifiedname>themis::tensor::ResilienceMetrics::avg_recovery_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Average error recovery latency (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="409" column="12" bodyfile="include/tensor/tensor_error_handling.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_resilience_metrics_1ae882ff8b0281d7cb978d967ef556e13c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ResilienceMetrics::last_error_message</definition>
+        <argsstring></argsstring>
+        <name>last_error_message</name>
+        <qualifiedname>themis::tensor::ResilienceMetrics::last_error_message</qualifiedname>
+        <briefdescription>
+<para>Last error message (most recent failure). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="412" column="17" bodyfile="include/tensor/tensor_error_handling.h" bodystart="412" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_resilience_metrics_1a1fe90a721fb5630703bf082c2d7acda3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ResilienceMetrics::last_error_timestamp</definition>
+        <argsstring></argsstring>
+        <name>last_error_timestamp</name>
+        <qualifiedname>themis::tensor::ResilienceMetrics::last_error_timestamp</qualifiedname>
+        <briefdescription>
+<para>Timestamp of last error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="415" column="17" bodyfile="include/tensor/tensor_error_handling.h" bodystart="415" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metrics for monitoring tensor mid-layer resilience. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_error_handling.h" line="386" column="1" bodyfile="include/tensor/tensor_error_handling.h" bodystart="386" bodyend="416"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_resilience_metrics_1ab18058eb8b7703f3f48c1119951dd8ac" prot="public" virt="non-virtual"><scope>themis::tensor::ResilienceMetrics</scope><name>avg_recovery_latency_ms</name></member>
+      <member refid="structthemis_1_1tensor_1_1_resilience_metrics_1af8c26bca280db56e53ce2d3489b996ff" prot="public" virt="non-virtual"><scope>themis::tensor::ResilienceMetrics</scope><name>failed_operations</name></member>
+      <member refid="structthemis_1_1tensor_1_1_resilience_metrics_1ae882ff8b0281d7cb978d967ef556e13c" prot="public" virt="non-virtual"><scope>themis::tensor::ResilienceMetrics</scope><name>last_error_message</name></member>
+      <member refid="structthemis_1_1tensor_1_1_resilience_metrics_1a1fe90a721fb5630703bf082c2d7acda3" prot="public" virt="non-virtual"><scope>themis::tensor::ResilienceMetrics</scope><name>last_error_timestamp</name></member>
+      <member refid="structthemis_1_1tensor_1_1_resilience_metrics_1affcd191d1546a6765f8cce1a9ce6f002" prot="public" virt="non-virtual"><scope>themis::tensor::ResilienceMetrics</scope><name>recovered_operations</name></member>
+      <member refid="structthemis_1_1tensor_1_1_resilience_metrics_1a01b094f6cee7088d446dfc0ca2b3c3b1" prot="public" virt="non-virtual"><scope>themis::tensor::ResilienceMetrics</scope><name>recovery_rate</name></member>
+      <member refid="structthemis_1_1tensor_1_1_resilience_metrics_1a5c9ab1a2c58c31244fc669230a6a14ca" prot="public" virt="non-virtual"><scope>themis::tensor::ResilienceMetrics</scope><name>success_rate</name></member>
+      <member refid="structthemis_1_1tensor_1_1_resilience_metrics_1a4d55746c73e21fc39dec3b388bb53aa0" prot="public" virt="non-virtual"><scope>themis::tensor::ResilienceMetrics</scope><name>successful_operations</name></member>
+      <member refid="structthemis_1_1tensor_1_1_resilience_metrics_1aa6faaa17ebaafdf46b88db42c4aeffa3" prot="public" virt="non-virtual"><scope>themis::tensor::ResilienceMetrics</scope><name>total_error_handling_ms</name></member>
+      <member refid="structthemis_1_1tensor_1_1_resilience_metrics_1ac742d38ae28df4de55e46cd62f64bbc4" prot="public" virt="non-virtual"><scope>themis::tensor::ResilienceMetrics</scope><name>total_operations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

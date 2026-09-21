@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::ethics::IEthicsProfileRegistry</compoundname>
+    <derivedcompoundref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry" prot="public" virt="non-virtual">themis::plugins::ethics::EthicsProfileRegistry</derivedcompoundref>
+    <includes refid="include_2ethics__ai_2ethics__profile__registry_8h" local="no">ethics_profile_registry.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a986fd23ec0a2b9f606b6faaae23bae50" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::ethics::IEthicsProfileRegistry::~IEthicsProfileRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IEthicsProfileRegistry</name>
+        <qualifiedname>themis::plugins::ethics::IEthicsProfileRegistry::~IEthicsProfileRegistry</qualifiedname>
+        <briefdescription>
+<para>IEthics Profile Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="48" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a64223b979b538d27b24ba2d220bd034e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta" kindref="compound">EthicsProfileMeta</ref> &gt;</type>
+        <definition>virtual std::vector&lt; EthicsProfileMeta &gt; themis::plugins::ethics::IEthicsProfileRegistry::queryIndex</definition>
+        <argsstring>(const EthicsIndexQuery &amp;query) const =0</argsstring>
+        <name>queryIndex</name>
+        <qualifiedname>themis::plugins::ethics::IEthicsProfileRegistry::queryIndex</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a144ff06045f58d563cc6652841c6c8d0">queryIndex</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query" kindref="compound">EthicsIndexQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Query Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="55" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a793ccf2f777eebd495cbce1f86649b9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>virtual std::variant&lt; PhilosophyProfile, Status &gt; themis::plugins::ethics::IEthicsProfileRegistry::getProfile</definition>
+        <argsstring>(const std::string &amp;school_id)=0</argsstring>
+        <name>getProfile</name>
+        <qualifiedname>themis::plugins::ethics::IEthicsProfileRegistry::getProfile</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1adb81c11b383e5c3e80273b55ff38c6c9">getProfile</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="58" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a58378792cb8d0334269a52ff0f752fef" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::variant&lt; size_t, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>virtual std::variant&lt; size_t, Status &gt; themis::plugins::ethics::IEthicsProfileRegistry::rebuildIndex</definition>
+        <argsstring>(const std::string &amp;directory)=0</argsstring>
+        <name>rebuildIndex</name>
+        <qualifiedname>themis::plugins::ethics::IEthicsProfileRegistry::rebuildIndex</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1ad29ff47a71d1ef3b2c3c339b8704bce7">rebuildIndex</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="61" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1ab8c49c94dc415d1cdc0965959ae08912" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::plugins::ethics::IEthicsProfileRegistry::indexSize</definition>
+        <argsstring>() const =0</argsstring>
+        <name>indexSize</name>
+        <qualifiedname>themis::plugins::ethics::IEthicsProfileRegistry::indexSize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1adc224d8fbcace29ac5578c71b7ef4c45">indexSize</reimplementedby>
+        <briefdescription>
+<para>Index Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="68" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1ad15204295463e54a3708f280d53aba8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::ethics::IEthicsProfileRegistry::hasProfile</definition>
+        <argsstring>(const std::string &amp;school_id) const =0</argsstring>
+        <name>hasProfile</name>
+        <qualifiedname>themis::plugins::ethics::IEthicsProfileRegistry::hasProfile</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a72e80285f2f641e8ec77a90a620fc0ec">hasProfile</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <briefdescription>
+<para>Has Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">school_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the school. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="75" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::plugins::ethics::EthicsProfileRegistry</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::plugins::ethics::IEthicsProfileRegistry</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/ethics_ai/ethics_profile_registry.h" line="42" column="1" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="42" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a793ccf2f777eebd495cbce1f86649b9d" prot="public" virt="pure-virtual"><scope>themis::plugins::ethics::IEthicsProfileRegistry</scope><name>getProfile</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1ad15204295463e54a3708f280d53aba8d" prot="public" virt="pure-virtual"><scope>themis::plugins::ethics::IEthicsProfileRegistry</scope><name>hasProfile</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1ab8c49c94dc415d1cdc0965959ae08912" prot="public" virt="pure-virtual"><scope>themis::plugins::ethics::IEthicsProfileRegistry</scope><name>indexSize</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a64223b979b538d27b24ba2d220bd034e" prot="public" virt="pure-virtual"><scope>themis::plugins::ethics::IEthicsProfileRegistry</scope><name>queryIndex</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a58378792cb8d0334269a52ff0f752fef" prot="public" virt="pure-virtual"><scope>themis::plugins::ethics::IEthicsProfileRegistry</scope><name>rebuildIndex</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a986fd23ec0a2b9f606b6faaae23bae50" prot="public" virt="virtual"><scope>themis::plugins::ethics::IEthicsProfileRegistry</scope><name>~IEthicsProfileRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

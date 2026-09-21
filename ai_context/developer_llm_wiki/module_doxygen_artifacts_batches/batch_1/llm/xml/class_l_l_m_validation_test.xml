@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_validation_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMValidationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_validation_test_1a691543b779abac1e6258fec9951bac48" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; LLMAQLHandler &gt;</type>
+        <definition>std::unique_ptr&lt;LLMAQLHandler&gt; LLMValidationTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>LLMValidationTest::handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_validation.cpp" line="22" column="21" bodyfile="tests/llm/test_llm_validation.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_validation_test_1a352ab946e5863f6e251b8def2ac21050" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMValidationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMValidationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_validation.cpp" line="14" column="10" bodyfile="tests/llm/test_llm_validation.cpp" bodystart="14" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_validation_test_1a4440c32444358eb2c58de56829e29f4a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMValidationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LLMValidationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_validation.cpp" line="18" column="10" bodyfile="tests/llm/test_llm_validation.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMValidationTest</label>
+        <link refid="class_l_l_m_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMValidationTest</label>
+        <link refid="class_l_l_m_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_validation.cpp" line="12" column="1" bodyfile="tests/llm/test_llm_validation.cpp" bodystart="12" bodyend="23"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_validation_test_1a691543b779abac1e6258fec9951bac48" prot="protected" virt="non-virtual"><scope>LLMValidationTest</scope><name>handler</name></member>
+      <member refid="class_l_l_m_validation_test_1a352ab946e5863f6e251b8def2ac21050" prot="protected" virt="non-virtual"><scope>LLMValidationTest</scope><name>SetUp</name></member>
+      <member refid="class_l_l_m_validation_test_1a4440c32444358eb2c58de56829e29f4a" prot="protected" virt="non-virtual"><scope>LLMValidationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

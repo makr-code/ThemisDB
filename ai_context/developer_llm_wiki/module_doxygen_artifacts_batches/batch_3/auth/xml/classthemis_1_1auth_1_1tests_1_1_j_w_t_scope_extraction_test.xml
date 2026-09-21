@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_j_w_t_scope_extraction_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::JWTScopeExtractionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_j_w_t_scope_extraction_test_1afe72af20d24c3b6c3e7d2d27f38bde67" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref></type>
+        <definition>JWTValidator themis::auth::tests::JWTScopeExtractionTest::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>themis::auth::tests::JWTScopeExtractionTest::validator_</qualifiedname>
+        <initializer>{&quot;https://keycloak.local/realms/<ref refid="namespacethemis_1_1auth_1_1test" kindref="compound">test</ref>/protocol/openid-connect/certs&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_jwt_validator_focused.cpp" line="324" column="18" bodyfile="tests/auth/test_jwt_validator_focused.cpp" bodystart="324" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::JWTScopeExtractionTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_scope_extraction_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::auth::JWTValidator</label>
+        <link refid="classthemis_1_1auth_1_1_j_w_t_validator"/>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::JWTScopeExtractionTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_scope_extraction_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>validator_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_jwt_validator_focused.cpp" line="322" column="1" bodyfile="tests/auth/test_jwt_validator_focused.cpp" bodystart="322" bodyend="325"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_scope_extraction_test_1afe72af20d24c3b6c3e7d2d27f38bde67" prot="protected" virt="non-virtual"><scope>themis::auth::tests::JWTScopeExtractionTest</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

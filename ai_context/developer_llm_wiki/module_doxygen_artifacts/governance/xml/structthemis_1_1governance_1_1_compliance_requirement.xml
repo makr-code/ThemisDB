@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_compliance_requirement" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceRequirement</compoundname>
+    <includes refid="compliance__framework_8h" local="no">compliance_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1ab71861b1f9a5fdef949072a44cae4540" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceRequirement::requirement_id</definition>
+        <argsstring></argsstring>
+        <name>requirement_id</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::requirement_id</qualifiedname>
+        <briefdescription>
+<para>Unique ID (e.g., &quot;GDPR-A.32.1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="82" column="17" bodyfile="include/governance/compliance_framework.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1aaffa545574c8c56ee47df0a6652f808c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+        <definition>ComplianceFramework themis::governance::ComplianceRequirement::framework</definition>
+        <argsstring></argsstring>
+        <name>framework</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::framework</qualifiedname>
+        <briefdescription>
+<para>Source framework. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="83" column="25" bodyfile="include/governance/compliance_framework.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1ab74ed9a0982ccfb413c5246fcfc940dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceRequirement::requirement_text</definition>
+        <argsstring></argsstring>
+        <name>requirement_text</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::requirement_text</qualifiedname>
+        <briefdescription>
+<para>Full requirement description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="84" column="17" bodyfile="include/governance/compliance_framework.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1ae50d55bca7b796c973aa6d534d542540" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceRequirement::regulatory_section</definition>
+        <argsstring></argsstring>
+        <name>regulatory_section</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::regulatory_section</qualifiedname>
+        <briefdescription>
+<para>Reference section (e.g., &quot;Article 32&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="85" column="17" bodyfile="include/governance/compliance_framework.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1a6a75f0eacdcbcbf09ef651990e50a90e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1afe4c21ca0a6085dc3625f62c9e539a39" kindref="member">ComplianceSeverity</ref></type>
+        <definition>ComplianceSeverity themis::governance::ComplianceRequirement::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::severity</qualifiedname>
+        <briefdescription>
+<para>Importance level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="86" column="24" bodyfile="include/governance/compliance_framework.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1a7e2168d66d3ff378d8c9af5ee3f12f28" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::ComplianceRequirement::control_ids</definition>
+        <argsstring></argsstring>
+        <name>control_ids</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::control_ids</qualifiedname>
+        <briefdescription>
+<para>Linked control IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="87" column="17" bodyfile="include/governance/compliance_framework.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1a80ae4408b751ba280cbfd43b4f5679c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceRequirement::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::category</qualifiedname>
+        <briefdescription>
+<para>Domain (e.g., &quot;encryption&quot;, &quot;access-control&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="88" column="17" bodyfile="include/governance/compliance_framework.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1abe43d73a19f4de99a6d6f33dd8aaaec5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ComplianceRequirement::is_mandatory</definition>
+        <argsstring></argsstring>
+        <name>is_mandatory</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::is_mandatory</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether requirement is mandatory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="89" column="10" bodyfile="include/governance/compliance_framework.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1af853ba80456525405e44843ec4eebaf4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ComplianceRequirement::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::version</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Requirement version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="90" column="9" bodyfile="include/governance/compliance_framework.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1aa7c8e3130a5a00e72a789298b8464520" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ComplianceRequirement::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::created_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="91" column="13" bodyfile="include/governance/compliance_framework.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1a2a15659151a7fd53eb0e41f2408d0c76" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ComplianceRequirement::updated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>updated_at_ms</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::updated_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Last update timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="92" column="13" bodyfile="include/governance/compliance_framework.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_requirement_1ac86f184d76e31182c660ede1240d2b6f" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceRequirement::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="93" column="20" bodyfile="include/governance/compliance_framework.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_requirement_1a5d98167878b61c5a90f5048b14940c39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceRequirement::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="99" column="20" bodyfile="src/governance/compliance_framework.cpp" bodystart="22" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_requirement_1a4b303f6dd82f07f9dc0d4859945138c4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref></type>
+        <definition>ComplianceRequirement themis::governance::ComplianceRequirement::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::ComplianceRequirement::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="106" column="34" bodyfile="src/governance/compliance_framework.cpp" bodystart="45" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_framework.h" line="81" column="1" bodyfile="include/governance/compliance_framework.h" bodystart="81" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1a80ae4408b751ba280cbfd43b4f5679c4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>category</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1a7e2168d66d3ff378d8c9af5ee3f12f28" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>control_ids</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1aa7c8e3130a5a00e72a789298b8464520" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1aaffa545574c8c56ee47df0a6652f808c" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>framework</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1a4b303f6dd82f07f9dc0d4859945138c4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1abe43d73a19f4de99a6d6f33dd8aaaec5" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>is_mandatory</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1ac86f184d76e31182c660ede1240d2b6f" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1ae50d55bca7b796c973aa6d534d542540" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>regulatory_section</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1ab71861b1f9a5fdef949072a44cae4540" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>requirement_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1ab74ed9a0982ccfb413c5246fcfc940dc" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>requirement_text</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1a6a75f0eacdcbcbf09ef651990e50a90e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>severity</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1a5d98167878b61c5a90f5048b14940c39" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1a2a15659151a7fd53eb0e41f2408d0c76" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>updated_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_requirement_1af853ba80456525405e44843ec4eebaf4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceRequirement</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

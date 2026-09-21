@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_dsgvo_violation" kind="struct" language="C++" prot="public">
+    <compoundname>DsgvoViolation</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_dsgvo_violation_1aec03ae435e06411bcf6bbce0bc8459a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DsgvoViolation::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>DsgvoViolation::message</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bpmn_s.cpp" line="38" column="17" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/process/test_bpmn_s.cpp" line="37" column="1" bodyfile="tests/process/test_bpmn_s.cpp" bodystart="37" bodyend="39"/>
+    <listofallmembers>
+      <member refid="struct_dsgvo_violation_1aec03ae435e06411bcf6bbce0bc8459a5" prot="public" virt="non-virtual"><scope>DsgvoViolation</scope><name>message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

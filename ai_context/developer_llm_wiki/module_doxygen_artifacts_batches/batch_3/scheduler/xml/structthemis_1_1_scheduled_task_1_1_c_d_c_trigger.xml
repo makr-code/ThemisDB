@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ScheduledTask::CDCTrigger</compoundname>
+    <includes refid="task__scheduler_8h" local="no">task_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger_1aa69f42accbf59155d855f9a8337a26e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ScheduledTask::CDCTrigger::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::ScheduledTask::CDCTrigger::key_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="88" column="21" bodyfile="include/scheduler/task_scheduler.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger_1a8878ad9c553f5f98be0812bb24251070" prot="public" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; themis::ScheduledTask::CDCTrigger::event_types</definition>
+        <argsstring></argsstring>
+        <name>event_types</name>
+        <qualifiedname>themis::ScheduledTask::CDCTrigger::event_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="89" column="18" bodyfile="include/scheduler/task_scheduler.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger_1a36761e664d18257924f339f32862bb3e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ScheduledTask::CDCTrigger::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>themis::ScheduledTask::CDCTrigger::condition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="90" column="23" bodyfile="include/scheduler/task_scheduler.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger_1ab5805844d0b721920bfff07aebc5c972" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::ScheduledTask::CDCTrigger::debounce_ms</definition>
+        <argsstring></argsstring>
+        <name>debounce_ms</name>
+        <qualifiedname>themis::ScheduledTask::CDCTrigger::debounce_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="91" column="18" bodyfile="include/scheduler/task_scheduler.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/task_scheduler.h" line="87" column="5" bodyfile="include/scheduler/task_scheduler.h" bodystart="87" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger_1a36761e664d18257924f339f32862bb3e" prot="public" virt="non-virtual"><scope>themis::ScheduledTask::CDCTrigger</scope><name>condition</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger_1ab5805844d0b721920bfff07aebc5c972" prot="public" virt="non-virtual"><scope>themis::ScheduledTask::CDCTrigger</scope><name>debounce_ms</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger_1a8878ad9c553f5f98be0812bb24251070" prot="public" virt="non-virtual"><scope>themis::ScheduledTask::CDCTrigger</scope><name>event_types</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger_1aa69f42accbf59155d855f9a8337a26e8" prot="public" virt="non-virtual"><scope>themis::ScheduledTask::CDCTrigger</scope><name>key_prefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

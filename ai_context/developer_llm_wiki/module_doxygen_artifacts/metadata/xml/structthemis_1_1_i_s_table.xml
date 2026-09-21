@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_i_s_table" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ISTable</compoundname>
+    <includes refid="information__schema_8h" local="no">information_schema.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_i_s_table_1ab0dcb50ed321e68f60d325be5ec01c86" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISTable::table_catalog</definition>
+        <argsstring></argsstring>
+        <name>table_catalog</name>
+        <qualifiedname>themis::ISTable::table_catalog</qualifiedname>
+        <briefdescription>
+<para>Always &quot;def&quot; (SQL standard). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="35" column="17" bodyfile="include/metadata/information_schema.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_table_1a2f0cf03f27a0c0b66b2d04f77ef7ba0e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISTable::table_schema</definition>
+        <argsstring></argsstring>
+        <name>table_schema</name>
+        <qualifiedname>themis::ISTable::table_schema</qualifiedname>
+        <briefdescription>
+<para>Schema/database name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="36" column="17" bodyfile="include/metadata/information_schema.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_table_1a4d828eecff3e10a08fef2eda50fc03de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISTable::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::ISTable::table_name</qualifiedname>
+        <briefdescription>
+<para>Table/collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="37" column="17" bodyfile="include/metadata/information_schema.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_table_1a4432ddd689258ef99d33d983ddd92546" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISTable::table_type</definition>
+        <argsstring></argsstring>
+        <name>table_type</name>
+        <qualifiedname>themis::ISTable::table_type</qualifiedname>
+        <briefdescription>
+<para>&quot;BASE TABLE&quot;, &quot;VIEW&quot;, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="38" column="17" bodyfile="include/metadata/information_schema.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_table_1aad224ae4868f7d6fb31f5092146bc9a1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ISTable::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::ISTable::row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated row count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="39" column="12" bodyfile="include/metadata/information_schema.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_table_1acc39c1c5ccd4febd4f03332858baa3e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISTable::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>themis::ISTable::engine</qualifiedname>
+        <briefdescription>
+<para>Storage engine name (&quot;ThemisDB&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="40" column="17" bodyfile="include/metadata/information_schema.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_table_1adfbc64bd128d7e5cf6ba857b6c5333f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISTable::create_time</definition>
+        <argsstring></argsstring>
+        <name>create_time</name>
+        <qualifiedname>themis::ISTable::create_time</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 creation timestamp (if known). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="41" column="17" bodyfile="include/metadata/information_schema.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_i_s_table_1a978ead03c7e5a2d0a6b68fe2e6f41732" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::ISTable::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::ISTable::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this TABLES row to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object representing the row fields. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="47" column="10" bodyfile="src/metadata/information_schema.cpp" bodystart="27" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Row model for <computeroutput>INFORMATION_SCHEMA.TABLES</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/information_schema.h" line="34" column="1" bodyfile="include/metadata/information_schema.h" bodystart="34" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_i_s_table_1adfbc64bd128d7e5cf6ba857b6c5333f9" prot="public" virt="non-virtual"><scope>themis::ISTable</scope><name>create_time</name></member>
+      <member refid="structthemis_1_1_i_s_table_1acc39c1c5ccd4febd4f03332858baa3e0" prot="public" virt="non-virtual"><scope>themis::ISTable</scope><name>engine</name></member>
+      <member refid="structthemis_1_1_i_s_table_1aad224ae4868f7d6fb31f5092146bc9a1" prot="public" virt="non-virtual"><scope>themis::ISTable</scope><name>row_count</name></member>
+      <member refid="structthemis_1_1_i_s_table_1ab0dcb50ed321e68f60d325be5ec01c86" prot="public" virt="non-virtual"><scope>themis::ISTable</scope><name>table_catalog</name></member>
+      <member refid="structthemis_1_1_i_s_table_1a4d828eecff3e10a08fef2eda50fc03de" prot="public" virt="non-virtual"><scope>themis::ISTable</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1_i_s_table_1a2f0cf03f27a0c0b66b2d04f77ef7ba0e" prot="public" virt="non-virtual"><scope>themis::ISTable</scope><name>table_schema</name></member>
+      <member refid="structthemis_1_1_i_s_table_1a4432ddd689258ef99d33d983ddd92546" prot="public" virt="non-virtual"><scope>themis::ISTable</scope><name>table_type</name></member>
+      <member refid="structthemis_1_1_i_s_table_1a978ead03c7e5a2d0a6b68fe2e6f41732" prot="public" virt="non-virtual"><scope>themis::ISTable</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_plugin_manager_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginManagerRegistry</compoundname>
+    <includes refid="plugin__manager_8h" local="no">plugin_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1_plugin_manager_registry_1a2eae7d6d8caaef9d652c94538b2d6436" prot="public" static="no">
+        <type>std::function&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref> &gt;()&gt;</type>
+        <definition>using themis::plugins::PluginManagerRegistry::PluginFactory = std::function&lt;std::unique_ptr&lt;IThemisPlugin&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>PluginFactory</name>
+        <qualifiedname>themis::plugins::PluginManagerRegistry::PluginFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="687" column="5" bodyfile="include/plugins/plugin_manager.h" bodystart="687" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_manager_registry_1a8662454996b15dfe5c51ce1a8e75ae43" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::pair&lt; <ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref>, <ref refid="classthemis_1_1plugins_1_1_plugin_manager_registry_1a2eae7d6d8caaef9d652c94538b2d6436" kindref="member">PluginFactory</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::pair&lt;PluginType, PluginFactory&gt; &gt; themis::plugins::PluginManagerRegistry::factories_</definition>
+        <argsstring></argsstring>
+        <name>factories_</name>
+        <qualifiedname>themis::plugins::PluginManagerRegistry::factories_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="714" column="24" bodyfile="include/plugins/plugin_manager.h" bodystart="714" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_manager_registry_1ade613b725070d6f06c403bc7d3e87a7c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::PluginManagerRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::plugins::PluginManagerRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="715" column="24" bodyfile="include/plugins/plugin_manager.h" bodystart="715" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_registry_1a6ca248f2d4fc1bef8249d5b6838fb2dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginManagerRegistry::registerFactory</definition>
+        <argsstring>(const std::string &amp;name, PluginType type, PluginFactory factory)</argsstring>
+        <name>registerFactory</name>
+        <qualifiedname>themis::plugins::PluginManagerRegistry::registerFactory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1_plugin_manager_registry_1a2eae7d6d8caaef9d652c94538b2d6436" kindref="member">PluginFactory</ref></type>
+          <declname>factory</declname>
+        </param>
+        <briefdescription>
+<para>Register a plugin factory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Factory.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Factory function</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1plugins_1_1_plugin_manager_registry_1ae0bf38089953e2835534d23ffceda76e" kindref="member">instance()</ref>, lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="695" column="17" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1980" bodyend="1990"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_registry_1a0e4db3477341829b7f24a9d40396d326" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IThemisPlugin &gt; themis::plugins::PluginManagerRegistry::createPlugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>createPlugin</name>
+        <qualifiedname>themis::plugins::PluginManagerRegistry::createPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Create plugin from factory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Plugin.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Plugin instance or nullptr</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1plugins_1_1_plugin_manager_registry_1ae0bf38089953e2835534d23ffceda76e" kindref="member">instance()</ref>, lock(), find(), end(), second(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="706" column="28" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1998" bodyend="2008"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_registry_1ae0bf38089953e2835534d23ffceda76e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1_plugin_manager_registry" kindref="compound">PluginManagerRegistry</ref> &amp;</type>
+        <definition>PluginManagerRegistry &amp; themis::plugins::PluginManagerRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::plugins::PluginManagerRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Get singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Instance.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="711" column="34" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2015" bodyend="2018"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin Registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Global registry for type-specific plugin factories. Allows third-party code to register plugin types. </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_manager.h" line="685" column="1" bodyfile="include/plugins/plugin_manager.h" bodystart="685" bodyend="716"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_registry_1a0e4db3477341829b7f24a9d40396d326" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerRegistry</scope><name>createPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_registry_1a8662454996b15dfe5c51ce1a8e75ae43" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManagerRegistry</scope><name>factories_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_registry_1ae0bf38089953e2835534d23ffceda76e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_registry_1ade613b725070d6f06c403bc7d3e87a7c" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManagerRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_registry_1a2eae7d6d8caaef9d652c94538b2d6436" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerRegistry</scope><name>PluginFactory</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_registry_1a6ca248f2d4fc1bef8249d5b6838fb2dc" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerRegistry</scope><name>registerFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

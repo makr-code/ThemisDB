@@ -1,0 +1,557 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::LoRACheckpointManager</compoundname>
+    <includes refid="lora__checkpoint__manager_8h" local="no">lora_checkpoint_manager.h</includes>
+    <innerclass refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl" prot="public">themis::training::LoRACheckpointManager::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a469169c79fcd79963713766c22945725" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::training::LoRACheckpointManager::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="260" column="21" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LoRACheckpointManager::LoRACheckpointManager</definition>
+        <argsstring>(const CheckpointManagerConfig &amp;config)</argsstring>
+        <name>LoRACheckpointManager</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::LoRACheckpointManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_checkpoint_manager_config" kindref="compound">CheckpointManagerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct the checkpoint manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration for directory, window size, and validation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CheckpointException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if checkpoint_dir is empty or path is unsafe (error code: CHECKPOINT_DIR_INVALID or CHECKPOINT_PATH_UNSAFE) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="143" column="14" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="467" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ac1d1f5ecd14b4c74f7355a0b43b2ad25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LoRACheckpointManager::~LoRACheckpointManager</definition>
+        <argsstring>()</argsstring>
+        <name>~LoRACheckpointManager</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::~LoRACheckpointManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="145" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1aa4f9f26c5e78a2d1437162a3bcb21df0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LoRACheckpointManager::LoRACheckpointManager</definition>
+        <argsstring>(const LoRACheckpointManager &amp;)=delete</argsstring>
+        <name>LoRACheckpointManager</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::LoRACheckpointManager</qualifiedname>
+        <param>
+          <type>const LoRACheckpointManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="148" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ab3b25ed45b50d9d3d96d8fa7bd56359a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref> &amp;</type>
+        <definition>LoRACheckpointManager &amp; themis::training::LoRACheckpointManager::operator=</definition>
+        <argsstring>(const LoRACheckpointManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="149" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a05db4e161940b2ab73dfafc1b2a8de1d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LoRACheckpointManager::LoRACheckpointManager</definition>
+        <argsstring>(LoRACheckpointManager &amp;&amp;) noexcept=default</argsstring>
+        <name>LoRACheckpointManager</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::LoRACheckpointManager</qualifiedname>
+        <param>
+          <type>LoRACheckpointManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="150" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ae8c1045ee31553fe2eccd17514d13eb1" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref> &amp;</type>
+        <definition>LoRACheckpointManager &amp; themis::training::LoRACheckpointManager::operator=</definition>
+        <argsstring>(LoRACheckpointManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="151" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a8cb774f9f6ff0451ab1ecb331449fc70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref></type>
+        <definition>CheckpointManifestEntry themis::training::LoRACheckpointManager::save</definition>
+        <argsstring>(const std::string &amp;source_path, CheckpointManifestEntry meta)</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::save</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref></type>
+          <declname>meta</declname>
+        </param>
+        <briefdescription>
+<para>Atomically save a checkpoint with integrity metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Save.</para>
+<para>Reads <computeroutput>source_path</computeroutput>, copies it to <computeroutput>checkpoint_dir/&lt;filename&gt;.tmp</computeroutput>, computes its SHA-256, renames to the final path, then updates the manifest. The oldest entry is pruned once the rolling window overflows.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the adapter weights file to checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata to store in the manifest (sha256 is computed automatically and must not be pre-filled). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Manifest entry with the final path and computed SHA-256. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on I/O failure.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="166" column="29" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="479" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1abeb2c3826678e90026504757bcf7e654" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref> &gt;</type>
+        <definition>std::optional&lt; CheckpointManifestEntry &gt; themis::training::LoRACheckpointManager::resume</definition>
+        <argsstring>() const</argsstring>
+        <name>resume</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::resume</qualifiedname>
+        <briefdescription>
+<para>Validate and return the latest valid checkpoint entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If <computeroutput>validate_on_load</computeroutput> is true the SHA-256 of the latest checkpoint is verified. On mismatch, if <computeroutput>auto_rollback</computeroutput> is true the previous entry is tried and a WARN log is emitted. Returns std::nullopt if no valid checkpoint exists.</para>
+<para><simplesect kind="return"><para>Latest valid manifest entry, or std::nullopt. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="179" column="19" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="484" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a379d3269b4bab5991b5d0e71baf17d77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref> &gt;</type>
+        <definition>std::optional&lt; CheckpointManifestEntry &gt; themis::training::LoRACheckpointManager::resumeWithDiagnostics</definition>
+        <argsstring>(std::string *diagnostics=nullptr) const</argsstring>
+        <name>resumeWithDiagnostics</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::resumeWithDiagnostics</qualifiedname>
+        <param>
+          <type>std::string *</type>
+          <declname>diagnostics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Phase 2: Recover a checkpoint with detailed diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attempts to recover a checkpoint from the manifest, returning full diagnostic information about the recovery process (which checkpoints were attempted, why they failed, etc.). This is useful for understanding checkpoint corruption or rollback behavior.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="out">diagnostics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional string to receive detailed recovery info </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Latest valid manifest entry, or std::nullopt if recovery fails </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="192" column="19" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="521" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a80d59155b06107545a65f516b5b3e651" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref> &gt;</type>
+        <definition>std::vector&lt; CheckpointManifestEntry &gt; themis::training::LoRACheckpointManager::listCheckpoints</definition>
+        <argsstring>() const</argsstring>
+        <name>listCheckpoints</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::listCheckpoints</qualifiedname>
+        <briefdescription>
+<para>Return all manifest entries, newest first. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="198" column="17" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="488" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a2ac6c24848757d109bcb5cf8d0f1d8f6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::LoRACheckpointManager::validate</definition>
+        <argsstring>(const CheckpointManifestEntry &amp;entry) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Validate the integrity of a specific checkpoint file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Manifest entry to validate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the file exists and its SHA-256 matches the stored digest. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="205" column="10" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="492" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ad031b41214ffee68b1dfca607b805b1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LoRACheckpointManager::clearAll</definition>
+        <argsstring>()</argsstring>
+        <name>clearAll</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::clearAll</qualifiedname>
+        <briefdescription>
+<para>Delete all checkpoints and clear the manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear All.</para>
+<para>Implements clearAll without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="210" column="10" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="500" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a911186b46ce5ced1b63bfb38317374a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRACheckpointManager::manifestPath</definition>
+        <argsstring>() const</argsstring>
+        <name>manifestPath</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::manifestPath</qualifiedname>
+        <briefdescription>
+<para>Return the path to the manifest JSON file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="215" column="17" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="504" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a6435be78a715875cb67174fdde8c65a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LoRACheckpointManager::saveCalibrationJson</definition>
+        <argsstring>(const std::string &amp;json_content)</argsstring>
+        <name>saveCalibrationJson</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::saveCalibrationJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_content</declname>
+        </param>
+        <briefdescription>
+<para>Persist a calibration result as <computeroutput>calibration_manifest.json</computeroutput> in the checkpoint directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Save Calibration Json.</para>
+<para>The calibration manifest is written alongside adapter weights so that <computeroutput><ref refid="classthemis_1_1training_1_1_confidence_calibrator" kindref="compound">ConfidenceCalibrator</ref></computeroutput> thresholds are always co-located with the checkpoint they were derived from.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>json_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serialised calibration result (key=value or JSON string). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on I/O failure.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements saveCalibrationJson without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="228" column="10" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="513" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a48cfb03eccb60a9f963767b7e08a4a54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRACheckpointManager::loadCalibrationJson</definition>
+        <argsstring>() const</argsstring>
+        <name>loadCalibrationJson</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::loadCalibrationJson</qualifiedname>
+        <briefdescription>
+<para>Load the calibration manifest from the checkpoint directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Contents of <computeroutput>calibration_manifest.json</computeroutput>, or empty string if not present. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="234" column="17" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="517" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a52e5edc7a2e57a75fbde4cd1b0fddbe6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRACheckpointManager::cleanupPartialCheckpoints</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupPartialCheckpoints</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::cleanupPartialCheckpoints</qualifiedname>
+        <briefdescription>
+<para>Phase 2: Clean up partial/corrupted checkpoints in the directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Partial Checkpoints.</para>
+<para>Removes checkpoint files that are not in the manifest, or checkpoint files that fail validation and are marked for cleanup in the config. This helps recover disk space and maintain a clean checkpoint directory.</para>
+<para><simplesect kind="return"><para>Number of files cleaned up</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements cleanupPartialCheckpoints without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="245" column="12" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="567" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a05dee0eb04ffb56d81c81d73e981be73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRACheckpointManager::auditCheckpoints</definition>
+        <argsstring>(std::string *diagnostics=nullptr)</argsstring>
+        <name>auditCheckpoints</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::auditCheckpoints</qualifiedname>
+        <param>
+          <type>std::string *</type>
+          <declname>diagnostics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Phase 2: Verify all checkpoints in the manifest and report status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Audit Checkpoints.</para>
+<para>Performs a full audit of the checkpoint directory: validates each entry, reports which are valid/corrupt, and optionally removes corrupt entries.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="out">diagnostics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional string to receive audit results </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of valid checkpoints found</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">diagnostics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements auditCheckpoints without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="256" column="12" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="577" bodyend="579"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Atomic, integrity-validated LoRA adapter checkpoint manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Writes checkpoints atomically (write → .tmp → SHA-256 → rename) and keeps a rolling window of the last <computeroutput>max_checkpoints</computeroutput> (default 3) entries. On <computeroutput><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1abeb2c3826678e90026504757bcf7e654" kindref="member">resume()</ref></computeroutput>, the SHA-256 of the requested checkpoint is verified; if corrupt the manager automatically falls back to the previous valid entry and emits a WARN-level log.</para>
+<para>Checkpoint metadata (epoch, step, loss, sha256, base_model_hash) is stored in <computeroutput>checkpoint_manifest.json</computeroutput> inside <computeroutput>checkpoint_dir</computeroutput>.</para>
+<sect1 id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1autotoc_md4_1s1"><sect2 id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1autotoc_md4">
+<title>Phase 3: Error Handling and Edge Cases</title><para>All public methods throw <ref refid="classthemis_1_1training_1_1_checkpoint_exception" kindref="compound">CheckpointException</ref> with structured error codes and diagnostics for production troubleshooting:</para>
+<para><itemizedlist>
+<listitem><para><bold>Constructor</bold>: throws <ref refid="classthemis_1_1training_1_1_checkpoint_exception" kindref="compound">CheckpointException</ref> if checkpoint_dir is empty or invalid (code: CHECKPOINT_DIR_INVALID)</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a8cb774f9f6ff0451ab1ecb331449fc70" kindref="member">save()</ref></bold>: throws <ref refid="classthemis_1_1training_1_1_checkpoint_exception" kindref="compound">CheckpointException</ref> on:<itemizedlist>
+<listitem><para>File read failure (CHECKPOINT_READ_FAILED)</para>
+</listitem><listitem><para>Disk full (CHECKPOINT_DISK_SPACE_EXHAUSTED)</para>
+</listitem><listitem><para>File write failure (CHECKPOINT_WRITE_FAILED)</para>
+</listitem><listitem><para>Rename/move failure (CHECKPOINT_RENAME_FAILED)</para>
+</listitem><listitem><para>I/O timeout (CHECKPOINT_IO_TIMEOUT)</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1abeb2c3826678e90026504757bcf7e654" kindref="member">resume()</ref></bold>: returns std::nullopt if no valid checkpoint found; logs recovered checkpoint path on success or auto-rollback</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a379d3269b4bab5991b5d0e71baf17d77" kindref="member">resumeWithDiagnostics()</ref></bold>: includes detailed recovery information including which checkpoints were attempted and why they failed</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a2ac6c24848757d109bcb5cf8d0f1d8f6" kindref="member">validate()</ref></bold>: returns false if file missing or SHA-256 mismatch</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a52e5edc7a2e57a75fbde4cd1b0fddbe6" kindref="member">cleanupPartialCheckpoints()</ref></bold>: logs which files were removed</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a05dee0eb04ffb56d81c81d73e981be73" kindref="member">auditCheckpoints()</ref></bold>: reports validity status for each entry and returns count of valid checkpoints</para>
+</listitem></itemizedlist>
+</para>
+<para>Edge cases handled:<itemizedlist>
+<listitem><para>Empty checkpoint directory: gracefully handled (resume returns nullopt)</para>
+</listitem><listitem><para>Corrupted manifest: malformed entries silently dropped, valid entries retained</para>
+</listitem><listitem><para>Partially-written checkpoints: detected by size check, cleaned up</para>
+</listitem><listitem><para>Disk full during save: detected early, error thrown with recoverable=true</para>
+</listitem><listitem><para>SHA-256 validation timeout: error thrown with code CHECKPOINT_VALIDATION_TIMEOUT</para>
+</listitem><listitem><para>All checkpoints corrupted: auto-rollback exhausted, explicit error with recovery options</para>
+</listitem></itemizedlist>
+</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal">CheckpointManagerConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.checkpoint_dir<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/var/lib/themis/checkpoints/legal_v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_checkpoints<sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref><sp/>mgr(cfg);<sp/><sp/></highlight><highlight class="comment">//<sp/>throws<sp/>if<sp/>dir<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.save(</highlight><highlight class="stringliteral">&quot;weights.bin&quot;</highlight><highlight class="normal">,<sp/>{.epoch=1,<sp/>.step=500,<sp/>.loss=0.42,<sp/>.adapter_version=</highlight><highlight class="stringliteral">&quot;legal_v1.1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>mgr.resume();<sp/><sp/></highlight><highlight class="comment">//<sp/>nullopt<sp/>if<sp/>no<sp/>valid<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>load<sp/>entry-&gt;checkpoint_path</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CheckpointException&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Handle<sp/>checkpoint<sp/>failure<sp/>with<sp/>error<sp/>code<sp/>and<sp/>diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>log_error<sp/>&lt;&lt;<sp/>e.diagnostic_message();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/training/lora_checkpoint_manager.h" line="135" column="1" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="135" bodyend="261"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a05dee0eb04ffb56d81c81d73e981be73" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>auditCheckpoints</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a52e5edc7a2e57a75fbde4cd1b0fddbe6" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>cleanupPartialCheckpoints</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ad031b41214ffee68b1dfca607b805b1c" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>clearAll</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a469169c79fcd79963713766c22945725" prot="private" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a80d59155b06107545a65f516b5b3e651" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>listCheckpoints</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a48cfb03eccb60a9f963767b7e08a4a54" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>loadCalibrationJson</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>LoRACheckpointManager</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1aa4f9f26c5e78a2d1437162a3bcb21df0" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>LoRACheckpointManager</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a05db4e161940b2ab73dfafc1b2a8de1d" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>LoRACheckpointManager</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a911186b46ce5ced1b63bfb38317374a1" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>manifestPath</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ab3b25ed45b50d9d3d96d8fa7bd56359a" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ae8c1045ee31553fe2eccd17514d13eb1" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1abeb2c3826678e90026504757bcf7e654" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>resume</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a379d3269b4bab5991b5d0e71baf17d77" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>resumeWithDiagnostics</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a8cb774f9f6ff0451ab1ecb331449fc70" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>save</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a6435be78a715875cb67174fdde8c65a4" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>saveCalibrationJson</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a2ac6c24848757d109bcb5cf8d0f1d8f6" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>validate</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ac1d1f5ecd14b4c74f7355a0b43b2ad25" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager</scope><name>~LoRACheckpointManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

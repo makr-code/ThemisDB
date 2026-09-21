@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_span_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::SpanMetrics</compoundname>
+    <includes refid="opentelemetry__tracer_8h" local="no">opentelemetry_tracer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_metrics_1a269fd93946162b2b819f83a9dd6385d0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SpanMetrics::cpu_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>cpu_usage_percent</name>
+        <qualifiedname>themis::observability::SpanMetrics::cpu_usage_percent</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Host CPU utilisation [0–100]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="71" column="13" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_metrics_1a90f9dd08c9d7a4c6a51ee62073040013" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SpanMetrics::memory_usage_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_bytes</name>
+        <qualifiedname>themis::observability::SpanMetrics::memory_usage_bytes</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Process RSS in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="72" column="13" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_metrics_1a893648996ab4603a2e745fc374290342" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::SpanMetrics::active_connections</definition>
+        <argsstring></argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::observability::SpanMetrics::active_connections</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Current open client connections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="73" column="13" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_metrics_1a22fc931bd86f1a4f0919719a26bcf0ca" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::SpanMetrics::query_count</definition>
+        <argsstring></argsstring>
+        <name>query_count</name>
+        <qualifiedname>themis::observability::SpanMetrics::query_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Queries executed since last flush. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="74" column="13" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_metrics_1a12b07c36f6a814e32ba60689dd761833" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SpanMetrics::cache_hit_rate</definition>
+        <argsstring></argsstring>
+        <name>cache_hit_rate</name>
+        <qualifiedname>themis::observability::SpanMetrics::cache_hit_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Block-cache hit rate [0.0–1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="75" column="13" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_metrics_1a2156638e345e25f0e133047a7dd84e61" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::observability::SpanMetrics::custom</definition>
+        <argsstring></argsstring>
+        <name>custom</name>
+        <qualifiedname>themis::observability::SpanMetrics::custom</qualifiedname>
+        <briefdescription>
+<para>Arbitrary additional metrics (e.g. per-shard counters). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="78" column="14" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of database runtime metrics that can be recorded as span attributes via <computeroutput><ref refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ad00cb36da110f19e2015f90a22a0ce2a" kindref="member">OpenTelemetryTracer::recordMetrics()</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields are optional; zero-values are silently omitted when recording. </para>
+    </detaileddescription>
+    <location file="include/observability/opentelemetry_tracer.h" line="70" column="1" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="70" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_span_metrics_1a893648996ab4603a2e745fc374290342" prot="public" virt="non-virtual"><scope>themis::observability::SpanMetrics</scope><name>active_connections</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_metrics_1a12b07c36f6a814e32ba60689dd761833" prot="public" virt="non-virtual"><scope>themis::observability::SpanMetrics</scope><name>cache_hit_rate</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_metrics_1a269fd93946162b2b819f83a9dd6385d0" prot="public" virt="non-virtual"><scope>themis::observability::SpanMetrics</scope><name>cpu_usage_percent</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_metrics_1a2156638e345e25f0e133047a7dd84e61" prot="public" virt="non-virtual"><scope>themis::observability::SpanMetrics</scope><name>custom</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_metrics_1a90f9dd08c9d7a4c6a51ee62073040013" prot="public" virt="non-virtual"><scope>themis::observability::SpanMetrics</scope><name>memory_usage_bytes</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_metrics_1a22fc931bd86f1a4f0919719a26bcf0ca" prot="public" virt="non-virtual"><scope>themis::observability::SpanMetrics</scope><name>query_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

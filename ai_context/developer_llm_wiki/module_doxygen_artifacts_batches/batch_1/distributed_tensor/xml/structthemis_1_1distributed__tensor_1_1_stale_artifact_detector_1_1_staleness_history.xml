@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::StaleArtifactDetector::StalenessHistory</compoundname>
+    <includes refid="stale__artifact__detector_8h" local="no">stale_artifact_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a04ce0dfadb2c6a99a74c2d584cc05bbf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::StaleArtifactDetector::StalenessHistory::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::StalenessHistory::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="135" column="17" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a953ad71833b050722dae48941fbe6d3c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6ee" kindref="member">StalenessLevel</ref></type>
+        <definition>StalenessLevel themis::distributed_tensor::StaleArtifactDetector::StalenessHistory::most_recent</definition>
+        <argsstring></argsstring>
+        <name>most_recent</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::StalenessHistory::most_recent</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaa56278fcd527ad6b4619050916ca2ca8" kindref="member">StalenessLevel::FRESH</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="137" column="20" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1ae451e42f6c6cde8e9fdafb86fc6d0156" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::StaleArtifactDetector::StalenessHistory::moderate_staleness_count</definition>
+        <argsstring></argsstring>
+        <name>moderate_staleness_count</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::StalenessHistory::moderate_staleness_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="139" column="14" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a2ef8c44010da19a8d1d4ccede8bb31c4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::StaleArtifactDetector::StalenessHistory::critical_staleness_count</definition>
+        <argsstring></argsstring>
+        <name>critical_staleness_count</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::StalenessHistory::critical_staleness_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="141" column="14" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1ab781de75421c0e5499e11ef910bf00f8" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::StaleArtifactDetector::StalenessHistory::last_change_unix_sec</definition>
+        <argsstring></argsstring>
+        <name>last_change_unix_sec</name>
+        <qualifiedname>themis::distributed_tensor::StaleArtifactDetector::StalenessHistory::last_change_unix_sec</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="143" column="13" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="134" column="3" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="134" bodyend="144"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a04ce0dfadb2c6a99a74c2d584cc05bbf" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector::StalenessHistory</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a2ef8c44010da19a8d1d4ccede8bb31c4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector::StalenessHistory</scope><name>critical_staleness_count</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1ab781de75421c0e5499e11ef910bf00f8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector::StalenessHistory</scope><name>last_change_unix_sec</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1ae451e42f6c6cde8e9fdafb86fc6d0156" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector::StalenessHistory</scope><name>moderate_staleness_count</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a953ad71833b050722dae48941fbe6d3c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StaleArtifactDetector::StalenessHistory</scope><name>most_recent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

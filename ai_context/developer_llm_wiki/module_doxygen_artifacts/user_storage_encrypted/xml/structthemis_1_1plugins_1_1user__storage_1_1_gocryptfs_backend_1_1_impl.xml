@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::GocryptfsBackend::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1afb16243c6a66e5fd5ea0d86daa2be35a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::GocryptfsBackend::Impl::gocryptfs_binary</definition>
+        <argsstring></argsstring>
+        <name>gocryptfs_binary</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::Impl::gocryptfs_binary</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/gocryptfs_backend.cpp" line="205" column="17" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1a30479dc9a65576b5110b821f1671c1b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::GocryptfsBackend::Impl::initialized</definition>
+        <argsstring></argsstring>
+        <name>initialized</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::Impl::initialized</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/gocryptfs_backend.cpp" line="206" column="10" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1a6da139de7ba4395468fa2a4069d548d1" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" kindref="compound">KeyDerivationService</ref> *</type>
+        <definition>KeyDerivationService* themis::plugins::user_storage::GocryptfsBackend::Impl::kdf_service</definition>
+        <argsstring></argsstring>
+        <name>kdf_service</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::Impl::kdf_service</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/gocryptfs_backend.cpp" line="207" column="26" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1ab9750701ac0ce636449a5d76c6f6aacc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::GocryptfsBackend::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::plugins::user_storage::GocryptfsBackend::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/gocryptfs_backend.cpp" line="209" column="5" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="209" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::user_storage::GocryptfsBackend::Impl</label>
+        <link refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>kdf_service</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::user_storage::KeyDerivationService</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/user_storage_encrypted/gocryptfs_backend.cpp" line="204" column="1" bodyfile="src/user_storage_encrypted/gocryptfs_backend.cpp" bodystart="204" bodyend="210"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1afb16243c6a66e5fd5ea0d86daa2be35a" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend::Impl</scope><name>gocryptfs_binary</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1ab9750701ac0ce636449a5d76c6f6aacc" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1a30479dc9a65576b5110b821f1671c1b8" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend::Impl</scope><name>initialized</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1a6da139de7ba4395468fa2a4069d548d1" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::GocryptfsBackend::Impl</scope><name>kdf_service</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

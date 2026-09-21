@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="prometheus__remote__write_8h" kind="file" language="C++">
+    <compoundname>prometheus_remote_write.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="prometheus__remote__write_8cpp" local="yes">src/timeseries/prometheus_remote_write.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/timeseries/prometheus_remote_write.h</label>
+        <link refid="prometheus__remote__write_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/timeseries/prometheus_remote_write.h</label>
+        <link refid="prometheus__remote__write_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/timeseries/prometheus_remote_write.cpp</label>
+        <link refid="prometheus__remote__write_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1timeseries_1_1_prom_label" prot="public">themis::timeseries::PromLabel</innerclass>
+    <innerclass refid="structthemis_1_1timeseries_1_1_prom_sample" prot="public">themis::timeseries::PromSample</innerclass>
+    <innerclass refid="structthemis_1_1timeseries_1_1_prom_time_series" prot="public">themis::timeseries::PromTimeSeries</innerclass>
+    <innerclass refid="structthemis_1_1timeseries_1_1_prom_write_request" prot="public">themis::timeseries::PromWriteRequest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1timeseries">themis::timeseries</innernamespace>
+    <briefdescription>
+<para>Phase 2 hardening: Validation error handling with bounded retry behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Phase 2 — Core Implementation Complete</para>
+</simplesect>
+</para>
+<sect1 id="prometheus__remote__write_8h_1autotoc_md9_1s1"><sect2 id="prometheus__remote__write_8h_1autotoc_md9">
+<title>Overview</title><para>PrometheusRemoteWrite implements parsing and validation of Prometheus remote-write protocol requests with explicit error handling for all failure modes.</para>
+</sect2></sect1>
+<sect1 id="prometheus__remote__write_8h_1autotoc_md10_1s1"><sect2 id="prometheus__remote__write_8h_1autotoc_md10">
+<title>Key Features</title><para><itemizedlist>
+<listitem><para><bold>Protobuf Wire-Format Parsing</bold>: Deterministic decoder with bounds checking</para>
+</listitem><listitem><para><bold>Validation Error Handling</bold>: Explicit errors for malformed requests (non-retryable)</para>
+</listitem><listitem><para><bold>Bounded Retry Support</bold>: Max retry configuration prevents resource exhaustion</para>
+</listitem><listitem><para><bold>Error Taxonomy</bold>: Distinct error codes for transport, format, and policy failures</para>
+</listitem><listitem><para><bold>Format Preservation</bold>: Lossless decoding of Prometheus metric names and labels</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="prometheus__remote__write_8h_1autotoc_md11_1s1"><sect2 id="prometheus__remote__write_8h_1autotoc_md11">
+<title>Error Handling</title><para>Error codes returned in Result&lt;T&gt; when present:<itemizedlist>
+<listitem><para><bold>REMOTE_WRITE_INVALID_FORMAT</bold>: Malformed protobuf, truncated data, or invalid wire format</para>
+</listitem><listitem><para><bold>REMOTE_WRITE_ENDPOINT_UNAVAILABLE</bold>: Network error or endpoint timeout (retryable)</para>
+</listitem><listitem><para><bold>REMOTE_WRITE_POLICY_VIOLATION</bold>: Quota exceeded or unsupported metric type</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="prometheus__remote__write_8h_1autotoc_md12_1s1"><sect2 id="prometheus__remote__write_8h_1autotoc_md12">
+<title>Parsing Guarantees</title><para><orderedlist>
+<listitem><para><bold>Deterministic Decoding</bold>: Same wire-format input → same parsed output</para>
+</listitem><listitem><para><bold>Bounds Checking</bold>: No buffer overruns; truncated data returns INVALID_FORMAT</para>
+</listitem><listitem><para><bold>Varint Overflow Guard</bold>: Varint overflow (≥64 bits) detected and rejected</para>
+</listitem><listitem><para><bold>Empty Handling</bold>: Empty metric names and zero samples handled explicitly</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="prometheus__remote__write_8h_1autotoc_md13_1s1"><sect2 id="prometheus__remote__write_8h_1autotoc_md13">
+<title>Thread Safety</title><para><itemizedlist>
+<listitem><para>All methods are stateless and thread-safe</para>
+</listitem><listitem><para>Parsing functions can be called concurrently from multiple threads</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="prometheus__remote__write_8h_1autotoc_md14_1s1"><sect2 id="prometheus__remote__write_8h_1autotoc_md14">
+<title>Integration Expectations</title><para>Callers should implement retry logic with exponential backoff for ENDPOINT_UNAVAILABLE errors:<itemizedlist>
+<listitem><para>Max retries: configurable (suggest 3-5)</para>
+</listitem><listitem><para>Backoff: exponential (e.g., 100ms → 200ms → 400ms)</para>
+</listitem><listitem><para>Circuit breaker: After N consecutive failures, mark endpoint unavailable</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="timeseries__api__contract_8h" kindref="compound">include/timeseries/timeseries_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/timeseries/ROADMAP.md — Phase 2 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1timeseries" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1timeseries" kindref="compound">timeseries</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1timeseries_1_1_prom_label" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1timeseries_1_1_prom_label" kindref="compound">PromLabel</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1timeseries_1_1_prom_label_1a50ee0a76c713b1e3a690c15f949ea334" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1timeseries_1_1_prom_label_1a50ee0a76c713b1e3a690c15f949ea334" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1timeseries_1_1_prom_label_1a766722e010df22be232696e3ad48317b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1timeseries_1_1_prom_label_1a766722e010df22be232696e3ad48317b" kindref="member">value</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1timeseries_1_1_prom_sample" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1timeseries_1_1_prom_sample" kindref="compound">PromSample</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1timeseries_1_1_prom_sample_1a5386d31420cddeffcb08344b69e0ae31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1timeseries_1_1_prom_sample_1a5386d31420cddeffcb08344b69e0ae31" kindref="member">value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1timeseries_1_1_prom_sample_1a59b034e70db909ae2651883e3a5286bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1timeseries_1_1_prom_sample_1a59b034e70db909ae2651883e3a5286bb" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1timeseries_1_1_prom_time_series" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1timeseries_1_1_prom_time_series" kindref="compound">PromTimeSeries</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1timeseries_1_1_prom_time_series_1a52166fcce09108c6787704ae98a502c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PromLabel&gt;<sp/><sp/><ref refid="structthemis_1_1timeseries_1_1_prom_time_series_1a52166fcce09108c6787704ae98a502c9" kindref="member">labels</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1timeseries_1_1_prom_time_series_1a4d437d85122f4a4ebb0c11ac3290b40d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PromSample&gt;<sp/><ref refid="structthemis_1_1timeseries_1_1_prom_time_series_1a4d437d85122f4a4ebb0c11ac3290b40d" kindref="member">samples</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1timeseries_1_1_prom_time_series_1a38f4026333e4e222ec7eff5007e9b4af" kindref="member">metricName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1timeseries_1_1_prom_time_series_1aa458c63e57a90629f2ed4524167f0cdd" kindref="member">labelValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1timeseries_1_1_prom_write_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1timeseries_1_1_prom_write_request" kindref="compound">PromWriteRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1timeseries_1_1_prom_write_request_1ad65490117cbe7fbc3ff38eb8e937f948" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PromTimeSeries&gt;<sp/><ref refid="structthemis_1_1timeseries_1_1_prom_write_request_1ad65490117cbe7fbc3ff38eb8e937f948" kindref="member">timeseries</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Result&lt;PromWriteRequest&gt;<sp/><ref refid="structthemis_1_1timeseries_1_1_prom_write_request_1a939216d0f0e6ffd93efd94b5f32cd241" kindref="member">decode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Result&lt;PromWriteRequest&gt;<sp/><ref refid="structthemis_1_1timeseries_1_1_prom_write_request_1a0262b6a9c44a45890c103aaeffe016b2" kindref="member">decodeSnappy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>timeseries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/timeseries/prometheus_remote_write.h"/>
+  </compounddef>
+</doxygen>

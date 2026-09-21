@@ -1,0 +1,327 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator" kind="class"><name>themis::imggen::InMemorySDGenerator</name>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aaa50d35cb67b6f8487fae6e4dea1be43" kind="variable"><name>initialized_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa155fe8c37055ba2ab53c5b562ef323f" kind="variable"><name>model_id_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a87802b1b5cab82489c9bffbf1df4072b" kind="variable"><name>next_px_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a864bbc5bdd1e291970d037fef97797f3" kind="variable"><name>next_w_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1adb38b24d06a8ba7819f0b5eb62253216" kind="variable"><name>next_h_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a911d3e41281ee9e9d7e0af4af9951055" kind="variable"><name>next_seed_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1acca896d25ffcc23b4595ce7b59d23caf" kind="variable"><name>img2img_called_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a8e0b10d61033db0d338112f0f440b671" kind="variable"><name>last_img2img_strength_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a63b2d25884950bd1473f0a70437ce6b1" kind="variable"><name>last_img2img_input_w_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a9932058ad53407ed5e426d2b50ca88fe" kind="variable"><name>last_img2img_input_h_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a119dd39d32aeae63888fbc51b53c5f2d" kind="variable"><name>last_control_width_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ab578ed9ea1b92bf8af1d37e866df5548" kind="variable"><name>last_control_height_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a09a7452f4ac0988bd8dd45ec66212f95" kind="variable"><name>last_control_strength_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a4bf6762a81a24a85bddb2984a0b9ccac" kind="variable"><name>last_control_model_path_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a120b1e4816000e696f8ccc1c52be9032" kind="variable"><name>last_lora_adapter_path_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad8a48cf990bd6af56665d24ef14a8d92" kind="variable"><name>last_lora_scale_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a69da79a95f8dbb6f05a19454233373be" kind="variable"><name>apply_lora_should_succeed_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1af7c201061bffe06af6a14048cfaf4c51" kind="variable"><name>apply_lora_error_message_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ac8b45d225e318d0a258b1f9d88827361" kind="variable"><name>last_applied_lora_path_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1af0b31bb9d0e7a493d3f2943a9820003e" kind="variable"><name>last_applied_lora_scale_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a24995183683a0a58f919782f5b5b2cc5" kind="function"><name>setNextPixels</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a12322edbbe1257e39a1222747df5aa34" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa5aea1f60935cfe3f8372479cc3b3c63" kind="function"><name>isInitialized</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a887bc4ec27621c306141f9ddf26a573d" kind="function"><name>setApplyLoraResult</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aaa0dc65de7f562c9c9a5141e3a3061d8" kind="function"><name>generate</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aa7c67a8c5bd8573ecefaff6d37ad46e8" kind="function"><name>generateImg2Img</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad5537399173326f479e9e4ceabc09d32" kind="function"><name>applyLoRA</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a6c46912421ba42f6a45faf8948098c3e" kind="function"><name>img2imgCalled</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ac890c79d882b577051ed1464605cb653" kind="function"><name>lastImg2ImgStrength</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a19a829bc52aa09fd9187faea354a9859" kind="function"><name>lastImg2ImgInputWidth</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1adb49917eeff1582f1568c8871e0f528b" kind="function"><name>lastImg2ImgInputHeight</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a63049e5dad30d742388488dd10a2acd9" kind="function"><name>lastControlWidth</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a16f963cd31a991c747e55d5fc99a3789" kind="function"><name>lastControlHeight</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a4fdab95c4e75f338adca47d14661e0c9" kind="function"><name>lastControlStrength</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a3c590d331e87cb4ee6ecc4e9999c97d1" kind="function"><name>lastControlModelPath</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a80e7541f3c68e66c85f1c4092db67d69" kind="function"><name>lastLoraAdapterPath</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1ad9493686e460da74c76f40e1d2d410f7" kind="function"><name>lastLoraScale</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1a7aae0a58a24f5b0ad96bb2a25d14e50c" kind="function"><name>lastAppliedLoraPath</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1aeaf88bc264287ccbc0c969e8eab3fd77" kind="function"><name>lastAppliedLoraScale</name></member>
+    <member refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator_1abb5ca2e27fb8b3338a2d933cd6da04dc" kind="function"><name>getModelId</name></member>
+  </compound>
+  <compound refid="classthemis_1_1imggen_1_1_i_s_d_generator" kind="class"><name>themis::imggen::ISDGenerator</name>
+    <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a1cac8c129aba6caccfa55ea79695d8f0" kind="function"><name>~ISDGenerator</name></member>
+    <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1ad0cd30841df2b1d5fd9b68cce018769a" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a9defb19fbe5f596d05a743283893b552" kind="function"><name>isInitialized</name></member>
+    <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a7482335dd5fecd46ccbb84c42654a01e" kind="function"><name>applyLoRA</name></member>
+    <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a4847d318384466186d1585c2bf00c741" kind="function"><name>generate</name></member>
+    <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1ac1e9e28534394283082f52bce24469c8" kind="function"><name>generateImg2Img</name></member>
+    <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a35a4c3fe7186b5c40f0b058c2421f60f" kind="function"><name>getModelId</name></member>
+  </compound>
+  <compound refid="class_lo_r_a_failing_generator" kind="class"><name>LoRAFailingGenerator</name>
+    <member refid="class_lo_r_a_failing_generator_1aee8d8085ada739dec04ab6c0aafa5b87" kind="function"><name>applyLoRA</name></member>
+  </compound>
+  <compound refid="structthemis_1_1imggen_1_1_s_d_config" kind="struct"><name>themis::imggen::SDConfig</name>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1ac6239046e405da07a170a90ef39f1663" kind="variable"><name>model_path</name></member>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1aa8e61ae5d6211392cc1e30fabd3f4e04" kind="variable"><name>width</name></member>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1a6cd0cfb1aabaa2ffede18017cc539789" kind="variable"><name>height</name></member>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1a354b2769c979d7e7a43ba8d2e1210c85" kind="variable"><name>steps</name></member>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1a96243b8db820dffab844d6d80acb03d6" kind="variable"><name>cfg_scale</name></member>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1ae7ad23821dacc4e275b2b1434c1b1f3b" kind="variable"><name>sampler</name></member>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1af12bf0f4a93d53844f0279d6df4bc1d3" kind="variable"><name>seed</name></member>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1a763af98f375600a991351714fb0bae47" kind="variable"><name>blocked_keywords_file</name></member>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1a5a3b751ab752d944d6c2b0bb64804bbe" kind="variable"><name>negative_prompt</name></member>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1a44d66d00a8288547645c64e0f20d0635" kind="variable"><name>model_sha256</name></member>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1ab78c4b7d74ed3948f67b671c291c8081" kind="function"><name>fromJson</name></member>
+    <member refid="structthemis_1_1imggen_1_1_s_d_config_1a925b31c972dfdc924599418dd2ee7d67" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="classthemis_1_1imggen_1_1_s_d_plugin" kind="class"><name>themis::imggen::SDPlugin</name>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a0070c99eb34b57bb4cf107966e6e7be5" kind="variable"><name>generate_mutex_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1af3745de9179569f17bece8dcba300421" kind="variable"><name>generator_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1ad31289b2b26b2b3985d788e914b9a055" kind="variable"><name>base_sanitizer_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a5d0aad8d2cd6416e8a68151791effad1" kind="variable"><name>sanitizer_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1aa774bb6f29f06f4814c453719003779c" kind="variable"><name>initialized_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a2867f7722488b261aca3faf256e429af" kind="variable"><name>generation_count_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a2efce5fc3d33d65476a459b9ff5d7a31" kind="variable"><name>blocked_count_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1abacb7782b368768d61e1585a89766f55" kind="variable"><name>error_count_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1ac2d3cd8e660287b3b30dd5ec5b9b8e53" kind="variable"><name>model_path_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a51c9cb544a891b25a928abb3db8a4683" kind="function"><name>SDPlugin</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1ae2ccfd23c0d098fec0708acb374d770d" kind="function"><name>SDPlugin</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1aa3cfbe1ca00af858954e776de385396a" kind="function"><name>~SDPlugin</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1ac24fa29baa124649c765af7e359aaf2f" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a65422fd4a7eedeade057b7efdf7b5e97" kind="function"><name>isInitialized</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1afec5f78bed193e25f65284b0409f96a6" kind="function"><name>generate</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a7a2e8fa42667d96da42288644f690171" kind="function"><name>generateBatch</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1af39475fc6b918d55cc35340e0ddc73d3" kind="function"><name>generateImg2Img</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a9ebee6c97bbf5f185e3dc5fd4048ccc1" kind="function"><name>isPromptAllowed</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a383aff776f989c095cbec4decab01dca" kind="function"><name>getModelId</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1aef1766d705658d9430c135a9f45584d6" kind="function"><name>getPluginVersion</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a6875d63e50d571dd7233e45a57ad5e72" kind="function"><name>getStatistics</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a7d7dcdf329f48c8be1dffb78877a7c03" kind="function"><name>generateLocked</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1afc18863207451dfd14aafdc4a49da530" kind="function"><name>generateImg2ImgLocked</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a04b1da0bfab7108a16edd1ebe3629b92" kind="function"><name>validateGenerationDimensions</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a29a1d230bf270f88fbf14be6d148ccf9" kind="function"><name>validateRgbBufferShape</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a40aab7e48b83a163cbb79aae54e380fb" kind="function"><name>normalizeLowerHex</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a3eb3acb37ea1196990b752bd0ab6d368" kind="function"><name>sha256Hex</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a5369d1e51fc62715587dbae7fc1db87e" kind="function"><name>computePerceptualHash</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_1a97f6bb6269a901f79148280ad7c60d6f" kind="function"><name>encodeMinimalPng</name></member>
+  </compound>
+  <compound refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter" kind="class"><name>themis::imggen::SDPluginAdapter</name>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a2fb62cc88b0e4d02fe08deab669de5e1" kind="variable"><name>sd_plugin_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a68b7afe17a525c5d641999fcd6292574" kind="variable"><name>model_path_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1ae58dddc17e1f621f8259fabd2df26e2b" kind="function"><name>SDPluginAdapter</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1afecaf0321f5e978c98e3aad701a5cf42" kind="function"><name>getName</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a5cfd6a9ce702344fb86ed418a58e1d8c" kind="function"><name>getVersion</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a669631d66903a4168cede18a6fad8301" kind="function"><name>getType</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a7d44424b8101f92fed25c0be3ceba053" kind="function"><name>getCapabilities</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1acbf71109d78674ab2b0bdffb79892c0a" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1ad9f5622731560049ed82334ee743c555" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a66f5daec7a8a809fded7713bc1b76714" kind="function"><name>getInstance</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1afdc7b2150286f1e2cc5c9482fb45dc47" kind="function"><name>getSDPlugin</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter_1a40c7bad33502d6bfca001718fe87e059" kind="function"><name>getSDPlugin</name></member>
+  </compound>
+  <compound refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar" kind="class"><name>themis::imggen::SDPluginRegistrar</name>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a9b758600b77b536922a79080b3ed753a" kind="typedef"><name>ReloadCallback</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aafbbdb9c21cc57293f2af24eea3088c7" kind="function"><name>createPlugin</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1aa0b66404f9d0548502c65ac3aee439a3" kind="function"><name>createAdapter</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a654ef4f32475940cd62ae38831d9cdd2" kind="function"><name>defaultReloadCallback</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a1cf2a6a9e32622714942c7f65a71dc21" kind="function"><name>enableHotPlug</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1a426a4ab82de15295d0f2bdb968093883" kind="function"><name>disableHotPlug</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar_1ac1d4ebc93ae3bd978d5057868912020b" kind="function"><name>SDPluginRegistrar</name></member>
+  </compound>
+  <compound refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer" kind="class"><name>themis::imggen::SDPromptSanitizer</name>
+    <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1aa81b13df5ed0bded4b94ffec7cae40e6" kind="variable"><name>blocked_keywords_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a8e66ac7c687562d4f73ddb796801fe52" kind="function"><name>SDPromptSanitizer</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1ae2a25fd8f291ca5f41fc51a2ffd02f2e" kind="function"><name>isAllowed</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1abdb3ff272824812009a61036c119139b" kind="function"><name>sanitize</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a4dd4a97998d0670509578a8f8c13168c" kind="function"><name>blockedCount</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a9bfee7af8d99f6dfda94412ba77fe604" kind="function"><name>fromFile</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1ac2b8b21484b20af19259d4209c353dd3" kind="function"><name>toLower</name></member>
+  </compound>
+  <compound refid="classthemis_1_1imggen_1_1_s_d_stub_generator" kind="class"><name>themis::imggen::SDStubGenerator</name>
+    <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1ae552eb3b7571786ad3efa51e21aded55" kind="variable"><name>initialized_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a9de042dca91b7601574604a6aecd012a" kind="variable"><name>model_id_</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1adbce9bc09b21adb5e70958a1f4147233" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a83234f39ac4f12f5aebf64052929efac" kind="function"><name>isInitialized</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a0aaf5642d107ef6bd413a51fb36eef40" kind="function"><name>generate</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a4415ec42cae3288084409004e5125377" kind="function"><name>generateImg2Img</name></member>
+    <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1abba4013e5989ad2df58da553956560a6" kind="function"><name>getModelId</name></member>
+  </compound>
+  <compound refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard" kind="struct"><name>themis::test::wave_d::StubAccelerationGuard</name>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1adead4fa2b212740b9de7336725cc6ab6" kind="variable"><name>available_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a6fa5b1f9f20457fa681c67025c14a6fc" kind="variable"><name>attempts_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a19e1e0660ce93d7c4327cbf6ec84a15d" kind="variable"><name>accelerated_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a74ce83bdab183124a59c1f5faa1484d3" kind="variable"><name>fallbacks_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1adae5fb9e66d45c9c036228df50a63368" kind="function"><name>StubAccelerationGuard</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a51bc6d2015e1fa9be2e8a85ea8917a52" kind="function"><name>handleRequest</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1ac41cdefbb36e68433d2e8bf773672252" kind="function"><name>attempts</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1a0fb4a4773084c8fb68b8f50c91a15dec" kind="function"><name>accelerated</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_acceleration_guard_1aeac32d344e50d783267ec3806cb4d861" kind="function"><name>fallbacks</name></member>
+  </compound>
+  <compound refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store" kind="struct"><name>themis::test::wave_d::StubInferenceStore</name>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a6f7a0df00ed7d01e5b9fb4719da0d791" kind="variable"><name>mu_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1ae53b23428102116a15788c3115945bfa" kind="variable"><name>store_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a65797c5efc4094c3c192569898cf5327" kind="variable"><name>writes_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a265446c7b656b65bfbbc506f28a8595d" kind="function"><name>submit</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a971495e70cf4da2d7802d21ef2c2c38a" kind="function"><name>fetch</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a4cf661a64aec70a3bfc674804e19d760" kind="function"><name>size</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a81d434080dd0d2c560ea0e8595319088" kind="function"><name>writes</name></member>
+  </compound>
+  <compound refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry" kind="struct"><name>themis::test::wave_d::StubModelRegistry</name>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1ad1e2a70728f755e18899089748582585" kind="variable"><name>mu_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a53bfb327d008559d04f9e4c4a1607742" kind="variable"><name>loaded_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a39828ea5fad6ee55a6a03cee34d747d1" kind="variable"><name>loads_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a929b4a0b3ee1fce8b967514f0d9a782c" kind="variable"><name>unloads_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a68f747498f67fd65c18e833abdfa02f7" kind="function"><name>load</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a6966010fbb4cfd6025d1681f32c6cca5" kind="function"><name>unload</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a3f72561df6a0a8c2ec64f41a5a2d5be5" kind="function"><name>isLoaded</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a5e0ac93a6696d954073f851c589dce0e" kind="function"><name>loads</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a10564303422033f2f4c74da7f733b7ea" kind="function"><name>unloads</name></member>
+  </compound>
+  <compound refid="class_throwing_generator" kind="class"><name>ThrowingGenerator</name>
+    <member refid="class_throwing_generator_1ad37041120b3d959a693eb4a770f7e49c" kind="variable"><name>initialized_</name></member>
+    <member refid="class_throwing_generator_1a6a93b44761ccf3498081f7abbf4ef31e" kind="variable"><name>model_id_</name></member>
+    <member refid="class_throwing_generator_1acb36c51fab88601d07c776d23ae767be" kind="function"><name>initialize</name></member>
+    <member refid="class_throwing_generator_1aab1b776ec598cabc3eaeaf240e81071d" kind="function"><name>isInitialized</name></member>
+    <member refid="class_throwing_generator_1ae34d1baceceddb67b79ab86c10b5b903" kind="function"><name>generate</name></member>
+    <member refid="class_throwing_generator_1a9e3ca641ab59c5ac349e0607e635a157" kind="function"><name>getModelId</name></member>
+  </compound>
+  <compound refid="namespace_0d051141366136176200252373111272065044332216220126" kind="namespace"><name>@051141366136176200252373111272065044332216220126</name>
+  </compound>
+  <compound refid="namespace_0d240033151313032226017254161057352217122211045305" kind="namespace"><name>@240033151313032226017254161057352217122211045305</name>
+  </compound>
+  <compound refid="namespace_0d301124222063165063334052020124050116054212345140" kind="namespace"><name>@301124222063165063334052020124050116054212345140</name>
+  </compound>
+  <compound refid="namespaceplugins" kind="namespace"><name>plugins</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1imggen" kind="namespace"><name>themis::imggen</name>
+    <member refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kind="typedef"><name>json</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins" kind="namespace"><name>themis::plugins</name>
+  </compound>
+  <compound refid="namespacethemis_1_1test" kind="namespace"><name>themis::test</name>
+  </compound>
+  <compound refid="namespacethemis_1_1test_1_1wave__d" kind="namespace"><name>themis::test::wave_d</name>
+    <member refid="namespacethemis_1_1test_1_1wave__d_1a83c40afe157b2684d265b9493ebf5efa" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1test_1_1wave__d_1a56ca908388d9a936a9bb50250a3bc418" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1test_1_1wave__d_1a6ee6642c3bc08dc17c59cfa908f48cc6" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="bench__stable__diffusion__release__gates_8cpp" kind="file"><name>bench_stable_diffusion_release_gates.cpp</name>
+  </compound>
+  <compound refid="sd__config_8h" kind="file"><name>sd_config.h</name>
+  </compound>
+  <compound refid="sd__generator_8h" kind="file"><name>sd_generator.h</name>
+  </compound>
+  <compound refid="sd__plugin_8h" kind="file"><name>sd_plugin.h</name>
+    <member refid="sd__plugin_8h_1a059ab8b4ae2fc53721c6014290b2fbe0" kind="function"><name>THEMIS_IMGGEN_PLUGIN</name></member>
+  </compound>
+  <compound refid="sd__plugin__registrar_8h" kind="file"><name>sd_plugin_registrar.h</name>
+  </compound>
+  <compound refid="sd__prompt__sanitizer_8h" kind="file"><name>sd_prompt_sanitizer.h</name>
+  </compound>
+  <compound refid="sd__config_8cpp" kind="file"><name>sd_config.cpp</name>
+  </compound>
+  <compound refid="sd__plugin_8cpp" kind="file"><name>sd_plugin.cpp</name>
+  </compound>
+  <compound refid="sd__plugin__registrar_8cpp" kind="file"><name>sd_plugin_registrar.cpp</name>
+  </compound>
+  <compound refid="sd__prompt__sanitizer_8cpp" kind="file"><name>sd_prompt_sanitizer.cpp</name>
+  </compound>
+  <compound refid="test__sd__plugin_8cpp" kind="file"><name>test_sd_plugin.cpp</name>
+    <member refid="test__sd__plugin_8cpp_1a11d586a779fba6263ff5096354161091" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1aa24b5da97c1ba65cbe7c82d95de71c7e" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a49e7397ba84c7374a74230f5484ebe3e" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a769b38f2f3d2102367ec0dcec4f97364" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1ae348e6ed3a48aa74d5ec601ec39199b1" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1ab834cfd248cc7377aee1ab99fc34fe75" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a68a7520c510e5440068d1991d7a73dc2" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a3fc0feff4ec1ad643ade014cfce34346" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1aec8ae4db0d74adf8f76009e068b084fe" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1ab845544ec31ec4bed399ccf087c8539e" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a7b0e024f0c06a2276dae1b29884ca54e" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a92d61a1d52af059d1c41a02f41a90543" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a9ff6fc1ba81469eac93354d800ee9e4a" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a5e82ead80e23c39fca79e508c079ccbf" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1acb29a24c09db0f40923e91e38c0ad591" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1ade077ac887690a4ab024026bf64a32c2" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1aec0779d86db8c0b83ecc077f4db233b9" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a3e9f9aad484f858f948e19eae031d956" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a9c50cecd3caa6f74c76c8ed4a94a39d6" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a9475066ed0b7ca816d8560355d5a39ae" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a47b02e550bc0e56f322dfe14645488c8" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a3b85b7e4d54c9a3b63541c7ec24ac229" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1abf020a58cdd25173209e6f5958caa0f3" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1aa9a4e2ff7ba5f0c3a4349da55b6148bf" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a52bb8d690fc029c793746cfa3f407380" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a257af0b9f74a06ad001f85b2b4f25b8c" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a0ccc88a315284747a80aa4d3798c8c91" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a3626dc7684de2a0ce48a9b1d91464328" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1ae38c2d19f2a5c07c9b727902fecb2984" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1aa6369f60010eb8b00da656b090592271" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a7982ed52f28bc16a7989eb9e1b93abfd" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a0a4827ad184b690a7ad7c4894f7c078e" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a018aadaa68d617430bf49d39571e267d" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1ace506d13abc0be0abf0de0510cc55e35" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a62b29ce479f497a92f35521e7f1bd892" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1af0f9901da6c586a49c37aca4296cc82a" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a696b3cb112d253c0ff72c7af3dde42c5" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a10540316bd23cbbcbf523648e68ece9d" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1aedf8c9decd8e440b1a9bf741cd8b5721" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1aedd48818b3e5f93a26061d94ccb4e7d6" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a6edec63325f14155b35926cb10b4eeef" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1afc25be06e1284d1707e1f1d1ac8964a8" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1ab7b3612aa00412b71a3c7c4566e6b3e0" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1afdc00f69b2a9e6acd2e80c31d214e955" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1ac01fc5d263b80dd4919aab30b1482176" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a45026bc0fcbfc5e78430cb78ab8b9879" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1acc7e8d9d5cc8788aaaf2bf1116b123a2" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1ad30a8ca75304ed79ceb53fc1f201ebb0" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1afd90e42f5d6fe696803defb0a0c97f1e" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a19156e15a53f0ed31c60bd460715da3f" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a6d6332ee27e5d022562f8f0a1851d46c" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1ad40fc9824ef9b6ed053806622a9f7a8c" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1aca0068a48465b92c82585e6853051c44" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a74abe5c98631877d73ddc9d97da00f4a" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a1e873b7c7268601bf9fb6c5a33e64487" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1af56e01788a4c970c32581fe1b3cccd01" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1a9fb323b20a18ef35797e2e39c3a52093" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1aecf7a5ce89e0e0d4321e7154447e1b94" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1abf9d42cc37e7ee2c316da0fd5c2265ed" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1aa409e9e827ca86b898a42c7fc2ef0a1e" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1af49ff2d078e7b7a2e1c34ab60d03283f" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin_8cpp_1ae656471792e408c7c56bf7a8d77d956e" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__sd__plugin__real__backend__e2e_8cpp" kind="file"><name>test_sd_plugin_real_backend_e2e.cpp</name>
+    <member refid="test__sd__plugin__real__backend__e2e_8cpp_1ab319d04266301643d86c0aefc2d1dca7" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__real__backend__e2e_8cpp_1a51dba00557cd9a30ab2f4cf6facc6ac1" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__sd__plugin__registrar_8cpp" kind="file"><name>test_sd_plugin_registrar.cpp</name>
+    <member refid="test__sd__plugin__registrar_8cpp_1a17705f7f960ffa282f1b260f9df28da2" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__registrar_8cpp_1a861f02ab341bece2da244fe7eff0c408" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__registrar_8cpp_1a885ee4802d6652919b72b35170a8c2c4" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__registrar_8cpp_1a5c185a03c8429f9b9881193f693d409d" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__registrar_8cpp_1ab2f8c3a050d5cdadbab8e5136f78cbc1" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__registrar_8cpp_1a9c7da626dd771f9c4a78e3d8b432023f" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__registrar_8cpp_1a3d6baec9db4444b01b9450d6b1f11d88" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__registrar_8cpp_1a6356d3cecc7763d5578879aabbf07ba9" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__registrar_8cpp_1ad8aadb25fa8fadb2a61be58177ad6b35" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__registrar_8cpp_1ac8659136c4e37abcc08b4ab22c929255" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__registrar_8cpp_1a137c63e4a39b502fda5bdacbfa6d58ed" kind="function"><name>TEST</name></member>
+    <member refid="test__sd__plugin__registrar_8cpp_1aba88d9eae24fdd779249a79077269b73" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__stable__diffusion__highcardinality__stress_8cpp" kind="file"><name>test_stable_diffusion_highcardinality_stress.cpp</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_c55a8d4d82e5e1b282de283a7f786afa" kind="dir"><name>benchmarks/stable_diffusion</name>
+  </compound>
+  <compound refid="dir_8ee3898a1c274147dc2e15334ffaa073" kind="dir"><name>include/stable_diffusion</name>
+  </compound>
+  <compound refid="dir_84b176402d3034d6215f846cb0c31cd1" kind="dir"><name>src/stable_diffusion</name>
+  </compound>
+  <compound refid="dir_b3c84c492e25c500266bee2b318453b4" kind="dir"><name>tests/stable_diffusion</name>
+  </compound>
+  <compound refid="dir_5354f6c4b6f1096637d9202b3463d2c5" kind="dir"><name>src/stable_diffusion/tests</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

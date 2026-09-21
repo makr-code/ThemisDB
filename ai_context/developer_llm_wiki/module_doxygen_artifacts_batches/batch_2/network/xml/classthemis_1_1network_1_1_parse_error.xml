@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_parse_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::ParseError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="wire__protocol_8h" local="no">wire_protocol.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_parse_error_1a963fcc8873769ed05e6c6e8ffb87d7bb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::ParseError::ParseError</definition>
+        <argsstring>(const std::string &amp;msg)</argsstring>
+        <name>ParseError</name>
+        <qualifiedname>themis::network::ParseError::ParseError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Construct with a descriptive message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable description of the parse failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="100" column="14" bodyfile="include/network/wire_protocol.h" bodystart="100" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exception type raised on any protocol parsing failure. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thrown by <computeroutput><ref refid="classthemis_1_1network_1_1_packet_parser" kindref="compound">PacketParser</ref></computeroutput> when a malformed or truncated packet is presented. Callers should catch and close the connection. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::network::ParseError</label>
+        <link refid="classthemis_1_1network_1_1_parse_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::network::ParseError</label>
+        <link refid="classthemis_1_1network_1_1_parse_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/network/wire_protocol.h" line="94" column="1" bodyfile="include/network/wire_protocol.h" bodystart="94" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_parse_error_1a963fcc8873769ed05e6c6e8ffb87d7bb" prot="public" virt="non-virtual"><scope>themis::network::ParseError</scope><name>ParseError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::graph::GraphMultiTierCache::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_entry_1aedca4fc3375fc8f7fccd8e71330a95c3" prot="public" static="no" mutable="no">
+        <type>V</type>
+        <definition>V themis::graph::GraphMultiTierCache&lt; K, V &gt;::Entry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Entry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="203" column="11" bodyfile="include/graph/graph_cache_manager.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_entry_1aaa302ca0c7ae7113e69fee51dd468e40" prot="public" static="no" mutable="no">
+        <type>std::list&lt; K &gt;::iterator</type>
+        <definition>std::list&lt;K&gt;::iterator themis::graph::GraphMultiTierCache&lt; K, V &gt;::Entry::lru_it</definition>
+        <argsstring></argsstring>
+        <name>lru_it</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Entry::lru_it</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="204" column="39" bodyfile="include/graph/graph_cache_manager.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_cache_manager.h" line="202" column="5" bodyfile="include/graph/graph_cache_manager.h" bodystart="202" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_entry_1aaa302ca0c7ae7113e69fee51dd468e40" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Entry</scope><name>lru_it</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_entry_1aedca4fc3375fc8f7fccd8e71330a95c3" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Entry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

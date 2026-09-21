@@ -1,0 +1,382 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::image::YOLOv8OnnxPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend" prot="public" virt="non-virtual">themis::plugins::image::IImageAnalysisBackend</basecompoundref>
+    <includes refid="yolov8__onnx__plugin_8h" local="no">yolov8_onnx_plugin.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1aba389e28e5a582be8d8ce0cab30e84b7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::image::YOLOv8OnnxPlugin::impl_swap_mtx_</definition>
+        <argsstring></argsstring>
+        <name>impl_swap_mtx_</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::impl_swap_mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="145" column="24" bodyfile="include/plugins/yolov8_onnx_plugin.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a3323215724a260705bc57998939b138e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Impl &gt;</type>
+        <definition>std::shared_ptr&lt;Impl&gt; themis::plugins::image::YOLOv8OnnxPlugin::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="146" column="21" bodyfile="include/plugins/yolov8_onnx_plugin.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1ae37afb7eb8fd128ef87d2b184862eb3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::YOLOv8OnnxPlugin::YOLOv8OnnxPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>YOLOv8OnnxPlugin</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::YOLOv8OnnxPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a175e29542050700a37e562d52f4e3f02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::YOLOv8OnnxPlugin::~YOLOv8OnnxPlugin</definition>
+        <argsstring>() override</argsstring>
+        <name>~YOLOv8OnnxPlugin</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::~YOLOv8OnnxPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a6868e3678529544d4de6742a3d65fbc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_plugin_info" kindref="compound">PluginInfo</ref></type>
+        <definition>PluginInfo themis::plugins::image::YOLOv8OnnxPlugin::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::getInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ac664bdf7a977de578a81ba3d96cd31d9">getInfo</reimplements>
+        <briefdescription>
+<para>Returns plugin metadata (name, version, capabilities). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="66" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1acb6ec957f3715d2c88643ac269cea7bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::YOLOv8OnnxPlugin::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config, BackendType backend=BackendType::AUTO) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a36b385163cfc2ca851e0c0d8fbfb9d47">initialize</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1image_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref></type>
+          <declname>backend</declname>
+          <defval><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3eae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">BackendType::AUTO</ref></defval>
+        </param>
+        <briefdescription>
+<para>Initialise the plugin and load the ONNX model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin configuration (see class-level doc for keys). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Preferred execution backend; falls back to CPU when the requested provider is unavailable. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if <computeroutput>model_path</computeroutput> is missing or the ONNX session cannot be created. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="77" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a7df7ecf85abc8009aa7db6e2bd51df4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::plugins::image::YOLOv8OnnxPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a69422fd58faae539c471593633105f8b">shutdown</reimplements>
+        <briefdescription>
+<para>Unload model and release ONNX Runtime session. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="81" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a3460addb9137fbfe1118deca385a9f9f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::YOLOv8OnnxPlugin::isReady</definition>
+        <argsstring>() const override</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::isReady</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a68d426d8bcfd7f3ab282040bb8b68f43">isReady</reimplements>
+        <briefdescription>
+<para>Returns true after a successful <computeroutput><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1acb6ec957f3715d2c88643ac269cea7bd" kindref="member">initialize()</ref></computeroutput> call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="84" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a269376c34bb021b093cb7b8a98524612" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::plugins::image::YOLOv8OnnxPlugin::getBackend</definition>
+        <argsstring>() const override</argsstring>
+        <name>getBackend</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::getBackend</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a322978d54abc5e1c2e7100251d554a73">getBackend</reimplements>
+        <briefdescription>
+<para>Returns the currently active backend type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="87" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1afd2f32972ed9b2958ffdba73acb27764" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::plugins::image::YOLOv8OnnxPlugin::detectObjects</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata=nullptr, float confidence_threshold=0.0f) override</argsstring>
+        <name>detectObjects</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::detectObjects</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae5a267413dbf1c09545d923306a4293f">detectObjects</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref> *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>confidence_threshold</declname>
+          <defval>0.0f</defval>
+        </param>
+        <briefdescription>
+<para>Detect objects in a raw image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Preprocesses the image to the configured input resolution, runs ONNX inference, applies Non-Maximum Suppression, and returns normalised bounding boxes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw image bytes (JPEG / PNG / BMP). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional image metadata; may be nullptr. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>confidence_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-call confidence override; uses config default when ≤ 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1plugins_1_1image_1_1_detection_result" kindref="compound">DetectionResult</ref> with normalised bounding boxes [0, 1]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="102" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a08c77415be319eae9dc07162f5375f8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_embedding_result" kindref="compound">EmbeddingResult</ref></type>
+        <definition>EmbeddingResult themis::plugins::image::YOLOv8OnnxPlugin::generateEmbedding</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata=nullptr) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::generateEmbedding</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ad2cd652429ba25ff254c395b33ab2405">generateEmbedding</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref> *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>generateEmbedding – not supported by this plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Always returns an error result; use the ONNX CLIP plugin for embeddings. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="112" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1aebef02b4cdc20a0aa89cb82ebe44b9d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::YOLOv8OnnxPlugin::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::healthCheck</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae8a4a1518f9f743bc80e761fb386c71f">healthCheck</reimplements>
+        <briefdescription>
+<para>Validates ONNX session is responsive; returns false after shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="117" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1acff6853281281a89b9957b81fadc8ff5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::plugins::image::YOLOv8OnnxPlugin::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a4dd70719358570f90287a3128219fdaa">getStatistics</reimplements>
+        <briefdescription>
+<para>Returns JSON statistics object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Keys: <computeroutput>inference_total</computeroutput>, <computeroutput>inference_errors</computeroutput>, <computeroutput>latency_ms_avg</computeroutput>, <computeroutput>detections_total</computeroutput>, <computeroutput>backend</computeroutput>, <computeroutput>model_path</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="125" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1afdb2c3ce4bbb093c167774701807bc5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::YOLOv8OnnxPlugin::reloadModel</definition>
+        <argsstring>(const PluginConfig &amp;new_config)</argsstring>
+        <name>reloadModel</name>
+        <qualifiedname>themis::plugins::image::YOLOv8OnnxPlugin::reloadModel</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1image_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>new_config</declname>
+        </param>
+        <briefdescription>
+<para>Reload the ONNX model without restarting ThemisDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>In-flight <computeroutput><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1afd2f32972ed9b2958ffdba73acb27764" kindref="member">detectObjects()</ref></computeroutput> calls are allowed to finish. The new session is created before the old one is swapped out, so inference remains available throughout.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>new_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration (must include a valid <computeroutput>model_path</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false on invalid config or session creation error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/yolov8_onnx_plugin.h" line="141" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>YOLOv8 ONNX object detection plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps an ONNX Runtime session loaded from a YOLOv8 export. When ONNX Runtime is not present at compile-time the plugin initialises successfully but every <computeroutput><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1afd2f32972ed9b2958ffdba73acb27764" kindref="member">detectObjects()</ref></computeroutput> call returns an informative error result rather than crashing. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::plugins::image::IImageAnalysisBackend</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::image::YOLOv8OnnxPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::plugins::image::IImageAnalysisBackend</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::image::YOLOv8OnnxPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/plugins/yolov8_onnx_plugin.h" line="56" column="1" bodyfile="include/plugins/yolov8_onnx_plugin.h" bodystart="56" bodyend="147"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a29e9ae0fedaaa3307a67a05ebfef9897" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>answerVisualQuestion</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1afd2f32972ed9b2958ffdba73acb27764" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>detectObjects</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae5718e9255a235d2702d9c75cbd83621" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>generateCaption</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a08c77415be319eae9dc07162f5375f8a" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1abeaf477311e0ef7bfe82937acff4995c" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>generateEmbeddingBatch</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a130fa298b597b4188e0f87469f2aa658" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>generateImage</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1adffa0e43217733fb94f9591d89c67922" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>generateTextEmbedding</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a269376c34bb021b093cb7b8a98524612" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>getBackend</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a6868e3678529544d4de6742a3d65fbc1" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1acff6853281281a89b9957b81fadc8ff5" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1aebef02b4cdc20a0aa89cb82ebe44b9d6" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a3323215724a260705bc57998939b138e" prot="private" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1aba389e28e5a582be8d8ce0cab30e84b7" prot="private" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>impl_swap_mtx_</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1acb6ec957f3715d2c88643ac269cea7bd" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a3460addb9137fbfe1118deca385a9f9f" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1afdb2c3ce4bbb093c167774701807bc5c" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>reloadModel</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a6895112fadb2adc1dcd59ae22471d9fc" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>segmentImage</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a7df7ecf85abc8009aa7db6e2bd51df4d" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a8b168db20202728f716815962cc116ec" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>warmup</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1ae37afb7eb8fd128ef87d2b184862eb3a" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>YOLOv8OnnxPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a99dc62ca5a3a4ea24cbb4e9d189d01ca" prot="public" virt="virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>~IImageAnalysisBackend</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a175e29542050700a37e562d52f4e3f02" prot="public" virt="non-virtual"><scope>themis::plugins::image::YOLOv8OnnxPlugin</scope><name>~YOLOv8OnnxPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

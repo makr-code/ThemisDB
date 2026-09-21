@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1replication_1_1test_1_1_mock_version" kind="struct" language="C++" prot="public">
+    <compoundname>themis::replication::test::MockVersion</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1test_1_1_mock_version_1af8228b743b256bf3916457ea9b246402" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::replication::test::MockVersion::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::replication::test::MockVersion::timestamp</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="103" column="18" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1test_1_1_mock_version_1a5f9e3438d226cecef92402918954d7c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::replication::test::MockVersion::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::replication::test::MockVersion::node_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="104" column="18" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1test_1_1_mock_version_1a6d4777446b02a51cfca5434c5ef23e31" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::replication::test::MockVersion::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::replication::test::MockVersion::value</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="105" column="18" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1test_1_1_mock_version_1a8382cbc7401c77294c3a7b226a4ad506" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::replication::test::MockVersion::is_tombstone</definition>
+        <argsstring></argsstring>
+        <name>is_tombstone</name>
+        <qualifiedname>themis::replication::test::MockVersion::is_tombstone</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="106" column="18" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulates LWW conflict resolution — returns the winning value. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/test_replication_contract_hardening_focused.cpp" line="102" column="1" bodyfile="tests/replication/test_replication_contract_hardening_focused.cpp" bodystart="102" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1replication_1_1test_1_1_mock_version_1a8382cbc7401c77294c3a7b226a4ad506" prot="public" virt="non-virtual"><scope>themis::replication::test::MockVersion</scope><name>is_tombstone</name></member>
+      <member refid="structthemis_1_1replication_1_1test_1_1_mock_version_1a5f9e3438d226cecef92402918954d7c7" prot="public" virt="non-virtual"><scope>themis::replication::test::MockVersion</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1replication_1_1test_1_1_mock_version_1af8228b743b256bf3916457ea9b246402" prot="public" virt="non-virtual"><scope>themis::replication::test::MockVersion</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1replication_1_1test_1_1_mock_version_1a6d4777446b02a51cfca5434c5ef23e31" prot="public" virt="non-virtual"><scope>themis::replication::test::MockVersion</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

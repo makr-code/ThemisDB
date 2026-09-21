@@ -1,0 +1,576 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1ingestion_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::ingestion::test</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1ingestion_1_1test_1a9af9a50c3f998ac3a4c2a71f4a211cb7" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string themis::ingestion::test::SAMPLE_LAW_TEXT</definition>
+        <argsstring></argsstring>
+        <name>SAMPLE_LAW_TEXT</name>
+        <qualifiedname>themis::ingestion::test::SAMPLE_LAW_TEXT</qualifiedname>
+        <initializer>                                     =
+&quot;Testgesetz (TestG)\n\n&quot;
+&quot;§ 1 Anwendungsbereich\n&quot;
+&quot;Dieses Gesetz regelt die Anforderungen.\n&quot;
+&quot;(1) Die Anforderungen gelten für alle Betriebe.\n&quot;
+&quot;(2) Ausnahmen sind zulässig.\n\n&quot;
+&quot;§ 2 Begriffsbestimmungen\n&quot;
+&quot;Im Sinne dieses Gesetzes bedeutet:\n&quot;
+&quot;(1) Betrieb: eine ortsfeste Einrichtung.\n\n&quot;
+&quot;§ 3a Übergangsregelungen\n&quot;
+&quot;Bestehende Betriebe haben eine Übergangsfrist von zwei Jahren.\n&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="223" column="26" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1ingestion_1_1test_1a782bf6f13556805adff02e93f570321c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string themis::ingestion::test::BESCHEID_TEXT</definition>
+        <argsstring></argsstring>
+        <name>BESCHEID_TEXT</name>
+        <qualifiedname>themis::ingestion::test::BESCHEID_TEXT</qualifiedname>
+        <initializer>                                   =
+&quot;Bescheid\n&quot;
+&quot;Az.: 2024-UMW-042\n&quot;
+&quot;Antragsteller: Muster GmbH\n&quot;
+&quot;Bescheid vom 15.04.2024\n\n&quot;
+&quot;Auflagen:\n&quot;
+&quot;1. Die Emission ist auf 50 mg/m³ zu begrenzen.\n&quot;
+&quot;2. Betriebszeiten sind von 6:00 bis 22:00 Uhr festgelegt.\n&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="349" column="26" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="349" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a2291c40dca06434758a21d86fc170d8a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::ingestion::test::makeTempDbPath</definition>
+        <argsstring>(const std::string &amp;stem)</argsstring>
+        <name>makeTempDbPath</name>
+        <qualifiedname>themis::ingestion::test::makeTempDbPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stem</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="66" column="20" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="66" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a1c1b43b870d9435a3809aa731e8bd7b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></type>
+        <definition>static BaseEntitySet themis::ingestion::test::makeEntitySet</definition>
+        <argsstring>(const std::string &amp;file_id=&quot;abc123&quot;)</argsstring>
+        <name>makeEntitySet</name>
+        <qualifiedname>themis::ingestion::test::makeEntitySet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_id</declname>
+          <defval>&quot;abc123&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Build a minimal <ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref> for sink tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="74" column="22" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="74" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1aa3b5a15f52d240c830bf268b2e754453" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, DS01_WriteDocumentStoresEntitySet)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>DS01_WriteDocumentStoresEntitySet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="106" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="106" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a18c46cc295fb421b9a08d5170bf7b1db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, DS02_DocumentCountIncrements)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>DS02_DocumentCountIncrements</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="124" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="124" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a4c326e0a47bf2fa3b0eee468186415a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, DS03_DuplicateSourceIdTriggersUpdate)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>DS03_DuplicateSourceIdTriggersUpdate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="135" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="135" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a713f375ffebff7742392201069379c7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, DS04_NullStoreThrows)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>DS04_NullStoreThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="148" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="148" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1ac3dcc8ef4ab45458a94da9fb2ae3c187" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, DS05_SinkBundleWriteAllRoutesToAdapter)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>DS05_SinkBundleWriteAllRoutesToAdapter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="152" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="152" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1af6152fe86042cc29dd4fcb3d22418012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, GS01_GraphStoreSinkAdapterPersistsNodesAndEdges)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>GS01_GraphStoreSinkAdapterPersistsNodesAndEdges</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="165" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="165" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1ab0cf4197a08523d8109e8a6d0b58ec7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, VS01_VectorIndexSinkAdapterPersistsVectors)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>VS01_VectorIndexSinkAdapterPersistsVectors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="192" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="192" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a33cd1f35124531476250ab972c723691" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD01_GesetzParserExtractsParagraphs)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD01_GesetzParserExtractsParagraphs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="235" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="235" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1aa04c9519324f317c4b839a2e9a98f44b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD02_ExtractParagraphsReturnsParagraphNodes)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD02_ExtractParagraphsReturnsParagraphNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="253" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="253" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1ad20858298f7fdc770ae083e3325ab10a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD03_ToEntitiesProducesCanonicalIds)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD03_ToEntitiesProducesCanonicalIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="263" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="263" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a7fd78b83e3acca35b4284c818f7ea063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD04_ParseEmptyTextReturnsError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD04_ParseEmptyTextReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="278" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="278" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1ad2dbe5383b2ea2092b842f0c74338ca8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD05_ExtractFindsDMYDate)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD05_ExtractFindsDMYDate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="288" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="288" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a8e860e55e29f78decb158648b84d3696" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD06_NormaliseDateGermanMonthName)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD06_NormaliseDateGermanMonthName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="297" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="297" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a4b84a8a68378e0784af8e340cdaaf8ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD07_MergeGivesMetadataPrecedence)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD07_MergeGivesMetadataPrecedence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="303" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="303" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1afbe355136710404384f79bb132e2e006" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD08_LookupBuiltinAuthority)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD08_LookupBuiltinAuthority</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="318" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="318" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1ab6326bc52bb832cefc4f845e8ca71050" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD09_AddMappingAndFallback)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD09_AddMappingAndFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="325" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="325" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a75949daf9d4320236a6d0a0bdcfd3073" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD10_BescheidExtractorFindsFields)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD10_BescheidExtractorFindsFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="358" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="358" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1ad92ea31180795c637ec96408a1dceecb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD11_BescheidToEntityHasCanonicalId)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD11_BescheidToEntityHasCanonicalId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="367" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="367" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1ad8ec2a95a761edd7ae851a6f2c55e983" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref></type>
+        <definition>static ExtractionContext themis::ingestion::test::makeCtx</definition>
+        <argsstring>(const std::string &amp;path, const std::vector&lt; std::pair&lt; std::string, EntityType &gt; &gt; &amp;entities_id_type)</argsstring>
+        <name>makeCtx</name>
+        <qualifiedname>themis::ingestion::test::makeCtx</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, <ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ff" kindref="member">EntityType</ref> &gt; &gt; &amp;</type>
+          <declname>entities_id_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="380" column="26" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="380" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1ace10c246da985b02646711fd75c4fde0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD12_LinkDocumentsCreatesCitesEdge)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD12_LinkDocumentsCreatesCitesEdge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="396" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="396" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a1aefb8a014ad1d12e1a8b1e834505459" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD13_LinkDocumentBatchAggregates)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD13_LinkDocumentBatchAggregates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="411" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="411" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1aa5c533925044c3c0413f0017e5dbb441" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></type>
+        <definition>static BaseEntitySet themis::ingestion::test::makeExportSet</definition>
+        <argsstring>()</argsstring>
+        <name>makeExportSet</name>
+        <qualifiedname>themis::ingestion::test::makeExportSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="432" column="22" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="432" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a54384aaa7f93bc03896705a20ceb10ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD14_ExportJsonLdHasContextAndGraph)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD14_ExportJsonLdHasContextAndGraph</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="460" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="460" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1ingestion_1_1test_1a3d26a119e1a732a97c8fc0f4041fcf9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::test::TEST</definition>
+        <argsstring>(LegalDomainTests, LD15_ExportRdfTurtleStartsWithBase)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::ingestion::test::TEST</qualifiedname>
+        <param>
+          <type>LegalDomainTests</type>
+        </param>
+        <param>
+          <type>LD15_ExportRdfTurtleStartsWithBase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="471" column="1" bodyfile="tests/ingestion/test_ingestion_legal_domain.cpp" bodystart="471" bodyend="481"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/ingestion/test_ingestion_legal_domain.cpp" line="58" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cdc::ICDCBatchCommitCoordinator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1cdc_1_1_in_memory_batch_commit_coordinator" prot="public" virt="non-virtual">themis::cdc::InMemoryBatchCommitCoordinator</derivedcompoundref>
+    <includes refid="icdc__batch__commit__coordinator_8h" local="no">icdc_batch_commit_coordinator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1aa3b50abc46eee28486657688e96bf72e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cdc::ICDCBatchCommitCoordinator::~ICDCBatchCommitCoordinator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICDCBatchCommitCoordinator</name>
+        <qualifiedname>themis::cdc::ICDCBatchCommitCoordinator::~ICDCBatchCommitCoordinator</qualifiedname>
+        <briefdescription>
+<para>ICDCBatch Commit Coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="114" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1a47569eb9d0e3cd7ffeffe2333626ebac" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1a36306083ac2fa0afda203aaf26622e52" kindref="member">BatchId</ref></type>
+        <definition>virtual BatchId themis::cdc::ICDCBatchCommitCoordinator::beginBatch</definition>
+        <argsstring>()=0</argsstring>
+        <name>beginBatch</name>
+        <qualifiedname>themis::cdc::ICDCBatchCommitCoordinator::beginBatch</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_batch_commit_coordinator_1a0e50982cc5ecfcb21d3b77f33d6aad1d">beginBatch</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="116" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1ae70854be0e408846f92fa62e787afd6d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1a309e8b57d3ccf7e2fc51fd6b692f1d70" kindref="member">AddEventResult</ref></type>
+        <definition>virtual AddEventResult themis::cdc::ICDCBatchCommitCoordinator::addEvent</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event)=0</argsstring>
+        <name>addEvent</name>
+        <qualifiedname>themis::cdc::ICDCBatchCommitCoordinator::addEvent</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_batch_commit_coordinator_1ac9758a3ccc2ad44747cbab555811a5d7">addEvent</reimplementedby>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="118" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1a7149b89a4c6b8ac794272a4b4e6ad746" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1a0c13367a75a093d44a77ac6aa5e2e2af" kindref="member">CommitResult</ref></type>
+        <definition>virtual CommitResult themis::cdc::ICDCBatchCommitCoordinator::commitBatch</definition>
+        <argsstring>()=0</argsstring>
+        <name>commitBatch</name>
+        <qualifiedname>themis::cdc::ICDCBatchCommitCoordinator::commitBatch</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_batch_commit_coordinator_1ad4ba171c92d21fd5b9f99d94e320c5db">commitBatch</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="120" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1ad53cea9ec077d8eb8759d0959aca27b6" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1a4a312c3bd887396f558de3850c71f455" kindref="member">RollbackResult</ref></type>
+        <definition>virtual RollbackResult themis::cdc::ICDCBatchCommitCoordinator::rollbackBatch</definition>
+        <argsstring>()=0</argsstring>
+        <name>rollbackBatch</name>
+        <qualifiedname>themis::cdc::ICDCBatchCommitCoordinator::rollbackBatch</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_batch_commit_coordinator_1a2f1fc765a94f09be61c9e9558d858430">rollbackBatch</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="122" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1ad63c8506ef4171a53eea4856c1a178e2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1acd5130181ff942a86de9bbc6132a9ee6" kindref="member">BatchStatus</ref></type>
+        <definition>virtual BatchStatus themis::cdc::ICDCBatchCommitCoordinator::status</definition>
+        <argsstring>() const =0</argsstring>
+        <name>status</name>
+        <qualifiedname>themis::cdc::ICDCBatchCommitCoordinator::status</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_batch_commit_coordinator_1ad8c16037fbb81d705d907a5ba76eb37a">status</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="124" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1a06052424efba608c9476d699e61b141e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_batch_info" kindref="compound">BatchInfo</ref></type>
+        <definition>virtual BatchInfo themis::cdc::ICDCBatchCommitCoordinator::info</definition>
+        <argsstring>() const =0</argsstring>
+        <name>info</name>
+        <qualifiedname>themis::cdc::ICDCBatchCommitCoordinator::info</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_batch_commit_coordinator_1a838350d6332051e2e065d162b4fc1ff5">info</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="126" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1a68d026b4949442550411b07dd0525697" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>virtual std::vector&lt; Changefeed::ChangeEvent &gt; themis::cdc::ICDCBatchCommitCoordinator::committedEvents</definition>
+        <argsstring>(BatchId batch_id) const =0</argsstring>
+        <name>committedEvents</name>
+        <qualifiedname>themis::cdc::ICDCBatchCommitCoordinator::committedEvents</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_batch_commit_coordinator_1a4dd8713f43dc5241f49c30752470eca3">committedEvents</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a36306083ac2fa0afda203aaf26622e52" kindref="member">BatchId</ref></type>
+          <declname>batch_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="128" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1ac29b5bf934e5d43835ac730512f3f98e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cdc::ICDCBatchCommitCoordinator::isCommitted</definition>
+        <argsstring>(BatchId batch_id) const =0</argsstring>
+        <name>isCommitted</name>
+        <qualifiedname>themis::cdc::ICDCBatchCommitCoordinator::isCommitted</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_batch_commit_coordinator_1ad36267591b11f587f4db7b3441936116">isCommitted</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a36306083ac2fa0afda203aaf26622e52" kindref="member">BatchId</ref></type>
+          <declname>batch_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="131" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cdc::ICDCBatchCommitCoordinator</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator"/>
+      </node>
+      <node id="2">
+        <label>themis::cdc::InMemoryBatchCommitCoordinator</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_batch_commit_coordinator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/cdc/icdc_batch_commit_coordinator.h" line="108" column="1" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="108" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1ae70854be0e408846f92fa62e787afd6d" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCBatchCommitCoordinator</scope><name>addEvent</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1a47569eb9d0e3cd7ffeffe2333626ebac" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCBatchCommitCoordinator</scope><name>beginBatch</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1a7149b89a4c6b8ac794272a4b4e6ad746" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCBatchCommitCoordinator</scope><name>commitBatch</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1a68d026b4949442550411b07dd0525697" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCBatchCommitCoordinator</scope><name>committedEvents</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1a06052424efba608c9476d699e61b141e" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCBatchCommitCoordinator</scope><name>info</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1ac29b5bf934e5d43835ac730512f3f98e" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCBatchCommitCoordinator</scope><name>isCommitted</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1ad53cea9ec077d8eb8759d0959aca27b6" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCBatchCommitCoordinator</scope><name>rollbackBatch</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1ad63c8506ef4171a53eea4856c1a178e2" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCBatchCommitCoordinator</scope><name>status</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_batch_commit_coordinator_1aa3b50abc46eee28486657688e96bf72e" prot="public" virt="virtual"><scope>themis::cdc::ICDCBatchCommitCoordinator</scope><name>~ICDCBatchCommitCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

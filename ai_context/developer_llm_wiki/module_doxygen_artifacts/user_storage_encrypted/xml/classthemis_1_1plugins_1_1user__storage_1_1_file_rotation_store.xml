@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::FileRotationStore</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store" prot="public" virt="non-virtual">themis::plugins::user_storage::IRotationStore</basecompoundref>
+    <includes refid="irotation__store_8hpp" local="no">irotation_store.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1aff30a1882c71ceeb9461e8df58b9606d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::FileRotationStore::path_</definition>
+        <argsstring></argsstring>
+        <name>path_</name>
+        <qualifiedname>themis::plugins::user_storage::FileRotationStore::path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/irotation_store.hpp" line="157" column="17" bodyfile="include/user_storage_encrypted/irotation_store.hpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1a978b231d820c114219252ce1db6c1edd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::user_storage::FileRotationStore::mtx_</definition>
+        <argsstring></argsstring>
+        <name>mtx_</name>
+        <qualifiedname>themis::plugins::user_storage::FileRotationStore::mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/irotation_store.hpp" line="158" column="24" bodyfile="include/user_storage_encrypted/irotation_store.hpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1a40339d034413680e211a47076d545324" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::FileRotationStore::FileRotationStore</definition>
+        <argsstring>(std::string path)</argsstring>
+        <name>FileRotationStore</name>
+        <qualifiedname>themis::plugins::user_storage::FileRotationStore::FileRotationStore</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/irotation_store.hpp" line="115" column="14" bodyfile="include/user_storage_encrypted/irotation_store.hpp" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1abcb3fe92b6cd005a89f6398e304f3f1a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::FileRotationStore::get</definition>
+        <argsstring>(const std::string &amp;key, std::string &amp;out) const override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::plugins::user_storage::FileRotationStore::get</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store_1a595a61e5d12eebc68612a497506a7161">get</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Read a value by string key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value (set only when true is returned) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the key existed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/irotation_store.hpp" line="117" column="10" bodyfile="include/user_storage_encrypted/irotation_store.hpp" bodystart="117" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1aba6e1f23c3b6ea5a46f391d10ed5ba28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::FileRotationStore::put</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::plugins::user_storage::FileRotationStore::put</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store_1a06ccd778ecd0aa4023469e6bc2405128">put</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write a key-value pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true on success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/irotation_store.hpp" line="127" column="10" bodyfile="include/user_storage_encrypted/irotation_store.hpp" bodystart="127" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1a0209f9f696a9637e1df80f06b0a0bead" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::plugins::user_storage::FileRotationStore::load_json</definition>
+        <argsstring>() const</argsstring>
+        <name>load_json</name>
+        <qualifiedname>themis::plugins::user_storage::FileRotationStore::load_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/irotation_store.hpp" line="143" column="20" bodyfile="include/user_storage_encrypted/irotation_store.hpp" bodystart="143" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>File-backed <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store" kindref="compound">IRotationStore</ref> using a flat JSON file for persistence. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe via an internal mutex. File format: <programlisting filename=".json"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;user_storage:rotation_state:vs-nfd&quot;:<sp/>&quot;{\&quot;last_check_ms\&quot;:1711234567890}&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::plugins::user_storage::FileRotationStore</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::user_storage::IRotationStore</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::user_storage::FileRotationStore</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::user_storage::IRotationStore</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/user_storage_encrypted/irotation_store.hpp" line="113" column="1" bodyfile="include/user_storage_encrypted/irotation_store.hpp" bodystart="113" bodyend="159"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1a40339d034413680e211a47076d545324" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::FileRotationStore</scope><name>FileRotationStore</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1abcb3fe92b6cd005a89f6398e304f3f1a" prot="public" virt="virtual"><scope>themis::plugins::user_storage::FileRotationStore</scope><name>get</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store_1ac0f01843d8b943d833db66cf01893456" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::FileRotationStore</scope><name>load</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1a0209f9f696a9637e1df80f06b0a0bead" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::FileRotationStore</scope><name>load_json</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1a978b231d820c114219252ce1db6c1edd" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::FileRotationStore</scope><name>mtx_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1aff30a1882c71ceeb9461e8df58b9606d" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::FileRotationStore</scope><name>path_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1aba6e1f23c3b6ea5a46f391d10ed5ba28" prot="public" virt="virtual"><scope>themis::plugins::user_storage::FileRotationStore</scope><name>put</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store_1ad88ee749b3a058d46c21f5d13b9db36f" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::FileRotationStore</scope><name>save</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store_1ada6e0aa146692ef0ee67fecf789810e4" prot="public" virt="virtual"><scope>themis::plugins::user_storage::FileRotationStore</scope><name>~IRotationStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

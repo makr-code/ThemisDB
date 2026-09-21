@@ -1,0 +1,716 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__geospatial__phase2_8cpp" kind="file" language="C++">
+    <compoundname>bench_geospatial_phase2.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="geospatial__cost__model_8h" local="yes">query/geospatial_cost_model.h</includes>
+    <includes refid="geospatial__optimizer__hints_8h" local="yes">query/geospatial_optimizer_hints.h</includes>
+    <includes refid="geospatial__index__selector_8h" local="yes">query/geospatial_index_selector.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">random</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/query/bench_geospatial_phase2.cpp</label>
+        <link refid="bench__geospatial__phase2_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>query/geospatial_cost_model.h</label>
+        <link refid="geospatial__cost__model_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>query/geospatial_index_selector.h</label>
+        <link refid="geospatial__index__selector_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>query/geospatial_optimizer_hints.h</label>
+        <link refid="geospatial__optimizer__hints_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>query/optimizer_cost_model_enhancements.h</label>
+        <link refid="optimizer__cost__model__enhancements_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cmath</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>random</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_geospatial_benchmark" prot="public">GeospatialBenchmark</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a9f204027ea073184fba40084dfb29a83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialBenchmark, BENCH_GEO_01_DistanceNearestNeighbor)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref></type>
+        </param>
+        <param>
+          <type>BENCH_GEO_01_DistanceNearestNeighbor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="66" column="1" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="66" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a0d2bf5d141057646aeefbf4e5965da91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialBenchmark, BENCH_GEO_02_ContainsPointInPolygon)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref></type>
+        </param>
+        <param>
+          <type>BENCH_GEO_02_ContainsPointInPolygon</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="93" column="1" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="93" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a994f066ae0460e00d5d083db28788f4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialBenchmark, BENCH_GEO_03_IntersectsBoundingBox)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref></type>
+        </param>
+        <param>
+          <type>BENCH_GEO_03_IntersectsBoundingBox</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="122" column="1" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="122" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a95faead05b9d1db464be45dc3313ad81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialBenchmark, BENCH_GEO_04_ComplexQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref></type>
+        </param>
+        <param>
+          <type>BENCH_GEO_04_ComplexQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="146" column="1" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="146" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1aa6136e4f8aa9ca711c84a2f336b79982" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialBenchmark, BENCH_GEO_05_Throughput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref></type>
+        </param>
+        <param>
+          <type>BENCH_GEO_05_Throughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="161" column="1" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="161" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a66d02cc9cdc37980bd3a86477eaa1089" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialBenchmark, REGRESSION_GATE_CostEstimation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref></type>
+        </param>
+        <param>
+          <type>REGRESSION_GATE_CostEstimation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="185" column="1" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="185" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1ad1c062e3b5ef2ffcc4becf89444d25b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeospatialBenchmark, REGRESSION_GATE_IndexSelection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref></type>
+        </param>
+        <param>
+          <type>REGRESSION_GATE_IndexSelection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="207" column="1" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="207" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a44a195e0926bfef86d3057513daede74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_DistanceCostEstimation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DistanceCostEstimation</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="243" column="13" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="243" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a82776ec9d417c0e22f9789a3f3e02b52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_DistanceCostEstimation)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_DistanceCostEstimation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="253" column="1" declfile="benchmarks/query/bench_geospatial_phase2.cpp" declline="253" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a466e5932a60d5afde68f1a3cb549b2f0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ContainsCostEstimation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ContainsCostEstimation</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="255" column="13" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="255" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a1fa116b9fc91c229599055889dfbfd81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ContainsCostEstimation)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ContainsCostEstimation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="265" column="1" declfile="benchmarks/query/bench_geospatial_phase2.cpp" declline="265" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1ada55212f5175f98c0fdce8bc8f03dc45" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_HintParsing</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HintParsing</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="267" column="13" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="267" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a51c0cd6cde6b839208f73713dd46e0e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_HintParsing)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_HintParsing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="274" column="1" declfile="benchmarks/query/bench_geospatial_phase2.cpp" declline="274" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a95293d39f73ecdc7910f52ff58a806a4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_IndexSelection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_IndexSelection</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="276" column="13" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="276" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1ab8c5850949ad40ad64a7c2f0d7177519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_IndexSelection)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_IndexSelection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="296" column="1" declfile="benchmarks/query/bench_geospatial_phase2.cpp" declline="296" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__geospatial__phase2_8cpp_1a069b29f7f339b415eee706ed2f951f3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>(argc, argv)</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <param>
+          <type>argc</type>
+        </param>
+        <param>
+          <type>argv</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="299" column="1" declfile="benchmarks/query/bench_geospatial_phase2.cpp" declline="299" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance benchmarks for Phase 6C geospatial optimization. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Phase 6C Q3 2026 Delivery</para>
+</simplesect>
+ThemisDB | <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Module Phase 6C: Geospatial Phase 2</para>
+<para>Benchmarks:<itemizedlist>
+<listitem><para>BENCH_GEO_01: ST_DISTANCE nearest-neighbor (k=10)</para>
+</listitem><listitem><para>BENCH_GEO_02: ST_CONTAINS point-in-polygon</para>
+</listitem><listitem><para>BENCH_GEO_03: ST_INTERSECTS bounding box</para>
+</listitem><listitem><para>BENCH_GEO_04: Complex query (3-way filter with ST_*)</para>
+</listitem><listitem><para>BENCH_GEO_05: Throughput (1000 distance queries/sec) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geospatial__cost__model_8h" kindref="compound">query/geospatial_cost_model.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geospatial__optimizer__hints_8h" kindref="compound">query/geospatial_optimizer_hints.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geospatial__index__selector_8h" kindref="compound">query/geospatial_index_selector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="class_geospatial_benchmark" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1M<sp/>uniformly<sp/>distributed<sp/>points<sp/>globally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_geospatial_benchmark_1a965209585c5af7ed07f5d4a0d96aea7c" kindref="member">NUM_POINTS_LARGE</ref><sp/>=<sp/>1000000;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>100K<sp/>city<sp/>polygons<sp/>(clustered)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_geospatial_benchmark_1a7a88663ef80af7b8045b2c894542476c" kindref="member">NUM_POLYGONS</ref><sp/>=<sp/>100000;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spatial<sp/>histogram<sp/>for<sp/>1M<sp/>points</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref><sp/><ref refid="class_geospatial_benchmark_1a29d9c7704e3e532a3f3cb15afa686e1b" kindref="member">globalHistogram</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_geospatial_benchmark_1a2eac7071693d733b9c9e1283779a3b14" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>histogram<sp/>for<sp/>globally<sp/>distributed<sp/>points</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;double,<sp/>double&gt;&gt;<sp/>points;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>points.reserve(10000);<sp/><sp/></highlight><highlight class="comment">//<sp/>Sample<sp/>10K<sp/>points<sp/>for<sp/>histogram</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>lonDist(-180.0,<sp/>180.0);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>latDist(-90.0,<sp/>90.0);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>points.push_back({lonDist(rng),<sp/>latDist(rng)});</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_geospatial_benchmark_1a29d9c7704e3e532a3f3cb15afa686e1b" kindref="member">globalHistogram</ref><sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a9c5dbfeea73a9e96a01c490e09f618fe" kindref="member">GeospatialCostEstimator::buildSpatialHistogram</ref>(points,<sp/>20);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_geospatial_benchmark_1a29d9c7704e3e532a3f3cb15afa686e1b" kindref="member">globalHistogram</ref>.totalPoints<sp/>=<sp/><ref refid="class_geospatial_benchmark_1a965209585c5af7ed07f5d4a0d96aea7c" kindref="member">NUM_POINTS_LARGE</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BENCH_GEO_01:<sp/>ST_DISTANCE<sp/>Nearest-Neighbor<sp/>(k=10)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref>,<sp/>BENCH_GEO_01_DistanceNearestNeighbor)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Nearest-neighbor<sp/>query:<sp/>find<sp/>10<sp/>closest<sp/>points<sp/>to<sp/>a<sp/>location</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search<sp/>radius:<sp/>initially<sp/>small,<sp/>expands<sp/>as<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>searchRadii<sp/>=<sp/>{1000,<sp/>5000,<sp/>10000,<sp/>50000,<sp/>100000};<sp/><sp/></highlight><highlight class="comment">//<sp/>meters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>radius<sp/>:<sp/>searchRadii)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>with<sp/>R-tree<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>costWithIndex<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NUM_POINTS_LARGE,<sp/>radius,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;globalHistogram);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(costWithIndex.cpuCostUs,<sp/>120.0)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Distance<sp/>with<sp/>R-tree<sp/>should<sp/>be<sp/>≤120µs<sp/>(baseline:<sp/>≤100µs)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>without<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>costWithoutIndex<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NUM_POINTS_LARGE,<sp/>radius,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;globalHistogram);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(costWithoutIndex.cpuCostUs,<sp/>500.0<sp/>*<sp/>NUM_POINTS_LARGE<sp/>/<sp/>1000000.0)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Distance<sp/>without<sp/>index<sp/>should<sp/>scale<sp/>with<sp/>N&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>should<sp/>be<sp/>significantly<sp/>faster</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(costWithIndex.cpuCostUs,<sp/>costWithoutIndex.cpuCostUs<sp/>/<sp/>4.0)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;R-tree<sp/>should<sp/>be<sp/>at<sp/>least<sp/>4x<sp/>faster&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref>,<sp/>BENCH_GEO_02_ContainsPointInPolygon)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Point-in-polygon<sp/>query:<sp/>find<sp/>all<sp/>points<sp/>in<sp/>a<sp/>polygon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Polygon<sp/>complexity<sp/>varies:<sp/>4<sp/>vertices<sp/>(simple)<sp/>to<sp/>100+<sp/>(complex)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>complexities<sp/>=<sp/>{4,<sp/>10,<sp/>25,<sp/>50,<sp/>100};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>complexity<sp/>:<sp/>complexities)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>with<sp/>R-tree<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>costWithIndex<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1ae9fa6d3a10cbc4a155177b0a75854aef" kindref="member">GeospatialCostEstimator::estimateContainsCost</ref>(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NUM_POINTS_LARGE,<sp/>complexity,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;globalHistogram);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(costWithIndex.cpuCostUs,<sp/>180.0)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Contains<sp/>with<sp/>R-tree<sp/>should<sp/>be<sp/>≤180µs<sp/>(baseline:<sp/>≤150µs)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>without<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>costWithoutIndex<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1ae9fa6d3a10cbc4a155177b0a75854aef" kindref="member">GeospatialCostEstimator::estimateContainsCost</ref>(</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NUM_POINTS_LARGE,<sp/>complexity,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;globalHistogram);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>costPerRow<sp/>=<sp/>100.0<sp/>+<sp/>(complexity<sp/>*<sp/>10.0);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>expectedMax<sp/>=<sp/>(NUM_POINTS_LARGE<sp/>/<sp/>1000000.0)<sp/>*<sp/>costPerRow;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(costWithoutIndex.cpuCostUs,<sp/>expectedMax<sp/>*<sp/>1.5)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Contains<sp/>cost<sp/>should<sp/>be<sp/>reasonable<sp/>for<sp/>full<sp/>scan&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>should<sp/>be<sp/>significantly<sp/>faster</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(costWithIndex.cpuCostUs,<sp/>costWithoutIndex.cpuCostUs<sp/>/<sp/>4.0)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;R-tree<sp/>should<sp/>be<sp/>at<sp/>least<sp/>4x<sp/>faster&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref>,<sp/>BENCH_GEO_03_IntersectsBoundingBox)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Geometry<sp/>intersection:<sp/>find<sp/>all<sp/>geometries<sp/>overlapping<sp/>with<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Complexity:<sp/>query<sp/>geometry<sp/>shape</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>complexities<sp/>=<sp/>{4,<sp/>10,<sp/>25,<sp/>50};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>complexity<sp/>:<sp/>complexities)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>with<sp/>R-tree<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>costWithIndex<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1acdf514cca78963c0ed4eb1586df6c345" kindref="member">GeospatialCostEstimator::estimateIntersectsCost</ref>(</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NUM_POINTS_LARGE,<sp/>complexity,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;globalHistogram);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(costWithIndex.cpuCostUs,<sp/>240.0)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Intersects<sp/>with<sp/>R-tree<sp/>should<sp/>be<sp/>≤240µs<sp/>(baseline:<sp/>≤200µs)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>without<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>costWithoutIndex<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1acdf514cca78963c0ed4eb1586df6c345" kindref="member">GeospatialCostEstimator::estimateIntersectsCost</ref>(</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NUM_POINTS_LARGE,<sp/>complexity,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;globalHistogram);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>should<sp/>be<sp/>significantly<sp/>faster</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(costWithIndex.cpuCostUs,<sp/>costWithoutIndex.cpuCostUs<sp/>/<sp/>3.0)</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;R-tree<sp/>should<sp/>be<sp/>at<sp/>least<sp/>3x<sp/>faster&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref>,<sp/>BENCH_GEO_04_ComplexQuery)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Complex<sp/>query:<sp/>3-way<sp/>filter<sp/>with<sp/>spatial<sp/>predicates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Example:<sp/>location<sp/>in<sp/>zone<sp/>AND<sp/>distance<sp/>&lt;<sp/>100km<sp/>AND<sp/>intersects<sp/>polygon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>cost<sp/>should<sp/>be<sp/>sum<sp/>of<sp/>predicates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distanceCost<sp/>=<sp/>50.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>µs<sp/>with<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>containsCost<sp/>=<sp/>60.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>µs<sp/>with<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>intersectsCost<sp/>=<sp/>70.0;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>µs<sp/>with<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>totalExpected<sp/>=<sp/>distanceCost<sp/>+<sp/>containsCost<sp/>+<sp/>intersectsCost;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(totalExpected,<sp/>600.0)</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Complex<sp/>3-way<sp/>spatial<sp/>query<sp/>should<sp/>be<sp/>≤600µs<sp/>(baseline:<sp/>≤500µs)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref>,<sp/>BENCH_GEO_05_Throughput)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Throughput<sp/>test:<sp/>1000<sp/>distance<sp/>queries<sp/>per<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>query:<sp/>ST_DISTANCE<sp/>nearest<sp/>neighbor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>costPerQuery<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NUM_POINTS_LARGE,<sp/>10000.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;globalHistogram);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Assume<sp/>1000<sp/>µs<sp/>=<sp/>1<sp/>ms<sp/>per<sp/>query<sp/>on<sp/>modern<sp/>hardware</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxCostPerQuery<sp/>=<sp/>1000.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>µs<sp/>(1ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(costPerQuery.cpuCostUs,<sp/>maxCostPerQuery)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Each<sp/>query<sp/>must<sp/>be<sp/>&lt;1ms<sp/>to<sp/>achieve<sp/>1000<sp/>q/s&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calculate<sp/>throughput:<sp/>1e9<sp/>µs/sec<sp/>/<sp/>costPerQuery<sp/>µs<sp/>=<sp/>queries/sec</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>achievableThroughput<sp/>=<sp/>1e6<sp/>/<sp/>std::max(1.0,<sp/>costPerQuery.cpuCostUs);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(achievableThroughput,<sp/>800.0)</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Should<sp/>achieve<sp/>≥800<sp/>q/s<sp/>(baseline:<sp/>≥1000<sp/>q/s<sp/>with<sp/>20%<sp/>regression<sp/>tolerance)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Regression<sp/>Gate<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref>,<sp/>REGRESSION_GATE_CostEstimation)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Regression<sp/>gate:<sp/>Cost<sp/>estimation<sp/>accuracy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Estimate<sp/>and<sp/>record<sp/>actual<sp/>for<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>distance<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100000,<sp/>10000.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;globalHistogram);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>actual<sp/>execution:<sp/>assume<sp/>±10%<sp/>variance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>actualRows<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(distance.estimatedRows<sp/>*<sp/>1.05);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>actualCostUs<sp/>=<sp/>distance.cpuCostUs<sp/>*<sp/>0.95;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1aeaab80f7383b91f5993282e9bf1ae4e9" kindref="member">GeospatialCostEstimator::recordActualCost</ref>(</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>distance,<sp/>actualRows,<sp/>actualCostUs,<sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>metrics<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a31c40a589939397f7f0660ca8dd4481d" kindref="member">GeospatialCostEstimator::getMetrics</ref>();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mape<sp/>=<sp/>metrics.computeMAPE();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(mape,<sp/>0.20)</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Cost<sp/>model<sp/>MAPE<sp/>should<sp/>be<sp/>&lt;20%<sp/>(Mean<sp/>Absolute<sp/>Percentage<sp/>Error)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref>,<sp/>REGRESSION_GATE_IndexSelection)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Regression<sp/>gate:<sp/>Index<sp/>selection<sp/>quality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/>uniformDist;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>uniformDist.<ref refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">DataDistribution::UNIFORM</ref>;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>uniformDist.<ref refid="structthemis_1_1query_1_1_data_distribution_1a310ab19b832cf10a67df0fcac083b7b2" kindref="member">clusteringRatio</ref><sp/>=<sp/>0.1;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>sample<sp/>indexes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>IndexStatistics&gt;<sp/>indexes;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/>rtreeStats;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>rtreeStats.<ref refid="structthemis_1_1query_1_1_index_statistics_1a43b1efc5c111b321cdacfa534a276201" kindref="member">indexName</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;idx_location_rtree&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>rtreeStats.<ref refid="structthemis_1_1query_1_1_index_statistics_1a7557fa9be5a2ac06b56893fec8e7efe2" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960af133c45ddb97fdeb71d58bb70087eb60" kindref="member">SpatialIndexType::RTREE</ref>;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>rtreeStats.<ref refid="structthemis_1_1query_1_1_index_statistics_1ab64919135d9cd2a35e0a7f72a86f5e54" kindref="member">averageHitRate</ref><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>indexes[</highlight><highlight class="stringliteral">&quot;idx_location_rtree&quot;</highlight><highlight class="normal">]<sp/>=<sp/>rtreeStats;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Select<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>selected<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a9487de8c840e3c474915d1191b8659d7" kindref="member">GeospatialIndexSelector::selectIndex</ref>(</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100000,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>indexes,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uniformDist,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>10000.0);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(selected.indexName,<sp/></highlight><highlight class="stringliteral">&quot;idx_location_rtree&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Should<sp/>select<sp/>R-tree<sp/>for<sp/>uniform<sp/>distance<sp/>query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(selected.selectivityGain,<sp/>1.0)</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Index<sp/>should<sp/>provide<sp/>some<sp/>gain<sp/>over<sp/>full<sp/>scan&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>Functions<sp/>for<sp/>Google<sp/>Benchmark</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_DistanceCostEstimation(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref><sp/>fixture;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>fixture.<ref refid="class_geospatial_benchmark_1a2eac7071693d733b9c9e1283779a3b14" kindref="member">SetUp</ref>();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cost<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">GeospatialCostEstimator::estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1000000,<sp/>10000.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;fixture.<ref refid="class_geospatial_benchmark_1a29d9c7704e3e532a3f3cb15afa686e1b" kindref="member">globalHistogram</ref>);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(cost);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="bench__geospatial__phase2_8cpp_1a82776ec9d417c0e22f9789a3f3e02b52" kindref="member">BENCHMARK</ref>(BM_DistanceCostEstimation);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ContainsCostEstimation(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref><sp/>fixture;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>fixture.<ref refid="class_geospatial_benchmark_1a2eac7071693d733b9c9e1283779a3b14" kindref="member">SetUp</ref>();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cost<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1ae9fa6d3a10cbc4a155177b0a75854aef" kindref="member">GeospatialCostEstimator::estimateContainsCost</ref>(</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1000000,<sp/>25,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;fixture.<ref refid="class_geospatial_benchmark_1a29d9c7704e3e532a3f3cb15afa686e1b" kindref="member">globalHistogram</ref>);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(cost);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="bench__geospatial__phase2_8cpp_1a82776ec9d417c0e22f9789a3f3e02b52" kindref="member">BENCHMARK</ref>(BM_ContainsCostEstimation);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_HintParsing(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hint<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_spatial_hint_parser_1a1b888a5c3038f521a58d9f4f4c53df25" kindref="member">SpatialHintParser::parseHint</ref>(</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;USE_INDEX(doc.location,<sp/>\&quot;geo_idx\&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(hint);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="bench__geospatial__phase2_8cpp_1a82776ec9d417c0e22f9789a3f3e02b52" kindref="member">BENCHMARK</ref>(BM_HintParsing);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_IndexSelection(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_geospatial_benchmark" kindref="compound">GeospatialBenchmark</ref><sp/>fixture;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>fixture.<ref refid="class_geospatial_benchmark_1a2eac7071693d733b9c9e1283779a3b14" kindref="member">SetUp</ref>();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>IndexStatistics&gt;<sp/>indexes;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1query_1_1_index_statistics_1a43b1efc5c111b321cdacfa534a276201" kindref="member">indexName</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;idx_loc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1query_1_1_index_statistics_1a7557fa9be5a2ac06b56893fec8e7efe2" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1aa0a3f6b50c16afa51e724c88b7901960af133c45ddb97fdeb71d58bb70087eb60" kindref="member">SpatialIndexType::RTREE</ref>;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1query_1_1_index_statistics_1ab64919135d9cd2a35e0a7f72a86f5e54" kindref="member">averageHitRate</ref><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>indexes[</highlight><highlight class="stringliteral">&quot;idx_loc&quot;</highlight><highlight class="normal">]<sp/>=<sp/>stats;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_data_distribution" kindref="compound">DataDistribution</ref><sp/>dist;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>dist.<ref refid="structthemis_1_1query_1_1_data_distribution_1ac6387d9b66d3144bc17c1d3e8e21db65" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_data_distribution_1aaf2202823b529625cca9a2e702810856a315cf7f3eceafbd9d878501113dcb4cc" kindref="member">DataDistribution::UNIFORM</ref>;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>selected<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_geospatial_index_selector_1a9487de8c840e3c474915d1191b8659d7" kindref="member">GeospatialIndexSelector::selectIndex</ref>(</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DISTANCE&quot;</highlight><highlight class="normal">,<sp/>1000000,<sp/>indexes,<sp/>dist,<sp/>10000.0);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(selected);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="bench__geospatial__phase2_8cpp_1a82776ec9d417c0e22f9789a3f3e02b52" kindref="member">BENCHMARK</ref>(BM_IndexSelection);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Run<sp/>benchmarks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="bench__adaptive__query__cache_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>(argc,<sp/>argv);</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/query/bench_geospatial_phase2.cpp"/>
+  </compounddef>
+</doxygen>

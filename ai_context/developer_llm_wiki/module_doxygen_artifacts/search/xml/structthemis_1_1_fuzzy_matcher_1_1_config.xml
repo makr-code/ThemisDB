@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_fuzzy_matcher_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::FuzzyMatcher::Config</compoundname>
+    <includes refid="fuzzy__matcher_8h" local="no">fuzzy_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_fuzzy_matcher_1_1_config_1afbee4a6748c4e0d9852b768ab46b3ac5" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aa" kindref="member">Algorithm</ref></type>
+        <definition>Algorithm themis::FuzzyMatcher::Config::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::FuzzyMatcher::Config::algorithm</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aaa676541db1e06e88852a9c8cf5b458898" kindref="member">Algorithm::LEVENSHTEIN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="63" column="19" bodyfile="include/search/fuzzy_matcher.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fuzzy_matcher_1_1_config_1a1c98ecbce83c33ba208a6c8910bf3435" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::FuzzyMatcher::Config::max_distance</definition>
+        <argsstring></argsstring>
+        <name>max_distance</name>
+        <qualifiedname>themis::FuzzyMatcher::Config::max_distance</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Maximum edit distance (Levenshtein) or min overlap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="64" column="13" bodyfile="include/search/fuzzy_matcher.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fuzzy_matcher_1_1_config_1a7f75e1fbf555915d81c02cdfa53ffd3b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::FuzzyMatcher::Config::ngram_size</definition>
+        <argsstring></argsstring>
+        <name>ngram_size</name>
+        <qualifiedname>themis::FuzzyMatcher::Config::ngram_size</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>N-gram size when algorithm == NGRAM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="65" column="16" bodyfile="include/search/fuzzy_matcher.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fuzzy_matcher_1_1_config_1a3fc762aeaa0cc61553603d4e52734258" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::FuzzyMatcher::Config::phonetic_prefilter</definition>
+        <argsstring></argsstring>
+        <name>phonetic_prefilter</name>
+        <qualifiedname>themis::FuzzyMatcher::Config::phonetic_prefilter</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Apply phonetic pre-filter before edit distance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="66" column="14" bodyfile="include/search/fuzzy_matcher.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/fuzzy_matcher.h" line="62" column="5" bodyfile="include/search/fuzzy_matcher.h" bodystart="62" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_fuzzy_matcher_1_1_config_1afbee4a6748c4e0d9852b768ab46b3ac5" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher::Config</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1_fuzzy_matcher_1_1_config_1a1c98ecbce83c33ba208a6c8910bf3435" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher::Config</scope><name>max_distance</name></member>
+      <member refid="structthemis_1_1_fuzzy_matcher_1_1_config_1a7f75e1fbf555915d81c02cdfa53ffd3b" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher::Config</scope><name>ngram_size</name></member>
+      <member refid="structthemis_1_1_fuzzy_matcher_1_1_config_1a3fc762aeaa0cc61553603d4e52734258" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher::Config</scope><name>phonetic_prefilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

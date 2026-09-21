@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_numa_allocator" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::NumaAllocator</compoundname>
+    <includes refid="kernel__bypass_8h" local="no">kernel_bypass.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_numa_allocator_1a57dd5a057df8ddc9a318320ddd9514b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::network::NumaAllocator::allocate</definition>
+        <argsstring>(size_t size, int node=-1)</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::network::NumaAllocator::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>node</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+<para>Allocate <computeroutput>size</computeroutput> bytes on NUMA node <computeroutput>node</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Allocation size in bytes. Must be &gt; 0. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target NUMA node (-1 = system default). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the allocation; never null (throws std::bad_alloc). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="112" column="17" bodyfile="src/network/kernel_bypass.cpp" bodystart="216" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_numa_allocator_1a6da0a1e1a8bc51a0971b052114f6a2c0" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NumaAllocator::deallocate</definition>
+        <argsstring>(void *ptr, size_t size) noexcept</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::network::NumaAllocator::deallocate</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Release memory previously allocated via <computeroutput><ref refid="classthemis_1_1network_1_1_numa_allocator_1a57dd5a057df8ddc9a318320ddd9514b5" kindref="member">allocate()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer returned by <computeroutput><ref refid="classthemis_1_1network_1_1_numa_allocator_1a57dd5a057df8ddc9a318320ddd9514b5" kindref="member">allocate()</ref></computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original allocation size. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="120" column="17" bodyfile="src/network/kernel_bypass.cpp" bodystart="249" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_numa_allocator_1a0ffe5ff0d6a3ddc2a99da343fbd2afd4" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::NumaAllocator::isNumaAvailable</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>isNumaAvailable</name>
+        <qualifiedname>themis::network::NumaAllocator::isNumaAvailable</qualifiedname>
+        <briefdescription>
+<para>Whether NUMA-aware allocation is available on this system. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="125" column="17" bodyfile="src/network/kernel_bypass.cpp" bodystart="264" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Allocate memory local to a NUMA node. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When <computeroutput>libnuma</computeroutput> is available (guarded by <computeroutput>THEMIS_ENABLE_NUMA</computeroutput>) the allocation is placed on the specified node. Otherwise the request falls through to <computeroutput>std::aligned_alloc</computeroutput>.</para>
+<para>Allocations are always aligned to at least 64 bytes (cache line). </para>
+    </detaileddescription>
+    <location file="include/network/kernel_bypass.h" line="103" column="1" bodyfile="include/network/kernel_bypass.h" bodystart="103" bodyend="126"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_numa_allocator_1a57dd5a057df8ddc9a318320ddd9514b5" prot="public" virt="non-virtual"><scope>themis::network::NumaAllocator</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1network_1_1_numa_allocator_1a6da0a1e1a8bc51a0971b052114f6a2c0" prot="public" virt="non-virtual"><scope>themis::network::NumaAllocator</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1network_1_1_numa_allocator_1a0ffe5ff0d6a3ddc2a99da343fbd2afd4" prot="public" virt="non-virtual"><scope>themis::network::NumaAllocator</scope><name>isNumaAvailable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

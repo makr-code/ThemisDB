@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_test_case" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::TestCase</compoundname>
+    <includes refid="prompt__optimizer_8h" local="no">prompt_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_test_case_1a734f012a4087c5775f6623be3e17f28e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::TestCase::input</definition>
+        <argsstring></argsstring>
+        <name>input</name>
+        <qualifiedname>themis::prompt_engineering::TestCase::input</qualifiedname>
+        <briefdescription>
+<para>Input to the prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="50" column="17" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_test_case_1a57dd808f2a647734663d6b61f055559c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::TestCase::expected_output</definition>
+        <argsstring></argsstring>
+        <name>expected_output</name>
+        <qualifiedname>themis::prompt_engineering::TestCase::expected_output</qualifiedname>
+        <briefdescription>
+<para>Expected output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="51" column="17" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_test_case_1a0794a4c867d6cf0a87bc043a83130d61" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::TestCase::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::prompt_engineering::TestCase::context</qualifiedname>
+        <briefdescription>
+<para>Additional context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_optimizer.h" line="52" column="20" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test case for prompt evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_optimizer.h" line="49" column="1" bodyfile="include/prompt_engineering/prompt_optimizer.h" bodystart="49" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_test_case_1a0794a4c867d6cf0a87bc043a83130d61" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TestCase</scope><name>context</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_test_case_1a57dd808f2a647734663d6b61f055559c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TestCase</scope><name>expected_output</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_test_case_1a734f012a4087c5775f6623be3e17f28e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TestCase</scope><name>input</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

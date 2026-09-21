@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1query_1_1functions_1_1_classify_function" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::query::functions::ClassifyFunction</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IFunction</basecompoundref>
+    <includes refid="ai__ml__functions_8h" local="no">ai_ml_functions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_classify_function_1a7a5b8608eb8d084e330750525951eff8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::query::functions::ClassifyFunction::~ClassifyFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ClassifyFunction</name>
+        <qualifiedname>themisdb::query::functions::ClassifyFunction::~ClassifyFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="175" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_classify_function_1adc23a8792a569dd59457e5245cad6e47" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>FunctionSignature</type>
+        <definition>FunctionSignature themisdb::query::functions::ClassifyFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themisdb::query::functions::ClassifyFunction::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="176" column="23" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="176" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_classify_function_1a13d3074cd8b848614d6e21ec0eeb8e10" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>JsonValue</type>
+        <definition>JsonValue themisdb::query::functions::ClassifyFunction::execute</definition>
+        <argsstring>(const std::vector&lt; JsonValue &gt; &amp;args, ExecutionContext &amp;ctx) const override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::query::functions::ClassifyFunction::execute</qualifiedname>
+        <param>
+          <type>const std::vector&lt; JsonValue &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>ExecutionContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="187" column="15" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="187" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IFunction</label>
+      </node>
+      <node id="1">
+        <label>themisdb::query::functions::ClassifyFunction</label>
+        <link refid="classthemisdb_1_1query_1_1functions_1_1_classify_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IFunction</label>
+      </node>
+      <node id="1">
+        <label>themisdb::query::functions::ClassifyFunction</label>
+        <link refid="classthemisdb_1_1query_1_1functions_1_1_classify_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/ai_ml_functions.h" line="173" column="1" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="173" bodyend="223"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_classify_function_1a13d3074cd8b848614d6e21ec0eeb8e10" prot="public" virt="non-virtual"><scope>themisdb::query::functions::ClassifyFunction</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_classify_function_1adc23a8792a569dd59457e5245cad6e47" prot="public" virt="non-virtual"><scope>themisdb::query::functions::ClassifyFunction</scope><name>signature</name></member>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_classify_function_1a7a5b8608eb8d084e330750525951eff8" prot="public" virt="non-virtual"><scope>themisdb::query::functions::ClassifyFunction</scope><name>~ClassifyFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

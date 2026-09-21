@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_export_queue" kind="class" language="C++" prot="public">
+    <compoundname>StubExportQueue</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_export_queue_1a2897cdc7f46856b1f9df75c876c955b6" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StubExportQueue::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubExportQueue::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="84" column="16" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_export_queue_1afb47bd611c2a84de61161246e8d79729" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::string &gt;</type>
+        <definition>std::deque&lt;std::string&gt; StubExportQueue::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>StubExportQueue::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="85" column="16" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_export_queue_1acf2e134ae948943b542b738360d125c0" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t StubExportQueue::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>StubExportQueue::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="86" column="17" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_export_queue_1ab834049bfab9a3e4376cc0c239420a82" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubExportQueue::overflow_</definition>
+        <argsstring></argsstring>
+        <name>overflow_</name>
+        <qualifiedname>StubExportQueue::overflow_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="87" column="17" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_export_queue_1abb2885a5a8582298fb6b4ec1918f0911" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubExportQueue::StubExportQueue</definition>
+        <argsstring>(std::size_t capacity)</argsstring>
+        <name>StubExportQueue</name>
+        <qualifiedname>StubExportQueue::StubExportQueue</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="61" column="14" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_export_queue_1a116b9e964293174f9f355dd66a1e5b5a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubExportQueue::enqueue</definition>
+        <argsstring>(const std::string &amp;item)</argsstring>
+        <name>enqueue</name>
+        <qualifiedname>StubExportQueue::enqueue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="63" column="10" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="63" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_export_queue_1a6b98f179658d9760dbe982b8a09797d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubExportQueue::dequeue</definition>
+        <argsstring>(std::string &amp;out)</argsstring>
+        <name>dequeue</name>
+        <qualifiedname>StubExportQueue::dequeue</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="73" column="10" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="73" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_export_queue_1a1b599b507ae69b2d2842b617c5c2d271" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubExportQueue::overflow</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>overflow</name>
+        <qualifiedname>StubExportQueue::overflow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="81" column="14" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="59" column="1" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="59" bodyend="88"/>
+    <listofallmembers>
+      <member refid="class_stub_export_queue_1acf2e134ae948943b542b738360d125c0" prot="private" virt="non-virtual"><scope>StubExportQueue</scope><name>capacity_</name></member>
+      <member refid="class_stub_export_queue_1a6b98f179658d9760dbe982b8a09797d3" prot="public" virt="non-virtual"><scope>StubExportQueue</scope><name>dequeue</name></member>
+      <member refid="class_stub_export_queue_1a116b9e964293174f9f355dd66a1e5b5a" prot="public" virt="non-virtual"><scope>StubExportQueue</scope><name>enqueue</name></member>
+      <member refid="class_stub_export_queue_1a2897cdc7f46856b1f9df75c876c955b6" prot="private" virt="non-virtual"><scope>StubExportQueue</scope><name>mu_</name></member>
+      <member refid="class_stub_export_queue_1a1b599b507ae69b2d2842b617c5c2d271" prot="public" virt="non-virtual"><scope>StubExportQueue</scope><name>overflow</name></member>
+      <member refid="class_stub_export_queue_1ab834049bfab9a3e4376cc0c239420a82" prot="private" virt="non-virtual"><scope>StubExportQueue</scope><name>overflow_</name></member>
+      <member refid="class_stub_export_queue_1afb47bd611c2a84de61161246e8d79729" prot="private" virt="non-virtual"><scope>StubExportQueue</scope><name>queue_</name></member>
+      <member refid="class_stub_export_queue_1abb2885a5a8582298fb6b4ec1918f0911" prot="public" virt="non-virtual"><scope>StubExportQueue</scope><name>StubExportQueue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

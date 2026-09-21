@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::test::ProvenanceStoreTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1test_1_1_provenance_store_test_1a8a6455f34f756aaf1c8e4fac86021955" prot="protected" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::test::ProvenanceStoreTest::testDbPath</definition>
+        <argsstring>() const</argsstring>
+        <name>testDbPath</name>
+        <qualifiedname>themis::observability::test::ProvenanceStoreTest::testDbPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="23" column="18" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="23" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1test_1_1_provenance_store_test_1ae30ab06a4c84e1c14f9964da7350edb8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::test::ProvenanceStoreTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::observability::test::ProvenanceStoreTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="29" column="10" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="29" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1test_1_1_provenance_store_test_1ad0c1882dd232aed676394cf1588242d3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::test::ProvenanceStoreTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::observability::test::ProvenanceStoreTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="37" column="10" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1test_1_1_provenance_store_test_1a5d90153bae9954065982a7e71e07b290" prot="protected" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_provenance_step_record" kindref="compound">ProvenanceStepRecord</ref></type>
+        <definition>ProvenanceStepRecord themis::observability::test::ProvenanceStoreTest::makeRecord</definition>
+        <argsstring>(const std::string &amp;query_id, int step, int64_t timestamp_ms)</argsstring>
+        <name>makeRecord</name>
+        <qualifiedname>themis::observability::test::ProvenanceStoreTest::makeRecord</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="45" column="27" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="45" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::test::ProvenanceStoreTest</label>
+        <link refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::test::ProvenanceStoreTest</label>
+        <link refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_provenance_store.cpp" line="21" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="21" bodyend="66"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test_1a5d90153bae9954065982a7e71e07b290" prot="protected" virt="non-virtual"><scope>themis::observability::test::ProvenanceStoreTest</scope><name>makeRecord</name></member>
+      <member refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test_1ae30ab06a4c84e1c14f9964da7350edb8" prot="protected" virt="non-virtual"><scope>themis::observability::test::ProvenanceStoreTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test_1ad0c1882dd232aed676394cf1588242d3" prot="protected" virt="non-virtual"><scope>themis::observability::test::ProvenanceStoreTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test_1a8a6455f34f756aaf1c8e4fac86021955" prot="protected" virt="non-virtual"><scope>themis::observability::test::ProvenanceStoreTest</scope><name>testDbPath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

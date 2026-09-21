@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wire_perf_benchmark_pool" kind="class" language="C++" prot="public">
+    <compoundname>WirePerfBenchmarkPool</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_wire_perf_benchmark_pool_1a385b9db1db5e62855925af4ff2b15100" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int WirePerfBenchmarkPool::kWarmup</definition>
+        <argsstring></argsstring>
+        <name>kWarmup</name>
+        <qualifiedname>WirePerfBenchmarkPool::kWarmup</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_wire_perf_benchmark.cpp" line="146" column="26" bodyfile="tests/performance/test_wire_perf_benchmark.cpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wire_perf_benchmark_pool_1a2d158d31ce3dfa88239a400754601e3d" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int WirePerfBenchmarkPool::kIters</definition>
+        <argsstring></argsstring>
+        <name>kIters</name>
+        <qualifiedname>WirePerfBenchmarkPool::kIters</qualifiedname>
+        <initializer>= 5&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_wire_perf_benchmark.cpp" line="147" column="26" bodyfile="tests/performance/test_wire_perf_benchmark.cpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wire_perf_benchmark_pool_1a2f915a460ccbe3e7baef198ac6566556" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t WirePerfBenchmarkPool::kSlabSize</definition>
+        <argsstring></argsstring>
+        <name>kSlabSize</name>
+        <qualifiedname>WirePerfBenchmarkPool::kSlabSize</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_wire_perf_benchmark.cpp" line="148" column="29" bodyfile="tests/performance/test_wire_perf_benchmark.cpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WirePerfBenchmarkPool</label>
+        <link refid="class_wire_perf_benchmark_pool"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WirePerfBenchmarkPool</label>
+        <link refid="class_wire_perf_benchmark_pool"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/performance/test_wire_perf_benchmark.cpp" line="144" column="1" bodyfile="tests/performance/test_wire_perf_benchmark.cpp" bodystart="144" bodyend="149"/>
+    <listofallmembers>
+      <member refid="class_wire_perf_benchmark_pool_1a2d158d31ce3dfa88239a400754601e3d" prot="protected" virt="non-virtual"><scope>WirePerfBenchmarkPool</scope><name>kIters</name></member>
+      <member refid="class_wire_perf_benchmark_pool_1a2f915a460ccbe3e7baef198ac6566556" prot="protected" virt="non-virtual"><scope>WirePerfBenchmarkPool</scope><name>kSlabSize</name></member>
+      <member refid="class_wire_perf_benchmark_pool_1a385b9db1db5e62855925af4ff2b15100" prot="protected" virt="non-virtual"><scope>WirePerfBenchmarkPool</scope><name>kWarmup</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

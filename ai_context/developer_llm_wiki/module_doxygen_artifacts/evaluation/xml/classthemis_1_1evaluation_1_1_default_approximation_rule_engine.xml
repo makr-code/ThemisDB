@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_default_approximation_rule_engine" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::evaluation::DefaultApproximationRuleEngine</compoundname>
+    <basecompoundref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine" prot="public" virt="non-virtual">themis::evaluation::ApproximationRuleEngine</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a092ad62a6e268f736afde06e51f70f19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::DefaultApproximationRuleEngine::DefaultApproximationRuleEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>DefaultApproximationRuleEngine</name>
+        <qualifiedname>themis::evaluation::DefaultApproximationRuleEngine::DefaultApproximationRuleEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/approximation_rules.cc" line="177" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1ad5fe37798dad92a47acccb2f555ccd2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::DefaultApproximationRuleEngine::~DefaultApproximationRuleEngine</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~DefaultApproximationRuleEngine</name>
+        <qualifiedname>themis::evaluation::DefaultApproximationRuleEngine::~DefaultApproximationRuleEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/approximation_rules.cc" line="178" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a104c7407fac52dfa8f09231dd60bd8f5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result" kindref="compound">BoundaryCheckResult</ref></type>
+        <definition>BoundaryCheckResult themis::evaluation::DefaultApproximationRuleEngine::checkBoundary</definition>
+        <argsstring>(RetrievalLayer layer, ApproximationZone zone, KernelCategory category, const ApproximationPolicy &amp;policy, double confidence, bool uses_gpu) const noexcept override</argsstring>
+        <name>checkBoundary</name>
+        <qualifiedname>themis::evaluation::DefaultApproximationRuleEngine::checkBoundary</qualifiedname>
+        <reimplements refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1aeb9824edd2f790307d4488f2ae6a943d">checkBoundary</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117c" kindref="member">RetrievalLayer</ref></type>
+          <declname>layer</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4" kindref="member">ApproximationZone</ref></type>
+          <declname>zone</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170a" kindref="member">KernelCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_approximation_policy" kindref="compound">ApproximationPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>confidence</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>uses_gpu</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate approximation boundary and policy rules for one request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Applies rules in priority order (see file-level overview). Returns the first violation found, or Allow when all rules pass.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieval layer being evaluated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>zone</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zone being requested by the caller. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Kernel category active at this layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active governance policy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query-time confidence in [0.0, 1.0]. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>uses_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True when this layer is being asked to dispatch on GPU. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result" kindref="compound">BoundaryCheckResult</ref> with decision and optional violation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/approximation_rules.cc" line="198" column="26" bodyfile="src/evaluation/src/approximation_rules.cc" bodystart="198" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a1f29e5c431030c9824fbd217f010e407" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result" kindref="compound">BoundaryCheckResult</ref></type>
+        <definition>BoundaryCheckResult themis::evaluation::DefaultApproximationRuleEngine::validatePlannedPath</definition>
+        <argsstring>(const PlannerDecision &amp;decision, const ApproximationPolicy &amp;policy) const noexcept override</argsstring>
+        <name>validatePlannedPath</name>
+        <qualifiedname>themis::evaluation::DefaultApproximationRuleEngine::validatePlannedPath</qualifiedname>
+        <reimplements refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a07bf8c632495ba4215b29e80a4fba7af">validatePlannedPath</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_planner_decision" kindref="compound">PlannerDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_approximation_policy" kindref="compound">ApproximationPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Validate a planner decision against approximation boundaries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maps each <ref refid="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adc" kindref="member">ExecutionPath</ref> to its implied layer(s) and applies <computeroutput><ref refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a104c7407fac52dfa8f09231dd60bd8f5" kindref="member">checkBoundary()</ref></computeroutput> for each. Returns the most restrictive result.</para>
+<para>Path → layer(s) mapping:<itemizedlist>
+<listitem><para>AnnOnly → {Ann}</para>
+</listitem><listitem><para>AnnTensorSummary → {Ann, TensorSummary}</para>
+</listitem><listitem><para>AnnTensorExactGraph → {Ann, TensorSummary, ExactGraph}</para>
+</listitem><listitem><para>DirectExactGraph → {ExactGraph}</para>
+</listitem><listitem><para>DistributedSummaryFirstExactOnDemand → {DistributedShard, ExactGraph}</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The planner decision to validate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active governance policy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result" kindref="compound">BoundaryCheckResult</ref> representing the overall compliance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/approximation_rules.cc" line="407" column="26" bodyfile="src/evaluation/src/approximation_rules.cc" bodystart="407" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a590e186a62d3a0545386e2078829903d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_approximation_boundary" kindref="compound">ApproximationBoundary</ref></type>
+        <definition>ApproximationBoundary themis::evaluation::DefaultApproximationRuleEngine::canonicalBoundary</definition>
+        <argsstring>(RetrievalLayer layer) const noexcept override</argsstring>
+        <name>canonicalBoundary</name>
+        <qualifiedname>themis::evaluation::DefaultApproximationRuleEngine::canonicalBoundary</qualifiedname>
+        <reimplements refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a488a08aa67fbed31b9e6a059c77c0c04">canonicalBoundary</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117c" kindref="member">RetrievalLayer</ref></type>
+          <declname>layer</declname>
+        </param>
+        <briefdescription>
+<para>Return the canonical boundary descriptor for a retrieval layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The retrieval layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Canonical <ref refid="structthemis_1_1evaluation_1_1_approximation_boundary" kindref="compound">ApproximationBoundary</ref>. Returns a safe default (ExactGraph / Exact / fail-closed) for unrecognized layer values. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/approximation_rules.cc" line="492" column="28" bodyfile="src/evaluation/src/approximation_rules.cc" bodystart="492" bodyend="508"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Default production approximation rule engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enforces the invariants from <computeroutput>docs/EPIC2_APPROXIMATION_GOVERNANCE.md</computeroutput> and ADR E2-004. All check methods are thread-safe and noexcept. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::evaluation::ApproximationRuleEngine</label>
+        <link refid="classthemis_1_1evaluation_1_1_approximation_rule_engine"/>
+      </node>
+      <node id="1">
+        <label>themis::evaluation::DefaultApproximationRuleEngine</label>
+        <link refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::evaluation::ApproximationRuleEngine</label>
+        <link refid="classthemis_1_1evaluation_1_1_approximation_rule_engine"/>
+      </node>
+      <node id="1">
+        <label>themis::evaluation::DefaultApproximationRuleEngine</label>
+        <link refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/evaluation/src/approximation_rules.cc" line="175" column="1" bodyfile="src/evaluation/src/approximation_rules.cc" bodystart="175" bodyend="509"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultApproximationRuleEngine</scope><name>ApproximationRuleEngine</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1aa920935ff0f6d21d2cc9bc151fe521a4" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultApproximationRuleEngine</scope><name>ApproximationRuleEngine</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a3df18eb9928d6e774e0349c3e1312f3b" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultApproximationRuleEngine</scope><name>ApproximationRuleEngine</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a590e186a62d3a0545386e2078829903d" prot="public" virt="virtual"><scope>themis::evaluation::DefaultApproximationRuleEngine</scope><name>canonicalBoundary</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a104c7407fac52dfa8f09231dd60bd8f5" prot="public" virt="virtual"><scope>themis::evaluation::DefaultApproximationRuleEngine</scope><name>checkBoundary</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a092ad62a6e268f736afde06e51f70f19" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultApproximationRuleEngine</scope><name>DefaultApproximationRuleEngine</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a75ba4f7f058768e6a1a3e4766b047ad3" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultApproximationRuleEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1afd18663c226ec40f45044909b7d1f7d0" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultApproximationRuleEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a1f29e5c431030c9824fbd217f010e407" prot="public" virt="virtual"><scope>themis::evaluation::DefaultApproximationRuleEngine</scope><name>validatePlannedPath</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a415e1bc2aa02d5fe895011341fa520d9" prot="public" virt="virtual"><scope>themis::evaluation::DefaultApproximationRuleEngine</scope><name>~ApproximationRuleEngine</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1ad5fe37798dad92a47acccb2f555ccd2b" prot="public" virt="non-virtual"><scope>themis::evaluation::DefaultApproximationRuleEngine</scope><name>~DefaultApproximationRuleEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

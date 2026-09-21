@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_transaction_distributed_phase2_test" kind="class" language="C++" prot="public">
+    <compoundname>TransactionDistributedPhase2Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_transaction_distributed_phase2_test_1ae26f5819b5a9570d7eefa9af5513b177" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_phase2_mock_participant" kindref="compound">Phase2MockParticipant</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Phase2MockParticipant&gt; TransactionDistributedPhase2Test::p1</definition>
+        <argsstring></argsstring>
+        <name>p1</name>
+        <qualifiedname>TransactionDistributedPhase2Test::p1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="125" column="21" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_distributed_phase2_test_1a1abf9c65e63305d4d076f7df4d9d3beb" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_phase2_mock_participant" kindref="compound">Phase2MockParticipant</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Phase2MockParticipant&gt; TransactionDistributedPhase2Test::p2</definition>
+        <argsstring></argsstring>
+        <name>p2</name>
+        <qualifiedname>TransactionDistributedPhase2Test::p2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="125" column="24" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_distributed_phase2_test_1aeb1e56cf395a7f2e850a5a15e1b39fe8" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_phase2_mock_participant" kindref="compound">Phase2MockParticipant</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Phase2MockParticipant&gt; TransactionDistributedPhase2Test::p3</definition>
+        <argsstring></argsstring>
+        <name>p3</name>
+        <qualifiedname>TransactionDistributedPhase2Test::p3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="125" column="27" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_distributed_phase2_test_1a169a1182dbd52399fa1da823a6d402e2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager" kindref="compound">DistributedTransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DistributedTransactionManager&gt; TransactionDistributedPhase2Test::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>TransactionDistributedPhase2Test::mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="126" column="21" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_transaction_distributed_phase2_test_1ad9271d0197f3149142fe4747d4ac8b3d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionDistributedPhase2Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TransactionDistributedPhase2Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="111" column="10" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="111" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transaction_distributed_phase2_test_1aae376a64a07b9fb01a77670edff8df1d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionDistributedPhase2Test::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TransactionDistributedPhase2Test::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="120" column="10" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="120" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TransactionDistributedPhase2Test</label>
+        <link refid="class_transaction_distributed_phase2_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TransactionDistributedPhase2Test</label>
+        <link refid="class_transaction_distributed_phase2_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_distributed_phase2.cpp" line="109" column="1" bodyfile="tests/transaction/test_transaction_distributed_phase2.cpp" bodystart="109" bodyend="127"/>
+    <listofallmembers>
+      <member refid="class_transaction_distributed_phase2_test_1a169a1182dbd52399fa1da823a6d402e2" prot="protected" virt="non-virtual"><scope>TransactionDistributedPhase2Test</scope><name>mgr</name></member>
+      <member refid="class_transaction_distributed_phase2_test_1ae26f5819b5a9570d7eefa9af5513b177" prot="protected" virt="non-virtual"><scope>TransactionDistributedPhase2Test</scope><name>p1</name></member>
+      <member refid="class_transaction_distributed_phase2_test_1a1abf9c65e63305d4d076f7df4d9d3beb" prot="protected" virt="non-virtual"><scope>TransactionDistributedPhase2Test</scope><name>p2</name></member>
+      <member refid="class_transaction_distributed_phase2_test_1aeb1e56cf395a7f2e850a5a15e1b39fe8" prot="protected" virt="non-virtual"><scope>TransactionDistributedPhase2Test</scope><name>p3</name></member>
+      <member refid="class_transaction_distributed_phase2_test_1ad9271d0197f3149142fe4747d4ac8b3d" prot="protected" virt="non-virtual"><scope>TransactionDistributedPhase2Test</scope><name>SetUp</name></member>
+      <member refid="class_transaction_distributed_phase2_test_1aae376a64a07b9fb01a77670edff8df1d" prot="protected" virt="non-virtual"><scope>TransactionDistributedPhase2Test</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

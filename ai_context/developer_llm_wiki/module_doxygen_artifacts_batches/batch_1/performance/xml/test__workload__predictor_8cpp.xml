@@ -1,0 +1,919 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__workload__predictor_8cpp" kind="file" language="C++">
+    <compoundname>test_workload_predictor.cpp</compoundname>
+    <includes refid="workload__predictor_8h" local="yes">performance/workload_predictor.h</includes>
+    <includes refid="feature__flags_8h" local="yes">performance/feature_flags.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="10">
+        <label>performance/feature_flags.h</label>
+        <link refid="feature__flags_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>performance/workload_predictor.h</label>
+        <link refid="workload__predictor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/performance/test_workload_predictor.cpp</label>
+        <link refid="test__workload__predictor_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>algorithm</label>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>deque</label>
+      </node>
+      <node id="13">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>shared_mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>utility</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, DefaultConstructionSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>DefaultConstructionSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="46" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1acce6b7d41ac60de164a716ad45e1c3f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, RecordIncreasesCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>RecordIncreasesCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="51" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="51" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a70808658bf2e926770239146a51578df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, ResetClearsHistory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>ResetClearsHistory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="59" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="59" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a5480abf5a18ddd0209623b95fbf4a4ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, SlidingWindowEvictsOldestEntry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>SlidingWindowEvictsOldestEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="72" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="72" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1aacd73c9e91f67d1d34b55c18773413b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, PredictWithNoHistoryReturnsZeroForecast)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>PredictWithNoHistoryReturnsZeroForecast</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="88" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a362bb421c38cb97c3c8a358d7bee3fe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, PredictWithSingleSnapshotReturnsZeroConfidence)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>PredictWithSingleSnapshotReturnsZeroConfidence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="95" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="95" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a20ac41e031985216b80342984613974f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, StableWorkloadYieldsHighConfidence)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>StableWorkloadYieldsHighConfidence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="107" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="107" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1af2c252d1075072101545fe62357ed252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, RisingWorkloadPredictsIncrease)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>RisingWorkloadPredictsIncrease</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="127" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="127" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1ac4ded1ed411ea5e373d83f224dee623f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, ForecastTimestampIsLastPlusHorizon)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>ForecastTimestampIsLastPlusHorizon</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="146" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="146" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1aaa49ea0cd2a67f02b4ec135738321e64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, PredictedUtilizationClampedTo01)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>PredictedUtilizationClampedTo01</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="160" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="160" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a33c60ed7066a143e6e2129c2fb4d92d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, NoScalingWhenUtilizationModerate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>NoScalingWhenUtilizationModerate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="179" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="179" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a34cd26dd21b7169b8bf977d52e352331" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, ScaleUpWhenUtilizationHigh)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>ScaleUpWhenUtilizationHigh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="196" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="196" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a71fbc1403b541eb148a5d28327d4a071" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, ScaleDownWhenUtilizationLow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>ScaleDownWhenUtilizationLow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="214" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="214" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a59fc9bab707387d6acd1bae60a8edfb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, ScaleRecommendationRespectsMinMax)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>ScaleRecommendationRespectsMinMax</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="232" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="232" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a5df53dad6ee0ddc7c955930c8d4e049e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, NoRecommendationWithoutSufficientData)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>NoRecommendationWithoutSufficientData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="266" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="266" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a78cf60870828d1b7ec8c361aeff1e4bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorFeatureFlagTest, FlagIsAccessible)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorFeatureFlagTest</type>
+        </param>
+        <param>
+          <type>FlagIsAccessible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="278" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="278" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1af02ebcc82c7a09aaf5e95f5087168de6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorFeatureFlagTest, FlagCanBeToggled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorFeatureFlagTest</type>
+        </param>
+        <param>
+          <type>FlagCanBeToggled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="283" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="283" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a0a770254be5f2fc85dd3ef9eac3d8325" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorFeatureFlagTest, FlagAppearsInGetAllFlags)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorFeatureFlagTest</type>
+        </param>
+        <param>
+          <type>FlagAppearsInGetAllFlags</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="297" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="297" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a46b6cfc6c26ad32dcb2295ea89cb4b6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, ConcurrentRecordIsThreadSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>ConcurrentRecordIsThreadSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="307" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="307" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a5018b1a2c8b8cfef0d10e0bbfc1e93fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, ConcurrentPredictIsThreadSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>ConcurrentPredictIsThreadSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="330" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="330" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a6aa04f1a5c564f2282f5286e4e7573ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorTest, PredictZeroHorizonReturnsCurrentEstimate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorTest</type>
+        </param>
+        <param>
+          <type>PredictZeroHorizonReturnsCurrentEstimate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="359" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="359" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="test__workload__predictor_8cpp_1a57cd9ace6fbb7cb10f02c7a1ea061803" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadPredictorFeatureFlagTest, LoadFromConfigSetsNewFlag)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadPredictorFeatureFlagTest</type>
+        </param>
+        <param>
+          <type>LoadFromConfigSetsNewFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_workload_predictor.cpp" line="378" column="1" bodyfile="tests/performance/test_workload_predictor.cpp" bodystart="378" bodyend="392"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Unit<sp/>tests<sp/>for<sp/>the<sp/>ML-based<sp/>workload<sp/>predictor<sp/>(Phase<sp/>4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Covers:<sp/>recording,<sp/>EMA<sp/>smoothing,<sp/>linear-regression<sp/>forecast,<sp/>scaling<sp/>recommendations,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge<sp/>cases<sp/>(empty<sp/>history,<sp/>single<sp/>observation,<sp/>window<sp/>eviction),<sp/>thread<sp/>safety.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="workload__predictor_8h" kindref="compound">performance/workload_predictor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="feature__flags_8h" kindref="compound">performance/feature_flags.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">themis::performance</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>WorkloadSnapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="structthemis_1_1performance_1_1_workload_snapshot" kindref="compound">WorkloadSnapshot</ref><sp/>make_snapshot(uint64_t<sp/>ts_us,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>qps,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cpu,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mem,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>avg_lat_us<sp/><sp/>=<sp/>500.0,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p99_lat_us<sp/><sp/>=<sp/>1000.0,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>conns<sp/><sp/><sp/><sp/><sp/>=<sp/>10)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_workload_snapshot" kindref="compound">WorkloadSnapshot</ref>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.timestamp_us<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>ts_us,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.qps<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>qps,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.cpu_utilization<sp/><sp/><sp/><sp/><sp/>=<sp/>cpu,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.memory_utilization<sp/><sp/>=<sp/>mem,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.avg_latency_us<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>avg_lat_us,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.p99_latency_us<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>p99_lat_us,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.active_connections<sp/><sp/>=<sp/>conns,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>API<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>DefaultConstructionSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1ae6402840c6c30cea511b97c9cd92370e" kindref="member">observation_count</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>RecordIncreasesCount)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(1&apos;000&apos;000,<sp/>100.0,<sp/>0.3,<sp/>0.4));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1ae6402840c6c30cea511b97c9cd92370e" kindref="member">observation_count</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(2&apos;000&apos;000,<sp/>120.0,<sp/>0.35,<sp/>0.42));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1ae6402840c6c30cea511b97c9cd92370e" kindref="member">observation_count</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>ResetClearsHistory)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(1&apos;000&apos;000,<sp/>100.0,<sp/>0.3,<sp/>0.4));</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(2&apos;000&apos;000,<sp/>120.0,<sp/>0.35,<sp/>0.42));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1ae6402840c6c30cea511b97c9cd92370e" kindref="member">observation_count</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1a2db48d8dfaff669158ef7f84e04a04a3" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1ae6402840c6c30cea511b97c9cd92370e" kindref="member">observation_count</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sliding<sp/>window<sp/>eviction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>SlidingWindowEvictsOldestEntry)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config" kindref="compound">WorkloadPredictor::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a6ab9d57069772b8f22997b4d545ad877" kindref="member">history_window</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor(cfg);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint64_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(i<sp/>*<sp/>1&apos;000&apos;000,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10),<sp/>0.3,<sp/>0.4));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Window<sp/>should<sp/>be<sp/>capped<sp/>at<sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1ae6402840c6c30cea511b97c9cd92370e" kindref="member">observation_count</ref>(),<sp/>5u);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Predict<sp/>edge<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>PredictWithNoHistoryReturnsZeroForecast)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_workload_forecast" kindref="compound">WorkloadForecast</ref><sp/>f<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1af954e0c0876f2076d52ddffd0c328c45" kindref="member">predict</ref>(10&apos;000&apos;000ULL);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a1fb20381dd2afcf9e8ea2668e3d8d190" kindref="member">predicted_qps</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a6f69cf065b91df6263d6f7372388d576" kindref="member">confidence</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>PredictWithSingleSnapshotReturnsZeroConfidence)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(1&apos;000&apos;000,<sp/>200.0,<sp/>0.5,<sp/>0.6));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_workload_forecast" kindref="compound">WorkloadForecast</ref><sp/>f<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1af954e0c0876f2076d52ddffd0c328c45" kindref="member">predict</ref>(10&apos;000&apos;000ULL);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a1fb20381dd2afcf9e8ea2668e3d8d190" kindref="member">predicted_qps</ref>,<sp/>200.0);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a6f69cf065b91df6263d6f7372388d576" kindref="member">confidence</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Predict<sp/>correctness<sp/>–<sp/>stable<sp/>workload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>StableWorkloadYieldsHighConfidence)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feed<sp/>20<sp/>identical<sp/>snapshots<sp/>1<sp/>s<sp/>apart<sp/>–<sp/>perfectly<sp/>stable<sp/>signal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1&apos;000&apos;000ULL,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>500.0,<sp/>0.5,<sp/>0.5,<sp/>1000.0));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_workload_forecast" kindref="compound">WorkloadForecast</ref><sp/>f<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1af954e0c0876f2076d52ddffd0c328c45" kindref="member">predict</ref>(5&apos;000&apos;000ULL);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>predict<sp/>values<sp/>close<sp/>to<sp/>500<sp/>QPS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a1fb20381dd2afcf9e8ea2668e3d8d190" kindref="member">predicted_qps</ref>,<sp/>500.0,<sp/>50.0);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a2eb9d8ea5533977068861b369d3a7a1d" kindref="member">predicted_cpu_utilization</ref>,<sp/>0.5,<sp/>0.05);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Confidence<sp/>should<sp/>be<sp/>high<sp/>for<sp/>a<sp/>stable<sp/>signal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a6f69cf065b91df6263d6f7372388d576" kindref="member">confidence</ref>,<sp/>0.7);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Predict<sp/>correctness<sp/>–<sp/>linearly<sp/>rising<sp/>workload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>RisingWorkloadPredictsIncrease)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>QPS<sp/>rising<sp/>from<sp/>100<sp/>to<sp/>400<sp/>over<sp/>20<sp/>samples<sp/>(step<sp/>+~15<sp/>per<sp/>sample)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>qps<sp/>=<sp/>100.0<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>15.0;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cpu<sp/>=<sp/>0.2<sp/><sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>0.02;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1&apos;000&apos;000ULL,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>qps,<sp/>std::min(cpu,<sp/>1.0),<sp/>0.4));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_workload_forecast" kindref="compound">WorkloadForecast</ref><sp/>f<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1af954e0c0876f2076d52ddffd0c328c45" kindref="member">predict</ref>(5&apos;000&apos;000ULL);<sp/></highlight><highlight class="comment">//<sp/>5<sp/>steps<sp/>ahead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Forecasted<sp/>QPS<sp/>should<sp/>be<sp/>greater<sp/>than<sp/>the<sp/>last<sp/>observed<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a1fb20381dd2afcf9e8ea2668e3d8d190" kindref="member">predicted_qps</ref>,<sp/>385.0);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forecast<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>ForecastTimestampIsLastPlusHorizon)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kLast<sp/>=<sp/>50&apos;000&apos;000ULL;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kHorizon<sp/>=<sp/>10&apos;000&apos;000ULL;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(40&apos;000&apos;000ULL,<sp/>100.0,<sp/>0.3,<sp/>0.4));</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(kLast,<sp/>110.0,<sp/>0.32,<sp/>0.41));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_workload_forecast" kindref="compound">WorkloadForecast</ref><sp/>f<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1af954e0c0876f2076d52ddffd0c328c45" kindref="member">predict</ref>(kHorizon);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1aef154cba30a2d594b8f5fcb5098c9ee9" kindref="member">forecast_timestamp_us</ref>,<sp/>kLast<sp/>+<sp/>kHorizon);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Predicted<sp/>values<sp/>stay<sp/>within<sp/>valid<sp/>ranges</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>PredictedUtilizationClampedTo01)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Push<sp/>CPU/mem<sp/>utilization<sp/>very<sp/>close<sp/>to<sp/>1.0<sp/>with<sp/>a<sp/>rising<sp/>trend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1&apos;000&apos;000ULL,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1000.0,<sp/>0.95,<sp/>0.95));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_workload_forecast" kindref="compound">WorkloadForecast</ref><sp/>f<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1af954e0c0876f2076d52ddffd0c328c45" kindref="member">predict</ref>(60&apos;000&apos;000ULL);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a2eb9d8ea5533977068861b369d3a7a1d" kindref="member">predicted_cpu_utilization</ref>,<sp/>1.0);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a2eb9d8ea5533977068861b369d3a7a1d" kindref="member">predicted_cpu_utilization</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a8b9f8d694a06efa19970d37428665c46" kindref="member">predicted_memory_utilization</ref>,<sp/>1.0);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a8b9f8d694a06efa19970d37428665c46" kindref="member">predicted_memory_utilization</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ScaleRecommendation<sp/>–<sp/>no<sp/>action<sp/>when<sp/>utilization<sp/>is<sp/>moderate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>NoScalingWhenUtilizationModerate)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1&apos;000&apos;000ULL,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>400.0,<sp/>0.55,<sp/>0.55));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_scale_recommendation" kindref="compound">ScaleRecommendation</ref><sp/>rec<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1a208e38b9c87ab71e5c4b6ffcd0f3672e" kindref="member">recommend_scaling</ref>(32,<sp/>4096);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1aeb538f9ebece9902fb55865082920e12" kindref="member">direction</ref>,<sp/><ref refid="namespacethemis_1_1performance_1acf5eb3efb09b0fa0aca8918631586b2dab50339a10e1de285ac99d4c3990b8693" kindref="member">ScaleDirection::NONE</ref>);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1afe18c1eda0b13aeb23a6079baf3b0d15" kindref="member">recommended_thread_pool_size</ref>,<sp/>32u);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1a2fc15d18526816fe1843092ed78cf485" kindref="member">recommended_cache_size_mb</ref>,<sp/>4096u);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ScaleRecommendation<sp/>–<sp/>scale<sp/>UP<sp/>when<sp/>utilization<sp/>is<sp/>high</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>ScaleUpWhenUtilizationHigh)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1&apos;000&apos;000ULL,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2000.0,<sp/>0.90,<sp/>0.90));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_scale_recommendation" kindref="compound">ScaleRecommendation</ref><sp/>rec<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1a208e38b9c87ab71e5c4b6ffcd0f3672e" kindref="member">recommend_scaling</ref>(32,<sp/>4096);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1aeb538f9ebece9902fb55865082920e12" kindref="member">direction</ref>,<sp/><ref refid="namespacethemis_1_1performance_1acf5eb3efb09b0fa0aca8918631586b2dafbaedde498cdead4f2780217646e9ba1" kindref="member">ScaleDirection::UP</ref>);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1afe18c1eda0b13aeb23a6079baf3b0d15" kindref="member">recommended_thread_pool_size</ref>,<sp/>32u);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1a2fc15d18526816fe1843092ed78cf485" kindref="member">recommended_cache_size_mb</ref>,<sp/>4096u);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1a57480936e0d8d169c774c0c2e5c8be0a" kindref="member">reason</ref>.empty());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ScaleRecommendation<sp/>–<sp/>scale<sp/>DOWN<sp/>when<sp/>utilization<sp/>is<sp/>low</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>ScaleDownWhenUtilizationLow)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1&apos;000&apos;000ULL,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>50.0,<sp/>0.10,<sp/>0.10));</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_scale_recommendation" kindref="compound">ScaleRecommendation</ref><sp/>rec<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1a208e38b9c87ab71e5c4b6ffcd0f3672e" kindref="member">recommend_scaling</ref>(64,<sp/>8192);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1aeb538f9ebece9902fb55865082920e12" kindref="member">direction</ref>,<sp/><ref refid="namespacethemis_1_1performance_1acf5eb3efb09b0fa0aca8918631586b2dac4e0e4e3118472beeb2ae75827450f1f" kindref="member">ScaleDirection::DOWN</ref>);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1afe18c1eda0b13aeb23a6079baf3b0d15" kindref="member">recommended_thread_pool_size</ref>,<sp/>64u);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1a2fc15d18526816fe1843092ed78cf485" kindref="member">recommended_cache_size_mb</ref>,<sp/>8192u);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1a57480936e0d8d169c774c0c2e5c8be0a" kindref="member">reason</ref>.empty());</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ScaleRecommendation<sp/>–<sp/>floor/ceiling<sp/>respected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>ScaleRecommendationRespectsMinMax)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config" kindref="compound">WorkloadPredictor::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a0825de5867549be8050f652627a23da3" kindref="member">min_thread_pool_size</ref><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a99e34e0958671286f3124b6e547cf9df" kindref="member">max_thread_pool_size</ref><sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a731bb425f0cf347018e6d8305540d7a5" kindref="member">min_cache_size_mb</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a323e545fc504406ce7980cad53d9f225" kindref="member">max_cache_size_mb</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor(cfg);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>High<sp/>utilization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1&apos;000&apos;000ULL,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5000.0,<sp/>0.95,<sp/>0.95));</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_scale_recommendation" kindref="compound">ScaleRecommendation</ref><sp/>up<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1a208e38b9c87ab71e5c4b6ffcd0f3672e" kindref="member">recommend_scaling</ref>(12,<sp/>768);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(up.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1afe18c1eda0b13aeb23a6079baf3b0d15" kindref="member">recommended_thread_pool_size</ref>,<sp/>16u);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(up.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1a2fc15d18526816fe1843092ed78cf485" kindref="member">recommended_cache_size_mb</ref>,<sp/>1024u);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1a2db48d8dfaff669158ef7f84e04a04a3" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Low<sp/>utilization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1&apos;000&apos;000ULL,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5.0,<sp/>0.05,<sp/>0.05));</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_scale_recommendation" kindref="compound">ScaleRecommendation</ref><sp/>down<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1a208e38b9c87ab71e5c4b6ffcd0f3672e" kindref="member">recommend_scaling</ref>(8,<sp/>512);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(down.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1afe18c1eda0b13aeb23a6079baf3b0d15" kindref="member">recommended_thread_pool_size</ref>,<sp/>8u);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(down.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1a2fc15d18526816fe1843092ed78cf485" kindref="member">recommended_cache_size_mb</ref>,<sp/>512u);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ScaleRecommendation<sp/>–<sp/>no<sp/>action<sp/>without<sp/>sufficient<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>NoRecommendationWithoutSufficientData)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>1<sp/>observation<sp/>→<sp/>confidence<sp/>is<sp/>0<sp/>→<sp/>NONE<sp/>recommendation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(1&apos;000&apos;000,<sp/>2000.0,<sp/>0.95,<sp/>0.95));</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_scale_recommendation" kindref="compound">ScaleRecommendation</ref><sp/>rec<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1a208e38b9c87ab71e5c4b6ffcd0f3672e" kindref="member">recommend_scaling</ref>(32,<sp/>4096);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="structthemis_1_1performance_1_1_scale_recommendation_1aeb538f9ebece9902fb55865082920e12" kindref="member">direction</ref>,<sp/><ref refid="namespacethemis_1_1performance_1acf5eb3efb09b0fa0aca8918631586b2dab50339a10e1de285ac99d4c3990b8693" kindref="member">ScaleDirection::NONE</ref>);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature<sp/>flag<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorFeatureFlagTest,<sp/>FlagIsAccessible)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_performance_feature_flags_1a3cc20b69a4a373dfa1ae3fee2d3ddb0d" kindref="member">PerformanceFeatureFlags::instance</ref>();</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(flags.ml_workload_predictor_enabled());</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorFeatureFlagTest,<sp/>FlagCanBeToggled)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_performance_feature_flags_1a3cc20b69a4a373dfa1ae3fee2d3ddb0d" kindref="member">PerformanceFeatureFlags::instance</ref>();</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initial<sp/>=<sp/>flags.ml_workload_predictor_enabled();</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_ml_workload_predictor_enabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flags.ml_workload_predictor_enabled());</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_ml_workload_predictor_enabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(flags.ml_workload_predictor_enabled());</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Restore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_ml_workload_predictor_enabled(initial);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorFeatureFlagTest,<sp/>FlagAppearsInGetAllFlags)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_performance_feature_flags_1a3cc20b69a4a373dfa1ae3fee2d3ddb0d" kindref="member">PerformanceFeatureFlags::instance</ref>();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all<sp/>=<sp/>flags.get_all_flags();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(all.find(</highlight><highlight class="stringliteral">&quot;ml_workload_predictor&quot;</highlight><highlight class="normal">),<sp/>all.end());</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>ConcurrentRecordIsThreadSafe)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kPerThread<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;predictor,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>ts<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(t<sp/>*<sp/>kPerThread<sp/>+<sp/>i)<sp/>*<sp/>1&apos;000&apos;000ULL;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(ts,<sp/>100.0<sp/>+<sp/>i,<sp/>0.4,<sp/>0.5));</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>crash;<sp/>count<sp/>is<sp/>bounded<sp/>by<sp/>history_window<sp/>(default<sp/>60)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1ae6402840c6c30cea511b97c9cd92370e" kindref="member">observation_count</ref>(),<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1a742cc0b5971f1424986299f228fb1b0f" kindref="member">config</ref>().<ref refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a6ab9d57069772b8f22997b4d545ad877" kindref="member">history_window</ref>);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>ConcurrentPredictIsThreadSafe)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1&apos;000&apos;000ULL,<sp/>200.0<sp/>+<sp/>i,<sp/>0.5,<sp/>0.5));</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>success_count{0};</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;predictor,<sp/>&amp;success_count]()<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1af954e0c0876f2076d52ddffd0c328c45" kindref="member">predict</ref>(5&apos;000&apos;000ULL);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a1fb20381dd2afcf9e8ea2668e3d8d190" kindref="member">predicted_qps</ref><sp/>&gt;<sp/>0.0)<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(success_count.load(),<sp/>kThreads);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge<sp/>case:<sp/>predict<sp/>with<sp/>zero-horizon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorTest,<sp/>PredictZeroHorizonReturnsCurrentEstimate)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_predictor" kindref="compound">WorkloadPredictor</ref><sp/>predictor;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1abcb929f83e397998a1f6e9e041a11c88" kindref="member">record</ref>(make_snapshot(</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1&apos;000&apos;000ULL,</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>300.0,<sp/>0.5,<sp/>0.5));</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>horizon_us<sp/>=<sp/>0:<sp/>forecast_timestamp<sp/>should<sp/>equal<sp/>last<sp/>snapshot<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_workload_forecast" kindref="compound">WorkloadForecast</ref><sp/>f<sp/>=<sp/>predictor.<ref refid="classthemis_1_1performance_1_1_workload_predictor_1af954e0c0876f2076d52ddffd0c328c45" kindref="member">predict</ref>(0ULL);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1aef154cba30a2d594b8f5fcb5098c9ee9" kindref="member">forecast_timestamp_us</ref>,<sp/>4&apos;000&apos;000ULL);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Predicted<sp/>QPS<sp/>should<sp/>be<sp/>non-negative<sp/>(stable<sp/>signal<sp/>→<sp/>near<sp/>300)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a1fb20381dd2afcf9e8ea2668e3d8d190" kindref="member">predicted_qps</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(f.<ref refid="structthemis_1_1performance_1_1_workload_forecast_1a2eb9d8ea5533977068861b369d3a7a1d" kindref="member">predicted_cpu_utilization</ref>,<sp/>1.0);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature<sp/>flag:<sp/>load_from_config<sp/>for<sp/>new<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><ref refid="test__workload__predictor_8cpp_1a01b3d5413d818fb81b616dc142e61fe6" kindref="member">TEST</ref>(WorkloadPredictorFeatureFlagTest,<sp/>LoadFromConfigSetsNewFlag)<sp/>{</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_performance_feature_flags_1a3cc20b69a4a373dfa1ae3fee2d3ddb0d" kindref="member">PerformanceFeatureFlags::instance</ref>();</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initial<sp/>=<sp/>flags.ml_workload_predictor_enabled();</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>via<sp/>config<sp/>map</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.load_from_config({{</highlight><highlight class="stringliteral">&quot;enable_ml_workload_predictor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flags.ml_workload_predictor_enabled());</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>via<sp/>config<sp/>map</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.load_from_config({{</highlight><highlight class="stringliteral">&quot;enable_ml_workload_predictor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(flags.ml_workload_predictor_enabled());</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Restore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_ml_workload_predictor_enabled(initial);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/performance/test_workload_predictor.cpp"/>
+  </compounddef>
+</doxygen>

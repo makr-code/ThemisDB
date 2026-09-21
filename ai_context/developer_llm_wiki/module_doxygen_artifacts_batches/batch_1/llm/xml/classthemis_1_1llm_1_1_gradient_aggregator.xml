@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_gradient_aggregator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::GradientAggregator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_all_reduce_aggregator" prot="public" virt="non-virtual">themis::llm::AllReduceAggregator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_parameter_server_aggregator" prot="public" virt="non-virtual">themis::llm::ParameterServerAggregator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_ring_all_reduce_aggregator" prot="public" virt="non-virtual">themis::llm::RingAllReduceAggregator</derivedcompoundref>
+    <includes refid="distributed__training__coordinator_8h" local="no">distributed_training_coordinator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_gradient_aggregator_1a538ac51ce6254a4903833963fe058021" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::GradientAggregator::~GradientAggregator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GradientAggregator</name>
+        <qualifiedname>themis::llm::GradientAggregator::~GradientAggregator</qualifiedname>
+        <briefdescription>
+<para>Gradient Aggregator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="327" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_gradient_aggregator_1ab7d3682b91e98ca489fc374608f325da" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt;</type>
+        <definition>virtual std::vector&lt; GradientTensor &gt; themis::llm::GradientAggregator::aggregate</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients)=0</argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themis::llm::GradientAggregator::aggregate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_all_reduce_aggregator_1ab37ed313dae28f5567e6eec5ec976972">aggregate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_parameter_server_aggregator_1a24442ab428a0738784105c6a1125aa02">aggregate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_ring_all_reduce_aggregator_1a18dbc1a031195fd10cb51d131fbe59c2">aggregate</reimplementedby>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate gradients from multiple shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="334" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_gradient_aggregator_1a0f29ccef9b5dbf21052bd4f4f2a14e0a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::GradientAggregator::getStrategy</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStrategy</name>
+        <qualifiedname>themis::llm::GradientAggregator::getStrategy</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_all_reduce_aggregator_1abff74243ff70a7d49c54969923ea2c52">getStrategy</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_parameter_server_aggregator_1af869660a4bb7f477ee4cefcf5e754198">getStrategy</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_ring_all_reduce_aggregator_1add5fe19cb9fa75f8ab016df1c79a2fac">getStrategy</reimplementedby>
+        <briefdescription>
+<para>Get aggregation strategy name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="342" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::AllReduceAggregator</label>
+        <link refid="classthemis_1_1llm_1_1_all_reduce_aggregator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::GradientAggregator</label>
+        <link refid="classthemis_1_1llm_1_1_gradient_aggregator"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::ParameterServerAggregator</label>
+        <link refid="classthemis_1_1llm_1_1_parameter_server_aggregator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::llm::RingAllReduceAggregator</label>
+        <link refid="classthemis_1_1llm_1_1_ring_all_reduce_aggregator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/distributed_training_coordinator.h" line="321" column="1" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="321" bodyend="343"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_gradient_aggregator_1ab7d3682b91e98ca489fc374608f325da" prot="public" virt="pure-virtual"><scope>themis::llm::GradientAggregator</scope><name>aggregate</name></member>
+      <member refid="classthemis_1_1llm_1_1_gradient_aggregator_1a0f29ccef9b5dbf21052bd4f4f2a14e0a" prot="public" virt="pure-virtual"><scope>themis::llm::GradientAggregator</scope><name>getStrategy</name></member>
+      <member refid="classthemis_1_1llm_1_1_gradient_aggregator_1a538ac51ce6254a4903833963fe058021" prot="public" virt="virtual"><scope>themis::llm::GradientAggregator</scope><name>~GradientAggregator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

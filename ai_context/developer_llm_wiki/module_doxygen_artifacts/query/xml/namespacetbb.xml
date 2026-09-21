@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacetbb" kind="namespace" language="C++">
+    <compoundname>tbb</compoundname>
+    <innerclass refid="classtbb_1_1task__group" prot="public">tbb::task_group</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacetbb_1aef05ecc5b15adbaba59fd7bb6b0510e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Iter</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void tbb::parallel_sort</definition>
+        <argsstring>(Iter first, Iter last)</argsstring>
+        <name>parallel_sort</name>
+        <qualifiedname>tbb::parallel_sort</qualifiedname>
+        <param>
+          <type>Iter</type>
+          <declname>first</declname>
+        </param>
+        <param>
+          <type>Iter</type>
+          <declname>last</declname>
+        </param>
+        <briefdescription>
+<para>Parallel sort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">first</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="121" column="6" bodyfile="src/query/query_engine.cpp" bodystart="121" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacetbb_1add7a04e8ae439aa3d015d5e214a69c20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Iter</type>
+          </param>
+          <param>
+            <type>typename Compare</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void tbb::parallel_sort</definition>
+        <argsstring>(Iter first, Iter last, Compare comp)</argsstring>
+        <name>parallel_sort</name>
+        <qualifiedname>tbb::parallel_sort</qualifiedname>
+        <param>
+          <type>Iter</type>
+          <declname>first</declname>
+        </param>
+        <param>
+          <type>Iter</type>
+          <declname>last</declname>
+        </param>
+        <param>
+          <type>Compare</type>
+          <declname>comp</declname>
+        </param>
+        <briefdescription>
+<para>Parallel sort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">first</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">comp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="133" column="6" bodyfile="src/query/query_engine.cpp" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacetbb_1a0eaf2755b3d6cf6e714e3f6958064724" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename F1</type>
+          </param>
+          <param>
+            <type>typename F2</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void tbb::parallel_invoke</definition>
+        <argsstring>(F1 &amp;&amp;f1, F2 &amp;&amp;f2)</argsstring>
+        <name>parallel_invoke</name>
+        <qualifiedname>tbb::parallel_invoke</qualifiedname>
+        <param>
+          <type>F1 &amp;&amp;</type>
+          <declname>f1</declname>
+        </param>
+        <param>
+          <type>F2 &amp;&amp;</type>
+          <declname>f2</declname>
+        </param>
+        <briefdescription>
+<para>Parallel invoke. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">f1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">f2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements parallel_invoke without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="144" column="6" bodyfile="src/query/query_engine.cpp" bodystart="144" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/query_engine.cpp" line="77" column="1"/>
+  </compounddef>
+</doxygen>

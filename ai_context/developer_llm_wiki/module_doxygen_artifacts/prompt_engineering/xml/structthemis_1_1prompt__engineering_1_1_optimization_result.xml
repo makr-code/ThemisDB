@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_optimization_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::OptimizationResult</compoundname>
+    <includes refid="self__improvement__orchestrator_8h" local="no">self_improvement_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1aefcf8ee392f1ba04de5880b322ddccf8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::OptimizationResult::prompt_id</definition>
+        <argsstring></argsstring>
+        <name>prompt_id</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::prompt_id</qualifiedname>
+        <briefdescription>
+<para>Prompt being optimized. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="77" column="17" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1a2cc70fddd06daa039bd90b73d2955446" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::OptimizationResult::original_version</definition>
+        <argsstring></argsstring>
+        <name>original_version</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::original_version</qualifiedname>
+        <briefdescription>
+<para>Original prompt version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="78" column="17" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1aa4dcb592ca011dd9264004098e9da1f8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::OptimizationResult::optimized_version</definition>
+        <argsstring></argsstring>
+        <name>optimized_version</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::optimized_version</qualifiedname>
+        <briefdescription>
+<para>Optimized prompt version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="79" column="17" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1a764f8fe690fce3b61849a45d4fde11c7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1af8de4f356814d13b9e9d3f356f264b13" kindref="member">OptimizationStatus</ref></type>
+        <definition>OptimizationStatus themis::prompt_engineering::OptimizationResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::status</qualifiedname>
+        <briefdescription>
+<para>Current status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="80" column="24" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1a2bb371e96f244b3fc24c3b3b0bfa6ac1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::OptimizationResult::baseline_score</definition>
+        <argsstring></argsstring>
+        <name>baseline_score</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::baseline_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Original performance score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="81" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1a4bbd37538b89da1edfb1260fc2f0c5ce" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::OptimizationResult::optimized_score</definition>
+        <argsstring></argsstring>
+        <name>optimized_score</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::optimized_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Optimized performance score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="82" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1ad1a3209f3eb8cff260f776e34043551a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::OptimizationResult::improvement</definition>
+        <argsstring></argsstring>
+        <name>improvement</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::improvement</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Improvement percentage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="83" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1a9645da480ddf93a1e26f0e761825c307" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::OptimizationResult::iterations</definition>
+        <argsstring></argsstring>
+        <name>iterations</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::iterations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of optimization iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="84" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1a4f1f20e9b9e07a01dc44bfa84dd021d5" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::OptimizationResult::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::started_at</qualifiedname>
+        <briefdescription>
+<para>Optimization start time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="85" column="43" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1afebcaa568c58a98b8775964b21976dfe" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::OptimizationResult::completed_at</definition>
+        <argsstring></argsstring>
+        <name>completed_at</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::completed_at</qualifiedname>
+        <briefdescription>
+<para>Optimization completion time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="86" column="43" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1a59b7e592576c45303fbedf61928e192f" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::OptimizationResult::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="87" column="20" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_optimization_result_1aa1bb716a685bcf9e34ae37a621814bdf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::OptimizationResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::OptimizationResult::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert result to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="92" column="20" bodyfile="src/prompt_engineering/self_improvement_orchestrator.cpp" bodystart="31" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of an optimization operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="76" column="1" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="76" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1a2bb371e96f244b3fc24c3b3b0bfa6ac1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>baseline_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1afebcaa568c58a98b8775964b21976dfe" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>completed_at</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1ad1a3209f3eb8cff260f776e34043551a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>improvement</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1a9645da480ddf93a1e26f0e761825c307" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>iterations</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1a59b7e592576c45303fbedf61928e192f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1a4bbd37538b89da1edfb1260fc2f0c5ce" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>optimized_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1aa4dcb592ca011dd9264004098e9da1f8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>optimized_version</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1a2cc70fddd06daa039bd90b73d2955446" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>original_version</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1aefcf8ee392f1ba04de5880b322ddccf8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>prompt_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1a4f1f20e9b9e07a01dc44bfa84dd021d5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1a764f8fe690fce3b61849a45d4fde11c7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>status</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_optimization_result_1aa1bb716a685bcf9e34ae37a621814bdf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::OptimizationResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

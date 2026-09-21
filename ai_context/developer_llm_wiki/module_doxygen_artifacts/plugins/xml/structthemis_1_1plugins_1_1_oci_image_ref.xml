@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_oci_image_ref" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::OciImageRef</compoundname>
+    <includes refid="oci__manifest__signing_8h" local="no">oci_manifest_signing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_image_ref_1ab65601593563303224cbf4e7c07ec89a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciImageRef::registry</definition>
+        <argsstring></argsstring>
+        <name>registry</name>
+        <qualifiedname>themis::plugins::OciImageRef::registry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_manifest_signing.h" line="20" column="17" bodyfile="include/plugins/oci_manifest_signing.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_image_ref_1a799d05d2000e68d048926f4e11abb661" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciImageRef::repository</definition>
+        <argsstring></argsstring>
+        <name>repository</name>
+        <qualifiedname>themis::plugins::OciImageRef::repository</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_manifest_signing.h" line="21" column="17" bodyfile="include/plugins/oci_manifest_signing.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_image_ref_1a677049ddb5e1a7047ff6efb42a3faa8a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciImageRef::tag</definition>
+        <argsstring></argsstring>
+        <name>tag</name>
+        <qualifiedname>themis::plugins::OciImageRef::tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_manifest_signing.h" line="22" column="17" bodyfile="include/plugins/oci_manifest_signing.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_image_ref_1ab8140b24db03a6f670a25490302eddd1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciImageRef::digest</definition>
+        <argsstring></argsstring>
+        <name>digest</name>
+        <qualifiedname>themis::plugins::OciImageRef::digest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_manifest_signing.h" line="23" column="17" bodyfile="include/plugins/oci_manifest_signing.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_oci_image_ref_1a26a6c755f72537deb1d9bd1ddd5d1721" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciImageRef::fullRef</definition>
+        <argsstring>() const</argsstring>
+        <name>fullRef</name>
+        <qualifiedname>themis::plugins::OciImageRef::fullRef</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_manifest_signing.h" line="24" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/oci_manifest_signing.h" line="19" column="1" bodyfile="include/plugins/oci_manifest_signing.h" bodystart="19" bodyend="25"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_oci_image_ref_1ab8140b24db03a6f670a25490302eddd1" prot="public" virt="non-virtual"><scope>themis::plugins::OciImageRef</scope><name>digest</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_image_ref_1a26a6c755f72537deb1d9bd1ddd5d1721" prot="public" virt="non-virtual"><scope>themis::plugins::OciImageRef</scope><name>fullRef</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_image_ref_1ab65601593563303224cbf4e7c07ec89a" prot="public" virt="non-virtual"><scope>themis::plugins::OciImageRef</scope><name>registry</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_image_ref_1a799d05d2000e68d048926f4e11abb661" prot="public" virt="non-virtual"><scope>themis::plugins::OciImageRef</scope><name>repository</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_image_ref_1a677049ddb5e1a7047ff6efb42a3faa8a" prot="public" virt="non-virtual"><scope>themis::plugins::OciImageRef</scope><name>tag</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

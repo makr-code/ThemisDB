@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::BiTemporalJoinResult</compoundname>
+    <includes refid="bitemporal__join_8h" local="no">bitemporal_join.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1a8d09f07afc6308acc5acf1cdecd69493" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::BiTemporalJoinResult::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoinResult::key</qualifiedname>
+        <briefdescription>
+<para>Common join key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="46" column="17" bodyfile="include/temporal/bitemporal_join.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1a52aaae0e5d87f3c8e9fe5f8bce43a47a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref></type>
+        <definition>Document themisdb::temporal::BiTemporalJoinResult::left_payload</definition>
+        <argsstring></argsstring>
+        <name>left_payload</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoinResult::left_payload</qualifiedname>
+        <briefdescription>
+<para>Payload from the left table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="47" column="17" bodyfile="include/temporal/bitemporal_join.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1ad8ae8ea2aebdc5b60d80956312a30eec" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref></type>
+        <definition>Document themisdb::temporal::BiTemporalJoinResult::right_payload</definition>
+        <argsstring></argsstring>
+        <name>right_payload</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoinResult::right_payload</qualifiedname>
+        <briefdescription>
+<para>Payload from the right table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="48" column="17" bodyfile="include/temporal/bitemporal_join.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1aa1a6aac1473934e27fb7ba4276f0b22a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref></type>
+        <definition>TimeRange themisdb::temporal::BiTemporalJoinResult::sys_time_overlap</definition>
+        <argsstring></argsstring>
+        <name>sys_time_overlap</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoinResult::sys_time_overlap</qualifiedname>
+        <briefdescription>
+<para>Intersection of system-time periods. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="50" column="17" bodyfile="include/temporal/bitemporal_join.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1acd11f63c439c14e69e41cb74a19bc2c4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref></type>
+        <definition>TimeRange themisdb::temporal::BiTemporalJoinResult::valid_time_overlap</definition>
+        <argsstring></argsstring>
+        <name>valid_time_overlap</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoinResult::valid_time_overlap</qualifiedname>
+        <briefdescription>
+<para>Intersection of valid-time periods. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="51" column="17" bodyfile="include/temporal/bitemporal_join.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1af03e9fc5cab64007a95cbf2f673042a3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::BiTemporalJoinResult::operator==</definition>
+        <argsstring>(const BiTemporalJoinResult &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoinResult::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" kindref="compound">BiTemporalJoinResult</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="53" column="10" bodyfile="include/temporal/bitemporal_join.h" bodystart="53" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Output row of a bi-temporal join. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The result carries the intersection of the two time ranges plus the merged payloads from both input rows. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::temporal::BiTemporalJoinResult</label>
+        <link refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>sys_time_overlap</edgelabel>
+          <edgelabel>valid_time_overlap</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::temporal::TimeRange</label>
+        <link refid="structthemisdb_1_1temporal_1_1_time_range"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/bitemporal_join.h" line="45" column="1" bodyfile="include/temporal/bitemporal_join.h" bodystart="45" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1a8d09f07afc6308acc5acf1cdecd69493" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoinResult</scope><name>key</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1a52aaae0e5d87f3c8e9fe5f8bce43a47a" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoinResult</scope><name>left_payload</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1af03e9fc5cab64007a95cbf2f673042a3" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoinResult</scope><name>operator==</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1ad8ae8ea2aebdc5b60d80956312a30eec" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoinResult</scope><name>right_payload</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1aa1a6aac1473934e27fb7ba4276f0b22a" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoinResult</scope><name>sys_time_overlap</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1acd11f63c439c14e69e41cb74a19bc2c4" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoinResult</scope><name>valid_time_overlap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

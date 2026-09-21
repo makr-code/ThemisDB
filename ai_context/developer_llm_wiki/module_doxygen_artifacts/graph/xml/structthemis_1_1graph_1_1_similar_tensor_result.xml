@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_similar_tensor_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::SimilarTensorResult</compoundname>
+    <includes refid="tensor__fingerprint__graph_8h" local="no">tensor_fingerprint_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_similar_tensor_result_1a06870e3358028c2c7f783965ecb881a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::SimilarTensorResult::tensor_id</definition>
+        <argsstring></argsstring>
+        <name>tensor_id</name>
+        <qualifiedname>themis::graph::SimilarTensorResult::tensor_id</qualifiedname>
+        <briefdescription>
+<para>Identifier of the similar tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="53" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_similar_tensor_result_1a09c7ef3af5e750233cbec6150d858437" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::SimilarTensorResult::similarity</definition>
+        <argsstring></argsstring>
+        <name>similarity</name>
+        <qualifiedname>themis::graph::SimilarTensorResult::similarity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cosine similarity ∈ [−1, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="54" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_similar_tensor_result_1a2821fd94066c33be9ea4c33cb8f90399" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::SimilarTensorResult::tenant</definition>
+        <argsstring></argsstring>
+        <name>tenant</name>
+        <qualifiedname>themis::graph::SimilarTensorResult::tenant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="55" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_similar_tensor_result_1aefb9cb12d32de3c5a81a94bf812d61e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::SimilarTensorResult::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::graph::SimilarTensorResult::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="56" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_similar_tensor_result_1ab51dea967d75a6fa45a6c5cd751e4011" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::SimilarTensorResult::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::graph::SimilarTensorResult::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="57" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/tensor_fingerprint_graph.h" line="52" column="1" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="52" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_similar_tensor_result_1aefb9cb12d32de3c5a81a94bf812d61e1" prot="public" virt="non-virtual"><scope>themis::graph::SimilarTensorResult</scope><name>collection</name></member>
+      <member refid="structthemis_1_1graph_1_1_similar_tensor_result_1ab51dea967d75a6fa45a6c5cd751e4011" prot="public" virt="non-virtual"><scope>themis::graph::SimilarTensorResult</scope><name>field</name></member>
+      <member refid="structthemis_1_1graph_1_1_similar_tensor_result_1a09c7ef3af5e750233cbec6150d858437" prot="public" virt="non-virtual"><scope>themis::graph::SimilarTensorResult</scope><name>similarity</name></member>
+      <member refid="structthemis_1_1graph_1_1_similar_tensor_result_1a2821fd94066c33be9ea4c33cb8f90399" prot="public" virt="non-virtual"><scope>themis::graph::SimilarTensorResult</scope><name>tenant</name></member>
+      <member refid="structthemis_1_1graph_1_1_similar_tensor_result_1a06870e3358028c2c7f783965ecb881a5" prot="public" virt="non-virtual"><scope>themis::graph::SimilarTensorResult</scope><name>tensor_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

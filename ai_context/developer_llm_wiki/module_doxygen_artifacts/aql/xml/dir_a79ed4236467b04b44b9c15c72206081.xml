@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a79ed4236467b04b44b9c15c72206081" kind="dir">
+    <compoundname>include/aql</compoundname>
+    <innerfile refid="aql__agent_8h">aql_agent.h</innerfile>
+    <innerfile refid="aql__autocomplete_8h">aql_autocomplete.h</innerfile>
+    <innerfile refid="aql__confidence__scorer_8h">aql_confidence_scorer.h</innerfile>
+    <innerfile refid="aql__conversation__context_8h">aql_conversation_context.h</innerfile>
+    <innerfile refid="aql__error__types_8h">aql_error_types.h</innerfile>
+    <innerfile refid="aql__fewshot__example__library_8h">aql_fewshot_example_library.h</innerfile>
+    <innerfile refid="aql__ingestion__bridge_8h">aql_ingestion_bridge.h</innerfile>
+    <innerfile refid="aql__lora__finetuner_8h">aql_lora_finetuner.h</innerfile>
+    <innerfile refid="aql__migration__assistant_8h">aql_migration_assistant.h</innerfile>
+    <innerfile refid="aql__model__router_8h">aql_model_router.h</innerfile>
+    <innerfile refid="aql__optimizer__advisor_8h">aql_optimizer_advisor.h</innerfile>
+    <innerfile refid="aql__query__builder_8h">aql_query_builder.h</innerfile>
+    <innerfile refid="aql__query__diff__explainer_8h">aql_query_diff_explainer.h</innerfile>
+    <innerfile refid="aql__query__template__library_8h">aql_query_template_library.h</innerfile>
+    <innerfile refid="aql__query__validator_8h">aql_query_validator.h</innerfile>
+    <innerfile refid="aql__rollback__suggester_8h">aql_rollback_suggester.h</innerfile>
+    <innerfile refid="aql__schema__provider_8h">aql_schema_provider.h</innerfile>
+    <innerfile refid="aql__syntax__highlighter_8h">aql_syntax_highlighter.h</innerfile>
+    <innerfile refid="aql__token__stream_8h">aql_token_stream.h</innerfile>
+    <innerfile refid="classify__bridge_8h">classify_bridge.h</innerfile>
+    <innerfile refid="docs__assistant__functions_8h">docs_assistant_functions.h</innerfile>
+    <innerfile refid="i__history__compressor_8h">i_history_compressor.h</innerfile>
+    <innerfile refid="iasync__llm__backend_8h">iasync_llm_backend.h</innerfile>
+    <innerfile refid="llm__aql__embedding__bridge_8h">llm_aql_embedding_bridge.h</innerfile>
+    <innerfile refid="llm__aql__handler_8h">llm_aql_handler.h</innerfile>
+    <innerfile refid="llm__error__codes_8h">llm_error_codes.h</innerfile>
+    <innerfile refid="llm__extractive__compressor_8h">llm_extractive_compressor.h</innerfile>
+    <innerfile refid="llm__metrics__collector_8h">llm_metrics_collector.h</innerfile>
+    <innerfile refid="llm__query__context_8h">llm_query_context.h</innerfile>
+    <innerfile refid="llm__semantic__validator_8h">llm_semantic_validator.h</innerfile>
+    <innerfile refid="llm__timeout__manager_8h">llm_timeout_manager.h</innerfile>
+    <innerfile refid="llm__token__estimator_8h">llm_token_estimator.h</innerfile>
+    <innerfile refid="llm__validation__pipeline_8h">llm_validation_pipeline.h</innerfile>
+    <innerfile refid="multimodal__infer__request_8h">multimodal_infer_request.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/"/>
+  </compounddef>
+</doxygen>

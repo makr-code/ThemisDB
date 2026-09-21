@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_abuse_detector_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::AbuseDetectorMetadata</compoundname>
+    <includes refid="abuse__detector_8h" local="no">abuse_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_abuse_detector_metadata_1adc1289c3f5a1ae8404950671f3235990" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::AbuseDetectorMetadata::content_id</definition>
+        <argsstring></argsstring>
+        <name>content_id</name>
+        <qualifiedname>themis::content::AbuseDetectorMetadata::content_id</qualifiedname>
+        <briefdescription>
+<para>Unique content identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="53" column="17" bodyfile="include/content/abuse_detector.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_abuse_detector_metadata_1ab1bf57cf3b102c05be24c88eacab3311" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::AbuseDetectorMetadata::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::content::AbuseDetectorMetadata::mime_type</qualifiedname>
+        <briefdescription>
+<para>MIME type of the content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="54" column="17" bodyfile="include/content/abuse_detector.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_abuse_detector_metadata_1aa14f062f4fd771856b977bc9051b9a8a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::AbuseDetectorMetadata::content_hash</definition>
+        <argsstring></argsstring>
+        <name>content_hash</name>
+        <qualifiedname>themis::content::AbuseDetectorMetadata::content_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 hex digest of the raw bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="55" column="17" bodyfile="include/content/abuse_detector.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/abuse_detector.h" line="52" column="1" bodyfile="include/content/abuse_detector.h" bodystart="52" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_abuse_detector_metadata_1aa14f062f4fd771856b977bc9051b9a8a" prot="public" virt="non-virtual"><scope>themis::content::AbuseDetectorMetadata</scope><name>content_hash</name></member>
+      <member refid="structthemis_1_1content_1_1_abuse_detector_metadata_1adc1289c3f5a1ae8404950671f3235990" prot="public" virt="non-virtual"><scope>themis::content::AbuseDetectorMetadata</scope><name>content_id</name></member>
+      <member refid="structthemis_1_1content_1_1_abuse_detector_metadata_1ab1bf57cf3b102c05be24c88eacab3311" prot="public" virt="non-virtual"><scope>themis::content::AbuseDetectorMetadata</scope><name>mime_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

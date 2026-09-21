@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_security_violation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::SecurityViolation</compoundname>
+    <includes refid="policy__validator_8h" local="no">policy_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_security_violation_1aadd9867585358aa576fc879cfe275a6a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::SecurityViolation::violation_type</definition>
+        <argsstring></argsstring>
+        <name>violation_type</name>
+        <qualifiedname>themis::governance::SecurityViolation::violation_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="54" column="17" bodyfile="include/governance/policy_validator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_security_violation_1a85504bb3f4b319ea8fac468d97431093" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::SecurityViolation::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::governance::SecurityViolation::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="55" column="17" bodyfile="include/governance/policy_validator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_security_violation_1af83113fc151eddb0b058c5d7dd8af2b6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::SecurityViolation::affected_rules</definition>
+        <argsstring></argsstring>
+        <name>affected_rules</name>
+        <qualifiedname>themis::governance::SecurityViolation::affected_rules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="56" column="17" bodyfile="include/governance/policy_validator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_security_violation_1ac7adc64f6e4c871e9fe070ade7bdbb45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::SecurityViolation::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::SecurityViolation::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="57" column="17" bodyfile="include/governance/policy_validator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_security_violation_1a50471b8e2be4c28f9b68639b9ea59081" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::SecurityViolation::recommendations</definition>
+        <argsstring></argsstring>
+        <name>recommendations</name>
+        <qualifiedname>themis::governance::SecurityViolation::recommendations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="58" column="17" bodyfile="include/governance/policy_validator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_security_violation_1ab7bd6bb6e0e768525842c0ad44dc1477" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::SecurityViolation::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::SecurityViolation::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validator.h" line="64" column="20" bodyfile="src/governance/policy_validator.cpp" bodystart="51" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_validator.h" line="53" column="1" bodyfile="include/governance/policy_validator.h" bodystart="53" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_security_violation_1af83113fc151eddb0b058c5d7dd8af2b6" prot="public" virt="non-virtual"><scope>themis::governance::SecurityViolation</scope><name>affected_rules</name></member>
+      <member refid="structthemis_1_1governance_1_1_security_violation_1ac7adc64f6e4c871e9fe070ade7bdbb45" prot="public" virt="non-virtual"><scope>themis::governance::SecurityViolation</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_security_violation_1a50471b8e2be4c28f9b68639b9ea59081" prot="public" virt="non-virtual"><scope>themis::governance::SecurityViolation</scope><name>recommendations</name></member>
+      <member refid="structthemis_1_1governance_1_1_security_violation_1a85504bb3f4b319ea8fac468d97431093" prot="public" virt="non-virtual"><scope>themis::governance::SecurityViolation</scope><name>severity</name></member>
+      <member refid="structthemis_1_1governance_1_1_security_violation_1ab7bd6bb6e0e768525842c0ad44dc1477" prot="public" virt="non-virtual"><scope>themis::governance::SecurityViolation</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_security_violation_1aadd9867585358aa576fc879cfe275a6a" prot="public" virt="non-virtual"><scope>themis::governance::SecurityViolation</scope><name>violation_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

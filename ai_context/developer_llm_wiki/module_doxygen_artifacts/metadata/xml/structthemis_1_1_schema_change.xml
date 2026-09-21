@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_schema_change" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SchemaChange</compoundname>
+    <includes refid="schema__version__manager_8h" local="no">schema_version_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_schema_change_1a06ebb8308075b92f813186f84898cf04" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::SchemaChange::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::SchemaChange::version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Version number (monotonically increasing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="37" column="14" bodyfile="include/metadata/schema_version_manager.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_change_1a7bb2e410ca1234be002b2b31555887ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaChange::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::SchemaChange::table_name</qualifiedname>
+        <briefdescription>
+<para>Affected table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="38" column="17" bodyfile="include/metadata/schema_version_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_change_1ad8949dd0ce01a32bd069441e27d718fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaChange::change_type</definition>
+        <argsstring></argsstring>
+        <name>change_type</name>
+        <qualifiedname>themis::SchemaChange::change_type</qualifiedname>
+        <briefdescription>
+<para>&quot;create&quot;, &quot;update&quot;, &quot;delete&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="39" column="17" bodyfile="include/metadata/schema_version_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_change_1a3b3b26ad6c39f9742a60453ddadab312" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaChange::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::SchemaChange::author</qualifiedname>
+        <briefdescription>
+<para>Who made the change (empty = system). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="40" column="17" bodyfile="include/metadata/schema_version_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_change_1a7a4c81d2634376c21cb13020defa6f17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaChange::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::SchemaChange::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="41" column="17" bodyfile="include/metadata/schema_version_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_change_1aaebeb6a3f26f46d6e5017b91e6b735ab" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::SchemaChange::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::SchemaChange::timestamp</qualifiedname>
+        <briefdescription>
+<para>When the change was made. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="42" column="43" bodyfile="include/metadata/schema_version_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_change_1a8aa46d6a531cb68a1a042afb41fe92d3" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref></type>
+        <definition>SchemaManager::TableSchema themis::SchemaChange::snapshot</definition>
+        <argsstring></argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::SchemaChange::snapshot</qualifiedname>
+        <briefdescription>
+<para>Full schema snapshot at this version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="43" column="32" bodyfile="include/metadata/schema_version_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_schema_change_1a2df03b19c2427a119e6134fdb5612119" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::SchemaChange::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::SchemaChange::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this schema-change record to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object containing version, author, snapshot, and timestamps. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="49" column="10" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="29" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_schema_change_1ab5ceebacaff04185fc63dac91c1ac9fe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_schema_change" kindref="compound">SchemaChange</ref></type>
+        <definition>SchemaChange themis::SchemaChange::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::SchemaChange::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Parse a schema-change record from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From JSON.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object created by <ref refid="structthemis_1_1_schema_change_1a2df03b19c2427a119e6134fdb5612119" kindref="member">toJSON()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed <ref refid="structthemis_1_1_schema_change" kindref="compound">SchemaChange</ref> value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), std::chrono::system_clock::now(), contains(), is_object(), <ref refid="classthemis_1_1_schema_manager_1abcacb07337af1f6ae7bafeaa3d9dca4a" kindref="member">SchemaManager::parseTableSchema()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="55" column="25" bodyfile="src/metadata/schema_version_manager.cpp" bodystart="59" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable record of one persisted schema version change. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::SchemaChange</label>
+        <link refid="structthemis_1_1_schema_change"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>snapshot</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SchemaManager::TableSchema</label>
+        <link refid="structthemis_1_1_schema_manager_1_1_table_schema"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/metadata/schema_version_manager.h" line="36" column="1" bodyfile="include/metadata/schema_version_manager.h" bodystart="36" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_schema_change_1a3b3b26ad6c39f9742a60453ddadab312" prot="public" virt="non-virtual"><scope>themis::SchemaChange</scope><name>author</name></member>
+      <member refid="structthemis_1_1_schema_change_1ad8949dd0ce01a32bd069441e27d718fe" prot="public" virt="non-virtual"><scope>themis::SchemaChange</scope><name>change_type</name></member>
+      <member refid="structthemis_1_1_schema_change_1a7a4c81d2634376c21cb13020defa6f17" prot="public" virt="non-virtual"><scope>themis::SchemaChange</scope><name>description</name></member>
+      <member refid="structthemis_1_1_schema_change_1ab5ceebacaff04185fc63dac91c1ac9fe" prot="public" virt="non-virtual"><scope>themis::SchemaChange</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1_schema_change_1a8aa46d6a531cb68a1a042afb41fe92d3" prot="public" virt="non-virtual"><scope>themis::SchemaChange</scope><name>snapshot</name></member>
+      <member refid="structthemis_1_1_schema_change_1a7bb2e410ca1234be002b2b31555887ff" prot="public" virt="non-virtual"><scope>themis::SchemaChange</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1_schema_change_1aaebeb6a3f26f46d6e5017b91e6b735ab" prot="public" virt="non-virtual"><scope>themis::SchemaChange</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1_schema_change_1a2df03b19c2427a119e6134fdb5612119" prot="public" virt="non-virtual"><scope>themis::SchemaChange</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1_schema_change_1a06ebb8308075b92f813186f84898cf04" prot="public" virt="non-virtual"><scope>themis::SchemaChange</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

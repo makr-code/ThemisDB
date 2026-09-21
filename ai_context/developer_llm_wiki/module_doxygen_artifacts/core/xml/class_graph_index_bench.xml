@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_index_bench" kind="class" language="C++" prot="public">
+    <compoundname>GraphIndexBench</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_index_bench_1a49a95249084f4974cd086f2996afde3f" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GraphIndexBench::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>GraphIndexBench::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/core/bench_core_performance.cpp" line="397" column="17" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="397" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_index_bench_1a5ee334730b651d39f105f7581ae68176" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; GraphIndexBench::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GraphIndexBench::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/core/bench_core_performance.cpp" line="398" column="21" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_index_bench_1a5d34a623a9b3e8c709a3723021ba8e99" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; GraphIndexBench::gim_</definition>
+        <argsstring></argsstring>
+        <name>gim_</name>
+        <qualifiedname>GraphIndexBench::gim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/core/bench_core_performance.cpp" line="399" column="21" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="399" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_graph_index_bench_1af7df79a065de1194213131ba473423c5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphIndexBench::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphIndexBench::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/core/bench_core_performance.cpp" line="378" column="10" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="378" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_index_bench_1a39fc3318fe57f710d72070c55985297b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphIndexBench::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphIndexBench::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/core/bench_core_performance.cpp" line="390" column="10" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="390" bodyend="394"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphIndexBench</label>
+        <link refid="class_graph_index_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphIndexBench</label>
+        <link refid="class_graph_index_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/core/bench_core_performance.cpp" line="376" column="1" bodyfile="benchmarks/core/bench_core_performance.cpp" bodystart="376" bodyend="400"/>
+    <listofallmembers>
+      <member refid="class_graph_index_bench_1a5ee334730b651d39f105f7581ae68176" prot="protected" virt="non-virtual"><scope>GraphIndexBench</scope><name>db_</name></member>
+      <member refid="class_graph_index_bench_1a49a95249084f4974cd086f2996afde3f" prot="protected" virt="non-virtual"><scope>GraphIndexBench</scope><name>db_path_</name></member>
+      <member refid="class_graph_index_bench_1a5d34a623a9b3e8c709a3723021ba8e99" prot="protected" virt="non-virtual"><scope>GraphIndexBench</scope><name>gim_</name></member>
+      <member refid="class_graph_index_bench_1af7df79a065de1194213131ba473423c5" prot="public" virt="non-virtual"><scope>GraphIndexBench</scope><name>SetUp</name></member>
+      <member refid="class_graph_index_bench_1a39fc3318fe57f710d72070c55985297b" prot="public" virt="non-virtual"><scope>GraphIndexBench</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

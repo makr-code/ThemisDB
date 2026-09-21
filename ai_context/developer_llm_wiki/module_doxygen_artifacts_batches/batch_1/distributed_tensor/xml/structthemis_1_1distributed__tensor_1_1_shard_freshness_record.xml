@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_shard_freshness_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ShardFreshnessRecord</compoundname>
+    <includes refid="shard__summary__coordinator_8h" local="no">shard_summary_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a88819e71c58aa24662645d059af2cc0c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ShardFreshnessRecord::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_tensor::ShardFreshnessRecord::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="70" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1ac9605ac64574869d9fe8e5a4b4be1c7e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::ShardFreshnessRecord::last_refresh_ms</definition>
+        <argsstring></argsstring>
+        <name>last_refresh_ms</name>
+        <qualifiedname>themis::distributed_tensor::ShardFreshnessRecord::last_refresh_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="72" column="13" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a3754ff783d8454f325794c9402cacb1b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::ShardFreshnessRecord::ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds</name>
+        <qualifiedname>themis::distributed_tensor::ShardFreshnessRecord::ttl_seconds</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="74" column="14" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a4d95f9be3e9dd9ffb9819b384b9cb6b5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ShardFreshnessRecord::refresh_generation</definition>
+        <argsstring></argsstring>
+        <name>refresh_generation</name>
+        <qualifiedname>themis::distributed_tensor::ShardFreshnessRecord::refresh_generation</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="76" column="14" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a9c4b601e3d4cb3a45fc4cb0b46b6a171" prot="public" static="no" mutable="no">
+        <type>tensor::SummaryFreshnessState</type>
+        <definition>tensor::SummaryFreshnessState themis::distributed_tensor::ShardFreshnessRecord::freshness_state</definition>
+        <argsstring></argsstring>
+        <name>freshness_state</name>
+        <qualifiedname>themis::distributed_tensor::ShardFreshnessRecord::freshness_state</qualifiedname>
+        <initializer>= tensor::SummaryFreshnessState::STALE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="78" column="35" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a60bcfaaeb58dfcf2f757dc4baa53a6ef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ShardFreshnessRecord::exact_fetch_pending</definition>
+        <argsstring></argsstring>
+        <name>exact_fetch_pending</name>
+        <qualifiedname>themis::distributed_tensor::ShardFreshnessRecord::exact_fetch_pending</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="80" column="10" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a2d504f9b0bf32004f3e9b271a579d1a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ShardFreshnessRecord::last_refresh_error</definition>
+        <argsstring></argsstring>
+        <name>last_refresh_error</name>
+        <qualifiedname>themis::distributed_tensor::ShardFreshnessRecord::last_refresh_error</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="82" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1ae278e1333fedb55f00185ba66cd17e61" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ShardFreshnessRecord::isExpired</definition>
+        <argsstring>(int64_t now_ms=0) const noexcept</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::distributed_tensor::ShardFreshnessRecord::isExpired</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>now_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="84" column="11" bodyfile="src/distributed_tensor/src/shard_summary_coordinator.cc" bodystart="37" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1add934656bac4e0bb6474db41aa2b8050" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::ShardFreshnessRecord::markRefreshed</definition>
+        <argsstring>(int64_t refresh_time_ms) noexcept</argsstring>
+        <name>markRefreshed</name>
+        <qualifiedname>themis::distributed_tensor::ShardFreshnessRecord::markRefreshed</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>refresh_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Mark Refreshed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">refresh_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="91" column="10" bodyfile="src/distributed_tensor/src/shard_summary_coordinator.cc" bodystart="47" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="69" column="1" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="69" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a60bcfaaeb58dfcf2f757dc4baa53a6ef" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardFreshnessRecord</scope><name>exact_fetch_pending</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a9c4b601e3d4cb3a45fc4cb0b46b6a171" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardFreshnessRecord</scope><name>freshness_state</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1ae278e1333fedb55f00185ba66cd17e61" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardFreshnessRecord</scope><name>isExpired</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a2d504f9b0bf32004f3e9b271a579d1a0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardFreshnessRecord</scope><name>last_refresh_error</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1ac9605ac64574869d9fe8e5a4b4be1c7e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardFreshnessRecord</scope><name>last_refresh_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1add934656bac4e0bb6474db41aa2b8050" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardFreshnessRecord</scope><name>markRefreshed</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a4d95f9be3e9dd9ffb9819b384b9cb6b5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardFreshnessRecord</scope><name>refresh_generation</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a88819e71c58aa24662645d059af2cc0c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardFreshnessRecord</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record_1a3754ff783d8454f325794c9402cacb1b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardFreshnessRecord</scope><name>ttl_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

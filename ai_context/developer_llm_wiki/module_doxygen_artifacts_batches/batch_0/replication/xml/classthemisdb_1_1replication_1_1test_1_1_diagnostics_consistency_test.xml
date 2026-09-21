@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::test::DiagnosticsConsistencyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1ad64efd483610ddccd106ca625bcfc4a2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver" kindref="compound">ThreeWayMergeResolver</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ThreeWayMergeResolver&gt; themisdb::replication::test::DiagnosticsConsistencyTest::three_way_resolver_</definition>
+        <argsstring></argsstring>
+        <name>three_way_resolver_</name>
+        <qualifiedname>themisdb::replication::test::DiagnosticsConsistencyTest::three_way_resolver_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="509" column="21" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="509" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1aba9fa6eab6f3adbe9942bf8763dadfe6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_field_level_merge_resolver" kindref="compound">FieldLevelMergeResolver</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;FieldLevelMergeResolver&gt; themisdb::replication::test::DiagnosticsConsistencyTest::field_level_resolver_</definition>
+        <argsstring></argsstring>
+        <name>field_level_resolver_</name>
+        <qualifiedname>themisdb::replication::test::DiagnosticsConsistencyTest::field_level_resolver_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="510" column="21" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="510" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1a7bb33786473bebe2ee34b9e26ee89948" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context" kindref="compound">AdvancedConflictResolver::ResolutionContext</ref></type>
+        <definition>AdvancedConflictResolver::ResolutionContext themisdb::replication::test::DiagnosticsConsistencyTest::default_context_</definition>
+        <argsstring></argsstring>
+        <name>default_context_</name>
+        <qualifiedname>themisdb::replication::test::DiagnosticsConsistencyTest::default_context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="511" column="49" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="511" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1ad960f8621f12b4cb4f613f5574e1fa77" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::test::DiagnosticsConsistencyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themisdb::replication::test::DiagnosticsConsistencyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="513" column="10" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="513" bodyend="518"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1a334052a59c8d8e56fc57914da45ace0e" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref></type>
+        <definition>static MMWriteEntry themisdb::replication::test::DiagnosticsConsistencyTest::createTestWrite</definition>
+        <argsstring>(const std::string &amp;write_id, const std::string &amp;doc_id, const std::string &amp;collection)</argsstring>
+        <name>createTestWrite</name>
+        <qualifiedname>themisdb::replication::test::DiagnosticsConsistencyTest::createTestWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>write_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="520" column="25" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="520" bodyend="533"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RCS-06: Diagnostics Consistency and Observability</para>
+<para>Tests verify that resolver strategies report consistent metadata and diagnostic information across resolution cycles. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::test::DiagnosticsConsistencyTest</label>
+        <link refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::replication::AdvancedConflictResolver::ResolutionContext</label>
+        <link refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::test::DiagnosticsConsistencyTest</label>
+        <link refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>default_context_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_conflict_focused.cpp" line="507" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="507" bodyend="534"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1a334052a59c8d8e56fc57914da45ace0e" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::DiagnosticsConsistencyTest</scope><name>createTestWrite</name></member>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1a7bb33786473bebe2ee34b9e26ee89948" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::DiagnosticsConsistencyTest</scope><name>default_context_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1aba9fa6eab6f3adbe9942bf8763dadfe6" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::DiagnosticsConsistencyTest</scope><name>field_level_resolver_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1ad960f8621f12b4cb4f613f5574e1fa77" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::DiagnosticsConsistencyTest</scope><name>SetUp</name></member>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test_1ad64efd483610ddccd106ca625bcfc4a2" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::DiagnosticsConsistencyTest</scope><name>three_way_resolver_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

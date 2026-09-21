@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_multi_lo_r_a_fusion_fixture" kind="class" language="C++" prot="public">
+    <compoundname>MultiLoRAFusionFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_multi_lo_r_a_fusion_fixture_1a0a0122e78b532e1d0768da77c759626f" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_multi_lo_r_a_manager_1_1_config" kindref="compound">MultiLoRAManager::Config</ref></type>
+        <definition>MultiLoRAManager::Config MultiLoRAFusionFixture::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>MultiLoRAFusionFixture::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_multi_lora_fusion.cpp" line="70" column="30" bodyfile="benchmarks/llm/bench_multi_lora_fusion.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_lo_r_a_fusion_fixture_1a5bd9e7a533adfb05f90975182be2a911" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_multi_lo_r_a_manager" kindref="compound">MultiLoRAManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MultiLoRAManager&gt; MultiLoRAFusionFixture::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>MultiLoRAFusionFixture::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_multi_lora_fusion.cpp" line="71" column="21" bodyfile="benchmarks/llm/bench_multi_lora_fusion.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_lo_r_a_fusion_fixture_1a6bcfdd607138bd062356a50c6996fbbc" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MultiLoRAFusionFixture::lora_path_</definition>
+        <argsstring></argsstring>
+        <name>lora_path_</name>
+        <qualifiedname>MultiLoRAFusionFixture::lora_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_multi_lora_fusion.cpp" line="72" column="17" bodyfile="benchmarks/llm/bench_multi_lora_fusion.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_lo_r_a_fusion_fixture_1a82e5e31c6ea5ca952c95d627858b0493" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MultiLoRAFusionFixture::preflight_error_</definition>
+        <argsstring></argsstring>
+        <name>preflight_error_</name>
+        <qualifiedname>MultiLoRAFusionFixture::preflight_error_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_multi_lora_fusion.cpp" line="73" column="17" bodyfile="benchmarks/llm/bench_multi_lora_fusion.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_multi_lo_r_a_fusion_fixture_1ae8f7b3957835c98d06eee5d059483eab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MultiLoRAFusionFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MultiLoRAFusionFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_multi_lora_fusion.cpp" line="27" column="10" bodyfile="benchmarks/llm/bench_multi_lora_fusion.cpp" bodystart="27" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_lo_r_a_fusion_fixture_1a1295a6cb74fba3bc22c1a7c62fc214fc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MultiLoRAFusionFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>MultiLoRAFusionFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_multi_lora_fusion.cpp" line="56" column="10" bodyfile="benchmarks/llm/bench_multi_lora_fusion.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_multi_lo_r_a_fusion_fixture_1a02d064966d647b998feb326e3cda104e" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MultiLoRAFusionFixture::ensureReady</definition>
+        <argsstring>(benchmark::State &amp;state) const</argsstring>
+        <name>ensureReady</name>
+        <qualifiedname>MultiLoRAFusionFixture::ensureReady</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_multi_lora_fusion.cpp" line="62" column="10" bodyfile="benchmarks/llm/bench_multi_lora_fusion.cpp" bodystart="62" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MultiLoRAFusionFixture</label>
+        <link refid="class_multi_lo_r_a_fusion_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MultiLoRAFusionFixture</label>
+        <link refid="class_multi_lo_r_a_fusion_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="4">
+        <label>themis::llm::LoRAQuantizationConfig</label>
+        <link refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config"/>
+      </node>
+      <node id="5">
+        <label>themis::llm::MultiGPUConfig</label>
+        <link refid="structthemis_1_1llm_1_1_multi_g_p_u_config"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::MultiLoRAManager::Config</label>
+        <link refid="structthemis_1_1llm_1_1_multi_lo_r_a_manager_1_1_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>quantization</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>multi_gpu</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/llm/bench_multi_lora_fusion.cpp" line="25" column="1" bodyfile="benchmarks/llm/bench_multi_lora_fusion.cpp" bodystart="25" bodyend="74"/>
+    <listofallmembers>
+      <member refid="class_multi_lo_r_a_fusion_fixture_1a0a0122e78b532e1d0768da77c759626f" prot="protected" virt="non-virtual"><scope>MultiLoRAFusionFixture</scope><name>config_</name></member>
+      <member refid="class_multi_lo_r_a_fusion_fixture_1a02d064966d647b998feb326e3cda104e" prot="protected" virt="non-virtual"><scope>MultiLoRAFusionFixture</scope><name>ensureReady</name></member>
+      <member refid="class_multi_lo_r_a_fusion_fixture_1a6bcfdd607138bd062356a50c6996fbbc" prot="protected" virt="non-virtual"><scope>MultiLoRAFusionFixture</scope><name>lora_path_</name></member>
+      <member refid="class_multi_lo_r_a_fusion_fixture_1a5bd9e7a533adfb05f90975182be2a911" prot="protected" virt="non-virtual"><scope>MultiLoRAFusionFixture</scope><name>manager_</name></member>
+      <member refid="class_multi_lo_r_a_fusion_fixture_1a82e5e31c6ea5ca952c95d627858b0493" prot="protected" virt="non-virtual"><scope>MultiLoRAFusionFixture</scope><name>preflight_error_</name></member>
+      <member refid="class_multi_lo_r_a_fusion_fixture_1ae8f7b3957835c98d06eee5d059483eab" prot="public" virt="non-virtual"><scope>MultiLoRAFusionFixture</scope><name>SetUp</name></member>
+      <member refid="class_multi_lo_r_a_fusion_fixture_1a1295a6cb74fba3bc22c1a7c62fc214fc" prot="public" virt="non-virtual"><scope>MultiLoRAFusionFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

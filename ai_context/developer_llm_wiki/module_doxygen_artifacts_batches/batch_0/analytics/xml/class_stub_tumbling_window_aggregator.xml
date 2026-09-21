@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_tumbling_window_aggregator" kind="class" language="C++" prot="public">
+    <compoundname>StubTumblingWindowAggregator</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_tumbling_window_aggregator_1acac03e899f3da6d5a6adb4a7f0522d14" prot="private" static="no" mutable="no">
+        <type>const std::size_t</type>
+        <definition>const std::size_t StubTumblingWindowAggregator::window_size_</definition>
+        <argsstring></argsstring>
+        <name>window_size_</name>
+        <qualifiedname>StubTumblingWindowAggregator::window_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="118" column="28" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tumbling_window_aggregator_1a22142a984bf60447eb30e6289582326f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double StubTumblingWindowAggregator::partial_sum_</definition>
+        <argsstring></argsstring>
+        <name>partial_sum_</name>
+        <qualifiedname>StubTumblingWindowAggregator::partial_sum_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="119" column="28" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tumbling_window_aggregator_1a9c3efd09697370b4747bac0556210bbc" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t StubTumblingWindowAggregator::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>StubTumblingWindowAggregator::count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="120" column="28" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tumbling_window_aggregator_1a47bc111132dcd1ed5f24a1cc30ac09f4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; StubTumblingWindowAggregator::flushed_sums_</definition>
+        <argsstring></argsstring>
+        <name>flushed_sums_</name>
+        <qualifiedname>StubTumblingWindowAggregator::flushed_sums_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="121" column="20" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tumbling_window_aggregator_1accbd4b14e1540995f50e673c5a26cb3c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubTumblingWindowAggregator::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubTumblingWindowAggregator::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="122" column="28" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tumbling_window_aggregator_1a1a44b264a30f819b7bf34d3f678e1b39" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTumblingWindowAggregator::flushes_</definition>
+        <argsstring></argsstring>
+        <name>flushes_</name>
+        <qualifiedname>StubTumblingWindowAggregator::flushes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="123" column="18" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="123" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_tumbling_window_aggregator_1ab135d29f1cf425d31409ac025cc797e9" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubTumblingWindowAggregator::StubTumblingWindowAggregator</definition>
+        <argsstring>(std::size_t window_size)</argsstring>
+        <name>StubTumblingWindowAggregator</name>
+        <qualifiedname>StubTumblingWindowAggregator::StubTumblingWindowAggregator</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>window_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="93" column="14" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="93" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tumbling_window_aggregator_1af8d51a4a40e88d1ca6b22e747758df6e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubTumblingWindowAggregator::add</definition>
+        <argsstring>(double value)</argsstring>
+        <name>add</name>
+        <qualifiedname>StubTumblingWindowAggregator::add</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Add a value; returns true if a window flush occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="97" column="10" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="97" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tumbling_window_aggregator_1ab39b8d1ab7971f26310ad4a09f4dbb76" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTumblingWindowAggregator::flushCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>flushCount</name>
+        <qualifiedname>StubTumblingWindowAggregator::flushCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="111" column="17" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tumbling_window_aggregator_1a757b84c0f40a329dc68724a5bb436e82" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubTumblingWindowAggregator::flushedWindowCount</definition>
+        <argsstring>() const</argsstring>
+        <name>flushedWindowCount</name>
+        <qualifiedname>StubTumblingWindowAggregator::flushedWindowCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="112" column="17" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe tumbling window that accumulates values and flushes when full. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_highcardinality_stress.cpp" line="91" column="1" bodyfile="tests/analytics/test_analytics_highcardinality_stress.cpp" bodystart="91" bodyend="124"/>
+    <listofallmembers>
+      <member refid="class_stub_tumbling_window_aggregator_1af8d51a4a40e88d1ca6b22e747758df6e" prot="public" virt="non-virtual"><scope>StubTumblingWindowAggregator</scope><name>add</name></member>
+      <member refid="class_stub_tumbling_window_aggregator_1a9c3efd09697370b4747bac0556210bbc" prot="private" virt="non-virtual"><scope>StubTumblingWindowAggregator</scope><name>count_</name></member>
+      <member refid="class_stub_tumbling_window_aggregator_1ab39b8d1ab7971f26310ad4a09f4dbb76" prot="public" virt="non-virtual"><scope>StubTumblingWindowAggregator</scope><name>flushCount</name></member>
+      <member refid="class_stub_tumbling_window_aggregator_1a47bc111132dcd1ed5f24a1cc30ac09f4" prot="private" virt="non-virtual"><scope>StubTumblingWindowAggregator</scope><name>flushed_sums_</name></member>
+      <member refid="class_stub_tumbling_window_aggregator_1a757b84c0f40a329dc68724a5bb436e82" prot="public" virt="non-virtual"><scope>StubTumblingWindowAggregator</scope><name>flushedWindowCount</name></member>
+      <member refid="class_stub_tumbling_window_aggregator_1a1a44b264a30f819b7bf34d3f678e1b39" prot="private" virt="non-virtual"><scope>StubTumblingWindowAggregator</scope><name>flushes_</name></member>
+      <member refid="class_stub_tumbling_window_aggregator_1accbd4b14e1540995f50e673c5a26cb3c" prot="private" virt="non-virtual"><scope>StubTumblingWindowAggregator</scope><name>mu_</name></member>
+      <member refid="class_stub_tumbling_window_aggregator_1a22142a984bf60447eb30e6289582326f" prot="private" virt="non-virtual"><scope>StubTumblingWindowAggregator</scope><name>partial_sum_</name></member>
+      <member refid="class_stub_tumbling_window_aggregator_1ab135d29f1cf425d31409ac025cc797e9" prot="public" virt="non-virtual"><scope>StubTumblingWindowAggregator</scope><name>StubTumblingWindowAggregator</name></member>
+      <member refid="class_stub_tumbling_window_aggregator_1acac03e899f3da6d5a6adb4a7f0522d14" prot="private" virt="non-virtual"><scope>StubTumblingWindowAggregator</scope><name>window_size_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

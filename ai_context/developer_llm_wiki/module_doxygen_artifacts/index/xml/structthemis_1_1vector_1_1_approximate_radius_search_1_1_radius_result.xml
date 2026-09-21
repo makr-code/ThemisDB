@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::vector::ApproximateRadiusSearch::RadiusResult</compoundname>
+    <includes refid="approximate__radius__search_8h" local="no">approximate_radius_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a35339d3dcaa3c781a78ef285330ef834" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::vector::ApproximateRadiusSearch::RadiusResult::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::RadiusResult::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="45" column="21" bodyfile="include/index/approximate_radius_search.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a33584504081d15da1219ddf2f2d959e8" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::vector::ApproximateRadiusSearch::RadiusResult::distance</definition>
+        <argsstring></argsstring>
+        <name>distance</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::RadiusResult::distance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="46" column="15" bodyfile="include/index/approximate_radius_search.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a279de2fe78617d496f0d07affa7ab823" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::vector::ApproximateRadiusSearch::RadiusResult::vector</definition>
+        <argsstring></argsstring>
+        <name>vector</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::RadiusResult::vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="47" column="21" bodyfile="include/index/approximate_radius_search.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/approximate_radius_search.h" line="44" column="5" bodyfile="include/index/approximate_radius_search.h" bodystart="44" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a33584504081d15da1219ddf2f2d959e8" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::RadiusResult</scope><name>distance</name></member>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a35339d3dcaa3c781a78ef285330ef834" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::RadiusResult</scope><name>id</name></member>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_radius_result_1a279de2fe78617d496f0d07affa7ab823" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::RadiusResult</scope><name>vector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

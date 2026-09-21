@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_ann_frontdoor_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::AnnFrontdoorResult</compoundname>
+    <includes refid="ann__frontdoor_8h" local="no">ann_frontdoor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1a3e0da3a66234e1fd222e35c851b79c4c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt;AnnSearchResult&gt; themis::index::AnnFrontdoorResult::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::candidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="129" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1a77db81e965961bf3862a47dff8cb9292" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref></type>
+        <definition>AnnStrategy themis::index::AnnFrontdoorResult::strategy_used</definition>
+        <argsstring></argsstring>
+        <name>strategy_used</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::strategy_used</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a04c98307d4984db79645011e79cba449" kindref="member">AnnStrategy::FLAT_BRUTE_FORCE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="131" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1aef248ad7eb1ee25027314fa7982d5fab" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::AnnFrontdoorResult::estimated_recall</definition>
+        <argsstring></argsstring>
+        <name>estimated_recall</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::estimated_recall</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="133" column="12" bodyfile="include/index/ann_frontdoor.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1a54a9708f189b36ebf4d9ca49448a40ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnFrontdoorResult::routing_reason</definition>
+        <argsstring></argsstring>
+        <name>routing_reason</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::routing_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="135" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1af9d3fc5d0c8850864d79275579196513" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnFrontdoorResult::routing_reason_code</definition>
+        <argsstring></argsstring>
+        <name>routing_reason_code</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::routing_reason_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="137" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1a9616e385fb06bde8b314a370285af5dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnFrontdoorResult::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="139" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1a6e3391b569643cb7b08d34ca81de9fe4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnFrontdoorResult::confidence_policy_version</definition>
+        <argsstring></argsstring>
+        <name>confidence_policy_version</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::confidence_policy_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="141" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1aa2879a9c97a9a1f8c7500a1e85314b35" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnFrontdoorResult::confidence_threshold_key</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold_key</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::confidence_threshold_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="143" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1a1a7851d339666c7e2024da3cfd575def" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnFrontdoorResult::fallback_mode</definition>
+        <argsstring></argsstring>
+        <name>fallback_mode</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::fallback_mode</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="145" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1a2a8952bbf1764177d5fb98b9128393e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnFrontdoorResult::fallback_reason_code</definition>
+        <argsstring></argsstring>
+        <name>fallback_reason_code</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::fallback_reason_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="147" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1ac89d9fd4d2520b4b3d0e7c507e11bd8c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::AnnFrontdoorResult::is_distributed</definition>
+        <argsstring></argsstring>
+        <name>is_distributed</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::is_distributed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="149" column="10" bodyfile="include/index/ann_frontdoor.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1aa4aa6d0141fc424e422e57accfa2e100" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::index::AnnFrontdoorResult::shards_attempted</definition>
+        <argsstring></argsstring>
+        <name>shards_attempted</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::shards_attempted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="151" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1a72dd5c4ea515e2952be2a6a1d8eb90cc" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::index::AnnFrontdoorResult::shards_succeeded</definition>
+        <argsstring></argsstring>
+        <name>shards_succeeded</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::shards_succeeded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="153" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1aad25ec64484fb420d628c1c856ecf742" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::index::AnnFrontdoorResult::shards_failed</definition>
+        <argsstring></argsstring>
+        <name>shards_failed</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::shards_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="155" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1a72d3eef1e0813fbd193ab407fab9bd57" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::index::AnnFrontdoorResult::merged_candidates_before_trim</definition>
+        <argsstring></argsstring>
+        <name>merged_candidates_before_trim</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::merged_candidates_before_trim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="157" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1a890cf4c2be391ea639011fb1f11386d7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::AnnFrontdoorResult::partial_results</definition>
+        <argsstring></argsstring>
+        <name>partial_results</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::partial_results</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="159" column="10" bodyfile="include/index/ann_frontdoor.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_frontdoor_result_1a99fed24010d7345facc0ad9b4e6575c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnFrontdoorResult::distributed_merge_policy</definition>
+        <argsstring></argsstring>
+        <name>distributed_merge_policy</name>
+        <qualifiedname>themis::index::AnnFrontdoorResult::distributed_merge_policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="161" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/ann_frontdoor.h" line="128" column="1" bodyfile="include/index/ann_frontdoor.h" bodystart="128" bodyend="162"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a3e0da3a66234e1fd222e35c851b79c4c" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>candidates</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a6e3391b569643cb7b08d34ca81de9fe4" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>confidence_policy_version</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aa2879a9c97a9a1f8c7500a1e85314b35" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>confidence_threshold_key</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a9616e385fb06bde8b314a370285af5dd" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a99fed24010d7345facc0ad9b4e6575c7" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>distributed_merge_policy</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aef248ad7eb1ee25027314fa7982d5fab" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>estimated_recall</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a1a7851d339666c7e2024da3cfd575def" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>fallback_mode</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a2a8952bbf1764177d5fb98b9128393e3" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>fallback_reason_code</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1ac89d9fd4d2520b4b3d0e7c507e11bd8c" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>is_distributed</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a72d3eef1e0813fbd193ab407fab9bd57" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>merged_candidates_before_trim</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a890cf4c2be391ea639011fb1f11386d7" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>partial_results</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a54a9708f189b36ebf4d9ca49448a40ea" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>routing_reason</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1af9d3fc5d0c8850864d79275579196513" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>routing_reason_code</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aa4aa6d0141fc424e422e57accfa2e100" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>shards_attempted</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aad25ec64484fb420d628c1c856ecf742" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>shards_failed</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a72dd5c4ea515e2952be2a6a1d8eb90cc" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>shards_succeeded</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a77db81e965961bf3862a47dff8cb9292" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoorResult</scope><name>strategy_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

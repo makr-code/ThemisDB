@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_disaster_recovery_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::failover::DisasterRecoveryPlan</compoundname>
+    <includes refid="disaster__recovery__manager_8h" local="no">disaster_recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_plan_1acc769e38729cbc2b92c1d837ffcc7093" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::DisasterRecoveryPlan::plan_id</definition>
+        <argsstring></argsstring>
+        <name>plan_id</name>
+        <qualifiedname>themis::failover::DisasterRecoveryPlan::plan_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="68" column="17" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_plan_1aafefc723a59a53056a650305551d7045" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::DisasterRecoveryPlan::primary_site</definition>
+        <argsstring></argsstring>
+        <name>primary_site</name>
+        <qualifiedname>themis::failover::DisasterRecoveryPlan::primary_site</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="69" column="17" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_plan_1a75d2ce13908023593475d239830898a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::DisasterRecoveryPlan::recovery_site</definition>
+        <argsstring></argsstring>
+        <name>recovery_site</name>
+        <qualifiedname>themis::failover::DisasterRecoveryPlan::recovery_site</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="70" column="17" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_plan_1a0e9a67ef0ea01eebd83e11393cb4edc5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::DisasterRecoveryPlan::snapshot_id</definition>
+        <argsstring></argsstring>
+        <name>snapshot_id</name>
+        <qualifiedname>themis::failover::DisasterRecoveryPlan::snapshot_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="71" column="17" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_plan_1a7cd91f9548c952aa577bcb596faa98ed" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::failover::DisasterRecoveryPlan::critical_nodes</definition>
+        <argsstring></argsstring>
+        <name>critical_nodes</name>
+        <qualifiedname>themis::failover::DisasterRecoveryPlan::critical_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="73" column="17" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_plan_1a99b007fa9ffa4efc25d5ca9774e820a3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryPlan::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>themis::failover::DisasterRecoveryPlan::dry_run</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="75" column="10" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_plan_1a2fbfc9fdada784b557e49fbb9455ea5a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryPlan::shift_traffic</definition>
+        <argsstring></argsstring>
+        <name>shift_traffic</name>
+        <qualifiedname>themis::failover::DisasterRecoveryPlan::shift_traffic</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="76" column="10" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/disaster_recovery_manager.h" line="67" column="1" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="67" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a7cd91f9548c952aa577bcb596faa98ed" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryPlan</scope><name>critical_nodes</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a99b007fa9ffa4efc25d5ca9774e820a3" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryPlan</scope><name>dry_run</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1acc769e38729cbc2b92c1d837ffcc7093" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryPlan</scope><name>plan_id</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1aafefc723a59a53056a650305551d7045" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryPlan</scope><name>primary_site</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a75d2ce13908023593475d239830898a5" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryPlan</scope><name>recovery_site</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a2fbfc9fdada784b557e49fbb9455ea5a" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryPlan</scope><name>shift_traffic</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a0e9a67ef0ea01eebd83e11393cb4edc5" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryPlan</scope><name>snapshot_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockCircuitBreaker::Config</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1_1_config_1a5444ede38a3471cd9fa1e0bbc3d891e9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::testing::MockCircuitBreaker::Config::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::Config::failure_threshold</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Failures to trip OPEN. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="40" column="13" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1_1_config_1a31f070e868018cd1178b07bd2cfc174c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::testing::MockCircuitBreaker::Config::half_open_max_requests</definition>
+        <argsstring></argsstring>
+        <name>half_open_max_requests</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::Config::half_open_max_requests</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Permitted calls in HALF_OPEN before decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="41" column="13" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="39" column="5" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="39" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1_1_config_1a5444ede38a3471cd9fa1e0bbc3d891e9" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker::Config</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1_1_config_1a31f070e868018cd1178b07bd2cfc174c" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker::Config</scope><name>half_open_max_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

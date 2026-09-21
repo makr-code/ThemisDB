@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_query_range_fixture" kind="class" language="C++" prot="public">
+    <compoundname>HttpQueryRangeFixture</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_http_query_range_fixture_1a57d26524e5d478bf6a442b7142f14f43" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool HttpQueryRangeFixture::server_running_</definition>
+        <argsstring></argsstring>
+        <name>server_running_</name>
+        <qualifiedname>HttpQueryRangeFixture::server_running_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="117" column="10" bodyfile="tests/network/test_http_query_range.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_query_range_fixture_1a8bb632f7e21cad73b8910b3c1432a3be" prot="private" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t HttpQueryRangeFixture::server_port_</definition>
+        <argsstring></argsstring>
+        <name>server_port_</name>
+        <qualifiedname>HttpQueryRangeFixture::server_port_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="118" column="14" bodyfile="tests/network/test_http_query_range.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_http_query_range_fixture_1ab1dffbda02d457302846fdf8dcd6ab4e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>HttpQueryRangeFixture::HttpQueryRangeFixture</definition>
+        <argsstring>()</argsstring>
+        <name>HttpQueryRangeFixture</name>
+        <qualifiedname>HttpQueryRangeFixture::HttpQueryRangeFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="20" column="5" bodyfile="tests/network/test_http_query_range.cpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_query_range_fixture_1abbe06a1a1651a608ef26b4ae6c092efd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>HttpQueryRangeFixture::~HttpQueryRangeFixture</definition>
+        <argsstring>()</argsstring>
+        <name>~HttpQueryRangeFixture</name>
+        <qualifiedname>HttpQueryRangeFixture::~HttpQueryRangeFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="21" column="5" bodyfile="tests/network/test_http_query_range.cpp" bodystart="21" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_query_range_fixture_1a66895b6a9608229c871d886fa4f659fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpQueryRangeFixture::startServer</definition>
+        <argsstring>()</argsstring>
+        <name>startServer</name>
+        <qualifiedname>HttpQueryRangeFixture::startServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="23" column="10" bodyfile="tests/network/test_http_query_range.cpp" bodystart="23" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_query_range_fixture_1a6e2b3d124b93287af5fbc208fac76d8b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpQueryRangeFixture::stopServer</definition>
+        <argsstring>()</argsstring>
+        <name>stopServer</name>
+        <qualifiedname>HttpQueryRangeFixture::stopServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="58" column="10" bodyfile="tests/network/test_http_query_range.cpp" bodystart="58" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_query_range_fixture_1ac5aea5c44d2f43e6e2f3bbebaa6e64b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::status</type>
+        <definition>http::status HttpQueryRangeFixture::check</definition>
+        <argsstring>(const std::string &amp;p)</argsstring>
+        <name>check</name>
+        <qualifiedname>HttpQueryRangeFixture::check</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="73" column="18" bodyfile="tests/network/test_http_query_range.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_query_range_fixture_1aefb5e260fa8b5325daba0855459c248e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpQueryRangeFixture::get</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>get</name>
+        <qualifiedname>HttpQueryRangeFixture::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="79" column="20" bodyfile="tests/network/test_http_query_range.cpp" bodystart="79" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_query_range_fixture_1ade2c4a53b3481dfc6951f98859dbd8bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpQueryRangeFixture::post</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>post</name>
+        <qualifiedname>HttpQueryRangeFixture::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_query_range.cpp" line="96" column="20" bodyfile="tests/network/test_http_query_range.cpp" bodystart="96" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/test_http_query_range.cpp" line="18" column="1" bodyfile="tests/network/test_http_query_range.cpp" bodystart="18" bodyend="119"/>
+    <listofallmembers>
+      <member refid="class_http_query_range_fixture_1ac5aea5c44d2f43e6e2f3bbebaa6e64b0" prot="public" virt="non-virtual"><scope>HttpQueryRangeFixture</scope><name>check</name></member>
+      <member refid="class_http_query_range_fixture_1aefb5e260fa8b5325daba0855459c248e" prot="public" virt="non-virtual"><scope>HttpQueryRangeFixture</scope><name>get</name></member>
+      <member refid="class_http_query_range_fixture_1ab1dffbda02d457302846fdf8dcd6ab4e" prot="public" virt="non-virtual"><scope>HttpQueryRangeFixture</scope><name>HttpQueryRangeFixture</name></member>
+      <member refid="class_http_query_range_fixture_1ade2c4a53b3481dfc6951f98859dbd8bb" prot="public" virt="non-virtual"><scope>HttpQueryRangeFixture</scope><name>post</name></member>
+      <member refid="class_http_query_range_fixture_1a8bb632f7e21cad73b8910b3c1432a3be" prot="private" virt="non-virtual"><scope>HttpQueryRangeFixture</scope><name>server_port_</name></member>
+      <member refid="class_http_query_range_fixture_1a57d26524e5d478bf6a442b7142f14f43" prot="private" virt="non-virtual"><scope>HttpQueryRangeFixture</scope><name>server_running_</name></member>
+      <member refid="class_http_query_range_fixture_1a66895b6a9608229c871d886fa4f659fb" prot="public" virt="non-virtual"><scope>HttpQueryRangeFixture</scope><name>startServer</name></member>
+      <member refid="class_http_query_range_fixture_1a6e2b3d124b93287af5fbc208fac76d8b" prot="public" virt="non-virtual"><scope>HttpQueryRangeFixture</scope><name>stopServer</name></member>
+      <member refid="class_http_query_range_fixture_1abbe06a1a1651a608ef26b4ae6c092efd" prot="public" virt="non-virtual"><scope>HttpQueryRangeFixture</scope><name>~HttpQueryRangeFixture</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

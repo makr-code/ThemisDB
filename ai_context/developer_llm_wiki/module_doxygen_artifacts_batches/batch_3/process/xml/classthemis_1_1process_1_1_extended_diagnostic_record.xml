@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_extended_diagnostic_record" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ExtendedDiagnosticRecord</compoundname>
+    <basecompoundref refid="classthemis_1_1process_1_1_diagnostic_record" prot="public" virt="non-virtual">themis::process::DiagnosticRecord</basecompoundref>
+    <includes refid="process__diagnostics__api_8h" local="no">process_diagnostics_api.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_extended_diagnostic_record_1ad960bddf247c3bc2a0b974709b1eaa8f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1process_1a72f25f9fc3a352264176bf66bb9e0a79" kindref="member">IncidentContext</ref> &gt;</type>
+        <definition>std::optional&lt;IncidentContext&gt; themis::process::ExtendedDiagnosticRecord::incident_context</definition>
+        <argsstring></argsstring>
+        <name>incident_context</name>
+        <qualifiedname>themis::process::ExtendedDiagnosticRecord::incident_context</qualifiedname>
+        <briefdescription>
+<para>Finer-grained incident context (CHURN_DETECTION, CONFLICT_DETECTED, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="200" column="19" bodyfile="include/process/process_diagnostics_api.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_extended_diagnostic_record_1aeeb46b1e2e481561cc543f15af950657" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref></type>
+        <definition>TraceContext themis::process::ExtendedDiagnosticRecord::trace_context</definition>
+        <argsstring></argsstring>
+        <name>trace_context</name>
+        <qualifiedname>themis::process::ExtendedDiagnosticRecord::trace_context</qualifiedname>
+        <briefdescription>
+<para>Trace context for distributed tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="202" column="18" bodyfile="include/process/process_diagnostics_api.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_extended_diagnostic_record_1a01471fc5e2ff6500c891e55ce5f91afd" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int32_t &gt;</type>
+        <definition>std::optional&lt;int32_t&gt; themis::process::ExtendedDiagnosticRecord::churn_metric</definition>
+        <argsstring></argsstring>
+        <name>churn_metric</name>
+        <qualifiedname>themis::process::ExtendedDiagnosticRecord::churn_metric</qualifiedname>
+        <briefdescription>
+<para>Concurrent operation count at time of incident (&gt;100 indicates high churn). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="204" column="19" bodyfile="include/process/process_diagnostics_api.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_extended_diagnostic_record_1a66522de47a57b018148a3e57bcfa2b0a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_conflict_analysis" kindref="compound">ConflictAnalysis</ref></type>
+        <definition>ConflictAnalysis themis::process::ExtendedDiagnosticRecord::conflict_analysis</definition>
+        <argsstring></argsstring>
+        <name>conflict_analysis</name>
+        <qualifiedname>themis::process::ExtendedDiagnosticRecord::conflict_analysis</qualifiedname>
+        <briefdescription>
+<para>Conflict analysis (conflict_count, retry_count, conflicting_version). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="206" column="22" bodyfile="include/process/process_diagnostics_api.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_extended_diagnostic_record_1a48f12a832756fbe4de52b23ab267c7e9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ExtendedDiagnosticRecord::ExtendedDiagnosticRecord</definition>
+        <argsstring>(DiagnosticIncidentType incident_type, ProcError error_code, std::string_view operation, std::string_view input_identifier, std::string_view actionable_message, const TraceContext &amp;trace_context=TraceContext{}, std::optional&lt; IncidentContext &gt; incident_context=std::nullopt, std::optional&lt; int32_t &gt; churn_metric=std::nullopt, const ConflictAnalysis &amp;conflict_analysis=ConflictAnalysis{})</argsstring>
+        <name>ExtendedDiagnosticRecord</name>
+        <qualifiedname>themis::process::ExtendedDiagnosticRecord::ExtendedDiagnosticRecord</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref></type>
+          <declname>incident_type</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_identifier</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>actionable_message</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref> &amp;</type>
+          <declname>trace_context</declname>
+          <defval><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref>{}</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1process_1a72f25f9fc3a352264176bf66bb9e0a79" kindref="member">IncidentContext</ref> &gt;</type>
+          <declname>incident_context</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; int32_t &gt;</type>
+          <declname>churn_metric</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_conflict_analysis" kindref="compound">ConflictAnalysis</ref> &amp;</type>
+          <declname>conflict_analysis</declname>
+          <defval><ref refid="structthemis_1_1process_1_1_conflict_analysis" kindref="compound">ConflictAnalysis</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct an extended diagnostic record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incident_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Classification from <ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> from <ref refid="process__api__contract_8h" kindref="compound">process_api_contract.h</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name (e.g., &quot;update_model&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_identifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (model ID, instance ID) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>actionable_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Message for the operator </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trace_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional trace context for distributed tracing </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>incident_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional finer-grained context (CHURN_DETECTION, etc.) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>churn_metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional concurrent operation count at time of incident </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>conflict_analysis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional conflict tracking data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="187" column="5" bodyfile="include/process/process_diagnostics_api.h" bodystart="434" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_extended_diagnostic_record_1a8d2b4ba43e904dfee6b94da365ad2e5c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ExtendedDiagnosticRecord::toFormattedMessage</definition>
+        <argsstring>() const override</argsstring>
+        <name>toFormattedMessage</name>
+        <qualifiedname>themis::process::ExtendedDiagnosticRecord::toFormattedMessage</qualifiedname>
+        <reimplements refid="classthemis_1_1process_1_1_diagnostic_record_1ab4335046f2ab9735b961a3125eb3e14a">toFormattedMessage</reimplements>
+        <briefdescription>
+<para>Format the extended diagnostic record as a structured log message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A formatted string with all available context layers</para>
+</simplesect>
+Example output: <programlisting><codeline><highlight class="normal">[<ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1dacf8b649ab3b2e7f532f9d2e7ecb694cf" kindref="member">IMPORT_INCIDENT</ref>]<sp/>model_v1.bpmn<sp/>(error=7603,<sp/>ts=2026-08-06T17:53:26Z)</highlight></codeline>
+<codeline><highlight class="normal">Context:<sp/><ref refid="namespacethemis_1_1process_1a72f25f9fc3a352264176bf66bb9e0a79acd8131a9f80b75b6cecfba9c73ad0933" kindref="member">CHURN_DETECTION</ref><sp/>[churn=625<sp/>ops/sec]</highlight></codeline>
+<codeline><highlight class="normal">Trace:<sp/>trace-2026-08-06-t1234567890<sp/>/<sp/>span-xyz</highlight></codeline>
+<codeline><highlight class="normal">Operation:<sp/>deserialize_bpmn</highlight></codeline>
+<codeline><highlight class="normal">Message:<sp/>High<sp/>model<sp/>churn<sp/>(&gt;500<sp/>ops/sec).<sp/>Retry<sp/>with<sp/>exponential<sp/>backoff.</highlight></codeline>
+<codeline><highlight class="normal">Conflicts:<sp/>3<sp/>detected,<sp/>2<sp/>retries</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="222" column="18" bodyfile="include/process/process_diagnostics_api.h" bodystart="453" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_extended_diagnostic_record_1afce0e743f0cd50fc84defff929ff9ba7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ExtendedDiagnosticRecord::isHighChurn</definition>
+        <argsstring>() const</argsstring>
+        <name>isHighChurn</name>
+        <qualifiedname>themis::process::ExtendedDiagnosticRecord::isHighChurn</qualifiedname>
+        <briefdescription>
+<para>Check if this is a high-churn incident. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if churn_metric &gt; 500 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="228" column="11" bodyfile="include/process/process_diagnostics_api.h" bodystart="228" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_extended_diagnostic_record_1a49103c2f9e01abe68c553e09d3b07888" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ExtendedDiagnosticRecord::isConflictIncident</definition>
+        <argsstring>() const</argsstring>
+        <name>isConflictIncident</name>
+        <qualifiedname>themis::process::ExtendedDiagnosticRecord::isConflictIncident</qualifiedname>
+        <briefdescription>
+<para>Check if this is a conflict-related incident. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if incident_context == CONFLICT_DETECTED </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="236" column="11" bodyfile="include/process/process_diagnostics_api.h" bodystart="236" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extended diagnostic record with high-churn and tracing context. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Backward-compatible extension of <ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> from <ref refid="process__diagnostics_8h" kindref="compound">process_diagnostics.h</ref>. Adds optional context for high-churn scenarios and distributed tracing.</para>
+<para><simplesect kind="invariant"><para>Base <ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> fields (timestamp_ms, incident_type, error_code, etc.) are always present </para>
+</simplesect>
+<simplesect kind="invariant"><para>Extended fields (trace_context, churn_metric, conflict_analysis) are optional </para>
+</simplesect>
+<simplesect kind="invariant"><para>All fields are immutable after construction </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::process::DiagnosticRecord</label>
+        <link refid="classthemis_1_1process_1_1_diagnostic_record"/>
+      </node>
+      <node id="1">
+        <label>themis::process::ExtendedDiagnosticRecord</label>
+        <link refid="classthemis_1_1process_1_1_extended_diagnostic_record"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::process::ConflictAnalysis</label>
+        <link refid="structthemis_1_1process_1_1_conflict_analysis"/>
+      </node>
+      <node id="2">
+        <label>themis::process::DiagnosticRecord</label>
+        <link refid="classthemis_1_1process_1_1_diagnostic_record"/>
+      </node>
+      <node id="1">
+        <label>themis::process::ExtendedDiagnosticRecord</label>
+        <link refid="classthemis_1_1process_1_1_extended_diagnostic_record"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>trace_context</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>conflict_analysis</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::process::TraceContext</label>
+        <link refid="structthemis_1_1process_1_1_trace_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/process/process_diagnostics_api.h" line="172" column="1" bodyfile="include/process/process_diagnostics_api.h" bodystart="172" bodyend="240"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1a5f447e0e5dd16730350c52cd6222fad5" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>actionable_message</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_diagnostic_record_1a01471fc5e2ff6500c891e55ce5f91afd" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>churn_metric</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_diagnostic_record_1a66522de47a57b018148a3e57bcfa2b0a" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>conflict_analysis</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1a70e2f869749760be14b2f60f67292564" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>DiagnosticRecord</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1ac15be67632bd6e8975b5f094b966cc46" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>error_code</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_diagnostic_record_1a48f12a832756fbe4de52b23ab267c7e9" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>ExtendedDiagnosticRecord</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1a773ca7cb91c7358d1ff2c4e77a7adde9" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>getActionableMessage</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1aabeb030ec1cae9241e8138d4fb8febf8" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>getErrorCode</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1ab4992662ba73d4b1ac8e4a4f14c6458c" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>getIncidentType</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_diagnostic_record_1ad960bddf247c3bc2a0b974709b1eaa8f" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>incident_context</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1ac4d760e5b1c707a0e59a91775db9559a" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>incident_type</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1a03903d078cba40ea0d41e7e5ceab4e31" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>input_identifier</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_diagnostic_record_1a49103c2f9e01abe68c553e09d3b07888" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>isConflictIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_diagnostic_record_1afce0e743f0cd50fc84defff929ff9ba7" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>isHighChurn</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1a78b1c3b4100dd9b683689fce9261c425" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>operation</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1afd81675cccba5066708bfc88527bc1a1" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>timestamp_ms</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_diagnostic_record_1a8d2b4ba43e904dfee6b94da365ad2e5c" prot="public" virt="virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>toFormattedMessage</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_diagnostic_record_1aeeb46b1e2e481561cc543f15af950657" prot="public" virt="non-virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>trace_context</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1af09e1e250bcfacedcabcb9f85fcfcba4" prot="public" virt="virtual"><scope>themis::process::ExtendedDiagnosticRecord</scope><name>~DiagnosticRecord</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

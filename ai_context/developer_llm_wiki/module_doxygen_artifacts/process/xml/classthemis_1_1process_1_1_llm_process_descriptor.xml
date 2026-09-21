@@ -1,0 +1,488 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_llm_process_descriptor" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::LlmProcessDescriptor</compoundname>
+    <includes refid="llm__process__descriptor_8h" local="no">llm_process_descriptor.h</includes>
+    <innerclass refid="structthemis_1_1process_1_1_llm_process_descriptor_1_1_config" prot="public">themis::process::LlmProcessDescriptor::Config</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_llm_process_descriptor_1aca3f7b367d320556f33b5cf8a6471848" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::LlmProcessDescriptor::generate</definition>
+        <argsstring>(const ProcessModelRecord &amp;record)</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::process::LlmProcessDescriptor::generate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Generate a full LLM descriptor for a process model record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The process model record (from <ref refid="classthemis_1_1process_1_1_process_model_manager_1a1b90480c9701be6599a92c56a97b74a1" kindref="member">ProcessModelManager::load</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON descriptor object ready for LLM consumption.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_descriptor.h" line="101" column="27" bodyfile="src/process/llm_process_descriptor.cpp" bodystart="100" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_llm_process_descriptor_1abe4eabc245b52fafe35547aac9a20f01" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::LlmProcessDescriptor::generate</definition>
+        <argsstring>(const ProcessModelRecord &amp;record, const Config &amp;cfg)</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::process::LlmProcessDescriptor::generate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_llm_process_descriptor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Generate a full LLM descriptor for a process model record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The process model record (from <ref refid="classthemis_1_1process_1_1_process_model_manager_1a1b90480c9701be6599a92c56a97b74a1" kindref="member">ProcessModelManager::load</ref>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional generation configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON descriptor object ready for LLM consumption.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_descriptor.h" line="112" column="27" bodyfile="src/process/llm_process_descriptor.cpp" bodystart="111" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_llm_process_descriptor_1ae25b102e1fab5cf4d8fcbdae99991bd3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::LlmProcessDescriptor::buildSystemPrompt</definition>
+        <argsstring>(const nlohmann::json &amp;descriptor)</argsstring>
+        <name>buildSystemPrompt</name>
+        <qualifiedname>themis::process::LlmProcessDescriptor::buildSystemPrompt</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <briefdescription>
+<para>Build a compact system-prompt string from a descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build System Prompt.</para>
+<para>Produces a condensed text block (&lt; 2000 tokens) that can be prepended to any LLM prompt to give the model full context about a process.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output of <ref refid="classthemis_1_1process_1_1_llm_process_descriptor_1aca3f7b367d320556f33b5cf8a6471848" kindref="member">generate()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Plain-text context block.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), empty(), contains(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_descriptor.h" line="126" column="24" bodyfile="src/process/llm_process_descriptor.cpp" bodystart="193" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_llm_process_descriptor_1a410d11d5799555efaa4f34bca4b00f8d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::LlmProcessDescriptor::summarizeList</definition>
+        <argsstring>(const std::vector&lt; ProcessModelRecord &gt; &amp;records, std::string_view language=&quot;de&quot;)</argsstring>
+        <name>summarizeList</name>
+        <qualifiedname>themis::process::LlmProcessDescriptor::summarizeList</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &gt; &amp;</type>
+          <declname>records</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>language</declname>
+          <defval>&quot;de&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Summarise multiple process models for a list/comparison prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Summarize List.</para>
+<para>Generates a compact summary of all provided records, sorted by domain.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection of process model records. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>language</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ISO 639-1 language code (&quot;de&quot; or &quot;en&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON array of compact summary objects.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">language</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_descriptor.h" line="137" column="27" bodyfile="src/process/llm_process_descriptor.cpp" bodystart="263" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_llm_process_descriptor_1a3017e10eba1c7d29ecfb040e0e576e88" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::LlmProcessDescriptor::buildConformancePrompt</definition>
+        <argsstring>(const nlohmann::json &amp;descriptor, const nlohmann::json &amp;observed_trace)</argsstring>
+        <name>buildConformancePrompt</name>
+        <qualifiedname>themis::process::LlmProcessDescriptor::buildConformancePrompt</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>observed_trace</declname>
+        </param>
+        <briefdescription>
+<para>Build a conformance-checking prompt for an LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Conformance Prompt.</para>
+<para>Combines a process model descriptor with an observed execution trace and asks the LLM to identify deviations, compliance violations, and SLA breaches.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output of <ref refid="classthemis_1_1process_1_1_llm_process_descriptor_1aca3f7b367d320556f33b5cf8a6471848" kindref="member">generate()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>observed_trace</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON array of executed activity IDs in order. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Prompt string ready to send to an LLM.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">observed_trace</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Build System Prompt. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/llm_process_descriptor.h" line="153" column="24" bodyfile="src/process/llm_process_descriptor.cpp" bodystart="304" bodyend="360"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_llm_process_descriptor_1a6509d181c80bcf828eddacbe5e9c1506" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::LlmProcessDescriptor::truncate_</definition>
+        <argsstring>(std::string_view s, size_t max_chars)</argsstring>
+        <name>truncate_</name>
+        <qualifiedname>themis::process::LlmProcessDescriptor::truncate_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_chars</declname>
+        </param>
+        <briefdescription>
+<para>Truncate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_chars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::string(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_descriptor.h" line="159" column="24" bodyfile="src/process/llm_process_descriptor.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_llm_process_descriptor_1a35f782f7b03ebf38b6094622c1b71ac4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::LlmProcessDescriptor::nodeToJson_</definition>
+        <argsstring>(const nlohmann::json &amp;node_doc, const Config &amp;cfg)</argsstring>
+        <name>nodeToJson_</name>
+        <qualifiedname>themis::process::LlmProcessDescriptor::nodeToJson_</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>node_doc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_llm_process_descriptor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Node To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), truncate_(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_descriptor.h" line="160" column="27" bodyfile="src/process/llm_process_descriptor.cpp" bodystart="59" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_llm_process_descriptor_1a1f387090857a3f85d37c9ab871acdac3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::LlmProcessDescriptor::edgeToJson_</definition>
+        <argsstring>(const nlohmann::json &amp;edge_doc)</argsstring>
+        <name>edgeToJson_</name>
+        <qualifiedname>themis::process::LlmProcessDescriptor::edgeToJson_</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>edge_doc</declname>
+        </param>
+        <briefdescription>
+<para>Edge To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_descriptor.h" line="164" column="27" bodyfile="src/process/llm_process_descriptor.cpp" bodystart="79" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Generates LLM-optimised, machine-readable descriptors for process models. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1process_1_1_llm_process_descriptor_1autotoc_md9_1s1"><sect2 id="classthemis_1_1process_1_1_llm_process_descriptor_1autotoc_md9">
+<title>Purpose</title><para>Large Language Models need structured, concise context to reason about business processes. This class converts a ThemisDB <computeroutput><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></computeroutput> into a JSON descriptor that:</para>
+<para><itemizedlist>
+<listitem><para>Describes every process node with its type, role, SLA, and purpose.</para>
+</listitem><listitem><para>Lists all transitions with their conditions in plain language.</para>
+</listitem><listitem><para>Includes compliance tags, domain context, and regulatory notes.</para>
+</listitem><listitem><para>Provides a natural-language summary suitable for system prompts.</para>
+</listitem><listitem><para>Contains machine-readable fields for conformance checking queries.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1process_1_1_llm_process_descriptor_1autotoc_md10_1s1"><sect2 id="classthemis_1_1process_1_1_llm_process_descriptor_1autotoc_md10">
+<title>Output schema (abbreviated)</title><para><programlisting filename=".json"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;process_id&quot;:<sp/>&quot;bauantrag_standard&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;name&quot;:<sp/>&quot;Bauantrag<sp/>(Standard)&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;domain&quot;:<sp/>&quot;ADMINISTRATION&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;notation&quot;:<sp/>&quot;BPMN_2_0&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;state&quot;:<sp/>&quot;ACTIVE&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;summary&quot;:<sp/>&quot;…one-paragraph<sp/>natural<sp/>language<sp/>description…&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;compliance&quot;:<sp/>[&quot;§34<sp/>BauO&quot;,<sp/>&quot;DSGVO&quot;,<sp/>&quot;VwVfG&quot;],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;sla_total_hours&quot;:<sp/>2256,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;nodes&quot;:<sp/>[</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;id&quot;:<sp/>&quot;antragstellung&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type&quot;:<sp/>&quot;START_EVENT&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Antragstellung&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;role&quot;:<sp/>null,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;sla_hours&quot;:<sp/>0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;description&quot;:<sp/>&quot;Eingang<sp/>des<sp/>Bauantrags<sp/>beim<sp/>Bauordnungsamt.&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;edges&quot;:<sp/>[</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;from&quot;:<sp/>&quot;antragstellung&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;to&quot;:<sp/>&quot;vollstaendigkeitspruefung&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type&quot;:<sp/>&quot;SEQUENCE_FLOW&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;condition&quot;:<sp/>null</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;llm_context&quot;:<sp/>&quot;…condensed<sp/>version<sp/>of<sp/>the<sp/>above<sp/>for<sp/>system<sp/>prompt<sp/>injection…&quot;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1process_1_1_llm_process_descriptor_1autotoc_md11_1s1"><sect2 id="classthemis_1_1process_1_1_llm_process_descriptor_1autotoc_md11">
+<title>Usage in RAG pipelines</title><para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Retrieve<sp/>model<sp/>and<sp/>build<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>record<sp/>=<sp/>manager.load(</highlight><highlight class="stringliteral">&quot;bauantrag_standard&quot;</highlight><highlight class="normal">).value();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>desc<sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1process_1_1_llm_process_descriptor_1aca3f7b367d320556f33b5cf8a6471848" kindref="member">LlmProcessDescriptor::generate</ref>(record);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inject<sp/>into<sp/>LLM<sp/>system<sp/>prompt</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>prompt<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Process<sp/>context:\n&quot;</highlight><highlight class="normal"><sp/>+<sp/>desc[</highlight><highlight class="stringliteral">&quot;llm_context&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/process/llm_process_descriptor.h" line="83" column="1" bodyfile="include/process/llm_process_descriptor.h" bodystart="83" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_llm_process_descriptor_1a3017e10eba1c7d29ecfb040e0e576e88" prot="public" virt="non-virtual"><scope>themis::process::LlmProcessDescriptor</scope><name>buildConformancePrompt</name></member>
+      <member refid="classthemis_1_1process_1_1_llm_process_descriptor_1ae25b102e1fab5cf4d8fcbdae99991bd3" prot="public" virt="non-virtual"><scope>themis::process::LlmProcessDescriptor</scope><name>buildSystemPrompt</name></member>
+      <member refid="classthemis_1_1process_1_1_llm_process_descriptor_1a1f387090857a3f85d37c9ab871acdac3" prot="private" virt="non-virtual"><scope>themis::process::LlmProcessDescriptor</scope><name>edgeToJson_</name></member>
+      <member refid="classthemis_1_1process_1_1_llm_process_descriptor_1aca3f7b367d320556f33b5cf8a6471848" prot="public" virt="non-virtual"><scope>themis::process::LlmProcessDescriptor</scope><name>generate</name></member>
+      <member refid="classthemis_1_1process_1_1_llm_process_descriptor_1abe4eabc245b52fafe35547aac9a20f01" prot="public" virt="non-virtual"><scope>themis::process::LlmProcessDescriptor</scope><name>generate</name></member>
+      <member refid="classthemis_1_1process_1_1_llm_process_descriptor_1a35f782f7b03ebf38b6094622c1b71ac4" prot="private" virt="non-virtual"><scope>themis::process::LlmProcessDescriptor</scope><name>nodeToJson_</name></member>
+      <member refid="classthemis_1_1process_1_1_llm_process_descriptor_1a410d11d5799555efaa4f34bca4b00f8d" prot="public" virt="non-virtual"><scope>themis::process::LlmProcessDescriptor</scope><name>summarizeList</name></member>
+      <member refid="classthemis_1_1process_1_1_llm_process_descriptor_1a6509d181c80bcf828eddacbe5e9c1506" prot="private" virt="non-virtual"><scope>themis::process::LlmProcessDescriptor</scope><name>truncate_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

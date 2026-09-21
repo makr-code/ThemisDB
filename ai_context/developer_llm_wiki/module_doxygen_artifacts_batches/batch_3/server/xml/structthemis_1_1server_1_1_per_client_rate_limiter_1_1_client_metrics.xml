@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::PerClientRateLimiter::ClientMetrics</compoundname>
+    <includes refid="rate__limiter__v2_8h" local="no">rate_limiter_v2.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1af386194f17ed5cb9fd84b6aee0033144" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::PerClientRateLimiter::ClientMetrics::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::ClientMetrics::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="286" column="18" bodyfile="include/server/rate_limiter_v2.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1afd5c29de0700a82258d4d380f3ca4a1e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::PerClientRateLimiter::ClientMetrics::total_rejections</definition>
+        <argsstring></argsstring>
+        <name>total_rejections</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::ClientMetrics::total_rejections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="287" column="18" bodyfile="include/server/rate_limiter_v2.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1a9cf7f8fc9b140de6e468d1f2a8bdddf2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::PerClientRateLimiter::ClientMetrics::available_tokens</definition>
+        <argsstring></argsstring>
+        <name>available_tokens</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::ClientMetrics::available_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="288" column="16" bodyfile="include/server/rate_limiter_v2.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiter_v2.h" line="285" column="5" bodyfile="include/server/rate_limiter_v2.h" bodystart="285" bodyend="289"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1a9cf7f8fc9b140de6e468d1f2a8bdddf2" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter::ClientMetrics</scope><name>available_tokens</name></member>
+      <member refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1afd5c29de0700a82258d4d380f3ca4a1e" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter::ClientMetrics</scope><name>total_rejections</name></member>
+      <member refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1af386194f17ed5cb9fd84b6aee0033144" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter::ClientMetrics</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

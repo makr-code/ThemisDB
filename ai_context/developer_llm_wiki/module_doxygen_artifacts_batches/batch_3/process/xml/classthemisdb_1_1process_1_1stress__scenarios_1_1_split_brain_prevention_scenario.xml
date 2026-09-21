@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::SplitBrainPreventionScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario_1aeefeddd9c934abf0646573d709bac17b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::SplitBrainPreventionScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::SplitBrainPreventionScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="391" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="391" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario_1aaa303eb1d7a2aba43028acffcd56191e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::SplitBrainPreventionScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::SplitBrainPreventionScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="392" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="392" bodyend="394"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Network Failure Scenario 10: Split-Brain Prevention. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests that minority partition cannot operate (write rejection).</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>5-node cluster (majority: 3, minority: 2)</para>
+</listitem><listitem><para>Introduce partition</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>Majority partition elects leader normally</para>
+</listitem><listitem><para>Minority partition attempts to elect leader</para>
+</listitem><listitem><para>Minority cannot achieve quorum (2 &lt; 3)</para>
+</listitem><listitem><para>Attempt write to minority partition</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>Majority partition accepts writes</para>
+</listitem><listitem><para>Minority partition rejects writes (quorum unavailable)</para>
+</listitem><listitem><para>No split-brain (two leaders claiming authority)</para>
+</listitem><listitem><para>No data divergence</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected:</bold> Minority write rejected immediately </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="389" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="389" bodyend="395"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario_1aaa303eb1d7a2aba43028acffcd56191e" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::SplitBrainPreventionScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario_1aeefeddd9c934abf0646573d709bac17b" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::SplitBrainPreventionScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

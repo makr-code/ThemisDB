@@ -1,0 +1,625 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="qos__manager_8h" kind="file" language="C++">
+    <compoundname>qos_manager.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="wire__protocol__server_8h" local="yes">include/network/wire_protocol_server.h</includedby>
+    <includedby refid="qos__manager_8cpp" local="yes">src/network/qos_manager.cpp</includedby>
+    <includedby refid="test__wave3d__network__safety_8cpp" local="yes">tests/network/test_wave3d_network_safety.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/qos_manager.h</label>
+        <link refid="qos__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>deque</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/network/qos_manager.h</label>
+        <link refid="qos__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/network/wire_protocol_server.h</label>
+        <link refid="wire__protocol__server_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>src/network/qos_manager.cpp</label>
+        <link refid="qos__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/network/retry_policy.cpp</label>
+        <link refid="retry__policy_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/network/wire_protocol_server.cpp</label>
+        <link refid="wire__protocol__server_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/network/test_wave3d_network_safety.cpp</label>
+        <link refid="test__wave3d__network__safety_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/network/test_wire_protocol_backpressure.cpp</label>
+        <link refid="test__wire__protocol__backpressure_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/network/test_wire_protocol_dataflow.cpp</label>
+        <link refid="test__wire__protocol__dataflow_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/network/test_wire_protocol_integration.cpp</label>
+        <link refid="test__wire__protocol__integration_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/network/test_wire_protocol_ipv6.cpp</label>
+        <link refid="test__wire__protocol__ipv6_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/network/test_wire_protocol_retry.cpp</label>
+        <link refid="test__wire__protocol__retry_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/network/test_wire_protocol_v1_handlers.cpp</label>
+        <link refid="test__wire__protocol__v1__handlers_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1network_1_1_token_bucket" prot="public">themis::network::TokenBucket</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_leaky_bucket" prot="public">themis::network::LeakyBucket</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_congestion_controller" prot="public">themis::network::CongestionController</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_qo_s_manager" prot="public">themis::network::QoSManager</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config" prot="public">themis::network::QoSManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send" prot="public">themis::network::QoSManager::PendingSend</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config" prot="public">themis::network::QoSManager::TcConfig</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats" prot="public">themis::network::QoSManager::ConnectionStats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats" prot="public">themis::network::QoSManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats" prot="public">themis::network::QoSManager::TenantQuotaStats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state" prot="private">themis::network::QoSManager::ConnectionState</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_state" prot="private">themis::network::QoSManager::TenantState</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>Network<sp/>QoS<sp/>Manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Token<sp/>Bucket<sp/>rate<sp/>limiting,<sp/>Priority<sp/>Queues,<sp/>and<sp/>Backpressure<sp/>control</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Q1<sp/>2026<sp/>–<sp/>see<sp/>docs/network_roadmap.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">network</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Priority<sp/>levels<sp/>for<sp/>traffic<sp/>classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8ea99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8ea99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eab89de3b4b81c4facfac906edf29aec8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eab89de3b4b81c4facfac906edf29aec8c" kindref="member">HIGH</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eac87f3be66ffc3c0d4249f1c2cc5f3cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">MEDIUM</ref><sp/><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8ea41bc94cbd8eebea13ce0491b2ac11b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8ea41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">LOW</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TokenBucket<sp/>–<sp/>per-connection<sp/>token<sp/>bucket<sp/>rate<sp/>limiter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1network_1_1_token_bucket" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_token_bucket_1a8081ceae37019da70faa033055c81a90" kindref="member">TokenBucket</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_token_bucket_1a8081ceae37019da70faa033055c81a90" kindref="member">TokenBucket</ref>(uint64_t<sp/>rate_bps,<sp/>uint64_t<sp/>burst_bytes);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_token_bucket_1acdbeff2c693234bc3f7722020d4ee890" kindref="member">tryConsume</ref>(uint64_t<sp/>bytes);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_token_bucket_1adce2145dbf370dedbab04e0a79f768a5" kindref="member">consume</ref>(uint64_t<sp/>bytes,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::milliseconds(1000));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_token_bucket_1a9347a7dfecb7e2378b8b90145a162013" kindref="member">reconfigure</ref>(uint64_t<sp/>rate_bps,<sp/>uint64_t<sp/>burst_bytes);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_token_bucket_1ade0acf08de5d0e1d58d4f7e66e108c4b" kindref="member">availableBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1network_1_1_token_bucket_1ad7bd69919f559fa088c0da26d04573c5" kindref="member">rateBps</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1network_1_1_token_bucket_1a83d440af3be819670589a550bd1c176a" kindref="member">burstBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>refill();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tokens_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>rate_bps_;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>burst_bytes_;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_refill_;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LeakyBucket<sp/>–<sp/>constant-rate<sp/>traffic<sp/>shaper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1network_1_1_leaky_bucket" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_leaky_bucket_1a5b8f043fa2b2312d4818a577408c6789" kindref="member">LeakyBucket</ref><sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_leaky_bucket_1a5b8f043fa2b2312d4818a577408c6789" kindref="member">LeakyBucket</ref>(uint64_t<sp/>drain_rate_bps,<sp/>uint64_t<sp/>capacity_bytes);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_leaky_bucket_1abd5162e551115c66ae925a3317dcbdb8" kindref="member">add</ref>(uint64_t<sp/>bytes);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_leaky_bucket_1a0ccf5289cd813e0433ed5019422e199a" kindref="member">tryConform</ref>(uint64_t<sp/>bytes)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_leaky_bucket_1ac0d4a8e46921434d598e9e72d8a7b0fb" kindref="member">reconfigure</ref>(uint64_t<sp/>drain_rate_bps,<sp/>uint64_t<sp/>capacity_bytes);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_leaky_bucket_1a7a4fa8e7839f3f35da3320441346d0c9" kindref="member">currentFill</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1network_1_1_leaky_bucket_1a6418c19d61173769d3f7a7f95530455b" kindref="member">capacityBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1network_1_1_leaky_bucket_1ac89ed3ae5072a5e71639ae987fe28ed4" kindref="member">drainRateBps</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>drain();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>fill_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>drain_rate_bps_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>capacity_bytes_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_drain_;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CongestionController<sp/>–<sp/>per-connection<sp/>AIMD<sp/>congestion<sp/>control</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1network_1_1_congestion_controller" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_congestion_controller_1afbd240f1c2299c10c2a1a51dcfcdc96e" kindref="member">CongestionController</ref><sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1network_1_1_congestion_controller_1a477e40c12932aab154cd160446e0f98a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1network_1_1_congestion_controller_1a477e40c12932aab154cd160446e0f98a" kindref="member">kDefaultMss</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1&apos;460;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213" refid="classthemis_1_1network_1_1_congestion_controller_1ad3c756499b7f8ebdf5c27659092c7c03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1network_1_1_congestion_controller_1ad3c756499b7f8ebdf5c27659092c7c03" kindref="member">kDefaultInitialCwnd</ref><sp/>=<sp/>10<sp/>*<sp/><ref refid="classthemis_1_1network_1_1_congestion_controller_1a477e40c12932aab154cd160446e0f98a" kindref="member">kDefaultMss</ref>;</highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1network_1_1_congestion_controller_1ada75bc26573c33d983516098c4129eed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1network_1_1_congestion_controller_1ada75bc26573c33d983516098c4129eed" kindref="member">kMaxCwnd</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>64<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_congestion_controller_1afbd240f1c2299c10c2a1a51dcfcdc96e" kindref="member">CongestionController</ref>();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_congestion_controller_1a81fa4023fbb0eb1dbd9cf40554d74346" kindref="member">recordAck</ref>(uint64_t<sp/>bytes_acked,<sp/>std::chrono::microseconds<sp/>rtt);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_congestion_controller_1a164929cd706b37abf4d68c3f175e7928" kindref="member">recordLoss</ref>();</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1network_1_1_congestion_controller_1a8095c3d515709e640b412026f6780908" kindref="member">cwnd</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1network_1_1_congestion_controller_1aee13f94306e13fb896cd7485c3860b47" kindref="member">ssthresh</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/><ref refid="classthemis_1_1network_1_1_congestion_controller_1a6636ac9f64a4e8413273247872a598e9" kindref="member">smoothedRtt</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_congestion_controller_1a880e08c5449590816962b8bcde523117" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>cwnd_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>ssthresh_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/>srtt_;<sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>in_slow_start_;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QoSManager<sp/>–<sp/>per-connection<sp/>rate<sp/>limiting<sp/>and<sp/>priority<sp/>scheduling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288" refid="classthemis_1_1network_1_1_qo_s_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="296" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ad06252832f4b61403aec6a7fe62729b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ad06252832f4b61403aec6a7fe62729b3" kindref="member">max_bandwidth_bps</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a12eef100e21016bb9c289dd4ff75e066" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a12eef100e21016bb9c289dd4ff75e066" kindref="member">max_bandwidth_mbps</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a95bf9dd9560aaba0acfc2fbf5c034baa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a95bf9dd9560aaba0acfc2fbf5c034baa" kindref="member">default_rate_bps</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ad020de2d786d556d74daabb0a4ea1c75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ad020de2d786d556d74daabb0a4ea1c75" kindref="member">per_connection_limit_mbps</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ae6afd08205da0fcb9fca135ad8747ba6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ae6afd08205da0fcb9fca135ad8747ba6" kindref="member">default_burst_bytes</ref><sp/>=<sp/>1&apos;000&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a087281b71f339e9af7fab55aad9e5f51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a087281b71f339e9af7fab55aad9e5f51" kindref="member">max_queue_bytes</ref><sp/>=<sp/>10&apos;000&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a5133b4ffeae3a06221995d7e91c4db1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a5133b4ffeae3a06221995d7e91c4db1c" kindref="member">enable_priority_scheduling</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a5d984416f66489a9887e310a8e92ec6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a5d984416f66489a9887e310a8e92ec6b" kindref="member">enable_priority_queuing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a36cfa39963f972bd9ef5ec1108836171" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a36cfa39963f972bd9ef5ec1108836171" kindref="member">enable_fair_queuing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1af24cf7a996dc2e9505a48aaec0880d45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1af24cf7a996dc2e9505a48aaec0880d45" kindref="member">starvation_guard_threshold</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1acd7513ba56d34551daa2bf78b29f50e0" kindref="member">QoSManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1acd7513ba56d34551daa2bf78b29f50e0" kindref="member">QoSManager</ref>();</highlight></codeline>
+<codeline lineno="331" refid="classthemis_1_1network_1_1_qo_s_manager_1a9137baa235fdfca0a3da9c0767bdf292" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a9137baa235fdfca0a3da9c0767bdf292" kindref="member">~QoSManager</ref>();</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334" refid="classthemis_1_1network_1_1_qo_s_manager_1a4ff60db8acb287429545e90fb45f3a31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a4ff60db8acb287429545e90fb45f3a31" kindref="member">QoSManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335" refid="classthemis_1_1network_1_1_qo_s_manager_1aac5f8538c498a18d516a53ff541a0e05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aac5f8538c498a18d516a53ff541a0e05" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336" refid="classthemis_1_1network_1_1_qo_s_manager_1aa41b0cc818f110b0512b25e5bc4ea4b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa41b0cc818f110b0512b25e5bc4ea4b1" kindref="member">QoSManager</ref>(<ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337" refid="classthemis_1_1network_1_1_qo_s_manager_1a2e55ecf00a08265e83eccfbb7497d44e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a2e55ecf00a08265e83eccfbb7497d44e" kindref="member">operator=</ref>(<ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aece98fb90f3dc0e86bd526bd70ba3657" kindref="member">registerConnection</ref>(uint64_t<sp/>connection_id,</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref><sp/>priority<sp/>=<sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">Priority::MEDIUM</ref>);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a47be63bababcce671c91b8a88fc9fd26" kindref="member">unregisterConnection</ref>(uint64_t<sp/>connection_id);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-connection<sp/>controls<sp/>(runtime-adjustable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a52b97f06f9861ce6c6b7a69a4d54e3fd" kindref="member">setPriority</ref>(uint64_t<sp/>connection_id,<sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref><sp/>priority);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a4a362d38ab21bad5cc6506cf4076b9b0" kindref="member">setTokenBucket</ref>(uint64_t<sp/>connection_id,</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>rate_bps,</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>burst_bytes<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1ad2e4cf4823859d9cacab0a5df6598952" kindref="member">clearTokenBucket</ref>(uint64_t<sp/>connection_id);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snake-case<sp/>API<sp/>(issue<sp/>requirement:<sp/>consistent<sp/>with<sp/>FUTURE_ENHANCEMENTS<sp/>spec)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396" refid="classthemis_1_1network_1_1_qo_s_manager_1aaa447dad2db2d3e0328af3809a7fdd47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aaa447dad2db2d3e0328af3809a7fdd47" kindref="member">set_priority</ref>(uint64_t<sp/>connection_id,<sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref><sp/>priority)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a52b97f06f9861ce6c6b7a69a4d54e3fd" kindref="member">setPriority</ref>(connection_id,<sp/>priority);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1ad656e243dfb54575f6fab13996eddbc9" kindref="member">set_bandwidth_limit</ref>(uint64_t<sp/>connection_id,<sp/>uint64_t<sp/>bytes_per_second);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="418" refid="classthemis_1_1network_1_1_qo_s_manager_1a3c70d08a4fcd56174858b96f6a81c6cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a3c70d08a4fcd56174858b96f6a81c6cd" kindref="member">set_token_bucket</ref>(uint64_t<sp/>connection_id,</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>rate_bps,</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>burst_bytes)<sp/>{</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a4a362d38ab21bad5cc6506cf4076b9b0" kindref="member">setTokenBucket</ref>(connection_id,<sp/>rate_bps,<sp/>burst_bytes);</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leaky<sp/>bucket<sp/>shaping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a8c5049b0ea608c42dc1ff9d9d08bf88c" kindref="member">setLeakyBucket</ref>(uint64_t<sp/>connection_id,</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>drain_rate_bps,</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>capacity_bytes);</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a37b43a2fa04f7e432ebd118b3fb56c8a" kindref="member">clearLeakyBucket</ref>(uint64_t<sp/>connection_id);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Priority<sp/>queue<sp/>scheduling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="456" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send" kindref="compound">PendingSend</ref><sp/>{</highlight></codeline>
+<codeline lineno="457" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send_1acaef380b30371936b8e58b4f23983cb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send_1acaef380b30371936b8e58b4f23983cb6" kindref="member">connection_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="458" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send_1a5c4125ff0dffced018c6224650b2dceb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send_1a5c4125ff0dffced018c6224650b2dceb" kindref="member">bytes</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="459" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send_1a6af11bf537ffc438a89e62db3f0c392f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send_1a6af11bf537ffc438a89e62db3f0c392f" kindref="member">priority</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">Priority::MEDIUM</ref>;</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a2d236a433c883043713a4ea26dbce18f" kindref="member">enqueueSend</ref>(uint64_t<sp/>connection_id,<sp/>uint64_t<sp/>bytes);</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;PendingSend&gt;<sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a25328cf5ca4138c9da3583e15da00927" kindref="member">dequeueForSend</ref>();</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a13aef9bfa502436874607dbd5612be1b" kindref="member">getPendingQueueDepth</ref>(<ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref><sp/>priority)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"></highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Congestion<sp/>control</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a3e66b085f0b813f53a8bcb1a900dd6ef" kindref="member">recordAck</ref>(uint64_t<sp/>connection_id,</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>bytes_acked,</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/>rtt);</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a8a66e4f1cf74138738645a9732885c51" kindref="member">recordLoss</ref>(uint64_t<sp/>connection_id);</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"></highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1acffbe4330407b279d44fd146771faf67" kindref="member">getCongestionWindow</ref>(uint64_t<sp/>connection_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"></highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Linux<sp/>tc<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="529"><highlight class="normal"></highlight></codeline>
+<codeline lineno="533" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config" kindref="compound">TcConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="535" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1a3a03143e02e6a7568b6bccea23a1427a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1a3a03143e02e6a7568b6bccea23a1427a" kindref="member">interface_name</ref>;</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"></highlight></codeline>
+<codeline lineno="538" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1ae3d8023495d63f1d70547390b1f740f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1ae3d8023495d63f1d70547390b1f740f8" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"></highlight></codeline>
+<codeline lineno="541" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1adc7cc23377693862da10e4393b3a0405" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1adc7cc23377693862da10e4393b3a0405" kindref="member">total_rate_bps</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a2682120fe0efd73d76db75de856e9dbf" kindref="member">configureTc</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config" kindref="compound">TcConfig</ref>&amp;<sp/>tc_config);</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"></highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hot-path:<sp/>send<sp/>permission<sp/>and<sp/>accounting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="561"><highlight class="normal"></highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a9fb37f1e0ad11246c1666ee01e063e01" kindref="member">allowSend</ref>(uint64_t<sp/>connection_id,<sp/>uint64_t<sp/>bytes,</highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::milliseconds(0));</highlight></codeline>
+<codeline lineno="577"><highlight class="normal"></highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a88e8d2075e65fbb6b1b0f31750dbb9cb" kindref="member">recordBytesSent</ref>(uint64_t<sp/>connection_id,<sp/>uint64_t<sp/>bytes);</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"></highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a4a9e20e8f184888792243ff192de9ae4" kindref="member">recordBytesReceived</ref>(uint64_t<sp/>connection_id,<sp/>uint64_t<sp/>bytes);</highlight></codeline>
+<codeline lineno="594"><highlight class="normal"></highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="598"><highlight class="normal"></highlight></codeline>
+<codeline lineno="602" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats" kindref="compound">ConnectionStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="603" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a7a6564128cc28855a3402949054cfff6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a7a6564128cc28855a3402949054cfff6" kindref="member">connection_id</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="604" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a9958133d83d98cdb7c491092fcd8e415" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a9958133d83d98cdb7c491092fcd8e415" kindref="member">priority</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">Priority::MEDIUM</ref>;</highlight></codeline>
+<codeline lineno="605" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1aac0707dcc5aee159c54d809bb58473fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1aac0707dcc5aee159c54d809bb58473fb" kindref="member">bytes_sent</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="606" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a9272495c2c0fbb9597f24bf023d303ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a9272495c2c0fbb9597f24bf023d303ef" kindref="member">bytes_received</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="607" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a0efc3dc6e76cf04e935418daf4cf61c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a0efc3dc6e76cf04e935418daf4cf61c3" kindref="member">bytes_shaped</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="608" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a2f3cb9ab3529cd7ed99a969a6d367b69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a2f3cb9ab3529cd7ed99a969a6d367b69" kindref="member">queue_depth</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="609" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1adfc9bbb03c9448d908678691d310ca83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1adfc9bbb03c9448d908678691d310ca83" kindref="member">backpressure_events</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="610" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1aac843d55853d522f58100aa57f62e3a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1aac843d55853d522f58100aa57f62e3a9" kindref="member">has_token_bucket</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="611" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1aba312814c848a89fb6ec0efa1a9adc0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1aba312814c848a89fb6ec0efa1a9adc0a" kindref="member">token_bucket_rate_bps</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="612" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1afc3ec6ab6a953d6b5ea620e0adf07e4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1afc3ec6ab6a953d6b5ea620e0adf07e4c" kindref="member">token_bucket_burst_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Congestion<sp/>control<sp/>fields<sp/>(UINT64_MAX<sp/>=<sp/>no<sp/>CC<sp/>active)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="614" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a723941e872bceed7c55ca379656d778a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1a723941e872bceed7c55ca379656d778a" kindref="member">congestion_window</ref><sp/>=<sp/>UINT64_MAX;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="615" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1ac3d1a97744f11b55c465e717dd27e55e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1ac3d1a97744f11b55c465e717dd27e55e" kindref="member">congestion_ssthresh_bytes</ref><sp/>=<sp/>UINT64_MAX;<sp/></highlight></codeline>
+<codeline lineno="616" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1ae100a61dccd3edf781c34326b67b29ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats_1ae100a61dccd3edf781c34326b67b29ed" kindref="member">smoothed_rtt_us</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="617"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="618"><highlight class="normal"></highlight></codeline>
+<codeline lineno="622" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="623" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1aefc763240bcf02ed229f379375cdddd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1aefc763240bcf02ed229f379375cdddd2" kindref="member">total_bytes_sent</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="624" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1a9d5a1c1c13883528b7d5b6c91d0a339c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1a9d5a1c1c13883528b7d5b6c91d0a339c" kindref="member">total_bytes_received</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="625" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1ae90196217151aae1c6400e8d54c1606e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1ae90196217151aae1c6400e8d54c1606e" kindref="member">total_bytes_shaped</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="626" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1a388c5031bb7c52269324206a6e3e7a25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1a388c5031bb7c52269324206a6e3e7a25" kindref="member">backpressure_events</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="627" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1ad6efa8ed6986e4c7652807ff552688dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1ad6efa8ed6986e4c7652807ff552688dc" kindref="member">active_connections</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="628" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1a72e302675a69d5977c8ef8f9b88bfb32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;Priority,<sp/>uint64_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats_1a72e302675a69d5977c8ef8f9b88bfb32" kindref="member">bytes_per_priority</ref>;</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="630"><highlight class="normal"></highlight></codeline>
+<codeline lineno="634"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1adbf762b273a3abb6cf1f71cb1cbc6ef1" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="635"><highlight class="normal"></highlight></codeline>
+<codeline lineno="641"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats" kindref="compound">ConnectionStats</ref><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a5fb26b71dcbf68039e22898cf73cc266" kindref="member">getConnectionStats</ref>(uint64_t<sp/>connection_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="642"><highlight class="normal"></highlight></codeline>
+<codeline lineno="646"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ConnectionStats&gt;<sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1af4573b0c1513de608f93f04f49cd9cea" kindref="member">getAllConnectionStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="647"><highlight class="normal"></highlight></codeline>
+<codeline lineno="648"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="649"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-tenant<sp/>bandwidth<sp/>quota<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="650"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="651"><highlight class="normal"></highlight></codeline>
+<codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a9fcb241c8e94adc81f63e5cb943cf42c" kindref="member">registerTenantQuota</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,</highlight></codeline>
+<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>rate_bps,</highlight></codeline>
+<codeline lineno="668"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>burst_bytes<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="669"><highlight class="normal"></highlight></codeline>
+<codeline lineno="679"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a54576307f8930b47d074fe03c0a9c35a" kindref="member">unregisterTenantQuota</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="680"><highlight class="normal"></highlight></codeline>
+<codeline lineno="691"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a6513646ed26d42ba27eecec1d564d0f9" kindref="member">setTenantQuota</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,</highlight></codeline>
+<codeline lineno="692"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>rate_bps,</highlight></codeline>
+<codeline lineno="693"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>burst_bytes<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="694"><highlight class="normal"></highlight></codeline>
+<codeline lineno="707"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1af26f343f893d1307fa4e9f6f2a011b1c" kindref="member">assignTenant</ref>(uint64_t<sp/>connection_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="708"><highlight class="normal"></highlight></codeline>
+<codeline lineno="712" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats" kindref="compound">TenantQuotaStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="713" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1aab8488dab590d68f7bf4f17ecf92b5a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1aab8488dab590d68f7bf4f17ecf92b5a6" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="714" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1ab8cbb05ad8b3c1f4eb062dff35baf480" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1ab8cbb05ad8b3c1f4eb062dff35baf480" kindref="member">rate_bps</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="715" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a91865da9794fac6af909871e692f45b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a91865da9794fac6af909871e692f45b3" kindref="member">burst_bytes</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="716" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a7de86d8ab55b142d2bcfdddabe776fef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a7de86d8ab55b142d2bcfdddabe776fef" kindref="member">bytes_sent</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="717" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a03ccd12d1f5f810c5571e72400289d39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1a03ccd12d1f5f810c5571e72400289d39" kindref="member">bytes_shaped</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="718" refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1acb6400b297b58676966230989a2f5246" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats_1acb6400b297b58676966230989a2f5246" kindref="member">active_connections</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="719"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="720"><highlight class="normal"></highlight></codeline>
+<codeline lineno="726"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats" kindref="compound">TenantQuotaStats</ref><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a96aa26a5d778ad1f13e33117da61c403" kindref="member">getTenantStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="727"><highlight class="normal"></highlight></codeline>
+<codeline lineno="731"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TenantQuotaStats&gt;<sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a7defade0c0bf21cad9615c0401435e26" kindref="member">getAllTenantStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="732"><highlight class="normal"></highlight></codeline>
+<codeline lineno="733"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="734"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="735"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="736"><highlight class="normal"></highlight></codeline>
+<codeline lineno="744"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a3b642e8135cefb7c7d7abaacdf119a8f" kindref="member">setBackpressureCallback</ref>(</highlight></codeline>
+<codeline lineno="745"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(uint64_t<sp/></highlight><highlight class="comment">/*connection_id*/</highlight><highlight class="normal">,<sp/>uint64_t<sp/></highlight><highlight class="comment">/*bytes*/</highlight><highlight class="normal">)&gt;<sp/>cb);</highlight></codeline>
+<codeline lineno="746"><highlight class="normal"></highlight></codeline>
+<codeline lineno="747"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="748"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-connection<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="749"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ConnectionState<sp/>{</highlight></codeline>
+<codeline lineno="750"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>connection_id<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="751"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint8_t&gt;<sp/>priority{</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">Priority::MEDIUM</ref>)};</highlight></codeline>
+<codeline lineno="752"><highlight class="normal"></highlight></codeline>
+<codeline lineno="753"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>token_bucket_mutex;<sp/><sp/></highlight><highlight class="comment">//<sp/>protects<sp/>token_bucket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="754"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TokenBucket&gt;<sp/>token_bucket;<sp/><sp/></highlight><highlight class="comment">//<sp/>nullptr<sp/>=<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="755"><highlight class="normal"></highlight></codeline>
+<codeline lineno="756"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>leaky_bucket_mutex;<sp/><sp/></highlight><highlight class="comment">//<sp/>protects<sp/>leaky_bucket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="757"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;LeakyBucket&gt;<sp/>leaky_bucket;<sp/><sp/></highlight><highlight class="comment">//<sp/>nullptr<sp/>=<sp/>no<sp/>leaky<sp/>shaping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="758"><highlight class="normal"></highlight></codeline>
+<codeline lineno="759"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>congestion_mutex;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>protects<sp/>congestion_ctrl</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="760"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;CongestionController&gt;<sp/>congestion_ctrl;<sp/><sp/></highlight><highlight class="comment">//<sp/>nullptr<sp/>=<sp/>no<sp/>CC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="761"><highlight class="normal"></highlight></codeline>
+<codeline lineno="762"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>bytes_sent{0};</highlight></codeline>
+<codeline lineno="763"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>bytes_received{0};</highlight></codeline>
+<codeline lineno="764"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>bytes_shaped{0};</highlight></codeline>
+<codeline lineno="765"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>queue_depth{0};</highlight></codeline>
+<codeline lineno="766"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>backpressure_events{0};</highlight></codeline>
+<codeline lineno="767"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="768"><highlight class="normal"></highlight></codeline>
+<codeline lineno="769"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ConnectionState&gt;<sp/>findConnection(uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="770"><highlight class="normal"></highlight></codeline>
+<codeline lineno="771"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolve<sp/>effective<sp/>max_bandwidth_bps<sp/>from<sp/>config<sp/>(handles<sp/>mbps<sp/>override)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="772"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>effectiveMaxBandwidthBps()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="773"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolve<sp/>effective<sp/>default_rate_bps<sp/>from<sp/>config<sp/>(handles<sp/>per_connection_limit_mbps)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="774"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>effectiveDefaultRateBps()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="775"><highlight class="normal"></highlight></codeline>
+<codeline lineno="776"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="777"><highlight class="normal"></highlight></codeline>
+<codeline lineno="778"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>connections_mutex_;</highlight></codeline>
+<codeline lineno="779"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;uint64_t,<sp/>std::shared_ptr&lt;ConnectionState&gt;&gt;<sp/>connections_;</highlight></codeline>
+<codeline lineno="780"><highlight class="normal"></highlight></codeline>
+<codeline lineno="781"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregate<sp/>counters<sp/>(updated<sp/>via<sp/>relaxed<sp/>atomics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="782"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_bytes_sent_{0};</highlight></codeline>
+<codeline lineno="783"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_bytes_received_{0};</highlight></codeline>
+<codeline lineno="784"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_bytes_shaped_{0};</highlight></codeline>
+<codeline lineno="785"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_backpressure_events_{0};</highlight></codeline>
+<codeline lineno="786"><highlight class="normal"></highlight></codeline>
+<codeline lineno="787"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-priority<sp/>byte<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="788"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>priority_stats_mutex_;</highlight></codeline>
+<codeline lineno="789"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;Priority,<sp/>uint64_t&gt;<sp/>bytes_per_priority_;</highlight></codeline>
+<codeline lineno="790"><highlight class="normal"></highlight></codeline>
+<codeline lineno="791"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>backpressure<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="792"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>callback_mutex_;</highlight></codeline>
+<codeline lineno="793"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(uint64_t,<sp/>uint64_t)&gt;<sp/>backpressure_cb_;</highlight></codeline>
+<codeline lineno="794"><highlight class="normal"></highlight></codeline>
+<codeline lineno="795"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="796"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Priority<sp/>queue<sp/>scheduling<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="797"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="798"><highlight class="normal"></highlight></codeline>
+<codeline lineno="799"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>deque<sp/>per<sp/>priority<sp/>level;<sp/>each<sp/>entry<sp/>is<sp/>a<sp/>PendingSend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="800"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>pq_mutex_;</highlight></codeline>
+<codeline lineno="801"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;PendingSend&gt;<sp/>pq_critical_;</highlight></codeline>
+<codeline lineno="802"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;PendingSend&gt;<sp/>pq_high_;</highlight></codeline>
+<codeline lineno="803"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;PendingSend&gt;<sp/>pq_medium_;</highlight></codeline>
+<codeline lineno="804"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;PendingSend&gt;<sp/>pq_low_;</highlight></codeline>
+<codeline lineno="805"><highlight class="normal"></highlight></codeline>
+<codeline lineno="806"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Starvation<sp/>guard:<sp/>tracks<sp/>how<sp/>many<sp/>consecutive<sp/>high-priority<sp/>sends<sp/>have</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="807"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>been<sp/>served<sp/>so<sp/>that<sp/>low-priority<sp/>connections<sp/>are<sp/>not<sp/>starved<sp/>indefinitely.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="808"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>pq_consecutive_high_serves_{0};</highlight></codeline>
+<codeline lineno="809"><highlight class="normal"></highlight></codeline>
+<codeline lineno="810"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="811"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-tenant<sp/>bandwidth<sp/>quota<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="812"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="813"><highlight class="normal"></highlight></codeline>
+<codeline lineno="814"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TenantState<sp/>{</highlight></codeline>
+<codeline lineno="815"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>tenant_id;</highlight></codeline>
+<codeline lineno="816"><highlight class="normal"></highlight></codeline>
+<codeline lineno="817"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>token_bucket_mutex;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>protects<sp/>token_bucket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="818"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TokenBucket&gt;<sp/>token_bucket;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nullptr<sp/>=<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="819"><highlight class="normal"></highlight></codeline>
+<codeline lineno="820"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>bytes_sent{0};</highlight></codeline>
+<codeline lineno="821"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>bytes_shaped{0};</highlight></codeline>
+<codeline lineno="822"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>active_connections{0};</highlight></codeline>
+<codeline lineno="823"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="824"><highlight class="normal"></highlight></codeline>
+<codeline lineno="825"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TenantState&gt;<sp/>findTenant(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="826"><highlight class="normal"></highlight></codeline>
+<codeline lineno="827"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>tenants_mutex_;</highlight></codeline>
+<codeline lineno="828"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::shared_ptr&lt;TenantState&gt;&gt;<sp/>tenants_;</highlight></codeline>
+<codeline lineno="829"><highlight class="normal"></highlight></codeline>
+<codeline lineno="830"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maps<sp/>connection_id<sp/>-&gt;<sp/>tenant_id<sp/>for<sp/>quota<sp/>enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="831"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>tenant_assignments_mutex_;</highlight></codeline>
+<codeline lineno="832"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;uint64_t,<sp/>std::string&gt;<sp/>tenant_assignments_;</highlight></codeline>
+<codeline lineno="833"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="834"><highlight class="normal"></highlight></codeline>
+<codeline lineno="835"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="836"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/qos_manager.h"/>
+  </compounddef>
+</doxygen>

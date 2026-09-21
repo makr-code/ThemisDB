@@ -1,0 +1,493 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_anomaly_detector" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AnomalyDetector</compoundname>
+    <includes refid="anomaly__detection_8h" local="no">anomaly_detection.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats" prot="public">themisdb::analytics::AnomalyDetector::ModelStats</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_impl" prot="public">themisdb::analytics::AnomalyDetector::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1a944d89cb5baea4ea4c7070fd290aa09f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themisdb::analytics::AnomalyDetector::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="296" column="21" bodyfile="include/analytics/anomaly_detection.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::AnomalyDetector::AnomalyDetector</definition>
+        <argsstring>(AnomalyMethod method=AnomalyMethod::Z_SCORE)</argsstring>
+        <name>AnomalyDetector</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::AnomalyDetector</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref></type>
+          <declname>method</declname>
+          <defval><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" kindref="member">AnomalyMethod::Z_SCORE</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="203" column="14" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="918" bodyend="920"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1a44c8dcfdf04e8dfcc286eb3ecd899e6b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::AnomalyDetector::AnomalyDetector</definition>
+        <argsstring>(const DetectorConfig &amp;config)</argsstring>
+        <name>AnomalyDetector</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::AnomalyDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_detector_config" kindref="compound">DetectorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Anomaly Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="209" column="14" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="922" bodyend="924"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1a7c8a45e2ba1e13dd58c9a8ae7abc37e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::AnomalyDetector::~AnomalyDetector</definition>
+        <argsstring>()</argsstring>
+        <name>~AnomalyDetector</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::~AnomalyDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="210" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1ad46a647be25fa071bc7ed4303b160bce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::AnomalyDetector::AnomalyDetector</definition>
+        <argsstring>(const AnomalyDetector &amp;)=delete</argsstring>
+        <name>AnomalyDetector</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::AnomalyDetector</qualifiedname>
+        <param>
+          <type>const AnomalyDetector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="213" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1a56a96a580e377421acb5d7b213205a8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref> &amp;</type>
+        <definition>AnomalyDetector &amp; themisdb::analytics::AnomalyDetector::operator=</definition>
+        <argsstring>(const AnomalyDetector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="214" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1ad9ce1b9d96211a919129c707652b2d96" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::AnomalyDetector::AnomalyDetector</definition>
+        <argsstring>(AnomalyDetector &amp;&amp;) noexcept</argsstring>
+        <name>AnomalyDetector</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::AnomalyDetector</qualifiedname>
+        <param>
+          <type>AnomalyDetector &amp;&amp;</type>
+          <defname>o</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="215" column="5" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="928" bodyend="928"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1a51c4a101212588601b8424db3a759fc5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref> &amp;</type>
+        <definition>AnomalyDetector &amp; themisdb::analytics::AnomalyDetector::operator=</definition>
+        <argsstring>(AnomalyDetector &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref> &amp;&amp;</type>
+          <defname>o</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="216" column="21" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="930" bodyend="933"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1aa88f082e96889a0a321d9f2320124083" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::AnomalyDetector::train</definition>
+        <argsstring>(const std::vector&lt; DataPoint &gt; &amp;data)</argsstring>
+        <name>train</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1aa88f082e96889a0a321d9f2320124083" kindref="member">AnomalyDetector::train</ref> ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), buildMatrix(), trainSingleMethod(), buildEnsemble(), insert(), end(), begin(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="222" column="10" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="942" bodyend="968"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1ab2295fdf6eb4da6f271bf159e798c8be" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::AnomalyDetector::isTrained</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isTrained</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::isTrained</qualifiedname>
+        <briefdescription>
+<para>Is Trained. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="228" column="10" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="970" bodyend="972"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1a47052f3faa9ef8f66723c84881e90ded" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_anomaly_result" kindref="compound">AnomalyResult</ref></type>
+        <definition>AnomalyResult themisdb::analytics::AnomalyDetector::predict</definition>
+        <argsstring>(const DataPoint &amp;point) const</argsstring>
+        <name>predict</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::predict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &amp;</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+<para>Predict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="235" column="31" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="978" bodyend="995"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1ac18ef234cc8af180a427522b03925d11" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_anomaly_result" kindref="compound">AnomalyResult</ref> &gt;</type>
+        <definition>std::vector&lt; AnomalyResult &gt; themisdb::analytics::AnomalyDetector::predictBatch</definition>
+        <argsstring>(const std::vector&lt; DataPoint &gt; &amp;data) const</argsstring>
+        <name>predictBatch</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::predictBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Predict Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="241" column="17" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="997" bodyend="1005"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1a43a703101c5bfd0995918de39bc1a3fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_anomaly_explanation" kindref="compound">AnomalyExplanation</ref></type>
+        <definition>AnomalyExplanation themisdb::analytics::AnomalyDetector::explain</definition>
+        <argsstring>(const DataPoint &amp;point) const</argsstring>
+        <name>explain</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::explain</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &amp;</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+<para>Explain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="248" column="24" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="1011" bodyend="1102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1a5ece04db21793e884ef71da508934cf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::AnomalyDetector::update</definition>
+        <argsstring>(const DataPoint &amp;point)</argsstring>
+        <name>update</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::update</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &amp;</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+<para>Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a5ece04db21793e884ef71da508934cf8" kindref="member">AnomalyDetector::update</ref> (adaptive learning) ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), size(), pop_front(), window(), begin(), end(), <ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1aa88f082e96889a0a321d9f2320124083" kindref="member">train()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="254" column="10" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="1111" bodyend="1124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1ac6762f30f9eb95bff75015450d4d6766" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AnomalyDetector::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="260" column="17" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="1130" bodyend="1166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1a95cc3a7ffb733a190c4c91c40c582a47" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_anomaly_detector_1_1_model_stats" kindref="compound">ModelStats</ref></type>
+        <definition>AnomalyDetector::ModelStats themisdb::analytics::AnomalyDetector::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="285" column="16" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="1249" bodyend="1262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1a5ef2893849d8d058b393950b4b3d13c3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1analytics_1_1_detector_config" kindref="compound">DetectorConfig</ref> &amp;</type>
+        <definition>const DetectorConfig &amp; themisdb::analytics::AnomalyDetector::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::config</qualifiedname>
+        <briefdescription>
+<para>Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="292" column="26" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="1264" bodyend="1266"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_anomaly_detector_1aad1604b008a2820b1993eeb6272af8dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" kindref="member">AnomalyDetector</ref></type>
+        <definition>AnomalyDetector themisdb::analytics::AnomalyDetector::deserialize</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::analytics::AnomalyDetector::deserialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ss(), ls(), std::getline(), push_back(), splitComma(), std::stod(), find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="266" column="28" bodyfile="src/analytics/anomaly_detection.cpp" bodystart="1174" bodyend="1243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/anomaly_detection.h" line="200" column="1" bodyfile="include/analytics/anomaly_detection.h" bodystart="200" bodyend="297"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1af8b2e912b6844b5f335a656dc0c94664" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>AnomalyDetector</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a44c8dcfdf04e8dfcc286eb3ecd899e6b" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>AnomalyDetector</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1ad46a647be25fa071bc7ed4303b160bce" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>AnomalyDetector</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1ad9ce1b9d96211a919129c707652b2d96" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>AnomalyDetector</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a5ef2893849d8d058b393950b4b3d13c3" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>config</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1aad1604b008a2820b1993eeb6272af8dc" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>deserialize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a43a703101c5bfd0995918de39bc1a3fb" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>explain</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a95cc3a7ffb733a190c4c91c40c582a47" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a944d89cb5baea4ea4c7070fd290aa09f" prot="private" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>impl_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1ab2295fdf6eb4da6f271bf159e798c8be" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>isTrained</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a56a96a580e377421acb5d7b213205a8a" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a51c4a101212588601b8424db3a759fc5" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a47052f3faa9ef8f66723c84881e90ded" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>predict</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1ac18ef234cc8af180a427522b03925d11" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>predictBatch</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1ac6762f30f9eb95bff75015450d4d6766" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>serialize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1aa88f082e96889a0a321d9f2320124083" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>train</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a5ece04db21793e884ef71da508934cf8" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>update</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_anomaly_detector_1a7c8a45e2ba1e13dd58c9a8ae7abc37e9" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnomalyDetector</scope><name>~AnomalyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

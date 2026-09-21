@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_process_light_retriever_test" kind="class" language="C++" prot="public">
+    <compoundname>ProcessLightRetrieverTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_process_light_retriever_test_1aa3c33dd3c4db2f341ab7031f28e0958b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ProcessLightRetrieverTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>ProcessLightRetrieverTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="90" column="17" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; ProcessLightRetrieverTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ProcessLightRetrieverTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="91" column="35" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_light_retriever_test_1aebc8adb1565d8ddb8872a0a81d6293d2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::ProcessGraphManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::ProcessGraphManager&gt; ProcessLightRetrieverTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>ProcessLightRetrieverTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="92" column="30" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_light_retriever_test_1aa390219fc6a80125cc5de22cc0226205" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">themis::process::ProcessModelManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessModelManager&gt; ProcessLightRetrieverTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>ProcessLightRetrieverTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="93" column="21" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_light_retriever_test_1ac4ef51e5dc8b798e80f66d8bfdbd97c5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">themis::process::ProcessLinker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessLinker&gt; ProcessLightRetrieverTest::linker_</definition>
+        <argsstring></argsstring>
+        <name>linker_</name>
+        <qualifiedname>ProcessLightRetrieverTest::linker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="94" column="27" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_light_retriever_test_1a7facb8aed8e521cb901198b34ada3268" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">themis::process::ProcessGraphRag</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessGraphRag&gt; ProcessLightRetrieverTest::rag_</definition>
+        <argsstring></argsstring>
+        <name>rag_</name>
+        <qualifiedname>ProcessLightRetrieverTest::rag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="95" column="25" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_light_retriever_test_1a3990dff20e5fe97456fbc3b3eea5ead0" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_community_detector" kindref="compound">themis::process::ProcessCommunityDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessCommunityDetector&gt; ProcessLightRetrieverTest::detector_</definition>
+        <argsstring></argsstring>
+        <name>detector_</name>
+        <qualifiedname>ProcessLightRetrieverTest::detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="96" column="21" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_light_retriever_test_1aabf744708a6030ce4d6c602e0789aa4b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_light_retriever" kindref="compound">themis::process::ProcessLightRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessLightRetriever&gt; ProcessLightRetrieverTest::retriever_</definition>
+        <argsstring></argsstring>
+        <name>retriever_</name>
+        <qualifiedname>ProcessLightRetrieverTest::retriever_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="97" column="24" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_process_light_retriever_test_1af2b121889d813570fb8f00009fa820b9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessLightRetrieverTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ProcessLightRetrieverTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="31" column="10" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="31" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_process_light_retriever_test_1a4248ad42cc04ef5eb39f36d74ee3c2f4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessLightRetrieverTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ProcessLightRetrieverTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="55" column="10" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="55" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_process_light_retriever_test_1aad1ffb0b93fbce9dada5ccd9aef13331" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ProcessLightRetrieverTest::saveMinimalModel</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>saveMinimalModel</name>
+        <qualifiedname>ProcessLightRetrieverTest::saveMinimalModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Persist a minimal model and return its model_id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="67" column="17" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="67" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_process_light_retriever_test_1a4d87e737ac35a9c633a46690882d6c41" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessLightRetrieverTest::storeInstance</definition>
+        <argsstring>(const std::string &amp;instance_id, const std::string &amp;model_id)</argsstring>
+        <name>storeInstance</name>
+        <qualifiedname>ProcessLightRetrieverTest::storeInstance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Write an instance record to RocksDB so ProcessLightRetriever can resolve model_id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="83" column="10" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="83" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ProcessLightRetrieverTest</label>
+        <link refid="class_process_light_retriever_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ProcessLightRetrieverTest</label>
+        <link refid="class_process_light_retriever_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_light_retriever.cpp" line="29" column="1" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="29" bodyend="98"/>
+    <listofallmembers>
+      <member refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>db_</name></member>
+      <member refid="class_process_light_retriever_test_1aa3c33dd3c4db2f341ab7031f28e0958b" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>db_path_</name></member>
+      <member refid="class_process_light_retriever_test_1a3990dff20e5fe97456fbc3b3eea5ead0" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>detector_</name></member>
+      <member refid="class_process_light_retriever_test_1aebc8adb1565d8ddb8872a0a81d6293d2" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>engine_</name></member>
+      <member refid="class_process_light_retriever_test_1ac4ef51e5dc8b798e80f66d8bfdbd97c5" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>linker_</name></member>
+      <member refid="class_process_light_retriever_test_1aa390219fc6a80125cc5de22cc0226205" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>mgr_</name></member>
+      <member refid="class_process_light_retriever_test_1a7facb8aed8e521cb901198b34ada3268" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>rag_</name></member>
+      <member refid="class_process_light_retriever_test_1aabf744708a6030ce4d6c602e0789aa4b" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>retriever_</name></member>
+      <member refid="class_process_light_retriever_test_1aad1ffb0b93fbce9dada5ccd9aef13331" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>saveMinimalModel</name></member>
+      <member refid="class_process_light_retriever_test_1af2b121889d813570fb8f00009fa820b9" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>SetUp</name></member>
+      <member refid="class_process_light_retriever_test_1a4d87e737ac35a9c633a46690882d6c41" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>storeInstance</name></member>
+      <member refid="class_process_light_retriever_test_1a4248ad42cc04ef5eb39f36d74ee3c2f4" prot="protected" virt="non-virtual"><scope>ProcessLightRetrieverTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

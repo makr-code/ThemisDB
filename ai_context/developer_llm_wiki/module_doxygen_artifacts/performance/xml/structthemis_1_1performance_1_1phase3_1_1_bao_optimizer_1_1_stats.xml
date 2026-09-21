@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::BaoOptimizer::Stats</compoundname>
+    <includes refid="bao_8h" local="no">bao.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1a1a5d243790a49bc1b9321cef9bc182cd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::BaoOptimizer::Stats::queries_optimized</definition>
+        <argsstring></argsstring>
+        <name>queries_optimized</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::Stats::queries_optimized</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="62" column="16" bodyfile="include/performance/phase3/bao.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1aeee753b6b4791972a0591f7e8cc8faed" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::BaoOptimizer::Stats::avg_speedup</definition>
+        <argsstring></argsstring>
+        <name>avg_speedup</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::Stats::avg_speedup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="63" column="16" bodyfile="include/performance/phase3/bao.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1a7f7ea87916598cebdc0f0ccfee004f73" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::BaoOptimizer::Stats::model_updates</definition>
+        <argsstring></argsstring>
+        <name>model_updates</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::Stats::model_updates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="64" column="16" bodyfile="include/performance/phase3/bao.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/bao.h" line="61" column="5" bodyfile="include/performance/phase3/bao.h" bodystart="61" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1aeee753b6b4791972a0591f7e8cc8faed" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer::Stats</scope><name>avg_speedup</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1a7f7ea87916598cebdc0f0ccfee004f73" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer::Stats</scope><name>model_updates</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1a1a5d243790a49bc1b9321cef9bc182cd" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer::Stats</scope><name>queries_optimized</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

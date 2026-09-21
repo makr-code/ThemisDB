@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_document_summarizer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::DocumentSummarizerConfig</compoundname>
+    <includes refid="document__summarizer_8h" local="no">document_summarizer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Strategy</name>
+        <qualifiedname>themis::rag::DocumentSummarizerConfig::Strategy</qualifiedname>
+        <enumvalue id="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999a1184fc314b69e4f95e8065c460b2b60d" prot="public">
+          <name>EXTRACTIVE</name>
+          <briefdescription>
+<para>Sentence-extraction (no LLM, fast). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999aab0d4ca8119c255b94aa2ac648f2e1b8" prot="public">
+          <name>ABSTRACTIVE</name>
+          <briefdescription>
+<para>LLM-generated summary (requires engine). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999ae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+<para>ABSTRACTIVE if LLM available, else EXTRACTIVE. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Summarization strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="34" column="5" bodyfile="include/rag/document_summarizer.h" bodystart="34" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summarizer_config_1a3d5237d50762db41724c676fad2c1d00" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999" kindref="member">Strategy</ref></type>
+        <definition>Strategy themis::rag::DocumentSummarizerConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::rag::DocumentSummarizerConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">Strategy::AUTO</ref></initializer>
+        <briefdescription>
+<para>Summarization strategy to use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="41" column="14" bodyfile="include/rag/document_summarizer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summarizer_config_1accfc6243e27f7055593d67e2ed464691" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentSummarizerConfig::max_summary_chars</definition>
+        <argsstring></argsstring>
+        <name>max_summary_chars</name>
+        <qualifiedname>themis::rag::DocumentSummarizerConfig::max_summary_chars</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum character length of the combined summary produced by summarizeMultiple(). 0 means no limit (use with care). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="45" column="12" bodyfile="include/rag/document_summarizer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summarizer_config_1a783b279893b772df65553ed87aed4006" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentSummarizerConfig::max_sentences_per_doc</definition>
+        <argsstring></argsstring>
+        <name>max_sentences_per_doc</name>
+        <qualifiedname>themis::rag::DocumentSummarizerConfig::max_sentences_per_doc</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum number of sentences to extract per document in EXTRACTIVE mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="48" column="12" bodyfile="include/rag/document_summarizer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summarizer_config_1a1230d3167df0abc5ad6b327d4e89e994" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentSummarizerConfig::min_sentence_chars</definition>
+        <argsstring></argsstring>
+        <name>min_sentence_chars</name>
+        <qualifiedname>themis::rag::DocumentSummarizerConfig::min_sentence_chars</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Minimum sentence length (characters) to be eligible for extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="51" column="12" bodyfile="include/rag/document_summarizer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summarizer_config_1a17699c7d3578e55ee4bb7a3fad68c3de" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::DocumentSummarizerConfig::include_source_attribution</definition>
+        <argsstring></argsstring>
+        <name>include_source_attribution</name>
+        <qualifiedname>themis::rag::DocumentSummarizerConfig::include_source_attribution</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Whether to prepend a &quot;[Source: &lt;id&gt;]&quot; tag to each per-document summary in the combined output. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="55" column="10" bodyfile="include/rag/document_summarizer.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summarizer_config_1aa95d792f08bbc13463fafec570298aae" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::DocumentSummarizerConfig::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::rag::DocumentSummarizerConfig::temperature</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>LLM sampling temperature for ABSTRACTIVE summarization (lower → more focused / deterministic output). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="59" column="12" bodyfile="include/rag/document_summarizer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summarizer_config_1a8a0bb1c51811c986a46432c852c7bbed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentSummarizerConfig::max_output_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_output_tokens</name>
+        <qualifiedname>themis::rag::DocumentSummarizerConfig::max_output_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Maximum tokens the LLM may generate for the summary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="62" column="12" bodyfile="include/rag/document_summarizer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/document_summarizer.h" line="30" column="1" bodyfile="include/rag/document_summarizer.h" bodystart="30" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_config_1a17699c7d3578e55ee4bb7a3fad68c3de" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizerConfig</scope><name>include_source_attribution</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_config_1a8a0bb1c51811c986a46432c852c7bbed" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizerConfig</scope><name>max_output_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_config_1a783b279893b772df65553ed87aed4006" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizerConfig</scope><name>max_sentences_per_doc</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_config_1accfc6243e27f7055593d67e2ed464691" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizerConfig</scope><name>max_summary_chars</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_config_1a1230d3167df0abc5ad6b327d4e89e994" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizerConfig</scope><name>min_sentence_chars</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizerConfig</scope><name>Strategy</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_config_1a3d5237d50762db41724c676fad2c1d00" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizerConfig</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summarizer_config_1aa95d792f08bbc13463fafec570298aae" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummarizerConfig</scope><name>temperature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

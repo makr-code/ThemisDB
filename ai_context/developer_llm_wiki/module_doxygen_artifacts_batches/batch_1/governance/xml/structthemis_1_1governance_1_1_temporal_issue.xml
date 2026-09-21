@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_temporal_issue" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::TemporalIssue</compoundname>
+    <includes refid="governance__diagnostics_8h" local="no">governance_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_temporal_issue_1aa0b8a7e4e6be8fa44514bc7400f07bf4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::TemporalIssue::issue_type</definition>
+        <argsstring></argsstring>
+        <name>issue_type</name>
+        <qualifiedname>themis::governance::TemporalIssue::issue_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="247" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_temporal_issue_1a793229520f49131f78b0031a20421c82" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::TemporalIssue::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::TemporalIssue::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="248" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_temporal_issue_1a734afa511b2cf7ab530e216f669e3dda" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::TemporalIssue::value_ms</definition>
+        <argsstring></argsstring>
+        <name>value_ms</name>
+        <qualifiedname>themis::governance::TemporalIssue::value_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="249" column="13" bodyfile="include/governance/governance_diagnostics.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_diagnostics.h" line="246" column="1" bodyfile="include/governance/governance_diagnostics.h" bodystart="246" bodyend="250"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_temporal_issue_1a793229520f49131f78b0031a20421c82" prot="public" virt="non-virtual"><scope>themis::governance::TemporalIssue</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_temporal_issue_1aa0b8a7e4e6be8fa44514bc7400f07bf4" prot="public" virt="non-virtual"><scope>themis::governance::TemporalIssue</scope><name>issue_type</name></member>
+      <member refid="structthemis_1_1governance_1_1_temporal_issue_1a734afa511b2cf7ab530e216f669e3dda" prot="public" virt="non-virtual"><scope>themis::governance::TemporalIssue</scope><name>value_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

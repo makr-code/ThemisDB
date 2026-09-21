@@ -1,0 +1,1368 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_vulkan_vector_index_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::VulkanVectorIndexBackend</compoundname>
+    <includes refid="gpu__vector__index__vulkan_8h" local="no">gpu_vector_index_vulkan.h</includes>
+    <innerclass refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1_1_impl" prot="public">themis::index::VulkanVectorIndexBackend::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8e8af35f2e0322b00c259c4c4017863" prot="public" static="no">
+        <type>std::function&lt; bool(int)&gt;</type>
+        <definition>using themis::index::VulkanVectorIndexBackend::InitializeFn = std::function&lt;bool(int)&gt;</definition>
+        <argsstring></argsstring>
+        <name>InitializeFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::InitializeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="83" column="5" bodyfile="include/index/gpu_vector_index_vulkan.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" prot="public" static="no">
+        <type>std::function&lt; bool(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;)&gt;</type>
+        <definition>using themis::index::VulkanVectorIndexBackend::UploadFn = std::function&lt;bool(const std::vector&lt;std::vector&lt;float&gt;&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>UploadFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::UploadFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="84" column="5" bodyfile="include/index/gpu_vector_index_vulkan.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9af9afb7a883e1e1a7ad575dc6a29a4a" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" kindref="compound">GPUVectorIndex::SearchResult</ref> &gt;( const std::vector&lt; float &gt; &amp;, size_t)&gt;</type>
+        <definition>using themis::index::VulkanVectorIndexBackend::SearchFn = std::function&lt;std::vector&lt;GPUVectorIndex::SearchResult&gt;(
+       const std::vector&lt;float&gt;&amp;, size_t)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SearchFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::SearchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="85" column="5" bodyfile="include/index/gpu_vector_index_vulkan.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a2d30f1038a288969d1f8c5eb69190b4d" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" kindref="compound">GPUVectorIndex::SearchResult</ref> &gt; &gt;( const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;, size_t)&gt;</type>
+        <definition>using themis::index::VulkanVectorIndexBackend::SearchBatchFn = std::function&lt;std::vector&lt;std::vector&lt;GPUVectorIndex::SearchResult&gt;&gt;(
+       const std::vector&lt;std::vector&lt;float&gt;&gt;&amp;, size_t)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SearchBatchFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::SearchBatchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="87" column="5" bodyfile="include/index/gpu_vector_index_vulkan.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ab26326a98dcf26e74e6f2ebe35e2082b" prot="public" static="no">
+        <type>std::function&lt; bool(int)&gt;</type>
+        <definition>using themis::index::VulkanVectorIndexBackend::InitializeFn = std::function&lt;bool(int )&gt;</definition>
+        <argsstring></argsstring>
+        <name>InitializeFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::InitializeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="102" column="5" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" prot="public" static="no">
+        <type>std::function&lt; bool(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;)&gt;</type>
+        <definition>using themis::index::VulkanVectorIndexBackend::UploadFn = std::function&lt;bool(const std::vector&lt;std::vector&lt;float&gt;&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>UploadFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::UploadFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="103" column="5" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a39a049f7402df5f1a158e1a037b6e32f" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" kindref="compound">GPUVectorIndex::SearchResult</ref> &gt;( const std::vector&lt; float &gt; &amp;, size_t)&gt;</type>
+        <definition>using themis::index::VulkanVectorIndexBackend::SearchFn = std::function&lt;std::vector&lt;GPUVectorIndex::SearchResult&gt;(
+                              const std::vector&lt;float&gt;&amp;, size_t )&gt;</definition>
+        <argsstring></argsstring>
+        <name>SearchFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::SearchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="104" column="5" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8f2f6c8c9e047dbc78e78d3473a698e" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" kindref="compound">GPUVectorIndex::SearchResult</ref> &gt; &gt;( const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;, size_t)&gt;</type>
+        <definition>using themis::index::VulkanVectorIndexBackend::SearchBatchFn = std::function&lt;std::vector&lt;std::vector&lt;GPUVectorIndex::SearchResult&gt;&gt;(
+                              const std::vector&lt;std::vector&lt;float&gt;&gt;&amp;, size_t )&gt;</definition>
+        <argsstring></argsstring>
+        <name>SearchBatchFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::SearchBatchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="106" column="5" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ab8b50cfd3274207ba4dfe570e56f504a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; Impl &gt; themis::index::VulkanVectorIndexBackend::pImpl</definition>
+        <argsstring></argsstring>
+        <name>pImpl</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::pImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="154" column="21" bodyfile="include/index/gpu_vector_index_vulkan.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8883a36722b390edb8e7f997accaaaf0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::VulkanVectorIndexBackend::VulkanVectorIndexBackend</definition>
+        <argsstring>(const GPUVectorIndex::Config &amp;config)</argsstring>
+        <name>VulkanVectorIndexBackend</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::VulkanVectorIndexBackend</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Vulkan Vector Index Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="35" column="14" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="1254" bodyend="1255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a96189966ad858f092d2ffd105de03121" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::VulkanVectorIndexBackend::~VulkanVectorIndexBackend</definition>
+        <argsstring>()</argsstring>
+        <name>~VulkanVectorIndexBackend</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::~VulkanVectorIndexBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a7cfb19b1ceab9192ed34c7d775526a6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::VulkanVectorIndexBackend::initialize</definition>
+        <argsstring>(int dimension)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::initialize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="43" column="10" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="1265" bodyend="1267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a3c8b69716ea40447820185d79e429e68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::VulkanVectorIndexBackend::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="47" column="10" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="1272" bodyend="1272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a4dc211999a2fd48dafd9f7e1789fa19d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::VulkanVectorIndexBackend::uploadVectors</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;vectors)</argsstring>
+        <name>uploadVectors</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::uploadVectors</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>vectors</declname>
+          <defname>v</defname>
+        </param>
+        <briefdescription>
+<para>Upload Vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements uploadVectors without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="53" column="10" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="1279" bodyend="1281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a5dc2d01e57fa6d5addd2d3772e3eaafa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; float, size_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; float, size_t &gt; &gt; themis::index::VulkanVectorIndexBackend::searchIndices</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, size_t k)</argsstring>
+        <name>searchIndices</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchIndices</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="54" column="17" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="1283" bodyend="1284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1af4373a6818636b2939873b67fd7a8fe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; float, size_t &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::pair&lt; float, size_t &gt; &gt; &gt; themis::index::VulkanVectorIndexBackend::searchBatchIndices</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;queries, size_t k)</argsstring>
+        <name>searchBatchIndices</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchBatchIndices</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="55" column="17" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="1286" bodyend="1289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8d8d3d3732e6a862f167418548815723" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" kindref="compound">GPUVectorIndex::SearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; GPUVectorIndex::SearchResult &gt; themis::index::VulkanVectorIndexBackend::search</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, size_t k)</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+          <defname>q</defname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements search without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="63" column="17" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="1298" bodyend="1299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a49cc4272d02ff28bd8c7f665e5e1e28e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" kindref="compound">GPUVectorIndex::SearchResult</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; GPUVectorIndex::SearchResult &gt; &gt; themis::index::VulkanVectorIndexBackend::searchBatch</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;queries, size_t k)</argsstring>
+        <name>searchBatch</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>queries</declname>
+          <defname>qs</defname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">qs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements searchBatch without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="70" column="17" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="1308" bodyend="1311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ac662094849c8e60a7536de6c95c01ab9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics" kindref="compound">GPUVectorIndex::Statistics</ref></type>
+        <definition>GPUVectorIndex::Statistics themis::index::VulkanVectorIndexBackend::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="76" column="32" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="1313" bodyend="1315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abfbf3ab2559ea12df01bc2973c3ee236" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::VulkanVectorIndexBackend::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::isInitialized</qualifiedname>
+        <briefdescription>
+<para>Is Initialized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="81" column="10" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="1316" bodyend="1316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8883a36722b390edb8e7f997accaaaf0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::VulkanVectorIndexBackend::VulkanVectorIndexBackend</definition>
+        <argsstring>(const GPUVectorIndex::Config &amp;config)</argsstring>
+        <name>VulkanVectorIndexBackend</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::VulkanVectorIndexBackend</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Vulkan Vector Index Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="53" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a96189966ad858f092d2ffd105de03121" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::VulkanVectorIndexBackend::~VulkanVectorIndexBackend</definition>
+        <argsstring>()</argsstring>
+        <name>~VulkanVectorIndexBackend</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::~VulkanVectorIndexBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="54" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a7cfb19b1ceab9192ed34c7d775526a6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::VulkanVectorIndexBackend::initialize</definition>
+        <argsstring>(int dimension)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::initialize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="61" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a3c8b69716ea40447820185d79e429e68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::VulkanVectorIndexBackend::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="65" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a4dc211999a2fd48dafd9f7e1789fa19d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::VulkanVectorIndexBackend::uploadVectors</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;vectors)</argsstring>
+        <name>uploadVectors</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::uploadVectors</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>vectors</declname>
+        </param>
+        <briefdescription>
+<para>Upload Vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="71" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a5dc2d01e57fa6d5addd2d3772e3eaafa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; float, size_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; float, size_t &gt; &gt; themis::index::VulkanVectorIndexBackend::searchIndices</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, size_t k)</argsstring>
+        <name>searchIndices</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchIndices</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="72" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1af4373a6818636b2939873b67fd7a8fe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; float, size_t &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::pair&lt; float, size_t &gt; &gt; &gt; themis::index::VulkanVectorIndexBackend::searchBatchIndices</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;queries, size_t k)</argsstring>
+        <name>searchBatchIndices</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchBatchIndices</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="73" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8d8d3d3732e6a862f167418548815723" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" kindref="compound">GPUVectorIndex::SearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; GPUVectorIndex::SearchResult &gt; themis::index::VulkanVectorIndexBackend::search</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, size_t k)</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="81" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a49cc4272d02ff28bd8c7f665e5e1e28e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" kindref="compound">GPUVectorIndex::SearchResult</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; GPUVectorIndex::SearchResult &gt; &gt; themis::index::VulkanVectorIndexBackend::searchBatch</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;queries, size_t k)</argsstring>
+        <name>searchBatch</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="88" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ac662094849c8e60a7536de6c95c01ab9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_statistics" kindref="compound">GPUVectorIndex::Statistics</ref></type>
+        <definition>GPUVectorIndex::Statistics themis::index::VulkanVectorIndexBackend::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="94" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abfbf3ab2559ea12df01bc2973c3ee236" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::VulkanVectorIndexBackend::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::isInitialized</qualifiedname>
+        <briefdescription>
+<para>Is Initialized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="99" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a14b6a176de1c268eabb778ad2d5d1229" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::index::VulkanVectorIndexBackend::setInitializeFn</definition>
+        <argsstring>(InitializeFn fn)</argsstring>
+        <name>setInitializeFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::setInitializeFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8e8af35f2e0322b00c259c4c4017863" kindref="member">InitializeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Initialize Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="94" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a7d5196175b672f6021dbbf5ed32bf4b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::index::VulkanVectorIndexBackend::setUploadFn</definition>
+        <argsstring>(UploadFn fn)</argsstring>
+        <name>setUploadFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::setUploadFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" kindref="member">UploadFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Upload Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="99" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a039846ad7147e371486909fc49274747" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::index::VulkanVectorIndexBackend::setSearchFn</definition>
+        <argsstring>(SearchFn fn)</argsstring>
+        <name>setSearchFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::setSearchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9af9afb7a883e1e1a7ad575dc6a29a4a" kindref="member">SearchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Search Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="104" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae129d078ceba9d76de74fc49a3f39797" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::index::VulkanVectorIndexBackend::setSearchBatchFn</definition>
+        <argsstring>(SearchBatchFn fn)</argsstring>
+        <name>setSearchBatchFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::setSearchBatchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a2d30f1038a288969d1f8c5eb69190b4d" kindref="member">SearchBatchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Search Batch Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="109" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9bb9a65f0661d14c8e0f27572f113a17" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::index::VulkanVectorIndexBackend::initializeFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>initializeFnMutex</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::initializeFnMutex</qualifiedname>
+        <briefdescription>
+<para>Initialize Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="115" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9f101eee5dba5bba2fee5c0febdf76bb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8e8af35f2e0322b00c259c4c4017863" kindref="member">InitializeFn</ref> &amp;</type>
+        <definition>static InitializeFn &amp; themis::index::VulkanVectorIndexBackend::initializeFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>initializeFnStorage</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::initializeFnStorage</qualifiedname>
+        <briefdescription>
+<para>Initialize Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="120" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abf5320f901364a28d744b6a16ab74e37" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::index::VulkanVectorIndexBackend::uploadFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>uploadFnMutex</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::uploadFnMutex</qualifiedname>
+        <briefdescription>
+<para>Upload Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="125" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a27061208db968aa6eca3aa24e69a7656" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" kindref="member">UploadFn</ref> &amp;</type>
+        <definition>static UploadFn &amp; themis::index::VulkanVectorIndexBackend::uploadFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>uploadFnStorage</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::uploadFnStorage</qualifiedname>
+        <briefdescription>
+<para>Upload Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="130" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8e3febef99338f2b66c373e3eaf5839e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::index::VulkanVectorIndexBackend::searchFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>searchFnMutex</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchFnMutex</qualifiedname>
+        <briefdescription>
+<para>Search Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="135" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a1757966c6c591346692c45d56da110b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9af9afb7a883e1e1a7ad575dc6a29a4a" kindref="member">SearchFn</ref> &amp;</type>
+        <definition>static SearchFn &amp; themis::index::VulkanVectorIndexBackend::searchFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>searchFnStorage</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchFnStorage</qualifiedname>
+        <briefdescription>
+<para>Search Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="140" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1aa88d9dff27a861ff229dafa0df5dbce5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::index::VulkanVectorIndexBackend::searchBatchFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>searchBatchFnMutex</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchBatchFnMutex</qualifiedname>
+        <briefdescription>
+<para>Search Batch Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="145" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9e14c90a88ce43fa0cc28850706efea0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a2d30f1038a288969d1f8c5eb69190b4d" kindref="member">SearchBatchFn</ref> &amp;</type>
+        <definition>static SearchBatchFn &amp; themis::index::VulkanVectorIndexBackend::searchBatchFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>searchBatchFnStorage</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchBatchFnStorage</qualifiedname>
+        <briefdescription>
+<para>Search Batch Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index_vulkan.h" line="150" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a14b6a176de1c268eabb778ad2d5d1229" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::index::VulkanVectorIndexBackend::setInitializeFn</definition>
+        <argsstring>(InitializeFn fn)</argsstring>
+        <name>setInitializeFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::setInitializeFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8e8af35f2e0322b00c259c4c4017863" kindref="member">InitializeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Initialize Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), <ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9bb9a65f0661d14c8e0f27572f113a17" kindref="member">initializeFnMutex()</ref>, <ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9f101eee5dba5bba2fee5c0febdf76bb" kindref="member">initializeFnStorage()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="114" column="17" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="114" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a7d5196175b672f6021dbbf5ed32bf4b7" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::index::VulkanVectorIndexBackend::setUploadFn</definition>
+        <argsstring>(UploadFn fn)</argsstring>
+        <name>setUploadFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::setUploadFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" kindref="member">UploadFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Upload Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), <ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abf5320f901364a28d744b6a16ab74e37" kindref="member">uploadFnMutex()</ref>, <ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a27061208db968aa6eca3aa24e69a7656" kindref="member">uploadFnStorage()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="123" column="17" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="123" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a039846ad7147e371486909fc49274747" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::index::VulkanVectorIndexBackend::setSearchFn</definition>
+        <argsstring>(SearchFn fn)</argsstring>
+        <name>setSearchFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::setSearchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9af9afb7a883e1e1a7ad575dc6a29a4a" kindref="member">SearchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Search Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), <ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8e3febef99338f2b66c373e3eaf5839e" kindref="member">searchFnMutex()</ref>, <ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a1757966c6c591346692c45d56da110b4" kindref="member">searchFnStorage()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="132" column="17" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="132" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae129d078ceba9d76de74fc49a3f39797" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::index::VulkanVectorIndexBackend::setSearchBatchFn</definition>
+        <argsstring>(SearchBatchFn fn)</argsstring>
+        <name>setSearchBatchFn</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::setSearchBatchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a2d30f1038a288969d1f8c5eb69190b4d" kindref="member">SearchBatchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Search Batch Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), <ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1aa88d9dff27a861ff229dafa0df5dbce5" kindref="member">searchBatchFnMutex()</ref>, <ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9e14c90a88ce43fa0cc28850706efea0" kindref="member">searchBatchFnStorage()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="141" column="17" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="141" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9bb9a65f0661d14c8e0f27572f113a17" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::index::VulkanVectorIndexBackend::initializeFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>initializeFnMutex</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::initializeFnMutex</qualifiedname>
+        <briefdescription>
+<para>Initialize Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements initializeFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="151" column="23" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="151" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9f101eee5dba5bba2fee5c0febdf76bb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8e8af35f2e0322b00c259c4c4017863" kindref="member">InitializeFn</ref> &amp;</type>
+        <definition>static InitializeFn &amp; themis::index::VulkanVectorIndexBackend::initializeFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>initializeFnStorage</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::initializeFnStorage</qualifiedname>
+        <briefdescription>
+<para>Initialize Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements initializeFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="157" column="26" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abf5320f901364a28d744b6a16ab74e37" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::index::VulkanVectorIndexBackend::uploadFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>uploadFnMutex</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::uploadFnMutex</qualifiedname>
+        <briefdescription>
+<para>Upload Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements uploadFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="163" column="23" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a27061208db968aa6eca3aa24e69a7656" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" kindref="member">UploadFn</ref> &amp;</type>
+        <definition>static UploadFn &amp; themis::index::VulkanVectorIndexBackend::uploadFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>uploadFnStorage</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::uploadFnStorage</qualifiedname>
+        <briefdescription>
+<para>Upload Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements uploadFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="169" column="26" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8e3febef99338f2b66c373e3eaf5839e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::index::VulkanVectorIndexBackend::searchFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>searchFnMutex</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchFnMutex</qualifiedname>
+        <briefdescription>
+<para>Search Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements searchFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="175" column="23" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a1757966c6c591346692c45d56da110b4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9af9afb7a883e1e1a7ad575dc6a29a4a" kindref="member">SearchFn</ref> &amp;</type>
+        <definition>static SearchFn &amp; themis::index::VulkanVectorIndexBackend::searchFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>searchFnStorage</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchFnStorage</qualifiedname>
+        <briefdescription>
+<para>Search Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements searchFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="181" column="26" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1aa88d9dff27a861ff229dafa0df5dbce5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::index::VulkanVectorIndexBackend::searchBatchFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>searchBatchFnMutex</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchBatchFnMutex</qualifiedname>
+        <briefdescription>
+<para>Search Batch Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements searchBatchFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="187" column="23" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9e14c90a88ce43fa0cc28850706efea0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a2d30f1038a288969d1f8c5eb69190b4d" kindref="member">SearchBatchFn</ref> &amp;</type>
+        <definition>static SearchBatchFn &amp; themis::index::VulkanVectorIndexBackend::searchBatchFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>searchBatchFnStorage</name>
+        <qualifiedname>themis::index::VulkanVectorIndexBackend::searchBatchFnStorage</qualifiedname>
+        <briefdescription>
+<para>Search Batch Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements searchBatchFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/gpu_vector_index_vulkan.cpp" line="193" column="26" bodyfile="src/index/gpu_vector_index_vulkan.cpp" bodystart="193" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/gpu_vector_index_vulkan.h" line="28" column="1" bodyfile="include/index/gpu_vector_index_vulkan.h" bodystart="28" bodyend="155"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ac662094849c8e60a7536de6c95c01ab9" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ac662094849c8e60a7536de6c95c01ab9" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a7cfb19b1ceab9192ed34c7d775526a6a" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a7cfb19b1ceab9192ed34c7d775526a6a" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8e8af35f2e0322b00c259c4c4017863" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>InitializeFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ab26326a98dcf26e74e6f2ebe35e2082b" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>InitializeFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9bb9a65f0661d14c8e0f27572f113a17" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>initializeFnMutex</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9bb9a65f0661d14c8e0f27572f113a17" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>initializeFnMutex</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9f101eee5dba5bba2fee5c0febdf76bb" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>initializeFnStorage</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9f101eee5dba5bba2fee5c0febdf76bb" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>initializeFnStorage</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abfbf3ab2559ea12df01bc2973c3ee236" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abfbf3ab2559ea12df01bc2973c3ee236" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ab8b50cfd3274207ba4dfe570e56f504a" prot="private" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>pImpl</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8d8d3d3732e6a862f167418548815723" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>search</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8d8d3d3732e6a862f167418548815723" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>search</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a49cc4272d02ff28bd8c7f665e5e1e28e" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchBatch</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a49cc4272d02ff28bd8c7f665e5e1e28e" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchBatch</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a2d30f1038a288969d1f8c5eb69190b4d" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>SearchBatchFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae8f2f6c8c9e047dbc78e78d3473a698e" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>SearchBatchFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1aa88d9dff27a861ff229dafa0df5dbce5" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchBatchFnMutex</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1aa88d9dff27a861ff229dafa0df5dbce5" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchBatchFnMutex</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9e14c90a88ce43fa0cc28850706efea0" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchBatchFnStorage</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9e14c90a88ce43fa0cc28850706efea0" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchBatchFnStorage</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1af4373a6818636b2939873b67fd7a8fe3" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchBatchIndices</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1af4373a6818636b2939873b67fd7a8fe3" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchBatchIndices</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a9af9afb7a883e1e1a7ad575dc6a29a4a" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>SearchFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a39a049f7402df5f1a158e1a037b6e32f" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>SearchFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8e3febef99338f2b66c373e3eaf5839e" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchFnMutex</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8e3febef99338f2b66c373e3eaf5839e" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchFnMutex</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a1757966c6c591346692c45d56da110b4" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchFnStorage</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a1757966c6c591346692c45d56da110b4" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchFnStorage</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a5dc2d01e57fa6d5addd2d3772e3eaafa" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchIndices</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a5dc2d01e57fa6d5addd2d3772e3eaafa" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>searchIndices</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a14b6a176de1c268eabb778ad2d5d1229" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>setInitializeFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a14b6a176de1c268eabb778ad2d5d1229" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>setInitializeFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae129d078ceba9d76de74fc49a3f39797" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>setSearchBatchFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ae129d078ceba9d76de74fc49a3f39797" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>setSearchBatchFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a039846ad7147e371486909fc49274747" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>setSearchFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a039846ad7147e371486909fc49274747" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>setSearchFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a7d5196175b672f6021dbbf5ed32bf4b7" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>setUploadFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a7d5196175b672f6021dbbf5ed32bf4b7" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>setUploadFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a3c8b69716ea40447820185d79e429e68" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a3c8b69716ea40447820185d79e429e68" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>UploadFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1ad14732b5cbb3a03cc92ac7682481ab74" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>UploadFn</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abf5320f901364a28d744b6a16ab74e37" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>uploadFnMutex</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1abf5320f901364a28d744b6a16ab74e37" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>uploadFnMutex</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a27061208db968aa6eca3aa24e69a7656" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>uploadFnStorage</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a27061208db968aa6eca3aa24e69a7656" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>uploadFnStorage</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a4dc211999a2fd48dafd9f7e1789fa19d" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>uploadVectors</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a4dc211999a2fd48dafd9f7e1789fa19d" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>uploadVectors</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8883a36722b390edb8e7f997accaaaf0" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>VulkanVectorIndexBackend</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a8883a36722b390edb8e7f997accaaaf0" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>VulkanVectorIndexBackend</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a96189966ad858f092d2ffd105de03121" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>~VulkanVectorIndexBackend</name></member>
+      <member refid="classthemis_1_1index_1_1_vulkan_vector_index_backend_1a96189966ad858f092d2ffd105de03121" prot="public" virt="non-virtual"><scope>themis::index::VulkanVectorIndexBackend</scope><name>~VulkanVectorIndexBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

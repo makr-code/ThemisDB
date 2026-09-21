@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_streaming_retriever_m_m_r_test" kind="class" language="C++" prot="public">
+    <compoundname>StreamingRetrieverMMRTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_streaming_retriever_m_m_r_test_1a6230644cbb6a358c3e53967d8a4e7e4d" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" kindref="compound">StreamingRetrieverConfig</ref></type>
+        <definition>StreamingRetrieverConfig StreamingRetrieverMMRTest::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>StreamingRetrieverMMRTest::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="330" column="30" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="330" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_streaming_retriever_m_m_r_test_1a7896c4db21aebe29ba0630f64d5e7108" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StreamingRetrieverMMRTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>StreamingRetrieverMMRTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_streaming_retriever.cpp" line="332" column="10" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="332" bodyend="340"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StreamingRetrieverMMRTest</label>
+        <link refid="class_streaming_retriever_m_m_r_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StreamingRetrieverMMRTest</label>
+        <link refid="class_streaming_retriever_m_m_r_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::streaming::StreamingRetrieverConfig</label>
+        <link refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_streaming_retriever.cpp" line="328" column="1" bodyfile="tests/rag/test_rag_streaming_retriever.cpp" bodystart="328" bodyend="341"/>
+    <listofallmembers>
+      <member refid="class_streaming_retriever_m_m_r_test_1a6230644cbb6a358c3e53967d8a4e7e4d" prot="protected" virt="non-virtual"><scope>StreamingRetrieverMMRTest</scope><name>cfg</name></member>
+      <member refid="class_streaming_retriever_m_m_r_test_1a7896c4db21aebe29ba0630f64d5e7108" prot="protected" virt="non-virtual"><scope>StreamingRetrieverMMRTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

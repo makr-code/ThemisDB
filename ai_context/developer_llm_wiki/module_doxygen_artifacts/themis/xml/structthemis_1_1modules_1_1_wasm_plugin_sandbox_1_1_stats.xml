@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::WasmPluginSandbox::Stats</compoundname>
+    <includes refid="wasm__plugin__sandbox_8h" local="no">wasm_plugin_sandbox.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats_1aca50578c1fae8d8a38919020b5b39263" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WasmPluginSandbox::Stats::calls_attempted</definition>
+        <argsstring></argsstring>
+        <name>calls_attempted</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Stats::calls_attempted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3522c0e7d5df1b7c190356cf05c0a502" kindref="member">callExport()</ref> attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="382" column="18" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats_1a84ae9805805d4e554f0f0d8e2147b4bc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WasmPluginSandbox::Stats::calls_succeeded</definition>
+        <argsstring></argsstring>
+        <name>calls_succeeded</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Stats::calls_succeeded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Calls that returned success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="383" column="18" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats_1a64f99c014919d6d7883d6afbaee78ce3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WasmPluginSandbox::Stats::calls_trapped</definition>
+        <argsstring></argsstring>
+        <name>calls_trapped</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Stats::calls_trapped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Calls that trapped / errored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="384" column="18" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats_1a78c49aeb4c92387c94895b2817b49645" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WasmPluginSandbox::Stats::total_call_us</definition>
+        <argsstring></argsstring>
+        <name>total_call_us</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::Stats::total_call_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Accumulated call duration (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="385" column="18" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/wasm_plugin_sandbox.h" line="381" column="5" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="381" bodyend="386"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats_1aca50578c1fae8d8a38919020b5b39263" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Stats</scope><name>calls_attempted</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats_1a84ae9805805d4e554f0f0d8e2147b4bc" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Stats</scope><name>calls_succeeded</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats_1a64f99c014919d6d7883d6afbaee78ce3" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Stats</scope><name>calls_trapped</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats_1a78c49aeb4c92387c94895b2817b49645" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox::Stats</scope><name>total_call_us</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AQLTranslator::TranslationResult::TraversalQuery</compoundname>
+    <includes refid="aql__translator_8h" local="no">aql_translator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1ac59f87ec8fd00d76b588a65e050ace47" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Direction</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::TraversalQuery::Direction</qualifiedname>
+        <enumvalue id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1ac59f87ec8fd00d76b588a65e050ace47a4c32be4a0b4f48cdd593aef35fd69e44" prot="public">
+          <name>Outbound</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1ac59f87ec8fd00d76b588a65e050ace47a6c7e3200049198face0d2648e9d1a27d" prot="public">
+          <name>Inbound</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1ac59f87ec8fd00d76b588a65e050ace47aed36a1ef76a59ee3f15180e0441188ad" prot="public">
+          <name>Any</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="69" column="13" bodyfile="include/query/aql_translator.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a18b2bfe03cd63d0692bfeee6e3e6110c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::TraversalQuery::variable</definition>
+        <argsstring></argsstring>
+        <name>variable</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::TraversalQuery::variable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="70" column="25" bodyfile="include/query/aql_translator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a055f020b255811222db5477ffec886cd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::AQLTranslator::TranslationResult::TraversalQuery::minDepth</definition>
+        <argsstring></argsstring>
+        <name>minDepth</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::TraversalQuery::minDepth</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="71" column="17" bodyfile="include/query/aql_translator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a5aa0bfb4dbeeb6e667a44afa1c0a1333" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::AQLTranslator::TranslationResult::TraversalQuery::maxDepth</definition>
+        <argsstring></argsstring>
+        <name>maxDepth</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::TraversalQuery::maxDepth</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="72" column="17" bodyfile="include/query/aql_translator.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a99acbea73809a0c51a3bca9fd0d7a689" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1ac59f87ec8fd00d76b588a65e050ace47" kindref="member">Direction</ref></type>
+        <definition>Direction themis::AQLTranslator::TranslationResult::TraversalQuery::direction</definition>
+        <argsstring></argsstring>
+        <name>direction</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::TraversalQuery::direction</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1ac59f87ec8fd00d76b588a65e050ace47a4c32be4a0b4f48cdd593aef35fd69e44" kindref="member">Direction::Outbound</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="73" column="23" bodyfile="include/query/aql_translator.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a0ce8c0aaff173f64c3e90dc40d0b8b98" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::TraversalQuery::startVertex</definition>
+        <argsstring></argsstring>
+        <name>startVertex</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::TraversalQuery::startVertex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="74" column="25" bodyfile="include/query/aql_translator.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a3afb290ded7a09f5d61580c34aef5f94" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::TraversalQuery::graphName</definition>
+        <argsstring></argsstring>
+        <name>graphName</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::TraversalQuery::graphName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="75" column="25" bodyfile="include/query/aql_translator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1af837930b50bcfdf7cba30dd338c887c0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AQLTranslator::TranslationResult::TraversalQuery::shortestPath</definition>
+        <argsstring></argsstring>
+        <name>shortestPath</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::TraversalQuery::shortestPath</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="76" column="18" bodyfile="include/query/aql_translator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1aa5277ae14f19bb74a378153187a57c4f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::TraversalQuery::endVertex</definition>
+        <argsstring></argsstring>
+        <name>endVertex</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::TraversalQuery::endVertex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="77" column="25" bodyfile="include/query/aql_translator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_translator.h" line="68" column="9" bodyfile="include/query/aql_translator.h" bodystart="68" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1ac59f87ec8fd00d76b588a65e050ace47" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::TraversalQuery</scope><name>Direction</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a99acbea73809a0c51a3bca9fd0d7a689" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::TraversalQuery</scope><name>direction</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1aa5277ae14f19bb74a378153187a57c4f" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::TraversalQuery</scope><name>endVertex</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a3afb290ded7a09f5d61580c34aef5f94" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::TraversalQuery</scope><name>graphName</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a5aa0bfb4dbeeb6e667a44afa1c0a1333" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::TraversalQuery</scope><name>maxDepth</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a055f020b255811222db5477ffec886cd" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::TraversalQuery</scope><name>minDepth</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1af837930b50bcfdf7cba30dd338c887c0" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::TraversalQuery</scope><name>shortestPath</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a0ce8c0aaff173f64c3e90dc40d0b8b98" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::TraversalQuery</scope><name>startVertex</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_traversal_query_1a18b2bfe03cd63d0692bfeee6e3e6110c" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::TraversalQuery</scope><name>variable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

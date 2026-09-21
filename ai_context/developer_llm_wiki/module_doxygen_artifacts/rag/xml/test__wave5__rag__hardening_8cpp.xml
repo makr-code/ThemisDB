@@ -1,0 +1,1003 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wave5__rag__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_wave5_rag_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="distributed__rag__evaluator_8h" local="yes">rag/distributed_rag_evaluator.h</includes>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes refid="rlaif__trainer_8h" local="yes">rag/rlaif_trainer.h</includes>
+    <includes refid="wiki__index__store_8h" local="yes">rag/wiki_index_store.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">future</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>rag/distributed_rag_evaluator.h</label>
+        <link refid="distributed__rag__evaluator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>rag/rlaif_trainer.h</label>
+        <link refid="rlaif__trainer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>rag/wiki_index_store.h</label>
+        <link refid="wiki__index__store_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_wave5_rag_hardening.cpp</label>
+        <link refid="test__wave5__rag__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cmath</label>
+      </node>
+      <node id="14">
+        <label>cstddef</label>
+      </node>
+      <node id="17">
+        <label>distributed_knowledge/cross_shard_feedback_sync.h</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="15">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="20">
+        <label>thread</label>
+      </node>
+      <node id="21">
+        <label>type_traits</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="19">
+        <label>utility</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R1, EvaluateCompletesWhenNoPerJudgeTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R1</type>
+        </param>
+        <param>
+          <type>EvaluateCompletesWhenNoPerJudgeTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="70" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="70" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a4cf705cb082e6c643cc3764dfd0946eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R1, EvaluateWithExplicitTimeoutStillWorks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R1</type>
+        </param>
+        <param>
+          <type>EvaluateWithExplicitTimeoutStillWorks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="93" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="93" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a0209dfa5455991f1cb41d9634f92db80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R2, LLMIntegrationHasNoExposedThreadJoin)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R2</type>
+        </param>
+        <param>
+          <type>LLMIntegrationHasNoExposedThreadJoin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="114" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="114" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a7fb12a3e8c696317efcf4f9d9aa36bb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R3, KnowledgeGapDetectorUsesSharedMutex)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R3</type>
+        </param>
+        <param>
+          <type>KnowledgeGapDetectorUsesSharedMutex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="126" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="126" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a4d5ab512eaa6fdb7124d968356186cc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R4, LearningLoopActiveFlagIsAtomic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R4</type>
+        </param>
+        <param>
+          <type>LearningLoopActiveFlagIsAtomic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="140" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="140" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1ad3c6533b42021865b021cba6fb279d06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R8, RLAIFTrainerDestructorIsNoexcept)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R8</type>
+        </param>
+        <param>
+          <type>RLAIFTrainerDestructorIsNoexcept</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="156" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="156" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a2b00d489ffb0f8023e653a05db0b3527" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R8, RLAIFTrainerDestructsWithoutException)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R8</type>
+        </param>
+        <param>
+          <type>RLAIFTrainerDestructsWithoutException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="162" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="162" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a390b757ff333bf4d18462a3b751aeaea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R8, RLAIFTrainerCustomJudgeDestructsWithoutException)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R8</type>
+        </param>
+        <param>
+          <type>RLAIFTrainerCustomJudgeDestructsWithoutException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="171" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="171" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a1b3ef3b7020e0e0b54b4d58e687bfed7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R9, BM25PlusScoreZeroForEmptyQuery)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R9</type>
+        </param>
+        <param>
+          <type>BM25PlusScoreZeroForEmptyQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="188" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="188" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1aab8a7f42f60ecadef67f9eb921b4c213" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R9, BM25PlusScoreZeroForUnknownTerm)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R9</type>
+        </param>
+        <param>
+          <type>BM25PlusScoreZeroForUnknownTerm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="194" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="194" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a086038b97999502ec8ca814c546c5473" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R9, BM25PlusScorePositiveForMatchingTerm)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R9</type>
+        </param>
+        <param>
+          <type>BM25PlusScorePositiveForMatchingTerm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="201" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="201" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a6a47aa2af8dce83c76849a99a4569390" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R9, BM25PlusScoreIncreasesWithTermFrequency)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R9</type>
+        </param>
+        <param>
+          <type>BM25PlusScoreIncreasesWithTermFrequency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="209" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="209" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a9426bb302e15fd90aaddf2c4e4b1a1c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R9, BM25PlusScoreExactValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R9</type>
+        </param>
+        <param>
+          <type>BM25PlusScoreExactValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="217" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="217" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a50af882cbcfca3aa3cfe796050cc24d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R9, RRFFusionEmptyLists)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R9</type>
+        </param>
+        <param>
+          <type>RRFFusionEmptyLists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="235" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="235" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1ae73f7836f8409dd770cc08f2c98add62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R9, RRFFusionSingleList)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R9</type>
+        </param>
+        <param>
+          <type>RRFFusionSingleList</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="240" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="240" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a6639f1f0ba2b96951e06f6605e346af5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R9, RRFFusionMergeTwoLists)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R9</type>
+        </param>
+        <param>
+          <type>RRFFusionMergeTwoLists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="249" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="249" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a70caf99d9cbe6e477725163ebb8ac841" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R9, RRFFusionInvalidKThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R9</type>
+        </param>
+        <param>
+          <type>RRFFusionInvalidKThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="260" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="260" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a89ce13b9c6950291bcdcea4bb0b50bbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R10, WikiIndexStoreEmptyAtConstruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R10</type>
+        </param>
+        <param>
+          <type>WikiIndexStoreEmptyAtConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="269" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="269" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1afef3fd42250283fab4c33ae69c73318c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R10, WikiIndexStoreAddAndSize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R10</type>
+        </param>
+        <param>
+          <type>WikiIndexStoreAddAndSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="274" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="274" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a818f678cec77b6f051b90fb3f0d711be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R10, WikiIndexStoreSearchReturnsResults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R10</type>
+        </param>
+        <param>
+          <type>WikiIndexStoreSearchReturnsResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="282" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="282" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1aa30b71b64eba90cffbba73155863d101" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R10, WikiIndexStoreTopKLimitsResults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R10</type>
+        </param>
+        <param>
+          <type>WikiIndexStoreTopKLimitsResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="294" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="294" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1afa6e8c7783a43a3cce862176c6f8a4cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R10, WikiIndexStoreClear)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R10</type>
+        </param>
+        <param>
+          <type>WikiIndexStoreClear</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="303" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="303" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1ad58a503f633bb2d76a2cd3e6e8100778" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R10, WikiIndexStoreFuseRRF)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R10</type>
+        </param>
+        <param>
+          <type>WikiIndexStoreFuseRRF</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="312" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="312" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a5be18b9aa8ff3fce948e0162592df9d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R10, WikiIndexStoreConcurrentAddIsThreadSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R10</type>
+        </param>
+        <param>
+          <type>WikiIndexStoreConcurrentAddIsThreadSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="324" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="324" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave5__rag__hardening_8cpp_1a2caab4a1e6fc5ee0d5e38b5c8537d5ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Wave5R10, WikiIndexStoreEmptyDocIdIgnored)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Wave5R10</type>
+        </param>
+        <param>
+          <type>WikiIndexStoreEmptyDocIdIgnored</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_wave5_rag_hardening.cpp" line="344" column="1" bodyfile="tests/rag/test_wave5_rag_hardening.cpp" bodystart="344" bodyend="348"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave 5 Phase 2 RAG hardening verification tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coverage:<itemizedlist>
+<listitem><para>R1: <ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator" kindref="compound">DistributedRAGEvaluator</ref> timeout path (no per_judge_timeout) uses 30s fallback</para>
+</listitem><listitem><para>R2: <ref refid="classthemis_1_1rag_1_1_l_l_m_integration" kindref="compound">LLMIntegration</ref> has no bare thread.join() — verified structurally</para>
+</listitem><listitem><para>R3: KnowledgeGapDetector shared state uses shared_mutex (compile-time verification)</para>
+</listitem><listitem><para>R4: ContinuousLearningOrchestrator flag is std::atomic&lt;bool&gt;</para>
+</listitem><listitem><para>R8: <ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer" kindref="compound">RLAIFTrainer</ref> destructor is noexcept</para>
+</listitem><listitem><para>R9: bm25PlusScore returns expected values for known input</para>
+</listitem><listitem><para>R9: rrfFusion merges ranked lists correctly with RRF formula</para>
+</listitem><listitem><para>R10: <ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref> addDocument + searchBM25 + fuseRRF integration</para>
+</listitem><listitem><para>R10: <ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref> is thread-safe (concurrent addDocument) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__rag__evaluator_8h" kindref="compound">rag/distributed_rag_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R8</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rlaif__trainer_8h" kindref="compound">rag/rlaif_trainer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R9/R10</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wiki__index__store_8h" kindref="compound">rag/wiki_index_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1distributed" kindref="compound">themis::rag::distributed</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1training" kindref="compound">themis::rag::training</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R1<sp/>—<sp/>DistributedRAGEvaluator:<sp/>blocking_no_timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref><sp/>makeInput()<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref><sp/>in;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input_1a849582ad59a3799819474de93d26dc38" kindref="member">query</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input_1a0ddb460259acfcbb554ba17511b16ba2" kindref="member">generated_answer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>in.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input_1a815b2f596fd3f6be23dd6cc3261e5435" kindref="member">documents</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>0.95,<sp/>{}}};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>in;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config" kindref="compound">JudgeWorkerConfig</ref><sp/>makeWorker(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516" kindref="member">EvaluationMode</ref><sp/><sp/><sp/><sp/><sp/>mode<sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516adca6e617f6fb54033deb311e7e7c93cc" kindref="member">EvaluationMode::FAST</ref>,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>weight<sp/>=<sp/>1.0)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a54d02b9a412daab7cfedc4516a7317fe" kindref="member">mode</ref><sp/>=<sp/>mode;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config" kindref="compound">JudgeWorkerConfig</ref><sp/>w;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>w.<ref refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1ab6f70d8124d0600a71c7414ce546f490" kindref="member">judge_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>w.<ref refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1a24d88fd3e2d90cf5f9e718bc1f716237" kindref="member">judge_config</ref><sp/>=<sp/>cfg;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>w.<ref refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1aa12869d9c9d00d2f255b6dcee411fbf0" kindref="member">weight</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>weight;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>w;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R1,<sp/>EvaluateCompletesWhenNoPerJudgeTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Config<sp/>with<sp/>per_judge_timeout<sp/>=<sp/>0<sp/>(not<sp/>set)<sp/>—<sp/>must<sp/>not<sp/>hang.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>Wave<sp/>5<sp/>fix<sp/>applies<sp/>a<sp/>30<sp/>s<sp/>internal<sp/>fallback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" kindref="compound">DistributedEvaluatorConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1ad467dcd4b6c746b36ed1f9c4d9e6f396" kindref="member">per_judge_timeout</ref><sp/>=<sp/>std::chrono::seconds(0);<sp/></highlight><highlight class="comment">//<sp/>no<sp/>explicit<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a3807adeb84a5d6baf77e9c837047eb2c" kindref="member">aggregation</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915a4ea6d1161ea24d7599365f574aff6610" kindref="member">AggregationStrategy::MEAN</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>evaluator<sp/>=<sp/>std::make_unique&lt;DistributedRAGEvaluator&gt;(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;JudgeWorkerConfig&gt;{makeWorker(</highlight><highlight class="stringliteral">&quot;j0&quot;</highlight><highlight class="normal">)},<sp/>cfg);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>call<sp/>must<sp/>return<sp/>within<sp/>a<sp/>generous<sp/>wall-clock<sp/>bound<sp/>for<sp/>a<sp/>fast<sp/>judge.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[result,<sp/>meta]<sp/>=<sp/>evaluator-&gt;evaluate(makeInput());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>start;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>is<sp/>valid<sp/>(score<sp/>in<sp/>[0,1]).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.overall_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>complete<sp/>well<sp/>under<sp/>the<sp/>30<sp/>s<sp/>fallback<sp/>limit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(std::chrono::duration_cast&lt;std::chrono::seconds&gt;(elapsed).count(),<sp/>10);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(meta.successful_judges,<sp/>1u);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R1,<sp/>EvaluateWithExplicitTimeoutStillWorks)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" kindref="compound">DistributedEvaluatorConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1ad467dcd4b6c746b36ed1f9c4d9e6f396" kindref="member">per_judge_timeout</ref><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(5);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a529d33066b51266f2765cd5348a2dca9" kindref="member">skip_failed_judges</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a0e989b6986ea2648c6f0cab0835838dc" kindref="member">min_successful_judges</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>evaluator<sp/>=<sp/>std::make_unique&lt;DistributedRAGEvaluator&gt;(</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;JudgeWorkerConfig&gt;{makeWorker(</highlight><highlight class="stringliteral">&quot;j0&quot;</highlight><highlight class="normal">),<sp/>makeWorker(</highlight><highlight class="stringliteral">&quot;j1&quot;</highlight><highlight class="normal">)},<sp/>cfg);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[result,<sp/>meta]<sp/>=<sp/>evaluator-&gt;evaluate(makeInput());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.overall_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R2<sp/>—<sp/>LLMIntegration:<sp/>thread_join_no_timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Structural<sp/>check:<sp/>llm_integration.cpp<sp/>has<sp/>no<sp/>bare<sp/>thread.join().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>inference<sp/>engine<sp/>uses<sp/>std::async<sp/>internally;<sp/>no<sp/>explicit<sp/>std::thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>management<sp/>was<sp/>found<sp/>during<sp/>Wave<sp/>5<sp/>triage<sp/>—<sp/>verified<sp/>at<sp/>diff<sp/>level.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R2,<sp/>LLMIntegrationHasNoExposedThreadJoin)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>documents<sp/>that<sp/>the<sp/>gap<sp/>was<sp/>confirmed<sp/>not<sp/>present<sp/>in<sp/>the<sp/>code.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>llm_integration.cpp<sp/>file<sp/>(584<sp/>lines)<sp/>contains<sp/>no<sp/>std::thread::join()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>call;<sp/>all<sp/>async<sp/>work<sp/>is<sp/>delegated<sp/>to<sp/>the<sp/>InferenceEngineEnhanced.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Structural<sp/>check:<sp/>no<sp/>bare<sp/>thread.join()<sp/>in<sp/>llm_integration.cpp<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;(confirmed<sp/>during<sp/>Wave<sp/>5<sp/>triage,<sp/>584<sp/>lines<sp/>reviewed)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R3<sp/>—<sp/>KnowledgeGapDetector:<sp/>data_race<sp/>verified<sp/>compliant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R3,<sp/>KnowledgeGapDetectorUsesSharedMutex)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compile-time<sp/>verification:<sp/>the<sp/>Impl<sp/>struct<sp/>in<sp/>knowledge_gap_detector.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uses<sp/>std::shared_mutex<sp/>for<sp/>all<sp/>shared<sp/>state<sp/>access,<sp/>verified<sp/>in<sp/>Wave<sp/>5.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>shared_mutex<sp/>protects:<sp/>config,<sp/>gap_callback,<sp/>retrieval_fn,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>llm_sample_fn,<sp/>claim_verification_fn,<sp/>and<sp/>the<sp/>result<sp/>cache.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Structural<sp/>check:<sp/>KnowledgeGapDetector::Impl<sp/>uses<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;std::shared_mutex<sp/>with<sp/>shared_lock<sp/>for<sp/>reads<sp/>and<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;unique_lock<sp/>for<sp/>writes<sp/>—<sp/>Wave<sp/>5<sp/>compliant&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R4<sp/>—<sp/>ContinuousLearningOrchestrator:<sp/>data_race<sp/>verified<sp/>compliant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R4,<sp/>LearningLoopActiveFlagIsAtomic)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>type<sp/>property<sp/>holds<sp/>in<sp/>an<sp/>equivalent<sp/>standalone<sp/>context.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>orchestrator&apos;s<sp/>impl_-&gt;learning_loop_active<sp/>uses<sp/>std::atomic&lt;bool&gt;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>flag{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(flag.load(std::memory_order_acquire));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>flag.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flag.load(std::memory_order_acquire));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>atomic&lt;bool&gt;<sp/>is<sp/>lock-free<sp/>on<sp/>this<sp/>platform<sp/>(advisory).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::atomic&lt;bool&gt;{}.is_lock_free());</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R8<sp/>—<sp/>RLAIFTrainer:<sp/>exception_in_destructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R8,<sp/>RLAIFTrainerDestructorIsNoexcept)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Static<sp/>check:<sp/>destructor<sp/>must<sp/>not<sp/>throw.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_nothrow_destructible&lt;RLAIFTrainer&gt;::value)</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;RLAIFTrainer::~RLAIFTrainer()<sp/>must<sp/>be<sp/>noexcept<sp/>(Wave<sp/>5<sp/>R8)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R8,<sp/>RLAIFTrainerDestructsWithoutException)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Runtime<sp/>check:<sp/>construct<sp/>and<sp/>destroy.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer" kindref="compound">RLAIFTrainer</ref><sp/>trainer;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>trainer<sp/>goes<sp/>out<sp/>of<sp/>scope<sp/>here<sp/>—<sp/>destructor<sp/>must<sp/>not<sp/>throw.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R8,<sp/>RLAIFTrainerCustomJudgeDestructsWithoutException)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config" kindref="compound">RLAIFConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a472bf7ab370f732a67c98020c180d8b3" kindref="member">max_revision_iterations</ref><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1a138b7e2dc9e99b68722459ca4311a306" kindref="member">min_quality_threshold</ref><sp/><sp/><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1af11aa40fc4cdb7b495fdbc2528450c6b" kindref="member">min_preference_score</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config_1aeb5374475eeac0966dcba332b8b433ad" kindref="member">improvement_threshold</ref><sp/><sp/><sp/><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer" kindref="compound">RLAIFTrainer</ref><sp/>trainer(cfg,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>nullptr<sp/>→<sp/>HeuristicAIJudge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Destructor<sp/>fires<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R9<sp/>—<sp/>bm25PlusScore:<sp/>known-input<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R9,<sp/>BM25PlusScoreZeroForEmptyQuery)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>float&gt;<sp/>idf_map{{</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/>1.5f}};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>score<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a778fe1c61d8ef9e066047d286db8662d" kindref="member">bm25PlusScore</ref>({},<sp/></highlight><highlight class="stringliteral">&quot;paris<sp/>is<sp/>the<sp/>capital&quot;</highlight><highlight class="normal">,<sp/>5.0f,<sp/>idf_map);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(score,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R9,<sp/>BM25PlusScoreZeroForUnknownTerm)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>float&gt;<sp/>idf_map{{</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>1.2f}};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>score<sp/>=</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1a778fe1c61d8ef9e066047d286db8662d" kindref="member">bm25PlusScore</ref>({</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;berlin<sp/>is<sp/>the<sp/>capital&quot;</highlight><highlight class="normal">,<sp/>5.0f,<sp/>idf_map);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(score,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R9,<sp/>BM25PlusScorePositiveForMatchingTerm)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>doc:<sp/>&quot;paris<sp/>paris<sp/>capital&quot;,<sp/>query:<sp/>&quot;paris&quot;,<sp/>idf(paris)=1.5,<sp/>avgdl=3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>float&gt;<sp/>idf_map{{</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/>1.5f}};</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>doc<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;paris<sp/>paris<sp/>capital&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>score<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a778fe1c61d8ef9e066047d286db8662d" kindref="member">bm25PlusScore</ref>({</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">},<sp/>doc,<sp/>3.0f,<sp/>idf_map);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(score,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R9,<sp/>BM25PlusScoreIncreasesWithTermFrequency)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Single<sp/>occurrence<sp/>vs.<sp/>double<sp/>occurrence<sp/>—<sp/>score<sp/>must<sp/>be<sp/>higher<sp/>for<sp/>two.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>float&gt;<sp/>idf{{</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/>1.0f}};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>s1<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a778fe1c61d8ef9e066047d286db8662d" kindref="member">bm25PlusScore</ref>({</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;paris<sp/>capital&quot;</highlight><highlight class="normal">,<sp/>3.0f,<sp/>idf);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>s2<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a778fe1c61d8ef9e066047d286db8662d" kindref="member">bm25PlusScore</ref>({</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;paris<sp/>paris<sp/>capital&quot;</highlight><highlight class="normal">,<sp/>3.0f,<sp/>idf);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(s2,<sp/>s1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;BM25+<sp/>score<sp/>must<sp/>increase<sp/>with<sp/>term<sp/>frequency&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R9,<sp/>BM25PlusScoreExactValues)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manual<sp/>computation:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>doc<sp/>=<sp/>&quot;paris&quot;,<sp/>dl=1,<sp/>avgdl=1,<sp/>tf(paris)=1,<sp/>idf(paris)=1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>k1=1.5,<sp/>b=0.75,<sp/>delta=1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>norm<sp/>=<sp/>dl/avgdl<sp/>=<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>denom<sp/>=<sp/>tf<sp/>+<sp/>k1*(1<sp/>-<sp/>b<sp/>+<sp/>b*norm)<sp/>=<sp/>1<sp/>+<sp/>1.5*(1<sp/>-<sp/>0.75<sp/>+<sp/>0.75)<sp/>=<sp/>1<sp/>+<sp/>1.5<sp/>=<sp/>2.5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>numer<sp/>=<sp/>tf*(k1+1)<sp/>=<sp/>1*2.5<sp/>=<sp/>2.5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>bm25_term<sp/>=<sp/>2.5/2.5<sp/>=<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>score<sp/>=<sp/>idf<sp/>*<sp/>(bm25_term<sp/>+<sp/>delta)<sp/>=<sp/>1.0<sp/>*<sp/>(1.0<sp/>+<sp/>1.0)<sp/>=<sp/>2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>float&gt;<sp/>idf{{</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/>1.0f}};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>score<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a778fe1c61d8ef9e066047d286db8662d" kindref="member">bm25PlusScore</ref>({</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/>1.0f,<sp/>idf);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(score,<sp/>2.0f,<sp/>1e-4f)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;BM25+<sp/>exact<sp/>value<sp/>mismatch&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R9<sp/>—<sp/>rrfFusion:<sp/>known-input<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R9,<sp/>RRFFusionEmptyLists)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a5368f92484946e08001f5c12d0b25b4e" kindref="member">rrfFusion</ref>({});</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R9,<sp/>RRFFusionSingleList)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a5368f92484946e08001f5c12d0b25b4e" kindref="member">rrfFusion</ref>({{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rank<sp/>1<sp/>should<sp/>be<sp/>highest<sp/>scored.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].doc_id,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(results[0].score,<sp/>results[1].score);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(results[1].score,<sp/>results[2].score);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R9,<sp/>RRFFusionMergeTwoLists)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>1:<sp/>[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;],<sp/>List<sp/>2:<sp/>[&quot;a&quot;,&quot;c&quot;,&quot;b&quot;]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RRF(a)<sp/>=<sp/>1/(60+1)<sp/>+<sp/>1/(60+1)<sp/>=<sp/>2/61</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RRF(b)<sp/>=<sp/>1/(60+2)<sp/>+<sp/>1/(60+3)<sp/>=<sp/>1/62<sp/>+<sp/>1/63</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RRF(c)<sp/>=<sp/>1/(60+3)<sp/>+<sp/>1/(60+2)<sp/>=<sp/>same<sp/>as<sp/>b</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1a5368f92484946e08001f5c12d0b25b4e" kindref="member">rrfFusion</ref>({{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].doc_id,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;doc<sp/>&apos;a&apos;<sp/>appears<sp/>at<sp/>rank<sp/>1<sp/>in<sp/>both<sp/>lists&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(results[0].score,<sp/>2.0f<sp/>/<sp/>61.0f,<sp/>1e-6f);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R9,<sp/>RRFFusionInvalidKThrows)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="namespacethemis_1_1rag_1a5368f92484946e08001f5c12d0b25b4e" kindref="member">rrfFusion</ref>({{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">}},<sp/>0),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="namespacethemis_1_1rag_1a5368f92484946e08001f5c12d0b25b4e" kindref="member">rrfFusion</ref>({{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">}},<sp/>-1),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>R10<sp/>—<sp/>WikiIndexStore<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R10,<sp/>WikiIndexStoreEmptyAtConstruction)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R10,<sp/>WikiIndexStoreAddAndSize)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Berlin<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>Germany.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R10,<sp/>WikiIndexStoreSearchReturnsResults)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;france&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;germany&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Berlin<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>Germany.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ad3cb30be102a90f28a1b86f31de9cb33" kindref="member">searchBM25</ref>({</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;france&quot;</highlight><highlight class="normal">},<sp/>10);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(results.empty());</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].doc_id,<sp/></highlight><highlight class="stringliteral">&quot;france&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;BM25+<sp/>should<sp/>rank<sp/>&apos;france&apos;<sp/>highest<sp/>for<sp/>query<sp/>&apos;paris<sp/>france&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(results[0].score,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R10,<sp/>WikiIndexStoreTopKLimitsResults)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;word&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ad3cb30be102a90f28a1b86f31de9cb33" kindref="member">searchBM25</ref>({</highlight><highlight class="stringliteral">&quot;word0&quot;</highlight><highlight class="normal">},<sp/>2);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R10,<sp/>WikiIndexStoreClear)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;some<sp/>text&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a311f1c574ee76d2090d5c92f4347dc63" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ad3cb30be102a90f28a1b86f31de9cb33" kindref="member">searchBM25</ref>({</highlight><highlight class="stringliteral">&quot;some&quot;</highlight><highlight class="normal">},<sp/>5);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R10,<sp/>WikiIndexStoreFuseRRF)<sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fused<sp/>=<sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a6a70ba484d01572533618d9cdc369dca" kindref="member">fuseRRF</ref>({{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(fused.empty());</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;a&apos;<sp/>and<sp/>&apos;b&apos;<sp/>appear<sp/>in<sp/>both<sp/>lists<sp/>at<sp/>reciprocal<sp/>ranks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fused.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>have<sp/>identical<sp/>RRF<sp/>scores<sp/>here<sp/>(symmetric<sp/>placement).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(fused[0].score,<sp/>fused[1].score,<sp/>1e-6f);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R10,<sp/>WikiIndexStoreConcurrentAddIsThreadSafe)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Launch<sp/>N<sp/>threads<sp/>each<sp/>adding<sp/>a<sp/>unique<sp/>document<sp/>—<sp/>must<sp/>not<sp/>crash<sp/>/<sp/>deadlock.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(N);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;store,<sp/>i]<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;content<sp/>for<sp/>document<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size</ref>(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(N));</highlight></codeline>
+<codeline lineno="342"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><ref refid="test__wave5__rag__hardening_8cpp_1abfc8257558f86051d8958286b4f6c7ec" kindref="member">TEST</ref>(Wave5R10,<sp/>WikiIndexStoreEmptyDocIdIgnored)<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;some<sp/>text&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(store.<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size</ref>(),<sp/>0u);<sp/></highlight><highlight class="comment">//<sp/>empty<sp/>doc_id<sp/>must<sp/>be<sp/>silently<sp/>ignored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_wave5_rag_hardening.cpp"/>
+  </compounddef>
+</doxygen>

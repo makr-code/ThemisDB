@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_citation_highlighter_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::CitationHighlighterConfig</compoundname>
+    <includes refid="citation__highlighter_8h" local="no">citation_highlighter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::CitationHighlighterConfig::min_similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_similarity_threshold</name>
+        <qualifiedname>themis::rag::CitationHighlighterConfig::min_similarity_threshold</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+<para>Minimum term-overlap similarity [0, 1] for a primary citation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sentences whose best-matching chunk scores below this threshold are reported with an empty <computeroutput>primary_chunk_id</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="94" column="12" bodyfile="include/rag/citation_highlighter.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_citation_highlighter_config_1ad87238a42806c72ffa9dcf71a2d627ec" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::CitationHighlighterConfig::secondary_similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>secondary_similarity_threshold</name>
+        <qualifiedname>themis::rag::CitationHighlighterConfig::secondary_similarity_threshold</qualifiedname>
+        <initializer>= 0.08</initializer>
+        <briefdescription>
+<para>Minimum similarity for secondary (supporting) citations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must be ≤ <computeroutput>min_similarity_threshold</computeroutput>. Set to 0.0 to disable secondary citations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="102" column="12" bodyfile="include/rag/citation_highlighter.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_citation_highlighter_config_1a620593bb2dfcf39c0de13a861df0a0fc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::CitationHighlighterConfig::max_secondary_citations</definition>
+        <argsstring></argsstring>
+        <name>max_secondary_citations</name>
+        <qualifiedname>themis::rag::CitationHighlighterConfig::max_secondary_citations</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum number of secondary citations to attach per sentence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>0 means no secondary citations are collected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="109" column="12" bodyfile="include/rag/citation_highlighter.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_citation_highlighter_config_1af6dca1caa8d311fd17d8ded5e1439035" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::CitationHighlighterConfig::sentence_delimiters</definition>
+        <argsstring></argsstring>
+        <name>sentence_delimiters</name>
+        <qualifiedname>themis::rag::CitationHighlighterConfig::sentence_delimiters</qualifiedname>
+        <initializer>= &quot;.!?&quot;</initializer>
+        <briefdescription>
+<para>Sentence split character set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sentences are split on these characters followed by whitespace or end-of-string. Default: &apos;.&apos;, &apos;!&apos;, &apos;?&apos; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="117" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_citation_highlighter_config_1ab7b65d63f10082111fbd136806461f90" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::CitationHighlighterConfig::min_sentence_length</definition>
+        <argsstring></argsstring>
+        <name>min_sentence_length</name>
+        <qualifiedname>themis::rag::CitationHighlighterConfig::min_sentence_length</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Minimum sentence length (characters) to consider for citation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Very short sentences (e.g. &quot;OK.&quot;) are skipped. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="124" column="12" bodyfile="include/rag/citation_highlighter.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/citation_highlighter.h" line="87" column="1" bodyfile="include/rag/citation_highlighter.h" bodystart="87" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a620593bb2dfcf39c0de13a861df0a0fc" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighterConfig</scope><name>max_secondary_citations</name></member>
+      <member refid="structthemis_1_1rag_1_1_citation_highlighter_config_1ab7b65d63f10082111fbd136806461f90" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighterConfig</scope><name>min_sentence_length</name></member>
+      <member refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighterConfig</scope><name>min_similarity_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_citation_highlighter_config_1ad87238a42806c72ffa9dcf71a2d627ec" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighterConfig</scope><name>secondary_similarity_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_citation_highlighter_config_1af6dca1caa8d311fd17d8ded5e1439035" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighterConfig</scope><name>sentence_delimiters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

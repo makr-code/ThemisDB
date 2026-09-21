@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_time_interval" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::DistributedTimeCoordinator::TimeInterval</compoundname>
+    <includes refid="distributed__time__coordinator_8h" local="no">distributed_time_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_time_interval_1a6a7c94539398c551a0be86e80aae3f76" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::sharding::DistributedTimeCoordinator::TimeInterval::logical_timestamp</definition>
+        <argsstring></argsstring>
+        <name>logical_timestamp</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::TimeInterval::logical_timestamp</qualifiedname>
+        <briefdescription>
+<para>Consensus-log-based logical timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="43" column="17" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_time_interval_1ae89aae8172ad5ea756a48459d70fd1e5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::sharding::DistributedTimeCoordinator::TimeInterval::uncertainty_ns</definition>
+        <argsstring></argsstring>
+        <name>uncertainty_ns</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::TimeInterval::uncertainty_ns</qualifiedname>
+        <briefdescription>
+<para>Uncertainty bound in nanoseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="44" column="17" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_time_interval_1a94038dac275157933fb4d12aa58df535" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::sharding::DistributedTimeCoordinator::TimeInterval::system_time_ns</definition>
+        <argsstring></argsstring>
+        <name>system_time_ns</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::TimeInterval::system_time_ns</qualifiedname>
+        <briefdescription>
+<para>Local wall-clock time for diagnostics/reference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="45" column="17" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Time interval with logical timestamp and uncertainty. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/distributed_time_coordinator.h" line="42" column="5" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="42" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_time_interval_1a6a7c94539398c551a0be86e80aae3f76" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator::TimeInterval</scope><name>logical_timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_time_interval_1a94038dac275157933fb4d12aa58df535" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator::TimeInterval</scope><name>system_time_ns</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_time_interval_1ae89aae8172ad5ea756a48459d70fd1e5" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator::TimeInterval</scope><name>uncertainty_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

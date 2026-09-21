@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_m_l_inference_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MLInferenceResponse</compoundname>
+    <includes refid="ml__model__manager_8h" local="no">ml_model_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_response_1ad811a8ea2880f10fe006175d6d6c043a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MLInferenceResponse::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::llm::MLInferenceResponse::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="214" column="10" bodyfile="include/llm/ml_model_manager.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_response_1a4cba4f1c5d5e94a4f305bb00ef57d56e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::MLInferenceResponse::output_data</definition>
+        <argsstring></argsstring>
+        <name>output_data</name>
+        <qualifiedname>themis::llm::MLInferenceResponse::output_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="215" column="10" bodyfile="include/llm/ml_model_manager.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_response_1a0e1e710d834a44772d958fe349386da6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLInferenceResponse::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::llm::MLInferenceResponse::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="216" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_response_1ad13105d098536785307faa184717d76a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLInferenceResponse::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::MLInferenceResponse::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="219" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_response_1a13f30fb3bc1037ef8cb4fc54621bee57" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLInferenceResponse::model_version</definition>
+        <argsstring></argsstring>
+        <name>model_version</name>
+        <qualifiedname>themis::llm::MLInferenceResponse::model_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="220" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_response_1a12a42ab21017f14336d554154f8c2689" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLInferenceResponse::instance_id</definition>
+        <argsstring></argsstring>
+        <name>instance_id</name>
+        <qualifiedname>themis::llm::MLInferenceResponse::instance_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="221" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_response_1a5ec5b1d5e2826378db5847c2b4bc349a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MLInferenceResponse::inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>inference_time_ms</name>
+        <qualifiedname>themis::llm::MLInferenceResponse::inference_time_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="224" column="11" bodyfile="include/llm/ml_model_manager.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_response_1aea17b7c5ec234c9ce34a3cb8493d947b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MLInferenceResponse::queue_time_ms</definition>
+        <argsstring></argsstring>
+        <name>queue_time_ms</name>
+        <qualifiedname>themis::llm::MLInferenceResponse::queue_time_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="225" column="11" bodyfile="include/llm/ml_model_manager.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_inference_response_1a7fb65e79ea85e389486f11b5b5ab3c4a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MLInferenceResponse::total_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_time_ms</name>
+        <qualifiedname>themis::llm::MLInferenceResponse::total_time_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="226" column="11" bodyfile="include/llm/ml_model_manager.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ml_model_manager.h" line="213" column="1" bodyfile="include/llm/ml_model_manager.h" bodystart="213" bodyend="227"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_response_1a0e1e710d834a44772d958fe349386da6" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceResponse</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_response_1a5ec5b1d5e2826378db5847c2b4bc349a" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceResponse</scope><name>inference_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_response_1a12a42ab21017f14336d554154f8c2689" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceResponse</scope><name>instance_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_response_1ad13105d098536785307faa184717d76a" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceResponse</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_response_1a13f30fb3bc1037ef8cb4fc54621bee57" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceResponse</scope><name>model_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_response_1a4cba4f1c5d5e94a4f305bb00ef57d56e" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceResponse</scope><name>output_data</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_response_1aea17b7c5ec234c9ce34a3cb8493d947b" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceResponse</scope><name>queue_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_response_1ad811a8ea2880f10fe006175d6d6c043a" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceResponse</scope><name>success</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_inference_response_1a7fb65e79ea85e389486f11b5b5ab3c4a" prot="public" virt="non-virtual"><scope>themis::llm::MLInferenceResponse</scope><name>total_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

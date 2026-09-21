@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_r_a_g_context_engine_focused_tests" kind="class" language="C++" prot="public">
+    <compoundname>RAGContextEngineFocusedTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ArgumentStore &gt;</type>
+        <definition>std::shared_ptr&lt;ArgumentStore&gt; RAGContextEngineFocusedTests::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>RAGContextEngineFocusedTests::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="134" column="24" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_r_a_g_context_engine_focused_tests_1a61d21861f5b37162bf25a43bd13f7369" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RAGContextEngine &gt;</type>
+        <definition>std::unique_ptr&lt;RAGContextEngine&gt; RAGContextEngineFocusedTests::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>RAGContextEngineFocusedTests::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="135" column="21" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_r_a_g_context_engine_focused_tests_1a73f2e6895a85c32f57327e877911e729" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RAGContextEngineFocusedTests::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RAGContextEngineFocusedTests::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="53" column="10" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="53" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RAGContextEngineFocusedTests</label>
+        <link refid="class_r_a_g_context_engine_focused_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RAGContextEngineFocusedTests</label>
+        <link refid="class_r_a_g_context_engine_focused_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_context_engine.cpp" line="51" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="51" bodyend="136"/>
+    <listofallmembers>
+      <member refid="class_r_a_g_context_engine_focused_tests_1a61d21861f5b37162bf25a43bd13f7369" prot="protected" virt="non-virtual"><scope>RAGContextEngineFocusedTests</scope><name>engine_</name></member>
+      <member refid="class_r_a_g_context_engine_focused_tests_1a73f2e6895a85c32f57327e877911e729" prot="protected" virt="non-virtual"><scope>RAGContextEngineFocusedTests</scope><name>SetUp</name></member>
+      <member refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" prot="protected" virt="non-virtual"><scope>RAGContextEngineFocusedTests</scope><name>store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

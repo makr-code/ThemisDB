@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_g_r_p_c_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::GRPCRequest</compoundname>
+    <includes refid="grpc__bridge_8h" local="no">grpc_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_g_r_p_c_request_1adfb36deb9ea7ef2de615f18ac117ba64" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1api_1_1_g_r_p_c_metadata" kindref="compound">GRPCMetadata</ref></type>
+        <definition>GRPCMetadata themis::api::GRPCRequest::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::api::GRPCRequest::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="64" column="18" bodyfile="include/api/grpc_bridge.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_g_r_p_c_request_1aa9e1111a117d619295a266a30f803b42" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GRPCRequest::service_name</definition>
+        <argsstring></argsstring>
+        <name>service_name</name>
+        <qualifiedname>themis::api::GRPCRequest::service_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="66" column="17" bodyfile="include/api/grpc_bridge.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_g_r_p_c_request_1ad0120d419b00c6f115d74f39a2f2b5b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GRPCRequest::method_name</definition>
+        <argsstring></argsstring>
+        <name>method_name</name>
+        <qualifiedname>themis::api::GRPCRequest::method_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="68" column="17" bodyfile="include/api/grpc_bridge.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_g_r_p_c_request_1a1ffb5ed820803c7edd69185a628ea8dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GRPCRequest::request_bytes</definition>
+        <argsstring></argsstring>
+        <name>request_bytes</name>
+        <qualifiedname>themis::api::GRPCRequest::request_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="70" column="17" bodyfile="include/api/grpc_bridge.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::api::GRPCMetadata</label>
+        <link refid="structthemis_1_1api_1_1_g_r_p_c_metadata"/>
+      </node>
+      <node id="1">
+        <label>themis::api::GRPCRequest</label>
+        <link refid="structthemis_1_1api_1_1_g_r_p_c_request"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metadata</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/api/grpc_bridge.h" line="63" column="1" bodyfile="include/api/grpc_bridge.h" bodystart="63" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_g_r_p_c_request_1adfb36deb9ea7ef2de615f18ac117ba64" prot="public" virt="non-virtual"><scope>themis::api::GRPCRequest</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1api_1_1_g_r_p_c_request_1ad0120d419b00c6f115d74f39a2f2b5b6" prot="public" virt="non-virtual"><scope>themis::api::GRPCRequest</scope><name>method_name</name></member>
+      <member refid="structthemis_1_1api_1_1_g_r_p_c_request_1a1ffb5ed820803c7edd69185a628ea8dd" prot="public" virt="non-virtual"><scope>themis::api::GRPCRequest</scope><name>request_bytes</name></member>
+      <member refid="structthemis_1_1api_1_1_g_r_p_c_request_1aa9e1111a117d619295a266a30f803b42" prot="public" virt="non-virtual"><scope>themis::api::GRPCRequest</scope><name>service_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

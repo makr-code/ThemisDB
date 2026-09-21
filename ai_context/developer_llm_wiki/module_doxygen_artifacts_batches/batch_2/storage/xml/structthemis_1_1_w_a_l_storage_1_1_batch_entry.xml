@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_w_a_l_storage_1_1_batch_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::WALStorage::BatchEntry</compoundname>
+    <includes refid="wal__storage_8h" local="no">wal_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1aa87fcd2b5b804bfd29bae8394662db0d" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906" kindref="member">EntryType</ref></type>
+        <definition>EntryType themis::WALStorage::BatchEntry::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::WALStorage::BatchEntry::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="105" column="26" bodyfile="include/storage/wal_storage.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1ae94166a83e1870b4d02c19fb0a862e15" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::WALStorage::BatchEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::WALStorage::BatchEntry::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="106" column="26" bodyfile="include/storage/wal_storage.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1a23aebe3d7cfcf902b2ea00f5cdb70e35" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::WALStorage::BatchEntry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::WALStorage::BatchEntry::value</qualifiedname>
+        <briefdescription>
+<para>empty for DEL </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wal_storage.h" line="107" column="26" bodyfile="include/storage/wal_storage.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A batch entry passed to <ref refid="classthemis_1_1_w_a_l_storage_1a66ff33005d56ef67a026dd7776a89d71" kindref="member">appendBatch()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Using a dedicated <ref refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry" kindref="compound">BatchEntry</ref> (rather than <ref refid="structthemis_1_1_w_a_l_storage_1_1_entry" kindref="compound">Entry</ref>) avoids confusion with the sequence-bearing <ref refid="structthemis_1_1_w_a_l_storage_1_1_entry" kindref="compound">Entry</ref> returned during recovery replay. </para>
+    </detaileddescription>
+    <location file="include/storage/wal_storage.h" line="104" column="5" bodyfile="include/storage/wal_storage.h" bodystart="104" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1ae94166a83e1870b4d02c19fb0a862e15" prot="public" virt="non-virtual"><scope>themis::WALStorage::BatchEntry</scope><name>key</name></member>
+      <member refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1aa87fcd2b5b804bfd29bae8394662db0d" prot="public" virt="non-virtual"><scope>themis::WALStorage::BatchEntry</scope><name>type</name></member>
+      <member refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1a23aebe3d7cfcf902b2ea00f5cdb70e35" prot="public" virt="non-virtual"><scope>themis::WALStorage::BatchEntry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

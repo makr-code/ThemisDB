@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1_1_phase_node" kind="struct" language="C++" prot="private">
+    <compoundname>themis::graph::GraphPhaseGateOrchestrator::PhaseNode</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1_1_phase_node_1aefc279610b1cb7a8f82d3771f7df9773" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphPhaseGateOrchestrator::PhaseNode::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::PhaseNode::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="234" column="40" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1_1_phase_node_1a911d14187d44568e8b2d0bf6c5cef325" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GraphPhaseGateOrchestrator::PhaseNode::prerequisites</definition>
+        <argsstring></argsstring>
+        <name>prerequisites</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::PhaseNode::prerequisites</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="235" column="27" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1_1_phase_node_1adb3013c4abca273934515bbc4348ab65" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_gate_criterion" kindref="compound">GateCriterion</ref> &gt;</type>
+        <definition>std::vector&lt;GateCriterion&gt; themis::graph::GraphPhaseGateOrchestrator::PhaseNode::criteria</definition>
+        <argsstring></argsstring>
+        <name>criteria</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::PhaseNode::criteria</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="236" column="25" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1_1_phase_node_1a7e061f5b62faea0fa453e0a15865b951" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, float &gt;</type>
+        <definition>std::unordered_map&lt;std::string, float&gt; themis::graph::GraphPhaseGateOrchestrator::PhaseNode::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::PhaseNode::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="237" column="28" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_phase_gate_orchestrator.h" line="233" column="5" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="233" bodyend="238"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1_1_phase_node_1adb3013c4abca273934515bbc4348ab65" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator::PhaseNode</scope><name>criteria</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1_1_phase_node_1a7e061f5b62faea0fa453e0a15865b951" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator::PhaseNode</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1_1_phase_node_1aefc279610b1cb7a8f82d3771f7df9773" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator::PhaseNode</scope><name>name</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1_1_phase_node_1a911d14187d44568e8b2d0bf6c5cef325" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator::PhaseNode</scope><name>prerequisites</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

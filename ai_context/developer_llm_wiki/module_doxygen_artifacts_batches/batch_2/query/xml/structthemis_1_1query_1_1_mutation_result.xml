@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_mutation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MutationResult</compoundname>
+    <includes refid="mutation__execution__plan_8h" local="no">mutation_execution_plan.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_result_1ad61b0a33fabb3398ac61c3f25697b975" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::MutationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::query::MutationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when execution succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="54" column="30" bodyfile="include/query/mutation_execution_plan.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_result_1a377fd389576d8390c7ddc90e90007fdc" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::MutationResult::affected_count</definition>
+        <argsstring></argsstring>
+        <name>affected_count</name>
+        <qualifiedname>themis::query::MutationResult::affected_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Documents affected (inserted/updated/removed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="55" column="30" bodyfile="include/query/mutation_execution_plan.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_result_1a619b8fe569141213145a1be516ce62a1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::MutationResult::inserted_ids</definition>
+        <argsstring></argsstring>
+        <name>inserted_ids</name>
+        <qualifiedname>themis::query::MutationResult::inserted_ids</qualifiedname>
+        <briefdescription>
+<para>_key values of newly inserted documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="56" column="17" bodyfile="include/query/mutation_execution_plan.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_result_1affcef851e3a5ae23050b2c22a5bf2007" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::MutationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::query::MutationResult::errors</qualifiedname>
+        <briefdescription>
+<para>Error messages on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="57" column="17" bodyfile="include/query/mutation_execution_plan.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_result_1a17e9a9697878890c4b387718334220db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MutationResult::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::query::MutationResult::error_code</qualifiedname>
+        <briefdescription>
+<para>Machine-readable error code (empty on success). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="58" column="30" bodyfile="include/query/mutation_execution_plan.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_mutation_result_1a134eab4e8d44e1a8c6f8bf5ac12e42e2" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_result" kindref="compound">MutationResult</ref></type>
+        <definition>MutationResult themis::query::MutationResult::Ok</definition>
+        <argsstring>(int64_t affected, std::vector&lt; std::string &gt; ids={})</argsstring>
+        <name>Ok</name>
+        <qualifiedname>themis::query::MutationResult::Ok</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>affected</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>ids</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Ok. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">affected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="60" column="28" bodyfile="include/query/mutation_execution_plan.h" bodystart="105" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_mutation_result_1a07f00d5da6ebf4fe56ebf49b0d27ca69" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_result" kindref="compound">MutationResult</ref></type>
+        <definition>MutationResult themis::query::MutationResult::Failure</definition>
+        <argsstring>(std::string code, std::string msg)</argsstring>
+        <name>Failure</name>
+        <qualifiedname>themis::query::MutationResult::Failure</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="63" column="28" bodyfile="include/query/mutation_execution_plan.h" bodystart="120" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_mutation_result_1a9f0bc570cd3c4a18112f9c40f52c1fde" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::MutationResult::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::MutationResult::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="65" column="21" bodyfile="include/query/mutation_execution_plan.h" bodystart="128" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/mutation_execution_plan.h" line="53" column="1" bodyfile="include/query/mutation_execution_plan.h" bodystart="53" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_mutation_result_1a377fd389576d8390c7ddc90e90007fdc" prot="public" virt="non-virtual"><scope>themis::query::MutationResult</scope><name>affected_count</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_result_1a17e9a9697878890c4b387718334220db" prot="public" virt="non-virtual"><scope>themis::query::MutationResult</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_result_1affcef851e3a5ae23050b2c22a5bf2007" prot="public" virt="non-virtual"><scope>themis::query::MutationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_result_1a07f00d5da6ebf4fe56ebf49b0d27ca69" prot="public" virt="non-virtual"><scope>themis::query::MutationResult</scope><name>Failure</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_result_1a619b8fe569141213145a1be516ce62a1" prot="public" virt="non-virtual"><scope>themis::query::MutationResult</scope><name>inserted_ids</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_result_1a134eab4e8d44e1a8c6f8bf5ac12e42e2" prot="public" virt="non-virtual"><scope>themis::query::MutationResult</scope><name>Ok</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_result_1ad61b0a33fabb3398ac61c3f25697b975" prot="public" virt="non-virtual"><scope>themis::query::MutationResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_result_1a9f0bc570cd3c4a18112f9c40f52c1fde" prot="public" virt="non-virtual"><scope>themis::query::MutationResult</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

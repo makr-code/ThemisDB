@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::ByzantineConsensusScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario_1a28ef675c89a9db723fb8600f11e6f8e2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::ByzantineConsensusScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::ByzantineConsensusScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="83" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario_1a1010025cacf8539f5a341efe11140656" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::ByzantineConsensusScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::ByzantineConsensusScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="84" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Consensus Scenario 1: Byzantine Node Under Quorum. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests Byzantine fault tolerance with F &lt; N/3 constraint.</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>5-node cluster (N=5, F&lt;2, tolerate 1 byzantine node)</para>
+</listitem><listitem><para>One node sends conflicting vote messages</para>
+</listitem><listitem><para>Four nodes act normally</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>Initiate leader election</para>
+</listitem><listitem><para>Byzantine node sends conflicting votes to different candidates</para>
+</listitem><listitem><para>Normal nodes should still converge on single leader (quorum vote)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>Exactly one leader elected (no split-brain)</para>
+</listitem><listitem><para>Byzantine votes ignored (quorum voting ignores minority)</para>
+</listitem><listitem><para>All normal nodes have consistent log state</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected P95:</bold> &lt;100ms election time </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="81" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="81" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario_1a1010025cacf8539f5a341efe11140656" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::ByzantineConsensusScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario_1a28ef675c89a9db723fb8600f11e6f8e2" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::ByzantineConsensusScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

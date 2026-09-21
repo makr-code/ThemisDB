@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1ratelimit" kind="namespace" language="C++">
+    <compoundname>themis::ratelimit</compoundname>
+    <innerclass refid="classthemis_1_1ratelimit_1_1_i_rate_limit_policy" prot="public">themis::ratelimit::IRateLimitPolicy</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/ratelimit/irate_limit_policy.h" line="36" column="1"/>
+  </compounddef>
+</doxygen>

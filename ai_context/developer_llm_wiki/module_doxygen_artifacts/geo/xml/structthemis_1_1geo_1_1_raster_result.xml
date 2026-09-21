@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_raster_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::RasterResult</compoundname>
+    <includes refid="raster__query__interface_8h" local="no">raster_query_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_raster_result_1ac60b5af5ba732bdf515464c232235177" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3" kindref="member">RasterStatus</ref></type>
+        <definition>RasterStatus themis::geo::RasterResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::geo::RasterResult::status</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1geo_1a2a310f57d6413493222be319fbdf5bb3a5343bcd21aad65124478a61831f6949e" kindref="member">RasterStatus::NOT_SUPPORTED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="63" column="18" bodyfile="include/geo/raster_query_interface.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_raster_result_1aaca8c46aca45731623c12c576c7f27ac" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1geo_1_1_raster_grid" kindref="compound">RasterGrid</ref></type>
+        <definition>RasterGrid themis::geo::RasterResult::grid</definition>
+        <argsstring></argsstring>
+        <name>grid</name>
+        <qualifiedname>themis::geo::RasterResult::grid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="65" column="16" bodyfile="include/geo/raster_query_interface.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_raster_result_1af20572b863bd2cb1acab533e42b7f4f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::RasterResult::crs_wkt</definition>
+        <argsstring></argsstring>
+        <name>crs_wkt</name>
+        <qualifiedname>themis::geo::RasterResult::crs_wkt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="67" column="17" bodyfile="include/geo/raster_query_interface.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_raster_result_1a45086e5dd86690c00398866b75d0f31c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::RasterResult::band_count</definition>
+        <argsstring></argsstring>
+        <name>band_count</name>
+        <qualifiedname>themis::geo::RasterResult::band_count</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="69" column="17" bodyfile="include/geo/raster_query_interface.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_raster_result_1a809c4f8b6b35cc031465d03555daf76e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::RasterResult::resolution_x</definition>
+        <argsstring></argsstring>
+        <name>resolution_x</name>
+        <qualifiedname>themis::geo::RasterResult::resolution_x</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="71" column="12" bodyfile="include/geo/raster_query_interface.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_raster_result_1aee9e8a4a8dbe8432278f45aa1fad5420" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::RasterResult::resolution_y</definition>
+        <argsstring></argsstring>
+        <name>resolution_y</name>
+        <qualifiedname>themis::geo::RasterResult::resolution_y</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="72" column="12" bodyfile="include/geo/raster_query_interface.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_raster_result_1ac98bff6ff9bd4e713ddb954bf831e652" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::RasterResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::geo::RasterResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="74" column="17" bodyfile="include/geo/raster_query_interface.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_raster_result_1a242e15f21c35b766baf96c1e01afca8d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::RasterResult::ok</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::geo::RasterResult::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="76" column="11" bodyfile="include/geo/raster_query_interface.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::geo::RasterGrid</label>
+        <link refid="structthemis_1_1geo_1_1_raster_grid"/>
+      </node>
+      <node id="1">
+        <label>themis::geo::RasterResult</label>
+        <link refid="structthemis_1_1geo_1_1_raster_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>grid</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/geo/raster_query_interface.h" line="62" column="1" bodyfile="include/geo/raster_query_interface.h" bodystart="62" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_raster_result_1a45086e5dd86690c00398866b75d0f31c" prot="public" virt="non-virtual"><scope>themis::geo::RasterResult</scope><name>band_count</name></member>
+      <member refid="structthemis_1_1geo_1_1_raster_result_1af20572b863bd2cb1acab533e42b7f4f3" prot="public" virt="non-virtual"><scope>themis::geo::RasterResult</scope><name>crs_wkt</name></member>
+      <member refid="structthemis_1_1geo_1_1_raster_result_1ac98bff6ff9bd4e713ddb954bf831e652" prot="public" virt="non-virtual"><scope>themis::geo::RasterResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1geo_1_1_raster_result_1aaca8c46aca45731623c12c576c7f27ac" prot="public" virt="non-virtual"><scope>themis::geo::RasterResult</scope><name>grid</name></member>
+      <member refid="structthemis_1_1geo_1_1_raster_result_1a242e15f21c35b766baf96c1e01afca8d" prot="public" virt="non-virtual"><scope>themis::geo::RasterResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1geo_1_1_raster_result_1a809c4f8b6b35cc031465d03555daf76e" prot="public" virt="non-virtual"><scope>themis::geo::RasterResult</scope><name>resolution_x</name></member>
+      <member refid="structthemis_1_1geo_1_1_raster_result_1aee9e8a4a8dbe8432278f45aa1fad5420" prot="public" virt="non-virtual"><scope>themis::geo::RasterResult</scope><name>resolution_y</name></member>
+      <member refid="structthemis_1_1geo_1_1_raster_result_1ac60b5af5ba732bdf515464c232235177" prot="public" virt="non-virtual"><scope>themis::geo::RasterResult</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

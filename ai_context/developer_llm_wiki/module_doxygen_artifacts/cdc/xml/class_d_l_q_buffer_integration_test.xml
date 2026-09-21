@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_d_l_q_buffer_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>DLQBufferIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_d_l_q_buffer_integration_test_1a2acd808081b79f080379590f927f0df6" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DLQBufferIntegrationTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>DLQBufferIntegrationTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="257" column="17" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_d_l_q_buffer_integration_test_1a547eed5ce403cd6490bbd6f2a11868a8" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; DLQBufferIntegrationTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>DLQBufferIntegrationTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="258" column="22" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_d_l_q_buffer_integration_test_1a391e5986ecde08149dbef50fc5585394" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; DLQBufferIntegrationTest::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>DLQBufferIntegrationTest::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="259" column="26" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_d_l_q_buffer_integration_test_1a0ebe09465a4f6b96fb2d48a26d79f80f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_dead_letter_queue" kindref="compound">DeadLetterQueue</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DeadLetterQueue&gt; DLQBufferIntegrationTest::dlq_</definition>
+        <argsstring></argsstring>
+        <name>dlq_</name>
+        <qualifiedname>DLQBufferIntegrationTest::dlq_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="260" column="21" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_d_l_q_buffer_integration_test_1a68fa1e96e78ebe5d5024de3050398c2c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DLQBufferIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DLQBufferIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="227" column="10" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="227" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="class_d_l_q_buffer_integration_test_1a89896558ab308a8dd9bc8cc1508bca99" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DLQBufferIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DLQBufferIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="247" column="10" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="247" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DLQBufferIntegrationTest</label>
+        <link refid="class_d_l_q_buffer_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DLQBufferIntegrationTest</label>
+        <link refid="class_d_l_q_buffer_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="225" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="225" bodyend="261"/>
+    <listofallmembers>
+      <member refid="class_d_l_q_buffer_integration_test_1a391e5986ecde08149dbef50fc5585394" prot="protected" virt="non-virtual"><scope>DLQBufferIntegrationTest</scope><name>changefeed_</name></member>
+      <member refid="class_d_l_q_buffer_integration_test_1a547eed5ce403cd6490bbd6f2a11868a8" prot="protected" virt="non-virtual"><scope>DLQBufferIntegrationTest</scope><name>db_</name></member>
+      <member refid="class_d_l_q_buffer_integration_test_1a0ebe09465a4f6b96fb2d48a26d79f80f" prot="protected" virt="non-virtual"><scope>DLQBufferIntegrationTest</scope><name>dlq_</name></member>
+      <member refid="class_d_l_q_buffer_integration_test_1a68fa1e96e78ebe5d5024de3050398c2c" prot="protected" virt="non-virtual"><scope>DLQBufferIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_d_l_q_buffer_integration_test_1a89896558ab308a8dd9bc8cc1508bca99" prot="protected" virt="non-virtual"><scope>DLQBufferIntegrationTest</scope><name>TearDown</name></member>
+      <member refid="class_d_l_q_buffer_integration_test_1a2acd808081b79f080379590f927f0df6" prot="protected" virt="non-virtual"><scope>DLQBufferIntegrationTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

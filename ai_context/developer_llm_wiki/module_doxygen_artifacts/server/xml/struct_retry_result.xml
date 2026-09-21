@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_retry_result" kind="struct" language="C++" prot="public">
+    <compoundname>RetryResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_retry_result_1a326da85175d627724032f2bba1634c30" prot="public" static="no" mutable="no">
+        <type><ref refid="test__server__phase1__hardening_8cpp_1a30e34c84e4bb73a000a7bfcb25e0884c" kindref="member">ErrorCode</ref></type>
+        <definition>ErrorCode RetryResult::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>RetryResult::code</qualifiedname>
+        <initializer>{<ref refid="test__server__phase1__hardening_8cpp_1a30e34c84e4bb73a000a7bfcb25e0884cae69fa9a656f76dd8a4d89f21992b2d3a" kindref="member">ErrorCode::kOk</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="54" column="15" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retry_result_1a727b291d702b58a1eebae6bb5ab48a00" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int RetryResult::attempt</definition>
+        <argsstring></argsstring>
+        <name>attempt</name>
+        <qualifiedname>RetryResult::attempt</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="55" column="9" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retry_result_1ae6d747cc7614f6dde08a6bc4cf489586" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds RetryResult::total_time</definition>
+        <argsstring></argsstring>
+        <name>total_time</name>
+        <qualifiedname>RetryResult::total_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="56" column="31" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_phase1_hardening.cpp" line="53" column="1" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="53" bodyend="57"/>
+    <listofallmembers>
+      <member refid="struct_retry_result_1a727b291d702b58a1eebae6bb5ab48a00" prot="public" virt="non-virtual"><scope>RetryResult</scope><name>attempt</name></member>
+      <member refid="struct_retry_result_1a326da85175d627724032f2bba1634c30" prot="public" virt="non-virtual"><scope>RetryResult</scope><name>code</name></member>
+      <member refid="struct_retry_result_1ae6d747cc7614f6dde08a6bc4cf489586" prot="public" virt="non-virtual"><scope>RetryResult</scope><name>total_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

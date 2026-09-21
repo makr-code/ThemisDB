@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_summary_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::SummaryResult</compoundname>
+    <includes refid="advanced__metrics_8h" local="no">advanced_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_summary_result_1a5445b6852765e240bf52e3c58ac52fdc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SummaryResult::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::observability::SummaryResult::metric_name</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="33" column="17" bodyfile="include/observability/advanced_metrics.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_summary_result_1ad8899686fce2e9a2cb717e11a62eb619" prot="public" static="no" mutable="no">
+        <type>std::map&lt; double, double &gt;</type>
+        <definition>std::map&lt;double, double&gt; themis::observability::SummaryResult::quantile_values</definition>
+        <argsstring></argsstring>
+        <name>quantile_values</name>
+        <qualifiedname>themis::observability::SummaryResult::quantile_values</qualifiedname>
+        <briefdescription>
+<para>Computed quantile values: quantile → value (e.g. 0.99 → 250.0 ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="35" column="14" bodyfile="include/observability/advanced_metrics.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_summary_result_1a5e24d0e7392c2043e6de54c9dd8547ac" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::SummaryResult::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::observability::SummaryResult::count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of observations retained (up to <computeroutput>kMaxSummarySamples</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="37" column="14" bodyfile="include/observability/advanced_metrics.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_summary_result_1afe0b4f824b1b3115573375f9314db8f6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SummaryResult::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::observability::SummaryResult::sum</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Sum of all retained observations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="39" column="12" bodyfile="include/observability/advanced_metrics.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_summary_result_1a2fae77af5aa64f191303f08eadc28e8f" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::SummaryResult::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::SummaryResult::timestamp</qualifiedname>
+        <initializer>{std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>Timestamp at which the result was computed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="41" column="43" bodyfile="include/observability/advanced_metrics.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of querying a summary metric. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/advanced_metrics.h" line="31" column="1" bodyfile="include/observability/advanced_metrics.h" bodystart="31" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_summary_result_1a5e24d0e7392c2043e6de54c9dd8547ac" prot="public" virt="non-virtual"><scope>themis::observability::SummaryResult</scope><name>count</name></member>
+      <member refid="structthemis_1_1observability_1_1_summary_result_1a5445b6852765e240bf52e3c58ac52fdc" prot="public" virt="non-virtual"><scope>themis::observability::SummaryResult</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_summary_result_1ad8899686fce2e9a2cb717e11a62eb619" prot="public" virt="non-virtual"><scope>themis::observability::SummaryResult</scope><name>quantile_values</name></member>
+      <member refid="structthemis_1_1observability_1_1_summary_result_1afe0b4f824b1b3115573375f9314db8f6" prot="public" virt="non-virtual"><scope>themis::observability::SummaryResult</scope><name>sum</name></member>
+      <member refid="structthemis_1_1observability_1_1_summary_result_1a2fae77af5aa64f191303f08eadc28e8f" prot="public" virt="non-virtual"><scope>themis::observability::SummaryResult</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

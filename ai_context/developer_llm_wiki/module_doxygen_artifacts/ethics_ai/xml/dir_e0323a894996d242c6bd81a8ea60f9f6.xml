@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_e0323a894996d242c6bd81a8ea60f9f6" kind="dir">
+    <compoundname>include/ethics_ai</compoundname>
+    <innerfile refid="convergence__marker__engine_8h">convergence_marker_engine.h</innerfile>
+    <innerfile refid="cross__school__tension__resolver_8h">cross_school_tension_resolver.h</innerfile>
+    <innerfile refid="discourse__memory__store_8h">discourse_memory_store.h</innerfile>
+    <innerfile refid="discourse__orchestrator_8h">discourse_orchestrator.h</innerfile>
+    <innerfile refid="ethics__ai__plugin__interface_8h">ethics_ai_plugin_interface.h</innerfile>
+    <innerfile refid="ethics__ai__types_8h">ethics_ai_types.h</innerfile>
+    <innerfile refid="include_2ethics__ai_2ethics__profile__registry_8h">ethics_profile_registry.h</innerfile>
+    <innerfile refid="ethics__selection__router_8h">ethics_selection_router.h</innerfile>
+    <innerfile refid="llm__cascade__router_8h">llm_cascade_router.h</innerfile>
+    <innerfile refid="meta__verdict__builder_8h">meta_verdict_builder.h</innerfile>
+    <innerfile refid="mirror__school__handler_8h">mirror_school_handler.h</innerfile>
+    <innerfile refid="position__abstract__validator_8h">position_abstract_validator.h</innerfile>
+    <innerfile refid="prior__round__compressor_8h">prior_round_compressor.h</innerfile>
+    <innerfile refid="synthesis__matrix__builder_8h">synthesis_matrix_builder.h</innerfile>
+    <innerfile refid="tournament__mode__selector_8h">tournament_mode_selector.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/"/>
+  </compounddef>
+</doxygen>

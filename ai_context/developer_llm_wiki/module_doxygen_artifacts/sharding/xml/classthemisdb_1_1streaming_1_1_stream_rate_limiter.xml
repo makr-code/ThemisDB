@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1streaming_1_1_stream_rate_limiter" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::streaming::StreamRateLimiter</compoundname>
+    <includes refid="stream__protocol_8h" local="no">stream_protocol.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1a78592ab35ed14bc58d09fcf100186111" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::streaming::StreamRateLimiter::bytes_per_second_</definition>
+        <argsstring></argsstring>
+        <name>bytes_per_second_</name>
+        <qualifiedname>themisdb::streaming::StreamRateLimiter::bytes_per_second_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="408" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1a9c66cb87045617750f052d7dcc230103" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::streaming::StreamRateLimiter::available_tokens_</definition>
+        <argsstring></argsstring>
+        <name>available_tokens_</name>
+        <qualifiedname>themisdb::streaming::StreamRateLimiter::available_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="409" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1ad232652b3885529be2ca824abda4a415" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::streaming::StreamRateLimiter::last_refill_</definition>
+        <argsstring></argsstring>
+        <name>last_refill_</name>
+        <qualifiedname>themisdb::streaming::StreamRateLimiter::last_refill_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="410" column="43" bodyfile="include/sharding/stream_protocol.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1acab0ea812bc85c79ee88f83b68d96694" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::streaming::StreamRateLimiter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::streaming::StreamRateLimiter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="411" column="16" bodyfile="include/sharding/stream_protocol.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1aa3ba7c1e76e7524e680325fae04a1d12" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::streaming::StreamRateLimiter::StreamRateLimiter</definition>
+        <argsstring>(uint64_t bytes_per_second)</argsstring>
+        <name>StreamRateLimiter</name>
+        <qualifiedname>themisdb::streaming::StreamRateLimiter::StreamRateLimiter</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_per_second</declname>
+        </param>
+        <briefdescription>
+<para>Construct token-bucket limiter with byte-per-second budget. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="392" column="14" bodyfile="src/sharding/stream_protocol.cpp" bodystart="583" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1a78a68402dcb9348a3cf2554378e12142" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::streaming::StreamRateLimiter::acquire</definition>
+        <argsstring>(size_t bytes)</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themisdb::streaming::StreamRateLimiter::acquire</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Acquire send budget for a payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Acquire.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes intended to be sent. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Required wait duration before sending (zero means immediate send).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), std::chrono::milliseconds(), lock(), std::chrono::steady_clock::now(), count(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="399" column="31" bodyfile="src/sharding/stream_protocol.cpp" bodystart="595" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1aa1828dfa18b1801dde2d043181fd3b81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamRateLimiter::setRate</definition>
+        <argsstring>(uint64_t bytes_per_second)</argsstring>
+        <name>setRate</name>
+        <qualifiedname>themisdb::streaming::StreamRateLimiter::setRate</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_per_second</declname>
+        </param>
+        <briefdescription>
+<para>Update byte-per-second rate limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Rate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_per_second</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="402" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="635" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1ab6a9e3da07f71a8e1e4f5451d4d55068" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::streaming::StreamRateLimiter::getRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getRate</name>
+        <qualifiedname>themisdb::streaming::StreamRateLimiter::getRate</qualifiedname>
+        <briefdescription>
+<para>Return currently configured byte-per-second limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="405" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="405" bodyend="405"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Token-bucket limiter used to enforce bandwidth budgets. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/stream_protocol.h" line="389" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="389" bodyend="412"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1a78a68402dcb9348a3cf2554378e12142" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamRateLimiter</scope><name>acquire</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1a9c66cb87045617750f052d7dcc230103" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamRateLimiter</scope><name>available_tokens_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1a78592ab35ed14bc58d09fcf100186111" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamRateLimiter</scope><name>bytes_per_second_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1ab6a9e3da07f71a8e1e4f5451d4d55068" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamRateLimiter</scope><name>getRate</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1ad232652b3885529be2ca824abda4a415" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamRateLimiter</scope><name>last_refill_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1acab0ea812bc85c79ee88f83b68d96694" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamRateLimiter</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1aa1828dfa18b1801dde2d043181fd3b81" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamRateLimiter</scope><name>setRate</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter_1aa3ba7c1e76e7524e680325fae04a1d12" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamRateLimiter</scope><name>StreamRateLimiter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_model_serving_engine_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ModelServingEngine::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_engine_1_1_impl_1a148fc84c1cee4270c794000c3ff660ac" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_model_serving_config" kindref="compound">ModelServingConfig</ref></type>
+        <definition>ModelServingConfig themisdb::analytics::ModelServingEngine::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themisdb::analytics::ModelServingEngine::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/model_serving.cpp" line="182" column="24" bodyfile="src/analytics/model_serving.cpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_engine_1_1_impl_1a5c65b2b164e5ec24ef8a23a356198d38" prot="public" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::analytics::ModelServingEngine::Impl::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themisdb::analytics::ModelServingEngine::Impl::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/model_serving.cpp" line="183" column="31" bodyfile="src/analytics/model_serving.cpp" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_serving_engine_1_1_impl_1a3d2fd6e19c50ab5b1fbea823e10accf0" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="structthemisdb_1_1analytics_1_1_model_serving_entry" kindref="compound">ModelServingEntry</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;ModelServingEntry&gt; &gt; themisdb::analytics::ModelServingEngine::Impl::registry</definition>
+        <argsstring></argsstring>
+        <name>registry</name>
+        <qualifiedname>themisdb::analytics::ModelServingEngine::Impl::registry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/model_serving.cpp" line="184" column="24" bodyfile="src/analytics/model_serving.cpp" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_model_serving_engine_1_1_impl_1a0be4a87641cf15ffdd638bb14fb54da5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ModelServingEngine::Impl::Impl</definition>
+        <argsstring>(ModelServingConfig cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themisdb::analytics::ModelServingEngine::Impl::Impl</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_model_serving_config" kindref="compound">ModelServingConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/model_serving.cpp" line="186" column="14" bodyfile="src/analytics/model_serving.cpp" bodystart="186" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::analytics::ModelServingConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_model_serving_config"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::ModelServingEngine::Impl</label>
+        <link refid="structthemisdb_1_1analytics_1_1_model_serving_engine_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/model_serving.cpp" line="181" column="1" bodyfile="src/analytics/model_serving.cpp" bodystart="181" bodyend="187"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_engine_1_1_impl_1a148fc84c1cee4270c794000c3ff660ac" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingEngine::Impl</scope><name>config</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_engine_1_1_impl_1a0be4a87641cf15ffdd638bb14fb54da5" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingEngine::Impl</scope><name>Impl</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_engine_1_1_impl_1a5c65b2b164e5ec24ef8a23a356198d38" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingEngine::Impl</scope><name>mu</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_serving_engine_1_1_impl_1a3d2fd6e19c50ab5b1fbea823e10accf0" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelServingEngine::Impl</scope><name>registry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

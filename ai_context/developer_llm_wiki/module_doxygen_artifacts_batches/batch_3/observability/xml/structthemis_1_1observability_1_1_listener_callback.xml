@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_listener_callback" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ListenerCallback</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_listener_callback_1a46d3f376ffb3ba1fe0d355ae9bbc71a1" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string themis::observability::ListenerCallback::listener_id</definition>
+        <argsstring></argsstring>
+        <name>listener_id</name>
+        <qualifiedname>themis::observability::ListenerCallback::listener_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="60" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_listener_callback_1a430c9e3b40f08ae87b0e365e9d9eafec" prot="public" static="no" mutable="no">
+        <type>atomic&lt; uint64_t &gt;</type>
+        <definition>atomic&lt;uint64_t&gt; themis::observability::ListenerCallback::invocations</definition>
+        <argsstring></argsstring>
+        <name>invocations</name>
+        <qualifiedname>themis::observability::ListenerCallback::invocations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="61" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_listener_callback_1a2c9e2b64e3e6dab397d20766be2907ed" prot="public" static="no" mutable="no">
+        <type>atomic&lt; uint64_t &gt;</type>
+        <definition>atomic&lt;uint64_t&gt; themis::observability::ListenerCallback::total_latency_us</definition>
+        <argsstring></argsstring>
+        <name>total_latency_us</name>
+        <qualifiedname>themis::observability::ListenerCallback::total_latency_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="62" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Listener callback for notifications. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="59" column="1" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="59" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_listener_callback_1a430c9e3b40f08ae87b0e365e9d9eafec" prot="public" virt="non-virtual"><scope>themis::observability::ListenerCallback</scope><name>invocations</name></member>
+      <member refid="structthemis_1_1observability_1_1_listener_callback_1a46d3f376ffb3ba1fe0d355ae9bbc71a1" prot="public" virt="non-virtual"><scope>themis::observability::ListenerCallback</scope><name>listener_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_listener_callback_1a2c9e2b64e3e6dab397d20766be2907ed" prot="public" virt="non-virtual"><scope>themis::observability::ListenerCallback</scope><name>total_latency_us</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

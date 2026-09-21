@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_content_api_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpContentApiTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_content_api_test_1a8459b4fb7c27f36bca41ce36e641993c" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpContentApiTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpContentApiTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_content.cpp" line="122" column="21" bodyfile="tests/network/test_http_content.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_content_api_test_1af96b27344f5fcd5522324c8716b39afa" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpContentApiTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpContentApiTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_content.cpp" line="123" column="21" bodyfile="tests/network/test_http_content.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_content_api_test_1a3f81937197408167fcd1befc38e630ba" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpContentApiTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpContentApiTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_content.cpp" line="124" column="21" bodyfile="tests/network/test_http_content.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_content_api_test_1afdf74c83040a180a7e31e8f6535bdf38" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpContentApiTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpContentApiTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_content.cpp" line="125" column="21" bodyfile="tests/network/test_http_content.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_content_api_test_1aeea942bf1e34f7f995608ac27dc5e6ef" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpContentApiTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpContentApiTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_content.cpp" line="126" column="21" bodyfile="tests/network/test_http_content.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_content_api_test_1a5102ba22e6f9d9a78ca96041fa2fb2da" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpContentApiTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpContentApiTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_content.cpp" line="127" column="21" bodyfile="tests/network/test_http_content.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_content_api_test_1aae2d774b27d898fa302f5c260a2ab591" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpContentApiTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpContentApiTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_content.cpp" line="25" column="10" bodyfile="tests/network/test_http_content.cpp" bodystart="25" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_content_api_test_1aac38caccfbc833c6807c1ac96772cd7a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpContentApiTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpContentApiTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_content.cpp" line="53" column="10" bodyfile="tests/network/test_http_content.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_content_api_test_1ad90b484c3d4627deea9839a9bad05acd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpContentApiTest::httpPost</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>HttpContentApiTest::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_content.cpp" line="61" column="10" bodyfile="tests/network/test_http_content.cpp" bodystart="61" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_content_api_test_1a174a3f73444bc1ad6fc7c3340148fb6a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpContentApiTest::httpGet</definition>
+        <argsstring>(const std::string &amp;target, std::string *outContentType=nullptr)</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>HttpContentApiTest::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>outContentType</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_content.cpp" line="87" column="10" bodyfile="tests/network/test_http_content.cpp" bodystart="87" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpContentApiTest</label>
+        <link refid="class_http_content_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpContentApiTest</label>
+        <link refid="class_http_content_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_content.cpp" line="23" column="1" bodyfile="tests/network/test_http_content.cpp" bodystart="23" bodyend="128"/>
+    <listofallmembers>
+      <member refid="class_http_content_api_test_1a3f81937197408167fcd1befc38e630ba" prot="protected" virt="non-virtual"><scope>HttpContentApiTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_content_api_test_1a174a3f73444bc1ad6fc7c3340148fb6a" prot="protected" virt="non-virtual"><scope>HttpContentApiTest</scope><name>httpGet</name></member>
+      <member refid="class_http_content_api_test_1ad90b484c3d4627deea9839a9bad05acd" prot="protected" virt="non-virtual"><scope>HttpContentApiTest</scope><name>httpPost</name></member>
+      <member refid="class_http_content_api_test_1af96b27344f5fcd5522324c8716b39afa" prot="protected" virt="non-virtual"><scope>HttpContentApiTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_content_api_test_1a5102ba22e6f9d9a78ca96041fa2fb2da" prot="protected" virt="non-virtual"><scope>HttpContentApiTest</scope><name>server_</name></member>
+      <member refid="class_http_content_api_test_1aae2d774b27d898fa302f5c260a2ab591" prot="protected" virt="non-virtual"><scope>HttpContentApiTest</scope><name>SetUp</name></member>
+      <member refid="class_http_content_api_test_1a8459b4fb7c27f36bca41ce36e641993c" prot="protected" virt="non-virtual"><scope>HttpContentApiTest</scope><name>storage_</name></member>
+      <member refid="class_http_content_api_test_1aac38caccfbc833c6807c1ac96772cd7a" prot="protected" virt="non-virtual"><scope>HttpContentApiTest</scope><name>TearDown</name></member>
+      <member refid="class_http_content_api_test_1aeea942bf1e34f7f995608ac27dc5e6ef" prot="protected" virt="non-virtual"><scope>HttpContentApiTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_content_api_test_1afdf74c83040a180a7e31e8f6535bdf38" prot="protected" virt="non-virtual"><scope>HttpContentApiTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_epk_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::EpkValidator</compoundname>
+    <includes refid="serializer__hardening_8h" local="no">serializer_hardening.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epk_validator_1ae40d792f02338ef50f85275b4504e498" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref></type>
+        <definition>SerializerValidationResult themis::process::EpkValidator::validateEpkConstraints</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;nodes, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;edges)</argsstring>
+        <name>validateEpkConstraints</name>
+        <qualifiedname>themis::process::EpkValidator::validateEpkConstraints</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <briefdescription>
+<para>Validate EPK-specific constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>Events, functions, and connectors properly sequenced</para>
+</listitem><listitem><para>No duplicate node IDs</para>
+</listitem><listitem><para>Edges reference existing nodes</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of EPK node IDs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of edge source→target pairs. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Validation result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="238" column="40" bodyfile="src/process/serializer_hardening.cpp" bodystart="409" bodyend="444"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validator for epk. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/serializer_hardening.h" line="225" column="1" bodyfile="include/process/serializer_hardening.h" bodystart="225" bodyend="242"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_epk_validator_1ae40d792f02338ef50f85275b4504e498" prot="public" virt="non-virtual"><scope>themis::process::EpkValidator</scope><name>validateEpkConstraints</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

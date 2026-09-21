@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_process_conflict_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ProcessConflictResolver</compoundname>
+    <includes refid="process__conflict__resolver_8h" local="no">process_conflict_resolver.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_conflict_resolver_1a49c67efc3b9c28c397d4dda651185677" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_conflict_resolver_impl" kindref="compound">ProcessConflictResolverImpl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ProcessConflictResolverImpl&gt; themis::process::ProcessConflictResolver::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::process::ProcessConflictResolver::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="113" column="19" bodyfile="include/process/process_conflict_resolver.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_conflict_resolver_1a124e206beb5dd5c82e6e58bde9313481" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_conflict_resolver_1af7730b43e62e9d87081362fa830f5c9b" kindref="member">ProcessConflictResolver</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ProcessConflictResolver &gt; themis::process::ProcessConflictResolver::Create</definition>
+        <argsstring>(const ConflictResolverConfig &amp;config)</argsstring>
+        <name>Create</name>
+        <qualifiedname>themis::process::ProcessConflictResolver::Create</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_conflict_resolver_config" kindref="compound">ConflictResolverConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Factory method to create conflict resolver. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="71" column="26" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="392" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_conflict_resolver_1af7730b43e62e9d87081362fa830f5c9b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessConflictResolver::ProcessConflictResolver</definition>
+        <argsstring>(std::unique_ptr&lt; ProcessConflictResolverImpl &gt; impl)</argsstring>
+        <name>ProcessConflictResolver</name>
+        <qualifiedname>themis::process::ProcessConflictResolver::ProcessConflictResolver</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_conflict_resolver_impl" kindref="compound">ProcessConflictResolverImpl</ref> &gt;</type>
+          <declname>impl</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="77" column="12" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="397" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_conflict_resolver_1af2363989f6e057cabe75b4f039ea96ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessConflictResolver::~ProcessConflictResolver</definition>
+        <argsstring>()</argsstring>
+        <name>~ProcessConflictResolver</name>
+        <qualifiedname>themis::process::ProcessConflictResolver::~ProcessConflictResolver</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="83" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_conflict_resolver_1a79438d929d366e726e67cca99f1daa6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessConflictResolver::ResolveConflict</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;v1_id, uint64_t v1_timestamp, const std::string &amp;v1_sender, const std::string &amp;v2_id, uint64_t v2_timestamp, const std::string &amp;v2_sender)</argsstring>
+        <name>ResolveConflict</name>
+        <qualifiedname>themis::process::ProcessConflictResolver::ResolveConflict</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v1_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>v1_timestamp</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v1_sender</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v2_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>v2_timestamp</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v2_sender</declname>
+        </param>
+        <briefdescription>
+<para>Detect and resolve conflict between two versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resolve Conflict.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v1_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the v1. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v1_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v1_sender</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v2_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the v2. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v2_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v2_sender</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements ResolveConflict without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="88" column="15" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="415" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_conflict_resolver_1a62697292277c540510ed47743673af02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessConflictResolver::RegisterResolver</definition>
+        <argsstring>(std::shared_ptr&lt; ProcessConflictResolverCallback &gt; resolver)</argsstring>
+        <name>RegisterResolver</name>
+        <qualifiedname>themis::process::ProcessConflictResolver::RegisterResolver</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_conflict_resolver_callback" kindref="compound">ProcessConflictResolverCallback</ref> &gt;</type>
+          <declname>resolver</declname>
+        </param>
+        <briefdescription>
+<para>Register application-provided resolver callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Resolver.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements RegisterResolver without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="99" column="8" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="429" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_conflict_resolver_1a27040dbbf65afe0065753476e4e509a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_conflict_info" kindref="compound">ConflictInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ConflictInfo &gt; themis::process::ProcessConflictResolver::DetectConflictsBatch</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;versions)</argsstring>
+        <name>DetectConflictsBatch</name>
+        <qualifiedname>themis::process::ProcessConflictResolver::DetectConflictsBatch</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>versions</declname>
+        </param>
+        <briefdescription>
+<para>Detect conflicts in a batch of model versions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="104" column="15" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="434" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_conflict_resolver_1a5319acb643c504bbfd96ae6fdb37cea5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_conflict_resolver_stats" kindref="compound">ConflictResolverStats</ref></type>
+        <definition>ConflictResolverStats themis::process::ProcessConflictResolver::GetStats</definition>
+        <argsstring>() const</argsstring>
+        <name>GetStats</name>
+        <qualifiedname>themis::process::ProcessConflictResolver::GetStats</qualifiedname>
+        <briefdescription>
+<para>Get conflict resolver statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="110" column="25" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="439" bodyend="441"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Multi-model conflict detection and resolution engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Detects concurrent updates on the same model version and invokes application-provided callbacks or LWW fallback for deterministic resolution. </para>
+    </detaileddescription>
+    <location file="include/process/process_conflict_resolver.h" line="66" column="1" bodyfile="include/process/process_conflict_resolver.h" bodystart="66" bodyend="114"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_process_conflict_resolver_1a124e206beb5dd5c82e6e58bde9313481" prot="public" virt="non-virtual"><scope>themis::process::ProcessConflictResolver</scope><name>Create</name></member>
+      <member refid="classthemis_1_1process_1_1_process_conflict_resolver_1a27040dbbf65afe0065753476e4e509a4" prot="public" virt="non-virtual"><scope>themis::process::ProcessConflictResolver</scope><name>DetectConflictsBatch</name></member>
+      <member refid="classthemis_1_1process_1_1_process_conflict_resolver_1a5319acb643c504bbfd96ae6fdb37cea5" prot="public" virt="non-virtual"><scope>themis::process::ProcessConflictResolver</scope><name>GetStats</name></member>
+      <member refid="classthemis_1_1process_1_1_process_conflict_resolver_1a49c67efc3b9c28c397d4dda651185677" prot="private" virt="non-virtual"><scope>themis::process::ProcessConflictResolver</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_conflict_resolver_1af7730b43e62e9d87081362fa830f5c9b" prot="public" virt="non-virtual"><scope>themis::process::ProcessConflictResolver</scope><name>ProcessConflictResolver</name></member>
+      <member refid="classthemis_1_1process_1_1_process_conflict_resolver_1a62697292277c540510ed47743673af02" prot="public" virt="non-virtual"><scope>themis::process::ProcessConflictResolver</scope><name>RegisterResolver</name></member>
+      <member refid="classthemis_1_1process_1_1_process_conflict_resolver_1a79438d929d366e726e67cca99f1daa6f" prot="public" virt="non-virtual"><scope>themis::process::ProcessConflictResolver</scope><name>ResolveConflict</name></member>
+      <member refid="classthemis_1_1process_1_1_process_conflict_resolver_1af2363989f6e057cabe75b4f039ea96ed" prot="public" virt="non-virtual"><scope>themis::process::ProcessConflictResolver</scope><name>~ProcessConflictResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

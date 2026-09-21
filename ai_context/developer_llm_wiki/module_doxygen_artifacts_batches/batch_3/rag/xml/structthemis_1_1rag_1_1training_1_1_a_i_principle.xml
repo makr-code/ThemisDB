@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1training_1_1_a_i_principle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::training::AIPrinciple</compoundname>
+    <includes refid="rlaif__trainer_8h" local="no">rlaif_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_a_i_principle_1a54133c3a6a77e38eec42edebcc48c527" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::AIPrinciple::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::rag::training::AIPrinciple::id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier (e.g., &quot;harmlessness-1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="56" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_a_i_principle_1a0a4f1f92205d4c844be6a5dbaf76ce49" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::AIPrinciple::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::rag::training::AIPrinciple::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable principle statement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="57" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_a_i_principle_1a05fbb83af56fc3de810d70dd20cd193f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::AIPrinciple::critique_template</definition>
+        <argsstring></argsstring>
+        <name>critique_template</name>
+        <qualifiedname>themis::rag::training::AIPrinciple::critique_template</qualifiedname>
+        <briefdescription>
+<para>Template for generating a critique. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="58" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_a_i_principle_1afc62a583dc024985c90d11ce1fcf95ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::AIPrinciple::revision_template</definition>
+        <argsstring></argsstring>
+        <name>revision_template</name>
+        <qualifiedname>themis::rag::training::AIPrinciple::revision_template</qualifiedname>
+        <briefdescription>
+<para>Template for generating a revision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="59" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_a_i_principle_1a7686b6ee01982303786cf477d702afc5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1training_1a16b1894b95b42e0f2283ac43cbb8f12c" kindref="member">ConstitutionalStrategy</ref></type>
+        <definition>ConstitutionalStrategy themis::rag::training::AIPrinciple::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::rag::training::AIPrinciple::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1training_1a16b1894b95b42e0f2283ac43cbb8f12ca448285d39c3f159c017938c7c367d0d2" kindref="member">ConstitutionalStrategy::COMBINED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="60" column="28" bodyfile="include/rag/rlaif_trainer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single constitutional principle definition. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rlaif_trainer.h" line="55" column="1" bodyfile="include/rag/rlaif_trainer.h" bodystart="55" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1training_1_1_a_i_principle_1a05fbb83af56fc3de810d70dd20cd193f" prot="public" virt="non-virtual"><scope>themis::rag::training::AIPrinciple</scope><name>critique_template</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_a_i_principle_1a0a4f1f92205d4c844be6a5dbaf76ce49" prot="public" virt="non-virtual"><scope>themis::rag::training::AIPrinciple</scope><name>description</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_a_i_principle_1a54133c3a6a77e38eec42edebcc48c527" prot="public" virt="non-virtual"><scope>themis::rag::training::AIPrinciple</scope><name>id</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_a_i_principle_1afc62a583dc024985c90d11ce1fcf95ec" prot="public" virt="non-virtual"><scope>themis::rag::training::AIPrinciple</scope><name>revision_template</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_a_i_principle_1a7686b6ee01982303786cf477d702afc5" prot="public" virt="non-virtual"><scope>themis::rag::training::AIPrinciple</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_capability_escalation_blocked_tests" kind="class" language="C++" prot="public">
+    <compoundname>CapabilityEscalationBlockedTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_capability_escalation_blocked_tests_1a1de4106c74389a3de1624495d3c9eb6c" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref></type>
+        <definition>PluginManager CapabilityEscalationBlockedTests::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>CapabilityEscalationBlockedTests::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="71" column="19" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_capability_escalation_blocked_tests_1a67f3b5379c56d49a5453801101e3554b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CapabilityEscalationBlockedTests::registerAndLoad</definition>
+        <argsstring>(MockCapabilityPlugin &amp;plugin, const std::string &amp;name)</argsstring>
+        <name>registerAndLoad</name>
+        <qualifiedname>CapabilityEscalationBlockedTests::registerAndLoad</qualifiedname>
+        <param>
+          <type><ref refid="class_mock_capability_plugin" kindref="compound">MockCapabilityPlugin</ref> &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Register a <ref refid="class_mock_capability_plugin" kindref="compound">MockCapabilityPlugin</ref> directly into the <ref refid="class_plugin_manager" kindref="compound">PluginManager</ref>&apos;s internal factory registry and simulate a &quot;load&quot; by calling <ref refid="classthemis_1_1plugins_1_1_plugin_manager_registry_1a6ca248f2d4fc1bef8249d5b6838fb2dc" kindref="member">PluginManagerRegistry::registerFactory</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Because real dlopen loading is not available in unit tests, we exercise checkCapabilityEscalation() via a helper that bypasses the file-system loading path and directly inserts a PluginEntry (using the public negotiateCapabilities / getPlugin paths as the test interface).</para>
+<para>The trick: we register the plugin through the registry + factory approach so we can call loadPlugin(&quot;name&quot;) without an actual .so binary. We do this by subclassing and using the <ref refid="classthemis_1_1plugins_1_1_plugin_manager_registry" kindref="compound">PluginManagerRegistry</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="87" column="10" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="87" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CapabilityEscalationBlockedTests</label>
+        <link refid="class_capability_escalation_blocked_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CapabilityEscalationBlockedTests</label>
+        <link refid="class_capability_escalation_blocked_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mgr_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginManager</label>
+        <link refid="classthemis_1_1plugins_1_1_plugin_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_capability_escalation.cpp" line="68" column="1" bodyfile="tests/plugins/test_plugin_capability_escalation.cpp" bodystart="68" bodyend="100"/>
+    <listofallmembers>
+      <member refid="class_capability_escalation_blocked_tests_1a1de4106c74389a3de1624495d3c9eb6c" prot="protected" virt="non-virtual"><scope>CapabilityEscalationBlockedTests</scope><name>mgr_</name></member>
+      <member refid="class_capability_escalation_blocked_tests_1a67f3b5379c56d49a5453801101e3554b" prot="protected" virt="non-virtual"><scope>CapabilityEscalationBlockedTests</scope><name>registerAndLoad</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

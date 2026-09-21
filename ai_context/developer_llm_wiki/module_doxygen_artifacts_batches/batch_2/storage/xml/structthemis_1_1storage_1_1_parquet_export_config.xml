@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_parquet_export_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ParquetExportConfig</compoundname>
+    <includes refid="storage__parquet__exporter_8h" local="no">storage_parquet_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_parquet_export_config_1a5fe2b27ae68eb3701718f90e82863dd1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1storage_1_1_parquet_column_desc" kindref="compound">ParquetColumnDesc</ref> &gt;</type>
+        <definition>std::vector&lt;ParquetColumnDesc&gt; themis::storage::ParquetExportConfig::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themis::storage::ParquetExportConfig::columns</qualifiedname>
+        <briefdescription>
+<para>Column descriptors (parallel to the <ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref> vectors). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="36" column="17" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_parquet_export_config_1a655cf6458101e305b7e571e0007694eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ParquetExportConfig::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themis::storage::ParquetExportConfig::compression</qualifiedname>
+        <initializer>= &quot;SNAPPY&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional compression codec for Parquet data pages. Accepted values: &quot;NONE&quot;, &quot;SNAPPY&quot;, &quot;ZSTD&quot; (case-insensitive). Defaults to &quot;SNAPPY&quot; when Arrow is available, &quot;NONE&quot; otherwise. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="41" column="17" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_parquet_export_config_1a721e9db9bb0abe482f4fa3e3b3cedf20" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ParquetExportConfig::row_group_size</definition>
+        <argsstring></argsstring>
+        <name>row_group_size</name>
+        <qualifiedname>themis::storage::ParquetExportConfig::row_group_size</qualifiedname>
+        <initializer>= 1&apos;048&apos;576</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Row-group size in number of rows (0 = all rows in a single group). Default: 1 048 576 (1 M rows). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="45" column="12" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a Parquet export operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/storage_parquet_exporter.h" line="34" column="1" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="34" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_parquet_export_config_1a5fe2b27ae68eb3701718f90e82863dd1" prot="public" virt="non-virtual"><scope>themis::storage::ParquetExportConfig</scope><name>columns</name></member>
+      <member refid="structthemis_1_1storage_1_1_parquet_export_config_1a655cf6458101e305b7e571e0007694eb" prot="public" virt="non-virtual"><scope>themis::storage::ParquetExportConfig</scope><name>compression</name></member>
+      <member refid="structthemis_1_1storage_1_1_parquet_export_config_1a721e9db9bb0abe482f4fa3e3b3cedf20" prot="public" virt="non-virtual"><scope>themis::storage::ParquetExportConfig</scope><name>row_group_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

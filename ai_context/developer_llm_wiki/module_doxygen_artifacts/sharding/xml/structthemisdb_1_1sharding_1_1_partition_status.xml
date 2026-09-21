@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_partition_status" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PartitionStatus</compoundname>
+    <includes refid="raft__consensus_8h" local="no">raft_consensus.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_status_1a56bf5682872345060d75853dd4d39b51" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PartitionStatus::is_partitioned</definition>
+        <argsstring></argsstring>
+        <name>is_partitioned</name>
+        <qualifiedname>themisdb::sharding::PartitionStatus::is_partitioned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>True when partition symptoms are detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="65" column="10" bodyfile="include/sharding/raft_consensus.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_status_1a0012b480c72151e0afd94c740a75631c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::PartitionStatus::reachable_nodes</definition>
+        <argsstring></argsstring>
+        <name>reachable_nodes</name>
+        <qualifiedname>themisdb::sharding::PartitionStatus::reachable_nodes</qualifiedname>
+        <briefdescription>
+<para>Peers reachable from this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="66" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_status_1a70251f0bcc795e59cb860c96febc4829" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::PartitionStatus::unreachable_nodes</definition>
+        <argsstring></argsstring>
+        <name>unreachable_nodes</name>
+        <qualifiedname>themisdb::sharding::PartitionStatus::unreachable_nodes</qualifiedname>
+        <briefdescription>
+<para>Peers currently unreachable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="67" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_status_1a48b81830b0ab96bbed28520958190d03" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PartitionStatus::has_quorum</definition>
+        <argsstring></argsstring>
+        <name>has_quorum</name>
+        <qualifiedname>themisdb::sharding::PartitionStatus::has_quorum</qualifiedname>
+        <briefdescription>
+<para>True when reachable set still forms quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="68" column="10" bodyfile="include/sharding/raft_consensus.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_status_1a6ac2066954c4ad094c1680cfab3e8df0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::PartitionStatus::partition_id</definition>
+        <argsstring></argsstring>
+        <name>partition_id</name>
+        <qualifiedname>themisdb::sharding::PartitionStatus::partition_id</qualifiedname>
+        <briefdescription>
+<para>Deterministic identifier for current reachable set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="69" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_status_1a3c6147a22117981e0a2d02015c622d7b" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::sharding::PartitionStatus::detected_at</definition>
+        <argsstring></argsstring>
+        <name>detected_at</name>
+        <qualifiedname>themisdb::sharding::PartitionStatus::detected_at</qualifiedname>
+        <briefdescription>
+<para>Time partition status was computed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="70" column="43" bodyfile="include/sharding/raft_consensus.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Partition detection result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raft_consensus.h" line="64" column="1" bodyfile="include/sharding/raft_consensus.h" bodystart="64" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_status_1a3c6147a22117981e0a2d02015c622d7b" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionStatus</scope><name>detected_at</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_status_1a48b81830b0ab96bbed28520958190d03" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionStatus</scope><name>has_quorum</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_status_1a56bf5682872345060d75853dd4d39b51" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionStatus</scope><name>is_partitioned</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_status_1a6ac2066954c4ad094c1680cfab3e8df0" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionStatus</scope><name>partition_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_status_1a0012b480c72151e0afd94c740a75631c" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionStatus</scope><name>reachable_nodes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_status_1a70251f0bcc795e59cb860c96febc4829" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionStatus</scope><name>unreachable_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,3255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1sharding" kind="namespace" language="C++">
+    <compoundname>themisdb::sharding</compoundname>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_append_entries_request" prot="public">themisdb::sharding::AppendEntriesRequest</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_append_entries_response" prot="public">themisdb::sharding::AppendEntriesResponse</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_auto_recovery_config" prot="public">themisdb::sharding::AutoRecoveryConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_auto_recovery_manager" prot="public">themisdb::sharding::AutoRecoveryManager</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_backend_recovery_stats" prot="public">themisdb::sharding::BackendRecoveryStats</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_batch_stats" prot="public">themisdb::sharding::BatchStats</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_checkpoint_info" prot="public">themisdb::sharding::CheckpointInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_consensus_config" prot="public">themisdb::sharding::ConsensusConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_consensus_factory" prot="public">themisdb::sharding::ConsensusFactory</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" prot="public">themisdb::sharding::ConsensusLogEntry</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_consensus_module" prot="public">themisdb::sharding::ConsensusModule</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_consensus_stats" prot="public">themisdb::sharding::ConsensusStats</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" prot="public">themisdb::sharding::ContinuousBatchScheduler</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_continuous_batch_scheduler_config" prot="public">themisdb::sharding::ContinuousBatchSchedulerConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" prot="public">themisdb::sharding::ConvergedChaosTest</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" prot="public">themisdb::sharding::ConvergedOperationMetrics</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_metrics" prot="public">themisdb::sharding::ConvergedSLOMetrics</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_converged_s_l_o_monitor" prot="public">themisdb::sharding::ConvergedSLOMonitor</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target" prot="public">themisdb::sharding::ConvergedSLOTarget</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_cross_layer_version_token" prot="public">themisdb::sharding::CrossLayerVersionToken</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint" prot="public">themisdb::sharding::CrossShardFKConstraint</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator" prot="public">themisdb::sharding::CrossShardForeignKeyValidator</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_cross_shard_predicate_lock" prot="public">themisdb::sharding::CrossShardPredicateLock</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder" prot="public">themisdb::sharding::CrossShardSpeculativeDecoder</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict" prot="public">themisdb::sharding::CrossShardSSIConflict</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager" prot="public">themisdb::sharding::CrossShardSSIManager</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" prot="public">themisdb::sharding::CrossShardTransaction</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config" prot="public">themisdb::sharding::CrossShardTransactionConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator" prot="public">themisdb::sharding::CrossShardTransactionCoordinator</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator" prot="public">themisdb::sharding::DistributedTimeCoordinator</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_draft_generation_request" prot="public">themisdb::sharding::DraftGenerationRequest</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_draft_verification_request" prot="public">themisdb::sharding::DraftVerificationRequest</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_dual_consensus_orchestrator" prot="public">themisdb::sharding::DualConsensusOrchestrator</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" prot="public">themisdb::sharding::DualConsensusTest</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_durable_acceptor_state" prot="public">themisdb::sharding::DurableAcceptorState</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_durable_node_state" prot="public">themisdb::sharding::DurableNodeState</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_exponential_backoff" prot="public">themisdb::sharding::ExponentialBackoff</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_failure_prediction" prot="public">themisdb::sharding::FailurePrediction</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_f_k_violation" prot="public">themisdb::sharding::FKViolation</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter" prot="public">themisdb::sharding::GossipConsensusAdapter</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_g_p_u_config" prot="public">themisdb::sharding::GPUConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_g_p_u_erasure_coder" prot="public">themisdb::sharding::GPUErasureCoder</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_health_status" prot="public">themisdb::sharding::HealthStatus</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_heartbeat" prot="public">themisdb::sharding::Heartbeat</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced" prot="public">themisdb::sharding::InferenceEngineEnhanced</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_inference_stats" prot="public">themisdb::sharding::InferenceStats</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_k_v_cache_block" prot="public">themisdb::sharding::KVCacheBlock</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" prot="public">themisdb::sharding::KVCacheConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats" prot="public">themisdb::sharding::KVCacheStats</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_log_entry" prot="public">themisdb::sharding::LogEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_lo_r_a_config" prot="public">themisdb::sharding::LoRAConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_l_s_n" prot="public">themisdb::sharding::LSN</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_metadata_entry" prot="public">themisdb::sharding::MetadataEntry</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_metadata_shard" prot="public">themisdb::sharding::MetadataShard</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_metadata_shard_config" prot="public">themisdb::sharding::MetadataShardConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_metadata_shard_router" prot="public">themisdb::sharding::MetadataShardRouter</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_metadata_snapshot" prot="public">themisdb::sharding::MetadataSnapshot</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager" prot="public">themisdb::sharding::MetadataSnapshotManager</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l" prot="public">themisdb::sharding::MetadataWAL</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config" prot="public">themisdb::sharding::MetadataWALConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry" prot="public">themisdb::sharding::MetadataWALEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_metric_value" prot="public">themisdb::sharding::MetricValue</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_mock_consensus_module" prot="public">themisdb::sharding::MockConsensusModule</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_model_config" prot="public">themisdb::sharding::ModelConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_node_connectivity" prot="public">themisdb::sharding::NodeConnectivity</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_operational_metrics" prot="public">themisdb::sharding::OperationalMetrics</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache" prot="public">themisdb::sharding::PagedKVCache</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_partition_detector" prot="public">themisdb::sharding::PartitionDetector</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_partition_detector_config" prot="public">themisdb::sharding::PartitionDetectorConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_partition_event" prot="public">themisdb::sharding::PartitionEvent</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_partition_status" prot="public">themisdb::sharding::PartitionStatus</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_paxos_consensus" prot="public">themisdb::sharding::PaxosConsensus</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_paxos_instance" prot="public">themisdb::sharding::PaxosInstance</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence" prot="public">themisdb::sharding::PaxosStatePersistence</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_percolator_coordinator" prot="public">themisdb::sharding::PercolatorCoordinator</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_predictive_config" prot="public">themisdb::sharding::PredictiveConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector" prot="public">themisdb::sharding::PredictiveFailureDetector</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_predictive_shard_metrics" prot="public">themisdb::sharding::PredictiveShardMetrics</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_proposal_number" prot="public">themisdb::sharding::ProposalNumber</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_quorum_config" prot="public">themisdb::sharding::QuorumConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_quorum_manager" prot="public">themisdb::sharding::QuorumManager</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_quorum_result" prot="public">themisdb::sharding::QuorumResult</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_config" prot="public">themisdb::sharding::RaftConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_raft_consensus" prot="public">themisdb::sharding::RaftConsensus</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_raft_consensus_adapter" prot="public">themisdb::sharding::RaftConsensusAdapter</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_raft_log" prot="public">themisdb::sharding::RaftLog</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_raft_shard_manager" prot="public">themisdb::sharding::RaftShardManager</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_snapshot" prot="public">themisdb::sharding::RaftSnapshot</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk" prot="public">themisdb::sharding::RaftSnapshotChunk</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager" prot="public">themisdb::sharding::RaftSnapshotManager</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_raft_state" prot="public">themisdb::sharding::RaftState</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration" prot="public">themisdb::sharding::RaftWALIntegration</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" prot="public">themisdb::sharding::RAIDPaxosConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_consensus" prot="public">themisdb::sharding::RAIDPaxosConsensus</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" prot="public">themisdb::sharding::RAIDPaxosTest</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_recovery_stats" prot="public">themisdb::sharding::RecoveryStats</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_repair_config" prot="public">themisdb::sharding::RepairConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_repair_job" prot="public">themisdb::sharding::RepairJob</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_repair_metrics" prot="public">themisdb::sharding::RepairMetrics</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager" prot="public">themisdb::sharding::ReplicaConsistencyManager</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_replica_state" prot="public">themisdb::sharding::ReplicaState</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_replication_request" prot="public">themisdb::sharding::ReplicationRequest</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_replication_response" prot="public">themisdb::sharding::ReplicationResponse</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_request_stats" prot="public">themisdb::sharding::RequestStats</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_shard_capability_info" prot="public">themisdb::sharding::ShardCapabilityInfo</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_shard_durability" prot="public">themisdb::sharding::ShardDurability</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_shard_durability_config" prot="public">themisdb::sharding::ShardDurabilityConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_shard_health_report" prot="public">themisdb::sharding::ShardHealthReport</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_shard_metrics" prot="public">themisdb::sharding::ShardMetrics</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_shard_participant" prot="public">themisdb::sharding::ShardParticipant</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_shard_raft_info" prot="public">themisdb::sharding::ShardRaftInfo</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_shard_repair_engine" prot="public">themisdb::sharding::ShardRepairEngine</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_speculative_decoding_config" prot="public">themisdb::sharding::SpeculativeDecodingConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_speculative_decoding_stats" prot="public">themisdb::sharding::SpeculativeDecodingStats</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_token_generation_result" prot="public">themisdb::sharding::TokenGenerationResult</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_vector_clock" prot="public">themisdb::sharding::VectorClock</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_version_conflict" prot="public">themisdb::sharding::VersionConflict</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_versioned_entry" prot="public">themisdb::sharding::VersionedEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_vote_request" prot="public">themisdb::sharding::VoteRequest</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_vote_response" prot="public">themisdb::sharding::VoteResponse</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_w_a_l_applier" prot="public">themisdb::sharding::WALApplier</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_w_a_l_entry" prot="public">themisdb::sharding::WALEntry</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_w_a_l_manager" prot="public">themisdb::sharding::WALManager</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper" prot="public">themisdb::sharding::WALShipper</innerclass>
+    <innernamespace refid="namespacethemisdb_1_1sharding_1_1fi__test">themisdb::sharding::fi_test</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding_1_1optimizations">themisdb::sharding::optimizations</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding_1_1test">themisdb::sharding::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConsensusState</name>
+        <qualifiedname>themisdb::sharding::ConsensusState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205fa8026987f2531b5fa5178a851c108397c" prot="public">
+          <name>FOLLOWER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205fabea4821516973214973a70aea8337c38" prot="public">
+          <name>CANDIDATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205fab8058aa3ecd39b676ce80d6aaadc5e64" prot="public">
+          <name>LEADER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205faff728df6b722b64ac3eb9019959d716c" prot="public">
+          <name>OBSERVER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Consensus state of a node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="31" column="1" bodyfile="include/sharding/consensus_module.h" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConsensusType</name>
+        <qualifiedname>themisdb::sharding::ConsensusType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfaf831d834df040618e0117917ac0dcb62" prot="public">
+          <name>RAFT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa3d35b67f7532ad5204628c67a94d08d6" prot="public">
+          <name>GOSSIP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfaaa1968070500759fe3e25480f899282b" prot="public">
+          <name>PAXOS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa222ff8a3016a807c9be545154ee05ab4" prot="public">
+          <name>MULTI_PAXOS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa2853c285bb9b31fa5b5f9e4a0b9052f4" prot="public">
+          <name>RAID_PAXOS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa0c8176468e3f53a7c4ef6c9619ee267e" prot="public">
+          <name>DUAL_CONSENSUS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Consensus module type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="41" column="1" bodyfile="include/sharding/consensus_module.h" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1afface7462e40093984ddef934a41300e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SchedulingPriority</name>
+        <qualifiedname>themisdb::sharding::SchedulingPriority</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1afface7462e40093984ddef934a41300ea4abfc22ad3c3ef567d80c65263fd7754" prot="public">
+          <name>REALTIME</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1afface7462e40093984ddef934a41300ea176fd33fae7a2fd726d11292e79aca3c" prot="public">
+          <name>INTERACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1afface7462e40093984ddef934a41300ea3dba7f2d2578ffb4bd657af94b1add80" prot="public">
+          <name>BATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1afface7462e40093984ddef934a41300ea87ed58ce5596142e11cb65deb049bb4b" prot="public">
+          <name>BACKGROUND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Request scheduling priority levels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="37" column="1" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="37" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a908b3d5a344e5d5ebbb49da08e656f3c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RequestState</name>
+        <qualifiedname>themisdb::sharding::RequestState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a908b3d5a344e5d5ebbb49da08e656f3cac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a908b3d5a344e5d5ebbb49da08e656f3ca56941e6ee92f0f9a3e7c29354a343856" prot="public">
+          <name>PREFILLING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a908b3d5a344e5d5ebbb49da08e656f3ca9b75f3acd3c3480965b0f5ee466e7f25" prot="public">
+          <name>DECODING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a908b3d5a344e5d5ebbb49da08e656f3ca8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a908b3d5a344e5d5ebbb49da08e656f3ca9f935beb31030ad0d4d26126c0f39bf2" prot="public">
+          <name>CANCELLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a908b3d5a344e5d5ebbb49da08e656f3cab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Request state in the scheduling pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/continuous_batch_scheduler.h" line="47" column="1" bodyfile="include/sharding/continuous_batch_scheduler.h" bodystart="47" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConvergedErrorType</name>
+        <qualifiedname>themisdb::sharding::ConvergedErrorType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a5c8e0b5fa4ac139645dc468a6a4991e3" prot="public">
+          <name>CROSS_LAYER_VERSION_MISMATCH</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1ae9cc2575c59c7822757287bb40dea443" prot="public">
+          <name>CROSS_LAYER_CONSENSUS_FAILED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a30dd21dfaeafaf3b3013fb572be1b11f" prot="public">
+          <name>CROSS_LAYER_SYNC_TIMEOUT</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a0ae4ce662bc01fa7e865e7b6e57b7aea" prot="public">
+          <name>CROSS_SHARD_KV_STALE</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a5b247a8b1fcdd87b180dfbcee1d56beb" prot="public">
+          <name>CROSS_SHARD_INCONSISTENT_READ</name>
+          <initializer>= 11</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a10285028ba7de4d1bcebaac076a7bd96" prot="public">
+          <name>CROSS_SHARD_QUORUM_FAILED</name>
+          <initializer>= 12</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a037ae53ba0c7deeb5da1ebfb5d3ad62e" prot="public">
+          <name>INFERENCE_PREMPTION</name>
+          <initializer>= 20</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1ab2ace4f6c16e976f454c428f39101da6" prot="public">
+          <name>INFERENCE_TIMEOUT</name>
+          <initializer>= 21</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1ad64332d0bba44d852e84b494fa6dd682" prot="public">
+          <name>INFERENCE_OOM</name>
+          <initializer>= 22</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a456043cc9ca6747a588ec5a3f667a5c6" prot="public">
+          <name>INFERENCE_GPU_ERROR</name>
+          <initializer>= 23</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1abb9e892edabb717405939760d7ef6a81" prot="public">
+          <name>GROUNDING_AUDIT_FAILED</name>
+          <initializer>= 30</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a3dad658b9723ba54cba94ff9f175e9ca" prot="public">
+          <name>GROUNDING_VERSION_GAP</name>
+          <initializer>= 31</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a1d76e04a0d3dd2f05267e37f5e0a2fdb" prot="public">
+          <name>Source_MISSING</name>
+          <initializer>= 32</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error types specific to Converged Storage-Inference topology. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="30" column="1" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="30" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a33f5f61ab4c1fd17c5b1f27fdc373ea9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SpeculativeDecodingMode</name>
+        <qualifiedname>themisdb::sharding::SpeculativeDecodingMode</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a33f5f61ab4c1fd17c5b1f27fdc373ea9a055c1a591abb0e8cd86dc969727bcc0b" prot="public">
+          <name>DISABLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a33f5f61ab4c1fd17c5b1f27fdc373ea9a54b4c4075463b2e02cd69f5cd139b5b2" prot="public">
+          <name>LOCAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a33f5f61ab4c1fd17c5b1f27fdc373ea9a04a12d632a53930ab46e83ecbc57cc66" prot="public">
+          <name>CROSS_SHARD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a33f5f61ab4c1fd17c5b1f27fdc373ea9a3bf07fe8ac3883060b1558113ba248d4" prot="public">
+          <name>HYBRID</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Speculative decoding mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="38" column="1" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="38" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1aa6b8f3392853250b3adfc87a17df6ca0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransactionProtocol</name>
+        <qualifiedname>themisdb::sharding::TransactionProtocol</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aa6b8f3392853250b3adfc87a17df6ca0a4ac53c5e8c1e144c46d2fa775bbe0578" prot="public">
+          <name>TWO_PHASE_COMMIT</name>
+          <briefdescription>
+<para>2PC: blocking but strongly consistent. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aa6b8f3392853250b3adfc87a17df6ca0ab5058fe79af3904f22a2b2d07d80a597" prot="public">
+          <name>THREE_PHASE_COMMIT</name>
+          <briefdescription>
+<para>3PC: non-blocking variant with pre-commit stage. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aa6b8f3392853250b3adfc87a17df6ca0a8cfd9064c17dc09415be2523f5367caa" prot="public">
+          <name>SAGA</name>
+          <briefdescription>
+<para>SAGA with compensating actions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aa6b8f3392853250b3adfc87a17df6ca0a8fab253dc8f2924f9b94479662f93836" prot="public">
+          <name>PERCOLATOR</name>
+          <briefdescription>
+<para>Percolator optimistic protocol for distributed writes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aa6b8f3392853250b3adfc87a17df6ca0a841dc9bcb636bc077d0d59979aa6a77c" prot="public">
+          <name>CALVIN</name>
+          <briefdescription>
+<para>Calvin deterministic protocol via pre-ordering. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Transaction protocol type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="56" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1ab0ad98c3bfd5aec5094c667564aff927" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IsolationLevel</name>
+        <qualifiedname>themisdb::sharding::IsolationLevel</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ab0ad98c3bfd5aec5094c667564aff927a7b5722b7d02a9d8ff3a8bdfcb7d278c3" prot="public">
+          <name>READ_UNCOMMITTED</name>
+          <briefdescription>
+<para>Dirty reads allowed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ab0ad98c3bfd5aec5094c667564aff927a1671fb17b5ce9bd0af0cf47f3f4ea337" prot="public">
+          <name>READ_COMMITTED</name>
+          <briefdescription>
+<para>Reads only committed data. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ab0ad98c3bfd5aec5094c667564aff927aa4b37efaa1a6b533614ed81660dbf912" prot="public">
+          <name>REPEATABLE_READ</name>
+          <briefdescription>
+<para>Repeatable reads within a transaction. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ab0ad98c3bfd5aec5094c667564aff927a9eb39169b7db6ecee4ee0980284659bd" prot="public">
+          <name>SNAPSHOT_ISOLATION</name>
+          <briefdescription>
+<para>MVCC snapshot isolation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ab0ad98c3bfd5aec5094c667564aff927aadfafde622c8622bb72e4ff73e295cdb" prot="public">
+          <name>SERIALIZABLE</name>
+          <briefdescription>
+<para>Fully serializable execution. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Transaction isolation level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="67" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="67" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransactionState</name>
+        <qualifiedname>themisdb::sharding::TransactionState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+<para>Transaction is active. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1abd6a3a60251e4e52cdc9c393f33cbe10" prot="public">
+          <name>PREPARING</name>
+          <briefdescription>
+<para>Phase 1 prepare in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1a6bbfc22048d63183dd626a026e63e497" prot="public">
+          <name>PREPARED</name>
+          <briefdescription>
+<para>All participants prepared. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1a001d8fa76b26eee4f6d7c8a8d44c73ef" prot="public">
+          <name>COMMITTING</name>
+          <briefdescription>
+<para>Commit decision being applied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1a1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <briefdescription>
+<para>Commit completed successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1a0f7fb3ad9bfa0a293be603d57f9fa02c" prot="public">
+          <name>ABORTING</name>
+          <briefdescription>
+<para>Abort decision being applied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1a4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+<para>Abort completed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a1b27ab7c0aacec2cdf12e8c4902e86c1a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+<para>State unknown, usually after coordinator failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Transaction state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="78" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="78" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a413469a8f0bc4c56a597a1cfaa37b2fd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DeadlockVictimPolicy</name>
+        <qualifiedname>themisdb::sharding::DeadlockVictimPolicy</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a413469a8f0bc4c56a597a1cfaa37b2fda3ebfaf6242b8db6cc479534dac01939c" prot="public">
+          <name>YOUNGEST</name>
+          <briefdescription>
+<para>Abort most recently started transaction in cycle. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a413469a8f0bc4c56a597a1cfaa37b2fdaffec199ac034a0999ccfcb7f0325c8a3" prot="public">
+          <name>OLDEST</name>
+          <briefdescription>
+<para>Abort longest-running transaction in cycle. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a413469a8f0bc4c56a597a1cfaa37b2fda170e02e86972c2be8559884cc3c12254" prot="public">
+          <name>RANDOM</name>
+          <briefdescription>
+<para>Abort random transaction in cycle. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="89" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="89" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1ae0c04caea64a6f5d8f7dead3028930db" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConsensusLayer</name>
+        <qualifiedname>themisdb::sharding::ConsensusLayer</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ae0c04caea64a6f5d8f7dead3028930dba754a5d433173b5ddc7debc2110ac575f" prot="public">
+          <name>STORAGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1ae0c04caea64a6f5d8f7dead3028930dba08e1be4b785493d9fc2ae52c5ba9ab2e" prot="public">
+          <name>CACHE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><blockquote><para>Persistent storage layer (Paxos/RAID-Paxos) </para>
+</blockquote><blockquote><para>KV-Cache layer (Raft) </para>
+</blockquote></para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Consensus layer type for Dual-Consensus. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/dual_consensus_orchestrator.h" line="32" column="1" bodyfile="include/sharding/dual_consensus_orchestrator.h" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1aa413339eb587d2342ae8297df4d991d6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CrossLayerConsistencyState</name>
+        <qualifiedname>themisdb::sharding::CrossLayerConsistencyState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aa413339eb587d2342ae8297df4d991d6af3d55ce16a7a41e20925cafda0bd12b0" prot="public">
+          <name>CONSISTENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aa413339eb587d2342ae8297df4d991d6a4a9b97e1a8d6eb13ada767e97a74fd86" prot="public">
+          <name>STORAGE_AHEAD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><blockquote><para>Both layers consistent </para>
+</blockquote></para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aa413339eb587d2342ae8297df4d991d6a2c23f215af202c71b3e8f737a4f0953f" prot="public">
+          <name>CACHE_AHEAD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><blockquote><para>Storage has newer data </para>
+</blockquote></para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aa413339eb587d2342ae8297df4d991d6acf4d585d4d6438852a51832b91ba7e14" prot="public">
+          <name>DIVERGED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><blockquote><para>Cache has newer data </para>
+</blockquote></para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aa413339eb587d2342ae8297df4d991d6abdfbb6f2aa06fd5d4c2cc0072f960254" prot="public">
+          <name>RECOVERING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><blockquote><para>Layers have diverged (conflict) </para>
+</blockquote><blockquote><para>Recovery in progress </para>
+</blockquote></para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Cross-layer consistency state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/dual_consensus_orchestrator.h" line="40" column="1" bodyfile="include/sharding/dual_consensus_orchestrator.h" bodystart="40" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a33b6548919f811e3936fb17ee7ad5742" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>InferenceMode</name>
+        <qualifiedname>themisdb::sharding::InferenceMode</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a33b6548919f811e3936fb17ee7ad5742a48b096732fdba5ee76c33dbc9e102fd5" prot="public">
+          <name>SINGLE_TOKEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a33b6548919f811e3936fb17ee7ad5742a3dba7f2d2578ffb4bd657af94b1add80" prot="public">
+          <name>BATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a33b6548919f811e3936fb17ee7ad5742ab8f87bd0ae829f0fa0fcaa1a0a2bf91e" prot="public">
+          <name>STREAMING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a33b6548919f811e3936fb17ee7ad5742a26ca3b6826ca765f741f39ec4754d581" prot="public">
+          <name>SPECULATIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Inference engine mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="36" column="1" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="36" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MetadataPartitionKey</name>
+        <qualifiedname>themisdb::sharding::MetadataPartitionKey</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699ade41f160335180207e4ba33b56d433b2" prot="public">
+          <name>SCHEMA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699acb4ae3b37047fb4b2c0d16f8bf84f076" prot="public">
+          <name>INDEX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699a520873a2948f9e8d83ea06fc382c84f3" prot="public">
+          <name>SHARD_MAP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699abb4a9b43d21d6bdae2820711c1b16125" prot="public">
+          <name>TRANSACTION_LOG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699abd71bd5ee6287c5c736482440a55f6b3" prot="public">
+          <name>STATISTICS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699ad08e68ea80bc3bf47a03757579c11900" prot="public">
+          <name>CONFIGURATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Logical metadata partitions distributed across metadata shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="40" column="1" bodyfile="include/sharding/metadata_shard.h" bodystart="40" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MetadataWALEntryType</name>
+        <qualifiedname>themisdb::sharding::MetadataWALEntryType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5a3e75383a5992a6d15fb81e872e46e256" prot="public">
+          <name>PUT</name>
+          <initializer>= 120</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5a36799737e60c3c5fe001ef623be984e0" prot="public">
+          <name>DELETE_OP</name>
+          <initializer>= 121</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5a15a8022d0ed9cd9c2a2e756822703eb4" prot="public">
+          <name>UPDATE</name>
+          <initializer>= 122</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Metadata-specific WAL operation types persisted in shared WAL stream. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="35" column="1" bodyfile="include/sharding/metadata_wal.h" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1abb445256cef6eac62d08dfa14e43b7cf" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>HealthStatus</name>
+        <qualifiedname>themisdb::sharding::HealthStatus</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1abb445256cef6eac62d08dfa14e43b7cfaf068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1abb445256cef6eac62d08dfa14e43b7cfa0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1abb445256cef6eac62d08dfa14e43b7cfa7438a7e4e4f36f04fda32fa100121e47" prot="public">
+          <name>UNHEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1abb445256cef6eac62d08dfa14e43b7cfac4e0e4e3118472beeb2ae75827450f1f" prot="public">
+          <name>DOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Health status levels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="31" column="1" bodyfile="include/sharding/operational_metrics.h" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a08cdbea9f10b76529d099969d601982c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MetricType</name>
+        <qualifiedname>themisdb::sharding::MetricType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a08cdbea9f10b76529d099969d601982ca125e831262b4dbbd68c6878c5d3759f6" prot="public">
+          <name>COUNTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a08cdbea9f10b76529d099969d601982ca6a91e159ac40f39402ef860163318744" prot="public">
+          <name>GAUGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a08cdbea9f10b76529d099969d601982ca7f33aef6b28f7abec2f5d804ab1343c8" prot="public">
+          <name>HISTOGRAM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a08cdbea9f10b76529d099969d601982ca36cbecb886c3fb994669cd10cdbd9f5f" prot="public">
+          <name>SUMMARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Metric type for Prometheus. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="41" column="1" bodyfile="include/sharding/operational_metrics.h" bodystart="41" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>NetworkHealth</name>
+        <qualifiedname>themisdb::sharding::NetworkHealth</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44af068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+<para>All monitored nodes are reachable and stable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44a0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+<para>Some nodes are slow or intermittently failing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44a44c98f91eb8d3d58eda8b38501db52b3" prot="public">
+          <name>PARTITIONED</name>
+          <briefdescription>
+<para>Network partition condition detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Network health status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="33" column="1" bodyfile="include/sharding/partition_detector.h" bodystart="33" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QuorumType</name>
+        <qualifiedname>themisdb::sharding::QuorumType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682dabc21e6484530fc9d0313cb816b733396" prot="public">
+          <name>ONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682da28e6444341e60a10ed454a48de251aa9" prot="public">
+          <name>MAJORITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682da5fb1f955b45e38e31789286a1790398d" prot="public">
+          <name>ALL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682da72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Quorum type for operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="32" column="1" bodyfile="include/sharding/quorum_manager.h" bodystart="32" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a9e66567a875879140ca887c10eaf5a6b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ReplicaHealth</name>
+        <qualifiedname>themisdb::sharding::ReplicaHealth</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a9e66567a875879140ca887c10eaf5a6baf068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+<para>Responding normally. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a9e66567a875879140ca887c10eaf5a6ba0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+<para>Responding but showing failures or latency. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a9e66567a875879140ca887c10eaf5a6ba58fd3b3b1f27606728077423eb21d8d6" prot="public">
+          <name>UNREACHABLE</name>
+          <briefdescription>
+<para>Currently unreachable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a9e66567a875879140ca887c10eaf5a6ba44c98f91eb8d3d58eda8b38501db52b3" prot="public">
+          <name>PARTITIONED</name>
+          <briefdescription>
+<para>Known to be in a different network partition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Health status of a replica. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="41" column="1" bodyfile="include/sharding/raft_consensus.h" bodystart="41" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a5625d4cf328a2cd31b3291f665623f26" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RaftNodeState</name>
+        <qualifiedname>themisdb::sharding::RaftNodeState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a5625d4cf328a2cd31b3291f665623f26a8026987f2531b5fa5178a851c108397c" prot="public">
+          <name>FOLLOWER</name>
+          <briefdescription>
+<para>Receives heartbeats and votes in elections. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a5625d4cf328a2cd31b3291f665623f26abea4821516973214973a70aea8337c38" prot="public">
+          <name>CANDIDATE</name>
+          <briefdescription>
+<para>Campaigns for leadership. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a5625d4cf328a2cd31b3291f665623f26ab8058aa3ecd39b676ce80d6aaadc5e64" prot="public">
+          <name>LEADER</name>
+          <briefdescription>
+<para>Sends heartbeats and drives log replication. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Raft Consensus Protocol Implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sources:<itemizedlist>
+<listitem><para>Algorithm: Raft Consensus Protocol</para>
+</listitem><listitem><para>Paper: Ongaro, D., &amp; Ousterhout, J. (2014) &quot;In Search of an Understandable Consensus Algorithm&quot; USENIX Annual Technical Conference (ATC &apos;14)</para>
+</listitem><listitem><para>URL: <ulink url="https://raft.github.io/">https://raft.github.io/</ulink></para>
+</listitem><listitem><para>Extended Paper: <ulink url="https://raft.github.io/raft.pdf">https://raft.github.io/raft.pdf</ulink></para>
+</listitem><listitem><para>License: Algorithm is freely implementable (no license restrictions)</para>
+</listitem><listitem><para>ThemisDB Implementation: Custom implementation with:<itemizedlist>
+<listitem><para>Integration with RocksDB for persistent log storage</para>
+</listitem><listitem><para>Support for ThemisDB&apos;s VCC-URN sharding scheme</para>
+</listitem><listitem><para>mTLS support for secure cluster communication</para>
+</listitem><listitem><para>Optimized for database replication workloads</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+<para>Raft node states </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="49" column="1" bodyfile="include/sharding/raft_state.h" bodystart="49" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RAIDMode</name>
+        <qualifiedname>themisdb::sharding::RAIDMode</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaff0a57a9f35820e5136fdfca99dc809" prot="public">
+          <name>STRIPE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" prot="public">
+          <name>MIRROR</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><blockquote><para>RAID 0 - Striping only (no redundancy) </para>
+</blockquote></para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083caaeef6f4aa155fd52d4dbea5ff3cd930a" prot="public">
+          <name>PARITY</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><blockquote><para>RAID 1 - Full mirroring </para>
+</blockquote></para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca3bf07fe8ac3883060b1558113ba248d4" prot="public">
+          <name>HYBRID</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><blockquote><para>RAID 5 - Distributed parity </para>
+</blockquote></para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>RAID mode enumeration (synchronized with <ref refid="raid__optimizations_8h" kindref="compound">raid_optimizations.h</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="25" column="1" bodyfile="include/sharding/raid_paxos_config.h" bodystart="25" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a28ff33851bedf198311696f6b839139c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConflictResolutionStrategy</name>
+        <qualifiedname>themisdb::sharding::ConflictResolutionStrategy</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a28ff33851bedf198311696f6b839139ca3247ad84b54dd5dd5cdf48354b0f4058" prot="public">
+          <name>LAST_WRITE_WINS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a28ff33851bedf198311696f6b839139cac0e66320a720c7fbee74226574568a92" prot="public">
+          <name>VECTOR_CLOCK_ORDERING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a28ff33851bedf198311696f6b839139ca2c438a177ee9930d5729b670eb2a1fca" prot="public">
+          <name>HIGHEST_NODE_ID</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1a28ff33851bedf198311696f6b839139caa60a6a471c0681e5a49c4f5d00f6bc5a" prot="public">
+          <name>MANUAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Policy used to resolve divergent concurrent versions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="91" column="1" bodyfile="include/sharding/replica_consistency.h" bodystart="91" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DurabilityMode</name>
+        <qualifiedname>themisdb::sharding::DurabilityMode</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aabe553330beb7b3d994656e0a4e66cd96" prot="public">
+          <name>ASYNC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aa274ccef15a21e829d03293a6fd1974f3" prot="public">
+          <name>SYNC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aa1a75e9de4b98edfd4eecf6dc3985df0e" prot="public">
+          <name>GROUP_COMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Durability modes for operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="36" column="1" bodyfile="include/sharding/shard_durability.h" bodystart="36" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1ac7e84f93149ec08d4bde705d82dd14ff" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AccelerationType</name>
+        <qualifiedname>themisdb::sharding::AccelerationType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>GPU Acceleration Type </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="257" column="1" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="35" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a769c5afc5540bee6ee4d703ad5aabacf" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ShardRepairStatus</name>
+        <qualifiedname>themisdb::sharding::ShardRepairStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="375" column="1" bodyfile="include/sharding/shard_repair_engine.h" bodystart="87" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PaxosWALEntryType</name>
+        <qualifiedname>themisdb::sharding::PaxosWALEntryType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Paxos WAL Entry Types (Phase 2.1)</para>
+<para>Specific entry types for Paxos consensus operations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/paxos_state_persistence.cpp" line="27" column="1" bodyfile="include/sharding/paxos_wal.h" bodystart="34" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemisdb_1_1sharding_1a30ca8477e987a93d08d46fd650d0df7a" prot="public" static="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">themis::sharding::LSN</ref></type>
+        <definition>using themisdb::sharding::LSN = themis::sharding::LSN</definition>
+        <argsstring></argsstring>
+        <name>LSN</name>
+        <qualifiedname>themisdb::sharding::LSN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="45" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1sharding_1a7fdc43d0237c4aef029746e88b2c0583" prot="public" static="no">
+        <type>::sharding::TransactionWAL</type>
+        <definition>using themisdb::sharding::TransactionWAL = ::sharding::TransactionWAL</definition>
+        <argsstring></argsstring>
+        <name>TransactionWAL</name>
+        <qualifiedname>themisdb::sharding::TransactionWAL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="47" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1sharding_1a45771e0d6c6e7c8a5d727fec4d4d6c2b" prot="public" static="no">
+        <type>::sharding::TransactionWALConfig</type>
+        <definition>using themisdb::sharding::TransactionWALConfig = ::sharding::TransactionWALConfig</definition>
+        <argsstring></argsstring>
+        <name>TransactionWALConfig</name>
+        <qualifiedname>themisdb::sharding::TransactionWALConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="48" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1sharding_1aed371eb9c0d2204ff33ab83598f7fe6f" prot="public" static="no">
+        <type><ref refid="namespacesharding_1af481fb57c4d9897481eccc170c6a7087" kindref="member">::sharding::TransactionWALEntryType</ref></type>
+        <definition>using themisdb::sharding::TransactionWALEntryType = ::sharding::TransactionWALEntryType</definition>
+        <argsstring></argsstring>
+        <name>TransactionWALEntryType</name>
+        <qualifiedname>themisdb::sharding::TransactionWALEntryType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="49" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1sharding_1a5e99a9e1412de0fb10fd8146f63c77eb" prot="public" static="no">
+        <type>::sharding::TransactionWALEntry</type>
+        <definition>using themisdb::sharding::TransactionWALEntry = ::sharding::TransactionWALEntry</definition>
+        <argsstring></argsstring>
+        <name>TransactionWALEntry</name>
+        <qualifiedname>themisdb::sharding::TransactionWALEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="50" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1sharding_1a3cb285a67eb4e61141fc230b7b4a77f6" prot="public" static="no">
+        <type>::sharding::TransactionSnapshotManager</type>
+        <definition>using themisdb::sharding::TransactionSnapshotManager = ::sharding::TransactionSnapshotManager</definition>
+        <argsstring></argsstring>
+        <name>TransactionSnapshotManager</name>
+        <qualifiedname>themisdb::sharding::TransactionSnapshotManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="51" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1sharding_1ac4a2162383169558443c37ffdebb2c2b" prot="public" static="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">themis::sharding::WALEntry</ref></type>
+        <definition>using themisdb::sharding::WALEntry = themis::sharding::WALEntry</definition>
+        <argsstring></argsstring>
+        <name>WALEntry</name>
+        <qualifiedname>themisdb::sharding::WALEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="31" column="1" bodyfile="include/sharding/metadata_wal.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1sharding_1a05d180b4f73775b4c8704e3196193c5f" prot="public" static="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" kindref="member">themis::sharding::WALEntryType</ref></type>
+        <definition>using themisdb::sharding::WALEntryType = themis::sharding::WALEntryType</definition>
+        <argsstring></argsstring>
+        <name>WALEntryType</name>
+        <qualifiedname>themisdb::sharding::WALEntryType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="32" column="1" bodyfile="include/sharding/metadata_wal.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1sharding_1ab3565bc9900e21b08f41ff1e674951b0" prot="public" static="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l" kindref="compound">themis::sharding::PaxosWAL</ref></type>
+        <definition>using themisdb::sharding::PaxosWAL = themis::sharding::PaxosWAL</definition>
+        <argsstring></argsstring>
+        <name>PaxosWAL</name>
+        <qualifiedname>themisdb::sharding::PaxosWAL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="37" column="1" bodyfile="include/sharding/paxos_consensus.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1sharding_1a2d2bf651b0fe7259fd4dcab53bdcae31" prot="public" static="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager" kindref="compound">themis::sharding::PaxosSnapshotManager</ref></type>
+        <definition>using themisdb::sharding::PaxosSnapshotManager = themis::sharding::PaxosSnapshotManager</definition>
+        <argsstring></argsstring>
+        <name>PaxosSnapshotManager</name>
+        <qualifiedname>themisdb::sharding::PaxosSnapshotManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="38" column="1" bodyfile="include/sharding/paxos_consensus.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1sharding_1a84d4f3dce53c91c68b610e3c7971f14f" prot="public" static="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_replication_coordinator" kindref="compound">themis::sharding::ReplicationCoordinator</ref></type>
+        <definition>using themisdb::sharding::ReplicationCoordinator = themis::sharding::ReplicationCoordinator</definition>
+        <argsstring></argsstring>
+        <name>ReplicationCoordinator</name>
+        <qualifiedname>themisdb::sharding::ReplicationCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="194" column="1" bodyfile="include/sharding/replication_coordinator.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1abf0840fdfac3335837d2d6f579ce48d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_orchestrator" kindref="compound">DualConsensusOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DualConsensusOrchestrator &gt; themisdb::sharding::createDualConsensusOrchestrator</definition>
+        <argsstring>(RAIDMode raid_mode=RAIDMode::MIRROR, const ConsensusConfig &amp;base_config=ConsensusConfig{})</argsstring>
+        <name>createDualConsensusOrchestrator</name>
+        <qualifiedname>themisdb::sharding::createDualConsensusOrchestrator</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083c" kindref="member">RAIDMode</ref></type>
+          <declname>raid_mode</declname>
+          <defval><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref></defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_consensus_config" kindref="compound">ConsensusConfig</ref> &amp;</type>
+          <declname>base_config</declname>
+          <defval><ref refid="structthemisdb_1_1sharding_1_1_consensus_config" kindref="compound">ConsensusConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Factory function to create Dual-Consensus Orchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Dual Consensus Orchestrator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>raid_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RAID mode for storage layer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base consensus configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Unique pointer to Dual-Consensus Orchestrator</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raid_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemisdb_1_1sharding_1a89a1b91c44af92359fd75793c9d45979" kindref="member">createRAIDPaxosConsensus()</ref>, std::chrono::milliseconds(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/dual_consensus_orchestrator.cpp" line="1301" column="17" bodyfile="src/sharding/dual_consensus_orchestrator.cpp" bodystart="1301" bodyend="1321" declfile="include/sharding/dual_consensus_orchestrator.h" declline="599" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a37c8ee8c462f398a2e106c06de8a76a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_orchestrator" kindref="compound">DualConsensusOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DualConsensusOrchestrator &gt; themisdb::sharding::createDualConsensusOrchestrator</definition>
+        <argsstring>(const RAIDPaxosConfig &amp;raid_config, const ConsensusConfig &amp;raft_config=ConsensusConfig{})</argsstring>
+        <name>createDualConsensusOrchestrator</name>
+        <qualifiedname>themisdb::sharding::createDualConsensusOrchestrator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref> &amp;</type>
+          <declname>raid_config</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_consensus_config" kindref="compound">ConsensusConfig</ref> &amp;</type>
+          <declname>raft_config</declname>
+          <defval><ref refid="structthemisdb_1_1sharding_1_1_consensus_config" kindref="compound">ConsensusConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Factory function to create Dual-Consensus Orchestrator with RAID-Paxos. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Dual Consensus Orchestrator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>raid_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RAID-specific configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>raft_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raft configuration for cache layer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Unique pointer to Dual-Consensus Orchestrator</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raid_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">raft_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemisdb_1_1sharding_1a89a1b91c44af92359fd75793c9d45979" kindref="member">createRAIDPaxosConsensus()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/dual_consensus_orchestrator.cpp" line="1330" column="17" bodyfile="src/sharding/dual_consensus_orchestrator.cpp" bodystart="1330" bodyend="1344" declfile="include/sharding/dual_consensus_orchestrator.h" declline="611" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a7cd88fc8964bcbf3788530704ef7d75a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::raftNodeStateToString</definition>
+        <argsstring>(RaftNodeState state)</argsstring>
+        <name>raftNodeStateToString</name>
+        <qualifiedname>themisdb::sharding::raftNodeStateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a5625d4cf328a2cd31b3291f665623f26" kindref="member">RaftNodeState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Convert Raft node state enum to readable string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raft node state enum value. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>&quot;LEADER&quot;, &quot;FOLLOWER&quot;, &quot;CANDIDATE&quot;, or &quot;UNKNOWN&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_shard_manager.h" line="198" column="20" bodyfile="include/sharding/raft_shard_manager.h" bodystart="198" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a6e4911a4cbc95ec99b16b3d925d5dd10" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::raidModeToString</definition>
+        <argsstring>(RAIDMode mode)</argsstring>
+        <name>raidModeToString</name>
+        <qualifiedname>themisdb::sharding::raidModeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083c" kindref="member">RAIDMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Convert RAID mode to string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="98" column="20" bodyfile="include/sharding/raid_paxos_config.h" bodystart="98" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a8f0866d9484aeaf3caf7c16ae27e7e85" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083c" kindref="member">RAIDMode</ref></type>
+        <definition>RAIDMode themisdb::sharding::stringToRAIDMode</definition>
+        <argsstring>(const std::string &amp;mode_str)</argsstring>
+        <name>stringToRAIDMode</name>
+        <qualifiedname>themisdb::sharding::stringToRAIDMode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mode_str</declname>
+        </param>
+        <briefdescription>
+<para>Convert string to RAID mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="111" column="17" bodyfile="include/sharding/raid_paxos_config.h" bodystart="111" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a89a1b91c44af92359fd75793c9d45979" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_consensus" kindref="compound">RAIDPaxosConsensus</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RAIDPaxosConsensus &gt; themisdb::sharding::createRAIDPaxosConsensus</definition>
+        <argsstring>(RAIDMode raid_mode, const ConsensusConfig &amp;base_config=ConsensusConfig{})</argsstring>
+        <name>createRAIDPaxosConsensus</name>
+        <qualifiedname>themisdb::sharding::createRAIDPaxosConsensus</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083c" kindref="member">RAIDMode</ref></type>
+          <declname>raid_mode</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_consensus_config" kindref="compound">ConsensusConfig</ref> &amp;</type>
+          <declname>base_config</declname>
+          <defval><ref refid="structthemisdb_1_1sharding_1_1_consensus_config" kindref="compound">ConsensusConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Factory function to create RAID-Paxos consensus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create RAIDPaxos Consensus.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>raid_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RAID mode to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base Paxos configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Unique pointer to RAID-Paxos consensus instance</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raid_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createRAIDPaxosConsensus without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/raid_paxos_consensus.cpp" line="443" column="17" bodyfile="src/sharding/raid_paxos_consensus.cpp" bodystart="443" bodyend="476" declfile="include/sharding/raid_paxos_consensus.h" declline="305" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a27698aad84b9238db4292fae31f4e456" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_consensus" kindref="compound">RAIDPaxosConsensus</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RAIDPaxosConsensus &gt; themisdb::sharding::createRAIDPaxosConsensus</definition>
+        <argsstring>(const RAIDPaxosConfig &amp;config)</argsstring>
+        <name>createRAIDPaxosConsensus</name>
+        <qualifiedname>themisdb::sharding::createRAIDPaxosConsensus</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Factory function to create RAID-Paxos consensus with full configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create RAIDPaxos Consensus.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RAID-specific configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Unique pointer to RAID-Paxos consensus instance</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createRAIDPaxosConsensus without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/raid_paxos_consensus.cpp" line="484" column="17" bodyfile="src/sharding/raid_paxos_consensus.cpp" bodystart="484" bodyend="488" declfile="include/sharding/raid_paxos_consensus.h" declline="316" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a9055a884d34a984b12fd5b2bce2336b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" kindref="compound">ConvergedOperationMetrics</ref></type>
+        <definition>ConvergedOperationMetrics themisdb::sharding::createConvergedMetrics</definition>
+        <argsstring>(const std::string &amp;op_id, const std::string &amp;op_type, uint64_t storage_version, uint64_t cache_version, uint64_t merged_version, double version_spread, bool cross_layer_consistent, bool cross_shard_consistent, uint64_t tokens_generated=0, uint64_t bytes_read=0, uint64_t bytes_written=0, uint64_t gpu_memory_bytes=0)</argsstring>
+        <name>createConvergedMetrics</name>
+        <qualifiedname>themisdb::sharding::createConvergedMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op_type</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>storage_version</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>cache_version</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>merged_version</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>version_spread</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cross_layer_consistent</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cross_shard_consistent</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>tokens_generated</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_read</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_written</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>gpu_memory_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/converged_slo_metrics.cpp" line="415" column="27" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="415" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a9641a01feff11aa6445c35da746c447f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" kindref="compound">ConvergedOperationMetrics</ref></type>
+        <definition>ConvergedOperationMetrics themisdb::sharding::createFailedConvergedMetrics</definition>
+        <argsstring>(const std::string &amp;op_id, const std::string &amp;op_type, ConvergedErrorType error_type, const std::string &amp;error_message, uint64_t storage_version=0, uint64_t cache_version=0)</argsstring>
+        <name>createFailedConvergedMetrics</name>
+        <qualifiedname>themisdb::sharding::createFailedConvergedMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op_type</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1" kindref="member">ConvergedErrorType</ref></type>
+          <declname>error_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>storage_version</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>cache_version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/converged_slo_metrics.cpp" line="453" column="27" bodyfile="src/sharding/converged_slo_metrics.cpp" bodystart="453" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a8599c153fbf83a4ecb43263c6042b74b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::sharding::makeCacheKey</definition>
+        <argsstring>(MetadataPartitionKey partition, const std::string &amp;key)</argsstring>
+        <name>makeCacheKey</name>
+        <qualifiedname>themisdb::sharding::makeCacheKey</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+          <declname>partition</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Make Cache Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/metadata_shard.cpp" line="31" column="20" bodyfile="src/sharding/metadata_shard.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, CrossShardKVStaleDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CrossShardKVStaleDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="100" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="100" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a6cc194699e630c2c22c436ab58ffa9ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, MultipleCrossShardKVStale)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleCrossShardKVStale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="116" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="116" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1aaafdaadafa1da847aaa2f3733213a442" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, InferencePreemptionRecording)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>InferencePreemptionRecording</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="133" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="133" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a0a78c8e8ca571b478eea07f73e625010" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, MultipleInferencePreemptions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleInferencePreemptions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="142" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="142" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a371d56a2c611e2289d93c075ed85e2c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, CrossLayerVersionMismatch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CrossLayerVersionMismatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="157" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="157" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a21b52c6c75161fd5de76d87d784cb2f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, SLOComplianceReport)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>SLOComplianceReport</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="182" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="182" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1af77a9efe76ad3476944b561748e55f90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, SLOComplianceInitiallyMet)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>SLOComplianceInitiallyMet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="217" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="217" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a2d2509eadb2f7d0ac15b5d31182dcd62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, ErrorBudgetCalculation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorBudgetCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="229" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="229" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a3bee06e5ec7a54bd8f5a807061f9d2e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, GroundingAuditCoverage)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>GroundingAuditCoverage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="255" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="255" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1adbf1fdafd6fe67a156f1d78a007c4882" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, GroundingAuditFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>GroundingAuditFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="276" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="276" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a6a57833fb5680a5075371d281f80656b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, ConsistencyRatioCalculation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ConsistencyRatioCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="297" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="297" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a30f4dc85a22c4fd2a3f595c5924ded65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, ResetClearsAllMetrics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ResetClearsAllMetrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="327" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="327" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1aec6708b5a75ed1e930e8404a0c1a783f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, ConvergedErrorTypeValues)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ConvergedErrorTypeValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="360" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="360" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a7f74a0ca69d8922f7131d77615f3cdb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(ConvergedChaosTest, ConvergedSLOTargetValues)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ConvergedSLOTargetValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_converged_chaos.cpp" line="380" column="1" bodyfile="tests/sharding/test_converged_chaos.cpp" bodystart="380" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a127da3801fbaf3c5310102a27050c8a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, VersionTokenDefaultValues)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>VersionTokenDefaultValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="60" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1aa61b0755bdbed1d4a85731f075c4a400" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, VersionTokenIsNewerThan)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>VersionTokenIsNewerThan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="67" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="67" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a16f821365dea8067489002671028f629" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, VersionTokenIsNewerThanCacheVersion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>VersionTokenIsNewerThanCacheVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="81" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="81" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a528e903a4905156a7453c0743d724b52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, VersionTokenIsConsistent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>VersionTokenIsConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="95" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="95" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a4837549805fe752f275b962d497b5130" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, VersionTokenJsonSerialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>VersionTokenJsonSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="107" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="107" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a0af8754752b757c50ceb0e220d1102a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, ConsensusLayerValues)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>ConsensusLayerValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="129" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="129" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a16edc24ced406fd80abf28eafe62bb5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, ConsistencyStateValues)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>ConsistencyStateValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="138" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="138" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1acf8e73fa9e9e56ed0e29fd2c62aad238" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, DualConsensusConstructionWithStandardConsensus)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>DualConsensusConstructionWithStandardConsensus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="150" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="150" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1ab65cb50f01e8c19ed6afecff056e137c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, CreateDualConsensusWithStandardPaxos)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>CreateDualConsensusWithStandardPaxos</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="167" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="167" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1ac717175162cabdb1235e5acebbb340dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, CreateDualConsensusWithRAIDPaxos)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>CreateDualConsensusWithRAIDPaxos</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="177" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="177" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a43d96bc13bb282ae7317dd5864286a4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, CreateDualConsensusInvalidConfig)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>CreateDualConsensusInvalidConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="191" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="191" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a4c6692e5c77ec1320c53d8db743b3139" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, DualConsensusDefaultConflictResolver)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>DualConsensusDefaultConflictResolver</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="210" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="210" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1ac5f0ea34a9ee628e997993a473ceed0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, DualConsensusInitializeWithNullConsensus)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>DualConsensusInitializeWithNullConsensus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="241" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="241" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a0114dcfcfafae7d05cf750bb83d57659" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, DualConsensusInitializeWithOneNullConsensus)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>DualConsensusInitializeWithOneNullConsensus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="251" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="251" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a277de50b652412eb30723791f4eb6654" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, DualConsensusStartStop)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>DualConsensusStartStop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="266" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="266" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1ab160795ff8be9627fba43a12d5873ae7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, GetStorageVersion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>GetStorageVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="293" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="293" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a140e86ef2225ada78d26d3fabd100e24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, GetCacheVersion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>GetCacheVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="310" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="310" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a6029cd03d59efe4dda459d256dc2aaff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, IsStorageLeader)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>IsStorageLeader</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="331" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="331" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1ab5a0a1139cee9114379f209e70f4c798" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, SetCustomConflictResolver)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>SetCustomConflictResolver</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="354" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="354" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1addc1bfe9b6bc684c5b5a0245f4611476" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(DualConsensusTest, GetConsistencyState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_dual_consensus_test" kindref="compound">DualConsensusTest</ref></type>
+        </param>
+        <param>
+          <type>GetConsistencyState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="391" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="391" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1ac10e52048184d8423a9473d98c4991d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAIDModeEnumValues)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAIDModeEnumValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="31" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a4137a01b8efcb0ed85daaafd13285a2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAIDModeToString)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAIDModeToString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="38" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="38" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a4dd60376cbd48b4a104dd32b78379944" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, StringToRAIDMode)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>StringToRAIDMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="46" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="46" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a43cb4cd0e7c71344085a0b76e0592de9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID0QuorumCalculation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID0QuorumCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="71" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="71" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a5b4bd90b2fc3fc334858a3b3772618b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID1QuorumCalculation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID1QuorumCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="83" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="83" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1af6e305d02263f2b37d31b8a82d371d41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID5QuorumCalculation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID5QuorumCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="95" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="95" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a352bbd460f4c0f4921592547526550fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID10QuorumCalculation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID10QuorumCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="106" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="106" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1ad3fbeb70aaa3c12fede578b1ccb71a08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID0RequiresExplicitAllowance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID0RequiresExplicitAllowance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="126" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="126" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1aec8e323ad8ddcf5b5fd72d3b3b462c94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID1ValidConfiguration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID1ValidConfiguration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="137" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="137" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1aa85029760e112a064759538a92dbdd23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID1InvalidMirrorFactor)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID1InvalidMirrorFactor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="146" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="146" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1ac6f00cc48ba3bf964241ec82b29efd77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID5ValidConfiguration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID5ValidConfiguration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="154" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="154" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a7ecd6eab6e68f5b5a47c47123ab7e737" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID5InvalidWithoutParity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID5InvalidWithoutParity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="163" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="163" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a9e65a9f6a8ef18760f43eb585d4ae63d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID5InvalidWithoutDataShards)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID5InvalidWithoutDataShards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="172" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="172" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a1f47911a34a748a9af2d799d5f0d15cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID10ValidConfiguration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID10ValidConfiguration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="181" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="181" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1aaa4bba09ede8958f7b9befd73c50456d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID0NoFailureTolerance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID0NoFailureTolerance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="194" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="194" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1ab2d39241163302da3c0455db2a76d988" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID1FailureTolerance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID1FailureTolerance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="202" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="202" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a37219a6f2c92e9b60ddf5f04645db285" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID5FailureTolerance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID5FailureTolerance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="214" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="214" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1af50a0cf4256e540a6d745614d96b34c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAID10FailureTolerance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAID10FailureTolerance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="223" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="223" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a1310f2dcd2fa5061d05c324930c506d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, CanRecoverFromFailures)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>CanRecoverFromFailures</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="235" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="235" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a4cae0c627543dd642e468407d19e3b5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAIDPaxosConstruction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAIDPaxosConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="253" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="253" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1af170a8934ebcaf19e8b3434c45f2a37e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAIDPaxosGetType)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAIDPaxosGetType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="265" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="265" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a3baf036cf5a1580542f82a705636ea64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAIDPaxosInvalidConfigFailsInitialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAIDPaxosInvalidConfigFailsInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="273" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="273" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a7dd750dfd38c586297c0e812d568e918" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAIDPaxosValidConfigInitialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAIDPaxosValidConfigInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="284" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="284" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1aae3d5e66d230b125a137c61e0d8427ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAIDPaxosHasQuorumRAID0)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAIDPaxosHasQuorumRAID0</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="295" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="295" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a9dd3ee505fe86c9e2ad4c84d4bc8b4bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAIDPaxosHasQuorumRAID1)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAIDPaxosHasQuorumRAID1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="312" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="312" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1aeff90aec52424b2be34a1221d97fc6f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAIDPaxosHasQuorumRAID5)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAIDPaxosHasQuorumRAID5</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="329" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="329" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a5b36b3557b6e4c5d155ca0177a608f58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::TEST_F</definition>
+        <argsstring>(RAIDPaxosTest, RAIDModeDescription)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kindref="compound">RAIDPaxosTest</ref></type>
+        </param>
+        <param>
+          <type>RAIDModeDescription</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="349" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="349" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1a8a04b62ac2e998da59ef4501cf8897a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_erasure_coder" kindref="compound">ErasureCoder</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ErasureCoder &gt; themis::sharding::createGPUErasureCoder</definition>
+        <argsstring>(AccelerationType accel_type, const GPUConfig &amp;config, ErasureCodingAlgorithm algorithm)</argsstring>
+        <name>createGPUErasureCoder</name>
+        <qualifiedname>themisdb::sharding::createGPUErasureCoder</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1ac7e84f93149ec08d4bde705d82dd14ff" kindref="member">AccelerationType</ref></type>
+          <declname>accel_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_g_p_u_config" kindref="compound">GPUConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a7093529f80fd78ba5e10ba675341b06a" kindref="member">ErasureCodingAlgorithm</ref></type>
+          <declname>algorithm</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Factory Function ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Factory function to create GPU erasure coder with best available backend</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">accel_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createGPUErasureCoder without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="260" column="1" bodyfile="src/sharding/gpu_erasure_coder.cpp" bodystart="366" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/auto_rebalancer.h" line="34" column="18"/>
+  </compounddef>
+</doxygen>

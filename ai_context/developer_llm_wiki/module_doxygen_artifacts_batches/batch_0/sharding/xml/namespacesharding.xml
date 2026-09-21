@@ -1,0 +1,748 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacesharding" kind="namespace" language="C++">
+    <compoundname>sharding</compoundname>
+    <innerclass refid="classsharding_1_1_orphan_detector" prot="public">sharding::OrphanDetector</innerclass>
+    <innerclass refid="structsharding_1_1_participant_status" prot="public">sharding::ParticipantStatus</innerclass>
+    <innerclass refid="structsharding_1_1_percolator_intent" prot="public">sharding::PercolatorIntent</innerclass>
+    <innerclass refid="structsharding_1_1_s_a_g_a_step" prot="public">sharding::SAGAStep</innerclass>
+    <innerclass refid="structsharding_1_1_transaction_snapshot" prot="public">sharding::TransactionSnapshot</innerclass>
+    <innerclass refid="structsharding_1_1_transaction_snapshot_entry" prot="public">sharding::TransactionSnapshotEntry</innerclass>
+    <innerclass refid="classsharding_1_1_transaction_snapshot_manager" prot="public">sharding::TransactionSnapshotManager</innerclass>
+    <innerclass refid="classsharding_1_1_transaction_w_a_l" prot="public">sharding::TransactionWAL</innerclass>
+    <innerclass refid="structsharding_1_1_transaction_w_a_l_config" prot="public">sharding::TransactionWALConfig</innerclass>
+    <innerclass refid="structsharding_1_1_transaction_w_a_l_entry" prot="public">sharding::TransactionWALEntry</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransactionState</name>
+        <qualifiedname>sharding::TransactionState</qualifiedname>
+        <enumvalue id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaf35171ff17bf71b60aa90cfef5974a15" prot="public">
+          <name>INITIATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aabd6a3a60251e4e52cdc9c393f33cbe10" prot="public">
+          <name>PREPARING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa6bbfc22048d63183dd626a026e63e497" prot="public">
+          <name>PREPARED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaee5eaf232622ef258e4328cceb5930c5" prot="public">
+          <name>PRE_COMMITTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaca44b8332c1a61e48d551bef2876c633" prot="public">
+          <name>PRE_COMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa001d8fa76b26eee4f6d7c8a8d44c73ef" prot="public">
+          <name>COMMITTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa0f7fb3ad9bfa0a293be603d57f9fa02c" prot="public">
+          <name>ABORTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aaf7eb1a2119233b7d89c3c76589a10664" prot="public">
+          <name>COMPENSATING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1aa010abbc20488e01323fbf67e9142e9aa2df8d8245b6e73417307f431a21ae041" prot="public">
+          <name>COMPENSATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Transaction lifecycle states persisted in snapshot entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="27" column="1" bodyfile="include/sharding/transaction_snapshot.h" bodystart="27" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacesharding_1a52dab72ab076f10f582422ce080e3afe" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransactionProtocol</name>
+        <qualifiedname>sharding::TransactionProtocol</qualifiedname>
+        <enumvalue id="namespacesharding_1a52dab72ab076f10f582422ce080e3afea4ac53c5e8c1e144c46d2fa775bbe0578" prot="public">
+          <name>TWO_PHASE_COMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1a52dab72ab076f10f582422ce080e3afeab5058fe79af3904f22a2b2d07d80a597" prot="public">
+          <name>THREE_PHASE_COMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1a52dab72ab076f10f582422ce080e3afea8cfd9064c17dc09415be2523f5367caa" prot="public">
+          <name>SAGA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1a52dab72ab076f10f582422ce080e3afea8fab253dc8f2924f9b94479662f93836" prot="public">
+          <name>PERCOLATOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1a52dab72ab076f10f582422ce080e3afea841dc9bcb636bc077d0d59979aa6a77c" prot="public">
+          <name>CALVIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Distributed transaction protocol families recorded in transaction WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="28" column="1" bodyfile="include/sharding/transaction_wal.h" bodystart="28" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacesharding_1af481fb57c4d9897481eccc170c6a7087" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransactionWALEntryType</name>
+        <qualifiedname>sharding::TransactionWALEntryType</qualifiedname>
+        <enumvalue id="namespacesharding_1af481fb57c4d9897481eccc170c6a7087a19aad9f2fe3ce0023298ab83f7e75775" prot="public">
+          <name>BEGIN</name>
+          <initializer>= 130</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1af481fb57c4d9897481eccc170c6a7087ab205205bc58adbefd02d8ba357b9c57f" prot="public">
+          <name>PREPARE</name>
+          <initializer>= 131</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1af481fb57c4d9897481eccc170c6a7087a6bbfc22048d63183dd626a026e63e497" prot="public">
+          <name>PREPARED</name>
+          <initializer>= 132</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1af481fb57c4d9897481eccc170c6a7087a1d0ba376e273b9d622641124d8c59264" prot="public">
+          <name>COMMIT</name>
+          <initializer>= 133</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1af481fb57c4d9897481eccc170c6a7087a1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <initializer>= 134</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1af481fb57c4d9897481eccc170c6a7087a8d12a2ca7e5a64036d7251a3eda51a38" prot="public">
+          <name>ABORT</name>
+          <initializer>= 135</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1af481fb57c4d9897481eccc170c6a7087a4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <initializer>= 136</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesharding_1af481fb57c4d9897481eccc170c6a7087a29f42a1755feb702481dc9c2bc0b57bb" prot="public">
+          <name>COMPENSATE</name>
+          <initializer>= 137</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Transaction WAL entry kinds persisted by coordinator/participants. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="37" column="1" bodyfile="include/sharding/transaction_wal.h" bodystart="37" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" prot="public" static="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">themis::sharding::LSN</ref></type>
+        <definition>using sharding::LSN = themis::sharding::LSN</definition>
+        <argsstring></argsstring>
+        <name>LSN</name>
+        <qualifiedname>sharding::LSN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="24" column="1" bodyfile="include/sharding/transaction_snapshot.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacesharding_1aefb1a44401392c9de9bd7e03f4c45633" prot="public" static="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">themis::sharding::WALEntry</ref></type>
+        <definition>using sharding::WALEntry = themis::sharding::WALEntry</definition>
+        <argsstring></argsstring>
+        <name>WALEntry</name>
+        <qualifiedname>sharding::WALEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="24" column="1" bodyfile="include/sharding/transaction_wal.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacesharding_1a7cd46b2790e904be2ca81b4b55bf65bd" prot="public" static="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager" kindref="compound">themis::sharding::WALManager</ref></type>
+        <definition>using sharding::WALManager = themis::sharding::WALManager</definition>
+        <argsstring></argsstring>
+        <name>WALManager</name>
+        <qualifiedname>sharding::WALManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="25" column="1" bodyfile="include/sharding/transaction_wal.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesharding_1a84382b8c8a105b7c98f7fe10d06b7947" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string sharding::transactionStateToString</definition>
+        <argsstring>(TransactionState state)</argsstring>
+        <name>transactionStateToString</name>
+        <qualifiedname>sharding::transactionStateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9a" kindref="member">TransactionState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Convert transaction state enum to stable storage string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transaction State To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements transactionStateToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="29" column="13" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="29" bodyend="44" declfile="include/sharding/transaction_snapshot.h" declline="171" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesharding_1acd92d4956c52c8396ffa6ccef1bbb4c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1aa010abbc20488e01323fbf67e9142e9a" kindref="member">TransactionState</ref></type>
+        <definition>TransactionState sharding::transactionStateFromString</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>transactionStateFromString</name>
+        <qualifiedname>sharding::transactionStateFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Parse transaction state enum from storage string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transaction State From String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements transactionStateFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="52" column="18" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="52" bodyend="87" declfile="include/sharding/transaction_snapshot.h" declline="173" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesharding_1aafc2f6e4f000ba14c9b3ce24ccfe7d41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string sharding::transactionProtocolToString</definition>
+        <argsstring>(TransactionProtocol protocol)</argsstring>
+        <name>transactionProtocolToString</name>
+        <qualifiedname>sharding::transactionProtocolToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacesharding_1a52dab72ab076f10f582422ce080e3afe" kindref="member">TransactionProtocol</ref></type>
+          <declname>protocol</declname>
+        </param>
+        <briefdescription>
+<para>Convert transaction protocol enum to stable storage string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transaction Protocol To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">protocol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements transactionProtocolToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="95" column="13" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="95" bodyend="104" declfile="include/sharding/transaction_snapshot.h" declline="175" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesharding_1a1166fb13dc381dcae0a00b1c307b9c1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1a52dab72ab076f10f582422ce080e3afe" kindref="member">TransactionProtocol</ref></type>
+        <definition>TransactionProtocol sharding::transactionProtocolFromString</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>transactionProtocolFromString</name>
+        <qualifiedname>sharding::transactionProtocolFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Parse transaction protocol enum from storage string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transaction Protocol From String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements transactionProtocolFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="112" column="21" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="112" bodyend="129" declfile="include/sharding/transaction_snapshot.h" declline="177" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesharding_1aca73c80e974a75c231d55bb0d73778a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sharding::to_json</definition>
+        <argsstring>(nlohmann::json &amp;j, const ParticipantStatus &amp;p)</argsstring>
+        <name>to_json</name>
+        <qualifiedname>sharding::to_json</qualifiedname>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsharding_1_1_participant_status" kindref="compound">ParticipantStatus</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>JSON serializer for <ref refid="structsharding_1_1_participant_status" kindref="compound">ParticipantStatus</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements to_json without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="137" column="6" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="137" bodyend="147" declfile="include/sharding/transaction_snapshot.h" declline="180" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesharding_1a00e67156713e123b66b72cab4bdc56b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sharding::from_json</definition>
+        <argsstring>(const nlohmann::json &amp;j, ParticipantStatus &amp;p)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>sharding::from_json</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type><ref refid="structsharding_1_1_participant_status" kindref="compound">ParticipantStatus</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>JSON deserializer for <ref refid="structsharding_1_1_participant_status" kindref="compound">ParticipantStatus</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: at(), get_to(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="155" column="6" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="155" bodyend="163" declfile="include/sharding/transaction_snapshot.h" declline="182" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesharding_1a6f37844c574578cf98063db252658f72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sharding::to_json</definition>
+        <argsstring>(nlohmann::json &amp;j, const SAGAStep &amp;s)</argsstring>
+        <name>to_json</name>
+        <qualifiedname>sharding::to_json</qualifiedname>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsharding_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>JSON serializer for <ref refid="structsharding_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements to_json without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="171" column="6" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="171" bodyend="180" declfile="include/sharding/transaction_snapshot.h" declline="185" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesharding_1a16def04271e68f25cfd2a05e04b1a812" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sharding::from_json</definition>
+        <argsstring>(const nlohmann::json &amp;j, SAGAStep &amp;s)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>sharding::from_json</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type><ref refid="structsharding_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>JSON deserializer for <ref refid="structsharding_1_1_s_a_g_a_step" kindref="compound">SAGAStep</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: at(), get_to(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="188" column="6" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="188" bodyend="195" declfile="include/sharding/transaction_snapshot.h" declline="187" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesharding_1afc125fdafcb7ba463d3c78d59909d17a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sharding::to_json</definition>
+        <argsstring>(nlohmann::json &amp;j, const PercolatorIntent &amp;i)</argsstring>
+        <name>to_json</name>
+        <qualifiedname>sharding::to_json</qualifiedname>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsharding_1_1_percolator_intent" kindref="compound">PercolatorIntent</ref> &amp;</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>JSON serializer for <ref refid="structsharding_1_1_percolator_intent" kindref="compound">PercolatorIntent</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements to_json without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="203" column="6" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="203" bodyend="210" declfile="include/sharding/transaction_snapshot.h" declline="190" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesharding_1af41fa504f57b2d5290f299fa87c21652" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sharding::from_json</definition>
+        <argsstring>(const nlohmann::json &amp;j, PercolatorIntent &amp;i)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>sharding::from_json</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type><ref refid="structsharding_1_1_percolator_intent" kindref="compound">PercolatorIntent</ref> &amp;</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>JSON deserializer for <ref refid="structsharding_1_1_percolator_intent" kindref="compound">PercolatorIntent</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: at(), get_to(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="218" column="6" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="218" bodyend="223" declfile="include/sharding/transaction_snapshot.h" declline="192" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesharding_1a70adafb3ed997df2c84b4e1915601163" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sharding::to_json</definition>
+        <argsstring>(nlohmann::json &amp;j, const TransactionSnapshotEntry &amp;e)</argsstring>
+        <name>to_json</name>
+        <qualifiedname>sharding::to_json</qualifiedname>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsharding_1_1_transaction_snapshot_entry" kindref="compound">TransactionSnapshotEntry</ref> &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>JSON serializer for <ref refid="structsharding_1_1_transaction_snapshot_entry" kindref="compound">TransactionSnapshotEntry</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacesharding_1aafc2f6e4f000ba14c9b3ce24ccfe7d41" kindref="member">transactionProtocolToString()</ref>, <ref refid="namespacesharding_1a84382b8c8a105b7c98f7fe10d06b7947" kindref="member">transactionStateToString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="231" column="6" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="231" bodyend="249" declfile="include/sharding/transaction_snapshot.h" declline="195" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesharding_1a00ca5dfd233cfb289a52065ac66523ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sharding::from_json</definition>
+        <argsstring>(const nlohmann::json &amp;j, TransactionSnapshotEntry &amp;e)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>sharding::from_json</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type><ref refid="structsharding_1_1_transaction_snapshot_entry" kindref="compound">TransactionSnapshotEntry</ref> &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>JSON deserializer for <ref refid="structsharding_1_1_transaction_snapshot_entry" kindref="compound">TransactionSnapshotEntry</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: at(), get_to(), <ref refid="namespacesharding_1a1166fb13dc381dcae0a00b1c307b9c1b" kindref="member">transactionProtocolFromString()</ref>, <ref refid="namespacesharding_1acd92d4956c52c8396ffa6ccef1bbb4c2" kindref="member">transactionStateFromString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/transaction_snapshot.cpp" line="257" column="6" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="257" bodyend="273" declfile="include/sharding/transaction_snapshot.h" declline="197" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_transaction.h" line="32" column="1"/>
+  </compounddef>
+</doxygen>

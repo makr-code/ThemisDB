@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_sim_process_model" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::SimProcessModel</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1aab73a4028c58977aa598e40a54378e45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::SimProcessModel::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::process::benchmark::SimProcessModel::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="30" column="17" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a2af4d0369eab4f4f2a66fab9db3cd0ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::SimProcessModel::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::process::benchmark::SimProcessModel::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="31" column="17" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a266ed786b2575027a7de160d3fa75dad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::SimProcessModel::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::process::benchmark::SimProcessModel::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="32" column="17" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a2475416062ebd1bd3e348931ecc22f8e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::SimProcessModel::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::process::benchmark::SimProcessModel::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="33" column="17" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a7f453af3998bb963794166af3a8ff421" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::SimProcessModel::revision</definition>
+        <argsstring></argsstring>
+        <name>revision</name>
+        <qualifiedname>themis::process::benchmark::SimProcessModel::revision</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="34" column="9" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a0728308ee00fbc9478bbfdd7c7366f80" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::SimProcessModel::created_ms</definition>
+        <argsstring></argsstring>
+        <name>created_ms</name>
+        <qualifiedname>themis::process::benchmark::SimProcessModel::created_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="35" column="13" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a1660df02c90f9bd190e70aee08443394" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::SimProcessModel::modified_ms</definition>
+        <argsstring></argsstring>
+        <name>modified_ms</name>
+        <qualifiedname>themis::process::benchmark::SimProcessModel::modified_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="36" column="13" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulated ProcessModel for benchmarking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="29" column="1" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="29" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a0728308ee00fbc9478bbfdd7c7366f80" prot="public" virt="non-virtual"><scope>themis::process::benchmark::SimProcessModel</scope><name>created_ms</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a266ed786b2575027a7de160d3fa75dad" prot="public" virt="non-virtual"><scope>themis::process::benchmark::SimProcessModel</scope><name>description</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1aab73a4028c58977aa598e40a54378e45" prot="public" virt="non-virtual"><scope>themis::process::benchmark::SimProcessModel</scope><name>id</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a1660df02c90f9bd190e70aee08443394" prot="public" virt="non-virtual"><scope>themis::process::benchmark::SimProcessModel</scope><name>modified_ms</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a2af4d0369eab4f4f2a66fab9db3cd0ad" prot="public" virt="non-virtual"><scope>themis::process::benchmark::SimProcessModel</scope><name>name</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a7f453af3998bb963794166af3a8ff421" prot="public" virt="non-virtual"><scope>themis::process::benchmark::SimProcessModel</scope><name>revision</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model_1a2475416062ebd1bd3e348931ecc22f8e" prot="public" virt="non-virtual"><scope>themis::process::benchmark::SimProcessModel</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_canceller_timed_mutex_test" kind="class" language="C++" prot="public">
+    <compoundname>QueryCancellerTimedMutexTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_canceller_timed_mutex_test_1a068d414a7ca3e61de64295382ff39e59" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">QueryCanceller</ref></type>
+        <definition>QueryCanceller QueryCancellerTimedMutexTest::canceller_</definition>
+        <argsstring></argsstring>
+        <name>canceller_</name>
+        <qualifiedname>QueryCancellerTimedMutexTest::canceller_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_phase_a_gap_fixes.cpp" line="97" column="20" bodyfile="tests/query/test_query_phase_a_gap_fixes.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryCancellerTimedMutexTest</label>
+        <link refid="class_query_canceller_timed_mutex_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryCancellerTimedMutexTest</label>
+        <link refid="class_query_canceller_timed_mutex_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>canceller_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::QueryCanceller</label>
+        <link refid="classthemis_1_1query_1_1_query_canceller"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_phase_a_gap_fixes.cpp" line="95" column="1" bodyfile="tests/query/test_query_phase_a_gap_fixes.cpp" bodystart="95" bodyend="98"/>
+    <listofallmembers>
+      <member refid="class_query_canceller_timed_mutex_test_1a068d414a7ca3e61de64295382ff39e59" prot="protected" virt="non-virtual"><scope>QueryCancellerTimedMutexTest</scope><name>canceller_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

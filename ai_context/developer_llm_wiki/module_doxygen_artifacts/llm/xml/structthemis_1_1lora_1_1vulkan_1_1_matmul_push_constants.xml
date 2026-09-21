@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1lora_1_1vulkan_1_1_matmul_push_constants" kind="struct" language="C++" prot="public">
+    <compoundname>themis::lora::vulkan::MatmulPushConstants</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_matmul_push_constants_1abb5a270c72b26e37583129822ed399f2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::lora::vulkan::MatmulPushConstants::M</definition>
+        <argsstring></argsstring>
+        <name>M</name>
+        <qualifiedname>themis::lora::vulkan::MatmulPushConstants::M</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="320" column="14" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_matmul_push_constants_1af708cc05bfcabc6b26fbca689f2c4ab8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::lora::vulkan::MatmulPushConstants::N</definition>
+        <argsstring></argsstring>
+        <name>N</name>
+        <qualifiedname>themis::lora::vulkan::MatmulPushConstants::N</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="321" column="14" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_matmul_push_constants_1ae32489d41b494974e266d49998dde283" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::lora::vulkan::MatmulPushConstants::K</definition>
+        <argsstring></argsstring>
+        <name>K</name>
+        <qualifiedname>themis::lora::vulkan::MatmulPushConstants::K</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="322" column="14" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_matmul_push_constants_1a7d682c74b4b65c8ca05e1997a22f89fe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::lora::vulkan::MatmulPushConstants::alpha_bits</definition>
+        <argsstring></argsstring>
+        <name>alpha_bits</name>
+        <qualifiedname>themis::lora::vulkan::MatmulPushConstants::alpha_bits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="323" column="14" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="323" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="319" column="1" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="319" bodyend="324"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_matmul_push_constants_1a7d682c74b4b65c8ca05e1997a22f89fe" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::MatmulPushConstants</scope><name>alpha_bits</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_matmul_push_constants_1ae32489d41b494974e266d49998dde283" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::MatmulPushConstants</scope><name>K</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_matmul_push_constants_1abb5a270c72b26e37583129822ed399f2" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::MatmulPushConstants</scope><name>M</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_matmul_push_constants_1af708cc05bfcabc6b26fbca689f2c4ab8" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::MatmulPushConstants</scope><name>N</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

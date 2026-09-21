@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_key_provider_signing_service" kind="class" language="C++" prot="public">
+    <compoundname>themis::KeyProviderSigningService</compoundname>
+    <basecompoundref refid="classthemis_1_1_signing_service" prot="public" virt="non-virtual">themis::SigningService</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_key_provider_signing_service_1abb11ef060e7449a99fbd0229ddc06c38" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;KeyProvider&gt; themis::KeyProviderSigningService::kp_</definition>
+        <argsstring></argsstring>
+        <name>kp_</name>
+        <qualifiedname>themis::KeyProviderSigningService::kp_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/keyprovider_signing.cpp" line="105" column="21" bodyfile="src/security/keyprovider_signing.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_key_provider_signing_service_1a1e84d5c271f423663599a58e8c797d15" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::KeyProviderSigningService::KeyProviderSigningService</definition>
+        <argsstring>(std::shared_ptr&lt; KeyProvider &gt; kp)</argsstring>
+        <name>KeyProviderSigningService</name>
+        <qualifiedname>themis::KeyProviderSigningService::KeyProviderSigningService</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref> &gt;</type>
+          <declname>kp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/keyprovider_signing.cpp" line="46" column="14" bodyfile="src/security/keyprovider_signing.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_signing_service_1aee09b64e030e6a0821a853fe13368d73" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1_signing_result" kindref="compound">SigningResult</ref></type>
+        <definition>SigningResult themis::KeyProviderSigningService::sign</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;key_id) override</argsstring>
+        <name>sign</name>
+        <qualifiedname>themis::KeyProviderSigningService::sign</qualifiedname>
+        <reimplements refid="classthemis_1_1_signing_service_1ab3722bd74c3acfc8665f24872b97a529">sign</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/keyprovider_signing.cpp" line="48" column="19" bodyfile="src/security/keyprovider_signing.cpp" bodystart="48" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_provider_signing_service_1a2d1306facbc00792c9df3f7f343bbf18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::KeyProviderSigningService::verify</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::vector&lt; uint8_t &gt; &amp;signature, const std::string &amp;key_id) override</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::KeyProviderSigningService::verify</qualifiedname>
+        <reimplements refid="classthemis_1_1_signing_service_1a1287bdafce5ea20430ee877cec8f273b">verify</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/keyprovider_signing.cpp" line="84" column="10" bodyfile="src/security/keyprovider_signing.cpp" bodystart="84" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::KeyProviderSigningService</label>
+        <link refid="classthemis_1_1_key_provider_signing_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SigningService</label>
+        <link refid="classthemis_1_1_signing_service"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::KeyProviderSigningService</label>
+        <link refid="classthemis_1_1_key_provider_signing_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SigningService</label>
+        <link refid="classthemis_1_1_signing_service"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/security/keyprovider_signing.cpp" line="44" column="1" bodyfile="src/security/keyprovider_signing.cpp" bodystart="44" bodyend="106"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_key_provider_signing_service_1a1e84d5c271f423663599a58e8c797d15" prot="public" virt="non-virtual"><scope>themis::KeyProviderSigningService</scope><name>KeyProviderSigningService</name></member>
+      <member refid="classthemis_1_1_key_provider_signing_service_1abb11ef060e7449a99fbd0229ddc06c38" prot="private" virt="non-virtual"><scope>themis::KeyProviderSigningService</scope><name>kp_</name></member>
+      <member refid="classthemis_1_1_key_provider_signing_service_1aee09b64e030e6a0821a853fe13368d73" prot="public" virt="virtual"><scope>themis::KeyProviderSigningService</scope><name>sign</name></member>
+      <member refid="classthemis_1_1_key_provider_signing_service_1a2d1306facbc00792c9df3f7f343bbf18" prot="public" virt="virtual"><scope>themis::KeyProviderSigningService</scope><name>verify</name></member>
+      <member refid="classthemis_1_1_signing_service_1a05a49d840a01a4ebe2ac201a35394501" prot="public" virt="virtual"><scope>themis::KeyProviderSigningService</scope><name>~SigningService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

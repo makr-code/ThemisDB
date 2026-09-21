@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_telemetry_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::TelemetryConfig</compoundname>
+    <includes refid="process__telemetry__integration_8h" local="no">process_telemetry_integration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_telemetry_config_1a8100ad307717dc051f6273681183da25" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TelemetryConfig::otel_exporter_endpoint</definition>
+        <argsstring></argsstring>
+        <name>otel_exporter_endpoint</name>
+        <qualifiedname>themis::process::TelemetryConfig::otel_exporter_endpoint</qualifiedname>
+        <initializer>= &quot;http://localhost:4317&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="27" column="15" bodyfile="include/process/process_telemetry_integration.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_telemetry_config_1a3c62bbbc828f191b235639cecab06b6d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::TelemetryConfig::sampling_rate</definition>
+        <argsstring></argsstring>
+        <name>sampling_rate</name>
+        <qualifiedname>themis::process::TelemetryConfig::sampling_rate</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="28" column="10" bodyfile="include/process/process_telemetry_integration.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_telemetry_config_1a865bf2adc09aa4181b5176151573a3ff" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::TelemetryConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::process::TelemetryConfig::batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="29" column="12" bodyfile="include/process/process_telemetry_integration.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_telemetry_config_1a491e959ca3361cb3c99de60edde8b54a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::TelemetryConfig::export_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>export_interval_ms</name>
+        <qualifiedname>themis::process::TelemetryConfig::export_interval_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="30" column="12" bodyfile="include/process/process_telemetry_integration.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for telemetry integration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_telemetry_integration.h" line="26" column="1" bodyfile="include/process/process_telemetry_integration.h" bodystart="26" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_telemetry_config_1a865bf2adc09aa4181b5176151573a3ff" prot="public" virt="non-virtual"><scope>themis::process::TelemetryConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1process_1_1_telemetry_config_1a491e959ca3361cb3c99de60edde8b54a" prot="public" virt="non-virtual"><scope>themis::process::TelemetryConfig</scope><name>export_interval_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_telemetry_config_1a8100ad307717dc051f6273681183da25" prot="public" virt="non-virtual"><scope>themis::process::TelemetryConfig</scope><name>otel_exporter_endpoint</name></member>
+      <member refid="structthemis_1_1process_1_1_telemetry_config_1a3c62bbbc828f191b235639cecab06b6d" prot="public" virt="non-virtual"><scope>themis::process::TelemetryConfig</scope><name>sampling_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,400 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="prompt__ab__experiment_8h" kind="file" language="C++">
+    <compoundname>prompt_ab_experiment.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="prompt__template__compiler_8h" local="yes">prompt_engineering/prompt_template_compiler.h</includes>
+    <includedby refid="prompt__ab__experiment_8cpp" local="yes">src/prompt_engineering/prompt_ab_experiment.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_ab_experiment.h</label>
+        <link refid="prompt__ab__experiment_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>prompt_engineering/prompt_template_compiler.h</label>
+        <link refid="prompt__template__compiler_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_ab_experiment.h</label>
+        <link refid="prompt__ab__experiment_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/prompt_engineering/prompt_ab_experiment.cpp</label>
+        <link refid="prompt__ab__experiment_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_experiment_context" prot="public">themis::prompt_engineering::ExperimentContext</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" prot="public">themis::prompt_engineering::PromptExperiment</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome" prot="public">themis::prompt_engineering::ExperimentOutcome</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_experiment_summary" prot="public">themis::prompt_engineering::ExperimentSummary</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework" prot="public">themis::prompt_engineering::PromptABExperimentFramework</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1_1_score_store" prot="private">themis::prompt_engineering::PromptABExperimentFramework::ScoreStore</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" prot="public">themis::prompt_engineering::ABVariant</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor" prot="public">themis::prompt_engineering::ExperimentDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework" prot="public">themis::prompt_engineering::IPromptABFramework</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework" prot="public">themis::prompt_engineering::SimplePromptABFramework</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__template__compiler_8h" kindref="compound">prompt_engineering/prompt_template_compiler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ExperimentVariant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49ac861cd34025f9002df5912d623326130" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49ac861cd34025f9002df5912d623326130" kindref="member">CONTROL</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49acffcfcd0a5befb8fed6679e0d65ef07a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49acffcfcd0a5befb8fed6679e0d65ef07a" kindref="member">TREATMENT</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a1e5ece457ad32f665d00b2f81914f6ac" kindref="member">variantToString</ref>(<ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref><sp/>v);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">std::optional&lt;ExperimentVariant&gt;<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a7764bf64080d236399980d0cc5463f64" kindref="member">stringToVariant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ExperimentContext</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1prompt__engineering_1_1_experiment_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_context" kindref="compound">ExperimentContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1prompt__engineering_1_1_experiment_context_1a3697b789c59e17e65bcf5175f031a064" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_context_1a3697b789c59e17e65bcf5175f031a064" kindref="member">experiment_id</ref>;<sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1prompt__engineering_1_1_experiment_context_1a46a9ee28c7a6cdf081e4e7265b2327ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_context_1a46a9ee28c7a6cdf081e4e7265b2327ca" kindref="member">request_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ExperimentStatus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718b" kindref="member">ExperimentStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba43491564ebcfd38568918efbd6e840fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba43491564ebcfd38568918efbd6e840fd" kindref="member">RUNNING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba38bf10f8cb1316633af11ea95d3e0cc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba38bf10f8cb1316633af11ea95d3e0cc5" kindref="member">WINNER_CONTROL</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba35408f91891bb73be17272340a42c3b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba35408f91891bb73be17272340a42c3b2" kindref="member">WINNER_TREATMENT</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718baa67714e020eef0eddfffea13a8abb52b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718baa67714e020eef0eddfffea13a8abb52b" kindref="member">INCONCLUSIVE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a7ca7c90d5e550043eebcc0f3cec548b6" kindref="member">statusToString</ref>(<ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718b" kindref="member">ExperimentStatus</ref><sp/>s);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PromptExperiment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" kindref="compound">PromptExperiment</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a0b10ce0717de41c3ebccac6e8a6049fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a0b10ce0717de41c3ebccac6e8a6049fa" kindref="member">experiment_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a932cfbc9f91724041ba94429ff305603" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a932cfbc9f91724041ba94429ff305603" kindref="member">template_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a249bc500c4557bf519f3a22e12f79003" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a249bc500c4557bf519f3a22e12f79003" kindref="member">control_version_id</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a696f179abff3be23f2e72f2a9818ebba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a696f179abff3be23f2e72f2a9818ebba" kindref="member">treatment_version_id</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1ab14d5a893a10900dfb09902678a5ff5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1ab14d5a893a10900dfb09902678a5ff5d" kindref="member">split_pct</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a5678e8115743dcc5de1d43f17e8f467f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a5678e8115743dcc5de1d43f17e8f467f" kindref="member">min_samples</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a597b257abb50d32b65a0b680f8190ab4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1a597b257abb50d32b65a0b680f8190ab4" kindref="member">confidence_level</ref><sp/>=<sp/>0.95;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1ac858bcd34c0c4910be09c435fe6d1490" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1ac858bcd34c0c4910be09c435fe6d1490" kindref="member">created_at</ref>;<sp/></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1ad8e1e7c025793075ee54b7b2adf80712" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1ad8e1e7c025793075ee54b7b2adf80712" kindref="member">stopped_at</ref>;<sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1af396b3bbcfbc7b8b70f477a85749d935" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718b" kindref="member">ExperimentStatus</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1af396b3bbcfbc7b8b70f477a85749d935" kindref="member">status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718ba43491564ebcfd38568918efbd6e840fd" kindref="member">ExperimentStatus::RUNNING</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1ad9a1352bb2983b6f4f43a2b63e293d50" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" kindref="compound">PromptExperiment</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment_1aef857ac64c4df7805dd40ec69d928b6f" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ExperimentOutcome</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome" kindref="compound">ExperimentOutcome</ref><sp/>{</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a02602b9e365f36eb239f00bf848a3c7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a02602b9e365f36eb239f00bf848a3c7f" kindref="member">experiment_id</ref>;<sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a42ed5039f5e931778b29a6b5007c6289" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a42ed5039f5e931778b29a6b5007c6289" kindref="member">variant</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a4526cfd1cd42134f4f8823fcbc07b594" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a4526cfd1cd42134f4f8823fcbc07b594" kindref="member">score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1aa2794a1116caba889a65209a663485c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1aa2794a1116caba889a65209a663485c1" kindref="member">request_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1af02dc260416a4cd0c70c00e3eb995d67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1af02dc260416a4cd0c70c00e3eb995d67" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a0c9fd3eb951c6e44e7a6c056d1e998c8" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ExperimentSummary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1prompt__engineering_1_1_experiment_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary" kindref="compound">ExperimentSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1ad529471be9165c45ec84addd2dfd8abd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" kindref="compound">PromptExperiment</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1ad529471be9165c45ec84addd2dfd8abd" kindref="member">experiment</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a16a6fc238c3910ee4dc6daf41f6a8f67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a16a6fc238c3910ee4dc6daf41f6a8f67" kindref="member">control_samples</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a398bbbebd96d6cde1ee5767591b43c21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a398bbbebd96d6cde1ee5767591b43c21" kindref="member">treatment_samples</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1abcbf0143d9a69006b81a20d5dbd19b37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1abcbf0143d9a69006b81a20d5dbd19b37" kindref="member">mean_control_score</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a3912a70065a6766e0c0b80f9b54abf4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a3912a70065a6766e0c0b80f9b54abf4e" kindref="member">mean_treatment_score</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1af3343ba957436a7e82a13691f4d8443f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1af3343ba957436a7e82a13691f4d8443f" kindref="member">delta_pct</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1ae45a6633d837f02f43a526a702793bbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1ae45a6633d837f02f43a526a702793bbb" kindref="member">p_value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1.0;<sp/></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1aa53ced95676baf7382f2ce45db1efb6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1aa53ced95676baf7382f2ce45db1efb6d" kindref="member">significant</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1abb4115612f5bbde7c7f36137ec2b2bda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1abb4115612f5bbde7c7f36137ec2b2bda" kindref="member">winner_version_id</ref>;<sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a28a712575f22dd799b2ba777511d20d9" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PromptABExperimentFramework</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a557bc9dfa883b1a6f19e3b7459d7d997" kindref="member">PromptABExperimentFramework</ref><sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a0ded3a7e6bcb94d47b5fb8904463fde0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a0ded3a7e6bcb94d47b5fb8904463fde0" kindref="member">WinnerCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>experiment_id,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref><sp/>winner,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>winning_version_id)&gt;;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a557bc9dfa883b1a6f19e3b7459d7d997" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a557bc9dfa883b1a6f19e3b7459d7d997" kindref="member">PromptABExperimentFramework</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Experiment<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a48b57a1c1c7c68a9b0fd4eac89f7ffdf" kindref="member">create</ref>(<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" kindref="compound">PromptExperiment</ref><sp/>exp);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1aa1ddf2cf5ba6795875a3807465955b20" kindref="member">stop</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>experiment_id);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;PromptExperiment&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1ab39cc494ab4192375b19b28446d3a228" kindref="member">getExperiment</ref>(</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>experiment_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PromptExperiment&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a38a38d577b69703f405ab814a5c35dd2" kindref="member">listExperiments</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Variant<sp/>assignment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1adc4fbabdee79a0f977ffc4698550c13c" kindref="member">assignVariant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_context" kindref="compound">ExperimentContext</ref>&amp;<sp/>context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Outcome<sp/>recording<sp/>&amp;<sp/>significance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1ac8e1a000b05c1efeaa3bf242d7b38998" kindref="member">recordOutcome</ref>(</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>experiment_id,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref><sp/><sp/>variant,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>score,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>request_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a74c82a965bafe02edc556fb7310cfe8a" kindref="member">checkSignificance</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>experiment_id);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a9aea0e2c26fe9f9a1e0ab1e1c2e196c0" kindref="member">promoteWinner</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>experiment_id);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ae9f1396720d16097a27ba6fea222718b" kindref="member">ExperimentStatus</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a266df97ad462ae896a47b465b626105d" kindref="member">getStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>experiment_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ExperimentSummary&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a6c49814e7b957ebe3f5c1529fbbe9bea" kindref="member">getSummary</ref>(</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>experiment_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ExperimentOutcome&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a2430c37b2a5945a620cfe967379717fe" kindref="member">getOutcomes</ref>(</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>experiment_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1aa8a668f97cf42ea9d151068363b20b57" kindref="member">setWinnerCallback</ref>(<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a0ded3a7e6bcb94d47b5fb8904463fde0" kindref="member">WinnerCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>experiment_id<sp/>→<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>PromptExperiment&gt;<sp/>experiments_;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>experiment_id<sp/>→<sp/>(control_scores,<sp/>treatment_scores)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ScoreStore<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>control;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>treatment;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ExperimentOutcome&gt;<sp/>outcomes;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ScoreStore&gt;<sp/>scores_;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework_1a0ded3a7e6bcb94d47b5fb8904463fde0" kindref="member">WinnerCallback</ref><sp/>winner_callback_;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>generateId();</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::uint32_t<sp/>murmur3_32(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>welchPValue(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>b)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tDistCdf(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>t,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>df)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkSignificanceLocked(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>experiment_id);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>══════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IPromptABFramework<sp/>—<sp/>clean<sp/>per-user<sp/>deterministic<sp/>variant-assignment<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="comment">//<sp/>══════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384" refid="namespacethemis_1_1prompt__engineering_1a13905e792b57113a931df5aad2af6267" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering_1a13905e792b57113a931df5aad2af6267" kindref="member">UserId</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389" refid="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" kindref="member">ExperimentKey</ref><sp/>=<sp/>std::string;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399" refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" kindref="compound">ABVariant</ref><sp/>{</highlight></codeline>
+<codeline lineno="400" refid="structthemis_1_1prompt__engineering_1_1_a_b_variant_1a9282026608a3b5cf357d8c03e9130dad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant_1a9282026608a3b5cf357d8c03e9130dad" kindref="member">variantId</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="401" refid="structthemis_1_1prompt__engineering_1_1_a_b_variant_1a805e049ba00ab1611bcfcbf67c3873f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" kindref="compound">IPromptTemplate</ref>*<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant_1a805e049ba00ab1611bcfcbf67c3873f5" kindref="member">templateRef</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="402" refid="structthemis_1_1prompt__engineering_1_1_a_b_variant_1aee8ec5200246786af7f7b716c052628e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant_1aee8ec5200246786af7f7b716c052628e" kindref="member">trafficWeight</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="403"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408" refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor" kindref="compound">ExperimentDescriptor</ref><sp/>{</highlight></codeline>
+<codeline lineno="409" refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1af0209cf528338197b50d4a6e2154c759" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" kindref="member">ExperimentKey</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1af0209cf528338197b50d4a6e2154c759" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="410" refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1a4ec6683acb6da7d62b5a82ce3f5792ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ABVariant&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1a4ec6683acb6da7d62b5a82ce3f5792ab" kindref="member">variants</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="411" refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1a960b27fa9a4234dbd949c3f4f434aa50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor_1a960b27fa9a4234dbd949c3f4f434aa50" kindref="member">active</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="412"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="427" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework" kindref="compound">IPromptABFramework</ref><sp/>{</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="429" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a8ea10bb748dcd2a02d8c536c63c97ab3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a8ea10bb748dcd2a02d8c536c63c97ab3" kindref="member">~IPromptABFramework</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a361fad34b1459956da345230d52f55bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" kindref="compound">ABVariant</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a361fad34b1459956da345230d52f55bf" kindref="member">assignVariant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a13905e792b57113a931df5aad2af6267" kindref="member">UserId</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>user_id,</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" kindref="member">ExperimentKey</ref>&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a7b8661616b7cced0af15b3619a0840ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;ExperimentDescriptor&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a7b8661616b7cced0af15b3619a0840ea" kindref="member">listExperiments</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="446"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Concrete<sp/>implementation<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight></codeline>
+<codeline lineno="461" refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework" kindref="compound">SimplePromptABFramework</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework" kindref="compound">IPromptABFramework</ref><sp/>{</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1adcc5b730bbe3153185d9e23d9d0e34c2" kindref="member">registerExperiment</ref>(<ref refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor" kindref="compound">ExperimentDescriptor</ref><sp/>descriptor);</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a31ab664e07546701bee80bd223f2e8ce" kindref="member">deactivate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" kindref="member">ExperimentKey</ref>&amp;<sp/>key);</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IPromptABFramework<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" kindref="compound">ABVariant</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1ac454270e9693c870e49034f78517fc7c" kindref="member">assignVariant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a13905e792b57113a931df5aad2af6267" kindref="member">UserId</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>user_id,</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" kindref="member">ExperimentKey</ref>&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ExperimentDescriptor&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a50f27a26df372f6d91debddfbc1fee5d" kindref="member">listExperiments</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>fnv1a32(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ExperimentDescriptor&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>experiments_;</highlight></codeline>
+<codeline lineno="493"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"></highlight></codeline>
+<codeline lineno="495"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>prompt_engineering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/prompt_engineering/prompt_ab_experiment.h"/>
+  </compounddef>
+</doxygen>

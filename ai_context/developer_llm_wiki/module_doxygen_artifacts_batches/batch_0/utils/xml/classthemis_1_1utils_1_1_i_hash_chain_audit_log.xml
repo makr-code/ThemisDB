@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_i_hash_chain_audit_log" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::utils::IHashChainAuditLog</compoundname>
+    <derivedcompoundref refid="classthemis_1_1utils_1_1_hash_chain_audit_log_adapter" prot="public" virt="non-virtual">themis::utils::HashChainAuditLogAdapter</derivedcompoundref>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1afd2017ec05fded049074248784aeedf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::utils::IHashChainAuditLog::~IHashChainAuditLog</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IHashChainAuditLog</name>
+        <qualifiedname>themis::utils::IHashChainAuditLog::~IHashChainAuditLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="183" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a561dad26b119e683af6596283891d080" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1utils_1ac6d4f43c9fd9aa70c76f4f17cbb89433" kindref="member">EntryId</ref></type>
+        <definition>virtual EntryId themis::utils::IHashChainAuditLog::append</definition>
+        <argsstring>(const AuditEvent &amp;event)=0</argsstring>
+        <name>append</name>
+        <qualifiedname>themis::utils::IHashChainAuditLog::append</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_hash_chain_audit_log_adapter_1a9750cfd249f64459e67c6b91abc8aef0">append</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_audit_event" kindref="compound">AuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Append an audit event to the log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe. The returned <ref refid="namespacethemis_1_1utils_1ac6d4f43c9fd9aa70c76f4f17cbb89433" kindref="member">EntryId</ref> is the sequence number of the new entry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The event to append. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sequence number assigned to the new entry. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="193" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a4cc1261d4cba4365e1a74511bbc1e19f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_chain_verify_result" kindref="compound">ChainVerifyResult</ref></type>
+        <definition>virtual ChainVerifyResult themis::utils::IHashChainAuditLog::verifyChain</definition>
+        <argsstring>(EntryId from, EntryId to) const =0</argsstring>
+        <name>verifyChain</name>
+        <qualifiedname>themis::utils::IHashChainAuditLog::verifyChain</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_hash_chain_audit_log_adapter_1abacb9fae17989f4868e294ef2224cb34">verifyChain</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1ac6d4f43c9fd9aa70c76f4f17cbb89433" kindref="member">EntryId</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1ac6d4f43c9fd9aa70c76f4f17cbb89433" kindref="member">EntryId</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Verify the hash chain over a range of entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First entry to verify (inclusive). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Last entry to verify (inclusive). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="202" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a8835ddb9d91ddfc6e7f23eecae8920d0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_audit_cursor" kindref="compound">AuditCursor</ref></type>
+        <definition>virtual AuditCursor themis::utils::IHashChainAuditLog::query</definition>
+        <argsstring>(const AuditQuery &amp;query) const =0</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::utils::IHashChainAuditLog::query</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_hash_chain_audit_log_adapter_1ad659f61c72d8be2722e4537d0abcf46e">query</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_audit_query" kindref="compound">AuditQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Open a paginated, forward-only cursor for reading entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The cursor is invalidated by subsequent calls to <ref refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a561dad26b119e683af6596283891d080" kindref="member">append()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query parameters (range + optional filter). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1utils_1_1_cursor" kindref="compound">Cursor</ref> positioned at the first matching entry. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="212" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a6c7557c36c142d45e32a500e33f6e592" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::utils::IHashChainAuditLog::entryCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>entryCount</name>
+        <qualifiedname>themis::utils::IHashChainAuditLog::entryCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_hash_chain_audit_log_adapter_1a3b51b848ec779b9db564a2bbdb4882cc">entryCount</reimplementedby>
+        <briefdescription>
+<para>Total number of entries appended since the log was created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="215" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1adbc9ee9344c8cb42ae1fc257f6ee474e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1utils_1ac6d4f43c9fd9aa70c76f4f17cbb89433" kindref="member">EntryId</ref></type>
+        <definition>virtual EntryId themis::utils::IHashChainAuditLog::lastEntryId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>lastEntryId</name>
+        <qualifiedname>themis::utils::IHashChainAuditLog::lastEntryId</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_hash_chain_audit_log_adapter_1a538a5ab69fcf06b01f9539afea937310">lastEntryId</reimplementedby>
+        <briefdescription>
+<para>Sequence number of the most recently appended entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0 when the log is empty. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="222" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tamper-evident append-only audit log interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each appended entry&apos;s hash includes the hash of the previous entry, forming an HMAC-SHA-256 chain. The interface is append-only: no delete or update methods exist. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::utils::HashChainAuditLogAdapter</label>
+        <link refid="classthemis_1_1utils_1_1_hash_chain_audit_log_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::utils::IHashChainAuditLog</label>
+        <link refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/utils/utils_interfaces.h" line="181" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="181" bodyend="223"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a561dad26b119e683af6596283891d080" prot="public" virt="pure-virtual"><scope>themis::utils::IHashChainAuditLog</scope><name>append</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a6c7557c36c142d45e32a500e33f6e592" prot="public" virt="pure-virtual"><scope>themis::utils::IHashChainAuditLog</scope><name>entryCount</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1adbc9ee9344c8cb42ae1fc257f6ee474e" prot="public" virt="pure-virtual"><scope>themis::utils::IHashChainAuditLog</scope><name>lastEntryId</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a8835ddb9d91ddfc6e7f23eecae8920d0" prot="public" virt="pure-virtual"><scope>themis::utils::IHashChainAuditLog</scope><name>query</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a4cc1261d4cba4365e1a74511bbc1e19f" prot="public" virt="pure-virtual"><scope>themis::utils::IHashChainAuditLog</scope><name>verifyChain</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1afd2017ec05fded049074248784aeedf5" prot="public" virt="virtual"><scope>themis::utils::IHashChainAuditLog</scope><name>~IHashChainAuditLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

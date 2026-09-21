@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1test_1_1_hugging_face_ingestion_plugin_data_race_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::test::HuggingFaceIngestionPluginDataRaceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1test_1_1_hugging_face_ingestion_plugin_data_race_test_1a4b0f78a405a70aa0092ec4cd6ad1ffbf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::test::HuggingFaceIngestionPluginDataRaceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::importers::test::HuggingFaceIngestionPluginDataRaceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="535" column="10" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="535" bodyend="537"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::test::HuggingFaceIngestionPluginDataRaceTest</label>
+        <link refid="classthemis_1_1importers_1_1test_1_1_hugging_face_ingestion_plugin_data_race_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::test::HuggingFaceIngestionPluginDataRaceTest</label>
+        <link refid="classthemis_1_1importers_1_1test_1_1_hugging_face_ingestion_plugin_data_race_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="533" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="533" bodyend="538"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1test_1_1_hugging_face_ingestion_plugin_data_race_test_1a4b0f78a405a70aa0092ec4cd6ad1ffbf" prot="protected" virt="non-virtual"><scope>themis::importers::test::HuggingFaceIngestionPluginDataRaceTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

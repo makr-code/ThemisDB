@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::WikiLintResult</compoundname>
+    <includes refid="llm__wiki__plugin__interface_8h" local="no">llm_wiki_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1ad69521ad26ece4ee329c64b0e88621aa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::llm_wiki::WikiLintResult::orphan_pages</definition>
+        <argsstring></argsstring>
+        <name>orphan_pages</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiLintResult::orphan_pages</qualifiedname>
+        <briefdescription>
+<para>Pages with no inbound links. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="195" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1af25bfe334cfbfa7a19bd4360cba2da6a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::llm_wiki::WikiLintResult::missing_backlinks</definition>
+        <argsstring></argsstring>
+        <name>missing_backlinks</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiLintResult::missing_backlinks</qualifiedname>
+        <briefdescription>
+<para>Pages that reference non-existent targets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="196" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1a4b5d983d7f09330e09a8273abf66a19f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::llm_wiki::WikiLintResult::stale_synthesis_pages</definition>
+        <argsstring></argsstring>
+        <name>stale_synthesis_pages</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiLintResult::stale_synthesis_pages</qualifiedname>
+        <briefdescription>
+<para>Synthesis pages with outdated source refs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="197" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1aa051ce40681f3999d93a0f9c6a5811dd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::llm_wiki::WikiLintResult::unresolved_tasks</definition>
+        <argsstring></argsstring>
+        <name>unresolved_tasks</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiLintResult::unresolved_tasks</qualifiedname>
+        <briefdescription>
+<para>Open contradiction-review tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="198" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1a0feba19180fc87bef7048fc315d3b0dc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::llm_wiki::WikiLintResult::degraded_pages</definition>
+        <argsstring></argsstring>
+        <name>degraded_pages</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiLintResult::degraded_pages</qualifiedname>
+        <briefdescription>
+<para>Pages with high synthetic-chain/drift scores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="199" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1a483676c865e5a6eb74315d27265f5f80" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::llm_wiki::WikiLintResult::reanchor_required_pages</definition>
+        <argsstring></argsstring>
+        <name>reanchor_required_pages</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiLintResult::reanchor_required_pages</qualifiedname>
+        <briefdescription>
+<para>Pages requiring human re-anchor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="200" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a workspace lint check (<computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a83554a44aa8e75a9dcdc6e5a6fcb282e" kindref="member">ILLMWikiPlugin::wikiLint()</ref></computeroutput>). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Lint is only meaningful when a persistent workspace is configured. </para>
+    </detaileddescription>
+    <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="194" column="1" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="194" bodyend="201"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1a0feba19180fc87bef7048fc315d3b0dc" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiLintResult</scope><name>degraded_pages</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1af25bfe334cfbfa7a19bd4360cba2da6a" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiLintResult</scope><name>missing_backlinks</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1ad69521ad26ece4ee329c64b0e88621aa" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiLintResult</scope><name>orphan_pages</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1a483676c865e5a6eb74315d27265f5f80" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiLintResult</scope><name>reanchor_required_pages</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1a4b5d983d7f09330e09a8273abf66a19f" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiLintResult</scope><name>stale_synthesis_pages</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1aa051ce40681f3999d93a0f9c6a5811dd" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiLintResult</scope><name>unresolved_tasks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

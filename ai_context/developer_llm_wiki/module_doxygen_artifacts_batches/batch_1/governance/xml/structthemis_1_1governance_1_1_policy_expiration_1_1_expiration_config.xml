@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyExpiration::ExpirationConfig</compoundname>
+    <includes refid="policy__review_8h" local="no">policy_review.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a6857e59136cce9ee7832b13803069ede" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyExpiration::ExpirationConfig::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::PolicyExpiration::ExpirationConfig::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="225" column="21" bodyfile="include/governance/policy_review.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a2f823b792367a4f8cef4fcd4bb87c1b5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyExpiration::ExpirationConfig::expiration_date</definition>
+        <argsstring></argsstring>
+        <name>expiration_date</name>
+        <qualifiedname>themis::governance::PolicyExpiration::ExpirationConfig::expiration_date</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="226" column="17" bodyfile="include/governance/policy_review.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a218e87ec7bb0b41a8a5b8067cf4fa0ec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyExpiration::ExpirationConfig::grace_period_days</definition>
+        <argsstring></argsstring>
+        <name>grace_period_days</name>
+        <qualifiedname>themis::governance::PolicyExpiration::ExpirationConfig::grace_period_days</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="227" column="13" bodyfile="include/governance/policy_review.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a96ba3e600d5aa9dc0db8ee36fa5a1a5f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyExpiration::ExpirationConfig::auto_disable_enabled</definition>
+        <argsstring></argsstring>
+        <name>auto_disable_enabled</name>
+        <qualifiedname>themis::governance::PolicyExpiration::ExpirationConfig::auto_disable_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="228" column="14" bodyfile="include/governance/policy_review.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a49c5572fe1a8edb704bb73cf5142ef03" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::governance::PolicyExpiration::ExpirationConfig::warning_days</definition>
+        <argsstring></argsstring>
+        <name>warning_days</name>
+        <qualifiedname>themis::governance::PolicyExpiration::ExpirationConfig::warning_days</qualifiedname>
+        <initializer>= {30, 14, 7}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="229" column="21" bodyfile="include/governance/policy_review.h" bodystart="229" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a1ef11d7178936cb81fa2d1b614dad94f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyExpiration::ExpirationConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PolicyExpiration::ExpirationConfig::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="235" column="24" bodyfile="src/governance/policy_review.cpp" bodystart="639" bodyend="647"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a388d28606609d5c7d4e4b6dcb366571d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config" kindref="compound">ExpirationConfig</ref></type>
+        <definition>PolicyExpiration::ExpirationConfig themis::governance::PolicyExpiration::ExpirationConfig::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::PolicyExpiration::ExpirationConfig::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="241" column="33" bodyfile="src/governance/policy_review.cpp" bodystart="655" bodyend="673"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_review.h" line="224" column="5" bodyfile="include/governance/policy_review.h" bodystart="224" bodyend="242"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a96ba3e600d5aa9dc0db8ee36fa5a1a5f" prot="public" virt="non-virtual"><scope>themis::governance::PolicyExpiration::ExpirationConfig</scope><name>auto_disable_enabled</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a2f823b792367a4f8cef4fcd4bb87c1b5" prot="public" virt="non-virtual"><scope>themis::governance::PolicyExpiration::ExpirationConfig</scope><name>expiration_date</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a388d28606609d5c7d4e4b6dcb366571d" prot="public" virt="non-virtual"><scope>themis::governance::PolicyExpiration::ExpirationConfig</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a218e87ec7bb0b41a8a5b8067cf4fa0ec" prot="public" virt="non-virtual"><scope>themis::governance::PolicyExpiration::ExpirationConfig</scope><name>grace_period_days</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a6857e59136cce9ee7832b13803069ede" prot="public" virt="non-virtual"><scope>themis::governance::PolicyExpiration::ExpirationConfig</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a1ef11d7178936cb81fa2d1b614dad94f" prot="public" virt="non-virtual"><scope>themis::governance::PolicyExpiration::ExpirationConfig</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_config_1a49c5572fe1a8edb704bb73cf5142ef03" prot="public" virt="non-virtual"><scope>themis::governance::PolicyExpiration::ExpirationConfig</scope><name>warning_days</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

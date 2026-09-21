@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::BehavioralAnomalyDetector::Config</compoundname>
+    <includes refid="behavioral__anomaly__detector_8h" local="no">behavioral_anomaly_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1ac206bc1f451ec816bc7456347e28be17" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::security::BehavioralAnomalyDetector::Config::max_events_per_session</definition>
+        <argsstring></argsstring>
+        <name>max_events_per_session</name>
+        <qualifiedname>themis::security::BehavioralAnomalyDetector::Config::max_events_per_session</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="79" column="16" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1af535e3d7a988cc7b2171876ae27303ae" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::security::BehavioralAnomalyDetector::Config::burst_rate_threshold</definition>
+        <argsstring></argsstring>
+        <name>burst_rate_threshold</name>
+        <qualifiedname>themis::security::BehavioralAnomalyDetector::Config::burst_rate_threshold</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="81" column="16" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1ab0bec0d6f71f0f77ebb7dea943aeb2b0" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::security::BehavioralAnomalyDetector::Config::burst_window</definition>
+        <argsstring></argsstring>
+        <name>burst_window</name>
+        <qualifiedname>themis::security::BehavioralAnomalyDetector::Config::burst_window</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="83" column="30" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1abc5f5327c734318cca48a288cd955d17" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::BehavioralAnomalyDetector::Config::work_hours_start_utc</definition>
+        <argsstring></argsstring>
+        <name>work_hours_start_utc</name>
+        <qualifiedname>themis::security::BehavioralAnomalyDetector::Config::work_hours_start_utc</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>08:00 UTC </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="85" column="13" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1a82c463e3a3a3ffba74330a5723783bd3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::BehavioralAnomalyDetector::Config::work_hours_end_utc</definition>
+        <argsstring></argsstring>
+        <name>work_hours_end_utc</name>
+        <qualifiedname>themis::security::BehavioralAnomalyDetector::Config::work_hours_end_utc</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>20:00 UTC </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="87" column="13" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1a8897e2348dc7502b5a0aab8ab512cb62" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::BehavioralAnomalyDetector::Config::privileged_actions</definition>
+        <argsstring></argsstring>
+        <name>privileged_actions</name>
+        <qualifiedname>themis::security::BehavioralAnomalyDetector::Config::privileged_actions</qualifiedname>
+        <initializer>= {&quot;admin&quot;, &quot;delete&quot;, &quot;write&quot;, &quot;rotate&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="89" column="21" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/behavioral_anomaly_detector.h" line="78" column="5" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="78" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1af535e3d7a988cc7b2171876ae27303ae" prot="public" virt="non-virtual"><scope>themis::security::BehavioralAnomalyDetector::Config</scope><name>burst_rate_threshold</name></member>
+      <member refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1ab0bec0d6f71f0f77ebb7dea943aeb2b0" prot="public" virt="non-virtual"><scope>themis::security::BehavioralAnomalyDetector::Config</scope><name>burst_window</name></member>
+      <member refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1ac206bc1f451ec816bc7456347e28be17" prot="public" virt="non-virtual"><scope>themis::security::BehavioralAnomalyDetector::Config</scope><name>max_events_per_session</name></member>
+      <member refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1a8897e2348dc7502b5a0aab8ab512cb62" prot="public" virt="non-virtual"><scope>themis::security::BehavioralAnomalyDetector::Config</scope><name>privileged_actions</name></member>
+      <member refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1a82c463e3a3a3ffba74330a5723783bd3" prot="public" virt="non-virtual"><scope>themis::security::BehavioralAnomalyDetector::Config</scope><name>work_hours_end_utc</name></member>
+      <member refid="structthemis_1_1security_1_1_behavioral_anomaly_detector_1_1_config_1abc5f5327c734318cca48a288cd955d17" prot="public" virt="non-virtual"><scope>themis::security::BehavioralAnomalyDetector::Config</scope><name>work_hours_start_utc</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

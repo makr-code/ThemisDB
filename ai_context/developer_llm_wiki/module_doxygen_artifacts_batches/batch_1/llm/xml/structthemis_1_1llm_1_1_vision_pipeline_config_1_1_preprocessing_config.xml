@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionPipelineConfig::PreprocessingConfig</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1ab1dbdf0714f51e5bb2d5950a201c93ec" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionPipelineConfig::PreprocessingConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::PreprocessingConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="237" column="14" bodyfile="include/llm/vision_config.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1a0c9b0dad7e13f2828c545542bf2e4b1b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionPipelineConfig::PreprocessingConfig::resize_strategy</definition>
+        <argsstring></argsstring>
+        <name>resize_strategy</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::PreprocessingConfig::resize_strategy</qualifiedname>
+        <briefdescription>
+<para>Strategy: fixed, adaptive, none. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="238" column="21" bodyfile="include/llm/vision_config.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1adb78e641736cde1d43181bfe77ed08f6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionPipelineConfig::PreprocessingConfig::normalize</definition>
+        <argsstring></argsstring>
+        <name>normalize</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::PreprocessingConfig::normalize</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="239" column="14" bodyfile="include/llm/vision_config.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1aa02910387da03a4e690a9393ac29b842" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionPipelineConfig::PreprocessingConfig::augmentation</definition>
+        <argsstring></argsstring>
+        <name>augmentation</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::PreprocessingConfig::augmentation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="240" column="14" bodyfile="include/llm/vision_config.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1a7d42d306d6b218595dbad4a148b4da49" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionPipelineConfig::PreprocessingConfig::cache_preprocessed</definition>
+        <argsstring></argsstring>
+        <name>cache_preprocessed</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::PreprocessingConfig::cache_preprocessed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="241" column="14" bodyfile="include/llm/vision_config.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1a51de3a73a495103af65a7b771ee7949c" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::VisionPipelineConfig::PreprocessingConfig::cache_ttl</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl</name>
+        <qualifiedname>themis::llm::VisionPipelineConfig::PreprocessingConfig::cache_ttl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="242" column="30" bodyfile="include/llm/vision_config.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_config.h" line="236" column="5" bodyfile="include/llm/vision_config.h" bodystart="236" bodyend="243"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1aa02910387da03a4e690a9393ac29b842" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::PreprocessingConfig</scope><name>augmentation</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1a7d42d306d6b218595dbad4a148b4da49" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::PreprocessingConfig</scope><name>cache_preprocessed</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1a51de3a73a495103af65a7b771ee7949c" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::PreprocessingConfig</scope><name>cache_ttl</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1ab1dbdf0714f51e5bb2d5950a201c93ec" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::PreprocessingConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1adb78e641736cde1d43181bfe77ed08f6" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::PreprocessingConfig</scope><name>normalize</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_pipeline_config_1_1_preprocessing_config_1a0c9b0dad7e13f2828c545542bf2e4b1b" prot="public" virt="non-virtual"><scope>themis::llm::VisionPipelineConfig::PreprocessingConfig</scope><name>resize_strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

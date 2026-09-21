@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::ContinuousLearningClient::Config</compoundname>
+    <includes refid="continuous__learning__client_8h" local="no">continuous_learning_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1af46525f4d9de1d9f917a945ecfdce230" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ContinuousLearningClient::Config::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::Config::endpoint</qualifiedname>
+        <briefdescription>
+<para>CL service endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="98" column="21" bodyfile="include/rag/continuous_learning_client.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1aa340275595bcfacaf1ead5240a78aa39" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::ContinuousLearningClient::Config::enable_logging</definition>
+        <argsstring></argsstring>
+        <name>enable_logging</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::Config::enable_logging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable metric logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="99" column="14" bodyfile="include/rag/continuous_learning_client.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1a60004a66c3370f64f83f3e2a3423d53b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::ContinuousLearningClient::Config::enable_triggers</definition>
+        <argsstring></argsstring>
+        <name>enable_triggers</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::Config::enable_triggers</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable optimization triggers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="100" column="14" bodyfile="include/rag/continuous_learning_client.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1a2d250723b571b24053f87ec0c92ca915" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::ContinuousLearningClient::Config::faithfulness_threshold</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_threshold</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::Config::faithfulness_threshold</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="103" column="16" bodyfile="include/rag/continuous_learning_client.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1ab9c9cadc08537e47a8e3edb43fd655f4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::ContinuousLearningClient::Config::relevance_threshold</definition>
+        <argsstring></argsstring>
+        <name>relevance_threshold</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::Config::relevance_threshold</qualifiedname>
+        <initializer>= 0.70</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="104" column="16" bodyfile="include/rag/continuous_learning_client.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1afc6631454b306196435b5d48afd1fb00" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::ContinuousLearningClient::Config::overall_quality_threshold</definition>
+        <argsstring></argsstring>
+        <name>overall_quality_threshold</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::Config::overall_quality_threshold</qualifiedname>
+        <initializer>= 0.70</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="105" column="16" bodyfile="include/rag/continuous_learning_client.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1adaffe40508b7e50aa46a33b5931c6785" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::ContinuousLearningClient::Config::metric_window_size</definition>
+        <argsstring></argsstring>
+        <name>metric_window_size</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::Config::metric_window_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Samples to consider for triggers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="108" column="16" bodyfile="include/rag/continuous_learning_client.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1ad28065d7e45f32659a89aa0abf43cccb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::ContinuousLearningClient::Config::enable_batching</definition>
+        <argsstring></argsstring>
+        <name>enable_batching</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::Config::enable_batching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Batch metrics before sending. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="111" column="14" bodyfile="include/rag/continuous_learning_client.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1a8b455331ebb4951dbee86f8f12864c1d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::ContinuousLearningClient::Config::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::Config::batch_size</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Metrics per batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="112" column="16" bodyfile="include/rag/continuous_learning_client.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1a92f98f2caf3dee10cbae189b965feffb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::ContinuousLearningClient::Config::batch_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>batch_timeout_ms</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::Config::batch_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Max time to wait for batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="113" column="13" bodyfile="include/rag/continuous_learning_client.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for continuous learning client. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/continuous_learning_client.h" line="97" column="5" bodyfile="include/rag/continuous_learning_client.h" bodystart="97" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1a8b455331ebb4951dbee86f8f12864c1d" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient::Config</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1a92f98f2caf3dee10cbae189b965feffb" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient::Config</scope><name>batch_timeout_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1ad28065d7e45f32659a89aa0abf43cccb" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient::Config</scope><name>enable_batching</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1aa340275595bcfacaf1ead5240a78aa39" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient::Config</scope><name>enable_logging</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1a60004a66c3370f64f83f3e2a3423d53b" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient::Config</scope><name>enable_triggers</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1af46525f4d9de1d9f917a945ecfdce230" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient::Config</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1a2d250723b571b24053f87ec0c92ca915" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient::Config</scope><name>faithfulness_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1adaffe40508b7e50aa46a33b5931c6785" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient::Config</scope><name>metric_window_size</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1afc6631454b306196435b5d48afd1fb00" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient::Config</scope><name>overall_quality_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config_1ab9c9cadc08537e47a8e3edb43fd655f4" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient::Config</scope><name>relevance_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

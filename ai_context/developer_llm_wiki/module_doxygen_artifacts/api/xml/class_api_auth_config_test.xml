@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_api_auth_config_test" kind="class" language="C++" prot="public">
+    <compoundname>ApiAuthConfigTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_api_auth_config_test_1a8cf917f108a1fb1da9f2a1946fa87c41" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ApiAuthConfigTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ApiAuthConfigTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_auth_config.cpp" line="19" column="10" bodyfile="tests/api/test_api_auth_config.cpp" bodystart="19" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_api_auth_config_test_1ae5afc372af9ced8ba7d7ebae91f45106" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ApiAuthConfigTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ApiAuthConfigTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_auth_config.cpp" line="23" column="10" bodyfile="tests/api/test_api_auth_config.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ApiAuthConfigTest</label>
+        <link refid="class_api_auth_config_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ApiAuthConfigTest</label>
+        <link refid="class_api_auth_config_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/api/test_api_auth_config.cpp" line="17" column="1" bodyfile="tests/api/test_api_auth_config.cpp" bodystart="17" bodyend="26"/>
+    <listofallmembers>
+      <member refid="class_api_auth_config_test_1a8cf917f108a1fb1da9f2a1946fa87c41" prot="protected" virt="non-virtual"><scope>ApiAuthConfigTest</scope><name>SetUp</name></member>
+      <member refid="class_api_auth_config_test_1ae5afc372af9ced8ba7d7ebae91f45106" prot="protected" virt="non-virtual"><scope>ApiAuthConfigTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

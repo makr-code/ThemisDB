@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::HTTPClientPool::Stats</compoundname>
+    <includes refid="http__client__pool_8h" local="no">http_client_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a70956b4c1c649a4068d24a877ddf1cf9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::HTTPClientPool::Stats::total_connections</definition>
+        <argsstring></argsstring>
+        <name>total_connections</name>
+        <qualifiedname>themis::utils::HTTPClientPool::Stats::total_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="215" column="16" bodyfile="include/utils/http_client_pool.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1ac11caec04d4d35a1025aad0e0a9bb598" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::HTTPClientPool::Stats::available_connections</definition>
+        <argsstring></argsstring>
+        <name>available_connections</name>
+        <qualifiedname>themis::utils::HTTPClientPool::Stats::available_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="216" column="16" bodyfile="include/utils/http_client_pool.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a0e0af9f91fcae16d25e42deffa486aa6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::HTTPClientPool::Stats::in_use_connections</definition>
+        <argsstring></argsstring>
+        <name>in_use_connections</name>
+        <qualifiedname>themis::utils::HTTPClientPool::Stats::in_use_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="217" column="16" bodyfile="include/utils/http_client_pool.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a77c4ce026bc60befb0d7ec90d722aaa0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::HTTPClientPool::Stats::stale_connections_removed</definition>
+        <argsstring></argsstring>
+        <name>stale_connections_removed</name>
+        <qualifiedname>themis::utils::HTTPClientPool::Stats::stale_connections_removed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="218" column="16" bodyfile="include/utils/http_client_pool.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a10bda7eb3f8de9bcb6731d2521f8eb27" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::HTTPClientPool::Stats::acquire_timeouts</definition>
+        <argsstring></argsstring>
+        <name>acquire_timeouts</name>
+        <qualifiedname>themis::utils::HTTPClientPool::Stats::acquire_timeouts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="219" column="16" bodyfile="include/utils/http_client_pool.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a18b35da5825ae61cb499d633c06713cd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::HTTPClientPool::Stats::requests_served</definition>
+        <argsstring></argsstring>
+        <name>requests_served</name>
+        <qualifiedname>themis::utils::HTTPClientPool::Stats::requests_served</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="220" column="16" bodyfile="include/utils/http_client_pool.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1ae6baae7c16559ef63fa51827af5e99c5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::HTTPClientPool::Stats::connections_created</definition>
+        <argsstring></argsstring>
+        <name>connections_created</name>
+        <qualifiedname>themis::utils::HTTPClientPool::Stats::connections_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="221" column="16" bodyfile="include/utils/http_client_pool.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1adae12bf378e75ad6ffb6b4e4994d114c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::HTTPClientPool::Stats::connections_reused</definition>
+        <argsstring></argsstring>
+        <name>connections_reused</name>
+        <qualifiedname>themis::utils::HTTPClientPool::Stats::connections_reused</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="222" column="16" bodyfile="include/utils/http_client_pool.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a937b5d337698ed66a48beed6922f98d7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::utils::HTTPClientPool::Stats::getReuseRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getReuseRate</name>
+        <qualifiedname>themis::utils::HTTPClientPool::Stats::getReuseRate</qualifiedname>
+        <briefdescription>
+<para>Calculate connection reuse rate (0.0 - 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="227" column="16" bodyfile="include/utils/http_client_pool.h" bodystart="227" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get pool statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/http_client_pool.h" line="214" column="5" bodyfile="include/utils/http_client_pool.h" bodystart="214" bodyend="234"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a10bda7eb3f8de9bcb6731d2521f8eb27" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::Stats</scope><name>acquire_timeouts</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1ac11caec04d4d35a1025aad0e0a9bb598" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::Stats</scope><name>available_connections</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1ae6baae7c16559ef63fa51827af5e99c5" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::Stats</scope><name>connections_created</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1adae12bf378e75ad6ffb6b4e4994d114c" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::Stats</scope><name>connections_reused</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a937b5d337698ed66a48beed6922f98d7" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::Stats</scope><name>getReuseRate</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a0e0af9f91fcae16d25e42deffa486aa6" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::Stats</scope><name>in_use_connections</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a18b35da5825ae61cb499d633c06713cd" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::Stats</scope><name>requests_served</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a77c4ce026bc60befb0d7ec90d722aaa0" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::Stats</scope><name>stale_connections_removed</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats_1a70956b4c1c649a4068d24a877ddf1cf9" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::Stats</scope><name>total_connections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

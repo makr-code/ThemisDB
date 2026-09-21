@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::MTLSClient::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_impl_1ab62ef483eb58657f402b8dad6c51c04a" prot="public" static="no" mutable="no">
+        <type>net::io_context</type>
+        <definition>net::io_context themis::sharding::MTLSClient::Impl::ioc</definition>
+        <argsstring></argsstring>
+        <name>ioc</name>
+        <qualifiedname>themis::sharding::MTLSClient::Impl::ioc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/mtls_client.cpp" line="32" column="21" bodyfile="src/sharding/mtls_client.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_impl_1ab3622405b7dc0428239b8ef3cad33e02" prot="public" static="no" mutable="no">
+        <type>ssl::context</type>
+        <definition>ssl::context themis::sharding::MTLSClient::Impl::ssl_ctx</definition>
+        <argsstring></argsstring>
+        <name>ssl_ctx</name>
+        <qualifiedname>themis::sharding::MTLSClient::Impl::ssl_ctx</qualifiedname>
+        <initializer>{ssl::context::tlsv13_client}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/mtls_client.cpp" line="33" column="18" bodyfile="src/sharding/mtls_client.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_impl_1a05ebf905324ec00b3daeed1279f26ce3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MTLSClient::Impl::Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::sharding::MTLSClient::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/mtls_client.cpp" line="35" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/sharding/mtls_client.cpp" line="31" column="1" bodyfile="src/sharding/mtls_client.cpp" bodystart="31" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_impl_1a05ebf905324ec00b3daeed1279f26ce3" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_impl_1ab62ef483eb58657f402b8dad6c51c04a" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Impl</scope><name>ioc</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_impl_1ab3622405b7dc0428239b8ef3cad33e02" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Impl</scope><name>ssl_ctx</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

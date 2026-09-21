@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="emotion__analyzer_8h" kind="file" language="C++">
+    <compoundname>emotion_analyzer.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="emotion__analyzer_8cpp" local="yes">src/voice/emotion_analyzer.cpp</includedby>
+    <includedby refid="test__phase3__error__handling_8cpp" local="yes">tests/voice/test_phase3_error_handling.cpp</includedby>
+    <includedby refid="test__voice__production_8cpp" local="yes">tests/voice/test_voice_production.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/emotion_analyzer.h</label>
+        <link refid="emotion__analyzer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/voice/emotion_analyzer.h</label>
+        <link refid="emotion__analyzer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/voice/emotion_analyzer.cpp</label>
+        <link refid="emotion__analyzer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/voice/test_phase3_error_handling.cpp</label>
+        <link refid="test__phase3__error__handling_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/voice/test_voice_production.cpp</label>
+        <link refid="test__voice__production_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_quality" prot="public">themis::voice::VoiceQuality</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_emotion_analysis" prot="public">themis::voice::EmotionAnalysis</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_timed_emotion" prot="public">themis::voice::TimedEmotion</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_emotion_statistics" prot="public">themis::voice::EmotionStatistics</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_emotion_timeline" prot="public">themis::voice::EmotionTimeline</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_audio_segment" prot="public">themis::voice::AudioSegment</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_emotion_config" prot="public">themis::voice::EmotionConfig</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_emotion_analyzer" prot="public">themis::voice::EmotionAnalyzer</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_emotion_analyzer_1_1_acoustic_features" prot="private">themis::voice::EmotionAnalyzer::AcousticFeatures</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enumerations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1" kindref="member">Emotion</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a31ba17aa58cdb681423f07ca21a6efc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">NEUTRAL</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a5895a8d98247c42e883a30666911c186" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a5895a8d98247c42e883a30666911c186" kindref="member">HAPPY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1ab9f50ca01f59b01d4aaa9cc3c0bad9f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1ab9f50ca01f59b01d4aaa9cc3c0bad9f1" kindref="member">SAD</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a01ea88d643afda5305eabd30ca4c33fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a01ea88d643afda5305eabd30ca4c33fc" kindref="member">ANGRY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a613c308215e0730e073cd1557689683f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a613c308215e0730e073cd1557689683f" kindref="member">SURPRISED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1adfcba0281988b0ff9595318d7473eca2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1adfcba0281988b0ff9595318d7473eca2" kindref="member">FEARFUL</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1ad4dcd259667afaac047810425533f5b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1ad4dcd259667afaac047810425533f5b2" kindref="member">DISGUSTED</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418" kindref="member">Sentiment</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418aab6c31432785221bae58327ef5f6ea58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418aab6c31432785221bae58327ef5f6ea58" kindref="member">POSITIVE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418a31ba17aa58cdb681423f07ca21a6efc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">NEUTRAL</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418a50546bf973283065b6ccf09faf7a580a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418a50546bf973283065b6ccf09faf7a580a" kindref="member">NEGATIVE</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>string<sp/>conversion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1voice_1a88f2ed789f53a86163e7d2f4001ccfc0" kindref="member">to_string</ref>(<ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1" kindref="member">Emotion</ref><sp/>e);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1voice_1a88f2ed789f53a86163e7d2f4001ccfc0" kindref="member">to_string</ref>(<ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418" kindref="member">Sentiment</ref><sp/>s);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1voice_1_1_voice_quality" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_quality" kindref="compound">VoiceQuality</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1voice_1_1_voice_quality_1a0dae97c83118f0e36c8c7534e03cee1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_quality_1a0dae97c83118f0e36c8c7534e03cee1d" kindref="member">pitch_hz</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1voice_1_1_voice_quality_1a1221a16917f7f97f89e831665efc11e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_quality_1a1221a16917f7f97f89e831665efc11e8" kindref="member">pitch_variation</ref><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1voice_1_1_voice_quality_1a3a11a3deadfa579562e44f230c9b61ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_quality_1a3a11a3deadfa579562e44f230c9b61ba" kindref="member">tempo</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1voice_1_1_voice_quality_1ad38cc7cc59c79f4f5f5bfbde0961bb05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_quality_1ad38cc7cc59c79f4f5f5bfbde0961bb05" kindref="member">volume_db</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>-96.f;<sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1voice_1_1_voice_quality_1a81fa6e906e5e0e941823b76f421f4b97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_quality_1a81fa6e906e5e0e941823b76f421f4b97" kindref="member">energy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1voice_1_1_voice_quality_1a98aad29d7d7e9f95b699bac4cbf61b6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_quality_1a98aad29d7d7e9f95b699bac4cbf61b6f" kindref="member">clarity</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1voice_1_1_emotion_analysis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_emotion_analysis" kindref="compound">EmotionAnalysis</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1voice_1_1_emotion_analysis_1a0d38d6bc43ba97d3e8c958822451741c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;Emotion,<sp/>float&gt;<sp/><ref refid="structthemis_1_1voice_1_1_emotion_analysis_1a0d38d6bc43ba97d3e8c958822451741c" kindref="member">emotion_probabilities</ref>;<sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1voice_1_1_emotion_analysis_1adee054252e40dd3150dd158308ff4ffc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1" kindref="member">Emotion</ref><sp/><ref refid="structthemis_1_1voice_1_1_emotion_analysis_1adee054252e40dd3150dd158308ff4ffc" kindref="member">primary_emotion</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">Emotion::NEUTRAL</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1voice_1_1_emotion_analysis_1a22e2b38075fb617e7d1554aa0601cb65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_analysis_1a22e2b38075fb617e7d1554aa0601cb65" kindref="member">emotion_confidence</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1voice_1_1_emotion_analysis_1a2967bd08264bce794e6ab0dc515ea772" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418" kindref="member">Sentiment</ref><sp/><ref refid="structthemis_1_1voice_1_1_emotion_analysis_1a2967bd08264bce794e6ab0dc515ea772" kindref="member">sentiment</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">Sentiment::NEUTRAL</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1voice_1_1_emotion_analysis_1aa7db8995fd6ff43b1270bbcb9ca251bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_analysis_1aa7db8995fd6ff43b1270bbcb9ca251bd" kindref="member">sentiment_score</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1voice_1_1_emotion_analysis_1a5d622aba59a1a32340a48988426243a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_emotion_analysis_1a5d622aba59a1a32340a48988426243a5" kindref="member">stress_level</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1voice_1_1_emotion_analysis_1aca95bc37cd3b679fd23d1a8a37cd111e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_emotion_analysis_1aca95bc37cd3b679fd23d1a8a37cd111e" kindref="member">engagement_score</ref><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1voice_1_1_emotion_analysis_1a1b5b4883a856a49ff18fef313bfba294" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_quality" kindref="compound">VoiceQuality</ref><sp/><ref refid="structthemis_1_1voice_1_1_emotion_analysis_1a1b5b4883a856a49ff18fef313bfba294" kindref="member">quality</ref>;<sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1voice_1_1_timed_emotion" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_timed_emotion" kindref="compound">TimedEmotion</ref><sp/>{</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1voice_1_1_timed_emotion_1afecaf78e90290d5510849c0e4c4c81fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_timed_emotion_1afecaf78e90290d5510849c0e4c4c81fc" kindref="member">timestamp_ms</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1voice_1_1_timed_emotion_1a3eb879fe124351b838e7cdaadbbf6210" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1" kindref="member">Emotion</ref><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_timed_emotion_1a3eb879fe124351b838e7cdaadbbf6210" kindref="member">emotion</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">Emotion::NEUTRAL</ref>;<sp/></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1voice_1_1_timed_emotion_1ac1b97bcdc988fc5dc63499d07448580f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_timed_emotion_1ac1b97bcdc988fc5dc63499d07448580f" kindref="member">confidence</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1voice_1_1_timed_emotion_1ab6e2b646a0c91d258b3ce3a3214f0c6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418" kindref="member">Sentiment</ref><sp/><ref refid="structthemis_1_1voice_1_1_timed_emotion_1ab6e2b646a0c91d258b3ce3a3214f0c6b" kindref="member">sentiment</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">Sentiment::NEUTRAL</ref>;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1voice_1_1_timed_emotion_1a7b4cd8e14419a86f661b1f91767eb407" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_timed_emotion_1a7b4cd8e14419a86f661b1f91767eb407" kindref="member">sentiment_score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1voice_1_1_emotion_statistics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_emotion_statistics" kindref="compound">EmotionStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1voice_1_1_emotion_statistics_1a2695874449017535e10bbaf785efa01a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1" kindref="member">Emotion</ref><sp/><ref refid="structthemis_1_1voice_1_1_emotion_statistics_1a2695874449017535e10bbaf785efa01a" kindref="member">dominant_emotion</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">Emotion::NEUTRAL</ref>;<sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1voice_1_1_emotion_statistics_1a61ca7871680622005da2f453e02c4e40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_statistics_1a61ca7871680622005da2f453e02c4e40" kindref="member">emotion_stability</ref><sp/><sp/><sp/>=<sp/>1.0f;<sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1voice_1_1_emotion_statistics_1af39013cbefc393c150187cdcdcbf9fec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_statistics_1af39013cbefc393c150187cdcdcbf9fec" kindref="member">emotion_switches</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1voice_1_1_emotion_statistics_1a0457c2df726f1126230c0e0807d19cb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_emotion_statistics_1a0457c2df726f1126230c0e0807d19cb5" kindref="member">average_sentiment</ref><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1voice_1_1_emotion_statistics_1a438d6a12e8e6b034744b1ebb45c686c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_emotion_statistics_1a438d6a12e8e6b034744b1ebb45c686c0" kindref="member">sentiment_trend</ref><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1voice_1_1_emotion_statistics_1a5860410431e4d1b72b5f4ed307a8c792" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_emotion_statistics_1a5860410431e4d1b72b5f4ed307a8c792" kindref="member">average_stress</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1voice_1_1_emotion_statistics_1a8d11c018e6947548f324358593f734cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_emotion_statistics_1a8d11c018e6947548f324358593f734cb" kindref="member">average_engagement</ref><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1voice_1_1_emotion_timeline" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_emotion_timeline" kindref="compound">EmotionTimeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1voice_1_1_emotion_timeline_1ab1e261d2f148850093e09f50798aea06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TimedEmotion&gt;<sp/><ref refid="structthemis_1_1voice_1_1_emotion_timeline_1ab1e261d2f148850093e09f50798aea06" kindref="member">timeline</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1voice_1_1_emotion_timeline_1aa91e64dd5a4ddd18a6cc349f80da244c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_statistics" kindref="compound">EmotionStatistics</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_timeline_1aa91e64dd5a4ddd18a6cc349f80da244c" kindref="member">statistics</ref>;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1voice_1_1_emotion_timeline_1a8a5fc12a16df0d946c84f5c3ac609a2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_emotion_timeline_1a8a5fc12a16df0d946c84f5c3ac609a2f" kindref="member">total_duration_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1voice_1_1_audio_segment" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_audio_segment" kindref="compound">AudioSegment</ref><sp/>{</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1voice_1_1_audio_segment_1aca15eccc2966a38433f5428c9be8db64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1voice_1_1_audio_segment_1aca15eccc2966a38433f5428c9be8db64" kindref="member">audio_data</ref>;<sp/></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1voice_1_1_audio_segment_1a9df2c377100e05bbf851b650b7efba50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_audio_segment_1a9df2c377100e05bbf851b650b7efba50" kindref="member">start_ms</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1voice_1_1_audio_segment_1a510ee7dc17182a2fca8c369a6eaf2886" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_audio_segment_1a510ee7dc17182a2fca8c369a6eaf2886" kindref="member">end_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1voice_1_1_audio_segment_1a1cc973e98abb36a96f5c5c1e1f1ac2d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_audio_segment_1a1cc973e98abb36a96f5c5c1e1f1ac2d3" kindref="member">speaker_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1voice_1_1_emotion_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_emotion_config" kindref="compound">EmotionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1voice_1_1_emotion_config_1ab7cf69ee01ed08a948c70890d6b934e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_config_1ab7cf69ee01ed08a948c70890d6b934e8" kindref="member">analysis_window_ms</ref><sp/><sp/><sp/>=<sp/>1000;<sp/></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1voice_1_1_emotion_config_1a659938d35460b819f269c79b0574cc8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_emotion_config_1a659938d35460b819f269c79b0574cc8f" kindref="member">confidence_threshold</ref><sp/>=<sp/>0.6f;<sp/></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1voice_1_1_emotion_config_1ab34c31ac0d41215c161ec8d6ff2c2daa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_config_1ab34c31ac0d41215c161ec8d6ff2c2daa" kindref="member">track_sentiment</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1voice_1_1_emotion_config_1ac87dde87bcdbed32fca3ae739ff3cf49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_config_1ac87dde87bcdbed32fca3ae739ff3cf49" kindref="member">track_stress</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1voice_1_1_emotion_config_1a9a319336bf49f8cb1fa9d747994232be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_config_1a9a319336bf49f8cb1fa9d747994232be" kindref="member">track_engagement</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Edge<sp/>case<sp/>handling<sp/>with<sp/>safe<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1voice_1_1_emotion_config_1a13272aee4d8d46b5a13a0bddabf68215" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_config_1a13272aee4d8d46b5a13a0bddabf68215" kindref="member">skip_on_unavailable</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1voice_1_1_emotion_config_1a6c5644db7242e4d38aacf458bd83589f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_emotion_config_1a6c5644db7242e4d38aacf458bd83589f" kindref="member">fallback_confidence</ref><sp/><sp/>=<sp/>0.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1voice_1_1_emotion_config_1ac84c5c33644c45d64c90e34be5c1384c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_config_1ac84c5c33644c45d64c90e34be5c1384c" kindref="member">use_timeout_protection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1voice_1_1_emotion_config_1a01ba278d891f3dd115cbc3e862a5f195" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_emotion_config_1a01ba278d891f3dd115cbc3e862a5f195" kindref="member">timeout_ms</ref><sp/>=<sp/>5000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EmotionAnalyzer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1voice_1_1_emotion_analyzer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a5cd41cd917555594110781b94a6da882" kindref="member">EmotionAnalyzer</ref><sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a5cd41cd917555594110781b94a6da882" kindref="member">EmotionAnalyzer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_emotion_config" kindref="compound">EmotionConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1voice_1_1_emotion_analyzer_1abf00a9a48a1149accb262db79046fe8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1abf00a9a48a1149accb262db79046fe8a" kindref="member">~EmotionAnalyzer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1voice_1_1_emotion_analyzer_1a546045fa4ef2a260e80fb1cf9e37dda3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a546045fa4ef2a260e80fb1cf9e37dda3" kindref="member">EmotionAnalyzer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a5cd41cd917555594110781b94a6da882" kindref="member">EmotionAnalyzer</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1voice_1_1_emotion_analyzer_1aeb3ec342555c12b2f811bdf09aa3a4a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a5cd41cd917555594110781b94a6da882" kindref="member">EmotionAnalyzer</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1aeb3ec342555c12b2f811bdf09aa3a4a1" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a5cd41cd917555594110781b94a6da882" kindref="member">EmotionAnalyzer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1voice_1_1_emotion_analyzer_1a642ba768b3141e63126aa6e2399e5459" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a642ba768b3141e63126aa6e2399e5459" kindref="member">EmotionAnalyzer</ref>(<ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a5cd41cd917555594110781b94a6da882" kindref="member">EmotionAnalyzer</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1voice_1_1_emotion_analyzer_1a39c06fa53ddbb800463e9268710d5324" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a5cd41cd917555594110781b94a6da882" kindref="member">EmotionAnalyzer</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a5cd41cd917555594110781b94a6da882" kindref="member">EmotionAnalyzer</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>analysis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1voice_1_1_emotion_analysis" kindref="compound">EmotionAnalysis</ref>&gt;<sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a9bd0bb5a92aff2afa77c3f79730e03d9" kindref="member">analyze</ref>(</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio_data,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1voice_1_1_emotion_config" kindref="compound">EmotionConfig</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_emotion_timeline" kindref="compound">EmotionTimeline</ref><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1ad7bb8e6b0ef94cb18b5f6149a5494959" kindref="member">track</ref>(</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;AudioSegment&gt;&amp;<sp/>segments,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_emotion_config" kindref="compound">EmotionConfig</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1af9fd0095e14d52e488cecfc6bbf2eb89" kindref="member">set_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EmotionConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EmotionConfig<sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a878aeabe157a1ce75b980fb9826f68de" kindref="member">get_config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Edge<sp/>Case<sp/>Handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a953e19f1fe6a14ac2445b5260c690670" kindref="member">isAvailable</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;EmotionAnalysis&gt;<sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a257328a83703f3cebb9dae9c1285ac97" kindref="member">analyzeWithTimeout</ref>(</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio_data,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>EmotionConfig&amp;<sp/>config<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer_1a28a47905a2fc53bf8e8e97533e3629d2" kindref="member">get_statistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EmotionConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>uint64_t<sp/>total_analyses_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>uint64_t<sp/>timeout_fallbacks_<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>timeout<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_available_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>availability<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PCM<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>pcmToFloat(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>raw)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Acoustic<sp/>feature<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">AcousticFeatures<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>global_rms<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>crest_factor<sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>zcr<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>spectral_centroid<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>spectral_flatness<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>hf_ratio<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>pitch_hz<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>pitch_variation<sp/><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>band_rms;<sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>AcousticFeatures<sp/>extractFeatures(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>samples)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Emotion<sp/>scoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;Emotion,<sp/>float&gt;<sp/>scoreEmotions(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AcousticFeatures&amp;<sp/>f)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::map&lt;Emotion,<sp/>float&gt;<sp/>softmax(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;Emotion,<sp/>float&gt;&amp;<sp/>raw);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Derived<sp/>signals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeSentimentScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;Emotion,<sp/>float&gt;&amp;<sp/>probs)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeStressLevel(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AcousticFeatures&amp;<sp/>f)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeEngagementScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AcousticFeatures&amp;<sp/>f)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceQuality<sp/>buildVoiceQuality(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AcousticFeatures&amp;<sp/>f)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timeline<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>EmotionStatistics<sp/>computeStatistics(</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TimedEmotion&gt;&amp;<sp/>entries,</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stress_levels,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engagement_scores);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>voice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/emotion_analyzer.h"/>
+  </compounddef>
+</doxygen>

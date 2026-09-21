@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_value" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheValue</compoundname>
+    <includes refid="cache__provider_8h" local="no">cache_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_value_1a5679c0c240ca0962a56d6a03fdb09873" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheValue::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::cache::CacheValue::payload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_provider.h" line="21" column="17" bodyfile="include/cache/cache_provider.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_value_1acd1ca24397dd53a152156b2eaf7ef187" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheValue::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::cache::CacheValue::version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_provider.h" line="22" column="14" bodyfile="include/cache/cache_provider.h" bodystart="22" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_value_1a1c2ecbf2b4f14231b88a8326a09d4d56" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheValue::ts_ms</definition>
+        <argsstring></argsstring>
+        <name>ts_ms</name>
+        <qualifiedname>themis::cache::CacheValue::ts_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_provider.h" line="23" column="14" bodyfile="include/cache/cache_provider.h" bodystart="23" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_provider.h" line="20" column="1" bodyfile="include/cache/cache_provider.h" bodystart="20" bodyend="24"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_value_1a5679c0c240ca0962a56d6a03fdb09873" prot="public" virt="non-virtual"><scope>themis::cache::CacheValue</scope><name>payload</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_value_1a1c2ecbf2b4f14231b88a8326a09d4d56" prot="public" virt="non-virtual"><scope>themis::cache::CacheValue</scope><name>ts_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_value_1acd1ca24397dd53a152156b2eaf7ef187" prot="public" virt="non-virtual"><scope>themis::cache::CacheValue</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

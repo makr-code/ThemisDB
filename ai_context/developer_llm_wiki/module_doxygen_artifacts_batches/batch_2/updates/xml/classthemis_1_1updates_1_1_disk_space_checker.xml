@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_disk_space_checker" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::DiskSpaceChecker</compoundname>
+    <basecompoundref refid="classthemis_1_1updates_1_1_i_health_check" prot="public" virt="non-virtual">themis::updates::IHealthCheck</basecompoundref>
+    <includes refid="preflight__health__check_8h" local="no">preflight_health_check.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_disk_space_checker_1a33dd40b5228c69404a259b6ba0bf793f" prot="public" static="no">
+        <type>std::function&lt; uint64_t(const std::string &amp;path)&gt;</type>
+        <definition>using themis::updates::DiskSpaceChecker::SpaceProvider = std::function&lt;uint64_t(const std::string&amp; path)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SpaceProvider</name>
+        <qualifiedname>themis::updates::DiskSpaceChecker::SpaceProvider</qualifiedname>
+        <briefdescription>
+<para>Callable that returns the number of free bytes available at <computeroutput>path</computeroutput>, or 0 on error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="114" column="5" bodyfile="include/updates/preflight_health_check.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_disk_space_checker_1ae3de4cc418163c21a93fef78122b65a1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::DiskSpaceChecker::path_</definition>
+        <argsstring></argsstring>
+        <name>path_</name>
+        <qualifiedname>themis::updates::DiskSpaceChecker::path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="135" column="19" bodyfile="include/updates/preflight_health_check.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_disk_space_checker_1a8cb5dac916903ebdb3d08455eadeb57a" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::DiskSpaceChecker::required_bytes_</definition>
+        <argsstring></argsstring>
+        <name>required_bytes_</name>
+        <qualifiedname>themis::updates::DiskSpaceChecker::required_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="136" column="19" bodyfile="include/updates/preflight_health_check.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_disk_space_checker_1aaeb54f5184ecb105d1fa01b8993fe608" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_disk_space_checker_1a33dd40b5228c69404a259b6ba0bf793f" kindref="member">SpaceProvider</ref></type>
+        <definition>SpaceProvider themis::updates::DiskSpaceChecker::provider_</definition>
+        <argsstring></argsstring>
+        <name>provider_</name>
+        <qualifiedname>themis::updates::DiskSpaceChecker::provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="137" column="19" bodyfile="include/updates/preflight_health_check.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_disk_space_checker_1a3e1a809db6e6bea74dab2cd42dfea9e8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::DiskSpaceChecker::DiskSpaceChecker</definition>
+        <argsstring>(std::string path, uint64_t required_bytes, SpaceProvider provider=nullptr)</argsstring>
+        <name>DiskSpaceChecker</name>
+        <qualifiedname>themis::updates::DiskSpaceChecker::DiskSpaceChecker</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>required_bytes</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_disk_space_checker_1a33dd40b5228c69404a259b6ba0bf793f" kindref="member">SpaceProvider</ref></type>
+          <declname>provider</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a disk-space checker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filesystem path to check (usually the download or install directory). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum free bytes required to proceed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional custom space provider (defaults to std::filesystem::space). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="125" column="14" bodyfile="src/updates/preflight_health_check.cpp" bodystart="115" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_disk_space_checker_1a3509f4f8c4d39b4f914e8caac4872b84" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::DiskSpaceChecker::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::updates::DiskSpaceChecker::name</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_i_health_check_1a3cdfa5ffe02af2a8ebe9c4014fde0d85">name</reimplements>
+        <briefdescription>
+<para>Human-readable name used in <ref refid="structthemis_1_1updates_1_1_health_check_result_1a92222b89d163f57cccfa777c0b0c1e6e" kindref="member">HealthCheckResult::check_name</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Stable name string (e.g. &quot;disk_space&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="131" column="23" bodyfile="src/updates/preflight_health_check.cpp" bodystart="124" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_disk_space_checker_1a6767ed595d6fc4c58e5b197ff7e174a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_health_check_result" kindref="compound">HealthCheckResult</ref></type>
+        <definition>HealthCheckResult themis::updates::DiskSpaceChecker::run</definition>
+        <argsstring>() override</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::updates::DiskSpaceChecker::run</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_i_health_check_1a63104fb9b0cf3fb19684d3221e1112b7">run</reimplements>
+        <briefdescription>
+<para>Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1updates_1_1_disk_space_checker_1a3509f4f8c4d39b4f914e8caac4872b84" kindref="member">name()</ref>, provider_(), std::to_string(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="132" column="23" bodyfile="src/updates/preflight_health_check.cpp" bodystart="133" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Verifies that the filesystem hosting <computeroutput>path</computeroutput> has at least <computeroutput>required_bytes</computeroutput> bytes of free space. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Per module FUTURE_ENHANCEMENTS.md the check must confirm ≥ 2× the bundle size of free space before starting a download to prevent mid-install exhaustion. The caller should therefore pass <computeroutput>2</computeroutput> * bundle_size as <computeroutput>required_bytes</computeroutput>.</para>
+<para>The <computeroutput>space_provider</computeroutput> callback is injected so that unit tests can exercise both the pass and fail paths without touching the real filesystem. The default provider uses <computeroutput>std::filesystem::space()</computeroutput>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::updates::DiskSpaceChecker</label>
+        <link refid="classthemis_1_1updates_1_1_disk_space_checker"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::updates::IHealthCheck</label>
+        <link refid="classthemis_1_1updates_1_1_i_health_check"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::updates::DiskSpaceChecker</label>
+        <link refid="classthemis_1_1updates_1_1_disk_space_checker"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::updates::IHealthCheck</label>
+        <link refid="classthemis_1_1updates_1_1_i_health_check"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/updates/preflight_health_check.h" line="108" column="1" bodyfile="include/updates/preflight_health_check.h" bodystart="108" bodyend="138"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_disk_space_checker_1a3e1a809db6e6bea74dab2cd42dfea9e8" prot="public" virt="non-virtual"><scope>themis::updates::DiskSpaceChecker</scope><name>DiskSpaceChecker</name></member>
+      <member refid="classthemis_1_1updates_1_1_disk_space_checker_1a3509f4f8c4d39b4f914e8caac4872b84" prot="public" virt="virtual"><scope>themis::updates::DiskSpaceChecker</scope><name>name</name></member>
+      <member refid="classthemis_1_1updates_1_1_disk_space_checker_1ae3de4cc418163c21a93fef78122b65a1" prot="private" virt="non-virtual"><scope>themis::updates::DiskSpaceChecker</scope><name>path_</name></member>
+      <member refid="classthemis_1_1updates_1_1_disk_space_checker_1aaeb54f5184ecb105d1fa01b8993fe608" prot="private" virt="non-virtual"><scope>themis::updates::DiskSpaceChecker</scope><name>provider_</name></member>
+      <member refid="classthemis_1_1updates_1_1_disk_space_checker_1a8cb5dac916903ebdb3d08455eadeb57a" prot="private" virt="non-virtual"><scope>themis::updates::DiskSpaceChecker</scope><name>required_bytes_</name></member>
+      <member refid="classthemis_1_1updates_1_1_disk_space_checker_1a6767ed595d6fc4c58e5b197ff7e174a5" prot="public" virt="virtual"><scope>themis::updates::DiskSpaceChecker</scope><name>run</name></member>
+      <member refid="classthemis_1_1updates_1_1_disk_space_checker_1a33dd40b5228c69404a259b6ba0bf793f" prot="public" virt="non-virtual"><scope>themis::updates::DiskSpaceChecker</scope><name>SpaceProvider</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_health_check_1a099710a634eeca5235ee0f6cfb8a5f5d" prot="public" virt="virtual"><scope>themis::updates::DiskSpaceChecker</scope><name>~IHealthCheck</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

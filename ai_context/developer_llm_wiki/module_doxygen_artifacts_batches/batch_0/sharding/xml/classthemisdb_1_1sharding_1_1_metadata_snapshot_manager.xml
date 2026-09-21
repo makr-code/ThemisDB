@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::MetadataSnapshotManager</compoundname>
+    <includes refid="metadata__snapshot_8h" local="no">metadata_snapshot.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1a56ddc059746bf65edd7831b0f97ea325" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetadataSnapshotManager::snapshot_directory_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_directory_</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshotManager::snapshot_directory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="171" column="17" bodyfile="include/sharding/metadata_snapshot.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1a9723acb57bb5758efe08e0e969754cf7" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::MetadataSnapshotManager::max_snapshots_</definition>
+        <argsstring></argsstring>
+        <name>max_snapshots_</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshotManager::max_snapshots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="172" column="12" bodyfile="include/sharding/metadata_snapshot.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1ac6f9ebf4ab24c8a79c801ad14c314ea1" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::MetadataSnapshotManager::snapshot_mutex_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_mutex_</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshotManager::snapshot_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="173" column="16" bodyfile="include/sharding/metadata_snapshot.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1a65dfc6c600965a16a700ae70958139d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MetadataSnapshotManager::MetadataSnapshotManager</definition>
+        <argsstring>(const std::string &amp;snapshot_directory, size_t max_snapshots=10)</argsstring>
+        <name>MetadataSnapshotManager</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshotManager::MetadataSnapshotManager</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_directory</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_snapshots</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Construct snapshot manager over one snapshot directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filesystem directory storing snapshot JSON files. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_snapshots</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of snapshots retained after cleanup. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="131" column="5" bodyfile="src/sharding/metadata_snapshot.cpp" bodystart="47" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1ae09a19e6701b2e1ad399767d6afc15ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt; uint64_t &gt; themisdb::sharding::MetadataSnapshotManager::createSnapshot</definition>
+        <argsstring>(const std::string &amp;shard_id, const LSN &amp;last_lsn, const std::map&lt; MetadataPartitionKey, std::map&lt; std::string, MetadataEntry &gt; &gt; &amp;storage)</argsstring>
+        <name>createSnapshot</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshotManager::createSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>last_lsn</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; <ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref>, std::map&lt; std::string, <ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref> &gt; &gt; &amp;</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+<para>Create persisted snapshot from in-memory metadata storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Owning shard identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>last_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Highest applied WAL <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> represented by storage. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata storage grouped by partition and key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Snapshot ID on success, std::nullopt on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="143" column="19" bodyfile="src/sharding/metadata_snapshot.cpp" bodystart="60" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1a4252eeaf53651a886679ec355da02dbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_metadata_snapshot" kindref="compound">MetadataSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; MetadataSnapshot &gt; themisdb::sharding::MetadataSnapshotManager::loadLatestSnapshot</definition>
+        <argsstring>()</argsstring>
+        <name>loadLatestSnapshot</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshotManager::loadLatestSnapshot</qualifiedname>
+        <briefdescription>
+<para>Load newest available snapshot from disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Latest Snapshot.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1ad87b58ce074941484c2a46e358d658a2" kindref="member">listSnapshots()</ref>, empty(), spdlog::info(), <ref refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1a0a1a72ca33c3a94e99259a9e14a1358f" kindref="member">loadSnapshot()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="150" column="19" bodyfile="src/sharding/metadata_snapshot.cpp" bodystart="138" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1a0a1a72ca33c3a94e99259a9e14a1358f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_metadata_snapshot" kindref="compound">MetadataSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; MetadataSnapshot &gt; themisdb::sharding::MetadataSnapshotManager::loadSnapshot</definition>
+        <argsstring>(uint64_t snapshot_id)</argsstring>
+        <name>loadSnapshot</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshotManager::loadSnapshot</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <briefdescription>
+<para>Load specific snapshot by id and verify checksum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Snapshot.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getSnapshotPath(), std::filesystem::exists(), spdlog::warn(), file(), is_open(), spdlog::error(), close(), <ref refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a160571d9856422b7a79b555fc5904fae" kindref="member">MetadataSnapshot::fromJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="153" column="19" bodyfile="src/sharding/metadata_snapshot.cpp" bodystart="158" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1ad87b58ce074941484c2a46e358d658a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt; uint64_t &gt; themisdb::sharding::MetadataSnapshotManager::listSnapshots</definition>
+        <argsstring>() const</argsstring>
+        <name>listSnapshots</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshotManager::listSnapshots</qualifiedname>
+        <briefdescription>
+<para>List all available snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of snapshot IDs (sorted, newest first) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="159" column="17" bodyfile="src/sharding/metadata_snapshot.cpp" bodystart="201" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1afbd4615be4eef3cba659a0d6816d8d5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::MetadataSnapshotManager::cleanupOldSnapshots</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupOldSnapshots</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshotManager::cleanupOldSnapshots</qualifiedname>
+        <briefdescription>
+<para>Delete oldest snapshots when retention exceeds max_snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Old Snapshots.</para>
+<para>Calls: <ref refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1ad87b58ce074941484c2a46e358d658a2" kindref="member">listSnapshots()</ref>, size(), <ref refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1afab8b9d94c02843fa2e59ff6786319a4" kindref="member">deleteSnapshot()</ref>, spdlog::info(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="162" column="10" bodyfile="src/sharding/metadata_snapshot.cpp" bodystart="245" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1afab8b9d94c02843fa2e59ff6786319a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::MetadataSnapshotManager::deleteSnapshot</definition>
+        <argsstring>(uint64_t snapshot_id)</argsstring>
+        <name>deleteSnapshot</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshotManager::deleteSnapshot</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete one snapshot file by id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Snapshot.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getSnapshotPath(), std::filesystem::exists(), std::filesystem::remove(), spdlog::debug(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="165" column="10" bodyfile="src/sharding/metadata_snapshot.cpp" bodystart="269" bodyend="284"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1aaed3036f549141294d3a86c619498b1b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetadataSnapshotManager::getSnapshotPath</definition>
+        <argsstring>(uint64_t snapshot_id) const</argsstring>
+        <name>getSnapshotPath</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshotManager::getSnapshotPath</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <briefdescription>
+<para>Build full filesystem path for snapshot id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="169" column="17" bodyfile="src/sharding/metadata_snapshot.cpp" bodystart="286" bodyend="288"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metadata Snapshot Manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages creation and loading of metadata snapshots for fast recovery. </para>
+    </detaileddescription>
+    <location file="include/sharding/metadata_snapshot.h" line="124" column="1" bodyfile="include/sharding/metadata_snapshot.h" bodystart="124" bodyend="174"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1afbd4615be4eef3cba659a0d6816d8d5b" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshotManager</scope><name>cleanupOldSnapshots</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1ae09a19e6701b2e1ad399767d6afc15ae" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshotManager</scope><name>createSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1afab8b9d94c02843fa2e59ff6786319a4" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshotManager</scope><name>deleteSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1aaed3036f549141294d3a86c619498b1b" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshotManager</scope><name>getSnapshotPath</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1ad87b58ce074941484c2a46e358d658a2" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshotManager</scope><name>listSnapshots</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1a4252eeaf53651a886679ec355da02dbe" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshotManager</scope><name>loadLatestSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1a0a1a72ca33c3a94e99259a9e14a1358f" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshotManager</scope><name>loadSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1a9723acb57bb5758efe08e0e969754cf7" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshotManager</scope><name>max_snapshots_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1a65dfc6c600965a16a700ae70958139d3" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshotManager</scope><name>MetadataSnapshotManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1a56ddc059746bf65edd7831b0f97ea325" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshotManager</scope><name>snapshot_directory_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_metadata_snapshot_manager_1ac6f9ebf4ab24c8a79c801ad14c314ea1" prot="private" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshotManager</scope><name>snapshot_mutex_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

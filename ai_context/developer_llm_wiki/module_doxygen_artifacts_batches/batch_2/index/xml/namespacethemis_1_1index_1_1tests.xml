@@ -1,0 +1,765 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1index_1_1tests" kind="namespace" language="C++">
+    <compoundname>themis::index::tests</compoundname>
+    <innerclass refid="classthemis_1_1index_1_1tests_1_1_cuda_memory_tracker" prot="public">themis::index::tests::CudaMemoryTracker</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_destructor_safety" prot="public">themis::index::tests::GPUVectorIndexDestructorSafety</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" prot="public">themis::index::tests::GPUVectorIndexMemorySafety</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" prot="public">themis::index::tests::IteratorInvalidityFix</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1tests_1_1_vector_index_destructor_safety" prot="public">themis::index::tests::VectorIndexDestructorSafety</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a79e95c7fdb8d55c5cc2b60789b487cf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(VectorIndexDestructorSafety, VectorIndexManagerDestructorNoThrow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_vector_index_destructor_safety" kindref="compound">VectorIndexDestructorSafety</ref></type>
+        </param>
+        <param>
+          <type>VectorIndexManagerDestructorNoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_destructor_safety.cpp" line="43" column="1" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="43" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a36e784b55c77fd5b03b1dbd00c02fc29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(VectorIndexDestructorSafety, VectorIndexManagerHandlesShutdownException)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_vector_index_destructor_safety" kindref="compound">VectorIndexDestructorSafety</ref></type>
+        </param>
+        <param>
+          <type>VectorIndexManagerHandlesShutdownException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_destructor_safety.cpp" line="70" column="1" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="70" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a1653c09a0c51fa96dd95180f52730b5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(VectorIndexDestructorSafety, VectorIndexManagerDestructorDuringStackUnwinding)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_vector_index_destructor_safety" kindref="compound">VectorIndexDestructorSafety</ref></type>
+        </param>
+        <param>
+          <type>VectorIndexManagerDestructorDuringStackUnwinding</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_destructor_safety.cpp" line="107" column="1" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="107" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a0283f1f294af504b2d7f69006e735ea9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(VectorIndexDestructorSafety, VectorIndexManagerMultipleDestructorCalls)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_vector_index_destructor_safety" kindref="compound">VectorIndexDestructorSafety</ref></type>
+        </param>
+        <param>
+          <type>VectorIndexManagerMultipleDestructorCalls</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_destructor_safety.cpp" line="137" column="1" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="137" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a5ef6da7b95091a4db67b5210df30bfa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(VectorIndexDestructorSafety, VectorIndexManagerConcurrentDestruction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_vector_index_destructor_safety" kindref="compound">VectorIndexDestructorSafety</ref></type>
+        </param>
+        <param>
+          <type>VectorIndexManagerConcurrentDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_destructor_safety.cpp" line="167" column="1" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="167" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1ab95bbc3f99fc21e9c037f0eab660c26f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexDestructorSafety, GPUVectorIndexDestructorNoThrow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_destructor_safety" kindref="compound">GPUVectorIndexDestructorSafety</ref></type>
+        </param>
+        <param>
+          <type>GPUVectorIndexDestructorNoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_destructor_safety.cpp" line="218" column="1" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="218" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1abdbd2ca7df6cbf13ec52aa69a0e57cf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexDestructorSafety, GPUVectorIndexDestructorDuringException)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_destructor_safety" kindref="compound">GPUVectorIndexDestructorSafety</ref></type>
+        </param>
+        <param>
+          <type>GPUVectorIndexDestructorDuringException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_destructor_safety.cpp" line="241" column="1" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="241" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1ad405725a7efe96f52569a4b44b87209f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexDestructorSafety, GPUVectorIndexMultipleDestructions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_destructor_safety" kindref="compound">GPUVectorIndexDestructorSafety</ref></type>
+        </param>
+        <param>
+          <type>GPUVectorIndexMultipleDestructions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_destructor_safety.cpp" line="268" column="1" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="268" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1ad6cbd61766277e080d686070eee0ee36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(VectorIndexDestructorSafety, DestructorNoExceptSpecifier)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_vector_index_destructor_safety" kindref="compound">VectorIndexDestructorSafety</ref></type>
+        </param>
+        <param>
+          <type>DestructorNoExceptSpecifier</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_destructor_safety.cpp" line="293" column="1" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="293" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1adc83f6ed7aaceef5f910a62f465d7ef8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(VectorIndexDestructorSafety, HnswResourcesReleasedOnDestruction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_vector_index_destructor_safety" kindref="compound">VectorIndexDestructorSafety</ref></type>
+        </param>
+        <param>
+          <type>HnswResourcesReleasedOnDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_destructor_safety.cpp" line="314" column="1" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="314" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a1686db0743e8ae1909608786d081a2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexMemorySafety, GpuResourcesInitializedAndReleased)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" kindref="compound">GPUVectorIndexMemorySafety</ref></type>
+        </param>
+        <param>
+          <type>GpuResourcesInitializedAndReleased</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="102" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="102" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a4ba0adf13e6eb3a71693887257371389" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexMemorySafety, MultipleInitDestroyNeverLeaks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" kindref="compound">GPUVectorIndexMemorySafety</ref></type>
+        </param>
+        <param>
+          <type>MultipleInitDestroyNeverLeaks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="143" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="143" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a21fd146ff76c486e6e6aeff957ec0e1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexMemorySafety, ExceptionDuringInitialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" kindref="compound">GPUVectorIndexMemorySafety</ref></type>
+        </param>
+        <param>
+          <type>ExceptionDuringInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="187" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="187" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1ac8cb1111bec15f9358d5a7c2f9aee818" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexMemorySafety, LargeAllocationsCompleteCleanup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" kindref="compound">GPUVectorIndexMemorySafety</ref></type>
+        </param>
+        <param>
+          <type>LargeAllocationsCompleteCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="226" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="226" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1ab4d6133e16b0d51437ea53b246a23aa0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexMemorySafety, ConcurrentIndexManagement)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" kindref="compound">GPUVectorIndexMemorySafety</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentIndexManagement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="272" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="272" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a7b0313be15371195db7afe1081ed766c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexMemorySafety, ExplicitShutdownCleansupResources)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" kindref="compound">GPUVectorIndexMemorySafety</ref></type>
+        </param>
+        <param>
+          <type>ExplicitShutdownCleansupResources</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="317" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="317" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a42b05a7a9d8d3175174c0521ed99a3b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexMemorySafety, MultipleShutdownCallsSafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" kindref="compound">GPUVectorIndexMemorySafety</ref></type>
+        </param>
+        <param>
+          <type>MultipleShutdownCallsSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="349" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="349" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a712e313d2bd63241b607081efebce751" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexMemorySafety, GpuStateValidation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" kindref="compound">GPUVectorIndexMemorySafety</ref></type>
+        </param>
+        <param>
+          <type>GpuStateValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="375" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="375" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a1e5ee47bac9d1b1566d0b8959644aaf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexMemorySafety, DefaultConstructorAndDestruction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" kindref="compound">GPUVectorIndexMemorySafety</ref></type>
+        </param>
+        <param>
+          <type>DefaultConstructorAndDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="405" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="405" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a6a6b757c38ae694fc2b3878b89e83c14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GPUVectorIndexMemorySafety, ConfigurationBasedAllocation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" kindref="compound">GPUVectorIndexMemorySafety</ref></type>
+        </param>
+        <param>
+          <type>ConfigurationBasedAllocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="430" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="430" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a11926a3bebc3967c5610aa094d2ec665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(IteratorInvalidityFix, RemovePartitionsViaNonIterator)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" kindref="compound">IteratorInvalidityFix</ref></type>
+        </param>
+        <param>
+          <type>RemovePartitionsViaNonIterator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="74" column="1" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="74" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1aa532685e816e7982ac4dfe965d365c70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(IteratorInvalidityFix, PartitionRemovalUnderStress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" kindref="compound">IteratorInvalidityFix</ref></type>
+        </param>
+        <param>
+          <type>PartitionRemovalUnderStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="101" column="1" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="101" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a8955a4284af78184dc4e6d1a93d48225" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(IteratorInvalidityFix, ConcurrentPartitionModification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" kindref="compound">IteratorInvalidityFix</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentPartitionModification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="130" column="1" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="130" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1ae257a2eb501c7ad09191a0c3f121ca89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(IteratorInvalidityFix, PartitionRemovalWithDataConcurrency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" kindref="compound">IteratorInvalidityFix</ref></type>
+        </param>
+        <param>
+          <type>PartitionRemovalWithDataConcurrency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="186" column="1" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="186" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a8ced577023ccefc681e8134138987393" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(IteratorInvalidityFix, AllPartitionsRemoved)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" kindref="compound">IteratorInvalidityFix</ref></type>
+        </param>
+        <param>
+          <type>AllPartitionsRemoved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="238" column="1" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="238" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1adb0038d522dd509f51d9b4eacc55e5e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(IteratorInvalidityFix, InterleavedAddRemovePattern)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" kindref="compound">IteratorInvalidityFix</ref></type>
+        </param>
+        <param>
+          <type>InterleavedAddRemovePattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="277" column="1" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="277" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1aafc4e5478e5fe201030e3294636b591d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(IteratorInvalidityFix, SnapshotReturnsCopy)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" kindref="compound">IteratorInvalidityFix</ref></type>
+        </param>
+        <param>
+          <type>SnapshotReturnsCopy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="307" column="1" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="307" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1ae1e6a64fc2e2183ae55357e7286d6145" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(IteratorInvalidityFix, EmptyContainerHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" kindref="compound">IteratorInvalidityFix</ref></type>
+        </param>
+        <param>
+          <type>EmptyContainerHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="335" column="1" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="335" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a6f7f5e5511ef6d0ceb70364a2dc2bd61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(IteratorInvalidityFix, DuplicateRemovalAttempt)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" kindref="compound">IteratorInvalidityFix</ref></type>
+        </param>
+        <param>
+          <type>DuplicateRemovalAttempt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="354" column="1" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="354" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1ac80d218b86036fce8f1bcd2da94e8873" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(IteratorInvalidityFix, SnapshotPreservesOrder)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_iterator_invalidity_fix" kindref="compound">IteratorInvalidityFix</ref></type>
+        </param>
+        <param>
+          <type>SnapshotPreservesOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_iterator_validity.cpp" line="385" column="1" bodyfile="tests/index/test_index_iterator_validity.cpp" bodystart="385" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a4edd723ff44e71a18c443cf2f6058e80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST</definition>
+        <argsstring>(Wave3cIndexRaii, GraphAutoBufferDestructorIsNoexcept)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::index::tests::TEST</qualifiedname>
+        <param>
+          <type>Wave3cIndexRaii</type>
+        </param>
+        <param>
+          <type>GraphAutoBufferDestructorIsNoexcept</type>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1_graph_auto_buffer" kindref="compound">GraphAutoBuffer</ref> destructor must be noexcept. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_wave3c_index_raii.cpp" line="37" column="1" bodyfile="tests/index/test_wave3c_index_raii.cpp" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a436e6db5392038edf5d114c01055e8cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST</definition>
+        <argsstring>(Wave3cIndexRaii, VectorAutoBufferDestructorIsNoexcept)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::index::tests::TEST</qualifiedname>
+        <param>
+          <type>Wave3cIndexRaii</type>
+        </param>
+        <param>
+          <type>VectorAutoBufferDestructorIsNoexcept</type>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1_vector_auto_buffer" kindref="compound">VectorAutoBuffer</ref> destructor must be noexcept. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_wave3c_index_raii.cpp" line="46" column="1" bodyfile="tests/index/test_wave3c_index_raii.cpp" bodystart="46" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a201402b8c116bcf3e7354841dd86e92d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST</definition>
+        <argsstring>(Wave3cIndexRaii, UnorderedMapEraseByKeyCollectionIsCorrect)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::index::tests::TEST</qualifiedname>
+        <param>
+          <type>Wave3cIndexRaii</type>
+        </param>
+        <param>
+          <type>UnorderedMapEraseByKeyCollectionIsCorrect</type>
+        </param>
+        <briefdescription>
+<para>Erase from unordered_map by collecting keys first, then erasing in a second pass — the canonical safe pattern used in the index module. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_wave3c_index_raii.cpp" line="60" column="1" bodyfile="tests/index/test_wave3c_index_raii.cpp" bodystart="60" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a392e8254883f53c40e3017413c4159df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST</definition>
+        <argsstring>(Wave3cIndexRaii, ListEraseAndPushFrontPatternIsCorrect)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::index::tests::TEST</qualifiedname>
+        <param>
+          <type>Wave3cIndexRaii</type>
+        </param>
+        <param>
+          <type>ListEraseAndPushFrontPatternIsCorrect</type>
+        </param>
+        <briefdescription>
+<para>std::list erase + push_front pattern (mirrors touchLRULocked in <ref refid="gpu__memory__oversubscription_8cpp" kindref="compound">gpu_memory_oversubscription.cpp</ref> — the A-2.1 safe pattern). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_wave3c_index_raii.cpp" line="86" column="1" bodyfile="tests/index/test_wave3c_index_raii.cpp" bodystart="86" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a58806e22a297828c1f4f5b2a2fcf81e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST</definition>
+        <argsstring>(Wave3cIndexRaii, VectorEraseRemoveIdiomIsCorrect)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::index::tests::TEST</qualifiedname>
+        <param>
+          <type>Wave3cIndexRaii</type>
+        </param>
+        <param>
+          <type>VectorEraseRemoveIdiomIsCorrect</type>
+        </param>
+        <briefdescription>
+<para>Vector erase-remove idiom (safe alternative to erase-during-iteration for sequential containers — applicable to iterator_invalidation sites). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_wave3c_index_raii.cpp" line="117" column="1" bodyfile="tests/index/test_wave3c_index_raii.cpp" bodystart="117" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1aecb06da80a96ba08d02e957d93af0996" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST</definition>
+        <argsstring>(Wave3cIndexRaii, IndexBasedIterationWithPushBackIsCorrect)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::index::tests::TEST</qualifiedname>
+        <param>
+          <type>Wave3cIndexRaii</type>
+        </param>
+        <param>
+          <type>IndexBasedIterationWithPushBackIsCorrect</type>
+        </param>
+        <briefdescription>
+<para>Index-based iteration with push_back — mirrors the string-parsing pattern at <ref refid="graph__index_8cpp" kindref="compound">graph_index.cpp</ref>:244-248 (A-2.6: safe vector growth during index-based loop, no iterator required on the growing container). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_wave3c_index_raii.cpp" line="132" column="1" bodyfile="tests/index/test_wave3c_index_raii.cpp" bodystart="132" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a0a240d2857d7c14be5560d7d2465e582" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST</definition>
+        <argsstring>(Wave3cIndexRaii, CpuFallbackPathCompilesAndIsActive)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::index::tests::TEST</qualifiedname>
+        <param>
+          <type>Wave3cIndexRaii</type>
+        </param>
+        <param>
+          <type>CpuFallbackPathCompilesAndIsActive</type>
+        </param>
+        <briefdescription>
+<para>Verify the CPU-only fallback path (THEMIS_ENABLE_CUDA absent) compiles and produces the correct sentinel value, matching the behaviour in <ref refid="gpu__memory__oversubscription_8cpp" kindref="compound">gpu_memory_oversubscription.cpp</ref> and <ref refid="cuda__hnsw__graph__traversal_8cpp" kindref="compound">cuda_hnsw_graph_traversal.cpp</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_wave3c_index_raii.cpp" line="168" column="1" bodyfile="tests/index/test_wave3c_index_raii.cpp" bodystart="168" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/index/test_index_destructor_safety.cpp" line="21" column="1"/>
+  </compounddef>
+</doxygen>

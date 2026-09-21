@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::GossipConfigManager::Statistics</compoundname>
+    <includes refid="gossip__config__manager_8h" local="no">gossip_config_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a48aa7735b721a1cf45ef8ee1b42e6994" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::GossipConfigManager::Statistics::gossip_rounds</definition>
+        <argsstring></argsstring>
+        <name>gossip_rounds</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::Statistics::gossip_rounds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="337" column="18" bodyfile="include/sharding/gossip_config_manager.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a8510f9323b163ec02c153c16d8b331ac" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::GossipConfigManager::Statistics::messages_sent</definition>
+        <argsstring></argsstring>
+        <name>messages_sent</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::Statistics::messages_sent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="338" column="18" bodyfile="include/sharding/gossip_config_manager.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a878b46b8c5aa77e77b51430e4e82fc7b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::GossipConfigManager::Statistics::messages_received</definition>
+        <argsstring></argsstring>
+        <name>messages_received</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::Statistics::messages_received</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="339" column="18" bodyfile="include/sharding/gossip_config_manager.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a668bec87c996309f66a1c84c1c33466a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::GossipConfigManager::Statistics::config_updates_sent</definition>
+        <argsstring></argsstring>
+        <name>config_updates_sent</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::Statistics::config_updates_sent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="340" column="18" bodyfile="include/sharding/gossip_config_manager.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a489d35515fcc66c93e93557c8d2ed030" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::GossipConfigManager::Statistics::config_updates_received</definition>
+        <argsstring></argsstring>
+        <name>config_updates_received</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::Statistics::config_updates_received</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="341" column="18" bodyfile="include/sharding/gossip_config_manager.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a917447add858577a63c97fd718f84d08" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::GossipConfigManager::Statistics::resource_snapshots_sent</definition>
+        <argsstring></argsstring>
+        <name>resource_snapshots_sent</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::Statistics::resource_snapshots_sent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="342" column="18" bodyfile="include/sharding/gossip_config_manager.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a1f9f4d5e5d24c2ac3a390431a29c52e3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::GossipConfigManager::Statistics::resource_snapshots_received</definition>
+        <argsstring></argsstring>
+        <name>resource_snapshots_received</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::Statistics::resource_snapshots_received</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="343" column="18" bodyfile="include/sharding/gossip_config_manager.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a8104189b6bad5a6b1d079aac2a09af62" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::GossipConfigManager::Statistics::conflicts_resolved</definition>
+        <argsstring></argsstring>
+        <name>conflicts_resolved</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::Statistics::conflicts_resolved</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="344" column="18" bodyfile="include/sharding/gossip_config_manager.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a0de88c0fbac554f67bd6684e2b633978" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::GossipConfigManager::Statistics::anti_entropy_syncs</definition>
+        <argsstring></argsstring>
+        <name>anti_entropy_syncs</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::Statistics::anti_entropy_syncs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="345" column="18" bodyfile="include/sharding/gossip_config_manager.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a1ae80f7949fc52f93ced2c6ab2e4af14" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::GossipConfigManager::Statistics::avg_propagation_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_propagation_latency_ms</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::Statistics::avg_propagation_latency_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="346" column="16" bodyfile="include/sharding/gossip_config_manager.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Get statistics for monitoring </para>
+    </detaileddescription>
+    <location file="include/sharding/gossip_config_manager.h" line="336" column="5" bodyfile="include/sharding/gossip_config_manager.h" bodystart="336" bodyend="347"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a0de88c0fbac554f67bd6684e2b633978" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager::Statistics</scope><name>anti_entropy_syncs</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a1ae80f7949fc52f93ced2c6ab2e4af14" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager::Statistics</scope><name>avg_propagation_latency_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a489d35515fcc66c93e93557c8d2ed030" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager::Statistics</scope><name>config_updates_received</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a668bec87c996309f66a1c84c1c33466a" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager::Statistics</scope><name>config_updates_sent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a8104189b6bad5a6b1d079aac2a09af62" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager::Statistics</scope><name>conflicts_resolved</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a48aa7735b721a1cf45ef8ee1b42e6994" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager::Statistics</scope><name>gossip_rounds</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a878b46b8c5aa77e77b51430e4e82fc7b" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager::Statistics</scope><name>messages_received</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a8510f9323b163ec02c153c16d8b331ac" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager::Statistics</scope><name>messages_sent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a1f9f4d5e5d24c2ac3a390431a29c52e3" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager::Statistics</scope><name>resource_snapshots_received</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics_1a917447add858577a63c97fd718f84d08" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager::Statistics</scope><name>resource_snapshots_sent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

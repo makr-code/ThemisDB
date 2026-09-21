@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_plan_reuse_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::PlanReuseValidator</compoundname>
+    <includes refid="plan__cache_8h" local="no">plan_cache.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_plan_reuse_validator_1_1_result" prot="public">themis::query::PlanReuseValidator::Result</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1query_1_1_plan_reuse_validator_1a9dc22c1405b8db936034c977942daf97" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>Verdict</name>
+        <qualifiedname>themis::query::PlanReuseValidator::Verdict</qualifiedname>
+        <enumvalue id="classthemis_1_1query_1_1_plan_reuse_validator_1a9dc22c1405b8db936034c977942daf97ab18288babd4636cff34b15e0d1340fc2" prot="public">
+          <name>SAFE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_plan_reuse_validator_1a9dc22c1405b8db936034c977942daf97a4c3ac9d2c9505db08a921dd84da031c6" prot="public">
+          <name>STALE_STATISTICS</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_plan_reuse_validator_1a9dc22c1405b8db936034c977942daf97a96bfde32281d60575fc9f3c5eae14e90" prot="public">
+          <name>FAILURE_BUDGET_EXCEEDED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_plan_reuse_validator_1a9dc22c1405b8db936034c977942daf97a92210dfa2fdac6a463d7ff6d323f8548" prot="public">
+          <name>PLAN_EXPIRED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="283" column="5" bodyfile="include/query/plan_cache.h" bodystart="283" bodyend="288"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_plan_reuse_validator_1a1b81f16deed3ae421e3ffd637391e39b" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::PlanReuseValidator::cardinality_drift_factor_</definition>
+        <argsstring></argsstring>
+        <name>cardinality_drift_factor_</name>
+        <qualifiedname>themis::query::PlanReuseValidator::cardinality_drift_factor_</qualifiedname>
+        <initializer>{10.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="363" column="25" bodyfile="include/query/plan_cache.h" bodystart="363" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_plan_reuse_validator_1a9b2f809aad4865f4aed0c7f36975d097" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::PlanReuseValidator::max_failure_count_</definition>
+        <argsstring></argsstring>
+        <name>max_failure_count_</name>
+        <qualifiedname>themis::query::PlanReuseValidator::max_failure_count_</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="364" column="25" bodyfile="include/query/plan_cache.h" bodystart="364" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_plan_reuse_validator_1a6035bb2049b6dfafe902b27338dc20c0" prot="private" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::query::PlanReuseValidator::max_plan_age_</definition>
+        <argsstring></argsstring>
+        <name>max_plan_age_</name>
+        <qualifiedname>themis::query::PlanReuseValidator::max_plan_age_</qualifiedname>
+        <initializer>{86400}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="365" column="26" bodyfile="include/query/plan_cache.h" bodystart="365" bodyend="365"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_reuse_validator_1a33d3fb95cc432fb4f3a81cf6e05a5de2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::PlanReuseValidator::setCardinalityDriftFactor</definition>
+        <argsstring>(double factor) noexcept</argsstring>
+        <name>setCardinalityDriftFactor</name>
+        <qualifiedname>themis::query::PlanReuseValidator::setCardinalityDriftFactor</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>factor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="301" column="10" bodyfile="include/query/plan_cache.h" bodystart="301" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_reuse_validator_1a61a871af4be109b5ae5a3aa4cfc81ee5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::PlanReuseValidator::setMaxFailureCount</definition>
+        <argsstring>(size_t count) noexcept</argsstring>
+        <name>setMaxFailureCount</name>
+        <qualifiedname>themis::query::PlanReuseValidator::setMaxFailureCount</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="305" column="10" bodyfile="include/query/plan_cache.h" bodystart="305" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_reuse_validator_1ae04f4a97a39b15d1fb965753b33f1bcc" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::PlanReuseValidator::setMaxPlanAge</definition>
+        <argsstring>(std::chrono::seconds age) noexcept</argsstring>
+        <name>setMaxPlanAge</name>
+        <qualifiedname>themis::query::PlanReuseValidator::setMaxPlanAge</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>age</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="309" column="10" bodyfile="include/query/plan_cache.h" bodystart="309" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_reuse_validator_1a03afae59767cc824f8f9c01612e14487" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_plan_reuse_validator_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Result themis::query::PlanReuseValidator::validate</definition>
+        <argsstring>(const PlanCache::CachedPlan &amp;entry, const PlanCache::Statistics &amp;current_stats) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::query::PlanReuseValidator::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan" kindref="compound">PlanCache::CachedPlan</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics" kindref="compound">PlanCache::Statistics</ref> &amp;</type>
+          <declname>current_stats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="317" column="12" bodyfile="include/query/plan_cache.h" bodystart="317" bodyend="360"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/plan_cache.h" line="281" column="1" bodyfile="include/query/plan_cache.h" bodystart="281" bodyend="366"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_plan_reuse_validator_1a1b81f16deed3ae421e3ffd637391e39b" prot="private" virt="non-virtual"><scope>themis::query::PlanReuseValidator</scope><name>cardinality_drift_factor_</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_reuse_validator_1a9b2f809aad4865f4aed0c7f36975d097" prot="private" virt="non-virtual"><scope>themis::query::PlanReuseValidator</scope><name>max_failure_count_</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_reuse_validator_1a6035bb2049b6dfafe902b27338dc20c0" prot="private" virt="non-virtual"><scope>themis::query::PlanReuseValidator</scope><name>max_plan_age_</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_reuse_validator_1a33d3fb95cc432fb4f3a81cf6e05a5de2" prot="public" virt="non-virtual"><scope>themis::query::PlanReuseValidator</scope><name>setCardinalityDriftFactor</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_reuse_validator_1a61a871af4be109b5ae5a3aa4cfc81ee5" prot="public" virt="non-virtual"><scope>themis::query::PlanReuseValidator</scope><name>setMaxFailureCount</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_reuse_validator_1ae04f4a97a39b15d1fb965753b33f1bcc" prot="public" virt="non-virtual"><scope>themis::query::PlanReuseValidator</scope><name>setMaxPlanAge</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_reuse_validator_1a03afae59767cc824f8f9c01612e14487" prot="public" virt="non-virtual"><scope>themis::query::PlanReuseValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_reuse_validator_1a9dc22c1405b8db936034c977942daf97" prot="public" virt="non-virtual"><scope>themis::query::PlanReuseValidator</scope><name>Verdict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

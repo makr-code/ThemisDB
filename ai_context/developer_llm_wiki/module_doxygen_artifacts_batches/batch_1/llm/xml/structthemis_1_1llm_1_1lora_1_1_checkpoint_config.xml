@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_checkpoint_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::CheckpointConfig</compoundname>
+    <includes refid="gradient__checkpointing_8h" local="no">gradient_checkpointing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a8aa4a2f509f8daaf2fe025e0bf0f67b8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51" kindref="member">CheckpointStrategy</ref></type>
+        <definition>CheckpointStrategy themis::llm::lora::CheckpointConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::lora::CheckpointConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51ac79ccdb9e2ea037575fb8d91a53814aa" kindref="member">CheckpointStrategy::SQRT_N</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="43" column="24" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a55612d873b5a98995844a9bf6fc35e79" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::CheckpointConfig::checkpoint_frequency</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_frequency</name>
+        <qualifiedname>themis::llm::lora::CheckpointConfig::checkpoint_frequency</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>For UNIFORM strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="44" column="9" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a26f9929d1fc655e0943be4351c315653" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CheckpointConfig::checkpoint_attention</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_attention</name>
+        <qualifiedname>themis::llm::lora::CheckpointConfig::checkpoint_attention</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="45" column="10" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1af54bc4e8ad606186f8007f174ecb5de7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CheckpointConfig::checkpoint_ffn</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_ffn</name>
+        <qualifiedname>themis::llm::lora::CheckpointConfig::checkpoint_ffn</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="46" column="10" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1abe3733636c24a09c36694fa7e97e4b5b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CheckpointConfig::checkpoint_lora</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_lora</name>
+        <qualifiedname>themis::llm::lora::CheckpointConfig::checkpoint_lora</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Checkpoint LoRA layers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="47" column="10" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1aaaa0d75449ef779a9e5fcc0659fcb683" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::CheckpointConfig::total_layers</definition>
+        <argsstring></argsstring>
+        <name>total_layers</name>
+        <qualifiedname>themis::llm::lora::CheckpointConfig::total_layers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="50" column="9" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gradient_checkpointing.h" line="42" column="1" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="42" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a26f9929d1fc655e0943be4351c315653" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointConfig</scope><name>checkpoint_attention</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1af54bc4e8ad606186f8007f174ecb5de7" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointConfig</scope><name>checkpoint_ffn</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a55612d873b5a98995844a9bf6fc35e79" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointConfig</scope><name>checkpoint_frequency</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1abe3733636c24a09c36694fa7e97e4b5b" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointConfig</scope><name>checkpoint_lora</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a8aa4a2f509f8daaf2fe025e0bf0f67b8" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointConfig</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1aaaa0d75449ef779a9e5fcc0659fcb683" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointConfig</scope><name>total_layers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

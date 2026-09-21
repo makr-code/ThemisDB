@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_replica_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ReplicaStats</compoundname>
+    <includes refid="federation__replica__manager_8h" local="no">federation_replica_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_replica_stats_1a6077c582f16c62aef17c2d99ffb297bd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ReplicaStats::entries_applied</definition>
+        <argsstring></argsstring>
+        <name>entries_applied</name>
+        <qualifiedname>themis::process::ReplicaStats::entries_applied</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="34" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_replica_stats_1a722df893634bf861d1f4ab2df1970dd2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ReplicaStats::snapshots_taken</definition>
+        <argsstring></argsstring>
+        <name>snapshots_taken</name>
+        <qualifiedname>themis::process::ReplicaStats::snapshots_taken</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="35" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_replica_stats_1ac2905383bc2e4e23720058469f625eea" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ReplicaStats::divergence_detected</definition>
+        <argsstring></argsstring>
+        <name>divergence_detected</name>
+        <qualifiedname>themis::process::ReplicaStats::divergence_detected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="36" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_replica_stats_1acf87cddf2992cadccc1853de55caa151" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ReplicaStats::last_applied</definition>
+        <argsstring></argsstring>
+        <name>last_applied</name>
+        <qualifiedname>themis::process::ReplicaStats::last_applied</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="37" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_replica_stats_1a2363721662e260f95cd924504c5e1cc5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ReplicaStats::state_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>state_size_bytes</name>
+        <qualifiedname>themis::process::ReplicaStats::state_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="38" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replica statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/federation_replica_manager.h" line="33" column="1" bodyfile="include/process/federation_replica_manager.h" bodystart="33" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_replica_stats_1ac2905383bc2e4e23720058469f625eea" prot="public" virt="non-virtual"><scope>themis::process::ReplicaStats</scope><name>divergence_detected</name></member>
+      <member refid="structthemis_1_1process_1_1_replica_stats_1a6077c582f16c62aef17c2d99ffb297bd" prot="public" virt="non-virtual"><scope>themis::process::ReplicaStats</scope><name>entries_applied</name></member>
+      <member refid="structthemis_1_1process_1_1_replica_stats_1acf87cddf2992cadccc1853de55caa151" prot="public" virt="non-virtual"><scope>themis::process::ReplicaStats</scope><name>last_applied</name></member>
+      <member refid="structthemis_1_1process_1_1_replica_stats_1a722df893634bf861d1f4ab2df1970dd2" prot="public" virt="non-virtual"><scope>themis::process::ReplicaStats</scope><name>snapshots_taken</name></member>
+      <member refid="structthemis_1_1process_1_1_replica_stats_1a2363721662e260f95cd924504c5e1cc5" prot="public" virt="non-virtual"><scope>themis::process::ReplicaStats</scope><name>state_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

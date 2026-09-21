@@ -1,0 +1,396 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llama__cpp__plugin__lifecycle__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_llama_cpp_plugin_lifecycle_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="llama__cpp__plugin_8h" local="yes">llama_cpp/llama_cpp_plugin.h</includes>
+    <includes refid="llama__cpp__registrar_8h" local="yes">llama_cpp/llama_cpp_registrar.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llama_cpp/llama_cpp_plugin.h</label>
+        <link refid="llama__cpp__plugin_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>llama_cpp/llama_cpp_registrar.h</label>
+        <link refid="llama__cpp__registrar_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp</label>
+        <link refid="test__llama__cpp__plugin__lifecycle__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>llm/llm_plugin_interface.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llama__cpp__plugin__lifecycle__focused_8cpp_1aec2a5b1861f3d748bfbed8f43bf505f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppPluginLifecycleFocusedTests, LC1_InitialState_NotLoaded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppPluginLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>LC1_InitialState_NotLoaded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" line="27" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__plugin__lifecycle__focused_8cpp_1a1ca7729928cbe0f04cfbb875b89755b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppPluginLifecycleFocusedTests, LC2_LoadModel_TransitionsToLoaded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppPluginLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>LC2_LoadModel_TransitionsToLoaded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" line="34" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" bodystart="34" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__plugin__lifecycle__focused_8cpp_1a7fa5ff5187545b0dc98948bb4c2b0e12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppPluginLifecycleFocusedTests, LC3_UnloadModel_TransitionsToUnloaded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppPluginLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>LC3_UnloadModel_TransitionsToUnloaded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" line="42" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__plugin__lifecycle__focused_8cpp_1ad6b55730ecc3e6a4c156b2659af893ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppPluginLifecycleFocusedTests, LC4_Reload_WorksAfterUnload)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppPluginLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>LC4_Reload_WorksAfterUnload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" line="50" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" bodystart="50" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__plugin__lifecycle__focused_8cpp_1a3b8cf870e773a94a905e304948235867" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppPluginLifecycleFocusedTests, LC5_DoubleLoad_ReplacesModel)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppPluginLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>LC5_DoubleLoad_ReplacesModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" line="63" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" bodystart="63" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__plugin__lifecycle__focused_8cpp_1abfe49f1142b6ed77a98292666a8417bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppPluginLifecycleFocusedTests, LC6_DoubleUnload_IsIdempotent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppPluginLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>LC6_DoubleUnload_IsIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" line="72" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" bodystart="72" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__plugin__lifecycle__focused_8cpp_1ae57a28ea64a36fbb420f33e102cb1ce5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppPluginLifecycleFocusedTests, LC7_UnloadNeverLoaded_IsNoOp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppPluginLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>LC7_UnloadNeverLoaded_IsNoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" line="81" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" bodystart="81" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__plugin__lifecycle__focused_8cpp_1a2c77e0275fc335061c24589d898d2fc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppPluginLifecycleFocusedTests, LC8_RegistrarCreatedPlugin_ConsistentState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppPluginLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>LC8_RegistrarCreatedPlugin_ConsistentState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" line="88" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" bodystart="88" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__plugin__lifecycle__focused_8cpp_1adb27b6726b32a1e11b92fbcb3c0a2f45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppPluginLifecycleFocusedTests, LC9_ConcurrentLoadQuery_NoRace)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppPluginLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>LC9_ConcurrentLoadQuery_NoRace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" line="101" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp" bodystart="101" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group LC — Plugin lifecycle tests (load / unload / reload / concurrency). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies that <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref> transitions correctly between the unloaded → loaded → unloaded states and that repeated or concurrent lifecycle operations are safe.</para>
+<para>All tests run under THEMIS_LLAMA_CPP_STUB_MODE; no real model is required. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llama__cpp__plugin_8h" kindref="compound">llama_cpp/llama_cpp_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llama__cpp__registrar_8h" kindref="compound">llama_cpp/llama_cpp_registrar.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llamacpp" kindref="compound">themis::llamacpp</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>LC<sp/>—<sp/>Lifecycle<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LC1:<sp/>Fresh<sp/>plugin<sp/>reports<sp/>not-loaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1aec2a5b1861f3d748bfbed8f43bf505f6" kindref="member">TEST</ref>(LlamaCppPluginLifecycleFocusedTests,<sp/>LC1_InitialState_NotLoaded)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a8f534cc0ec95c5f096aee771b16b48d0" kindref="member">getModelInfo</ref>().has_value());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LC2:<sp/>After<sp/>loadModel,<sp/>plugin<sp/>is<sp/>loaded<sp/>and<sp/>info<sp/>is<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1aec2a5b1861f3d748bfbed8f43bf505f6" kindref="member">TEST</ref>(LlamaCppPluginLifecycleFocusedTests,<sp/>LC2_LoadModel_TransitionsToLoaded)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;/stub/model.gguf&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a8f534cc0ec95c5f096aee771b16b48d0" kindref="member">getModelInfo</ref>().has_value());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LC3:<sp/>After<sp/>unloadModel,<sp/>plugin<sp/>is<sp/>not<sp/>loaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1aec2a5b1861f3d748bfbed8f43bf505f6" kindref="member">TEST</ref>(LlamaCppPluginLifecycleFocusedTests,<sp/>LC3_UnloadModel_TransitionsToUnloaded)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;/stub/model.gguf&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ae7f1e8710640d51ee31ea107c202f6f6" kindref="member">unloadModel</ref>();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LC4:<sp/>Reload<sp/>(load<sp/>→<sp/>unload<sp/>→<sp/>load)<sp/>works<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1aec2a5b1861f3d748bfbed8f43bf505f6" kindref="member">TEST</ref>(LlamaCppPluginLifecycleFocusedTests,<sp/>LC4_Reload_WorksAfterUnload)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;/stub/first.gguf&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ae7f1e8710640d51ee31ea107c202f6f6" kindref="member">unloadModel</ref>();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;/stub/second.gguf&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a8f534cc0ec95c5f096aee771b16b48d0" kindref="member">getModelInfo</ref>();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(info.has_value());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info-&gt;model_id,<sp/></highlight><highlight class="stringliteral">&quot;/stub/second.gguf&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LC5:<sp/>Double-load<sp/>replaces<sp/>the<sp/>previous<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1aec2a5b1861f3d748bfbed8f43bf505f6" kindref="member">TEST</ref>(LlamaCppPluginLifecycleFocusedTests,<sp/>LC5_DoubleLoad_ReplacesModel)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;/stub/a.gguf&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;/stub/b.gguf&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a8f534cc0ec95c5f096aee771b16b48d0" kindref="member">getModelInfo</ref>()-&gt;model_id,<sp/></highlight><highlight class="stringliteral">&quot;/stub/b.gguf&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LC6:<sp/>Double-unload<sp/>does<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1aec2a5b1861f3d748bfbed8f43bf505f6" kindref="member">TEST</ref>(LlamaCppPluginLifecycleFocusedTests,<sp/>LC6_DoubleUnload_IsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;/stub/m.gguf&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ae7f1e8710640d51ee31ea107c202f6f6" kindref="member">unloadModel</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ae7f1e8710640d51ee31ea107c202f6f6" kindref="member">unloadModel</ref>());</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LC7:<sp/>Unload<sp/>on<sp/>a<sp/>never-loaded<sp/>plugin<sp/>does<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1aec2a5b1861f3d748bfbed8f43bf505f6" kindref="member">TEST</ref>(LlamaCppPluginLifecycleFocusedTests,<sp/>LC7_UnloadNeverLoaded_IsNoOp)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ae7f1e8710640d51ee31ea107c202f6f6" kindref="member">unloadModel</ref>());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LC8:<sp/>Plugin<sp/>created<sp/>via<sp/>registrar<sp/>starts<sp/>in<sp/>consistent<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1aec2a5b1861f3d748bfbed8f43bf505f6" kindref="member">TEST</ref>(LlamaCppPluginLifecycleFocusedTests,<sp/>LC8_RegistrarCreatedPlugin_ConsistentState)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1acc92100bc4bcc6bb6bfdc170b7abe9d2" kindref="member">LlamaCppPluginRegistrar::createPlugin</ref>(json::object());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(plugin,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>model_path<sp/>→<sp/>stub<sp/>mode,<sp/>plugin<sp/>is<sp/>ready<sp/>to<sp/>generate<sp/>but</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>isModelLoaded<sp/>may<sp/>be<sp/>false<sp/>or<sp/>true<sp/>depending<sp/>on<sp/>stub;<sp/>both<sp/>are<sp/>acceptable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>invariant:<sp/>getModelInfo<sp/>and<sp/>generate<sp/>must<sp/>not<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)plugin-&gt;getModelInfo();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(plugin-&gt;generate(req));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LC9:<sp/>Concurrent<sp/>load<sp/>and<sp/>query<sp/>does<sp/>not<sp/>cause<sp/>data<sp/>races<sp/>(thread-safety<sp/>smoke<sp/>test)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1aec2a5b1861f3d748bfbed8f43bf505f6" kindref="member">TEST</ref>(LlamaCppPluginLifecycleFocusedTests,<sp/>LC9_ConcurrentLoadQuery_NoRace)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>p;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;/stub/m.gguf&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>query_ok{0};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(4);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;p,<sp/>&amp;query_ok]()<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.prompt<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;concurrent<sp/>test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>p.<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resp.success<sp/>||<sp/>!resp.text.empty())<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++query_ok;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{<sp/>t.join();<sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>assertion<sp/>on<sp/>query_ok<sp/>count<sp/>—<sp/>the<sp/>goal<sp/>is<sp/>no<sp/>crash<sp/>/<sp/>UB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp"/>
+  </compounddef>
+</doxygen>

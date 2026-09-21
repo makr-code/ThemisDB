@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1whisper_1_1_diarisation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::whisper::DiarisationResult</compoundname>
+    <includes refid="whisper__transcriber_8h" local="no">whisper_transcriber.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_diarisation_result_1a1130f3d548ad8335af57cde9d43e8d06" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1whisper_1_1_diarisation_segment" kindref="compound">DiarisationSegment</ref> &gt;</type>
+        <definition>std::vector&lt;DiarisationSegment&gt; themis::whisper::DiarisationResult::segments</definition>
+        <argsstring></argsstring>
+        <name>segments</name>
+        <qualifiedname>themis::whisper::DiarisationResult::segments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="41" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_diarisation_result_1ac0ce02fc6d2e54001125ce5aee6baff4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::DiarisationResult::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::whisper::DiarisationResult::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="42" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_diarisation_result_1a479a0d49df62e5485a71b2ae4c6fa715" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::DiarisationResult::plugin_version</definition>
+        <argsstring></argsstring>
+        <name>plugin_version</name>
+        <qualifiedname>themis::whisper::DiarisationResult::plugin_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="43" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_diarisation_result_1a889899b90e268f269d50f2c9f0f1a68a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::DiarisationResult::ingestion_source_type</definition>
+        <argsstring></argsstring>
+        <name>ingestion_source_type</name>
+        <qualifiedname>themis::whisper::DiarisationResult::ingestion_source_type</qualifiedname>
+        <initializer>= &quot;WHISPER&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="44" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_diarisation_result_1a3ecd2b0aae8c923f9699e5653cbf14e1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::whisper::DiarisationResult::generation_timestamp</definition>
+        <argsstring></argsstring>
+        <name>generation_timestamp</name>
+        <qualifiedname>themis::whisper::DiarisationResult::generation_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="45" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_diarisation_result_1a2531084211b7ad3548769e693ff31fe7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::whisper::DiarisationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::whisper::DiarisationResult::success</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="46" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_diarisation_result_1aabe1d2908a1d329504569d7a3e63d994" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::DiarisationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::whisper::DiarisationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="47" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/whisper/whisper_transcriber.h" line="40" column="1" bodyfile="include/whisper/whisper_transcriber.h" bodystart="40" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1whisper_1_1_diarisation_result_1aabe1d2908a1d329504569d7a3e63d994" prot="public" virt="non-virtual"><scope>themis::whisper::DiarisationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1whisper_1_1_diarisation_result_1a3ecd2b0aae8c923f9699e5653cbf14e1" prot="public" virt="non-virtual"><scope>themis::whisper::DiarisationResult</scope><name>generation_timestamp</name></member>
+      <member refid="structthemis_1_1whisper_1_1_diarisation_result_1a889899b90e268f269d50f2c9f0f1a68a" prot="public" virt="non-virtual"><scope>themis::whisper::DiarisationResult</scope><name>ingestion_source_type</name></member>
+      <member refid="structthemis_1_1whisper_1_1_diarisation_result_1ac0ce02fc6d2e54001125ce5aee6baff4" prot="public" virt="non-virtual"><scope>themis::whisper::DiarisationResult</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1whisper_1_1_diarisation_result_1a479a0d49df62e5485a71b2ae4c6fa715" prot="public" virt="non-virtual"><scope>themis::whisper::DiarisationResult</scope><name>plugin_version</name></member>
+      <member refid="structthemis_1_1whisper_1_1_diarisation_result_1a1130f3d548ad8335af57cde9d43e8d06" prot="public" virt="non-virtual"><scope>themis::whisper::DiarisationResult</scope><name>segments</name></member>
+      <member refid="structthemis_1_1whisper_1_1_diarisation_result_1a2531084211b7ad3548769e693ff31fe7" prot="public" virt="non-virtual"><scope>themis::whisper::DiarisationResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

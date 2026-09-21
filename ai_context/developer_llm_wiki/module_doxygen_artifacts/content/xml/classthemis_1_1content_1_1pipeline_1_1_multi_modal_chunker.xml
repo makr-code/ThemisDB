@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::pipeline::MultiModalChunker</compoundname>
+    <includes refid="multimodal__chunker_8h" local="no">multimodal_chunker.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" prot="public">themis::content::pipeline::MultiModalChunker::MultiModalConfig</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1afd4b005023aa6bed5401eabab2867fb6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" kindref="compound">MultiModalConfig</ref></type>
+        <definition>MultiModalConfig themis::content::pipeline::MultiModalChunker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="104" column="22" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a45330db590904f8742900b7b638d581b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" kindref="compound">ContentChunker</ref></type>
+        <definition>ContentChunker themis::content::pipeline::MultiModalChunker::generic_chunker_</definition>
+        <argsstring></argsstring>
+        <name>generic_chunker_</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::generic_chunker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="105" column="20" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a41bc329e07d186e44c968775f1ecf676" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::pipeline::MultiModalChunker::MultiModalChunker</definition>
+        <argsstring>()</argsstring>
+        <name>MultiModalChunker</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalChunker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="53" column="5" bodyfile="src/content/pipeline/multimodal_chunker.cpp" bodystart="21" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a4b004088998ee3081dcff822bf1da823" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::pipeline::MultiModalChunker::MultiModalChunker</definition>
+        <argsstring>(const MultiModalConfig &amp;config)</argsstring>
+        <name>MultiModalChunker</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::MultiModalChunker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" kindref="compound">MultiModalConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Multi Modal Chunker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="59" column="14" bodyfile="src/content/pipeline/multimodal_chunker.cpp" bodystart="30" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a639f8440b81b885e1a152c42f41ef2bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::pipeline::MultiModalChunker::~MultiModalChunker</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MultiModalChunker</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::~MultiModalChunker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1aff4f255e7fe52a66cf06c38dd9f1b081" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk" kindref="compound">ContentChunker::Chunk</ref> &gt;</type>
+        <definition>std::vector&lt; ContentChunker::Chunk &gt; themis::content::pipeline::MultiModalChunker::chunk</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::chunk</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a179ad9534d2a3d0d9a186db9cfc858d3" kindref="member">chunk_text()</ref>, std::string(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="67" column="17" bodyfile="src/content/pipeline/multimodal_chunker.cpp" bodystart="45" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a179ad9534d2a3d0d9a186db9cfc858d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk" kindref="compound">ContentChunker::Chunk</ref> &gt;</type>
+        <definition>std::vector&lt; ContentChunker::Chunk &gt; themis::content::pipeline::MultiModalChunker::chunk_text</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>chunk_text</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::chunk_text</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Chunk text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find_paragraph_boundaries(), find_sentence_boundaries(), data(), begin(), end(), <ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1aff4f255e7fe52a66cf06c38dd9f1b081" kindref="member">chunk()</ref>, substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="74" column="17" bodyfile="src/content/pipeline/multimodal_chunker.cpp" bodystart="75" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a46c1967e941dc62a12027c034e131baa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk" kindref="compound">ContentChunker::Chunk</ref> &gt;</type>
+        <definition>std::vector&lt; ContentChunker::Chunk &gt; themis::content::pipeline::MultiModalChunker::chunk_image</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, size_t width, size_t height, size_t bytes_per_pixel)</argsstring>
+        <name>chunk_image</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::chunk_image</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes_per_pixel</declname>
+        </param>
+        <briefdescription>
+<para>Chunk image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_per_pixel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_per_pixel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1aff4f255e7fe52a66cf06c38dd9f1b081" kindref="member">chunk()</ref>, size(), std::min(), insert(), end(), begin(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="84" column="17" bodyfile="src/content/pipeline/multimodal_chunker.cpp" bodystart="157" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a55ed7016d488569e74901726decee099" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" kindref="compound">MultiModalConfig</ref> &amp;</type>
+        <definition>const MultiModalChunker::MultiModalConfig &amp; themis::content::pipeline::MultiModalChunker::get_config</definition>
+        <argsstring>() const</argsstring>
+        <name>get_config</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::get_config</qualifiedname>
+        <briefdescription>
+<para>Get config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="95" column="28" bodyfile="src/content/pipeline/multimodal_chunker.cpp" bodystart="218" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a6a918eb6c0ef2c968aad93f7cbeecd91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::pipeline::MultiModalChunker::set_config</definition>
+        <argsstring>(const MultiModalConfig &amp;config)</argsstring>
+        <name>set_config</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::set_config</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" kindref="compound">MultiModalConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_config without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="101" column="10" bodyfile="src/content/pipeline/multimodal_chunker.cpp" bodystart="227" bodyend="235"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a974c3fe5f0e70ca80db126c57ba8890e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt; size_t &gt; themis::content::pipeline::MultiModalChunker::find_sentence_boundaries</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>find_sentence_boundaries</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::find_sentence_boundaries</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Find sentence boundaries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), size(), std::isspace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="113" column="17" bodyfile="src/content/pipeline/multimodal_chunker.cpp" bodystart="243" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1aa96bf416b8214663c378351db54b5e8d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt; size_t &gt; themis::content::pipeline::MultiModalChunker::find_paragraph_boundaries</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>find_paragraph_boundaries</name>
+        <qualifiedname>themis::content::pipeline::MultiModalChunker::find_paragraph_boundaries</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Find paragraph boundaries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), size(), std::isspace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/multimodal_chunker.h" line="119" column="17" bodyfile="src/content/pipeline/multimodal_chunker.cpp" bodystart="277" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pipeline/multimodal_chunker.h" line="32" column="1" bodyfile="include/content/pipeline/multimodal_chunker.h" bodystart="32" bodyend="120"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1aff4f255e7fe52a66cf06c38dd9f1b081" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a46c1967e941dc62a12027c034e131baa" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>chunk_image</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a179ad9534d2a3d0d9a186db9cfc858d3" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>chunk_text</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1afd4b005023aa6bed5401eabab2867fb6" prot="private" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1aa96bf416b8214663c378351db54b5e8d" prot="private" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>find_paragraph_boundaries</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a974c3fe5f0e70ca80db126c57ba8890e" prot="private" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>find_sentence_boundaries</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a45330db590904f8742900b7b638d581b" prot="private" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>generic_chunker_</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a55ed7016d488569e74901726decee099" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>get_config</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a41bc329e07d186e44c968775f1ecf676" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>MultiModalChunker</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a4b004088998ee3081dcff822bf1da823" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>MultiModalChunker</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a6a918eb6c0ef2c968aad93f7cbeecd91" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>set_config</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a639f8440b81b885e1a152c42f41ef2bd" prot="public" virt="non-virtual"><scope>themis::content::pipeline::MultiModalChunker</scope><name>~MultiModalChunker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

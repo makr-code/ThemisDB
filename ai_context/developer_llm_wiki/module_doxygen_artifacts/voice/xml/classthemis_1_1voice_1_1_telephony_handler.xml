@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_telephony_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::TelephonyHandler</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_telephony_handler_1a0664c6ff04864d55bbf03eea29bc64c2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_telephony_config" kindref="compound">TelephonyConfig</ref></type>
+        <definition>TelephonyConfig themis::voice::TelephonyHandler::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::TelephonyHandler::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="70" column="21" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_telephony_handler_1a3d3661f93d0a90010ec0ab681d655168" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1voice_1_1_call" kindref="compound">Call</ref> &gt;</type>
+        <definition>std::map&lt;std::string, Call&gt; themis::voice::TelephonyHandler::active_calls_</definition>
+        <argsstring></argsstring>
+        <name>active_calls_</name>
+        <qualifiedname>themis::voice::TelephonyHandler::active_calls_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="71" column="14" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_telephony_handler_1aaf2cecf5ced410d1db5f093740175d6a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::TelephonyHandler::audit_log_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_</name>
+        <qualifiedname>themis::voice::TelephonyHandler::audit_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="72" column="17" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1a40da0f4b691d059338766342d59cd3f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::TelephonyHandler::TelephonyHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>TelephonyHandler</name>
+        <qualifiedname>themis::voice::TelephonyHandler::TelephonyHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1a30767c79a5ee5f39027f8b3e5fc5d088" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::TelephonyHandler::isPhoneValid</definition>
+        <argsstring>(const std::string &amp;phone)</argsstring>
+        <name>isPhoneValid</name>
+        <qualifiedname>themis::voice::TelephonyHandler::isPhoneValid</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phone</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="77" column="10" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="77" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1abe9af4326fce52d81b0a51ea06977492" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::TelephonyHandler::acceptCall</definition>
+        <argsstring>(const std::string &amp;phone_number)</argsstring>
+        <name>acceptCall</name>
+        <qualifiedname>themis::voice::TelephonyHandler::acceptCall</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phone_number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="90" column="17" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="90" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1aac17f65e46d4f043427e45bd65130e4e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::TelephonyHandler::rejectCall</definition>
+        <argsstring>(const std::string &amp;phone_number)</argsstring>
+        <name>rejectCall</name>
+        <qualifiedname>themis::voice::TelephonyHandler::rejectCall</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phone_number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="112" column="10" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="112" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1a0c9c64834d81b0b1fbd3e4316b78b29a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::TelephonyHandler::getSessionForCall</definition>
+        <argsstring>(const std::string &amp;call_id)</argsstring>
+        <name>getSessionForCall</name>
+        <qualifiedname>themis::voice::TelephonyHandler::getSessionForCall</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>call_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="120" column="17" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="120" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1a153f3515d782a6fcc75a86c694d5b787" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::TelephonyHandler::supportCodec</definition>
+        <argsstring>(AudioCodec codec)</argsstring>
+        <name>supportCodec</name>
+        <qualifiedname>themis::voice::TelephonyHandler::supportCodec</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1ae650ea81d1f35201800909d85db40f56" kindref="member">AudioCodec</ref></type>
+          <declname>codec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="128" column="10" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="128" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1a46ff713a6f54602f92ec75e669d6f22a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::TelephonyHandler::transcodeAudio</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio, AudioCodec from_codec, AudioCodec to_codec)</argsstring>
+        <name>transcodeAudio</name>
+        <qualifiedname>themis::voice::TelephonyHandler::transcodeAudio</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1ae650ea81d1f35201800909d85db40f56" kindref="member">AudioCodec</ref></type>
+          <declname>from_codec</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1ae650ea81d1f35201800909d85db40f56" kindref="member">AudioCodec</ref></type>
+          <declname>to_codec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="137" column="17" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="137" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1a5ed7e3ba69e9cdd971d2bfeac805fcae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::TelephonyHandler::endCall</definition>
+        <argsstring>(const std::string &amp;call_id)</argsstring>
+        <name>endCall</name>
+        <qualifiedname>themis::voice::TelephonyHandler::endCall</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>call_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="146" column="10" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="146" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1a59ea7238d3f28a19bc86eb330807a7ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::TelephonyHandler::logAudit</definition>
+        <argsstring>(const std::string &amp;action, const std::string &amp;resource, const std::string &amp;detail)</argsstring>
+        <name>logAudit</name>
+        <qualifiedname>themis::voice::TelephonyHandler::logAudit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="156" column="10" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="156" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1a39bd938ac648aa47dc6bb0e393ecb19a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; themis::voice::TelephonyHandler::getAuditLog</definition>
+        <argsstring>() const</argsstring>
+        <name>getAuditLog</name>
+        <qualifiedname>themis::voice::TelephonyHandler::getAuditLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="164" column="23" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="164" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1adbd0c24659758d47b84cc5803dbbbcd6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::TelephonyHandler::getActiveCallCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveCallCount</name>
+        <qualifiedname>themis::voice::TelephonyHandler::getActiveCallCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="168" column="12" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="168" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_handler_1adedc9d816c89b0bdf0a1ac66bcd407de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_call" kindref="compound">Call</ref> *</type>
+        <definition>Call * themis::voice::TelephonyHandler::getCall</definition>
+        <argsstring>(const std::string &amp;call_id)</argsstring>
+        <name>getCall</name>
+        <qualifiedname>themis::voice::TelephonyHandler::getCall</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>call_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="172" column="10" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="172" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_telephony_focused.cpp" line="68" column="1" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="68" bodyend="179"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1abe9af4326fce52d81b0a51ea06977492" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>acceptCall</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1a3d3661f93d0a90010ec0ab681d655168" prot="private" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>active_calls_</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1aaf2cecf5ced410d1db5f093740175d6a" prot="private" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>audit_log_</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1a0664c6ff04864d55bbf03eea29bc64c2" prot="private" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1a5ed7e3ba69e9cdd971d2bfeac805fcae" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>endCall</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1adbd0c24659758d47b84cc5803dbbbcd6" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>getActiveCallCount</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1a39bd938ac648aa47dc6bb0e393ecb19a" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>getAuditLog</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1adedc9d816c89b0bdf0a1ac66bcd407de" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>getCall</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1a0c9c64834d81b0b1fbd3e4316b78b29a" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>getSessionForCall</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1a30767c79a5ee5f39027f8b3e5fc5d088" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>isPhoneValid</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1a59ea7238d3f28a19bc86eb330807a7ca" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>logAudit</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1aac17f65e46d4f043427e45bd65130e4e" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>rejectCall</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1a153f3515d782a6fcc75a86c694d5b787" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>supportCodec</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1a40da0f4b691d059338766342d59cd3f7" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>TelephonyHandler</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_handler_1a46ff713a6f54602f92ec75e669d6f22a" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyHandler</scope><name>transcodeAudio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

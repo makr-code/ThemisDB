@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1access__model_1_1_trace_context_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::access_model::TraceContextManager</compoundname>
+    <includes refid="access__model__trace_8h" local="no">access_model_trace.h</includes>
+    <innerclass refid="classthemis_1_1access__model_1_1_trace_context_manager_1_1_scoped_context" prot="public">themis::access_model::TraceContextManager::ScopedContext</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_trace_context_manager_1a52438658aa08447b385e023daeaedbbe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1access__model_1ab01a4801866919f23f947fd47e2a6619" kindref="member">CorrelationID</ref></type>
+        <definition>CorrelationID themis::access_model::TraceContextManager::generateCorrelationID</definition>
+        <argsstring>(const std::string &amp;prefix=&quot;op&quot;)</argsstring>
+        <name>generateCorrelationID</name>
+        <qualifiedname>themis::access_model::TraceContextManager::generateCorrelationID</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+          <defval>&quot;op&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Generate Correlation ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gen(), rd(), std::chrono::system_clock::now(), time_since_epoch(), count(), dis(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="81" column="26" bodyfile="src/access_model/access_model_trace.cpp" bodystart="34" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_trace_context_manager_1a10250f4a46363912c99f0510dc2f3e57" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::TraceContextManager::setContext</definition>
+        <argsstring>(const TraceContext &amp;ctx)</argsstring>
+        <name>setContext</name>
+        <qualifiedname>themis::access_model::TraceContextManager::setContext</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1access__model_1_1_trace_context" kindref="compound">TraceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Set Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setContext without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="88" column="17" bodyfile="src/access_model/access_model_trace.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_trace_context_manager_1a4ecb3a383800a90d504baf8570aa2a88" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1access__model_1_1_trace_context" kindref="compound">TraceContext</ref></type>
+        <definition>TraceContext themis::access_model::TraceContextManager::getContext</definition>
+        <argsstring>()</argsstring>
+        <name>getContext</name>
+        <qualifiedname>themis::access_model::TraceContextManager::getContext</qualifiedname>
+        <briefdescription>
+<para>Get Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getContext without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="94" column="25" bodyfile="src/access_model/access_model_trace.cpp" bodystart="68" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_trace_context_manager_1a6a7886cceefa8b28ceb69eb1c2475b2f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::TraceContextManager::clearContext</definition>
+        <argsstring>()</argsstring>
+        <name>clearContext</name>
+        <qualifiedname>themis::access_model::TraceContextManager::clearContext</qualifiedname>
+        <briefdescription>
+<para>Clear Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clearContext without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="99" column="17" bodyfile="src/access_model/access_model_trace.cpp" bodystart="80" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_trace_context_manager_1a3d28563f45eaf1f86b5ff929ce4ef07d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1access__model_1ab01a4801866919f23f947fd47e2a6619" kindref="member">CorrelationID</ref></type>
+        <definition>CorrelationID themis::access_model::TraceContextManager::currentCorrelationID</definition>
+        <argsstring>()</argsstring>
+        <name>currentCorrelationID</name>
+        <qualifiedname>themis::access_model::TraceContextManager::currentCorrelationID</qualifiedname>
+        <briefdescription>
+<para>Current Correlation ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1access__model_1_1_trace_context_manager_1a4ecb3a383800a90d504baf8570aa2a88" kindref="member">getContext()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="105" column="26" bodyfile="src/access_model/access_model_trace.cpp" bodystart="90" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_model_trace.h" line="79" column="1" bodyfile="include/access_model/access_model_trace.h" bodystart="79" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1access__model_1_1_trace_context_manager_1a6a7886cceefa8b28ceb69eb1c2475b2f" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContextManager</scope><name>clearContext</name></member>
+      <member refid="classthemis_1_1access__model_1_1_trace_context_manager_1a3d28563f45eaf1f86b5ff929ce4ef07d" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContextManager</scope><name>currentCorrelationID</name></member>
+      <member refid="classthemis_1_1access__model_1_1_trace_context_manager_1a52438658aa08447b385e023daeaedbbe" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContextManager</scope><name>generateCorrelationID</name></member>
+      <member refid="classthemis_1_1access__model_1_1_trace_context_manager_1a4ecb3a383800a90d504baf8570aa2a88" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContextManager</scope><name>getContext</name></member>
+      <member refid="classthemis_1_1access__model_1_1_trace_context_manager_1a10250f4a46363912c99f0510dc2f3e57" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContextManager</scope><name>setContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

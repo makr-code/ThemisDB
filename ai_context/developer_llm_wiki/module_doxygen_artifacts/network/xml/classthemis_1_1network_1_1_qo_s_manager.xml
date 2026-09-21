@@ -1,0 +1,2124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_qo_s_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::QoSManager</compoundname>
+    <includes refid="qos__manager_8h" local="no">qos_manager.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config" prot="public">themis::network::QoSManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send" prot="public">themis::network::QoSManager::PendingSend</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config" prot="public">themis::network::QoSManager::TcConfig</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats" prot="public">themis::network::QoSManager::ConnectionStats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats" prot="public">themis::network::QoSManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats" prot="public">themis::network::QoSManager::TenantQuotaStats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state" prot="private">themis::network::QoSManager::ConnectionState</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_state" prot="private">themis::network::QoSManager::TenantState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1ae0d1d1a7556d6202f41d7519e58f6852" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::network::QoSManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::network::QoSManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="776" column="12" bodyfile="include/network/qos_manager.h" bodystart="776" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1aca3537680d2803f13067ac8cccddb06f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::QoSManager::connections_mutex_</definition>
+        <argsstring></argsstring>
+        <name>connections_mutex_</name>
+        <qualifiedname>themis::network::QoSManager::connections_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="778" column="24" bodyfile="include/network/qos_manager.h" bodystart="778" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a0c7a48c3ca3ba67bcf65c61dd510de1e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, std::shared_ptr&lt; ConnectionState &gt; &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, std::shared_ptr&lt;ConnectionState&gt; &gt; themis::network::QoSManager::connections_</definition>
+        <argsstring></argsstring>
+        <name>connections_</name>
+        <qualifiedname>themis::network::QoSManager::connections_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="779" column="24" bodyfile="include/network/qos_manager.h" bodystart="779" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a18743a7002564c8ea13090a9cd1afaac" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::QoSManager::total_bytes_sent_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_sent_</name>
+        <qualifiedname>themis::network::QoSManager::total_bytes_sent_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="782" column="17" bodyfile="include/network/qos_manager.h" bodystart="782" bodyend="782"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1ad917301b29e3101f6e538a11da3d1f67" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::QoSManager::total_bytes_received_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_received_</name>
+        <qualifiedname>themis::network::QoSManager::total_bytes_received_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="783" column="17" bodyfile="include/network/qos_manager.h" bodystart="783" bodyend="783"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1acd74271b9f89f83ed28fb8e43e91c427" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::QoSManager::total_bytes_shaped_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_shaped_</name>
+        <qualifiedname>themis::network::QoSManager::total_bytes_shaped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="784" column="17" bodyfile="include/network/qos_manager.h" bodystart="784" bodyend="784"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a6a6ba881b6af2d832898a1e22f615e33" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::QoSManager::total_backpressure_events_</definition>
+        <argsstring></argsstring>
+        <name>total_backpressure_events_</name>
+        <qualifiedname>themis::network::QoSManager::total_backpressure_events_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="785" column="17" bodyfile="include/network/qos_manager.h" bodystart="785" bodyend="785"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1aa58462b42426c57c5bedb278f6829f72" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::QoSManager::priority_stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>priority_stats_mutex_</name>
+        <qualifiedname>themis::network::QoSManager::priority_stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="788" column="24" bodyfile="include/network/qos_manager.h" bodystart="788" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a4d58e25291d420af499373bb32a08aa2" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref>, uint64_t &gt;</type>
+        <definition>std::map&lt;Priority, uint64_t&gt; themis::network::QoSManager::bytes_per_priority_</definition>
+        <argsstring></argsstring>
+        <name>bytes_per_priority_</name>
+        <qualifiedname>themis::network::QoSManager::bytes_per_priority_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="789" column="14" bodyfile="include/network/qos_manager.h" bodystart="789" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1aaeb7973e65439994bf0ab3d5687c5026" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::QoSManager::callback_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex_</name>
+        <qualifiedname>themis::network::QoSManager::callback_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="792" column="24" bodyfile="include/network/qos_manager.h" bodystart="792" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a4516eb95f2ae9858491978ab5dd8ccbd" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(uint64_t, uint64_t)&gt;</type>
+        <definition>std::function&lt;void(uint64_t, uint64_t)&gt; themis::network::QoSManager::backpressure_cb_</definition>
+        <argsstring></argsstring>
+        <name>backpressure_cb_</name>
+        <qualifiedname>themis::network::QoSManager::backpressure_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="793" column="19" bodyfile="include/network/qos_manager.h" bodystart="793" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1ad1aeb8cfb78c3ee0a8c4fa237e357ad7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::QoSManager::pq_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pq_mutex_</name>
+        <qualifiedname>themis::network::QoSManager::pq_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="800" column="24" bodyfile="include/network/qos_manager.h" bodystart="800" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a14a390f21d18d1840d9174d5c18b72b1" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send" kindref="compound">PendingSend</ref> &gt;</type>
+        <definition>std::deque&lt;PendingSend&gt; themis::network::QoSManager::pq_critical_</definition>
+        <argsstring></argsstring>
+        <name>pq_critical_</name>
+        <qualifiedname>themis::network::QoSManager::pq_critical_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="801" column="16" bodyfile="include/network/qos_manager.h" bodystart="801" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a200defc02aa4eaa349fc23820fd802b4" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send" kindref="compound">PendingSend</ref> &gt;</type>
+        <definition>std::deque&lt;PendingSend&gt; themis::network::QoSManager::pq_high_</definition>
+        <argsstring></argsstring>
+        <name>pq_high_</name>
+        <qualifiedname>themis::network::QoSManager::pq_high_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="802" column="16" bodyfile="include/network/qos_manager.h" bodystart="802" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1ab8069cdce455ae7d2a9d81f6f08258f6" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send" kindref="compound">PendingSend</ref> &gt;</type>
+        <definition>std::deque&lt;PendingSend&gt; themis::network::QoSManager::pq_medium_</definition>
+        <argsstring></argsstring>
+        <name>pq_medium_</name>
+        <qualifiedname>themis::network::QoSManager::pq_medium_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="803" column="16" bodyfile="include/network/qos_manager.h" bodystart="803" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a1a6927946ec4f910d5957e09695ee2f6" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send" kindref="compound">PendingSend</ref> &gt;</type>
+        <definition>std::deque&lt;PendingSend&gt; themis::network::QoSManager::pq_low_</definition>
+        <argsstring></argsstring>
+        <name>pq_low_</name>
+        <qualifiedname>themis::network::QoSManager::pq_low_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="804" column="16" bodyfile="include/network/qos_manager.h" bodystart="804" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a9aa4537497da4e40e468d3746803e423" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::QoSManager::pq_consecutive_high_serves_</definition>
+        <argsstring></argsstring>
+        <name>pq_consecutive_high_serves_</name>
+        <qualifiedname>themis::network::QoSManager::pq_consecutive_high_serves_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="808" column="14" bodyfile="include/network/qos_manager.h" bodystart="808" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a5745a01ed35e557dc34dc1bbc2b57173" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::QoSManager::tenants_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tenants_mutex_</name>
+        <qualifiedname>themis::network::QoSManager::tenants_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="827" column="24" bodyfile="include/network/qos_manager.h" bodystart="827" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1ace82db72a612deac16a011687e6164ac" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; TenantState &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;TenantState&gt; &gt; themis::network::QoSManager::tenants_</definition>
+        <argsstring></argsstring>
+        <name>tenants_</name>
+        <qualifiedname>themis::network::QoSManager::tenants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="828" column="24" bodyfile="include/network/qos_manager.h" bodystart="828" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a006633b08ca5f6187d9a590489bb189b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::QoSManager::tenant_assignments_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tenant_assignments_mutex_</name>
+        <qualifiedname>themis::network::QoSManager::tenant_assignments_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="831" column="24" bodyfile="include/network/qos_manager.h" bodystart="831" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_qo_s_manager_1a7959911ccc270c90626867b36779ab25" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, std::string &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, std::string&gt; themis::network::QoSManager::tenant_assignments_</definition>
+        <argsstring></argsstring>
+        <name>tenant_assignments_</name>
+        <qualifiedname>themis::network::QoSManager::tenant_assignments_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="832" column="24" bodyfile="include/network/qos_manager.h" bodystart="832" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::QoSManager::QoSManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>QoSManager</name>
+        <qualifiedname>themis::network::QoSManager::QoSManager</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="329" column="14" bodyfile="src/network/qos_manager.cpp" bodystart="437" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1acd7513ba56d34551daa2bf78b29f50e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::QoSManager::QoSManager</definition>
+        <argsstring>()</argsstring>
+        <name>QoSManager</name>
+        <qualifiedname>themis::network::QoSManager::QoSManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="330" column="5" bodyfile="src/network/qos_manager.cpp" bodystart="447" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a9137baa235fdfca0a3da9c0767bdf292" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::QoSManager::~QoSManager</definition>
+        <argsstring>()</argsstring>
+        <name>~QoSManager</name>
+        <qualifiedname>themis::network::QoSManager::~QoSManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="331" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a4ff60db8acb287429545e90fb45f3a31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::QoSManager::QoSManager</definition>
+        <argsstring>(const QoSManager &amp;)=delete</argsstring>
+        <name>QoSManager</name>
+        <qualifiedname>themis::network::QoSManager::QoSManager</qualifiedname>
+        <param>
+          <type>const QoSManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="334" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1aac5f8538c498a18d516a53ff541a0e05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref> &amp;</type>
+        <definition>QoSManager &amp; themis::network::QoSManager::operator=</definition>
+        <argsstring>(const QoSManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::QoSManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="335" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1aa41b0cc818f110b0512b25e5bc4ea4b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::QoSManager::QoSManager</definition>
+        <argsstring>(QoSManager &amp;&amp;)=delete</argsstring>
+        <name>QoSManager</name>
+        <qualifiedname>themis::network::QoSManager::QoSManager</qualifiedname>
+        <param>
+          <type>QoSManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="336" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a2e55ecf00a08265e83eccfbb7497d44e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref> &amp;</type>
+        <definition>QoSManager &amp; themis::network::QoSManager::operator=</definition>
+        <argsstring>(QoSManager &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::QoSManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="337" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1aece98fb90f3dc0e86bd526bd70ba3657" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::registerConnection</definition>
+        <argsstring>(uint64_t connection_id, Priority priority=Priority::MEDIUM)</argsstring>
+        <name>registerConnection</name>
+        <qualifiedname>themis::network::QoSManager::registerConnection</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref></type>
+          <declname>priority</declname>
+          <defval><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">Priority::MEDIUM</ref></defval>
+        </param>
+        <briefdescription>
+<para>Register a new connection with an optional initial priority. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Connection.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique connection identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial traffic priority.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), effectiveDefaultRateBps(), lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="348" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="482" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a47be63bababcce671c91b8a88fc9fd26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::unregisterConnection</definition>
+        <argsstring>(uint64_t connection_id)</argsstring>
+        <name>unregisterConnection</name>
+        <qualifiedname>themis::network::QoSManager::unregisterConnection</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+<para>Deregister a connection and free its token bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Connection.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Connection to remove.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), empty(), findTenant(), load(), fetch_sub(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="355" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="504" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a52b97f06f9861ce6c6b7a69a4d54e3fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::setPriority</definition>
+        <argsstring>(uint64_t connection_id, Priority priority)</argsstring>
+        <name>setPriority</name>
+        <qualifiedname>themis::network::QoSManager::setPriority</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref></type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+<para>Change the priority of a live connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New priority.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: findConnection(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="366" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="536" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a4a362d38ab21bad5cc6506cf4076b9b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::setTokenBucket</definition>
+        <argsstring>(uint64_t connection_id, uint64_t rate_bps, uint64_t burst_bytes=0)</argsstring>
+        <name>setTokenBucket</name>
+        <qualifiedname>themis::network::QoSManager::setTokenBucket</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>rate_bps</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>burst_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Set a bandwidth limit via a new token bucket for the connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Token Bucket.</para>
+<para>This replaces any existing token bucket for the connection.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sustained rate in bits per second. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum burst in bytes (0 = same as default_burst_bytes).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: findConnection(), lock(), reconfigure(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="377" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="551" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1ad2e4cf4823859d9cacab0a5df6598952" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::clearTokenBucket</definition>
+        <argsstring>(uint64_t connection_id)</argsstring>
+        <name>clearTokenBucket</name>
+        <qualifiedname>themis::network::QoSManager::clearTokenBucket</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove the token bucket from a connection (unlimited bandwidth). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Token Bucket.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target connection.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: findConnection(), lock(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="385" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="577" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1aaa447dad2db2d3e0328af3809a7fdd47" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::set_priority</definition>
+        <argsstring>(uint64_t connection_id, Priority priority)</argsstring>
+        <name>set_priority</name>
+        <qualifiedname>themis::network::QoSManager::set_priority</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref></type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+<para>Change the priority of a live connection (snake_case alias). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New priority. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="396" column="10" bodyfile="include/network/qos_manager.h" bodystart="396" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1ad656e243dfb54575f6fab13996eddbc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::set_bandwidth_limit</definition>
+        <argsstring>(uint64_t connection_id, uint64_t bytes_per_second)</argsstring>
+        <name>set_bandwidth_limit</name>
+        <qualifiedname>themis::network::QoSManager::set_bandwidth_limit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_per_second</declname>
+        </param>
+        <briefdescription>
+<para>Set a per-connection bandwidth limit in bytes per second. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set bandwidth limit.</para>
+<para>Internally creates a token bucket with a burst equal to one second of sustained throughput. Use <computeroutput><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a4a362d38ab21bad5cc6506cf4076b9b0" kindref="member">setTokenBucket()</ref></computeroutput> for explicit burst control.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes_per_second</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sustained bandwidth limit in bytes per second.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_per_second</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1network_1_1_qo_s_manager_1a4a362d38ab21bad5cc6506cf4076b9b0" kindref="member">setTokenBucket()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="409" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="614" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a3c70d08a4fcd56174858b96f6a81c6cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::set_token_bucket</definition>
+        <argsstring>(uint64_t connection_id, uint64_t rate_bps, uint64_t burst_bytes)</argsstring>
+        <name>set_token_bucket</name>
+        <qualifiedname>themis::network::QoSManager::set_token_bucket</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>rate_bps</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>burst_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Set a token bucket for traffic shaping (snake_case alias). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sustained rate in bits per second. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum burst size in bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="418" column="10" bodyfile="include/network/qos_manager.h" bodystart="418" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a8c5049b0ea608c42dc1ff9d9d08bf88c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::setLeakyBucket</definition>
+        <argsstring>(uint64_t connection_id, uint64_t drain_rate_bps, uint64_t capacity_bytes)</argsstring>
+        <name>setLeakyBucket</name>
+        <qualifiedname>themis::network::QoSManager::setLeakyBucket</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>drain_rate_bps</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>capacity_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Attach a leaky bucket shaper to a connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Leaky Bucket.</para>
+<para>The leaky bucket enforces a strict constant drain rate with no burst allowance. Data that overflows the bucket is considered &quot;non-conformant&quot; and <computeroutput><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a9fb37f1e0ad11246c1666ee01e063e01" kindref="member">allowSend()</ref></computeroutput> will return false for it.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>drain_rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant drain rate in bits per second. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>capacity_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum bucket capacity in bytes.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">drain_rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">capacity_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: findConnection(), lock(), reconfigure(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="439" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="633" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a37b43a2fa04f7e432ebd118b3fb56c8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::clearLeakyBucket</definition>
+        <argsstring>(uint64_t connection_id)</argsstring>
+        <name>clearLeakyBucket</name>
+        <qualifiedname>themis::network::QoSManager::clearLeakyBucket</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove the leaky bucket shaper from a connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Leaky Bucket.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target connection.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: findConnection(), lock(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="447" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="653" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a2d236a433c883043713a4ea26dbce18f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::QoSManager::enqueueSend</definition>
+        <argsstring>(uint64_t connection_id, uint64_t bytes)</argsstring>
+        <name>enqueueSend</name>
+        <qualifiedname>themis::network::QoSManager::enqueueSend</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Enqueue a pending send into the priority scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enqueue Send.</para>
+<para>The send is placed into the priority queue corresponding to the connection&apos;s current priority level. The scheduler does NOT immediately consume token bucket tokens — that happens in <computeroutput><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a9fb37f1e0ad11246c1666ee01e063e01" kindref="member">allowSend()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to send. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the item was accepted; false if the connection is unknown.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: findConnection(), load(), lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="473" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="673" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a25328cf5ca4138c9da3583e15da00927" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send" kindref="compound">PendingSend</ref> &gt;</type>
+        <definition>std::optional&lt; QoSManager::PendingSend &gt; themis::network::QoSManager::dequeueForSend</definition>
+        <argsstring>()</argsstring>
+        <name>dequeueForSend</name>
+        <qualifiedname>themis::network::QoSManager::dequeueForSend</qualifiedname>
+        <briefdescription>
+<para>Dequeue the next pending send selected by priority + fair-queuing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Dequeue For Send.</para>
+<para>Selects the highest-priority non-empty queue. Within a priority level, connections are served in round-robin order (fair queuing).</para>
+<para>A starvation guard ensures that lower-priority items are occasionally served even when higher-priority queues are always non-empty (see <computeroutput>Config::starvation_guard_threshold</computeroutput>).</para>
+<para><simplesect kind="return"><para>The next <ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_pending_send" kindref="compound">PendingSend</ref>, or std::nullopt if all queues are empty.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), front(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="487" column="19" bodyfile="src/network/qos_manager.cpp" bodystart="702" bodyend="756"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a13aef9bfa502436874607dbd5612be1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::QoSManager::getPendingQueueDepth</definition>
+        <argsstring>(Priority priority) const</argsstring>
+        <name>getPendingQueueDepth</name>
+        <qualifiedname>themis::network::QoSManager::getPendingQueueDepth</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" kindref="member">Priority</ref></type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+<para>Return the number of pending sends in a specific priority queue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Queue to query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pq_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="493" column="12" bodyfile="src/network/qos_manager.cpp" bodystart="758" bodyend="772"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a3e66b085f0b813f53a8bcb1a900dd6ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::recordAck</definition>
+        <argsstring>(uint64_t connection_id, uint64_t bytes_acked, std::chrono::microseconds rtt)</argsstring>
+        <name>recordAck</name>
+        <qualifiedname>themis::network::QoSManager::recordAck</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_acked</declname>
+        </param>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>rtt</declname>
+        </param>
+        <briefdescription>
+<para>Record a successful ACK for congestion window adaptation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Ack.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Connection that received the ACK. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes_acked</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes acknowledged. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rtt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Measured round-trip time for this segment.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_acked</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rtt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: findConnection(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="506" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="785" bodyend="801"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a8a66e4f1cf74138738645a9732885c51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::recordLoss</definition>
+        <argsstring>(uint64_t connection_id)</argsstring>
+        <name>recordLoss</name>
+        <qualifiedname>themis::network::QoSManager::recordLoss</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+<para>Record a packet loss event for congestion window reduction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Loss.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Connection that experienced the loss.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: findConnection(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="514" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="808" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1acffbe4330407b279d44fd146771faf67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::getCongestionWindow</definition>
+        <argsstring>(uint64_t connection_id) const</argsstring>
+        <name>getCongestionWindow</name>
+        <qualifiedname>themis::network::QoSManager::getCongestionWindow</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the current congestion window for a connection (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns UINT64_MAX if no congestion controller is registered for the connection (unlimited window).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target connection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="524" column="14" bodyfile="src/network/qos_manager.cpp" bodystart="824" bodyend="834"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a2682120fe0efd73d76db75de856e9dbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::QoSManager::configureTc</definition>
+        <argsstring>(const TcConfig &amp;tc_config)</argsstring>
+        <name>configureTc</name>
+        <qualifiedname>themis::network::QoSManager::configureTc</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config" kindref="compound">TcConfig</ref> &amp;</type>
+          <declname>tc_config</declname>
+        </param>
+        <briefdescription>
+<para>Apply an HTB qdisc configuration on a Linux network interface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure Tc.</para>
+<para>Issues <computeroutput>tc qdisc</computeroutput> and <computeroutput>tc class</computeroutput> commands to set up a Hierarchical Token Bucket on the specified interface. On non-Linux platforms this function returns false without doing anything.</para>
+<para>Requires the process to have sufficient privileges (CAP_NET_ADMIN).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tc_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>tc configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if tc commands succeeded; false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tc_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), isValidInterfaceName(), THEMIS_ERROR(), defined(), access(), c_str(), effectiveMaxBandwidthBps(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="556" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="846" bodyend="956"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a9fb37f1e0ad11246c1666ee01e063e01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::QoSManager::allowSend</definition>
+        <argsstring>(uint64_t connection_id, uint64_t bytes, std::chrono::milliseconds timeout=std::chrono::milliseconds(0))</argsstring>
+        <name>allowSend</name>
+        <qualifiedname>themis::network::QoSManager::allowSend</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::milliseconds(0)</defval>
+        </param>
+        <briefdescription>
+<para>Check whether <computeroutput>bytes</computeroutput> may be sent now (token bucket + queue check). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allow Send.</para>
+<para>If a token bucket is configured and there are insufficient tokens, the function may block up to <computeroutput>timeout</computeroutput> to wait for refill. If the write queue depth would exceed <computeroutput>max_queue_bytes</computeroutput>, it returns false immediately (backpressure signal).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes the caller wants to send. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait for tokens. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the send is permitted, false if backpressure applies.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: findConnection(), load(), fetch_add(), cb_lock(), backpressure_cb_(), lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="575" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="970" bodyend="1089"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a88e8d2075e65fbb6b1b0f31750dbb9cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::recordBytesSent</definition>
+        <argsstring>(uint64_t connection_id, uint64_t bytes)</argsstring>
+        <name>recordBytesSent</name>
+        <qualifiedname>themis::network::QoSManager::recordBytesSent</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record that <computeroutput>bytes</computeroutput> were successfully sent on a connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Bytes Sent.</para>
+<para>Call this after the OS write call to update accounting.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes actually written.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: findConnection(), fetch_add(), load(), std::min(), fetch_sub(), lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="586" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="1097" bodyend="1133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a4a9e20e8f184888792243ff192de9ae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::recordBytesReceived</definition>
+        <argsstring>(uint64_t connection_id, uint64_t bytes)</argsstring>
+        <name>recordBytesReceived</name>
+        <qualifiedname>themis::network::QoSManager::recordBytesReceived</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record that <computeroutput>bytes</computeroutput> were received on a connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Bytes Received.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes received.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: findConnection(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="593" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="1141" bodyend="1149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1adbf762b273a3abb6cf1f71cb1cbc6ef1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>QoSManager::Stats themis::network::QoSManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::network::QoSManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Retrieve aggregate statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connections_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">priority_stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="634" column="11" bodyfile="src/network/qos_manager.cpp" bodystart="1155" bodyend="1183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a5fb26b71dcbf68039e22898cf73cc266" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats" kindref="compound">ConnectionStats</ref></type>
+        <definition>QoSManager::ConnectionStats themis::network::QoSManager::getConnectionStats</definition>
+        <argsstring>(uint64_t connection_id) const</argsstring>
+        <name>getConnectionStats</name>
+        <qualifiedname>themis::network::QoSManager::getConnectionStats</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve per-connection statistics for a specific connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target connection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats" kindref="compound">Stats</ref> snapshot, or default-constructed if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="641" column="21" bodyfile="src/network/qos_manager.cpp" bodystart="1186" bodyend="1221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1af4573b0c1513de608f93f04f49cd9cea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_stats" kindref="compound">ConnectionStats</ref> &gt;</type>
+        <definition>std::vector&lt; QoSManager::ConnectionStats &gt; themis::network::QoSManager::getAllConnectionStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllConnectionStats</name>
+        <qualifiedname>themis::network::QoSManager::getAllConnectionStats</qualifiedname>
+        <briefdescription>
+<para>Retrieve statistics for all registered connections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connections_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="646" column="17" bodyfile="src/network/qos_manager.cpp" bodystart="1224" bodyend="1246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a9fcb241c8e94adc81f63e5cb943cf42c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::registerTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id, uint64_t rate_bps, uint64_t burst_bytes=0)</argsstring>
+        <name>registerTenantQuota</name>
+        <qualifiedname>themis::network::QoSManager::registerTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>rate_bps</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>burst_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Register a bandwidth quota for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Tenant Quota.</para>
+<para>All connections assigned to this tenant share a single token bucket that enforces the aggregate bandwidth limit. If a quota already exists for the tenant, its parameters are updated in-place.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sustained aggregate bandwidth limit in bits per second (0 = unlimited). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum burst size in bytes (0 = 1 second of sustained rate, or unlimited when rate_bps is also 0).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), tb_lock(), reconfigure(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="666" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="1289" bodyend="1314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a54576307f8930b47d074fe03c0a9c35a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::unregisterTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>unregisterTenantQuota</name>
+        <qualifiedname>themis::network::QoSManager::unregisterTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove the bandwidth quota for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Tenant Quota.</para>
+<para>Existing connections assigned to this tenant become unquoted after this call. The connection-to-tenant assignment entries are NOT removed; they simply have no tenant bucket to check against.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="679" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="1321" bodyend="1324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a6513646ed26d42ba27eecec1d564d0f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::setTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id, uint64_t rate_bps, uint64_t burst_bytes=0)</argsstring>
+        <name>setTenantQuota</name>
+        <qualifiedname>themis::network::QoSManager::setTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>rate_bps</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>burst_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Update the bandwidth quota for a tenant at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Tenant Quota.</para>
+<para>Equivalent to calling registerTenantQuota with the new parameters. Creates the tenant entry if it does not already exist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New sustained rate in bits per second (0 = unlimited). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New maximum burst size in bytes (0 = auto-derive).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1network_1_1_qo_s_manager_1a9fcb241c8e94adc81f63e5cb943cf42c" kindref="member">registerTenantQuota()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="691" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="1333" bodyend="1337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1af26f343f893d1307fa4e9f6f2a011b1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::assignTenant</definition>
+        <argsstring>(uint64_t connection_id, const std::string &amp;tenant_id)</argsstring>
+        <name>assignTenant</name>
+        <qualifiedname>themis::network::QoSManager::assignTenant</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Assign a registered connection to a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Assign Tenant.</para>
+<para>After assignment, <computeroutput><ref refid="classthemis_1_1network_1_1_qo_s_manager_1a9fb37f1e0ad11246c1666ee01e063e01" kindref="member">allowSend</ref></computeroutput> will also check the tenant-level token bucket in addition to the per-connection bucket. A connection can only belong to one tenant; calling this again re-assigns it.</para>
+<para>Typically called after the client authenticates and the tenant is known.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Connection to assign. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target tenant identifier.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), empty(), findTenant(), fetch_sub(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="707" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="1345" bodyend="1372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a96aa26a5d778ad1f13e33117da61c403" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats" kindref="compound">TenantQuotaStats</ref></type>
+        <definition>QoSManager::TenantQuotaStats themis::network::QoSManager::getTenantStats</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantStats</name>
+        <qualifiedname>themis::network::QoSManager::getTenantStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve statistics for a specific tenant quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_stats" kindref="compound">Stats</ref> snapshot, or default-constructed if tenant not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="726" column="22" bodyfile="src/network/qos_manager.cpp" bodystart="1375" bodyend="1395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a7defade0c0bf21cad9615c0401435e26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats" kindref="compound">TenantQuotaStats</ref> &gt;</type>
+        <definition>std::vector&lt; QoSManager::TenantQuotaStats &gt; themis::network::QoSManager::getAllTenantStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllTenantStats</name>
+        <qualifiedname>themis::network::QoSManager::getAllTenantStats</qualifiedname>
+        <briefdescription>
+<para>Retrieve statistics for all registered tenant quotas. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenants_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="731" column="17" bodyfile="src/network/qos_manager.cpp" bodystart="1398" bodyend="1420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a3b642e8135cefb7c7d7abaacdf119a8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::QoSManager::setBackpressureCallback</definition>
+        <argsstring>(std::function&lt; void(uint64_t, uint64_t)&gt; cb)</argsstring>
+        <name>setBackpressureCallback</name>
+        <qualifiedname>themis::network::QoSManager::setBackpressureCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(uint64_t, uint64_t)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set a callback invoked when backpressure is triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback receives the connection_id and the number of bytes that could not be sent. It is invoked while holding an internal callback mutex, so it must be fast and non-blocking. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="744" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="1252" bodyend="1261"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a4c3e5bd1526159669193a3b7c4aef8a4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ConnectionState &gt;</type>
+        <definition>std::shared_ptr&lt; QoSManager::ConnectionState &gt; themis::network::QoSManager::findConnection</definition>
+        <argsstring>(uint64_t id) const</argsstring>
+        <name>findConnection</name>
+        <qualifiedname>themis::network::QoSManager::findConnection</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connections_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="769" column="21" bodyfile="src/network/qos_manager.cpp" bodystart="458" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a03fd9c826f7de422095266e9b0da971c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::effectiveMaxBandwidthBps</definition>
+        <argsstring>() const</argsstring>
+        <name>effectiveMaxBandwidthBps</name>
+        <qualifiedname>themis::network::QoSManager::effectiveMaxBandwidthBps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="772" column="14" bodyfile="src/network/qos_manager.cpp" bodystart="590" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1ad526fa83cd22c6fc61037f3715cacb24" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::effectiveDefaultRateBps</definition>
+        <argsstring>() const</argsstring>
+        <name>effectiveDefaultRateBps</name>
+        <qualifiedname>themis::network::QoSManager::effectiveDefaultRateBps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="774" column="14" bodyfile="src/network/qos_manager.cpp" bodystart="597" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_qo_s_manager_1a4576acc9716d1b07f15123719d6ab195" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; TenantState &gt;</type>
+        <definition>std::shared_ptr&lt; QoSManager::TenantState &gt; themis::network::QoSManager::findTenant</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>findTenant</name>
+        <qualifiedname>themis::network::QoSManager::findTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenants_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="825" column="21" bodyfile="src/network/qos_manager.cpp" bodystart="1268" bodyend="1280"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Network QoS Manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides:<itemizedlist>
+<listitem><para>Per-connection token bucket bandwidth limiting</para>
+</listitem><listitem><para>Four-level priority queue for outbound scheduling</para>
+</listitem><listitem><para>Fair-queuing across connections at the same priority</para>
+</listitem><listitem><para>Backpressure signalling (write-queue depth limit)</para>
+</listitem><listitem><para>Runtime reconfiguration (rate / burst / priority)</para>
+</listitem><listitem><para>Statistics per connection and per priority class</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">QoSManager::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.default_rate_bps<sp/><sp/><sp/>=<sp/>100&apos;000&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>Mbps<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">cfg.default_burst_bytes<sp/>=<sp/>1&apos;000&apos;000;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>MB<sp/>burst</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">cfg.max_queue_bytes<sp/><sp/><sp/><sp/>=<sp/>10&apos;000&apos;000;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>MB<sp/>write-queue<sp/>cap</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" kindref="member">QoSManager</ref><sp/>qos(cfg);</highlight></codeline>
+<codeline><highlight class="normal">qos.registerConnection(conn_id,<sp/><ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eab89de3b4b81c4facfac906edf29aec8c" kindref="member">Priority::HIGH</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Before<sp/>writing<sp/>N<sp/>bytes<sp/>to<sp/>a<sp/>connection:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!qos.allowSend(conn_id,<sp/>bytes))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backpressure:<sp/>drop<sp/>or<sp/>delay</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">qos.recordBytesSent(conn_id,<sp/>bytes);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/qos_manager.h" line="288" column="1" bodyfile="include/network/qos_manager.h" bodystart="288" bodyend="833"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a9fb37f1e0ad11246c1666ee01e063e01" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>allowSend</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1af26f343f893d1307fa4e9f6f2a011b1c" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>assignTenant</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a4516eb95f2ae9858491978ab5dd8ccbd" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>backpressure_cb_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a4d58e25291d420af499373bb32a08aa2" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>bytes_per_priority_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1aaeb7973e65439994bf0ab3d5687c5026" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>callback_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a37b43a2fa04f7e432ebd118b3fb56c8a" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>clearLeakyBucket</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1ad2e4cf4823859d9cacab0a5df6598952" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>clearTokenBucket</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1ae0d1d1a7556d6202f41d7519e58f6852" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a2682120fe0efd73d76db75de856e9dbf" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>configureTc</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a0c7a48c3ca3ba67bcf65c61dd510de1e" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>connections_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1aca3537680d2803f13067ac8cccddb06f" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>connections_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a25328cf5ca4138c9da3583e15da00927" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>dequeueForSend</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1ad526fa83cd22c6fc61037f3715cacb24" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>effectiveDefaultRateBps</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a03fd9c826f7de422095266e9b0da971c" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>effectiveMaxBandwidthBps</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a2d236a433c883043713a4ea26dbce18f" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>enqueueSend</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a4c3e5bd1526159669193a3b7c4aef8a4" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>findConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a4576acc9716d1b07f15123719d6ab195" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>findTenant</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1af4573b0c1513de608f93f04f49cd9cea" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>getAllConnectionStats</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a7defade0c0bf21cad9615c0401435e26" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>getAllTenantStats</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1acffbe4330407b279d44fd146771faf67" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>getCongestionWindow</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a5fb26b71dcbf68039e22898cf73cc266" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>getConnectionStats</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a13aef9bfa502436874607dbd5612be1b" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>getPendingQueueDepth</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1adbf762b273a3abb6cf1f71cb1cbc6ef1" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a96aa26a5d778ad1f13e33117da61c403" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>getTenantStats</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1aac5f8538c498a18d516a53ff541a0e05" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a2e55ecf00a08265e83eccfbb7497d44e" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a9aa4537497da4e40e468d3746803e423" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>pq_consecutive_high_serves_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a14a390f21d18d1840d9174d5c18b72b1" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>pq_critical_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a200defc02aa4eaa349fc23820fd802b4" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>pq_high_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a1a6927946ec4f910d5957e09695ee2f6" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>pq_low_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1ab8069cdce455ae7d2a9d81f6f08258f6" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>pq_medium_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1ad1aeb8cfb78c3ee0a8c4fa237e357ad7" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>pq_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1aa58462b42426c57c5bedb278f6829f72" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>priority_stats_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1aa6fcde0d57a8af1ba59820cbd8a14282" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>QoSManager</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1acd7513ba56d34551daa2bf78b29f50e0" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>QoSManager</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a4ff60db8acb287429545e90fb45f3a31" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>QoSManager</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1aa41b0cc818f110b0512b25e5bc4ea4b1" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>QoSManager</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a3e66b085f0b813f53a8bcb1a900dd6ef" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>recordAck</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a4a9e20e8f184888792243ff192de9ae4" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>recordBytesReceived</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a88e8d2075e65fbb6b1b0f31750dbb9cb" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>recordBytesSent</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a8a66e4f1cf74138738645a9732885c51" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>recordLoss</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1aece98fb90f3dc0e86bd526bd70ba3657" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>registerConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a9fcb241c8e94adc81f63e5cb943cf42c" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>registerTenantQuota</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1ad656e243dfb54575f6fab13996eddbc9" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>set_bandwidth_limit</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1aaa447dad2db2d3e0328af3809a7fdd47" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>set_priority</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a3c70d08a4fcd56174858b96f6a81c6cd" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>set_token_bucket</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a3b642e8135cefb7c7d7abaacdf119a8f" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>setBackpressureCallback</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a8c5049b0ea608c42dc1ff9d9d08bf88c" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>setLeakyBucket</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a52b97f06f9861ce6c6b7a69a4d54e3fd" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>setPriority</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a6513646ed26d42ba27eecec1d564d0f9" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>setTenantQuota</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a4a362d38ab21bad5cc6506cf4076b9b0" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>setTokenBucket</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a7959911ccc270c90626867b36779ab25" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>tenant_assignments_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a006633b08ca5f6187d9a590489bb189b" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>tenant_assignments_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1ace82db72a612deac16a011687e6164ac" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>tenants_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a5745a01ed35e557dc34dc1bbc2b57173" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>tenants_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a6a6ba881b6af2d832898a1e22f615e33" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>total_backpressure_events_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1ad917301b29e3101f6e538a11da3d1f67" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>total_bytes_received_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a18743a7002564c8ea13090a9cd1afaac" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>total_bytes_sent_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1acd74271b9f89f83ed28fb8e43e91c427" prot="private" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>total_bytes_shaped_</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a47be63bababcce671c91b8a88fc9fd26" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>unregisterConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a54576307f8930b47d074fe03c0a9c35a" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>unregisterTenantQuota</name></member>
+      <member refid="classthemis_1_1network_1_1_qo_s_manager_1a9137baa235fdfca0a3da9c0767bdf292" prot="public" virt="non-virtual"><scope>themis::network::QoSManager</scope><name>~QoSManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

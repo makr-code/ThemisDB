@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_data_loader_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::DataLoaderConfig</compoundname>
+    <includes refid="data__loader_8h" local="no">data_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab367d1176b9d500f4c5624e8df7d329d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015" kindref="member">DatasetFormat</ref></type>
+        <definition>DatasetFormat themis::llm::lora::DataLoaderConfig::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::format</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015ad63dd5a11b7bfad43a474d4ca471dc9f" kindref="member">DatasetFormat::JSONL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="128" column="19" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a18640aa1bfed1bee8f25f22d9374e2dc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::DataLoaderConfig::max_sequence_length</definition>
+        <argsstring></argsstring>
+        <name>max_sequence_length</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::max_sequence_length</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="129" column="9" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a6ca0b651deb4a641a9634771f35bab4b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::DataLoaderConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::batch_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="130" column="9" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a4d8574af495c958a9dece836f8726e34" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoaderConfig::shuffle</definition>
+        <argsstring></argsstring>
+        <name>shuffle</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::shuffle</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="131" column="10" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a42bababe6ee9337e559bf0cd200e2bda" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::DataLoaderConfig::num_workers</definition>
+        <argsstring></argsstring>
+        <name>num_workers</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::num_workers</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="132" column="9" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab694427dc9d852d8d9d0a7da4142c036" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DataLoaderConfig::instruction_prefix</definition>
+        <argsstring></argsstring>
+        <name>instruction_prefix</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::instruction_prefix</qualifiedname>
+        <initializer>= &quot;### Instruction:\n&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="135" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1aba51f8e87b3c3826d22b09ce31cfb7b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DataLoaderConfig::input_prefix</definition>
+        <argsstring></argsstring>
+        <name>input_prefix</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::input_prefix</qualifiedname>
+        <initializer>= &quot;\n### Input:\n&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="136" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab19e920c5d366837f741d422c9b3cc80" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DataLoaderConfig::response_prefix</definition>
+        <argsstring></argsstring>
+        <name>response_prefix</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::response_prefix</qualifiedname>
+        <initializer>= &quot;\n### Response:\n&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="137" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a566f7f31bbf27215bea0fdfbaf768bef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoaderConfig::pad_to_max_length</definition>
+        <argsstring></argsstring>
+        <name>pad_to_max_length</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::pad_to_max_length</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="140" column="10" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a1fe06dc92729dad745cdb22e9cbf7e1d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoaderConfig::truncate_to_max_length</definition>
+        <argsstring></argsstring>
+        <name>truncate_to_max_length</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::truncate_to_max_length</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="141" column="10" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1abd669afcc904c2420bf95f242fd23afa" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::DataLoaderConfig::pad_token_id</definition>
+        <argsstring></argsstring>
+        <name>pad_token_id</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::pad_token_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="142" column="9" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a466df8ec13162ec6e815d45c52409141" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DataLoaderConfig::enable_augmentation</definition>
+        <argsstring></argsstring>
+        <name>enable_augmentation</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::enable_augmentation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="145" column="10" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a2964e72dc75229e0c3d51db7de9b97ac" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::DataLoaderConfig::noise_probability</definition>
+        <argsstring></argsstring>
+        <name>noise_probability</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::noise_probability</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="146" column="11" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a275898a20f88539184e0e45c1d5424ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::DataLoaderConfig::~DataLoaderConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DataLoaderConfig</name>
+        <qualifiedname>themis::llm::lora::DataLoaderConfig::~DataLoaderConfig</qualifiedname>
+        <briefdescription>
+<para>Data Loader Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="127" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/data_loader.h" line="122" column="1" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="122" bodyend="147"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a6ca0b651deb4a641a9634771f35bab4b" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a466df8ec13162ec6e815d45c52409141" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>enable_augmentation</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab367d1176b9d500f4c5624e8df7d329d" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>format</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1aba51f8e87b3c3826d22b09ce31cfb7b2" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>input_prefix</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab694427dc9d852d8d9d0a7da4142c036" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>instruction_prefix</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a18640aa1bfed1bee8f25f22d9374e2dc" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>max_sequence_length</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a2964e72dc75229e0c3d51db7de9b97ac" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>noise_probability</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a42bababe6ee9337e559bf0cd200e2bda" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>num_workers</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a566f7f31bbf27215bea0fdfbaf768bef" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>pad_to_max_length</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1abd669afcc904c2420bf95f242fd23afa" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>pad_token_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab19e920c5d366837f741d422c9b3cc80" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>response_prefix</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a4d8574af495c958a9dece836f8726e34" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>shuffle</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a1fe06dc92729dad745cdb22e9cbf7e1d" prot="public" virt="non-virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>truncate_to_max_length</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a275898a20f88539184e0e45c1d5424ed" prot="public" virt="virtual"><scope>themis::llm::lora::DataLoaderConfig</scope><name>~DataLoaderConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

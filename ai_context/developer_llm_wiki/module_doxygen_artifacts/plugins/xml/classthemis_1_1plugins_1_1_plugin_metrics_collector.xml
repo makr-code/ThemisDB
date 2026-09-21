@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_plugin_metrics_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginMetricsCollector</compoundname>
+    <includes refid="plugin__metrics_8h" local="no">plugin_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_metrics_collector_1ad2739875d621cea11fcba8515e8705ed" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref> &amp;</type>
+        <definition>const PluginMetrics&amp; themis::plugins::PluginMetricsCollector::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::plugins::PluginMetricsCollector::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="182" column="25" bodyfile="include/plugins/plugin_metrics.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_collector_1a47930c968176288ba194a5b63bf8cc04" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginMetricsCollector::PluginMetricsCollector</definition>
+        <argsstring>(const PluginMetrics &amp;metrics)</argsstring>
+        <name>PluginMetricsCollector</name>
+        <qualifiedname>themis::plugins::PluginMetricsCollector::PluginMetricsCollector</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Construct a collector bound to the given <ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref> store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref> instance to read from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="168" column="14" bodyfile="include/plugins/plugin_metrics.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_metrics_collector_1a71be442fee50e230a866a122a5215359" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginMetricsCollector::collect</definition>
+        <argsstring>(themis::core::concerns::IMetrics &amp;sink) const</argsstring>
+        <name>collect</name>
+        <qualifiedname>themis::plugins::PluginMetricsCollector::collect</qualifiedname>
+        <param>
+          <type>themis::core::concerns::IMetrics &amp;</type>
+          <declname>sink</declname>
+        </param>
+        <briefdescription>
+<para>Publish a point-in-time snapshot of all per-plugin metrics to sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterate all plugins tracked by <ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref> and emit each stat as a labelled gauge into <computeroutput>sink</computeroutput>. All values are absolute snapshots; the caller is responsible for invoking this at a suitable scrape interval.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sink</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IMetrics backend to write into (e.g. PrometheusMetricsAdapter). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="179" column="10" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="213" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bridges <ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref> snapshots to an IMetrics sink (e.g. Prometheus). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Call <ref refid="classthemis_1_1plugins_1_1_plugin_metrics_collector_1a71be442fee50e230a866a122a5215359" kindref="member">collect()</ref> periodically to push all per-plugin counters, latency gauges, and resource metrics into the observability backend so they appear on the Prometheus scrape endpoint and in the Grafana plugin dashboard.</para>
+<para>Metric names and labels emitted: plugin_function_calls {plugin=&quot;&lt;name&gt;&quot;} gauge plugin_errors {plugin=&quot;&lt;name&gt;&quot;} gauge plugin_reload_count {plugin=&quot;&lt;name&gt;&quot;} gauge plugin_load_time_ms {plugin=&quot;&lt;name&gt;&quot;} gauge plugin_memory_bytes {plugin=&quot;&lt;name&gt;&quot;} gauge plugin_call_latency_avg_ms {plugin=&quot;&lt;name&gt;&quot;} gauge plugin_call_latency_p95_ms {plugin=&quot;&lt;name&gt;&quot;} gauge plugin_call_latency_p99_ms {plugin=&quot;&lt;name&gt;&quot;} gauge </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_metrics.h" line="162" column="1" bodyfile="include/plugins/plugin_metrics.h" bodystart="162" bodyend="183"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_collector_1a71be442fee50e230a866a122a5215359" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetricsCollector</scope><name>collect</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_collector_1ad2739875d621cea11fcba8515e8705ed" prot="private" virt="non-virtual"><scope>themis::plugins::PluginMetricsCollector</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_metrics_collector_1a47930c968176288ba194a5b63bf8cc04" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetricsCollector</scope><name>PluginMetricsCollector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

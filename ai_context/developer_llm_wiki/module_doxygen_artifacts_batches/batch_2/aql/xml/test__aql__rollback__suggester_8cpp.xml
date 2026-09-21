@@ -1,0 +1,598 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__rollback__suggester_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_rollback_suggester.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="aql__rollback__suggester_8h" local="yes">aql/aql_rollback_suggester.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>aql/aql_rollback_suggester.h</label>
+        <link refid="aql__rollback__suggester_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/aql/test_aql_rollback_suggester.cpp</label>
+        <link refid="test__aql__rollback__suggester_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_q_l_rollback_suggester_test" prot="public">AQLRollbackSuggesterTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a2bd1b52c8d1b715c7b804350942a477a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool strContainsCI</definition>
+        <argsstring>(const std::string &amp;haystack, const std::string &amp;needle)</argsstring>
+        <name>strContainsCI</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>haystack</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>needle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="15" column="13" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="15" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a8ce57d622dd903e65babf9755fa15423" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB01_InsertRollback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB01_InsertRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="30" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="30" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a54861a742a53d70c11347adf5f5ccccb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB02_RemoveRollback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB02_RemoveRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="40" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="40" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a236d4eb7ffaf376f64d74637a563123c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB03_UpdateRollback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB03_UpdateRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="49" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="49" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a5c17ac9e435e57608f8e35afca3dbddf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB04_ReplaceRollback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB04_ReplaceRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="59" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="59" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a4cc161fe13a430a337f86f953412957a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB05_UpsertRollback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB05_UpsertRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="69" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="69" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1aea1d6993ece207f02e8386f7068a4e56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB06_ReadOnly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB06_ReadOnly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="79" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="79" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a879b1a08c0ed7b02f072dffd42690a0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB07_EmptyQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB07_EmptyQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="87" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="87" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a0ce7e7215734f13e56fe52876f56c2e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB08_InsertContainsCollection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB08_InsertContainsCollection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="94" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="94" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a732574cb040530a75157393ad24f7033" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB09_RemoveSnapshotParam)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB09_RemoveSnapshotParam</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="101" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="101" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a7861ef16308bcf9cdee6f07947843829" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB10_UpdateManualSteps)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB10_UpdateManualSteps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="107" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a56d7cb86f7633a19799af59b83c1f402" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB11_InsertCaveat)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB11_InsertCaveat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="113" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="113" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1afceb45f8b35391c505b64f2b295bda90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB12_ReplaceFilter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB12_ReplaceFilter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="119" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="119" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a2f90c2fb4ceebb2f675d3cf35694a956" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB13_UpsertKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB13_UpsertKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="127" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1aede4ec973bc50d53d595b57cb81f06be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB14_InsertRollbackPattern)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB14_InsertRollbackPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="133" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="133" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a7b183fd19e02b6fb65b00ffa13f0cfc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB15_RemoveRollbackPattern)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB15_RemoveRollbackPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="141" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="141" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a5a5c3596c7885198ced57708b75c7910" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB16_PolymorphicAccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB16_PolymorphicAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="148" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="148" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1a5f7343e231016261ab6866ebef91b8d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB17_UpsertPriority)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB17_UpsertPriority</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="157" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="157" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__rollback__suggester_8cpp_1aea93b2c4bc8254a7ff61819435248fbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLRollbackSuggesterTest, RB18_NoCollectionExtracted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref></type>
+        </param>
+        <param>
+          <type>RB18_NoCollectionExtracted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="166" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="166" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1aql_1_1_a_q_l_rollback_suggester" kindref="compound">AQLRollbackSuggester</ref> (RB-01..18). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__rollback__suggester_8h" kindref="compound">aql/aql_rollback_suggester.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>strContainsCI(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>haystack,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>needle)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>hl<sp/>=<sp/>haystack,<sp/>nl<sp/>=<sp/>needle;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>std::transform(hl.begin(),<sp/>hl.end(),<sp/>hl.begin(),</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c)<sp/>{<sp/>return<sp/>static_cast&lt;char&gt;(std::tolower(c));<sp/>});</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>std::transform(nl.begin(),<sp/>nl.end(),<sp/>nl.begin(),</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c)<sp/>{<sp/>return<sp/>static_cast&lt;char&gt;(std::tolower(c));<sp/>});</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hl.find(nl)<sp/>!=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="class_a_q_l_rollback_suggester_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_rollback_suggester" kindref="compound">AQLRollbackSuggester</ref><sp/><ref refid="class_a_q_l_rollback_suggester_test_1a7a2b224aa0bdde519ae21159ceba0129" kindref="member">suggester</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-01:<sp/>INSERT<sp/>rollback<sp/>generates<sp/>REMOVE<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB01_InsertRollback)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>src<sp/>INSERT<sp/>d<sp/>INTO<sp/>users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">MutationType::INSERT</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.is_automatic);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.rollback_query.empty());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;remove&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.collection,<sp/></highlight><highlight class="stringliteral">&quot;USERS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-02:<sp/>REMOVE<sp/>rollback<sp/>generates<sp/>INSERT<sp/>from<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB02_RemoveRollback)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>users<sp/>FILTER<sp/>d.active<sp/>==<sp/>false<sp/>REMOVE<sp/>d<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aa78baf367c4626442174307cdf41c6538" kindref="member">MutationType::REMOVE</ref>);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.is_automatic);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;insert&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.manual_steps.empty());</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-03:<sp/>UPDATE<sp/>rollback<sp/>generates<sp/>UPDATE<sp/>with<sp/>@old_values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB03_UpdateRollback)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.status<sp/>==<sp/>&apos;trial&apos;<sp/>UPDATE<sp/>u<sp/>WITH<sp/>{<sp/>status:<sp/>&apos;active&apos;<sp/>}<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aa15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">MutationType::UPDATE</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.is_automatic);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;update&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;@old_values&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-04:<sp/>REPLACE<sp/>rollback<sp/>generates<sp/>REPLACE<sp/>with<sp/>@old_document</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB04_ReplaceRollback)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>products<sp/>FILTER<sp/>d._key<sp/>==<sp/>@k<sp/>REPLACE<sp/>d<sp/>WITH<sp/>@newDoc<sp/>IN<sp/>products&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aa560a2dd6f6744646473b3b19e1fe96d7" kindref="member">MutationType::REPLACE</ref>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.is_automatic);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;replace&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;@old_document&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-05:<sp/>UPSERT<sp/>rollback<sp/>generates<sp/>REMOVE<sp/>of<sp/>inserted<sp/>docs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB05_UpsertRollback)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;UPSERT<sp/>{<sp/>email:<sp/>@email<sp/>}<sp/>INSERT<sp/>{<sp/>email:<sp/>@email<sp/>}<sp/>UPDATE<sp/>{<sp/>name:<sp/>@name<sp/>}<sp/>IN<sp/>contacts&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aac2e4ae54787a006159281eb9ec6619eb" kindref="member">MutationType::UPSERT</ref>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.is_automatic);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;remove&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.manual_steps.empty());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-06:<sp/>Read-only<sp/>query<sp/>→<sp/>NONE,<sp/>no<sp/>rollback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB06_ReadOnly)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>d.active<sp/>==<sp/>true<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aab50339a10e1de285ac99d4c3990b8693" kindref="member">MutationType::NONE</ref>);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.is_automatic);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.rollback_query.empty());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-07:<sp/>Empty<sp/>query<sp/>→<sp/>NONE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB07_EmptyQuery)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aab50339a10e1de285ac99d4c3990b8693" kindref="member">MutationType::NONE</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.is_automatic);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-08:<sp/>INSERT<sp/>rollback<sp/>contains<sp/>collection<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB08_InsertContainsCollection)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>source<sp/>INSERT<sp/>d<sp/>INTO<sp/>orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.collection.empty());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/>r.collection));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-09:<sp/>REMOVE<sp/>rollback<sp/>contains<sp/>@removed_documents<sp/>placeholder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB09_RemoveSnapshotParam)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>logs<sp/>FILTER<sp/>d.level<sp/>==<sp/>&apos;debug&apos;<sp/>REMOVE<sp/>d<sp/>IN<sp/>logs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;@removed_documents&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-10:<sp/>UPDATE<sp/>rollback<sp/>has<sp/>at<sp/>least<sp/>one<sp/>manual<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB10_UpdateManualSteps)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>orders<sp/>UPDATE<sp/>d<sp/>WITH<sp/>{<sp/>status:<sp/>&apos;processed&apos;<sp/>}<sp/>IN<sp/>orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.manual_steps.empty());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-11:<sp/>caveat<sp/>is<sp/>not<sp/>empty<sp/>for<sp/>INSERT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB11_InsertCaveat)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>src<sp/>INSERT<sp/>d<sp/>INTO<sp/>dest&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.caveat.empty());</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-12:<sp/>REPLACE<sp/>rollback<sp/>references<sp/>filter<sp/>expression</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB12_ReplaceFilter)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>items<sp/>FILTER<sp/>d.category<sp/>==<sp/>&apos;A&apos;<sp/>REPLACE<sp/>d<sp/>WITH<sp/>@new<sp/>IN<sp/>items&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aa560a2dd6f6744646473b3b19e1fe96d7" kindref="member">MutationType::REPLACE</ref>);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.is_automatic);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-13:<sp/>UPSERT<sp/>rollback<sp/>mentions<sp/>@upserted_keys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB13_UpsertKeys)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;UPSERT<sp/>{<sp/>_key:<sp/>@k<sp/>}<sp/>INSERT<sp/>{<sp/>_key:<sp/>@k<sp/>}<sp/>UPDATE<sp/>{}<sp/>IN<sp/>things&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;@upserted_keys&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-14:<sp/>Rollback<sp/>query<sp/>for<sp/>INSERT<sp/>uses<sp/>FOR…REMOVE<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB14_InsertRollbackPattern)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;INSERT<sp/>{<sp/>name:<sp/>&apos;test&apos;<sp/>}<sp/>INTO<sp/>catalogue&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.is_automatic);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;for&quot;</highlight><highlight class="normal">)<sp/>||</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;remove&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-15:<sp/>Rollback<sp/>query<sp/>for<sp/>REMOVE<sp/>uses<sp/>INSERT<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB15_RemoveRollbackPattern)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;REMOVE<sp/>@key<sp/>IN<sp/>users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aa78baf367c4626442174307cdf41c6538" kindref="member">MutationType::REMOVE</ref>);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(strContainsCI(r.rollback_query,<sp/></highlight><highlight class="stringliteral">&quot;insert&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-16:<sp/>IAQLRollbackSuggester<sp/>accessible<sp/>via<sp/>polymorphism</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB16_PolymorphicAccess)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IAQLRollbackSuggester&gt;<sp/>iface<sp/>=</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_unique&lt;AQLRollbackSuggester&gt;();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>iface-&gt;suggest(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>INSERT<sp/>d<sp/>INTO<sp/>archive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aa61ee777e7f71dc466c3b2c685d8d313b" kindref="member">MutationType::INSERT</ref>);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.is_automatic);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-17:<sp/>Multiple<sp/>mutations<sp/>in<sp/>same<sp/>query<sp/>—<sp/>primary<sp/>type<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB17_UpsertPriority)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>UPSERT<sp/>contains<sp/>both<sp/>INSERT<sp/>and<sp/>UPDATE;<sp/>UPSERT<sp/>should<sp/>win.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;UPSERT<sp/>{<sp/>email:<sp/>&apos;a@b.com&apos;<sp/>}<sp/>INSERT<sp/>{<sp/>email:<sp/>&apos;a@b.com&apos;,<sp/>active:<sp/>true<sp/>}<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;UPDATE<sp/>{<sp/>active:<sp/>true<sp/>}<sp/>IN<sp/>members&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aac2e4ae54787a006159281eb9ec6619eb" kindref="member">MutationType::UPSERT</ref>);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RB-18:<sp/>collection<sp/>is<sp/>empty<sp/>string<sp/>when<sp/>collection<sp/>cannot<sp/>be<sp/>extracted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_rollback_suggester_test" kindref="compound">AQLRollbackSuggesterTest</ref>,<sp/>RB18_NoCollectionExtracted)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bind<sp/>parameter<sp/>as<sp/>collection<sp/>name<sp/>—<sp/>cannot<sp/>be<sp/>extracted<sp/>statically</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>suggester.suggest(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>REMOVE<sp/>d<sp/>IN<sp/>@coll&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.mutation_type,<sp/><ref refid="namespacethemis_1_1aql_1af37fd424314aa3ee068ba3b7ef6cc08aa78baf367c4626442174307cdf41c6538" kindref="member">MutationType::REMOVE</ref>);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>collection<sp/>may<sp/>be<sp/>&quot;&lt;collection&gt;&quot;<sp/>or<sp/>empty<sp/>—<sp/>just<sp/>ensure<sp/>no<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.rollback_query.empty()<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>||<sp/>r.is_automatic<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>||<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_rollback_suggester.cpp"/>
+  </compounddef>
+</doxygen>

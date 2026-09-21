@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::multi_hop::MultiHopConfig</compoundname>
+    <includes refid="multi__hop__reasoner_8h" local="no">multi_hop_reasoner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a5ca70174212102c34459145dd696c385" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::multi_hop::MultiHopConfig::max_hops</definition>
+        <argsstring></argsstring>
+        <name>max_hops</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopConfig::max_hops</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Hard upper bound on the number of reasoning hops. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="70" column="12" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1ae24a5b752b433e350493369a2247d24b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::multi_hop::MultiHopConfig::top_k_per_hop</definition>
+        <argsstring></argsstring>
+        <name>top_k_per_hop</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopConfig::top_k_per_hop</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of documents to retrieve per hop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="73" column="12" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1af9f9b2e1253c814f6c2b8e9fbfe150a7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::multi_hop::MultiHopConfig::max_tokens_per_hop</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_per_hop</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopConfig::max_tokens_per_hop</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum tokens for each intermediate answer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="76" column="9" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a1cb542a374609eda1ade56518d353fe7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::multi_hop::MultiHopConfig::max_tokens_final</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_final</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopConfig::max_tokens_final</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Maximum tokens for the final composed answer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="79" column="9" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a2b350bb1bcd6a7f2b591cd08f213008f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::multi_hop::MultiHopConfig::early_stopping</definition>
+        <argsstring></argsstring>
+        <name>early_stopping</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopConfig::early_stopping</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Stop decomposing when all sub-queries are answered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="82" column="10" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1abd64a67c243209856d0b089f7e7022a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multi_hop::MultiHopConfig::context_prefix</definition>
+        <argsstring></argsstring>
+        <name>context_prefix</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopConfig::context_prefix</qualifiedname>
+        <initializer>= &quot;Given the following context:\n&quot;</initializer>
+        <briefdescription>
+<para>Prefix added to each sub-question prompt to provide previous context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="85" column="17" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a16b60025897505d5e41bf16069364676" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multi_hop::MultiHopConfig::answer_separator</definition>
+        <argsstring></argsstring>
+        <name>answer_separator</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopConfig::answer_separator</qualifiedname>
+        <initializer>= &quot;\n\n&quot;</initializer>
+        <briefdescription>
+<para>Separator between previous partial answers when injecting context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="88" column="17" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a2ac56c3c2662ff8667d16d864963bb16" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multi_hop::MultiHopConfig::decomposition_prompt_template</definition>
+        <argsstring></argsstring>
+        <name>decomposition_prompt_template</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopConfig::decomposition_prompt_template</qualifiedname>
+        <initializer>                                      =
+&quot;Break the following question into simpler sub-questions that can be &quot;
+&quot;answered independently. Output each sub-question on a separate line. &quot;
+&quot;If the question is already simple, output it unchanged.\n\nQuestion: &quot;
+&quot;{<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>}&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Prompt template for query decomposition. Use {query} as placeholder for the original query. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="92" column="17" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1ab3ce3df738109fa3c6778ea7b3e90adc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multi_hop::MultiHopConfig::composition_prompt_template</definition>
+        <argsstring></argsstring>
+        <name>composition_prompt_template</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopConfig::composition_prompt_template</qualifiedname>
+        <initializer>                                    =
+&quot;Given the following partial answers:\n{partial_answers}\n\n&quot;
+&quot;Compose a single, concise final answer to the original question: &quot;
+&quot;{<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>}&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Prompt template for final answer composition. Use {query} and {partial_answers} as placeholders. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="100" column="17" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a822812338d1a208fbccf5edef3483cda" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5" kindref="member">QueryComplexityHint</ref></type>
+        <definition>QueryComplexityHint themis::rag::multi_hop::MultiHopConfig::complexity_hint</definition>
+        <argsstring></argsstring>
+        <name>complexity_hint</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopConfig::complexity_hint</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">QueryComplexityHint::UNKNOWN</ref></initializer>
+        <briefdescription>
+<para>Hint provided by the caller about query complexity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="106" column="25" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner" kindref="compound">MultiHopReasoner</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/multi_hop_reasoner.h" line="68" column="1" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="68" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a16b60025897505d5e41bf16069364676" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopConfig</scope><name>answer_separator</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a822812338d1a208fbccf5edef3483cda" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopConfig</scope><name>complexity_hint</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1ab3ce3df738109fa3c6778ea7b3e90adc" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopConfig</scope><name>composition_prompt_template</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1abd64a67c243209856d0b089f7e7022a5" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopConfig</scope><name>context_prefix</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a2ac56c3c2662ff8667d16d864963bb16" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopConfig</scope><name>decomposition_prompt_template</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a2b350bb1bcd6a7f2b591cd08f213008f" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopConfig</scope><name>early_stopping</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a5ca70174212102c34459145dd696c385" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopConfig</scope><name>max_hops</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a1cb542a374609eda1ade56518d353fe7" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopConfig</scope><name>max_tokens_final</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1af9f9b2e1253c814f6c2b8e9fbfe150a7" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopConfig</scope><name>max_tokens_per_hop</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1ae24a5b752b433e350493369a2247d24b" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopConfig</scope><name>top_k_per_hop</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

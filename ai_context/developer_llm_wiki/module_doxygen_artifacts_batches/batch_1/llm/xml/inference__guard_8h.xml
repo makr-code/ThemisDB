@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="inference__guard_8h" kind="file" language="C++">
+    <compoundname>inference_guard.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">spdlog/spdlog.h</includes>
+    <includedby refid="inference__guard_8cpp" local="yes">src/llm/inference_guard.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/inference_guard.h</label>
+        <link refid="inference__guard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="3">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/inference_guard.h</label>
+        <link refid="inference__guard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/inference_guard.cpp</label>
+        <link refid="inference__guard_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_inference_guard" prot="public">themis::llm::InferenceGuard</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_token_buffer_guard" prot="public">themis::llm::TokenBufferGuard</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_plugin_guard" prot="public">themis::llm::PluginGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Exception-safe RAII guard for inference context lifecycle. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY</para>
+</simplesect>
+Provides exception-safe inference context management with proper resource cleanup, ownership transfer, and state tracking. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1llm_1_1_inference_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref>(<ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref>&amp;<sp/>engine);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1ab708a84e0112d81053d87c2a8a18e2f8" kindref="member">~InferenceGuard</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying<sp/>(enforce<sp/>resource<sp/>ownership<sp/>semantics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1llm_1_1_inference_guard_1a17cf0bf02dde8dc6bdbf7247cbe8b4f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1a17cf0bf02dde8dc6bdbf7247cbe8b4f7" kindref="member">InferenceGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1llm_1_1_inference_guard_1afd1af42710e87828f7bd6f5018666265" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1afd1af42710e87828f7bd6f5018666265" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>move<sp/>semantics<sp/>(transfer<sp/>ownership)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref>(<ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1afd1af42710e87828f7bd6f5018666265" kindref="member">operator=</ref>(<ref refid="classthemis_1_1llm_1_1_inference_guard_1af5c40675a493604422bebd1a741c5be4" kindref="member">InferenceGuard</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1a495b7e2d8f5895ca101b79c7e5b12508" kindref="member">Get</ref>();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1a495b7e2d8f5895ca101b79c7e5b12508" kindref="member">Get</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1llm_1_1_inference_guard_1aaeef6555a287de956f48211fd935513e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref>*<sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1aaeef6555a287de956f48211fd935513e" kindref="member">GetPtr</ref>()<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>context_;<sp/>}</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1llm_1_1_inference_guard_1aa4231e457f854408901ec66424775d87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref>*<sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1aa4231e457f854408901ec66424775d87" kindref="member">GetPtr</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>context_;<sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1llm_1_1_inference_guard_1a71e63f1fb88ca5656ad4e7eadcdf3584" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1a71e63f1fb88ca5656ad4e7eadcdf3584" kindref="member">IsValid</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>context_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>engine_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref>*<sp/><ref refid="classthemis_1_1llm_1_1_inference_guard_1a3ee96f8bd61f396582df27aec02ca05b" kindref="member">Release</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__llm__memory__safety_8cpp_1a6a1d6e1a12975a4e9a0b5b952e79eaad" kindref="member">private</ref>:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref>*<sp/>engine_;<sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_context" kindref="compound">InferenceContext</ref>*<sp/>context_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Cleanup()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1llm_1_1_token_buffer_guard" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>capacity);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1llm_1_1_token_buffer_guard_1a09bf3a2106c3b65c97c318f7e1e682f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a09bf3a2106c3b65c97c318f7e1e682f5" kindref="member">~TokenBufferGuard</ref>()<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1llm_1_1_token_buffer_guard_1a83cddeca8fcefd77a34437ea60a87c98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref>(const<sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1llm_1_1_token_buffer_guard_1a012f8680e759c7f6da82f88ae6efed23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1llm_1_1_token_buffer_guard_1a92d0f570b67b86879e63cd8fc6f5ea1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref>(<ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1llm_1_1_token_buffer_guard_1a633aafb9133898fabe0de0d2b12574b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a059f10acbc3cc715f051dbe187ebcc97" kindref="member">Push</ref>(int32_t<sp/>token);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a68506a7e8fe2c58c6b2e187e9f85e9ff" kindref="member">At</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>index)<sp/>const;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1llm_1_1_token_buffer_guard_1acdbf407719f7cd8096adc8e7ec509d7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1acdbf407719f7cd8096adc8e7ec509d7b" kindref="member">Size</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tokens_.size();<sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1llm_1_1_token_buffer_guard_1a3accc6caa6f162d39fa85daac216b05a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a3accc6caa6f162d39fa85daac216b05a" kindref="member">Capacity</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>max_capacity_;<sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1llm_1_1_token_buffer_guard_1a72a890f74f5e46d4afd26e9bd39a7303" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a72a890f74f5e46d4afd26e9bd39a7303" kindref="member">Remaining</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>max_capacity_<sp/>&gt;<sp/>tokens_.size()<sp/>?<sp/>max_capacity_<sp/>-<sp/>tokens_.size()<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1llm_1_1_token_buffer_guard_1a08d0169bf85a86071bcfd823c73a2ada" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a08d0169bf85a86071bcfd823c73a2ada" kindref="member">IsFull</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tokens_.size()<sp/>&gt;=<sp/>max_capacity_;<sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1llm_1_1_token_buffer_guard_1a0c78c60ed7d79e06c40e62eaa7ca5d89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int32_t*<sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a0c78c60ed7d79e06c40e62eaa7ca5d89" kindref="member">Data</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tokens_.empty()<sp/>?<sp/>nullptr<sp/>:<sp/>tokens_.data();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1llm_1_1_token_buffer_guard_1a38b69aee8418635e6042306a0dc29bc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a38b69aee8418635e6042306a0dc29bc0" kindref="member">Clear</ref>()<sp/>noexcept<sp/>{<sp/>tokens_.clear();<sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Reserve(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/>tokens_;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_capacity_;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1llm_1_1_plugin_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref>(</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>factory_name,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">~PluginGuard</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1llm_1_1_plugin_guard_1a47fbcbee004fc3a9e18980620781c899" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a47fbcbee004fc3a9e18980620781c899" kindref="member">PluginGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1llm_1_1_plugin_guard_1aa4a690e43590ff7600303a1548078fb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1aa4a690e43590ff7600303a1548078fb3" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref>(<ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a0b7eac52a49f3e70242ae4586850acbd" kindref="member">IsHealthy</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1llm_1_1_plugin_guard_1ae40668b386ab0b365ba4be6e2ddbd010" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1ae40668b386ab0b365ba4be6e2ddbd010" kindref="member">GetName</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>factory_name_;<sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1llm_1_1_plugin_guard_1a11360420679474866346849e0179d142" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a11360420679474866346849e0179d142" kindref="member">IsInitialized</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>initialized_;<sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>factory_name_;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>plugin_handle_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Opaque<sp/>pointer<sp/>to<sp/>actual<sp/>plugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/inference_guard.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_histogram_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::HistogramSnapshot</compoundname>
+    <includes refid="metric__aggregator_8h" local="no">metric_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_histogram_snapshot_1a84a28a2344aa1b67b8e3c4e85d67792c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::HistogramSnapshot::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::observability::HistogramSnapshot::metric_name</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="61" column="17" bodyfile="include/observability/metric_aggregator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_histogram_snapshot_1a392721e696c1924129f1d2e96316f5cb" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::HistogramSnapshot::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::observability::HistogramSnapshot::labels</qualifiedname>
+        <briefdescription>
+<para>Label set attached to this snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="63" column="14" bodyfile="include/observability/metric_aggregator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_histogram_snapshot_1adce37bbc5e5a6741c49f13d5faa31d7b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::observability::HistogramSnapshot::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::observability::HistogramSnapshot::values</qualifiedname>
+        <briefdescription>
+<para>Raw observation values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="65" column="17" bodyfile="include/observability/metric_aggregator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_histogram_snapshot_1aa119b1a46d22b69377a505945d70c95c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::HistogramSnapshot::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::HistogramSnapshot::timestamp</qualifiedname>
+        <initializer>{std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>When the snapshot was captured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="67" column="43" bodyfile="include/observability/metric_aggregator.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A snapshot of histogram observations from one source (e.g. a shard). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/metric_aggregator.h" line="59" column="1" bodyfile="include/observability/metric_aggregator.h" bodystart="59" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_histogram_snapshot_1a392721e696c1924129f1d2e96316f5cb" prot="public" virt="non-virtual"><scope>themis::observability::HistogramSnapshot</scope><name>labels</name></member>
+      <member refid="structthemis_1_1observability_1_1_histogram_snapshot_1a84a28a2344aa1b67b8e3c4e85d67792c" prot="public" virt="non-virtual"><scope>themis::observability::HistogramSnapshot</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_histogram_snapshot_1aa119b1a46d22b69377a505945d70c95c" prot="public" virt="non-virtual"><scope>themis::observability::HistogramSnapshot</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_histogram_snapshot_1adce37bbc5e5a6741c49f13d5faa31d7b" prot="public" virt="non-virtual"><scope>themis::observability::HistogramSnapshot</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

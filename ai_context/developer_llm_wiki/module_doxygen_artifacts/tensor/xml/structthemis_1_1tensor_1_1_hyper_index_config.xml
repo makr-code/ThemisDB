@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_hyper_index_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::HyperIndexConfig</compoundname>
+    <includes refid="hyper__index__builder_8h" local="no">hyper_index_builder.h</includes>
+    <innerclass refid="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_edge" prot="public">themis::tensor::HyperIndexConfig::ForeignKeyEdge</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config" prot="public">themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1tensor_1_1_hyper_index_config_1a12b2dbed1a4d7c625999fcf772382a14" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>NumericBucketStrategy</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::NumericBucketStrategy</qualifiedname>
+        <enumvalue id="structthemis_1_1tensor_1_1_hyper_index_config_1a12b2dbed1a4d7c625999fcf772382a14a4ce64f35e5957a6f3ecc9895dc1bb90f" prot="public">
+          <name>QUANTILE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Data-driven quantiles from observed row values. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1tensor_1_1_hyper_index_config_1a12b2dbed1a4d7c625999fcf772382a14a8d2856ba708bac2234d4a58b202a32a0" prot="public">
+          <name>UNIFORM_RANGE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Uniform bins over [<ref refid="structthemis_1_1tensor_1_1_column_schema_1aa0f0d99639d688b26eec6ce5fddf0fd2" kindref="member">ColumnSchema::range_min</ref>, range_max]. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="85" column="5" bodyfile="include/tensor/hyper_index_builder.h" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1tensor_1_1_hyper_index_config_1a465b5724ea3e1cb62cb6ecbf5df327c2" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>CategoryBucketStrategy</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::CategoryBucketStrategy</qualifiedname>
+        <enumvalue id="structthemis_1_1tensor_1_1_hyper_index_config_1a465b5724ea3e1cb62cb6ecbf5df327c2a7e0b78a1ddba50be1dd037b069ee2e0f" prot="public">
+          <name>FREQUENCY_ORDER</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Sort by observed frequency (descending). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1tensor_1_1_hyper_index_config_1a465b5724ea3e1cb62cb6ecbf5df327c2a01e91706d3f3f6e8f6afabd63cba4538" prot="public">
+          <name>SCHEMA_ORDER</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Prefer <ref refid="structthemis_1_1tensor_1_1_column_schema_1a4143f0b389b548759585b0baaa0528c0" kindref="member">ColumnSchema::categories</ref> declaration order. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="90" column="5" bodyfile="include/tensor/hyper_index_builder.h" bodystart="90" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1tensor_1_1_hyper_index_config_1a74f6326b37b300cc79add5558ef392fc" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>MissingFkStatsFallback</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::MissingFkStatsFallback</qualifiedname>
+        <enumvalue id="structthemis_1_1tensor_1_1_hyper_index_config_1a74f6326b37b300cc79add5558ef392fca0602701637c98eaab2faefbc8f34b3ab" prot="public">
+          <name>USE_DEFAULT_WEIGHT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Use fk_graph.default_join_strength. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1tensor_1_1_hyper_index_config_1a74f6326b37b300cc79add5558ef392fca5eda5cf44635284c874382f6a532cc33" prot="public">
+          <name>IGNORE_EDGE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Skip FK edge when stats are missing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1tensor_1_1_hyper_index_config_1a74f6326b37b300cc79add5558ef392fca655474de4674aba7a436a73cd8d9a906" prot="public">
+          <name>THROW</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Fail fast with runtime_error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="95" column="5" bodyfile="include/tensor/hyper_index_builder.h" bodystart="95" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1a767892ac113071fa595bae9a07032ab4" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HyperIndexConfig::bucket_count</definition>
+        <argsstring></argsstring>
+        <name>bucket_count</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::bucket_count</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Buckets per column dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="122" column="17" bodyfile="include/tensor/hyper_index_builder.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1aebfdf19a683dc45318e591e10336a223" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::HyperIndexConfig::eps</definition>
+        <argsstring></argsstring>
+        <name>eps</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::eps</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>TT reconstruction error tolerance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="123" column="17" bodyfile="include/tensor/hyper_index_builder.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1a618ea82b1b17575363ba9b333eb6ef18" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HyperIndexConfig::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::max_rank</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Hard cap on TT-rank. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="124" column="17" bodyfile="include/tensor/hyper_index_builder.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1ada1d0bf806f5b80ea6220ea5bd956e83" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_hyper_index_config_1a12b2dbed1a4d7c625999fcf772382a14" kindref="member">NumericBucketStrategy</ref></type>
+        <definition>NumericBucketStrategy themis::tensor::HyperIndexConfig::numeric_bucket_strategy</definition>
+        <argsstring></argsstring>
+        <name>numeric_bucket_strategy</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::numeric_bucket_strategy</qualifiedname>
+        <initializer>                                          =
+<ref refid="structthemis_1_1tensor_1_1_hyper_index_config_1a12b2dbed1a4d7c625999fcf772382a14a4ce64f35e5957a6f3ecc9895dc1bb90f" kindref="member">NumericBucketStrategy::QUANTILE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="125" column="27" bodyfile="include/tensor/hyper_index_builder.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1a4571facfce83cde26d4a3009500221f6" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_hyper_index_config_1a465b5724ea3e1cb62cb6ecbf5df327c2" kindref="member">CategoryBucketStrategy</ref></type>
+        <definition>CategoryBucketStrategy themis::tensor::HyperIndexConfig::category_bucket_strategy</definition>
+        <argsstring></argsstring>
+        <name>category_bucket_strategy</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::category_bucket_strategy</qualifiedname>
+        <initializer>                                            =
+<ref refid="structthemis_1_1tensor_1_1_hyper_index_config_1a465b5724ea3e1cb62cb6ecbf5df327c2a7e0b78a1ddba50be1dd037b069ee2e0f" kindref="member">CategoryBucketStrategy::FREQUENCY_ORDER</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="127" column="28" bodyfile="include/tensor/hyper_index_builder.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1ab184bd37dc97e6980ea72ec57440d26c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config" kindref="compound">ForeignKeyGraphConfig</ref></type>
+        <definition>ForeignKeyGraphConfig themis::tensor::HyperIndexConfig::fk_graph</definition>
+        <argsstring></argsstring>
+        <name>fk_graph</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::fk_graph</qualifiedname>
+        <briefdescription>
+<para>FK-aware join-signal propagation config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="129" column="27" bodyfile="include/tensor/hyper_index_builder.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::tensor::HyperIndexConfig</label>
+        <link refid="structthemis_1_1tensor_1_1_hyper_index_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>fk_graph</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig</label>
+        <link refid="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/hyper_index_builder.h" line="84" column="1" bodyfile="include/tensor/hyper_index_builder.h" bodystart="84" bodyend="130"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1a767892ac113071fa595bae9a07032ab4" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig</scope><name>bucket_count</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1a4571facfce83cde26d4a3009500221f6" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig</scope><name>category_bucket_strategy</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1a465b5724ea3e1cb62cb6ecbf5df327c2" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig</scope><name>CategoryBucketStrategy</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1aebfdf19a683dc45318e591e10336a223" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig</scope><name>eps</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1ab184bd37dc97e6980ea72ec57440d26c" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig</scope><name>fk_graph</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1a618ea82b1b17575363ba9b333eb6ef18" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig</scope><name>max_rank</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1a74f6326b37b300cc79add5558ef392fc" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig</scope><name>MissingFkStatsFallback</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1ada1d0bf806f5b80ea6220ea5bd956e83" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig</scope><name>numeric_bucket_strategy</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1a12b2dbed1a4d7c625999fcf772382a14" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig</scope><name>NumericBucketStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

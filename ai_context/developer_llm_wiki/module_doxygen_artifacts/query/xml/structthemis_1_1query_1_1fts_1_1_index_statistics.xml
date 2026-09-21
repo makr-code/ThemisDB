@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1fts_1_1_index_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::fts::IndexStatistics</compoundname>
+    <includes refid="fts__index_8h" local="no">fts_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_index_statistics_1ab268f8f2eb0b9e142a2e708a4e55383e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::fts::IndexStatistics::document_count</definition>
+        <argsstring></argsstring>
+        <name>document_count</name>
+        <qualifiedname>themis::query::fts::IndexStatistics::document_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="48" column="12" bodyfile="include/query/fts_index.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_index_statistics_1a98bee0c30f76368b4307704c0591ab9a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::fts::IndexStatistics::term_count</definition>
+        <argsstring></argsstring>
+        <name>term_count</name>
+        <qualifiedname>themis::query::fts::IndexStatistics::term_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unique terms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="49" column="12" bodyfile="include/query/fts_index.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_index_statistics_1a33f4f6be89508f729d3bf1c9478755e6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::fts::IndexStatistics::index_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>index_size_bytes</name>
+        <qualifiedname>themis::query::fts::IndexStatistics::index_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>On-disk index size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="50" column="12" bodyfile="include/query/fts_index.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_index_statistics_1a36a1af5b08b31bbc793a5cdd5e6c7da0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::query::fts::IndexStatistics::average_doc_length</definition>
+        <argsstring></argsstring>
+        <name>average_doc_length</name>
+        <qualifiedname>themis::query::fts::IndexStatistics::average_doc_length</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Average doc length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="51" column="9" bodyfile="include/query/fts_index.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_index_statistics_1a319da3e14ff95aa3ff692e170d4f442c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::fts::IndexStatistics::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::query::fts::IndexStatistics::language</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+<para>Index language. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="52" column="15" bodyfile="include/query/fts_index.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/fts_index.h" line="47" column="1" bodyfile="include/query/fts_index.h" bodystart="47" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a36a1af5b08b31bbc793a5cdd5e6c7da0" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexStatistics</scope><name>average_doc_length</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1ab268f8f2eb0b9e142a2e708a4e55383e" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexStatistics</scope><name>document_count</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a33f4f6be89508f729d3bf1c9478755e6" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexStatistics</scope><name>index_size_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a319da3e14ff95aa3ff692e170d4f442c" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexStatistics</scope><name>language</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a98bee0c30f76368b4307704c0591ab9a" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexStatistics</scope><name>term_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

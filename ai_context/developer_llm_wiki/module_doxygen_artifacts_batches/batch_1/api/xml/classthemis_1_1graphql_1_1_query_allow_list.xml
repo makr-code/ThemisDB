@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_query_allow_list" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::QueryAllowList</compoundname>
+    <includes refid="persisted__queries_8h" local="no">persisted_queries.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_query_allow_list_1a62db9bd28fd3afad973fa397f7eda5d2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graphql::QueryAllowList::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::graphql::QueryAllowList::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="281" column="24" bodyfile="include/api/persisted_queries.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_query_allow_list_1a9e483dc1af24f26921778b19e83e2c21" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::graphql::QueryAllowList::allowed_queries_</definition>
+        <argsstring></argsstring>
+        <name>allowed_queries_</name>
+        <qualifiedname>themis::graphql::QueryAllowList::allowed_queries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="282" column="24" bodyfile="include/api/persisted_queries.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_query_allow_list_1a2e60be2867ee429714ff4c3bfa58a830" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::QueryAllowList::enabled_</definition>
+        <argsstring></argsstring>
+        <name>enabled_</name>
+        <qualifiedname>themis::graphql::QueryAllowList::enabled_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="283" column="10" bodyfile="include/api/persisted_queries.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_allow_list_1aa8ff03926d70915e4e333643ca78da21" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::QueryAllowList::allow</definition>
+        <argsstring>(const std::string &amp;query_hash)</argsstring>
+        <name>allow</name>
+        <qualifiedname>themis::graphql::QueryAllowList::allow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_hash</declname>
+        </param>
+        <briefdescription>
+<para>Allow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="204" column="10" bodyfile="include/api/persisted_queries.h" bodystart="204" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_allow_list_1a97c88cc9a670cef5a239a42f3936d862" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::QueryAllowList::isAllowed</definition>
+        <argsstring>(const std::string &amp;query_hash) const</argsstring>
+        <name>isAllowed</name>
+        <qualifiedname>themis::graphql::QueryAllowList::isAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_hash</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="209" column="10" bodyfile="include/api/persisted_queries.h" bodystart="209" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_allow_list_1ab0345b029be6ed9341b94ebbc799765e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::QueryAllowList::remove</definition>
+        <argsstring>(const std::string &amp;query_hash)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::graphql::QueryAllowList::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_hash</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="224" column="10" bodyfile="include/api/persisted_queries.h" bodystart="224" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_allow_list_1ad14a4e788d9a1f1491c436a30052c314" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::QueryAllowList::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::graphql::QueryAllowList::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="233" column="10" bodyfile="include/api/persisted_queries.h" bodystart="233" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_allow_list_1acb27247490b49083001a382d6d7369c0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::QueryAllowList::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::graphql::QueryAllowList::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="238" column="12" bodyfile="include/api/persisted_queries.h" bodystart="238" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_allow_list_1a8a71b56dba94769f13b416dfb44245d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::QueryAllowList::setEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setEnabled</name>
+        <qualifiedname>themis::graphql::QueryAllowList::setEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="253" column="10" bodyfile="include/api/persisted_queries.h" bodystart="253" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_allow_list_1a5068d48215aad2e84d55f0e3aab55cc2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::QueryAllowList::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::graphql::QueryAllowList::isEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="258" column="10" bodyfile="include/api/persisted_queries.h" bodystart="258" bodyend="266"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_allow_list_1acaea6cdcaad0f2503d127a09bb602f9d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>QueryAllowList &amp;</type>
+        <definition>static QueryAllowList &amp; themis::graphql::QueryAllowList::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::graphql::QueryAllowList::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="273" column="27" bodyfile="include/api/persisted_queries.h" bodystart="273" bodyend="276"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_allow_list_1ac4f47e6aadf7056ee56e548dc7f91cfe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::QueryAllowList::QueryAllowList</definition>
+        <argsstring>()=default</argsstring>
+        <name>QueryAllowList</name>
+        <qualifiedname>themis::graphql::QueryAllowList::QueryAllowList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="279" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/persisted_queries.h" line="197" column="1" bodyfile="include/api/persisted_queries.h" bodystart="197" bodyend="284"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1aa8ff03926d70915e4e333643ca78da21" prot="public" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>allow</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a9e483dc1af24f26921778b19e83e2c21" prot="private" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>allowed_queries_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1ad14a4e788d9a1f1491c436a30052c314" prot="public" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>clear</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a2e60be2867ee429714ff4c3bfa58a830" prot="private" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>enabled_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1acaea6cdcaad0f2503d127a09bb602f9d" prot="public" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>instance</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a97c88cc9a670cef5a239a42f3936d862" prot="public" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>isAllowed</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a5068d48215aad2e84d55f0e3aab55cc2" prot="public" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a62db9bd28fd3afad973fa397f7eda5d2" prot="private" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1ac4f47e6aadf7056ee56e548dc7f91cfe" prot="private" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>QueryAllowList</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1ab0345b029be6ed9341b94ebbc799765e" prot="public" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>remove</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1a8a71b56dba94769f13b416dfb44245d7" prot="public" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>setEnabled</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_allow_list_1acb27247490b49083001a382d6d7369c0" prot="public" virt="non-virtual"><scope>themis::graphql::QueryAllowList</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

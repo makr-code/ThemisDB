@@ -1,0 +1,642 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ArtifactInvalidationManager</compoundname>
+    <includes refid="artifact__invalidation_8h" local="no">artifact_invalidation.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a6e9687221991d6776a35e8911bf3b48c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ArtifactInvalidationManager::ArtifactInvalidationManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>ArtifactInvalidationManager</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::ArtifactInvalidationManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="23" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a62380d94f3f89ccfdba3e01995c61f07" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::ArtifactInvalidationManager::~ArtifactInvalidationManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ArtifactInvalidationManager</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::~ArtifactInvalidationManager</qualifiedname>
+        <briefdescription>
+<para>Artifact Invalidation Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="28" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1aebd71eaa2ceb967a3c721e57b8679af4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ArtifactInvalidationManager::ArtifactInvalidationManager</definition>
+        <argsstring>(const ArtifactInvalidationManager &amp;)=delete</argsstring>
+        <name>ArtifactInvalidationManager</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::ArtifactInvalidationManager</qualifiedname>
+        <param>
+          <type>const ArtifactInvalidationManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="31" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a74fccdf9efacababd806bca4294e819b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a6e9687221991d6776a35e8911bf3b48c" kindref="member">ArtifactInvalidationManager</ref> &amp;</type>
+        <definition>ArtifactInvalidationManager &amp; themis::distributed_tensor::ArtifactInvalidationManager::operator=</definition>
+        <argsstring>(const ArtifactInvalidationManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a6e9687221991d6776a35e8911bf3b48c" kindref="member">ArtifactInvalidationManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="32" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a16d8e8bc76f07b1e5bfb12b115f13374" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ArtifactInvalidationManager::ArtifactInvalidationManager</definition>
+        <argsstring>(ArtifactInvalidationManager &amp;&amp;)=delete</argsstring>
+        <name>ArtifactInvalidationManager</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::ArtifactInvalidationManager</qualifiedname>
+        <param>
+          <type>ArtifactInvalidationManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="33" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a842960d3861021497dbe01799616f4c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a6e9687221991d6776a35e8911bf3b48c" kindref="member">ArtifactInvalidationManager</ref> &amp;</type>
+        <definition>ArtifactInvalidationManager &amp; themis::distributed_tensor::ArtifactInvalidationManager::operator=</definition>
+        <argsstring>(ArtifactInvalidationManager &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a6e9687221991d6776a35e8911bf3b48c" kindref="member">ArtifactInvalidationManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="34" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a86c8e25d6b82e11e2e09d685363d8b94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ArtifactInvalidationManager::shouldInvalidateForStaleness</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, int64_t now_unix_sec) const</argsstring>
+        <name>shouldInvalidateForStaleness</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::shouldInvalidateForStaleness</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>now_unix_sec</declname>
+        </param>
+        <briefdescription>
+<para>Should Invalidate For Staleness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">now_unix_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="42" column="16" bodyfile="src/distributed_tensor/src/artifact_invalidation.cc" bodystart="11" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1afe789f4877561a4ecd56ba709f63a16b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ArtifactInvalidationManager::shouldInvalidateForCorruption</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest) const</argsstring>
+        <name>shouldInvalidateForCorruption</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::shouldInvalidateForCorruption</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+<para>Should Invalidate For Corruption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="49" column="16" bodyfile="src/distributed_tensor/src/artifact_invalidation.cc" bodystart="16" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1aa0d4c4644d2aee6f8f6ae2f03aae97c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ArtifactInvalidationManager::shouldInvalidateForRankBreach</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest) const</argsstring>
+        <name>shouldInvalidateForRankBreach</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::shouldInvalidateForRankBreach</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+<para>Should Invalidate For Rank Breach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="56" column="16" bodyfile="src/distributed_tensor/src/artifact_invalidation.cc" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1ae14d9594ce7d35623c7125c8f05a0dc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ArtifactInvalidationManager::shouldInvalidateForResidual</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, double residual_threshold) const</argsstring>
+        <name>shouldInvalidateForResidual</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::shouldInvalidateForResidual</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>residual_threshold</declname>
+        </param>
+        <briefdescription>
+<para>Should Invalidate For Residual. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">residual_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="64" column="16" bodyfile="src/distributed_tensor/src/artifact_invalidation.cc" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1ac7f79160e1243e4bc6a563186976a733" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref></type>
+        <definition>ArtifactManifest themis::distributed_tensor::ArtifactInvalidationManager::markStale</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest) const</argsstring>
+        <name>markStale</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::markStale</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+<para>Mark Stale. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="72" column="28" bodyfile="src/distributed_tensor/src/artifact_invalidation.cc" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a44704942b45f88cecd42e609486fa5a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref></type>
+        <definition>ArtifactManifest themis::distributed_tensor::ArtifactInvalidationManager::invalidate</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, InvalidationReason reason) const</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::invalidate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18b" kindref="member">InvalidationReason</ref></type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="80" column="28" bodyfile="src/distributed_tensor/src/artifact_invalidation.cc" bodystart="35" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a3e3487ba5c257ff44026ead073b6a5d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref></type>
+        <definition>ArtifactManifest themis::distributed_tensor::ArtifactInvalidationManager::transitionToRebuilding</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, UpdateMode mode, int64_t now_unix_sec) const</argsstring>
+        <name>transitionToRebuilding</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::transitionToRebuilding</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55f" kindref="member">UpdateMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>now_unix_sec</declname>
+        </param>
+        <briefdescription>
+<para>Transition To Rebuilding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">now_unix_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="89" column="28" bodyfile="src/distributed_tensor/src/artifact_invalidation.cc" bodystart="43" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a2f4a3bbf5342075015c6f3d858862043" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref></type>
+        <definition>ArtifactManifest themis::distributed_tensor::ArtifactInvalidationManager::transitionToReadyAfterRebuild</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, RebuildState rebuild_state, uint64_t source_seq_start, uint64_t source_seq_end, int64_t now_unix_sec) const</argsstring>
+        <name>transitionToReadyAfterRebuild</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::transitionToReadyAfterRebuild</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1aef69197fe9938d007b491d40ec49995e" kindref="member">RebuildState</ref></type>
+          <declname>rebuild_state</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>source_seq_start</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>source_seq_end</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>now_unix_sec</declname>
+        </param>
+        <briefdescription>
+<para>Transition To Ready After Rebuild. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rebuild_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_seq_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_seq_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">now_unix_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="102" column="28" bodyfile="src/distributed_tensor/src/artifact_invalidation.cc" bodystart="54" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a1d5428c980e146ff639ccc46fbd8a847" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref></type>
+        <definition>ArtifactManifest themis::distributed_tensor::ArtifactInvalidationManager::transitionToFailed</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, InvalidationReason reason, int64_t now_unix_sec) const</argsstring>
+        <name>transitionToFailed</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::transitionToFailed</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18b" kindref="member">InvalidationReason</ref></type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>now_unix_sec</declname>
+        </param>
+        <briefdescription>
+<para>Transition To Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">now_unix_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="115" column="28" bodyfile="src/distributed_tensor/src/artifact_invalidation.cc" bodystart="74" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a24dd011b3b9a4e9ac96f0a1e367a0c71" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ArtifactInvalidationManager::shouldRejectForPlanner</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, int64_t now_unix_sec, uint64_t max_delta_lag, double max_residual) const</argsstring>
+        <name>shouldRejectForPlanner</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::shouldRejectForPlanner</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>now_unix_sec</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>max_delta_lag</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>max_residual</declname>
+        </param>
+        <briefdescription>
+<para>Should Reject For Planner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">now_unix_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_delta_lag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="127" column="16" bodyfile="src/distributed_tensor/src/artifact_invalidation.cc" bodystart="85" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1ae9489ed42fcc2c70a6fa8e3add5cc4cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::distributed_tensor::ArtifactInvalidationManager::getCascadeInvalidationTargets</definition>
+        <argsstring>(const std::string &amp;source_artifact_id) const</argsstring>
+        <name>getCascadeInvalidationTargets</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactInvalidationManager::getCascadeInvalidationTargets</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Cascade Invalidation Targets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_invalidation.h" line="137" column="23" bodyfile="src/distributed_tensor/src/artifact_invalidation.cc" bodystart="105" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/artifact_invalidation.h" line="21" column="1" bodyfile="src/distributed_tensor/include/artifact_invalidation.h" bodystart="21" bodyend="138"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a6e9687221991d6776a35e8911bf3b48c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>ArtifactInvalidationManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1aebd71eaa2ceb967a3c721e57b8679af4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>ArtifactInvalidationManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a16d8e8bc76f07b1e5bfb12b115f13374" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>ArtifactInvalidationManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1ae9489ed42fcc2c70a6fa8e3add5cc4cc" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>getCascadeInvalidationTargets</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a44704942b45f88cecd42e609486fa5a1" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1ac7f79160e1243e4bc6a563186976a733" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>markStale</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a74fccdf9efacababd806bca4294e819b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a842960d3861021497dbe01799616f4c7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1afe789f4877561a4ecd56ba709f63a16b" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>shouldInvalidateForCorruption</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1aa0d4c4644d2aee6f8f6ae2f03aae97c9" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>shouldInvalidateForRankBreach</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1ae14d9594ce7d35623c7125c8f05a0dc5" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>shouldInvalidateForResidual</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a86c8e25d6b82e11e2e09d685363d8b94" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>shouldInvalidateForStaleness</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a24dd011b3b9a4e9ac96f0a1e367a0c71" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>shouldRejectForPlanner</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a1d5428c980e146ff639ccc46fbd8a847" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>transitionToFailed</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a2f4a3bbf5342075015c6f3d858862043" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>transitionToReadyAfterRebuild</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a3e3487ba5c257ff44026ead073b6a5d3" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>transitionToRebuilding</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a62380d94f3f89ccfdba3e01995c61f07" prot="public" virt="virtual"><scope>themis::distributed_tensor::ArtifactInvalidationManager</scope><name>~ArtifactInvalidationManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

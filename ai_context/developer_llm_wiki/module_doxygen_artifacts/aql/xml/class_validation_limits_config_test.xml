@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_validation_limits_config_test" kind="class" language="C++" prot="public">
+    <compoundname>ValidationLimitsConfigTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_validation_limits_config_test_1a642fb2095e77c393a9477ffc66890eea" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref></type>
+        <definition>LLMAQLHandler ValidationLimitsConfigTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>ValidationLimitsConfigTest::handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_validator.cpp" line="521" column="19" bodyfile="tests/aql/test_aql_query_validator.cpp" bodystart="521" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ValidationLimitsConfigTest</label>
+        <link refid="class_validation_limits_config_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ValidationLimitsConfigTest</label>
+        <link refid="class_validation_limits_config_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>handler</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::aql::LLMAQLHandler</label>
+        <link refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_query_validator.cpp" line="519" column="1" bodyfile="tests/aql/test_aql_query_validator.cpp" bodystart="519" bodyend="522"/>
+    <listofallmembers>
+      <member refid="class_validation_limits_config_test_1a642fb2095e77c393a9477ffc66890eea" prot="protected" virt="non-virtual"><scope>ValidationLimitsConfigTest</scope><name>handler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

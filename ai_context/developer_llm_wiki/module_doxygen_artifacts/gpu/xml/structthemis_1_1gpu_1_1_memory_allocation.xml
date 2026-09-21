@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_memory_allocation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::MemoryAllocation</compoundname>
+    <includes refid="gpu__memory__allocator_8h" local="no">gpu_memory_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_memory_allocation_1a200c2373e83803ef580bb9681cfd5b79" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::MemoryAllocation::device_ptr</definition>
+        <argsstring></argsstring>
+        <name>device_ptr</name>
+        <qualifiedname>themis::gpu::MemoryAllocation::device_ptr</qualifiedname>
+        <briefdescription>
+<para>GPU device pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="29" column="10" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_memory_allocation_1a1a1545cda2b709e096dc55cb88afef25" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::MemoryAllocation::host_ptr</definition>
+        <argsstring></argsstring>
+        <name>host_ptr</name>
+        <qualifiedname>themis::gpu::MemoryAllocation::host_ptr</qualifiedname>
+        <briefdescription>
+<para>CPU-side mirror (pinned memory). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="30" column="10" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_memory_allocation_1ace75444fc6775155a6afb1153de32040" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::MemoryAllocation::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::gpu::MemoryAllocation::size</qualifiedname>
+        <briefdescription>
+<para>Allocation size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="31" column="12" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_memory_allocation_1a7dc68a069e67d9f063ba1ed1ff193d46" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::MemoryAllocation::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::gpu::MemoryAllocation::device_id</qualifiedname>
+        <briefdescription>
+<para>GPU device ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="32" column="14" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_memory_allocation_1ad15f6e6f20cd110ac45d8a7a5261ffc9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::MemoryAllocation::is_unified</definition>
+        <argsstring></argsstring>
+        <name>is_unified</name>
+        <qualifiedname>themis::gpu::MemoryAllocation::is_unified</qualifiedname>
+        <briefdescription>
+<para>true if unified memory (managed by CUDA) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="33" column="10" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_memory_allocation_1a40c76dbab48b8054adcfb8e5f7d5d102" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::MemoryAllocation::allocation_id</definition>
+        <argsstring></argsstring>
+        <name>allocation_id</name>
+        <qualifiedname>themis::gpu::MemoryAllocation::allocation_id</qualifiedname>
+        <briefdescription>
+<para>Unique ID for tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="34" column="14" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_memory_allocator.h" line="28" column="1" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="28" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_memory_allocation_1a40c76dbab48b8054adcfb8e5f7d5d102" prot="public" virt="non-virtual"><scope>themis::gpu::MemoryAllocation</scope><name>allocation_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_memory_allocation_1a7dc68a069e67d9f063ba1ed1ff193d46" prot="public" virt="non-virtual"><scope>themis::gpu::MemoryAllocation</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_memory_allocation_1a200c2373e83803ef580bb9681cfd5b79" prot="public" virt="non-virtual"><scope>themis::gpu::MemoryAllocation</scope><name>device_ptr</name></member>
+      <member refid="structthemis_1_1gpu_1_1_memory_allocation_1a1a1545cda2b709e096dc55cb88afef25" prot="public" virt="non-virtual"><scope>themis::gpu::MemoryAllocation</scope><name>host_ptr</name></member>
+      <member refid="structthemis_1_1gpu_1_1_memory_allocation_1ad15f6e6f20cd110ac45d8a7a5261ffc9" prot="public" virt="non-virtual"><scope>themis::gpu::MemoryAllocation</scope><name>is_unified</name></member>
+      <member refid="structthemis_1_1gpu_1_1_memory_allocation_1ace75444fc6775155a6afb1153de32040" prot="public" virt="non-virtual"><scope>themis::gpu::MemoryAllocation</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

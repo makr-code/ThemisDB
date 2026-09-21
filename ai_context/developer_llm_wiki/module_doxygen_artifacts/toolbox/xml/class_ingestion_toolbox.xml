@@ -1,0 +1,572 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_ingestion_toolbox" kind="class" language="C++" prot="public">
+    <compoundname>IngestionToolbox</compoundname>
+    <includes refid="ingestion__toolbox_8h" local="no">ingestion_toolbox.h</includes>
+    <innerclass refid="class_ingestion_toolbox_1_1_impl" prot="public">IngestionToolbox::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_ingestion_toolbox_1a14d725ab640d2b66909cda2d42ab9905" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_ingestion_toolbox_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::toolbox::IngestionToolbox::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>IngestionToolbox::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="220" column="21" bodyfile="include/toolbox/ingestion_toolbox.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::IngestionToolbox::IngestionToolbox</definition>
+        <argsstring>()</argsstring>
+        <name>IngestionToolbox</name>
+        <qualifiedname>IngestionToolbox::IngestionToolbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="77" column="5" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1ad0e25d886adfaff3ff9e8547459f9235" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::IngestionToolbox::IngestionToolbox</definition>
+        <argsstring>(const IngestionToolbox &amp;)=delete</argsstring>
+        <name>IngestionToolbox</name>
+        <qualifiedname>IngestionToolbox::IngestionToolbox</qualifiedname>
+        <param>
+          <type>const <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="81" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1a010ed9bd23523b02b9051cda608350c9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::IngestionToolbox::IngestionToolbox</definition>
+        <argsstring>(IngestionToolbox &amp;&amp;) noexcept</argsstring>
+        <name>IngestionToolbox</name>
+        <qualifiedname>IngestionToolbox::IngestionToolbox</qualifiedname>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1aba8d9f507e2d928765beb3f2e5c829ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::IngestionToolbox::~IngestionToolbox</definition>
+        <argsstring>()</argsstring>
+        <name>~IngestionToolbox</name>
+        <qualifiedname>IngestionToolbox::~IngestionToolbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1a00a121f942de722f7174921a338f7e5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &amp;</type>
+        <definition>IngestionToolbox &amp; themis::toolbox::IngestionToolbox::operator=</definition>
+        <argsstring>(const IngestionToolbox &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>IngestionToolbox::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="82" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1a373a4f5030732c8bd8fa3fc30e836bb9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &amp;</type>
+        <definition>IngestionToolbox &amp; themis::toolbox::IngestionToolbox::operator=</definition>
+        <argsstring>(IngestionToolbox &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>IngestionToolbox::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="84" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1a6c27ee57faf4a9df0f21890820ed4435" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::toolbox::IngestionToolbox::setWorkflowEngine</definition>
+        <argsstring>(std::shared_ptr&lt; ingestion::WorkflowEngine &gt; engine)</argsstring>
+        <name>setWorkflowEngine</name>
+        <qualifiedname>IngestionToolbox::setWorkflowEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::WorkflowEngine &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Replace the <computeroutput>WorkflowEngine</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Dependency injection ──────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Must not be null.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="105" column="10" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="115" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1a1e8e208ea9a06265a0528db9f61196d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::toolbox::IngestionToolbox::setTextBackend</definition>
+        <argsstring>(std::shared_ptr&lt; ingestion::ITextGenerationBackend &gt; backend)</argsstring>
+        <name>setTextBackend</name>
+        <qualifiedname>IngestionToolbox::setTextBackend</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::ITextGenerationBackend &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Inject or replace the text-generation backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Text Backend.</para>
+<para>When <computeroutput>backend</computeroutput> is <computeroutput>nullptr</computeroutput>, a <computeroutput>NullTextGenerationBackend</computeroutput> is reinstated. The new backend is propagated to all NER/LLM steps that have been registered in the <computeroutput>StepRegistry</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="114" column="10" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="129" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1ae82309c1d91e66bab932542f5a3810f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::WorkflowEngine &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::WorkflowEngine &gt; themis::toolbox::IngestionToolbox::workflowEngine</definition>
+        <argsstring>() const</argsstring>
+        <name>workflowEngine</name>
+        <qualifiedname>IngestionToolbox::workflowEngine</qualifiedname>
+        <briefdescription>
+<para>Access the <computeroutput>WorkflowEngine</computeroutput> for profile loading and execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Always non-null. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="123" column="21" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="140" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1a472e6c5dc8b90dfeabc8ac75b2af69bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ingestion::StepRegistry &amp;</type>
+        <definition>ingestion::StepRegistry &amp; themis::toolbox::IngestionToolbox::stepRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>stepRegistry</name>
+        <qualifiedname>IngestionToolbox::stepRegistry</qualifiedname>
+        <briefdescription>
+<para>Access the <computeroutput>StepRegistry</computeroutput> for custom step registration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Step Registry.</para>
+<para><simplesect kind="return"><para>Reference to the registry owned by <computeroutput><ref refid="class_ingestion_toolbox_1ae82309c1d91e66bab932542f5a3810f9" kindref="member">workflowEngine()</ref></computeroutput>.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stepRegistry without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="130" column="29" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="150" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1a108aad122de096def1394a6bd5c7ebf8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::ITextGenerationBackend &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::ITextGenerationBackend &gt; themis::toolbox::IngestionToolbox::textBackend</definition>
+        <argsstring>() const</argsstring>
+        <name>textBackend</name>
+        <qualifiedname>IngestionToolbox::textBackend</qualifiedname>
+        <briefdescription>
+<para>Access the currently active text-generation backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Always non-null (falls back to <computeroutput>NullTextGenerationBackend</computeroutput>). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="137" column="21" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="156" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; ingestion::BaseEntity &gt;</type>
+        <definition>std::vector&lt; ingestion::BaseEntity &gt; themis::toolbox::IngestionToolbox::extractEntities</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;mime=&quot;text/plain&quot;, const std::string &amp;filename=&quot;input.txt&quot;)</argsstring>
+        <name>extractEntities</name>
+        <qualifiedname>IngestionToolbox::extractEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+          <defval>&quot;text/plain&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+          <defval>&quot;input.txt&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Extract entities from a plain text string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Entities.</para>
+<para>Constructs a minimal <computeroutput>ExtractionContext</computeroutput> from <computeroutput>text</computeroutput>, selects the best matching workflow profile (using MIME type <computeroutput>mime</computeroutput> and filename hint <computeroutput>filename</computeroutput>), runs the workflow, and returns the assembled entity nodes.</para>
+<para>This is the primary entry point for consumers that need entity extraction without managing <computeroutput>ExtractionContext</computeroutput> directly.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to process (may be empty — returns {}). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detected MIME type hint (default: &quot;text/plain&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename hint used for profile selection (default: &quot;input.txt&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Extracted and normalised entity nodes; empty on workflow failure (failure details are logged at warn level).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="159" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="204" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1a19df1cedc0cdf6fecf649ade1e2b7572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ingestion::BaseEntitySet</type>
+        <definition>ingestion::BaseEntitySet themis::toolbox::IngestionToolbox::extractEntitySet</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;mime=&quot;text/plain&quot;, const std::string &amp;filename=&quot;input.txt&quot;)</argsstring>
+        <name>extractEntitySet</name>
+        <qualifiedname>IngestionToolbox::extractEntitySet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+          <defval>&quot;text/plain&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+          <defval>&quot;input.txt&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Extract the full <computeroutput>BaseEntitySet</computeroutput> from a plain text string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Entity Set.</para>
+<para>Like <computeroutput><ref refid="class_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kindref="member">extractEntities()</ref></computeroutput> but returns the complete <computeroutput>BaseEntitySet</computeroutput> including <computeroutput>nodes</computeroutput>, <computeroutput>edges</computeroutput>, and <computeroutput>chunks</computeroutput> (vector index entries). Consumers that need both the graph entities <bold>and</bold> the embedding chunks (e.g. <computeroutput>ContentToolboxBridge</computeroutput> for <computeroutput>BridgeResult::vectors</computeroutput>) should call this method instead of <computeroutput><ref refid="class_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kindref="member">extractEntities()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to process (may be empty — returns {}). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detected MIME type hint (default: &quot;text/plain&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename hint used for profile selection (default: &quot;input.txt&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Full assembled entity set; empty <computeroutput>BaseEntitySet</computeroutput> on failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="180" column="30" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="234" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1a4961ad684b226fb60e1d48e34e4277ae" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::toolbox::IngestionToolbox::recordExtraction</definition>
+        <argsstring>(std::size_t entity_count, uint64_t latency_ms, bool success) noexcept</argsstring>
+        <name>recordExtraction</name>
+        <qualifiedname>IngestionToolbox::recordExtraction</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>entity_count</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Record one completed <computeroutput><ref refid="class_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kindref="member">extractEntities()</ref></computeroutput> call in the metrics counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Call this after every <computeroutput><ref refid="class_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kindref="member">extractEntities()</ref></computeroutput> / <computeroutput><ref refid="class_ingestion_toolbox_1a19df1cedc0cdf6fecf649ade1e2b7572" kindref="member">extractEntitySet()</ref></computeroutput> invocation (including error paths). Thread-safe; uses <computeroutput>std::atomic</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of entities returned (0 on failure). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wall-clock latency of the call in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the workflow completed without error. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="199" column="10" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="260" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ingestion_toolbox_1ac0b1290261e7a9b2d061b85af49a312c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::IngestionToolbox::getMetricsText</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetricsText</name>
+        <qualifiedname>IngestionToolbox::getMetricsText</qualifiedname>
+        <briefdescription>
+<para>Produce Prometheus text-format metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emits the following metric families (Prometheus text v0.0.4):<itemizedlist>
+<listitem><para><computeroutput>toolbox_extract_calls_total</computeroutput> counter — total <computeroutput><ref refid="class_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kindref="member">extractEntities()</ref></computeroutput> calls</para>
+</listitem><listitem><para><computeroutput>toolbox_extract_errors_total</computeroutput> counter — failed calls</para>
+</listitem><listitem><para><computeroutput>toolbox_extract_entities_total</computeroutput> counter — cumulative entity count</para>
+</listitem><listitem><para><computeroutput>toolbox_extract_latency_ms_total</computeroutput> counter — cumulative latency</para>
+</listitem></itemizedlist>
+</para>
+<para>Returns an empty string when no calls have been recorded.</para>
+<para><simplesect kind="return"><para>Prometheus text payload, or &quot;&quot; if unused. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="216" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="289" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IngestionToolbox &gt; themis::toolbox::IngestionToolbox::createDefault</definition>
+        <argsstring>()</argsstring>
+        <name>createDefault</name>
+        <qualifiedname>IngestionToolbox::createDefault</qualifiedname>
+        <briefdescription>
+<para>Create an <computeroutput><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></computeroutput> pre-configured with all built-in steps and a <computeroutput>NullTextGenerationBackend</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Factory ──────────────────────────────────────────────────────────────────</para>
+<para>The returned toolbox is ready for immediate use. Inject a real <computeroutput>ITextGenerationBackend</computeroutput> via <computeroutput><ref refid="class_ingestion_toolbox_1a1e8e208ea9a06265a0528db9f61196d7" kindref="member">setTextBackend()</ref></computeroutput> to enable LLM-backed NER and entity extraction.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="class_ingestion_toolbox_1a472e6c5dc8b90dfeabc8ac75b2af69bb" kindref="member">stepRegistry()</ref>, registerStep(), ingestion::builtin::createNerDeStep(), <ref refid="class_ingestion_toolbox_1a108aad122de096def1394a6bd5c7ebf8" kindref="member">textBackend()</ref>, ingestion::builtin::createLlmExtractStep(), ingestion::builtin::createChunkTtDecomposeStep(), ingestion::builtin::createTensorCoreBridgeStep(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/ingestion_toolbox.h" line="96" column="28" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="84" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>System-wide injectable service that exposes the ingestion infrastructure (WorkflowEngine, StepRegistry, ITextGenerationBackend) to other ThemisDB modules. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1toolbox_1_1_ingestion_toolbox_1autotoc_md4_1s1"><sect2 id="classthemis_1_1toolbox_1_1_ingestion_toolbox_1autotoc_md4">
+<title>Motivation</title><para>The ingestion pipeline contains generally useful infrastructure — NER steps, entity assembly, canonical ID normalisation, sinks — that other modules such as AQL query enrichment and the RAG subsystem can exploit. <computeroutput><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></computeroutput> provides a single, injected handle to this infrastructure without coupling any consumer to a specific implementation class or creating a global singleton.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1toolbox_1_1_ingestion_toolbox_1autotoc_md5_1s1"><sect2 id="classthemis_1_1toolbox_1_1_ingestion_toolbox_1autotoc_md5">
+<title>Design constraints</title><para><itemizedlist>
+<listitem><para><bold>No singleton anti-pattern</bold>: obtain an instance through <computeroutput><ref refid="class_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">createDefault()</ref></computeroutput> and inject it; tests create their own instances.</para>
+</listitem><listitem><para><bold>Dependency direction</bold>: <computeroutput>toolbox/</computeroutput> depends on <computeroutput>ingestion/</computeroutput>; <computeroutput>ingestion/</computeroutput> must never depend on <computeroutput>toolbox/</computeroutput>. Consumers (<computeroutput>aql/</computeroutput>, <computeroutput>rag/</computeroutput>) depend on <computeroutput>toolbox/</computeroutput>; they must never import <computeroutput>ingestion/</computeroutput> sinks or workflow internals directly.</para>
+</listitem><listitem><para><bold>Opt-in / additive</bold>: all integration paths in consumer modules are optional (guard with <computeroutput>if (toolbox)</computeroutput> checks).</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1toolbox_1_1_ingestion_toolbox_1autotoc_md6_1s1"><sect2 id="classthemis_1_1toolbox_1_1_ingestion_toolbox_1autotoc_md6">
+<title>Usage — wiring code (server bootstrap)</title><para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toolbox<sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">themis::toolbox::IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bridge<sp/><sp/>=<sp/>std::make_shared&lt;themis::aql::AQLIngestionBridge&gt;(toolbox);</highlight></codeline>
+<codeline><highlight class="normal">llm_handler.setIngestionBridge(bridge);</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1toolbox_1_1_ingestion_toolbox_1autotoc_md7_1s1"><sect2 id="classthemis_1_1toolbox_1_1_ingestion_toolbox_1autotoc_md7">
+<title>Usage — test isolation</title><para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toolbox<sp/>=<sp/>std::make_shared&lt;IngestionToolbox&gt;();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>inject<sp/>custom<sp/>engine<sp/>/<sp/>backend<sp/>as<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">toolbox-&gt;setWorkflowEngine(custom_engine);</highlight></codeline>
+</programlisting></para>
+<para>Thread-safety: all public methods are thread-safe. The underlying <computeroutput>WorkflowEngine::execute()</computeroutput> is also thread-safe; see its documentation. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/toolbox/ingestion_toolbox.h" line="75" column="1" bodyfile="include/toolbox/ingestion_toolbox.h" bodystart="75" bodyend="221"/>
+    <listofallmembers>
+      <member refid="class_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>createDefault</name></member>
+      <member refid="class_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>extractEntities</name></member>
+      <member refid="class_ingestion_toolbox_1a19df1cedc0cdf6fecf649ade1e2b7572" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>extractEntitySet</name></member>
+      <member refid="class_ingestion_toolbox_1ac0b1290261e7a9b2d061b85af49a312c" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>getMetricsText</name></member>
+      <member refid="class_ingestion_toolbox_1a14d725ab640d2b66909cda2d42ab9905" prot="private" virt="non-virtual"><scope>IngestionToolbox</scope><name>impl_</name></member>
+      <member refid="class_ingestion_toolbox_1add581575c0e204a4ed02d567d2c58536" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>IngestionToolbox</name></member>
+      <member refid="class_ingestion_toolbox_1ad0e25d886adfaff3ff9e8547459f9235" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>IngestionToolbox</name></member>
+      <member refid="class_ingestion_toolbox_1a010ed9bd23523b02b9051cda608350c9" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>IngestionToolbox</name></member>
+      <member refid="class_ingestion_toolbox_1a00a121f942de722f7174921a338f7e5d" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>operator=</name></member>
+      <member refid="class_ingestion_toolbox_1a373a4f5030732c8bd8fa3fc30e836bb9" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>operator=</name></member>
+      <member refid="class_ingestion_toolbox_1a4961ad684b226fb60e1d48e34e4277ae" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>recordExtraction</name></member>
+      <member refid="class_ingestion_toolbox_1a1e8e208ea9a06265a0528db9f61196d7" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>setTextBackend</name></member>
+      <member refid="class_ingestion_toolbox_1a6c27ee57faf4a9df0f21890820ed4435" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>setWorkflowEngine</name></member>
+      <member refid="class_ingestion_toolbox_1a472e6c5dc8b90dfeabc8ac75b2af69bb" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>stepRegistry</name></member>
+      <member refid="class_ingestion_toolbox_1a108aad122de096def1394a6bd5c7ebf8" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>textBackend</name></member>
+      <member refid="class_ingestion_toolbox_1ae82309c1d91e66bab932542f5a3810f9" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>workflowEngine</name></member>
+      <member refid="class_ingestion_toolbox_1aba8d9f507e2d928765beb3f2e5c829ff" prot="public" virt="non-virtual"><scope>IngestionToolbox</scope><name>~IngestionToolbox</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

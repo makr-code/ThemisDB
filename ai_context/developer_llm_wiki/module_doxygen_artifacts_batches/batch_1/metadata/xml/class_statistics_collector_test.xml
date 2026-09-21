@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_statistics_collector_test" kind="class" language="C++" prot="public">
+    <compoundname>StatisticsCollectorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_statistics_collector_test_1a9d51df6c3eda7f186a4a7bb97ee5dda5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; StatisticsCollectorTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>StatisticsCollectorTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="47" column="21" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_statistics_collector_test_1a45ed522b5e1865532b057ba12e3b93a6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StatisticsCollectorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>StatisticsCollectorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="23" column="10" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="23" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_statistics_collector_test_1a8b99e1a2104ee90772435d7a5d98098e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StatisticsCollectorTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>StatisticsCollectorTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="32" column="10" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_statistics_collector_test_1a92d1a29a87c8ca8462577af88a7fe5c5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StatisticsCollectorTest::insertRow</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;row_id, BaseEntity::FieldMap fields)</argsstring>
+        <name>insertRow</name>
+        <qualifiedname>StatisticsCollectorTest::insertRow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>row_id</declname>
+        </param>
+        <param>
+          <type>BaseEntity::FieldMap</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="39" column="10" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="39" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StatisticsCollectorTest</label>
+        <link refid="class_statistics_collector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StatisticsCollectorTest</label>
+        <link refid="class_statistics_collector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_statistics_collector.cpp" line="21" column="1" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="21" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_statistics_collector_test_1a9d51df6c3eda7f186a4a7bb97ee5dda5" prot="protected" virt="non-virtual"><scope>StatisticsCollectorTest</scope><name>db_</name></member>
+      <member refid="class_statistics_collector_test_1a92d1a29a87c8ca8462577af88a7fe5c5" prot="protected" virt="non-virtual"><scope>StatisticsCollectorTest</scope><name>insertRow</name></member>
+      <member refid="class_statistics_collector_test_1a45ed522b5e1865532b057ba12e3b93a6" prot="protected" virt="non-virtual"><scope>StatisticsCollectorTest</scope><name>SetUp</name></member>
+      <member refid="class_statistics_collector_test_1a8b99e1a2104ee90772435d7a5d98098e" prot="protected" virt="non-virtual"><scope>StatisticsCollectorTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

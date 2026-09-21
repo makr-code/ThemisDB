@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_embedding_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphEmbeddingConfig</compoundname>
+    <includes refid="graph__embedding_8h" local="no">graph_embedding.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_config_1a0d453cb34a0d1faa2cc0d0c70a20aa1b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659" kindref="member">EmbeddingAlgorithm</ref></type>
+        <definition>EmbeddingAlgorithm themis::graph::GraphEmbeddingConfig::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::graph::GraphEmbeddingConfig::algorithm</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1graph_1a03c55ce1d12d4f9a627a340a994d5659a25ac51e72b5779ac0efd19a7548b32b2" kindref="member">EmbeddingAlgorithm::NODE2VEC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="37" column="24" bodyfile="include/graph/graph_embedding.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_config_1a4f6c8081d18624114948c14ae69836ae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphEmbeddingConfig::dimensions</definition>
+        <argsstring></argsstring>
+        <name>dimensions</name>
+        <qualifiedname>themis::graph::GraphEmbeddingConfig::dimensions</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="38" column="12" bodyfile="include/graph/graph_embedding.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_config_1a0f286096fec6192cb0705253b7ff16b8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::GraphEmbeddingConfig::walk_length</definition>
+        <argsstring></argsstring>
+        <name>walk_length</name>
+        <qualifiedname>themis::graph::GraphEmbeddingConfig::walk_length</qualifiedname>
+        <initializer>= 80</initializer>
+        <briefdescription>
+<para>Random walk length (Node2Vec/DeepWalk). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="39" column="12" bodyfile="include/graph/graph_embedding.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_config_1a6bdebc169e5e02eba006fc0858da0097" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::GraphEmbeddingConfig::num_walks</definition>
+        <argsstring></argsstring>
+        <name>num_walks</name>
+        <qualifiedname>themis::graph::GraphEmbeddingConfig::num_walks</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Number of walks per node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="40" column="12" bodyfile="include/graph/graph_embedding.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_config_1abe005610b72d988c185ad65e211d53e4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::GraphEmbeddingConfig::p</definition>
+        <argsstring></argsstring>
+        <name>p</name>
+        <qualifiedname>themis::graph::GraphEmbeddingConfig::p</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>Return parameter (Node2Vec). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="41" column="12" bodyfile="include/graph/graph_embedding.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_config_1abd43854a6d66964cb340320b320168c1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::GraphEmbeddingConfig::q</definition>
+        <argsstring></argsstring>
+        <name>q</name>
+        <qualifiedname>themis::graph::GraphEmbeddingConfig::q</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>In-out parameter (Node2Vec). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="42" column="12" bodyfile="include/graph/graph_embedding.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_config_1aa30e30686a7687fa52c26a33fad86147" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::GraphEmbeddingConfig::epochs</definition>
+        <argsstring></argsstring>
+        <name>epochs</name>
+        <qualifiedname>themis::graph::GraphEmbeddingConfig::epochs</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="43" column="12" bodyfile="include/graph/graph_embedding.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_config_1a09dea71410d48e73e9b1cda088125bf1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphEmbeddingConfig::use_edge_features</definition>
+        <argsstring></argsstring>
+        <name>use_edge_features</name>
+        <qualifiedname>themis::graph::GraphEmbeddingConfig::use_edge_features</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="44" column="12" bodyfile="include/graph/graph_embedding.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_embedding_config_1ad3cd0a0385bc72b3f43a1012204af419" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphEmbeddingConfig::custom_model_path</definition>
+        <argsstring></argsstring>
+        <name>custom_model_path</name>
+        <qualifiedname>themis::graph::GraphEmbeddingConfig::custom_model_path</qualifiedname>
+        <briefdescription>
+<para>Path to model weights (CUSTOM_LLM). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="45" column="17" bodyfile="include/graph/graph_embedding.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_embedding.h" line="36" column="1" bodyfile="include/graph/graph_embedding.h" bodystart="36" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_config_1a0d453cb34a0d1faa2cc0d0c70a20aa1b" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingConfig</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_config_1ad3cd0a0385bc72b3f43a1012204af419" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingConfig</scope><name>custom_model_path</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_config_1a4f6c8081d18624114948c14ae69836ae" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingConfig</scope><name>dimensions</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_config_1aa30e30686a7687fa52c26a33fad86147" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingConfig</scope><name>epochs</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_config_1a6bdebc169e5e02eba006fc0858da0097" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingConfig</scope><name>num_walks</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_config_1abe005610b72d988c185ad65e211d53e4" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingConfig</scope><name>p</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_config_1abd43854a6d66964cb340320b320168c1" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingConfig</scope><name>q</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_config_1a09dea71410d48e73e9b1cda088125bf1" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingConfig</scope><name>use_edge_features</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_embedding_config_1a0f286096fec6192cb0705253b7ff16b8" prot="public" virt="non-virtual"><scope>themis::graph::GraphEmbeddingConfig</scope><name>walk_length</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

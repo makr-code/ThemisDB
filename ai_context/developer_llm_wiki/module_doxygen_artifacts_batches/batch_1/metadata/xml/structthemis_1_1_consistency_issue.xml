@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_consistency_issue" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ConsistencyIssue</compoundname>
+    <includes refid="schema__consistency__checker_8h" local="no">schema_consistency_checker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_consistency_issue_1ac8ccd8610936f3d74a29f020da4ec9b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConsistencyIssue::issue_type</definition>
+        <argsstring></argsstring>
+        <name>issue_type</name>
+        <qualifiedname>themis::ConsistencyIssue::issue_type</qualifiedname>
+        <briefdescription>
+<para>The category of problem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>&quot;orphan_key&quot;, &quot;stale_stats&quot;, &quot;missing_constraint&quot;, &quot;schema_mismatch&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_consistency_checker.h" line="40" column="17" bodyfile="include/metadata/schema_consistency_checker.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_consistency_issue_1a9a2bfe6c852e6aa36971dae06b7f4e9f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConsistencyIssue::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::ConsistencyIssue::table_name</qualifiedname>
+        <briefdescription>
+<para>Affected table (may be empty for global issues). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_consistency_checker.h" line="41" column="17" bodyfile="include/metadata/schema_consistency_checker.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_consistency_issue_1a55d1f43edf90c560ecb9de774f56c3f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConsistencyIssue::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::ConsistencyIssue::column_name</qualifiedname>
+        <briefdescription>
+<para>Affected column (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_consistency_checker.h" line="42" column="17" bodyfile="include/metadata/schema_consistency_checker.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_consistency_issue_1ad1746db8ce0d9569a64bb9ecc6adeeba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConsistencyIssue::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::ConsistencyIssue::detail</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the problem. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_consistency_checker.h" line="43" column="17" bodyfile="include/metadata/schema_consistency_checker.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_consistency_issue_1a87279003e5d5fe98e5253796e55ec357" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::ConsistencyIssue::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::ConsistencyIssue::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_consistency_checker.h" line="45" column="10" bodyfile="src/metadata/schema_consistency_checker.cpp" bodystart="30" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single consistency issue discovered during a schema check. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/schema_consistency_checker.h" line="38" column="1" bodyfile="include/metadata/schema_consistency_checker.h" bodystart="38" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_consistency_issue_1a55d1f43edf90c560ecb9de774f56c3f0" prot="public" virt="non-virtual"><scope>themis::ConsistencyIssue</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1_consistency_issue_1ad1746db8ce0d9569a64bb9ecc6adeeba" prot="public" virt="non-virtual"><scope>themis::ConsistencyIssue</scope><name>detail</name></member>
+      <member refid="structthemis_1_1_consistency_issue_1ac8ccd8610936f3d74a29f020da4ec9b9" prot="public" virt="non-virtual"><scope>themis::ConsistencyIssue</scope><name>issue_type</name></member>
+      <member refid="structthemis_1_1_consistency_issue_1a9a2bfe6c852e6aa36971dae06b7f4e9f" prot="public" virt="non-virtual"><scope>themis::ConsistencyIssue</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1_consistency_issue_1a87279003e5d5fe98e5253796e55ec357" prot="public" virt="non-virtual"><scope>themis::ConsistencyIssue</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_ebpf_tracer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::EbpfTracerConfig</compoundname>
+    <includes refid="ebpf__tracer_8h" local="no">ebpf_tracer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_config_1a72a108b500cc729b935ae02719ccd218" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::EbpfTracerConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::observability::EbpfTracerConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the tracer is active on construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="79" column="10" bodyfile="include/observability/ebpf_tracer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_config_1af76ce034fadde3b31aea064238224da7" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::observability::EbpfTracerConfig::collection_interval</definition>
+        <argsstring></argsstring>
+        <name>collection_interval</name>
+        <qualifiedname>themis::observability::EbpfTracerConfig::collection_interval</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>How often the background thread reads perf counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="82" column="31" bodyfile="include/observability/ebpf_tracer.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_config_1ae3d6f5ddaf2d15acefec2c32b264c945" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::EbpfTracerConfig::max_events_retained</definition>
+        <argsstring></argsstring>
+        <name>max_events_retained</name>
+        <qualifiedname>themis::observability::EbpfTracerConfig::max_events_retained</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of <computeroutput><ref refid="structthemis_1_1observability_1_1_kernel_event" kindref="compound">KernelEvent</ref></computeroutput> entries kept in the ring buffer. Older events are evicted when the limit is reached. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="86" column="12" bodyfile="include/observability/ebpf_tracer.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_config_1a756e109808ea469599bd9d7b9738e26f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::EbpfTracerConfig::probe_context_switches</definition>
+        <argsstring></argsstring>
+        <name>probe_context_switches</name>
+        <qualifiedname>themis::observability::EbpfTracerConfig::probe_context_switches</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable context-switch tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="89" column="10" bodyfile="include/observability/ebpf_tracer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_config_1a009abe51fcf2bc6de43c996655c23758" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::EbpfTracerConfig::probe_page_faults</definition>
+        <argsstring></argsstring>
+        <name>probe_page_faults</name>
+        <qualifiedname>themis::observability::EbpfTracerConfig::probe_page_faults</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable page-fault tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="91" column="10" bodyfile="include/observability/ebpf_tracer.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_config_1aeeb229184210cadc8714696ecd36ac8f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::EbpfTracerConfig::probe_cpu_migrations</definition>
+        <argsstring></argsstring>
+        <name>probe_cpu_migrations</name>
+        <qualifiedname>themis::observability::EbpfTracerConfig::probe_cpu_migrations</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable CPU-migration tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="93" column="10" bodyfile="include/observability/ebpf_tracer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_ebpf_tracer_config_1a24319e336ac65e9c149d8e5867835d82" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::EbpfTracerConfig::probe_task_clock</definition>
+        <argsstring></argsstring>
+        <name>probe_task_clock</name>
+        <qualifiedname>themis::observability::EbpfTracerConfig::probe_task_clock</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable task-clock (CPU time) tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="95" column="10" bodyfile="include/observability/ebpf_tracer.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the eBPF kernel-level tracer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Platform behaviour</heading>
+</para>
+<para><table rows="4" cols="2"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para>Behaviour  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Linux + <computeroutput>THEMIS_ENABLE_EBPF</computeroutput> defined  </para>
+</entry><entry thead="no"><para>Full BPF program attach via libbpf (if present)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Linux only (no <computeroutput>THEMIS_ENABLE_EBPF</computeroutput>)  </para>
+</entry><entry thead="no"><para><computeroutput>perf_event_open(2)</computeroutput> software counters  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Non-Linux  </para>
+</entry><entry thead="no"><para>No-op; all counters stay at zero  </para>
+</entry></row>
+</table>
+</para>
+<para><heading level="3">Overhead</heading>
+</para>
+<para>Expected CPU overhead is &lt; 0.1 % per enabled probe type at the default <computeroutput>collection_interval</computeroutput> of 1 second. </para>
+    </detaileddescription>
+    <location file="include/observability/ebpf_tracer.h" line="77" column="1" bodyfile="include/observability/ebpf_tracer.h" bodystart="77" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1af76ce034fadde3b31aea064238224da7" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerConfig</scope><name>collection_interval</name></member>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a72a108b500cc729b935ae02719ccd218" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1ae3d6f5ddaf2d15acefec2c32b264c945" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerConfig</scope><name>max_events_retained</name></member>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a756e109808ea469599bd9d7b9738e26f" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerConfig</scope><name>probe_context_switches</name></member>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1aeeb229184210cadc8714696ecd36ac8f" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerConfig</scope><name>probe_cpu_migrations</name></member>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a009abe51fcf2bc6de43c996655c23758" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerConfig</scope><name>probe_page_faults</name></member>
+      <member refid="structthemis_1_1observability_1_1_ebpf_tracer_config_1a24319e336ac65e9c149d8e5867835d82" prot="public" virt="non-virtual"><scope>themis::observability::EbpfTracerConfig</scope><name>probe_task_clock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

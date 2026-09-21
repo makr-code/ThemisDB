@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lookup_decoder_1_1_vector_hash" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LookupDecoder::VectorHash</compoundname>
+    <includes refid="lookup__decoder_8h" local="no">lookup_decoder.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_lookup_decoder_1_1_vector_hash_1acf274eaaf567ac8d24597ccf9de56bd7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LookupDecoder::VectorHash::operator()</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;v) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::llm::LookupDecoder::VectorHash::operator()</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="33" column="16" bodyfile="src/llm/lookup_decoder.cpp" bodystart="21" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lookup_decoder.h" line="32" column="5" bodyfile="include/llm/lookup_decoder.h" bodystart="32" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_vector_hash_1acf274eaaf567ac8d24597ccf9de56bd7" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder::VectorHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

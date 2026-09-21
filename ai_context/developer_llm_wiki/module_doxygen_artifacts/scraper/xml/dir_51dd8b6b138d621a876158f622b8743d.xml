@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_51dd8b6b138d621a876158f622b8743d" kind="dir">
+    <compoundname>benchmarks/scraper</compoundname>
+    <innerfile refid="bench__scraper__pipeline__depth_8cpp">bench_scraper_pipeline_depth.cpp</innerfile>
+    <innerfile refid="bench__scraper__release__gates_8cpp">bench_scraper_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/scraper/"/>
+  </compounddef>
+</doxygen>

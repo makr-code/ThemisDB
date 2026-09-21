@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_template_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::TemplateValidationResult</compoundname>
+    <includes refid="prompt__template__validator_8h" local="no">prompt_template_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_template_validation_result_1aa5fe025ac95068c0bc6f1accfb8e5b53" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::TemplateValidationResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::prompt_engineering::TemplateValidationResult::valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_validator.h" line="31" column="10" bodyfile="include/prompt_engineering/prompt_template_validator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_template_validation_result_1a369a4d4a8c140b62eb810bbc3760fe9d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::TemplateValidationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::prompt_engineering::TemplateValidationResult::errors</qualifiedname>
+        <briefdescription>
+<para>Hard failures; template must not be used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_validator.h" line="32" column="17" bodyfile="include/prompt_engineering/prompt_template_validator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_template_validation_result_1ae3a38df5a95d31510eb0a2cfdb784d42" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::TemplateValidationResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::prompt_engineering::TemplateValidationResult::warnings</qualifiedname>
+        <briefdescription>
+<para>Non-fatal advisories. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_validator.h" line="33" column="17" bodyfile="include/prompt_engineering/prompt_template_validator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator_1aeb91242db7fd6986e7d70427ae2925ba" kindref="member">PromptTemplateValidator::validate()</ref></computeroutput> call. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Mirrors <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result" kindref="compound">PromptManager::ValidationResult</ref></computeroutput> so that callers that already work with the manager&apos;s type can use the same pattern here. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_template_validator.h" line="30" column="1" bodyfile="include/prompt_engineering/prompt_template_validator.h" bodystart="30" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_template_validation_result_1a369a4d4a8c140b62eb810bbc3760fe9d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TemplateValidationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_template_validation_result_1aa5fe025ac95068c0bc6f1accfb8e5b53" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TemplateValidationResult</scope><name>valid</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_template_validation_result_1ae3a38df5a95d31510eb0a2cfdb784d42" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TemplateValidationResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

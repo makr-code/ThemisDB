@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1performance_1_1phase3" kind="namespace" language="C++">
+    <compoundname>themis::performance::phase3</compoundname>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer" prot="public">themis::performance::phase3::BaoOptimizer</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_bw_tree" prot="public">themis::performance::phase3::BwTree</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" prot="public">themis::performance::phase3::BwTreePage</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_compaction_task" prot="public">themis::performance::phase3::CompactionTask</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor" prot="public">themis::performance::phase3::ConcurrentCompactor</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_delta_delete" prot="public">themis::performance::phase3::DeltaDelete</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert" prot="public">themis::performance::phase3::DeltaInsert</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" prot="public">themis::performance::phase3::DiskANNIndex</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_node" prot="public">themis::performance::phase3::DiskANNNode</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor" prot="public">themis::performance::phase3::GunrockProcessor</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page" prot="public">themis::performance::phase3::LeafPage</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" prot="public">themis::performance::phase3::LLMBatchTuner</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_l_r_u_cache" prot="public">themis::performance::phase3::LRUCache</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_mapping_table" prot="public">themis::performance::phase3::MappingTable</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model" prot="public">themis::performance::phase3::PerQueryCostModel</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags" prot="public">themis::performance::phase3::Phase3FeatureFlags</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record" prot="public">themis::performance::phase3::QueryCostRecord</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_query_plan" prot="public">themis::performance::phase3::QueryPlan</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_query_result" prot="public">themis::performance::phase3::QueryResult</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor" prot="public">themis::performance::phase3::SystemMemoryPressureMonitor</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_task_queue" prot="public">themis::performance::phase3::TaskQueue</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_vantage_point_tree" prot="public">themis::performance::phase3::VantagePointTree</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PageType</name>
+        <qualifiedname>themis::performance::phase3::PageType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfca5c19bc679506425e481a34caff777350" prot="public">
+          <name>LEAF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfcac4540d3222d43c398e55b47cb3846a40" prot="public">
+          <name>INNER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfcaf723552d5b9b9e595011c94e435c1bf6" prot="public">
+          <name>DELTA_INSERT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfca9cceafd8a6006fabb043409aa0f540da" prot="public">
+          <name>DELTA_DELETE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfcab35dd36304ab448bd3dd2057e83c0985" prot="public">
+          <name>DELTA_SPLIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Bw-Tree page types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="36" column="1" bodyfile="include/performance/phase3/bwtree.h" bodystart="36" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1performance_1_1phase3_1a3f1b56a833765dbe4d80b07ae3dad97f" prot="public" static="no">
+        <type>uint64_t</type>
+        <definition>using themis::performance::phase3::PageID = uint64_t</definition>
+        <argsstring></argsstring>
+        <name>PageID</name>
+        <qualifiedname>themis::performance::phase3::PageID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="33" column="1" bodyfile="include/performance/phase3/bwtree.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1performance_1_1phase3_1ac2d555c6153e6ef21ef9c1bd089f2877" prot="public" static="no">
+        <type>uint64_t</type>
+        <definition>using themis::performance::phase3::VectorID = uint64_t</definition>
+        <argsstring></argsstring>
+        <name>VectorID</name>
+        <qualifiedname>themis::performance::phase3::VectorID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="35" column="1" bodyfile="include/performance/phase3/diskann.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1performance_1_1phase3_1a7972261ddb484882ae477c58301436ec" prot="public" static="no">
+        <type>uint64_t</type>
+        <definition>using themis::performance::phase3::NodeID = uint64_t</definition>
+        <argsstring></argsstring>
+        <name>NodeID</name>
+        <qualifiedname>themis::performance::phase3::NodeID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="30" column="1" bodyfile="include/performance/phase3/gunrock.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1performance_1_1phase3_1a3d81b7408b391c05819af0de6b5e556d" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_task_queue" kindref="compound">TaskQueue</ref></type>
+        <definition>TaskQueue themis::performance::phase3::g_task_queue</definition>
+        <argsstring></argsstring>
+        <name>g_task_queue</name>
+        <qualifiedname>themis::performance::phase3::g_task_queue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase3/splinterdb.cpp" line="91" column="18" bodyfile="src/performance/phase3/splinterdb.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1performance_1_1phase3_1ad03216cefb68d3caf278c2aa32935228" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::performance::phase3::g_compactions_completed</definition>
+        <argsstring></argsstring>
+        <name>g_compactions_completed</name>
+        <qualifiedname>themis::performance::phase3::g_compactions_completed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase3/splinterdb.cpp" line="94" column="20" bodyfile="src/performance/phase3/splinterdb.cpp" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1performance_1_1phase3_1aab1e70beae2be67687b4453fd22c442b" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::performance::phase3::g_compactions_in_progress</definition>
+        <argsstring></argsstring>
+        <name>g_compactions_in_progress</name>
+        <qualifiedname>themis::performance::phase3::g_compactions_in_progress</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase3/splinterdb.cpp" line="95" column="20" bodyfile="src/performance/phase3/splinterdb.cpp" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1performance_1_1phase3_1a3b52314be5ae2f63a3728e7554c6c7a5" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::performance::phase3::g_total_compaction_time_ms</definition>
+        <argsstring></argsstring>
+        <name>g_total_compaction_time_ms</name>
+        <qualifiedname>themis::performance::phase3::g_total_compaction_time_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase3/splinterdb.cpp" line="96" column="20" bodyfile="src/performance/phase3/splinterdb.cpp" bodystart="96" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/adaptive_batch_tuner.h" line="49" column="1"/>
+  </compounddef>
+</doxygen>

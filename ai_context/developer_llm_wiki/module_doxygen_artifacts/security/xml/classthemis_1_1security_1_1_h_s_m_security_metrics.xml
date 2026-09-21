@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_h_s_m_security_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::HSMSecurityMetrics</compoundname>
+    <includes refid="hsm__security__metrics_8h" local="no">hsm_security_metrics.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_security_metrics_1a50e865d6d353c9ae49990ef8d70d4d6f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::HSMSecurityMetrics::exportMetrics</definition>
+        <argsstring>(const HSMProvider &amp;hsm, uint64_t warnings_count=0)</argsstring>
+        <name>exportMetrics</name>
+        <qualifiedname>themis::security::HSMSecurityMetrics::exportMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> &amp;</type>
+          <declname>hsm</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>warnings_count</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Export HSM security metrics in Prometheus text format</para>
+<para>Metrics exported:<itemizedlist>
+<listitem><para>hsm_security_stub_active: Gauge (0 = secure, 1 = stub active)</para>
+</listitem><listitem><para>hsm_security_warnings_total: Counter (cumulative warnings)</para>
+</listitem><listitem><para>hsm_provider_type: Info metric (provider type label)</para>
+</listitem><listitem><para>hsm_provider_ready: Gauge (0 = not ready, 1 = ready)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hsm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HSM provider instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>warnings_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of security warnings issued </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Prometheus-formatted metrics string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_security_metrics.h" line="42" column="24" bodyfile="include/security/hsm_security_metrics.h" bodystart="42" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_security_metrics_1ac4722c69a5c2c0e1484300d583acd4fd" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::HSMSecurityMetrics::exportJSON</definition>
+        <argsstring>(const HSMProvider &amp;hsm, uint64_t warnings_count=0)</argsstring>
+        <name>exportJSON</name>
+        <qualifiedname>themis::security::HSMSecurityMetrics::exportJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> &amp;</type>
+          <declname>hsm</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>warnings_count</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get JSON-formatted metrics summary Useful for REST API endpoints </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_security_metrics.h" line="143" column="24" bodyfile="include/security/hsm_security_metrics.h" bodystart="143" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>HSM Security Metrics Exporter</para>
+<para>Exports HSM security status as Prometheus-compatible metrics. Addresses FIND-002 monitoring requirements. </para>
+    </detaileddescription>
+    <location file="include/security/hsm_security_metrics.h" line="27" column="1" bodyfile="include/security/hsm_security_metrics.h" bodystart="27" bodyend="171"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_h_s_m_security_metrics_1ac4722c69a5c2c0e1484300d583acd4fd" prot="public" virt="non-virtual"><scope>themis::security::HSMSecurityMetrics</scope><name>exportJSON</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_security_metrics_1a50e865d6d353c9ae49990ef8d70d4d6f" prot="public" virt="non-virtual"><scope>themis::security::HSMSecurityMetrics</scope><name>exportMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_dmn_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::DmnEvaluator</compoundname>
+    <includes refid="dmn__evaluator_8h" local="no">dmn_evaluator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_dmn_evaluator_1a53deca8dfeee941815f7e673d8ea8a39" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::process::DmnEvaluator::tables_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tables_mutex_</name>
+        <qualifiedname>themis::process::DmnEvaluator::tables_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects tables_ for thread-safe concurrent access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="193" column="24" bodyfile="include/process/dmn_evaluator.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_dmn_evaluator_1ac2e7685ddb1f9eb06283cd575702c696" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1process_1_1_decision_table" kindref="compound">DecisionTable</ref> &gt;</type>
+        <definition>std::map&lt;std::string, DecisionTable&gt; themis::process::DmnEvaluator::tables_</definition>
+        <argsstring></argsstring>
+        <name>tables_</name>
+        <qualifiedname>themis::process::DmnEvaluator::tables_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="194" column="14" bodyfile="include/process/dmn_evaluator.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_dmn_evaluator_1a508dd7d73ab5d4548246b8eaad86fa4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::DmnEvaluator::DmnEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>DmnEvaluator</name>
+        <qualifiedname>themis::process::DmnEvaluator::DmnEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_dmn_evaluator_1aa8c5a39b8b2751eaedb52f9b65c332ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::DmnEvaluator::loadFromJson</definition>
+        <argsstring>(const nlohmann::json &amp;dmn_json)</argsstring>
+        <name>loadFromJson</name>
+        <qualifiedname>themis::process::DmnEvaluator::loadFromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>dmn_json</declname>
+        </param>
+        <briefdescription>
+<para>Load a decision table from a JSON object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From Json.</para>
+<para>Expected JSON schema: <programlisting filename=".json"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;id&quot;:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;risk_assessment&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;name&quot;:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;Risk<sp/>Assessment&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;hit_policy&quot;:<sp/><sp/><sp/><sp/><sp/>&quot;UNIQUE&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;input_columns&quot;:<sp/><sp/>[&quot;amount&quot;,<sp/>&quot;type&quot;],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;output_columns&quot;:<sp/>[&quot;risk_level&quot;,<sp/>&quot;action&quot;],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;rules&quot;:<sp/>[</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>&quot;id&quot;:<sp/>&quot;r1&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;inputs&quot;:<sp/><sp/>[&quot;&gt;1000&quot;,<sp/>&quot;\&quot;credit\&quot;&quot;],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;outputs&quot;:<sp/>{&quot;risk_level&quot;:<sp/>&quot;HIGH&quot;,<sp/>&quot;action&quot;:<sp/>&quot;manual_review&quot;}<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>&quot;id&quot;:<sp/>&quot;r2&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;inputs&quot;:<sp/><sp/>[&quot;[100..1000]&quot;,<sp/>&quot;-&quot;],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;outputs&quot;:<sp/>{&quot;risk_level&quot;:<sp/>&quot;MEDIUM&quot;,<sp/>&quot;action&quot;:<sp/>&quot;auto_approve&quot;}<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>]</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dmn_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object with the schema above. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success; <computeroutput>false</computeroutput> on schema error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dmn_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: value(), contains(), is_array(), push_back(), is_string(), dump(), is_object(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="136" column="10" bodyfile="src/process/dmn_evaluator.cpp" bodystart="245" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_dmn_evaluator_1a9467bba8ff95bfe05da29f64eaf64ad4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::DmnEvaluator::loadFromXml</definition>
+        <argsstring>(std::string_view dmn_xml)</argsstring>
+        <name>loadFromXml</name>
+        <qualifiedname>themis::process::DmnEvaluator::loadFromXml</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>dmn_xml</declname>
+        </param>
+        <briefdescription>
+<para>Load a decision table from a simplified DMN 1.5 XML string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── loadFromXml — simplified state-machine XML parser for DMN 1.</para>
+<para>Parses the <computeroutput>&lt;decision&gt;</computeroutput> / <computeroutput>&lt;decisionTable&gt;</computeroutput> elements using the same state-machine tokenizer as <computeroutput><ref refid="classthemis_1_1process_1_1_bpmn_serializer" kindref="compound">BpmnSerializer</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dmn_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>DMN 1.5 XML string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success; <computeroutput>false</computeroutput> on parse error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dmn_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+5 ───────────────────────────────────────────────────────────────────────────── Calls: empty(), size(), SPDLOG_ERROR(), find(), substr(), std::tolower(), toLower(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="147" column="10" bodyfile="src/process/dmn_evaluator.cpp" bodystart="312" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_dmn_evaluator_1a65adc1be34f23799cb1c815c437e861a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::DmnEvaluator::evaluate</definition>
+        <argsstring>(std::string_view decision_id, const nlohmann::json &amp;input_context) const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::process::DmnEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>decision_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>input_context</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a named decision table against an input context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the decision table to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object mapping input column names to values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON object with output column values on match; JSON array of objects for COLLECT hit policy; empty object <computeroutput>{}</computeroutput> when no rule matches. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Thread-safety: protect shared tables_ access <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tables_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="160" column="21" bodyfile="src/process/dmn_evaluator.cpp" bodystart="542" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_dmn_evaluator_1a6007eb268994e75fbc1db67730e24640" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::process::DmnEvaluator::listDecisions</definition>
+        <argsstring>() const</argsstring>
+        <name>listDecisions</name>
+        <qualifiedname>themis::process::DmnEvaluator::listDecisions</qualifiedname>
+        <briefdescription>
+<para>Return all loaded decision table IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Thread-safety: protect shared tables_ access <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tables_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="182" column="18" bodyfile="src/process/dmn_evaluator.cpp" bodystart="582" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_dmn_evaluator_1aecead7e537fbfa9e2b7067252ae8ab6f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1process_1_1_decision_table" kindref="compound">DecisionTable</ref> &gt;</type>
+        <definition>std::optional&lt; DecisionTable &gt; themis::process::DmnEvaluator::getDecision</definition>
+        <argsstring>(std::string_view decision_id) const</argsstring>
+        <name>getDecision</name>
+        <qualifiedname>themis::process::DmnEvaluator::getDecision</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>decision_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the loaded decision table with the given ID, or <computeroutput>std::nullopt</computeroutput> if not found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Thread-safety: protect shared tables_ access <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tables_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="188" column="20" bodyfile="src/process/dmn_evaluator.cpp" bodystart="599" bodyend="612"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_dmn_evaluator_1a53b6f0db494d0c3b042a782f55e1869a" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::DmnEvaluator::evaluateFeel</definition>
+        <argsstring>(std::string_view feel_expr, const nlohmann::json &amp;value)</argsstring>
+        <name>evaluateFeel</name>
+        <qualifiedname>themis::process::DmnEvaluator::evaluateFeel</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>feel_expr</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a single FEEL expression against a JSON value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>feel_expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>FEEL expression string (see class doc for supported subset). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to test the expression against. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> if the expression matches the value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="172" column="18" bodyfile="src/process/dmn_evaluator.cpp" bodystart="110" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_dmn_evaluator_1a8cf13e46872c4db0e8b8c460ef55a7b8" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::DmnEvaluator::matchRule_</definition>
+        <argsstring>(const DmnRule &amp;rule, const std::vector&lt; std::string &gt; &amp;input_columns, const nlohmann::json &amp;input_context)</argsstring>
+        <name>matchRule_</name>
+        <qualifiedname>themis::process::DmnEvaluator::matchRule_</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_dmn_rule" kindref="compound">DmnRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>input_columns</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>input_context</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a rule row against the input context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="197" column="18" bodyfile="src/process/dmn_evaluator.cpp" bodystart="217" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>DMN 1.5 decision table evaluator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Supports loading decision tables from JSON (native format) or from a simplified DMN XML subset. Evaluates decision tables against an input context using the FEEL subset supported by this implementation.</para>
+<para>FEEL subset supported:<itemizedlist>
+<listitem><para>Number comparisons: <computeroutput>&gt;5</computeroutput>, <computeroutput>&gt;=5</computeroutput>, <computeroutput>&lt;5</computeroutput>, <computeroutput>&lt;=5</computeroutput>, <computeroutput>=5</computeroutput>, <computeroutput>!=5</computeroutput> </para>
+</listitem><listitem><para>String equality: <computeroutput>&quot;value&quot;</computeroutput> </para>
+</listitem><listitem><para>Range: <computeroutput></computeroutput>[a..b], <computeroutput></computeroutput>(a..b], <computeroutput></computeroutput>[a..b), <computeroutput></computeroutput>(a..b)</para>
+</listitem><listitem><para>Any / wildcard: <computeroutput>-</computeroutput> (matches anything)</para>
+</listitem><listitem><para>Null check: <computeroutput>null</computeroutput>, <computeroutput>not(null)</computeroutput> </para>
+</listitem><listitem><para>Boolean: <computeroutput>true</computeroutput>, <computeroutput>false</computeroutput> </para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1process_1_1_dmn_evaluator_1a508dd7d73ab5d4548246b8eaad86fa4e" kindref="member">DmnEvaluator</ref><sp/>eval;</highlight></codeline>
+<codeline><highlight class="normal">eval.loadFromJson(dmn_table_json);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>eval.evaluate(</highlight><highlight class="stringliteral">&quot;risk_assessment&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/>5000},<sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;credit&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>result[&quot;risk_level&quot;]<sp/>==<sp/>&quot;HIGH&quot;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/process/dmn_evaluator.h" line="105" column="1" bodyfile="include/process/dmn_evaluator.h" bodystart="105" bodyend="202"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_1a508dd7d73ab5d4548246b8eaad86fa4e" prot="public" virt="non-virtual"><scope>themis::process::DmnEvaluator</scope><name>DmnEvaluator</name></member>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_1a65adc1be34f23799cb1c815c437e861a" prot="public" virt="non-virtual"><scope>themis::process::DmnEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_1a53b6f0db494d0c3b042a782f55e1869a" prot="public" virt="non-virtual"><scope>themis::process::DmnEvaluator</scope><name>evaluateFeel</name></member>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_1aecead7e537fbfa9e2b7067252ae8ab6f" prot="public" virt="non-virtual"><scope>themis::process::DmnEvaluator</scope><name>getDecision</name></member>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_1a6007eb268994e75fbc1db67730e24640" prot="public" virt="non-virtual"><scope>themis::process::DmnEvaluator</scope><name>listDecisions</name></member>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_1aa8c5a39b8b2751eaedb52f9b65c332ad" prot="public" virt="non-virtual"><scope>themis::process::DmnEvaluator</scope><name>loadFromJson</name></member>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_1a9467bba8ff95bfe05da29f64eaf64ad4" prot="public" virt="non-virtual"><scope>themis::process::DmnEvaluator</scope><name>loadFromXml</name></member>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_1a8cf13e46872c4db0e8b8c460ef55a7b8" prot="private" virt="non-virtual"><scope>themis::process::DmnEvaluator</scope><name>matchRule_</name></member>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_1ac2e7685ddb1f9eb06283cd575702c696" prot="private" virt="non-virtual"><scope>themis::process::DmnEvaluator</scope><name>tables_</name></member>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_1a53deca8dfeee941815f7e673d8ea8a39" prot="private" virt="non-virtual"><scope>themis::process::DmnEvaluator</scope><name>tables_mutex_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_metric_timer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::metrics::MetricTimer</compoundname>
+    <includes refid="lora__metrics_8h" local="no">lora_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_metric_timer_1adc88c77e669c378e3e89c30cb8e6d9fe" prot="private" static="no" mutable="no">
+        <type>std::chrono::time_point&lt; std::chrono::high_resolution_clock &gt;</type>
+        <definition>std::chrono::time_point&lt;std::chrono::high_resolution_clock&gt; themis::llm::lora::metrics::MetricTimer::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::llm::lora::metrics::MetricTimer::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="381" column="29" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_metric_timer_1abd066e673c7c4b109b5d4844f5eb96ab" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::metrics::MetricTimer::MetricTimer</definition>
+        <argsstring>()</argsstring>
+        <name>MetricTimer</name>
+        <qualifiedname>themis::llm::lora::metrics::MetricTimer::MetricTimer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="369" column="14" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="369" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_metric_timer_1ad2401adb0bc2b79a30cafeb2bf2da43c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::lora::metrics::MetricTimer::elapsedMilliseconds</definition>
+        <argsstring>() const</argsstring>
+        <name>elapsedMilliseconds</name>
+        <qualifiedname>themis::llm::lora::metrics::MetricTimer::elapsedMilliseconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="371" column="12" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="371" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_metric_timer_1a7d53823819d7b6a226b09697bed95a0a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::lora::metrics::MetricTimer::elapsedSeconds</definition>
+        <argsstring>() const</argsstring>
+        <name>elapsedSeconds</name>
+        <qualifiedname>themis::llm::lora::metrics::MetricTimer::elapsedSeconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="376" column="12" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="376" bodyend="378"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_metrics.h" line="367" column="1" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="367" bodyend="382"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_metric_timer_1ad2401adb0bc2b79a30cafeb2bf2da43c" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::MetricTimer</scope><name>elapsedMilliseconds</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_metric_timer_1a7d53823819d7b6a226b09697bed95a0a" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::MetricTimer</scope><name>elapsedSeconds</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_metric_timer_1abd066e673c7c4b109b5d4844f5eb96ab" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::MetricTimer</scope><name>MetricTimer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_metric_timer_1adc88c77e669c378e3e89c30cb8e6d9fe" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::MetricTimer</scope><name>start_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

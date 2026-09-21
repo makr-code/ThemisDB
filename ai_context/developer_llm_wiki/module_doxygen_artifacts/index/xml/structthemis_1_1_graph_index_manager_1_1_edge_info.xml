@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_graph_index_manager_1_1_edge_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::GraphIndexManager::EdgeInfo</compoundname>
+    <includes refid="graph__index_8h" local="no">graph_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_edge_info_1a49999ca9fa7ef7fcce5086a50d5a9462" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphIndexManager::EdgeInfo::edgeId</definition>
+        <argsstring></argsstring>
+        <name>edgeId</name>
+        <qualifiedname>themis::GraphIndexManager::EdgeInfo::edgeId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="164" column="21" bodyfile="include/index/graph_index.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_edge_info_1a22cf678eacd797570de27f8f5417a8c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphIndexManager::EdgeInfo::fromPk</definition>
+        <argsstring></argsstring>
+        <name>fromPk</name>
+        <qualifiedname>themis::GraphIndexManager::EdgeInfo::fromPk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="165" column="21" bodyfile="include/index/graph_index.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_edge_info_1a867decb0f98b112004172e99526b3192" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphIndexManager::EdgeInfo::toPk</definition>
+        <argsstring></argsstring>
+        <name>toPk</name>
+        <qualifiedname>themis::GraphIndexManager::EdgeInfo::toPk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="166" column="21" bodyfile="include/index/graph_index.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_edge_info_1a03d0d708f86437098b70a64690493469" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::GraphIndexManager::EdgeInfo::valid_from</definition>
+        <argsstring></argsstring>
+        <name>valid_from</name>
+        <qualifiedname>themis::GraphIndexManager::EdgeInfo::valid_from</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="167" column="23" bodyfile="include/index/graph_index.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_edge_info_1ac4dc90b01cd056e3271e1c3f65629d72" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::GraphIndexManager::EdgeInfo::valid_to</definition>
+        <argsstring></argsstring>
+        <name>valid_to</name>
+        <qualifiedname>themis::GraphIndexManager::EdgeInfo::valid_to</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="168" column="23" bodyfile="include/index/graph_index.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/graph_index.h" line="163" column="5" bodyfile="include/index/graph_index.h" bodystart="163" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a49999ca9fa7ef7fcce5086a50d5a9462" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::EdgeInfo</scope><name>edgeId</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a22cf678eacd797570de27f8f5417a8c4" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::EdgeInfo</scope><name>fromPk</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a867decb0f98b112004172e99526b3192" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::EdgeInfo</scope><name>toPk</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a03d0d708f86437098b70a64690493469" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::EdgeInfo</scope><name>valid_from</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1ac4dc90b01cd056e3271e1c3f65629d72" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::EdgeInfo</scope><name>valid_to</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

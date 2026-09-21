@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_cardinality_fallback_strategy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::observability::CardinalityFallbackStrategy</compoundname>
+    <derivedcompoundref refid="classthemis_1_1observability_1_1_default_fallback_strategy" prot="public" virt="non-virtual">themis::observability::DefaultFallbackStrategy</derivedcompoundref>
+    <includes refid="high__cardinality__metrics_8h" local="no">high_cardinality_metrics.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_cardinality_fallback_strategy_1a1364e61bfe9b86c7f4e293c84c7c5daf" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>virtual std::map&lt; std::string, std::string &gt; themis::observability::CardinalityFallbackStrategy::apply</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;original_labels)=0</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::observability::CardinalityFallbackStrategy::apply</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_default_fallback_strategy_1ae62ee33354efb3b99a06fbe96ecbf062">apply</reimplementedby>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>original_labels</declname>
+        </param>
+        <briefdescription>
+<para>Apply the fallback strategy to a label set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a modified label set suitable for recording the metric when cardinality is exceeded.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>original_labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original label set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Modified label set (may include synthetic labels like &quot;__other&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="104" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_cardinality_fallback_strategy_1a69f44f8f55454668c38b0a687b3ca555" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::observability::CardinalityFallbackStrategy::~CardinalityFallbackStrategy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CardinalityFallbackStrategy</name>
+        <qualifiedname>themis::observability::CardinalityFallbackStrategy::~CardinalityFallbackStrategy</qualifiedname>
+        <briefdescription>
+<para>Virtual destructor for safe polymorphic deletion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/high_cardinality_metrics.h" line="110" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fallback strategy for handling cardinality overflow. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When a metric&apos;s cardinality exceeds its limit, a fallback strategy determines how to handle new, previously-unseen label sets. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::observability::CardinalityFallbackStrategy</label>
+        <link refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy"/>
+      </node>
+      <node id="2">
+        <label>themis::observability::DefaultFallbackStrategy</label>
+        <link refid="classthemis_1_1observability_1_1_default_fallback_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/observability/high_cardinality_metrics.h" line="93" column="1" bodyfile="include/observability/high_cardinality_metrics.h" bodystart="93" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy_1a1364e61bfe9b86c7f4e293c84c7c5daf" prot="public" virt="pure-virtual"><scope>themis::observability::CardinalityFallbackStrategy</scope><name>apply</name></member>
+      <member refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy_1a69f44f8f55454668c38b0a687b3ca555" prot="public" virt="virtual"><scope>themis::observability::CardinalityFallbackStrategy</scope><name>~CardinalityFallbackStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_search_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SearchMetrics</compoundname>
+    <includes refid="search__analytics_8h" local="no">search_analytics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_search_metrics_1a81f4e16a8c22da740567130b64ea205d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SearchMetrics::total_queries</definition>
+        <argsstring></argsstring>
+        <name>total_queries</name>
+        <qualifiedname>themis::SearchMetrics::total_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total recorded query events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="38" column="12" bodyfile="include/search/search_analytics.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_metrics_1a0f94d06d45e81185e718e8d86621c940" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SearchMetrics::zero_result_queries</definition>
+        <argsstring></argsstring>
+        <name>zero_result_queries</name>
+        <qualifiedname>themis::SearchMetrics::zero_result_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Queries that returned no results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="39" column="12" bodyfile="include/search/search_analytics.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_metrics_1ab3f7f9f01b8f5fc38c49bedc1ad2b823" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SearchMetrics::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themis::SearchMetrics::avg_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Average search latency (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="40" column="12" bodyfile="include/search/search_analytics.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_metrics_1a7cb3f172a90a4325f4bb24e0f624e308" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SearchMetrics::p95_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_latency_ms</name>
+        <qualifiedname>themis::SearchMetrics::p95_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>95th-percentile latency (ms) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="41" column="12" bodyfile="include/search/search_analytics.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_metrics_1a6b0db8a93911c1d3301ee7c0f45faf19" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SearchMetrics::p99_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_latency_ms</name>
+        <qualifiedname>themis::SearchMetrics::p99_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>99th-percentile latency (ms) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="42" column="12" bodyfile="include/search/search_analytics.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_metrics_1a1e30eaaa8d0d15e08f1ae21f0524b21c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SearchMetrics::zero_result_rate</definition>
+        <argsstring></argsstring>
+        <name>zero_result_rate</name>
+        <qualifiedname>themis::SearchMetrics::zero_result_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of zero-result queries [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="43" column="12" bodyfile="include/search/search_analytics.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_search_metrics_1a2b16f7695719c48b4c2f2461e8543b6a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::SearchMetrics::top_queries</definition>
+        <argsstring></argsstring>
+        <name>top_queries</name>
+        <qualifiedname>themis::SearchMetrics::top_queries</qualifiedname>
+        <briefdescription>
+<para>Most frequent queries (up to 20). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="44" column="14" bodyfile="include/search/search_analytics.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated performance metrics snapshot. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/search_analytics.h" line="37" column="1" bodyfile="include/search/search_analytics.h" bodystart="37" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_search_metrics_1ab3f7f9f01b8f5fc38c49bedc1ad2b823" prot="public" virt="non-virtual"><scope>themis::SearchMetrics</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemis_1_1_search_metrics_1a7cb3f172a90a4325f4bb24e0f624e308" prot="public" virt="non-virtual"><scope>themis::SearchMetrics</scope><name>p95_latency_ms</name></member>
+      <member refid="structthemis_1_1_search_metrics_1a6b0db8a93911c1d3301ee7c0f45faf19" prot="public" virt="non-virtual"><scope>themis::SearchMetrics</scope><name>p99_latency_ms</name></member>
+      <member refid="structthemis_1_1_search_metrics_1a2b16f7695719c48b4c2f2461e8543b6a" prot="public" virt="non-virtual"><scope>themis::SearchMetrics</scope><name>top_queries</name></member>
+      <member refid="structthemis_1_1_search_metrics_1a81f4e16a8c22da740567130b64ea205d" prot="public" virt="non-virtual"><scope>themis::SearchMetrics</scope><name>total_queries</name></member>
+      <member refid="structthemis_1_1_search_metrics_1a0f94d06d45e81185e718e8d86621c940" prot="public" virt="non-virtual"><scope>themis::SearchMetrics</scope><name>zero_result_queries</name></member>
+      <member refid="structthemis_1_1_search_metrics_1a1e30eaaa8d0d15e08f1ae21f0524b21c" prot="public" virt="non-virtual"><scope>themis::SearchMetrics</scope><name>zero_result_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

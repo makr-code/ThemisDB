@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IPromptCompressor</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor" prot="public" virt="non-virtual">themis::prompt_engineering::SimplePromptCompressor</derivedcompoundref>
+    <includes refid="prompt__compressor_8h" local="no">prompt_compressor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a9e4e3243e2d1c225e2bc9ba9aa518682" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IPromptCompressor::~IPromptCompressor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IPromptCompressor</name>
+        <qualifiedname>themis::prompt_engineering::IPromptCompressor::~IPromptCompressor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="68" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a1dfb3656a6cecca2b99494ee83df3998" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>virtual CompressionResult themis::prompt_engineering::IPromptCompressor::compress</definition>
+        <argsstring>(const std::string &amp;prompt, const PromptCompressionConfig &amp;config)=0</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::prompt_engineering::IPromptCompressor::compress</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1af8c871b220449918a9c9ea5f360ad1c1">compress</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config" kindref="compound">PromptCompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress <computeroutput>prompt</computeroutput> to fit within the configured token budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If <computeroutput>original_token_count &lt;= target_token_budget</computeroutput>, the prompt is returned unchanged with <computeroutput>compression_ratio == 0.0f</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="76" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a2f4966baae97e193ffdb62ba34fd7b4b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int themis::prompt_engineering::IPromptCompressor::estimateTokenCount</definition>
+        <argsstring>(const std::string &amp;text)=0</argsstring>
+        <name>estimateTokenCount</name>
+        <qualifiedname>themis::prompt_engineering::IPromptCompressor::estimateTokenCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1aad5e78c8361b23d3d5584faf76d2098d">estimateTokenCount</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Estimate the token count of <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: GPT-2 approximation (chars / 4). Implementations may use a proper tokeniser. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="86" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a3e696160088670653bc3bad12e574b40" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735ec" kindref="member">CompressionStrategy</ref> &gt;</type>
+        <definition>virtual std::vector&lt; CompressionStrategy &gt; themis::prompt_engineering::IPromptCompressor::supportedStrategies</definition>
+        <argsstring>() const =0</argsstring>
+        <name>supportedStrategies</name>
+        <qualifiedname>themis::prompt_engineering::IPromptCompressor::supportedStrategies</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1af29cb4a3d6739edb4cfb8b7f28ff6a4a">supportedStrategies</reimplementedby>
+        <briefdescription>
+<para>Returns the set of strategies this compressor supports. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_compressor.h" line="89" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for prompt compression and summarization. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::prompt_engineering::IPromptCompressor</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor"/>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::SimplePromptCompressor</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/prompt_compressor.h" line="66" column="1" bodyfile="include/prompt_engineering/prompt_compressor.h" bodystart="66" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a1dfb3656a6cecca2b99494ee83df3998" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IPromptCompressor</scope><name>compress</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a2f4966baae97e193ffdb62ba34fd7b4b" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IPromptCompressor</scope><name>estimateTokenCount</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a3e696160088670653bc3bad12e574b40" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IPromptCompressor</scope><name>supportedStrategies</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_compressor_1a9e4e3243e2d1c225e2bc9ba9aa518682" prot="public" virt="virtual"><scope>themis::prompt_engineering::IPromptCompressor</scope><name>~IPromptCompressor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

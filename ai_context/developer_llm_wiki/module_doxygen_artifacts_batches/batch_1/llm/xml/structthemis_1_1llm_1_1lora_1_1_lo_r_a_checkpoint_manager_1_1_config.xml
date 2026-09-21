@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRACheckpointManager::Config</compoundname>
+    <includes refid="lora__checkpoint__manager_8h" local="no">lora_checkpoint_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1a68cf4cc75305fb6b3e135ea145fb96ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRACheckpointManager::Config::root_dir</definition>
+        <argsstring></argsstring>
+        <name>root_dir</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::Config::root_dir</qualifiedname>
+        <initializer>= &quot;checkpoints&quot;</initializer>
+        <briefdescription>
+<para>Base directory for checkpoint storage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="74" column="21" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1a73808ab36485b871275475d70786d4b6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::LoRACheckpointManager::Config::keep_last</definition>
+        <argsstring></argsstring>
+        <name>keep_last</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::Config::keep_last</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>How many recent checkpoints to retain (0 = keep all). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="75" column="21" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1a589770d33ad808e6dd0b04237d0b63ab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRACheckpointManager::Config::keep_best</definition>
+        <argsstring></argsstring>
+        <name>keep_best</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::Config::keep_best</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Always retain the checkpoint with lowest val_loss. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="76" column="21" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1a0d761e0c15eea5ef80f0cb04f05947c2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRACheckpointManager::Config::verify_hash</definition>
+        <argsstring></argsstring>
+        <name>verify_hash</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::Config::verify_hash</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Verify SHA-256 on load. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="77" column="21" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1a882caa3c26b17a1fad4b27e85231039d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRACheckpointManager::Config::enable_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_compression</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::Config::enable_compression</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Compress weight blobs (zstd). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="78" column="21" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1ad3ff8c40a8432f8174e8c5d63753d772" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::lora::LoRACheckpointManager::Config::auto_save_interval</definition>
+        <argsstring></argsstring>
+        <name>auto_save_interval</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::Config::auto_save_interval</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0 = disabled; &gt;0 = background auto-save period </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="79" column="30" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="73" column="5" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="73" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1ad3ff8c40a8432f8174e8c5d63753d772" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager::Config</scope><name>auto_save_interval</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1a882caa3c26b17a1fad4b27e85231039d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager::Config</scope><name>enable_compression</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1a589770d33ad808e6dd0b04237d0b63ab" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager::Config</scope><name>keep_best</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1a73808ab36485b871275475d70786d4b6" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager::Config</scope><name>keep_last</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1a68cf4cc75305fb6b3e135ea145fb96ab" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager::Config</scope><name>root_dir</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config_1a0d761e0c15eea5ef80f0cb04f05947c2" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager::Config</scope><name>verify_hash</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

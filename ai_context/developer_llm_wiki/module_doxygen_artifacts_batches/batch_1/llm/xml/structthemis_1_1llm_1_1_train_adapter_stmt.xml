@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_train_adapter_stmt" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TrainAdapterStmt</compoundname>
+    <includes refid="aql__train__parser_8h" local="no">aql_train_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_adapter_stmt_1a60142a713e0d242594e968df9cffff88" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TrainAdapterStmt::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::TrainAdapterStmt::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="167" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_adapter_stmt_1a724a5d11a7a5dd383b08275cc8c04bb6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TrainAdapterStmt::source_collection</definition>
+        <argsstring></argsstring>
+        <name>source_collection</name>
+        <qualifiedname>themis::llm::TrainAdapterStmt::source_collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="170" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_adapter_stmt_1a209f3779ff2a619beb6e31441b6f8bf3" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; query::Query &gt;</type>
+        <definition>std::shared_ptr&lt;query::Query&gt; themis::llm::TrainAdapterStmt::data_query</definition>
+        <argsstring></argsstring>
+        <name>data_query</name>
+        <qualifiedname>themis::llm::TrainAdapterStmt::data_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="171" column="21" bodyfile="include/llm/aql_train_parser.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_adapter_stmt_1a300be7430f9ffb19fe002e20ac5bb71c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment" kindref="compound">MultiModelEnrichment</ref></type>
+        <definition>MultiModelEnrichment themis::llm::TrainAdapterStmt::enrichment</definition>
+        <argsstring></argsstring>
+        <name>enrichment</name>
+        <qualifiedname>themis::llm::TrainAdapterStmt::enrichment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="174" column="26" bodyfile="include/llm/aql_train_parser.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_adapter_stmt_1a3e008eee183ccab6edc94d5d31c24caf" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_train_statement_config" kindref="compound">TrainStatementConfig</ref></type>
+        <definition>TrainStatementConfig themis::llm::TrainAdapterStmt::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::TrainAdapterStmt::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="177" column="26" bodyfile="include/llm/aql_train_parser.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_adapter_stmt_1aefaab4273330ea199a985d2117ab7136" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config" kindref="compound">AQLDistributedTrainingConfig</ref></type>
+        <definition>AQLDistributedTrainingConfig themis::llm::TrainAdapterStmt::distributed</definition>
+        <argsstring></argsstring>
+        <name>distributed</name>
+        <qualifiedname>themis::llm::TrainAdapterStmt::distributed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="180" column="34" bodyfile="include/llm/aql_train_parser.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_adapter_stmt_1a0ccd7c51dfc85c29d8e9fc3056effdb0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TrainAdapterStmt::output_path</definition>
+        <argsstring></argsstring>
+        <name>output_path</name>
+        <qualifiedname>themis::llm::TrainAdapterStmt::output_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="183" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_train_adapter_stmt_1a610df200a7b3d726d0160f6e6470d617" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::TrainAdapterStmt::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::TrainAdapterStmt::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="189" column="20" bodyfile="src/llm/aql_train_parser.cpp" bodystart="491" bodyend="500"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_train_adapter_stmt_1a0d0b1d18fc364ff50a8dd85b77319402" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt" kindref="compound">TrainAdapterStmt</ref></type>
+        <definition>TrainAdapterStmt themis::llm::TrainAdapterStmt::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::TrainAdapterStmt::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="195" column="29" bodyfile="src/llm/aql_train_parser.cpp" bodystart="509" bodyend="535"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="5">
+        <label>themis::llm::AQLDistributedTrainingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::MultiModelEnrichment</label>
+        <link refid="structthemis_1_1llm_1_1_multi_model_enrichment"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::TrainAdapterStmt</label>
+        <link refid="structthemis_1_1llm_1_1_train_adapter_stmt"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>enrichment</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>distributed</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::TrainStatementConfig</label>
+        <link refid="structthemis_1_1llm_1_1_train_statement_config"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::llm::TrainingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_training_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/aql_train_parser.h" line="165" column="1" bodyfile="include/llm/aql_train_parser.h" bodystart="165" bodyend="196"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a60142a713e0d242594e968df9cffff88" prot="public" virt="non-virtual"><scope>themis::llm::TrainAdapterStmt</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a3e008eee183ccab6edc94d5d31c24caf" prot="public" virt="non-virtual"><scope>themis::llm::TrainAdapterStmt</scope><name>config</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a209f3779ff2a619beb6e31441b6f8bf3" prot="public" virt="non-virtual"><scope>themis::llm::TrainAdapterStmt</scope><name>data_query</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_adapter_stmt_1aefaab4273330ea199a985d2117ab7136" prot="public" virt="non-virtual"><scope>themis::llm::TrainAdapterStmt</scope><name>distributed</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a300be7430f9ffb19fe002e20ac5bb71c" prot="public" virt="non-virtual"><scope>themis::llm::TrainAdapterStmt</scope><name>enrichment</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a0d0b1d18fc364ff50a8dd85b77319402" prot="public" virt="non-virtual"><scope>themis::llm::TrainAdapterStmt</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a0ccd7c51dfc85c29d8e9fc3056effdb0" prot="public" virt="non-virtual"><scope>themis::llm::TrainAdapterStmt</scope><name>output_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a724a5d11a7a5dd383b08275cc8c04bb6" prot="public" virt="non-virtual"><scope>themis::llm::TrainAdapterStmt</scope><name>source_collection</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a610df200a7b3d726d0160f6e6470d617" prot="public" virt="non-virtual"><scope>themis::llm::TrainAdapterStmt</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

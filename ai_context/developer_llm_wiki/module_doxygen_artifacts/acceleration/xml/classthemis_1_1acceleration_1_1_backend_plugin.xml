@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_backend_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::acceleration::BackendPlugin</compoundname>
+    <includes refid="plugin__loader_8h" local="no">plugin_loader.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_backend_plugin_1a64c9ab56aa1a8c1d1f6240e8e4315ce8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::acceleration::BackendPlugin::~BackendPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BackendPlugin</name>
+        <qualifiedname>themis::acceleration::BackendPlugin::~BackendPlugin</qualifiedname>
+        <briefdescription>
+<para>Backend Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="28" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_backend_plugin_1a6b434c525d8453c57e6b7f36b980940f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::acceleration::BackendPlugin::pluginName</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>pluginName</name>
+        <qualifiedname>themis::acceleration::BackendPlugin::pluginName</qualifiedname>
+        <briefdescription>
+<para>Plugin Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="35" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_backend_plugin_1a5a399f6f99a2f4b595b67644f89c1707" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::acceleration::BackendPlugin::pluginVersion</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>pluginVersion</name>
+        <qualifiedname>themis::acceleration::BackendPlugin::pluginVersion</qualifiedname>
+        <briefdescription>
+<para>Plugin Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="42" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_backend_plugin_1a15a09a761f9f845d9fc6af0d8ac3003f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>virtual BackendType themis::acceleration::BackendPlugin::backendType</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>backendType</name>
+        <qualifiedname>themis::acceleration::BackendPlugin::backendType</qualifiedname>
+        <briefdescription>
+<para>Backend Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="49" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_backend_plugin_1a008ebff2c4fc17ee17cb9a5c5d059a48" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_i_vector_backend" kindref="compound">IVectorBackend</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; IVectorBackend &gt; themis::acceleration::BackendPlugin::createVectorBackend</definition>
+        <argsstring>()=0</argsstring>
+        <name>createVectorBackend</name>
+        <qualifiedname>themis::acceleration::BackendPlugin::createVectorBackend</qualifiedname>
+        <briefdescription>
+<para>Create Vector Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="55" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_backend_plugin_1a91ab32a363fd4b183e508bda6c818e6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_i_graph_backend" kindref="compound">IGraphBackend</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; IGraphBackend &gt; themis::acceleration::BackendPlugin::createGraphBackend</definition>
+        <argsstring>()=0</argsstring>
+        <name>createGraphBackend</name>
+        <qualifiedname>themis::acceleration::BackendPlugin::createGraphBackend</qualifiedname>
+        <briefdescription>
+<para>Create Graph Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="61" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_backend_plugin_1ab5b6fe61a791b3b856bc84bb1e820a81" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_i_geo_backend" kindref="compound">IGeoBackend</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; IGeoBackend &gt; themis::acceleration::BackendPlugin::createGeoBackend</definition>
+        <argsstring>()=0</argsstring>
+        <name>createGeoBackend</name>
+        <qualifiedname>themis::acceleration::BackendPlugin::createGeoBackend</qualifiedname>
+        <briefdescription>
+<para>Create Geo Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_loader.h" line="67" column="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/plugin_loader.h" line="22" column="1" bodyfile="include/acceleration/plugin_loader.h" bodystart="22" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_backend_plugin_1a15a09a761f9f845d9fc6af0d8ac3003f" prot="public" virt="pure-virtual"><scope>themis::acceleration::BackendPlugin</scope><name>backendType</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_backend_plugin_1ab5b6fe61a791b3b856bc84bb1e820a81" prot="public" virt="pure-virtual"><scope>themis::acceleration::BackendPlugin</scope><name>createGeoBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_backend_plugin_1a91ab32a363fd4b183e508bda6c818e6f" prot="public" virt="pure-virtual"><scope>themis::acceleration::BackendPlugin</scope><name>createGraphBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_backend_plugin_1a008ebff2c4fc17ee17cb9a5c5d059a48" prot="public" virt="pure-virtual"><scope>themis::acceleration::BackendPlugin</scope><name>createVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_backend_plugin_1a6b434c525d8453c57e6b7f36b980940f" prot="public" virt="pure-virtual"><scope>themis::acceleration::BackendPlugin</scope><name>pluginName</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_backend_plugin_1a5a399f6f99a2f4b595b67644f89c1707" prot="public" virt="pure-virtual"><scope>themis::acceleration::BackendPlugin</scope><name>pluginVersion</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_backend_plugin_1a64c9ab56aa1a8c1d1f6240e8e4315ce8" prot="public" virt="virtual"><scope>themis::acceleration::BackendPlugin</scope><name>~BackendPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

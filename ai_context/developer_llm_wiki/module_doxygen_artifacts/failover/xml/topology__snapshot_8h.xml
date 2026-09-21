@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="topology__snapshot_8h" kind="file" language="C++">
+    <compoundname>topology_snapshot.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__failover__wave__b__gates_8cpp" local="yes">benchmarks/failover/bench_failover_wave_b_gates.cpp</includedby>
+    <includedby refid="auto__failover__manager_8h" local="yes">include/failover/auto_failover_manager.h</includedby>
+    <includedby refid="auto__failover__manager_8cpp" local="yes">src/failover/auto_failover_manager.cpp</includedby>
+    <includedby refid="topology__snapshot_8cpp" local="yes">src/failover/topology_snapshot.cpp</includedby>
+    <includedby refid="test__failover__wave__a__topology__versioning_8cpp" local="yes">tests/failover/test_failover_wave_a_topology_versioning.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/failover/topology_snapshot.h</label>
+        <link refid="topology__snapshot_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>benchmarks/failover/bench_failover_phase2_phase3_gates.cpp</label>
+        <link refid="bench__failover__phase2__phase3__gates_8cpp"/>
+      </node>
+      <node id="2">
+        <label>benchmarks/failover/bench_failover_wave_b_gates.cpp</label>
+        <link refid="bench__failover__wave__b__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/failover/auto_failover_manager.h</label>
+        <link refid="auto__failover__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/failover/topology_snapshot.h</label>
+        <link refid="topology__snapshot_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/failover/auto_failover_manager.cpp</label>
+        <link refid="auto__failover__manager_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/failover/topology_snapshot.cpp</label>
+        <link refid="topology__snapshot_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/failover/test_failover_chaos_scenarios.cpp</label>
+        <link refid="test__failover__chaos__scenarios_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/failover/test_failover_phase2_phase3_focused.cpp</label>
+        <link refid="test__failover__phase2__phase3__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/failover/test_failover_wave_a_quorum_persistence.cpp</label>
+        <link refid="test__failover__wave__a__quorum__persistence_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/failover/test_failover_wave_a_topology_versioning.cpp</label>
+        <link refid="test__failover__wave__a__topology__versioning_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1failover_1_1_topology_snapshot" prot="public">themis::failover::TopologySnapshot</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1failover">themis::failover</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1failover" kindref="compound">failover</ref><sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="structthemis_1_1failover_1_1_topology_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_topology_snapshot" kindref="compound">TopologySnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="11" refid="structthemis_1_1failover_1_1_topology_snapshot_1abbb5557c3aebd976259c5dd0503814f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot_1abbb5557c3aebd976259c5dd0503814f8" kindref="member">version</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="12" refid="structthemis_1_1failover_1_1_topology_snapshot_1a6223ae019f14535ac56d8676d83fc131" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot_1a6223ae019f14535ac56d8676d83fc131" kindref="member">failures</ref>;<sp/></highlight></codeline>
+<codeline lineno="13" refid="structthemis_1_1failover_1_1_topology_snapshot_1ac86e1437e34fe771aaba3667f16ab791" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot_1ac86e1437e34fe771aaba3667f16ab791" kindref="member">node_ids</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot_1a99bade088b1cb6a5f4dbfe3aa1ed38bc" kindref="member">added_nodes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot" kindref="compound">TopologySnapshot</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot_1ae6e9efee1bb2745016a4af6fde8ccd93" kindref="member">removed_nodes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot" kindref="compound">TopologySnapshot</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot_1ac69a0939a1d551ff7aa2e7956d9bef23" kindref="member">has_topology_change</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot" kindref="compound">TopologySnapshot</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot" kindref="compound">TopologySnapshot</ref><sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot_1ad51afc63ed652c73f055f699a32aba90" kindref="member">capture</ref>(uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot_1abbb5557c3aebd976259c5dd0503814f8" kindref="member">version</ref>,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;&amp;<sp/><ref refid="structthemis_1_1failover_1_1_topology_snapshot_1a6223ae019f14535ac56d8676d83fc131" kindref="member">failures</ref>);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>failover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/failover/topology_snapshot.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__distributed__catalog__diagnostics__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_distributed_catalog_diagnostics_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="imetadata__change__listener_8h" local="yes">metadata/imetadata_change_listener.h</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>metadata/imetadata_change_listener.h</label>
+        <link refid="imetadata__change__listener_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/metadata/test_distributed_catalog_diagnostics_focused.cpp</label>
+        <link refid="test__distributed__catalog__diagnostics__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__distributed__catalog__diagnostics__focused_8cpp_1af506bac143e700a9d5422bff76d6175f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedCatalogDiagnosticsTest, MCHDC01_StartsWithZeroEvents)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedCatalogDiagnosticsTest</type>
+        </param>
+        <param>
+          <type>MCHDC01_StartsWithZeroEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog_diagnostics_focused.cpp" line="52" column="1" bodyfile="tests/metadata/test_distributed_catalog_diagnostics_focused.cpp" bodystart="52" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__distributed__catalog__diagnostics__focused_8cpp_1afc87fc48e8df36d71a84eceae18ad083" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedCatalogDiagnosticsTest, MCHDC02_OnChangedIncrementsCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedCatalogDiagnosticsTest</type>
+        </param>
+        <param>
+          <type>MCHDC02_OnChangedIncrementsCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog_diagnostics_focused.cpp" line="61" column="1" bodyfile="tests/metadata/test_distributed_catalog_diagnostics_focused.cpp" bodystart="61" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__distributed__catalog__diagnostics__focused_8cpp_1a188c69dc3e435be4f6fd4f34024054ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedCatalogDiagnosticsTest, MCHDC03_LastEventReturnsNewest)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedCatalogDiagnosticsTest</type>
+        </param>
+        <param>
+          <type>MCHDC03_LastEventReturnsNewest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog_diagnostics_focused.cpp" line="72" column="1" bodyfile="tests/metadata/test_distributed_catalog_diagnostics_focused.cpp" bodystart="72" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__distributed__catalog__diagnostics__focused_8cpp_1ae2264f45eadf8b1c5c70626301e4e877" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DistributedCatalogDiagnosticsTest, MCHDC04_ClearResetsToZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DistributedCatalogDiagnosticsTest</type>
+        </param>
+        <param>
+          <type>MCHDC04_ClearResetsToZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog_diagnostics_focused.cpp" line="86" column="1" bodyfile="tests/metadata/test_distributed_catalog_diagnostics_focused.cpp" bodystart="86" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase C1: Diagnostics tests for DistributedMetadataCatalog (stat counters). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: MCH-DC01..MCH-DC04</para>
+</simplesect>
+Uses the <ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener" kindref="compound">RecordingMetadataChangeListener</ref> and <ref refid="structthemis_1_1metadata_1_1_metadata_snapshot" kindref="compound">MetadataSnapshot</ref> helpers (both header-only) to validate the operator-observable diagnostics surface of the metadata module without requiring a live cluster or RocksDB instance.</para>
+<para>MCH-DC01 <ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener" kindref="compound">RecordingMetadataChangeListener</ref> starts with zero events MCH-DC02 onMetadataChanged() increments eventCount() MCH-DC03 lastEvent() returns the most recently recorded event MCH-DC04 clear() resets the event recorder to zero</para>
+<para>Self-contained: header-only types only, no network I/O, no RocksDB. Canonical PRNG seed: kDistributedDiagSeed = 42.</para>
+<para><simplesect kind="see"><para><ref refid="imetadata__change__listener_8h" kindref="compound">include/metadata/imetadata_change_listener.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/metadata/ROADMAP.md — Phase C diagnostics items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="imetadata__change__listener_8h" kindref="compound">metadata/imetadata_change_listener.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1metadata" kindref="compound">themis::metadata</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kDistributedDiagSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="structthemis_1_1metadata_1_1_metadata_change_event" kindref="compound">MetadataChangeEvent</ref><sp/>makeEvent(<ref refid="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2e" kindref="member">MetadataChangeType</ref><sp/>type,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1metadata_1_1_metadata_change_event" kindref="compound">MetadataChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1metadata_1_1_metadata_change_event_1a22d0e9d751cbb784b7d4b7801ecab050" kindref="member">change_type</ref><sp/>=<sp/>type;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1metadata_1_1_metadata_change_event_1ae50250b2ad1842f28095c78667583293" kindref="member">table_name</ref><sp/><sp/>=<sp/>table;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1metadata_1_1_metadata_change_event_1a04120f1707e3ae0ad28641e2725fe015" kindref="member">actor</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-agent&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1metadata_1_1_metadata_change_event_1aacaeb2ba28b77f808a4a846f4e01b471" kindref="member">detail</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;automated<sp/>test<sp/>event&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1metadata_1_1_metadata_change_event_1af097f63de0160e4205ea995fdaba6ace" kindref="member">timestamp</ref><sp/><sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ev;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-DC01:<sp/>RecordingMetadataChangeListener<sp/>starts<sp/>with<sp/>zero<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__distributed__catalog__diagnostics__focused_8cpp_1af506bac143e700a9d5422bff76d6175f" kindref="member">TEST</ref>(DistributedCatalogDiagnosticsTest,<sp/>MCHDC01_StartsWithZeroEvents)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener" kindref="compound">RecordingMetadataChangeListener</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1af976496799eba77d497f10f1d9b73bb4" kindref="member">eventCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a4f68904972b7b51491e89b4828d4ce96" kindref="member">lastEvent</ref>().has_value());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-DC02:<sp/>onMetadataChanged()<sp/>increments<sp/>eventCount()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__distributed__catalog__diagnostics__focused_8cpp_1af506bac143e700a9d5422bff76d6175f" kindref="member">TEST</ref>(DistributedCatalogDiagnosticsTest,<sp/>MCHDC02_OnChangedIncrementsCount)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener" kindref="compound">RecordingMetadataChangeListener</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a5f51a7c20eb0e9fdb73c7d0b04ad4a86" kindref="member">onMetadataChanged</ref>(makeEvent(<ref refid="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2ea0af71b5d145bdefec7d0a4c3462d6d6b" kindref="member">MetadataChangeType::TABLE_CREATED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a5f51a7c20eb0e9fdb73c7d0b04ad4a86" kindref="member">onMetadataChanged</ref>(makeEvent(<ref refid="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2eaa1cee174e9c791328c1af7772dd067d5" kindref="member">MetadataChangeType::TABLE_MODIFIED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1af976496799eba77d497f10f1d9b73bb4" kindref="member">eventCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-DC03:<sp/>lastEvent()<sp/>returns<sp/>the<sp/>most<sp/>recently<sp/>recorded<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__distributed__catalog__diagnostics__focused_8cpp_1af506bac143e700a9d5422bff76d6175f" kindref="member">TEST</ref>(DistributedCatalogDiagnosticsTest,<sp/>MCHDC03_LastEventReturnsNewest)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener" kindref="compound">RecordingMetadataChangeListener</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a5f51a7c20eb0e9fdb73c7d0b04ad4a86" kindref="member">onMetadataChanged</ref>(makeEvent(<ref refid="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2ea0af71b5d145bdefec7d0a4c3462d6d6b" kindref="member">MetadataChangeType::TABLE_CREATED</ref>,<sp/><sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a5f51a7c20eb0e9fdb73c7d0b04ad4a86" kindref="member">onMetadataChanged</ref>(makeEvent(<ref refid="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2eaa1cee174e9c791328c1af7772dd067d5" kindref="member">MetadataChangeType::TABLE_MODIFIED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>last<sp/>=<sp/>rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a4f68904972b7b51491e89b4828d4ce96" kindref="member">lastEvent</ref>();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(last.has_value());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(last-&gt;table_name,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(last-&gt;change_type,<sp/><ref refid="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2eaa1cee174e9c791328c1af7772dd067d5" kindref="member">MetadataChangeType::TABLE_MODIFIED</ref>);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-DC04:<sp/>clear()<sp/>resets<sp/>the<sp/>event<sp/>recorder<sp/>to<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__distributed__catalog__diagnostics__focused_8cpp_1af506bac143e700a9d5422bff76d6175f" kindref="member">TEST</ref>(DistributedCatalogDiagnosticsTest,<sp/>MCHDC04_ClearResetsToZero)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener" kindref="compound">RecordingMetadataChangeListener</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a5f51a7c20eb0e9fdb73c7d0b04ad4a86" kindref="member">onMetadataChanged</ref>(makeEvent(<ref refid="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2ea0af71b5d145bdefec7d0a4c3462d6d6b" kindref="member">MetadataChangeType::TABLE_CREATED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;catalog&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1af976496799eba77d497f10f1d9b73bb4" kindref="member">eventCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a1703d3659721d3bbd2007b153e75f67d" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1af976496799eba77d497f10f1d9b73bb4" kindref="member">eventCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rec.<ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a4f68904972b7b51491e89b4828d4ce96" kindref="member">lastEvent</ref>().has_value());</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_distributed_catalog_diagnostics_focused.cpp"/>
+  </compounddef>
+</doxygen>

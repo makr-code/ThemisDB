@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_share_g_p_t_template" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::ShareGPTTemplate</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_i_format_template" prot="public" virt="non-virtual">themis::exporters::IFormatTemplate</basecompoundref>
+    <includes refid="format__template_8h" local="no">format_template.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_share_g_p_t_template_1ad773e4f9c79c41607c40abe949a13ebe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ShareGPTTemplate::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::exporters::ShareGPTTemplate::name</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_format_template_1a036e85e965e523fdd4892303e53d0e68">name</reimplements>
+        <briefdescription>
+<para>Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="93" column="17" bodyfile="include/exporters/format_template.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_share_g_p_t_template_1a4ff632c385a6f1ee73992449e5664f00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::ShareGPTTemplate::validateFields</definition>
+        <argsstring>(const BaseEntity &amp;entity, const FormatTemplateFieldMapping &amp;mapping, std::vector&lt; std::string &gt; *missing_fields=nullptr) const override</argsstring>
+        <name>validateFields</name>
+        <qualifiedname>themis::exporters::ShareGPTTemplate::validateFields</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_format_template_1afd350764346d9d06a68bce197421c54c">validateFields</reimplements>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_format_template_field_mapping" kindref="compound">FormatTemplateFieldMapping</ref> &amp;</type>
+          <declname>mapping</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; *</type>
+          <declname>missing_fields</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="95" column="10" bodyfile="src/exporters/format_template.cpp" bodystart="70" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_share_g_p_t_template_1ad3f9688729e941b685f31d5cec097376" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ShareGPTTemplate::render</definition>
+        <argsstring>(const BaseEntity &amp;entity, const FormatTemplateFieldMapping &amp;mapping) const override</argsstring>
+        <name>render</name>
+        <qualifiedname>themis::exporters::ShareGPTTemplate::render</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_format_template_1a77d576ea0750a89ce3bd0a153346b63a">render</reimplements>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_format_template_field_mapping" kindref="compound">FormatTemplateFieldMapping</ref> &amp;</type>
+          <declname>mapping</declname>
+        </param>
+        <briefdescription>
+<para>Render. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mapping</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="101" column="17" bodyfile="src/exporters/format_template.cpp" bodystart="88" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::exporters::IFormatTemplate</label>
+        <link refid="classthemis_1_1exporters_1_1_i_format_template"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::ShareGPTTemplate</label>
+        <link refid="classthemis_1_1exporters_1_1_share_g_p_t_template"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::exporters::IFormatTemplate</label>
+        <link refid="classthemis_1_1exporters_1_1_i_format_template"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::ShareGPTTemplate</label>
+        <link refid="classthemis_1_1exporters_1_1_share_g_p_t_template"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/format_template.h" line="91" column="1" bodyfile="include/exporters/format_template.h" bodystart="91" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_share_g_p_t_template_1ad773e4f9c79c41607c40abe949a13ebe" prot="public" virt="virtual"><scope>themis::exporters::ShareGPTTemplate</scope><name>name</name></member>
+      <member refid="classthemis_1_1exporters_1_1_share_g_p_t_template_1ad3f9688729e941b685f31d5cec097376" prot="public" virt="virtual"><scope>themis::exporters::ShareGPTTemplate</scope><name>render</name></member>
+      <member refid="classthemis_1_1exporters_1_1_share_g_p_t_template_1a4ff632c385a6f1ee73992449e5664f00" prot="public" virt="virtual"><scope>themis::exporters::ShareGPTTemplate</scope><name>validateFields</name></member>
+      <member refid="classthemis_1_1exporters_1_1_i_format_template_1a1e92f6ddcdab0087be403c7ffffad515" prot="public" virt="virtual"><scope>themis::exporters::ShareGPTTemplate</scope><name>~IFormatTemplate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

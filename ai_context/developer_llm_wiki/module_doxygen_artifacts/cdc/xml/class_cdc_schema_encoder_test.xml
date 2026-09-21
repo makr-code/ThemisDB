@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cdc_schema_encoder_test" kind="class" language="C++" prot="public">
+    <compoundname>CdcSchemaEncoderTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cdc_schema_encoder_test_1a9c7b57ab7830f437f8d85f6289dfa16a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_schema_registry_client" kindref="compound">SchemaRegistryClient</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SchemaRegistryClient&gt; CdcSchemaEncoderTest::client</definition>
+        <argsstring></argsstring>
+        <name>client</name>
+        <qualifiedname>CdcSchemaEncoderTest::client</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_schema_registry.cpp" line="284" column="21" bodyfile="tests/cdc/test_cdc_schema_registry.cpp" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_schema_encoder_test_1adf4fe54e2bfa8efd8491937bec0a9d44" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_cdc_schema_encoder" kindref="compound">CdcSchemaEncoder</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CdcSchemaEncoder&gt; CdcSchemaEncoderTest::encoder</definition>
+        <argsstring></argsstring>
+        <name>encoder</name>
+        <qualifiedname>CdcSchemaEncoderTest::encoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_schema_registry.cpp" line="285" column="25" bodyfile="tests/cdc/test_cdc_schema_registry.cpp" bodystart="285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cdc_schema_encoder_test_1ad6230b4f60780c9a86ba7425821835a9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcSchemaEncoderTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CdcSchemaEncoderTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_schema_registry.cpp" line="279" column="10" bodyfile="tests/cdc/test_cdc_schema_registry.cpp" bodystart="279" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CdcSchemaEncoderTest</label>
+        <link refid="class_cdc_schema_encoder_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CdcSchemaEncoderTest</label>
+        <link refid="class_cdc_schema_encoder_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_schema_registry.cpp" line="277" column="1" bodyfile="tests/cdc/test_cdc_schema_registry.cpp" bodystart="277" bodyend="286"/>
+    <listofallmembers>
+      <member refid="class_cdc_schema_encoder_test_1a9c7b57ab7830f437f8d85f6289dfa16a" prot="protected" virt="non-virtual"><scope>CdcSchemaEncoderTest</scope><name>client</name></member>
+      <member refid="class_cdc_schema_encoder_test_1adf4fe54e2bfa8efd8491937bec0a9d44" prot="protected" virt="non-virtual"><scope>CdcSchemaEncoderTest</scope><name>encoder</name></member>
+      <member refid="class_cdc_schema_encoder_test_1ad6230b4f60780c9a86ba7425821835a9" prot="protected" virt="non-virtual"><scope>CdcSchemaEncoderTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

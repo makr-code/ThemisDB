@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_e2_e_journey_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::E2EJourneyFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_e2_e_journey_fixture_1a9f5afb1d068b981f501207806bf16b40" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_e2_e_journey_simulator" kindref="compound">E2EJourneySimulator</ref></type>
+        <definition>E2EJourneySimulator themis::voice::E2EJourneyFixture::simulator_</definition>
+        <argsstring></argsstring>
+        <name>simulator_</name>
+        <qualifiedname>themis::voice::E2EJourneyFixture::simulator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="194" column="25" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_fixture_1a57b51b36d4cccca8dab45b2635864d0e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::E2EJourneyFixture::createAudio</definition>
+        <argsstring>()</argsstring>
+        <name>createAudio</name>
+        <qualifiedname>themis::voice::E2EJourneyFixture::createAudio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="196" column="17" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="196" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::E2EJourneyFixture</label>
+        <link refid="classthemis_1_1voice_1_1_e2_e_journey_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::E2EJourneyFixture</label>
+        <link refid="classthemis_1_1voice_1_1_e2_e_journey_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>simulator_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::voice::E2EJourneySimulator</label>
+        <link refid="classthemis_1_1voice_1_1_e2_e_journey_simulator"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="192" column="1" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="192" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_fixture_1a57b51b36d4cccca8dab45b2635864d0e" prot="protected" virt="non-virtual"><scope>themis::voice::E2EJourneyFixture</scope><name>createAudio</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_fixture_1a9f5afb1d068b981f501207806bf16b40" prot="protected" virt="non-virtual"><scope>themis::voice::E2EJourneyFixture</scope><name>simulator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_gateway_route_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::GatewayRouteConfig</compoundname>
+    <includes refid="distributed__gateway_8h" local="no">distributed_gateway.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_gateway_route_config_1a3876c688d6b77bcae2fca357a4876ed1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::GatewayRouteConfig::path_prefix</definition>
+        <argsstring></argsstring>
+        <name>path_prefix</name>
+        <qualifiedname>themis::server::GatewayRouteConfig::path_prefix</qualifiedname>
+        <briefdescription>
+<para>Path prefix to match (e.g. &quot;/api/v1/query&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="50" column="17" bodyfile="include/server/distributed_gateway.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_gateway_route_config_1a55dfcef6278a2768fbba744731ca2ebd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::GatewayRouteConfig::upstream_url</definition>
+        <argsstring></argsstring>
+        <name>upstream_url</name>
+        <qualifiedname>themis::server::GatewayRouteConfig::upstream_url</qualifiedname>
+        <briefdescription>
+<para>Target upstream URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="51" column="17" bodyfile="include/server/distributed_gateway.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_gateway_route_config_1ae772b72cce8278217778fda5bdef56f8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::GatewayRouteConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::server::GatewayRouteConfig::timeout_ms</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+<para>Per-request timeout (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="52" column="17" bodyfile="include/server/distributed_gateway.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_gateway_route_config_1adc8753da73aeab2a02f4a81f4860e8e6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::GatewayRouteConfig::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::server::GatewayRouteConfig::retry_count</qualifiedname>
+        <initializer>{2}</initializer>
+        <briefdescription>
+<para>Retry attempts on transient errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="53" column="17" bodyfile="include/server/distributed_gateway.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_gateway_route_config_1a5a2d2f187dbc5e065e4b31cd29c7ab52" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::GatewayRouteConfig::circuit_breaker_enabled</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_enabled</name>
+        <qualifiedname>themis::server::GatewayRouteConfig::circuit_breaker_enabled</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="54" column="17" bodyfile="include/server/distributed_gateway.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_gateway_route_config_1a7b30db18005694c7ddeff5046597deca" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::GatewayRouteConfig::circuit_breaker_failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_failure_threshold</name>
+        <qualifiedname>themis::server::GatewayRouteConfig::circuit_breaker_failure_threshold</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="55" column="17" bodyfile="include/server/distributed_gateway.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_gateway_route_config_1a3959c0b59c97a91b6b49e1cf85550a21" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::GatewayRouteConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::server::GatewayRouteConfig::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="61" column="20" bodyfile="src/server/distributed_gateway.cpp" bodystart="31" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_gateway_route_config_1a75c4f58a92beb82b3ead83aa481997dd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_gateway_route_config" kindref="compound">GatewayRouteConfig</ref></type>
+        <definition>GatewayRouteConfig themis::server::GatewayRouteConfig::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::server::GatewayRouteConfig::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="67" column="31" bodyfile="src/server/distributed_gateway.cpp" bodystart="48" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/distributed_gateway.h" line="49" column="5" bodyfile="include/server/distributed_gateway.h" bodystart="49" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_gateway_route_config_1a5a2d2f187dbc5e065e4b31cd29c7ab52" prot="public" virt="non-virtual"><scope>themis::server::GatewayRouteConfig</scope><name>circuit_breaker_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_gateway_route_config_1a7b30db18005694c7ddeff5046597deca" prot="public" virt="non-virtual"><scope>themis::server::GatewayRouteConfig</scope><name>circuit_breaker_failure_threshold</name></member>
+      <member refid="structthemis_1_1server_1_1_gateway_route_config_1a75c4f58a92beb82b3ead83aa481997dd" prot="public" virt="non-virtual"><scope>themis::server::GatewayRouteConfig</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1server_1_1_gateway_route_config_1a3876c688d6b77bcae2fca357a4876ed1" prot="public" virt="non-virtual"><scope>themis::server::GatewayRouteConfig</scope><name>path_prefix</name></member>
+      <member refid="structthemis_1_1server_1_1_gateway_route_config_1adc8753da73aeab2a02f4a81f4860e8e6" prot="public" virt="non-virtual"><scope>themis::server::GatewayRouteConfig</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1server_1_1_gateway_route_config_1ae772b72cce8278217778fda5bdef56f8" prot="public" virt="non-virtual"><scope>themis::server::GatewayRouteConfig</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_gateway_route_config_1a3959c0b59c97a91b6b49e1cf85550a21" prot="public" virt="non-virtual"><scope>themis::server::GatewayRouteConfig</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1server_1_1_gateway_route_config_1a55dfcef6278a2768fbba744731ca2ebd" prot="public" virt="non-virtual"><scope>themis::server::GatewayRouteConfig</scope><name>upstream_url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::agentic::AgenticRAGConfig</compoundname>
+    <includes refid="agentic__rag_8h" local="no">agentic_rag.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config" prot="public">themis::rag::agentic::AgenticRAGConfig::RelayGuardConfig</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a9410690ceb40695867010e79376d6c34" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::agentic::AgenticRAGConfig::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGConfig::max_iterations</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum number of retrieval–evaluate–detect–reformulate cycles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="131" column="12" bodyfile="include/rag/agentic_rag.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a3bd3876fc4af6241d4e507fd5be31109" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::agentic::AgenticRAGConfig::quality_threshold</definition>
+        <argsstring></argsstring>
+        <name>quality_threshold</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGConfig::quality_threshold</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+<para>Minimum overall evaluation score to consider the loop successful. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="134" column="12" bodyfile="include/rag/agentic_rag.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a8dfcb1d24083a841aa27117266b9bcfd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::agentic::AgenticRAGConfig::faithfulness_threshold</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_threshold</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGConfig::faithfulness_threshold</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+<para>Minimum faithfulness score required (in addition to overall threshold). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="137" column="12" bodyfile="include/rag/agentic_rag.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a0dca66c731b77bcebae9a7da709abbf4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::agentic::AgenticRAGConfig::max_total_documents</definition>
+        <argsstring></argsstring>
+        <name>max_total_documents</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGConfig::max_total_documents</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Maximum total documents to accumulate across all iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="140" column="12" bodyfile="include/rag/agentic_rag.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1aaf51a0123071f6ed523ea22075c00e99" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::agentic::AgenticRAGConfig::accumulate_documents</definition>
+        <argsstring></argsstring>
+        <name>accumulate_documents</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGConfig::accumulate_documents</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, documents from earlier iterations are carried forward; if false, each iteration starts with only the newly retrieved docs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="144" column="10" bodyfile="include/rag/agentic_rag.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1ab2486da92a8f80555cb7eefbbaf28627" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::agentic::AgenticRAGConfig::reformulation_strategy</definition>
+        <argsstring></argsstring>
+        <name>reformulation_strategy</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGConfig::reformulation_strategy</qualifiedname>
+        <initializer>= &quot;expand&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Query reformulation strategy applied when a gap is detected. Currently supported: &quot;expand&quot; (add gap aspects to query), &quot;rephrase&quot; (generic rephrase marker), &quot;aspect_focus&quot; (focus on the first missing aspect). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="150" column="17" bodyfile="include/rag/agentic_rag.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1aa7887f418bbc13ad736a542a71ccc67a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">judge::RAGJudgeConfig</ref></type>
+        <definition>judge::RAGJudgeConfig themis::rag::agentic::AgenticRAGConfig::judge_config</definition>
+        <argsstring></argsstring>
+        <name>judge_config</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGConfig::judge_config</qualifiedname>
+        <briefdescription>
+<para>RAGJudge configuration forwarded to the internal judge instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="153" column="27" bodyfile="include/rag/agentic_rag.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a740faf29397972df4bd675f28e2e9e8f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config" kindref="compound">knowledge_gap::KnowledgeGapConfig</ref></type>
+        <definition>knowledge_gap::KnowledgeGapConfig themis::rag::agentic::AgenticRAGConfig::gap_config</definition>
+        <argsstring></argsstring>
+        <name>gap_config</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGConfig::gap_config</qualifiedname>
+        <briefdescription>
+<para>KnowledgeGapDetector configuration forwarded to the gap detector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="156" column="39" bodyfile="include/rag/agentic_rag.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a7cd5c67d1314a2933c95a5bb4b562e2f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::agentic::AgenticRAGConfig::max_session_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_session_tokens</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGConfig::max_session_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum total tokens that may be consumed across all LLM calls in a single run() session. When the cumulative token count reaches this value the loop stops with <ref refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a70d0ec1955c6bc7e6686692afbb3ee12" kindref="member">StopReason::BUDGET_EXCEEDED</ref> and the partial result is returned. 0 (default) disables enforcement — existing behaviour is preserved. (Gap 4 — AI_ML_IMPACT_ASSESSMENT.md §7; tracked in rag/FUTURE_ENHANCEMENTS.md §&quot;Session Token-Budget Cap&quot;) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="165" column="12" bodyfile="include/rag/agentic_rag.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a482a5591084bd37683b1b1423135c33d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config" kindref="compound">RelayGuardConfig</ref> &gt;</type>
+        <definition>std::optional&lt;RelayGuardConfig&gt; themis::rag::agentic::AgenticRAGConfig::relay_guard</definition>
+        <argsstring></argsstring>
+        <name>relay_guard</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGConfig::relay_guard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional DELEGATE-52 relay guard configuration. When present and all <computeroutput><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config" kindref="compound">RelayGuardConfig</ref></computeroutput> fields are non-null / non-empty, a round-trip relay is executed after the agentic loop and the result is stored in <computeroutput><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a765b17383787aab6532e764a9da9a784" kindref="member">AgenticRAGResult::delegate_relay</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="208" column="19" bodyfile="include/rag/agentic_rag.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g" kindref="compound">AgenticRAG</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::agentic::AgenticRAGConfig</label>
+        <link refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>judge_config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>gap_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::judge::RAGJudgeConfig</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config"/>
+      </node>
+      <node id="3">
+        <label>themis::rag::knowledge_gap::KnowledgeGapConfig</label>
+        <link refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/agentic_rag.h" line="129" column="1" bodyfile="include/rag/agentic_rag.h" bodystart="129" bodyend="209"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1aaf51a0123071f6ed523ea22075c00e99" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGConfig</scope><name>accumulate_documents</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a8dfcb1d24083a841aa27117266b9bcfd" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGConfig</scope><name>faithfulness_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a740faf29397972df4bd675f28e2e9e8f" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGConfig</scope><name>gap_config</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1aa7887f418bbc13ad736a542a71ccc67a" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGConfig</scope><name>judge_config</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a9410690ceb40695867010e79376d6c34" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGConfig</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a7cd5c67d1314a2933c95a5bb4b562e2f" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGConfig</scope><name>max_session_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a0dca66c731b77bcebae9a7da709abbf4" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGConfig</scope><name>max_total_documents</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a3bd3876fc4af6241d4e507fd5be31109" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGConfig</scope><name>quality_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1ab2486da92a8f80555cb7eefbbaf28627" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGConfig</scope><name>reformulation_strategy</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a482a5591084bd37683b1b1423135c33d" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGConfig</scope><name>relay_guard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

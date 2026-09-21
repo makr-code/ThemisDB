@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_sample_provenance" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::SampleProvenance</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_sample_provenance_1aff127ff0144bc02a18a6e3184ef6cadf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::SampleProvenance::sample_id</definition>
+        <argsstring></argsstring>
+        <name>sample_id</name>
+        <qualifiedname>themis::training::SampleProvenance::sample_id</qualifiedname>
+        <briefdescription>
+<para>Stable opaque sample key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="67" column="17" bodyfile="include/training/training_interfaces.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_sample_provenance_1a7ea417cc7509468b801de5f2079e69f8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::SampleProvenance::source_uri</definition>
+        <argsstring></argsstring>
+        <name>source_uri</name>
+        <qualifiedname>themis::training::SampleProvenance::source_uri</qualifiedname>
+        <briefdescription>
+<para>Opaque source URI (no raw content). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="68" column="17" bodyfile="include/training/training_interfaces.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_sample_provenance_1aec37adbd0730d75d2657ff91ebb430e8" prot="public" static="no" mutable="no">
+        <type>std::time_t</type>
+        <definition>std::time_t themis::training::SampleProvenance::collected_at</definition>
+        <argsstring></argsstring>
+        <name>collected_at</name>
+        <qualifiedname>themis::training::SampleProvenance::collected_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="69" column="17" bodyfile="include/training/training_interfaces.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_sample_provenance_1a6141f916358767dd2057838e957f63b5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_preprocessing_step" kindref="compound">PreprocessingStep</ref> &gt;</type>
+        <definition>std::vector&lt;PreprocessingStep&gt; themis::training::SampleProvenance::preprocessing_steps</definition>
+        <argsstring></argsstring>
+        <name>preprocessing_steps</name>
+        <qualifiedname>themis::training::SampleProvenance::preprocessing_steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="70" column="17" bodyfile="include/training/training_interfaces.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_sample_provenance_1a7492afacb88f6ee28bec6d3e16303745" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::SampleProvenance::dataset_version</definition>
+        <argsstring></argsstring>
+        <name>dataset_version</name>
+        <qualifiedname>themis::training::SampleProvenance::dataset_version</qualifiedname>
+        <briefdescription>
+<para>Dataset snapshot identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="71" column="17" bodyfile="include/training/training_interfaces.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_sample_provenance_1a287772153322ac62999c36be0debc8d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::SampleProvenance::SampleProvenance</definition>
+        <argsstring>()=default</argsstring>
+        <name>SampleProvenance</name>
+        <qualifiedname>themis::training::SampleProvenance::SampleProvenance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="73" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable provenance record for a single training sample (interface view). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="66" column="1" bodyfile="include/training/training_interfaces.h" bodystart="66" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_sample_provenance_1aec37adbd0730d75d2657ff91ebb430e8" prot="public" virt="non-virtual"><scope>themis::training::SampleProvenance</scope><name>collected_at</name></member>
+      <member refid="structthemis_1_1training_1_1_sample_provenance_1a7492afacb88f6ee28bec6d3e16303745" prot="public" virt="non-virtual"><scope>themis::training::SampleProvenance</scope><name>dataset_version</name></member>
+      <member refid="structthemis_1_1training_1_1_sample_provenance_1a6141f916358767dd2057838e957f63b5" prot="public" virt="non-virtual"><scope>themis::training::SampleProvenance</scope><name>preprocessing_steps</name></member>
+      <member refid="structthemis_1_1training_1_1_sample_provenance_1aff127ff0144bc02a18a6e3184ef6cadf" prot="public" virt="non-virtual"><scope>themis::training::SampleProvenance</scope><name>sample_id</name></member>
+      <member refid="structthemis_1_1training_1_1_sample_provenance_1a287772153322ac62999c36be0debc8d2" prot="public" virt="non-virtual"><scope>themis::training::SampleProvenance</scope><name>SampleProvenance</name></member>
+      <member refid="structthemis_1_1training_1_1_sample_provenance_1a7ea417cc7509468b801de5f2079e69f8" prot="public" virt="non-virtual"><scope>themis::training::SampleProvenance</scope><name>source_uri</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1imggen_1_1_s_d_generation_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::imggen::SDGenerationConfig</compoundname>
+    <derivedcompoundref refid="structthemis_1_1imggen_1_1_img2_img_config" prot="public" virt="non-virtual">themis::imggen::Img2ImgConfig</derivedcompoundref>
+    <includes refid="image__generation__interface_8h" local="no">image_generation_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1aaf07c33f2549eef4b85eb8335ca8aa11" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::SDGenerationConfig::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::width</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="51" column="13" bodyfile="include/plugins/image_generation_interface.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1a5e3d3daf9595a1b3016696e8f2887933" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::SDGenerationConfig::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::height</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="52" column="13" bodyfile="include/plugins/image_generation_interface.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1a5526a89c587f7749ae576da31aa6cd1c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::SDGenerationConfig::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::steps</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="53" column="13" bodyfile="include/plugins/image_generation_interface.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1a896d083af6c97c72da9d084abdacfd49" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::imggen::SDGenerationConfig::cfg_scale</definition>
+        <argsstring></argsstring>
+        <name>cfg_scale</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::cfg_scale</qualifiedname>
+        <initializer>= 7.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="54" column="13" bodyfile="include/plugins/image_generation_interface.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1a6b95040b10c296bd4996e0f1344e47d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDGenerationConfig::sampler</definition>
+        <argsstring></argsstring>
+        <name>sampler</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::sampler</qualifiedname>
+        <initializer>= &quot;euler_a&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="55" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1ae4c1c9d780187f744f70bcc51565cc51" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::imggen::SDGenerationConfig::seed</definition>
+        <argsstring></argsstring>
+        <name>seed</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::seed</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="56" column="13" bodyfile="include/plugins/image_generation_interface.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1aecd552028dd005be839de1b135be92be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDGenerationConfig::negative_prompt</definition>
+        <argsstring></argsstring>
+        <name>negative_prompt</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::negative_prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="57" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1aaba39eac5c5b198ed4ba66872e6a9861" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::imggen::SDGenerationConfig::control_image_rgb</definition>
+        <argsstring></argsstring>
+        <name>control_image_rgb</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::control_image_rgb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="58" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1a17ab9b57e67f2ac6c1c2883198e6508d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::SDGenerationConfig::control_width</definition>
+        <argsstring></argsstring>
+        <name>control_width</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::control_width</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="59" column="9" bodyfile="include/plugins/image_generation_interface.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1a00508cdef8f62e1891481b6c0d772333" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::imggen::SDGenerationConfig::control_height</definition>
+        <argsstring></argsstring>
+        <name>control_height</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::control_height</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="60" column="9" bodyfile="include/plugins/image_generation_interface.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1ac53c72a49bf40fdc5d97f0b09c3f2942" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDGenerationConfig::control_model_path</definition>
+        <argsstring></argsstring>
+        <name>control_model_path</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::control_model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="61" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1ac9d306cca42b02b41b13986e7c97bf6d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::imggen::SDGenerationConfig::control_strength</definition>
+        <argsstring></argsstring>
+        <name>control_strength</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::control_strength</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="62" column="11" bodyfile="include/plugins/image_generation_interface.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1a036c8bb5cb07f50d5317988501a7fdfa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDGenerationConfig::lora_adapter_path</definition>
+        <argsstring></argsstring>
+        <name>lora_adapter_path</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::lora_adapter_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="63" column="17" bodyfile="include/plugins/image_generation_interface.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1imggen_1_1_s_d_generation_config_1a670a965570aa9b7b7a759d505ecabfa6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::imggen::SDGenerationConfig::lora_scale</definition>
+        <argsstring></argsstring>
+        <name>lora_scale</name>
+        <qualifiedname>themis::imggen::SDGenerationConfig::lora_scale</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="64" column="11" bodyfile="include/plugins/image_generation_interface.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-request configuration for image generation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::imggen::Img2ImgConfig</label>
+        <link refid="structthemis_1_1imggen_1_1_img2_img_config"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::imggen::SDGenerationConfig</label>
+        <link refid="structthemis_1_1imggen_1_1_s_d_generation_config"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/plugins/image_generation_interface.h" line="50" column="1" bodyfile="include/plugins/image_generation_interface.h" bodystart="50" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a896d083af6c97c72da9d084abdacfd49" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>cfg_scale</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a00508cdef8f62e1891481b6c0d772333" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>control_height</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1aaba39eac5c5b198ed4ba66872e6a9861" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>control_image_rgb</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1ac53c72a49bf40fdc5d97f0b09c3f2942" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>control_model_path</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1ac9d306cca42b02b41b13986e7c97bf6d" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>control_strength</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a17ab9b57e67f2ac6c1c2883198e6508d" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>control_width</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a5e3d3daf9595a1b3016696e8f2887933" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>height</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a036c8bb5cb07f50d5317988501a7fdfa" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>lora_adapter_path</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a670a965570aa9b7b7a759d505ecabfa6" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>lora_scale</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1aecd552028dd005be839de1b135be92be" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>negative_prompt</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a6b95040b10c296bd4996e0f1344e47d3" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>sampler</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1ae4c1c9d780187f744f70bcc51565cc51" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>seed</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a5526a89c587f7749ae576da31aa6cd1c" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>steps</name></member>
+      <member refid="structthemis_1_1imggen_1_1_s_d_generation_config_1aaf07c33f2549eef4b85eb8335ca8aa11" prot="public" virt="non-virtual"><scope>themis::imggen::SDGenerationConfig</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

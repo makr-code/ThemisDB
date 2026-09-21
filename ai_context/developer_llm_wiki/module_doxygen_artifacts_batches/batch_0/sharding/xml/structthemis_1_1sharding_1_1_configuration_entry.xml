@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_configuration_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ConfigurationEntry</compoundname>
+    <includes refid="raft__configuration_8h" local="no">raft_configuration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_configuration_entry_1aa5546b94af9c9a51ebee579d7b2384b5" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::sharding::ConfigurationEntry::old_members</definition>
+        <argsstring></argsstring>
+        <name>old_members</name>
+        <qualifiedname>themis::sharding::ConfigurationEntry::old_members</qualifiedname>
+        <briefdescription>
+<para>Previous membership; empty outside transitions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_configuration.h" line="28" column="14" bodyfile="include/sharding/raft_configuration.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_configuration_entry_1a5150c89199ee94d3bd3adfd761ed5b2a" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::sharding::ConfigurationEntry::new_members</definition>
+        <argsstring></argsstring>
+        <name>new_members</name>
+        <qualifiedname>themis::sharding::ConfigurationEntry::new_members</qualifiedname>
+        <briefdescription>
+<para>Active or target membership set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_configuration.h" line="29" column="14" bodyfile="include/sharding/raft_configuration.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_configuration_entry_1a80505a1e80fa582ac5b7c042f9be5ff2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ConfigurationEntry::is_joint_consensus</definition>
+        <argsstring></argsstring>
+        <name>is_joint_consensus</name>
+        <qualifiedname>themis::sharding::ConfigurationEntry::is_joint_consensus</qualifiedname>
+        <briefdescription>
+<para>True while joint consensus rules are active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_configuration.h" line="30" column="10" bodyfile="include/sharding/raft_configuration.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Raft membership configuration entry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Describes either a stable configuration (<computeroutput><ref refid="structthemis_1_1sharding_1_1_configuration_entry_1a80505a1e80fa582ac5b7c042f9be5ff2" kindref="member">is_joint_consensus</ref> == false</computeroutput>) or a joint-consensus transition requiring quorums in both old and new sets. </para>
+    </detaileddescription>
+    <location file="include/sharding/raft_configuration.h" line="27" column="1" bodyfile="include/sharding/raft_configuration.h" bodystart="27" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_configuration_entry_1a80505a1e80fa582ac5b7c042f9be5ff2" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigurationEntry</scope><name>is_joint_consensus</name></member>
+      <member refid="structthemis_1_1sharding_1_1_configuration_entry_1a5150c89199ee94d3bd3adfd761ed5b2a" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigurationEntry</scope><name>new_members</name></member>
+      <member refid="structthemis_1_1sharding_1_1_configuration_entry_1aa5546b94af9c9a51ebee579d7b2384b5" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigurationEntry</scope><name>old_members</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

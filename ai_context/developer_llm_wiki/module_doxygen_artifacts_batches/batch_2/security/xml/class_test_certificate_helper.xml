@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_test_certificate_helper" kind="class" language="C++" prot="public">
+    <compoundname>TestCertificateHelper</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_test_certificate_helper_1a1c30b076f9a1b8ba3e186ebd67e2085a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string TestCertificateHelper::createTestCert</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>createTestCert</name>
+        <qualifiedname>TestCertificateHelper::createTestCert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwks_security.cpp" line="10" column="24" bodyfile="tests/security/test_jwks_security.cpp" bodystart="10" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_jwks_security.cpp" line="8" column="1" bodyfile="tests/security/test_jwks_security.cpp" bodystart="8" bodyend="28"/>
+    <listofallmembers>
+      <member refid="class_test_certificate_helper_1a1c30b076f9a1b8ba3e186ebd67e2085a" prot="public" virt="non-virtual"><scope>TestCertificateHelper</scope><name>createTestCert</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

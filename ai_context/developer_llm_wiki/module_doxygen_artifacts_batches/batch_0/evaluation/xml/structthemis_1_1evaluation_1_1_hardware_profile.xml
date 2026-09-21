@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_hardware_profile" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::HardwareProfile</compoundname>
+    <includes refid="hardware__profile_8h" local="no">hardware_profile.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1aaa22d69f32eb92c9bb0338ecf4fe06fc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8" kindref="member">DeploymentProfileId</ref></type>
+        <definition>DeploymentProfileId themis::evaluation::HardwareProfile::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::id</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8a330f49df8243756a8a4dc7f7f7ee6dfe" kindref="member">DeploymentProfileId::Development</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="71" column="25" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1a039e5b4cecc943c579a954e0e554f1dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::HardwareProfile::canonical_name</definition>
+        <argsstring></argsstring>
+        <name>canonical_name</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::canonical_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="72" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1adb5c25a14bfc08e0abfc628ff3ca9059" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::HardwareProfile::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="73" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1a304f9e1a54c2f5abcc4dedbcf7d12016" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_resource_sizing_band" kindref="compound">ResourceSizingBand</ref></type>
+        <definition>ResourceSizingBand themis::evaluation::HardwareProfile::cpu_cores</definition>
+        <argsstring></argsstring>
+        <name>cpu_cores</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::cpu_cores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="74" column="24" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1a9bf554005fc3edd0941c83b338055af7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_resource_sizing_band" kindref="compound">ResourceSizingBand</ref></type>
+        <definition>ResourceSizingBand themis::evaluation::HardwareProfile::ram_gib</definition>
+        <argsstring></argsstring>
+        <name>ram_gib</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::ram_gib</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="75" column="24" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1acb998b1f46f83665adc070f2d20fc0fb" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_resource_sizing_band" kindref="compound">ResourceSizingBand</ref></type>
+        <definition>ResourceSizingBand themis::evaluation::HardwareProfile::nvme_devices</definition>
+        <argsstring></argsstring>
+        <name>nvme_devices</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::nvme_devices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="76" column="24" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1a6f229f92ba387ea0dfc5c160742f5c47" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_resource_sizing_band" kindref="compound">ResourceSizingBand</ref></type>
+        <definition>ResourceSizingBand themis::evaluation::HardwareProfile::nvme_capacity_gib</definition>
+        <argsstring></argsstring>
+        <name>nvme_capacity_gib</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::nvme_capacity_gib</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="77" column="24" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1ac9eb675874cd1d25d765ed208aa72f66" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_resource_sizing_band" kindref="compound">ResourceSizingBand</ref></type>
+        <definition>ResourceSizingBand themis::evaluation::HardwareProfile::gpu_count</definition>
+        <argsstring></argsstring>
+        <name>gpu_count</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::gpu_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="78" column="24" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1a6d70b4ec5fd4e2b810b4995fa364518d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_resource_sizing_band" kindref="compound">ResourceSizingBand</ref></type>
+        <definition>ResourceSizingBand themis::evaluation::HardwareProfile::gpu_vram_gib</definition>
+        <argsstring></argsstring>
+        <name>gpu_vram_gib</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::gpu_vram_gib</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="79" column="24" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1a3b96024b1f50cb5e40e3f69977f633c1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_resource_sizing_band" kindref="compound">ResourceSizingBand</ref></type>
+        <definition>ResourceSizingBand themis::evaluation::HardwareProfile::network_gbps</definition>
+        <argsstring></argsstring>
+        <name>network_gbps</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::network_gbps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="80" column="24" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1a789da34a8195095e2d68fbb4db51469d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1aa23a8a349d52d38e3e43519983e3b81e" kindref="member">AcceleratorClass</ref></type>
+        <definition>AcceleratorClass themis::evaluation::HardwareProfile::accelerator_class</definition>
+        <argsstring></argsstring>
+        <name>accelerator_class</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::accelerator_class</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1evaluation_1aa23a8a349d52d38e3e43519983e3b81ea704a9259df22b8d5fce1391c71c5a28a" kindref="member">AcceleratorClass::CpuOnly</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="81" column="22" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1a4a508b6aa387ac7cbfe35c8554e80b43" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1aa08a12bdae7ba2e56509b3b9f9c65564" kindref="member">NetworkFabric</ref></type>
+        <definition>NetworkFabric themis::evaluation::HardwareProfile::network_fabric</definition>
+        <argsstring></argsstring>
+        <name>network_fabric</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::network_fabric</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1evaluation_1aa08a12bdae7ba2e56509b3b9f9c65564a92d3a56e45f42d8178a4d201b14d6a1c" kindref="member">NetworkFabric::Workstation</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="82" column="19" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1acac369b95d04fc313c449ccfaff3f08b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_tiering_policy" kindref="compound">TieringPolicy</ref></type>
+        <definition>TieringPolicy themis::evaluation::HardwareProfile::tiering</definition>
+        <argsstring></argsstring>
+        <name>tiering</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::tiering</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="83" column="19" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1ab87332a1ea73fa2793b6a10e77b8f7bb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1evaluation_1a884006dfed1b453fbcba52017164a006" kindref="member">StorageTier</ref> &gt;</type>
+        <definition>std::vector&lt;StorageTier&gt; themis::evaluation::HardwareProfile::supported_tiers</definition>
+        <argsstring></argsstring>
+        <name>supported_tiers</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::supported_tiers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="84" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_1a1b3e1e30c79ae3b7fb6799f5568faf5b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_layer_sizing_rule" kindref="compound">LayerSizingRule</ref> &gt;</type>
+        <definition>std::vector&lt;LayerSizingRule&gt; themis::evaluation::HardwareProfile::layer_rules</definition>
+        <argsstring></argsstring>
+        <name>layer_rules</name>
+        <qualifiedname>themis::evaluation::HardwareProfile::layer_rules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="85" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::evaluation::HardwareProfile</label>
+        <link refid="structthemis_1_1evaluation_1_1_hardware_profile"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cpu_cores</edgelabel>
+          <edgelabel>gpu_count</edgelabel>
+          <edgelabel>gpu_vram_gib</edgelabel>
+          <edgelabel>network_gbps</edgelabel>
+          <edgelabel>nvme_capacity_gib</edgelabel>
+          <edgelabel>nvme_devices</edgelabel>
+          <edgelabel>ram_gib</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>tiering</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::evaluation::ResourceSizingBand</label>
+        <link refid="structthemis_1_1evaluation_1_1_resource_sizing_band"/>
+      </node>
+      <node id="3">
+        <label>themis::evaluation::TieringPolicy</label>
+        <link refid="structthemis_1_1evaluation_1_1_tiering_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/evaluation/include/hardware_profile.h" line="70" column="1" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="70" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a789da34a8195095e2d68fbb4db51469d" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>accelerator_class</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a039e5b4cecc943c579a954e0e554f1dc" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>canonical_name</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a304f9e1a54c2f5abcc4dedbcf7d12016" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>cpu_cores</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1adb5c25a14bfc08e0abfc628ff3ca9059" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>description</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1ac9eb675874cd1d25d765ed208aa72f66" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>gpu_count</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a6d70b4ec5fd4e2b810b4995fa364518d" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>gpu_vram_gib</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1aaa22d69f32eb92c9bb0338ecf4fe06fc" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>id</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a1b3e1e30c79ae3b7fb6799f5568faf5b" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>layer_rules</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a4a508b6aa387ac7cbfe35c8554e80b43" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>network_fabric</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a3b96024b1f50cb5e40e3f69977f633c1" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>network_gbps</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a6f229f92ba387ea0dfc5c160742f5c47" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>nvme_capacity_gib</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1acb998b1f46f83665adc070f2d20fc0fb" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>nvme_devices</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a9bf554005fc3edd0941c83b338055af7" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>ram_gib</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1ab87332a1ea73fa2793b6a10e77b8f7bb" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>supported_tiers</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1acac369b95d04fc313c449ccfaff3f08b" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfile</scope><name>tiering</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

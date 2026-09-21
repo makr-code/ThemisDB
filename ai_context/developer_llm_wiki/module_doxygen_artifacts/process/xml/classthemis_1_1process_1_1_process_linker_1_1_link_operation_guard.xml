@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard" kind="class" language="C++" prot="private">
+    <compoundname>themis::process::ProcessLinker::LinkOperationGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1ae69b0a902945635771ced4bb87b2e2cf" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_linker_1abe88608babb0f727c97501bf463bdd6f" kindref="member">ProcessLinker</ref> &amp;</type>
+        <definition>ProcessLinker&amp; themis::process::ProcessLinker::LinkOperationGuard::linker_</definition>
+        <argsstring></argsstring>
+        <name>linker_</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::linker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="457" column="23" bodyfile="include/process/process_linker.h" bodystart="457" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a2b154f60df1bf7199d8b4f21c5112eea" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessLinker::LinkOperationGuard::operation_name_</definition>
+        <argsstring></argsstring>
+        <name>operation_name_</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::operation_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="458" column="21" bodyfile="include/process/process_linker.h" bodystart="458" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a7e104d03fac9eb96da6ab0289fc03cea" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ProcessLinker::LinkOperationGuard::operation_id_</definition>
+        <argsstring></argsstring>
+        <name>operation_id_</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::operation_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="459" column="18" bodyfile="include/process/process_linker.h" bodystart="459" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a1d02a9aacea194fc10f4d58ad522850e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; ConflictRecord &gt;</type>
+        <definition>std::vector&lt;ConflictRecord&gt; themis::process::ProcessLinker::LinkOperationGuard::modifications_</definition>
+        <argsstring></argsstring>
+        <name>modifications_</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::modifications_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="460" column="21" bodyfile="include/process/process_linker.h" bodystart="460" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1aa2d8e94b1d8ea1034d4d1333a15931d7" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessLinker::LinkOperationGuard::failed_</definition>
+        <argsstring></argsstring>
+        <name>failed_</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::failed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="461" column="14" bodyfile="include/process/process_linker.h" bodystart="461" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a8e86b0231cd3ddb1ecdbeb92ca5d2870" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessLinker::LinkOperationGuard::LinkOperationGuard</definition>
+        <argsstring>(ProcessLinker &amp;linker, std::string_view operation_name)</argsstring>
+        <name>LinkOperationGuard</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::LinkOperationGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_linker_1abe88608babb0f727c97501bf463bdd6f" kindref="member">ProcessLinker</ref> &amp;</type>
+          <declname>linker</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="442" column="9" bodyfile="include/process/process_linker.h" bodystart="442" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a1b87e10b16317191370a88658af13856" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessLinker::LinkOperationGuard::~LinkOperationGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~LinkOperationGuard</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::~LinkOperationGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="446" column="9" bodyfile="src/process/process_linker.cpp" bodystart="660" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a3eb918d7af616920d1bd2c9aef7ba47d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessLinker::LinkOperationGuard::recordModification</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>recordModification</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::recordModification</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Record Modification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), get(), std::string(), std::move(), push_back(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="448" column="14" bodyfile="src/process/process_linker.cpp" bodystart="675" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1aa52bbf12b6cf8cdb20fcfac8fb74ef72" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessLinker::LinkOperationGuard::markFailed</definition>
+        <argsstring>()</argsstring>
+        <name>markFailed</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::markFailed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="449" column="14" bodyfile="include/process/process_linker.h" bodystart="449" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a78f5e05b18638baac8cdb50e473723ed" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ProcessLinker::LinkOperationGuard::getOperationId</definition>
+        <argsstring>() const</argsstring>
+        <name>getOperationId</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::getOperationId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="450" column="18" bodyfile="include/process/process_linker.h" bodystart="450" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1aaf2c6d7273677cec6b3907be1af5508a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessLinker::LinkOperationGuard::LinkOperationGuard</definition>
+        <argsstring>(const LinkOperationGuard &amp;)=delete</argsstring>
+        <name>LinkOperationGuard</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::LinkOperationGuard</qualifiedname>
+        <param>
+          <type>const LinkOperationGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="453" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a165b76b7b684b2e655bcb64e7dca71da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>LinkOperationGuard &amp;</type>
+        <definition>LinkOperationGuard &amp; themis::process::ProcessLinker::LinkOperationGuard::operator=</definition>
+        <argsstring>(const LinkOperationGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::process::ProcessLinker::LinkOperationGuard::operator=</qualifiedname>
+        <param>
+          <type>const LinkOperationGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="454" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII guard for link operations requiring rollback on conflict. Automatically rolls back modifications if marked failed. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_linker.h" line="440" column="5" bodyfile="include/process/process_linker.h" bodystart="440" bodyend="462"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1aa2d8e94b1d8ea1034d4d1333a15931d7" prot="private" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>failed_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a78f5e05b18638baac8cdb50e473723ed" prot="public" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>getOperationId</name></member>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1ae69b0a902945635771ced4bb87b2e2cf" prot="private" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>linker_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a8e86b0231cd3ddb1ecdbeb92ca5d2870" prot="public" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>LinkOperationGuard</name></member>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1aaf2c6d7273677cec6b3907be1af5508a" prot="public" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>LinkOperationGuard</name></member>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1aa52bbf12b6cf8cdb20fcfac8fb74ef72" prot="public" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>markFailed</name></member>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a1d02a9aacea194fc10f4d58ad522850e" prot="private" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>modifications_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a7e104d03fac9eb96da6ab0289fc03cea" prot="private" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>operation_id_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a2b154f60df1bf7199d8b4f21c5112eea" prot="private" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>operation_name_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a165b76b7b684b2e655bcb64e7dca71da" prot="public" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a3eb918d7af616920d1bd2c9aef7ba47d" prot="public" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>recordModification</name></member>
+      <member refid="classthemis_1_1process_1_1_process_linker_1_1_link_operation_guard_1a1b87e10b16317191370a88658af13856" prot="public" virt="non-virtual"><scope>themis::process::ProcessLinker::LinkOperationGuard</scope><name>~LinkOperationGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::ThreadSafeMockCircuitBreaker</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a6d3b38389e4137abd630d502b9c71294" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::State</qualifiedname>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a6d3b38389e4137abd630d502b9c71294a110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a6d3b38389e4137abd630d502b9c71294aa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a6d3b38389e4137abd630d502b9c71294a5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="97" column="5" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="97" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a37967836e779e6d182de205098d82824" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::aql::testing::ThreadSafeMockCircuitBreaker::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="152" column="24" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a8e419275179f5e55a35914289ffcb509" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::testing::ThreadSafeMockCircuitBreaker::failure_threshold_</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold_</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::failure_threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="153" column="11" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1ac88f232c8d60f2ccad5d7cb709af5823" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::testing::ThreadSafeMockCircuitBreaker::half_open_permits_</definition>
+        <argsstring></argsstring>
+        <name>half_open_permits_</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::half_open_permits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="154" column="11" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a60065ee07752ab784671d6895050c3ff" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a6d3b38389e4137abd630d502b9c71294" kindref="member">State</ref></type>
+        <definition>State themis::aql::testing::ThreadSafeMockCircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="155" column="11" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1aa06af6fef88b9a1e1c018d6ad83a6745" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::testing::ThreadSafeMockCircuitBreaker::failure_count_</definition>
+        <argsstring></argsstring>
+        <name>failure_count_</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::failure_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="156" column="11" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1ace0f0093cd0ea76cb0edacf566cc859a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::aql::testing::ThreadSafeMockCircuitBreaker::half_open_used_</definition>
+        <argsstring></argsstring>
+        <name>half_open_used_</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::half_open_used_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="157" column="17" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1abce6230c7dec74ea8a7fbd5268f9dc18" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::ThreadSafeMockCircuitBreaker::ThreadSafeMockCircuitBreaker</definition>
+        <argsstring>(int failure_threshold=3, int half_open_permits=1)</argsstring>
+        <name>ThreadSafeMockCircuitBreaker</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::ThreadSafeMockCircuitBreaker</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>failure_threshold</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>half_open_permits</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="99" column="14" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="99" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a4b8608861ffd4fd689374da4a6084f5b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::ThreadSafeMockCircuitBreaker::allowRequest</definition>
+        <argsstring>()</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::allowRequest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="107" column="10" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="107" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a74eff35cc0dd89d6b7ef7d23afadc3dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::ThreadSafeMockCircuitBreaker::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::recordSuccess</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="118" column="10" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="118" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a6b10500af7c7456416201d951e5114dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::ThreadSafeMockCircuitBreaker::recordFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::recordFailure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="125" column="10" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="125" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a35b396deacabf84d883d6f92dab5e302" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::ThreadSafeMockCircuitBreaker::transitionToHalfOpen</definition>
+        <argsstring>()</argsstring>
+        <name>transitionToHalfOpen</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::transitionToHalfOpen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="133" column="10" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="133" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a851c8fca4b01d09be81bbe4ed265f754" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a6d3b38389e4137abd630d502b9c71294" kindref="member">State</ref></type>
+        <definition>State themis::aql::testing::ThreadSafeMockCircuitBreaker::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="141" column="11" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="141" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a0198a206bec0d2c91087e0438ffa4c77" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::aql::testing::ThreadSafeMockCircuitBreaker::failureCount</definition>
+        <argsstring>() const</argsstring>
+        <name>failureCount</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeMockCircuitBreaker::failureCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="146" column="9" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="146" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="95" column="1" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="95" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a4b8608861ffd4fd689374da4a6084f5b" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1aa06af6fef88b9a1e1c018d6ad83a6745" prot="private" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>failure_count_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a8e419275179f5e55a35914289ffcb509" prot="private" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>failure_threshold_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a0198a206bec0d2c91087e0438ffa4c77" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>failureCount</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a851c8fca4b01d09be81bbe4ed265f754" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>getState</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1ac88f232c8d60f2ccad5d7cb709af5823" prot="private" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>half_open_permits_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1ace0f0093cd0ea76cb0edacf566cc859a" prot="private" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>half_open_used_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a37967836e779e6d182de205098d82824" prot="private" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a6b10500af7c7456416201d951e5114dc" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a74eff35cc0dd89d6b7ef7d23afadc3dc" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a6d3b38389e4137abd630d502b9c71294" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>State</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a60065ee07752ab784671d6895050c3ff" prot="private" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1abce6230c7dec74ea8a7fbd5268f9dc18" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>ThreadSafeMockCircuitBreaker</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_mock_circuit_breaker_1a35b396deacabf84d883d6f92dab5e302" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeMockCircuitBreaker</scope><name>transitionToHalfOpen</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

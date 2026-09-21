@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_storage_engine_move_semantic_test" kind="class" language="C++" prot="public">
+    <compoundname>StorageEngineMoveSemanticTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_storage_engine_move_semantic_test_1a350aeb81f11bf4142453f764b566121e" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StorageEngineMoveSemanticTest::db_path1_</definition>
+        <argsstring></argsstring>
+        <name>db_path1_</name>
+        <qualifiedname>StorageEngineMoveSemanticTest::db_path1_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="40" column="17" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_storage_engine_move_semantic_test_1ae1f623ab0b8547446b16c261648052c0" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StorageEngineMoveSemanticTest::db_path2_</definition>
+        <argsstring></argsstring>
+        <name>db_path2_</name>
+        <qualifiedname>StorageEngineMoveSemanticTest::db_path2_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="41" column="17" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_storage_engine_move_semantic_test_1ab349bf8953d6b2947c16a77c838fa099" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StorageEngineMoveSemanticTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>StorageEngineMoveSemanticTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="20" column="10" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="20" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_storage_engine_move_semantic_test_1a086eb4f6cd1608da0dac2d1a26181a30" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StorageEngineMoveSemanticTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>StorageEngineMoveSemanticTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="35" column="10" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StorageEngineMoveSemanticTest</label>
+        <link refid="class_storage_engine_move_semantic_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StorageEngineMoveSemanticTest</label>
+        <link refid="class_storage_engine_move_semantic_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="18" column="1" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="18" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_storage_engine_move_semantic_test_1a350aeb81f11bf4142453f764b566121e" prot="protected" virt="non-virtual"><scope>StorageEngineMoveSemanticTest</scope><name>db_path1_</name></member>
+      <member refid="class_storage_engine_move_semantic_test_1ae1f623ab0b8547446b16c261648052c0" prot="protected" virt="non-virtual"><scope>StorageEngineMoveSemanticTest</scope><name>db_path2_</name></member>
+      <member refid="class_storage_engine_move_semantic_test_1ab349bf8953d6b2947c16a77c838fa099" prot="protected" virt="non-virtual"><scope>StorageEngineMoveSemanticTest</scope><name>SetUp</name></member>
+      <member refid="class_storage_engine_move_semantic_test_1a086eb4f6cd1608da0dac2d1a26181a30" prot="protected" virt="non-virtual"><scope>StorageEngineMoveSemanticTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

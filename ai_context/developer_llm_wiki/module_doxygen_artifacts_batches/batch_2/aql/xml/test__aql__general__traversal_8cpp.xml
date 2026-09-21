@@ -1,0 +1,466 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__general__traversal_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_general_traversal.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">query/aql_runner.h</includes>
+    <includes local="yes">query/query_engine.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/aql/test_aql_general_traversal.cpp</label>
+        <link refid="test__aql__general__traversal_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="6">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="3">
+        <label>query/aql_runner.h</label>
+      </node>
+      <node id="4">
+        <label>query/query_engine.h</label>
+      </node>
+      <node id="8">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="7">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_q_l_general_traversal_test" prot="public">AQLGeneralTraversalTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__general__traversal_8cpp_1a2b442bf0c09270c4cebcb19445c177d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLGeneralTraversalTest, BasicOutboundTraversal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref></type>
+        </param>
+        <param>
+          <type>BasicOutboundTraversal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="105" column="1" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="105" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__general__traversal_8cpp_1ab0134cdbdcdc9187831d10193ee13f0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLGeneralTraversalTest, MinDepthFiltering)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref></type>
+        </param>
+        <param>
+          <type>MinDepthFiltering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="137" column="1" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="137" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__general__traversal_8cpp_1a8bdc130b35cf8a6748e8eb60532a7717" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLGeneralTraversalTest, InboundDirection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref></type>
+        </param>
+        <param>
+          <type>InboundDirection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="157" column="1" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="157" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__general__traversal_8cpp_1a3e9329653c53ee95bf3cc7b0d9c77153" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLGeneralTraversalTest, AnyDirection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref></type>
+        </param>
+        <param>
+          <type>AnyDirection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="185" column="1" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="185" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__general__traversal_8cpp_1a45f484a7b889fdbb8cb1805d2b06e2ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLGeneralTraversalTest, PathAndEdgeTracking)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref></type>
+        </param>
+        <param>
+          <type>PathAndEdgeTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="213" column="1" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="213" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__general__traversal_8cpp_1a1ac59ddc3526662d76994ddaac4e5051" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLGeneralTraversalTest, DepthZeroIncludesStart)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref></type>
+        </param>
+        <param>
+          <type>DepthZeroIncludesStart</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="240" column="1" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="240" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Integration<sp/>test<sp/>for<sp/>AQL<sp/>General<sp/>Traversal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_runner.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/query_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::query;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_a_q_l_general_traversal_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_a_q_l_general_traversal_test_1a4725b435ae7c3b48170e99538d590d57" kindref="member">db</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SecondaryIndexManager&gt;<sp/><ref refid="class_a_q_l_general_traversal_test_1ad1ca8a3df2100f5d6f426cf1d73feb01" kindref="member">secIdx</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GraphIndexManager&gt;<sp/><ref refid="class_a_q_l_general_traversal_test_1a5743a10e00efee571fadb2213f892f5c" kindref="member">graphIdx</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryEngine&gt;<sp/><ref refid="class_a_q_l_general_traversal_test_1ad70d0b52d41d1ad4d888c60c01250141" kindref="member">engine</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_q_l_general_traversal_test_1ae4d9be99427a1b1203e094deff089a92" kindref="member">dbPath</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_q_l_general_traversal_test_1a5f60e8fd17d66e9856b36e4b339dcfeb" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1ae4d9be99427a1b1203e094deff089a92" kindref="member">dbPath</ref><sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_aql_general_traversal_&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count())))</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_a_q_l_general_traversal_test_1ae4d9be99427a1b1203e094deff089a92" kindref="member">dbPath</ref>);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>config;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.db_path<sp/>=<sp/><ref refid="class_a_q_l_general_traversal_test_1ae4d9be99427a1b1203e094deff089a92" kindref="member">dbPath</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.memtable_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.block_cache_size_mb<sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1a4725b435ae7c3b48170e99538d590d57" kindref="member">db</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(config);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_a_q_l_general_traversal_test_1a4725b435ae7c3b48170e99538d590d57" kindref="member">db</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1ad1ca8a3df2100f5d6f426cf1d73feb01" kindref="member">secIdx</ref><sp/>=<sp/>std::make_unique&lt;SecondaryIndexManager&gt;(*<ref refid="class_a_q_l_general_traversal_test_1a4725b435ae7c3b48170e99538d590d57" kindref="member">db</ref>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1a5743a10e00efee571fadb2213f892f5c" kindref="member">graphIdx</ref><sp/>=<sp/>std::make_unique&lt;GraphIndexManager&gt;(*<ref refid="class_a_q_l_general_traversal_test_1a4725b435ae7c3b48170e99538d590d57" kindref="member">db</ref>);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1ad70d0b52d41d1ad4d888c60c01250141" kindref="member">engine</ref><sp/>=<sp/>std::make_unique&lt;QueryEngine&gt;(*<ref refid="class_a_q_l_general_traversal_test_1a4725b435ae7c3b48170e99538d590d57" kindref="member">db</ref>,<sp/>*<ref refid="class_a_q_l_general_traversal_test_1ad1ca8a3df2100f5d6f426cf1d73feb01" kindref="member">secIdx</ref>,<sp/>*<ref refid="class_a_q_l_general_traversal_test_1a5743a10e00efee571fadb2213f892f5c" kindref="member">graphIdx</ref>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>sample<sp/>graph<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1ac1bb5e494c59fe1d5367266ae56785f9" kindref="member">createSampleGraph</ref>();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_q_l_general_traversal_test_1ac248752cbb176af1f8c602bde0269867" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1ad70d0b52d41d1ad4d888c60c01250141" kindref="member">engine</ref>.reset();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1a5743a10e00efee571fadb2213f892f5c" kindref="member">graphIdx</ref>.reset();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1ad1ca8a3df2100f5d6f426cf1d73feb01" kindref="member">secIdx</ref>.reset();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1a4725b435ae7c3b48170e99538d590d57" kindref="member">db</ref>.reset();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_a_q_l_general_traversal_test_1ae4d9be99427a1b1203e094deff089a92" kindref="member">dbPath</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_a_q_l_general_traversal_test_1ae4d9be99427a1b1203e094deff089a92" kindref="member">dbPath</ref>);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_q_l_general_traversal_test_1ac1bb5e494c59fe1d5367266ae56785f9" kindref="member">createSampleGraph</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>social<sp/>network<sp/>graph:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alice<sp/>-&gt;<sp/>Bob<sp/>-&gt;<sp/>Charlie<sp/>-&gt;<sp/>Dave</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>+-&gt;<sp/>Eve<sp/>----------+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>edge1(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge1.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge1.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users/alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge1.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users/bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge1.setField(</highlight><highlight class="stringliteral">&quot;_graph&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge1.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1a5743a10e00efee571fadb2213f892f5c" kindref="member">graphIdx</ref>-&gt;addEdge(edge1);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>edge2(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge2.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge2.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users/bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge2.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users/charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge2.setField(</highlight><highlight class="stringliteral">&quot;_graph&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge2.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1a5743a10e00efee571fadb2213f892f5c" kindref="member">graphIdx</ref>-&gt;addEdge(edge2);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>edge3(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge3.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge3.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users/charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge3.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users/dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge3.setField(</highlight><highlight class="stringliteral">&quot;_graph&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge3.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1a5743a10e00efee571fadb2213f892f5c" kindref="member">graphIdx</ref>-&gt;addEdge(edge3);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>edge4(</highlight><highlight class="stringliteral">&quot;e4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge4.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge4.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users/alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge4.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users/eve&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge4.setField(</highlight><highlight class="stringliteral">&quot;_graph&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge4.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1a5743a10e00efee571fadb2213f892f5c" kindref="member">graphIdx</ref>-&gt;addEdge(edge4);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>edge5(</highlight><highlight class="stringliteral">&quot;e5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge5.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge5.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users/eve&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge5.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users/dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge5.setField(</highlight><highlight class="stringliteral">&quot;_graph&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edge5.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_general_traversal_test_1a5743a10e00efee571fadb2213f892f5c" kindref="member">graphIdx</ref>-&gt;addEdge(edge5);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__aql__general__traversal_8cpp_1a2b442bf0c09270c4cebcb19445c177d4" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref>,<sp/>BasicOutboundTraversal)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AQL:<sp/>FOR<sp/>v<sp/>IN<sp/>1..2<sp/>OUTBOUND<sp/>&quot;users/alice&quot;<sp/>GRAPH<sp/>&quot;social&quot;<sp/>RETURN<sp/>v</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>v<sp/>IN<sp/>1..2<sp/>OUTBOUND<sp/>&quot;users/alice&quot;<sp/>GRAPH<sp/>&quot;social&quot;</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>v</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>executeAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result-&gt;contains(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ((*result)[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;traversal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result-&gt;contains(</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE((*result)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>find<sp/>users<sp/>at<sp/>depth<sp/>1<sp/>(bob,<sp/>eve)<sp/>and<sp/>depth<sp/>2<sp/>(charlie,<sp/>dave)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>(*result)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>we<sp/>have<sp/>results<sp/>at<sp/>different<sp/>depths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasDepth1<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasDepth2<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>item<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(item[</highlight><highlight class="stringliteral">&quot;depth&quot;</highlight><highlight class="normal">]<sp/>==<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hasDepth1<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(item[</highlight><highlight class="stringliteral">&quot;depth&quot;</highlight><highlight class="normal">]<sp/>==<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hasDepth2<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasDepth1);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasDepth2);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__aql__general__traversal_8cpp_1a2b442bf0c09270c4cebcb19445c177d4" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref>,<sp/>MinDepthFiltering)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AQL:<sp/>FOR<sp/>v<sp/>IN<sp/>2..3<sp/>OUTBOUND<sp/>&quot;users/alice&quot;<sp/>GRAPH<sp/>&quot;social&quot;<sp/>RETURN<sp/>v</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>v<sp/>IN<sp/>2..3<sp/>OUTBOUND<sp/>&quot;users/alice&quot;<sp/>GRAPH<sp/>&quot;social&quot;</highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>v</highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>executeAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result-&gt;contains(</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>(*result)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>results<sp/>should<sp/>be<sp/>at<sp/>depth<sp/>&gt;=<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>item<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(item.contains(</highlight><highlight class="stringliteral">&quot;depth&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>depth<sp/>=<sp/>item[</highlight><highlight class="stringliteral">&quot;depth&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(depth,<sp/>2)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Found<sp/>vertex<sp/>at<sp/>depth<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>depth<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>which<sp/>is<sp/>&lt;<sp/>minDepth(2)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(depth,<sp/>3)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Found<sp/>vertex<sp/>at<sp/>depth<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>depth<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>which<sp/>is<sp/>&gt;<sp/>maxDepth(3)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__aql__general__traversal_8cpp_1a2b442bf0c09270c4cebcb19445c177d4" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref>,<sp/>InboundDirection)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AQL:<sp/>FOR<sp/>v<sp/>IN<sp/>1..2<sp/>INBOUND<sp/>&quot;users/dave&quot;<sp/>GRAPH<sp/>&quot;social&quot;<sp/>RETURN<sp/>v</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="166"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>v<sp/>IN<sp/>1..2<sp/>INBOUND<sp/>&quot;users/dave&quot;<sp/>GRAPH<sp/>&quot;social&quot;</highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>v</highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>executeAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result-&gt;contains(</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>(*result)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>find<sp/>users<sp/>going<sp/>backwards<sp/>from<sp/>dave</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Depth<sp/>1:<sp/>charlie,<sp/>eve</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Depth<sp/>2:<sp/>bob,<sp/>alice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>some<sp/>expected<sp/>vertices</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>foundCharlieOrEve<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>item<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>vertex<sp/>=<sp/>item[</highlight><highlight class="stringliteral">&quot;vertex&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(vertex<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;users/charlie&quot;</highlight><highlight class="normal"><sp/>||<sp/>vertex<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;users/eve&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>foundCharlieOrEve<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(item[</highlight><highlight class="stringliteral">&quot;depth&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(foundCharlieOrEve);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__aql__general__traversal_8cpp_1a2b442bf0c09270c4cebcb19445c177d4" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref>,<sp/>AnyDirection)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AQL:<sp/>FOR<sp/>v<sp/>IN<sp/>1..1<sp/>ANY<sp/>&quot;users/bob&quot;<sp/>GRAPH<sp/>&quot;social&quot;<sp/>RETURN<sp/>v</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>v<sp/>IN<sp/>1..1<sp/>ANY<sp/>&quot;users/bob&quot;<sp/>GRAPH<sp/>&quot;social&quot;</highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>v</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>executeAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result-&gt;contains(</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>(*result)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>find<sp/>alice<sp/>(inbound)<sp/>and<sp/>charlie<sp/>(outbound)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>foundAlice<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>foundCharlie<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>item<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>vertex<sp/>=<sp/>item[</highlight><highlight class="stringliteral">&quot;vertex&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(vertex<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;users/alice&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>foundAlice<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(vertex<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;users/charlie&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>foundCharlie<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(foundAlice<sp/>||<sp/>foundCharlie);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__aql__general__traversal_8cpp_1a2b442bf0c09270c4cebcb19445c177d4" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref>,<sp/>PathAndEdgeTracking)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AQL:<sp/>FOR<sp/>v<sp/>IN<sp/>2..2<sp/>OUTBOUND<sp/>&quot;users/alice&quot;<sp/>GRAPH<sp/>&quot;social&quot;<sp/>RETURN<sp/>v</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="228"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>v<sp/>IN<sp/>2..2<sp/>OUTBOUND<sp/>&quot;users/alice&quot;<sp/>GRAPH<sp/>&quot;social&quot;</highlight></codeline>
+<codeline lineno="229"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>v</highlight></codeline>
+<codeline lineno="230"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="231"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>executeAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result-&gt;contains(</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>(*result)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(results.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>the<sp/>first<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>item<sp/>=<sp/>results[0];</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>path<sp/>array</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(item.contains(</highlight><highlight class="stringliteral">&quot;path&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(item[</highlight><highlight class="stringliteral">&quot;path&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>item[</highlight><highlight class="stringliteral">&quot;path&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(path.size(),<sp/>3);<sp/><sp/></highlight><highlight class="comment">//<sp/>alice<sp/>-&gt;<sp/>intermediate<sp/>-&gt;<sp/>target</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(path[0],<sp/></highlight><highlight class="stringliteral">&quot;users/alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>edges<sp/>array</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(item.contains(</highlight><highlight class="stringliteral">&quot;edges&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(item[</highlight><highlight class="stringliteral">&quot;edges&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>edges<sp/>=<sp/>item[</highlight><highlight class="stringliteral">&quot;edges&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(edges.size(),<sp/>2);<sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>edges<sp/>traversed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="test__aql__general__traversal_8cpp_1a2b442bf0c09270c4cebcb19445c177d4" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_general_traversal_test" kindref="compound">AQLGeneralTraversalTest</ref>,<sp/>DepthZeroIncludesStart)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AQL:<sp/>FOR<sp/>v<sp/>IN<sp/>0..1<sp/>OUTBOUND<sp/>&quot;users/alice&quot;<sp/>GRAPH<sp/>&quot;social&quot;<sp/>RETURN<sp/>v</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="258"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>v<sp/>IN<sp/>0..1<sp/>OUTBOUND<sp/>&quot;users/alice&quot;<sp/>GRAPH<sp/>&quot;social&quot;</highlight></codeline>
+<codeline lineno="259"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>v</highlight></codeline>
+<codeline lineno="260"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="261"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>executeAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result-&gt;contains(</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>(*result)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>include<sp/>alice<sp/>herself<sp/>at<sp/>depth<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>foundAliceAtDepth0<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>item<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(item[</highlight><highlight class="stringliteral">&quot;vertex&quot;</highlight><highlight class="normal">]<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;users/alice&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>item[</highlight><highlight class="stringliteral">&quot;depth&quot;</highlight><highlight class="normal">]<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>foundAliceAtDepth0<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(foundAliceAtDepth0);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_general_traversal.cpp"/>
+  </compounddef>
+</doxygen>

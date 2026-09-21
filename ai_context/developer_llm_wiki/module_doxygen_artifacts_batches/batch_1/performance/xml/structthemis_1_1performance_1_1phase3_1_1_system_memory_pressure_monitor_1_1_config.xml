@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::SystemMemoryPressureMonitor::Config</compoundname>
+    <includes refid="memory__pressure_8h" local="no">memory_pressure.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config_1a985a7b01e68b9d73f8ae4c67cd5fd7e7" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::performance::phase3::SystemMemoryPressureMonitor::Config::poll_interval</definition>
+        <argsstring></argsstring>
+        <name>poll_interval</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::Config::poll_interval</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>How often the background thread samples OS memory stats. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="119" column="35" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config_1a12bc92b4bfdc2cda1b16e3def97ce984" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds" kindref="compound">PressureThresholds</ref></type>
+        <definition>PressureThresholds themis::performance::phase3::SystemMemoryPressureMonitor::Config::thresholds</definition>
+        <argsstring></argsstring>
+        <name>thresholds</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::Config::thresholds</qualifiedname>
+        <briefdescription>
+<para>Pressure thresholds (percentages of total RAM used). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="121" column="28" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config_1a850ddd3d3b659b3507f063aaded146a4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::SystemMemoryPressureMonitor::Config::total_memory_override_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_memory_override_bytes</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::Config::total_memory_override_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Override total memory (bytes). 0 = auto-detect via OS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="123" column="16" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config_1a413bbcc0c221eaa7b171caee385ee2b6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::SystemMemoryPressureMonitor::Config::Config</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="124" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration passed to the constructor. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::performance::phase3::SystemMemoryPressureMonitor::Config</label>
+        <link refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>thresholds</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds</label>
+        <link refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/performance/phase3/memory_pressure.h" line="117" column="5" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="117" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config_1a413bbcc0c221eaa7b171caee385ee2b6" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config_1a985a7b01e68b9d73f8ae4c67cd5fd7e7" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor::Config</scope><name>poll_interval</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config_1a12bc92b4bfdc2cda1b16e3def97ce984" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor::Config</scope><name>thresholds</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config_1a850ddd3d3b659b3507f063aaded146a4" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor::Config</scope><name>total_memory_override_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

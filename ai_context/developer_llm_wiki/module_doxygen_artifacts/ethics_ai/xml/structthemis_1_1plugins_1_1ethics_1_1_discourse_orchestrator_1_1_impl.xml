@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::DiscourseOrchestrator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a98e8dc0c2b1f7c0d8ecce489f537764e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry" kindref="compound">IEthicsProfileRegistry</ref> *</type>
+        <definition>IEthicsProfileRegistry* themis::plugins::ethics::DiscourseOrchestrator::Impl::registry</definition>
+        <argsstring></argsstring>
+        <name>registry</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::Impl::registry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_orchestrator.cpp" line="127" column="28" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1aa806e4c6d7cf9e5defe966ee04c7c6c7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref></type>
+        <definition>RouterConfig themis::plugins::ethics::DiscourseOrchestrator::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_orchestrator.cpp" line="128" column="29" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a1ed9945678cc52643155f661e3bc3bdf" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a32c92ca4aca7b63ec118cdea915b920b" kindref="member">LLMInferenceFn</ref></type>
+        <definition>LLMInferenceFn themis::plugins::ethics::DiscourseOrchestrator::Impl::inference_fn</definition>
+        <argsstring></argsstring>
+        <name>inference_fn</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::Impl::inference_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_orchestrator.cpp" line="129" column="29" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a6aaca5434b89005386e09c30d2a94b1c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::DiscourseOrchestrator::Impl::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::Impl::timeout_ms</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_orchestrator.cpp" line="130" column="29" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="130" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a98a5ca1345e58f5292e700a687f93a43" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::DiscourseOrchestrator::Impl::Impl</definition>
+        <argsstring>(IEthicsProfileRegistry *reg, const RouterConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::Impl::Impl</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry" kindref="compound">IEthicsProfileRegistry</ref> *</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_orchestrator.cpp" line="132" column="5" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a464255941c0ab5e15b264fdeb7171fd3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a32c92ca4aca7b63ec118cdea915b920b" kindref="member">LLMInferenceFn</ref></type>
+        <definition>LLMInferenceFn themis::plugins::ethics::DiscourseOrchestrator::Impl::effectiveInferenceFn</definition>
+        <argsstring>() const</argsstring>
+        <name>effectiveInferenceFn</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::Impl::effectiveInferenceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_orchestrator.cpp" line="136" column="20" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="136" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::ethics::DiscourseOrchestrator::Impl</label>
+        <link refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>registry</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::ethics::IEthicsProfileRegistry</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry"/>
+      </node>
+      <node id="3">
+        <label>themis::plugins::ethics::RouterConfig</label>
+        <link refid="structthemis_1_1plugins_1_1ethics_1_1_router_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/ethics_ai/discourse_orchestrator.cpp" line="126" column="1" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="126" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1aa806e4c6d7cf9e5defe966ee04c7c6c7" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a464255941c0ab5e15b264fdeb7171fd3" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator::Impl</scope><name>effectiveInferenceFn</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a98a5ca1345e58f5292e700a687f93a43" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a1ed9945678cc52643155f661e3bc3bdf" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator::Impl</scope><name>inference_fn</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a98e8dc0c2b1f7c0d8ecce489f537764e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator::Impl</scope><name>registry</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a6aaca5434b89005386e09c30d2a94b1c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator::Impl</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

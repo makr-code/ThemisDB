@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llama__cpp__registrar__integration__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_llama_cpp_registrar_integration_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="llama__cpp__registrar_8h" local="yes">llama_cpp/llama_cpp_registrar.h</includes>
+    <includes refid="llama__cpp__plugin_8h" local="yes">llama_cpp/llama_cpp_plugin.h</includes>
+    <includes local="yes">llm/llm_plugin_manager.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>llama_cpp/llama_cpp_plugin.h</label>
+        <link refid="llama__cpp__plugin_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llama_cpp/llama_cpp_registrar.h</label>
+        <link refid="llama__cpp__registrar_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp</label>
+        <link refid="test__llama__cpp__registrar__integration__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>llm/llm_plugin_interface.h</label>
+      </node>
+      <node id="13">
+        <label>llm/llm_plugin_manager.h</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llama__cpp__registrar__integration__focused_8cpp_1a770a64051e604c138bdde114f39b4f5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppRegistrarIntegrationTests, W1_InitFromServerConfig_NoLLMSection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppRegistrarIntegrationTests</type>
+        </param>
+        <param>
+          <type>W1_InitFromServerConfig_NoLLMSection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" line="25" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__registrar__integration__focused_8cpp_1a56f352d9b0604bb3c9a6dce7490f8cf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppRegistrarIntegrationTests, W2_InitFromServerConfig_EmptyModelPath)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppRegistrarIntegrationTests</type>
+        </param>
+        <param>
+          <type>W2_InitFromServerConfig_EmptyModelPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" line="31" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__registrar__integration__focused_8cpp_1a3caa0fc472751522885b67f3b4ba045b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppRegistrarIntegrationTests, W3_InitFromServerConfig_NoModelPathKey)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppRegistrarIntegrationTests</type>
+        </param>
+        <param>
+          <type>W3_InitFromServerConfig_NoModelPathKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" line="37" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__registrar__integration__focused_8cpp_1a70450e2a747dea9b0d9057787abc1af2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppRegistrarIntegrationTests, W4_DefaultReloadCallback_EmptyConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppRegistrarIntegrationTests</type>
+        </param>
+        <param>
+          <type>W4_DefaultReloadCallback_EmptyConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" line="43" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" bodystart="43" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__registrar__integration__focused_8cpp_1a36ea4a3b0db59c99faa4400768246d95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppRegistrarIntegrationTests, W5_RegisterWithLLMManager_StubMode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppRegistrarIntegrationTests</type>
+        </param>
+        <param>
+          <type>W5_RegisterWithLLMManager_StubMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" line="50" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__registrar__integration__focused_8cpp_1a3f3728a141bc73c8c7c3841b4e33efe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppRegistrarIntegrationTests, W6_RegisteredPlugin_CanGenerate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppRegistrarIntegrationTests</type>
+        </param>
+        <param>
+          <type>W6_RegisteredPlugin_CanGenerate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" line="58" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" bodystart="58" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__registrar__integration__focused_8cpp_1a15f65a212fe744241dde0a21c8279bb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppRegistrarIntegrationTests, W7_InitFromServerConfig_WithModelPath)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppRegistrarIntegrationTests</type>
+        </param>
+        <param>
+          <type>W7_InitFromServerConfig_WithModelPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" line="72" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llama__cpp__registrar__integration__focused_8cpp_1ac87e792509df6fc0d8b1906a875b7858" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlamaCppRegistrarIntegrationTests, W8_InitFromServerConfig_Idempotent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlamaCppRegistrarIntegrationTests</type>
+        </param>
+        <param>
+          <type>W8_InitFromServerConfig_Idempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" line="80" column="1" bodyfile="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp" bodystart="80" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group W — Server-startup registrar integration tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates <ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a437a4a0228ef438a9e809d8e6fac05a3" kindref="member">LlamaCppPluginRegistrar::initFromServerConfig()</ref> and related helpers that wire the LLM plugin subsystem to the server startup path.</para>
+<para>All tests run under THEMIS_LLAMA_CPP_STUB_MODE so no real model file is required. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llama__cpp__registrar_8h" kindref="compound">llama_cpp/llama_cpp_registrar.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llama__cpp__plugin_8h" kindref="compound">llama_cpp/llama_cpp_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/llm_plugin_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llamacpp" kindref="compound">themis::llamacpp</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>W<sp/>—<sp/>Server-startup<sp/>registrar<sp/>integration<sp/>────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W1:<sp/>No<sp/>&quot;llm&quot;<sp/>key<sp/>→<sp/>no-op,<sp/>must<sp/>return<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="test__llama__cpp__registrar__integration__focused_8cpp_1a770a64051e604c138bdde114f39b4f5b" kindref="member">TEST</ref>(LlamaCppRegistrarIntegrationTests,<sp/>W1_InitFromServerConfig_NoLLMSection)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>config<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;database&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;path&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/tmp/db&quot;</highlight><highlight class="normal">}}}};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a437a4a0228ef438a9e809d8e6fac05a3" kindref="member">LlamaCppPluginRegistrar::initFromServerConfig</ref>(config));</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W2:<sp/>Empty<sp/>model_path<sp/>→<sp/>stub<sp/>mode,<sp/>must<sp/>return<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__llama__cpp__registrar__integration__focused_8cpp_1a770a64051e604c138bdde114f39b4f5b" kindref="member">TEST</ref>(LlamaCppRegistrarIntegrationTests,<sp/>W2_InitFromServerConfig_EmptyModelPath)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>config<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;llm&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;model_path&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}}}};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a437a4a0228ef438a9e809d8e6fac05a3" kindref="member">LlamaCppPluginRegistrar::initFromServerConfig</ref>(config));</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W3:<sp/>&quot;llm&quot;<sp/>section<sp/>present<sp/>but<sp/>no<sp/>&quot;model_path&quot;<sp/>key<sp/>→<sp/>no-op,<sp/>must<sp/>return<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__llama__cpp__registrar__integration__focused_8cpp_1a770a64051e604c138bdde114f39b4f5b" kindref="member">TEST</ref>(LlamaCppRegistrarIntegrationTests,<sp/>W3_InitFromServerConfig_NoModelPathKey)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>config<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;llm&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;n_ctx&quot;</highlight><highlight class="normal">,<sp/>4096}}}};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a437a4a0228ef438a9e809d8e6fac05a3" kindref="member">LlamaCppPluginRegistrar::initFromServerConfig</ref>(config));</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W4:<sp/>defaultReloadCallback<sp/>with<sp/>empty<sp/>config<sp/>→<sp/>stub<sp/>mode<sp/>returns<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__llama__cpp__registrar__integration__focused_8cpp_1a770a64051e604c138bdde114f39b4f5b" kindref="member">TEST</ref>(LlamaCppRegistrarIntegrationTests,<sp/>W4_DefaultReloadCallback_EmptyConfig)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1aa08d118bf57c7c745e917c89e1e478c4" kindref="member">LlamaCppPluginRegistrar::defaultReloadCallback</ref>();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kindref="compound">LlamaCppPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cb(plugin,<sp/>json::object()));</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W5:<sp/>registerWithLLMManager<sp/>in<sp/>stub<sp/>mode<sp/>→<sp/>must<sp/>return<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__llama__cpp__registrar__integration__focused_8cpp_1a770a64051e604c138bdde114f39b4f5b" kindref="member">TEST</ref>(LlamaCppRegistrarIntegrationTests,<sp/>W5_RegisterWithLLMManager_StubMode)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/>LLMPluginManager::instance();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a2974c5ba95d52a76f2b179e8cf5fddb7" kindref="member">LlamaCppPluginRegistrar::registerWithLLMManager</ref>(</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr,<sp/></highlight><highlight class="stringliteral">&quot;llama_cpp_test_w5&quot;</highlight><highlight class="normal">,<sp/>json::object());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W6:<sp/>Plugin<sp/>created<sp/>by<sp/>the<sp/>registrar<sp/>can<sp/>respond<sp/>(stub<sp/>mode)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__llama__cpp__registrar__integration__focused_8cpp_1a770a64051e604c138bdde114f39b4f5b" kindref="member">TEST</ref>(LlamaCppRegistrarIntegrationTests,<sp/>W6_RegisteredPlugin_CanGenerate)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/><ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1acc92100bc4bcc6bb6bfdc170b7abe9d2" kindref="member">LlamaCppPluginRegistrar::createPlugin</ref>(json::object());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(plugin,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin-&gt;<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>json::object());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prompt<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>from<sp/>W6&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>plugin-&gt;<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>stub<sp/>mode<sp/>the<sp/>plugin<sp/>must<sp/>either<sp/>succeed<sp/>or<sp/>report<sp/>an<sp/>error<sp/>message<sp/>—</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>it<sp/>must<sp/>not<sp/>throw<sp/>or<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resp.success<sp/>||<sp/>!resp.error_message.empty());</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W7:<sp/>initFromServerConfig<sp/>with<sp/>a<sp/>non-empty<sp/>model_path<sp/>registers<sp/>the<sp/>plugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__llama__cpp__registrar__integration__focused_8cpp_1a770a64051e604c138bdde114f39b4f5b" kindref="member">TEST</ref>(LlamaCppRegistrarIntegrationTests,<sp/>W7_InitFromServerConfig_WithModelPath)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>config<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;llm&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;model_path&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/stub/model.gguf&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;n_ctx&quot;</highlight><highlight class="normal">,<sp/>512}}}};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>THEMIS_LLAMA_CPP_STUB_MODE<sp/>loadModel()<sp/>always<sp/>succeeds,<sp/>so<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>must<sp/>return<sp/>true<sp/>even<sp/>though<sp/>the<sp/>path<sp/>is<sp/>fake.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a437a4a0228ef438a9e809d8e6fac05a3" kindref="member">LlamaCppPluginRegistrar::initFromServerConfig</ref>(config));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W8:<sp/>initFromServerConfig<sp/>is<sp/>idempotent<sp/>(calling<sp/>twice<sp/>is<sp/>safe)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__llama__cpp__registrar__integration__focused_8cpp_1a770a64051e604c138bdde114f39b4f5b" kindref="member">TEST</ref>(LlamaCppRegistrarIntegrationTests,<sp/>W8_InitFromServerConfig_Idempotent)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kindref="member">json</ref><sp/>config<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;llm&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;model_path&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}}}};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a437a4a0228ef438a9e809d8e6fac05a3" kindref="member">LlamaCppPluginRegistrar::initFromServerConfig</ref>(config));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a437a4a0228ef438a9e809d8e6fac05a3" kindref="member">LlamaCppPluginRegistrar::initFromServerConfig</ref>(config));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/llama_cpp/tests/test_llama_cpp_registrar_integration_focused.cpp"/>
+  </compounddef>
+</doxygen>

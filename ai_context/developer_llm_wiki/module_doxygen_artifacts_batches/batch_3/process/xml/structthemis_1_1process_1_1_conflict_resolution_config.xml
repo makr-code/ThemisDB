@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_conflict_resolution_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ConflictResolutionConfig</compoundname>
+    <includes refid="conflict__resolution__plugin_8h" local="no">conflict_resolution_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_config_1adad836a2232ca8a1e73dfafb062e5a6f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictResolutionConfig::plugin_name</definition>
+        <argsstring></argsstring>
+        <name>plugin_name</name>
+        <qualifiedname>themis::process::ConflictResolutionConfig::plugin_name</qualifiedname>
+        <briefdescription>
+<para>Name of plugin to use for conflict resolution (empty = use LWW fallback). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="410" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_config_1ae7789be45e1410f78019c92ca9e2e13b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::ConflictResolutionConfig::callback_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>callback_timeout_ms</name>
+        <qualifiedname>themis::process::ConflictResolutionConfig::callback_timeout_ms</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Timeout for plugin callback in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="413" column="14" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="413" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_config_1aa8975c153cd2651e6999117d320c52fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictResolutionConfig::timeout_strategy</definition>
+        <argsstring></argsstring>
+        <name>timeout_strategy</name>
+        <qualifiedname>themis::process::ConflictResolutionConfig::timeout_strategy</qualifiedname>
+        <initializer>= &quot;lww_fallback&quot;</initializer>
+        <briefdescription>
+<para>Strategy if callback times out: &quot;lww_fallback&quot; or &quot;reject_operation&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="416" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="416" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_config_1a351aed9477186a90409dfdb463c1615d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ConflictResolutionConfig::audit_all_conflicts</definition>
+        <argsstring></argsstring>
+        <name>audit_all_conflicts</name>
+        <qualifiedname>themis::process::ConflictResolutionConfig::audit_all_conflicts</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true to record all conflict resolution decisions in audit trail </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="419" column="10" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_config_1a82d996f05511a01c073d97257e8b1c28" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::ConflictResolutionConfig::audit_buffer_size</definition>
+        <argsstring></argsstring>
+        <name>audit_buffer_size</name>
+        <qualifiedname>themis::process::ConflictResolutionConfig::audit_buffer_size</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Maximum number of conflicts to record in audit trail (prevents unbounded growth). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="422" column="14" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="422" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_config_1abf8142fd4d367e838948449eade76145" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictResolutionConfig::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::ConflictResolutionConfig::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing conflict resolution operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="425" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for conflict resolution in federated deployments. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/conflict_resolution_plugin.h" line="408" column="1" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="408" bodyend="426"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_config_1a351aed9477186a90409dfdb463c1615d" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionConfig</scope><name>audit_all_conflicts</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_config_1a82d996f05511a01c073d97257e8b1c28" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionConfig</scope><name>audit_buffer_size</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_config_1ae7789be45e1410f78019c92ca9e2e13b" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionConfig</scope><name>callback_timeout_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_config_1adad836a2232ca8a1e73dfafb062e5a6f" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionConfig</scope><name>plugin_name</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_config_1aa8975c153cd2651e6999117d320c52fc" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionConfig</scope><name>timeout_strategy</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_config_1abf8142fd4d367e838948449eade76145" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionConfig</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

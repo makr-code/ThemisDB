@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1_object_constructor_function" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::ObjectConstructorFunction</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1functions_1_1_dict_constructor_function" prot="public" virt="non-virtual">themis::query::functions::DictConstructorFunction</basecompoundref>
+    <includes refid="collection__functions_8h" local="no">collection_functions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_object_constructor_function_1a6f8f0a671139bb2c66467ad483c60cc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::ObjectConstructorFunction::~ObjectConstructorFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ObjectConstructorFunction</name>
+        <qualifiedname>themis::query::functions::ObjectConstructorFunction::~ObjectConstructorFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/collection_functions.h" line="387" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_object_constructor_function_1a1d0c42d7a748ce9b9d93b25e0ffe3be7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref></type>
+        <definition>FunctionSignature themis::query::functions::ObjectConstructorFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::query::functions::ObjectConstructorFunction::signature</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_dict_constructor_function_1a24cbad5730af5c98e79524b9551adb70">signature</reimplements>
+        <briefdescription>
+<para>Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/collection_functions.h" line="388" column="23" bodyfile="include/query/functions/collection_functions.h" bodystart="388" bodyend="393"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>OBJECT(key1, value1, ...) - Alias for DICT. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::functions::DictConstructorFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_dict_constructor_function"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::ObjectConstructorFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_object_constructor_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::functions::DictConstructorFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_dict_constructor_function"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::ObjectConstructorFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_object_constructor_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/collection_functions.h" line="385" column="1" bodyfile="include/query/functions/collection_functions.h" bodystart="385" bodyend="394"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1_dict_constructor_function_1a941e8d470f87bcaa4e3ba580798b2258" prot="public" virt="virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a42971eed20f17673a764546eed8e1462" prot="protected" virt="non-virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>isGeometry</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a8141e01394e9c7a14ca2f7152684721e" prot="protected" virt="non-virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>isVector</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_object_constructor_function_1a1d0c42d7a748ce9b9d93b25e0ffe3be7" prot="public" virt="virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>signature</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a68ea2fe431937c2a2e5a001027bfd15f" prot="protected" virt="non-virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>toBool</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a13b10298be193ff19480b033de127f80" prot="protected" virt="non-virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>toNumber</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a1eaeedaa323352a073c63b5ca631fd7c" prot="protected" virt="non-virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>toString</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_dict_constructor_function_1a9f3fbbd4ddb3b9ec6e8cdda367334fff" prot="public" virt="virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>validateArgs</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1adea209cca3e5f9a99bb163a9bc333694" prot="protected" virt="non-virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>validateArgType</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_dict_constructor_function_1a77a87b72519a6ddfdb155b3d1506d542" prot="public" virt="non-virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>~DictConstructorFunction</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a484cc337101f6131acd1ee83ac31563b" prot="public" virt="virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>~IFunction</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_object_constructor_function_1a6f8f0a671139bb2c66467ad483c60cc1" prot="public" virt="non-virtual"><scope>themis::query::functions::ObjectConstructorFunction</scope><name>~ObjectConstructorFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

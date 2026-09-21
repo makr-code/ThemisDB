@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_i_a_p_i_version_router" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::api::IAPIVersionRouter</compoundname>
+    <includes refid="api__version__router_8h" local="no">api_version_router.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_a_p_i_version_router_1a032ae7ef31dbed08bd73a15e0df77b52" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::api::IAPIVersionRouter::~IAPIVersionRouter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAPIVersionRouter</name>
+        <qualifiedname>themis::api::IAPIVersionRouter::~IAPIVersionRouter</qualifiedname>
+        <briefdescription>
+<para>IAPIVersion Router. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="90" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_a_p_i_version_router_1a9ae0702a5d8d7a09ddf8b8b879289922" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::api::IAPIVersionRouter::registerVersion</definition>
+        <argsstring>(VersionDescriptor version, HandlerSet handlers)=0</argsstring>
+        <name>registerVersion</name>
+        <qualifiedname>themis::api::IAPIVersionRouter::registerVersion</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1api_1_1_version_descriptor" kindref="compound">VersionDescriptor</ref></type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1api_1a59b6f9c3d9332fe3972c73c9e5009e8f" kindref="member">HandlerSet</ref></type>
+          <declname>handlers</declname>
+        </param>
+        <briefdescription>
+<para>Register Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handlers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="97" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_a_p_i_version_router_1af6fda8146979caf3ed286243810b84f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref> &amp;</type>
+        <definition>virtual IHttpHandler &amp; themis::api::IAPIVersionRouter::route</definition>
+        <argsstring>(std::string_view method, std::string_view path, std::unordered_map&lt; std::string, std::string &gt; *out_deprecation_headers=nullptr)=0</argsstring>
+        <name>route</name>
+        <qualifiedname>themis::api::IAPIVersionRouter::route</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt; *</type>
+          <declname>out_deprecation_headers</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="99" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_a_p_i_version_router_1abe1e2137f4dfb49fbfe35d57fe1ecbc3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1api_1_1_version_descriptor" kindref="compound">VersionDescriptor</ref> &gt;</type>
+        <definition>virtual std::vector&lt; VersionDescriptor &gt; themis::api::IAPIVersionRouter::registeredVersions</definition>
+        <argsstring>() const =0</argsstring>
+        <name>registeredVersions</name>
+        <qualifiedname>themis::api::IAPIVersionRouter::registeredVersions</qualifiedname>
+        <briefdescription>
+<para>Registered Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="107" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/api_version_router.h" line="84" column="1" bodyfile="include/api/api_version_router.h" bodystart="84" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1abe1e2137f4dfb49fbfe35d57fe1ecbc3" prot="public" virt="pure-virtual"><scope>themis::api::IAPIVersionRouter</scope><name>registeredVersions</name></member>
+      <member refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1a9ae0702a5d8d7a09ddf8b8b879289922" prot="public" virt="pure-virtual"><scope>themis::api::IAPIVersionRouter</scope><name>registerVersion</name></member>
+      <member refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1af6fda8146979caf3ed286243810b84f0" prot="public" virt="pure-virtual"><scope>themis::api::IAPIVersionRouter</scope><name>route</name></member>
+      <member refid="classthemis_1_1api_1_1_i_a_p_i_version_router_1a032ae7ef31dbed08bd73a15e0df77b52" prot="public" virt="virtual"><scope>themis::api::IAPIVersionRouter</scope><name>~IAPIVersionRouter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

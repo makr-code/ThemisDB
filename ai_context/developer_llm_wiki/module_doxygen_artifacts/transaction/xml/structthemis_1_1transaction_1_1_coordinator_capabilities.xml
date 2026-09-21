@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_coordinator_capabilities" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::CoordinatorCapabilities</compoundname>
+    <includes refid="transaction__coordinator_8h" local="no">transaction_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_coordinator_capabilities_1a6030cd015a64ee63526a60fe63684b45" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::CoordinatorCapabilities::supports_prepare_phase</definition>
+        <argsstring></argsstring>
+        <name>supports_prepare_phase</name>
+        <qualifiedname>themis::transaction::CoordinatorCapabilities::supports_prepare_phase</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Explicit Phase-1 vote round (2PC, 3PC). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="87" column="10" bodyfile="include/transaction/transaction_coordinator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_coordinator_capabilities_1ac17881d25513e65bebf691173d6f6dd9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::CoordinatorCapabilities::supports_pre_commit</definition>
+        <argsstring></argsstring>
+        <name>supports_pre_commit</name>
+        <qualifiedname>themis::transaction::CoordinatorCapabilities::supports_pre_commit</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Phase-2a PreCommit before final commit (3PC). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="88" column="10" bodyfile="include/transaction/transaction_coordinator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_coordinator_capabilities_1ac0869e12ef2e7607f921c24f7c501992" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::CoordinatorCapabilities::supports_compensation</definition>
+        <argsstring></argsstring>
+        <name>supports_compensation</name>
+        <qualifiedname>themis::transaction::CoordinatorCapabilities::supports_compensation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Compensating rollback steps (SAGA). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="89" column="10" bodyfile="include/transaction/transaction_coordinator.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_coordinator_capabilities_1ac174ce437b0168f3a6eeda8b0e0f171e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::CoordinatorCapabilities::supports_optimistic_mvcc</definition>
+        <argsstring></argsstring>
+        <name>supports_optimistic_mvcc</name>
+        <qualifiedname>themis::transaction::CoordinatorCapabilities::supports_optimistic_mvcc</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Optimistic MVCC read-then-CAS writes (Percolator). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="90" column="10" bodyfile="include/transaction/transaction_coordinator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_coordinator_capabilities_1abbf1a13f0cf29e16e6f0cd7c0e964005" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::CoordinatorCapabilities::supports_deterministic</definition>
+        <argsstring></argsstring>
+        <name>supports_deterministic</name>
+        <qualifiedname>themis::transaction::CoordinatorCapabilities::supports_deterministic</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Deterministic pre-ordering before execution (Calvin). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="91" column="10" bodyfile="include/transaction/transaction_coordinator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_coordinator_capabilities_1ac6104ce40de9d3e20cd6e0cebbe05f9a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::CoordinatorCapabilities::supports_wal_recovery</definition>
+        <argsstring></argsstring>
+        <name>supports_wal_recovery</name>
+        <qualifiedname>themis::transaction::CoordinatorCapabilities::supports_wal_recovery</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Coordinator can recover in-doubt txns from WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="92" column="10" bodyfile="include/transaction/transaction_coordinator.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_coordinator_capabilities_1ab966c5a010f7da2207ae15dd3f82fecc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::CoordinatorCapabilities::supports_snapshot_read</definition>
+        <argsstring></argsstring>
+        <name>supports_snapshot_read</name>
+        <qualifiedname>themis::transaction::CoordinatorCapabilities::supports_snapshot_read</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Exposes MVCC snapshot read semantics to callers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="93" column="10" bodyfile="include/transaction/transaction_coordinator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_coordinator.h" line="86" column="1" bodyfile="include/transaction/transaction_coordinator.h" bodystart="86" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_coordinator_capabilities_1ac0869e12ef2e7607f921c24f7c501992" prot="public" virt="non-virtual"><scope>themis::transaction::CoordinatorCapabilities</scope><name>supports_compensation</name></member>
+      <member refid="structthemis_1_1transaction_1_1_coordinator_capabilities_1abbf1a13f0cf29e16e6f0cd7c0e964005" prot="public" virt="non-virtual"><scope>themis::transaction::CoordinatorCapabilities</scope><name>supports_deterministic</name></member>
+      <member refid="structthemis_1_1transaction_1_1_coordinator_capabilities_1ac174ce437b0168f3a6eeda8b0e0f171e" prot="public" virt="non-virtual"><scope>themis::transaction::CoordinatorCapabilities</scope><name>supports_optimistic_mvcc</name></member>
+      <member refid="structthemis_1_1transaction_1_1_coordinator_capabilities_1ac17881d25513e65bebf691173d6f6dd9" prot="public" virt="non-virtual"><scope>themis::transaction::CoordinatorCapabilities</scope><name>supports_pre_commit</name></member>
+      <member refid="structthemis_1_1transaction_1_1_coordinator_capabilities_1a6030cd015a64ee63526a60fe63684b45" prot="public" virt="non-virtual"><scope>themis::transaction::CoordinatorCapabilities</scope><name>supports_prepare_phase</name></member>
+      <member refid="structthemis_1_1transaction_1_1_coordinator_capabilities_1ab966c5a010f7da2207ae15dd3f82fecc" prot="public" virt="non-virtual"><scope>themis::transaction::CoordinatorCapabilities</scope><name>supports_snapshot_read</name></member>
+      <member refid="structthemis_1_1transaction_1_1_coordinator_capabilities_1ac6104ce40de9d3e20cd6e0cebbe05f9a" prot="public" virt="non-virtual"><scope>themis::transaction::CoordinatorCapabilities</scope><name>supports_wal_recovery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

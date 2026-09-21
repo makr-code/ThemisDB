@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_column_schema" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::ColumnSchema</compoundname>
+    <includes refid="hyper__index__builder_8h" local="no">hyper_index_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_column_schema_1a895fa0cc12ca53df353f58b70c8efd7e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ColumnSchema::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::ColumnSchema::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="36" column="17" bodyfile="include/tensor/hyper_index_builder.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_column_schema_1a0fc8c555df2f8180537bf81149a6d6e0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1tensor_1aa6a9743068bf6665f55da2350cfe002b" kindref="member">ColumnType</ref></type>
+        <definition>ColumnType themis::tensor::ColumnSchema::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::tensor::ColumnSchema::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1tensor_1aa6a9743068bf6665f55da2350cfe002bab22f521f17b09d0fd389e231f8f6d66d" kindref="member">ColumnType::NUMERIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="37" column="17" bodyfile="include/tensor/hyper_index_builder.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_column_schema_1aa0f0d99639d688b26eec6ce5fddf0fd2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::ColumnSchema::range_min</definition>
+        <argsstring></argsstring>
+        <name>range_min</name>
+        <qualifiedname>themis::tensor::ColumnSchema::range_min</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Used only for NUMERIC columns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="38" column="17" bodyfile="include/tensor/hyper_index_builder.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_column_schema_1aea035a2354fc5adf618d64f9a75f4a16" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::ColumnSchema::range_max</definition>
+        <argsstring></argsstring>
+        <name>range_max</name>
+        <qualifiedname>themis::tensor::ColumnSchema::range_max</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Used only for NUMERIC columns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="39" column="17" bodyfile="include/tensor/hyper_index_builder.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_column_schema_1a4143f0b389b548759585b0baaa0528c0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::tensor::ColumnSchema::categories</definition>
+        <argsstring></argsstring>
+        <name>categories</name>
+        <qualifiedname>themis::tensor::ColumnSchema::categories</qualifiedname>
+        <briefdescription>
+<para>Ordered labels for CATEGORY columns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="40" column="17" bodyfile="include/tensor/hyper_index_builder.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/hyper_index_builder.h" line="35" column="1" bodyfile="include/tensor/hyper_index_builder.h" bodystart="35" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_column_schema_1a4143f0b389b548759585b0baaa0528c0" prot="public" virt="non-virtual"><scope>themis::tensor::ColumnSchema</scope><name>categories</name></member>
+      <member refid="structthemis_1_1tensor_1_1_column_schema_1a895fa0cc12ca53df353f58b70c8efd7e" prot="public" virt="non-virtual"><scope>themis::tensor::ColumnSchema</scope><name>name</name></member>
+      <member refid="structthemis_1_1tensor_1_1_column_schema_1aea035a2354fc5adf618d64f9a75f4a16" prot="public" virt="non-virtual"><scope>themis::tensor::ColumnSchema</scope><name>range_max</name></member>
+      <member refid="structthemis_1_1tensor_1_1_column_schema_1aa0f0d99639d688b26eec6ce5fddf0fd2" prot="public" virt="non-virtual"><scope>themis::tensor::ColumnSchema</scope><name>range_min</name></member>
+      <member refid="structthemis_1_1tensor_1_1_column_schema_1a0fc8c555df2f8180537bf81149a6d6e0" prot="public" virt="non-virtual"><scope>themis::tensor::ColumnSchema</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

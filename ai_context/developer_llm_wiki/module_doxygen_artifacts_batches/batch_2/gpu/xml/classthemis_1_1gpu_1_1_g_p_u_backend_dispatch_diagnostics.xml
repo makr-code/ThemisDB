@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUBackendDispatchDiagnostics</compoundname>
+    <includes refid="gpu__backend__dispatch__diagnostics_8h" local="no">gpu_backend_dispatch_diagnostics.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1ad8aacbfd811f09b0f94d4b07251f3b8c" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic</definition>
+        <argsstring>(GPUDispatchErrorCode error_code, int device_id, const std::string &amp;detail) noexcept</argsstring>
+        <name>emitDiagnostic</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Emit Diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the device. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_callback_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="47" column="17" bodyfile="src/gpu/gpu_backend_dispatch_diagnostics.cpp" bodystart="24" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1aea283d1f416bdb6758f1ba40aa6484cc" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUBackendDispatchDiagnostics::setEventCallback</definition>
+        <argsstring>(GPUDispatchEventCallback callback) noexcept</argsstring>
+        <name>setEventCallback</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchDiagnostics::setEventCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1af8e78635a7c458de5ca02a1b068f42b9" kindref="member">GPUDispatchEventCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set Event Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_callback_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="57" column="17" bodyfile="src/gpu/gpu_backend_dispatch_diagnostics.cpp" bodystart="71" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a403f0136087279044501960c4710ceb1" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1gpu_1af8e78635a7c458de5ca02a1b068f42b9" kindref="member">GPUDispatchEventCallback</ref></type>
+        <definition>GPUDispatchEventCallback themis::gpu::GPUBackendDispatchDiagnostics::getEventCallback</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>getEventCallback</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchDiagnostics::getEventCallback</qualifiedname>
+        <briefdescription>
+<para>Get Event Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_callback_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="64" column="37" bodyfile="src/gpu/gpu_backend_dispatch_diagnostics.cpp" bodystart="81" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a83dbbb9d42e9c6b996af8a2b78dd9cbd" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78" kindref="member">GPUDispatchEventType</ref></type>
+        <definition>GPUDispatchEventType themis::gpu::GPUBackendDispatchDiagnostics::errorCodeToEventType</definition>
+        <argsstring>(GPUDispatchErrorCode code) noexcept</argsstring>
+        <name>errorCodeToEventType</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchDiagnostics::errorCodeToEventType</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Error Code To Event Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="72" column="33" bodyfile="src/gpu/gpu_backend_dispatch_diagnostics.cpp" bodystart="95" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a63223389518f0ab6c6249f08f28167e0" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUBackendDispatchDiagnostics::errorCodeToString</definition>
+        <argsstring>(GPUDispatchErrorCode code) noexcept</argsstring>
+        <name>errorCodeToString</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchDiagnostics::errorCodeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Error Code To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="80" column="24" bodyfile="src/gpu/gpu_backend_dispatch_diagnostics.cpp" bodystart="144" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a440c344030ed9ebb428289eae0c63904" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUBackendDispatchDiagnostics::eventTypeToString</definition>
+        <argsstring>(GPUDispatchEventType type) noexcept</argsstring>
+        <name>eventTypeToString</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchDiagnostics::eventTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78" kindref="member">GPUDispatchEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Event Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="88" column="24" bodyfile="src/gpu/gpu_backend_dispatch_diagnostics.cpp" bodystart="204" bodyend="221"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="38" column="1" bodyfile="include/gpu/gpu_backend_dispatch_diagnostics.h" bodystart="38" bodyend="89"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1ad8aacbfd811f09b0f94d4b07251f3b8c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchDiagnostics</scope><name>emitDiagnostic</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a83dbbb9d42e9c6b996af8a2b78dd9cbd" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchDiagnostics</scope><name>errorCodeToEventType</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a63223389518f0ab6c6249f08f28167e0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchDiagnostics</scope><name>errorCodeToString</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a440c344030ed9ebb428289eae0c63904" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchDiagnostics</scope><name>eventTypeToString</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a403f0136087279044501960c4710ceb1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchDiagnostics</scope><name>getEventCallback</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1aea283d1f416bdb6758f1ba40aa6484cc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchDiagnostics</scope><name>setEventCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

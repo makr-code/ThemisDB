@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_audit_query_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::AuditQueryOptions</compoundname>
+    <includes refid="project__audit__log_8h" local="no">project_audit_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_audit_query_options_1a9dd9d1847540a585edbb5bd77888ba42" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::AuditQueryOptions::project_id</definition>
+        <argsstring></argsstring>
+        <name>project_id</name>
+        <qualifiedname>themis::projects::AuditQueryOptions::project_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="47" column="17" bodyfile="include/projects/project_audit_log.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_audit_query_options_1a6fae9a0163536de49a7d79d77e2b4de8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317" kindref="member">ProjectAuditAction</ref> &gt;</type>
+        <definition>std::optional&lt;ProjectAuditAction&gt; themis::projects::AuditQueryOptions::action_filter</definition>
+        <argsstring></argsstring>
+        <name>action_filter</name>
+        <qualifiedname>themis::projects::AuditQueryOptions::action_filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="48" column="19" bodyfile="include/projects/project_audit_log.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_audit_query_options_1a4b412b3a27e4cb208994ce76c61d46a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::AuditQueryOptions::actor_id_filter</definition>
+        <argsstring></argsstring>
+        <name>actor_id_filter</name>
+        <qualifiedname>themis::projects::AuditQueryOptions::actor_id_filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="49" column="17" bodyfile="include/projects/project_audit_log.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_audit_query_options_1a8aac89deee9ed9a1f0d10bb232dda680" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::projects::AuditQueryOptions::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::projects::AuditQueryOptions::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="50" column="43" bodyfile="include/projects/project_audit_log.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_audit_query_options_1a5ac2ed9989879be5059952f3cd29ce55" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::projects::AuditQueryOptions::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::projects::AuditQueryOptions::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="51" column="43" bodyfile="include/projects/project_audit_log.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_audit_query_options_1a0134505ce50c03ee72426c944f6301b6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::projects::AuditQueryOptions::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::projects::AuditQueryOptions::limit</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="52" column="12" bodyfile="include/projects/project_audit_log.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_audit_query_options_1a589bab0d57b63046311af850fdbf451b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::projects::AuditQueryOptions::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::projects::AuditQueryOptions::offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="53" column="12" bodyfile="include/projects/project_audit_log.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_audit_query_options_1aac869795b03e74af5476758b179604eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::AuditQueryOptions::sort_direction</definition>
+        <argsstring></argsstring>
+        <name>sort_direction</name>
+        <qualifiedname>themis::projects::AuditQueryOptions::sort_direction</qualifiedname>
+        <initializer>= &quot;desc&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="54" column="17" bodyfile="include/projects/project_audit_log.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/project_audit_log.h" line="46" column="1" bodyfile="include/projects/project_audit_log.h" bodystart="46" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_audit_query_options_1a6fae9a0163536de49a7d79d77e2b4de8" prot="public" virt="non-virtual"><scope>themis::projects::AuditQueryOptions</scope><name>action_filter</name></member>
+      <member refid="structthemis_1_1projects_1_1_audit_query_options_1a4b412b3a27e4cb208994ce76c61d46a3" prot="public" virt="non-virtual"><scope>themis::projects::AuditQueryOptions</scope><name>actor_id_filter</name></member>
+      <member refid="structthemis_1_1projects_1_1_audit_query_options_1a5ac2ed9989879be5059952f3cd29ce55" prot="public" virt="non-virtual"><scope>themis::projects::AuditQueryOptions</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1projects_1_1_audit_query_options_1a0134505ce50c03ee72426c944f6301b6" prot="public" virt="non-virtual"><scope>themis::projects::AuditQueryOptions</scope><name>limit</name></member>
+      <member refid="structthemis_1_1projects_1_1_audit_query_options_1a589bab0d57b63046311af850fdbf451b" prot="public" virt="non-virtual"><scope>themis::projects::AuditQueryOptions</scope><name>offset</name></member>
+      <member refid="structthemis_1_1projects_1_1_audit_query_options_1a9dd9d1847540a585edbb5bd77888ba42" prot="public" virt="non-virtual"><scope>themis::projects::AuditQueryOptions</scope><name>project_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_audit_query_options_1aac869795b03e74af5476758b179604eb" prot="public" virt="non-virtual"><scope>themis::projects::AuditQueryOptions</scope><name>sort_direction</name></member>
+      <member refid="structthemis_1_1projects_1_1_audit_query_options_1a8aac89deee9ed9a1f0d10bb232dda680" prot="public" virt="non-virtual"><scope>themis::projects::AuditQueryOptions</scope><name>start_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

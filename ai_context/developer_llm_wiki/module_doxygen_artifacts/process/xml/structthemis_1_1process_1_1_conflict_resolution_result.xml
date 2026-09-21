@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_conflict_resolution_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ConflictResolutionResult</compoundname>
+    <includes refid="conflict__resolution__plugin_8h" local="no">conflict_resolution_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1ac32dd54609eb7b8c06ded0be0a7d19fd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22" kindref="member">ConflictResolutionStrategy</ref></type>
+        <definition>ConflictResolutionStrategy themis::process::ConflictResolutionResult::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a1bc1135786a78aab2926ed56e5f5801c" kindref="member">ConflictResolutionStrategy::UNRESOLVED</ref></initializer>
+        <briefdescription>
+<para>Strategy chosen by plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="214" column="32" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1aa1b520f7fdecef0039f6b68dbf964b6c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref> &gt;</type>
+        <definition>std::optional&lt;ModelVersion&gt; themis::process::ConflictResolutionResult::merged_model</definition>
+        <argsstring></argsstring>
+        <name>merged_model</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::merged_model</qualifiedname>
+        <briefdescription>
+<para>Merged model (only populated if strategy == MERGED). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="217" column="19" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1a491cccd263300fe3d430254ff17c284e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictResolutionResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::reason</qualifiedname>
+        <briefdescription>
+<para>Reason for chosen strategy (for audit trail and diagnostics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="220" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1ac449c3a9723fed8179bc44a937e13756" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictResolutionResult::merge_metadata</definition>
+        <argsstring></argsstring>
+        <name>merge_metadata</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::merge_metadata</qualifiedname>
+        <briefdescription>
+<para>Merge metadata (if strategy == MERGED): algorithm used, conflicts resolved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="223" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1ac733369f534696de169dc473b13314ba" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ConflictResolutionResult::resolution_duration_us</definition>
+        <argsstring></argsstring>
+        <name>resolution_duration_us</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::resolution_duration_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Duration of resolution in microseconds (for performance tracking). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="226" column="14" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1afc76c3d6fadc068caec67807c5903389" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ConflictResolutionResult::is_deterministic</definition>
+        <argsstring></argsstring>
+        <name>is_deterministic</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::is_deterministic</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true if result is deterministic (same input always produces same result) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deterministic outcome (same metadata → same result)? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="229" column="10" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1a21c5f1de05ec954ef726c6c16064493f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictResolutionResult::winner_id</definition>
+        <argsstring></argsstring>
+        <name>winner_id</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::winner_id</qualifiedname>
+        <briefdescription>
+<para>Winning version ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="228" column="15" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1aa42f846a786539230f31cf798e71dd12" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22" kindref="member">ConflictResolutionStrategy</ref></type>
+        <definition>ConflictResolutionStrategy themis::process::ConflictResolutionResult::strategy_used</definition>
+        <argsstring></argsstring>
+        <name>strategy_used</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::strategy_used</qualifiedname>
+        <briefdescription>
+<para>Strategy used (callback, LWW fallback, error). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="231" column="30" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1a11081d70e87edd17bedde7aa7b5c47ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ConflictResolutionResult::callback_invoked</definition>
+        <argsstring></argsstring>
+        <name>callback_invoked</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::callback_invoked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Was callback invoked? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="234" column="8" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1a3369068d9672e2b7a9800c99d6349df9" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::process::ConflictResolutionResult::callback_execution_ms</definition>
+        <argsstring></argsstring>
+        <name>callback_execution_ms</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::callback_execution_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Callback execution time (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="237" column="17" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1ac4e33de274892f6dcfc8d6a5913e3c95" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ConflictResolutionResult::callback_exception</definition>
+        <argsstring></argsstring>
+        <name>callback_exception</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::callback_exception</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Did callback throw exception (caught &amp; fallback)? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="240" column="8" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1a6c2293190e300d764af96fc79396ab2f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictResolutionResult::exception_message</definition>
+        <argsstring></argsstring>
+        <name>exception_message</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::exception_message</qualifiedname>
+        <briefdescription>
+<para>Exception message (if callback_exception == true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="243" column="15" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_resolution_result_1a9d85bb1b4e17f589e7578fb3f68fbbd9" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::process::ConflictResolutionResult::resolution_time</definition>
+        <argsstring></argsstring>
+        <name>resolution_time</name>
+        <qualifiedname>themis::process::ConflictResolutionResult::resolution_time</qualifiedname>
+        <briefdescription>
+<para>Timestamp of resolution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="249" column="41" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of conflict resolution from plugin callback. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Result of conflict resolution.</para>
+<para>Plugin implementation returns this to indicate chosen strategy and merged model (if any).</para>
+<para>Contains outcome, metadata, and diagnostics for auditing. </para>
+    </detaileddescription>
+    <location file="include/process/conflict_resolution_plugin.h" line="212" column="1" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="212" bodyend="230"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac4e33de274892f6dcfc8d6a5913e3c95" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>callback_exception</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1a3369068d9672e2b7a9800c99d6349df9" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>callback_execution_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1a11081d70e87edd17bedde7aa7b5c47ae" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>callback_invoked</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1a6c2293190e300d764af96fc79396ab2f" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>exception_message</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1afc76c3d6fadc068caec67807c5903389" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>is_deterministic</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac449c3a9723fed8179bc44a937e13756" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>merge_metadata</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1aa1b520f7fdecef0039f6b68dbf964b6c" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>merged_model</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1a491cccd263300fe3d430254ff17c284e" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac733369f534696de169dc473b13314ba" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>resolution_duration_us</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1a9d85bb1b4e17f589e7578fb3f68fbbd9" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>resolution_time</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac32dd54609eb7b8c06ded0be0a7d19fd" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1aa42f846a786539230f31cf798e71dd12" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>strategy_used</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_resolution_result_1a21c5f1de05ec954ef726c6c16064493f" prot="public" virt="non-virtual"><scope>themis::process::ConflictResolutionResult</scope><name>winner_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,3303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1storage" kind="namespace" language="C++">
+    <compoundname>themis::storage</compoundname>
+    <innerclass refid="classthemis_1_1storage_1_1_access_tracker" prot="public">themis::storage::AccessTracker</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_azure_blob_backend" prot="public">themis::storage::AzureBlobBackend</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_bit_packing_codec" prot="public">themis::storage::BitPackingCodec</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_blob_ref" prot="public">themis::storage::BlobRef</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_blob_storage_config" prot="public">themis::storage::BlobStorageConfig</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_blob_storage_manager" prot="public">themis::storage::BlobStorageManager</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_collection_access_stats" prot="public">themis::storage::CollectionAccessStats</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_columnar_cache" prot="public">themis::storage::ColumnarCache</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_columnar_format_manager" prot="public">themis::storage::ColumnarFormatManager</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_column_compressed_storage" prot="public">themis::storage::ColumnCompressedStorage</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_column_metadata" prot="public">themis::storage::ColumnMetadata</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_column_predicate" prot="public">themis::storage::ColumnPredicate</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_column_segment" prot="public">themis::storage::ColumnSegment</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_compressed_storage_wrapper" prot="public">themis::storage::CompressedStorageWrapper</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_compressed_value" prot="public">themis::storage::CompressedValue</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_concurrent_write_controller" prot="public">themis::storage::ConcurrentWriteController</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_concurrent_write_controller_config" prot="public">themis::storage::ConcurrentWriteControllerConfig</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_concurrent_write_stats" prot="public">themis::storage::ConcurrentWriteStats</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_connection_keepalive" prot="public">themis::storage::ConnectionKeepalive</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_connection_timeout_guard" prot="public">themis::storage::ConnectionTimeoutGuard</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_database_connection_manager" prot="public">themis::storage::DatabaseConnectionManager</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_decomposition_stats" prot="public">themis::storage::DecompositionStats</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_dictionary_codec" prot="public">themis::storage::DictionaryCodec</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_disk_space_guard" prot="public">themis::storage::DiskSpaceGuard</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_disk_space_monitor" prot="public">themis::storage::DiskSpaceMonitor</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_distributed_operation" prot="public">themis::storage::DistributedOperation</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_distributed_transaction" prot="public">themis::storage::DistributedTransaction</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_distributed_transaction_manager" prot="public">themis::storage::DistributedTransactionManager</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_distributed_txn_config" prot="public">themis::storage::DistributedTxnConfig</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_encrypted_blob_backend" prot="public">themis::storage::EncryptedBlobBackend</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_encryption_stats" prot="public">themis::storage::EncryptionStats</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_exponential_backoff" prot="public">themis::storage::ExponentialBackoff</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_federated_blob_replica_target" prot="public">themis::storage::FederatedBlobReplicaTarget</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_federated_blob_route" prot="public">themis::storage::FederatedBlobRoute</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_federated_blob_router" prot="public">themis::storage::FederatedBlobRouter</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_federated_blob_write_plan" prot="public">themis::storage::FederatedBlobWritePlan</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_filesystem_blob_backend" prot="public">themis::storage::FilesystemBlobBackend</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_frame_of_reference_codec" prot="public">themis::storage::FrameOfReferenceCodec</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" prot="public">themis::storage::GCSBlobBackend</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_gdpr_field_registry" prot="public">themis::storage::GdprFieldRegistry</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_generic_compression_codec" prot="public">themis::storage::GenericCompressionCodec</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_g_g_u_f_metadata" prot="public">themis::storage::GGUFMetadata</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_gpu_compression_config" prot="public">themis::storage::GpuCompressionConfig</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_gpu_compression_impl" prot="public">themis::storage::GpuCompressionImpl</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_gpu_compression_manager" prot="public">themis::storage::GpuCompressionManager</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_gpu_compression_result" prot="public">themis::storage::GpuCompressionResult</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer" prot="public">themis::storage::HierarchicalTuckerDecomposer</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_h_t_config" prot="public">themis::storage::HTConfig</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_i_blob_storage_backend" prot="public">themis::storage::IBlobStorageBackend</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_i_distributed_shard_participant" prot="public">themis::storage::IDistributedShardParticipant</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_i_encryption_key_provider" prot="public">themis::storage::IEncryptionKeyProvider</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_in_memory_tensor_backend" prot="public">themis::storage::InMemoryTensorBackend</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_in_memory_vector_index" prot="public">themis::storage::InMemoryVectorIndex</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_i_tensor_storage_backend" prot="public">themis::storage::ITensorStorageBackend</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_i_vector_index_backend" prot="public">themis::storage::IVectorIndexBackend</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_knn_result" prot="public">themis::storage::KnnResult</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_manager_shared_state" prot="public">themis::storage::ManagerSharedState</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_migration_op" prot="public">themis::storage::MigrationOp</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_migration_result" prot="public">themis::storage::MigrationResult</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_mmap_blob_view" prot="public">themis::storage::MmapBlobView</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_nlp_metadata_extractor" prot="public">themis::storage::NlpMetadataExtractor</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_n_v_me_capabilities" prot="public">themis::storage::NVMeCapabilities</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_n_v_me_config" prot="public">themis::storage::NVMeConfig</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_n_v_me_i_o_request" prot="public">themis::storage::NVMeIORequest</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_n_v_me_i_o_result" prot="public">themis::storage::NVMeIOResult</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_n_v_me_manager" prot="public">themis::storage::NVMeManager</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_parquet_column_desc" prot="public">themis::storage::ParquetColumnDesc</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_parquet_export_config" prot="public">themis::storage::ParquetExportConfig</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_partition_info" prot="public">themis::storage::PartitionInfo</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_pin_guard" prot="public">themis::storage::PinGuard</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_provenance_record" prot="public">themis::storage::ProvenanceRecord</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_quantized_core" prot="public">themis::storage::QuantizedCore</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_quantized_train" prot="public">themis::storage::QuantizedTrain</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_recovery_fault_handler" prot="public">themis::storage::RecoveryFaultHandler</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_recovery_fault_report" prot="public">themis::storage::RecoveryFaultReport</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_r_l_e_codec" prot="public">themis::storage::RLECodec</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_rocks_d_b_tensor_backend" prot="public">themis::storage::RocksDBTensorBackend</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_s3_blob_backend" prot="public">themis::storage::S3BlobBackend</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_schema_dead_weight_detector" prot="public">themis::storage::SchemaDeadWeightDetector</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_schema_info" prot="public">themis::storage::SchemaInfo</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_schema_migrator" prot="public">themis::storage::SchemaMigrator</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_security_signature" prot="public">themis::storage::SecuritySignature</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_security_signature_manager" prot="public">themis::storage::SecuritySignatureManager</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_segment_key" prot="public">themis::storage::SegmentKey</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_s_i_m_d_column_filter" prot="public">themis::storage::SIMDColumnFilter</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_s_i_m_d_filter_stats" prot="public">themis::storage::SIMDFilterStats</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_static_key_provider" prot="public">themis::storage::StaticKeyProvider</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_storage_capacity_metrics" prot="public">themis::storage::StorageCapacityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_storage_error_context" prot="public">themis::storage::StorageErrorContext</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_storage_layout_advisor" prot="public">themis::storage::StorageLayoutAdvisor</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_storage_parquet_exporter" prot="public">themis::storage::StorageParquetExporter</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_storage_pressure_manager" prot="public">themis::storage::StoragePressureManager</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_tensor_compaction_filter" prot="public">themis::storage::TensorCompactionFilter</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_field_key" prot="public">themis::storage::TensorFieldKey</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_field_key_hash" prot="public">themis::storage::TensorFieldKeyHash</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_tensor_network_storage_engine" prot="public">themis::storage::TensorNetworkStorageEngine</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_route_hint" prot="public">themis::storage::TensorRouteHint</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_tensor_router" prot="public">themis::storage::TensorRouter</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_routing_policy" prot="public">themis::storage::TensorRoutingPolicy</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_storage_config" prot="public">themis::storage::TensorStorageConfig</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_storage_stats" prot="public">themis::storage::TensorStorageStats</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_train_config" prot="public">themis::storage::TensorTrainConfig</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_tensor_train_decomposer" prot="public">themis::storage::TensorTrainDecomposer</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tiered_storage_config" prot="public">themis::storage::TieredStorageConfig</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_tiered_storage_manager" prot="public">themis::storage::TieredStorageManager</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_t_t_core" prot="public">themis::storage::TTCore</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_t_t_quantizer" prot="public">themis::storage::TTQuantizer</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_t_t_train" prot="public">themis::storage::TTTrain</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_vector_index_config" prot="public">themis::storage::VectorIndexConfig</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_web_d_a_v_blob_backend" prot="public">themis::storage::WebDAVBlobBackend</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_write_guard" prot="public">themis::storage::WriteGuard</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_zero_copy_blob_transfer" prot="public">themis::storage::ZeroCopyBlobTransfer</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_zero_copy_transfer_config" prot="public">themis::storage::ZeroCopyTransferConfig</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_zero_copy_transfer_stats" prot="public">themis::storage::ZeroCopyTransferStats</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_zone_map" prot="public">themis::storage::ZoneMap</innerclass>
+    <innernamespace refid="namespacethemis_1_1storage_1_1disk__utils">themis::storage::disk_utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage_1_1test">themis::storage::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BlobStorageType</name>
+        <qualifiedname>themis::storage::BlobStorageType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42acfbac07c6ae3e73f0e10ca60ad916bef" prot="public">
+          <name>INLINE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42afff39ee0dcf50dd8d7dd2af18c90099c" prot="public">
+          <name>ROCKSDB_BLOB</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a8c4bad9563596861cd35a1829152b866" prot="public">
+          <name>FILESYSTEM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42ae2ab7c65b21ed8cc1c3b642b5e36429e" prot="public">
+          <name>S3</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a6c64da5a6c2a0d4d5a7bc3a36a1b3fb1" prot="public">
+          <name>AZURE_BLOB</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a0f783f732d106dbf30f255f311e83e67" prot="public">
+          <name>GCS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a724b43eea892db47b6afa0a5f8627ae6" prot="public">
+          <name>WEBDAV</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Blob Storage Type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="27" column="1" bodyfile="include/storage/blob_storage_backend.h" bodystart="27" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>SegmentDType</name>
+        <qualifiedname>themis::storage::SegmentDType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9afbde23b11d7e59af7828e81144c8b487" prot="public">
+          <name>Int64</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9ad909d38d705ce75386dd86e611a82f5b" prot="public">
+          <name>Double</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9a27118326006d3829667a400ad23d5d98" prot="public">
+          <name>String</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9ac26f15e86e3de4c398a8273272aba034" prot="public">
+          <name>Bool</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Typed value held inside a <computeroutput><ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Only the active union member for the segment&apos;s <computeroutput>dtype</computeroutput> is valid. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="75" column="1" bodyfile="include/storage/columnar_cache.h" bodystart="75" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>CompressionCodec</name>
+        <qualifiedname>themis::storage::CompressionCodec</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7a302b8314168ece92512f77202a90a1fd" prot="public">
+          <name>RLE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7a941b306e67df7bda6303f69eef2899fe" prot="public">
+          <name>DICTIONARY</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7ac1516afdefd32b3fce3137c184086ef4" prot="public">
+          <name>BIT_PACKING</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7af08f40d559105a2c8829d58f7b561e5b" prot="public">
+          <name>FRAME_OF_REF</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7aca0c64c0de8f56bc573828ea6d764594" prot="public">
+          <name>LZ4</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7a2069e5c0aea54224dcd6b9b6c78c4902" prot="public">
+          <name>SNAPPY</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="33" column="1" bodyfile="include/storage/columnar_format.h" bodystart="33" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ColumnType</name>
+        <qualifiedname>themis::storage::ColumnType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0a6495adba09844fac8eeb0aba86e6f1bf" prot="public">
+          <name>INT32</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0a4e866b275c85fbb439f6484251cfb31c" prot="public">
+          <name>INT64</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0a967d280b5c16d95f2947647dd2ca6cc2" prot="public">
+          <name>FLOAT32</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0a139882c654db8a57f7c3092de1dd0b02" prot="public">
+          <name>FLOAT64</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0a63b588d5559f64f89a416e656880b949" prot="public">
+          <name>STRING</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0aa97b2c144243b2b9d2c593ec268b62f5" prot="public">
+          <name>BOOL</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="47" column="1" bodyfile="include/storage/columnar_format.h" bodystart="47" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a2b7548f58e3bc5a605db5f5b21ae27dc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConcurrentWriteAcquireError</name>
+        <qualifiedname>themis::storage::ConcurrentWriteAcquireError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a2b7548f58e3bc5a605db5f5b21ae27dcae7178fccc5ed4efedaaf6cafebe0046b" prot="public">
+          <name>QUEUE_FULL</name>
+          <briefdescription>
+<para>The wait queue is at capacity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a2b7548f58e3bc5a605db5f5b21ae27dca070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+<para>Waited longer than acquire_timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a2b7548f58e3bc5a605db5f5b21ae27dcab9984206799a7f9fe4bd1b6c18db8112" prot="public">
+          <name>SHUTDOWN</name>
+          <briefdescription>
+<para>The controller has been shut down. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="52" column="1" bodyfile="include/storage/concurrent_write_controller.h" bodystart="52" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DistributedTxnState</name>
+        <qualifiedname>themis::storage::DistributedTxnState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+<para>Accepting put/get/del operations. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3abd6a3a60251e4e52cdc9c393f33cbe10" prot="public">
+          <name>PREPARING</name>
+          <briefdescription>
+<para>Phase 1 in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3a1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <briefdescription>
+<para>2PC succeeded; all shards applied </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3a4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+<para>2PC failed or explicit rollback </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a98c699b41510c8788d04ff11e7eb44f3ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Unrecoverable error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Lifecycle state of a distributed transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="129" column="1" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="129" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GpuAccelerationType</name>
+        <qualifiedname>themis::storage::GpuAccelerationType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58a9393911bc06bdfb0c3663d541246e15a" prot="public">
+          <name>CPU_ONLY</name>
+          <briefdescription>
+<para>No GPU; always use the CPU implementation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58aa33b7755e5f9b504d2d038eaca4ff28d" prot="public">
+          <name>CUDA</name>
+          <briefdescription>
+<para>NVIDIA CUDA + nvCOMP library. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58a5e4576beae2ab86d6ad1b8b1700d2e11" prot="public">
+          <name>HIP</name>
+          <briefdescription>
+<para>AMD HIP/ROCm backend. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58ae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+<para>Auto-detect the best available backend at runtime. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Select which hardware backend drives compression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="85" column="1" bodyfile="include/storage/gpu_compression.h" bodystart="85" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GpuCompressionAlgorithm</name>
+        <qualifiedname>themis::storage::GpuCompressionAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68ba8406cc2302e19183037b61249546b234" prot="public">
+          <name>ZSTD</name>
+          <briefdescription>
+<para>Zstandard via NVIDIA nvCOMP (CPU: zstd_codec). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68ba2069e5c0aea54224dcd6b9b6c78c4902" prot="public">
+          <name>SNAPPY</name>
+          <briefdescription>
+<para>Snappy via nvCOMP Snappy variant (CPU: snappy library). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68baca0c64c0de8f56bc573828ea6d764594" prot="public">
+          <name>LZ4</name>
+          <briefdescription>
+<para>LZ4 with parallel GPU decompression (CPU: lz4 library). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Compression algorithm to use. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All three algorithms have a GPU-native path (nvCOMP / ROCm) and an equivalent CPU fallback so that code always compiles and works without any GPU hardware present. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="103" column="1" bodyfile="include/storage/gpu_compression.h" bodystart="103" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OnlineDDLPhase</name>
+        <qualifiedname>themis::storage::OnlineDDLPhase</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7aa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <briefdescription>
+<para>No migration is staged. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7ac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+<para>Operations have been staged, migrate() not yet called. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7aca69f96c768067fbff6c911ca87bccc9" prot="public">
+          <name>IN_PROGRESS</name>
+          <briefdescription>
+<para>Background migration thread is running. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7a6af03e66d770a160658b53d1ac9ce3f5" prot="public">
+          <name>APPLYING</name>
+          <briefdescription>
+<para>Final schema swap is being applied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+<para>All operations succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>One or more operations failed; see <ref refid="structthemis_1_1storage_1_1_migration_result_1abe375f4c5a1e1cf1af67baea3a60e722" kindref="member">MigrationResult::errors</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Phase of an online DDL operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Migrations progress through these phases in order: IDLE → PENDING → IN_PROGRESS → APPLYING → COMPLETED (or FAILED) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="39" column="1" bodyfile="include/storage/online_schema_migration.h" bodystart="39" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a58068b4ad0a9177ae8b13b712643358c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MigrationOpType</name>
+        <qualifiedname>themis::storage::MigrationOpType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a58068b4ad0a9177ae8b13b712643358ca085754241a5a382fa1d7ca6304a650fb" prot="public">
+          <name>ADD_COLUMN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a58068b4ad0a9177ae8b13b712643358cabda4d1d90c0d08f7869e6f28eb119998" prot="public">
+          <name>DROP_COLUMN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a58068b4ad0a9177ae8b13b712643358caaa9ac2a7e85dc20182329e263f970f7a" prot="public">
+          <name>RENAME_COLUMN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a58068b4ad0a9177ae8b13b712643358cad66ed062124d60b7c271d071d5c8aabd" prot="public">
+          <name>CHANGE_COLUMN_TYPE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a58068b4ad0a9177ae8b13b712643358ca7ffb4839d7b19d0974e03a899d6a865b" prot="public">
+          <name>ADD_INDEX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a58068b4ad0a9177ae8b13b712643358ca6a8a4ad5c06b4e464d6b2aef4af7afce" prot="public">
+          <name>DROP_INDEX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a58068b4ad0a9177ae8b13b712643358ca74296a5df3a9c2c7311fcece61c11835" prot="public">
+          <name>PARTITION_TABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type of a single DDL operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="51" column="1" bodyfile="include/storage/online_schema_migration.h" bodystart="51" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a4194226eca51b97edf53fd242ec136ea" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>FilterOp</name>
+        <qualifiedname>themis::storage::FilterOp</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a4194226eca51b97edf53fd242ec136eaa2dcbad7477fd40561e8b8198f173bd47" prot="public">
+          <name>EQ</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>equal </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a4194226eca51b97edf53fd242ec136eaadc33066c3993e0d50896e533fd692ce0" prot="public">
+          <name>NE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>not equal </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a4194226eca51b97edf53fd242ec136eaac562607189d77eb9dfb707464c1e7b0b" prot="public">
+          <name>LT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>less than </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a4194226eca51b97edf53fd242ec136eaacfe6055d2e0503be378bb63449ec7ba6" prot="public">
+          <name>LE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>less than or equal </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a4194226eca51b97edf53fd242ec136eaacd6a9bd2a175104eed40f0d33a8b4020" prot="public">
+          <name>GT</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>greater than </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a4194226eca51b97edf53fd242ec136eaaf803729628adf4199f224c2a225038e9" prot="public">
+          <name>GE</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>greater than or equal </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/simd_filter.h" line="26" column="1" bodyfile="include/storage/simd_filter.h" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a2a7ea5c8595efff1d92de948cb65ebe7" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>SIMDLevel</name>
+        <qualifiedname>themis::storage::SIMDLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a2a7ea5c8595efff1d92de948cb65ebe7a8f3d9a4b6a7b7f2c7afa61ca113d0db9" prot="public">
+          <name>SCALAR</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a2a7ea5c8595efff1d92de948cb65ebe7a19f383a5af4ef12feaa3acb6aba6b2c8" prot="public">
+          <name>SSE4</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a2a7ea5c8595efff1d92de948cb65ebe7acaf162e9233294cadf62d2a71a14ca09" prot="public">
+          <name>NEON</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>ARM NEON / AArch64 (4×i32, 2×i64, 4×f32, 2×f64 per iter). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a2a7ea5c8595efff1d92de948cb65ebe7aee6ecd3e091cdefd02e783f9b9869388" prot="public">
+          <name>AVX2</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a2a7ea5c8595efff1d92de948cb65ebe7a5f8acb5068c8c8db7b2a4069bd17d9fd" prot="public">
+          <name>AVX512</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Available SIMD levels (ascending capability order). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/simd_filter.h" line="40" column="1" bodyfile="include/storage/simd_filter.h" bodystart="40" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>StorageErrorCode</name>
+        <qualifiedname>themis::storage::StorageErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aace96995212afa8424323bebea90ebf0c" prot="public">
+          <name>WAL_WRITE_FAILED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>WAL write failed (I/O error, timeout, or disk full). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aaf296979cf039baa4f23e764068d0e581" prot="public">
+          <name>WAL_SEQUENCE_ERROR</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>WAL sequence number is non-monotonic (implementation bug). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9bba98ef8e9d6ba21c38206e323f92fd" prot="public">
+          <name>WAL_CORRUPTED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>WAL file is corrupted beyond recovery. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aad8b5ed74e48bb7fa6430b97d0801380d" prot="public">
+          <name>TRANSACTION_CONFLICT</name>
+          <initializer>= 100</initializer>
+          <briefdescription>
+<para>Write-write conflict detected; transaction must be retried. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2ab903f8a40bc6269f7d21ca6343f7be" prot="public">
+          <name>TRANSACTION_TIMEOUT</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+<para>Transaction exceeded kMvccMaxTransactionLifetime. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa87be193efc08b9ebbd4d9462adc0ddad" prot="public">
+          <name>VERSION_CHAIN_FULL</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+<para>MVCC version chain has reached kMvccMaxVersionsPerKey. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa1f14ca382a4431d278aba810e59070c1" prot="public">
+          <name>KEY_NOT_FOUND</name>
+          <initializer>= 103</initializer>
+          <briefdescription>
+<para>Read attempted on a key that does not exist (not found). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aafd7ff252215c3ea5e5e5b047b3ad9821" prot="public">
+          <name>RECOVERY_TIMEOUT</name>
+          <initializer>= 200</initializer>
+          <briefdescription>
+<para>Recovery procedure did not complete within kRecoveryHardTimeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9c95f27f06d45e297578e07af65fdf91" prot="public">
+          <name>RECOVERY_INCOMPLETE</name>
+          <initializer>= 201</initializer>
+          <briefdescription>
+<para>Recovery completed but some WAL entries were partially written and discarded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa46a0a236c2516f889d1272e4dda2b58d" prot="public">
+          <name>CHECKPOINT_FAILED</name>
+          <initializer>= 202</initializer>
+          <briefdescription>
+<para>Checkpoint position in WAL is invalid or points past the WAL tail. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aaeddae59c7b87d29884f1478b107aa43f" prot="public">
+          <name>PITR_INVALID_TIMESTAMP</name>
+          <initializer>= 300</initializer>
+          <briefdescription>
+<para>Requested PITR timestamp is in the future or outside the retention window. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa833f06a05cdf3709d7cc81ab62bd83e3" prot="public">
+          <name>BACKUP_CORRUPTED</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+<para>Backup snapshot is corrupted or incomplete. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9b398b62604e996b474fa9dc9d4c162e" prot="public">
+          <name>BACKUP_LIMIT_EXCEEDED</name>
+          <initializer>= 302</initializer>
+          <briefdescription>
+<para>Maximum concurrent backup limit kMaxConcurrentBackups reached. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa023b5fe567c4856cd3260fc8aec88231" prot="public">
+          <name>RESTORE_FAILED</name>
+          <initializer>= 303</initializer>
+          <briefdescription>
+<para>Restore operation failed due to I/O or consistency error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aad37b13e23ff0d105bfae36e409cf924c" prot="public">
+          <name>TIERING_MIGRATION_FAILED</name>
+          <initializer>= 400</initializer>
+          <briefdescription>
+<para>Tier-migration operation failed; value remains in source tier. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aade4c91047dd20b9197f7f704c20cb0d2" prot="public">
+          <name>COMPACTION_ABORTED</name>
+          <initializer>= 401</initializer>
+          <briefdescription>
+<para>Compaction was aborted (e.g. due to I/O pressure or shutdown signal). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2c44c6a2b9b735053747bad5aef91e09" prot="public">
+          <name>STORAGE_EXHAUSTED</name>
+          <initializer>= 402</initializer>
+          <briefdescription>
+<para>Storage space has been exhausted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Operation succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 9999</initializer>
+          <briefdescription>
+<para>Unclassified internal storage error; always fail-safe (no data loss). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical error codes for the ThemisDB storage module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All storage operation failures MUST map to one of these codes before being returned to callers or emitted in metrics/audit events. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="190" column="1" bodyfile="include/storage/storage_api_contract.h" bodystart="190" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>ErrorSeverity</name>
+        <qualifiedname>themis::storage::ErrorSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>No error; operation succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Low severity: degraded performance or non-critical resources affected. Example: Tiering migration delays, non-critical index maintenance. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Medium severity: operation failure recoverable by retry or alternative path. Example: Transaction conflicts, transient backup limit exceeded. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>High severity: operation failure requiring operator action. Example: WAL write failure, storage exhausted, recovery incomplete. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Critical severity: durability threat or data integrity risk. Example: WAL corruption, backup corrupted, storage exhausted during recovery. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Severity classification for storage error incidents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to determine alerting strategy and operator action prioritization. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="42" column="1" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="42" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>ErrorIncidentType</name>
+        <qualifiedname>themis::storage::ErrorIncidentType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a77e8f4cb05d4131b38048e6be5772375" prot="public">
+          <name>RECOVERY_FAULT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Replay or recovery-related fault (torn WAL, timeout, checkpoint invalid). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260aaaf9718c4a4229cff8cf8da0d7eaab99" prot="public">
+          <name>STORAGE_PRESSURE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Storage capacity or quota exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260ad8b5ed74e48bb7fa6430b97d0801380d" prot="public">
+          <name>TRANSACTION_CONFLICT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Transaction-level conflict or constraint violation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260aa049cf6036bc109d6b063eff96141da4" prot="public">
+          <name>TIERING_FAILURE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Tiering or data migration failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a801591b353ba9181c5a67610b9bfed95" prot="public">
+          <name>MAINTENANCE_FAILURE</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Compaction or maintenance-related error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a9dec89826a289ba2e4b9c8f3487191e8" prot="public">
+          <name>BACKUP_FAILURE</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Backup or PITR-related error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a41fe214f5a65a8b12ece47d119bbff16" prot="public">
+          <name>CONCURRENCY_ISSUE</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>Concurrency or synchronization issue. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+<para>Unclassified or internal error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classification of storage error by incident type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to determine mitigation strategy and diagnostic scope. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_error_diagnostics.h" line="72" column="1" bodyfile="include/storage/storage_error_diagnostics.h" bodystart="72" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4b" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>PressureEscalationLevel</name>
+        <qualifiedname>themis::storage::PressureEscalationLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Utilization 0-75%: Normal operation, no pressure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Utilization 75-85%: Warning level; operator attention recommended. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba320f86f60f25459ba5550e000b2c3929" prot="public">
+          <name>ALERT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Utilization 85-95%: Alert level; compaction/archiving recommended. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Utilization 95-99%: Critical level; new writes may be rejected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4bac30a2ebffd3127f9dc4bb1cff2e29cea" prot="public">
+          <name>EXHAUSTED</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Utilization &gt;= 99%: Exhausted; all writes must be rejected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Storage pressure escalation levels for capacity constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maps percentage-based thresholds to operational alerts and recovery strategies. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="45" column="1" bodyfile="include/storage/storage_pressure_manager.h" bodystart="45" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cf" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>RecoveryFaultType</name>
+        <qualifiedname>themis::storage::RecoveryFaultType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa0c7156b60e218ffc716456f21a9d28d4" prot="public">
+          <name>TORN_WAL_ENTRY</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Partial entry at WAL tail (torn write); entry discarded, replay continues. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa85616a55008a70504f6969ceed24e7f9" prot="public">
+          <name>CHECKPOINT_INVALID</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Checkpoint sequence number is invalid or past WAL tail. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfafd7ff252215c3ea5e5e5b047b3ad9821" prot="public">
+          <name>RECOVERY_TIMEOUT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Recovery procedure exceeded kRecoveryHardTimeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa8c933016a8bf089f088d3ee04723fcc1" prot="public">
+          <name>WAL_FILE_CORRUPTED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>WAL file is corrupted (invalid magic, bad CRC, etc.). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfabf0c9e0776e409e943a11f69fa49c508" prot="public">
+          <name>WAL_READ_ERROR</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Unable to read WAL from persistent storage (I/O error). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa698f129c54613fc22b28b05ec32c3439" prot="public">
+          <name>REPLAY_ENTRY_FAILED</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Replay of a WAL entry failed (sequence error, application failure). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa85c595fb6605e08c22403dec2eac8ca3" prot="public">
+          <name>RECOVERY_RETRY_EXHAUSTED</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>Maximum recovery attempts exceeded without success. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classification of recovery faults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maps to scenarios described in storage API contract §3 (Recovery Contract). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_recovery_fault_handler.h" line="43" column="1" bodyfile="include/storage/storage_recovery_fault_handler.h" bodystart="43" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cda" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TensorRouteDecision</name>
+        <qualifiedname>themis::storage::TensorRouteDecision</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa125ff280b91715730da29dee7bc66da6" prot="public">
+          <name>LIFT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Compress fully to TT-format; serve all reads from <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine" kindref="compound">TensorNetworkStorageEngine</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa60cba2874369bd3790e14ea5f8a7bc58" prot="public">
+          <name>KEEP</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Keep in native format; no TT-compression. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa3bf07fe8ac3883060b1558113ba248d4" prot="public">
+          <name>HYBRID</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Store natively but maintain TT-shadow for similarity search. HNSW navigates first-core sketches; full reconstruction from native store. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="31" column="1" bodyfile="include/storage/tensor_router.h" bodystart="31" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StorageTierLevel</name>
+        <qualifiedname>themis::storage::StorageTierLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56eeac429fde8b1b986d42f84ba63dbfef6ac" prot="public">
+          <name>HOT</name>
+          <briefdescription>
+<para>NVMe / fastest local SSD. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56eea11523c55fca0d056eda7dbbe810490ca" prot="public">
+          <name>WARM</name>
+          <briefdescription>
+<para>SATA SSD or spinning disk. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56eea3f7ff4daa99912d1b0c8c64340edb9fb" prot="public">
+          <name>COLD</name>
+          <briefdescription>
+<para>Object storage or archive (slow, cheap). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Tier identity (maps to the physical location of a key&apos;s data). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="37" column="1" bodyfile="include/storage/tiered_storage.h" bodystart="37" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>QuantizationType</name>
+        <qualifiedname>themis::storage::QuantizationType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>No quantisation — store raw float32 cores. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbaee9d73311ff0658494edfff14c3ec1e3" prot="public">
+          <name>INT8</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Symmetric per-core INT8 (channel-wise scaling). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dba167c795dd4cb725ea2c7da144e1f8e54" prot="public">
+          <name>NF4</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Normal Float 4-bit (Dettmers 2023) — optimal for LLM weights. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Supported quantisation modes for TT-cores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="29" column="1" bodyfile="include/storage/tt_quantizer.h" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1storage_1a14ccd13be69b5b4515e68e290815df3e" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>DistanceMetric</name>
+        <qualifiedname>themis::storage::DistanceMetric</qualifiedname>
+        <enumvalue id="namespacethemis_1_1storage_1a14ccd13be69b5b4515e68e290815df3ea7e6aa2d53f6ee2b1a34b017fa403cb76" prot="public">
+          <name>L2</name>
+          <briefdescription>
+<para>Euclidean distance (L2 norm squared). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a14ccd13be69b5b4515e68e290815df3eaf631bca16207bd2c79fca06f9f1875e0" prot="public">
+          <name>DOT_PRODUCT</name>
+          <briefdescription>
+<para>Inner (dot) product. For true cosine similarity pre-normalise vectors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1storage_1a14ccd13be69b5b4515e68e290815df3eae66ba018ef96aa5c78c8fba787f43717" prot="public">
+          <name>COSINE</name>
+          <briefdescription>
+<para>Cosine similarity: vectors are normalised internally. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Distance metric used by the vector index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="31" column="1" bodyfile="include/storage/vector_index_backend.h" bodystart="31" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1storage_1a365a225413396039b859e230686dd0a5" prot="public" static="no">
+        <type>std::pair&lt; std::chrono::system_clock::time_point, uint64_t &gt;</type>
+        <definition>using themis::storage::AccessEntry = std::pair&lt;std::chrono::system_clock::time_point, uint64_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>AccessEntry</name>
+        <qualifiedname>themis::storage::AccessEntry</qualifiedname>
+        <briefdescription>
+<para>Per-field access time-series entry: (timestamp, read_count). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="33" column="1" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1storage_1aa5362385bfc0f6b7c1e3297b95a2d999" prot="public" static="no">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="namespacethemis_1_1storage_1a365a225413396039b859e230686dd0a5" kindref="member">AccessEntry</ref> &gt; &gt;</type>
+        <definition>using themis::storage::SchemaAccessStats = std::map&lt;std::string, std::vector&lt;AccessEntry&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>SchemaAccessStats</name>
+        <qualifiedname>themis::storage::SchemaAccessStats</qualifiedname>
+        <briefdescription>
+<para>Access statistics for all fields / collections in the schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Key: fully-qualified field path, e.g. &quot;orders.user_id&quot; or &quot;users.email&quot;. <ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref>: chronologically ordered access log. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="39" column="1" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1storage_1a23d82089ae7563b599ffaec8df805dab" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::storage::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::storage::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/nlp_metadata_extractor.cpp" line="22" column="1" bodyfile="src/storage/nlp_metadata_extractor.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1storage_1abed4e498ff37a55a4a82c6eda1c142e4" prot="public" static="no">
+        <type>std::ptrdiff_t</type>
+        <definition>using themis::storage::themis_zc_ssize_t = std::ptrdiff_t</definition>
+        <argsstring></argsstring>
+        <name>themis_zc_ssize_t</name>
+        <qualifiedname>themis::storage::themis_zc_ssize_t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/zero_copy_blob_transfer.cpp" line="192" column="1" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a2e4390be2b48af9b945c690b7d822813" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::storage::kWalMagic</definition>
+        <argsstring></argsstring>
+        <name>kWalMagic</name>
+        <qualifiedname>themis::storage::kWalMagic</qualifiedname>
+        <initializer>= 0xDBAB1234U</initializer>
+        <briefdescription>
+<para>Magic marker at the start of every WAL entry (little-endian 0xDBAB1234). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="70" column="32" bodyfile="include/storage/storage_api_contract.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a6261c9c2bc927be575c9acdd3f12d796" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::kWalMaxEntryBytes</definition>
+        <argsstring></argsstring>
+        <name>kWalMaxEntryBytes</name>
+        <qualifiedname>themis::storage::kWalMaxEntryBytes</qualifiedname>
+        <initializer>= 256 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum single WAL entry payload size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>256 MiB. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="73" column="30" bodyfile="include/storage/storage_api_contract.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a09161d2e28c3b00392a5b079f6b83194" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::kWalCheckpointInterval</definition>
+        <argsstring></argsstring>
+        <name>kWalCheckpointInterval</name>
+        <qualifiedname>themis::storage::kWalCheckpointInterval</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of WAL entries between forced checkpoints. Implementations MUST trigger a checkpoint when this limit is reached. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="77" column="32" bodyfile="include/storage/storage_api_contract.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a29943400bf9672bb9ce48c69cba84f26" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::storage::kWalWriteHardTimeout</definition>
+        <argsstring></argsstring>
+        <name>kWalWriteHardTimeout</name>
+        <qualifiedname>themis::storage::kWalWriteHardTimeout</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Hard timeout for a WAL write operation. Writes that exceed this return WAL_WRITE_FAILED rather than blocking indefinitely. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="81" column="44" bodyfile="include/storage/storage_api_contract.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1ab2c6ad4f8fe7f0afff456d42d0ca03fa" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::kMvccMaxConcurrentTransactions</definition>
+        <argsstring></argsstring>
+        <name>kMvccMaxConcurrentTransactions</name>
+        <qualifiedname>themis::storage::kMvccMaxConcurrentTransactions</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+<para>Maximum concurrent read-write transactions per storage engine instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="105" column="22" bodyfile="include/storage/storage_api_contract.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a1a723cb74a4f342b090b85daf1b414af" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::kMvccMaxVersionsPerKey</definition>
+        <argsstring></argsstring>
+        <name>kMvccMaxVersionsPerKey</name>
+        <qualifiedname>themis::storage::kMvccMaxVersionsPerKey</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+<para>Maximum number of MVCC versions retained per key before forced compaction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="108" column="22" bodyfile="include/storage/storage_api_contract.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a08a609544ba33f1860106d7bb7973e1c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::storage::kMvccMaxTransactionLifetime</definition>
+        <argsstring></argsstring>
+        <name>kMvccMaxTransactionLifetime</name>
+        <qualifiedname>themis::storage::kMvccMaxTransactionLifetime</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum transaction lifetime. Transactions open beyond this duration are automatically rolled back with TRANSACTION_TIMEOUT. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="112" column="39" bodyfile="include/storage/storage_api_contract.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1afe5c1d0395f6c985373d75302e5892cc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::storage::kRecoveryHardTimeout</definition>
+        <argsstring></argsstring>
+        <name>kRecoveryHardTimeout</name>
+        <qualifiedname>themis::storage::kRecoveryHardTimeout</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>Maximum time the recovery procedure may run before RECOVERY_TIMEOUT is raised. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="131" column="39" bodyfile="include/storage/storage_api_contract.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1aee43767a31711106a6a9ae6edf48bb6e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::storage::kBackupMinRetention</definition>
+        <argsstring></argsstring>
+        <name>kBackupMinRetention</name>
+        <qualifiedname>themis::storage::kBackupMinRetention</qualifiedname>
+        <initializer>{24 * 7}</initializer>
+        <briefdescription>
+<para>Minimum backup retention window guaranteed by the engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>7 days. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="153" column="37" bodyfile="include/storage/storage_api_contract.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1adaf954e285073f157e5718c19a30ab04" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::kMaxConcurrentBackups</definition>
+        <argsstring></argsstring>
+        <name>kMaxConcurrentBackups</name>
+        <qualifiedname>themis::storage::kMaxConcurrentBackups</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Maximum number of concurrent backup operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="156" column="22" bodyfile="include/storage/storage_api_contract.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a3dc2492a84d9fa0bb21b3ce61e493b02" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::storage::kTieringMigrationTimeout</definition>
+        <argsstring></argsstring>
+        <name>kTieringMigrationTimeout</name>
+        <qualifiedname>themis::storage::kTieringMigrationTimeout</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Maximum time a tier-migration operation may run before it is abandoned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="175" column="39" bodyfile="include/storage/storage_api_contract.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a7e3d920eaf9eabb3712b61c8a4d778a1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ZERO_COPY_MMAP_THRESHOLD_BYTES</definition>
+        <argsstring></argsstring>
+        <name>ZERO_COPY_MMAP_THRESHOLD_BYTES</name>
+        <qualifiedname>themis::storage::ZERO_COPY_MMAP_THRESHOLD_BYTES</qualifiedname>
+        <initializer>= 4LL * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Threshold above which memory-mapped reads are preferred (4 MB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="26" column="26" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a77844f7497372cb69db4772e7afd8f5a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::S3_MULTIPART_MIN_PART_BYTES</definition>
+        <argsstring></argsstring>
+        <name>S3_MULTIPART_MIN_PART_BYTES</name>
+        <qualifiedname>themis::storage::S3_MULTIPART_MIN_PART_BYTES</qualifiedname>
+        <initializer>= 5LL * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Minimum S3 multipart part size (5 MB — S3 lower bound). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="31" column="26" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a9a9afdce3a045a0ae84d6cc465375b27" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::kIvLen</definition>
+        <argsstring></argsstring>
+        <name>kIvLen</name>
+        <qualifiedname>themis::storage::kIvLen</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+<para>GCM recommended 96-bit IV. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/encrypted_blob_backend.cpp" line="33" column="22" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1ad5c0501cca8e7aecfaf98b34d128539e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::kTagLen</definition>
+        <argsstring></argsstring>
+        <name>kTagLen</name>
+        <qualifiedname>themis::storage::kTagLen</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>GCM authentication tag (128-bit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/encrypted_blob_backend.cpp" line="34" column="22" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a6800a211464fcc5c4f7f49e220569c4a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::kLz4HeaderSize</definition>
+        <argsstring></argsstring>
+        <name>kLz4HeaderSize</name>
+        <qualifiedname>themis::storage::kLz4HeaderSize</qualifiedname>
+        <initializer>= sizeof(uint64_t)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/gpu_compression.cpp" line="1658" column="25" bodyfile="src/storage/gpu_compression.cpp" bodystart="1658" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a1d2bceca9d8b285b2fd00d2abf89015f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::pair&lt; <ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref>, <ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296" kindref="member">ErrorSeverity</ref> &gt;</type>
+        <definition>std::pair&lt;StorageErrorCode, ErrorSeverity&gt; themis::storage::kErrorSeverityMap[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kErrorSeverityMap</name>
+        <qualifiedname>themis::storage::kErrorSeverityMap</qualifiedname>
+        <briefdescription>
+<para>Map <ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref> to default severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="62" column="28" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="62" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1ac06a584c5c5dcd68206eb56708556425" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::pair&lt; <ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref>, <ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260" kindref="member">ErrorIncidentType</ref> &gt;</type>
+        <definition>std::pair&lt;StorageErrorCode, ErrorIncidentType&gt; themis::storage::kErrorIncidentMap[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kErrorIncidentMap</name>
+        <qualifiedname>themis::storage::kErrorIncidentMap</qualifiedname>
+        <briefdescription>
+<para>Map <ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref> to incident type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="105" column="28" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="105" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a0d995890d48b99c41cca8737b2fbf873" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::pair&lt; <ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref>, const char * &gt;</type>
+        <definition>std::pair&lt;StorageErrorCode, const char*&gt; themis::storage::kErrorNames[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kErrorNames</name>
+        <qualifiedname>themis::storage::kErrorNames</qualifiedname>
+        <initializer>                                       = {
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">StorageErrorCode::OK</ref>, &quot;OK&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aace96995212afa8424323bebea90ebf0c" kindref="member">StorageErrorCode::WAL_WRITE_FAILED</ref>, &quot;WAL_WRITE_FAILED&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aaf296979cf039baa4f23e764068d0e581" kindref="member">StorageErrorCode::WAL_SEQUENCE_ERROR</ref>, &quot;WAL_SEQUENCE_ERROR&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9bba98ef8e9d6ba21c38206e323f92fd" kindref="member">StorageErrorCode::WAL_CORRUPTED</ref>, &quot;WAL_CORRUPTED&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aad8b5ed74e48bb7fa6430b97d0801380d" kindref="member">StorageErrorCode::TRANSACTION_CONFLICT</ref>, &quot;TRANSACTION_CONFLICT&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2ab903f8a40bc6269f7d21ca6343f7be" kindref="member">StorageErrorCode::TRANSACTION_TIMEOUT</ref>, &quot;TRANSACTION_TIMEOUT&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa87be193efc08b9ebbd4d9462adc0ddad" kindref="member">StorageErrorCode::VERSION_CHAIN_FULL</ref>, &quot;VERSION_CHAIN_FULL&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa1f14ca382a4431d278aba810e59070c1" kindref="member">StorageErrorCode::KEY_NOT_FOUND</ref>, &quot;KEY_NOT_FOUND&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aafd7ff252215c3ea5e5e5b047b3ad9821" kindref="member">StorageErrorCode::RECOVERY_TIMEOUT</ref>, &quot;RECOVERY_TIMEOUT&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9c95f27f06d45e297578e07af65fdf91" kindref="member">StorageErrorCode::RECOVERY_INCOMPLETE</ref>, &quot;RECOVERY_INCOMPLETE&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa46a0a236c2516f889d1272e4dda2b58d" kindref="member">StorageErrorCode::CHECKPOINT_FAILED</ref>, &quot;CHECKPOINT_FAILED&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aaeddae59c7b87d29884f1478b107aa43f" kindref="member">StorageErrorCode::PITR_INVALID_TIMESTAMP</ref>, &quot;PITR_INVALID_TIMESTAMP&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa833f06a05cdf3709d7cc81ab62bd83e3" kindref="member">StorageErrorCode::BACKUP_CORRUPTED</ref>, &quot;BACKUP_CORRUPTED&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9b398b62604e996b474fa9dc9d4c162e" kindref="member">StorageErrorCode::BACKUP_LIMIT_EXCEEDED</ref>, &quot;BACKUP_LIMIT_EXCEEDED&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa023b5fe567c4856cd3260fc8aec88231" kindref="member">StorageErrorCode::RESTORE_FAILED</ref>, &quot;RESTORE_FAILED&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aad37b13e23ff0d105bfae36e409cf924c" kindref="member">StorageErrorCode::TIERING_MIGRATION_FAILED</ref>, &quot;TIERING_MIGRATION_FAILED&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aade4c91047dd20b9197f7f704c20cb0d2" kindref="member">StorageErrorCode::COMPACTION_ABORTED</ref>, &quot;COMPACTION_ABORTED&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2c44c6a2b9b735053747bad5aef91e09" kindref="member">StorageErrorCode::STORAGE_EXHAUSTED</ref>, &quot;STORAGE_EXHAUSTED&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aae8c0c70879b5895c615677261d64a1ee" kindref="member">StorageErrorCode::INTERNAL_ERROR</ref>, &quot;INTERNAL_ERROR&quot;},
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="145" column="28" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="145" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1ac11eaade0cc22c20050c70050f51b120" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::pair&lt; <ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref>, const char * &gt;</type>
+        <definition>std::pair&lt;StorageErrorCode, const char*&gt; themis::storage::kErrorDescriptions[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kErrorDescriptions</name>
+        <qualifiedname>themis::storage::kErrorDescriptions</qualifiedname>
+        <initializer>                                              = {
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">StorageErrorCode::OK</ref>, &quot;Operation succeeded&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aace96995212afa8424323bebea90ebf0c" kindref="member">StorageErrorCode::WAL_WRITE_FAILED</ref>, &quot;Write-Ahead Log write failed (I/O error, timeout, or disk full)&quot;},
+    {StorageErrorCode::WAL_SEQUENCE_ERROR, &quot;WAL sequence number is non-monotonic (implementation bug)&quot;},
+    {StorageErrorCode::WAL_CORRUPTED, &quot;WAL file is corrupted beyond recovery&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aad8b5ed74e48bb7fa6430b97d0801380d" kindref="member">StorageErrorCode::TRANSACTION_CONFLICT</ref>, &quot;Write-write conflict detected; <ref refid="namespacethemis_1_1transaction" kindref="compound">transaction</ref> must be retried&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2ab903f8a40bc6269f7d21ca6343f7be" kindref="member">StorageErrorCode::TRANSACTION_TIMEOUT</ref>, &quot;Transaction exceeded maximum lifetime&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa87be193efc08b9ebbd4d9462adc0ddad" kindref="member">StorageErrorCode::VERSION_CHAIN_FULL</ref>, &quot;MVCC version chain reached maximum length per key&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa1f14ca382a4431d278aba810e59070c1" kindref="member">StorageErrorCode::KEY_NOT_FOUND</ref>, &quot;Requested key does not exist&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aafd7ff252215c3ea5e5e5b047b3ad9821" kindref="member">StorageErrorCode::RECOVERY_TIMEOUT</ref>, &quot;Recovery procedure exceeded timeout&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9c95f27f06d45e297578e07af65fdf91" kindref="member">StorageErrorCode::RECOVERY_INCOMPLETE</ref>, &quot;Recovery completed with partial WAL entries discarded&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa46a0a236c2516f889d1272e4dda2b58d" kindref="member">StorageErrorCode::CHECKPOINT_FAILED</ref>, &quot;Checkpoint position is invalid or past WAL tail&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aaeddae59c7b87d29884f1478b107aa43f" kindref="member">StorageErrorCode::PITR_INVALID_TIMESTAMP</ref>, &quot;PITR timestamp is in future or outside retention window&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa833f06a05cdf3709d7cc81ab62bd83e3" kindref="member">StorageErrorCode::BACKUP_CORRUPTED</ref>, &quot;Backup snapshot is corrupted or incomplete&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9b398b62604e996b474fa9dc9d4c162e" kindref="member">StorageErrorCode::BACKUP_LIMIT_EXCEEDED</ref>, &quot;Maximum concurrent backup limit reached&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa023b5fe567c4856cd3260fc8aec88231" kindref="member">StorageErrorCode::RESTORE_FAILED</ref>, &quot;Restore operation failed due to I/O or consistency error&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aad37b13e23ff0d105bfae36e409cf924c" kindref="member">StorageErrorCode::TIERING_MIGRATION_FAILED</ref>, &quot;Tier-migration operation failed; value remains in source tier&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aade4c91047dd20b9197f7f704c20cb0d2" kindref="member">StorageErrorCode::COMPACTION_ABORTED</ref>, &quot;Compaction was aborted (I/O pressure or shutdown signal)&quot;},
+    {StorageErrorCode::STORAGE_EXHAUSTED, &quot;Storage space has been exhausted&quot;},
+    {<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aae8c0c70879b5895c615677261d64a1ee" kindref="member">StorageErrorCode::INTERNAL_ERROR</ref>, &quot;Unclassified internal <ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref> error&quot;},
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="167" column="28" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="167" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1af204a68d88e811096637cb0728388d42" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::pair&lt; <ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260" kindref="member">ErrorIncidentType</ref>, const char * &gt;</type>
+        <definition>std::pair&lt;ErrorIncidentType, const char*&gt; themis::storage::kIncidentTypeNames[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kIncidentTypeNames</name>
+        <qualifiedname>themis::storage::kIncidentTypeNames</qualifiedname>
+        <initializer>                                              = {
+    {<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a77e8f4cb05d4131b38048e6be5772375" kindref="member">ErrorIncidentType::RECOVERY_FAULT</ref>, &quot;RECOVERY_FAULT&quot;},
+    {<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260aaaf9718c4a4229cff8cf8da0d7eaab99" kindref="member">ErrorIncidentType::STORAGE_PRESSURE</ref>, &quot;STORAGE_PRESSURE&quot;},
+    {<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260ad8b5ed74e48bb7fa6430b97d0801380d" kindref="member">ErrorIncidentType::TRANSACTION_CONFLICT</ref>, &quot;TRANSACTION_CONFLICT&quot;},
+    {<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260aa049cf6036bc109d6b063eff96141da4" kindref="member">ErrorIncidentType::TIERING_FAILURE</ref>, &quot;TIERING_FAILURE&quot;},
+    {<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a801591b353ba9181c5a67610b9bfed95" kindref="member">ErrorIncidentType::MAINTENANCE_FAILURE</ref>, &quot;MAINTENANCE_FAILURE&quot;},
+    {<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a9dec89826a289ba2e4b9c8f3487191e8" kindref="member">ErrorIncidentType::BACKUP_FAILURE</ref>, &quot;BACKUP_FAILURE&quot;},
+    {<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a41fe214f5a65a8b12ece47d119bbff16" kindref="member">ErrorIncidentType::CONCURRENCY_ISSUE</ref>, &quot;CONCURRENCY_ISSUE&quot;},
+    {<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260ae8c0c70879b5895c615677261d64a1ee" kindref="member">ErrorIncidentType::INTERNAL_ERROR</ref>, &quot;INTERNAL_ERROR&quot;},
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="193" column="28" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="193" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1aea34464098b766766e5f0f658725f00d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::pair&lt; <ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296" kindref="member">ErrorSeverity</ref>, const char * &gt;</type>
+        <definition>std::pair&lt;ErrorSeverity, const char*&gt; themis::storage::kSeverityNames[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kSeverityNames</name>
+        <qualifiedname>themis::storage::kSeverityNames</qualifiedname>
+        <initializer>                                          = {
+    {<ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">ErrorSeverity::INFO</ref>, &quot;INFO&quot;},
+    {<ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">ErrorSeverity::LOW</ref>, &quot;LOW&quot;},
+    {<ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">ErrorSeverity::MEDIUM</ref>, &quot;MEDIUM&quot;},
+    {<ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ab89de3b4b81c4facfac906edf29aec8c" kindref="member">ErrorSeverity::HIGH</ref>, &quot;HIGH&quot;},
+    {<ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">ErrorSeverity::CRITICAL</ref>, &quot;CRITICAL&quot;},
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="208" column="28" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="208" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a44b0bf32e4307ca803cb01f5204f9831" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::S3_MULTIPART_MAX_PARTS</definition>
+        <argsstring></argsstring>
+        <name>S3_MULTIPART_MAX_PARTS</name>
+        <qualifiedname>themis::storage::S3_MULTIPART_MAX_PARTS</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/zero_copy_blob_transfer.cpp" line="66" column="26" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1storage_1a7300afdf2dc3c52db334c3149df82ae5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::S3_MULTIPART_MAX_PART_BYTES</definition>
+        <argsstring></argsstring>
+        <name>S3_MULTIPART_MAX_PART_BYTES</name>
+        <qualifiedname>themis::storage::S3_MULTIPART_MAX_PART_BYTES</qualifiedname>
+        <initializer>= 5LL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/zero_copy_blob_transfer.cpp" line="67" column="26" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a87e3845ce60ee3c0426a5d2ce8a5b736" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1storage_1_1_gpu_compression_manager" kindref="compound">GpuCompressionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; GpuCompressionManager &gt; themis::storage::create_gpu_compression_manager</definition>
+        <argsstring>(const GpuCompressionConfig &amp;config=GpuCompressionConfig{})</argsstring>
+        <name>create_gpu_compression_manager</name>
+        <qualifiedname>themis::storage::create_gpu_compression_manager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_gpu_compression_config" kindref="compound">GpuCompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1storage_1_1_gpu_compression_config" kindref="compound">GpuCompressionConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a <ref refid="classthemis_1_1storage_1_1_gpu_compression_manager" kindref="compound">GpuCompressionManager</ref> with the best available backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create gpu compression manager.</para>
+<para>Equivalent to constructing with <computeroutput><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">GpuAccelerationType::AUTO</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/gpu_compression.cpp" line="1961" column="17" bodyfile="src/storage/gpu_compression.cpp" bodystart="1961" bodyend="1965" declfile="include/storage/gpu_compression.h" declline="389" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a2f6ddaa4a31c9f7e165e86a9a628ddeb" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1a2a7ea5c8595efff1d92de948cb65ebe7" kindref="member">SIMDLevel</ref></type>
+        <definition>SIMDLevel themis::storage::detectSIMDLevel</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>detectSIMDLevel</name>
+        <qualifiedname>themis::storage::detectSIMDLevel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect the best available SIMD level at runtime. Returns NEON on AArch64, SSE4/AVX2/AVX512 on x86 when supported, SCALAR otherwise. Result is memoised after the first call. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/simd_filter.cpp" line="55" column="11" bodyfile="src/storage/simd_filter.cpp" bodystart="55" bodyend="101" declfile="include/storage/simd_filter.h" declline="51" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1ac2a68120b36b6e44b73bca4644a7e3ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::simd_filter_int32</definition>
+        <argsstring>(const int32_t *data, size_t n, FilterOp op, int32_t threshold, std::vector&lt; uint32_t &gt; &amp;out)</argsstring>
+        <name>simd_filter_int32</name>
+        <qualifiedname>themis::storage::simd_filter_int32</qualifiedname>
+        <param>
+          <type>const int32_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a4194226eca51b97edf53fd242ec136ea" kindref="member">FilterOp</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>threshold</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>out_indices</declname>
+          <defname>out</defname>
+        </param>
+        <briefdescription>
+<para>Simd filter int32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Filter a raw int32 data array. Writes the indices of matching rows into <computeroutput>out_indices</computeroutput> (appended). Returns the number of matching rows written.</para>
+<para>Uses AVX2 (8-way) or scalar path depending on <ref refid="namespacethemis_1_1storage_1a2f6ddaa4a31c9f7e165e86a9a628ddeb" kindref="member">detectSIMDLevel()</ref>. Graceful fallback: scalar path is always correct.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to contiguous int32 values. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of elements. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Comparison operator. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> to compare against. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_indices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output vector receiving matching row indices. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of matching rows appended.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), <ref refid="namespacethemis_1_1storage_1a2f6ddaa4a31c9f7e165e86a9a628ddeb" kindref="member">detectSIMDLevel()</ref>, avx2_filter_i32(), neon_filter_i32(), scalar_filter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/simd_filter.cpp" line="630" column="8" bodyfile="src/storage/simd_filter.cpp" bodystart="630" bodyend="646" declfile="include/storage/simd_filter.h" declline="70" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a41400e431ed43ddd350e8c2708e29373" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::simd_filter_int64</definition>
+        <argsstring>(const int64_t *data, size_t n, FilterOp op, int64_t threshold, std::vector&lt; uint32_t &gt; &amp;out)</argsstring>
+        <name>simd_filter_int64</name>
+        <qualifiedname>themis::storage::simd_filter_int64</qualifiedname>
+        <param>
+          <type>const int64_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a4194226eca51b97edf53fd242ec136ea" kindref="member">FilterOp</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>threshold</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>out_indices</declname>
+          <defname>out</defname>
+        </param>
+        <briefdescription>
+<para>Simd filter int64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Filter a raw int64 data array. Same contract as simd_filter_int32.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), <ref refid="namespacethemis_1_1storage_1a2f6ddaa4a31c9f7e165e86a9a628ddeb" kindref="member">detectSIMDLevel()</ref>, avx2_filter_i64(), neon_filter_i64(), scalar_filter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/simd_filter.cpp" line="658" column="8" bodyfile="src/storage/simd_filter.cpp" bodystart="658" bodyend="674" declfile="include/storage/simd_filter.h" declline="78" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a7e2344e2b1caf08b5c464fda56879d37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::simd_filter_float</definition>
+        <argsstring>(const float *data, size_t n, FilterOp op, float threshold, std::vector&lt; uint32_t &gt; &amp;out)</argsstring>
+        <name>simd_filter_float</name>
+        <qualifiedname>themis::storage::simd_filter_float</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a4194226eca51b97edf53fd242ec136ea" kindref="member">FilterOp</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>out_indices</declname>
+          <defname>out</defname>
+        </param>
+        <briefdescription>
+<para>Simd filter float. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Filter a raw float (float32) data array. Same contract as simd_filter_int32.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), <ref refid="namespacethemis_1_1storage_1a2f6ddaa4a31c9f7e165e86a9a628ddeb" kindref="member">detectSIMDLevel()</ref>, avx2_filter_f32(), neon_filter_f32(), scalar_filter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/simd_filter.cpp" line="686" column="8" bodyfile="src/storage/simd_filter.cpp" bodystart="686" bodyend="702" declfile="include/storage/simd_filter.h" declline="86" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1ad932d000d67193a0c56ec395e75ef15e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::simd_filter_double</definition>
+        <argsstring>(const double *data, size_t n, FilterOp op, double threshold, std::vector&lt; uint32_t &gt; &amp;out)</argsstring>
+        <name>simd_filter_double</name>
+        <qualifiedname>themis::storage::simd_filter_double</qualifiedname>
+        <param>
+          <type>const double *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a4194226eca51b97edf53fd242ec136ea" kindref="member">FilterOp</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>out_indices</declname>
+          <defname>out</defname>
+        </param>
+        <briefdescription>
+<para>Simd filter double. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Filter a raw double (float64) data array. Same contract as simd_filter_int32.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), <ref refid="namespacethemis_1_1storage_1a2f6ddaa4a31c9f7e165e86a9a628ddeb" kindref="member">detectSIMDLevel()</ref>, avx2_filter_f64(), neon_filter_f64(), scalar_filter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/simd_filter.cpp" line="714" column="8" bodyfile="src/storage/simd_filter.cpp" bodystart="714" bodyend="730" declfile="include/storage/simd_filter.h" declline="94" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1afb6fffc0cb8309ca619d816d3113c936" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::isDurabilityThreat</definition>
+        <argsstring>(StorageErrorCode code) noexcept</argsstring>
+        <name>isDurabilityThreat</name>
+        <qualifiedname>themis::storage::isDurabilityThreat</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when <computeroutput>code</computeroutput> represents a durability-threatening failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Durability-threatening codes mandate immediate operator alert and MUST NOT be silently retried: WAL_WRITE_FAILED, WAL_CORRUPTED, STORAGE_EXHAUSTED. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="252" column="24" bodyfile="include/storage/storage_api_contract.h" bodystart="252" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1af967ff9c87da84e45cb65d1673e3e1b1" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::isRetryableConflict</definition>
+        <argsstring>(StorageErrorCode code) noexcept</argsstring>
+        <name>isRetryableConflict</name>
+        <qualifiedname>themis::storage::isRetryableConflict</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when <computeroutput>code</computeroutput> is a transaction conflict that the caller SHOULD retry with exponential backoff. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_api_contract.h" line="263" column="24" bodyfile="include/storage/storage_api_contract.h" bodystart="263" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a51600a11601864efd79ed59e3efd7012" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_storage_error_context" kindref="compound">StorageErrorContext</ref></type>
+        <definition>StorageErrorContext themis::storage::classifyErrorIncident</definition>
+        <argsstring>(StorageErrorCode code) noexcept</argsstring>
+        <name>classifyErrorIncident</name>
+        <qualifiedname>themis::storage::classifyErrorIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="260" column="21" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="260" bodyend="275" declfile="include/storage/storage_error_diagnostics.h" declline="164" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a3e5a7a6033f523941e77c823ae4197df" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+        <definition>StorageErrorCode themis::storage::mapErrorMessage</definition>
+        <argsstring>(std::string_view error_message) noexcept</argsstring>
+        <name>mapErrorMessage</name>
+        <qualifiedname>themis::storage::mapErrorMessage</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="277" column="18" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="277" bodyend="314" declfile="include/storage/storage_error_diagnostics.h" declline="182" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a54a466461f596fa64eb438f915d52183" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_storage_error_context" kindref="compound">StorageErrorContext</ref></type>
+        <definition>StorageErrorContext themis::storage::buildErrorContext</definition>
+        <argsstring>(StorageErrorCode code, std::string_view operation_context, std::string_view affected_resource=&quot;&quot;) noexcept</argsstring>
+        <name>buildErrorContext</name>
+        <qualifiedname>themis::storage::buildErrorContext</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>operation_context</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>affected_resource</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="316" column="21" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="316" bodyend="372" declfile="include/storage/storage_error_diagnostics.h" declline="209" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a8f71e1f506990732a8d3ae67e3c01bf8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::emitDiagnosticEvent</definition>
+        <argsstring>(const StorageErrorContext &amp;context) noexcept</argsstring>
+        <name>emitDiagnosticEvent</name>
+        <qualifiedname>themis::storage::emitDiagnosticEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_storage_error_context" kindref="compound">StorageErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="374" column="6" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="374" bodyend="397" declfile="include/storage/storage_error_diagnostics.h" declline="236" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1adac64a9234787d260cadd3acd1d38cac" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::emitRecoveryFaultEvent</definition>
+        <argsstring>(std::string_view fault_type, std::uint64_t affected_checkpoint_seq, std::uint64_t recovered_entries, std::string_view suggestion=&quot;&quot;) noexcept</argsstring>
+        <name>emitRecoveryFaultEvent</name>
+        <qualifiedname>themis::storage::emitRecoveryFaultEvent</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>fault_type</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>affected_checkpoint_seq</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>recovered_entries</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>suggestion</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Emit a recovery fault diagnostic event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Specialized event emitter for recovery-phase errors (torn WAL, checkpoint invalid, replay timeout). Includes recovery-specific metadata.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fault_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of the recovery fault (e.g., &quot;torn_wal_entry&quot;, &quot;checkpoint_invalid&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>affected_checkpoint_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sequence number of affected checkpoint </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recovered_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of successfully replayed entries before fault </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>suggestion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Recovery action for operator</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ref refid="structthemis_1_1storage_1_1_storage_error_context_1aa5bdffcb75affc51cd2665e1f91a1726" kindref="member">StorageErrorContext::recovery_suggestion</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="399" column="6" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="399" bodyend="413" declfile="include/storage/storage_error_diagnostics.h" declline="252" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1ab90d3766fdef4adb43455971b154ffc9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::emitStoragePressureEvent</definition>
+        <argsstring>(std::string_view pressure_type, std::uint64_t available_bytes, std::uint64_t required_bytes, int escalation_level=1) noexcept</argsstring>
+        <name>emitStoragePressureEvent</name>
+        <qualifiedname>themis::storage::emitStoragePressureEvent</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pressure_type</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>available_bytes</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>required_bytes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>escalation_level</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Emit a storage pressure event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Specialized event emitter for capacity-related errors (storage exhausted, backup limit exceeded, compaction backpressure).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pressure_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of pressure (e.g., &quot;disk_full&quot;, &quot;backup_limit&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>available_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Remaining capacity (0 if unknown) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Capacity requested by operation (0 if unknown) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>escalation_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current pressure level (1-5; 5 = critical) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="415" column="6" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="415" bodyend="433" declfile="include/storage/storage_error_diagnostics.h" declline="269" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a8f4cdbc1b48a6e2a81fec7453b0f0fde" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::storage::errorCodeName</definition>
+        <argsstring>(StorageErrorCode code) noexcept</argsstring>
+        <name>errorCodeName</name>
+        <qualifiedname>themis::storage::errorCodeName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Get human-readable name for an error code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Short descriptive name (e.g., &quot;WAL_WRITE_FAILED&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="435" column="18" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="435" bodyend="437" declfile="include/storage/storage_error_diagnostics.h" declline="285" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1ab784de5f4be846725985b732b04c8796" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::storage::errorCodeDescription</definition>
+        <argsstring>(StorageErrorCode code) noexcept</argsstring>
+        <name>errorCodeDescription</name>
+        <qualifiedname>themis::storage::errorCodeDescription</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Get human-readable description of an error code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Longer description suitable for operator dashboards (e.g., &quot;Write-Ahead Log write failed (I/O error, timeout, or disk full)&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="439" column="18" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="439" bodyend="441" declfile="include/storage/storage_error_diagnostics.h" declline="294" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a7080ad59ce8d0b5e6feb065b61db0b5b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::storage::incidentTypeName</definition>
+        <argsstring>(ErrorIncidentType type) noexcept</argsstring>
+        <name>incidentTypeName</name>
+        <qualifiedname>themis::storage::incidentTypeName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260" kindref="member">ErrorIncidentType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get human-readable name for an incident type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Incident type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Short descriptive name (e.g., &quot;RECOVERY_FAULT&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="443" column="18" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="443" bodyend="450" declfile="include/storage/storage_error_diagnostics.h" declline="302" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a469779c4fd6e2da45af656c2eed92917" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::storage::severityName</definition>
+        <argsstring>(ErrorSeverity severity) noexcept</argsstring>
+        <name>severityName</name>
+        <qualifiedname>themis::storage::severityName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296" kindref="member">ErrorSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <briefdescription>
+<para>Get human-readable name for a severity level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>severity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Severity level </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Short name (e.g., &quot;CRITICAL&quot;, &quot;HIGH&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="452" column="18" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="452" bodyend="459" declfile="include/storage/storage_error_diagnostics.h" declline="310" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a826bd938300c6fcbd26a44115780fe31" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::to_string</definition>
+        <argsstring>(TensorRouteDecision d) noexcept</argsstring>
+        <name>to_string</name>
+        <qualifiedname>themis::storage::to_string</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cda" kindref="member">TensorRouteDecision</ref></type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="92" column="13" bodyfile="src/storage/tensor_router.cpp" bodystart="92" bodyend="99" declfile="include/storage/tensor_router.h" declline="43" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1aa468a0a04a6b482772dbadc96d00b563" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::storage::hmacFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>hmacFnMutex</name>
+        <qualifiedname>themis::storage::hmacFnMutex</qualifiedname>
+        <briefdescription>
+<para>Hmac Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements hmacFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/gguf_metadata.cpp" line="233" column="19" bodyfile="src/storage/gguf_metadata.cpp" bodystart="233" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a773ad88a36ae47c85ae51864c2ba2995" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ae896716083f7c6a5dc9ec7a6c5d92d85" kindref="member">GGUFMetadata::HmacFn</ref> &amp;</type>
+        <definition>static GGUFMetadata::HmacFn &amp; themis::storage::hmacFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>hmacFnStorage</name>
+        <qualifiedname>themis::storage::hmacFnStorage</qualifiedname>
+        <briefdescription>
+<para>Hmac Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements hmacFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/gguf_metadata.cpp" line="239" column="29" bodyfile="src/storage/gguf_metadata.cpp" bodystart="239" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1ac32ba5e6273ffc352826c0a3fa899e9f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::storage::languageToCode</definition>
+        <argsstring>(NlpTextAnalyzer::Language lang)</argsstring>
+        <name>languageToCode</name>
+        <qualifiedname>themis::storage::languageToCode</qualifiedname>
+        <param>
+          <type>NlpTextAnalyzer::Language</type>
+          <declname>lang</declname>
+        </param>
+        <briefdescription>
+<para>Map analyzer Language enum to short code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lang</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements languageToCode without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/nlp_metadata_extractor.cpp" line="31" column="20" bodyfile="src/storage/nlp_metadata_extractor.cpp" bodystart="31" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1abaa32dc44afc68f801c1e6b98c248c90" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; spdlog::logger &gt;</type>
+        <definition>static std::shared_ptr&lt; spdlog::logger &gt; themis::storage::auditLogger</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>auditLogger</name>
+        <qualifiedname>themis::storage::auditLogger</qualifiedname>
+        <briefdescription>
+<para>Returns the &quot;storage.audit&quot; named spdlog logger, creating a stderr-colour sink on first call if the application has not already registered one. The logger is the structured event channel consumed by Prometheus exporters, Grafana dashboards, and the audit pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="43" column="24" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="43" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a02e17934849e30144261ab66c8997645" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296" kindref="member">ErrorSeverity</ref></type>
+        <definition>static ErrorSeverity themis::storage::lookupSeverity</definition>
+        <argsstring>(StorageErrorCode code) noexcept</argsstring>
+        <name>lookupSeverity</name>
+        <qualifiedname>themis::storage::lookupSeverity</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="220" column="23" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="220" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a1f67b43301f4d84c7f1bfddfb0dea5ee" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260" kindref="member">ErrorIncidentType</ref></type>
+        <definition>static ErrorIncidentType themis::storage::lookupIncidentType</definition>
+        <argsstring>(StorageErrorCode code) noexcept</argsstring>
+        <name>lookupIncidentType</name>
+        <qualifiedname>themis::storage::lookupIncidentType</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="229" column="27" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="229" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1ae6b2ca12d7ea624acfc07fa93ca6cefc" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::storage::lookupErrorName</definition>
+        <argsstring>(StorageErrorCode code) noexcept</argsstring>
+        <name>lookupErrorName</name>
+        <qualifiedname>themis::storage::lookupErrorName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="238" column="26" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="238" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a9eaaa0b51adf8213eb8717a77d715ce3" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::storage::lookupErrorDescription</definition>
+        <argsstring>(StorageErrorCode code) noexcept</argsstring>
+        <name>lookupErrorDescription</name>
+        <qualifiedname>themis::storage::lookupErrorDescription</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_error_diagnostics.cpp" line="247" column="26" bodyfile="src/storage/storage_error_diagnostics.cpp" bodystart="247" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a3456ec6d1b005605ca734baeb6d4d4e0" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4b" kindref="member">PressureEscalationLevel</ref></type>
+        <definition>PressureEscalationLevel themis::storage::classifyPressureLevel</definition>
+        <argsstring>(double utilization_percent) noexcept</argsstring>
+        <name>classifyPressureLevel</name>
+        <qualifiedname>themis::storage::classifyPressureLevel</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>utilization_percent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_pressure_manager.cpp" line="32" column="26" bodyfile="src/storage/storage_pressure_manager.cpp" bodystart="32" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a8c0d56c00d1857067a41d24b1abc8473" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref></type>
+        <definition>static RecoveryFaultReport themis::storage::buildFaultReport</definition>
+        <argsstring>(RecoveryFaultType fault_type, StorageErrorCode error_code, std::uint64_t checkpoint_seq, std::uint64_t recovery_start_seq, std::uint64_t fault_seq, std::uint64_t entries_replayed, std::string_view fault_message, std::string_view recovery_suggestion, bool is_retryable, bool should_stop_recovery) noexcept</argsstring>
+        <name>buildFaultReport</name>
+        <qualifiedname>themis::storage::buildFaultReport</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cf" kindref="member">RecoveryFaultType</ref></type>
+          <declname>fault_type</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>checkpoint_seq</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>recovery_start_seq</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>fault_seq</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>entries_replayed</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>fault_message</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>recovery_suggestion</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_retryable</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>should_stop_recovery</declname>
+        </param>
+        <briefdescription>
+<para>Helper to construct a <ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref> with common fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_recovery_fault_handler.cpp" line="34" column="28" bodyfile="src/storage/storage_recovery_fault_handler.cpp" bodystart="34" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a00b09db7ed5d709f3b821cc70bbf7a27" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::storage::rawMetaKey</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>rawMetaKey</name>
+        <qualifiedname>themis::storage::rawMetaKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Raw Meta Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements rawMetaKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_network_storage_engine.cpp" line="652" column="20" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="652" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1aca0f48afc95fb26901d5674cdb2d4b83" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::storage::themis_zc_open_read_only</definition>
+        <argsstring>(const char *)</argsstring>
+        <name>themis_zc_open_read_only</name>
+        <qualifiedname>themis::storage::themis_zc_open_read_only</qualifiedname>
+        <param>
+          <type>const char *</type>
+        </param>
+        <briefdescription>
+<para>Themis zc open read only. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements themis_zc_open_read_only without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/zero_copy_blob_transfer.cpp" line="199" column="12" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="199" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a9e829ef521139769eff5e16f92555e76" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1abed4e498ff37a55a4a82c6eda1c142e4" kindref="member">themis_zc_ssize_t</ref></type>
+        <definition>static themis_zc_ssize_t themis::storage::themis_zc_write_fd</definition>
+        <argsstring>(int, const void *, size_t)</argsstring>
+        <name>themis_zc_write_fd</name>
+        <qualifiedname>themis::storage::themis_zc_write_fd</qualifiedname>
+        <param>
+          <type>int</type>
+        </param>
+        <param>
+          <type>const void *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <briefdescription>
+<para>Themis zc write fd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements themis_zc_write_fd without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/zero_copy_blob_transfer.cpp" line="210" column="26" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="210" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a22adc4b61a7fa4211d6bb32b122908fe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::storage::zc_write_all</definition>
+        <argsstring>(int fd, const void *data, size_t len)</argsstring>
+        <name>zc_write_all</name>
+        <qualifiedname>themis::storage::zc_write_all</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Zc write all. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: themis_zc_write_fd(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/zero_copy_blob_transfer.cpp" line="223" column="13" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="223" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a276cd26c30332ac57a7553faa55f80a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; int64_t &gt;</type>
+        <definition>static Result&lt; int64_t &gt; themis::storage::zc_file_size_as_int64</definition>
+        <argsstring>(const std::string &amp;source_path, const char *operation)</argsstring>
+        <name>zc_file_size_as_int64</name>
+        <qualifiedname>themis::storage::zc_file_size_as_int64</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+<para>Zc file size as int64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::file_size(), std::string(), max(), Ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/zero_copy_blob_transfer.cpp" line="249" column="15" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="249" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1ad5ac2d1f2b6d4f2f2869ae5479d804a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(Wave3a_ColumnSegmentDecode, DictionaryCodecDecodeReturnsError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>Wave3a_ColumnSegmentDecode</type>
+        </param>
+        <param>
+          <type>DictionaryCodecDecodeReturnsError</type>
+        </param>
+        <briefdescription>
+<para>DICTIONARY codec returns ERR_CODEC_NOT_AVAILABLE from decode(), not silent OK. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave3a_critical_fixes.cpp" line="33" column="1" bodyfile="tests/storage/test_wave3a_critical_fixes.cpp" bodystart="33" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1ac69b110d96a55e961b044342b4d5e6ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(Wave3a_ColumnSegmentDecode, RleInt32RoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>Wave3a_ColumnSegmentDecode</type>
+        </param>
+        <param>
+          <type>RleInt32RoundTrip</type>
+        </param>
+        <briefdescription>
+<para>RLE round-trip: encode then decode restores original INT32 data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave3a_critical_fixes.cpp" line="75" column="1" bodyfile="tests/storage/test_wave3a_critical_fixes.cpp" bodystart="75" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1aeb0c54967fb5cd0320047a3e2bc5dbc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(Wave3a_ColumnSegmentDecode, BitPackingInt64RoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>Wave3a_ColumnSegmentDecode</type>
+        </param>
+        <param>
+          <type>BitPackingInt64RoundTrip</type>
+        </param>
+        <briefdescription>
+<para>BIT_PACKING round-trip: encode then decode restores original INT64 data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave3a_critical_fixes.cpp" line="98" column="1" bodyfile="tests/storage/test_wave3a_critical_fixes.cpp" bodystart="98" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a529f8b2cbf2907bcfa8bb2df5528d1bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(Wave3a_ColumnSegmentDecode, FrameOfRefInt32RoundTrip)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>Wave3a_ColumnSegmentDecode</type>
+        </param>
+        <param>
+          <type>FrameOfRefInt32RoundTrip</type>
+        </param>
+        <briefdescription>
+<para>FRAME_OF_REF round-trip. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave3a_critical_fixes.cpp" line="117" column="1" bodyfile="tests/storage/test_wave3a_critical_fixes.cpp" bodystart="117" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a58bf74f4abb956afd59dfffce7e58496" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(Wave3a_ColumnSegmentDecode, DecodeIdempotent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>Wave3a_ColumnSegmentDecode</type>
+        </param>
+        <param>
+          <type>DecodeIdempotent</type>
+        </param>
+        <briefdescription>
+<para>decode() on an already-decoded segment is idempotent and returns OK. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave3a_critical_fixes.cpp" line="136" column="1" bodyfile="tests/storage/test_wave3a_critical_fixes.cpp" bodystart="136" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a3dd98a6bd2508b74a87c7c1320e74ece" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(Wave3a_BackupManager, EncryptFileNoOpenSSL_CompilesToFailClosed)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>Wave3a_BackupManager</type>
+        </param>
+        <param>
+          <type>EncryptFileNoOpenSSL_CompilesToFailClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When OpenSSL is absent the no-OpenSSL else-branch is compiled. This test verifies the behaviour document in that branch: it must return false (fail-closed), not silently copy the file.</para>
+<para>We test this indirectly by checking that the symbol is visible and that the stub path compiled in returns false. A full runtime check would require a <ref refid="classthemis_1_1_backup_manager" kindref="compound">BackupManager</ref> instance and temp files; that is covered by integration tests.</para>
+<para>Here we verify the compile-time guarantee by ensuring this translation unit compiles with THEMIS_ENABLE_OPENSSL absent, which proves the else-branch is compiled (not the OpenSSL path). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave3a_critical_fixes.cpp" line="165" column="1" bodyfile="tests/storage/test_wave3a_critical_fixes.cpp" bodystart="165" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a598fef9435f65d74f71ad6616e14d0ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(Wave3a_BackupManager, CompressPathNoCompression_CompilesToFailClosed)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>Wave3a_BackupManager</type>
+        </param>
+        <param>
+          <type>CompressPathNoCompression_CompilesToFailClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When neither zstd nor lz4 is available the no-compression else-branch compiles. This verifies the branch compiles (no-op copy was replaced with fail-closed error). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave3a_critical_fixes.cpp" line="180" column="1" bodyfile="tests/storage/test_wave3a_critical_fixes.cpp" bodystart="180" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/blob_backend_azure.h" line="17" column="1"/>
+  </compounddef>
+</doxygen>

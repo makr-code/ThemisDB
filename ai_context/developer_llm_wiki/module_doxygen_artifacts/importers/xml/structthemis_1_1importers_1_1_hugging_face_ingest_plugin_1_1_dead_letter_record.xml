@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_dead_letter_record" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::HuggingFaceIngestPlugin::DeadLetterRecord</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_dead_letter_record_1aba8709ad2fdba622fd3b44a5adf258d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::DeadLetterRecord::dataset_name</definition>
+        <argsstring></argsstring>
+        <name>dataset_name</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::DeadLetterRecord::dataset_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="155" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_dead_letter_record_1a160fa5e79edbce5e3db66be152b8dac0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::DeadLetterRecord::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::DeadLetterRecord::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="156" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_dead_letter_record_1aab1ae2f38e62b8932431820162dc5d63" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::HuggingFaceIngestPlugin::DeadLetterRecord::record</definition>
+        <argsstring></argsstring>
+        <name>record</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::DeadLetterRecord::record</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="157" column="14" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/huggingface_ingest_plugin.h" line="154" column="5" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="154" bodyend="158"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_dead_letter_record_1aba8709ad2fdba622fd3b44a5adf258d8" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::DeadLetterRecord</scope><name>dataset_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_dead_letter_record_1a160fa5e79edbce5e3db66be152b8dac0" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::DeadLetterRecord</scope><name>reason</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_dead_letter_record_1aab1ae2f38e62b8932431820162dc5d63" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::DeadLetterRecord</scope><name>record</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

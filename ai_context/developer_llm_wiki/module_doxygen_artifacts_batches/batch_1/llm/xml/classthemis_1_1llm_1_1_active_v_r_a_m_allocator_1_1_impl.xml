@@ -1,0 +1,955 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ActiveVRAMAllocator::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a7d7af25f514375815b48705fc14337b4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::ActiveVRAMAllocator::Impl::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="906" column="12" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="906" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1aaf22f1e8a0d83dffcded298b5f2bc6ff" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPUMemoryManager&gt; themis::llm::ActiveVRAMAllocator::Impl::gpu_mgr_</definition>
+        <argsstring></argsstring>
+        <name>gpu_mgr_</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::gpu_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="907" column="21" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="907" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a423628e6ec36ae97af47db8d76f64a2d" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ActiveVRAMAllocator::Impl::resolved_device_id_</definition>
+        <argsstring></argsstring>
+        <name>resolved_device_id_</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::resolved_device_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="909" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="909" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a76a5819c63c1c6057abe5ad20b64ec80" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Impl::gpu_available_</definition>
+        <argsstring></argsstring>
+        <name>gpu_available_</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::gpu_available_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="910" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="910" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ad0f6a846368301f2f5fb431557e5aefd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::ActiveVRAMAllocator::Impl::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="912" column="24" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="912" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a224d1d76862dda8c33b1ddfea067951d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::ActiveVRAMAllocator::Impl::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::next_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="914" column="17" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="914" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ac6d9d4dffd20efe9a9cf4a959143877e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, <ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref> &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, AllocationHandle&gt; themis::llm::ActiveVRAMAllocator::Impl::allocations_</definition>
+        <argsstring></argsstring>
+        <name>allocations_</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::allocations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="915" column="24" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="915" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a147a9882bcc61440481fba393897cbf5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, <ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref> &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, AllocationHandle&gt; themis::llm::ActiveVRAMAllocator::Impl::bridge_handles_</definition>
+        <argsstring></argsstring>
+        <name>bridge_handles_</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::bridge_handles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="916" column="24" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="916" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ac3147e3192ea09ea425f1ee5accc5bcd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::llm::ActiveVRAMAllocator::Impl::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::stats_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="918" column="16" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="918" bodyend="918"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a77a40f55b98f8d93dda4f266b48fce68" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a3353afb64b5f48238a32b1fcf609b9f9" kindref="member">OOMCallback</ref></type>
+        <definition>OOMCallback themis::llm::ActiveVRAMAllocator::Impl::oom_cb_</definition>
+        <argsstring></argsstring>
+        <name>oom_cb_</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::oom_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="919" column="17" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="919" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a390f8e47d7660f8b9b97b93f52ed1a73" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ActiveVRAMAllocator::Impl::Impl</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="114" column="14" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="114" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a6f5e17d89f22a6dea51731585fc6f306" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ActiveVRAMAllocator::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="156" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a4e30934bf11626cf34dafda371fe4d37" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref> &gt;</type>
+        <definition>std::optional&lt; AllocationHandle &gt; themis::llm::ActiveVRAMAllocator::Impl::allocate</definition>
+        <argsstring>(size_t bytes, const std::string &amp;owner_id, int gpu_device_id)</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>owner_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Allocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">owner_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the owner. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="169" column="19" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="169" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a05161844d1c4775c16b66fa593e320b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref> &gt;</type>
+        <definition>std::optional&lt; AllocationHandle &gt; themis::llm::ActiveVRAMAllocator::Impl::allocateOrRecover</definition>
+        <argsstring>(size_t bytes, const std::string &amp;owner_id, int gpu_device_id)</argsstring>
+        <name>allocateOrRecover</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::allocateOrRecover</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>owner_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Allocate Or Recover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">owner_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the owner. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="255" column="19" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="255" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a0222248ec2241f874c3f532b3a9c4457" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Impl::free</definition>
+        <argsstring>(AllocationHandle &amp;handle)</argsstring>
+        <name>free</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::free</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Free. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), lock(), freeHandleLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="290" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="290" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a8f7a21598cc51bd4cd5d8e2983978b83" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ActiveVRAMAllocator::Impl::touch</definition>
+        <argsstring>(AllocationHandle &amp;handle)</argsstring>
+        <name>touch</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::touch</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Touch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), nowMs(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="310" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="310" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a6a96ddb6e3fa88765ebd3227d28e1765" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Impl::handleOOM</definition>
+        <argsstring>(size_t need_bytes)</argsstring>
+        <name>handleOOM</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::handleOOM</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>need_bytes</declname>
+        </param>
+        <briefdescription>
+<para>---------------------------------------------------------------<mdash/> handleOOM (public wrapper — takes lock) ---------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">need_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), handleOOMInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="329" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="329" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a9ac098880bfc3f392798434701984394" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::Impl::evictLRU</definition>
+        <argsstring>()</argsstring>
+        <name>evictLRU</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::evictLRU</qualifiedname>
+        <briefdescription>
+<para>Evict LRU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), evictLRULocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="343" column="12" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="343" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a884d748bdf9b5ed6751d4c12eadc0350" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::Impl::evictOwner</definition>
+        <argsstring>(const std::string &amp;owner_id)</argsstring>
+        <name>evictOwner</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::evictOwner</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>owner_id</declname>
+        </param>
+        <briefdescription>
+<para>Evict Owner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">owner_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the owner. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), push_back(), find(), end(), freeHandleLocked(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="358" column="12" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="358" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1afd09e30f21f7c6ea376bc49a710a9d0a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Impl::defragment</definition>
+        <argsstring>()</argsstring>
+        <name>defragment</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::defragment</qualifiedname>
+        <briefdescription>
+<para>Defragment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::debug(), lock(), updateFreeVRAM(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="397" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="397" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1afc59a07c4e791b248e02a00785c23d92" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::Impl::spillLRUToCPU</definition>
+        <argsstring>()</argsstring>
+        <name>spillLRUToCPU</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::spillLRUToCPU</qualifiedname>
+        <briefdescription>
+<para>Spill LRUTo CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), lock(), spillLRUToCPULocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="423" column="12" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="423" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a41e8952db39a76ce6527aab21d40546a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Impl::restoreFromCPU</definition>
+        <argsstring>(AllocationHandle &amp;handle)</argsstring>
+        <name>restoreFromCPU</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::restoreFromCPU</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Restore From CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), allocateGPU(), makeModelKey(), spdlog::warn(), copyMemory(), freeCPU(), updateFreeVRAM(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="443" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="443" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ac0d38c43164a2a1a2780950a06d475ac" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::llm::ActiveVRAMAllocator::Impl::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="494" column="11" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="494" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a975b678d110acd6eb8b6ebe400d14480" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Impl::isOOMThresholdExceeded</definition>
+        <argsstring>() const</argsstring>
+        <name>isOOMThresholdExceeded</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::isOOMThresholdExceeded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="508" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="508" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a2255b0e2fdcd3428a982d8bd2784d0bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ActiveVRAMAllocator::Impl::setOOMCallback</definition>
+        <argsstring>(OOMCallback cb)</argsstring>
+        <name>setOOMCallback</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::setOOMCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a3353afb64b5f48238a32b1fcf609b9f9" kindref="member">OOMCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1a3353afb64b5f48238a32b1fcf609b9f9" kindref="member">OOMCallback</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="523" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="523" bodyend="526"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ad50347a56e120db4bd352b49e3e60a5b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref> &gt;</type>
+        <definition>std::vector&lt; AllocationHandle &gt; themis::llm::ActiveVRAMAllocator::Impl::listAllocations</definition>
+        <argsstring>() const</argsstring>
+        <name>listAllocations</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::listAllocations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="528" column="17" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="528" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a957820c0268cc0a5e22c6c7faed7fc52" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::ActiveVRAMAllocator::Impl::gpuDeviceId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>gpuDeviceId</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::gpuDeviceId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="544" column="9" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="544" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1aad688940adc94be645d2984fff642205" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Impl::isGPUAvailable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isGPUAvailable</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::isGPUAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="546" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="546" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ad9ea321946406030e9ce32ec748360b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref></type>
+        <definition>AllocationHandle themis::llm::ActiveVRAMAllocator::Impl::registerExternal</definition>
+        <argsstring>(size_t bytes, const std::string &amp;owner_id)</argsstring>
+        <name>registerExternal</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::registerExternal</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>owner_id</declname>
+        </param>
+        <briefdescription>
+<para>Register External. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">owner_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the owner. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), fetch_add(), nowMs(), updateFreeVRAM(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="559" column="22" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="559" bodyend="588"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a3d36f4ac20e505cf91615262fa293119" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Impl::allocateWithFragmentation</definition>
+        <argsstring>(size_t bytes, void **ptr)</argsstring>
+        <name>allocateWithFragmentation</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::allocateWithFragmentation</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>void **</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Allocate With Fragmentation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a05161844d1c4775c16b66fa593e320b3" kindref="member">allocateOrRecover()</ref>, lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="601" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="601" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a82f57150f97a83817a2225844a1d023f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Impl::handleOutOfMemory</definition>
+        <argsstring>()</argsstring>
+        <name>handleOutOfMemory</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::handleOutOfMemory</qualifiedname>
+        <briefdescription>
+<para>Handle Out Of Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a6a96ddb6e3fa88765ebd3227d28e1765" kindref="member">handleOOM()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="632" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="632" bodyend="634"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ace7610a760eefc299b4e52aef600f8cb" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Impl::handleOOMInternal</definition>
+        <argsstring>(size_t need_bytes)</argsstring>
+        <name>handleOOMInternal</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::handleOOMInternal</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>need_bytes</declname>
+        </param>
+        <briefdescription>
+<para>---------------------------------------------------------------<mdash/> Internal helpers (must be called with mu_ held) ---------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">need_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: evictLRULocked(), notifyOOM(), getFreeVRAM(), spdlog::info(), <ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1afd09e30f21f7c6ea376bc49a710a9d0a" kindref="member">defragment()</ref>, updateFreeVRAM(), spillLRUToCPULocked(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="644" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="644" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a3ca54a0f7389aaebabb849148c834637" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::Impl::evictLRULocked</definition>
+        <argsstring>()</argsstring>
+        <name>evictLRULocked</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::evictLRULocked</qualifiedname>
+        <briefdescription>
+<para>Evict LRULocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), max(), find(), end(), spdlog::info(), nowMs(), freeHandleLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="710" column="12" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="710" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1abf3212ed8e031d293f19e00f2a0388ad" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::Impl::spillLRUToCPULocked</definition>
+        <argsstring>()</argsstring>
+        <name>spillLRUToCPULocked</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::spillLRUToCPULocked</qualifiedname>
+        <briefdescription>
+<para>Spill LRUTo CPULocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), spdlog::warn(), max(), find(), end(), allocateCPU(), makeModelKey(), copyMemory(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="752" column="12" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="752" bodyend="821"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a8951196c39ea26636a0107d8c2855943" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::Impl::freeHandleLocked</definition>
+        <argsstring>(AllocationHandle &amp;handle)</argsstring>
+        <name>freeHandleLocked</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::freeHandleLocked</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">AllocationHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Free Handle Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeModelKey(), std::min(), freeCPU(), freeGPU(), updateFreeVRAM(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="829" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="829" bodyend="867"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1afec1316f4cd54798b4ceee9b6e395467" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ActiveVRAMAllocator::Impl::updateFreeVRAM</definition>
+        <argsstring>()</argsstring>
+        <name>updateFreeVRAM</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::updateFreeVRAM</qualifiedname>
+        <briefdescription>
+<para>Update Free VRAM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: getFreeVRAM(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="873" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="873" bodyend="889"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a1d973e7f844e194497e642eaad5fd9ba" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ActiveVRAMAllocator::Impl::notifyOOM</definition>
+        <argsstring>(const OOMEvent &amp;ev)</argsstring>
+        <name>notifyOOM</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::Impl::notifyOOM</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_o_o_m_event" kindref="compound">OOMEvent</ref> &amp;</type>
+          <declname>ev</declname>
+        </param>
+        <briefdescription>
+<para>Notify OOM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ev</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: oom_cb_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/active_vram_allocator.cpp" line="896" column="10" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="896" bodyend="900"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/active_vram_allocator.cpp" line="107" column="1" bodyfile="src/llm/active_vram_allocator.cpp" bodystart="107" bodyend="920"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a4e30934bf11626cf34dafda371fe4d37" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a05161844d1c4775c16b66fa593e320b3" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>allocateOrRecover</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a3d36f4ac20e505cf91615262fa293119" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>allocateWithFragmentation</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ac6d9d4dffd20efe9a9cf4a959143877e" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>allocations_</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a147a9882bcc61440481fba393897cbf5" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>bridge_handles_</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a7d7af25f514375815b48705fc14337b4" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1afd09e30f21f7c6ea376bc49a710a9d0a" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>defragment</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a9ac098880bfc3f392798434701984394" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>evictLRU</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a3ca54a0f7389aaebabb849148c834637" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>evictLRULocked</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a884d748bdf9b5ed6751d4c12eadc0350" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>evictOwner</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a0222248ec2241f874c3f532b3a9c4457" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>free</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a8951196c39ea26636a0107d8c2855943" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>freeHandleLocked</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ac0d38c43164a2a1a2780950a06d475ac" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a76a5819c63c1c6057abe5ad20b64ec80" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>gpu_available_</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1aaf22f1e8a0d83dffcded298b5f2bc6ff" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>gpu_mgr_</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a957820c0268cc0a5e22c6c7faed7fc52" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>gpuDeviceId</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a6a96ddb6e3fa88765ebd3227d28e1765" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>handleOOM</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ace7610a760eefc299b4e52aef600f8cb" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>handleOOMInternal</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a82f57150f97a83817a2225844a1d023f" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>handleOutOfMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a390f8e47d7660f8b9b97b93f52ed1a73" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1aad688940adc94be645d2984fff642205" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>isGPUAvailable</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a975b678d110acd6eb8b6ebe400d14480" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>isOOMThresholdExceeded</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ad50347a56e120db4bd352b49e3e60a5b" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>listAllocations</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ad0f6a846368301f2f5fb431557e5aefd" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a224d1d76862dda8c33b1ddfea067951d" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>next_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a1d973e7f844e194497e642eaad5fd9ba" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>notifyOOM</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a77a40f55b98f8d93dda4f266b48fce68" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>oom_cb_</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ad9ea321946406030e9ce32ec748360b2" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>registerExternal</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a423628e6ec36ae97af47db8d76f64a2d" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>resolved_device_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a41e8952db39a76ce6527aab21d40546a" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>restoreFromCPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a2255b0e2fdcd3428a982d8bd2784d0bc" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>setOOMCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1afc59a07c4e791b248e02a00785c23d92" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>spillLRUToCPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1abf3212ed8e031d293f19e00f2a0388ad" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>spillLRUToCPULocked</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1ac3147e3192ea09ea425f1ee5accc5bcd" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a8f7a21598cc51bd4cd5d8e2983978b83" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>touch</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1afec1316f4cd54798b4ceee9b6e395467" prot="private" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>updateFreeVRAM</name></member>
+      <member refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_impl_1a6f5e17d89f22a6dea51731585fc6f306" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

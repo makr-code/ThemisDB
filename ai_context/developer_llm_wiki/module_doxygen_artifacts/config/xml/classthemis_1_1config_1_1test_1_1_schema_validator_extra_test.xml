@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1test_1_1_schema_validator_extra_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::test::SchemaValidatorExtraTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1test_1_1_schema_validator_extra_test_1a84190382a883cc7f17ed07307ee52b10" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::config::test::SchemaValidatorExtraTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>themis::config::test::SchemaValidatorExtraTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_coverage.cpp" line="550" column="27" bodyfile="tests/config/test_config_coverage.cpp" bodystart="550" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_schema_validator_extra_test_1ac8247f5e0a149170405b3fd3ff365a78" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::SchemaValidatorExtraTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::test::SchemaValidatorExtraTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_coverage.cpp" line="534" column="10" bodyfile="tests/config/test_config_coverage.cpp" bodystart="534" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_schema_validator_extra_test_1a0e3b27c17dfa1c3e54d1a8fc9991cfb0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::SchemaValidatorExtraTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::config::test::SchemaValidatorExtraTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_coverage.cpp" line="539" column="10" bodyfile="tests/config/test_config_coverage.cpp" bodystart="539" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_schema_validator_extra_test_1a3dfb52b004e0ed8a3f84fcf84ad17823" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::config::test::SchemaValidatorExtraTest::writeFile</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;content)</argsstring>
+        <name>writeFile</name>
+        <qualifiedname>themis::config::test::SchemaValidatorExtraTest::writeFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_coverage.cpp" line="543" column="17" bodyfile="tests/config/test_config_coverage.cpp" bodystart="543" bodyend="548"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::SchemaValidatorExtraTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_schema_validator_extra_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::SchemaValidatorExtraTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_schema_validator_extra_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/config/test_config_coverage.cpp" line="532" column="1" bodyfile="tests/config/test_config_coverage.cpp" bodystart="532" bodyend="551"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1test_1_1_schema_validator_extra_test_1ac8247f5e0a149170405b3fd3ff365a78" prot="protected" virt="non-virtual"><scope>themis::config::test::SchemaValidatorExtraTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_schema_validator_extra_test_1a0e3b27c17dfa1c3e54d1a8fc9991cfb0" prot="protected" virt="non-virtual"><scope>themis::config::test::SchemaValidatorExtraTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_schema_validator_extra_test_1a84190382a883cc7f17ed07307ee52b10" prot="protected" virt="non-virtual"><scope>themis::config::test::SchemaValidatorExtraTest</scope><name>test_dir_</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_schema_validator_extra_test_1a3dfb52b004e0ed8a3f84fcf84ad17823" prot="protected" virt="non-virtual"><scope>themis::config::test::SchemaValidatorExtraTest</scope><name>writeFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

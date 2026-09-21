@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1sgrg" kind="namespace" language="C++">
+    <compoundname>themis::bench::sgrg</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1sgrg_1a66ca31140d524696fe8cfecdc28b6b78" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::sgrg::kStorageCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kStorageCanonicalSeed</name>
+        <qualifiedname>themis::bench::sgrg::kStorageCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="59" column="32" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1sgrg_1a93f1070e3453bb81ab5ea6a55e777b34" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::sgrg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::sgrg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="60" column="32" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1sgrg_1a91db408f7b8ff71ec9494559d1f2b555" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::sgrg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::sgrg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="61" column="32" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sgrg_1a0339eb03ae50523c7b4ed13290b5e972" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>BenchWal &amp;</type>
+        <definition>static BenchWal &amp; themis::bench::sgrg::sharedWal</definition>
+        <argsstring>()</argsstring>
+        <name>sharedWal</name>
+        <qualifiedname>themis::bench::sgrg::sharedWal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="193" column="17" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="193" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sgrg_1aeae6529feeb873324daf73dd09d98164" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>BenchMvccStore &amp;</type>
+        <definition>static BenchMvccStore &amp; themis::bench::sgrg::sharedStore</definition>
+        <argsstring>()</argsstring>
+        <name>sharedStore</name>
+        <qualifiedname>themis::bench::sgrg::sharedStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="198" column="23" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="198" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sgrg_1ae52c525c8d29fbc8601d03d7473f30cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::sgrg::BM_SGRG01_WalAppendThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SGRG01_WalAppendThroughput</name>
+        <qualifiedname>themis::bench::sgrg::BM_SGRG01_WalAppendThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SGRG-01: Append to in-memory ring-buffer WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: ≥ 100 k ops/s. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="212" column="13" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="212" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sgrg_1a48d41f58d88418cd3c303041b48f6bde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::sgrg::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::sgrg::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="228" column="5" declfile="benchmarks/storage/bench_storage_release_gates.cpp" declline="228" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sgrg_1a842904040336c9a10bb2e7c129455b29" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::sgrg::BM_SGRG02_MvccReadWarm</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SGRG02_MvccReadWarm</name>
+        <qualifiedname>themis::bench::sgrg::BM_SGRG02_MvccReadWarm</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SGRG-02: Hash-map read on warm MVCC store (10 k entries pre-loaded). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="241" column="13" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="241" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sgrg_1a15d3deba82cdb2f4d673282462738698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::sgrg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::sgrg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="255" column="5" declfile="benchmarks/storage/bench_storage_release_gates.cpp" declline="255" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sgrg_1a507a2be655b81b4da82e63994b8c26dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::sgrg::BM_SGRG03_MvccWrite</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SGRG03_MvccWrite</name>
+        <qualifiedname>themis::bench::sgrg::BM_SGRG03_MvccWrite</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SGRG-03: WAL append + in-memory index update (write-before-ack). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="267" column="13" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="267" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sgrg_1a59151a3a497b15dd71b06bf2d3ee7c71" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::sgrg::BM_SGRG04_CheckpointOverhead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SGRG04_CheckpointOverhead</name>
+        <qualifiedname>themis::bench::sgrg::BM_SGRG04_CheckpointOverhead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SGRG-04: Checkpoint scan of 1 000 entries (no real I/O). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 10 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="296" column="13" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="296" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sgrg_1aea79246fb46c6ddf5001a0c40082d645" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::sgrg::BM_SGRG05_TieringDecision</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SGRG05_TieringDecision</name>
+        <qualifiedname>themis::bench::sgrg::BM_SGRG05_TieringDecision</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SGRG-05: Hot/warm/cold classification based on access-count heuristic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="322" column="13" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="322" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sgrg_1a304e5f6ee7ced593a3652feaa146b752" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::sgrg::BM_SGRG06_CompactionTriggerCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SGRG06_CompactionTriggerCheck</name>
+        <qualifiedname>themis::bench::sgrg::BM_SGRG06_CompactionTriggerCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SGRG-06: shouldCompact() heuristic evaluation (pure computation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="350" column="13" bodyfile="benchmarks/storage/bench_storage_release_gates.cpp" bodystart="350" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/storage/bench_storage_release_gates.cpp" line="50" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_h_t_t_p_client" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::utils::HTTPClient</compoundname>
+    <includes refid="http__client__pool_8h" local="no">http_client_pool.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_1ac49493872babaec6fef2bdda73cf6e87" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::utils::HTTPClient::~HTTPClient</definition>
+        <argsstring>()=default</argsstring>
+        <name>~HTTPClient</name>
+        <qualifiedname>themis::utils::HTTPClient::~HTTPClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="87" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_1ae13e67c14557db285914c2315f2494d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref></type>
+        <definition>virtual HTTPResponse themis::utils::HTTPClient::post</definition>
+        <argsstring>(const std::string &amp;url, const json &amp;body, const std::unordered_map&lt; std::string, std::string &gt; &amp;headers={})=0</argsstring>
+        <name>post</name>
+        <qualifiedname>themis::utils::HTTPClient::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1utils_1ae4db8de75ec73bf0351ca66e78ed8867" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="89" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_1a7c57634cf99dad6f45777368059c7448" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref></type>
+        <definition>virtual HTTPResponse themis::utils::HTTPClient::get</definition>
+        <argsstring>(const std::string &amp;url, const std::unordered_map&lt; std::string, std::string &gt; &amp;headers={})=0</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::utils::HTTPClient::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="95" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>HTTP client interface. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/http_client_pool.h" line="85" column="1" bodyfile="include/utils/http_client_pool.h" bodystart="85" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_1a7c57634cf99dad6f45777368059c7448" prot="public" virt="pure-virtual"><scope>themis::utils::HTTPClient</scope><name>get</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_1ae13e67c14557db285914c2315f2494d7" prot="public" virt="pure-virtual"><scope>themis::utils::HTTPClient</scope><name>post</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_1ac49493872babaec6fef2bdda73cf6e87" prot="public" virt="virtual"><scope>themis::utils::HTTPClient</scope><name>~HTTPClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

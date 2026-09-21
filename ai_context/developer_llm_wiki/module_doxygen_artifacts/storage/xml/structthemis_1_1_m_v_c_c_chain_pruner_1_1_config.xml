@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::MVCCChainPruner::Config</compoundname>
+    <includes refid="mvcc__chain__pruner_8h" local="no">mvcc_chain_pruner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1abe639f32645360a6573f6af21a3c4995" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::MVCCChainPruner::Config::min_versions_to_keep</definition>
+        <argsstring></argsstring>
+        <name>min_versions_to_keep</name>
+        <qualifiedname>themis::MVCCChainPruner::Config::min_versions_to_keep</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of most-recent MVCC versions to retain after pruning. These versions are <bold>not</bold> migrated and remain in the MVCC store to serve in-progress snapshot reads. Must be ≥ 1. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="45" column="18" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1a1758691486bfbdf2a9415737ff7ff68f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::MVCCChainPruner::Config::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::MVCCChainPruner::Config::table_name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Table name used when inserting migrated documents into the TemporalTierManager. All keys from a single prune run are stored under the same table. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="52" column="21" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1a55ffcea48eca7370acf49248628c722c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::MVCCChainPruner::Config::modified_by</definition>
+        <argsstring></argsstring>
+        <name>modified_by</name>
+        <qualifiedname>themis::MVCCChainPruner::Config::modified_by</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> of <computeroutput>VersionedDocument::modified_by</computeroutput> on migrated documents. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="57" column="21" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1a2f039dfb30d61bcfc3a909ca58bfe5f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::MVCCChainPruner::Config::Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::MVCCChainPruner::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="59" column="9" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="59" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tuning parameters for a prune operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/mvcc_chain_pruner.h" line="39" column="5" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="39" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1a2f039dfb30d61bcfc3a909ca58bfe5f1" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1abe639f32645360a6573f6af21a3c4995" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner::Config</scope><name>min_versions_to_keep</name></member>
+      <member refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1a55ffcea48eca7370acf49248628c722c" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner::Config</scope><name>modified_by</name></member>
+      <member refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config_1a1758691486bfbdf2a9415737ff7ff68f" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner::Config</scope><name>table_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

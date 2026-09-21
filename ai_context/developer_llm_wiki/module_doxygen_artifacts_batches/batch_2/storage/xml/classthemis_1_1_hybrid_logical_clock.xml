@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_hybrid_logical_clock" kind="class" language="C++" prot="public">
+    <compoundname>themis::HybridLogicalClock</compoundname>
+    <includes refid="hlc_8h" local="no">hlc.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_hybrid_logical_clock_1ae5c58465623cd0c2f8d66474206d8af3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::HybridLogicalClock::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::HybridLogicalClock::state_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="191" column="17" bodyfile="include/storage/hlc.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_hybrid_logical_clock_1ade53469c3bb4d80cae44696d0afd3412" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::HybridLogicalClock::HybridLogicalClock</definition>
+        <argsstring>()</argsstring>
+        <name>HybridLogicalClock</name>
+        <qualifiedname>themis::HybridLogicalClock::HybridLogicalClock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="161" column="5" bodyfile="src/storage/hlc.cpp" bodystart="41" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_logical_clock_1ae38c1af4ba580e51fb8509facd062126" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::HybridLogicalClock::now</definition>
+        <argsstring>()</argsstring>
+        <name>now</name>
+        <qualifiedname>themis::HybridLogicalClock::now</qualifiedname>
+        <briefdescription>
+<para>Generate a new timestamp for a local event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Now.</para>
+<para>Guarantees: returned value &gt; every previous value returned by this instance.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: advanceTo(), wallClockMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="168" column="18" bodyfile="src/storage/hlc.cpp" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_logical_clock_1a4f6957860a10d048b083ce5856eb0406" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::HybridLogicalClock::update</definition>
+        <argsstring>(HLCTimestamp received)</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::HybridLogicalClock::update</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>received</declname>
+        </param>
+        <briefdescription>
+<para>Advance the clock after receiving a message with timestamp <computeroutput>received</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update.</para>
+<para>Updates the clock to be strictly greater than both the local clock and the received timestamp, then returns the new local timestamp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">received</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), wallClockMs(), std::max(), physical(), logical(), compare_exchange_weak(), HLCTimestamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="176" column="18" bodyfile="src/storage/hlc.cpp" bodystart="116" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_logical_clock_1ac91221194b156ee575a27f6ff25db549" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::HybridLogicalClock::peek</definition>
+        <argsstring>() const</argsstring>
+        <name>peek</name>
+        <qualifiedname>themis::HybridLogicalClock::peek</qualifiedname>
+        <briefdescription>
+<para>Read the current timestamp without advancing it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned value reflects the last call to <ref refid="classthemis_1_1_hybrid_logical_clock_1ae38c1af4ba580e51fb8509facd062126" kindref="member">now()</ref> or <ref refid="classthemis_1_1_hybrid_logical_clock_1a4f6957860a10d048b083ce5856eb0406" kindref="member">update()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="183" column="18" bodyfile="src/storage/hlc.cpp" bodystart="159" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_hybrid_logical_clock_1a8334059311942172d793198a2791d3cf" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::HybridLogicalClock::wallClockMs</definition>
+        <argsstring>()</argsstring>
+        <name>wallClockMs</name>
+        <qualifiedname>themis::HybridLogicalClock::wallClockMs</qualifiedname>
+        <briefdescription>
+<para>Wall <ref refid="test__storage__latency__bench_8cpp_1a19bfb27380067c74ae297dd7dad5fb37" kindref="member">Clock</ref> Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="193" column="21" bodyfile="src/storage/hlc.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_hybrid_logical_clock_1a9c33b8ad8e3bf5d5e4dc6ce88dd66605" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::HybridLogicalClock::advanceTo</definition>
+        <argsstring>(uint64_t phys_ms)</argsstring>
+        <name>advanceTo</name>
+        <qualifiedname>themis::HybridLogicalClock::advanceTo</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>phys_ms</declname>
+        </param>
+        <briefdescription>
+<para>advanceTo is a helper for the CAS loop in <ref refid="classthemis_1_1_hybrid_logical_clock_1ae38c1af4ba580e51fb8509facd062126" kindref="member">now()</ref> – not called externally. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phys_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Computes the next <ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref> value given current packed state and wall clock. Calls: load(), compare_exchange_weak(), HLCTimestamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hlc.h" line="194" column="18" bodyfile="src/storage/hlc.cpp" bodystart="63" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hybrid Logical <ref refid="test__storage__latency__bench_8cpp_1a19bfb27380067c74ae297dd7dad5fb37" kindref="member">Clock</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe monotonic clock that combines wall-clock time with a logical counter to provide a total order of events, even across nodes that exchange HLC-stamped messages.</para>
+<para>API: <ref refid="classthemis_1_1_hybrid_logical_clock_1ae38c1af4ba580e51fb8509facd062126" kindref="member">now()</ref> - generate a new timestamp for a local event update(received) - advance the clock on receiving a remote timestamp <ref refid="classthemis_1_1_hybrid_logical_clock_1ac91221194b156ee575a27f6ff25db549" kindref="member">peek()</ref> - read the current timestamp without advancing it </para>
+    </detaileddescription>
+    <location file="include/storage/hlc.h" line="159" column="1" bodyfile="include/storage/hlc.h" bodystart="159" bodyend="195"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_hybrid_logical_clock_1a9c33b8ad8e3bf5d5e4dc6ce88dd66605" prot="private" virt="non-virtual"><scope>themis::HybridLogicalClock</scope><name>advanceTo</name></member>
+      <member refid="classthemis_1_1_hybrid_logical_clock_1ade53469c3bb4d80cae44696d0afd3412" prot="public" virt="non-virtual"><scope>themis::HybridLogicalClock</scope><name>HybridLogicalClock</name></member>
+      <member refid="classthemis_1_1_hybrid_logical_clock_1ae38c1af4ba580e51fb8509facd062126" prot="public" virt="non-virtual"><scope>themis::HybridLogicalClock</scope><name>now</name></member>
+      <member refid="classthemis_1_1_hybrid_logical_clock_1ac91221194b156ee575a27f6ff25db549" prot="public" virt="non-virtual"><scope>themis::HybridLogicalClock</scope><name>peek</name></member>
+      <member refid="classthemis_1_1_hybrid_logical_clock_1ae5c58465623cd0c2f8d66474206d8af3" prot="private" virt="non-virtual"><scope>themis::HybridLogicalClock</scope><name>state_</name></member>
+      <member refid="classthemis_1_1_hybrid_logical_clock_1a4f6957860a10d048b083ce5856eb0406" prot="public" virt="non-virtual"><scope>themis::HybridLogicalClock</scope><name>update</name></member>
+      <member refid="classthemis_1_1_hybrid_logical_clock_1a8334059311942172d793198a2791d3cf" prot="private" virt="non-virtual"><scope>themis::HybridLogicalClock</scope><name>wallClockMs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1examples_1_1_server_startup_example" kind="class" language="C++" prot="public">
+    <compoundname>themis::examples::ServerStartupExample</compoundname>
+    <includes refid="feature__flags__examples_8h" local="no">feature_flags_examples.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_server_startup_example_1a4c6183d2e284b11df696959a72a80b91" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::examples::ServerStartupExample::configure_performance_flags</definition>
+        <argsstring>()</argsstring>
+        <name>configure_performance_flags</name>
+        <qualifiedname>themis::examples::ServerStartupExample::configure_performance_flags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="199" column="17" bodyfile="include/performance/feature_flags_examples.h" bodystart="199" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Example 5: Feature Flag Configuration at Startup. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/feature_flags_examples.h" line="197" column="1" bodyfile="include/performance/feature_flags_examples.h" bodystart="197" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1examples_1_1_server_startup_example_1a4c6183d2e284b11df696959a72a80b91" prot="public" virt="non-virtual"><scope>themis::examples::ServerStartupExample</scope><name>configure_performance_flags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

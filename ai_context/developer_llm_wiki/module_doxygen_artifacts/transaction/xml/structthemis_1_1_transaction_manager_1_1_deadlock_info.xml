@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_deadlock_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionManager::DeadlockInfo</compoundname>
+    <includes refid="transaction__manager_8h" local="no">transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_deadlock_info_1a87e309793666d373b896e3c73cf2376e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref> &gt;</type>
+        <definition>std::vector&lt;TransactionId&gt; themis::TransactionManager::DeadlockInfo::cycle</definition>
+        <argsstring></argsstring>
+        <name>cycle</name>
+        <qualifiedname>themis::TransactionManager::DeadlockInfo::cycle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="604" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="604" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_deadlock_info_1ae516e092a665a540c402ba720fcc0df8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::TransactionManager::DeadlockInfo::detected_at</definition>
+        <argsstring></argsstring>
+        <name>detected_at</name>
+        <qualifiedname>themis::TransactionManager::DeadlockInfo::detected_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="605" column="47" bodyfile="include/transaction/transaction_manager.h" bodystart="605" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_deadlock_info_1a8f3b4050de64cc450066a9be86a3b4d6" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+        <definition>TransactionId themis::TransactionManager::DeadlockInfo::victim_id</definition>
+        <argsstring></argsstring>
+        <name>victim_id</name>
+        <qualifiedname>themis::TransactionManager::DeadlockInfo::victim_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="606" column="23" bodyfile="include/transaction/transaction_manager.h" bodystart="606" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_deadlock_info_1ab51c6bb20081b017e486c8db50670fb2" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1" kindref="member">DeadlockVictimPolicy</ref></type>
+        <definition>DeadlockVictimPolicy themis::TransactionManager::DeadlockInfo::policy_used</definition>
+        <argsstring></argsstring>
+        <name>policy_used</name>
+        <qualifiedname>themis::TransactionManager::DeadlockInfo::policy_used</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1a3ebfaf6242b8db6cc479534dac01939c" kindref="member">DeadlockVictimPolicy::YOUNGEST</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="607" column="30" bodyfile="include/transaction/transaction_manager.h" bodystart="607" bodyend="607"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="603" column="5" bodyfile="include/transaction/transaction_manager.h" bodystart="603" bodyend="608"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_deadlock_info_1a87e309793666d373b896e3c73cf2376e" prot="public" virt="non-virtual"><scope>themis::TransactionManager::DeadlockInfo</scope><name>cycle</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_deadlock_info_1ae516e092a665a540c402ba720fcc0df8" prot="public" virt="non-virtual"><scope>themis::TransactionManager::DeadlockInfo</scope><name>detected_at</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_deadlock_info_1ab51c6bb20081b017e486c8db50670fb2" prot="public" virt="non-virtual"><scope>themis::TransactionManager::DeadlockInfo</scope><name>policy_used</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_deadlock_info_1a8f3b4050de64cc450066a9be86a3b4d6" prot="public" virt="non-virtual"><scope>themis::TransactionManager::DeadlockInfo</scope><name>victim_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

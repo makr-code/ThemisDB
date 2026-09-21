@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_blue_green_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::BlueGreenConfig</compoundname>
+    <includes refid="blue__green__deployment_8h" local="no">blue_green_deployment.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_config_1a4a70e194c782a7878853b6d4bba945d8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref></type>
+        <definition>DeploymentSlot themis::updates::BlueGreenConfig::initial_active_slot</definition>
+        <argsstring></argsstring>
+        <name>initial_active_slot</name>
+        <qualifiedname>themis::updates::BlueGreenConfig::initial_active_slot</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1b3e1ee9bff86431dea6b181365ba65f" kindref="member">DeploymentSlot::BLUE</ref></initializer>
+        <briefdescription>
+<para>Initial active slot (default: BLUE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="46" column="20" bodyfile="include/updates/blue_green_deployment.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_config_1a33742bb4f8025b77659174b42f541aa8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::BlueGreenConfig::error_rate_threshold</definition>
+        <argsstring></argsstring>
+        <name>error_rate_threshold</name>
+        <qualifiedname>themis::updates::BlueGreenConfig::error_rate_threshold</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Error rate (0.0 – 1.0) above which an automatic rollback is triggered when the standby slot is active (post-promotion). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="50" column="12" bodyfile="include/updates/blue_green_deployment.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_config_1a095f3f0638cc83752074fec6d35e38cd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::BlueGreenConfig::min_sample_count</definition>
+        <argsstring></argsstring>
+        <name>min_sample_count</name>
+        <qualifiedname>themis::updates::BlueGreenConfig::min_sample_count</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum number of health events required before the error rate threshold is evaluated (prevents premature rollback on small samples). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="54" column="12" bodyfile="include/updates/blue_green_deployment.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a blue/green deployment. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Constraints (from module ROADMAP):<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref> is used for the actual file-level update; callers must not run concurrent updates.</para>
+</listitem><listitem><para>Cross-node coordination is NOT implemented here; each node manages its own slot state independently. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/updates/blue_green_deployment.h" line="44" column="1" bodyfile="include/updates/blue_green_deployment.h" bodystart="44" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_blue_green_config_1a33742bb4f8025b77659174b42f541aa8" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenConfig</scope><name>error_rate_threshold</name></member>
+      <member refid="structthemis_1_1updates_1_1_blue_green_config_1a4a70e194c782a7878853b6d4bba945d8" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenConfig</scope><name>initial_active_slot</name></member>
+      <member refid="structthemis_1_1updates_1_1_blue_green_config_1a095f3f0638cc83752074fec6d35e38cd" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenConfig</scope><name>min_sample_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

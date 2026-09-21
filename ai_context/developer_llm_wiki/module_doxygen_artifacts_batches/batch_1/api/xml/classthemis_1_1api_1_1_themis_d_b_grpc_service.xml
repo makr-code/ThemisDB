@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_themis_d_b_grpc_service" kind="class" language="C++" prot="public">
+    <compoundname>themis::api::ThemisDBGrpcService</compoundname>
+    <includes refid="themisdb__grpc__service_8h" local="no">themisdb_grpc_service.h</includes>
+    <innerclass refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1_1_impl" prot="public">themis::api::ThemisDBGrpcService::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1acf55dc2677c9cc891daab3d809b3e84e" prot="public" static="no">
+        <type>std::function&lt; void *()&gt;</type>
+        <definition>using themis::api::ThemisDBGrpcService::ServiceFn = std::function&lt;void*()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ServiceFn</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::ServiceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="41" column="5" bodyfile="include/api/themisdb_grpc_service.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1aa4b2904a9934f0702743805b27f7ba54" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::api::ThemisDBGrpcService::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="78" column="33" bodyfile="include/api/themisdb_grpc_service.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a3844f97ee8719a2bdf55ee04098af688" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;TransactionManager&gt; themis::api::ThemisDBGrpcService::txn_mgr_</definition>
+        <argsstring></argsstring>
+        <name>txn_mgr_</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::txn_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="79" column="29" bodyfile="include/api/themisdb_grpc_service.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a250c126b6e7f4191eb43d030823916ab" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::IQueryEngine &gt;</type>
+        <definition>std::shared_ptr&lt;themis::IQueryEngine&gt; themis::api::ThemisDBGrpcService::aql_engine_</definition>
+        <argsstring></argsstring>
+        <name>aql_engine_</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::aql_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="80" column="27" bodyfile="include/api/themisdb_grpc_service.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1aec56bc6711042081c607faed5c047ab4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::IVectorIndex &gt;</type>
+        <definition>std::shared_ptr&lt;themis::IVectorIndex&gt; themis::api::ThemisDBGrpcService::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="81" column="27" bodyfile="include/api/themisdb_grpc_service.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1ac6c7a918dacc806dc2799c8b0bf3ae34" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::api::ThemisDBGrpcService::service_ptr_</definition>
+        <argsstring></argsstring>
+        <name>service_ptr_</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::service_ptr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="83" column="10" bodyfile="include/api/themisdb_grpc_service.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a144069f3811a5e9fa9a3ea8cfc60148e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::api::ThemisDBGrpcService::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="86" column="21" bodyfile="include/api/themisdb_grpc_service.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1ae19e31a242a079ffed5992b3a2abaa68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::ThemisDBGrpcService::ThemisDBGrpcService</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db, std::shared_ptr&lt; TransactionManager &gt; txn_mgr)</argsstring>
+        <name>ThemisDBGrpcService</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::ThemisDBGrpcService</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+          <declname>txn_mgr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="43" column="5" bodyfile="src/api/themisdb_grpc_service.cpp" bodystart="1916" bodyend="1923"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a344b1ee6f8b2ea59e0e86d11abff3245" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::ThemisDBGrpcService::ThemisDBGrpcService</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db, std::shared_ptr&lt; TransactionManager &gt; txn_mgr, std::shared_ptr&lt; themis::IQueryEngine &gt; aql_engine, std::shared_ptr&lt; themis::IVectorIndex &gt; vector_index)</argsstring>
+        <name>ThemisDBGrpcService</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::ThemisDBGrpcService</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+          <declname>txn_mgr</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::IQueryEngine &gt;</type>
+          <declname>aql_engine</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::IVectorIndex &gt;</type>
+          <declname>vector_index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="48" column="5" bodyfile="src/api/themisdb_grpc_service.cpp" bodystart="1925" bodyend="1936"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a82858cc2326a52a0617b17aac61f4b73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::ThemisDBGrpcService::~ThemisDBGrpcService</definition>
+        <argsstring>()</argsstring>
+        <name>~ThemisDBGrpcService</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::~ThemisDBGrpcService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a38638c64fc80ecb025650f7663547f8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::api::ThemisDBGrpcService::service</definition>
+        <argsstring>()</argsstring>
+        <name>service</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::service</qualifiedname>
+        <briefdescription>
+<para>Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="61" column="10" bodyfile="src/api/themisdb_grpc_service.cpp" bodystart="2029" bodyend="2035"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a228d0516de332811905d5a8c5e844fd5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::api::ThemisDBGrpcService::setServiceFn</definition>
+        <argsstring>(ServiceFn fn)</argsstring>
+        <name>setServiceFn</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::setServiceFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1acf55dc2677c9cc891daab3d809b3e84e" kindref="member">ServiceFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Service Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="67" column="17" bodyfile="src/api/themisdb_grpc_service.cpp" bodystart="2001" bodyend="2005"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a183a996419885188523829de5b6e63bd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::api::ThemisDBGrpcService::buildImpl</definition>
+        <argsstring>()</argsstring>
+        <name>buildImpl</name>
+        <qualifiedname>themis::api::ThemisDBGrpcService::buildImpl</qualifiedname>
+        <briefdescription>
+<para>Build <ref refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_WARN(), lock(), fn(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="91" column="10" bodyfile="src/api/themisdb_grpc_service.cpp" bodystart="1942" bodyend="1992"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/themisdb_grpc_service.h" line="39" column="1" bodyfile="include/api/themisdb_grpc_service.h" bodystart="39" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a250c126b6e7f4191eb43d030823916ab" prot="private" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>aql_engine_</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a183a996419885188523829de5b6e63bd" prot="private" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>buildImpl</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1aa4b2904a9934f0702743805b27f7ba54" prot="private" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>db_</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a144069f3811a5e9fa9a3ea8cfc60148e" prot="private" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a38638c64fc80ecb025650f7663547f8b" prot="public" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>service</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1ac6c7a918dacc806dc2799c8b0bf3ae34" prot="private" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>service_ptr_</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1acf55dc2677c9cc891daab3d809b3e84e" prot="public" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>ServiceFn</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a228d0516de332811905d5a8c5e844fd5" prot="public" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>setServiceFn</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1ae19e31a242a079ffed5992b3a2abaa68" prot="public" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>ThemisDBGrpcService</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a344b1ee6f8b2ea59e0e86d11abff3245" prot="public" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>ThemisDBGrpcService</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a3844f97ee8719a2bdf55ee04098af688" prot="private" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>txn_mgr_</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1aec56bc6711042081c607faed5c047ab4" prot="private" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>vector_index_</name></member>
+      <member refid="classthemis_1_1api_1_1_themis_d_b_grpc_service_1a82858cc2326a52a0617b17aac61f4b73" prot="public" virt="non-virtual"><scope>themis::api::ThemisDBGrpcService</scope><name>~ThemisDBGrpcService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

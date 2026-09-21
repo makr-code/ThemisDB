@@ -1,0 +1,369 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_c_p_u_graph_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::CPUGraphBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_graph_backend" prot="public" virt="non-virtual">themis::acceleration::IGraphBackend</basecompoundref>
+    <includes refid="cpu__backend_8h" local="no">cpu_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aaa5e0dc19c8981511fb0769eca7ac5b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CPUGraphBackend::CPUGraphBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>CPUGraphBackend</name>
+        <qualifiedname>themis::acceleration::CPUGraphBackend::CPUGraphBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1ac972e66586107ca6287c0436d4e5c7c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CPUGraphBackend::~CPUGraphBackend</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~CPUGraphBackend</name>
+        <qualifiedname>themis::acceleration::CPUGraphBackend::~CPUGraphBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="97" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa73d870df6e710e0105a1146269580b9" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::CPUGraphBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::CPUGraphBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="100" column="16" bodyfile="include/acceleration/cpu_backend.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a438cf7937a816166f494212c06f9b200" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::CPUGraphBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::CPUGraphBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="101" column="17" bodyfile="include/acceleration/cpu_backend.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1ab95a9541ebeb12268efd4030dab8203a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CPUGraphBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::CPUGraphBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="102" column="10" bodyfile="include/acceleration/cpu_backend.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a3382725f1da1a756fbf3fe429a3bc350" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::CPUGraphBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::CPUGraphBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="104" column="25" bodyfile="include/acceleration/cpu_backend.h" bodystart="104" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa06644e10f24d2d3980d93a041f9a1ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CPUGraphBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::CPUGraphBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="117" column="10" bodyfile="include/acceleration/cpu_backend.h" bodystart="117" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aafbf2bc0dde217628ced84aa76845269" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::CPUGraphBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::CPUGraphBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="121" column="10" bodyfile="include/acceleration/cpu_backend.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a08b58cb34c5fdc4be74349d91f5f99e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; uint32_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint32_t &gt; &gt; themis::acceleration::CPUGraphBackend::batchBFS</definition>
+        <argsstring>(const uint32_t *adjacency, size_t numVertices, const uint32_t *startVertices, size_t numStarts, uint32_t maxDepth) override</argsstring>
+        <name>batchBFS</name>
+        <qualifiedname>themis::acceleration::CPUGraphBackend::batchBFS</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_graph_backend_1a78629a5ff3824ff3acd986efe24b0915">batchBFS</reimplements>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>adjacency</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>startVertices</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numStarts</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>maxDepth</declname>
+        </param>
+        <briefdescription>
+<para>Batch BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adjacency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">startVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numStarts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">maxDepth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, std::move(), <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1af78e4796463330b3da096d492975664d" kindref="member">BatchValidator::validateGraphBFSBatch()</ref>, <ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa73d870df6e710e0105a1146269580b9" kindref="member">name()</ref>, results(), visited(), push(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="124" column="17" bodyfile="src/acceleration/cpu_backend.cpp" bodystart="139" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a63c1adf4eb6a3099a926de1bb178b321" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; uint32_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint32_t &gt; &gt; themis::acceleration::CPUGraphBackend::batchShortestPath</definition>
+        <argsstring>(const uint32_t *adjacency, const float *weights, size_t numVertices, const uint32_t *startVertices, const uint32_t *endVertices, size_t numPairs) override</argsstring>
+        <name>batchShortestPath</name>
+        <qualifiedname>themis::acceleration::CPUGraphBackend::batchShortestPath</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_graph_backend_1a96ceb95dea176351bbed0c80a2ac7fc5">batchShortestPath</reimplements>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>adjacency</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>startVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>endVertices</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPairs</declname>
+        </param>
+        <briefdescription>
+<para>Batch Shortest Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adjacency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">startVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, std::move(), <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1a6d27fe9a99388a124b67568fbf4eea7d" kindref="member">BatchValidator::validateShortestPathBatch()</ref>, <ref refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa73d870df6e710e0105a1146269580b9" kindref="member">name()</ref>, results(), dist(), parent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="132" column="17" bodyfile="src/acceleration/cpu_backend.cpp" bodystart="201" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::acceleration::CPUGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_graph_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::acceleration::CPUGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_graph_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/cpu_backend.h" line="94" column="1" bodyfile="include/acceleration/cpu_backend.h" bodystart="94" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a08b58cb34c5fdc4be74349d91f5f99e8" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>batchBFS</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a63c1adf4eb6a3099a926de1bb178b321" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>batchShortestPath</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aaa5e0dc19c8981511fb0769eca7ac5b0" prot="public" virt="non-virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>CPUGraphBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a3382725f1da1a756fbf3fe429a3bc350" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa06644e10f24d2d3980d93a041f9a1ca" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1ab95a9541ebeb12268efd4030dab8203a" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa73d870df6e710e0105a1146269580b9" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aafbf2bc0dde217628ced84aa76845269" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a438cf7937a816166f494212c06f9b200" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1ac972e66586107ca6287c0436d4e5c7c4" prot="public" virt="non-virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>~CPUGraphBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_graph_backend_1a06d06da610fce8ddc200a45cd303454f" prot="public" virt="virtual"><scope>themis::acceleration::CPUGraphBackend</scope><name>~IGraphBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

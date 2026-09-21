@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_hugging_face_ingest_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::HuggingFaceIngestConfig</compoundname>
+    <includes refid="huggingface__ingest__plugin_8h" local="no">huggingface_ingest_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a7d5dc47eacd5bc15cb1f554326b7db5e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestConfig::dataset_name</definition>
+        <argsstring></argsstring>
+        <name>dataset_name</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::dataset_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="29" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a7f84eb44d1845409c0b65b10614ffdfa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestConfig::default_split</definition>
+        <argsstring></argsstring>
+        <name>default_split</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::default_split</qualifiedname>
+        <initializer>= &quot;train&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="30" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a35312085a2a6531cc66d5a0e68d49583" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::importers::HuggingFaceIngestConfig::allowed_licenses</definition>
+        <argsstring></argsstring>
+        <name>allowed_licenses</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::allowed_licenses</qualifiedname>
+        <initializer>= {&quot;cc-by-4.0&quot;, &quot;mit&quot;, &quot;apache-2.0&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="31" column="14" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a898a3ba179915713b29125a6c9b255a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::HuggingFaceIngestConfig::strict_mode</definition>
+        <argsstring></argsstring>
+        <name>strict_mode</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::strict_mode</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="32" column="10" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aeebcb2eee5b594bdfaaf8b64b994f1cf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::HuggingFaceIngestConfig::deterministic_export</definition>
+        <argsstring></argsstring>
+        <name>deterministic_export</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::deterministic_export</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="33" column="10" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a19a4b30c9bf24c834431007a3d4cf84a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::HuggingFaceIngestConfig::min_quality_text_length</definition>
+        <argsstring></argsstring>
+        <name>min_quality_text_length</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::min_quality_text_length</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="34" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a002e52d4751485e8335a758926726777" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::HuggingFaceIngestConfig::checkpoint_every</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_every</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::checkpoint_every</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="35" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a744ea34d193a88f839910cd1e7aa563f" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(std::string_view)&gt;</type>
+        <definition>std::function&lt;bool(std::string_view)&gt; themis::importers::HuggingFaceIngestConfig::license_gate_hook</definition>
+        <argsstring></argsstring>
+        <name>license_gate_hook</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::license_gate_hook</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="37" column="19" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aa26151ce6032e84b43f333dfdf098e42" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(std::string_view)&gt;</type>
+        <definition>std::function&lt;std::string(std::string_view)&gt; themis::importers::HuggingFaceIngestConfig::pii_redaction_hook</definition>
+        <argsstring></argsstring>
+        <name>pii_redaction_hook</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::pii_redaction_hook</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="38" column="19" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aa7249baea8a79220bcbc01e29a748060" prot="public" static="no" mutable="no">
+        <type>std::function&lt; double(const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;double(const json&amp;)&gt; themis::importers::HuggingFaceIngestConfig::quality_score_hook</definition>
+        <argsstring></argsstring>
+        <name>quality_score_hook</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::quality_score_hook</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="39" column="19" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1af661936eeb4ae0fa4945e344bc10a82a" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;bool(const std::string&amp;, const std::string&amp;)&gt; themis::importers::HuggingFaceIngestConfig::near_duplicate_hook</definition>
+        <argsstring></argsstring>
+        <name>near_duplicate_hook</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::near_duplicate_hook</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="40" column="19" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_config_1afc4568b60661253bb0d604b7eaa482fe" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(std::string_view, const std::vector&lt; float &gt; &amp;)&gt;</type>
+        <definition>std::function&lt;void(std::string_view, const std::vector&lt;float&gt;&amp;)&gt; themis::importers::HuggingFaceIngestConfig::embedding_sink_hook</definition>
+        <argsstring></argsstring>
+        <name>embedding_sink_hook</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestConfig::embedding_sink_hook</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="41" column="19" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/huggingface_ingest_plugin.h" line="28" column="1" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="28" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a35312085a2a6531cc66d5a0e68d49583" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>allowed_licenses</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a002e52d4751485e8335a758926726777" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>checkpoint_every</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a7d5dc47eacd5bc15cb1f554326b7db5e" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>dataset_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a7f84eb44d1845409c0b65b10614ffdfa" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>default_split</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aeebcb2eee5b594bdfaaf8b64b994f1cf" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>deterministic_export</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1afc4568b60661253bb0d604b7eaa482fe" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>embedding_sink_hook</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a744ea34d193a88f839910cd1e7aa563f" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>license_gate_hook</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a19a4b30c9bf24c834431007a3d4cf84a" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>min_quality_text_length</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1af661936eeb4ae0fa4945e344bc10a82a" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>near_duplicate_hook</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aa26151ce6032e84b43f333dfdf098e42" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>pii_redaction_hook</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1aa7249baea8a79220bcbc01e29a748060" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>quality_score_hook</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_config_1a898a3ba179915713b29125a6c9b255a9" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestConfig</scope><name>strict_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,846 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_parallel_executor" kind="class" language="C++" prot="public">
+    <compoundname>themis::ParallelExecutor</compoundname>
+    <includes refid="parallel__executor_8h" local="no">parallel_executor.h</includes>
+    <innerclass refid="structthemis_1_1_parallel_executor_1_1_parallel_config" prot="public">themis::ParallelExecutor::ParallelConfig</innerclass>
+    <innerclass refid="structthemis_1_1_parallel_executor_1_1_join_tuple" prot="public">themis::ParallelExecutor::JoinTuple</innerclass>
+    <innerclass refid="structthemis_1_1_parallel_executor_1_1_join_spec" prot="public">themis::ParallelExecutor::JoinSpec</innerclass>
+    <innerclass refid="structthemis_1_1_parallel_executor_1_1_aggregate_spec" prot="public">themis::ParallelExecutor::AggregateSpec</innerclass>
+    <innerclass refid="structthemis_1_1_parallel_executor_1_1_partial_agg" prot="private">themis::ParallelExecutor::PartialAgg</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_parallel_executor_1ac19511dbcb904a3375b61d5757fd2177" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AggregateFunction</name>
+        <qualifiedname>themis::ParallelExecutor::AggregateFunction</qualifiedname>
+        <enumvalue id="classthemis_1_1_parallel_executor_1ac19511dbcb904a3375b61d5757fd2177ae93f994f01c537c4e2f7d8528c3eb5e9" prot="public">
+          <name>Count</name>
+          <briefdescription>
+<para>COUNT(*) – counts all input rows (field is ignored). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_parallel_executor_1ac19511dbcb904a3375b61d5757fd2177aa0ec87054b5e5b7847d0d8780a01a3d5" prot="public">
+          <name>Sum</name>
+          <briefdescription>
+<para>SUM(field). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_parallel_executor_1ac19511dbcb904a3375b61d5757fd2177a5c0c148daa2c67922abe6018b87a759f" prot="public">
+          <name>Avg</name>
+          <briefdescription>
+<para>AVG(field). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_parallel_executor_1ac19511dbcb904a3375b61d5757fd2177a78d811e98514cd165dda532286610fd2" prot="public">
+          <name>Min</name>
+          <briefdescription>
+<para>MIN(field). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_parallel_executor_1ac19511dbcb904a3375b61d5757fd2177a6a061313d22e51e0f25b7cd4dc065233" prot="public">
+          <name>Max</name>
+          <briefdescription>
+<para>MAX(field). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="66" column="5" bodyfile="include/query/parallel_executor.h" bodystart="66" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" prot="public" static="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref> &gt;</type>
+        <definition>using themis::ParallelExecutor::Table = std::vector&lt;BaseEntity&gt;</definition>
+        <argsstring></argsstring>
+        <name>Table</name>
+        <qualifiedname>themis::ParallelExecutor::Table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="52" column="5" bodyfile="include/query/parallel_executor.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_parallel_executor_1a54979ae0a9769cf4fca2d2108d4f63f0" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref> &amp;)&gt;</type>
+        <definition>using themis::ParallelExecutor::FilterFn = std::function&lt;bool(const BaseEntity&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FilterFn</name>
+        <qualifiedname>themis::ParallelExecutor::FilterFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="54" column="5" bodyfile="include/query/parallel_executor.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_parallel_executor_1a670461061f95857ce9f20977e690cdea" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>using themis::ParallelExecutor::AggregateResult = std::unordered_map&lt;std::string, double&gt;</definition>
+        <argsstring></argsstring>
+        <name>AggregateResult</name>
+        <qualifiedname>themis::ParallelExecutor::AggregateResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="80" column="5" bodyfile="include/query/parallel_executor.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1_parallel_executor_1a127fbd212f2aea1c75505ccdc429c588" prot="private" static="no">
+        <type>std::unordered_map&lt; std::string, PartialAgg &gt;</type>
+        <definition>using themis::ParallelExecutor::PartialMap = std::unordered_map&lt;std::string, PartialAgg&gt;</definition>
+        <argsstring></argsstring>
+        <name>PartialMap</name>
+        <qualifiedname>themis::ParallelExecutor::PartialMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="181" column="5" bodyfile="include/query/parallel_executor.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_parallel_executor_1a543956c6914a1d49e0f40a03d878735e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_parallel_executor_1_1_parallel_config" kindref="compound">ParallelConfig</ref></type>
+        <definition>ParallelConfig themis::ParallelExecutor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::ParallelExecutor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="126" column="20" bodyfile="include/query/parallel_executor.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1a9be340b469a08f6ed70f051e219b5585" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ParallelExecutor::ParallelExecutor</definition>
+        <argsstring>()</argsstring>
+        <name>ParallelExecutor</name>
+        <qualifiedname>themis::ParallelExecutor::ParallelExecutor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="86" column="5" bodyfile="src/query/parallel_executor.cpp" bodystart="165" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1a6553d3329a467b39faefa8fbc1ff8bc4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ParallelExecutor::ParallelExecutor</definition>
+        <argsstring>(ParallelConfig config)</argsstring>
+        <name>ParallelExecutor</name>
+        <qualifiedname>themis::ParallelExecutor::ParallelExecutor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_parallel_executor_1_1_parallel_config" kindref="compound">ParallelConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Parallel Executor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="92" column="14" bodyfile="src/query/parallel_executor.cpp" bodystart="168" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1ad4cd5d5637229845358b455be43b668f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_parallel_executor_1_1_parallel_config" kindref="compound">ParallelConfig</ref> &amp;</type>
+        <definition>const ParallelConfig &amp; themis::ParallelExecutor::getConfig</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::ParallelExecutor::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="94" column="26" bodyfile="include/query/parallel_executor.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1a323b181db2271054eaf3609cab071be3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ParallelExecutor::setConfig</definition>
+        <argsstring>(const ParallelConfig &amp;cfg)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::ParallelExecutor::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_parallel_executor_1_1_parallel_config" kindref="compound">ParallelConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: validateConfig(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="100" column="10" bodyfile="include/query/parallel_executor.h" bodystart="100" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1ae9c728e43d1b2ebecf313d382b24d106" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">Table</ref> &gt;</type>
+        <definition>Result&lt; ParallelExecutor::Table &gt; themis::ParallelExecutor::parallelScan</definition>
+        <argsstring>(const Table &amp;input, const FilterFn &amp;filter, size_t num_threads=0) const</argsstring>
+        <name>parallelScan</name>
+        <qualifiedname>themis::ParallelExecutor::parallelScan</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">Table</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_parallel_executor_1a54979ae0a9769cf4fca2d2108d4f63f0" kindref="member">FilterFn</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_threads</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Buckets. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">nmors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="109" column="12" bodyfile="src/query/parallel_executor.cpp" bodystart="352" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1a3de1276dbaddc514867fc437fbbfb0ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="structthemis_1_1_parallel_executor_1_1_join_tuple" kindref="compound">JoinTuple</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; ParallelExecutor::JoinTuple &gt; &gt; themis::ParallelExecutor::parallelHashJoin</definition>
+        <argsstring>(const Table &amp;left, const Table &amp;right, const JoinSpec &amp;spec, size_t num_threads=0) const</argsstring>
+        <name>parallelHashJoin</name>
+        <qualifiedname>themis::ParallelExecutor::parallelHashJoin</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">Table</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">Table</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_parallel_executor_1_1_join_spec" kindref="compound">JoinSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_threads</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Parts. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">P</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Part results. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">P</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="114" column="12" bodyfile="src/query/parallel_executor.cpp" bodystart="429" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1adcd4fa04d239321cf09d10b51a246211" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1_parallel_executor_1a670461061f95857ce9f20977e690cdea" kindref="member">AggregateResult</ref> &gt;</type>
+        <definition>Result&lt; ParallelExecutor::AggregateResult &gt; themis::ParallelExecutor::parallelAggregate</definition>
+        <argsstring>(const Table &amp;input, const AggregateSpec &amp;spec, size_t num_threads=0) const</argsstring>
+        <name>parallelAggregate</name>
+        <qualifiedname>themis::ParallelExecutor::parallelAggregate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">Table</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_parallel_executor_1_1_aggregate_spec" kindref="compound">AggregateSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_threads</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Partials. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">nmors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="120" column="12" bodyfile="src/query/parallel_executor.cpp" bodystart="555" bodyend="626"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1aff26d4af21ac2a0090351fd2fc0b29d5" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ParallelExecutor::resolveThreads</definition>
+        <argsstring>(size_t requested) const noexcept</argsstring>
+        <name>resolveThreads</name>
+        <qualifiedname>themis::ParallelExecutor::resolveThreads</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>requested</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Threads. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requested</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="134" column="12" bodyfile="src/query/parallel_executor.cpp" bodystart="177" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1a89e63163fb996d54fd475f75175f0106" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ParallelExecutor::validateConfig</definition>
+        <argsstring>(ParallelConfig &amp;cfg) noexcept</argsstring>
+        <name>validateConfig</name>
+        <qualifiedname>themis::ParallelExecutor::validateConfig</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_parallel_executor_1_1_parallel_config" kindref="compound">ParallelConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Validate Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="141" column="17" bodyfile="src/query/parallel_executor.cpp" bodystart="156" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1a642074055fd2add7695641d5729c7de6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">Table</ref></type>
+        <definition>ParallelExecutor::Table themis::ParallelExecutor::sequentialScan</definition>
+        <argsstring>(const Table &amp;input, const FilterFn &amp;filter)</argsstring>
+        <name>sequentialScan</name>
+        <qualifiedname>themis::ParallelExecutor::sequentialScan</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">Table</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_parallel_executor_1a54979ae0a9769cf4fca2d2108d4f63f0" kindref="member">FilterFn</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>── Internal sequential helpers ───────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sequential Scan.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), filter(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="150" column="18" bodyfile="src/query/parallel_executor.cpp" bodystart="258" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1ab360b93d35d3f1084c595ea3bb828499" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_parallel_executor_1_1_join_tuple" kindref="compound">JoinTuple</ref> &gt;</type>
+        <definition>std::vector&lt; ParallelExecutor::JoinTuple &gt; themis::ParallelExecutor::sequentialHashJoin</definition>
+        <argsstring>(const Table &amp;left, const Table &amp;right, const JoinSpec &amp;spec)</argsstring>
+        <name>sequentialHashJoin</name>
+        <qualifiedname>themis::ParallelExecutor::sequentialHashJoin</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">Table</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">Table</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_parallel_executor_1_1_join_spec" kindref="compound">JoinSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+<para>Sequential Hash Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), getFieldAsString(), emplace(), std::move(), equal_range(), THEMIS_WARN(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="160" column="24" bodyfile="src/query/parallel_executor.cpp" bodystart="278" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1a0402065b26bf18a4369d9e2d73750405" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_parallel_executor_1a670461061f95857ce9f20977e690cdea" kindref="member">AggregateResult</ref></type>
+        <definition>ParallelExecutor::AggregateResult themis::ParallelExecutor::sequentialAggregate</definition>
+        <argsstring>(const Table &amp;input, const AggregateSpec &amp;spec)</argsstring>
+        <name>sequentialAggregate</name>
+        <qualifiedname>themis::ParallelExecutor::sequentialAggregate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">Table</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_parallel_executor_1_1_aggregate_spec" kindref="compound">AggregateSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+<para>Sequential Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: groupKey(), getFieldAsDouble(), std::min(), std::max(), reserve(), size(), finalise(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="169" column="28" bodyfile="src/query/parallel_executor.cpp" bodystart="321" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1a5b7613af95b2c7d58cea77b679b0a88d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ParallelExecutor::mergePartial</definition>
+        <argsstring>(PartialMap &amp;dst, const PartialMap &amp;src)</argsstring>
+        <name>mergePartial</name>
+        <qualifiedname>themis::ParallelExecutor::mergePartial</qualifiedname>
+        <param>
+          <type>PartialMap &amp;</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>const PartialMap &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+<para>Merge Partial. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="188" column="17" bodyfile="src/query/parallel_executor.cpp" bodystart="216" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1a8c7a8727a2c8a5ea0e6a40a9669b9556" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ParallelExecutor::finalise</definition>
+        <argsstring>(const PartialAgg &amp;p, AggregateFunction fn)</argsstring>
+        <name>finalise</name>
+        <qualifiedname>themis::ParallelExecutor::finalise</qualifiedname>
+        <param>
+          <type>const PartialAgg &amp;</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_parallel_executor_1ac19511dbcb904a3375b61d5757fd2177" kindref="member">AggregateFunction</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Finalise. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements finalise without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="195" column="19" bodyfile="src/query/parallel_executor.cpp" bodystart="233" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_parallel_executor_1a8b780f3dd42612fd5b27281fadde19cf" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ParallelExecutor::groupKey</definition>
+        <argsstring>(const BaseEntity &amp;e, const std::vector&lt; std::string &gt; &amp;group_by)</argsstring>
+        <name>groupKey</name>
+        <qualifiedname>themis::ParallelExecutor::groupKey</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref> &amp;</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>group_by</declname>
+        </param>
+        <briefdescription>
+<para>Group Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">group_by</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">group_by</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), getFieldAsString(), value_or(), std::to_string(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="203" column="24" bodyfile="src/query/parallel_executor.cpp" bodystart="189" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/parallel_executor.h" line="30" column="1" bodyfile="include/query/parallel_executor.h" bodystart="30" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_parallel_executor_1ac19511dbcb904a3375b61d5757fd2177" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>AggregateFunction</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a670461061f95857ce9f20977e690cdea" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>AggregateResult</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a543956c6914a1d49e0f40a03d878735e" prot="private" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a54979ae0a9769cf4fca2d2108d4f63f0" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>FilterFn</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a8c7a8727a2c8a5ea0e6a40a9669b9556" prot="private" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>finalise</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1ad4cd5d5637229845358b455be43b668f" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a8b780f3dd42612fd5b27281fadde19cf" prot="private" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>groupKey</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a5b7613af95b2c7d58cea77b679b0a88d" prot="private" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>mergePartial</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1adcd4fa04d239321cf09d10b51a246211" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>parallelAggregate</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a9be340b469a08f6ed70f051e219b5585" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>ParallelExecutor</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a6553d3329a467b39faefa8fbc1ff8bc4" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>ParallelExecutor</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a3de1276dbaddc514867fc437fbbfb0ef" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>parallelHashJoin</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1ae9c728e43d1b2ebecf313d382b24d106" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>parallelScan</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a127fbd212f2aea1c75505ccdc429c588" prot="private" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>PartialMap</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1aff26d4af21ac2a0090351fd2fc0b29d5" prot="private" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>resolveThreads</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a0402065b26bf18a4369d9e2d73750405" prot="private" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>sequentialAggregate</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1ab360b93d35d3f1084c595ea3bb828499" prot="private" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>sequentialHashJoin</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a642074055fd2add7695641d5729c7de6" prot="private" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>sequentialScan</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a323b181db2271054eaf3609cab071be3" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>Table</name></member>
+      <member refid="classthemis_1_1_parallel_executor_1a89e63163fb996d54fd475f75175f0106" prot="private" virt="non-virtual"><scope>themis::ParallelExecutor</scope><name>validateConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

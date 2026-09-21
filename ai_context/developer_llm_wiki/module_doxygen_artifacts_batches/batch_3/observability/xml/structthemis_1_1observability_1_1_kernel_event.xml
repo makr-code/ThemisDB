@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_kernel_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::KernelEvent</compoundname>
+    <includes refid="ebpf__tracer_8h" local="no">ebpf_tracer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_kernel_event_1a26f62c0fe804e938082d19d134040949" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bcc" kindref="member">EbpfProbeType</ref></type>
+        <definition>EbpfProbeType themis::observability::KernelEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::observability::KernelEvent::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bccab50339a10e1de285ac99d4c3990b8693" kindref="member">EbpfProbeType::NONE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="43" column="19" bodyfile="include/observability/ebpf_tracer.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_kernel_event_1aab6c9e6ea31f0d26bad95372006a6547" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::KernelEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::KernelEvent::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="44" column="43" bodyfile="include/observability/ebpf_tracer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_kernel_event_1aa5b4853b0828253688672edda26bac0f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::KernelEvent::delta</definition>
+        <argsstring></argsstring>
+        <name>delta</name>
+        <qualifiedname>themis::observability::KernelEvent::delta</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative counter delta since the last collection interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="46" column="13" bodyfile="include/observability/ebpf_tracer.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_kernel_event_1a9a06f44d9d7738460cdc85d1be8ce324" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::KernelEvent::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::observability::KernelEvent::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the event source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ebpf_tracer.h" line="48" column="17" bodyfile="include/observability/ebpf_tracer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single kernel-level event sample collected from the process. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/ebpf_tracer.h" line="42" column="1" bodyfile="include/observability/ebpf_tracer.h" bodystart="42" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_kernel_event_1aa5b4853b0828253688672edda26bac0f" prot="public" virt="non-virtual"><scope>themis::observability::KernelEvent</scope><name>delta</name></member>
+      <member refid="structthemis_1_1observability_1_1_kernel_event_1a9a06f44d9d7738460cdc85d1be8ce324" prot="public" virt="non-virtual"><scope>themis::observability::KernelEvent</scope><name>description</name></member>
+      <member refid="structthemis_1_1observability_1_1_kernel_event_1aab6c9e6ea31f0d26bad95372006a6547" prot="public" virt="non-virtual"><scope>themis::observability::KernelEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_kernel_event_1a26f62c0fe804e938082d19d134040949" prot="public" virt="non-virtual"><scope>themis::observability::KernelEvent</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

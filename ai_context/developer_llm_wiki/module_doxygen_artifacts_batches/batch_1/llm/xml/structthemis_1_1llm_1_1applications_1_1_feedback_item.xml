@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1applications_1_1_feedback_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::applications::FeedbackItem</compoundname>
+    <includes refid="themis__help__lora_8h" local="no">themis_help_lora.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_feedback_item_1a078f0531997937994ffb903acb8ce10b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::FeedbackItem::question</definition>
+        <argsstring></argsstring>
+        <name>question</name>
+        <qualifiedname>themis::llm::applications::FeedbackItem::question</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="199" column="17" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_feedback_item_1a428b1ddceadcde4a1ad84a11a9e5e606" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::FeedbackItem::answer</definition>
+        <argsstring></argsstring>
+        <name>answer</name>
+        <qualifiedname>themis::llm::applications::FeedbackItem::answer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="200" column="17" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_feedback_item_1a6a275354d5b5473efc2d9c943f0af442" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::FeedbackItem::correction</definition>
+        <argsstring></argsstring>
+        <name>correction</name>
+        <qualifiedname>themis::llm::applications::FeedbackItem::correction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="201" column="17" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_feedback_item_1a1fe1c0339a4ecfb1bc2a772cb5374d66" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017f" kindref="member">FeedbackType</ref></type>
+        <definition>FeedbackType themis::llm::applications::FeedbackItem::feedback_type</definition>
+        <argsstring></argsstring>
+        <name>feedback_type</name>
+        <qualifiedname>themis::llm::applications::FeedbackItem::feedback_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="202" column="18" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_feedback_item_1a3eaa3b0d742def32041f379aec32b868" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::applications::FeedbackItem::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::llm::applications::FeedbackItem::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="203" column="17" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_feedback_item_1ab513bc397a6c231fba74a43b87652d3b" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::applications::FeedbackItem::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::llm::applications::FeedbackItem::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="204" column="43" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_feedback_item_1afeba4a918c8f86eaff1ccbacaf9ad5c4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::applications::FeedbackItem::used_for_training</definition>
+        <argsstring></argsstring>
+        <name>used_for_training</name>
+        <qualifiedname>themis::llm::applications::FeedbackItem::used_for_training</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="205" column="10" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/applications/themis_help_lora.h" line="198" column="1" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="198" bodyend="206"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_item_1a428b1ddceadcde4a1ad84a11a9e5e606" prot="public" virt="non-virtual"><scope>themis::llm::applications::FeedbackItem</scope><name>answer</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_item_1a6a275354d5b5473efc2d9c943f0af442" prot="public" virt="non-virtual"><scope>themis::llm::applications::FeedbackItem</scope><name>correction</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_item_1a1fe1c0339a4ecfb1bc2a772cb5374d66" prot="public" virt="non-virtual"><scope>themis::llm::applications::FeedbackItem</scope><name>feedback_type</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_item_1a078f0531997937994ffb903acb8ce10b" prot="public" virt="non-virtual"><scope>themis::llm::applications::FeedbackItem</scope><name>question</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_item_1ab513bc397a6c231fba74a43b87652d3b" prot="public" virt="non-virtual"><scope>themis::llm::applications::FeedbackItem</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_item_1afeba4a918c8f86eaff1ccbacaf9ad5c4" prot="public" virt="non-virtual"><scope>themis::llm::applications::FeedbackItem</scope><name>used_for_training</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_feedback_item_1a3eaa3b0d742def32041f379aec32b868" prot="public" virt="non-virtual"><scope>themis::llm::applications::FeedbackItem</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

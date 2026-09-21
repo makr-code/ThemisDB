@@ -1,0 +1,726 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_direct_x_vector_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::DirectXVectorBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_vector_backend" prot="public" virt="non-virtual">themis::acceleration::IVectorBackend</basecompoundref>
+    <includes refid="graphics__backends_8h" local="no">graphics_backends.h</includes>
+    <innerclass refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1_1_direct_x_vector_backend_impl" prot="public">themis::acceleration::DirectXVectorBackend::DirectXVectorBackendImpl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a610ea4b12696a348717676620c3c9981" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::acceleration::DirectXVectorBackend::AvailabilityFn = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>AvailabilityFn</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::AvailabilityFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="29" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1ac7dcd570334e9c86a084ca138f079d59" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::acceleration::DirectXVectorBackend::InitializeFn = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>InitializeFn</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::InitializeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="30" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a1222d0d1c6a04e6a3f790b8a7b493ca7" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;( const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, bool useL2)&gt;</type>
+        <definition>using themis::acceleration::DirectXVectorBackend::ComputeDistancesFn = std::function&lt;std::vector&lt;float&gt;(
+       const float* queries,
+       size_t numQueries,
+       size_t dim,
+       const float* vectors,
+       size_t numVectors,
+       bool useL2)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ComputeDistancesFn</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::ComputeDistancesFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="31" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a2100f642b79b552891b7001f1d06a1e3" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;( const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, size_t k, bool useL2)&gt;</type>
+        <definition>using themis::acceleration::DirectXVectorBackend::BatchKnnSearchFn = std::function&lt;std::vector&lt;std::vector&lt;std::pair&lt;uint32_t, float&gt;&gt;&gt;(
+       const float* queries,
+       size_t numQueries,
+       size_t dim,
+       const float* vectors,
+       size_t numVectors,
+       size_t k,
+       bool useL2)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BatchKnnSearchFn</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::BatchKnnSearchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="38" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1ab4245d81e9dd4f159c7a48e40ecfc4d8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::DirectXVectorBackend::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="187" column="10" bodyfile="include/acceleration/graphics_backends.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a82418bc52d36a0361e0d2b7b9f99beba" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1_1_direct_x_vector_backend_impl" kindref="compound">DirectXVectorBackendImpl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DirectXVectorBackendImpl&gt; themis::acceleration::DirectXVectorBackend::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="189" column="21" bodyfile="include/acceleration/graphics_backends.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a6d3b336261bb1b298fe623ef134fd7da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::DirectXVectorBackend::DirectXVectorBackend</definition>
+        <argsstring>()</argsstring>
+        <name>DirectXVectorBackend</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::DirectXVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="47" column="5" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1018" bodyend="1022"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1ab48014b9c8e076c4fdf9cf7d8dda8eac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::DirectXVectorBackend::~DirectXVectorBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~DirectXVectorBackend</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::~DirectXVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="48" column="5" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1025" bodyend="1027"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a41988641d4f68e6fa5053cc971bd1c87" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::DirectXVectorBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="50" column="16" bodyfile="include/acceleration/graphics_backends.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a74495be61b2d995272ceef9c2ceda2df" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::DirectXVectorBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="51" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1abadaa9210e9316ddc331fcf6a64e26d0" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::DirectXVectorBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="52" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1029" bodyend="1044"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a3dd6e9b62bb70dcf57b0615006344372" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::DirectXVectorBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="54" column="25" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1046" bodyend="1048"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1ae18adddade4f81fe69f06136f932aaf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::DirectXVectorBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), DirectXVectorBackend::initializeFnMutex(), DirectXVectorBackend::initializeFnStorage(), fn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="55" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1055" bodyend="1070"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a693452921437c3d4d0977153841a3449" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::DirectXVectorBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="56" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1076" bodyend="1076"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a29a59051ce656514f5bd3b98fc2b86a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::DirectXVectorBackend::computeDistances</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, bool useL2=true) override</argsstring>
+        <name>computeDistances</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::computeDistances</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a56cc8ea7f1d8a7f2c8bb77025403f8e2">computeDistances</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Compute Distances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numQueries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">useL2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), DirectXVectorBackend::computeDistancesFnMutex(), DirectXVectorBackend::computeDistancesFnStorage(), fn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="58" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1089" bodyend="1111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a97b668738abc9bdba2f2e3bfe371d5f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt; themis::acceleration::DirectXVectorBackend::batchKnnSearch</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, size_t k, bool useL2=true) override</argsstring>
+        <name>batchKnnSearch</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::batchKnnSearch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a7f0c7e6ce9e71f79406f2de2fa627008">batchKnnSearch</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="67" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1113" bodyend="1136"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a8e041b8334c6e84223b89cdb5fe0c39a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::DirectXVectorBackend::setAvailabilityFn</definition>
+        <argsstring>(AvailabilityFn fn)</argsstring>
+        <name>setAvailabilityFn</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::setAvailabilityFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a610ea4b12696a348717676620c3c9981" kindref="member">AvailabilityFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Availability Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), availabilityFnMutex(), availabilityFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="82" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="82" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a5a39ddf81050ec10488bdb20c1700944" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::DirectXVectorBackend::setInitializeFn</definition>
+        <argsstring>(InitializeFn fn)</argsstring>
+        <name>setInitializeFn</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::setInitializeFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1ac7dcd570334e9c86a084ca138f079d59" kindref="member">InitializeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Initialize Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), initializeFnMutex(), initializeFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="91" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a4194d7d81dff063b0fd6f89289d144a2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::DirectXVectorBackend::setComputeDistancesFn</definition>
+        <argsstring>(ComputeDistancesFn fn)</argsstring>
+        <name>setComputeDistancesFn</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::setComputeDistancesFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a1222d0d1c6a04e6a3f790b8a7b493ca7" kindref="member">ComputeDistancesFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Compute Distances Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), computeDistancesFnMutex(), computeDistancesFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="100" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="100" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a6b79a393348588cad8c69f2c736d524b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::DirectXVectorBackend::setBatchKnnSearchFn</definition>
+        <argsstring>(BatchKnnSearchFn fn)</argsstring>
+        <name>setBatchKnnSearchFn</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::setBatchKnnSearchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a2100f642b79b552891b7001f1d06a1e3" kindref="member">BatchKnnSearchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Batch Knn Search Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), batchKnnSearchFnMutex(), batchKnnSearchFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="109" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="109" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a9f475b536eceeeaddf038f787040ee66" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::DirectXVectorBackend::availabilityFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>availabilityFnMutex</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::availabilityFnMutex</qualifiedname>
+        <briefdescription>
+<para>Availability Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements availabilityFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="120" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="120" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1aeea475413986e885fb17e3e6c6b363bd" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a610ea4b12696a348717676620c3c9981" kindref="member">AvailabilityFn</ref> &amp;</type>
+        <definition>static AvailabilityFn &amp; themis::acceleration::DirectXVectorBackend::availabilityFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>availabilityFnStorage</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::availabilityFnStorage</qualifiedname>
+        <briefdescription>
+<para>Availability Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements availabilityFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="129" column="27" bodyfile="include/acceleration/graphics_backends.h" bodystart="129" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a5ab1234f4b6fb8e9ab93d7dfd35d793c" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::DirectXVectorBackend::initializeFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>initializeFnMutex</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::initializeFnMutex</qualifiedname>
+        <briefdescription>
+<para>Initialize Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements initializeFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="138" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="138" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a5c0469c85e369687f17e6e5c16374ac0" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1ac7dcd570334e9c86a084ca138f079d59" kindref="member">InitializeFn</ref> &amp;</type>
+        <definition>static InitializeFn &amp; themis::acceleration::DirectXVectorBackend::initializeFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>initializeFnStorage</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::initializeFnStorage</qualifiedname>
+        <briefdescription>
+<para>Initialize Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements initializeFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="147" column="25" bodyfile="include/acceleration/graphics_backends.h" bodystart="147" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a8ff2246a200a7e82eb5cdd74d9dc1478" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::DirectXVectorBackend::computeDistancesFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>computeDistancesFnMutex</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::computeDistancesFnMutex</qualifiedname>
+        <briefdescription>
+<para>Compute Distances Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeDistancesFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="156" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="156" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a635fc9dc6b72e9512ba4b3ecee9518a6" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a1222d0d1c6a04e6a3f790b8a7b493ca7" kindref="member">ComputeDistancesFn</ref> &amp;</type>
+        <definition>static ComputeDistancesFn &amp; themis::acceleration::DirectXVectorBackend::computeDistancesFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>computeDistancesFnStorage</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::computeDistancesFnStorage</qualifiedname>
+        <briefdescription>
+<para>Compute Distances Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeDistancesFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="165" column="31" bodyfile="include/acceleration/graphics_backends.h" bodystart="165" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1af91498bcff46447d563450583d7eda4b" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::DirectXVectorBackend::batchKnnSearchFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>batchKnnSearchFnMutex</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::batchKnnSearchFnMutex</qualifiedname>
+        <briefdescription>
+<para>Batch Knn Search Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements batchKnnSearchFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="174" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="174" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a3d14170b6ff295d2192d52a2c044226f" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a2100f642b79b552891b7001f1d06a1e3" kindref="member">BatchKnnSearchFn</ref> &amp;</type>
+        <definition>static BatchKnnSearchFn &amp; themis::acceleration::DirectXVectorBackend::batchKnnSearchFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>batchKnnSearchFnStorage</name>
+        <qualifiedname>themis::acceleration::DirectXVectorBackend::batchKnnSearchFnStorage</qualifiedname>
+        <briefdescription>
+<para>Batch Knn Search Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements batchKnnSearchFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="183" column="29" bodyfile="include/acceleration/graphics_backends.h" bodystart="183" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::acceleration::DirectXVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::acceleration::DirectXVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/graphics_backends.h" line="27" column="1" bodyfile="include/acceleration/graphics_backends.h" bodystart="27" bodyend="190"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a610ea4b12696a348717676620c3c9981" prot="public" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>AvailabilityFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a9f475b536eceeeaddf038f787040ee66" prot="private" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>availabilityFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1aeea475413986e885fb17e3e6c6b363bd" prot="private" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>availabilityFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a97b668738abc9bdba2f2e3bfe371d5f7" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>batchKnnSearch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a2100f642b79b552891b7001f1d06a1e3" prot="public" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>BatchKnnSearchFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1af91498bcff46447d563450583d7eda4b" prot="private" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>batchKnnSearchFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a3d14170b6ff295d2192d52a2c044226f" prot="private" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>batchKnnSearchFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a2143e8e963e3190e8bc602b329abeb82" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>batchKnnSearchSafe</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a29a59051ce656514f5bd3b98fc2b86a2" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>computeDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a1222d0d1c6a04e6a3f790b8a7b493ca7" prot="public" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>ComputeDistancesFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a8ff2246a200a7e82eb5cdd74d9dc1478" prot="private" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>computeDistancesFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a635fc9dc6b72e9512ba4b3ecee9518a6" prot="private" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>computeDistancesFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a6d3b336261bb1b298fe623ef134fd7da" prot="public" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>DirectXVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a3dd6e9b62bb70dcf57b0615006344372" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a82418bc52d36a0361e0d2b7b9f99beba" prot="private" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1ae18adddade4f81fe69f06136f932aaf9" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1ab4245d81e9dd4f159c7a48e40ecfc4d8" prot="private" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1ac7dcd570334e9c86a084ca138f079d59" prot="public" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>InitializeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a5ab1234f4b6fb8e9ab93d7dfd35d793c" prot="private" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>initializeFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a5c0469c85e369687f17e6e5c16374ac0" prot="private" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>initializeFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1abadaa9210e9316ddc331fcf6a64e26d0" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a41988641d4f68e6fa5053cc971bd1c87" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1afe7b6b9c94e550943146ae6dd2633573" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>populateANNDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a8e041b8334c6e84223b89cdb5fe0c39a" prot="public" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>setAvailabilityFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a6b79a393348588cad8c69f2c736d524b" prot="public" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>setBatchKnnSearchFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a4194d7d81dff063b0fd6f89289d144a2" prot="public" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>setComputeDistancesFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a5a39ddf81050ec10488bdb20c1700944" prot="public" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>setInitializeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a693452921437c3d4d0977153841a3449" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a74495be61b2d995272ceef9c2ceda2df" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1ab48014b9c8e076c4fdf9cf7d8dda8eac" prot="public" virt="non-virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>~DirectXVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a80795a79f28f4f5dab65de8acd2af35f" prot="public" virt="virtual"><scope>themis::acceleration::DirectXVectorBackend</scope><name>~IVectorBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

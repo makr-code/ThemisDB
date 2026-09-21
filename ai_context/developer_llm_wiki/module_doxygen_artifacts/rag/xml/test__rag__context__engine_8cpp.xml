@@ -1,0 +1,866 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__context__engine_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_context_engine.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">ethics_ai/argument_store.h</includes>
+    <includes local="yes">ethics_ai/rag_context_engine.h</includes>
+    <includes local="yes">ethics_ai/ethics_ai_types.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/rag/test_rag_context_engine.cpp</label>
+        <link refid="test__rag__context__engine_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="7">
+        <label>cmath</label>
+      </node>
+      <node id="3">
+        <label>ethics_ai/argument_store.h</label>
+      </node>
+      <node id="5">
+        <label>ethics_ai/ethics_ai_types.h</label>
+      </node>
+      <node id="4">
+        <label>ethics_ai/rag_context_engine.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_set</label>
+      </node>
+      <node id="11">
+        <label>variant</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_r_a_g_context_engine_focused_tests" prot="public">RAGContextEngineFocusedTests</innerclass>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1ethics">themis::plugins::ethics</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="test__rag__context__engine_8cpp_1abadd32c473eabc0c5dce59452926787c" prot="public" static="no">
+        <type>std::vector&lt; std::pair&lt; std::string, double &gt; &gt;</type>
+        <definition>using SimilarityResults = std::vector&lt;std::pair&lt;std::string, double&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>SimilarityResults</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="16" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1aa4b5137cec2297360b1dc7ca8a43e240" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EthicalArgument</type>
+        <definition>static EthicalArgument makeArg</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;school, ArgumentType type, ArgumentStrength strength, const std::string &amp;content)</argsstring>
+        <name>makeArg</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school</declname>
+        </param>
+        <param>
+          <type>ArgumentType</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>ArgumentStrength</type>
+          <declname>strength</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="22" column="24" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="22" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, BuildContextReturnsRAGContext)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>BuildContextReturnsRAGContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="142" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="142" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a0173ca2443e3a3576877f5a6cddae28d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, BuildContextPopulatesPhilosophyArguments)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>BuildContextPopulatesPhilosophyArguments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="151" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="151" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a24f6fc768ac7502189c6918333c8280b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, BuildContextRelevanceScoresPresent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>BuildContextRelevanceScoresPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="167" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="167" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a404b2c612642bfcbdd841b1ebba06262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, FindSimilarDilemmasReturnsSimilarIds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>FindSimilarDilemmasReturnsSimilarIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="186" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="186" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a7ad6a4d54acd219a928ea5dce8573a80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, FindSimilarDilemmasRespectsLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>FindSimilarDilemmasRespectsLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="194" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="194" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1ad8ba6e7981f3da395f498713b39c4b46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, FindSimilarDilemmasHighThresholdReducesResults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>FindSimilarDilemmasHighThresholdReducesResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="202" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="202" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a954d477fcbcaab45b80fb52633fa47cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, FindSimilarDilemmasNoMatchReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>FindSimilarDilemmasNoMatchReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="214" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="214" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a03a4272bd25ad1822a89dfd6e14de255" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, GetBestPracticesReturnsDECISIVEandSTRONG)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>GetBestPracticesReturnsDECISIVEandSTRONG</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="226" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="226" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a41746769cad43cebc0371ba570c7b09f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, GetBestPracticesMinSatisfaction1ReturnsDECISIVE)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>GetBestPracticesMinSatisfaction1ReturnsDECISIVE</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="235" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="235" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1ad0037b62eb16c5c67e65e90c2d4ee97b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, GetBestPracticesRespectsLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>GetBestPracticesRespectsLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="244" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="244" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a4a10d20bc77aef9b656b58da7851a6d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, VectorSemanticSearchReturnsRankedResults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>VectorSemanticSearchReturnsRankedResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="255" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="255" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1ad9f9a2df8c1740d4e4f31af85cb64cde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, VectorSemanticSearchEmptyQueryReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>VectorSemanticSearchEmptyQueryReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="290" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="290" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1aa715ef36ca862af67801d8d1479fcf7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, VectorSemanticSearchNoSchoolFilterSearchesAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>VectorSemanticSearchNoSchoolFilterSearchesAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="297" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="297" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a36783f82fd2fb807c430c2a42ab39a65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, TraverseArgumentChainBFSOrderIsCorrect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>TraverseArgumentChainBFSOrderIsCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="315" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="315" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1acf1e332955b7a86bda38db64dfa93d36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, TraverseArgumentChainRespectsMaxDepth)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>TraverseArgumentChainRespectsMaxDepth</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="332" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="332" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1acb66123257d7ee9b6710509a9fb2e0f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, TraverseArgumentChainUnknownIdReturnsSeedOnly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>TraverseArgumentChainUnknownIdReturnsSeedOnly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="343" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="343" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a0b9337cd475203b6844dd6645807f507" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, TraverseArgumentChainCycleSafe)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>TraverseArgumentChainCycleSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="352" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="352" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__context__engine_8cpp_1a5d1f30005e493233d4cc9bde914a7dc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAGContextEngineFocusedTests, TraverseArgumentChainEmptyStartIdReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref></type>
+        </param>
+        <param>
+          <type>TraverseArgumentChainEmptyStartIdReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_context_engine.cpp" line="382" column="1" bodyfile="tests/rag/test_rag_context_engine.cpp" bodystart="382" bodyend="387"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ethics_ai/argument_store.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ethics_ai/rag_context_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ethics_ai/ethics_ai_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::plugins::ethics;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1abadd32c473eabc0c5dce59452926787c" kindref="member">SimilarityResults</ref><sp/>=<sp/>std::vector&lt;std::pair&lt;std::string,<sp/>double&gt;&gt;;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>EthicalArgument<sp/>makeArg(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>school,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ArgumentType<sp/>type,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ArgumentStrength<sp/>strength,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EthicalArgument<sp/>a;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>a.id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>a.philosophy_school<sp/>=<sp/>school;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>a.argument_type<sp/><sp/><sp/><sp/><sp/>=<sp/>type;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>a.strength<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>strength;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>a.content<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>content;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Seeds<sp/>20<sp/>arguments<sp/>in<sp/>SetUp<sp/>across<sp/>3<sp/>philosophy<sp/>schools<sp/>and<sp/>2<sp/>argument<sp/>types:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>kant<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><sp/>7<sp/>PRO<sp/>(STRONG)<sp/><sp/><sp/>+<sp/>3<sp/>CONTRA<sp/>(MODERATE)<sp/>=<sp/>10<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>utilitarianism<sp/>:<sp/><sp/>5<sp/>PRO<sp/>(DECISIVE)<sp/>+<sp/>2<sp/>CONTRA<sp/>(WEAK)<sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>7<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>virtue_ethics<sp/><sp/>:<sp/><sp/>2<sp/>PRO<sp/>(STRONG)<sp/><sp/><sp/>+<sp/>1<sp/>CONTRA<sp/>(MODERATE)<sp/>=<sp/><sp/>3<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>Total:<sp/>20<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Explicit<sp/>chain<sp/>for<sp/>BFS<sp/>tests<sp/>(direction=&quot;supports&quot;):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>kant-pro-1<sp/>→<sp/>kant-pro-2<sp/>→<sp/>kant-pro-3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="class_r_a_g_context_engine_focused_tests" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a73f2e6895a85c32f57327e877911e729" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref><sp/>=<sp/>std::make_shared&lt;ArgumentStore&gt;();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>-&gt;initialize(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">).isOK());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a61d21861f5b37162bf25a43bd13f7369" kindref="member">engine_</ref><sp/>=<sp/>std::make_unique&lt;RAGContextEngine&gt;(<ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>kant<sp/>PRO<sp/>(7,<sp/>STRONG)<sp/>──────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Content<sp/>shares<sp/>the<sp/>core<sp/>Kantian<sp/>vocabulary<sp/>so<sp/>that<sp/>text-similarity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>queries<sp/>on<sp/>&quot;justice<sp/>fairness<sp/>duty&quot;<sp/>reliably<sp/>return<sp/>these<sp/>arguments.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ordinal<sp/>suffixes<sp/>differentiate<sp/>entries<sp/>while<sp/>keeping<sp/>them<sp/>uniquely</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>identifiable<sp/>without<sp/>introducing<sp/>semantic<sp/>noise<sp/>into<sp/>the<sp/>test.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>kant_content<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability<sp/>categorical<sp/>imperative<sp/>one&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability<sp/>categorical<sp/>imperative<sp/>two&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability<sp/>categorical<sp/>imperative<sp/>three&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability<sp/>categorical<sp/>imperative<sp/>four&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability<sp/>categorical<sp/>imperative<sp/>five&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability<sp/>categorical<sp/>imperative<sp/>six&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability<sp/>categorical<sp/>imperative<sp/>seven&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>7;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>-&gt;storeArgument(makeArg(</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;kant-pro-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ArgumentType::PRO,<sp/>ArgumentStrength::STRONG,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kant_content[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>-<sp/>1)]));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>kant<sp/>CONTRA<sp/>(3,<sp/>MODERATE)<sp/>─────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>-&gt;storeArgument(makeArg(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;kant-contra-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ArgumentType::CONTRA,<sp/>ArgumentStrength::MODERATE,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Kantian<sp/>counter-argument<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>utilitarianism<sp/>PRO<sp/>(5,<sp/>DECISIVE)<sp/>──────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>-&gt;storeArgument(makeArg(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;util-pro-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;utilitarianism&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ArgumentType::PRO,<sp/>ArgumentStrength::DECISIVE,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;utility<sp/>happiness<sp/>welfare<sp/>consequences<sp/>benefit<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>utilitarianism<sp/>CONTRA<sp/>(2,<sp/>WEAK)<sp/>───────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>2;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>-&gt;storeArgument(makeArg(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;util-contra-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;utilitarianism&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ArgumentType::CONTRA,<sp/>ArgumentStrength::WEAK,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Utilitarian<sp/>counter-argument<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>virtue_ethics<sp/>PRO<sp/>(2,<sp/>STRONG)<sp/>─────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>2;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>-&gt;storeArgument(makeArg(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;virtue-pro-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;virtue_ethics&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ArgumentType::PRO,<sp/>ArgumentStrength::STRONG,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;virtue<sp/>character<sp/>excellence<sp/>flourishing<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>virtue_ethics<sp/>CONTRA<sp/>(1,<sp/>MODERATE)<sp/>────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>-&gt;storeArgument(makeArg(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;virtue-contra-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;virtue_ethics&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ArgumentType::CONTRA,<sp/>ArgumentStrength::MODERATE,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Virtue<sp/>ethics<sp/>counter-argument&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Build<sp/>explicit<sp/>chain:<sp/>kant-pro-1<sp/>→<sp/>kant-pro-2<sp/>→<sp/>kant-pro-3<sp/>───</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>-&gt;getArgument(</highlight><highlight class="stringliteral">&quot;kant-pro-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>a<sp/>=<sp/>std::get_if&lt;EthicalArgument&gt;(&amp;r))<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a-&gt;supports.push_back(</highlight><highlight class="stringliteral">&quot;kant-pro-2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>-&gt;storeArgument(*a);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>-&gt;getArgument(</highlight><highlight class="stringliteral">&quot;kant-pro-2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>a<sp/>=<sp/>std::get_if&lt;EthicalArgument&gt;(&amp;r))<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a-&gt;supports.push_back(</highlight><highlight class="stringliteral">&quot;kant-pro-3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>-&gt;storeArgument(*a);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ArgumentStore&gt;<sp/><sp/><sp/><sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a45262610b589a364939f777872575789" kindref="member">store_</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RAGContextEngine&gt;<sp/><ref refid="class_r_a_g_context_engine_focused_tests_1a61d21861f5b37162bf25a43bd13f7369" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>buildContext</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>BuildContextReturnsRAGContext)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;buildContext(</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>categorical<sp/>imperative&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;utilitarianism&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;resource_allocation&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;RAGContext&gt;(result));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>BuildContextPopulatesPhilosophyArguments)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;buildContext(</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>duty<sp/>universalizability&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;utilitarianism&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ethics&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;RAGContext&gt;(result));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ctx<sp/>=<sp/>std::get&lt;RAGContext&gt;(result);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>ctx.philosophy_arguments.size());</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(ctx.philosophy_arguments.count(</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">),<sp/>0u);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(ctx.philosophy_arguments.count(</highlight><highlight class="stringliteral">&quot;utilitarianism&quot;</highlight><highlight class="normal">),<sp/>0u);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(ctx.philosophy_arguments.at(</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(ctx.philosophy_arguments.at(</highlight><highlight class="stringliteral">&quot;utilitarianism&quot;</highlight><highlight class="normal">).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>BuildContextRelevanceScoresPresent)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;buildContext(</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;deontology&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;RAGContext&gt;(result));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ctx<sp/>=<sp/>std::get&lt;RAGContext&gt;(result);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[school,<sp/>ids]<sp/>:<sp/>ctx.philosophy_arguments)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>:<sp/>ids)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(ctx.relevance_scores.count(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">),<sp/>0u)</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>relevance<sp/>score<sp/>for<sp/>argument<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>id;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>findSimilarDilemmas<sp/>(Pattern<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>FindSimilarDilemmasReturnsSimilarIds)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;findSimilarDilemmas(</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability&quot;</highlight><highlight class="normal">,<sp/>0.1,<sp/>20);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(result));</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(std::get&lt;std::vector&lt;std::string&gt;&gt;(result).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>FindSimilarDilemmasRespectsLimit)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;findSimilarDilemmas(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability&quot;</highlight><highlight class="normal">,<sp/>0.0,<sp/>3);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(result));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(std::get&lt;std::vector&lt;std::string&gt;&gt;(result).size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>FindSimilarDilemmasHighThresholdReducesResults)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>high<sp/>=<sp/>engine_-&gt;findSimilarDilemmas(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>20);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>low<sp/><sp/>=<sp/>engine_-&gt;findSimilarDilemmas(</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability&quot;</highlight><highlight class="normal">,<sp/>0.0,<sp/>20);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(high));</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(low));</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(std::get&lt;std::vector&lt;std::string&gt;&gt;(high).size(),</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::get&lt;std::vector&lt;std::string&gt;&gt;(low).size());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>FindSimilarDilemmasNoMatchReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>has<sp/>zero<sp/>overlap<sp/>with<sp/>any<sp/>seeded<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;findSimilarDilemmas(</highlight><highlight class="stringliteral">&quot;xyzzy_qqq_zzzz&quot;</highlight><highlight class="normal">,<sp/>0.99,<sp/>20);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(result));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::get&lt;std::vector&lt;std::string&gt;&gt;(result).empty());</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getBestPractices<sp/>(Pattern<sp/>3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>GetBestPracticesReturnsDECISIVEandSTRONG)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>util-pro-*<sp/>are<sp/>DECISIVE<sp/>(1.0)<sp/>and<sp/>kant-pro-*<sp/>are<sp/>STRONG<sp/>(0.85)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>min_satisfaction<sp/>=<sp/>0.8<sp/>→<sp/>both<sp/>tiers<sp/>qualify</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;getBestPractices(</highlight><highlight class="stringliteral">&quot;ethics&quot;</highlight><highlight class="normal">,<sp/>0.8,<sp/>50);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(result));</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(std::get&lt;std::vector&lt;std::string&gt;&gt;(result).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>GetBestPracticesMinSatisfaction1ReturnsDECISIVE)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>DECISIVE<sp/>arguments<sp/>(score<sp/>=<sp/>1.0)<sp/>should<sp/>survive<sp/>threshold<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;getBestPractices(</highlight><highlight class="stringliteral">&quot;ethics&quot;</highlight><highlight class="normal">,<sp/>1.0,<sp/>50);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(result));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>util-pro-*<sp/>are<sp/>DECISIVE<sp/>→<sp/>at<sp/>least<sp/>1<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(std::get&lt;std::vector&lt;std::string&gt;&gt;(result).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>GetBestPracticesRespectsLimit)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;getBestPractices(</highlight><highlight class="stringliteral">&quot;ethics&quot;</highlight><highlight class="normal">,<sp/>0.0,<sp/>2);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(result));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(std::get&lt;std::vector&lt;std::string&gt;&gt;(result).size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>vectorSemanticSearch<sp/>(Pattern<sp/>4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>VectorSemanticSearchReturnsRankedResults)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>768-dim<sp/>query<sp/>vector<sp/>using<sp/>the<sp/>same<sp/>character-frequency<sp/>hashing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>approach<sp/>as<sp/>RAGContextEngine::generateEmbedding()<sp/>so<sp/>that<sp/>query<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>argument<sp/>embeddings<sp/>share<sp/>the<sp/>same<sp/>dimensionality<sp/>and<sp/>can<sp/>be<sp/>compared.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>this<sp/>is<sp/>a<sp/>bag-of-characters<sp/>placeholder,<sp/>not<sp/>a<sp/>semantic<sp/>embedding;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>it<sp/>exercises<sp/>the<sp/>search<sp/>path<sp/>end-to-end<sp/>without<sp/>requiring<sp/>a<sp/>real<sp/>model.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>query(768,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>query_text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;justice<sp/>fairness<sp/>duty<sp/>universalizability&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>query_text)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query[c<sp/>%<sp/>768]<sp/>+=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>norm<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>query)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>norm<sp/>+=<sp/>v<sp/>*<sp/>v;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>norm<sp/>=<sp/>std::sqrt(norm);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(norm<sp/>&gt;<sp/>0.0f)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>query)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v<sp/>/=<sp/>norm;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;vectorSemanticSearch(query,<sp/></highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">,<sp/>5);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;SimilarityResults&gt;(result));</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>hits<sp/>=<sp/>std::get&lt;SimilarityResults&gt;(result);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(hits.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(hits.size(),<sp/>5u);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>score]<sp/>:<sp/>hits)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(score,<sp/>-1.01);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(score,<sp/><sp/>1.01);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>VectorSemanticSearchEmptyQueryReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;vectorSemanticSearch({},<sp/></highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">,<sp/>5);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;SimilarityResults&gt;(result));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::get&lt;SimilarityResults&gt;(result).empty());</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>VectorSemanticSearchNoSchoolFilterSearchesAll)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>query(768,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>filtered<sp/>=<sp/>engine_-&gt;vectorSemanticSearch(query,<sp/></highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>engine_-&gt;vectorSemanticSearch(query,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>100);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;SimilarityResults&gt;(filtered));</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;SimilarityResults&gt;(all));</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unfiltered<sp/>covers<sp/>all<sp/>3<sp/>schools<sp/>→<sp/>at<sp/>least<sp/>as<sp/>many<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(std::get&lt;SimilarityResults&gt;(all).size(),</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::get&lt;SimilarityResults&gt;(filtered).size());</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>traverseArgumentChain<sp/>(Pattern<sp/>5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>TraverseArgumentChainBFSOrderIsCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chain<sp/>kant-pro-1<sp/>→<sp/>kant-pro-2<sp/>→<sp/>kant-pro-3<sp/>was<sp/>built<sp/>in<sp/>SetUp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;traverseArgumentChain(</highlight><highlight class="stringliteral">&quot;kant-pro-1&quot;</highlight><highlight class="normal">,<sp/>3,<sp/></highlight><highlight class="stringliteral">&quot;supports&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(result));</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>chain<sp/>=<sp/>std::get&lt;std::vector&lt;std::string&gt;&gt;(result);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(chain.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;kant-pro-1&quot;</highlight><highlight class="normal">,<sp/>chain[0]);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos2<sp/>=<sp/>std::find(chain.begin(),<sp/>chain.end(),<sp/></highlight><highlight class="stringliteral">&quot;kant-pro-2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos3<sp/>=<sp/>std::find(chain.begin(),<sp/>chain.end(),<sp/></highlight><highlight class="stringliteral">&quot;kant-pro-3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pos2<sp/>!=<sp/>chain.end()<sp/>&amp;&amp;<sp/>pos3<sp/>!=<sp/>chain.end())<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(pos2,<sp/>pos3)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;BFS<sp/>must<sp/>visit<sp/>depth-1<sp/>before<sp/>depth-2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>TraverseArgumentChainRespectsMaxDepth)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>max_depth<sp/>=<sp/>1<sp/>→<sp/>seed<sp/>+<sp/>direct<sp/>children<sp/>only;<sp/>kant-pro-3<sp/>is<sp/>at<sp/>depth-2<sp/>→<sp/>absent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;traverseArgumentChain(</highlight><highlight class="stringliteral">&quot;kant-pro-1&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="stringliteral">&quot;supports&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(result));</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>chain<sp/>=<sp/>std::get&lt;std::vector&lt;std::string&gt;&gt;(result);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_deep<sp/>=<sp/>std::find(chain.begin(),<sp/>chain.end(),<sp/></highlight><highlight class="stringliteral">&quot;kant-pro-3&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>chain.end();</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(has_deep)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Depth-2<sp/>node<sp/>must<sp/>not<sp/>appear<sp/>at<sp/>max_depth=1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>TraverseArgumentChainUnknownIdReturnsSeedOnly)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;traverseArgumentChain(</highlight><highlight class="stringliteral">&quot;nonexistent-id&quot;</highlight><highlight class="normal">,<sp/>5,<sp/></highlight><highlight class="stringliteral">&quot;supports&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(result));</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>chain<sp/>=<sp/>std::get&lt;std::vector&lt;std::string&gt;&gt;(result);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>chain.size());</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;nonexistent-id&quot;</highlight><highlight class="normal">,<sp/>chain[0]);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>TraverseArgumentChainCycleSafe)<sp/>{</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>cycle:<sp/>kant-pro-4<sp/>→<sp/>kant-pro-5<sp/>→<sp/>back<sp/>to<sp/>kant-pro-4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>store_-&gt;getArgument(</highlight><highlight class="stringliteral">&quot;kant-pro-4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>a<sp/>=<sp/>std::get_if&lt;EthicalArgument&gt;(&amp;r))<sp/>{</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a-&gt;supports.push_back(</highlight><highlight class="stringliteral">&quot;kant-pro-5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>store_-&gt;storeArgument(*a);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>store_-&gt;getArgument(</highlight><highlight class="stringliteral">&quot;kant-pro-5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>a<sp/>=<sp/>std::get_if&lt;EthicalArgument&gt;(&amp;r))<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a-&gt;supports.push_back(</highlight><highlight class="stringliteral">&quot;kant-pro-4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>store_-&gt;storeArgument(*a);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;traverseArgumentChain(</highlight><highlight class="stringliteral">&quot;kant-pro-4&quot;</highlight><highlight class="normal">,<sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;supports&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(result));</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>chain<sp/>=<sp/>std::get&lt;std::vector&lt;std::string&gt;&gt;(result);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>seen<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>:<sp/>chain)<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(seen.insert(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">).second)</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Cycle-safe<sp/>BFS<sp/>produced<sp/>duplicate<sp/>node:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>id;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="380"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><ref refid="test__rag__context__engine_8cpp_1a2b8324fa39c708ac130b31ac86e31ad0" kindref="member">TEST_F</ref>(<ref refid="class_r_a_g_context_engine_focused_tests" kindref="compound">RAGContextEngineFocusedTests</ref>,<sp/>TraverseArgumentChainEmptyStartIdReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;traverseArgumentChain(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>5,<sp/></highlight><highlight class="stringliteral">&quot;supports&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;std::vector&lt;std::string&gt;&gt;(result));</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::get&lt;std::vector&lt;std::string&gt;&gt;(result).empty());</highlight></codeline>
+<codeline lineno="387"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_context_engine.cpp"/>
+  </compounddef>
+</doxygen>

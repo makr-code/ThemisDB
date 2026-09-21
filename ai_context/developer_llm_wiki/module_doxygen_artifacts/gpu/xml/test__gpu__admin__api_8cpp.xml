@@ -1,0 +1,671 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__admin__api_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_admin_api.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/admin_api.h</includes>
+    <includes local="yes">themis/gpu/feature_flags.h</includes>
+    <includes local="yes">themis/gpu/memory_manager.h</includes>
+    <includes local="yes">themis/gpu/mig_manager.h</includes>
+    <includes local="no">sstream</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_admin_api.cpp</label>
+        <link refid="test__gpu__admin__api_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>sstream</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/admin_api.h</label>
+      </node>
+      <node id="4">
+        <label>themis/gpu/feature_flags.h</label>
+      </node>
+      <node id="5">
+        <label>themis/gpu/memory_manager.h</label>
+      </node>
+      <node id="6">
+        <label>themis/gpu/mig_manager.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_g_p_u_admin_a_p_i_test" prot="public">GPUAdminAPITest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1aa7b87b0fa22f056cdd511b97017e3507" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void resetMemoryManager</definition>
+        <argsstring>()</argsstring>
+        <name>resetMemoryManager</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="16" column="13" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="16" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1af2ac76b25ab61cb75bd80241c7d0d941" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string compiledBackendSummary</definition>
+        <argsstring>()</argsstring>
+        <name>compiledBackendSummary</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="24" column="20" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="24" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetStats_ValidJson_ContainsExpectedKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetStats_ValidJson_ContainsExpectedKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="67" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="67" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1a8edd0b142ea3fd8d86f00d2e2c394464" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetStats_OpensBrace)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetStats_OpensBrace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="81" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1a0b2957dd6e975c688fa7d3135edb9f1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetStats_ReflectsAllocation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetStats_ReflectsAllocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="88" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="88" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1a5f53da348b26b2408c08ed12fd0cfec2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetTenants_EmptyArray_WhenNoTenants)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetTenants_EmptyArray_WhenNoTenants</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="111" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1a1fe304f5383314ffd74498bce30af150" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetTenants_ContainsTenantEntry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetTenants_ContainsTenantEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="117" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="117" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1a9ebebd5e4d058180fb859f897bb2c41b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetTenants_IsArray)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetTenants_IsArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="148" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="148" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1a35b26f86e09364023c0149ad8ebd2370" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetDevices_NullBalancer_ReturnsEmptyArray)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetDevices_NullBalancer_ReturnsEmptyArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="159" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="159" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1ad3789b396ccb747cde9a6df73623960c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetDevices_WithBalancer_IsArray)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetDevices_WithBalancer_IsArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="164" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="164" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1ae2c6d90a805b55114edf469858c3d94b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, Simulate_SmallRequest_Accepted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>Simulate_SmallRequest_Accepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="187" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="187" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1a748d295cdfc22ea7af1be1134c603641" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, Simulate_OverLimit_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>Simulate_OverLimit_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="195" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="195" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1a2cad17700ddde6f1d6e1f4e2c4857b00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, Simulate_HasCurrentAllocatedBytes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>Simulate_HasCurrentAllocatedBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="204" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="204" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1a5a15406b4009fb437ed7b5949fa42b10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, Simulate_Json_WellFormed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>Simulate_Json_WellFormed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="210" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="210" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1ae75c9bb613ca67b5711473c6a215454f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetStats_JsonDoesNotContainRawNewline)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetStats_JsonDoesNotContainRawNewline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="221" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="221" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1ac6242676eaa367109393e61ee23a5ac8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetMIGInstances_EmptyRegistry_ReturnsEmptyArray)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetMIGInstances_EmptyRegistry_ReturnsEmptyArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="232" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="232" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1aea9ed390117be8a2a8e49d799ded3f54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetMIGInstances_IsArray)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetMIGInstances_IsArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="238" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="238" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__admin__api_8cpp_1a0b3b0290c6f57e73efa791ad4ec9955d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUAdminAPITest, GetMIGInstances_WithPartition_ContainsExpectedFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref></type>
+        </param>
+        <param>
+          <type>GetMIGInstances_WithPartition_ContainsExpectedFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="246" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="246" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/admin_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/feature_flags.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/memory_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/mig_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>reset<sp/>memory<sp/>manager<sp/>between<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>GPUMemoryManager<sp/>singleton<sp/>retains<sp/>state<sp/>between<sp/>tests.<sp/><sp/>We<sp/>reset<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>freeing<sp/>all<sp/>outstanding<sp/>allocations<sp/>via<sp/>DeallocateGPU()<sp/>on<sp/>the<sp/>amount<sp/>used.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>resetMemoryManager()<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>used<sp/>=<sp/>mgr.GetGPUMemoryUsed();</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(used<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.DeallocateGPU(used);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>compiledBackendSummary()<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;cuda=&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,hip=&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_HIP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,vulkan=&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_VULKAN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="class_g_p_u_admin_a_p_i_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUConfig<sp/><ref refid="class_g_p_u_admin_a_p_i_test_1a7947300e4081adfe182f6a4eb7ff5a06" kindref="member">defaultConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_vram_bytes<sp/>=<sp/>4ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_admin_a_p_i_test_1afc832a2306d8d055444de734ab570f0d" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/>resetMemoryManager();<sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_admin_a_p_i_test_1aba439cb8576b87b002186a3f927d875c" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/>resetMemoryManager();<sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getStatsJson()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetStats_ValidJson_ContainsExpectedKeys)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.getStatsJson();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(json.empty());</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;allocated_bytes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;peak_bytes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;allocation_count&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;deallocation_count&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;usage_percent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;gpu_acceleration_enabled&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;edition_info&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;edition_vram_limit_bytes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetStats_OpensBrace)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.getStatsJson();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="charliteral">&apos;{&apos;</highlight><highlight class="normal">,<sp/>json.front());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="charliteral">&apos;}&apos;</highlight><highlight class="normal">,<sp/>json.back());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetStats_ReflectsAllocation)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>kAllocBytes<sp/>=<sp/>512ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allocated<sp/>=<sp/>mgr.TryAllocateGPU(kAllocBytes,<sp/></highlight><highlight class="stringliteral">&quot;admin_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!allocated)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:backend_runtime_available=false;reason=gpu_allocation_unavailable;compiled_backends=&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>compiledBackendSummary();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate<sp/>the<sp/>allocation<sp/>on<sp/>the<sp/>manager<sp/>itself<sp/>first.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.GetStats().allocated_bytes,<sp/>kAllocBytes);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.getStatsJson();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>this<sp/>assertion<sp/>module-boundary<sp/>safe:<sp/>depending<sp/>on<sp/>link<sp/>layout,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPUAdminAPI<sp/>may<sp/>observe<sp/>a<sp/>distinct<sp/>singleton<sp/>instance.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;\&quot;allocated_bytes\&quot;:&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getTenantsJson()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetTenants_EmptyArray_WhenNoTenants)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.getTenantsJson();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;[]&quot;</highlight><highlight class="normal">,<sp/>json);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetTenants_ContainsTenantEntry)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.SetTenantQuota(</highlight><highlight class="stringliteral">&quot;tenant_alpha&quot;</highlight><highlight class="normal">,<sp/>1ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>kTenantAlloc<sp/>=<sp/>256ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allocated<sp/>=<sp/>mgr.TryAllocateGPU(kTenantAlloc,<sp/></highlight><highlight class="stringliteral">&quot;tag&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tenant_alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!allocated)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:tenant_allocation_available=false;reason=tenant_gpu_allocation_unavailable;compiled_backends=&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>compiledBackendSummary();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tenant_stats<sp/>=<sp/>mgr.GetTenantStats(</highlight><highlight class="stringliteral">&quot;tenant_alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tenant_stats.quota_bytes,<sp/>1ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tenant_stats.allocated_bytes,<sp/>kTenantAlloc);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.getTenantsJson();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(json<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;[]&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:tenant_stats_visibility=false;reason=module_boundary_visibility&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;tenant_alpha&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;quota_bytes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;allocated_bytes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;peak_bytes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;headroom_bytes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.DeallocateGPU(kTenantAlloc,<sp/></highlight><highlight class="stringliteral">&quot;tenant_alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.RemoveTenantQuota(</highlight><highlight class="stringliteral">&quot;tenant_alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetTenants_IsArray)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.getTenantsJson();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="charliteral">&apos;[&apos;</highlight><highlight class="normal">,<sp/>json.front());</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="charliteral">&apos;]&apos;</highlight><highlight class="normal">,<sp/>json.back());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getDevicesJson()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetDevices_NullBalancer_ReturnsEmptyArray)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;[]&quot;</highlight><highlight class="normal">,<sp/>api.getDevicesJson());</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetDevices_WithBalancer_IsArray)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>trivial<sp/>balancer<sp/>with<sp/>one<sp/>synthetic<sp/>device.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>dev;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.device_index<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-device&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.backend<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cpu_fallback&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.total_vram_bytes<sp/>=<sp/>4ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.free_vram_bytes<sp/><sp/>=<sp/>4ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.is_healthy<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>balancer(GPULoadBalancer::Strategy::FIRST_HEALTHY,<sp/>{dev});</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig(),<sp/>&amp;balancer);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.getDevicesJson();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="charliteral">&apos;[&apos;</highlight><highlight class="normal">,<sp/>json.front());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="charliteral">&apos;]&apos;</highlight><highlight class="normal">,<sp/>json.back());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;test-device&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;is_healthy&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>simulateJson()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>Simulate_SmallRequest_Accepted)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.simulateJson(128ULL<sp/>*<sp/>1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>128<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;\&quot;accepted\&quot;:true&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;bytes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>Simulate_OverLimit_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>much<sp/>more<sp/>than<sp/>the<sp/>config&apos;s<sp/>max_vram_bytes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUConfig<sp/>cfg<sp/>=<sp/>defaultConfig();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_vram_bytes<sp/>=<sp/>1ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(cfg);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.simulateJson(512ULL<sp/>*<sp/>1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>512<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;\&quot;accepted\&quot;:false&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>Simulate_HasCurrentAllocatedBytes)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.simulateJson(64ULL<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;current_allocated_bytes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>Simulate_Json_WellFormed)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.simulateJson(1ULL<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="charliteral">&apos;{&apos;</highlight><highlight class="normal">,<sp/>json.front());</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="charliteral">&apos;}&apos;</highlight><highlight class="normal">,<sp/>json.back());</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>JSON<sp/>escaping:<sp/>special<sp/>characters<sp/>in<sp/>edition_info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetStats_JsonDoesNotContainRawNewline)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.getStatsJson();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Raw<sp/>newlines<sp/>in<sp/>JSON<sp/>are<sp/>invalid;<sp/>they<sp/>must<sp/>be<sp/>escaped.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string::npos,<sp/>json.find(</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getMIGInstancesJson()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetMIGInstances_EmptyRegistry_ReturnsEmptyArray)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>MIGManager::GetInstance().reset();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;[]&quot;</highlight><highlight class="normal">,<sp/>api.getMIGInstancesJson());</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetMIGInstances_IsArray)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>MIGManager::GetInstance().reset();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.getMIGInstancesJson();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="charliteral">&apos;[&apos;</highlight><highlight class="normal">,<sp/>json.front());</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="charliteral">&apos;]&apos;</highlight><highlight class="normal">,<sp/>json.back());</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="test__gpu__admin__api_8cpp_1ac26d50da85f0847eed3761fc5048562a" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_admin_a_p_i_test" kindref="compound">GPUAdminAPITest</ref>,<sp/>GetMIGInstances_WithPartition_ContainsExpectedFields)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mig<sp/>=<sp/>MIGManager::GetInstance();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>mig.reset();</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUFeatureFlags::GetInstance().enable(GPUFeatureFlags::Feature::MIG_MANAGER);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>dev;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.index<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.device_index<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;NVIDIA<sp/>A100-SXM4-40GB&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.backend<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.compute_major<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.compute_minor<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.total_vram_bytes<sp/>=<sp/>40ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.free_vram_bytes<sp/><sp/>=<sp/>dev.total_vram_bytes;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.is_healthy<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>dev.mig_max_instances<sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>create_status<sp/>=<sp/>mig.createPartition(0,<sp/></highlight><highlight class="stringliteral">&quot;1g.5gb&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>{dev});</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(create_status<sp/>!=<sp/>MIGManager::Status::OK)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:mig_available=false;reason=mig_partition_creation_unavailable;compiled_backends=&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>compiledBackendSummary();</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(mig.assignToTenant(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tenant_x&quot;</highlight><highlight class="normal">),<sp/>MIGManager::Status::OK);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAdminAPI<sp/>api(defaultConfig());</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>api.getMIGInstancesJson();</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;instance_id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;device_index&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;profile&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;1g.5gb&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;memory_bytes&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>json.find(</highlight><highlight class="stringliteral">&quot;tenant_x&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>mig.reset();</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUFeatureFlags::GetInstance().resetToDefaults();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_admin_api.cpp"/>
+  </compounddef>
+</doxygen>

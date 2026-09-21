@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LazyModelLoader::Stats</compoundname>
+    <includes refid="model__loader_8h" local="no">model_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats_1ad7ca351ddfbc8d31be0ee9931270e7d7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::Stats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Stats::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="215" column="16" bodyfile="include/llm/model_loader.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats_1ae780e5c8cefe1e335402bcc4826f9140" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::Stats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Stats::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="216" column="16" bodyfile="include/llm/model_loader.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats_1ab224c54740a66e0392ecfec458ed69ae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::Stats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Stats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="217" column="16" bodyfile="include/llm/model_loader.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats_1a3ba4c4640f854f4723ade34844ed27b9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::Stats::models_loaded</definition>
+        <argsstring></argsstring>
+        <name>models_loaded</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Stats::models_loaded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="218" column="16" bodyfile="include/llm/model_loader.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_loader.h" line="214" column="5" bodyfile="include/llm/model_loader.h" bodystart="214" bodyend="219"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats_1ad7ca351ddfbc8d31be0ee9931270e7d7" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Stats</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats_1ae780e5c8cefe1e335402bcc4826f9140" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Stats</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats_1ab224c54740a66e0392ecfec458ed69ae" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Stats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats_1a3ba4c4640f854f4723ade34844ed27b9" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Stats</scope><name>models_loaded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

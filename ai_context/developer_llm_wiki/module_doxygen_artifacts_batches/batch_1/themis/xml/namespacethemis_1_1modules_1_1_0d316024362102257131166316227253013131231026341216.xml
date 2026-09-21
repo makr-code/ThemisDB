@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1modules_1_1_0d316024362102257131166316227253013131231026341216" kind="namespace" language="C++">
+    <compoundname>themis::modules::@316024362102257131166316227253013131231026341216</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/themis/module_loader.cpp" line="1768" column="1"/>
+  </compounddef>
+</doxygen>

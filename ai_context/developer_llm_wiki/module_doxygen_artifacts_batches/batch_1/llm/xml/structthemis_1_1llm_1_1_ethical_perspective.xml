@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_ethical_perspective" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::EthicalPerspective</compoundname>
+    <includes refid="multi__perspective__generator_8h" local="no">multi_perspective_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_perspective_1a7047005344c7a27bc9895df204c12fcc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalPerspective::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::EthicalPerspective::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="27" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_perspective_1ab4ab8692e1a737780b416dea8da2b873" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalPerspective::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::EthicalPerspective::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="28" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_perspective_1a501c7866d24ed809d46ab07ea2173dcf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalPerspective::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::llm::EthicalPerspective::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="29" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_perspective_1a0afd0485f85bf943d6afcea216171545" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalPerspective::tradition</definition>
+        <argsstring></argsstring>
+        <name>tradition</name>
+        <qualifiedname>themis::llm::EthicalPerspective::tradition</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;Utilitarian&quot;, &quot;Deontological&quot;, &quot;Virtue Ethics&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="30" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_perspective_1a7999a2a7abf4d45b3d4deee433108e8b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicalPerspective::key_principles</definition>
+        <argsstring></argsstring>
+        <name>key_principles</name>
+        <qualifiedname>themis::llm::EthicalPerspective::key_principles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="31" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_perspective_1a0c42ec2f38410d99859c1f353c3e87fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalPerspective::prompt_template</definition>
+        <argsstring></argsstring>
+        <name>prompt_template</name>
+        <qualifiedname>themis::llm::EthicalPerspective::prompt_template</qualifiedname>
+        <briefdescription>
+<para>Template for generating perspective. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="32" column="17" bodyfile="include/llm/multi_perspective_generator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_perspective_generator.h" line="26" column="1" bodyfile="include/llm/multi_perspective_generator.h" bodystart="26" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_ethical_perspective_1a501c7866d24ed809d46ab07ea2173dcf" prot="public" virt="non-virtual"><scope>themis::llm::EthicalPerspective</scope><name>description</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_perspective_1a7047005344c7a27bc9895df204c12fcc" prot="public" virt="non-virtual"><scope>themis::llm::EthicalPerspective</scope><name>id</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_perspective_1a7999a2a7abf4d45b3d4deee433108e8b" prot="public" virt="non-virtual"><scope>themis::llm::EthicalPerspective</scope><name>key_principles</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_perspective_1ab4ab8692e1a737780b416dea8da2b873" prot="public" virt="non-virtual"><scope>themis::llm::EthicalPerspective</scope><name>name</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_perspective_1a0c42ec2f38410d99859c1f353c3e87fe" prot="public" virt="non-virtual"><scope>themis::llm::EthicalPerspective</scope><name>prompt_template</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_perspective_1a0afd0485f85bf943d6afcea216171545" prot="public" virt="non-virtual"><scope>themis::llm::EthicalPerspective</scope><name>tradition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

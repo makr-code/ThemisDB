@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1safety_1_1_transaction_handle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::safety::TransactionHandle</compoundname>
+    <includes refid="move__safety__helpers_8h" local="no">move_safety_helpers.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_transaction_handle_1a818e5496733bd0b84de0a2c76d9deddf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::safety::TransactionHandle::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::safety::TransactionHandle::transaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="195" column="17" bodyfile="include/security/move_safety_helpers.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_transaction_handle_1a6d6f3792828da6b4d41fff9f2ea2fec9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::safety::TransactionHandle::phase</definition>
+        <argsstring></argsstring>
+        <name>phase</name>
+        <qualifiedname>themis::safety::TransactionHandle::phase</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="196" column="14" bodyfile="include/security/move_safety_helpers.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_transaction_handle_1a482200438997017abf8e963d0597847a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::safety::TransactionHandle::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::safety::TransactionHandle::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="197" column="17" bodyfile="include/security/move_safety_helpers.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_transaction_handle_1abfcdc188eebcf732b008dfca5c796d3e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::safety::TransactionHandle::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::safety::TransactionHandle::created_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="198" column="13" bodyfile="include/security/move_safety_helpers.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1safety_1_1_transaction_handle_1adfade575cc604aa0081451884f341ee6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structthemis_1_1safety_1_1_transaction_handle" kindref="compound">TransactionHandle</ref></type>
+        <definition>static TransactionHandle themis::safety::TransactionHandle::from</definition>
+        <argsstring>(const T &amp;txn)</argsstring>
+        <name>from</name>
+        <qualifiedname>themis::safety::TransactionHandle::from</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Create handle from transaction (before move). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="207" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1safety_1_1_transaction_handle_1a5a9157df47fb64852932d8bd9d012790" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::safety::TransactionHandle::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::safety::TransactionHandle::isValid</qualifiedname>
+        <briefdescription>
+<para>Verify handle validity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="210" column="10" bodyfile="include/security/move_safety_helpers.h" bodystart="210" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1safety_1_1_transaction_handle" kindref="compound">TransactionHandle</ref> - Safe reference to transaction after move. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures transaction ID and essential state before move Allows safe queries by ID after transaction is moved to executor </para>
+    </detaileddescription>
+    <location file="include/security/move_safety_helpers.h" line="194" column="1" bodyfile="include/security/move_safety_helpers.h" bodystart="194" bodyend="213"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1safety_1_1_transaction_handle_1abfcdc188eebcf732b008dfca5c796d3e" prot="public" virt="non-virtual"><scope>themis::safety::TransactionHandle</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1safety_1_1_transaction_handle_1adfade575cc604aa0081451884f341ee6" prot="public" virt="non-virtual"><scope>themis::safety::TransactionHandle</scope><name>from</name></member>
+      <member refid="structthemis_1_1safety_1_1_transaction_handle_1a5a9157df47fb64852932d8bd9d012790" prot="public" virt="non-virtual"><scope>themis::safety::TransactionHandle</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1safety_1_1_transaction_handle_1a6d6f3792828da6b4d41fff9f2ea2fec9" prot="public" virt="non-virtual"><scope>themis::safety::TransactionHandle</scope><name>phase</name></member>
+      <member refid="structthemis_1_1safety_1_1_transaction_handle_1a482200438997017abf8e963d0597847a" prot="public" virt="non-virtual"><scope>themis::safety::TransactionHandle</scope><name>status</name></member>
+      <member refid="structthemis_1_1safety_1_1_transaction_handle_1a818e5496733bd0b84de0a2c76d9deddf" prot="public" virt="non-virtual"><scope>themis::safety::TransactionHandle</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

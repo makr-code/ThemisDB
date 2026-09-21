@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="mdm__engine_8h" kind="file" language="C++">
+    <compoundname>mdm_engine.h</compoundname>
+    <includes refid="entity__matcher_8h" local="yes">importers/entity_matcher.h</includes>
+    <includes refid="entity__linker_8h" local="yes">importers/entity_linker.h</includes>
+    <includes refid="canonical__resolver_8h" local="yes">importers/canonical_resolver.h</includes>
+    <includes refid="importer__interface_8h" local="yes">importers/importer_interface.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="postgres__importer__mdm_8h" local="yes">include/importers/postgres_importer_mdm.h</includedby>
+    <includedby refid="mdm__engine_8cpp" local="yes">src/importers/mdm_engine.cpp</includedby>
+    <includedby refid="test__importers__phase2b__exception__safety__focused_8cpp" local="yes">tests/importers/test_importers_phase2b_exception_safety_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="18">
+        <label>importers/canonical_resolver.h</label>
+        <link refid="canonical__resolver_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>importers/entity_linker.h</label>
+        <link refid="entity__linker_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>importers/entity_matcher.h</label>
+        <link refid="entity__matcher_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>importers/importer_interface.h</label>
+        <link refid="importer__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/importers/mdm_engine.h</label>
+        <link refid="mdm__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="14">
+        <label>future</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="16">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>utility</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/importers/mdm_engine.h</label>
+        <link refid="mdm__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/importers/postgres_importer_mdm.h</label>
+        <link refid="postgres__importer__mdm_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/importers/mdm_engine.cpp</label>
+        <link refid="mdm__engine_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/importers/postgres_importer_mdm.cpp</label>
+        <link refid="postgres__importer__mdm_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/importers/test_importers_phase2b_exception_safety_focused.cpp</label>
+        <link refid="test__importers__phase2b__exception__safety__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1importers_1_1_m_d_m_config" prot="public">themis::importers::MDMConfig</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_m_d_m_workflow_result" prot="public">themis::importers::MDMWorkflowResult</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_m_d_m_engine" prot="public">themis::importers::MDMEngine</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="entity__matcher_8h" kindref="compound">importers/entity_matcher.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="entity__linker_8h" kindref="compound">importers/entity_linker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="canonical__resolver_8h" kindref="compound">importers/canonical_resolver.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="importer__interface_8h" kindref="compound">importers/importer_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">importers</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1importers_1_1_m_d_m_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Matching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1importers_1_1_m_d_m_config_1aabda53c964b12ffb8aa1f31657fe056f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a496bcdb146c483b08b93630b4345f40d" kindref="member">HybridEntityMatcher::MatchStrategy</ref><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1aabda53c964b12ffb8aa1f31657fe056f" kindref="member">match_strategy</ref><sp/>=</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a496bcdb146c483b08b93630b4345f40da8aabf87604bc12fadb954886f5b164c1" kindref="member">HybridEntityMatcher::MatchStrategy::DETERMINISTIC_FIRST</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1importers_1_1_m_d_m_config_1ab0ea93dd70ddec8353b1f3c40666ed3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1ab0ea93dd70ddec8353b1f3c40666ed3c" kindref="member">deterministic_threshold</ref><sp/>=<sp/>1.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1importers_1_1_m_d_m_config_1aee668b9e2f59c69a52f8f24ada8d8afd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1aee668b9e2f59c69a52f8f24ada8d8afd" kindref="member">semantic_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.85;<sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1importers_1_1_m_d_m_config_1a2719c3c0e623d181a316b57a8039de8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_semantic_match_config" kindref="compound">SemanticMatchConfig</ref><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1a2719c3c0e623d181a316b57a8039de8f" kindref="member">semantic_config</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1importers_1_1_m_d_m_config_1a047b7e226cd9bf45f37c9fe44e82c6a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1a047b7e226cd9bf45f37c9fe44e82c6a5" kindref="member">primary_key_fields</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1importers_1_1_m_d_m_config_1a230e109c1f9eb4490080d80c958b8716" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1a230e109c1f9eb4490080d80c958b8716" kindref="member">unique_fields</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Linking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1importers_1_1_m_d_m_config_1a9ab54721b47cae20f8f4e0d0809f34d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a077175b814b1a5d70c62bee6dd370765" kindref="member">LinkType</ref><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1a9ab54721b47cae20f8f4e0d0809f34d6" kindref="member">preferred_link_type</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1importers_1a077175b814b1a5d70c62bee6dd370765aee5bb5d2a3828853873c9a0c5f3ae8ad" kindref="member">LinkType::SAME_AS</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1importers_1_1_m_d_m_config_1afc63572605c3302551d98559fe320661" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1afc63572605c3302551d98559fe320661" kindref="member">create_reverse_links</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1importers_1_1_m_d_m_config_1ad8491eb436fd4c8a898d723eff53c88d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a8aeb2d04c24dbc43d3714abe6b45c7b1" kindref="member">ResolutionPolicy</ref><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1ad8491eb436fd4c8a898d723eff53c88d" kindref="member">resolution_policy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1importers_1a8aeb2d04c24dbc43d3714abe6b45c7b1a299ea37020054d78edcfd069574c08a4" kindref="member">ResolutionPolicy::RICHEST_MERGE</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1importers_1_1_m_d_m_config_1ab01dd13cf2505559da435fe00a23d627" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1ab01dd13cf2505559da435fe00a23d627" kindref="member">auto_resolve_conflicts</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1importers_1_1_m_d_m_config_1ad2d3b526c15a7bb0b19b7e7ae4a3d5c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>FieldRule&gt;<sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1ad2d3b526c15a7bb0b19b7e7ae4a3d5c5" kindref="member">field_rules</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1importers_1_1_m_d_m_config_1af6597ae7a833486b6fa8bef3d56dd5dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1af6597ae7a833486b6fa8bef3d56dd5dd" kindref="member">protected_fields</ref>;<sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1importers_1_1_m_d_m_config_1a7e42f862c8afa879d1e20d590fe4de04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1a7e42f862c8afa879d1e20d590fe4de04" kindref="member">parallelize_matching</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1importers_1_1_m_d_m_config_1afe0c52c98a24217708cadd855eace0d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1afe0c52c98a24217708cadd855eace0d1" kindref="member">batch_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1importers_1_1_m_d_m_config_1a82504c4cbaa155d2f8d5cb31ad2c569e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1a82504c4cbaa155d2f8d5cb31ad2c569e" kindref="member">log_all_decisions</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1importers_1_1_m_d_m_config_1a5d8afa3bc794d3092c1aaaa4e6331cf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1a5d8afa3bc794d3092c1aaaa4e6331cf5" kindref="member">audit_collection</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;mdm_audit_trail&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1importers_1_1_m_d_m_config_1ac6824aef34bd2f94088e3c18c3502592" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1ac6824aef34bd2f94088e3c18c3502592" kindref="member">initiated_by</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;importer_v2.2&quot;</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config_1a5f31d98a53246aa932a0b86f35b0a13d" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result" kindref="compound">MDMWorkflowResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ad17d507c57195d7ab937e7423d13040f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ad17d507c57195d7ab937e7423d13040f" kindref="member">workflow_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a57ca8fbcdaa48cdca115d15602497eec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a57ca8fbcdaa48cdca115d15602497eec" kindref="member">collection_name</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a8822c9e333f662ddd94e62d402b74cdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a8822c9e333f662ddd94e62d402b74cdf" kindref="member">total_incoming</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ad89bc1ee4deeec2795157b04fe3d9bdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ad89bc1ee4deeec2795157b04fe3d9bdc" kindref="member">deterministic_matches</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a0a5c0f972d58f599d841d77f2f5b9a76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a0a5c0f972d58f599d841d77f2f5b9a76" kindref="member">semantic_matches</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1abba01f6bbeb530108bd00a72b9e653f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1abba01f6bbeb530108bd00a72b9e653f7" kindref="member">new_entities</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a7378ebe423315514d55261fb50560811" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a7378ebe423315514d55261fb50560811" kindref="member">links_created</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a5816076a0eb710a2b7a72ed218ae9a51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a5816076a0eb710a2b7a72ed218ae9a51" kindref="member">golden_records_created</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a855c2732901693a6c1b3babc73cda263" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a855c2732901693a6c1b3babc73cda263" kindref="member">conflicts_auto_resolved</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ada5e9f5f8137bfd4d8d7a5dc3595c32e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ada5e9f5f8137bfd4d8d7a5dc3595c32e" kindref="member">manual_reviews_needed</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a5f702402a580a4f18fc8c5b398c1ccad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a5f702402a580a4f18fc8c5b398c1ccad" kindref="member">failed_entities</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ae92b6d3f19663e8cb6f0ba9e31660842" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EntityLink&gt;<sp/><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ae92b6d3f19663e8cb6f0ba9e31660842" kindref="member">created_links</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1acd1cf04e3990580173fb825881c7fdd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GoldenRecord&gt;<sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1acd1cf04e3990580173fb825881c7fdd0" kindref="member">golden_records</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ac911d6a4148d7708f25851708f6d2ffc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ac911d6a4148d7708f25851708f6d2ffc" kindref="member">review_queue</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a54290fa37e6910f491836d036a925588" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1a54290fa37e6910f491836d036a925588" kindref="member">status</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ae708c61321d3e92e850ab9f5041b0530" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ae708c61321d3e92e850ab9f5041b0530" kindref="member">metrics</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result_1ad7e87c8b535c72fadeba155c60a7982b" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1importers_1_1_m_d_m_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_m_d_m_engine_1a5dfc4bb8ddedf7fa930d0cc16dc51a10" kindref="member">MDMEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1importers_1_1_m_d_m_engine_1a5dfc4bb8ddedf7fa930d0cc16dc51a10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_m_d_m_engine_1a5dfc4bb8ddedf7fa930d0cc16dc51a10" kindref="member">MDMEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result" kindref="compound">MDMWorkflowResult</ref><sp/><ref refid="classthemis_1_1importers_1_1_m_d_m_engine_1a23fedd52b1c837dc9fae98bc62798d33" kindref="member">executeMDMWorkflow</ref>(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;json&gt;&amp;<sp/>incoming_entities,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;json&gt;&amp;<sp/>existing_entities,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>collection_name,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_import_options" kindref="compound">ImportOptions</ref>&amp;<sp/><sp/><sp/><sp/><sp/>options</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;HybridMatchResult&gt;&gt;<sp/><ref refid="classthemis_1_1importers_1_1_m_d_m_engine_1a841d1c8525333f915b119139dc548c44" kindref="member">executeMatchingPhase</ref>(</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;json&gt;&amp;<sp/>incoming_entities,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;json&gt;&amp;<sp/>existing_entities,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EntityLink&gt;<sp/><ref refid="classthemis_1_1importers_1_1_m_d_m_engine_1aab92a81002930c2bc8ed5807a190bda7" kindref="member">executeLinkingPhase</ref>(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;json&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>incoming_entities,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;HybridMatchResult&gt;&gt;&amp;<sp/>match_results,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collection_name,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_import_options" kindref="compound">ImportOptions</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>options</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GoldenRecord&gt;<sp/><ref refid="classthemis_1_1importers_1_1_m_d_m_engine_1a9d23c432034bf4372d73939e63cf94b7" kindref="member">executeResolutionPhase</ref>(</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EntityLink&gt;&amp;<sp/><sp/>links,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;json&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>incoming_entities,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;json&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>existing_entities,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collection_name,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_hybrid_entity_matcher" kindref="compound">HybridEntityMatcher</ref><sp/><sp/><sp/>hybrid_matcher_;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_entity_linker" kindref="compound">EntityLinker</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>linker_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_canonical_entity_resolver" kindref="compound">CanonicalEntityResolver</ref><sp/>resolver_;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>generateUUID();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>nowRfc3339();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>entityId(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>&amp;<sp/>entity);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>importers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/importers/mdm_engine.h"/>
+  </compounddef>
+</doxygen>

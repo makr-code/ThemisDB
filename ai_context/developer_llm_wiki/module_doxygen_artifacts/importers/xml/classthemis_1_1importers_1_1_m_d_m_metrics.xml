@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_m_d_m_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::MDMMetrics</compoundname>
+    <includes refid="mdm__metrics_8h" local="no">mdm_metrics.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_m_d_m_metrics_1a10f773345743937920925b11210f7369" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::MDMMetrics::MDMMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>MDMMetrics</name>
+        <qualifiedname>themis::importers::MDMMetrics::MDMMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_metrics.h" line="57" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_m_d_m_metrics_1ab99f5ff590174985945471b059b403d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::MDMMetrics::emitMetrics</definition>
+        <argsstring>(const MDMMetricSnapshot &amp;snapshot, const std::string &amp;collection_name, const MetricsCallback &amp;callback)</argsstring>
+        <name>emitMetrics</name>
+        <qualifiedname>themis::importers::MDMMetrics::emitMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_m_d_m_metric_snapshot" kindref="compound">MDMMetricSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+          <defname>snap</defname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1ab6dde0c18a927599823af2160b73f76c" kindref="member">MetricsCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Emit Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1importers_1_1_m_d_m_metrics_1ab99f5ff590174985945471b059b403d2" kindref="member">MDMMetrics::emitMetrics</ref> ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_metrics.h" line="65" column="17" bodyfile="src/importers/mdm_metrics.cpp" bodystart="48" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_m_d_m_metrics_1ab6584ac4d5dc2a584f423a280e8a6350" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::MDMMetrics::getDashboardMetrics</definition>
+        <argsstring>(const MDMMetricSnapshot &amp;snapshot, const std::string &amp;collection_name)</argsstring>
+        <name>getDashboardMetrics</name>
+        <qualifiedname>themis::importers::MDMMetrics::getDashboardMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_m_d_m_metric_snapshot" kindref="compound">MDMMetricSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+          <defname>snap</defname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Dashboard Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1importers_1_1_m_d_m_metrics_1ab6584ac4d5dc2a584f423a280e8a6350" kindref="member">MDMMetrics::getDashboardMetrics</ref> ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_metrics.h" line="77" column="17" bodyfile="src/importers/mdm_metrics.cpp" bodystart="93" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/mdm_metrics.h" line="55" column="1" bodyfile="include/importers/mdm_metrics.h" bodystart="55" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_metrics_1ab99f5ff590174985945471b059b403d2" prot="public" virt="non-virtual"><scope>themis::importers::MDMMetrics</scope><name>emitMetrics</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_metrics_1ab6584ac4d5dc2a584f423a280e8a6350" prot="public" virt="non-virtual"><scope>themis::importers::MDMMetrics</scope><name>getDashboardMetrics</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_metrics_1a10f773345743937920925b11210f7369" prot="public" virt="non-virtual"><scope>themis::importers::MDMMetrics</scope><name>MDMMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

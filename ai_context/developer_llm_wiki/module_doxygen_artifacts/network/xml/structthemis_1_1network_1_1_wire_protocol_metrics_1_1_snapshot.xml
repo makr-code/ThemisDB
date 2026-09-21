@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolMetrics::Snapshot</compoundname>
+    <includes refid="wire__protocol__performance_8h" local="no">wire_protocol_performance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot_1a63e88f6d4af56fb3f45b806735e9d380" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats" kindref="compound">LatencyStats</ref></type>
+        <definition>LatencyStats themis::network::WireProtocolMetrics::Snapshot::latency</definition>
+        <argsstring></argsstring>
+        <name>latency</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::Snapshot::latency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="99" column="25" bodyfile="include/network/wire_protocol_performance.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot_1ac38260ca1d65d1e7b1467322e2fbf7ca" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats" kindref="compound">ThroughputStats</ref></type>
+        <definition>ThroughputStats themis::network::WireProtocolMetrics::Snapshot::throughput</definition>
+        <argsstring></argsstring>
+        <name>throughput</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::Snapshot::throughput</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="100" column="25" bodyfile="include/network/wire_protocol_performance.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot_1affb8967d44ea886f4fd2b2700f422bdb" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats" kindref="compound">ErrorStats</ref></type>
+        <definition>ErrorStats themis::network::WireProtocolMetrics::Snapshot::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::Snapshot::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="101" column="25" bodyfile="include/network/wire_protocol_performance.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot_1addc730e46ec9b7ccd2e617cca0247799" prot="public" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, uint64_t &gt;</type>
+        <definition>std::map&lt;uint64_t , uint64_t &gt; themis::network::WireProtocolMetrics::Snapshot::latency_histogram</definition>
+        <argsstring></argsstring>
+        <name>latency_histogram</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::Snapshot::latency_histogram</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="102" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot_1a2e36412765d20fb772f7548673bd8cd0" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::network::WireProtocolMetrics::Snapshot::captured_at</definition>
+        <argsstring></argsstring>
+        <name>captured_at</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::Snapshot::captured_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="103" column="47" bodyfile="include/network/wire_protocol_performance.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::network::WireProtocolMetrics::ErrorStats</label>
+        <link refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_error_stats"/>
+      </node>
+      <node id="2">
+        <label>themis::network::WireProtocolMetrics::LatencyStats</label>
+        <link refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_latency_stats"/>
+      </node>
+      <node id="1">
+        <label>themis::network::WireProtocolMetrics::Snapshot</label>
+        <link refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>latency</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>throughput</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>errors</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::network::WireProtocolMetrics::ThroughputStats</label>
+        <link refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/network/wire_protocol_performance.h" line="98" column="5" bodyfile="include/network/wire_protocol_performance.h" bodystart="98" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot_1a2e36412765d20fb772f7548673bd8cd0" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::Snapshot</scope><name>captured_at</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot_1affb8967d44ea886f4fd2b2700f422bdb" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::Snapshot</scope><name>errors</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot_1a63e88f6d4af56fb3f45b806735e9d380" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::Snapshot</scope><name>latency</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot_1addc730e46ec9b7ccd2e617cca0247799" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::Snapshot</scope><name>latency_histogram</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_snapshot_1ac38260ca1d65d1e7b1467322e2fbf7ca" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::Snapshot</scope><name>throughput</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

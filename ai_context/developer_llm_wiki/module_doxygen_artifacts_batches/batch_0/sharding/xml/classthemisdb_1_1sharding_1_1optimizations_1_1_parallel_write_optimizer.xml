@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1optimizations_1_1_parallel_write_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::optimizations::ParallelWriteOptimizer</compoundname>
+    <includes refid="raid__optimizations_8h" local="no">raid_optimizations.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_parallel_write_optimizer_1a5775352b576e9258918b4a74d666a4bc" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_write_result" kindref="compound">WriteResult</ref> &gt;</type>
+        <definition>static std::vector&lt; WriteResult &gt; themisdb::sharding::optimizations::ParallelWriteOptimizer::batchWrite</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::vector&lt; uint8_t &gt; &gt; &gt; &amp;documents, const std::string &amp;collection, RedundancyStrategy &amp;strategy, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, RedundancyStrategy::WriteHandler handler)</argsstring>
+        <name>batchWrite</name>
+        <qualifiedname>themisdb::sharding::optimizations::ParallelWriteOptimizer::batchWrite</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::vector&lt; uint8_t &gt; &gt; &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &amp;</type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" kindref="member">RedundancyStrategy::WriteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimize writes by batching and parallelizing across shards </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="47" column="24" bodyfile="include/sharding/raid_optimizations.h" bodystart="47" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parallel Write Optimization. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raid_optimizations.h" line="42" column="1" bodyfile="include/sharding/raid_optimizations.h" bodystart="42" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_parallel_write_optimizer_1a5775352b576e9258918b4a74d666a4bc" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::ParallelWriteOptimizer</scope><name>batchWrite</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

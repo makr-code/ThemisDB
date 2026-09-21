@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="geospatial__cost__model_8h" kind="file" language="C++">
+    <compoundname>geospatial_cost_model.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">memory</includes>
+    <includes refid="optimizer__cost__model__enhancements_8h" local="yes">query/optimizer_cost_model_enhancements.h</includes>
+    <includedby refid="bench__geospatial__phase2_8cpp" local="yes">benchmarks/query/bench_geospatial_phase2.cpp</includedby>
+    <includedby refid="geospatial__index__selector_8h" local="yes">include/query/geospatial_index_selector.h</includedby>
+    <includedby refid="geospatial__cost__model_8cpp" local="yes">src/query/geospatial_cost_model.cpp</includedby>
+    <includedby refid="test__geospatial__optimizer_8cpp" local="yes">tests/query/test_geospatial_optimizer.cpp</includedby>
+    <includedby refid="test__geospatial__phase2__integration_8cpp" local="yes">tests/query/test_geospatial_phase2_integration.cpp</includedby>
+    <includedby refid="test__query__cross__feature__matrix_8cpp" local="yes">tests/query/test_query_cross_feature_matrix.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/geospatial_cost_model.h</label>
+        <link refid="geospatial__cost__model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>query/optimizer_cost_model_enhancements.h</label>
+        <link refid="optimizer__cost__model__enhancements_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>algorithm</label>
+      </node>
+      <node id="5">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/query/bench_geospatial_phase2.cpp</label>
+        <link refid="bench__geospatial__phase2_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/query/geospatial_cost_model.h</label>
+        <link refid="geospatial__cost__model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/query/geospatial_index_selector.h</label>
+        <link refid="geospatial__index__selector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/query/geospatial_cost_model.cpp</label>
+        <link refid="geospatial__cost__model_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/query/geospatial_index_selector.cpp</label>
+        <link refid="geospatial__index__selector_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_geospatial_optimizer.cpp</label>
+        <link refid="test__geospatial__optimizer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/query/test_geospatial_phase2_integration.cpp</label>
+        <link refid="test__geospatial__phase2__integration_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/query/test_query_cross_feature_matrix.cpp</label>
+        <link refid="test__query__cross__feature__matrix_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_spatial_histogram" prot="public">themis::query::SpatialHistogram</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell" prot="public">themis::query::SpatialHistogram::GridCell</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_geospatial_cost_estimator" prot="public">themis::query::GeospatialCostEstimator</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" prot="public">themis::query::GeospatialCostEstimator::CostEstimate</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Spatial cost estimator for Phase 6C: Geospatial Phase 2 optimization. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Phase 6C Q3 2026 Delivery</para>
+</simplesect>
+ThemisDB | Query Module Phase 6C: Geospatial Phase 2 - Optimizer Hints &amp; Performance Hardening</para>
+<para>Provides cost estimation for spatial predicates (ST_DISTANCE, ST_CONTAINS, ST_INTERSECTS) using histogram-based selectivity and index-aware cost modeling, building on Phase 2 optimizer enhancements. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="optimizer__cost__model__enhancements_8h" kindref="compound">query/optimizer_cost_model_enhancements.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1query_1_1_spatial_histogram" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell" kindref="compound">GridCell</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a1c112cc05eba5a3f195a12cb5af0329c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1ade540124c6134610c542412ea0521d73" kindref="member">minLon</ref>,<sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a1c112cc05eba5a3f195a12cb5af0329c" kindref="member">maxLon</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Longitude<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a9fb9a13ae1dc2ecada3f11214791e29e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a2d7c6eccef406e0b23fc6926ace747a3" kindref="member">minLat</ref>,<sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a9fb9a13ae1dc2ecada3f11214791e29e" kindref="member">maxLat</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latitude<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a5f10f59ef00f7cb2b731f335218b52a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a5f10f59ef00f7cb2b731f335218b52a8" kindref="member">pointCount</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Points<sp/>in<sp/>this<sp/>cell</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a7e2ddbff1876cc0c6327380cd3376046" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell_1a7e2ddbff1876cc0c6327380cd3376046" kindref="member">density</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Points<sp/>per<sp/>square<sp/>degree</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1query_1_1_spatial_histogram_1aedccff6d224563cb37293a46ef16c863" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1aedccff6d224563cb37293a46ef16c863" kindref="member">columnName</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1_spatial_histogram_1a2b780d06dd48dfcc0a9b6fb17790df43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GridCell&gt;<sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1a2b780d06dd48dfcc0a9b6fb17790df43" kindref="member">grid</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1_spatial_histogram_1a48274d7d0873ad123c1e5527f7d1603f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1a48274d7d0873ad123c1e5527f7d1603f" kindref="member">totalPoints</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1query_1_1_spatial_histogram_1ace13a2a06b0a05e11af5f6aecc281ff0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1a4ce02f1acaa6c6665a40d4430b04387f" kindref="member">globalMinLon</ref><sp/>=<sp/>180.0,<sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1ace13a2a06b0a05e11af5f6aecc281ff0" kindref="member">globalMaxLon</ref><sp/>=<sp/>-180.0;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1query_1_1_spatial_histogram_1a047a3b36d16826d4a9cde30a1ce3dc1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1ac89952a17ac418104bef274c41782d8d" kindref="member">globalMinLat</ref><sp/>=<sp/>90.0,<sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1a047a3b36d16826d4a9cde30a1ce3dc1b" kindref="member">globalMaxLat</ref><sp/>=<sp/>-90.0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell" kindref="compound">GridCell</ref>*<sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1a0d864fe5e02ef4c6a36b157d7a8eeed1" kindref="member">getCellForPoint</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1ad74a8e368ab2af8ce2d4988025f4ff8e" kindref="member">estimatePointsInBox</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>minLon,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxLon,<sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>minLat,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxLat)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram_1ae560a64672c625b9fb1cad3580357407" kindref="member">estimateSpatialSelectivity</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>minLon,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxLon,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>minLat,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxLat)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1query_1_1_geospatial_cost_estimator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator" kindref="compound">GeospatialCostEstimator</ref><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" kindref="compound">CostEstimate</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1ac40aff4b734184de63bcf1c937802d7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1ac40aff4b734184de63bcf1c937802d7a" kindref="member">cpuCostUs</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>cost<sp/>in<sp/>microseconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1acfd58115a0a00acb159e4e983686c502" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1acfd58115a0a00acb159e4e983686c502" kindref="member">ioCostMs</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>I/O<sp/>cost<sp/>in<sp/>milliseconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1a1f887ad5d11ceea0b566a9658f34d8eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1a1f887ad5d11ceea0b566a9658f34d8eb" kindref="member">estimatedRows</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Estimated<sp/>result<sp/>rows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1aa085319c9f90f1f9e19d529de2e805e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1aa085319c9f90f1f9e19d529de2e805e3" kindref="member">selectivity</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Predicate<sp/>selectivity<sp/>(0.0-1.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1a4ce57f25f215585e8701a880314f4269" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate_1a4ce57f25f215585e8701a880314f4269" kindref="member">indexUsed</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>name<sp/>or<sp/>&quot;FULL_SCAN&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" kindref="compound">CostEstimate</ref><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" kindref="member">estimateDistanceCost</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>totalRows,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distanceMeters,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasRtreeIndex<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref>*<sp/>histogram<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" kindref="compound">CostEstimate</ref><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1ae9fa6d3a10cbc4a155177b0a75854aef" kindref="member">estimateContainsCost</ref>(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>totalRows,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>polygonComplexity,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasRtreeIndex<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref>*<sp/>histogram<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" kindref="compound">CostEstimate</ref><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1acdf514cca78963c0ed4eb1586df6c345" kindref="member">estimateIntersectsCost</ref>(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>totalRows,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>queryGeometryComplexity,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasRtreeIndex<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref>*<sp/>histogram<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a08dd3c1d026a58da088e2f1db2633978" kindref="member">estimateSpatialSelectivity</ref>(</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>predicateType,<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;DISTANCE&quot;,<sp/>&quot;CONTAINS&quot;,<sp/>&quot;INTERSECTS&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>searchRadius,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>DISTANCE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>geometryComplexity,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>CONTAINS/INTERSECTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref>*<sp/>histogram<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a9c5dbfeea73a9e96a01c490e09f618fe" kindref="member">buildSpatialHistogram</ref>(</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;double,<sp/>double&gt;&gt;&amp;<sp/>dataPoints,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>gridDimension<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1aeaab80f7383b91f5993282e9bf1ae4e9" kindref="member">recordActualCost</ref>(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" kindref="compound">CostEstimate</ref>&amp;<sp/>estimated,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>actualRows,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>actualCostUs,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>predicateType);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_estimate_validation" kindref="compound">EstimateValidation</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a31c40a589939397f7f0660ca8dd4481d" kindref="member">getMetrics</ref>();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a3644e5703bf329d76f5e38cc1e87d9b6" kindref="member">clearMetrics</ref>();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>estimateDistanceSelectivity(</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distanceMeters,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref>*<sp/>histogram);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>estimateContainsSelectivity(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>polygonComplexity,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref>*<sp/>histogram);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>estimateIntersectsSelectivity(</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>queryGeometryComplexity,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref>*<sp/>histogram);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rtreeTraversalCost(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>totalRows);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>geometryCheckCost(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>complexity);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/geospatial_cost_model.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,468 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__graph__type__filtering_8cpp" kind="file" language="C++">
+    <compoundname>test_graph_type_filtering.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">index/property_graph.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">query/query_engine.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="no">filesystem</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/graph/test_graph_type_filtering.cpp</label>
+        <link refid="test__graph__type__filtering_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="5">
+        <label>index/property_graph.h</label>
+      </node>
+      <node id="6">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="7">
+        <label>query/query_engine.h</label>
+      </node>
+      <node id="8">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="3">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_graph_type_filtering_test" prot="public">GraphTypeFilteringTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__graph__type__filtering_8cpp_1a6443582f308925fe16e568d241ecd2c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphTypeFilteringTest, BFS_WithTypeFilter_OnlyTraversesMatchingEdges)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_type_filtering_test" kindref="compound">GraphTypeFilteringTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_WithTypeFilter_OnlyTraversesMatchingEdges</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="54" column="1" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="54" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__type__filtering_8cpp_1a1f1fb71432248f1b2e465cfb34c87399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphTypeFilteringTest, Dijkstra_WithTypeFilter_FindsShortestPathOfType)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_type_filtering_test" kindref="compound">GraphTypeFilteringTest</ref></type>
+        </param>
+        <param>
+          <type>Dijkstra_WithTypeFilter_FindsShortestPathOfType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="141" column="1" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="141" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__type__filtering_8cpp_1a1491bb7b21e68ac2b0d4405d1c05f390" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphTypeFilteringTest, RecursivePathQuery_WithTypeFilter_UsesServerSideFiltering)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_type_filtering_test" kindref="compound">GraphTypeFilteringTest</ref></type>
+        </param>
+        <param>
+          <type>RecursivePathQuery_WithTypeFilter_UsesServerSideFiltering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="209" column="1" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="209" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__type__filtering_8cpp_1aa47ff55167cabc705b9a15a6d7a1570d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphTypeFilteringTest, TypeFilter_WithNonexistentType_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_type_filtering_test" kindref="compound">GraphTypeFilteringTest</ref></type>
+        </param>
+        <param>
+          <type>TypeFilter_WithNonexistentType_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_type_filtering.cpp" line="295" column="1" bodyfile="tests/graph/test_graph_type_filtering.cpp" bodystart="295" bodyend="322"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/property_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/query_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="class_graph_type_filtering_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_graph_type_filtering_test" kindref="compound">GraphTypeFilteringTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graph_type_filtering_test_1abdefde00c26f19cbbfd0b86c83051534" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_graph_type_filtering_test_1a166c0cb45b4e9ce528b9a1f495e07566" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>config;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.db_path<sp/>=<sp/><ref refid="class_graph_type_filtering_test_1a166c0cb45b4e9ce528b9a1f495e07566" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.memtable_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.block_cache_size_mb<sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.max_background_jobs<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.compression_default<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lz4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.compression_bottommost<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_type_filtering_test_1a476a4a26d4e0dff862fb2dcfbf04cdfa" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(config);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_graph_type_filtering_test_1a476a4a26d4e0dff862fb2dcfbf04cdfa" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_type_filtering_test_1a332d78713ec0f9302c28815788190fc0" kindref="member">graphIdx_</ref><sp/>=<sp/>std::make_unique&lt;GraphIndexManager&gt;(*<ref refid="class_graph_type_filtering_test_1a476a4a26d4e0dff862fb2dcfbf04cdfa" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_type_filtering_test_1a445376ed99f4d030484bffe4d1140c63" kindref="member">pgm_</ref><sp/>=<sp/>std::make_unique&lt;PropertyGraphManager&gt;(*<ref refid="class_graph_type_filtering_test_1a476a4a26d4e0dff862fb2dcfbf04cdfa" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>dummy<sp/>SecondaryIndexManager<sp/>for<sp/>QueryEngine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_type_filtering_test_1a38bdcfcd114c870fb350b027dbc59bfa" kindref="member">secIdx_</ref><sp/>=<sp/>std::make_unique&lt;SecondaryIndexManager&gt;(*<ref refid="class_graph_type_filtering_test_1a476a4a26d4e0dff862fb2dcfbf04cdfa" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_type_filtering_test_1a1b424ccd18cdc6f572cfe2ff769217d1" kindref="member">queryEngine_</ref><sp/>=<sp/>std::make_unique&lt;QueryEngine&gt;(*<ref refid="class_graph_type_filtering_test_1a476a4a26d4e0dff862fb2dcfbf04cdfa" kindref="member">db_</ref>,<sp/>*<ref refid="class_graph_type_filtering_test_1a38bdcfcd114c870fb350b027dbc59bfa" kindref="member">secIdx_</ref>,<sp/>*<ref refid="class_graph_type_filtering_test_1a332d78713ec0f9302c28815788190fc0" kindref="member">graphIdx_</ref>);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graph_type_filtering_test_1ad6b2d73893cbfebe4cc639eb7697b45e" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_type_filtering_test_1a1b424ccd18cdc6f572cfe2ff769217d1" kindref="member">queryEngine_</ref>.reset();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_type_filtering_test_1a38bdcfcd114c870fb350b027dbc59bfa" kindref="member">secIdx_</ref>.reset();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_type_filtering_test_1a445376ed99f4d030484bffe4d1140c63" kindref="member">pgm_</ref>.reset();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_type_filtering_test_1a332d78713ec0f9302c28815788190fc0" kindref="member">graphIdx_</ref>.reset();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_type_filtering_test_1a476a4a26d4e0dff862fb2dcfbf04cdfa" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_graph_type_filtering_test_1a166c0cb45b4e9ce528b9a1f495e07566" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_graph_type_filtering_test_1a166c0cb45b4e9ce528b9a1f495e07566" kindref="member">test_db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./__test_graph_type_filtering__&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_graph_type_filtering_test_1a476a4a26d4e0dff862fb2dcfbf04cdfa" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GraphIndexManager&gt;<sp/><ref refid="class_graph_type_filtering_test_1a332d78713ec0f9302c28815788190fc0" kindref="member">graphIdx_</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;PropertyGraphManager&gt;<sp/><ref refid="class_graph_type_filtering_test_1a445376ed99f4d030484bffe4d1140c63" kindref="member">pgm_</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SecondaryIndexManager&gt;<sp/><ref refid="class_graph_type_filtering_test_1a38bdcfcd114c870fb350b027dbc59bfa" kindref="member">secIdx_</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryEngine&gt;<sp/><ref refid="class_graph_type_filtering_test_1a1b424ccd18cdc6f572cfe2ff769217d1" kindref="member">queryEngine_</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__graph__type__filtering_8cpp_1a6443582f308925fe16e568d241ecd2c0" kindref="member">TEST_F</ref>(<ref refid="class_graph_type_filtering_test" kindref="compound">GraphTypeFilteringTest</ref>,<sp/>BFS_WithTypeFilter_OnlyTraversesMatchingEdges)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>social<sp/>graph<sp/>with<sp/>mixed<sp/>edge<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>alice<sp/>-FOLLOWS-&gt;<sp/>bob<sp/>-LIKES-&gt;<sp/>charlie</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>alice<sp/>-LIKES-&gt;<sp/>dave</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>bob<sp/>-FOLLOWS-&gt;<sp/>dave</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>alice(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>alice.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>alice.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>alice.setField(</highlight><highlight class="stringliteral">&quot;_labels&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addNode(alice,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>bob(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>bob.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>bob.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>bob.setField(</highlight><highlight class="stringliteral">&quot;_labels&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addNode(bob,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>charlie(</highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>charlie.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>charlie.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>charlie.setField(</highlight><highlight class="stringliteral">&quot;_labels&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addNode(charlie,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>dave(</highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>dave.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>dave.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>dave.setField(</highlight><highlight class="stringliteral">&quot;_labels&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addNode(dave,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>edges<sp/>with<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>follows1(</highlight><highlight class="stringliteral">&quot;follows1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addEdge(follows1,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>likes1(</highlight><highlight class="stringliteral">&quot;likes1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;likes1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LIKES&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addEdge(likes1,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>likes2(</highlight><highlight class="stringliteral">&quot;likes2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>likes2.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;likes2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>likes2.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>likes2.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>likes2.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LIKES&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addEdge(likes2,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>follows2(</highlight><highlight class="stringliteral">&quot;follows2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>follows2.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>follows2.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>follows2.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>follows2.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addEdge(follows2,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rebuild<sp/>topology<sp/>to<sp/>load<sp/>edges<sp/>into<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(graphIdx_-&gt;rebuildTopology().ok);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BFS<sp/>from<sp/>alice<sp/>with<sp/>FOLLOWS<sp/>filter<sp/>(should<sp/>reach<sp/>bob<sp/>and<sp/>dave<sp/>via<sp/>bob)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[followsStatus,<sp/>followsNodes]<sp/>=<sp/>graphIdx_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>3,<sp/></highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(followsStatus.ok)<sp/>&lt;&lt;<sp/>followsStatus.message;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(followsNodes.size(),<sp/>3);<sp/></highlight><highlight class="comment">//<sp/>alice,<sp/>bob,<sp/>dave</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(followsNodes.begin(),<sp/>followsNodes.end(),<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>followsNodes.end());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(followsNodes.begin(),<sp/>followsNodes.end(),<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>followsNodes.end());</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(followsNodes.begin(),<sp/>followsNodes.end(),<sp/></highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>followsNodes.end());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(std::find(followsNodes.begin(),<sp/>followsNodes.end(),<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>followsNodes.end());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BFS<sp/>from<sp/>alice<sp/>with<sp/>LIKES<sp/>filter<sp/>(should<sp/>reach<sp/>dave<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[likesStatus,<sp/>likesNodes]<sp/>=<sp/>graphIdx_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>3,<sp/></highlight><highlight class="stringliteral">&quot;LIKES&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(likesStatus.ok)<sp/>&lt;&lt;<sp/>likesStatus.message;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(likesNodes.size(),<sp/>2);<sp/></highlight><highlight class="comment">//<sp/>alice,<sp/>dave</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(likesNodes.begin(),<sp/>likesNodes.end(),<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>likesNodes.end());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(likesNodes.begin(),<sp/>likesNodes.end(),<sp/></highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>likesNodes.end());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(std::find(likesNodes.begin(),<sp/>likesNodes.end(),<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>likesNodes.end());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(std::find(likesNodes.begin(),<sp/>likesNodes.end(),<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>likesNodes.end());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BFS<sp/>from<sp/>alice<sp/>without<sp/>filter<sp/>(should<sp/>reach<sp/>all)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[allStatus,<sp/>allNodes]<sp/>=<sp/>graphIdx_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(allStatus.ok)<sp/>&lt;&lt;<sp/>allStatus.message;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(allNodes.size(),<sp/>4);<sp/></highlight><highlight class="comment">//<sp/>alice,<sp/>bob,<sp/>charlie,<sp/>dave</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__graph__type__filtering_8cpp_1a6443582f308925fe16e568d241ecd2c0" kindref="member">TEST_F</ref>(<ref refid="class_graph_type_filtering_test" kindref="compound">GraphTypeFilteringTest</ref>,<sp/>Dijkstra_WithTypeFilter_FindsShortestPathOfType)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>graph<sp/>with<sp/>multiple<sp/>paths<sp/>of<sp/>different<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>alice<sp/>-FOLLOWS-&gt;<sp/>bob<sp/>-FOLLOWS-&gt;<sp/>charlie</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>alice<sp/>-LIKES-&gt;<sp/>dave<sp/>-LIKES-&gt;<sp/>charlie</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>pk<sp/>:<sp/>{</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">})<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>node(pk);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>std::string(pk));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(pk));</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addNode(node,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>FOLLOWS<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>follows1(</highlight><highlight class="stringliteral">&quot;follows1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addEdge(follows1,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>follows2(</highlight><highlight class="stringliteral">&quot;follows2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>follows2.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>follows2.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>follows2.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>follows2.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addEdge(follows2,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>LIKES<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>likes1(</highlight><highlight class="stringliteral">&quot;likes1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;likes1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LIKES&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addEdge(likes1,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>likes2(</highlight><highlight class="stringliteral">&quot;likes2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>likes2.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;likes2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>likes2.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>likes2.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>likes2.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LIKES&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addEdge(likes2,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rebuild<sp/>topology<sp/>to<sp/>load<sp/>edges<sp/>into<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(graphIdx_-&gt;rebuildTopology().ok);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>shortest<sp/>path<sp/>with<sp/>FOLLOWS<sp/>filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[followsStatus,<sp/>followsPath]<sp/>=<sp/>graphIdx_-&gt;dijkstra(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(followsStatus.ok)<sp/>&lt;&lt;<sp/>followsStatus.message;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(followsPath.path.size(),<sp/>3);<sp/></highlight><highlight class="comment">//<sp/>alice<sp/>-&gt;<sp/>bob<sp/>-&gt;<sp/>charlie</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(followsPath.path[0],<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(followsPath.path[1],<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(followsPath.path[2],<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>shortest<sp/>path<sp/>with<sp/>LIKES<sp/>filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[likesStatus,<sp/>likesPath]<sp/>=<sp/>graphIdx_-&gt;dijkstra(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LIKES&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(likesStatus.ok)<sp/>&lt;&lt;<sp/>likesStatus.message;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(likesPath.path.size(),<sp/>3);<sp/></highlight><highlight class="comment">//<sp/>alice<sp/>-&gt;<sp/>dave<sp/>-&gt;<sp/>charlie</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(likesPath.path[0],<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(likesPath.path[1],<sp/></highlight><highlight class="stringliteral">&quot;dave&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(likesPath.path[2],<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>shortest<sp/>path<sp/>without<sp/>filter<sp/>(should<sp/>use<sp/>any<sp/>edge<sp/>type)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[anyStatus,<sp/>anyPath]<sp/>=<sp/>graphIdx_-&gt;dijkstra(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(anyStatus.ok)<sp/>&lt;&lt;<sp/>anyStatus.message;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(anyPath.path.size(),<sp/>3);<sp/></highlight><highlight class="comment">//<sp/>Could<sp/>be<sp/>either<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__graph__type__filtering_8cpp_1a6443582f308925fe16e568d241ecd2c0" kindref="member">TEST_F</ref>(<ref refid="class_graph_type_filtering_test" kindref="compound">GraphTypeFilteringTest</ref>,<sp/>RecursivePathQuery_WithTypeFilter_UsesServerSideFiltering)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>test<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>pk<sp/>:<sp/>{</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">})<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>node(pk);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>std::string(pk));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(pk));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addNode(node,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>alice<sp/>-FOLLOWS-&gt;<sp/>bob<sp/>-LIKES-&gt;<sp/>charlie</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>follows1(</highlight><highlight class="stringliteral">&quot;follows1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addEdge(follows1,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>likes1(</highlight><highlight class="stringliteral">&quot;likes1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;likes1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>likes1.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LIKES&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addEdge(likes1,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rebuild<sp/>topology<sp/>to<sp/>load<sp/>edges<sp/>into<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(graphIdx_-&gt;rebuildTopology().ok);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>with<sp/>FOLLOWS<sp/>filter<sp/>(should<sp/>find<sp/>bob<sp/>but<sp/>not<sp/>charlie)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>RecursivePathQuery<sp/>q1;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>q1.start_node<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>q1.edge_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>q1.graph_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>q1.max_depth<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>queryEngine_-&gt;executeRecursivePathQuery(q1);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result1.has_value())<sp/>&lt;&lt;<sp/>result1.error().message();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>paths1<sp/>=<sp/>std::move(*result1);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>reach<sp/>bob<sp/>(via<sp/>FOLLOWS)<sp/>but<sp/>not<sp/>charlie<sp/>(blocked<sp/>by<sp/>LIKES<sp/>edge)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(paths1.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(paths1[0].size(),<sp/>2);<sp/></highlight><highlight class="comment">//<sp/>alice<sp/>-&gt;<sp/>bob</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(paths1[0][0],<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(paths1[0][1],<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>with<sp/>LIKES<sp/>filter<sp/>(should<sp/>find<sp/>charlie<sp/>via<sp/>bob)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>RecursivePathQuery<sp/>q2;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>q2.start_node<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>q2.edge_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;LIKES&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>q2.graph_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>q2.max_depth<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>queryEngine_-&gt;executeRecursivePathQuery(q2);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result2.has_value())<sp/>&lt;&lt;<sp/>result2.error().message();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>paths2<sp/>=<sp/>std::move(*result2);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(paths2.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(paths2[0].size(),<sp/>2);<sp/></highlight><highlight class="comment">//<sp/>bob<sp/>-&gt;<sp/>charlie</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(paths2[0][0],<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(paths2[0][1],<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>with<sp/>shortest<sp/>path<sp/>and<sp/>type<sp/>filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>RecursivePathQuery<sp/>q3;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>q3.start_node<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>q3.end_node<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>q3.edge_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;LIKES&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>q3.graph_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>q3.max_depth<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result3<sp/>=<sp/>queryEngine_-&gt;executeRecursivePathQuery(q3);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result3.has_value())<sp/>&lt;&lt;<sp/>result3.error().message();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>paths3<sp/>=<sp/>std::move(*result3);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>because<sp/>alice<sp/>-&gt;<sp/>charlie<sp/>requires<sp/>FOLLOWS<sp/>then<sp/>LIKES</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(paths3.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>without<sp/>type<sp/>filter<sp/>(should<sp/>find<sp/>charlie)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>RecursivePathQuery<sp/>q4;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>q4.start_node<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>q4.end_node<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>q4.graph_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>q4.max_depth<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result4<sp/>=<sp/>queryEngine_-&gt;executeRecursivePathQuery(q4);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result4.has_value())<sp/>&lt;&lt;<sp/>result4.error().message();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>paths4<sp/>=<sp/>std::move(*result4);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(paths4.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(paths4[0].size(),<sp/>3);<sp/></highlight><highlight class="comment">//<sp/>alice<sp/>-&gt;<sp/>bob<sp/>-&gt;<sp/>charlie</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="test__graph__type__filtering_8cpp_1a6443582f308925fe16e568d241ecd2c0" kindref="member">TEST_F</ref>(<ref refid="class_graph_type_filtering_test" kindref="compound">GraphTypeFilteringTest</ref>,<sp/>TypeFilter_WithNonexistentType_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>simple<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>alice(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>alice.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>alice.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addNode(alice,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>bob(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>bob.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>bob.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addNode(bob,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>follows1(</highlight><highlight class="stringliteral">&quot;follows1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;follows1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>follows1.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pgm_-&gt;addEdge(follows1,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rebuild<sp/>topology<sp/>to<sp/>load<sp/>edges<sp/>into<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(graphIdx_-&gt;rebuildTopology().ok);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>with<sp/>nonexistent<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>nodes]<sp/>=<sp/>graphIdx_-&gt;bfs(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>3,<sp/></highlight><highlight class="stringliteral">&quot;NONEXISTENT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status.ok)<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(nodes.size(),<sp/>1);<sp/></highlight><highlight class="comment">//<sp/>Only<sp/>alice<sp/>(start<sp/>node)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(nodes[0],<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_graph_type_filtering.cpp"/>
+  </compounddef>
+</doxygen>

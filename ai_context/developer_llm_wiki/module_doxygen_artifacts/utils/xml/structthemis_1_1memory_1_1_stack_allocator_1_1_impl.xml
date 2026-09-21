@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1memory_1_1_stack_allocator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::memory::StackAllocator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1a450cccd8b3314204eacec81275736898" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* themis::memory::StackAllocator::Impl::memory</definition>
+        <argsstring></argsstring>
+        <name>memory</name>
+        <qualifiedname>themis::memory::StackAllocator::Impl::memory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="672" column="13" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="672" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1aceb7f50b1805bc7048af6e46fc25c846" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::StackAllocator::Impl::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::memory::StackAllocator::Impl::capacity</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="673" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="673" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1a893583cddadf488c87aea2130fefd7d7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::memory::StackAllocator::Impl::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::memory::StackAllocator::Impl::offset</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="674" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="674" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1a4f2d4db8f514c9867fb91956fca510b6" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::memory::StackAllocator::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::memory::StackAllocator::Impl::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="676" column="16" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="676" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1a1dc48fa9e2be8114f3fe57909ed141b1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; uintptr_t, size_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;uintptr_t, size_t&gt; &gt; themis::memory::StackAllocator::Impl::allocation_stack</definition>
+        <argsstring></argsstring>
+        <name>allocation_stack</name>
+        <qualifiedname>themis::memory::StackAllocator::Impl::allocation_stack</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="679" column="17" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="679" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1a038fb75e223be09bb82be09d8bcba7ab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::StackAllocator::Impl::Impl</definition>
+        <argsstring>(size_t cap)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::memory::StackAllocator::Impl::Impl</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>cap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="681" column="5" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="681" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1aae8da4bba012548492f42713f8ba2993" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::StackAllocator::Impl::~Impl</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::memory::StackAllocator::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/memory/pool_allocator.cpp" line="692" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/memory/pool_allocator.cpp" line="671" column="1" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="671" bodyend="693"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1a1dc48fa9e2be8114f3fe57909ed141b1" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator::Impl</scope><name>allocation_stack</name></member>
+      <member refid="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1aceb7f50b1805bc7048af6e46fc25c846" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator::Impl</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1a038fb75e223be09bb82be09d8bcba7ab" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1a450cccd8b3314204eacec81275736898" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator::Impl</scope><name>memory</name></member>
+      <member refid="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1a4f2d4db8f514c9867fb91956fca510b6" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator::Impl</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1a893583cddadf488c87aea2130fefd7d7" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator::Impl</scope><name>offset</name></member>
+      <member refid="structthemis_1_1memory_1_1_stack_allocator_1_1_impl_1aae8da4bba012548492f42713f8ba2993" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1training_1_1yaml__detail" kind="namespace" language="C++">
+    <compoundname>themis::training::yaml_detail</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1yaml__detail_1a1b9af65c347523198589bb1874e97452" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::training::yaml_detail::trimRight</definition>
+        <argsstring>(std::string s)</argsstring>
+        <name>trimRight</name>
+        <qualifiedname>themis::training::yaml_detail::trimRight</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Trim Right. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="948" column="20" bodyfile="src/training/lora_data_selection.cpp" bodystart="948" bodyend="952"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1yaml__detail_1afdb48023174f6e984c4a6332e722e1ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::training::yaml_detail::trimLeft</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>trimLeft</name>
+        <qualifiedname>themis::training::yaml_detail::trimLeft</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Trim Left. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="960" column="20" bodyfile="src/training/lora_data_selection.cpp" bodystart="960" bodyend="966"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1yaml__detail_1aab945152f4e6cf3be820d006c6d2347e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::training::yaml_detail::stripQuotes</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>stripQuotes</name>
+        <qualifiedname>themis::training::yaml_detail::stripQuotes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Strip Quotes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), front(), back(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="974" column="20" bodyfile="src/training/lora_data_selection.cpp" bodystart="974" bodyend="980"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1yaml__detail_1acb87fed4309699f1658567b2ed7aa824" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::training::yaml_detail::removeComment</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>removeComment</name>
+        <qualifiedname>themis::training::yaml_detail::removeComment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Remove Comment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="988" column="20" bodyfile="src/training/lora_data_selection.cpp" bodystart="988" bodyend="1000"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1yaml__detail_1a9766f6f209dfe57194396d10694c4bd5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::training::yaml_detail::applyScalar</definition>
+        <argsstring>(LoRADataSelectionConfig &amp;cfg, const std::string &amp;key, const std::string &amp;raw_val)</argsstring>
+        <name>applyScalar</name>
+        <qualifiedname>themis::training::yaml_detail::applyScalar</qualifiedname>
+        <param>
+          <type><ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw_val</declname>
+        </param>
+        <briefdescription>
+<para>Assign a scalar YAML value to the matching field of cfg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: stripQuotes(), trimLeft(), empty(), std::stoull(), std::stod(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1010" column="13" bodyfile="src/training/lora_data_selection.cpp" bodystart="1010" bodyend="1048"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1yaml__detail_1a653b346bfc1dbc2c021637dff6342884" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref></type>
+        <definition>static LoRADataSelectionConfig themis::training::yaml_detail::parseYAMLText</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;section)</argsstring>
+        <name>parseYAMLText</name>
+        <qualifiedname>themis::training::yaml_detail::parseYAMLText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>section</declname>
+        </param>
+        <briefdescription>
+<para>Parse YAMLText. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig()</ref>, iss(), std::getline(), trimRight(), removeComment(), empty(), size(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1057" column="32" bodyfile="src/training/lora_data_selection.cpp" bodystart="1057" bodyend="1144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1_1yaml__detail_1a15c629baa524183751f1723a6f04f1a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_self_improvement_config" kindref="compound">SelfImprovementConfig</ref></type>
+        <definition>static SelfImprovementConfig themis::training::yaml_detail::parseSelfImprovementYAML</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;section)</argsstring>
+        <name>parseSelfImprovementYAML</name>
+        <qualifiedname>themis::training::yaml_detail::parseSelfImprovementYAML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>section</declname>
+        </param>
+        <briefdescription>
+<para>Parse Self Improvement YAML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: SelfImprovementConfig(), iss(), AdaptiveRule(), empty(), push_back(), std::getline(), trimRight(), removeComment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1274" column="30" bodyfile="src/training/lora_data_selection.cpp" bodystart="1274" bodyend="1413"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/lora_data_selection.cpp" line="940" column="1"/>
+  </compounddef>
+</doxygen>

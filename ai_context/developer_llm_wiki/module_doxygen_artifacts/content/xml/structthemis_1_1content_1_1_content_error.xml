@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentError</compoundname>
+    <includes refid="content__errors_8h" local="no">content_errors.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_error_1a1756983714f02a44f142d8115e1840bf" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref></type>
+        <definition>ContentErrorCode themis::content::ContentError::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::content::ContentError::code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ContentErrorCode::OK</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="77" column="22" bodyfile="include/content/content_errors.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::content::ContentError::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="78" column="17" bodyfile="include/content/content_errors.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_error_1aa84b8414df5be01130cd60cedf08a10b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentError::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::content::ContentError::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="79" column="17" bodyfile="include/content/content_errors.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_error_1ae239d916229c4cdeea715ce283598810" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentError::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::content::ContentError::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="80" column="17" bodyfile="include/content/content_errors.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_error_1a6c17975be4a14cbba69e67a15aa9dab2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentError::content_id</definition>
+        <argsstring></argsstring>
+        <name>content_id</name>
+        <qualifiedname>themis::content::ContentError::content_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="81" column="17" bodyfile="include/content/content_errors.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_error_1a765912fb3d23ec07c7914a01e288d97c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentError::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::content::ContentError::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="82" column="10" bodyfile="include/content/content_errors.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_error_1a2a1519a02fa6f4c172b27f30b42a61c7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ContentError::isOk</definition>
+        <argsstring>() const</argsstring>
+        <name>isOk</name>
+        <qualifiedname>themis::content::ContentError::isOk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="84" column="10" bodyfile="include/content/content_errors.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_error_1af1a30cb33d1f4c7ed5275e5f086d4ebc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ContentError::failed</definition>
+        <argsstring>() const</argsstring>
+        <name>failed</name>
+        <qualifiedname>themis::content::ContentError::failed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="86" column="10" bodyfile="include/content/content_errors.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_error_1a20bcc27b70eb2efa64700bf8666d80d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ContentError::isRetryable</definition>
+        <argsstring>() const</argsstring>
+        <name>isRetryable</name>
+        <qualifiedname>themis::content::ContentError::isRetryable</qualifiedname>
+        <briefdescription>
+<para>Is Retryable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="92" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_error_1a278a5c8e2b77eacc5ab918c6181f2a0a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ContentError::isClientError</definition>
+        <argsstring>() const</argsstring>
+        <name>isClientError</name>
+        <qualifiedname>themis::content::ContentError::isClientError</qualifiedname>
+        <briefdescription>
+<para>Is Client Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="98" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_error_1a434e425ca925787b0566a6e8c463a14e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ContentError::isServerError</definition>
+        <argsstring>() const</argsstring>
+        <name>isServerError</name>
+        <qualifiedname>themis::content::ContentError::isServerError</qualifiedname>
+        <briefdescription>
+<para>Is Server Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="104" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_error_1a64293af54beecd5c469903c3e4fc6554" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::ContentError::getHttpStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getHttpStatus</name>
+        <qualifiedname>themis::content::ContentError::getHttpStatus</qualifiedname>
+        <briefdescription>
+<para>Get Http <ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="110" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_error_1a2e30f9d74521b18ed5252bdf9d69e5da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentError::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::content::ContentError::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="116" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_error_1a320818659f94c245f28159f5476c2005" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentError::toJsonVerbose</definition>
+        <argsstring>() const</argsstring>
+        <name>toJsonVerbose</name>
+        <qualifiedname>themis::content::ContentError::toJsonVerbose</qualifiedname>
+        <briefdescription>
+<para>To Json Verbose. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="122" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_error_1aca928fa4db3c77b252b6aadecf47cd9b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref></type>
+        <definition>static ContentError themis::content::ContentError::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::content::ContentError::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="129" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_error_1a489648f751b029da3090f117b11600c6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref></type>
+        <definition>static ContentError themis::content::ContentError::ok</definition>
+        <argsstring>()</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::content::ContentError::ok</qualifiedname>
+        <briefdescription>
+<para>Ok. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="135" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_error_1aad18ccb6e9ce8dc623a0e3db1a5faa73" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref></type>
+        <definition>static ContentError themis::content::ContentError::error</definition>
+        <argsstring>(ContentErrorCode code, const std::string &amp;message, const std::string &amp;details=&quot;&quot;)</argsstring>
+        <name>error</name>
+        <qualifiedname>themis::content::ContentError::error</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_errors.h" line="137" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_errors.h" line="76" column="1" bodyfile="include/content/content_errors.h" bodystart="76" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_error_1a1756983714f02a44f142d8115e1840bf" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>code</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1a6c17975be4a14cbba69e67a15aa9dab2" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>content_id</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1ae239d916229c4cdeea715ce283598810" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1aa84b8414df5be01130cd60cedf08a10b" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>details</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1aad18ccb6e9ce8dc623a0e3db1a5faa73" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>error</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1af1a30cb33d1f4c7ed5275e5f086d4ebc" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>failed</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1aca928fa4db3c77b252b6aadecf47cd9b" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1a64293af54beecd5c469903c3e4fc6554" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>getHttpStatus</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1a278a5c8e2b77eacc5ab918c6181f2a0a" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>isClientError</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1a2a1519a02fa6f4c172b27f30b42a61c7" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>isOk</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1a20bcc27b70eb2efa64700bf8666d80d5" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>isRetryable</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1a434e425ca925787b0566a6e8c463a14e" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>isServerError</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>message</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1a765912fb3d23ec07c7914a01e288d97c" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1a489648f751b029da3090f117b11600c6" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>ok</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1a2e30f9d74521b18ed5252bdf9d69e5da" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1content_1_1_content_error_1a320818659f94c245f28159f5476c2005" prot="public" virt="non-virtual"><scope>themis::content::ContentError</scope><name>toJsonVerbose</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

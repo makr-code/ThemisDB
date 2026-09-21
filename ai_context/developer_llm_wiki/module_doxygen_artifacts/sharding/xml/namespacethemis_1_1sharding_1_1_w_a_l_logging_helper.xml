@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1sharding_1_1_w_a_l_logging_helper" kind="namespace" language="C++">
+    <compoundname>themis::sharding::WALLoggingHelper</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1_w_a_l_logging_helper_1ac27c45e4ebb65fc821f0580a2b119235" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref></type>
+        <definition>WALEntry themis::sharding::WALLoggingHelper::buildEntry</definition>
+        <argsstring>(WALEntryType type, const std::string &amp;txn_id, const nlohmann::json &amp;data)</argsstring>
+        <name>buildEntry</name>
+        <qualifiedname>themis::sharding::WALLoggingHelper::buildEntry</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" kindref="member">WALEntryType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Build a <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> populated with the current wall-clock timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical operation type to persist. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction identifier to embed in the entry. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional JSON payload (operation details, phase tags, …). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A fully initialised <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> ready to be appended. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_logging_helper.h" line="51" column="18" bodyfile="include/sharding/wal_logging_helper.h" bodystart="51" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1_w_a_l_logging_helper_1ae8eac816bb8dfae8fa26d99bb3702e9f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &gt;</type>
+        <definition>std::optional&lt; LSN &gt; themis::sharding::WALLoggingHelper::appendEntryWithResult</definition>
+        <argsstring>(WALManager *wal, WALEntryType type, const std::string &amp;txn_id, const nlohmann::json &amp;data, bool sync, std::string_view component_label, std::string_view component_id)</argsstring>
+        <name>appendEntryWithResult</name>
+        <qualifiedname>themis::sharding::WALLoggingHelper::appendEntryWithResult</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager" kindref="compound">WALManager</ref> *</type>
+          <declname>wal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" kindref="member">WALEntryType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sync</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>component_label</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>component_id</declname>
+        </param>
+        <briefdescription>
+<para>Append a WAL entry, optionally flush, and return the assigned <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If <computeroutput>wal</computeroutput> is nullptr the function is a no-op. Any exception thrown by <ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a7ae845fb46e5fe524db5a67e6c7533c9" kindref="member">WALManager::append()</ref> or <ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1abc9f0e4662b3616563bff8335f2a31c0" kindref="member">WALManager::flush()</ref> is caught and logged as an error using <computeroutput>component_label</computeroutput> and <computeroutput>component_id</computeroutput> so callers see a consistent diagnostic message without crashing. The returned <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> can be used by callers that need to emit additional success diagnostics; std::nullopt indicates that nothing was persisted because the WAL was disabled or a write failed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target WAL manager (may be nullptr). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical operation type. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional JSON payload. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sync</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When true, call wal-&gt;flush() after append. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable role label, e.g. &quot;coordinator&quot; or &quot;participant&quot;. Used in the error log message. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Instance identifier, e.g. coordinator_id_ or shard_id_. Used in the error log message. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Assigned <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> on success; std::nullopt on noop/failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_logging_helper.h" line="90" column="23" bodyfile="include/sharding/wal_logging_helper.h" bodystart="90" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1sharding_1_1_w_a_l_logging_helper_1adbf5106c97df32fe17730e7fe42196c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALLoggingHelper::appendEntry</definition>
+        <argsstring>(WALManager *wal, WALEntryType type, const std::string &amp;txn_id, const nlohmann::json &amp;data, bool sync, std::string_view component_label, std::string_view component_id)</argsstring>
+        <name>appendEntry</name>
+        <qualifiedname>themis::sharding::WALLoggingHelper::appendEntry</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_w_a_l_manager" kindref="compound">WALManager</ref> *</type>
+          <declname>wal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" kindref="member">WALEntryType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sync</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>component_label</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>component_id</declname>
+        </param>
+        <briefdescription>
+<para>Append a WAL entry and optionally flush, swallowing exceptions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This convenience wrapper is intended for callers that only care about best-effort durability and not about the assigned <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target WAL manager (may be nullptr). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical operation type. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional JSON payload. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sync</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When true, call wal-&gt;flush() after append. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable role label, e.g. &quot;coordinator&quot; or &quot;participant&quot;. Used in the error log message. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Instance identifier, e.g. coordinator_id_ or shard_id_. Used in the error log message. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_logging_helper.h" line="134" column="13" bodyfile="include/sharding/wal_logging_helper.h" bodystart="134" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Utility namespace for shared WAL-logging operations used by sharding 2PC coordinators and participants. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All functions are stateless and operate on an externally-owned <ref refid="classthemis_1_1sharding_1_1_w_a_l_manager" kindref="compound">WALManager</ref> pointer (may be nullptr, in which case calls are no-ops). </para>
+    </detaileddescription>
+    <location file="include/sharding/wal_logging_helper.h" line="41" column="1"/>
+  </compounddef>
+</doxygen>

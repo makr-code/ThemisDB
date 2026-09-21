@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1index_1_1_0d123216357216005043065260066140053016175325252135" kind="namespace" language="C++">
+    <compoundname>themis::index::@123216357216005043065260066140053016175325252135</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/index/index_compression.cpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

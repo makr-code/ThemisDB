@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphMultiTierCache::Metrics</compoundname>
+    <includes refid="graph__cache__manager_8h" local="no">graph_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1a54a65859371b274acace00b41f073075" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::Metrics::hot_hits</definition>
+        <argsstring></argsstring>
+        <name>hot_hits</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Metrics::hot_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Hits served from Hot tier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="48" column="18" bodyfile="include/graph/graph_cache_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1ac43563595494c04dd62a620fbb7f3e11" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::Metrics::warm_hits</definition>
+        <argsstring></argsstring>
+        <name>warm_hits</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Metrics::warm_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Hits served from Warm tier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="49" column="18" bodyfile="include/graph/graph_cache_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1aaa45766e27cecd427958745da8195570" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::Metrics::cold_hits</definition>
+        <argsstring></argsstring>
+        <name>cold_hits</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Metrics::cold_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Hits served from Cold tier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="50" column="18" bodyfile="include/graph/graph_cache_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1a467e0a99829f34c8055e4cdb47e2384c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::Metrics::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Metrics::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total cache misses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="51" column="18" bodyfile="include/graph/graph_cache_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1a2b878d0abddc0b240bd161695176f5a3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::Metrics::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Metrics::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Entries evicted from Cold tier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="52" column="18" bodyfile="include/graph/graph_cache_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1ac29c5a836d9fc1bd99b0a82453d75021" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::Metrics::inserts</definition>
+        <argsstring></argsstring>
+        <name>inserts</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Metrics::inserts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total entries inserted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="53" column="18" bodyfile="include/graph/graph_cache_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1a44fbc4012fb8f9bd672eb408c0533cca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphMultiTierCache&lt; K, V &gt;::Metrics::hitRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>hitRatio</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Metrics::hitRatio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="55" column="16" bodyfile="include/graph/graph_cache_manager.h" bodystart="55" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1aeaecd18d371589074f4e8ec0129034eb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphMultiTierCache&lt; K, V &gt;::Metrics::totalLookups</definition>
+        <argsstring>() const</argsstring>
+        <name>totalLookups</name>
+        <qualifiedname>themis::graph::GraphMultiTierCache::Metrics::totalLookups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_cache_manager.h" line="61" column="18" bodyfile="include/graph/graph_cache_manager.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_cache_manager.h" line="47" column="5" bodyfile="include/graph/graph_cache_manager.h" bodystart="47" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1aaa45766e27cecd427958745da8195570" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Metrics</scope><name>cold_hits</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1a2b878d0abddc0b240bd161695176f5a3" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Metrics</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1a44fbc4012fb8f9bd672eb408c0533cca" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Metrics</scope><name>hitRatio</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1a54a65859371b274acace00b41f073075" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Metrics</scope><name>hot_hits</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1ac29c5a836d9fc1bd99b0a82453d75021" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Metrics</scope><name>inserts</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1a467e0a99829f34c8055e4cdb47e2384c" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Metrics</scope><name>misses</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1aeaecd18d371589074f4e8ec0129034eb" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Metrics</scope><name>totalLookups</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_metrics_1ac43563595494c04dd62a620fbb7f3e11" prot="public" virt="non-virtual"><scope>themis::graph::GraphMultiTierCache::Metrics</scope><name>warm_hits</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

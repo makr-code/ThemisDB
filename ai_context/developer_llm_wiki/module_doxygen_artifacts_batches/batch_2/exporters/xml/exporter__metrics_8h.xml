@@ -1,0 +1,519 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="exporter__metrics_8h" kind="file" language="C++">
+    <compoundname>exporter_metrics.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="arrow__ipc__exporter_8h" local="yes">include/exporters/arrow_ipc_exporter.h</includedby>
+    <includedby refid="huggingface__exporter_8h" local="yes">include/exporters/huggingface_exporter.h</includedby>
+    <includedby refid="incremental__exporter_8h" local="yes">include/exporters/incremental_exporter.h</includedby>
+    <includedby refid="join__exporter_8h" local="yes">include/exporters/join_exporter.h</includedby>
+    <includedby refid="jsonl__llm__exporter_8h" local="yes">include/exporters/jsonl_llm_exporter.h</includedby>
+    <includedby refid="parquet__exporter_8h" local="yes">include/exporters/parquet_exporter.h</includedby>
+    <includedby refid="streaming__exporter_8h" local="yes">include/exporters/streaming_exporter.h</includedby>
+    <includedby refid="arrow__ipc__exporter_8cpp" local="yes">src/exporters/arrow_ipc_exporter.cpp</includedby>
+    <includedby refid="exporter__metrics_8cpp" local="yes">src/exporters/exporter_metrics.cpp</includedby>
+    <includedby refid="huggingface__hub__client_8cpp" local="yes">src/exporters/huggingface_hub_client.cpp</includedby>
+    <includedby refid="jsonl__llm__exporter_8cpp" local="yes">src/exporters/jsonl_llm_exporter.cpp</includedby>
+    <includedby refid="parquet__exporter_8cpp" local="yes">src/exporters/parquet_exporter.cpp</includedby>
+    <includedby refid="test__arrow__ipc__exporter_8cpp" local="yes">tests/exporters/test_arrow_ipc_exporter.cpp</includedby>
+    <includedby refid="test__export__encryption_8cpp" local="yes">tests/exporters/test_export_encryption.cpp</includedby>
+    <includedby refid="test__exporters__phase23__hardening__focused_8cpp" local="yes">tests/exporters/test_exporters_phase23_hardening_focused.cpp</includedby>
+    <includedby refid="test__huggingface__hub__client_8cpp" local="yes">tests/exporters/test_huggingface_hub_client.cpp</includedby>
+    <includedby refid="test__incremental__exporter_8cpp" local="yes">tests/exporters/test_incremental_exporter.cpp</includedby>
+    <includedby refid="test__jsonl__llm__exporter_8cpp" local="yes">tests/exporters/test_jsonl_llm_exporter.cpp</includedby>
+    <includedby refid="test__parquet__exporter_8cpp" local="yes">tests/exporters/test_parquet_exporter.cpp</includedby>
+    <includedby refid="test__streaming__exporter_8cpp" local="yes">tests/exporters/test_streaming_exporter.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/exporters/exporter_metrics.h</label>
+        <link refid="exporter__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="11">
+        <label>benchmarks/exporters/bench_exporters.cpp</label>
+        <link refid="bench__exporters_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/exporters/arrow_ipc_exporter.h</label>
+        <link refid="arrow__ipc__exporter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/exporters/exporter_metrics.h</label>
+        <link refid="exporter__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/exporters/huggingface_exporter.h</label>
+        <link refid="huggingface__exporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/exporters/incremental_exporter.h</label>
+        <link refid="incremental__exporter_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/exporters/join_exporter.h</label>
+        <link refid="join__exporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/exporters/jsonl_llm_exporter.h</label>
+        <link refid="jsonl__llm__exporter_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/exporters/parquet_exporter.h</label>
+        <link refid="parquet__exporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/exporters/streaming_exporter.h</label>
+        <link refid="streaming__exporter_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/exporters/arrow_ipc_exporter.cpp</label>
+        <link refid="arrow__ipc__exporter_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/exporters/export_format_registry.cpp</label>
+        <link refid="export__format__registry_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/exporters/exporter_metrics.cpp</label>
+        <link refid="exporter__metrics_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/exporters/huggingface_exporter.cpp</label>
+        <link refid="huggingface__exporter_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/exporters/huggingface_hub_client.cpp</label>
+        <link refid="huggingface__hub__client_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/exporters/incremental_exporter.cpp</label>
+        <link refid="incremental__exporter_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/exporters/join_exporter.cpp</label>
+        <link refid="join__exporter_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/exporters/jsonl_llm_exporter.cpp</label>
+        <link refid="jsonl__llm__exporter_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/exporters/parquet_exporter.cpp</label>
+        <link refid="parquet__exporter_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/exporters/streaming_exporter.cpp</label>
+        <link refid="streaming__exporter_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/exporters/test_aql_predicate_filter.cpp</label>
+        <link refid="test__aql__predicate__filter_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/exporters/test_arrow_ipc_exporter.cpp</label>
+        <link refid="test__arrow__ipc__exporter_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/exporters/test_data_augmentation.cpp</label>
+        <link refid="test__data__augmentation_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/exporters/test_export_encryption.cpp</label>
+        <link refid="test__export__encryption_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/exporters/test_export_format_registry.cpp</label>
+        <link refid="test__export__format__registry_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/exporters/test_exporters_phase23_hardening_focused.cpp</label>
+        <link refid="test__exporters__phase23__hardening__focused_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/exporters/test_format_template.cpp</label>
+        <link refid="test__format__template_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/exporters/test_huggingface_exporter.cpp</label>
+        <link refid="test__huggingface__exporter_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/exporters/test_huggingface_hub_client.cpp</label>
+        <link refid="test__huggingface__hub__client_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/exporters/test_incremental_exporter.cpp</label>
+        <link refid="test__incremental__exporter_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/exporters/test_join_exporter.cpp</label>
+        <link refid="test__join__exporter_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/exporters/test_jsonl_llm_exporter.cpp</label>
+        <link refid="test__jsonl__llm__exporter_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/exporters/test_parquet_exporter.cpp</label>
+        <link refid="test__parquet__exporter_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/exporters/test_streaming_exporter.cpp</label>
+        <link refid="test__streaming__exporter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1exporters_1_1_exporter_metrics" prot="public">themis::exporters::ExporterMetrics</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats" prot="public">themis::exporters::ExporterMetrics::SchemaValidationStats</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_latency_histogram" prot="private">themis::exporters::ExporterMetrics::LatencyHistogram</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1exporters">themis::exporters</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1exporters" kindref="compound">themis::exporters</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1exporters_1_1_exporter_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a64f614420d123ffcc701ee2dec5676ee" kindref="member">ExporterMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25" refid="classthemis_1_1exporters_1_1_exporter_metrics_1a64f614420d123ffcc701ee2dec5676ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a64f614420d123ffcc701ee2dec5676ee" kindref="member">ExporterMetrics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a6d524dad901b276c5ad07aad3b802a9b" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a527e6e8ee8d69f2fc7f8236ae19fa0a5" kindref="member">recordExport</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>entity_count,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes_written,<sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>duration);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a43499761b8ee4be3bbe42d2f9aa00b92" kindref="member">recordError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_type);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a29e8b7ebd91652c37ada2ac916587425" kindref="member">recordDuplicate</ref>();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a6bb531030c99697793047182d37efb3f" kindref="member">recordQualityFilterRejection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a5a2c3a769641cfd9aa72f8df9e37244a" kindref="member">recordSchemaValidation</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>passed);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a80df229e20d0b6ea617cb2a83a71f59b" kindref="member">getExportRate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a817f57bbad9c4a5b265aba1b337e8c2d" kindref="member">getThroughput</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a1f467b2e63da06f738c0dd947c664e3f" kindref="member">getAverageLatency</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a7bb7da041aabf6daede3a23e71938dde" kindref="member">getP50Latency</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1ae8f9375297f1d620ceb93a0a47ba871e" kindref="member">getP95Latency</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a057f16a7eaa182e18dd043295acdfec1" kindref="member">getP99Latency</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a64272a04a980cbe94d725c0e984a0f74" kindref="member">getTotalErrors</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1ae717346cd1fce836a754d74282a1afb2" kindref="member">getErrorsByType</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a0d397cf020ce6c9e0d459b488f4c29bd" kindref="member">getTotalDuplicates</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a15bb61e51115a49600111cbb48a094ae" kindref="member">getQualityFilterRejections</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats" kindref="compound">SchemaValidationStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1ad26642e94d3ba1c73e77ba0ad372dbf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1ad26642e94d3ba1c73e77ba0ad372dbf3" kindref="member">total_validated</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1ae3a44404058374f252efbd8ebc75c19d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1ae3a44404058374f252efbd8ebc75c19d" kindref="member">passed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1a642bec8ccbeecbb669d8ff3fbad9edee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1a642bec8ccbeecbb669d8ff3fbad9edee" kindref="member">failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1a751f3f8ea894c30e74c0d8c5aac26ff6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1a751f3f8ea894c30e74c0d8c5aac26ff6" kindref="member">pass_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats" kindref="compound">SchemaValidationStats</ref><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a673e928bbae4fe15f28b13684739d7ec" kindref="member">getSchemaValidationStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1ad2515781dfc99c36e866f13cc0994d64" kindref="member">recordPIIDetection</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a0d38f229b2b7a4502426fb3edb5f5edb" kindref="member">recordPIIRedaction</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a0cf8d67c6611be409a99c1e510215a19" kindref="member">getPIIDetections</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a9b3311bb3d85fa97cd5f7f7550135e6a" kindref="member">getPIIRedactions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a76adc3719eb8a72101b6d5d4ec370ad8" kindref="member">recordCompression</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>uncompressed_bytes,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>compressed_bytes);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1ac4c1e55f73176fee7d050434c83a9907" kindref="member">getCompressionRatio</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a8d84b6608862e23b7afff245776977f0" kindref="member">recordParquetBytesWritten</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a38f2c90fcd68c719174f0a2281478bd1" kindref="member">getParquetBytesWritten</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1aa381ff513efb85d3332c6116cbe61456" kindref="member">recordCheckpoint</ref>();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1adc17fbd16e4fb498066eee2c74d885ad" kindref="member">getCheckpointCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a22d46a103067956174eab15f22bbb5d3" kindref="member">recordDeltaDocSkipped</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1ac39112ed3716258b9da0bc1362243860" kindref="member">getDeltaDocsSkipped</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2e97cdae46d43656a916e027c16ff1a7" kindref="member">recordEncryption</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>plaintext_bytes,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>encrypted_bytes);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1ada1cca9f9a2d4d967d7c3d0805d78b24" kindref="member">getEncryptedPlaintextBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1ae44bcb8d938b853c323393cb56a2b72e" kindref="member">getEncryptedOutputBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2e97cdae46d43656a916e027c16ff1a7" kindref="member">recordEncryption</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>encrypted_bytes);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a58f0dd3e3d0adb6f9b6ca44c4c6f9dc8" kindref="member">getEncryptedBytesWritten</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a5d28ba71ac133787df4874236274b8e1" kindref="member">recordRateLimitHit</ref>();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a127a3daa4bce7305acee096ba624bb9d" kindref="member">getRateLimitHits</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2420115fc10e17b12abf2cfa4911aa42" kindref="member">recordPolicyDenial</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a7a9e759dd95e0810e6ca00bdc698490c" kindref="member">getPolicyDenials</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a59c2a99d7876fd41ae4a59259bf62b81" kindref="member">recordHubUploadFailure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a1f0f2952ccd4793b28a95087ec19eb3e" kindref="member">getHubUploadFailures</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a09c24da4476c85d4933c7dc6ccbac03a" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1ab2383acfdd33bbfb12015ab85df616ce" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Export<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_exports_{0};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_entities_{0};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_bytes_{0};</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_duration_ms_{0};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>tracking<sp/>(simple<sp/>histogram)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">LatencyHistogram<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>count_0_10ms{0};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0-10ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>count_10_50ms{0};<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10-50ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>count_50_100ms{0};<sp/><sp/></highlight><highlight class="comment">//<sp/>50-100ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>count_100_500ms{0};<sp/></highlight><highlight class="comment">//<sp/>100-500ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>count_500plus{0};<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>500ms+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>latency_histogram_;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_errors_{0};</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/>errors_by_type_;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Duplicate<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_duplicates_{0};</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>filtering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/>quality_filter_rejections_;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schema<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>schema_validations_total_{0};</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>schema_validations_passed_{0};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>schema_validations_failed_{0};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>P1:<sp/>PII<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>pii_detections_{0};</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>pii_redactions_{0};</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>P2:<sp/>Compression</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>compression_uncompressed_bytes_{0};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>compression_compressed_bytes_{0};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>P3:<sp/>Parquet<sp/>export<sp/>bytes<sp/>(exporter_parquet_bytes_written_total)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>parquet_bytes_written_{0};</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Streaming:<sp/>checkpoint<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>checkpoint_count_{0};</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delta:<sp/>documents<sp/>skipped<sp/>by<sp/>incremental<sp/>filter<sp/>(exporter_delta_docs_skipped_total)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>delta_docs_skipped_{0};</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>P3/Security:<sp/>encryption<sp/>metrics<sp/>(exporter_encrypted_bytes_total)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>encryption_plaintext_bytes_{0};</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>encryption_output_bytes_{0};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encryption:<sp/>bytes<sp/>written<sp/>to<sp/>encrypted<sp/>export<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(exporter_encrypted_bytes_written_total)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>encrypted_bytes_written_{0};</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HuggingFace:<sp/>HTTP<sp/>429<sp/>rate-limit<sp/>hits<sp/>(exporters.huggingface.rate_limit_hit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>rate_limit_hits_{0};</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Policy<sp/>denials<sp/>(exporter_policy_denials_total)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>policy_denials_{0};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HuggingFace<sp/>Hub<sp/>upload<sp/>failures<sp/>(exporter_hub_upload_failures_total)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>hub_upload_failures_{0};</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateLatencyHistogram(std::chrono::milliseconds<sp/>duration);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculatePercentile(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>percentile)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::exporters</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/exporters/exporter_metrics.h"/>
+  </compounddef>
+</doxygen>

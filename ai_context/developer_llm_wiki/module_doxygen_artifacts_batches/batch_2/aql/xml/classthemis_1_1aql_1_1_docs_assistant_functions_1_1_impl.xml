@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::DocsAssistantFunctions::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a07326add3bf463ba7cb8094cd6378ee1" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; llm::DocsAssistant &gt;</type>
+        <definition>std::unique_ptr&lt;llm::DocsAssistant&gt; themis::aql::DocsAssistantFunctions::Impl::docs_assistant_</definition>
+        <argsstring></argsstring>
+        <name>docs_assistant_</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::docs_assistant_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="114" column="21" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a48c3289512dd1401c59e471541f5f6ab" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; llm::applications::ThemisHelpLoRA &gt;</type>
+        <definition>std::unique_ptr&lt;llm::applications::ThemisHelpLoRA&gt; themis::aql::DocsAssistantFunctions::Impl::help_lora_</definition>
+        <argsstring></argsstring>
+        <name>help_lora_</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::help_lora_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="115" column="21" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a0290db2b9f6b9883bceeb93efdf23d6a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::DocsAssistantFunctions::Impl::lora_available_</definition>
+        <argsstring></argsstring>
+        <name>lora_available_</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::lora_available_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="116" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1ab639f6b7cf64f5d94f0675f85537218d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994" kindref="member">DocsAssistantFunctions::DegradedReason</ref></type>
+        <definition>DocsAssistantFunctions::DegradedReason themis::aql::DocsAssistantFunctions::Impl::degraded_reason_</definition>
+        <argsstring></argsstring>
+        <name>degraded_reason_</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::degraded_reason_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">DocsAssistantFunctions::DegradedReason::OK</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="117" column="44" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1ae2f5170b5802ee5c1459eb804772d3c5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::Impl::degraded_message_</definition>
+        <argsstring></argsstring>
+        <name>degraded_message_</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::degraded_message_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="118" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="118" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1af67c5d8b3b82bca58f3994ad6c23c3fd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::DocsAssistantFunctions::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="29" column="5" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="29" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a95ed3ed660c6e44ac857b84c810b24d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>llm::DocsAssistant *</type>
+        <definition>llm::DocsAssistant * themis::aql::DocsAssistantFunctions::Impl::getAssistant</definition>
+        <argsstring>()</argsstring>
+        <name>getAssistant</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::getAssistant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="79" column="24" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="79" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a7b033fe699363bbf9ca677d0cd1cae67" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::DocsAssistantFunctions::Impl::isReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="86" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a023f92dc73bbf34197cb60d1dc7a31d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::DocsAssistantFunctions::Impl::isFullyReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isFullyReady</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::isFullyReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="90" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a60342bbf5d273a39d2a1ea37d552cb83" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994" kindref="member">DocsAssistantFunctions::DegradedReason</ref></type>
+        <definition>DocsAssistantFunctions::DegradedReason themis::aql::DocsAssistantFunctions::Impl::getDegradedReason</definition>
+        <argsstring>() const</argsstring>
+        <name>getDegradedReason</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::getDegradedReason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="94" column="44" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1aef97aa553ab5edf46030e8636231508e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::aql::DocsAssistantFunctions::Impl::getDegradedMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>getDegradedMessage</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::getDegradedMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="98" column="23" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a8cabca89f9831c27e00c655165b748ea" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::DocsAssistantFunctions::Impl::isLoRAAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isLoRAAvailable</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::isLoRAAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="102" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="102" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a7da556e7d6be9e6d8d607c57182f0a75" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>llm::applications::ThemisHelpLoRA *</type>
+        <definition>llm::applications::ThemisHelpLoRA * themis::aql::DocsAssistantFunctions::Impl::getLoRA</definition>
+        <argsstring>()</argsstring>
+        <name>getLoRA</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::Impl::getLoRA</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/docs_assistant_functions.cpp" line="106" column="39" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="106" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/aql/docs_assistant_functions.cpp" line="27" column="1" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="27" bodyend="119"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1ae2f5170b5802ee5c1459eb804772d3c5" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>degraded_message_</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1ab639f6b7cf64f5d94f0675f85537218d" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>degraded_reason_</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a07326add3bf463ba7cb8094cd6378ee1" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>docs_assistant_</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a95ed3ed660c6e44ac857b84c810b24d6" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>getAssistant</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1aef97aa553ab5edf46030e8636231508e" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>getDegradedMessage</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a60342bbf5d273a39d2a1ea37d552cb83" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>getDegradedReason</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a7da556e7d6be9e6d8d607c57182f0a75" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>getLoRA</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a48c3289512dd1401c59e471541f5f6ab" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>help_lora_</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1af67c5d8b3b82bca58f3994ad6c23c3fd" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a023f92dc73bbf34197cb60d1dc7a31d0" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>isFullyReady</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a8cabca89f9831c27e00c655165b748ea" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>isLoRAAvailable</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a7b033fe699363bbf9ca677d0cd1cae67" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl_1a0290db2b9f6b9883bceeb93efdf23d6a" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions::Impl</scope><name>lora_available_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

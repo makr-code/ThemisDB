@@ -1,0 +1,921 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1tests" kind="namespace" language="C++">
+    <compoundname>themis::observability::tests</compoundname>
+    <innerclass refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" prot="public">themis::observability::tests::MetricsCardinalityTest</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test" prot="public">themis::observability::tests::OTelExporterStressTest</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" prot="public">themis::observability::tests::TraceOverheadTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a06a967dc32a9c28f23cac610a2f37b8a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::observability::tests::HighCardinalityMetricsEmission</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>HighCardinalityMetricsEmission</name>
+        <qualifiedname>themis::observability::tests::HighCardinalityMetricsEmission</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="13" column="13" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="13" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a5af69a1db50803049bccd6667b866904" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::RangeMultiplier</definition>
+        <argsstring>(10) -&gt; Range(100, 50000) -&gt;Complexity()</argsstring>
+        <name>RangeMultiplier</name>
+        <qualifiedname>themis::observability::tests::RangeMultiplier</qualifiedname>
+        <param>
+          <type>10</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="29" column="5" declfile="tests/observability/test_high_cardinality_metrics.cpp" declline="29" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(MetricsCardinalityTest, MetricsMemoryBounded)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>MetricsMemoryBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="45" column="1" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="45" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1aebacbaff4248b53da0dac5002b095b30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(MetricsCardinalityTest, ShardCardinalityBounded)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>ShardCardinalityBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="65" column="1" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="65" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a19c0b3c3332d9f18fa7ee7ead8b7293d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(MetricsCardinalityTest, ReplicaCardinalityBounded)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>ReplicaCardinalityBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="80" column="1" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="80" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a4ea494b4f63941d2058c2c0b69166316" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(MetricsCardinalityTest, RetryReasonCardinalityBounded)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>RetryReasonCardinalityBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="94" column="1" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="94" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1abc770cb6a65bc29302f2d1b6e0f2f6f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(MetricsCardinalityTest, QuantileCalculation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>QuantileCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="115" column="1" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="115" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1aa067933a255610cfe87b210e3d7b9679" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(MetricsCardinalityTest, ReplicaLagQuantiles)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>ReplicaLagQuantiles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="129" column="1" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="129" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a79b2606f4da9129a8d7d271c1ee8ec56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(MetricsCardinalityTest, RetryCounterAggregation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>RetryCounterAggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="144" column="1" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="144" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1ae2f0718930ba753cc09f1ea5fb4a76a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(MetricsCardinalityTest, MemoryBoundedUnderSustainedLoad)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryBoundedUnderSustainedLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="157" column="1" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="157" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1ac77ce6cdeccf7d93f825c56a4d3c8866" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(MetricsCardinalityTest, CardinalityExceedingLimit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>CardinalityExceedingLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="179" column="1" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="179" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a6b869946e0c25484499f714b986d99ac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::observability::tests::StressTest_1000SpansPerSec</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>StressTest_1000SpansPerSec</name>
+        <qualifiedname>themis::observability::tests::StressTest_1000SpansPerSec</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="23" column="13" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="23" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1ab5544883f9aa59b793e3451b230c9c16" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::observability::tests::StressTest_NetworkFailureRecovery</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>StressTest_NetworkFailureRecovery</name>
+        <qualifiedname>themis::observability::tests::StressTest_NetworkFailureRecovery</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="39" column="13" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="39" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a5a5c02c61082082b8790fb5bf882fad0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::observability::tests::StressTest_CardinalityExplosion</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>StressTest_CardinalityExplosion</name>
+        <qualifiedname>themis::observability::tests::StressTest_CardinalityExplosion</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="56" column="13" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="56" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a16fd73d9437791af869195770f2d2a7c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::observability::tests::StressTest_ConcurrentExporters</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>StressTest_ConcurrentExporters</name>
+        <qualifiedname>themis::observability::tests::StressTest_ConcurrentExporters</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="73" column="13" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="73" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1abb2793929cbba360bb25535342f62ea4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::observability::tests::StressTest_GracefulShutdown</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>StressTest_GracefulShutdown</name>
+        <qualifiedname>themis::observability::tests::StressTest_GracefulShutdown</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="98" column="13" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="98" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1aa55af7e76f94bdbd9eeaea5f371a5c81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::BENCHMARK</definition>
+        <argsstring>(StressTest_1000SpansPerSec) -&gt; Repetitions(3)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::observability::tests::BENCHMARK</qualifiedname>
+        <param>
+          <type>StressTest_1000SpansPerSec</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="115" column="1" declfile="tests/observability/test_otel_exporter_stress.cpp" declline="115" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a90df4af9f319907435e0d271c7e6e6ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::BENCHMARK</definition>
+        <argsstring>(StressTest_NetworkFailureRecovery) -&gt; Repetitions(3)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::observability::tests::BENCHMARK</qualifiedname>
+        <param>
+          <type>StressTest_NetworkFailureRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="116" column="1" declfile="tests/observability/test_otel_exporter_stress.cpp" declline="116" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1af969aa80401b582a1f7347894b606d91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::BENCHMARK</definition>
+        <argsstring>(StressTest_CardinalityExplosion) -&gt; Repetitions(3)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::observability::tests::BENCHMARK</qualifiedname>
+        <param>
+          <type>StressTest_CardinalityExplosion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="117" column="1" declfile="tests/observability/test_otel_exporter_stress.cpp" declline="117" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a579b8da509715da8c41ef0d3ccc418fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::BENCHMARK</definition>
+        <argsstring>(StressTest_ConcurrentExporters) -&gt; Repetitions(3)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::observability::tests::BENCHMARK</qualifiedname>
+        <param>
+          <type>StressTest_ConcurrentExporters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="118" column="1" declfile="tests/observability/test_otel_exporter_stress.cpp" declline="118" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1ad435dea3cd01fdf74a14ab299f0b1e56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::BENCHMARK</definition>
+        <argsstring>(StressTest_GracefulShutdown) -&gt; Repetitions(3)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::observability::tests::BENCHMARK</qualifiedname>
+        <param>
+          <type>StressTest_GracefulShutdown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="119" column="1" declfile="tests/observability/test_otel_exporter_stress.cpp" declline="119" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a11b36d9e8791846bf57956545d1cb041" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(OTelExporterStressTest, W4A_EXPORTER_01_SustainedThroughput)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test" kindref="compound">OTelExporterStressTest</ref></type>
+        </param>
+        <param>
+          <type>W4A_EXPORTER_01_SustainedThroughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="129" column="1" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="129" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1ace57893c56e86f5d3e22a3914841261a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(OTelExporterStressTest, W4A_EXPORTER_02_RecoveryLatency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test" kindref="compound">OTelExporterStressTest</ref></type>
+        </param>
+        <param>
+          <type>W4A_EXPORTER_02_RecoveryLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="149" column="1" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="149" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a488a03fb4785acc976ff85d83832520d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(OTelExporterStressTest, W4A_EXPORTER_03_CardinalityHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test" kindref="compound">OTelExporterStressTest</ref></type>
+        </param>
+        <param>
+          <type>W4A_EXPORTER_03_CardinalityHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="171" column="1" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="171" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a8d7735b0e50bbc3d22aeba6ef8b9dcfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(OTelExporterStressTest, W4A_EXPORTER_04_ConcurrentExporters)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test" kindref="compound">OTelExporterStressTest</ref></type>
+        </param>
+        <param>
+          <type>W4A_EXPORTER_04_ConcurrentExporters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="194" column="1" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="194" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1ab01d78e602fb76de001ee00627b255ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(OTelExporterStressTest, W4A_EXPORTER_05_GracefulShutdown)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test" kindref="compound">OTelExporterStressTest</ref></type>
+        </param>
+        <param>
+          <type>W4A_EXPORTER_05_GracefulShutdown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="219" column="1" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="219" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a3a9ca7fbeab064d69bb3cce2317ef484" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(OTelExporterStressTest, ConcurrentBaggageInsertionStress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test" kindref="compound">OTelExporterStressTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentBaggageInsertionStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="241" column="1" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="241" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a25c175e794594964a1133dfb02ebbb16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(OTelExporterStressTest, EventRecordingStress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test" kindref="compound">OTelExporterStressTest</ref></type>
+        </param>
+        <param>
+          <type>EventRecordingStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="266" column="1" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="266" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a8b3b382749f71f5610743b540a6babcf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::observability::tests::BaselineTransactionNoTracing</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BaselineTransactionNoTracing</name>
+        <qualifiedname>themis::observability::tests::BaselineTransactionNoTracing</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="16" column="13" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="16" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a1c1708cd335a29495ee40577a746f5da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::observability::tests::TransactionWithDistributedTracing</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>TransactionWithDistributedTracing</name>
+        <qualifiedname>themis::observability::tests::TransactionWithDistributedTracing</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="24" column="13" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="24" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1ab4e47d36b894393e5a79301d2b8e9e32" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::observability::tests::SpanCreationOverhead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>SpanCreationOverhead</name>
+        <qualifiedname>themis::observability::tests::SpanCreationOverhead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="41" column="13" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="41" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a784a3bc28942ae98d4194f5748505926" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::observability::tests::EventRecordingOverhead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>EventRecordingOverhead</name>
+        <qualifiedname>themis::observability::tests::EventRecordingOverhead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="49" column="13" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a904332e7878699fc6c0f4b3e7763b839" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::observability::tests::BaggageInsertionOverhead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BaggageInsertionOverhead</name>
+        <qualifiedname>themis::observability::tests::BaggageInsertionOverhead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="58" column="13" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="58" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a3e218e060806a26f8b7f60ca1eb0f9ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::BENCHMARK</definition>
+        <argsstring>(BaselineTransactionNoTracing) -&gt; Unit(benchmark::kMicrosecond) -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::observability::tests::BENCHMARK</qualifiedname>
+        <param>
+          <type>BaselineTransactionNoTracing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="66" column="1" declfile="tests/observability/test_otel_trace_overhead.cpp" declline="66" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a5cd678233986bdaf2d8dcd997b544f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::BENCHMARK</definition>
+        <argsstring>(TransactionWithDistributedTracing) -&gt; Unit(benchmark::kMicrosecond) -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::observability::tests::BENCHMARK</qualifiedname>
+        <param>
+          <type>TransactionWithDistributedTracing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="67" column="1" declfile="tests/observability/test_otel_trace_overhead.cpp" declline="67" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a9605f2565e9177df880944f4f19db5ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::BENCHMARK</definition>
+        <argsstring>(SpanCreationOverhead) -&gt; Unit(benchmark::kNanosecond) -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::observability::tests::BENCHMARK</qualifiedname>
+        <param>
+          <type>SpanCreationOverhead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="68" column="1" declfile="tests/observability/test_otel_trace_overhead.cpp" declline="68" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a2af5d60ab512367e4e2b47f4027d53cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::BENCHMARK</definition>
+        <argsstring>(EventRecordingOverhead) -&gt; Unit(benchmark::kNanosecond) -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::observability::tests::BENCHMARK</qualifiedname>
+        <param>
+          <type>EventRecordingOverhead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="69" column="1" declfile="tests/observability/test_otel_trace_overhead.cpp" declline="69" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a27bbf988755f33a8f952d46f3e5c6657" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::BENCHMARK</definition>
+        <argsstring>(BaggageInsertionOverhead) -&gt; Unit(benchmark::kNanosecond) -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::observability::tests::BENCHMARK</qualifiedname>
+        <param>
+          <type>BaggageInsertionOverhead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="70" column="1" declfile="tests/observability/test_otel_trace_overhead.cpp" declline="70" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1aef420bad3de67e677d046356d9ffc1ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(TraceOverheadTest, SpanCreation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref></type>
+        </param>
+        <param>
+          <type>SpanCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="78" column="1" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="78" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1af5bcd992ada6b047e539c58f53c5a48e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(TraceOverheadTest, W3CContextPropagation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref></type>
+        </param>
+        <param>
+          <type>W3CContextPropagation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="86" column="1" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="86" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a9337443c31af994d9bcc0680a174d881" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(TraceOverheadTest, ParentChildLinking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref></type>
+        </param>
+        <param>
+          <type>ParentChildLinking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="99" column="1" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="99" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a124668fe634cc8617673344e9d2684b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(TraceOverheadTest, BaggageInheritance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref></type>
+        </param>
+        <param>
+          <type>BaggageInheritance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="113" column="1" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="113" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a25d49470fd2594173d281d8e15ce5442" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(TraceOverheadTest, EventRecording)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref></type>
+        </param>
+        <param>
+          <type>EventRecording</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="125" column="1" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="125" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a889079dcca5751666b2bcb158af62db0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(TraceOverheadTest, SpanStatus)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref></type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198" kindref="member">SpanStatus</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="139" column="1" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="139" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a3ba36b5ae36c77dcac7c2c80bb61352c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(TraceOverheadTest, SpanDuration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref></type>
+        </param>
+        <param>
+          <type>SpanDuration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="152" column="1" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="152" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a877f235cc588043ab842e9cbe6fefaf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(TraceOverheadTest, MaxBaggageLimit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref></type>
+        </param>
+        <param>
+          <type>MaxBaggageLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="161" column="1" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="161" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a9e75ccd18de94d816d2ce40c2beb448f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(TraceOverheadTest, MaxEventLimit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref></type>
+        </param>
+        <param>
+          <type>MaxEventLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="178" column="1" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="178" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1tests_1a84d6adb59eba573322b22dd76a432102" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::tests::TEST_F</definition>
+        <argsstring>(TraceOverheadTest, ThreadSaftyBaggageInsertion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1tests_1_1_trace_overhead_test" kindref="compound">TraceOverheadTest</ref></type>
+        </param>
+        <param>
+          <type>ThreadSaftyBaggageInsertion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_trace_overhead.cpp" line="195" column="1" bodyfile="tests/observability/test_otel_trace_overhead.cpp" bodystart="195" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/observability/test_high_cardinality_metrics.cpp" line="10" column="1"/>
+  </compounddef>
+</doxygen>

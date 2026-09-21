@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__tensor__core__bridge_8cpp" kind="file" language="C++">
+    <compoundname>test_tensor_core_bridge.cpp</compoundname>
+    <includes local="yes">../test_tensor_core_bridge.cpp</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>../test_tensor_core_bridge.cpp</label>
+      </node>
+      <node id="1">
+        <label>tests/tensor/test_tensor_core_bridge.cpp</label>
+        <link refid="test__tensor__core__bridge_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Forwarding<sp/>test<sp/>translation<sp/>unit.</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>The<sp/>canonical<sp/>implementation<sp/>lives<sp/>in<sp/>tests/test_tensor_core_bridge.cpp.</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Keep<sp/>this<sp/>file<sp/>as<sp/>a<sp/>compatibility<sp/>shim<sp/>for<sp/>tooling<sp/>or<sp/>legacy<sp/>paths.</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../test_tensor_core_bridge.cpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/tensor/test_tensor_core_bridge.cpp"/>
+  </compounddef>
+</doxygen>

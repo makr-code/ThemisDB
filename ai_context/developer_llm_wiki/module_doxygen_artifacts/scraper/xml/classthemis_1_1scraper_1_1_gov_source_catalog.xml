@@ -1,0 +1,484 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_gov_source_catalog" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::GovSourceCatalog</compoundname>
+    <includes refid="gov__source__catalog_8h" local="no">gov_source_catalog.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_gov_source_catalog_1aec22c9a4b01a3eb4239b4518029b03c3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref> &gt;</type>
+        <definition>std::vector&lt;GovDataSource&gt; themis::scraper::GovSourceCatalog::sources_</definition>
+        <argsstring></argsstring>
+        <name>sources_</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::sources_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="180" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::GovSourceCatalog::GovSourceCatalog</definition>
+        <argsstring>()</argsstring>
+        <name>GovSourceCatalog</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::GovSourceCatalog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="119" column="5" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1afbfa25f52063e7a4ad1850e3a6767853" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::GovSourceCatalog::~GovSourceCatalog</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GovSourceCatalog</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::~GovSourceCatalog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="120" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1add2953d2c2e693daace1f5af82fab394" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::GovSourceCatalog::GovSourceCatalog</definition>
+        <argsstring>(const GovSourceCatalog &amp;)=delete</argsstring>
+        <name>GovSourceCatalog</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::GovSourceCatalog</qualifiedname>
+        <param>
+          <type>const GovSourceCatalog &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a736bde465f50708618c8036d0524b088" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref> &amp;</type>
+        <definition>GovSourceCatalog &amp; themis::scraper::GovSourceCatalog::operator=</definition>
+        <argsstring>(const GovSourceCatalog &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="124" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a207c60895520339e508d67d7e0391bec" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::GovSourceCatalog::GovSourceCatalog</definition>
+        <argsstring>(GovSourceCatalog &amp;&amp;) noexcept=default</argsstring>
+        <name>GovSourceCatalog</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::GovSourceCatalog</qualifiedname>
+        <param>
+          <type>GovSourceCatalog &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="125" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a8ec7791b6c0c6c29eff76cf523d3da0b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref> &amp;</type>
+        <definition>GovSourceCatalog &amp; themis::scraper::GovSourceCatalog::operator=</definition>
+        <argsstring>(GovSourceCatalog &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" kindref="member">GovSourceCatalog</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="126" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a36dafba7d783ce42ddaf95cdb3c4fc74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; GovDataSource &gt; &amp; themis::scraper::GovSourceCatalog::all</definition>
+        <argsstring>() const</argsstring>
+        <name>all</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::all</qualifiedname>
+        <briefdescription>
+<para>All sources in the catalog. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="131" column="23" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a1f2d4a82c6c2ba26f8844c81fac502fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref> *</type>
+        <definition>const GovDataSource * themis::scraper::GovSourceCatalog::findById</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>findById</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::findById</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Look up by unique id; returns nullptr when not found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="134" column="25" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="43" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a7edab909dd7825b5032618a70770964c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; const <ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref> * &gt;</type>
+        <definition>std::vector&lt; const GovDataSource * &gt; themis::scraper::GovSourceCatalog::byType</definition>
+        <argsstring>(GovSourceType type) const</argsstring>
+        <name>byType</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::byType</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13" kindref="member">GovSourceType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>All sources of a given type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="137" column="17" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="52" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1ae59dd82556ef7e1b221145a7ecfbe97f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; const <ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref> * &gt;</type>
+        <definition>std::vector&lt; const GovDataSource * &gt; themis::scraper::GovSourceCatalog::byBundesland</definition>
+        <argsstring>(const std::string &amp;iso) const</argsstring>
+        <name>byBundesland</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::byBundesland</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iso</declname>
+        </param>
+        <briefdescription>
+<para>All Bundesland sources for a specific state (ISO code). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="140" column="17" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="63" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a5dd4a83b38bce8fa44141ce6d962668a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; const <ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref> * &gt;</type>
+        <definition>std::vector&lt; const GovDataSource * &gt; themis::scraper::GovSourceCatalog::enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::enabled</qualifiedname>
+        <briefdescription>
+<para>All sources that are currently enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="143" column="17" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="75" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1acb07b6b80afbce6dd9e170114824cb14" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; const <ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref> * &gt;</type>
+        <definition>std::vector&lt; const GovDataSource * &gt; themis::scraper::GovSourceCatalog::byIds</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;ids) const</argsstring>
+        <name>byIds</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::byIds</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>ids</declname>
+        </param>
+        <briefdescription>
+<para>Filter by a list of explicit IDs (preserves order). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="146" column="17" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="86" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a9f74439c50e118c2152eb7ad7187b6f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::GovSourceCatalog::upsert</definition>
+        <argsstring>(GovDataSource source)</argsstring>
+        <name>upsert</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::upsert</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref></type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+<para>Add or replace a source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Upsert.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="152" column="10" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="107" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a93d77c47cbe0612e972777182980579c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::GovSourceCatalog::setEnabled</definition>
+        <argsstring>(const std::string &amp;id, bool enabled)</argsstring>
+        <name>setEnabled</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::setEnabled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+          <defname>en</defname>
+        </param>
+        <briefdescription>
+<para>Enable/disable a source by id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Enabled.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">en</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements setEnabled without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="155" column="10" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="121" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1ad8c3dbe98ac99e97b26ad1c12df7b25e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::GovSourceCatalog::loadFromYaml</definition>
+        <argsstring>(const std::string &amp;yaml_content)</argsstring>
+        <name>loadFromYaml</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::loadFromYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_content</declname>
+        </param>
+        <briefdescription>
+<para>Overlay entries from a YAML file on top of the built-in catalog. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From Yaml.</para>
+<para>Unknown sources are added; known sources are merged (only non-empty fields from the YAML override the built-in defaults).</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on parse error.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: YAML::Load(), IsSequence(), IsMap(), empty(), <ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a9f74439c50e118c2152eb7ad7187b6f7" kindref="member">upsert()</ref>, std::move(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="167" column="10" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="153" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a068b60f3e0f72081f3dd0730dc003053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::GovSourceCatalog::loadFromFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadFromFile</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::loadFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load overlay from a file path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From File.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when file cannot be read.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: f(), is_open(), rdbuf(), <ref refid="classthemis_1_1scraper_1_1_gov_source_catalog_1ad8c3dbe98ac99e97b26ad1c12df7b25e" kindref="member">loadFromYaml()</ref>, str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="173" column="10" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="138" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a9665c835e349b9a2679e9f8ded2c1c1e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::GovSourceCatalog::populateBuiltinBund</definition>
+        <argsstring>()</argsstring>
+        <name>populateBuiltinBund</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::populateBuiltinBund</qualifiedname>
+        <briefdescription>
+<para>============================================================================ Built-in catalog – Federal Germany (Bund) ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: push_back(), std::move(), add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="176" column="10" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="262" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1a920db93580f705faa850493e9ecb73b8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::GovSourceCatalog::populateBuiltinBundeslaender</definition>
+        <argsstring>()</argsstring>
+        <name>populateBuiltinBundeslaender</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::populateBuiltinBundeslaender</qualifiedname>
+        <briefdescription>
+<para>============================================================================ Built-in catalog – 16 Bundesländer ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: push_back(), std::move(), add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="177" column="10" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="366" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_gov_source_catalog_1ae7c68aa2cee322666c4dccbd292b0b40" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::GovSourceCatalog::populateBuiltinEU</definition>
+        <argsstring>()</argsstring>
+        <name>populateBuiltinEU</name>
+        <qualifiedname>themis::scraper::GovSourceCatalog::populateBuiltinEU</qualifiedname>
+        <briefdescription>
+<para>============================================================================ Built-in catalog – European Union ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: push_back(), std::move(), add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="178" column="10" bodyfile="src/scraper/gov_source_catalog.cpp" bodystart="477" bodyend="539"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Registry of all known official government and EU data sources. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The built-in catalog covers:<itemizedlist>
+<listitem><para>Federal Germany (Bund): 8 portals</para>
+</listitem><listitem><para>All 16 Bundesländer state law portals</para>
+</listitem><listitem><para>EU: 5 portals (EUR-Lex, CURIA, europarl.europa.eu, ec.europa.eu, publications.europa.eu)</para>
+</listitem></itemizedlist>
+</para>
+<para>The catalog can be extended or overridden by loading a custom YAML file. </para>
+    </detaileddescription>
+    <location file="include/scraper/gov_source_catalog.h" line="117" column="1" bodyfile="include/scraper/gov_source_catalog.h" bodystart="117" bodyend="181"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a36dafba7d783ce42ddaf95cdb3c4fc74" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>all</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1ae59dd82556ef7e1b221145a7ecfbe97f" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>byBundesland</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1acb07b6b80afbce6dd9e170114824cb14" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>byIds</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a7edab909dd7825b5032618a70770964c" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>byType</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a5dd4a83b38bce8fa44141ce6d962668a" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>enabled</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a1f2d4a82c6c2ba26f8844c81fac502fe" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>findById</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a10185ac91ec72c8a6ac0c1652ca04df2" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>GovSourceCatalog</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1add2953d2c2e693daace1f5af82fab394" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>GovSourceCatalog</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a207c60895520339e508d67d7e0391bec" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>GovSourceCatalog</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a068b60f3e0f72081f3dd0730dc003053" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>loadFromFile</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1ad8c3dbe98ac99e97b26ad1c12df7b25e" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>loadFromYaml</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a736bde465f50708618c8036d0524b088" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a8ec7791b6c0c6c29eff76cf523d3da0b" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a9665c835e349b9a2679e9f8ded2c1c1e" prot="private" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>populateBuiltinBund</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a920db93580f705faa850493e9ecb73b8" prot="private" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>populateBuiltinBundeslaender</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1ae7c68aa2cee322666c4dccbd292b0b40" prot="private" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>populateBuiltinEU</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a93d77c47cbe0612e972777182980579c" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>setEnabled</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1aec22c9a4b01a3eb4239b4518029b03c3" prot="private" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>sources_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1a9f74439c50e118c2152eb7ad7187b6f7" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>upsert</name></member>
+      <member refid="classthemis_1_1scraper_1_1_gov_source_catalog_1afbfa25f52063e7a4ad1850e3a6767853" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourceCatalog</scope><name>~GovSourceCatalog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

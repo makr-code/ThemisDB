@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1test_1_1_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::test::CircuitBreaker</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1af6def3c191d186d4225328bfec029198" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1_1test_1aa4dfdcef2f9234432a3e9c2869cf5503" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::voice::test::CircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::state_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1_1test_1aa4dfdcef2f9234432a3e9c2869cf5503a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="104" column="16" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a2dc69566db155dc5b4e38f3766c2404e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::test::CircuitBreaker::failure_threshold_</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold_</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::failure_threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="105" column="7" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a5141b311647af323bbd082f699a04c9a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::test::CircuitBreaker::failure_count_</definition>
+        <argsstring></argsstring>
+        <name>failure_count_</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::failure_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="106" column="7" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1ae96591681bdd1044084d281acff852a0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::test::CircuitBreaker::success_count_</definition>
+        <argsstring></argsstring>
+        <name>success_count_</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::success_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="107" column="7" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1adc364160bc577210d1f3b03f32a4e3c7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::CircuitBreaker::CircuitBreaker</definition>
+        <argsstring>(int failure_threshold=5)</argsstring>
+        <name>CircuitBreaker</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::CircuitBreaker</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>failure_threshold</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="56" column="12" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="56" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a55448bb8445d493901cd4ed3fb759c70" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1_1test_1aa4dfdcef2f9234432a3e9c2869cf5503" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::voice::test::CircuitBreaker::state</definition>
+        <argsstring>() const</argsstring>
+        <name>state</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="59" column="16" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a5b7f79fed2b381106cd21bc6c7e1d72a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::test::CircuitBreaker::canAttempt</definition>
+        <argsstring>() const</argsstring>
+        <name>canAttempt</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::canAttempt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="61" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a0e3345dc3cd1c7c6a83abb43fea81af2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::test::CircuitBreaker::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::recordSuccess</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="63" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="63" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a6db640594af1aeeee46ad55bff1a2d42" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::test::CircuitBreaker::recordFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::recordFailure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="76" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="76" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a91c5b6720dc875945990cb9bcbe83f00" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::test::CircuitBreaker::advanceToHalfOpen</definition>
+        <argsstring>()</argsstring>
+        <name>advanceToHalfOpen</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::advanceToHalfOpen</qualifiedname>
+        <briefdescription>
+<para>Manually advance to HALF_OPEN (simulates timeout expiry in tests). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="88" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a1addede88e3b3769741c5a8624c794d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::test::CircuitBreaker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="95" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="95" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1ae57a68ce467f40fa195714a21db66f40" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::voice::test::CircuitBreaker::failureCount</definition>
+        <argsstring>() const</argsstring>
+        <name>failureCount</name>
+        <qualifiedname>themis::voice::test::CircuitBreaker::failureCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="101" column="7" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="54" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="54" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a91c5b6720dc875945990cb9bcbe83f00" prot="public" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>advanceToHalfOpen</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a5b7f79fed2b381106cd21bc6c7e1d72a" prot="public" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>canAttempt</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1adc364160bc577210d1f3b03f32a4e3c7" prot="public" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>CircuitBreaker</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a5141b311647af323bbd082f699a04c9a" prot="private" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>failure_count_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a2dc69566db155dc5b4e38f3766c2404e" prot="private" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>failure_threshold_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1ae57a68ce467f40fa195714a21db66f40" prot="public" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>failureCount</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a6db640594af1aeeee46ad55bff1a2d42" prot="public" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a0e3345dc3cd1c7c6a83abb43fea81af2" prot="public" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a1addede88e3b3769741c5a8624c794d6" prot="public" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1a55448bb8445d493901cd4ed3fb759c70" prot="public" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>state</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1af6def3c191d186d4225328bfec029198" prot="private" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_circuit_breaker_1ae96591681bdd1044084d281acff852a0" prot="private" virt="non-virtual"><scope>themis::voice::test::CircuitBreaker</scope><name>success_count_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

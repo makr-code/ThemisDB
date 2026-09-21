@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_rule_engine_test" kind="class" language="C++" prot="public">
+    <compoundname>RuleEngineTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_rule_engine_test_1aa265e367515e183121aa230adea46ca0" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_c_e_p_engine" kindref="compound">CEPEngine</ref> *</type>
+        <definition>CEPEngine* RuleEngineTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>RuleEngineTest::engine_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_cep_engine.cpp" line="575" column="15" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="575" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_rule_engine_test_1a88ae01358dfc9db1970840c88698b8fb" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_rule_engine" kindref="compound">RuleEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RuleEngine&gt; RuleEngineTest::rule_engine_</definition>
+        <argsstring></argsstring>
+        <name>rule_engine_</name>
+        <qualifiedname>RuleEngineTest::rule_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_cep_engine.cpp" line="576" column="21" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="576" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_rule_engine_test_1a8f92b78e9d3afa3b4a173f358f787ef5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RuleEngineTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RuleEngineTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_cep_engine.cpp" line="578" column="10" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="578" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="class_rule_engine_test_1ac214367f660d6a1f2275aad267a2620d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_rule_config" kindref="compound">RuleConfig</ref></type>
+        <definition>RuleConfig RuleEngineTest::makeSimpleRule</definition>
+        <argsstring>(const std::string &amp;id=&quot;rule1&quot;)</argsstring>
+        <name>makeSimpleRule</name>
+        <qualifiedname>RuleEngineTest::makeSimpleRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+          <defval>&quot;rule1&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_cep_engine.cpp" line="584" column="16" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="584" bodyend="594"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RuleEngineTest</label>
+        <link refid="class_rule_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RuleEngineTest</label>
+        <link refid="class_rule_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>engine_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="3">
+        <label>themisdb::analytics::CEPEngine</label>
+        <link refid="classthemisdb_1_1analytics_1_1_c_e_p_engine"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_cep_engine.cpp" line="573" column="1" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="573" bodyend="595"/>
+    <listofallmembers>
+      <member refid="class_rule_engine_test_1aa265e367515e183121aa230adea46ca0" prot="protected" virt="non-virtual"><scope>RuleEngineTest</scope><name>engine_</name></member>
+      <member refid="class_rule_engine_test_1ac214367f660d6a1f2275aad267a2620d" prot="protected" virt="non-virtual"><scope>RuleEngineTest</scope><name>makeSimpleRule</name></member>
+      <member refid="class_rule_engine_test_1a88ae01358dfc9db1970840c88698b8fb" prot="protected" virt="non-virtual"><scope>RuleEngineTest</scope><name>rule_engine_</name></member>
+      <member refid="class_rule_engine_test_1a8f92b78e9d3afa3b4a173f358f787ef5" prot="protected" virt="non-virtual"><scope>RuleEngineTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>RuleEngineTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

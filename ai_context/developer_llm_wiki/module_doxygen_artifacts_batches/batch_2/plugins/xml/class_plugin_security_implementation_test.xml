@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_plugin_security_implementation_test" kind="class" language="C++" prot="public">
+    <compoundname>PluginSecurityImplementationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_plugin_security_implementation_test_1ac524f859c3accc710201910d841ece00" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path PluginSecurityImplementationTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>PluginSecurityImplementationTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="95" column="27" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plugin_security_implementation_test_1ab22299df4caa720a4de4f02d8c0efe80" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path PluginSecurityImplementationTest::test_plugin_path_</definition>
+        <argsstring></argsstring>
+        <name>test_plugin_path_</name>
+        <qualifiedname>PluginSecurityImplementationTest::test_plugin_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="96" column="27" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plugin_security_implementation_test_1a0bf16a615279ea8636832a74acdb5db2" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PluginSecurityImplementationTest::test_cert_pem_</definition>
+        <argsstring></argsstring>
+        <name>test_cert_pem_</name>
+        <qualifiedname>PluginSecurityImplementationTest::test_cert_pem_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="97" column="17" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_plugin_security_implementation_test_1a2b796983fc0b6791b4674673077ae864" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginSecurityImplementationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PluginSecurityImplementationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="16" column="10" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="16" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_security_implementation_test_1ae5258ec2c1967518d5ce7804a8a0b734" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginSecurityImplementationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PluginSecurityImplementationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="31" column="10" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_security_implementation_test_1a3e096a4a108929edaca8543866632aca" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginSecurityImplementationTest::generateTestCertificate</definition>
+        <argsstring>()</argsstring>
+        <name>generateTestCertificate</name>
+        <qualifiedname>PluginSecurityImplementationTest::generateTestCertificate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="36" column="10" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="36" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PluginSecurityImplementationTest</label>
+        <link refid="class_plugin_security_implementation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PluginSecurityImplementationTest</label>
+        <link refid="class_plugin_security_implementation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_security_implementation.cpp" line="14" column="1" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="14" bodyend="98"/>
+    <listofallmembers>
+      <member refid="class_plugin_security_implementation_test_1a3e096a4a108929edaca8543866632aca" prot="protected" virt="non-virtual"><scope>PluginSecurityImplementationTest</scope><name>generateTestCertificate</name></member>
+      <member refid="class_plugin_security_implementation_test_1a2b796983fc0b6791b4674673077ae864" prot="protected" virt="non-virtual"><scope>PluginSecurityImplementationTest</scope><name>SetUp</name></member>
+      <member refid="class_plugin_security_implementation_test_1ae5258ec2c1967518d5ce7804a8a0b734" prot="protected" virt="non-virtual"><scope>PluginSecurityImplementationTest</scope><name>TearDown</name></member>
+      <member refid="class_plugin_security_implementation_test_1a0bf16a615279ea8636832a74acdb5db2" prot="protected" virt="non-virtual"><scope>PluginSecurityImplementationTest</scope><name>test_cert_pem_</name></member>
+      <member refid="class_plugin_security_implementation_test_1ac524f859c3accc710201910d841ece00" prot="protected" virt="non-virtual"><scope>PluginSecurityImplementationTest</scope><name>test_dir_</name></member>
+      <member refid="class_plugin_security_implementation_test_1ab22299df4caa720a4de4f02d8c0efe80" prot="protected" virt="non-virtual"><scope>PluginSecurityImplementationTest</scope><name>test_plugin_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

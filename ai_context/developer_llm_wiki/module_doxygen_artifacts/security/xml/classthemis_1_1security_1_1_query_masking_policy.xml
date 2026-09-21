@@ -1,0 +1,783 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_query_masking_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::QueryMaskingPolicy</compoundname>
+    <includes refid="query__masking__policy_8h" local="no">query_masking_policy.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_query_masking_policy_1_1_field_mask_config" prot="public">themis::security::QueryMaskingPolicy::FieldMaskConfig</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_query_masking_policy_1_1_config" prot="public">themis::security::QueryMaskingPolicy::Config</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_query_masking_policy_1acfae36795e4f9f675d2dff942f5d1d78" prot="private" static="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1security_1_1_query_masking_policy_1_1_field_mask_config" kindref="compound">FieldMaskConfig</ref> &gt;</type>
+        <definition>using themis::security::QueryMaskingPolicy::DeclaredFieldsSnapshot = std::unordered_map&lt;std::string, FieldMaskConfig&gt;</definition>
+        <argsstring></argsstring>
+        <name>DeclaredFieldsSnapshot</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::DeclaredFieldsSnapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Snapshot of declared_fields_ taken under the lock for a single masking operation. Avoids accessing the shared map without a lock from deep in the recursive call chain. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="197" column="5" bodyfile="include/security/query_masking_policy.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_query_masking_policy_1a9bf896d963df0055ab6668f8fdbac9bc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::security::QueryMaskingPolicy::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="232" column="24" bodyfile="include/security/query_masking_policy.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_query_masking_policy_1a57727cf6689c52fed50d9c1a0cfc8d04" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_query_masking_policy_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::security::QueryMaskingPolicy::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="233" column="12" bodyfile="include/security/query_masking_policy.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_query_masking_policy_1a3a9d7f72d22c3979e1eefc5f9894a341" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::PIIDetector &gt;</type>
+        <definition>std::shared_ptr&lt;utils::PIIDetector&gt; themis::security::QueryMaskingPolicy::detector_</definition>
+        <argsstring></argsstring>
+        <name>detector_</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="234" column="21" bodyfile="include/security/query_masking_policy.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_query_masking_policy_1add76c034570eea28b16a5bd178bafccd" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1security_1_1_query_masking_policy_1_1_field_mask_config" kindref="compound">FieldMaskConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, FieldMaskConfig&gt; themis::security::QueryMaskingPolicy::declared_fields_</definition>
+        <argsstring></argsstring>
+        <name>declared_fields_</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::declared_fields_</qualifiedname>
+        <briefdescription>
+<para>Explicitly declared fields and their masking configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="237" column="24" bodyfile="include/security/query_masking_policy.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1aca831fe528e2ba97079d8f9237dd2df4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::QueryMaskingPolicy::QueryMaskingPolicy</definition>
+        <argsstring>(const std::string &amp;config_path=&quot;config/pii_patterns.yaml&quot;)</argsstring>
+        <name>QueryMaskingPolicy</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::QueryMaskingPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+          <defval>&quot;config/pii_patterns.yaml&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional path to pii_patterns.yaml passed to PIIDetector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="86" column="14" bodyfile="src/security/query_masking_policy.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1a9d08aa725be5e428551aef61f317eb54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::QueryMaskingPolicy::QueryMaskingPolicy</definition>
+        <argsstring>(Config config, const std::string &amp;config_path=&quot;config/pii_patterns.yaml&quot;)</argsstring>
+        <name>QueryMaskingPolicy</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::QueryMaskingPolicy</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_query_masking_policy_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+          <defval>&quot;config/pii_patterns.yaml&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct with explicit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Policy configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional path to pii_patterns.yaml passed to PIIDetector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="94" column="5" bodyfile="src/security/query_masking_policy.cpp" bodystart="27" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1ae7c5ce405de35de197850fc633fe057e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::QueryMaskingPolicy::declareField</definition>
+        <argsstring>(const std::string &amp;field_name, const std::string &amp;mask_mode=&quot;strict&quot;, utils::PIIType pii_type=utils::PIIType::UNKNOWN)</argsstring>
+        <name>declareField</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::declareField</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mask_mode</declname>
+          <defval>&quot;strict&quot;</defval>
+        </param>
+        <param>
+          <type>utils::PIIType</type>
+          <declname>pii_type</declname>
+          <defval>utils::PIIType::UNKNOWN</defval>
+        </param>
+        <briefdescription>
+<para>Register a field (by exact key name) that must always be masked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Declare Field.</para>
+<para>Overrides both auto-detect and field-name hints for this key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON key name (e.g. &quot;ssn&quot;, &quot;credit_card_number&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mask_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>&quot;strict&quot; (full replace) or &quot;partial&quot; (show partial). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pii_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Hint for choosing the masking form (optional).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mask_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pii_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="119" column="10" bodyfile="src/security/query_masking_policy.cpp" bodystart="75" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1a4d14e4a50db47b9bc338013bc9ea0cd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::QueryMaskingPolicy::undeclareField</definition>
+        <argsstring>(const std::string &amp;field_name)</argsstring>
+        <name>undeclareField</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::undeclareField</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove a previously declared explicit field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Undeclare Field.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="128" column="10" bodyfile="src/security/query_masking_policy.cpp" bodystart="94" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1a65180dbff76200fa8ca38c28e8a40059" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::QueryMaskingPolicy::maskResult</definition>
+        <argsstring>(const nlohmann::json &amp;result, const std::vector&lt; std::string &gt; &amp;user_roles={}) const</argsstring>
+        <name>maskResult</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::maskResult</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>user_roles</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Mask PII in a single JSON entity object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Operates on a copy – the original is not modified.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object (entity) to mask. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Roles of the requesting user; privileged roles bypass masking. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Masked copy of <computeroutput>result</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="143" column="20" bodyfile="src/security/query_masking_policy.cpp" bodystart="160" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1ad4596eb2ff61e961331f565d3c542499" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::QueryMaskingPolicy::maskResultSet</definition>
+        <argsstring>(const nlohmann::json &amp;results, const std::vector&lt; std::string &gt; &amp;user_roles={}) const</argsstring>
+        <name>maskResultSet</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::maskResultSet</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>user_roles</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Mask PII in a JSON array of entity objects. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Applies <ref refid="classthemis_1_1security_1_1_query_masking_policy_1a65180dbff76200fa8ca38c28e8a40059" kindref="member">maskResult()</ref> to every element of the array.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON array of entity objects. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Roles of the requesting user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Masked copy of <computeroutput>results</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="156" column="20" bodyfile="src/security/query_masking_policy.cpp" bodystart="188" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1a84dc7276527c58dd1cf59b42d663be06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::QueryMaskingPolicy::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::isEnabled</qualifiedname>
+        <briefdescription>
+<para>Check whether the policy is currently enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="168" column="10" bodyfile="src/security/query_masking_policy.cpp" bodystart="109" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1ade58b20706cf96268b6c20d84c4be7b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::QueryMaskingPolicy::setEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setEnabled</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::setEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Enable or disable masking at runtime (e.g. during tests). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Enabled.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="174" column="10" bodyfile="src/security/query_masking_policy.cpp" bodystart="124" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1a0d19db2fdba1f6a7cbef2739c48b9378" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::QueryMaskingPolicy::isPrivileged</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;user_roles) const</argsstring>
+        <name>isPrivileged</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::isPrivileged</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>user_roles</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the given role list bypasses masking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="181" column="10" bodyfile="src/security/query_masking_policy.cpp" bodystart="135" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1aad805baaa20fa8035ce63da952b1fd92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1security_1_1_query_masking_policy_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const QueryMaskingPolicy::Config &amp; themis::security::QueryMaskingPolicy::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::config</qualifiedname>
+        <briefdescription>
+<para>Access the underlying <ref refid="structthemis_1_1security_1_1_query_masking_policy_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="187" column="18" bodyfile="src/security/query_masking_policy.cpp" bodystart="151" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1a5ed97ee93abf51482a1d6b0b37c7aff9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1security_1_1_query_masking_policy_1aca831fe528e2ba97079d8f9237dd2df4" kindref="member">QueryMaskingPolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; QueryMaskingPolicy &gt; themis::security::QueryMaskingPolicy::create</definition>
+        <argsstring>(const std::string &amp;config_path=&quot;config/pii_patterns.yaml&quot;)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::create</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+          <defval>&quot;config/pii_patterns.yaml&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Factory: create with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="99" column="28" bodyfile="src/security/query_masking_policy.cpp" bodystart="46" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1ac4e09e62558ab00729fac30a78424e20" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1security_1_1_query_masking_policy_1aca831fe528e2ba97079d8f9237dd2df4" kindref="member">QueryMaskingPolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; QueryMaskingPolicy &gt; themis::security::QueryMaskingPolicy::create</definition>
+        <argsstring>(Config config, const std::string &amp;config_path=&quot;config/pii_patterns.yaml&quot;)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::create</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_query_masking_policy_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+          <defval>&quot;config/pii_patterns.yaml&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Factory: create with explicit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="102" column="28" bodyfile="src/security/query_masking_policy.cpp" bodystart="58" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1a2c9ed9595e173d55df8a3dad2d96ea93" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::QueryMaskingPolicy::maskNode</definition>
+        <argsstring>(const nlohmann::json &amp;node, const std::string &amp;key, const DeclaredFieldsSnapshot &amp;snapshot) const</argsstring>
+        <name>maskNode</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::maskNode</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const DeclaredFieldsSnapshot &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Recursively mask a JSON value (object, array, or scalar). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON node to process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The JSON key that owns this node (empty for root). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Immutable snapshot of declared_fields_ for this call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="207" column="20" bodyfile="src/security/query_masking_policy.cpp" bodystart="226" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_query_masking_policy_1a6a075ae70c0b4cbbf83ce973712b0c11" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::QueryMaskingPolicy::maskStringValue</definition>
+        <argsstring>(const std::string &amp;value, const std::string &amp;key, const DeclaredFieldsSnapshot &amp;snapshot) const</argsstring>
+        <name>maskStringValue</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::maskStringValue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const DeclaredFieldsSnapshot &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Mask a single string value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Applies explicit field config, field-name hints, and auto-detection in that priority order.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original string value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The JSON key that owns this value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Immutable snapshot of declared_fields_ for this call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Masked string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="223" column="17" bodyfile="src/security/query_masking_policy.cpp" bodystart="256" bodyend="320"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dynamic data masking policy for PII fields in query results. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Applies field-level masking to JSON query result objects before they are returned to clients. Two complementary masking strategies are combined:</para>
+<para><orderedlist>
+<listitem><para><bold>Field-name hint masking</bold> – if a JSON key (e.g. &quot;email&quot;, &quot;ssn&quot;, &quot;credit_card&quot;) matches a PII hint known to PIIDetector, its string value is replaced by the appropriate masked form.</para>
+</listitem><listitem><para><bold>Auto-detect masking</bold> – all string values in the result are scanned with PIIDetector; any detected PII spans are replaced in-place.</para>
+</listitem><listitem><para><bold>Explicitly declared fields</bold> – callers can register specific field paths (e.g. &quot;payment.card_number&quot;) together with a masking mode (&quot;strict&quot;, &quot;partial&quot;) that overrides automatic detection.</para>
+</listitem></orderedlist>
+</para>
+<para>Role-based bypass: Roles listed in <computeroutput>privileged_roles</computeroutput> receive the original, unmasked result. The default privileged role is &quot;admin&quot;.</para>
+<para>Thread-safety: All public methods are safe to call from multiple threads concurrently.</para>
+<para>Usage: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_query_masking_policy_1a5ed97ee93abf51482a1d6b0b37c7aff9" kindref="member">QueryMaskingPolicy::create</ref>();</highlight></codeline>
+<codeline><highlight class="normal">policy-&gt;declareField(</highlight><highlight class="stringliteral">&quot;payment_info.ssn&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;strict&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>masked<sp/>=<sp/>policy-&gt;maskResult(raw_entity_json,<sp/>user_roles);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/security/query_masking_policy.h" line="57" column="1" bodyfile="include/security/query_masking_policy.h" bodystart="57" bodyend="238"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1aad805baaa20fa8035ce63da952b1fd92" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>config</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1a57727cf6689c52fed50d9c1a0cfc8d04" prot="private" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>config_</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1a5ed97ee93abf51482a1d6b0b37c7aff9" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>create</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1ac4e09e62558ab00729fac30a78424e20" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>create</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1add76c034570eea28b16a5bd178bafccd" prot="private" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>declared_fields_</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1acfae36795e4f9f675d2dff942f5d1d78" prot="private" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>DeclaredFieldsSnapshot</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1ae7c5ce405de35de197850fc633fe057e" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>declareField</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1a3a9d7f72d22c3979e1eefc5f9894a341" prot="private" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>detector_</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1a84dc7276527c58dd1cf59b42d663be06" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1a0d19db2fdba1f6a7cbef2739c48b9378" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>isPrivileged</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1a2c9ed9595e173d55df8a3dad2d96ea93" prot="private" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>maskNode</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1a65180dbff76200fa8ca38c28e8a40059" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>maskResult</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1ad4596eb2ff61e961331f565d3c542499" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>maskResultSet</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1a6a075ae70c0b4cbbf83ce973712b0c11" prot="private" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>maskStringValue</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1a9bf896d963df0055ab6668f8fdbac9bc" prot="private" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1aca831fe528e2ba97079d8f9237dd2df4" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>QueryMaskingPolicy</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1a9d08aa725be5e428551aef61f317eb54" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>QueryMaskingPolicy</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1ade58b20706cf96268b6c20d84c4be7b3" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>setEnabled</name></member>
+      <member refid="classthemis_1_1security_1_1_query_masking_policy_1a4d14e4a50db47b9bc338013bc9ea0cd7" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy</scope><name>undeclareField</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

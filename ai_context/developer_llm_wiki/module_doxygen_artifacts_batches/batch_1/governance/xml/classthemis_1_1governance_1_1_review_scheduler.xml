@@ -1,0 +1,935 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_review_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::ReviewScheduler</compoundname>
+    <includes refid="policy__review_8h" local="no">policy_review.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule" prot="public">themis::governance::ReviewScheduler::ReviewSchedule</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_review_scheduler_1a77976677a642c122ac6ad872fbb87fbd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::ReviewScheduler::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::ReviewScheduler::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="119" column="24" bodyfile="include/governance/policy_review.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_review_scheduler_1a257fde7f21a5168e904bddb2073c7b3b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule" kindref="compound">ReviewSchedule</ref> &gt;</type>
+        <definition>std::unordered_map&lt; std::string, ReviewSchedule &gt; themis::governance::ReviewScheduler::schedules_</definition>
+        <argsstring></argsstring>
+        <name>schedules_</name>
+        <qualifiedname>themis::governance::ReviewScheduler::schedules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="120" column="24" bodyfile="include/governance/policy_review.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_review_scheduler_1aba23c96b6fe9a0fa280495d780c4909d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PolicyManager&gt; themis::governance::ReviewScheduler::policy_manager_</definition>
+        <argsstring></argsstring>
+        <name>policy_manager_</name>
+        <qualifiedname>themis::governance::ReviewScheduler::policy_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="149" column="21" bodyfile="include/governance/review_scheduler.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_review_scheduler_1ab170ea1d5c41f74b44d6c4e82764ff15" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_review_request" kindref="compound">ReviewRequest</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ReviewRequest&gt; themis::governance::ReviewScheduler::reviews_</definition>
+        <argsstring></argsstring>
+        <name>reviews_</name>
+        <qualifiedname>themis::governance::ReviewScheduler::reviews_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="151" column="24" bodyfile="include/governance/review_scheduler.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a9ba311a2ffb9defb48525ffef8d5c8d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ReviewScheduler::setSchedule</definition>
+        <argsstring>(const std::string &amp;rule_id, int review_period_days)</argsstring>
+        <name>setSchedule</name>
+        <qualifiedname>themis::governance::ReviewScheduler::setSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>review_period_days</declname>
+        </param>
+        <briefdescription>
+<para>Set Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>========== <ref refid="classthemis_1_1governance_1_1_review_scheduler" kindref="compound">ReviewScheduler</ref> Implementation ==========</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review_period_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review_period_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getCurrentTimeMs(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="78" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="139" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a4c8407519ff941ffa072f4a76d24f3f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule" kindref="compound">ReviewSchedule</ref> &gt;</type>
+        <definition>std::optional&lt; ReviewScheduler::ReviewSchedule &gt; themis::governance::ReviewScheduler::getSchedule</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getSchedule</name>
+        <qualifiedname>themis::governance::ReviewScheduler::getSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="85" column="19" bodyfile="src/governance/policy_review.cpp" bodystart="157" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a7b90c27c7ef3ea062c38f1e825f311f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ReviewScheduler::removeSchedule</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>removeSchedule</name>
+        <qualifiedname>themis::governance::ReviewScheduler::removeSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="91" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="177" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a6aa35279b416a4208da22aefbee7ab38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule" kindref="compound">ReviewSchedule</ref> &gt;</type>
+        <definition>std::vector&lt; ReviewScheduler::ReviewSchedule &gt; themis::governance::ReviewScheduler::getAllSchedules</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllSchedules</name>
+        <qualifiedname>themis::governance::ReviewScheduler::getAllSchedules</qualifiedname>
+        <briefdescription>
+<para>Get All Schedules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="97" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="187" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a47ce4207afd66ca995f00cf5c0a4a02a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::ReviewScheduler::getRulesDueForReview</definition>
+        <argsstring>(int64_t current_time=0) const</argsstring>
+        <name>getRulesDueForReview</name>
+        <qualifiedname>themis::governance::ReviewScheduler::getRulesDueForReview</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>current_time</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="99" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="206" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a4d55956fee23af79bf1daf8783cf5d8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::ReviewScheduler::getOverdueReviews</definition>
+        <argsstring>(int64_t current_time=0) const</argsstring>
+        <name>getOverdueReviews</name>
+        <qualifiedname>themis::governance::ReviewScheduler::getOverdueReviews</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>current_time</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="101" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="231" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1af8397c9238a62bdf85ae67b83b26c91b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ReviewScheduler::markAsReviewed</definition>
+        <argsstring>(const std::string &amp;rule_id, int64_t review_time=0)</argsstring>
+        <name>markAsReviewed</name>
+        <qualifiedname>themis::governance::ReviewScheduler::markAsReviewed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>review_time</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Mark As Reviewed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), getCurrentTimeMs(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="103" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="264" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1acce2e36c4af999da36425a91659def8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ReviewScheduler::exportSchedules</definition>
+        <argsstring>() const</argsstring>
+        <name>exportSchedules</name>
+        <qualifiedname>themis::governance::ReviewScheduler::exportSchedules</qualifiedname>
+        <briefdescription>
+<para>Export Schedules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="109" column="20" bodyfile="src/governance/policy_review.cpp" bodystart="281" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a022faafb1b55c8878a1fc57e5d4250d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ReviewScheduler::importSchedules</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>importSchedules</name>
+        <qualifiedname>themis::governance::ReviewScheduler::importSchedules</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Import Schedules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: contains(), is_array(), THEMIS_ERROR(), lock(), clear(), <ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a3576e83fd54bfee85742b67a155e6c7e" kindref="member">ReviewSchedule::fromJson()</ref>, THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="116" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="308" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a5f837fb82986cc3cafbfa759e8ec1b67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::ReviewScheduler::ReviewScheduler</definition>
+        <argsstring>(std::shared_ptr&lt; PolicyManager &gt; policy_manager)</argsstring>
+        <name>ReviewScheduler</name>
+        <qualifiedname>themis::governance::ReviewScheduler::ReviewScheduler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+          <declname>policy_manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="70" column="5" bodyfile="src/governance/review_scheduler.cpp" bodystart="116" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1abcfcd42843be910a209faa2d0f4169ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ReviewScheduler::configureReviewSchedule</definition>
+        <argsstring>(const std::string &amp;rule_id, int period_days)</argsstring>
+        <name>configureReviewSchedule</name>
+        <qualifiedname>themis::governance::ReviewScheduler::configureReviewSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>period_days</declname>
+        </param>
+        <briefdescription>
+<para>Configure Review Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">period_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">period_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), calculateNextReviewDate(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="77" column="10" bodyfile="src/governance/review_scheduler.cpp" bodystart="129" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1afea0c1719421ff5a9a5ca4a781c5720f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ReviewScheduler::createReviewRequest</definition>
+        <argsstring>(const std::string &amp;rule_id, const std::string &amp;requester, int due_days=7)</argsstring>
+        <name>createReviewRequest</name>
+        <qualifiedname>themis::governance::ReviewScheduler::createReviewRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requester</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>due_days</declname>
+          <defval>7</defval>
+        </param>
+        <briefdescription>
+<para>Create Review Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requester</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">due_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateReviewId(), std::chrono::system_clock::now(), time_since_epoch(), count(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="79" column="17" bodyfile="src/governance/review_scheduler.cpp" bodystart="149" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a956d9a239b1abd06b2de133d967ad57e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ReviewScheduler::approveReview</definition>
+        <argsstring>(const std::string &amp;review_id, const std::string &amp;reviewer, const std::string &amp;comments=&quot;&quot;)</argsstring>
+        <name>approveReview</name>
+        <qualifiedname>themis::governance::ReviewScheduler::approveReview</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>review_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reviewer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>comments</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Approve Review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reviewer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">comments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), THEMIS_ERROR(), std::chrono::system_clock::now(), time_since_epoch(), count(), calculateNextReviewDate(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="85" column="10" bodyfile="src/governance/review_scheduler.cpp" bodystart="173" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a58a71054d8a2040ba1c97c101dc17a20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ReviewScheduler::rejectReview</definition>
+        <argsstring>(const std::string &amp;review_id, const std::string &amp;reviewer, const std::string &amp;comments)</argsstring>
+        <name>rejectReview</name>
+        <qualifiedname>themis::governance::ReviewScheduler::rejectReview</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>review_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reviewer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>comments</declname>
+        </param>
+        <briefdescription>
+<para>Reject Review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reviewer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">comments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reviewer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">comments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), THEMIS_ERROR(), std::chrono::system_clock::now(), time_since_epoch(), count(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="97" column="10" bodyfile="src/governance/review_scheduler.cpp" bodystart="203" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a5fdef544827cd1372e4976b7d3d363d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_review_request" kindref="compound">ReviewRequest</ref> &gt;</type>
+        <definition>std::vector&lt; ReviewRequest &gt; themis::governance::ReviewScheduler::getPendingReviews</definition>
+        <argsstring>() const</argsstring>
+        <name>getPendingReviews</name>
+        <qualifiedname>themis::governance::ReviewScheduler::getPendingReviews</qualifiedname>
+        <briefdescription>
+<para>Get Pending Reviews. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="107" column="17" bodyfile="src/governance/review_scheduler.cpp" bodystart="219" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a859ddb91ec7f3ba0b19f9c0f5576f43b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_review_request" kindref="compound">ReviewRequest</ref> &gt;</type>
+        <definition>std::vector&lt; ReviewRequest &gt; themis::governance::ReviewScheduler::getOverdueReviews</definition>
+        <argsstring>() const</argsstring>
+        <name>getOverdueReviews</name>
+        <qualifiedname>themis::governance::ReviewScheduler::getOverdueReviews</qualifiedname>
+        <briefdescription>
+<para>Get Overdue Reviews. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="113" column="17" bodyfile="src/governance/review_scheduler.cpp" bodystart="231" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a833fca3e22de450e3b4e2c3b743c3ea7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_review_request" kindref="compound">ReviewRequest</ref> &gt;</type>
+        <definition>std::vector&lt; ReviewRequest &gt; themis::governance::ReviewScheduler::getReviewHistory</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getReviewHistory</name>
+        <qualifiedname>themis::governance::ReviewScheduler::getReviewHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Review History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="120" column="17" bodyfile="src/governance/review_scheduler.cpp" bodystart="245" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a7bb6b182f28c68bcd43fd99eec41d5d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::ReviewScheduler::checkReviewsDue</definition>
+        <argsstring>() const</argsstring>
+        <name>checkReviewsDue</name>
+        <qualifiedname>themis::governance::ReviewScheduler::checkReviewsDue</qualifiedname>
+        <briefdescription>
+<para>Check Reviews Due. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="126" column="17" bodyfile="src/governance/review_scheduler.cpp" bodystart="257" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a9241b642f8d7ac6b962be908ed8a43be" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ReviewScheduler::getExpirationInfo</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getExpirationInfo</name>
+        <qualifiedname>themis::governance::ReviewScheduler::getExpirationInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Expiration Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="133" column="20" bodyfile="src/governance/review_scheduler.cpp" bodystart="271" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a9a9605d7fce44ba466a341b6394f0229" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ReviewScheduler::exportReviews</definition>
+        <argsstring>() const</argsstring>
+        <name>exportReviews</name>
+        <qualifiedname>themis::governance::ReviewScheduler::exportReviews</qualifiedname>
+        <briefdescription>
+<para>Export Reviews. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="139" column="20" bodyfile="src/governance/review_scheduler.cpp" bodystart="293" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a3a3218c70f9608fc5eedb1203dfa6a97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ReviewScheduler::importReviews</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>importReviews</name>
+        <qualifiedname>themis::governance::ReviewScheduler::importReviews</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Import Reviews. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: contains(), is_array(), <ref refid="structthemis_1_1governance_1_1_review_scheduler_1_1_review_schedule_1a3576e83fd54bfee85742b67a155e6c7e" kindref="member">ReviewSchedule::fromJson()</ref>, <ref refid="structthemis_1_1governance_1_1_review_request_1a08f97f35bea53f3069f75ed6b11c58f7" kindref="member">ReviewRequest::fromJson()</ref>, THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="146" column="10" bodyfile="src/governance/review_scheduler.cpp" bodystart="319" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1afeea6f6fbee5828c595fca9fb19895f4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ReviewScheduler::generateReviewId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateReviewId</name>
+        <qualifiedname>themis::governance::ReviewScheduler::generateReviewId</qualifiedname>
+        <briefdescription>
+<para>Generate Review Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="157" column="17" bodyfile="src/governance/review_scheduler.cpp" bodystart="344" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_scheduler_1a7487ff39a285d1ad66f73c6f60b477fd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::governance::ReviewScheduler::calculateNextReviewDate</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>calculateNextReviewDate</name>
+        <qualifiedname>themis::governance::ReviewScheduler::calculateNextReviewDate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Next Review Date. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="164" column="18" bodyfile="src/governance/review_scheduler.cpp" bodystart="351" bodyend="364"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_review.h" line="51" column="1" bodyfile="include/governance/policy_review.h" bodystart="51" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a956d9a239b1abd06b2de133d967ad57e" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>approveReview</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a7487ff39a285d1ad66f73c6f60b477fd" prot="private" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>calculateNextReviewDate</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a7bb6b182f28c68bcd43fd99eec41d5d8" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>checkReviewsDue</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1abcfcd42843be910a209faa2d0f4169ed" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>configureReviewSchedule</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1afea0c1719421ff5a9a5ca4a781c5720f" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>createReviewRequest</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a9a9605d7fce44ba466a341b6394f0229" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>exportReviews</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1acce2e36c4af999da36425a91659def8c" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>exportSchedules</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1afeea6f6fbee5828c595fca9fb19895f4" prot="private" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>generateReviewId</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a6aa35279b416a4208da22aefbee7ab38" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>getAllSchedules</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a9241b642f8d7ac6b962be908ed8a43be" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>getExpirationInfo</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a4d55956fee23af79bf1daf8783cf5d8d" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>getOverdueReviews</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a859ddb91ec7f3ba0b19f9c0f5576f43b" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>getOverdueReviews</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a5fdef544827cd1372e4976b7d3d363d9" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>getPendingReviews</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a833fca3e22de450e3b4e2c3b743c3ea7" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>getReviewHistory</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a47ce4207afd66ca995f00cf5c0a4a02a" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>getRulesDueForReview</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a4c8407519ff941ffa072f4a76d24f3f1" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>getSchedule</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a3a3218c70f9608fc5eedb1203dfa6a97" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>importReviews</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a022faafb1b55c8878a1fc57e5d4250d6" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>importSchedules</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1af8397c9238a62bdf85ae67b83b26c91b" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>markAsReviewed</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a77976677a642c122ac6ad872fbb87fbd" prot="private" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1aba23c96b6fe9a0fa280495d780c4909d" prot="private" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>policy_manager_</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a58a71054d8a2040ba1c97c101dc17a20" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>rejectReview</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a7b90c27c7ef3ea062c38f1e825f311f8" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>removeSchedule</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1ab170ea1d5c41f74b44d6c4e82764ff15" prot="private" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>reviews_</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a5f837fb82986cc3cafbfa759e8ec1b67" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>ReviewScheduler</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a257fde7f21a5168e904bddb2073c7b3b" prot="private" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>schedules_</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_scheduler_1a9ba311a2ffb9defb48525ffef8d5c8d5" prot="public" virt="non-virtual"><scope>themis::governance::ReviewScheduler</scope><name>setSchedule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

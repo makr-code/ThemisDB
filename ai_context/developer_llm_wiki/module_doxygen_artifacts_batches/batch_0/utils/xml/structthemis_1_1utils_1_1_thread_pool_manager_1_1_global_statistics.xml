@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::ThreadPoolManager::GlobalStatistics</compoundname>
+    <includes refid="thread__pool__manager_8h" local="no">thread_pool_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a2dc762de3b9b73697c6de992d42f68f2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" kindref="compound">ThreadPool::Statistics</ref></type>
+        <definition>ThreadPool::Statistics themis::utils::ThreadPoolManager::GlobalStatistics::io_stats</definition>
+        <argsstring></argsstring>
+        <name>io_stats</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::GlobalStatistics::io_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="235" column="32" bodyfile="include/utils/thread_pool_manager.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a94ea3276c532f42c648e66a53c63bf41" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" kindref="compound">ThreadPool::Statistics</ref></type>
+        <definition>ThreadPool::Statistics themis::utils::ThreadPoolManager::GlobalStatistics::cpu_stats</definition>
+        <argsstring></argsstring>
+        <name>cpu_stats</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::GlobalStatistics::cpu_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="236" column="32" bodyfile="include/utils/thread_pool_manager.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a78b68efac50642b4ffabf7a8df0e838a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" kindref="compound">ThreadPool::Statistics</ref></type>
+        <definition>ThreadPool::Statistics themis::utils::ThreadPoolManager::GlobalStatistics::blocking_stats</definition>
+        <argsstring></argsstring>
+        <name>blocking_stats</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::GlobalStatistics::blocking_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="237" column="32" bodyfile="include/utils/thread_pool_manager.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1afc301917d77d24779e69887515c2f8d0" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::utils::ThreadPoolManager::GlobalStatistics::snapshot_time</definition>
+        <argsstring></argsstring>
+        <name>snapshot_time</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::GlobalStatistics::snapshot_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="238" column="47" bodyfile="include/utils/thread_pool_manager.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::utils::ThreadPool::Statistics</label>
+        <link refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::ThreadPoolManager::GlobalStatistics</label>
+        <link refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>blocking_stats</edgelabel>
+          <edgelabel>cpu_stats</edgelabel>
+          <edgelabel>io_stats</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/thread_pool_manager.h" line="234" column="5" bodyfile="include/utils/thread_pool_manager.h" bodystart="234" bodyend="239"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a78b68efac50642b4ffabf7a8df0e838a" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager::GlobalStatistics</scope><name>blocking_stats</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a94ea3276c532f42c648e66a53c63bf41" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager::GlobalStatistics</scope><name>cpu_stats</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a2dc762de3b9b73697c6de992d42f68f2" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager::GlobalStatistics</scope><name>io_stats</name></member>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1afc301917d77d24779e69887515c2f8d0" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager::GlobalStatistics</scope><name>snapshot_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

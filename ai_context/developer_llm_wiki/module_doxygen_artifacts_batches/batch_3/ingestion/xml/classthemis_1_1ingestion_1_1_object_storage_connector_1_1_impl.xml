@@ -1,0 +1,604 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::ObjectStorageConnector::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a8edce84d69fdc5804b4455080e035086" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref></type>
+        <definition>SourceConfig themis::ingestion::ObjectStorageConnector::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="761" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="761" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ad7a76eff6392b0f1ba4af26caee0e66e" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1aff59391e5aefabc23cd85487551e8224" kindref="member">ObjectStorageProvider</ref></type>
+        <definition>ObjectStorageProvider themis::ingestion::ObjectStorageConnector::Impl::provider_</definition>
+        <argsstring></argsstring>
+        <name>provider_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::provider_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1aff59391e5aefabc23cd85487551e8224ae2ab7c65b21ed8cc1c3b642b5e36429e" kindref="member">ObjectStorageProvider::S3</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="762" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="762" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a854d4880c72f75c310e39f2f060f429b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::bucket_</definition>
+        <argsstring></argsstring>
+        <name>bucket_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::bucket_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="763" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="763" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a33ac52aa3de03289cba82ae18eccc868" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::container_</definition>
+        <argsstring></argsstring>
+        <name>container_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::container_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="764" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="764" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1aa9721ed2b65e7201202fc1b94955e727" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::prefix_</definition>
+        <argsstring></argsstring>
+        <name>prefix_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::prefix_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="765" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="765" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ac1164e73619443311382b68faf1e36bc" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::region_</definition>
+        <argsstring></argsstring>
+        <name>region_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::region_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="766" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="766" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a98ed83e3d1861a8d1a630c45b2012549" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::endpoint_url_</definition>
+        <argsstring></argsstring>
+        <name>endpoint_url_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::endpoint_url_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="767" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="767" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a9e249746bdb7d369814372b6097ce98a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::access_key_</definition>
+        <argsstring></argsstring>
+        <name>access_key_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::access_key_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="768" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="768" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1af10effa1d840a29cec2c31b02b0561fe" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::secret_key_</definition>
+        <argsstring></argsstring>
+        <name>secret_key_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::secret_key_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="769" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="769" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a5c73c9e93d09232e7c1254cbf8e58bf8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::project_id_</definition>
+        <argsstring></argsstring>
+        <name>project_id_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::project_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="770" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="770" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a76b26ec69cf2a9ffa63b5a05a4b026f2" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::sa_json_path_</definition>
+        <argsstring></argsstring>
+        <name>sa_json_path_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::sa_json_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="771" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="771" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a5629231fe6b8def30c352df0e4467165" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::connection_str_</definition>
+        <argsstring></argsstring>
+        <name>connection_str_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::connection_str_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="772" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="772" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a4dea6241f39ab2da16a155389c3490f2" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::sas_token_</definition>
+        <argsstring></argsstring>
+        <name>sas_token_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::sas_token_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="773" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="773" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ab63199ace4acade598f918fe407ab61b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::text_field_</definition>
+        <argsstring></argsstring>
+        <name>text_field_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::text_field_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="774" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="774" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1abf3f33aff3cf2bf68e99bb5387c1cb05" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::ObjectStorageConnector::Impl::max_keys_</definition>
+        <argsstring></argsstring>
+        <name>max_keys_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::max_keys_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="775" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="775" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ab16ace72d398d5d90f0aaad2b949b581" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref></type>
+        <definition>RetryConfig themis::ingestion::ObjectStorageConnector::Impl::retry_config_</definition>
+        <argsstring></argsstring>
+        <name>retry_config_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::retry_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="776" column="29" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="776" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a132760197395e62c073ce392dfa86785" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4a2c33fa32e3b68e518df36d1773a7d1" kindref="member">ObjectListFn</ref></type>
+        <definition>ObjectListFn themis::ingestion::ObjectStorageConnector::Impl::list_fn_</definition>
+        <argsstring></argsstring>
+        <name>list_fn_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::list_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="779" column="19" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="779" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a017958259fdbc5e6f50486321b12c032" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4112586cd977e88f27b947869fc0975b" kindref="member">ObjectFetchFn</ref></type>
+        <definition>ObjectFetchFn themis::ingestion::ObjectStorageConnector::Impl::fetch_fn_</definition>
+        <argsstring></argsstring>
+        <name>fetch_fn_</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::fetch_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="780" column="19" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="780" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ab12e4b1d70ce09e600eea2ba643de75c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ObjectStorageConnector::Impl::Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="122" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a9820312f12cd5cd77fb9efe23922cc81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ObjectStorageConnector::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a2eb5ed6fcc515eb8d5f4767739949532" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ObjectStorageConnector::Impl::initialize</definition>
+        <argsstring>(const SourceConfig &amp;config)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), opt(), std::stoull(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="131" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="131" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ad85f57a8d55f4dd1b086a720e5cafb8f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ObjectStorageConnector::Impl::isAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="181" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="181" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a86e7b2771c3046922f10c0a5183d286c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::ObjectStorageConnector::Impl::getDocumentCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::getDocumentCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="205" column="12" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="205" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ab9c00827edd450a23eb9c939f3b60f43" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats themis::ingestion::ObjectStorageConnector::Impl::ingest</definition>
+        <argsstring>(const std::string &amp;, ProgressCallback progress_callback)</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::ingest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), empty(), addError(), finaliseStats(), ingestFromMock(), ingestFromS3(), ingestFromGCS(), ingestFromAzure(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="217" column="20" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="217" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a3dab3d02f30d1f57f312f1a88985177f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ObjectStorageConnector::Impl::setRetryConfig</definition>
+        <argsstring>(const RetryConfig &amp;c)</argsstring>
+        <name>setRetryConfig</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::setRetryConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Set Retry Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRetryConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="286" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="286" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a9a104eff2a4e737b5ca858cad6112fb0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ObjectStorageConnector::Impl::setObjectListForTesting</definition>
+        <argsstring>(ObjectListFn fn)</argsstring>
+        <name>setObjectListForTesting</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::setObjectListForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4a2c33fa32e3b68e518df36d1773a7d1" kindref="member">ObjectListFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Object List For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="292" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="292" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1aae13008221ea3153218fc241243e310b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ObjectStorageConnector::Impl::setObjectFetchForTesting</definition>
+        <argsstring>(ObjectFetchFn fn)</argsstring>
+        <name>setObjectFetchForTesting</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::setObjectFetchForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector_1a4112586cd977e88f27b947869fc0975b" kindref="member">ObjectFetchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Object Fetch For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="298" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="298" bodyend="298"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1aded81e14209a2773edadae8f65407a3a" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ObjectStorageConnector::Impl::extractText</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;body) const</argsstring>
+        <name>extractText</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::extractText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="304" column="17" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="304" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a5a46535211a803bd9bca9c3185daf9dd" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ObjectStorageConnector::Impl::ingestFromMock</definition>
+        <argsstring>(IngestionStats &amp;stats, ProgressCallback &amp;progress_callback)</argsstring>
+        <name>ingestFromMock</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::ingestFromMock</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest From Mock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: list_fn_(), empty(), isKeySafe(), addError(), fetch_fn_(), extractText(), size(), progress_callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="335" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="335" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1aee26bbe7dd5f2bbc0d4b762214c95f93" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::ObjectStorageConnector::Impl::finaliseStats</definition>
+        <argsstring>(IngestionStats &amp;stats, const std::chrono::steady_clock::time_point &amp;start) const</argsstring>
+        <name>finaliseStats</name>
+        <qualifiedname>themis::ingestion::ObjectStorageConnector::Impl::finaliseStats</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const std::chrono::steady_clock::time_point &amp;</type>
+          <declname>start</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/object_storage_connector.cpp" line="748" column="10" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="748" bodyend="758"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ingestion/object_storage_connector.cpp" line="120" column="1" bodyfile="src/ingestion/object_storage_connector.cpp" bodystart="120" bodyend="781"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a9e249746bdb7d369814372b6097ce98a" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>access_key_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a854d4880c72f75c310e39f2f060f429b" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>bucket_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a8edce84d69fdc5804b4455080e035086" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a5629231fe6b8def30c352df0e4467165" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>connection_str_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a33ac52aa3de03289cba82ae18eccc868" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>container_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a98ed83e3d1861a8d1a630c45b2012549" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>endpoint_url_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1aded81e14209a2773edadae8f65407a3a" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>extractText</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a017958259fdbc5e6f50486321b12c032" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>fetch_fn_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1aee26bbe7dd5f2bbc0d4b762214c95f93" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>finaliseStats</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a86e7b2771c3046922f10c0a5183d286c" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ab12e4b1d70ce09e600eea2ba643de75c" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ab9c00827edd450a23eb9c939f3b60f43" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a5a46535211a803bd9bca9c3185daf9dd" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>ingestFromMock</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a2eb5ed6fcc515eb8d5f4767739949532" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ad85f57a8d55f4dd1b086a720e5cafb8f" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a132760197395e62c073ce392dfa86785" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>list_fn_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1abf3f33aff3cf2bf68e99bb5387c1cb05" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>max_keys_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1aa9721ed2b65e7201202fc1b94955e727" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>prefix_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a5c73c9e93d09232e7c1254cbf8e58bf8" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>project_id_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ad7a76eff6392b0f1ba4af26caee0e66e" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>provider_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ac1164e73619443311382b68faf1e36bc" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>region_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ab16ace72d398d5d90f0aaad2b949b581" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>retry_config_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a76b26ec69cf2a9ffa63b5a05a4b026f2" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>sa_json_path_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a4dea6241f39ab2da16a155389c3490f2" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>sas_token_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1af10effa1d840a29cec2c31b02b0561fe" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>secret_key_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1aae13008221ea3153218fc241243e310b" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>setObjectFetchForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a9a104eff2a4e737b5ca858cad6112fb0" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>setObjectListForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a3dab3d02f30d1f57f312f1a88985177f" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>setRetryConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1ab63199ace4acade598f918fe407ab61b" prot="private" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>text_field_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_object_storage_connector_1_1_impl_1a9820312f12cd5cd77fb9efe23922cc81" prot="public" virt="non-virtual"><scope>themis::ingestion::ObjectStorageConnector::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

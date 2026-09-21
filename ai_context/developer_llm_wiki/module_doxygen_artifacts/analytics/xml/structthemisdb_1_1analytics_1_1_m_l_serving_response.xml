@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_m_l_serving_response" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::MLServingResponse</compoundname>
+    <includes refid="ml__serving_8h" local="no">ml_serving.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a1be2485a3ebb6598f214ccc09f172c4a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" kindref="member">MLServingStatus</ref></type>
+        <definition>MLServingStatus themisdb::analytics::MLServingResponse::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themisdb::analytics::MLServingResponse::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">MLServingStatus::OK</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="111" column="27" bodyfile="include/analytics/ml_serving.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_response_1acf0bda71a253650d7873106d4f3aad7f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::MLServingResponse::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themisdb::analytics::MLServingResponse::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="112" column="27" bodyfile="include/analytics/ml_serving.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a23d36ef6d3830bde5ab07d8c75d7e08f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_m_l_tensor" kindref="compound">MLTensor</ref> &gt;</type>
+        <definition>std::vector&lt;MLTensor&gt; themisdb::analytics::MLServingResponse::outputs</definition>
+        <argsstring></argsstring>
+        <name>outputs</name>
+        <qualifiedname>themisdb::analytics::MLServingResponse::outputs</qualifiedname>
+        <briefdescription>
+<para>Named output tensors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="113" column="17" bodyfile="include/analytics/ml_serving.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_response_1abc033e554a647b4894e256b83a8a3e2f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::MLServingResponse::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themisdb::analytics::MLServingResponse::latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>End-to-end call latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="114" column="27" bodyfile="include/analytics/ml_serving.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a5507aebbcc3a68d0c5cf24c731d54343" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::MLServingResponse::operation_id</definition>
+        <argsstring></argsstring>
+        <name>operation_id</name>
+        <qualifiedname>themisdb::analytics::MLServingResponse::operation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="115" column="27" bodyfile="include/analytics/ml_serving.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a319b020b97907d0b0c8dd2847dd4b0cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::MLServingResponse::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themisdb::analytics::MLServingResponse::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="116" column="27" bodyfile="include/analytics/ml_serving.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a71845749ff5643caf1937a28c16b37ed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::MLServingResponse::failure_class</definition>
+        <argsstring></argsstring>
+        <name>failure_class</name>
+        <qualifiedname>themisdb::analytics::MLServingResponse::failure_class</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="117" column="27" bodyfile="include/analytics/ml_serving.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a7ecc48b9d9dd885a3aa33cab0ce15153" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::MLServingResponse::operator_hints</definition>
+        <argsstring></argsstring>
+        <name>operator_hints</name>
+        <qualifiedname>themisdb::analytics::MLServingResponse::operator_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="118" column="17" bodyfile="include/analytics/ml_serving.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a6e625937c188c6d6dd8b11bb01a439c1" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::MLServingResponse::ok</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ok</name>
+        <qualifiedname>themisdb::analytics::MLServingResponse::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="120" column="10" bodyfile="include/analytics/ml_serving.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/ml_serving.h" line="110" column="1" bodyfile="include/analytics/ml_serving.h" bodystart="110" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a319b020b97907d0b0c8dd2847dd4b0cb" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingResponse</scope><name>correlation_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1acf0bda71a253650d7873106d4f3aad7f" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingResponse</scope><name>error_message</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a71845749ff5643caf1937a28c16b37ed" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingResponse</scope><name>failure_class</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1abc033e554a647b4894e256b83a8a3e2f" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingResponse</scope><name>latency_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a6e625937c188c6d6dd8b11bb01a439c1" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingResponse</scope><name>ok</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a5507aebbcc3a68d0c5cf24c731d54343" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingResponse</scope><name>operation_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a7ecc48b9d9dd885a3aa33cab0ce15153" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingResponse</scope><name>operator_hints</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a23d36ef6d3830bde5ab07d8c75d7e08f" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingResponse</scope><name>outputs</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a1be2485a3ebb6598f214ccc09f172c4a" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLServingResponse</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_cluster_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ClusterNode</compoundname>
+    <includes refid="tensor__infrastructure_8h" local="no">tensor_infrastructure.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1a42f618098ad4663be075ba8aa63975dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ClusterNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="54" column="15" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1a4616fdef44318c27098e361cc7d5d2cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ClusterNode::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="56" column="15" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1ad5b185c664a1fa0d9b2956cd36c177dc" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::distributed_tensor::ClusterNode::rpc_port</definition>
+        <argsstring></argsstring>
+        <name>rpc_port</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::rpc_port</qualifiedname>
+        <initializer>= 50051</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="58" column="12" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1ac453517a3da678c33f87d09bc9b9e204" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64d" kindref="member">NodeStatus</ref></type>
+        <definition>NodeStatus themis::distributed_tensor::ClusterNode::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da696b031073e74bf2cb98e5ef201d4aa3" kindref="member">NodeStatus::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="60" column="14" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1a8e60c6f5326fe500ffc19dd4e6dbddc1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56" kindref="member">HardwareCapability</ref></type>
+        <definition>HardwareCapability themis::distributed_tensor::ClusterNode::hardware</definition>
+        <argsstring></argsstring>
+        <name>hardware</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::hardware</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a9393911bc06bdfb0c3663d541246e15a" kindref="member">HardwareCapability::CPU_ONLY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="62" column="22" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1aae1fcbdf90c6fa1c7b86c1e0120880d6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ClusterNode::total_storage_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_storage_bytes</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::total_storage_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="64" column="12" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1a6cf209f85732929336a1bdf62a066b29" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ClusterNode::used_storage_bytes</definition>
+        <argsstring></argsstring>
+        <name>used_storage_bytes</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::used_storage_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="66" column="12" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1a1097c13ba83eb31a0ace58409e0e9cf9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ClusterNode::available_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>available_memory_bytes</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::available_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="68" column="12" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1a970d6c2292a6ec46d4c9731c50ecc304" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::ClusterNode::network_bandwidth_mbps</definition>
+        <argsstring></argsstring>
+        <name>network_bandwidth_mbps</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::network_bandwidth_mbps</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="70" column="12" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1a93fadf79bc4e6ba9f69e9babb1fbea39" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::ClusterNode::network_utilization</definition>
+        <argsstring></argsstring>
+        <name>network_utilization</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::network_utilization</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="72" column="9" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1a3e9419933b62d3be823cf589a5f9a99d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::ClusterNode::cpu_utilization</definition>
+        <argsstring></argsstring>
+        <name>cpu_utilization</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::cpu_utilization</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="74" column="9" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1a2826799990e77392292f27bdf19e2e5e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ClusterNode::last_heartbeat_at</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat_at</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::last_heartbeat_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="76" column="15" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1adda60e42b8c6f41a37db5116009ebca6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ClusterNode::region</definition>
+        <argsstring></argsstring>
+        <name>region</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="78" column="15" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1aa8a9496e64ba235b9cda8a39c05a485b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ClusterNode::rack_id</definition>
+        <argsstring></argsstring>
+        <name>rack_id</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::rack_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="80" column="15" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_cluster_node_1ae7e34dacd05afd29c43194ff3e772c3f" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::distributed_tensor::ClusterNode::custom_metadata</definition>
+        <argsstring></argsstring>
+        <name>custom_metadata</name>
+        <qualifiedname>themis::distributed_tensor::ClusterNode::custom_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="82" column="22" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/tensor_infrastructure.h" line="53" column="1" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="53" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a1097c13ba83eb31a0ace58409e0e9cf9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>available_memory_bytes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a3e9419933b62d3be823cf589a5f9a99d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>cpu_utilization</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1ae7e34dacd05afd29c43194ff3e772c3f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>custom_metadata</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a4616fdef44318c27098e361cc7d5d2cb" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a8e60c6f5326fe500ffc19dd4e6dbddc1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>hardware</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a2826799990e77392292f27bdf19e2e5e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>last_heartbeat_at</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a970d6c2292a6ec46d4c9731c50ecc304" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>network_bandwidth_mbps</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a93fadf79bc4e6ba9f69e9babb1fbea39" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>network_utilization</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a42f618098ad4663be075ba8aa63975dc" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1aa8a9496e64ba235b9cda8a39c05a485b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>rack_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1adda60e42b8c6f41a37db5116009ebca6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>region</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1ad5b185c664a1fa0d9b2956cd36c177dc" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>rpc_port</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1ac453517a3da678c33f87d09bc9b9e204" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>status</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1aae1fcbdf90c6fa1c7b86c1e0120880d6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>total_storage_bytes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_cluster_node_1a6cf209f85732929336a1bdf62a066b29" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ClusterNode</scope><name>used_storage_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

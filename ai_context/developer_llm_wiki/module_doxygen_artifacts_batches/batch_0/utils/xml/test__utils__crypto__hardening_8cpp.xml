@@ -1,0 +1,580 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__utils__crypto__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_utils_crypto_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="error__contracts_8h" local="yes">utils/error_contracts.h</includes>
+    <includes refid="hkdf__cache_8h" local="yes">utils/hkdf_cache.h</includes>
+    <includes refid="hkdf__helper_8h" local="yes">utils/hkdf_helper.h</includes>
+    <includes local="no">openssl/crypto.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>utils/error_contracts.h</label>
+        <link refid="error__contracts_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>utils/hkdf_cache.h</label>
+        <link refid="hkdf__cache_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>utils/hkdf_helper.h</label>
+        <link refid="hkdf__helper_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/utils/test_utils_crypto_hardening.cpp</label>
+        <link refid="test__utils__crypto__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>algorithm</label>
+      </node>
+      <node id="11">
+        <label>array</label>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>openssl/crypto.h</label>
+      </node>
+      <node id="8">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="18">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1a05384a9c46dfd373b17b6e8c57c04a80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, HKDFDeriveProducesCorrectLength)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>HKDFDeriveProducesCorrectLength</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="39" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="39" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1adff05fe4285ad78adb1bfaa9d9cc29f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, HKDFDeriveIsDeterministic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>HKDFDeriveIsDeterministic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="53" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="53" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1a9109f3eb74d0222d62c77d1a5d13823f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, HKDFDifferentInfoProducesDifferentKeys)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>HKDFDifferentInfoProducesDifferentKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="66" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="66" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1a0a61c8cbb3463d29d81c602f6033addb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, HKDFZeroLengthOutputThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>HKDFZeroLengthOutputThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="78" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="78" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1a88656df515d04add9239a1d27862e7a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, HKDFOverMaxLengthThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>HKDFOverMaxLengthThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="87" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="87" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1aa7374e1b095917ed7022539b4ba241cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, HKDFCacheDeriveMatchesDirectDerive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>HKDFCacheDeriveMatchesDirectDerive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="97" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="97" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1a4166cb7b11d932367b26560b1c411908" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, HKDFCacheSecondCallReturnsHit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>HKDFCacheSecondCallReturnsHit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="111" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="111" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1a6fb3ceabdc0463163549dc61cf7eb955" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, HKDFCacheClearCausesSubsequentMiss)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>HKDFCacheClearCausesSubsequentMiss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="128" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="128" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1a8fdcc3d5809cb579b1530af373a02849" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, KeyMaterialZeroizationDoesNotCorruptHeap)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>KeyMaterialZeroizationDoesNotCorruptHeap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="147" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="147" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1ae93eb7c34fe6fbed9c7b8b1f3b385fe1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, CryptoErrorCodesInRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>CryptoErrorCodesInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="165" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="165" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1aae6393366a67fdb97845f99217c23435" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, ErrorContextCategoryIsCrypto)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>ErrorContextCategoryIsCrypto</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="181" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="181" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__crypto__hardening_8cpp_1a58328e463c52c0a8fd395d10ded31d11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CryptoHardening, HKDFCacheThreadLocalDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CryptoHardening</type>
+        </param>
+        <param>
+          <type>HKDFCacheThreadLocalDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_crypto_hardening.cpp" line="197" column="1" bodyfile="tests/utils/test_utils_crypto_hardening.cpp" bodystart="197" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 hardening tests for <ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper" kindref="compound">HKDFHelper</ref>, <ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache" kindref="compound">HKDFCache</ref>, and error contracts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coverage targets (Phase 4 gate):<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">HKDFHelper::derive()</ref> succeeds under normal conditions</para>
+</listitem><listitem><para><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper" kindref="compound">HKDFHelper</ref>: invalid output_length → exception (fail-closed, no weak key)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1ae5c177f498901a6107443351bd1a9b3e" kindref="member">HKDFCache::derive_cached()</ref> caches and returns identical material</para>
+</listitem><listitem><para><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache" kindref="compound">HKDFCache</ref>: eviction under capacity pressure works correctly</para>
+</listitem><listitem><para>Crypto error codes in range 9050-9059</para>
+</listitem><listitem><para><ref refid="structthemis_1_1utils_1_1_error_context" kindref="compound">ErrorContext</ref> category for crypto codes</para>
+</listitem><listitem><para>Key material zeroization (OPENSSL_cleanse) does not corrupt program state</para>
+</listitem></itemizedlist>
+</para>
+<para>Note: <ref refid="classthemis_1_1utils_1_1_l_e_k_manager" kindref="compound">LEKManager</ref> tests require a live RocksDB instance and are integration- level; they are excluded from this unit-test file. The constructor fail- closed path is verified by checking the error-contract expectations in the implementation comments. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="error__contracts_8h" kindref="compound">utils/error_contracts.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hkdf__cache_8h" kindref="compound">utils/hkdf_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hkdf__helper_8h" kindref="compound">utils/hkdf_helper.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/crypto.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-01:<sp/>HKDFHelper::derive()<sp/>produces<sp/>the<sp/>correct<sp/>output<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>HKDFDeriveProducesCorrectLength)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm(32,<sp/>0xAA);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt(16,<sp/>0xBB);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>info<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test.derive.v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>len<sp/>:<sp/>{16u,<sp/>32u,<sp/>64u})<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">HKDFHelper::derive</ref>(ikm,<sp/>salt,<sp/>info,<sp/>len);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(key.size(),<sp/>len)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;expected<sp/>length<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>len;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-02:<sp/>HKDFHelper::derive()<sp/>is<sp/>deterministic<sp/>(same<sp/>inputs<sp/>→<sp/>same<sp/>output)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>HKDFDeriveIsDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm(32,<sp/>0x11);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt(16,<sp/>0x22);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>info<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;deterministic.test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>k1<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">HKDFHelper::derive</ref>(ikm,<sp/>salt,<sp/>info,<sp/>32);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>k2<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">HKDFHelper::derive</ref>(ikm,<sp/>salt,<sp/>info,<sp/>32);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(k1,<sp/>k2);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-03:<sp/>Different<sp/>info<sp/>strings<sp/>produce<sp/>different<sp/>keys<sp/>(domain<sp/>separation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>HKDFDifferentInfoProducesDifferentKeys)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm(32,<sp/>0x33);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt(16,<sp/>0x44);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>k1<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">HKDFHelper::derive</ref>(ikm,<sp/>salt,<sp/></highlight><highlight class="stringliteral">&quot;context.A&quot;</highlight><highlight class="normal">,<sp/>32);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>k2<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">HKDFHelper::derive</ref>(ikm,<sp/>salt,<sp/></highlight><highlight class="stringliteral">&quot;context.B&quot;</highlight><highlight class="normal">,<sp/>32);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(k1,<sp/>k2);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-04:<sp/>Zero<sp/>output_length<sp/>→<sp/>runtime_error<sp/>(fail-closed<sp/>–<sp/>no<sp/>empty<sp/>key)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>HKDFZeroLengthOutputThrows)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm(32,<sp/>0x55);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt(16,<sp/>0x66);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">HKDFHelper::derive</ref>(ikm,<sp/>salt,<sp/></highlight><highlight class="stringliteral">&quot;info&quot;</highlight><highlight class="normal">,<sp/>0),<sp/>std::exception);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-05:<sp/>Oversized<sp/>output_length<sp/>→<sp/>throws<sp/>(RFC<sp/>5869<sp/>limit<sp/>8160<sp/>bytes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>HKDFOverMaxLengthThrows)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm(32,<sp/>0x77);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt(16,<sp/>0x88);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>255<sp/>*<sp/>32<sp/>=<sp/>8160<sp/>is<sp/>the<sp/>SHA-256<sp/>HKDF<sp/>output<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">HKDFHelper::derive</ref>(ikm,<sp/>salt,<sp/></highlight><highlight class="stringliteral">&quot;info&quot;</highlight><highlight class="normal">,<sp/>8161),<sp/>std::exception);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-06:<sp/>HKDFCache::derive_cached()<sp/>returns<sp/>same<sp/>result<sp/>as<sp/>direct<sp/>derive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>HKDFCacheDeriveMatchesDirectDerive)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache" kindref="compound">HKDFCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm(32,<sp/>0x99);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt(16,<sp/>0xAA);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>info<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cache.test.v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>direct<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">HKDFHelper::derive</ref>(ikm,<sp/>salt,<sp/>info,<sp/>32);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cached<sp/>=<sp/>cache.<ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1ae5c177f498901a6107443351bd1a9b3e" kindref="member">derive_cached</ref>(ikm,<sp/>salt,<sp/>info,<sp/>32);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(direct,<sp/>cached);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-07:<sp/>HKDFCache:<sp/>second<sp/>call<sp/>is<sp/>a<sp/>hit<sp/>(same<sp/>result<sp/>returned)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>HKDFCacheSecondCallReturnsHit)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache" kindref="compound">HKDFCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm(32,<sp/>0xBB);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt(16,<sp/>0xCC);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>info<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cache.hit.v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>first<sp/><sp/>=<sp/>cache.<ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1ae5c177f498901a6107443351bd1a9b3e" kindref="member">derive_cached</ref>(ikm,<sp/>salt,<sp/>info,<sp/>32);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>second<sp/>=<sp/>cache.<ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1ae5c177f498901a6107443351bd1a9b3e" kindref="member">derive_cached</ref>(ikm,<sp/>salt,<sp/>info,<sp/>32);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(first,<sp/>second);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>cache.<ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a48ec353dae1b48b49f8cabb78e0c1763" kindref="member">stats</ref>();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(s.hits,<sp/>1u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-08:<sp/>HKDFCache:<sp/>clear()<sp/>resets<sp/>cache<sp/>(stats<sp/>show<sp/>miss<sp/>after<sp/>clear)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>HKDFCacheClearCausesSubsequentMiss)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache" kindref="compound">HKDFCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm(32,<sp/>0xDD);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt(16,<sp/>0xEE);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>info<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cache.clear.v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1ae5c177f498901a6107443351bd1a9b3e" kindref="member">derive_cached</ref>(ikm,<sp/>salt,<sp/>info,<sp/>32);<sp/></highlight><highlight class="comment">//<sp/>populate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a2b73e02059f96e3e9047b054f47078e1" kindref="member">clear</ref>();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>evict<sp/>everything</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s_before<sp/>=<sp/>cache.<ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a48ec353dae1b48b49f8cabb78e0c1763" kindref="member">stats</ref>();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1ae5c177f498901a6107443351bd1a9b3e" kindref="member">derive_cached</ref>(ikm,<sp/>salt,<sp/>info,<sp/>32);<sp/></highlight><highlight class="comment">//<sp/>should<sp/>be<sp/>a<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s_after<sp/>=<sp/>cache.<ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a48ec353dae1b48b49f8cabb78e0c1763" kindref="member">stats</ref>();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(s_after.misses,<sp/>s_before.misses);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-09:<sp/>Key<sp/>material<sp/>zeroization<sp/>does<sp/>not<sp/>corrupt<sp/>heap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>KeyMaterialZeroizationDoesNotCorruptHeap)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm(32,<sp/>0xFF);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt(16,<sp/>0x00);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">HKDFHelper::derive</ref>(ikm,<sp/>salt,<sp/></highlight><highlight class="stringliteral">&quot;zeroize.test&quot;</highlight><highlight class="normal">,<sp/>32);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(key.size(),<sp/>32u);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zeroize:<sp/>OPENSSL_cleanse<sp/>is<sp/>the<sp/>approved<sp/>method</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>OPENSSL_cleanse(key.data(),<sp/>key.size());</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>bytes<sp/>must<sp/>now<sp/>be<sp/>zero<sp/>(OPENSSL_cleanse<sp/>guarantees<sp/>this)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>all_zero<sp/>=<sp/>std::all_of(key.begin(),<sp/>key.end(),<sp/>[](uint8_t<sp/>b)<sp/>{<sp/>return<sp/>b<sp/>==<sp/>0;<sp/>});</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(all_zero);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-10:<sp/>Crypto<sp/>error<sp/>codes<sp/>are<sp/>in<sp/>range<sp/>9050-9059</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>CryptoErrorCodesInRange)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">EC<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>check<sp/>=<sp/>[](EC<sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>uint16_t{9050})<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;code<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>v<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>below<sp/>9050&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(v,<sp/>uint16_t{9059})<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;code<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>v<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>above<sp/>9059&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::CRYPTO_KEY_DERIVATION_FAILED);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::CRYPTO_KEY_INVALID);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::CRYPTO_KEY_EXPIRED);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>check(EC::CRYPTO_KEY_NOT_FOUND);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-11:<sp/>ErrorContext<sp/>category<sp/>for<sp/>crypto<sp/>codes<sp/>is<sp/>Crypto</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>ErrorContextCategoryIsCrypto)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>:<sp/>{<ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7afc812c4421b655867c3d7e55d08fcaaa" kindref="member">ErrorCode::CRYPTO_KEY_DERIVATION_FAILED</ref>,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a734445e922cdb205a5affb03063848ce" kindref="member">ErrorCode::CRYPTO_KEY_INVALID</ref>,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a7359497461f8abec84a3faee70abead6" kindref="member">ErrorCode::CRYPTO_KEY_NOT_FOUND</ref>,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ad187e7d4124548094e9a0f65effc74f1" kindref="member">ErrorCode::CRYPTO_KEY_EXPIRED</ref>})<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">makeErrorContext</ref>(code,<sp/></highlight><highlight class="stringliteral">&quot;CH-11-test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unit<sp/>test&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a278d01e5af56273bae1bb99a98b370cd" kindref="member">ErrorSeverity::Critical</ref>,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.category,<sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a60db18ebc6e0928c98fc0d5d85897b7c" kindref="member">ErrorCategory::KeyDerivation</ref>)</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;code<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code)</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>should<sp/>be<sp/>Crypto<sp/>category&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CH-12:<sp/>HKDFCache<sp/>thread-local<sp/>accessor<sp/>does<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(CryptoHardening,<sp/>HKDFCacheThreadLocalDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([]()<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>cache<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1ad97e16356aa29826b9d9d519a43754ad" kindref="member">HKDFCache::threadLocal</ref>();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ikm(32,<sp/>0x01);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>salt(16,<sp/>0x02);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/>cache.<ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1ae5c177f498901a6107443351bd1a9b3e" kindref="member">derive_cached</ref>(ikm,<sp/>salt,<sp/></highlight><highlight class="stringliteral">&quot;tl.test&quot;</highlight><highlight class="normal">,<sp/>32);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(key.size(),<sp/>32u);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/utils/test_utils_crypto_hardening.cpp"/>
+  </compounddef>
+</doxygen>

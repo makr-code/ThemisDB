@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="scraper__config_8h" kind="file" language="C++">
+    <compoundname>scraper_config.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">stdexcept</includes>
+    <includedby refid="scraper__llm__evaluator_8h" local="yes">include/scraper/scraper_llm_evaluator.h</includedby>
+    <includedby refid="scraper__plugin_8h" local="yes">include/scraper/scraper_plugin.h</includedby>
+    <includedby refid="scraper__config_8cpp" local="yes">src/scraper/scraper_config.cpp</includedby>
+    <includedby refid="test__scraper__plugin_8cpp" local="yes">tests/scraper/test_scraper_plugin.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/scraper/scraper_config.h</label>
+        <link refid="scraper__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>stdexcept</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/scraper/scraper_config.h</label>
+        <link refid="scraper__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/scraper/scraper_llm_evaluator.h</label>
+        <link refid="scraper__llm__evaluator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/scraper/scraper_metadata_writer.h</label>
+        <link refid="scraper__metadata__writer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/scraper/scraper_plugin.h</label>
+        <link refid="scraper__plugin_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>src/scraper/scraper_config.cpp</label>
+        <link refid="scraper__config_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/scraper/scraper_llm_evaluator.cpp</label>
+        <link refid="scraper__llm__evaluator_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/scraper/scraper_metadata_writer.cpp</label>
+        <link refid="scraper__metadata__writer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/scraper/scraper_plugin.cpp</label>
+        <link refid="scraper__plugin_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/scraper/test_scraper_plugin.cpp</label>
+        <link refid="test__scraper__plugin_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/scraper/test_scraper_v12_features_focused.cpp</label>
+        <link refid="test__scraper__v12__features__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1scraper_1_1_gap_context" prot="public">themis::scraper::GapContext</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_crawl_options" prot="public">themis::scraper::CrawlOptions</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_search_options" prot="public">themis::scraper::SearchOptions</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_api_options" prot="public">themis::scraper::ApiOptions</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_llm_options" prot="public">themis::scraper::LlmOptions</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_gov_sources_options" prot="public">themis::scraper::GovSourcesOptions</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_config" prot="public">themis::scraper::ScraperConfig</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_url_policy" prot="public">themis::scraper::UrlPolicy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.11 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Render<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6" kindref="member">ScraperRenderMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6afe6f99ef1ec99efbdc19a9786cf1facc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6afe6f99ef1ec99efbdc19a9786cf1facc" kindref="member">STATIC</ref>,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6a1f09782813b43b53782275933cf8c326" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6a1f09782813b43b53782275933cf8c326" kindref="member">JS_RENDERED</ref>,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6a893ec1ce7cb11e65d2a44335a04c110c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6a893ec1ce7cb11e65d2a44335a04c110c" kindref="member">API_JSON</ref>,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6a66cd50e7f48446e90f686fdb77dbd600" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6a66cd50e7f48446e90f686fdb77dbd600" kindref="member">API_GRAPHQL</ref></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1scraper_1_1_gap_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_gap_context" kindref="compound">GapContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1scraper_1_1_gap_context_1a49c5f7a8c953e014f3a8fb44c939cb5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gap_context_1a49c5f7a8c953e014f3a8fb44c939cb5f" kindref="member">gap_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1scraper_1_1_gap_context_1abe4285b01d8a747307807a991b4d103f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gap_context_1abe4285b01d8a747307807a991b4d103f" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1scraper_1_1_gap_context_1a51ffd44ea6ea706d1795ef701f5df512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_gap_context_1a51ffd44ea6ea706d1795ef701f5df512" kindref="member">keywords</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sub-configurations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1scraper_1_1_crawl_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_crawl_options" kindref="compound">CrawlOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1scraper_1_1_crawl_options_1a925afadde0e18596a5173a5fdb1d2814" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_crawl_options_1a925afadde0e18596a5173a5fdb1d2814" kindref="member">max_depth</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1scraper_1_1_crawl_options_1ad51fab7dc15fd7c4d1563b1198c112b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_crawl_options_1ad51fab7dc15fd7c4d1563b1198c112b9" kindref="member">max_pages</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1scraper_1_1_crawl_options_1a2630ddbbdd4f52a2d98c6dbdd861db77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_crawl_options_1a2630ddbbdd4f52a2d98c6dbdd861db77" kindref="member">user_agent</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB-Scraper/1.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1scraper_1_1_crawl_options_1a8a9920d8b37c26b8d6de99d954f69ea2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_crawl_options_1a8a9920d8b37c26b8d6de99d954f69ea2" kindref="member">respect_robots</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1scraper_1_1_crawl_options_1abf64fabd63851c1dfa4c6d97dbe5306e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_crawl_options_1abf64fabd63851c1dfa4c6d97dbe5306e" kindref="member">same_domain_only</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1scraper_1_1_crawl_options_1af4194fd59b06e0fdc4fad0fdd4471e4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_crawl_options_1af4194fd59b06e0fdc4fad0fdd4471e4f" kindref="member">request_delay_ms</ref><sp/>=<sp/>250;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1scraper_1_1_crawl_options_1a68313cd1815fc50bef991e666c5000e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6" kindref="member">ScraperRenderMode</ref><sp/><ref refid="structthemis_1_1scraper_1_1_crawl_options_1a68313cd1815fc50bef991e666c5000e3" kindref="member">render_mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6afe6f99ef1ec99efbdc19a9786cf1facc" kindref="member">ScraperRenderMode::STATIC</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1scraper_1_1_crawl_options_1ad55fdd00dfe0115bcac6c2a22410117d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_crawl_options_1ad55fdd00dfe0115bcac6c2a22410117d" kindref="member">js_renderer_cmd</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1scraper_1_1_crawl_options_1add0add4d5d1d6005ddf50c26da778d5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_crawl_options_1add0add4d5d1d6005ddf50c26da778d5f" kindref="member">js_timeout_ms</ref><sp/><sp/><sp/><sp/>=<sp/>10000;<sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1scraper_1_1_search_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_search_options" kindref="compound">SearchOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1scraper_1_1_search_options_1abe43c5bd2f586356740ee05ea321e6dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_search_options_1abe43c5bd2f586356740ee05ea321e6dc" kindref="member">enabled</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1scraper_1_1_search_options_1a460e344bf85708a7783c772878bfede9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_search_options_1a460e344bf85708a7783c772878bfede9" kindref="member">queries</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1scraper_1_1_search_options_1a78f6ec6072f5251aebc4395d4d97e00f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_search_options_1a78f6ec6072f5251aebc4395d4d97e00f" kindref="member">max_result_pages</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1scraper_1_1_search_options_1a5b40b9672e9544f762153f8daba1f98b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_search_options_1a5b40b9672e9544f762153f8daba1f98b" kindref="member">results_per_page</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1scraper_1_1_search_options_1aa4775c95ca1e1b92dcd6ea12f61efded" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_search_options_1aa4775c95ca1e1b92dcd6ea12f61efded" kindref="member">result_list_selector</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1scraper_1_1_api_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_api_options" kindref="compound">ApiOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1scraper_1_1_api_options_1ac63d47f4560ccf7e04a755dedfbb2d78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_options_1ac63d47f4560ccf7e04a755dedfbb2d78" kindref="member">pagination_mode</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;page&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1scraper_1_1_api_options_1ae24d369b19023b57d9733f5447760772" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_options_1ae24d369b19023b57d9733f5447760772" kindref="member">page_param</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;p&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1scraper_1_1_api_options_1ac441f2fe7e09a5b539a5512c46e982f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_options_1ac441f2fe7e09a5b539a5512c46e982f2" kindref="member">cursor_field</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;next_cursor&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1scraper_1_1_api_options_1a7b8855d9c3b113e404464214c9f16e33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_options_1a7b8855d9c3b113e404464214c9f16e33" kindref="member">results_field</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1scraper_1_1_api_options_1a6f239cd670c2f4fae34411a8d0e1355d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_api_options_1a6f239cd670c2f4fae34411a8d0e1355d" kindref="member">max_pages</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1scraper_1_1_api_options_1a30b807d766b22046a47e06a518d05284" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_api_options_1a30b807d766b22046a47e06a518d05284" kindref="member">headers</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1scraper_1_1_api_options_1a4b9e57a573268f53130bd893ebbc0bea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_api_options_1a4b9e57a573268f53130bd893ebbc0bea" kindref="member">body_template</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1scraper_1_1_llm_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_llm_options" kindref="compound">LlmOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1scraper_1_1_llm_options_1af3dc8e9882a6cf1248c5a84d98170a36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_llm_options_1af3dc8e9882a6cf1248c5a84d98170a36" kindref="member">quality_threshold</ref><sp/>=<sp/>0.65;<sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1scraper_1_1_llm_options_1ac3714640fc24e8571d50842d85941b6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_llm_options_1ac3714640fc24e8571d50842d85941b6b" kindref="member">model_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1scraper_1_1_llm_options_1a207d7c7abf6a1071410240a0150375d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_llm_options_1a207d7c7abf6a1071410240a0150375d9" kindref="member">temperature</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.1;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gov<sp/>sources<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1scraper_1_1_gov_sources_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_gov_sources_options" kindref="compound">GovSourcesOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1scraper_1_1_gov_sources_options_1a3287c88f2b161b22b0bea37a0c333367" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_gov_sources_options_1a3287c88f2b161b22b0bea37a0c333367" kindref="member">bund_enabled</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1scraper_1_1_gov_sources_options_1a70fc266810d48a062bfe5e57e3ffeb27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_gov_sources_options_1a70fc266810d48a062bfe5e57e3ffeb27" kindref="member">bundeslaender_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1scraper_1_1_gov_sources_options_1a121754c9deed15b60997c318f37393ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_gov_sources_options_1a121754c9deed15b60997c318f37393ec" kindref="member">eu_enabled</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1scraper_1_1_gov_sources_options_1a1b7a00eef5d74e4dc1363ad6f18e24d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_gov_sources_options_1a1b7a00eef5d74e4dc1363ad6f18e24d5" kindref="member">source_ids</ref>;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1scraper_1_1_gov_sources_options_1ad381adc50f8bff86931d298f0da25961" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_gov_sources_options_1ad381adc50f8bff86931d298f0da25961" kindref="member">custom_catalog_path</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1scraper_1_1_scraper_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_scraper_config" kindref="compound">ScraperConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1scraper_1_1_scraper_config_1a6039fa99b66823e5de154b355f64ad44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_gap_context" kindref="compound">GapContext</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1a6039fa99b66823e5de154b355f64ad44" kindref="member">gap_context</ref>;</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1scraper_1_1_scraper_config_1a11aafb4e72b3ea6e8c233c8e06402b18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_crawl_options" kindref="compound">CrawlOptions</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1a11aafb4e72b3ea6e8c233c8e06402b18" kindref="member">crawl_options</ref>;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1scraper_1_1_scraper_config_1a5f9d9983e1e4589d660b5745d13ee396" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_search_options" kindref="compound">SearchOptions</ref><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1a5f9d9983e1e4589d660b5745d13ee396" kindref="member">search_options</ref>;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1scraper_1_1_scraper_config_1ad9c66348297ac617d4a04ed058edb128" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_api_options" kindref="compound">ApiOptions</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1ad9c66348297ac617d4a04ed058edb128" kindref="member">api_options</ref>;</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1scraper_1_1_scraper_config_1a726d57438b849b19bf24c303aeb92e70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_llm_options" kindref="compound">LlmOptions</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1a726d57438b849b19bf24c303aeb92e70" kindref="member">llm_options</ref>;</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1scraper_1_1_scraper_config_1ac3492eeb745c5b52b095b3c4d97d9d24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_gov_sources_options" kindref="compound">GovSourcesOptions</ref><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1ac3492eeb745c5b52b095b3c4d97d9d24" kindref="member">gov_sources</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1scraper_1_1_scraper_config_1a0b6f131e5683b60f5e8799f6b82dd928" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1a0b6f131e5683b60f5e8799f6b82dd928" kindref="member">seed_urls</ref>;</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1scraper_1_1_scraper_config_1a35fd6828686d3fd2accdd329b89c79ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1a35fd6828686d3fd2accdd329b89c79ea" kindref="member">whitelist</ref>;</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1scraper_1_1_scraper_config_1a30845d997026d01cfd874ff835386e6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1a30845d997026d01cfd874ff835386e6e" kindref="member">blacklist</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config" kindref="compound">ScraperConfig</ref><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1abaf104d745c5d479c2b7e14303ede0da" kindref="member">loadFromFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config" kindref="compound">ScraperConfig</ref><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1a69caf370f01021ad9db4d2d757c9b5f8" kindref="member">loadFromYaml</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>yaml_content);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config_1a07c9dcfc50c9f52c24a06db307151899" kindref="member">effectiveSearchQueries</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>URL<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1scraper_1_1_url_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_url_policy_1a6720b954801d44113e3f8321ec53963d" kindref="member">UrlPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_url_policy_1a6720b954801d44113e3f8321ec53963d" kindref="member">UrlPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_scraper_config" kindref="compound">ScraperConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_url_policy_1a6720b954801d44113e3f8321ec53963d" kindref="member">UrlPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>whitelist,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>blacklist);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_url_policy_1a92ed9d5447545f68f3ce8d61cae35904" kindref="member">isAllowed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>matchesPattern(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pattern);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>whitelist_;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>blacklist_;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scraper/scraper_config.h"/>
+  </compounddef>
+</doxygen>

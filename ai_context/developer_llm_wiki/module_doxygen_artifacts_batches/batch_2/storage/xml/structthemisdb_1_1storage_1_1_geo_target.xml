@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1storage_1_1_geo_target" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::storage::GeoTarget</compoundname>
+    <includes refid="blob__redundancy__manager_8h" local="no">blob_redundancy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_geo_target_1aa83c166f4835ad0ef55856c6991f1ba1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::GeoTarget::datacenter</definition>
+        <argsstring></argsstring>
+        <name>datacenter</name>
+        <qualifiedname>themisdb::storage::GeoTarget::datacenter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="168" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_geo_target_1a4500a254098caa718e9b95071e8d2733" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::GeoTarget::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themisdb::storage::GeoTarget::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="169" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_geo_target_1a1390ec872f35adb9597d1a04a2148ae2" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themisdb::storage::GeoTarget::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themisdb::storage::GeoTarget::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="170" column="13" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_geo_target_1aaa368488241aea884da84419ac852b42" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::storage::GeoTarget::is_async</definition>
+        <argsstring></argsstring>
+        <name>is_async</name>
+        <qualifiedname>themisdb::storage::GeoTarget::is_async</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="171" column="10" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_geo_target_1a043f6a74d201aa49b575e3f68dda7e9f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::storage::GeoTarget::max_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>max_lag_ms</name>
+        <qualifiedname>themisdb::storage::GeoTarget::max_lag_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="172" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Geo-Replication Target </para>
+    </detaileddescription>
+    <location file="include/storage/blob_redundancy_manager.h" line="167" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="167" bodyend="173"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1storage_1_1_geo_target_1aa83c166f4835ad0ef55856c6991f1ba1" prot="public" virt="non-virtual"><scope>themisdb::storage::GeoTarget</scope><name>datacenter</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_geo_target_1a4500a254098caa718e9b95071e8d2733" prot="public" virt="non-virtual"><scope>themisdb::storage::GeoTarget</scope><name>endpoint</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_geo_target_1aaa368488241aea884da84419ac852b42" prot="public" virt="non-virtual"><scope>themisdb::storage::GeoTarget</scope><name>is_async</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_geo_target_1a043f6a74d201aa49b575e3f68dda7e9f" prot="public" virt="non-virtual"><scope>themisdb::storage::GeoTarget</scope><name>max_lag_ms</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_geo_target_1a1390ec872f35adb9597d1a04a2148ae2" prot="public" virt="non-virtual"><scope>themisdb::storage::GeoTarget</scope><name>priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

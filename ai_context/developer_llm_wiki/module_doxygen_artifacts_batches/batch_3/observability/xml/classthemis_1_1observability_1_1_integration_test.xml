@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::IntegrationTest</compoundname>
+    <basecompoundref refid="classthemis_1_1observability_1_1_field_diagnostics_collector_test" prot="public" virt="non-virtual">themis::observability::FieldDiagnosticsCollectorTest</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="2">
+        <label>themis::observability::FieldDiagnosticsCollectorTest</label>
+        <link refid="classthemis_1_1observability_1_1_field_diagnostics_collector_test"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::observability::IntegrationTest</label>
+        <link refid="classthemis_1_1observability_1_1_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="2">
+        <label>themis::observability::FieldDiagnosticsCollectorTest</label>
+        <link refid="classthemis_1_1observability_1_1_field_diagnostics_collector_test"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::observability::IntegrationTest</label>
+        <link refid="classthemis_1_1observability_1_1_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_field_diagnostics.cpp" line="381" column="1" bodyfile="tests/observability/test_field_diagnostics.cpp" bodystart="381" bodyend="382"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_test_1a0da3deb7c534436787b414b2b9ebe1b4" prot="protected" virt="non-virtual"><scope>themis::observability::IntegrationTest</scope><name>createEvent</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_test_1ab225ce848dca94b6de414639c904b88a" prot="protected" virt="virtual"><scope>themis::observability::IntegrationTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_test_1a96f119bf86e6729e9320068d6a11293d" prot="protected" virt="virtual"><scope>themis::observability::IntegrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

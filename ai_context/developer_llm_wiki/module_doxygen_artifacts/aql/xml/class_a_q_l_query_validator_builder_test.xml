@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_query_validator_builder_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLQueryValidatorBuilderTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_query_validator_builder_test_1a57bb33e14777eda59ddc6c76a26f79e0" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_validator" kindref="compound">AQLQueryValidator</ref></type>
+        <definition>AQLQueryValidator AQLQueryValidatorBuilderTest::validator</definition>
+        <argsstring></argsstring>
+        <name>validator</name>
+        <qualifiedname>AQLQueryValidatorBuilderTest::validator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_validator.cpp" line="203" column="23" bodyfile="tests/aql/test_aql_query_validator.cpp" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_query_validator_builder_test_1ad950bb5d896086aa738144414fdc5885" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder" kindref="compound">AQLQueryBuilder</ref></type>
+        <definition>AQLQueryBuilder AQLQueryValidatorBuilderTest::builder</definition>
+        <argsstring></argsstring>
+        <name>builder</name>
+        <qualifiedname>AQLQueryValidatorBuilderTest::builder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_validator.cpp" line="204" column="23" bodyfile="tests/aql/test_aql_query_validator.cpp" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLQueryValidatorBuilderTest</label>
+        <link refid="class_a_q_l_query_validator_builder_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLQueryValidatorBuilderTest</label>
+        <link refid="class_a_q_l_query_validator_builder_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>validator</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>builder</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::aql::AQLQueryBuilder</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_query_builder"/>
+      </node>
+      <node id="3">
+        <label>themis::aql::AQLQueryValidator</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_query_validator"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_query_validator.cpp" line="201" column="1" bodyfile="tests/aql/test_aql_query_validator.cpp" bodystart="201" bodyend="205"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_query_validator_builder_test_1ad950bb5d896086aa738144414fdc5885" prot="protected" virt="non-virtual"><scope>AQLQueryValidatorBuilderTest</scope><name>builder</name></member>
+      <member refid="class_a_q_l_query_validator_builder_test_1a57bb33e14777eda59ddc6c76a26f79e0" prot="protected" virt="non-virtual"><scope>AQLQueryValidatorBuilderTest</scope><name>validator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

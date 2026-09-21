@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1config_1_1_config_encrypted_blob" kind="struct" language="C++" prot="public">
+    <compoundname>themis::config::ConfigEncryptedBlob</compoundname>
+    <includes refid="config__encrypted__store_8h" local="no">config_encrypted_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_config_encrypted_blob_1af907bf8c49aa659afa2c88e2518515d6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::config::ConfigEncryptedBlob::key_version</definition>
+        <argsstring></argsstring>
+        <name>key_version</name>
+        <qualifiedname>themis::config::ConfigEncryptedBlob::key_version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_encrypted_store.h" line="51" column="26" bodyfile="include/config/config_encrypted_store.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_config_encrypted_blob_1ab6fb1969962f71d52634b8c586248f01" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::config::ConfigEncryptedBlob::iv</definition>
+        <argsstring></argsstring>
+        <name>iv</name>
+        <qualifiedname>themis::config::ConfigEncryptedBlob::iv</qualifiedname>
+        <briefdescription>
+<para>12 bytes (AES-GCM standard) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_encrypted_store.h" line="52" column="17" bodyfile="include/config/config_encrypted_store.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_config_encrypted_blob_1aef39eadb93483478db2956071e76f137" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::config::ConfigEncryptedBlob::ciphertext</definition>
+        <argsstring></argsstring>
+        <name>ciphertext</name>
+        <qualifiedname>themis::config::ConfigEncryptedBlob::ciphertext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_encrypted_store.h" line="53" column="17" bodyfile="include/config/config_encrypted_store.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_config_encrypted_blob_1a5db8a47f1f9eae8cbab75b7e3e2eaaae" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::config::ConfigEncryptedBlob::tag</definition>
+        <argsstring></argsstring>
+        <name>tag</name>
+        <qualifiedname>themis::config::ConfigEncryptedBlob::tag</qualifiedname>
+        <briefdescription>
+<para>16 bytes (AES-GCM authentication tag) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_encrypted_store.h" line="54" column="17" bodyfile="include/config/config_encrypted_store.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1config_1_1_config_encrypted_blob_1a84b2dd3c1830ac4d2321738fd38dd26f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::config::ConfigEncryptedBlob::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::config::ConfigEncryptedBlob::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_encrypted_store.h" line="60" column="17" bodyfile="src/config/config_encrypted_store.cpp" bodystart="118" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1config_1_1_config_encrypted_blob_1a08cb76e695c4818810ad07641686dc31" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1config_1_1_config_encrypted_blob" kindref="compound">ConfigEncryptedBlob</ref></type>
+        <definition>ConfigEncryptedBlob themis::config::ConfigEncryptedBlob::fromJson</definition>
+        <argsstring>(const std::string &amp;json_str)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::config::ConfigEncryptedBlob::fromJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_str</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ConfigEncryptionException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::parse(), at(), base64Decode(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_encrypted_store.h" line="67" column="32" bodyfile="src/config/config_encrypted_store.cpp" bodystart="134" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/config_encrypted_store.h" line="50" column="1" bodyfile="include/config/config_encrypted_store.h" bodystart="50" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1config_1_1_config_encrypted_blob_1aef39eadb93483478db2956071e76f137" prot="public" virt="non-virtual"><scope>themis::config::ConfigEncryptedBlob</scope><name>ciphertext</name></member>
+      <member refid="structthemis_1_1config_1_1_config_encrypted_blob_1a08cb76e695c4818810ad07641686dc31" prot="public" virt="non-virtual"><scope>themis::config::ConfigEncryptedBlob</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1config_1_1_config_encrypted_blob_1ab6fb1969962f71d52634b8c586248f01" prot="public" virt="non-virtual"><scope>themis::config::ConfigEncryptedBlob</scope><name>iv</name></member>
+      <member refid="structthemis_1_1config_1_1_config_encrypted_blob_1af907bf8c49aa659afa2c88e2518515d6" prot="public" virt="non-virtual"><scope>themis::config::ConfigEncryptedBlob</scope><name>key_version</name></member>
+      <member refid="structthemis_1_1config_1_1_config_encrypted_blob_1a5db8a47f1f9eae8cbab75b7e3e2eaaae" prot="public" virt="non-virtual"><scope>themis::config::ConfigEncryptedBlob</scope><name>tag</name></member>
+      <member refid="structthemis_1_1config_1_1_config_encrypted_blob_1a84b2dd3c1830ac4d2321738fd38dd26f" prot="public" virt="non-virtual"><scope>themis::config::ConfigEncryptedBlob</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

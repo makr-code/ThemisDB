@@ -1,0 +1,707 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::LLMMetaAnalyzer</compoundname>
+    <includes refid="llm__meta__analyzer_8h" local="no">llm_meta_analyzer.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config" prot="public">themis::rag::LLMMetaAnalyzer::AnalysisConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result" prot="public">themis::rag::LLMMetaAnalyzer::AnalysisResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl" prot="public">themis::rag::LLMMetaAnalyzer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a2bb8402d9ba177c2382919ccb7d93260" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::LLMMetaAnalyzer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="161" column="21" bodyfile="include/rag/llm_meta_analyzer.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1ab6a2c1da6ca55ec3b5ffdab8592caec9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::rag::LLMMetaAnalyzer::~LLMMetaAnalyzer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LLMMetaAnalyzer</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::~LLMMetaAnalyzer</qualifiedname>
+        <briefdescription>
+<para>Virtual destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="57" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a65440d4d762f9df57f4c785e35444588" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::rag::LLMMetaAnalyzer::loadConfig</definition>
+        <argsstring>(const AnalysisConfig &amp;config)</argsstring>
+        <name>loadConfig</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::loadConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config" kindref="compound">AnalysisConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Load configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration to load</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="63" column="18" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="42" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1aaaa53af682c90da0f24ce9e7bbe6ea4c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config" kindref="compound">AnalysisConfig</ref></type>
+        <definition>LLMMetaAnalyzer::AnalysisConfig themis::rag::LLMMetaAnalyzer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="69" column="28" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a186499a3c5a95d1c071cee2c76311a6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::rag::LLMMetaAnalyzer::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear analysis cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Cache.</para>
+<para>Calls: clear(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="74" column="18" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="62" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1aef8d3a16e656922080b76691b24cf591" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::LLMMetaAnalyzer::buildPrompt</definition>
+        <argsstring>(const std::string &amp;task_description, const std::string &amp;input_text, const std::vector&lt; std::string &gt; &amp;criteria)</argsstring>
+        <name>buildPrompt</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::buildPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_description</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input_text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>criteria</declname>
+        </param>
+        <briefdescription>
+<para>Build prompt for LLM analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Prompt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of the analysis task </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text to analyze </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>criteria</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation criteria </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted prompt string</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">criteria</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), THEMIS_WARN(), empty(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="84" column="17" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="78" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1add6fb623c24216949294b8f63f05b718" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::LLMMetaAnalyzer::buildPromptWithCoT</definition>
+        <argsstring>(const std::string &amp;task_description, const std::string &amp;input_text, const std::vector&lt; std::string &gt; &amp;criteria)</argsstring>
+        <name>buildPromptWithCoT</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::buildPromptWithCoT</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_description</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input_text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>criteria</declname>
+        </param>
+        <briefdescription>
+<para>Build prompt with chain-of-thought. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Prompt With Co T.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of the analysis task </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text to analyze </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>criteria</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation criteria </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted prompt with CoT instructions</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">criteria</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements buildPromptWithCoT without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="97" column="17" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="140" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a02bfdb1f593a1535e6951dd1e7e50fd5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::LLMMetaAnalyzer::buildPromptWithCoT</definition>
+        <argsstring>(const std::string &amp;task_description, const std::string &amp;input_text, const std::vector&lt; std::string &gt; &amp;criteria, const std::vector&lt; std::string &gt; &amp;examples)</argsstring>
+        <name>buildPromptWithCoT</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::buildPromptWithCoT</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_description</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input_text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>criteria</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>examples</declname>
+        </param>
+        <briefdescription>
+<para>Build prompt with chain-of-thought. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Prompt With Co T.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of the analysis task </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text to analyze </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>criteria</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation criteria </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional examples </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted prompt with CoT instructions</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">criteria</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), THEMIS_WARN(), empty(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="110" column="17" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="158" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a3d9b35fd1486dd65d494d3c9f8e99cb6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result" kindref="compound">AnalysisResult</ref></type>
+        <definition>LLMMetaAnalyzer::AnalysisResult themis::rag::LLMMetaAnalyzer::parseResponse</definition>
+        <argsstring>(const std::string &amp;llm_response)</argsstring>
+        <name>parseResponse</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::parseResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>llm_response</declname>
+        </param>
+        <briefdescription>
+<para>Parse LLM response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Response.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>llm_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw LLM response </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Structured analysis result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">llm_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1acf607c0ee7cab74781d64bc03605cfb7" kindref="member">parseScore()</ref>, <ref refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a151cec866744cdb7be8033a1958820c9" kindref="member">extractReasoning()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="122" column="20" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="223" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1acf607c0ee7cab74781d64bc03605cfb7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::LLMMetaAnalyzer::parseScore</definition>
+        <argsstring>(const std::string &amp;response, const std::string &amp;dimension=&quot;&quot;)</argsstring>
+        <name>parseScore</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::parseScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dimension</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Parse score from LLM response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Score.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Response text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional dimension name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed score (0.0-1.0)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::regex(), empty(), insert(), begin(), std::regex_search(), std::stod(), str(), std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="130" column="12" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="247" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a151cec866744cdb7be8033a1958820c9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::LLMMetaAnalyzer::extractReasoning</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>extractReasoning</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::extractReasoning</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Extract reasoning from LLM response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Reasoning.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Response text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Extracted reasoning</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reasoning_pattern(), std::regex_search(), str(), erase(), find_first_not_of(), find_last_not_of(), find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="137" column="17" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="295" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1ab77697e2179f8e7b5631540e9e2cfa94" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::LLMMetaAnalyzer::callLLM</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>callLLM</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::callLLM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Call LLM for inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Call LLM.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt to send to LLM </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>LLM response</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), size(), <ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a2f29d29790a85e5ad656014534dc6fa0" kindref="member">LLMIntegration::getInferenceEngine()</ref>, std::to_string(), fetch_add(), submit(), get(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="144" column="25" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="325" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1aff9a708185cc3099eb817c442ec07490" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::rag::LLMMetaAnalyzer::exportMetrics</definition>
+        <argsstring>(std::unordered_map&lt; std::string, double &gt; &amp;metrics)</argsstring>
+        <name>exportMetrics</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::exportMetrics</qualifiedname>
+        <param>
+          <type>std::unordered_map&lt; std::string, double &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Export metrics for monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map to store metrics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="150" column="18" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="361" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a649c52e12611e28f5b851a6da755da34" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::LLMMetaAnalyzer::computeCacheKey</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>computeCacheKey</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::computeCacheKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Compute cache key for input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Cache Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Cache key</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), THEMIS_WARN(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_meta_analyzer.h" line="157" column="17" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="384" bodyend="403"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base class for LLM-based meta-analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides shared infrastructure for:<itemizedlist>
+<listitem><para>Ethics Judge (detect ethical implications)</para>
+</listitem><listitem><para>Quality Judge (evaluate RAG quality)</para>
+</listitem><listitem><para>Gap Detector (detect knowledge gaps) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/llm_meta_analyzer.h" line="29" column="1" bodyfile="include/rag/llm_meta_analyzer.h" bodystart="29" bodyend="162"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1aef8d3a16e656922080b76691b24cf591" prot="protected" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>buildPrompt</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1add6fb623c24216949294b8f63f05b718" prot="protected" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>buildPromptWithCoT</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a02bfdb1f593a1535e6951dd1e7e50fd5" prot="protected" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>buildPromptWithCoT</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1ab77697e2179f8e7b5631540e9e2cfa94" prot="protected" virt="virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>callLLM</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a186499a3c5a95d1c071cee2c76311a6b" prot="public" virt="virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a649c52e12611e28f5b851a6da755da34" prot="protected" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>computeCacheKey</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1aff9a708185cc3099eb817c442ec07490" prot="protected" virt="virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>exportMetrics</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a151cec866744cdb7be8033a1958820c9" prot="protected" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>extractReasoning</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1aaaa53af682c90da0f24ce9e7bbe6ea4c" prot="public" virt="virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a2bb8402d9ba177c2382919ccb7d93260" prot="private" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a65440d4d762f9df57f4c785e35444588" prot="public" virt="virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>loadConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1a3d9b35fd1486dd65d494d3c9f8e99cb6" prot="protected" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>parseResponse</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1acf607c0ee7cab74781d64bc03605cfb7" prot="protected" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>parseScore</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_meta_analyzer_1ab6a2c1da6ca55ec3b5ffdab8592caec9" prot="public" virt="virtual"><scope>themis::rag::LLMMetaAnalyzer</scope><name>~LLMMetaAnalyzer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

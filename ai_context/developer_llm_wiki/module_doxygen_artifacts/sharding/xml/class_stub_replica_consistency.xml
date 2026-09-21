@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_replica_consistency" kind="class" language="C++" prot="public">
+    <compoundname>StubReplicaConsistency</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_stub_replica_consistency_1a5a31305d44dc6eea5040c63a4026c37b" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>using StubReplicaConsistency::ConflictCallback = std::function&lt;std::string(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ConflictCallback</name>
+        <qualifiedname>StubReplicaConsistency::ConflictCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="155" column="5" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_replica_consistency_1a57bf5614785c3d2229cec3c46f806f62" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubReplicaConsistency::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>StubReplicaConsistency::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="190" column="24" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_replica_consistency_1a5cba028fc8fa5a224938ee51d1eece26" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::pair&lt;std::string,std::string&gt; &gt; &gt; StubReplicaConsistency::history_</definition>
+        <argsstring></argsstring>
+        <name>history_</name>
+        <qualifiedname>StubReplicaConsistency::history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="191" column="14" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_replica_consistency_1a2bc36aa96522536b547acd99ec5227b2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t StubReplicaConsistency::total_writes_</definition>
+        <argsstring></argsstring>
+        <name>total_writes_</name>
+        <qualifiedname>StubReplicaConsistency::total_writes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="192" column="24" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_replica_consistency_1ab22015b50db4f5f6eaeb5b7e38e2bd21" prot="private" static="no" mutable="no">
+        <type><ref refid="class_stub_replica_consistency_1a5a31305d44dc6eea5040c63a4026c37b" kindref="member">ConflictCallback</ref></type>
+        <definition>ConflictCallback StubReplicaConsistency::conflict_callback_</definition>
+        <argsstring></argsstring>
+        <name>conflict_callback_</name>
+        <qualifiedname>StubReplicaConsistency::conflict_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="193" column="24" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_replica_consistency_1a115af27e5606e97ea6f04de0424450ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubReplicaConsistency::recordWrite</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;data, const std::string &amp;node)</argsstring>
+        <name>recordWrite</name>
+        <qualifiedname>StubReplicaConsistency::recordWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="157" column="10" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="157" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_replica_consistency_1ac9407159b1817241ba456941b7a3ba57" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; StubReplicaConsistency::getHistory</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>StubReplicaConsistency::getHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="163" column="17" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="163" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_replica_consistency_1a9741e8b659000528428ab2b1c05a30b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubReplicaConsistency::setConflictCallback</definition>
+        <argsstring>(ConflictCallback cb)</argsstring>
+        <name>setConflictCallback</name>
+        <qualifiedname>StubReplicaConsistency::setConflictCallback</qualifiedname>
+        <param>
+          <type><ref refid="class_stub_replica_consistency_1a5a31305d44dc6eea5040c63a4026c37b" kindref="member">ConflictCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="170" column="10" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="170" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_replica_consistency_1a8ad687fad52317bdd7c284efdc1b4e9e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string StubReplicaConsistency::resolveConflict</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>resolveConflict</name>
+        <qualifiedname>StubReplicaConsistency::resolveConflict</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="176" column="17" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="176" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_replica_consistency_1ad8ca8a459243d5ca1eff42384ff2b5ba" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubReplicaConsistency::totalWrites</definition>
+        <argsstring>() const</argsstring>
+        <name>totalWrites</name>
+        <qualifiedname>StubReplicaConsistency::totalWrites</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="184" column="14" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="184" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub ReplicaConsistencyManager surface that mirrors the real class concurrency contract: mutex_ covers all shared state including conflict_callback_. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" line="153" column="1" bodyfile="tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp" bodystart="153" bodyend="194"/>
+    <listofallmembers>
+      <member refid="class_stub_replica_consistency_1ab22015b50db4f5f6eaeb5b7e38e2bd21" prot="private" virt="non-virtual"><scope>StubReplicaConsistency</scope><name>conflict_callback_</name></member>
+      <member refid="class_stub_replica_consistency_1a5a31305d44dc6eea5040c63a4026c37b" prot="public" virt="non-virtual"><scope>StubReplicaConsistency</scope><name>ConflictCallback</name></member>
+      <member refid="class_stub_replica_consistency_1ac9407159b1817241ba456941b7a3ba57" prot="public" virt="non-virtual"><scope>StubReplicaConsistency</scope><name>getHistory</name></member>
+      <member refid="class_stub_replica_consistency_1a5cba028fc8fa5a224938ee51d1eece26" prot="private" virt="non-virtual"><scope>StubReplicaConsistency</scope><name>history_</name></member>
+      <member refid="class_stub_replica_consistency_1a57bf5614785c3d2229cec3c46f806f62" prot="private" virt="non-virtual"><scope>StubReplicaConsistency</scope><name>mutex_</name></member>
+      <member refid="class_stub_replica_consistency_1a115af27e5606e97ea6f04de0424450ef" prot="public" virt="non-virtual"><scope>StubReplicaConsistency</scope><name>recordWrite</name></member>
+      <member refid="class_stub_replica_consistency_1a8ad687fad52317bdd7c284efdc1b4e9e" prot="public" virt="non-virtual"><scope>StubReplicaConsistency</scope><name>resolveConflict</name></member>
+      <member refid="class_stub_replica_consistency_1a9741e8b659000528428ab2b1c05a30b4" prot="public" virt="non-virtual"><scope>StubReplicaConsistency</scope><name>setConflictCallback</name></member>
+      <member refid="class_stub_replica_consistency_1a2bc36aa96522536b547acd99ec5227b2" prot="private" virt="non-virtual"><scope>StubReplicaConsistency</scope><name>total_writes_</name></member>
+      <member refid="class_stub_replica_consistency_1ad8ca8a459243d5ca1eff42384ff2b5ba" prot="public" virt="non-virtual"><scope>StubReplicaConsistency</scope><name>totalWrites</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

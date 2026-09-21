@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1security_1_1phase4__hardening" kind="namespace" language="C++">
+    <compoundname>themis::security::phase4_hardening</compoundname>
+    <innerclass refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" prot="public">themis::security::phase4_hardening::ValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator" prot="public">themis::security::phase4_hardening::InputValidator</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/input_validation.h" line="26" column="1"/>
+  </compounddef>
+</doxygen>

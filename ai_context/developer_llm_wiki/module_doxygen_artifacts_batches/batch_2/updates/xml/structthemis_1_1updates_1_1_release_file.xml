@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_release_file" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ReleaseFile</compoundname>
+    <includes refid="release__manifest_8h" local="no">release_manifest.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_release_file_1a4b39defeba3277ed988b9368083b3193" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ReleaseFile::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::updates::ReleaseFile::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="30" column="17" bodyfile="include/updates/release_manifest.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_release_file_1a0e21a44ff1eef08bed1f2f85564ada60" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ReleaseFile::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::updates::ReleaseFile::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="31" column="17" bodyfile="include/updates/release_manifest.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_release_file_1ae2306d1fbdcc5405250191c944f39fa5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ReleaseFile::sha256_hash</definition>
+        <argsstring></argsstring>
+        <name>sha256_hash</name>
+        <qualifiedname>themis::updates::ReleaseFile::sha256_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="34" column="17" bodyfile="include/updates/release_manifest.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_release_file_1aa164d8260418715706bbc28e398b9e27" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::ReleaseFile::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::updates::ReleaseFile::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="35" column="14" bodyfile="include/updates/release_manifest.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_release_file_1a05c50f914c7c7ab07dcaae526aa138f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ReleaseFile::file_signature</definition>
+        <argsstring></argsstring>
+        <name>file_signature</name>
+        <qualifiedname>themis::updates::ReleaseFile::file_signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="38" column="17" bodyfile="include/updates/release_manifest.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_release_file_1a844ff169ef42c4517ec5d791a96be560" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ReleaseFile::platform</definition>
+        <argsstring></argsstring>
+        <name>platform</name>
+        <qualifiedname>themis::updates::ReleaseFile::platform</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="41" column="17" bodyfile="include/updates/release_manifest.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_release_file_1a6bb58b36fb45a4fbc117bba38433710c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ReleaseFile::architecture</definition>
+        <argsstring></argsstring>
+        <name>architecture</name>
+        <qualifiedname>themis::updates::ReleaseFile::architecture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="42" column="17" bodyfile="include/updates/release_manifest.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_release_file_1a61268c90824672fb217133f6eb0ea734" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ReleaseFile::permissions</definition>
+        <argsstring></argsstring>
+        <name>permissions</name>
+        <qualifiedname>themis::updates::ReleaseFile::permissions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="45" column="17" bodyfile="include/updates/release_manifest.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_release_file_1add369947d7d0ae7eceed8f339287165b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ReleaseFile::download_url</definition>
+        <argsstring></argsstring>
+        <name>download_url</name>
+        <qualifiedname>themis::updates::ReleaseFile::download_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="48" column="17" bodyfile="include/updates/release_manifest.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_release_file_1a01c8b2461e3d36e209d244b14ce688c7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::ReleaseFile::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::updates::ReleaseFile::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="51" column="10" bodyfile="include/updates/release_manifest.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_release_file_1af25ba859b50eadc327fefd87abe94c40" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::ReleaseFile::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::updates::ReleaseFile::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="56" column="10" bodyfile="src/updates/release_manifest.cpp" bodystart="25" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_release_file_1a5618c727487a08b166c29c9bfd147a7d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref> &gt;</type>
+        <definition>std::optional&lt; ReleaseFile &gt; themis::updates::ReleaseFile::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::updates::ReleaseFile::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Parse from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="61" column="26" bodyfile="src/updates/release_manifest.cpp" bodystart="60" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Information about a single file in a release. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/release_manifest.h" line="28" column="1" bodyfile="include/updates/release_manifest.h" bodystart="28" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_release_file_1a6bb58b36fb45a4fbc117bba38433710c" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>architecture</name></member>
+      <member refid="structthemis_1_1updates_1_1_release_file_1add369947d7d0ae7eceed8f339287165b" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>download_url</name></member>
+      <member refid="structthemis_1_1updates_1_1_release_file_1a05c50f914c7c7ab07dcaae526aa138f0" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>file_signature</name></member>
+      <member refid="structthemis_1_1updates_1_1_release_file_1a5618c727487a08b166c29c9bfd147a7d" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1updates_1_1_release_file_1a01c8b2461e3d36e209d244b14ce688c7" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1updates_1_1_release_file_1a4b39defeba3277ed988b9368083b3193" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>path</name></member>
+      <member refid="structthemis_1_1updates_1_1_release_file_1a61268c90824672fb217133f6eb0ea734" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>permissions</name></member>
+      <member refid="structthemis_1_1updates_1_1_release_file_1a844ff169ef42c4517ec5d791a96be560" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>platform</name></member>
+      <member refid="structthemis_1_1updates_1_1_release_file_1ae2306d1fbdcc5405250191c944f39fa5" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>sha256_hash</name></member>
+      <member refid="structthemis_1_1updates_1_1_release_file_1aa164d8260418715706bbc28e398b9e27" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1updates_1_1_release_file_1af25ba859b50eadc327fefd87abe94c40" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1updates_1_1_release_file_1a0e21a44ff1eef08bed1f2f85564ada60" prot="public" virt="non-virtual"><scope>themis::updates::ReleaseFile</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

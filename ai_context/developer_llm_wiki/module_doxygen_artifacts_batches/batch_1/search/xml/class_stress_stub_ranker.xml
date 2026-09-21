@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_stub_ranker" kind="class" language="C++" prot="public">
+    <compoundname>StressStubRanker</compoundname>
+    <innerclass refid="struct_stress_stub_ranker_1_1_rank_result" prot="public">StressStubRanker::RankResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_stub_ranker_1ac41450eb4447440f5f2301947d457cce" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StressStubRanker::total_</definition>
+        <argsstring></argsstring>
+        <name>total_</name>
+        <qualifiedname>StressStubRanker::total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="67" column="17" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_stub_ranker_1a498993e107dabf39be8f88ba3e02e8f9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_stress_stub_ranker_1_1_rank_result" kindref="compound">RankResult</ref></type>
+        <definition>RankResult StressStubRanker::rank</definition>
+        <argsstring>(uint64_t doc_id, const std::string &amp;term)</argsstring>
+        <name>rank</name>
+        <qualifiedname>StressStubRanker::rank</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="60" column="16" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="60" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_stub_ranker_1a94869e359377d9d731bcbd30e94920cb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StressStubRanker::total</definition>
+        <argsstring>() const</argsstring>
+        <name>total</name>
+        <qualifiedname>StressStubRanker::total</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="65" column="14" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/search/test_search_highcardinality_stress.cpp" line="57" column="1" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="57" bodyend="68"/>
+    <listofallmembers>
+      <member refid="class_stress_stub_ranker_1a498993e107dabf39be8f88ba3e02e8f9" prot="public" virt="non-virtual"><scope>StressStubRanker</scope><name>rank</name></member>
+      <member refid="class_stress_stub_ranker_1a94869e359377d9d731bcbd30e94920cb" prot="public" virt="non-virtual"><scope>StressStubRanker</scope><name>total</name></member>
+      <member refid="class_stress_stub_ranker_1ac41450eb4447440f5f2301947d457cce" prot="private" virt="non-virtual"><scope>StressStubRanker</scope><name>total_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

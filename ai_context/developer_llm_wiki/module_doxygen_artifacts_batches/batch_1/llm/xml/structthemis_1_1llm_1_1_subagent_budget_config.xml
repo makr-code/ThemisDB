@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_budget_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentBudgetConfig</compoundname>
+    <includes refid="subagent__config_8h" local="no">subagent_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_budget_config_1a2c3076f7625ed2f8cb94ab5a14e96d45" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentBudgetConfig::max_tokens_per_minute</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_per_minute</name>
+        <qualifiedname>themis::llm::SubagentBudgetConfig::max_tokens_per_minute</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="110" column="12" bodyfile="include/llm/subagent_config.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_budget_config_1a45a4f26a7dc4b115e4c79391933370a8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SubagentBudgetConfig::max_tokens_per_request</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_per_request</name>
+        <qualifiedname>themis::llm::SubagentBudgetConfig::max_tokens_per_request</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="112" column="9" bodyfile="include/llm/subagent_config.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_budget_config_1ad221e774d3d7fc91832e2267e0106738" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SubagentBudgetConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::llm::SubagentBudgetConfig::timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="114" column="9" bodyfile="include/llm/subagent_config.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_budget_config_1a610f628bb8ebcaea33bff6be00991ad3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SubagentBudgetConfig::max_concurrent_requests</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_requests</name>
+        <qualifiedname>themis::llm::SubagentBudgetConfig::max_concurrent_requests</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="116" column="9" bodyfile="include/llm/subagent_config.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_budget_config_1aa2efe73815d0b6820c4610f9262b6a84" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SubagentBudgetConfig::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::llm::SubagentBudgetConfig::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="118" column="9" bodyfile="include/llm/subagent_config.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/subagent_config.h" line="109" column="1" bodyfile="include/llm/subagent_config.h" bodystart="109" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_budget_config_1a610f628bb8ebcaea33bff6be00991ad3" prot="public" virt="non-virtual"><scope>themis::llm::SubagentBudgetConfig</scope><name>max_concurrent_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_budget_config_1a2c3076f7625ed2f8cb94ab5a14e96d45" prot="public" virt="non-virtual"><scope>themis::llm::SubagentBudgetConfig</scope><name>max_tokens_per_minute</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_budget_config_1a45a4f26a7dc4b115e4c79391933370a8" prot="public" virt="non-virtual"><scope>themis::llm::SubagentBudgetConfig</scope><name>max_tokens_per_request</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_budget_config_1aa2efe73815d0b6820c4610f9262b6a84" prot="public" virt="non-virtual"><scope>themis::llm::SubagentBudgetConfig</scope><name>priority</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_budget_config_1ad221e774d3d7fc91832e2267e0106738" prot="public" virt="non-virtual"><scope>themis::llm::SubagentBudgetConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

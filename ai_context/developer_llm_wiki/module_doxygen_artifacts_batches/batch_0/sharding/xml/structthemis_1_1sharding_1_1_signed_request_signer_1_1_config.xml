@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SignedRequestSigner::Config</compoundname>
+    <includes refid="signed__request_8h" local="no">signed_request.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config_1a11407545f375fd53cdfa8477d3892428" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequestSigner::Config::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::Config::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="96" column="21" bodyfile="include/sharding/signed_request.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config_1a07e3abd08917eee3d9dac0cfcae543f8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequestSigner::Config::cert_path</definition>
+        <argsstring></argsstring>
+        <name>cert_path</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::Config::cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="97" column="21" bodyfile="include/sharding/signed_request.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config_1acbbe747bc63db9b235116641ecf94493" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequestSigner::Config::key_path</definition>
+        <argsstring></argsstring>
+        <name>key_path</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::Config::key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="98" column="21" bodyfile="include/sharding/signed_request.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config_1aa74b0dc2beafd8791468df3c9b172fc6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequestSigner::Config::key_passphrase</definition>
+        <argsstring></argsstring>
+        <name>key_passphrase</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::Config::key_passphrase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="99" column="21" bodyfile="include/sharding/signed_request.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for signing context and key material. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/signed_request.h" line="95" column="5" bodyfile="include/sharding/signed_request.h" bodystart="95" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config_1a07e3abd08917eee3d9dac0cfcae543f8" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner::Config</scope><name>cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config_1aa74b0dc2beafd8791468df3c9b172fc6" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner::Config</scope><name>key_passphrase</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config_1acbbe747bc63db9b235116641ecf94493" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner::Config</scope><name>key_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config_1a11407545f375fd53cdfa8477d3892428" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner::Config</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

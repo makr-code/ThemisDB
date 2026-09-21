@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_predicate_filter" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::PredicateFilter</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_event_filter" prot="public" virt="non-virtual">themis::cdc::IEventFilter</basecompoundref>
+    <includes refid="icdc__filter__pipeline_8h" local="no">icdc_filter_pipeline.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1cdc_1_1_predicate_filter_1a162283417b4102082ce075fefbeab642" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::cdc::PredicateFilter::Predicate = std::function&lt;bool(const Changefeed::ChangeEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>Predicate</name>
+        <qualifiedname>themis::cdc::PredicateFilter::Predicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="73" column="5" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_predicate_filter_1adc1865c9a37f82bd120b4b5b42f3e40c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::PredicateFilter::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::cdc::PredicateFilter::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="91" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_predicate_filter_1a4499150ce005c3aab9881d13c23d6974" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_predicate_filter_1a162283417b4102082ce075fefbeab642" kindref="member">Predicate</ref></type>
+        <definition>Predicate themis::cdc::PredicateFilter::pred_</definition>
+        <argsstring></argsstring>
+        <name>pred_</name>
+        <qualifiedname>themis::cdc::PredicateFilter::pred_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="92" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_predicate_filter_1afe66448667fcbb5cf26366c12857e629" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::PredicateFilter::PredicateFilter</definition>
+        <argsstring>(std::string name, Predicate pred)</argsstring>
+        <name>PredicateFilter</name>
+        <qualifiedname>themis::cdc::PredicateFilter::PredicateFilter</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_predicate_filter_1a162283417b4102082ce075fefbeab642" kindref="member">Predicate</ref></type>
+          <declname>pred</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="75" column="5" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="75" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_predicate_filter_1ac92cb6e9cae7f30fd699f14025393cc5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1abdbe05b7728a134e52ccf6eba10d2a39" kindref="member">FilterResult</ref></type>
+        <definition>FilterResult themis::cdc::PredicateFilter::evaluate</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event) const noexcept override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::cdc::PredicateFilter::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_event_filter_1a58670484e3fe0e056674a898e78c86d6">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="78" column="18" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="78" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_predicate_filter_1a08927c2f5a289a3a616af9989bfe115c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::PredicateFilter::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::cdc::PredicateFilter::name</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_event_filter_1a385a5c1a468ddc4f75ffab8c2149582f">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="88" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::IEventFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_i_event_filter"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::PredicateFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_predicate_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::IEventFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_i_event_filter"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::PredicateFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_predicate_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/icdc_filter_pipeline.h" line="71" column="1" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="71" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_predicate_filter_1ac92cb6e9cae7f30fd699f14025393cc5" prot="public" virt="virtual"><scope>themis::cdc::PredicateFilter</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1cdc_1_1_predicate_filter_1a08927c2f5a289a3a616af9989bfe115c" prot="public" virt="virtual"><scope>themis::cdc::PredicateFilter</scope><name>name</name></member>
+      <member refid="classthemis_1_1cdc_1_1_predicate_filter_1adc1865c9a37f82bd120b4b5b42f3e40c" prot="private" virt="non-virtual"><scope>themis::cdc::PredicateFilter</scope><name>name_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_predicate_filter_1a4499150ce005c3aab9881d13c23d6974" prot="private" virt="non-virtual"><scope>themis::cdc::PredicateFilter</scope><name>pred_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_predicate_filter_1a162283417b4102082ce075fefbeab642" prot="public" virt="non-virtual"><scope>themis::cdc::PredicateFilter</scope><name>Predicate</name></member>
+      <member refid="classthemis_1_1cdc_1_1_predicate_filter_1afe66448667fcbb5cf26366c12857e629" prot="public" virt="non-virtual"><scope>themis::cdc::PredicateFilter</scope><name>PredicateFilter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_event_filter_1ad47cd016fe06b408ca021af83d61ecce" prot="public" virt="virtual"><scope>themis::cdc::PredicateFilter</scope><name>~IEventFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

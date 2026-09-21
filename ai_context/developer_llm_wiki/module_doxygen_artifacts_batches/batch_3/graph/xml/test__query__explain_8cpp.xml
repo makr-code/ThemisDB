@@ -1,0 +1,950 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__query__explain_8cpp" kind="file" language="C++">
+    <compoundname>test_query_explain.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="graph__query__optimizer_8h" local="yes">graph/graph_query_optimizer.h</includes>
+    <includes refid="path__constraints_8h" local="yes">graph/path_constraints.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>graph/graph_query_optimizer.h</label>
+        <link refid="graph__query__optimizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>graph/ontology_manager.h</label>
+        <link refid="ontology__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>graph/path_constraints.h</label>
+        <link refid="path__constraints_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/graph/test_query_explain.cpp</label>
+        <link refid="test__query__explain_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="26">
+        <label>filesystem</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="17">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>index/graph_analytics.h</label>
+      </node>
+      <node id="4">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="13">
+        <label>list</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="18">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>shared_mutex</label>
+      </node>
+      <node id="25">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="24">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="21">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>unordered_set</label>
+      </node>
+      <node id="23">
+        <label>utility</label>
+      </node>
+      <node id="6">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_graph_query_explain_test" prot="public">GraphQueryExplainTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ExplainPlan_ShortestPath_ContainsAlgorithmAndPattern)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainPlan_ShortestPath_ContainsAlgorithmAndPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="91" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="91" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a3664a0dc6e58834fb00b90365ed4f181" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ExplainPlan_ContainsCostAndTimeFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainPlan_ContainsCostAndTimeFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="108" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="108" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a80bf3111b3ae3c689a38af4b4ea24099" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ExplainPlan_KHop_ContainsKHopPattern)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainPlan_KHop_ContainsKHopPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="118" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="118" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a79d2a35147739808e63cbadc7706334c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ExplainPlan_Reachability_ContainsReachabilityPattern)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainPlan_Reachability_ContainsReachabilityPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="126" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="126" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1ae1589f8cf33a48afc10d02050beb59ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ExplainPlan_PatternMatch_ContainsPatternMatchPattern)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainPlan_PatternMatch_ContainsPatternMatchPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="134" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="134" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a609eb04e47c70e69a06b191d59ee5745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ExplainPlan_ContainsIndexAndCacheFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainPlan_ContainsIndexAndCacheFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="144" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="144" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1aab8e9666f2a669a154ad3e4ca794b7e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, OptimizationPlan_ShortestPath_HasPositiveCost)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>OptimizationPlan_ShortestPath_HasPositiveCost</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="159" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="159" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1ac626ae12df1dd47d882e234f132ba16f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, OptimizationPlan_KHop_AlgorithmIsBFS)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>OptimizationPlan_KHop_AlgorithmIsBFS</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="168" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="168" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a472c376c0e8857522980754a3190405c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, OptimizationPlan_Alternatives_NotEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>OptimizationPlan_Alternatives_NotEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="177" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="177" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a3651897ce5e5d6697c3c49a12484ca05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ExplainPlan_Alternatives_ListedInText)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainPlan_Alternatives_ListedInText</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="186" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="186" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1af9fafdda352c8bed46514ca7ff1b1d2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ExplainConstrainedPath_ReturnsPlan)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainConstrainedPath_ReturnsPlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="200" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="200" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a48d4fdc9314f5ef508f81db51ba2eddf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ExplainConstrainedPath_NoExecutionSideEffect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainConstrainedPath_NoExecutionSideEffect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="210" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="210" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a023b05f2b056fcf66b15c8087d7a3d73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ExplainConstrainedPath_WithForbiddenNode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainConstrainedPath_WithForbiddenNode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="230" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="230" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a39f4eb89297f4f6fffcd7b5f0e762580" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ExplainConstrainedPath_ExplanationNonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainConstrainedPath_ExplanationNonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="239" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="239" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a731e402a6409e7a100d41302254ca5c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, Constraints_MaxDepth_ReflectedInPlan)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>Constraints_MaxDepth_ReflectedInPlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="256" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="256" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a1c21bd846eaae47ade8b4f8c621eb32e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, Constraints_EnableParallel_ReflectedInPlan)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>Constraints_EnableParallel_ReflectedInPlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="266" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="266" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1aa66d82229759490e113f7be5731098e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, StructuralReuse_ExplanationConsistent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>StructuralReuse_ExplanationConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="283" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="283" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1a2d4fb5dff72de0e61069e8b99f2ebc6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ShortestPathWithConstraints_ExplainPlanValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ShortestPathWithConstraints_ExplainPlanValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="305" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="305" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1ac9f63ba034fb9224f9049637f890c3c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ReachabilityWithConstraints_ExplainPlanValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ReachabilityWithConstraints_ExplainPlanValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="319" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="319" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1ac3bf20334c13671ab388ac935bfe3a41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, ClearPlanCache_ExplainStillWorksAfterClear)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>ClearPlanCache_ExplainStillWorksAfterClear</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="335" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="335" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__explain_8cpp_1afd986634db6a54e2bca9ceeafc991946" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GraphQueryExplainTest, CachingDisabled_FreshPlanOnEachCall)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref></type>
+        </param>
+        <param>
+          <type>CachingDisabled_FreshPlanOnEachCall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="353" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="353" bodyend="364"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused unit tests for the graph query EXPLAIN API (Issue #1816). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers:<itemizedlist>
+<listitem><para>GraphQueryOptimizer::explainPlan() for all QueryPattern / TraversalAlgorithm combinations</para>
+</listitem><listitem><para>explainConstrainedPath() dry-run guarantee (no execution side-effects)</para>
+</listitem><listitem><para>optimizeShortestPath(), optimizeKHopNeighborhood(), optimizeReachability(), optimizePatternMatch() + explainPlan() integration</para>
+</listitem><listitem><para>Plan JSON fields: algorithm, pattern, estimated_cost, estimated_time_ms, estimated_nodes_explored, use_index, use_cache, early_termination, parallel_execution, is_distributed, alternatives, explanation</para>
+</listitem><listitem><para>Explanation text content (human-readable breakdown)</para>
+</listitem><listitem><para>Plan cache interaction: structural reuse keeps explanation consistent</para>
+</listitem><listitem><para>Distributed plan explanation (shard info in text)</para>
+</listitem><listitem><para>Error handling: unsupported query type, missing required fields </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__query__optimizer_8h" kindref="compound">graph/graph_query_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="path__constraints_8h" kindref="compound">graph/path_constraints.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="class_graph_query_explain_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graph_query_explain_test_1a68d9bfe725118d3c0dac36c09a4675a7" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_query_explain_test_1a83af28d35edc3d35069367dc2548e843" kindref="member">test_db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/themis_graph_explain_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_graph_query_explain_test_1a83af28d35edc3d35069367dc2548e843" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>config;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_graph_query_explain_test_1a83af28d35edc3d35069367dc2548e843" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.memtable_size_mb<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.block_cache_size_mb<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.max_background_jobs<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_query_explain_test_1ae65409d74add8f58fa1215e1bec68d22" kindref="member">db_</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;themis::RocksDBWrapper&gt;(config);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_graph_query_explain_test_1ae65409d74add8f58fa1215e1bec68d22" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_query_explain_test_1a2728500c2b36918857ed2f7830936970" kindref="member">graph_mgr_</ref><sp/>=<sp/>std::make_unique&lt;themis::GraphIndexManager&gt;(*<ref refid="class_graph_query_explain_test_1ae65409d74add8f58fa1215e1bec68d22" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_query_explain_test_1a6dfa00f1c6caf6cbdebe7c83d8fdb835" kindref="member">optimizer_</ref><sp/>=<sp/>std::make_unique&lt;themis::graph::GraphQueryOptimizer&gt;(*<ref refid="class_graph_query_explain_test_1a2728500c2b36918857ed2f7830936970" kindref="member">graph_mgr_</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_query_explain_test_1a95769a06841da5fd714da4a6f6dc7466" kindref="member">buildGraph</ref>();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graph_query_explain_test_1abb58c244e1866da3379ebc11ebb5b24a" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_query_explain_test_1a6dfa00f1c6caf6cbdebe7c83d8fdb835" kindref="member">optimizer_</ref>.reset();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_query_explain_test_1a2728500c2b36918857ed2f7830936970" kindref="member">graph_mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_query_explain_test_1ae65409d74add8f58fa1215e1bec68d22" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_graph_query_explain_test_1a83af28d35edc3d35069367dc2548e843" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>small<sp/>directed<sp/>graph:<sp/>A→B→C→D,<sp/>A→C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graph_query_explain_test_1a95769a06841da5fd714da4a6f6dc7466" kindref="member">buildGraph</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addEdge<sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>id,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>weight<sp/>=<sp/>1.0)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::BaseEntity<sp/>e(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>from);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>to);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;_weight&quot;</highlight><highlight class="normal">,<sp/>std::to_string(weight));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_query_explain_test_1a2728500c2b36918857ed2f7830936970" kindref="member">graph_mgr_</ref>-&gt;addEdge(e);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>1.0);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/>1.0);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,<sp/>1.0);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addEdge(</highlight><highlight class="stringliteral">&quot;e4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/>2.0);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_graph_query_explain_test_1a83af28d35edc3d35069367dc2548e843" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_query_explain_test_1ae65409d74add8f58fa1215e1bec68d22" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::GraphIndexManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_query_explain_test_1a2728500c2b36918857ed2f7830936970" kindref="member">graph_mgr_</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::graph::GraphQueryOptimizer&gt;<sp/><sp/><ref refid="class_graph_query_explain_test_1a6dfa00f1c6caf6cbdebe7c83d8fdb835" kindref="member">optimizer_</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>explainPlan()<sp/>—<sp/>text<sp/>output<sp/>correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ExplainPlan_ShortestPath_ContainsAlgorithmAndPattern)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer_-&gt;explainPlan(result.value());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(explanation.empty());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Shortest<sp/>Path&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Explanation<sp/>must<sp/>name<sp/>the<sp/>query<sp/>pattern&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Algorithm<sp/>must<sp/>be<sp/>one<sp/>of<sp/>the<sp/>known<sp/>names</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_algo<sp/>=<sp/>explanation.find(</highlight><highlight class="stringliteral">&quot;BFS&quot;</highlight><highlight class="normal">)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>explanation.find(</highlight><highlight class="stringliteral">&quot;DFS&quot;</highlight><highlight class="normal">)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>explanation.find(</highlight><highlight class="stringliteral">&quot;Dijkstra&quot;</highlight><highlight class="normal">)<sp/><sp/><sp/><sp/><sp/><sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>explanation.find(</highlight><highlight class="stringliteral">&quot;Bidirectional&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>explanation.find(</highlight><highlight class="stringliteral">&quot;A*&quot;</highlight><highlight class="normal">)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_algo)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Explanation<sp/>must<sp/>name<sp/>the<sp/>selected<sp/>algorithm&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ExplainPlan_ContainsCostAndTimeFields)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer_-&gt;explainPlan(result.value());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Estimated<sp/>Cost:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Estimated<sp/>Time:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Estimated<sp/>Nodes:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ExplainPlan_KHop_ContainsKHopPattern)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeKHopNeighborhood(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer_-&gt;explainPlan(result.value());</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;K-Hop&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ExplainPlan_Reachability_ContainsReachabilityPattern)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeReachability(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer_-&gt;explainPlan(result.value());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Reachability&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ExplainPlan_PatternMatch_ContainsPatternMatchPattern)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>pverts<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Y&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Z&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/>pedges<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Y&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Y&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Z&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizePatternMatch(pverts,<sp/>pedges);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer_-&gt;explainPlan(result.value());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Pattern<sp/>Match&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ExplainPlan_ContainsIndexAndCacheFields)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer_-&gt;explainPlan(result.value());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Use<sp/>Index:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Use<sp/>Cache:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Early<sp/>Termination:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Parallel<sp/>Execution:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>explainPlan()<sp/>—<sp/>plan<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>OptimizationPlan_ShortestPath_HasPositiveCost)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.value().estimated_cost,<sp/>0.0);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.value().estimated_time_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.value().estimated_nodes_explored,<sp/>0u);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>OptimizationPlan_KHop_AlgorithmIsBFS)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeKHopNeighborhood(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">Algo<sp/>=<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">themis::graph::GraphQueryOptimizer::TraversalAlgorithm</ref>;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>k-hop<sp/>neighborhood<sp/>is<sp/>typically<sp/>BFS-optimised</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.value().algorithm,<sp/>Algo::BFS);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>OptimizationPlan_Alternatives_NotEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>optimizeShortestPath<sp/>considers<sp/>multiple<sp/>algorithms;<sp/>alternatives<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>should<sp/>be<sp/>populated.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.value().alternatives.empty());</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ExplainPlan_Alternatives_ListedInText)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.value().alternatives.empty())<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer_-&gt;explainPlan(result.value());</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Alternatives<sp/>Considered:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>explainConstrainedPath()<sp/>—<sp/>dry-run<sp/>(no<sp/>execution<sp/>side-effects)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ExplainConstrainedPath_ReturnsPlan)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">themis::graph::PathConstraints</ref><sp/>pc(graph_mgr_.get());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.addMinLength(1);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.addMaxLength(4);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;explainConstrainedPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,<sp/>pc);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;explainConstrainedPath<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.value().estimated_cost,<sp/>0.0);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ExplainConstrainedPath_NoExecutionSideEffect)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>query<sp/>count<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>metrics_before<sp/>=<sp/>optimizer_-&gt;getQueryMetrics();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>queries_before<sp/>=<sp/>metrics_before.total_queries.load();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">themis::graph::PathConstraints</ref><sp/>pc(graph_mgr_.get());</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.addMaxLength(3);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>explain_result<sp/>=<sp/>optimizer_-&gt;explainConstrainedPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,<sp/>pc);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(explain_result);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>the<sp/>execution<sp/>counter<sp/>is<sp/>checked<sp/>here:<sp/>explainConstrainedPath<sp/>is<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pure<sp/>dry-run<sp/>wrapper<sp/>around<sp/>optimizeConstrainedPath,<sp/>which<sp/>generates<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cost<sp/>plan<sp/>without<sp/>traversing<sp/>the<sp/>graph.<sp/><sp/>Verifying<sp/>total_queries=0<sp/>is<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>canonical<sp/>side-effect<sp/>guard;<sp/>cache<sp/>population<sp/>that<sp/>may<sp/>occur<sp/>as<sp/>a<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>of<sp/>plan<sp/>caching<sp/>is<sp/>intentional<sp/>and<sp/>not<sp/>considered<sp/>a<sp/>&quot;execution&quot;<sp/>side-effect.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>metrics_after<sp/>=<sp/>optimizer_-&gt;getQueryMetrics();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics_after.total_queries.load(),<sp/>queries_before)</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;explainConstrainedPath<sp/>must<sp/>not<sp/>increment<sp/>total_queries&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ExplainConstrainedPath_WithForbiddenNode)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">themis::graph::PathConstraints</ref><sp/>pc(graph_mgr_.get());</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.addForbiddenNode(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.addMaxLength(5);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;explainConstrainedPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,<sp/>pc);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ExplainConstrainedPath_ExplanationNonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">themis::graph::PathConstraints</ref><sp/>pc(graph_mgr_.get());</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.addMinLength(2);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.addMaxLength(4);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.requireUniqueNodes();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;explainConstrainedPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,<sp/>pc);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer_-&gt;explainPlan(result.value());</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(explanation.empty());</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constraints<sp/>reflected<sp/>in<sp/>plan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>Constraints_MaxDepth_ReflectedInPlan)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">themis::graph::GraphQueryOptimizer::QueryConstraints</ref><sp/>qc;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>qc.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4e479324ca540cafc647d9c5cfaed104" kindref="member">max_depth</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeKHopNeighborhood(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>2,<sp/>qc);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plan<sp/>should<sp/>reflect<sp/>depth<sp/>constraint<sp/>in<sp/>cost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.value().estimated_cost,<sp/>0.0);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>Constraints_EnableParallel_ReflectedInPlan)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">themis::graph::GraphQueryOptimizer::QueryConstraints</ref><sp/>qc;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>qc.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a3f01a2e1da5a15962b039135a3670b55" kindref="member">enable_parallel</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeKHopNeighborhood(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>qc);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.value().enable_parallel);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer_-&gt;explainPlan(result.value());</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Yes&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Explanation<sp/>must<sp/>report<sp/>parallel<sp/>execution<sp/>as<sp/>Yes&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Structural<sp/>plan<sp/>reuse<sp/>keeps<sp/>explanation<sp/>consistent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>StructuralReuse_ExplanationConsistent)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>optimizer_-&gt;setPlanCachingEnabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r1.has_value());</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r2.has_value());</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>plans<sp/>should<sp/>select<sp/>the<sp/>same<sp/>algorithm<sp/>(structural<sp/>reuse)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.value().algorithm,<sp/>r2.value().algorithm);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>explanations<sp/>should<sp/>contain<sp/>the<sp/>same<sp/>pattern<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>e1<sp/>=<sp/>optimizer_-&gt;explainPlan(r1.value());</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>e2<sp/>=<sp/>optimizer_-&gt;explainPlan(r2.value());</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(e1.find(</highlight><highlight class="stringliteral">&quot;Shortest<sp/>Path&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(e2.find(</highlight><highlight class="stringliteral">&quot;Shortest<sp/>Path&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WithConstraints<sp/>overloads<sp/>also<sp/>produce<sp/>valid<sp/>explanations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ShortestPathWithConstraints_ExplainPlanValid)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">themis::graph::GraphQueryOptimizer::QueryConstraints</ref><sp/>qc;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>qc.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a4e479324ca540cafc647d9c5cfaed104" kindref="member">max_depth</ref><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>qc.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1aae5287ce7a3b213b4ef36c62e568e3e4" kindref="member">edge_type</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>qc.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1aa2866ef9973d9d5834861fa5b5b0a229" kindref="member">max_results</ref><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,<sp/>qc);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer_-&gt;explainPlan(result.value());</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(explanation.empty());</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Shortest<sp/>Path&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ReachabilityWithConstraints_ExplainPlanValid)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">themis::graph::GraphQueryOptimizer::QueryConstraints</ref><sp/>qc;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>qc.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a2229d51e81e5258f2717da9704109d7c" kindref="member">unique_vertices</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>qc.<ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints_1a3f01a2e1da5a15962b039135a3670b55" kindref="member">enable_parallel</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>optimizer_-&gt;optimizeReachability(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,<sp/>qc);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>explanation<sp/>=<sp/>optimizer_-&gt;explainPlan(result.value());</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Reachability&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ClearPlanCache<sp/>clears<sp/>EXPLAIN-cached<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>ClearPlanCache_ExplainStillWorksAfterClear)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>optimizer_-&gt;setPlanCachingEnabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r1.has_value());</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(optimizer_-&gt;explainPlan(r1.value()).empty());</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>optimizer_-&gt;clearPlanCache();</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r2.has_value());</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(optimizer_-&gt;explainPlan(r2.value()).empty());</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cache<sp/>disabled<sp/>—<sp/>every<sp/>explain<sp/>call<sp/>is<sp/>a<sp/>fresh<sp/>plan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><ref refid="test__query__explain_8cpp_1ad53a1abade544f1f80aefb26e64008b7" kindref="member">TEST_F</ref>(<ref refid="class_graph_query_explain_test" kindref="compound">GraphQueryExplainTest</ref>,<sp/>CachingDisabled_FreshPlanOnEachCall)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>optimizer_-&gt;setPlanCachingEnabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>optimizer_-&gt;optimizeShortestPath(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r1.has_value());</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r2.has_value());</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plans<sp/>may<sp/>be<sp/>identical<sp/>in<sp/>algorithm<sp/>but<sp/>must<sp/>each<sp/>have<sp/>valid<sp/>explanations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(optimizer_-&gt;explainPlan(r1.value()).empty());</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(optimizer_-&gt;explainPlan(r2.value()).empty());</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_query_explain.cpp"/>
+  </compounddef>
+</doxygen>

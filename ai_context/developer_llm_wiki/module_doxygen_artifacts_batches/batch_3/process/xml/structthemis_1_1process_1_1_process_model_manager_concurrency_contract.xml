@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_model_manager_concurrency_contract" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessModelManagerConcurrencyContract</compoundname>
+    <includes refid="process__concurrency__contract_8h" local="no">process_concurrency_contract.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a053fcd11c82bdaa5a2cc9939f796955c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" kindref="member">ConcurrencyPattern</ref></type>
+        <definition>ConcurrencyPattern themis::process::ProcessModelManagerConcurrencyContract::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::process::ProcessModelManagerConcurrencyContract::pattern</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa9eb39169b7db6ecee4ee0980284659bd" kindref="member">ConcurrencyPattern::SNAPSHOT_ISOLATION</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="187" column="41" bodyfile="include/process/process_concurrency_contract.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1ad8fd00e6204e5d36b94ea5202f13f5dc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403e" kindref="member">AtomicityScope</ref></type>
+        <definition>AtomicityScope themis::process::ProcessModelManagerConcurrencyContract::atomicity</definition>
+        <argsstring></argsstring>
+        <name>atomicity</name>
+        <qualifiedname>themis::process::ProcessModelManagerConcurrencyContract::atomicity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403eab51048a45735d4cb8579e7396b264483" kindref="member">AtomicityScope::SINGLE_ENTITY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="188" column="37" bodyfile="include/process/process_concurrency_contract.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a1d32d1aa1afbd3925787216c6c5bf36a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037" kindref="member">ConflictResolution</ref></type>
+        <definition>ConflictResolution themis::process::ProcessModelManagerConcurrencyContract::conflict_resolution</definition>
+        <argsstring></argsstring>
+        <name>conflict_resolution</name>
+        <qualifiedname>themis::process::ProcessModelManagerConcurrencyContract::conflict_resolution</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037a3247ad84b54dd5dd5cdf48354b0f4058" kindref="member">ConflictResolution::LAST_WRITE_WINS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="189" column="41" bodyfile="include/process/process_concurrency_contract.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a9ef7cfcdffefb2c2e0ed2a8853237209" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::ProcessModelManagerConcurrencyContract::describe</definition>
+        <argsstring>()</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::ProcessModelManagerConcurrencyContract::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="191" column="29" bodyfile="include/process/process_concurrency_contract.h" bodystart="191" bodyend="194"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safety guarantee for <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Pattern:</bold> SNAPSHOT_ISOLATION <linebreak/>
+ <bold>Atomicity:</bold> SINGLE_ENTITY (one model operation at a time) <linebreak/>
+ <bold>Conflict Resolution:</bold> LAST_WRITE_WINS (version clock ordering)</para>
+<para>Multiple threads may call create/retrieve/update/delete on different models concurrently. Concurrent updates to the <bold>same model</bold> use LWW conflict resolution with monotonic version clocks.</para>
+<para><simplesect kind="invariant"><para>Concurrent retrieve() calls return consistent snapshots. </para>
+</simplesect>
+<simplesect kind="invariant"><para>Concurrent update() calls are serialized via version clock. </para>
+</simplesect>
+<simplesect kind="invariant"><para>Version numbers form a total order (no ties). </para>
+</simplesect>
+<simplesect kind="invariant"><para>No write-write transactions or rollback. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_concurrency_contract.h" line="186" column="1" bodyfile="include/process/process_concurrency_contract.h" bodystart="186" bodyend="195"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1ad8fd00e6204e5d36b94ea5202f13f5dc" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManagerConcurrencyContract</scope><name>atomicity</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a1d32d1aa1afbd3925787216c6c5bf36a" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManagerConcurrencyContract</scope><name>conflict_resolution</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a9ef7cfcdffefb2c2e0ed2a8853237209" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManagerConcurrencyContract</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a053fcd11c82bdaa5a2cc9939f796955c" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManagerConcurrencyContract</scope><name>pattern</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

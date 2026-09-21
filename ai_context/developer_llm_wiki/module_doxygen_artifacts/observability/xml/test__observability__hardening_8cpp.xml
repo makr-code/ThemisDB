@@ -1,0 +1,1142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__observability__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_observability_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">spdlog/sinks/ostream_sink.h</includes>
+    <includes local="no">spdlog/spdlog.h</includes>
+    <includes local="yes">core/concerns/i_logger.h</includes>
+    <includes local="yes">core/concerns/noop_implementations.h</includes>
+    <includes local="yes">core/concerns/spdlog_logger_adapter.h</includes>
+    <includes refid="observability__api__contract_8h" local="yes">observability/observability_api_contract.h</includes>
+    <includes refid="metrics__collector_8h" local="yes">observability/metrics_collector.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="12">
+        <label>observability/metrics_collector.h</label>
+        <link refid="metrics__collector_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>observability/observability_api_contract.h</label>
+        <link refid="observability__api__contract_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/observability/test_observability_hardening.cpp</label>
+        <link refid="test__observability__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>core/concerns/i_logger.h</label>
+      </node>
+      <node id="6">
+        <label>core/concerns/noop_implementations.h</label>
+      </node>
+      <node id="7">
+        <label>core/concerns/spdlog_logger_adapter.h</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>map</label>
+      </node>
+      <node id="18">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>spdlog/sinks/ostream_sink.h</label>
+      </node>
+      <node id="4">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="19">
+        <label>sstream</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="20">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_spdlog_adapter_json_test" prot="public">SpdlogAdapterJsonTest</innerclass>
+    <innerclass refid="class_cardinality_test" prot="public">CardinalityTest</innerclass>
+    <innerclass refid="class_exporter_health_test" prot="public">ExporterHealthTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns">themis::core::concerns</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1ac83bd225a555f898a9bfaf0e4ab7a939" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::unique_ptr&lt; SpdlogLoggerAdapter &gt;, std::shared_ptr&lt; std::ostringstream &gt; &gt;</type>
+        <definition>static std::pair&lt; std::unique_ptr&lt; SpdlogLoggerAdapter &gt;, std::shared_ptr&lt; std::ostringstream &gt; &gt; makeCapturingAdapter</definition>
+        <argsstring>(bool json_mode)</argsstring>
+        <name>makeCapturingAdapter</name>
+        <param>
+          <type>bool</type>
+          <declname>json_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="34" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="34" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a47a60e383f38956bd756f4395684e0d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TraceContextTest, EmptyContext)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TraceContextTest</type>
+        </param>
+        <param>
+          <type>EmptyContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="50" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a1c815c0710e41688aa5d8511117eb944" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TraceContextTest, NonEmptyContext)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TraceContextTest</type>
+        </param>
+        <param>
+          <type>NonEmptyContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="57" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a03af75b8536a979998205a0be9ee4fca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TraceContextTest, PartialContext)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TraceContextTest</type>
+        </param>
+        <param>
+          <type>PartialContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="64" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a258d8af2b92a762e074e6f1cfd3924e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NoOpLoggerStructuredTest, LogStructuredDoesNotThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NoOpLoggerStructuredTest</type>
+        </param>
+        <param>
+          <type>LogStructuredDoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="73" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1acd88a0ae9d2bbeaf0707190895aec64f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NoOpLoggerStructuredTest, LogWithContextDoesNotThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NoOpLoggerStructuredTest</type>
+        </param>
+        <param>
+          <type>LogWithContextDoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="79" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="79" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a62d4afe6cc180d000683d05cdc7d3553" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpdlogAdapterJsonTest, JsonModeEnabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref></type>
+        </param>
+        <param>
+          <type>JsonModeEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="103" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1ad55a919cc06c78a32d995a359d4e43b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpdlogAdapterJsonTest, LogStructuredEmitsJsonObject)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref></type>
+        </param>
+        <param>
+          <type>LogStructuredEmitsJsonObject</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="107" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="107" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1ad8042308df8a79c8084bc972f0487166" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpdlogAdapterJsonTest, LogStructuredContainsTimestamp)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref></type>
+        </param>
+        <param>
+          <type>LogStructuredContainsTimestamp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="118" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="118" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1aff9e541c2b9289a58d47ac00f22d9fad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpdlogAdapterJsonTest, LogStructuredRedactsSensitiveFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref></type>
+        </param>
+        <param>
+          <type>LogStructuredRedactsSensitiveFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="127" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="127" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a3758c9916b85867bb2a979b538bb80b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpdlogAdapterJsonTest, TokenFieldIsRedacted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref></type>
+        </param>
+        <param>
+          <type>TokenFieldIsRedacted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="139" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="139" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1af811a21fc016bb01ee4f7395fbfd0930" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpdlogAdapterJsonTest, LogWithContextInjectsTraceAndRequestId)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref></type>
+        </param>
+        <param>
+          <type>LogWithContextInjectsTraceAndRequestId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="147" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1aa5279aee9a236387df3edc33f6a1dd04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpdlogAdapterJsonTest, LogWithContextHandlesEmptyContext)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref></type>
+        </param>
+        <param>
+          <type>LogWithContextHandlesEmptyContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="157" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="157" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a5d0e35cbca1b6b1eafabc876ace9f4f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpdlogAdapterJsonTest, LogStructuredEscapesSpecialChars)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref></type>
+        </param>
+        <param>
+          <type>LogStructuredEscapesSpecialChars</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="168" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="168" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a843f948cfbeb7caaf575efac417df6ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpdlogAdapterJsonTest, PlainModeDoesNotEmitJson)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref></type>
+        </param>
+        <param>
+          <type>PlainModeDoesNotEmitJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="182" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="182" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a29985045d8011a2b1ed3236f951c62af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CardinalityTest, DefaultLimitIsZeroDisabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>DefaultLimitIsZeroDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="206" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="206" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a91d1c4dc5f005dcd9a8a276ac73ddbda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CardinalityTest, SetCardinalityLimitIsRetrievable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>SetCardinalityLimitIsRetrievable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="210" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="210" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1adf77e736d9b0938e8d8b9d97d986930a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CardinalityTest, SeriesWithinLimitAreAccepted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>SeriesWithinLimitAreAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="215" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="215" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a8149f299d96400823c7897ad0a00711f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CardinalityTest, SeriesBeyondLimitAreDropped)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>SeriesBeyondLimitAreDropped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="224" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="224" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a696cd877bd4436bedf641c8379f88913" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CardinalityTest, CardinalityOverflowEmitsDiagnosticMetric)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>CardinalityOverflowEmitsDiagnosticMetric</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="234" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="234" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1adfe2bdb1c5196eb2fdbc6b93fc33ef20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CardinalityTest, ExistingSeriesAlwaysAllowed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>ExistingSeriesAlwaysAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="245" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="245" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a62610e6665346fa6c90261a59237994d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CardinalityTest, ResetClearsDroppedCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>ResetClearsDroppedCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="256" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="256" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a948015d7571d8547401e6789845b6710" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CardinalityTest, ZeroLimitDisablesEnforcement)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref></type>
+        </param>
+        <param>
+          <type>ZeroLimitDisablesEnforcement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="266" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="266" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a6b23538ebd1283a733a291853621ceaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExporterHealthTest, RecordExporterFailureAppearsInMetrics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref></type>
+        </param>
+        <param>
+          <type>RecordExporterFailureAppearsInMetrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="287" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="287" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1ab52acdee8503a57769ac266814bf1343" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExporterHealthTest, RecordExporterRecoveryAppearsInMetrics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref></type>
+        </param>
+        <param>
+          <type>RecordExporterRecoveryAppearsInMetrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="295" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="295" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1aa9b572d0c79ffaf35d54a5cbd02969e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExporterHealthTest, DifferentExporterNamesProduceSeparateSeries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref></type>
+        </param>
+        <param>
+          <type>DifferentExporterNamesProduceSeparateSeries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="302" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="302" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1aeea6ff06dcf0d67ae13308b058051119" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExporterHealthTest, ExporterHealthGaugeTracksFailureAndRecovery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref></type>
+        </param>
+        <param>
+          <type>ExporterHealthGaugeTracksFailureAndRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="311" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="311" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1ae5e5ac1237d7f5cd9a8bc83717fe1aab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExporterHealthTest, ExporterIncidentStatsExposeFailureAndRecoveryCounts)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref></type>
+        </param>
+        <param>
+          <type>ExporterIncidentStatsExposeFailureAndRecoveryCounts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="322" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="322" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1acf03135000d8572f7b7e612c59eb692d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExporterHealthTest, ExporterIncidentStatsDoNotFoldMetricScopedMalformedTelemetry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref></type>
+        </param>
+        <param>
+          <type>ExporterIncidentStatsDoNotFoldMetricScopedMalformedTelemetry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="334" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="334" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1add1c93ffe633fc1bf40aa49acd936f2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExporterHealthTest, InvalidLabelCountIsRejectedWithDiagnosticMetric)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidLabelCountIsRejectedWithDiagnosticMetric</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="351" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="351" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1a7168bf6ad426008cd6c78fc00f68ab0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExporterHealthTest, OversizedMetricNameDiagnosticIsTruncatedSafely)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref></type>
+        </param>
+        <param>
+          <type>OversizedMetricNameDiagnosticIsTruncatedSafely</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="368" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="368" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__hardening_8cpp_1ad0da033fcb896bd2e791fb7ad0ebf6d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ExporterHealthTest, InvalidLabelValueIsRejectedWithDiagnosticMetric)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidLabelValueIsRejectedWithDiagnosticMetric</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_hardening.cpp" line="382" column="1" bodyfile="tests/observability/test_observability_hardening.cpp" bodystart="382" bodyend="393"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for structured logging, trace-context propagation, metric cardinality limits, and exporter health metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers the changes introduced for the &quot;Observability Hardening: Structured
+Logging and Trace Correlation&quot; issue. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/sinks/ostream_sink.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core/concerns/i_logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core/concerns/noop_implementations.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core/concerns/spdlog_logger_adapter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="observability__api__contract_8h" kindref="compound">observability/observability_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="metrics__collector_8h" kindref="compound">observability/metrics_collector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::core::concerns;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">themis::observability</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>SpdlogLoggerAdapter<sp/>backed<sp/>by<sp/>an<sp/>ostringstream<sp/>sink</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::pair&lt;std::unique_ptr&lt;SpdlogLoggerAdapter&gt;,<sp/>std::shared_ptr&lt;std::ostringstream&gt;&gt;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">makeCapturingAdapter(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>json_mode)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stream<sp/>=<sp/>std::make_shared&lt;std::ostringstream&gt;();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ostream_sink<sp/>=<sp/>std::make_shared&lt;spdlog::sinks::ostream_sink_mt&gt;(*stream);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>name<sp/>=<sp/>json_mode<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;test_obs_json&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;test_obs_plain&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>spdlog_logger<sp/>=<sp/>std::make_shared&lt;spdlog::logger&gt;(name,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::sinks_init_list{ostream_sink});</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog_logger-&gt;set_level(spdlog::level::trace);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog_logger-&gt;set_pattern(</highlight><highlight class="stringliteral">&quot;%v&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>emit<sp/>only<sp/>the<sp/>message<sp/>payload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_unique&lt;SpdlogLoggerAdapter&gt;(spdlog_logger,<sp/>json_mode);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{std::move(adapter),<sp/>stream};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TraceContext<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__observability__hardening_8cpp_1a47a60e383f38956bd756f4395684e0d1" kindref="member">TEST</ref>(TraceContextTest,<sp/>EmptyContext)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>TraceContext<sp/>ctx;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.empty());</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.trace_id.empty());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.request_id.empty());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__observability__hardening_8cpp_1a47a60e383f38956bd756f4395684e0d1" kindref="member">TEST</ref>(TraceContextTest,<sp/>NonEmptyContext)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>TraceContext<sp/>ctx{</highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;req-456&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.empty());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">,<sp/>ctx.trace_id);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="stringliteral">&quot;req-456&quot;</highlight><highlight class="normal">,<sp/>ctx.request_id);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__observability__hardening_8cpp_1a47a60e383f38956bd756f4395684e0d1" kindref="member">TEST</ref>(TraceContextTest,<sp/>PartialContext)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>TraceContext<sp/>ctx{</highlight><highlight class="stringliteral">&quot;only-trace&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.empty());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Structured<sp/>logging<sp/>–<sp/>NoOpLogger</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__observability__hardening_8cpp_1a47a60e383f38956bd756f4395684e0d1" kindref="member">TEST</ref>(NoOpLoggerStructuredTest,<sp/>LogStructuredDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>NoOpLogger<sp/>logger;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(logger.logStructured(ILogger::Level::INFO,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__observability__hardening_8cpp_1a47a60e383f38956bd756f4395684e0d1" kindref="member">TEST</ref>(NoOpLoggerStructuredTest,<sp/>LogWithContextDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>NoOpLogger<sp/>logger;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>TraceContext<sp/>ctx{</highlight><highlight class="stringliteral">&quot;trace-001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;req-001&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(logger.logWithContext(ILogger::Level::WARN,<sp/></highlight><highlight class="stringliteral">&quot;ctx-msg&quot;</highlight><highlight class="normal">,<sp/>ctx,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;component&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Structured<sp/>logging<sp/>–<sp/>SpdlogLoggerAdapter<sp/>JSON<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="class_spdlog_adapter_json_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_spdlog_adapter_json_test_1ab691042cbf73cd57d91853ea609c560f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[adapter,<sp/>stream]<sp/>=<sp/>makeCapturingAdapter(</highlight><highlight class="comment">/*json_mode=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spdlog_adapter_json_test_1af1e68e53e19137deb3ae69f644d13263" kindref="member">adapter_</ref><sp/>=<sp/>std::move(adapter);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spdlog_adapter_json_test_1aa8d1341464269db5cf5633ac6c0c3eed" kindref="member">stream_</ref><sp/><sp/>=<sp/>std::move(stream);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_spdlog_adapter_json_test_1a3f3076b085604a27a0a14603c24a88df" kindref="member">flush</ref>()<sp/>{<sp/><ref refid="class_spdlog_adapter_json_test_1af1e68e53e19137deb3ae69f644d13263" kindref="member">adapter_</ref>-&gt;info(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);<sp/>}<sp/></highlight><highlight class="comment">//<sp/>ensure<sp/>spdlog<sp/>flush</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SpdlogLoggerAdapter&gt;<sp/><sp/><sp/><sp/><ref refid="class_spdlog_adapter_json_test_1af1e68e53e19137deb3ae69f644d13263" kindref="member">adapter_</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;std::ostringstream&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="class_spdlog_adapter_json_test_1aa8d1341464269db5cf5633ac6c0c3eed" kindref="member">stream_</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref>,<sp/>JsonModeEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(adapter_-&gt;jsonMode());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref>,<sp/>LogStructuredEmitsJsonObject)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_-&gt;logStructured(ILogger::Level::INFO,<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;component&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;engine&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;select&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>msg<sp/>=<sp/>stream_-&gt;str();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;\&quot;level\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;\&quot;message\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;\&quot;component\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;engine&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref>,<sp/>LogStructuredContainsTimestamp)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_-&gt;logStructured(ILogger::Level::DEBUG,<sp/></highlight><highlight class="stringliteral">&quot;ts-test&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>msg<sp/>=<sp/>stream_-&gt;str();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;\&quot;ts\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ISO-8601<sp/>marker:<sp/>contains<sp/>&apos;T&apos;<sp/>separator<sp/>and<sp/>&apos;Z&apos;<sp/>UTC<sp/>suffix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;T&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;Z&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref>,<sp/>LogStructuredRedactsSensitiveFields)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_-&gt;logStructured(ILogger::Level::INFO,<sp/></highlight><highlight class="stringliteral">&quot;auth&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;password&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;super-secret&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;username&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>msg<sp/>=<sp/>stream_-&gt;str();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Password<sp/>value<sp/>must<sp/>be<sp/>redacted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;super-secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;[REDACTED]&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-sensitive<sp/>field<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref>,<sp/>TokenFieldIsRedacted)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_-&gt;logStructured(ILogger::Level::INFO,<sp/></highlight><highlight class="stringliteral">&quot;jwt&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;token&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyJhbGciOiJIUzI1NiJ9.payload.sig&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>msg<sp/>=<sp/>stream_-&gt;str();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;eyJhbGciOiJIUzI1NiJ9&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;[REDACTED]&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref>,<sp/>LogWithContextInjectsTraceAndRequestId)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>TraceContext<sp/>ctx{</highlight><highlight class="stringliteral">&quot;trace-deadbeef&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;req-cafebabe&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_-&gt;logWithContext(ILogger::Level::ERROR,<sp/></highlight><highlight class="stringliteral">&quot;ctx-error&quot;</highlight><highlight class="normal">,<sp/>ctx,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;shard&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shard-3&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>msg<sp/>=<sp/>stream_-&gt;str();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;trace-deadbeef&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;req-cafebabe&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;shard-3&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref>,<sp/>LogWithContextHandlesEmptyContext)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>TraceContext<sp/>ctx;<sp/></highlight><highlight class="comment">//<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter_-&gt;logWithContext(ILogger::Level::INFO,<sp/></highlight><highlight class="stringliteral">&quot;no-ctx&quot;</highlight><highlight class="normal">,<sp/>ctx,<sp/>{}));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>msg<sp/>=<sp/>stream_-&gt;str();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;\&quot;message\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>trace_id<sp/>/<sp/>request_id<sp/>keys<sp/>must<sp/>NOT<sp/>appear<sp/>for<sp/>empty<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;trace_id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;request_id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref>,<sp/>LogStructuredEscapesSpecialChars)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>backslash<sp/>in<sp/>the<sp/>value<sp/>must<sp/>be<sp/>JSON-escaped<sp/>to<sp/>double-backslash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_-&gt;logStructured(ILogger::Level::WARN,<sp/></highlight><highlight class="stringliteral">&quot;esc&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;val\\slash&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>msg<sp/>=<sp/>stream_-&gt;str();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>un-escaped<sp/>one-backslash<sp/>form<sp/>must<sp/>not<sp/>appear<sp/>verbatim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(because<sp/>&quot;val\slash&quot;<sp/>would<sp/>contain<sp/>&quot;val&quot;<sp/>+<sp/>single_backslash<sp/>+<sp/>&quot;slash&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>the<sp/>JSON<sp/>output<sp/>the<sp/>backslash<sp/>is<sp/>doubled,<sp/>so<sp/>searching<sp/>for<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>single-backslash<sp/>sequence<sp/>should<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;val\\slash&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>escaped<sp/>form<sp/>(two<sp/>backslashes<sp/>in<sp/>raw<sp/>bytes)<sp/>MUST<sp/>be<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>msg.find(</highlight><highlight class="stringliteral">&quot;val\\\\slash&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_spdlog_adapter_json_test" kindref="compound">SpdlogAdapterJsonTest</ref>,<sp/>PlainModeDoesNotEmitJson)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_-&gt;setJsonMode(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter_-&gt;logStructured(ILogger::Level::INFO,<sp/></highlight><highlight class="stringliteral">&quot;plain&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>msg<sp/>=<sp/>stream_-&gt;str();</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>plain<sp/>mode<sp/>the<sp/>output<sp/>is<sp/>NOT<sp/>a<sp/>JSON<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(msg.empty()<sp/>||<sp/>msg.front()<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;{&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Metric<sp/>cardinality<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="class_cardinality_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cardinality_test_1a4a386922dcff36e1712843e3281fe81e" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a6343aabf9c38e8b94d37cf2365487356" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a5f036e06e3745c05ea4c63be39d1b836" kindref="member">setCardinalityLimit</ref>(0);<sp/></highlight><highlight class="comment">//<sp/>start<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cardinality_test_1a3d13c2ebc7592d36ca1b6707564b76e0" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a5f036e06e3745c05ea4c63be39d1b836" kindref="member">setCardinalityLimit</ref>(0);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a6343aabf9c38e8b94d37cf2365487356" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref>,<sp/>DefaultLimitIsZeroDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().getCardinalityLimit());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref>,<sp/>SetCardinalityLimitIsRetrievable)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a5f036e06e3745c05ea4c63be39d1b836" kindref="member">setCardinalityLimit</ref>(50);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(50u,<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().getCardinalityLimit());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref>,<sp/>SeriesWithinLimitAreAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a5f036e06e3745c05ea4c63be39d1b836" kindref="member">setCardinalityLimit</ref>(3);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;L1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;L2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;L3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0,<sp/>mc.getDroppedSeriesCount());</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref>,<sp/>SeriesBeyondLimitAreDropped)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a5f036e06e3745c05ea4c63be39d1b836" kindref="member">setCardinalityLimit</ref>(2);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>should<sp/>be<sp/>dropped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>should<sp/>be<sp/>dropped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(mc.getDroppedSeriesCount(),<sp/>2);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref>,<sp/>CardinalityOverflowEmitsDiagnosticMetric)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a5f036e06e3745c05ea4c63be39d1b836" kindref="member">setCardinalityLimit</ref>(1);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>dropped<sp/>and<sp/>diagnosed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>metrics<sp/>=<sp/>mc.getPrometheusMetrics();</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;metric_cardinality_exceeded_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;metric=\&quot;cache_hits_total\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref>,<sp/>ExistingSeriesAlwaysAllowed)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a5f036e06e3745c05ea4c63be39d1b836" kindref="member">setCardinalityLimit</ref>(1);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>dropped_before<sp/>=<sp/>mc.getDroppedSeriesCount();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Same<sp/>label<sp/>set:<sp/>must<sp/>never<sp/>count<sp/>as<sp/>a<sp/>new<sp/>series</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dropped_before,<sp/>mc.getDroppedSeriesCount());</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref>,<sp/>ResetClearsDroppedCount)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a5f036e06e3745c05ea4c63be39d1b836" kindref="member">setCardinalityLimit</ref>(1);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;P&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;Q&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>dropped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(mc.getDroppedSeriesCount(),<sp/>0);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.reset();</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0,<sp/>mc.getDroppedSeriesCount());</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_cardinality_test" kindref="compound">CardinalityTest</ref>,<sp/>ZeroLimitDisablesEnforcement)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cardinality<sp/>limit<sp/>0<sp/>means<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a5f036e06e3745c05ea4c63be39d1b836" kindref="member">setCardinalityLimit</ref>(0);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mc.recordCacheHit(</highlight><highlight class="stringliteral">&quot;cache_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0,<sp/>mc.getDroppedSeriesCount());</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Exporter<sp/>health<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280" refid="class_exporter_health_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_exporter_health_test_1ae89127940f934c777e1ba4d73ad25c9e" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>().<ref refid="classthemis_1_1observability_1_1_metrics_collector_1a6343aabf9c38e8b94d37cf2365487356" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref>,<sp/>RecordExporterFailureAppearsInMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordExporterFailure(</highlight><highlight class="stringliteral">&quot;otlp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordExporterFailure(</highlight><highlight class="stringliteral">&quot;otlp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>metrics<sp/>=<sp/>mc.getPrometheusMetrics();</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;exporter_failures_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref>,<sp/>RecordExporterRecoveryAppearsInMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordExporterRecovery(</highlight><highlight class="stringliteral">&quot;prometheus&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>metrics<sp/>=<sp/>mc.getPrometheusMetrics();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;exporter_recoveries_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref>,<sp/>DifferentExporterNamesProduceSeparateSeries)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordExporterFailure(</highlight><highlight class="stringliteral">&quot;otlp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordExporterFailure(</highlight><highlight class="stringliteral">&quot;pushgateway&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>metrics<sp/>=<sp/>mc.getPrometheusMetrics();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;otlp&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;pushgateway&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref>,<sp/>ExporterHealthGaugeTracksFailureAndRecovery)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordExporterFailure(</highlight><highlight class="stringliteral">&quot;otlp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordExporterRecovery(</highlight><highlight class="stringliteral">&quot;otlp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>metrics<sp/>=<sp/>mc.getPrometheusMetrics();</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;exporter_health_status&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;exporter=\&quot;otlp\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;<sp/>1.00&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref>,<sp/>ExporterIncidentStatsExposeFailureAndRecoveryCounts)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordExporterFailure(</highlight><highlight class="stringliteral">&quot;prometheus&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordExporterFailure(</highlight><highlight class="stringliteral">&quot;prometheus&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordExporterRecovery(</highlight><highlight class="stringliteral">&quot;prometheus&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mc.getExporterIncidentStats(</highlight><highlight class="stringliteral">&quot;prometheus&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2,<sp/>stats.failures);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1,<sp/>stats.recoveries);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0,<sp/>stats.malformed_rejections);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref>,<sp/>ExporterIncidentStatsDoNotFoldMetricScopedMalformedTelemetry)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>oversized_value(<ref refid="namespacethemis_1_1observability_1ac2db4fe414d9ad3cd03df4face6c06be" kindref="member">kMaxLabelValueBytes</ref><sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.recordExporterFailure(</highlight><highlight class="stringliteral">&quot;otlp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.setGauge(</highlight><highlight class="stringliteral">&quot;invalid_gauge&quot;</highlight><highlight class="normal">,<sp/>42.0,<sp/>{{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/>oversized_value}});</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mc.getExporterIncidentStats(</highlight><highlight class="stringliteral">&quot;otlp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1,<sp/>stats.failures);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0,<sp/>stats.recoveries);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0,<sp/>stats.malformed_rejections);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>metrics<sp/>=<sp/>mc.getPrometheusMetrics();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;malformed_telemetry_rejections_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;metric=\&quot;invalid_gauge\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref>,<sp/>InvalidLabelCountIsRejectedWithDiagnosticMetric)<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>labels<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="namespacethemis_1_1observability_1a5e84387a19755866a0886c3684330880" kindref="member">kMaxMetricLabels</ref><sp/>+<sp/>1;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>labels.emplace(</highlight><highlight class="stringliteral">&quot;label_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.addCounter(</highlight><highlight class="stringliteral">&quot;invalid_metric_total&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>labels);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>metrics<sp/>=<sp/>mc.getPrometheusMetrics();</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;malformed_telemetry_rejections_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;metric=\&quot;invalid_metric_total\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;reason=\&quot;label_count_exceeded\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;invalid_metric_total{&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="366"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref>,<sp/>OversizedMetricNameDiagnosticIsTruncatedSafely)<sp/>{</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>oversized_metric(<ref refid="namespacethemis_1_1observability_1ac2db4fe414d9ad3cd03df4face6c06be" kindref="member">kMaxLabelValueBytes</ref><sp/>+<sp/>8,<sp/></highlight><highlight class="charliteral">&apos;m&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>oversized_value(<ref refid="namespacethemis_1_1observability_1ac2db4fe414d9ad3cd03df4face6c06be" kindref="member">kMaxLabelValueBytes</ref><sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.setGauge(oversized_metric,<sp/>42.0,<sp/>{{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/>oversized_value}});</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>metrics<sp/>=<sp/>mc.getPrometheusMetrics();</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;malformed_telemetry_rejections_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string::npos,<sp/>metrics.find(oversized_metric<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.find(std::string(</highlight><highlight class="stringliteral">&quot;metric=\&quot;&quot;</highlight><highlight class="normal">)<sp/>+<sp/>oversized_metric.substr(0,<sp/><ref refid="namespacethemis_1_1observability_1ac2db4fe414d9ad3cd03df4face6c06be" kindref="member">kMaxLabelValueBytes</ref>)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="380"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a8f272639bb97fb339d7664ed3611a482" kindref="member">TEST_F</ref>(<ref refid="class_exporter_health_test" kindref="compound">ExporterHealthTest</ref>,<sp/>InvalidLabelValueIsRejectedWithDiagnosticMetric)<sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mc<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>oversized_value(<ref refid="namespacethemis_1_1observability_1ac2db4fe414d9ad3cd03df4face6c06be" kindref="member">kMaxLabelValueBytes</ref><sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>mc.setGauge(</highlight><highlight class="stringliteral">&quot;invalid_gauge&quot;</highlight><highlight class="normal">,<sp/>42.0,<sp/>{{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/>oversized_value}});</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>metrics<sp/>=<sp/>mc.getPrometheusMetrics();</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;malformed_telemetry_rejections_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;metric=\&quot;invalid_gauge\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;reason=\&quot;label_value_too_long\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string::npos,<sp/>metrics.find(</highlight><highlight class="stringliteral">&quot;invalid_gauge{&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="393"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/observability/test_observability_hardening.cpp"/>
+  </compounddef>
+</doxygen>

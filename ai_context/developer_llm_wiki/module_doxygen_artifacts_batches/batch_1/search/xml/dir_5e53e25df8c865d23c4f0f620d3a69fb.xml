@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_5e53e25df8c865d23c4f0f620d3a69fb" kind="dir">
+    <compoundname>src/search</compoundname>
+    <innerfile refid="autocomplete_8cpp">autocomplete.cpp</innerfile>
+    <innerfile refid="conversational__search_8cpp">conversational_search.cpp</innerfile>
+    <innerfile refid="cross__lingual__search_8cpp">cross_lingual_search.cpp</innerfile>
+    <innerfile refid="distributed__hybrid__search_8cpp">distributed_hybrid_search.cpp</innerfile>
+    <innerfile refid="faceted__search_8cpp">faceted_search.cpp</innerfile>
+    <innerfile refid="federated__search_8cpp">federated_search.cpp</innerfile>
+    <innerfile refid="fuzzy__matcher_8cpp">fuzzy_matcher.cpp</innerfile>
+    <innerfile refid="hybrid__search_8cpp">hybrid_search.cpp</innerfile>
+    <innerfile refid="layered__retrieval__orchestrator_8cpp">layered_retrieval_orchestrator.cpp</innerfile>
+    <innerfile refid="learning__to__rank_8cpp">learning_to_rank.cpp</innerfile>
+    <innerfile refid="llm__query__rewriter_8cpp">llm_query_rewriter.cpp</innerfile>
+    <innerfile refid="llm__reranker_8cpp">llm_reranker.cpp</innerfile>
+    <innerfile refid="llm__reranker__factory__stub_8cpp">llm_reranker_factory_stub.cpp</innerfile>
+    <innerfile refid="multi__field__search_8cpp">multi_field_search.cpp</innerfile>
+    <innerfile refid="multi__modal__search_8cpp">multi_modal_search.cpp</innerfile>
+    <innerfile refid="negative__keyword__filter_8cpp">negative_keyword_filter.cpp</innerfile>
+    <innerfile refid="neural__sparse__retrieval_8cpp">neural_sparse_retrieval.cpp</innerfile>
+    <innerfile refid="personalized__ranker_8cpp">personalized_ranker.cpp</innerfile>
+    <innerfile refid="query__expander_8cpp">query_expander.cpp</innerfile>
+    <innerfile refid="search__analytics_8cpp">search_analytics.cpp</innerfile>
+    <innerfile refid="search__highlighter_8cpp">search_highlighter.cpp</innerfile>
+    <innerfile refid="search__result__stream_8cpp">search_result_stream.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/search/"/>
+  </compounddef>
+</doxygen>

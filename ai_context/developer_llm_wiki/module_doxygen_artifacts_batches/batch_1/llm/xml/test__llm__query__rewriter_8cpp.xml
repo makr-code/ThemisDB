@@ -1,0 +1,951 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__query__rewriter_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_query_rewriter.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">search/llm_query_rewriter.h</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/llm/test_llm_query_rewriter.cpp</label>
+        <link refid="test__llm__query__rewriter_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>search/llm_query_rewriter.h</label>
+      </node>
+      <node id="4">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterConfig, DefaultConfigIsValid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterConfig</type>
+        </param>
+        <param>
+          <type>DefaultConfigIsValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="18" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a0985495e7f37febf18ffab0c806b4ded" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterConfig, ZeroNumRewritesThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterConfig</type>
+        </param>
+        <param>
+          <type>ZeroNumRewritesThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="22" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="22" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1aa37afc359833efacb126d9b68d644c3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterConfig, NegativeTemperatureThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterConfig</type>
+        </param>
+        <param>
+          <type>NegativeTemperatureThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="28" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="28" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1ae4747505b3751cdcac73f26f49393fca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterConfig, TemperatureAboveTwoThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterConfig</type>
+        </param>
+        <param>
+          <type>TemperatureAboveTwoThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="34" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1aa2c92a5f64f5fa8985bcceb310073387" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterConfig, ConfigRoundtrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterConfig</type>
+        </param>
+        <param>
+          <type>ConfigRoundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="40" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="40" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a49509994aba051c392b955660f132929" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterNoBackend, EmptyQueryReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterNoBackend</type>
+        </param>
+        <param>
+          <type>EmptyQueryReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="55" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="55" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a0ba2bdc2ca3f7c4b2854798fde3629ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterNoBackend, NullBackendFallsBackToOriginal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterNoBackend</type>
+        </param>
+        <param>
+          <type>NullBackendFallsBackToOriginal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="63" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="63" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1ac818d878620c21ad42b048014c9dde3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterNoBackend, FallbackDisabledYieldsNoRewrites)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterNoBackend</type>
+        </param>
+        <param>
+          <type>FallbackDisabledYieldsNoRewrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="72" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="72" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a77bcd2822f1cbb0225a1f454a74d2756" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>LlmQueryRewriter::LlmBackend</type>
+        <definition>static LlmQueryRewriter::LlmBackend makeMockBackend</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>makeMockBackend</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="85" column="37" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a0219f4609da9d701ee1e124aad2d8d5f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>LlmQueryRewriter</type>
+        <definition>static LlmQueryRewriter makeParsingRewriter</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>makeParsingRewriter</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="89" column="25" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="89" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a259ed6a3c85cb0d8b2e0152d55263e16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterWithBackend, ParsesNumberedLines)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterWithBackend</type>
+        </param>
+        <param>
+          <type>ParsesNumberedLines</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="95" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="95" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a28e59ff29e057b661a27f16ec0258020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterWithBackend, LimitsToNumRewrites)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterWithBackend</type>
+        </param>
+        <param>
+          <type>LimitsToNumRewrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="111" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="111" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a499fcfc025a19a29a083ea6386ca2a92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterWithBackend, DeduplicatesRewrites)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterWithBackend</type>
+        </param>
+        <param>
+          <type>DeduplicatesRewrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="125" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="125" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a26745d6240ed1296ee1ae18f248715a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterWithBackend, DropsSameAsOriginal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterWithBackend</type>
+        </param>
+        <param>
+          <type>DropsSameAsOriginal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="138" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="138" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a65229739c22fde2f3b1f1dffcc547b5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterWithBackend, HandlesParenthesesNumbering)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterWithBackend</type>
+        </param>
+        <param>
+          <type>HandlesParenthesesNumbering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="148" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="148" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a40498609faf6e2d894407f7372244277" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterWithBackend, HandlesColonNumbering)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterWithBackend</type>
+        </param>
+        <param>
+          <type>HandlesColonNumbering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="155" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="155" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1ab6d99972e340ae325ba65c7db130ae1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterWithBackend, EmptyLlmResponseFallsBack)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterWithBackend</type>
+        </param>
+        <param>
+          <type>EmptyLlmResponseFallsBack</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="162" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="162" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a934e5a912ad6ca60e0f600fdd893a636" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterWithBackend, EmptyLlmResponseNoFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterWithBackend</type>
+        </param>
+        <param>
+          <type>EmptyLlmResponseNoFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="172" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="172" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a426ce9501875e48710858cfef5d2d111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterWithBackend, SkipsLinesExceedingMaxLength)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterWithBackend</type>
+        </param>
+        <param>
+          <type>SkipsLinesExceedingMaxLength</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="181" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="181" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1ac2b4cde46a1e5d81c7ff7d0170d44833" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterWithBackend, BackendExceptionTriggersFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterWithBackend</type>
+        </param>
+        <param>
+          <type>BackendExceptionTriggersFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="194" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="194" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1acb0cf0852f1446afb046d1574a225fc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterWithBackend, BackendExceptionNoFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterWithBackend</type>
+        </param>
+        <param>
+          <type>BackendExceptionNoFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="206" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="206" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1ae8e60368673ee1def5880c30767750f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterSetBackend, ReplacesNullBackend)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterSetBackend</type>
+        </param>
+        <param>
+          <type>ReplacesNullBackend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="223" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="223" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a8ec931b0775b3dc184c7660e3f72b934" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterSetBackend, ClearingBackendFallsBack)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterSetBackend</type>
+        </param>
+        <param>
+          <type>ClearingBackendFallsBack</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="234" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="234" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a3b9559e82f510d200e80af63def5a185" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterOriginal, OriginalFieldAlwaysPreserved)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterOriginal</type>
+        </param>
+        <param>
+          <type>OriginalFieldAlwaysPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="248" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="248" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1ad43abf14b13f680615204b47fba4705c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterParsing, BlankLinesSkipped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterParsing</type>
+        </param>
+        <param>
+          <type>BlankLinesSkipped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="259" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="259" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a0718e8afd3af8628e99ba7d97ec1aff2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterPrompt, PromptContainsQuery)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterPrompt</type>
+        </param>
+        <param>
+          <type>PromptContainsQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="277" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="277" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1aae8e172f1308ff8ddd28248b1cdf15a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterPrompt, PromptContainsNumRewrites)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterPrompt</type>
+        </param>
+        <param>
+          <type>PromptContainsNumRewrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="287" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="287" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a7a2aac6fb349bf9bf232591dd490d788" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterPrompt, PromptContainsVocabularyStrategyGuidance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterPrompt</type>
+        </param>
+        <param>
+          <type>PromptContainsVocabularyStrategyGuidance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="300" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="300" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a302e38928366ffcd4b2356f4bb709ea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterPrompt, PromptContainsNumberedLineInstruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterPrompt</type>
+        </param>
+        <param>
+          <type>PromptContainsNumberedLineInstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="314" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="314" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__query__rewriter_8cpp_1a17781874f4a44970410ba21bca4e1480" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmQueryRewriterPrompt, PromptContainsTemperatureHint)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmQueryRewriterPrompt</type>
+        </param>
+        <param>
+          <type>PromptContainsTemperatureHint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_query_rewriter.cpp" line="325" column="1" bodyfile="tests/llm/test_llm_query_rewriter.cpp" bodystart="325" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for LlmQueryRewriter (v1.6.0). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;search/llm_query_rewriter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterConfig,<sp/>DefaultConfigIsValid)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(LlmQueryRewriter{});</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterConfig,<sp/>ZeroNumRewritesThrows)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.num_rewrites<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(LlmQueryRewriter{cfg},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterConfig,<sp/>NegativeTemperatureThrows)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.temperature<sp/>=<sp/>-0.1f;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(LlmQueryRewriter{cfg},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterConfig,<sp/>TemperatureAboveTwoThrows)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.temperature<sp/>=<sp/>2.1f;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(LlmQueryRewriter{cfg},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterConfig,<sp/>ConfigRoundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.num_rewrites<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_tokens<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.temperature<sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{cfg};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rw.getConfig().num_rewrites,<sp/>5u);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rw.getConfig().max_tokens,<sp/>128);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(rw.getConfig().temperature,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>rewrite()<sp/>—<sp/>no<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterNoBackend,<sp/>EmptyQueryReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.original,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.rewrites.empty());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.llm_used);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterNoBackend,<sp/>NullBackendFallsBackToOriginal)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw;<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;fast<sp/>database<sp/>insert&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.original,<sp/></highlight><highlight class="stringliteral">&quot;fast<sp/>database<sp/>insert&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.llm_used);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.rewrites.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[0],<sp/></highlight><highlight class="stringliteral">&quot;fast<sp/>database<sp/>insert&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterNoBackend,<sp/>FallbackDisabledYieldsNoRewrites)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.fallback_to_original<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{cfg};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;some<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.rewrites.empty());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.llm_used);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>rewrite()<sp/>—<sp/>with<sp/>mock<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>LlmQueryRewriter::LlmBackend<sp/>makeMockBackend(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[response](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*prompt*/</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>response;<sp/>};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>LlmQueryRewriter<sp/>makeParsingRewriter(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.min_token_overlap_ratio<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>LlmQueryRewriter{cfg,<sp/>makeMockBackend(response)};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterWithBackend,<sp/>ParsesNumberedLines)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>mock_response<sp/>=</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.<sp/>rapid<sp/>database<sp/>write\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2.<sp/>high-throughput<sp/>record<sp/>insertion\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;3.<sp/>quick<sp/>data<sp/>persistence\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw<sp/>=<sp/>makeParsingRewriter(mock_response);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;fast<sp/>db<sp/>insert&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.llm_used);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.original,<sp/></highlight><highlight class="stringliteral">&quot;fast<sp/>db<sp/>insert&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.rewrites.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[0],<sp/></highlight><highlight class="stringliteral">&quot;rapid<sp/>database<sp/>write&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[1],<sp/></highlight><highlight class="stringliteral">&quot;high-throughput<sp/>record<sp/>insertion&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[2],<sp/></highlight><highlight class="stringliteral">&quot;quick<sp/>data<sp/>persistence&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterWithBackend,<sp/>LimitsToNumRewrites)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>mock_response<sp/>=</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.<sp/>rewrite<sp/>one\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2.<sp/>rewrite<sp/>two\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;3.<sp/>rewrite<sp/>three\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;4.<sp/>rewrite<sp/>four\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;5.<sp/>rewrite<sp/>five\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.num_rewrites<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{cfg,<sp/>makeMockBackend(mock_response)};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.rewrites.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterWithBackend,<sp/>DeduplicatesRewrites)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>mock_response<sp/>=</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.<sp/>machine<sp/>learning<sp/>query\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2.<sp/>machine<sp/>learning<sp/>query\n&quot;</highlight><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>exact<sp/>duplicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;3.<sp/>MACHINE<sp/>LEARNING<sp/>QUERY\n&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>case-insensitive<sp/>duplicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw<sp/>=<sp/>makeParsingRewriter(mock_response);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;ml<sp/>search&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>three<sp/>lines<sp/>are<sp/>the<sp/>same<sp/>(case-insensitively),<sp/>so<sp/>exactly<sp/>one<sp/>survives</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.rewrites.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[0],<sp/></highlight><highlight class="stringliteral">&quot;machine<sp/>learning<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterWithBackend,<sp/>DropsSameAsOriginal)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM<sp/>returns<sp/>the<sp/>original<sp/>query<sp/>verbatim<sp/>—<sp/>should<sp/>be<sp/>filtered<sp/>out</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw<sp/>=<sp/>makeParsingRewriter(</highlight><highlight class="stringliteral">&quot;1.<sp/>my<sp/>exact<sp/>query\n2.<sp/>different<sp/>phrasing\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;my<sp/>exact<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>result.rewrites)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(r,<sp/></highlight><highlight class="stringliteral">&quot;my<sp/>exact<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterWithBackend,<sp/>HandlesParenthesesNumbering)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw<sp/>=<sp/>makeParsingRewriter(</highlight><highlight class="stringliteral">&quot;1)<sp/>first<sp/>rewrite\n2)<sp/>second<sp/>rewrite\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(result.rewrites.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[0],<sp/></highlight><highlight class="stringliteral">&quot;first<sp/>rewrite&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterWithBackend,<sp/>HandlesColonNumbering)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw<sp/>=<sp/>makeParsingRewriter(</highlight><highlight class="stringliteral">&quot;1:<sp/>first<sp/>rewrite\n2:<sp/>second<sp/>rewrite\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(result.rewrites.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[0],<sp/></highlight><highlight class="stringliteral">&quot;first<sp/>rewrite&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterWithBackend,<sp/>EmptyLlmResponseFallsBack)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{{},<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;some<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM<sp/>was<sp/>called<sp/>but<sp/>returned<sp/>nothing;<sp/>fallback<sp/>to<sp/>original<sp/>is<sp/>on<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.llm_used);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.rewrites.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[0],<sp/></highlight><highlight class="stringliteral">&quot;some<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterWithBackend,<sp/>EmptyLlmResponseNoFallback)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.fallback_to_original<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{cfg,<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;some<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.llm_used);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.rewrites.empty());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterWithBackend,<sp/>SkipsLinesExceedingMaxLength)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_rewrite_length<sp/>=<sp/>20;<sp/><sp/></highlight><highlight class="comment">//<sp/>short<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>long_line(30,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>30<sp/>chars<sp/>—<sp/>too<sp/>long</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>mock_response<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.<sp/>short<sp/>rewrite\n2.<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>long_line<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{cfg,<sp/>makeMockBackend(mock_response)};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>result.rewrites)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(r.size(),<sp/>20u);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterWithBackend,<sp/>BackendExceptionTriggersFallback)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::LlmBackend<sp/>throwing_backend<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;LLM<sp/>unavailable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{{},<sp/>throwing_backend};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.llm_used);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.rewrites.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[0],<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterWithBackend,<sp/>BackendExceptionNoFallback)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.fallback_to_original<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::LlmBackend<sp/>throwing_backend<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;LLM<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{cfg,<sp/>throwing_backend};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.llm_used);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.rewrites.empty());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>setBackend()<sp/>—<sp/>dynamic<sp/>backend<sp/>replacement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterSetBackend,<sp/>ReplacesNullBackend)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.min_token_overlap_ratio<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{cfg};<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>rw.setBackend(makeMockBackend(</highlight><highlight class="stringliteral">&quot;1.<sp/>better<sp/>phrasing\n&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;original<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.llm_used);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.rewrites.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[0],<sp/></highlight><highlight class="stringliteral">&quot;better<sp/>phrasing&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterSetBackend,<sp/>ClearingBackendFallsBack)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{{},<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;1.<sp/>rewrite\n&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>rw.setBackend(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>remove<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.llm_used);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fallback_to_original<sp/>is<sp/>true<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.rewrites.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[0],<sp/></highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OriginalPreserved<sp/>—<sp/>original<sp/>field<sp/>is<sp/>always<sp/>the<sp/>verbatim<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterOriginal,<sp/>OriginalFieldAlwaysPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Find<sp/>all<sp/>records<sp/>with<sp/>status=active<sp/>AND<sp/>region=EU&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{{},<sp/>makeMockBackend(</highlight><highlight class="stringliteral">&quot;1.<sp/>active<sp/>EU<sp/>records\n&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(query);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.original,<sp/>query);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Blank-line<sp/>and<sp/>whitespace-only<sp/>lines<sp/>in<sp/>LLM<sp/>output<sp/>are<sp/>ignored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterParsing,<sp/>BlankLinesSkipped)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>mock_response<sp/>=</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.<sp/>first<sp/>rewrite\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2.<sp/>second<sp/>rewrite\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw<sp/>=<sp/>makeParsingRewriter(mock_response);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.rewrites.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[0],<sp/></highlight><highlight class="stringliteral">&quot;first<sp/>rewrite&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rewrites[1],<sp/></highlight><highlight class="stringliteral">&quot;second<sp/>rewrite&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>buildPrompt()<sp/>—<sp/>prompt<sp/>content<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterPrompt,<sp/>PromptContainsQuery)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured_prompt<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{{},<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_prompt<sp/>=<sp/>prompt;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;1.<sp/>a<sp/>rewrite\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>}};</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;database<sp/>indexing<sp/>performance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_prompt.find(</highlight><highlight class="stringliteral">&quot;database<sp/>indexing<sp/>performance&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterPrompt,<sp/>PromptContainsNumRewrites)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured_prompt<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.num_rewrites<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{cfg,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_prompt<sp/>=<sp/>prompt;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;1.<sp/>a<sp/>rewrite\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}};</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>prompt<sp/>should<sp/>embed<sp/>num_rewrites<sp/>in<sp/>context,<sp/>e.g.<sp/>&quot;5<sp/>alternative<sp/>phrasings&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_prompt.find(</highlight><highlight class="stringliteral">&quot;5<sp/>alternative&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterPrompt,<sp/>PromptContainsVocabularyStrategyGuidance)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured_prompt<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{{},<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_prompt<sp/>=<sp/>prompt;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;1.<sp/>a<sp/>rewrite\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>}};</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;fast<sp/>db<sp/>insert&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prompt<sp/>must<sp/>instruct<sp/>the<sp/>LLM<sp/>to<sp/>apply<sp/>distinct<sp/>vocabulary<sp/>strategies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>that<sp/>rewrites<sp/>cover<sp/>different<sp/>vocabulary<sp/>spaces<sp/>and<sp/>improve<sp/>recall.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_prompt.find(</highlight><highlight class="stringliteral">&quot;vocabulary&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_prompt.find(</highlight><highlight class="stringliteral">&quot;synonyms&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_prompt.find(</highlight><highlight class="stringliteral">&quot;abbreviations&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterPrompt,<sp/>PromptContainsNumberedLineInstruction)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured_prompt<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{{},<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_prompt<sp/>=<sp/>prompt;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;1.<sp/>a<sp/>rewrite\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>}};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prompt<sp/>must<sp/>explicitly<sp/>show<sp/>the<sp/>numbered-line<sp/>format,<sp/>e.g.<sp/>&quot;1.<sp/>rewrite<sp/>here&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_prompt.find(</highlight><highlight class="stringliteral">&quot;1.<sp/>rewrite<sp/>here&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="test__llm__query__rewriter_8cpp_1aed6239be71e21f44fca2f5ea5286d56c" kindref="member">TEST</ref>(LlmQueryRewriterPrompt,<sp/>PromptContainsTemperatureHint)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured_prompt<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.temperature<sp/>=<sp/>0.3f;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>LlmQueryRewriter<sp/>rw{cfg,<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_prompt<sp/>=<sp/>prompt;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;1.<sp/>a<sp/>rewrite\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>}};</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>rw.rewrite(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prompt<sp/>must<sp/>embed<sp/>the<sp/>temperature<sp/>hint<sp/>so<sp/>backends<sp/>can<sp/>honour<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_prompt.find(</highlight><highlight class="stringliteral">&quot;temperature&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_query_rewriter.cpp"/>
+  </compounddef>
+</doxygen>

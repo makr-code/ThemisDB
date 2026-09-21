@@ -1,0 +1,794 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__importers__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_importers_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="importers__api__contract_8h" local="yes">importers/importers_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">random</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>importers/importers_api_contract.h</label>
+        <link refid="importers__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/importers/test_importers_contract_hardening_focused.cpp</label>
+        <link refid="test__importers__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>random</label>
+      </node>
+      <node id="11">
+        <label>set</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH01, ReImportSameIdNoDuplicates)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH01</type>
+        </param>
+        <param>
+          <type>ReImportSameIdNoDuplicates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="162" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="162" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1ab16ba2e8b743cc35785cbd983a8e59fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH02, ImportIdUniquenessEnforced)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH02</type>
+        </param>
+        <param>
+          <type>ImportIdUniquenessEnforced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="181" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="181" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1a940c1ceceaf407ad544c9d7ce6c77957" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH03, DifferentImportIdAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH03</type>
+        </param>
+        <param>
+          <type>DifferentImportIdAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="194" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="194" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1a8122f04c4b0a19f07422dfcfcf460a5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH04, CommittedRowCountMatchesSource)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH04</type>
+        </param>
+        <param>
+          <type>CommittedRowCountMatchesSource</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="210" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="210" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1a19ed1e60f18753c5a2a28f3aa0dfb430" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH05, AdditiveColumnPassthrough)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH05</type>
+        </param>
+        <param>
+          <type>AdditiveColumnPassthrough</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="225" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="225" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1a030dda5f55361a3edc5f613ce95a26f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH06, MissingRequiredColumnIsMismatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH06</type>
+        </param>
+        <param>
+          <type>MissingRequiredColumnIsMismatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="239" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="239" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1a950b7e115a85a7b2457ae59ca89262f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH07, TypeChangeSurfacesMismatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH07</type>
+        </param>
+        <param>
+          <type>TypeChangeSurfacesMismatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="258" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="258" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1a08650c9d390051d3e78e96e367a3be88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH08, NoChangeSchemaClassified)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH08</type>
+        </param>
+        <param>
+          <type>NoChangeSchemaClassified</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="271" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="271" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1a40e22ce6ec3125ee558d41e8786975ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH09, BadRowSkippedCountReported)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH09</type>
+        </param>
+        <param>
+          <type>BadRowSkippedCountReported</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="282" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="282" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1a50967291e2bc599b3134fea2871f316d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH10, BadRowAbortsOnFail)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH10</type>
+        </param>
+        <param>
+          <type>BadRowAbortsOnFail</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="300" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="300" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1a59df9f58d62f4bfa2c0e8264e0e8b53b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH11, PartialImportNotVisiblePreCommit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH11</type>
+        </param>
+        <param>
+          <type>PartialImportNotVisiblePreCommit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="317" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="317" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1a48d35fa4ff2166c87bc28d9746f865ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH12, ErrorResponseIncludesBadRowCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH12</type>
+        </param>
+        <param>
+          <type>ErrorResponseIncludesBadRowCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="334" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="334" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1ab261c23bedbccb7098363e0bd7235981" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH13, RowOrderingPreserved)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH13</type>
+        </param>
+        <param>
+          <type>RowOrderingPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="350" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="350" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1acf0fdb01b1c0f02be2208473ea98e04f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH14, QuotaExceededSurfaced)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH14</type>
+        </param>
+        <param>
+          <type>QuotaExceededSurfaced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="369" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="369" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1aa47f4709e1405289fbb0c52c3e2dfa3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH15, AtomicCommitAllOrNothing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH15</type>
+        </param>
+        <param>
+          <type>AtomicCommitAllOrNothing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="384" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="384" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="test__importers__contract__hardening__focused_8cpp_1ab7e0dade6de11fc4ee23f6322c5e249b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ImportersContractHardeningIMCH16, ImportTimeoutIsRetryable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ImportersContractHardeningIMCH16</type>
+        </param>
+        <param>
+          <type>ImportTimeoutIsRetryable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_contract_hardening_focused.cpp" line="409" column="1" bodyfile="tests/importers/test_importers_contract_hardening_focused.cpp" bodystart="409" bodyend="415"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 — Importers contract hardening focused tests (IMCH-01..IMCH-16). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests are fully self-contained: no network I/O, no filesystem I/O. All external interactions are mocked inline. The canonical PRNG seed is kImportersContractSeed = 42.</para>
+<sect1 id="test__importers__contract__hardening__focused_8cpp_1autotoc_md6_1s1"><sect2 id="test__importers__contract__hardening__focused_8cpp_1autotoc_md6">
+<title>Test families</title><para><heading level="3">IMCH-01..04 — Idempotency contract</heading>
+</para>
+<para>IMCH-01 Re-importing same data with same import_id produces no duplicates IMCH-02 import_id uniqueness is enforced; duplicate rejected IMCH-03 Different import_id with same data is accepted (new import) IMCH-04 Committed row count matches source row count</para>
+<para><heading level="3">IMCH-05..08 — Schema evolution</heading>
+</para>
+<para>IMCH-05 Additive column (new nullable) passes through transparently IMCH-06 Missing required column surfaces IMPORT_SCHEMA_MISMATCH IMCH-07 Breaking change (type change) surfaces IMPORT_SCHEMA_MISMATCH IMCH-08 Schema with no changes classified as NoChange</para>
+<para><heading level="3">IMCH-09..12 — Error handling</heading>
+</para>
+<para>IMCH-09 Bad row skipped when disposition=SKIP; count reported IMCH-10 Bad row aborts import when disposition=FAIL; no rows committed IMCH-11 Partial import not visible before commit IMCH-12 Error response includes exact bad-row count</para>
+<para><heading level="3">IMCH-13..16 — Large import / edge cases</heading>
+</para>
+<para>IMCH-13 Row ordering is preserved during import IMCH-14 Quota exceeded surfaces IMPORT_QUOTA_EXCEEDED IMCH-15 Atomic commit: all-or-nothing visibility IMCH-16 IMPORT_TIMEOUT is a retryable error</para>
+<para><simplesect kind="see"><para><ref refid="importers__api__contract_8h" kindref="compound">include/importers/importers_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/importers/ROADMAP.md — Phase 4 item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="importers__api__contract_8h" kindref="compound">importers/importers_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">themis::importers</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kImportersContractSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockRow<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><sp/><sp/><sp/><sp/>fields;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>valid<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>import<sp/>job<sp/>/<sp/>coordinator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockImportResult<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046dee" kindref="member">ImporterErrorCode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>code<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>ImporterErrorCode::OK;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>committed;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bad_row_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>visible<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>only<sp/>true<sp/>after<sp/>commit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockImportCoordinator<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>used_ids;<sp/><sp/></highlight><highlight class="comment">//<sp/>import_id<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportResult<sp/>run(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>import_id,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MockRow&gt;&amp;<sp/>rows,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1" kindref="member">BadRowDisposition</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>disposition,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>row_quota<sp/>=<sp/>0u)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MockImportResult<sp/>result;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Idempotency:<sp/>reject<sp/>duplicate<sp/>import_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(used_ids.count(import_id))<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.code<sp/>=<sp/>ImporterErrorCode::IMPORT_DUPLICATE_ID;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quota<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(row_quota<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>rows.size()<sp/>&gt;<sp/>row_quota)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.code<sp/>=<sp/>ImporterErrorCode::IMPORT_QUOTA_EXCEEDED;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Process<sp/>rows<sp/>(pre-commit<sp/>—<sp/>not<sp/>visible<sp/>yet)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>staging<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>row<sp/>:<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!row.valid)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++result.bad_row_count;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(disposition<sp/>==<sp/>BadRowDisposition::Fail)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.code<sp/>=<sp/>ImporterErrorCode::IMPORT_ROW_INVALID;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;<sp/><sp/></highlight><highlight class="comment">//<sp/>abort;<sp/>nothing<sp/>committed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SKIP:<sp/>continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>staging.push_back(row);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Commit<sp/>atomically<sp/>—<sp/>row<sp/>ordering<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>used_ids.insert(import_id);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.committed<sp/>=<sp/>staging;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.visible<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>schema<sp/>checker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockColumn<sp/>{<sp/>std::string<sp/>name;<sp/>std::string<sp/>type;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>required;<sp/>};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockSchema<sp/>{<sp/>std::vector&lt;MockColumn&gt;<sp/>columns;<sp/>};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1a" kindref="member">SchemaChangeKind</ref><sp/>classifySchemaChange(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MockSchema&amp;<sp/>existing,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MockSchema&amp;<sp/>incoming)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>breaking<sp/>changes:<sp/>removed<sp/>or<sp/>type-changed<sp/>columns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ec<sp/>:<sp/>existing.columns)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>std::find_if(incoming.columns.begin(),<sp/>incoming.columns.end(),</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MockColumn&amp;<sp/>ic){<sp/>return<sp/>ic.name<sp/>==<sp/>ec.name;<sp/>});</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>incoming.columns.end()<sp/>&amp;&amp;<sp/>ec.required)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa934d53e0042351b3003475fd8672bd66" kindref="member">SchemaChangeKind::Breaking</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>!=<sp/>incoming.columns.end()<sp/>&amp;&amp;<sp/>it-&gt;type<sp/>!=<sp/>ec.type)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa934d53e0042351b3003475fd8672bd66" kindref="member">SchemaChangeKind::Breaking</ref>;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>new<sp/>nullable<sp/>columns<sp/>(additive)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ic<sp/>:<sp/>incoming.columns)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>std::find_if(existing.columns.begin(),<sp/>existing.columns.end(),</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MockColumn&amp;<sp/>ec){<sp/>return<sp/>ec.name<sp/>==<sp/>ic.name;<sp/>});</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>existing.columns.end()<sp/>&amp;&amp;<sp/>!ic.required)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa3f7b3d8ee7bf0d542bd50821c083888f" kindref="member">SchemaChangeKind::Additive</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa4bac8cdf0a968472b519b3b295d0d48b" kindref="member">SchemaChangeKind::NoChange</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-01<sp/>—<sp/>Re-importing<sp/>same<sp/>data<sp/>with<sp/>same<sp/>import_id<sp/>produces<sp/>no<sp/>duplicates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH01,<sp/>ReImportSameIdNoDuplicates)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportCoordinator<sp/>coord;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{{0,<sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;imp-001&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.code,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ImporterErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.committed.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-import<sp/>same<sp/>import_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;imp-001&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r2.code,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeac133a28da0ae684eef1f4aeb34de7a4a" kindref="member">ImporterErrorCode::IMPORT_DUPLICATE_ID</ref>)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duplicate<sp/>import_id<sp/>must<sp/>be<sp/>rejected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r2.committed.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-02<sp/>—<sp/>import_id<sp/>uniqueness<sp/>is<sp/>enforced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH02,<sp/>ImportIdUniquenessEnforced)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportCoordinator<sp/>coord;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{{0,<sp/>{{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-A&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-A&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeac133a28da0ae684eef1f4aeb34de7a4a" kindref="member">ImporterErrorCode::IMPORT_DUPLICATE_ID</ref>);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-03<sp/>—<sp/>Different<sp/>import_id<sp/>with<sp/>same<sp/>data<sp/>is<sp/>accepted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH03,<sp/>DifferentImportIdAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportCoordinator<sp/>coord;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{{0,<sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-1&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.code,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ImporterErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-2&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r2.code,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ImporterErrorCode::OK</ref>)</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Different<sp/>import_id<sp/>with<sp/>same<sp/>data<sp/>must<sp/>be<sp/>accepted<sp/>as<sp/>a<sp/>new<sp/>import&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-04<sp/>—<sp/>Committed<sp/>row<sp/>count<sp/>matches<sp/>valid<sp/>source<sp/>row<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH04,<sp/>CommittedRowCountMatchesSource)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportCoordinator<sp/>coord;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>rows.push_back({i,<sp/>{{</highlight><highlight class="stringliteral">&quot;i&quot;</highlight><highlight class="normal">,<sp/>std::to_string(i)}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-04&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ImporterErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed.size(),<sp/>10u);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-05<sp/>—<sp/>Additive<sp/>column<sp/>passes<sp/>through<sp/>transparently</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH05,<sp/>AdditiveColumnPassthrough)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSchema<sp/>existing<sp/>=<sp/>{{{<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;INT64&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;STRING&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSchema<sp/>incoming<sp/>=<sp/>{{{<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;INT64&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;STRING&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;extra&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;STRING&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}}};<sp/></highlight><highlight class="comment">//<sp/>new<sp/>nullable<sp/>column</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kind<sp/>=<sp/>classifySchemaChange(existing,<sp/>incoming);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(kind,<sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa3f7b3d8ee7bf0d542bd50821c083888f" kindref="member">SchemaChangeKind::Additive</ref>);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1importers_1a6c245d1b5602d4d99d3e740680d77129" kindref="member">requiresMigration</ref>(kind));</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-06<sp/>—<sp/>Missing<sp/>required<sp/>column<sp/>surfaces<sp/>IMPORT_SCHEMA_MISMATCH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH06,<sp/>MissingRequiredColumnIsMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSchema<sp/>existing<sp/>=<sp/>{{{<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;INT64&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;STRING&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSchema<sp/>incoming<sp/>=<sp/>{{{<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;INT64&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}};<sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;name&apos;<sp/>required<sp/>but<sp/>missing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kind<sp/>=<sp/>classifySchemaChange(existing,<sp/>incoming);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(kind,<sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa934d53e0042351b3003475fd8672bd66" kindref="member">SchemaChangeKind::Breaking</ref>);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1importers_1a6c245d1b5602d4d99d3e740680d77129" kindref="member">requiresMigration</ref>(kind));</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>error<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046dee" kindref="member">ImporterErrorCode</ref><sp/>rc<sp/>=<sp/><ref refid="namespacethemis_1_1importers_1a6c245d1b5602d4d99d3e740680d77129" kindref="member">requiresMigration</ref>(kind)</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeabbea13b44f7b0e345297db2e390d19ed" kindref="member">ImporterErrorCode::IMPORT_SCHEMA_MISMATCH</ref></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ImporterErrorCode::OK</ref>;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rc,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeabbea13b44f7b0e345297db2e390d19ed" kindref="member">ImporterErrorCode::IMPORT_SCHEMA_MISMATCH</ref>);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-07<sp/>—<sp/>Breaking<sp/>type<sp/>change<sp/>surfaces<sp/>IMPORT_SCHEMA_MISMATCH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH07,<sp/>TypeChangeSurfacesMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSchema<sp/>existing<sp/>=<sp/>{{{<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;INT64&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSchema<sp/>incoming<sp/>=<sp/>{{{<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;STRING&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}};<sp/><sp/></highlight><highlight class="comment">//<sp/>type<sp/>changed:<sp/>INT64<sp/>→<sp/>STRING</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kind<sp/>=<sp/>classifySchemaChange(existing,<sp/>incoming);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(kind,<sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa934d53e0042351b3003475fd8672bd66" kindref="member">SchemaChangeKind::Breaking</ref>);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1importers_1a6c245d1b5602d4d99d3e740680d77129" kindref="member">requiresMigration</ref>(kind));</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-08<sp/>—<sp/>No-change<sp/>schema<sp/>classified<sp/>as<sp/>NoChange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH08,<sp/>NoChangeSchemaClassified)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSchema<sp/>s<sp/>=<sp/>{{{<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;INT64&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DOUBLE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kind<sp/>=<sp/>classifySchemaChange(s,<sp/>s);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(kind,<sp/><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1aa4bac8cdf0a968472b519b3b295d0d48b" kindref="member">SchemaChangeKind::NoChange</ref>);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1importers_1a6c245d1b5602d4d99d3e740680d77129" kindref="member">requiresMigration</ref>(kind));</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-09<sp/>—<sp/>Bad<sp/>row<sp/>skipped<sp/>when<sp/>disposition=SKIP;<sp/>count<sp/>reported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH09,<sp/>BadRowSkippedCountReported)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportCoordinator<sp/>coord;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{},<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>bad</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;w&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-09&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ImporterErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed.size(),<sp/>2u)<sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Two<sp/>valid<sp/>rows<sp/>must<sp/>be<sp/>committed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.bad_row_count,<sp/>1)<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Bad-row<sp/>count<sp/>must<sp/>be<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-10<sp/>—<sp/>Bad<sp/>row<sp/>aborts<sp/>import<sp/>when<sp/>disposition=FAIL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH10,<sp/>BadRowAbortsOnFail)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportCoordinator<sp/>coord;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{},<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>bad</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-10&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1aceaa0734f0b3c738120c67344d8f3ec1" kindref="member">BadRowDisposition::Fail</ref>);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deead7bc11ca0265a55adcfac56db6ba6bf3" kindref="member">ImporterErrorCode::IMPORT_ROW_INVALID</ref>);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed.size(),<sp/>0u)</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>rows<sp/>must<sp/>be<sp/>committed<sp/>when<sp/>import<sp/>is<sp/>aborted<sp/>on<sp/>bad<sp/>row&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-11<sp/>—<sp/>Partial<sp/>import<sp/>not<sp/>visible<sp/>before<sp/>commit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH11,<sp/>PartialImportNotVisiblePreCommit)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulated:<sp/>staged<sp/>rows<sp/>are<sp/>not<sp/>visible<sp/>until<sp/>result.visible<sp/>=<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportCoordinator<sp/>coord;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{{0,<sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before<sp/>run,<sp/>no<sp/>data<sp/>committed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(In<sp/>a<sp/>real<sp/>system,<sp/>visibility<sp/>is<sp/>controlled<sp/>by<sp/>transaction<sp/>isolation.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-11&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>run<sp/>with<sp/>OK,<sp/>data<sp/>is<sp/>visible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.visible);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-12<sp/>—<sp/>Error<sp/>response<sp/>includes<sp/>exact<sp/>bad-row<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH12,<sp/>ErrorResponseIncludesBadRowCount)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportCoordinator<sp/>coord;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rows.push_back({i,<sp/>{},<sp/>i<sp/>%<sp/>3<sp/>==<sp/>0<sp/>?<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});<sp/></highlight><highlight class="comment">//<sp/>rows<sp/>0,3,6,9<sp/>bad</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-12&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.bad_row_count,<sp/>4)</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error<sp/>response<sp/>must<sp/>include<sp/>the<sp/>exact<sp/>bad-row<sp/>count&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-13<sp/>—<sp/>Row<sp/>ordering<sp/>preserved<sp/>during<sp/>import</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH13,<sp/>RowOrderingPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportCoordinator<sp/>coord;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rows.push_back({i,<sp/>{{</highlight><highlight class="stringliteral">&quot;seq&quot;</highlight><highlight class="normal">,<sp/>std::to_string(i)}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-13&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed.size(),<sp/>20u);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed[i].index,<sp/>i)</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Row<sp/>ordering<sp/>must<sp/>be<sp/>preserved&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-14<sp/>—<sp/>Quota<sp/>exceeded<sp/>surfaces<sp/>IMPORT_QUOTA_EXCEEDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH14,<sp/>QuotaExceededSurfaced)<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportCoordinator<sp/>coord;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>rows<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>rows.push_back({i,<sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-14&quot;</highlight><highlight class="normal">,<sp/>rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1a72ef2b9b6965d078e3c7f95487a82d1c" kindref="member">BadRowDisposition::Skip</ref>,<sp/></highlight><highlight class="comment">/*row_quota=*/</highlight><highlight class="normal">5u);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.code,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deea1a744885d9b5702132aa95663c78d0ca" kindref="member">ImporterErrorCode::IMPORT_QUOTA_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.committed.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-15<sp/>—<sp/>Atomic<sp/>commit:<sp/>all-or-nothing<sp/>visibility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH15,<sp/>AtomicCommitAllOrNothing)<sp/>{</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>MockImportCoordinator<sp/>coord;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>valid<sp/>rows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>valid_rows<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>valid_rows.push_back({i,<sp/>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r_ok<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-15a&quot;</highlight><highlight class="normal">,<sp/>valid_rows,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1aceaa0734f0b3c738120c67344d8f3ec1" kindref="member">BadRowDisposition::Fail</ref>);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r_ok.code,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ImporterErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r_ok.committed.size(),<sp/>5u);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r_ok.visible);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>bad<sp/>row<sp/>with<sp/>Fail<sp/>→<sp/>nothing<sp/>committed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockRow&gt;<sp/>mixed<sp/>=<sp/>valid_rows;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>mixed.push_back({99,<sp/>{},<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r_fail<sp/>=<sp/>coord.run(</highlight><highlight class="stringliteral">&quot;id-15b&quot;</highlight><highlight class="normal">,<sp/>mixed,<sp/><ref refid="namespacethemis_1_1importers_1ac764a8389cec8bae121851007afc73d1aceaa0734f0b3c738120c67344d8f3ec1" kindref="member">BadRowDisposition::Fail</ref>);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r_fail.code,<sp/><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deead7bc11ca0265a55adcfac56db6ba6bf3" kindref="member">ImporterErrorCode::IMPORT_ROW_INVALID</ref>);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r_fail.committed.size(),<sp/>0u)</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Atomic<sp/>commit:<sp/>on<sp/>failure,<sp/>zero<sp/>rows<sp/>visible&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMCH-16<sp/>—<sp/>IMPORT_TIMEOUT<sp/>is<sp/>a<sp/>retryable<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><ref refid="test__importers__contract__hardening__focused_8cpp_1aabbc022b87d04bc05ce642eedf3d03cd" kindref="member">TEST</ref>(ImportersContractHardeningIMCH16,<sp/>ImportTimeoutIsRetryable)<sp/>{</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1importers_1a18d7e29f873fb845037beb551f735535" kindref="member">isRetryableImportError</ref>(<ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deea356f31b14432727828877e5fd2d5a8d9" kindref="member">ImporterErrorCode::IMPORT_TIMEOUT</ref>));</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1importers_1a18d7e29f873fb845037beb551f735535" kindref="member">isRetryableImportError</ref>(<ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeaa88dc44c69288c9fbf2e8e9db9119398" kindref="member">ImporterErrorCode::IMPORT_CONNECTOR_UNAVAILABLE</ref>));</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1importers_1a18d7e29f873fb845037beb551f735535" kindref="member">isRetryableImportError</ref>(<ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeabbea13b44f7b0e345297db2e390d19ed" kindref="member">ImporterErrorCode::IMPORT_SCHEMA_MISMATCH</ref>));</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1importers_1a18d7e29f873fb845037beb551f735535" kindref="member">isRetryableImportError</ref>(<ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deeae26e7c0e56a614f19fa3d0f91369ae2d" kindref="member">ImporterErrorCode::IMPORT_DUPLICATE_KEY</ref>));</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1importers_1a18d7e29f873fb845037beb551f735535" kindref="member">isRetryableImportError</ref>(<ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046deead7bc11ca0265a55adcfac56db6ba6bf3" kindref="member">ImporterErrorCode::IMPORT_ROW_INVALID</ref>));</highlight></codeline>
+<codeline lineno="415"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/importers/test_importers_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

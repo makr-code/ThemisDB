@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1optimizations_1_1_batch_read_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::optimizations::BatchReadOptimizer</compoundname>
+    <includes refid="raid__optimizations_8h" local="no">raid_optimizations.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1optimizations_1_1_batch_read_optimizer_1_1_read_request" prot="public">themisdb::sharding::optimizations::BatchReadOptimizer::ReadRequest</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1optimizations_1_1_batch_read_optimizer_1_1_read_response" prot="public">themisdb::sharding::optimizations::BatchReadOptimizer::ReadResponse</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_batch_read_optimizer_1ad816e2b0516736b1f1f2b041f1f6bc0a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1optimizations_1_1_batch_read_optimizer_1_1_read_response" kindref="compound">ReadResponse</ref> &gt;</type>
+        <definition>static std::vector&lt; ReadResponse &gt; themisdb::sharding::optimizations::BatchReadOptimizer::batchRead</definition>
+        <argsstring>(const std::vector&lt; ReadRequest &gt; &amp;requests, RedundancyStrategy &amp;strategy, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, RedundancyStrategy::ReadHandler handler)</argsstring>
+        <name>batchRead</name>
+        <qualifiedname>themisdb::sharding::optimizations::BatchReadOptimizer::batchRead</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1optimizations_1_1_batch_read_optimizer_1_1_read_request" kindref="compound">ReadRequest</ref> &gt; &amp;</type>
+          <declname>requests</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &amp;</type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" kindref="member">RedundancyStrategy::ReadHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimize batch reads by grouping by shard and parallelizing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="296" column="24" bodyfile="include/sharding/raid_optimizations.h" bodystart="296" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Batch Read Optimizer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raid_optimizations.h" line="280" column="1" bodyfile="include/sharding/raid_optimizations.h" bodystart="280" bodyend="343"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_batch_read_optimizer_1ad816e2b0516736b1f1f2b041f1f6bc0a" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::BatchReadOptimizer</scope><name>batchRead</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_i_kafka_consumer_source" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::importers::IKafkaConsumerSource</compoundname>
+    <derivedcompoundref refid="class_vector_kafka_source" prot="public" virt="non-virtual">VectorKafkaSource</derivedcompoundref>
+    <includes refid="importer__interfaces_8h" local="no">importer_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_kafka_consumer_source_1a1d92adda8d69086dfd1b093d77b53ac9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::importers::IKafkaConsumerSource::~IKafkaConsumerSource</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IKafkaConsumerSource</name>
+        <qualifiedname>themis::importers::IKafkaConsumerSource::~IKafkaConsumerSource</qualifiedname>
+        <briefdescription>
+<para>IKafka Consumer Source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="134" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_kafka_consumer_source_1aa18206c8ae192d11206646eeea48f994" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_kafka_batch" kindref="compound">KafkaBatch</ref></type>
+        <definition>virtual KafkaBatch themis::importers::IKafkaConsumerSource::poll</definition>
+        <argsstring>(std::chrono::milliseconds timeout, KafkaError &amp;err)=0</argsstring>
+        <name>poll</name>
+        <qualifiedname>themis::importers::IKafkaConsumerSource::poll</qualifiedname>
+        <reimplementedby refid="class_vector_kafka_source_1a0d03d4ea5c552dec2e03543bfb36e2af">poll</reimplementedby>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a21dd5b252aa6e2a86ba8cf29452d324e" kindref="member">KafkaError</ref> &amp;</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="136" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_kafka_consumer_source_1ae31f1661fea9122097dda480ebcc2053" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a21dd5b252aa6e2a86ba8cf29452d324e" kindref="member">KafkaError</ref></type>
+        <definition>virtual KafkaError themis::importers::IKafkaConsumerSource::commitOffset</definition>
+        <argsstring>(const KafkaOffset &amp;offset)=0</argsstring>
+        <name>commitOffset</name>
+        <qualifiedname>themis::importers::IKafkaConsumerSource::commitOffset</qualifiedname>
+        <reimplementedby refid="class_vector_kafka_source_1a8d1017c9bce05dfa2cc836868999d45e">commitOffset</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_kafka_offset" kindref="compound">KafkaOffset</ref> &amp;</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="140" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_kafka_consumer_source_1ae1c289b6bdb10a4c36ee5ea117988ec7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int64_t</type>
+        <definition>virtual int64_t themis::importers::IKafkaConsumerSource::lag</definition>
+        <argsstring>() const =0</argsstring>
+        <name>lag</name>
+        <qualifiedname>themis::importers::IKafkaConsumerSource::lag</qualifiedname>
+        <reimplementedby refid="class_vector_kafka_source_1a9044922a188d54dda24b4f0fdaaa6f26">lag</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="142" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_kafka_consumer_source_1a612a4becc28eaaefff3b48994ae44fd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::importers::IKafkaConsumerSource::close</definition>
+        <argsstring>()=0</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::importers::IKafkaConsumerSource::close</qualifiedname>
+        <reimplementedby refid="class_vector_kafka_source_1a78099029207a30154d8170312c663960">close</reimplementedby>
+        <briefdescription>
+<para>Close. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="147" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>VectorKafkaSource</label>
+        <link refid="class_vector_kafka_source"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::importers::IKafkaConsumerSource</label>
+        <link refid="classthemis_1_1importers_1_1_i_kafka_consumer_source"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/importers/importer_interfaces.h" line="128" column="1" bodyfile="include/importers/importer_interfaces.h" bodystart="128" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_i_kafka_consumer_source_1a612a4becc28eaaefff3b48994ae44fd1" prot="public" virt="pure-virtual"><scope>themis::importers::IKafkaConsumerSource</scope><name>close</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_kafka_consumer_source_1ae31f1661fea9122097dda480ebcc2053" prot="public" virt="pure-virtual"><scope>themis::importers::IKafkaConsumerSource</scope><name>commitOffset</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_kafka_consumer_source_1ae1c289b6bdb10a4c36ee5ea117988ec7" prot="public" virt="pure-virtual"><scope>themis::importers::IKafkaConsumerSource</scope><name>lag</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_kafka_consumer_source_1aa18206c8ae192d11206646eeea48f994" prot="public" virt="pure-virtual"><scope>themis::importers::IKafkaConsumerSource</scope><name>poll</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_kafka_consumer_source_1a1d92adda8d69086dfd1b093d77b53ac9" prot="public" virt="virtual"><scope>themis::importers::IKafkaConsumerSource</scope><name>~IKafkaConsumerSource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1analytics_1_1detail" kind="namespace" language="C++">
+    <compoundname>themis::analytics::detail</compoundname>
+    <innerclass refid="classthemis_1_1analytics_1_1detail_1_1_analytics_memory_pool" prot="public">themis::analytics::detail::AnalyticsMemoryPool</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1detail_1_1_event_ring_buffer" prot="public">themis::analytics::detail::EventRingBuffer</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1detail_1ade062eb581063f82b0db805323c0d8c0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::detail::computePercentile</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;vals, double p)</argsstring>
+        <name>computePercentile</name>
+        <qualifiedname>themis::analytics::detail::computePercentile</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>vals</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Compute Percentile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), scratch(), begin(), end(), std::sort(), front(), back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/stats.h" line="44" column="15" bodyfile="include/analytics/detail/stats.h" bodystart="44" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1_1detail_1ad1b7ee86128225f288069213df72e2bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::detail::computePercentile</definition>
+        <argsstring>(std::span&lt; const double &gt; vals, double p)</argsstring>
+        <name>computePercentile</name>
+        <qualifiedname>themis::analytics::detail::computePercentile</qualifiedname>
+        <param>
+          <type>std::span&lt; const double &gt;</type>
+          <declname>vals</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Compute Percentile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), scratch(), begin(), end(), std::sort(), front(), back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/stats.h" line="74" column="15" bodyfile="include/analytics/detail/stats.h" bodystart="74" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/detail/memory_pool.h" line="43" column="1"/>
+  </compounddef>
+</doxygen>

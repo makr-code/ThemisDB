@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_shutdown_state" kind="struct" language="C++" prot="public">
+    <compoundname>ShutdownState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_shutdown_state_1a8fd7bcb530171be2016e00d31740ea84" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="test__server__phase1__hardening_8cpp_1aca18e8394cdb8c8e7106ed42ab3f4c90" kindref="member">ShutdownPhase</ref> &gt;</type>
+        <definition>std::atomic&lt;ShutdownPhase&gt; ShutdownState::phase</definition>
+        <argsstring></argsstring>
+        <name>phase</name>
+        <qualifiedname>ShutdownState::phase</qualifiedname>
+        <initializer>{<ref refid="test__server__phase1__hardening_8cpp_1aca18e8394cdb8c8e7106ed42ab3f4c90af5137a026a4b2f3b1c8a21cfc60dd14b" kindref="member">ShutdownPhase::kIdle</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="317" column="17" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="317" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_shutdown_state_1a4155a3aa8f6186a3acacec751e6597ec" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; ShutdownState::active_requests</definition>
+        <argsstring></argsstring>
+        <name>active_requests</name>
+        <qualifiedname>ShutdownState::active_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="318" column="17" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="318" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_shutdown_state_1a84637d55fca5de1da390818fd5a04684" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex ShutdownState::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>ShutdownState::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="319" column="16" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_shutdown_state_1a6c9a292845bde6fa40241a8b9edb397c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="test__server__phase1__hardening_8cpp_1aca18e8394cdb8c8e7106ed42ab3f4c90" kindref="member">ShutdownPhase</ref> &gt;</type>
+        <definition>std::vector&lt;ShutdownPhase&gt; ShutdownState::phase_log</definition>
+        <argsstring></argsstring>
+        <name>phase_log</name>
+        <qualifiedname>ShutdownState::phase_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase1_hardening.cpp" line="320" column="17" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="320" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_phase1_hardening.cpp" line="316" column="1" bodyfile="tests/server/test_server_phase1_hardening.cpp" bodystart="316" bodyend="321"/>
+    <listofallmembers>
+      <member refid="struct_shutdown_state_1a4155a3aa8f6186a3acacec751e6597ec" prot="public" virt="non-virtual"><scope>ShutdownState</scope><name>active_requests</name></member>
+      <member refid="struct_shutdown_state_1a84637d55fca5de1da390818fd5a04684" prot="public" virt="non-virtual"><scope>ShutdownState</scope><name>mutex</name></member>
+      <member refid="struct_shutdown_state_1a8fd7bcb530171be2016e00d31740ea84" prot="public" virt="non-virtual"><scope>ShutdownState</scope><name>phase</name></member>
+      <member refid="struct_shutdown_state_1a6c9a292845bde6fa40241a8b9edb397c" prot="public" virt="non-virtual"><scope>ShutdownState</scope><name>phase_log</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

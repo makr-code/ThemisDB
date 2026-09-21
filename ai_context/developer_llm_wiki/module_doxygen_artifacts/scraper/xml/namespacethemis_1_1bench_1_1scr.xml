@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1scr" kind="namespace" language="C++">
+    <compoundname>themis::bench::scr</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1scr_1a510b97abdc1d29304e23933b6a72bf25" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::scr::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::scr::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" line="39" column="27" bodyfile="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1scr_1ab3137681d9f90bdf1817696e9e55d332" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::scr::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::scr::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" line="40" column="22" bodyfile="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1scr_1a510b97abdc1d29304e23933b6a72bf25" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::scr::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::scr::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all SCR benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_release_gates.cpp" line="55" column="27" bodyfile="benchmarks/scraper/bench_scraper_release_gates.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1scr_1ab3137681d9f90bdf1817696e9e55d332" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::scr::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::scr::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of repetitions for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_release_gates.cpp" line="58" column="22" bodyfile="benchmarks/scraper/bench_scraper_release_gates.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1scr_1ab2ffee13be3fe9baaf5273680279d078" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::scr::BM_PIPE01_BatchEmit1000</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PIPE01_BatchEmit1000</name>
+        <qualifiedname>themis::bench::scr::BM_PIPE01_BatchEmit1000</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" line="46" column="13" bodyfile="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" bodystart="46" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1scr_1a19ce7e47d29149cadb077966d82d0a8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::scr::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true) -&gt;UseRealTime()</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::scr::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" line="74" column="5" declfile="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" declline="74" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1scr_1af27cab622a9120a45eb193f134f3227d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::scr::BM_PIPE02_SummaryAggregation10k</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PIPE02_SummaryAggregation10k</name>
+        <qualifiedname>themis::bench::scr::BM_PIPE02_SummaryAggregation10k</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" line="82" column="13" bodyfile="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" bodystart="82" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1scr_1a1ae71b54f188c31dbf9efb490c8f3a3f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::scr::BM_PIPE03_ScrapeRequestBatchAlloc</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PIPE03_ScrapeRequestBatchAlloc</name>
+        <qualifiedname>themis::bench::scr::BM_PIPE03_ScrapeRequestBatchAlloc</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" line="117" column="13" bodyfile="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" bodystart="117" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1scr_1aa0ee1f525dbc04bfd124460725ecbba9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::scr::BM_PIPE04_FaultClassLoop10k</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PIPE04_FaultClassLoop10k</name>
+        <qualifiedname>themis::bench::scr::BM_PIPE04_FaultClassLoop10k</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" line="139" column="13" bodyfile="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" bodystart="139" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1scr_1a03eb26f180b81bb33392cc353090ce50" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::scr::BM_SCR01_ErrorEnumCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SCR01_ErrorEnumCast</name>
+        <qualifiedname>themis::bench::scr::BM_SCR01_ErrorEnumCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_release_gates.cpp" line="64" column="13" bodyfile="benchmarks/scraper/bench_scraper_release_gates.cpp" bodystart="64" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1scr_1a5cc8915a8ae69376f0ac52e2e8169faf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::scr::BM_SCR02_SwitchDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SCR02_SwitchDispatch</name>
+        <qualifiedname>themis::bench::scr::BM_SCR02_SwitchDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_release_gates.cpp" line="81" column="13" bodyfile="benchmarks/scraper/bench_scraper_release_gates.cpp" bodystart="81" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1scr_1af9419e1a45d480b0e410fd360a4a450f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::scr::BM_SCR03_StructAlloc</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SCR03_StructAlloc</name>
+        <qualifiedname>themis::bench::scr::BM_SCR03_StructAlloc</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_release_gates.cpp" line="120" column="13" bodyfile="benchmarks/scraper/bench_scraper_release_gates.cpp" bodystart="120" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1scr_1ad6b9b1a440ba3cecbb54513519a63069" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::scr::BM_SCR04_BatchCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SCR04_BatchCast</name>
+        <qualifiedname>themis::bench::scr::BM_SCR04_BatchCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_release_gates.cpp" line="138" column="13" bodyfile="benchmarks/scraper/bench_scraper_release_gates.cpp" bodystart="138" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1scr_1a99394cd628cc8b59f139465e393549d9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::scr::BM_SCR05_BurstAcquire</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SCR05_BurstAcquire</name>
+        <qualifiedname>themis::bench::scr::BM_SCR05_BurstAcquire</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_release_gates.cpp" line="165" column="13" bodyfile="benchmarks/scraper/bench_scraper_release_gates.cpp" bodystart="165" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1scr_1a0653a5ba94f4bfc82b66281d5a51dbda" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::scr::BM_SCR06_SummaryRead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SCR06_SummaryRead</name>
+        <qualifiedname>themis::bench::scr::BM_SCR06_SummaryRead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scraper/bench_scraper_release_gates.cpp" line="183" column="13" bodyfile="benchmarks/scraper/bench_scraper_release_gates.cpp" bodystart="183" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/scraper/bench_scraper_pipeline_depth.cpp" line="37" column="1"/>
+  </compounddef>
+</doxygen>

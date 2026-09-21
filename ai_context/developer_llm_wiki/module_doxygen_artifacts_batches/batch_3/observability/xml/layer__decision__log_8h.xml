@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="layer__decision__log_8h" kind="file" language="C++">
+    <compoundname>layer_decision_log.h</compoundname>
+    <includes refid="telemetry__keys_8h" local="yes">observability/telemetry_keys.h</includes>
+    <includes local="yes">utils/logger.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string_view</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/layer_decision_log.h</label>
+        <link refid="layer__decision__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>observability/telemetry_keys.h</label>
+        <link refid="telemetry__keys_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="4">
+        <label>utils/logger.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Emits one normalized structured log line for layer handoff decisions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Structured logging for layer routing and model-selection decisions.</para>
+<para>Declares LayerDecisionLog, a lightweight sink that records which processing layer was chosen for each request and the contributing factors. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="telemetry__keys_8h" kindref="compound">observability/telemetry_keys.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">themis::observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1observability_1a004006379fb2a7472c1c0224cd344f7e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a004006379fb2a7472c1c0224cd344f7e" kindref="member">emitLayerDecisionLog</ref>(std::string_view<sp/>layer_name,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>correlation_id,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>routing_reason_code,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>confidence_policy_version,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>confidence_threshold_key,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>fallback_mode,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>fallback_reason_code,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>escalation_source_layer,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>resolved<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload<sp/>=<sp/>nlohmann::json::object();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>payload[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a1fcbd1a0b2a23d36baade11aa7d0a178" kindref="member">telemetry::fields::kEvent</ref>)]<sp/>=<sp/>std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1events_1a2b9f1a56ab835c615149b1a3aa28bae0" kindref="member">telemetry::events::kLayerHandoffDecision</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>payload[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ae67b64faec2c4fcd053c05caae2f24e6" kindref="member">telemetry::fields::kLayerName</ref>)]<sp/>=<sp/>std::string(layer_name);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>payload[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a8f85e850648da3e9449e6d0b358ad98e" kindref="member">telemetry::fields::kCorrelationId</ref>)]<sp/>=<sp/>std::string(correlation_id);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>payload[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ac0b23e816a543f68f88a1976637da8c9" kindref="member">telemetry::fields::kRoutingReasonCode</ref>)]<sp/>=<sp/>std::string(routing_reason_code);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>payload[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ac30e570dc3ae91f4adef8cddabb299da" kindref="member">telemetry::fields::kConfidencePolicyVersion</ref>)]<sp/>=<sp/>std::string(confidence_policy_version);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>payload[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1aee76d0e9b96c52ec8a3b7a91553daf42" kindref="member">telemetry::fields::kConfidenceThresholdKey</ref>)]<sp/>=<sp/>std::string(confidence_threshold_key);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>payload[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a5bbf7e83c4008336a2df60594c3dfc1b" kindref="member">telemetry::fields::kFallbackMode</ref>)]<sp/>=<sp/>std::string(fallback_mode);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>payload[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a0a7560894c653e550a6b86215a17ae2f" kindref="member">telemetry::fields::kFallbackReasonCode</ref>)]<sp/>=<sp/>std::string(fallback_reason_code);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>payload[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1afd251a60adbbea23db08613d57e22390" kindref="member">telemetry::fields::kEscalationSourceLayer</ref>)]<sp/>=<sp/>std::string(escalation_source_layer);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>payload[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a9e01cd2998dd8e1929cab4dceb5b7975" kindref="member">telemetry::fields::kResolved</ref>)]<sp/>=<sp/>resolved;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_INFO(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/>payload.dump());</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::observability</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/layer_decision_log.h"/>
+  </compounddef>
+</doxygen>

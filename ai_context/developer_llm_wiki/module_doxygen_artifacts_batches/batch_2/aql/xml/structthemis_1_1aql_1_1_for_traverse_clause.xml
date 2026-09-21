@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_for_traverse_clause" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::ForTraverseClause</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_for_traverse_clause_1a944544695efe6a8bd713f0d397b50d7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ForTraverseClause::vertex_var</definition>
+        <argsstring></argsstring>
+        <name>vertex_var</name>
+        <qualifiedname>themis::aql::ForTraverseClause::vertex_var</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="46" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_for_traverse_clause_1a5624bfba77350c5fd1605010bcc4bbd1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ForTraverseClause::edge_var</definition>
+        <argsstring></argsstring>
+        <name>edge_var</name>
+        <qualifiedname>themis::aql::ForTraverseClause::edge_var</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="47" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_for_traverse_clause_1a1c020d4fe26f0e0bb307afeff50aadc4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ForTraverseClause::path_var</definition>
+        <argsstring></argsstring>
+        <name>path_var</name>
+        <qualifiedname>themis::aql::ForTraverseClause::path_var</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="48" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_for_traverse_clause_1a480111d5eed0fd95df7758a2d26efc8e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ForTraverseClause::start</definition>
+        <argsstring></argsstring>
+        <name>start</name>
+        <qualifiedname>themis::aql::ForTraverseClause::start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="49" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_for_traverse_clause_1ab76b23fbf90cba7c0b935a9fedf1ae4c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ForTraverseClause::graph</definition>
+        <argsstring></argsstring>
+        <name>graph</name>
+        <qualifiedname>themis::aql::ForTraverseClause::graph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="50" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_for_traverse_clause_1ae329320499e3c045f2c1a5c080d3ff8d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ForTraverseClause::direction</definition>
+        <argsstring></argsstring>
+        <name>direction</name>
+        <qualifiedname>themis::aql::ForTraverseClause::direction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="51" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_for_traverse_clause_1a8a78f6904913cd584bb219c696b0c44c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::ForTraverseClause::min_depth</definition>
+        <argsstring></argsstring>
+        <name>min_depth</name>
+        <qualifiedname>themis::aql::ForTraverseClause::min_depth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="52" column="9" bodyfile="src/aql/aql_query_builder.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_for_traverse_clause_1a053920aa7f67ad8c007463c6a8152b89" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::ForTraverseClause::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::aql::ForTraverseClause::max_depth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="53" column="9" bodyfile="src/aql/aql_query_builder.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/aql/aql_query_builder.cpp" line="45" column="1" bodyfile="src/aql/aql_query_builder.cpp" bodystart="45" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_for_traverse_clause_1ae329320499e3c045f2c1a5c080d3ff8d" prot="public" virt="non-virtual"><scope>themis::aql::ForTraverseClause</scope><name>direction</name></member>
+      <member refid="structthemis_1_1aql_1_1_for_traverse_clause_1a5624bfba77350c5fd1605010bcc4bbd1" prot="public" virt="non-virtual"><scope>themis::aql::ForTraverseClause</scope><name>edge_var</name></member>
+      <member refid="structthemis_1_1aql_1_1_for_traverse_clause_1ab76b23fbf90cba7c0b935a9fedf1ae4c" prot="public" virt="non-virtual"><scope>themis::aql::ForTraverseClause</scope><name>graph</name></member>
+      <member refid="structthemis_1_1aql_1_1_for_traverse_clause_1a053920aa7f67ad8c007463c6a8152b89" prot="public" virt="non-virtual"><scope>themis::aql::ForTraverseClause</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1aql_1_1_for_traverse_clause_1a8a78f6904913cd584bb219c696b0c44c" prot="public" virt="non-virtual"><scope>themis::aql::ForTraverseClause</scope><name>min_depth</name></member>
+      <member refid="structthemis_1_1aql_1_1_for_traverse_clause_1a1c020d4fe26f0e0bb307afeff50aadc4" prot="public" virt="non-virtual"><scope>themis::aql::ForTraverseClause</scope><name>path_var</name></member>
+      <member refid="structthemis_1_1aql_1_1_for_traverse_clause_1a480111d5eed0fd95df7758a2d26efc8e" prot="public" virt="non-virtual"><scope>themis::aql::ForTraverseClause</scope><name>start</name></member>
+      <member refid="structthemis_1_1aql_1_1_for_traverse_clause_1a944544695efe6a8bd713f0d397b50d7b" prot="public" virt="non-virtual"><scope>themis::aql::ForTraverseClause</scope><name>vertex_var</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

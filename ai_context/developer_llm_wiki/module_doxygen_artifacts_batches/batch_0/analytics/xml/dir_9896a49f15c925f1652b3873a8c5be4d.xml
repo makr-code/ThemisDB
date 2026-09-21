@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9896a49f15c925f1652b3873a8c5be4d" kind="dir">
+    <compoundname>src/analytics</compoundname>
+    <innerdir refid="dir_7030db503f31da836975367897b45548">src/analytics/detail</innerdir>
+    <innerfile refid="aggregation_8cpp">aggregation.cpp</innerfile>
+    <innerfile refid="analytics__engine_8cpp">analytics_engine.cpp</innerfile>
+    <innerfile refid="analytics__export_8cpp">analytics_export.cpp</innerfile>
+    <innerfile refid="anomaly__detection_8cpp">anomaly_detection.cpp</innerfile>
+    <innerfile refid="arrow__export_8cpp">arrow_export.cpp</innerfile>
+    <innerfile refid="arrow__flight_8cpp">arrow_flight.cpp</innerfile>
+    <innerfile refid="automl_8cpp">automl.cpp</innerfile>
+    <innerfile refid="cep__engine_8cpp">cep_engine.cpp</innerfile>
+    <innerfile refid="columnar__execution_8cpp">columnar_execution.cpp</innerfile>
+    <innerfile refid="diff__engine_8cpp">diff_engine.cpp</innerfile>
+    <innerfile refid="distributed__analytics_8cpp">distributed_analytics.cpp</innerfile>
+    <innerfile refid="expert__system__engine_8cpp">expert_system_engine.cpp</innerfile>
+    <innerfile refid="forecasting_8cpp">forecasting.cpp</innerfile>
+    <innerfile refid="incremental__view_8cpp">incremental_view.cpp</innerfile>
+    <innerfile refid="jit__aggregation_8cpp">jit_aggregation.cpp</innerfile>
+    <innerfile refid="knowledge__base_8cpp">knowledge_base.cpp</innerfile>
+    <innerfile refid="llm__process__analyzer_8cpp">llm_process_analyzer.cpp</innerfile>
+    <innerfile refid="lora__pattern__classifier_8cpp">lora_pattern_classifier.cpp</innerfile>
+    <innerfile refid="ml__serving_8cpp">ml_serving.cpp</innerfile>
+    <innerfile refid="model__serving_8cpp">model_serving.cpp</innerfile>
+    <innerfile refid="nlp__text__analyzer_8cpp">nlp_text_analyzer.cpp</innerfile>
+    <innerfile refid="olap_8cpp">olap.cpp</innerfile>
+    <innerfile refid="process__mining_8cpp">process_mining.cpp</innerfile>
+    <innerfile refid="process__pattern__matcher_8cpp">process_pattern_matcher.cpp</innerfile>
+    <innerfile refid="result__aggregator_8cpp">result_aggregator.cpp</innerfile>
+    <innerfile refid="streaming__join_8cpp">streaming_join.cpp</innerfile>
+    <innerfile refid="streaming__window_8cpp">streaming_window.cpp</innerfile>
+    <innerfile refid="time__series_8cpp">time_series.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/"/>
+  </compounddef>
+</doxygen>

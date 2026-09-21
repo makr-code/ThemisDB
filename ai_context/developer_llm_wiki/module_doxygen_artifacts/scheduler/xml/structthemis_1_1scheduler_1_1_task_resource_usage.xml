@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scheduler_1_1_task_resource_usage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scheduler::TaskResourceUsage</compoundname>
+    <includes refid="task__audit__event_8h" local="no">task_audit_event.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_resource_usage_1ae12af41781a6b7950d13936d58c5bde7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskResourceUsage::cpu_time_ms</definition>
+        <argsstring></argsstring>
+        <name>cpu_time_ms</name>
+        <qualifiedname>themis::scheduler::TaskResourceUsage::cpu_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="65" column="12" bodyfile="include/scheduler/task_audit_event.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_resource_usage_1ad3a77610a99b339c6a4e8ad8b30eb2e5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::scheduler::TaskResourceUsage::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::scheduler::TaskResourceUsage::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="66" column="14" bodyfile="include/scheduler/task_audit_event.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_resource_usage_1a7839dfe0ebd830e0760df9c49122574b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::scheduler::TaskResourceUsage::io_read_bytes</definition>
+        <argsstring></argsstring>
+        <name>io_read_bytes</name>
+        <qualifiedname>themis::scheduler::TaskResourceUsage::io_read_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="67" column="14" bodyfile="include/scheduler/task_audit_event.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_resource_usage_1a2b9ff43a3031ae5d2306b35e467acd74" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::scheduler::TaskResourceUsage::io_write_bytes</definition>
+        <argsstring></argsstring>
+        <name>io_write_bytes</name>
+        <qualifiedname>themis::scheduler::TaskResourceUsage::io_write_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="68" column="14" bodyfile="include/scheduler/task_audit_event.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_resource_usage_1a2217fa6d090f8810c302ffaa9cc0a2e5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskResourceUsage::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::scheduler::TaskResourceUsage::execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="69" column="12" bodyfile="include/scheduler/task_audit_event.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_resource_usage_1a3e09b338608821b436f420db0902db81" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::scheduler::TaskResourceUsage::result_rows</definition>
+        <argsstring></argsstring>
+        <name>result_rows</name>
+        <qualifiedname>themis::scheduler::TaskResourceUsage::result_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="70" column="14" bodyfile="include/scheduler/task_audit_event.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_resource_usage_1a9f93c797cd8b40685d4896c3a225bd8c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::scheduler::TaskResourceUsage::affected_rows</definition>
+        <argsstring></argsstring>
+        <name>affected_rows</name>
+        <qualifiedname>themis::scheduler::TaskResourceUsage::affected_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="71" column="14" bodyfile="include/scheduler/task_audit_event.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1scheduler_1_1_task_resource_usage_1aed5f1965a07c2b19d6330914730a14c4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::TaskResourceUsage::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::scheduler::TaskResourceUsage::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="73" column="20" bodyfile="include/scheduler/task_audit_event.h" bodystart="73" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Resource usage metrics for task execution. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/task_audit_event.h" line="64" column="1" bodyfile="include/scheduler/task_audit_event.h" bodystart="64" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scheduler_1_1_task_resource_usage_1a9f93c797cd8b40685d4896c3a225bd8c" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResourceUsage</scope><name>affected_rows</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_resource_usage_1ae12af41781a6b7950d13936d58c5bde7" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResourceUsage</scope><name>cpu_time_ms</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_resource_usage_1a2217fa6d090f8810c302ffaa9cc0a2e5" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResourceUsage</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_resource_usage_1a7839dfe0ebd830e0760df9c49122574b" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResourceUsage</scope><name>io_read_bytes</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_resource_usage_1a2b9ff43a3031ae5d2306b35e467acd74" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResourceUsage</scope><name>io_write_bytes</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_resource_usage_1ad3a77610a99b339c6a4e8ad8b30eb2e5" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResourceUsage</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_resource_usage_1a3e09b338608821b436f420db0902db81" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResourceUsage</scope><name>result_rows</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_resource_usage_1aed5f1965a07c2b19d6330914730a14c4" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResourceUsage</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

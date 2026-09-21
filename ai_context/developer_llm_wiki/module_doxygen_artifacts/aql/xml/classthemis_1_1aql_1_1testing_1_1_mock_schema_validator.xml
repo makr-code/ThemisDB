@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_mock_schema_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockSchemaValidator</compoundname>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result" prot="public">themis::aql::testing::MockSchemaValidator::ValidationResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1afac3f5afdb18a1c2e78d13647e2d39b1" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1aql_1_1testing_1_1_mock_collection_schema" kindref="compound">MockCollectionSchema</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, MockCollectionSchema&gt; themis::aql::testing::MockSchemaValidator::schemas_</definition>
+        <argsstring></argsstring>
+        <name>schemas_</name>
+        <qualifiedname>themis::aql::testing::MockSchemaValidator::schemas_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="131" column="24" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1a1ea70a4f03fee229d40cc1bc227e1aef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::MockSchemaValidator::registerCollection</definition>
+        <argsstring>(const MockCollectionSchema &amp;schema)</argsstring>
+        <name>registerCollection</name>
+        <qualifiedname>themis::aql::testing::MockSchemaValidator::registerCollection</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1testing_1_1_mock_collection_schema" kindref="compound">MockCollectionSchema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Register a collection schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="58" column="10" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1a747509491c2f7a94e8c2b14e5fd1a368" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::aql::testing::MockSchemaValidator::validateQueryAgainstSchema</definition>
+        <argsstring>(const std::string &amp;aql_query, const std::string &amp;schema_context) const</argsstring>
+        <name>validateQueryAgainstSchema</name>
+        <qualifiedname>themis::aql::testing::MockSchemaValidator::validateQueryAgainstSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_context</declname>
+        </param>
+        <briefdescription>
+<para>Validate a query against a known schema context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="63" column="22" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="63" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1a55754d56800904f13144ffdfccc13e5d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::aql::testing::MockSchemaValidator::checkFieldType</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;field, const std::string &amp;filter_type) const</argsstring>
+        <name>checkFieldType</name>
+        <qualifiedname>themis::aql::testing::MockSchemaValidator::checkFieldType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filter_type</declname>
+        </param>
+        <briefdescription>
+<para>Check type consistency for a given field filter expression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="100" column="22" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="100" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="47" column="1" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="47" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1a55754d56800904f13144ffdfccc13e5d" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockSchemaValidator</scope><name>checkFieldType</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1a1ea70a4f03fee229d40cc1bc227e1aef" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockSchemaValidator</scope><name>registerCollection</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1afac3f5afdb18a1c2e78d13647e2d39b1" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockSchemaValidator</scope><name>schemas_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1a747509491c2f7a94e8c2b14e5fd1a368" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockSchemaValidator</scope><name>validateQueryAgainstSchema</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

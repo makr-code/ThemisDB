@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::PrincipalValidator::ValidationResult</compoundname>
+    <includes refid="principal__validator_8h" local="no">principal_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1a3de42a9947c10b37aaf39fe7026591ca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::PrincipalValidator::ValidationResult::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::auth::PrincipalValidator::ValidationResult::allowed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="66" column="14" bodyfile="include/auth/principal_validator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1aa6f04b903d4179787baf5af3163de8a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PrincipalValidator::ValidationResult::principal</definition>
+        <argsstring></argsstring>
+        <name>principal</name>
+        <qualifiedname>themis::auth::PrincipalValidator::ValidationResult::principal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="67" column="21" bodyfile="include/auth/principal_validator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1a3fae0d7b1d46f931fb7a7e2ca34e1e28" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::PrincipalValidator::ValidationResult::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::auth::PrincipalValidator::ValidationResult::roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="68" column="21" bodyfile="include/auth/principal_validator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1acebedee550616cf18a4619e0314f6d4e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PrincipalValidator::ValidationResult::denial_reason</definition>
+        <argsstring></argsstring>
+        <name>denial_reason</name>
+        <qualifiedname>themis::auth::PrincipalValidator::ValidationResult::denial_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="69" column="21" bodyfile="include/auth/principal_validator.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1ab4480c740945b502220dbb931842fc65" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PrincipalValidator::ValidationResult::matched_rule</definition>
+        <argsstring></argsstring>
+        <name>matched_rule</name>
+        <qualifiedname>themis::auth::PrincipalValidator::ValidationResult::matched_rule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="70" column="21" bodyfile="include/auth/principal_validator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1ad4504c8e41b1da2507e1d61f0090f2f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::PrincipalValidator::ValidationResult::abac_policy_id</definition>
+        <argsstring></argsstring>
+        <name>abac_policy_id</name>
+        <qualifiedname>themis::auth::PrincipalValidator::ValidationResult::abac_policy_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="71" column="21" bodyfile="include/auth/principal_validator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/principal_validator.h" line="65" column="5" bodyfile="include/auth/principal_validator.h" bodystart="65" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1ad4504c8e41b1da2507e1d61f0090f2f0" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::ValidationResult</scope><name>abac_policy_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1a3de42a9947c10b37aaf39fe7026591ca" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::ValidationResult</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1acebedee550616cf18a4619e0314f6d4e" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::ValidationResult</scope><name>denial_reason</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1ab4480c740945b502220dbb931842fc65" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::ValidationResult</scope><name>matched_rule</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1aa6f04b903d4179787baf5af3163de8a5" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::ValidationResult</scope><name>principal</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_result_1a3fae0d7b1d46f931fb7a7e2ca34e1e28" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::ValidationResult</scope><name>roles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

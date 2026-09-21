@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_t_t_s_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::TTSResult</compoundname>
+    <includes refid="tts__processor_8h" local="no">tts_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_result_1a3e7cfa7442597bf76342280ecf1bdb17" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::TTSResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::content::TTSResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="33" column="10" bodyfile="include/content/tts_processor.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_result_1afa42c7f79141d3a206a11adb9af221c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TTSResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::content::TTSResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="34" column="17" bodyfile="include/content/tts_processor.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_result_1a7c68b6aef8a56818d4fe8f2160375d21" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::content::TTSResult::audio_data</definition>
+        <argsstring></argsstring>
+        <name>audio_data</name>
+        <qualifiedname>themis::content::TTSResult::audio_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="36" column="17" bodyfile="include/content/tts_processor.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_result_1a6929b6efd12dd4200f1b6a780cbc83a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TTSResult::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::content::TTSResult::mime_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="37" column="17" bodyfile="include/content/tts_processor.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_result_1a6df2baf46fd57dc6e5af0e40e7f9d7eb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::TTSResult::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::content::TTSResult::duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="38" column="13" bodyfile="include/content/tts_processor.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_result_1a2ee7ef1e20bcd1c5b7bca82fe003578f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::TTSResult::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::content::TTSResult::sample_rate</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="39" column="9" bodyfile="include/content/tts_processor.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_t_t_s_result_1a5f90bd17d36d6a664ae080aa29a370d1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::TTSResult::processing_time_ms</definition>
+        <argsstring></argsstring>
+        <name>processing_time_ms</name>
+        <qualifiedname>themis::content::TTSResult::processing_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="41" column="13" bodyfile="include/content/tts_processor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/tts_processor.h" line="32" column="1" bodyfile="include/content/tts_processor.h" bodystart="32" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_t_t_s_result_1a7c68b6aef8a56818d4fe8f2160375d21" prot="public" virt="non-virtual"><scope>themis::content::TTSResult</scope><name>audio_data</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_result_1a6df2baf46fd57dc6e5af0e40e7f9d7eb" prot="public" virt="non-virtual"><scope>themis::content::TTSResult</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_result_1afa42c7f79141d3a206a11adb9af221c7" prot="public" virt="non-virtual"><scope>themis::content::TTSResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_result_1a6929b6efd12dd4200f1b6a780cbc83a7" prot="public" virt="non-virtual"><scope>themis::content::TTSResult</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_result_1a5f90bd17d36d6a664ae080aa29a370d1" prot="public" virt="non-virtual"><scope>themis::content::TTSResult</scope><name>processing_time_ms</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_result_1a2ee7ef1e20bcd1c5b7bca82fe003578f" prot="public" virt="non-virtual"><scope>themis::content::TTSResult</scope><name>sample_rate</name></member>
+      <member refid="structthemis_1_1content_1_1_t_t_s_result_1a3e7cfa7442597bf76342280ecf1bdb17" prot="public" virt="non-virtual"><scope>themis::content::TTSResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

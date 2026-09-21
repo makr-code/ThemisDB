@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_r_a_g_candidate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::RAGCandidate</compoundname>
+    <includes refid="modular__rag__pipeline_8h" local="no">modular_rag_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_candidate_1a4a6802a243f26598aef27df506a4ef89" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGCandidate::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::rag::RAGCandidate::doc_id</qualifiedname>
+        <briefdescription>
+<para>Opaque document identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="95" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_candidate_1a1ec74594d28d8109e18ff1d535f76da3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGCandidate::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::rag::RAGCandidate::content</qualifiedname>
+        <briefdescription>
+<para>Document text or excerpt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="96" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_candidate_1a6a61bf01e95be7410afec71f1acde6cf" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::RAGCandidate::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::RAGCandidate::score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Retrieval / rerank score (higher = more relevant). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="97" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_candidate_1ada7aed4db4e3a24bc5f2708155b49e5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGCandidate::source_namespace</definition>
+        <argsstring></argsstring>
+        <name>source_namespace</name>
+        <qualifiedname>themis::rag::RAGCandidate::source_namespace</qualifiedname>
+        <briefdescription>
+<para>Originating index namespace (e.g. &quot;legal_cases&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="98" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_candidate_1af5f415059d70351aa4c4f6d3f61c1bc7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::RAGCandidate::provenance_tags</definition>
+        <argsstring></argsstring>
+        <name>provenance_tags</name>
+        <qualifiedname>themis::rag::RAGCandidate::provenance_tags</qualifiedname>
+        <briefdescription>
+<para>Free-form tags appended by each stage (e.g. &quot;retrieve:bm25&quot;, &quot;validate:graph_ok&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="101" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single retrieved document candidate. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each stage may update <computeroutput><ref refid="structthemis_1_1rag_1_1_r_a_g_candidate_1a6a61bf01e95be7410afec71f1acde6cf" kindref="member">score</ref></computeroutput> and append to <computeroutput><ref refid="structthemis_1_1rag_1_1_r_a_g_candidate_1af5f415059d70351aa4c4f6d3f61c1bc7" kindref="member">provenance_tags</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/rag/modular_rag_pipeline.h" line="94" column="1" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="94" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_candidate_1a1ec74594d28d8109e18ff1d535f76da3" prot="public" virt="non-virtual"><scope>themis::rag::RAGCandidate</scope><name>content</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_candidate_1a4a6802a243f26598aef27df506a4ef89" prot="public" virt="non-virtual"><scope>themis::rag::RAGCandidate</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_candidate_1af5f415059d70351aa4c4f6d3f61c1bc7" prot="public" virt="non-virtual"><scope>themis::rag::RAGCandidate</scope><name>provenance_tags</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_candidate_1a6a61bf01e95be7410afec71f1acde6cf" prot="public" virt="non-virtual"><scope>themis::rag::RAGCandidate</scope><name>score</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_candidate_1ada7aed4db4e3a24bc5f2708155b49e5f" prot="public" virt="non-virtual"><scope>themis::rag::RAGCandidate</scope><name>source_namespace</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

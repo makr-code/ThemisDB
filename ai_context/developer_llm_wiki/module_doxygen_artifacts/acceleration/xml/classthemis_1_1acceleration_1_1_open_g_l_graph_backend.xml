@@ -1,0 +1,408 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::OpenGLGraphBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_graph_backend" prot="public" virt="non-virtual">themis::acceleration::IGraphBackend</basecompoundref>
+    <includes refid="graphics__backends_8h" local="no">graphics_backends.h</includes>
+    <innerclass refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1_1_open_g_l_graph_backend_impl" prot="public">themis::acceleration::OpenGLGraphBackend::OpenGLGraphBackendImpl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a69a1f1f1c62c8571b19380e3d3a88199" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::OpenGLGraphBackend::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="705" column="10" bodyfile="include/acceleration/graphics_backends.h" bodystart="705" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1aef973a4f100b530039a3934b8675f930" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1_1_open_g_l_graph_backend_impl" kindref="compound">OpenGLGraphBackendImpl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;OpenGLGraphBackendImpl&gt; themis::acceleration::OpenGLGraphBackend::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="707" column="21" bodyfile="include/acceleration/graphics_backends.h" bodystart="707" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1ae540d1b8d4f2061bb8ab549d7dd99be3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::OpenGLGraphBackend::OpenGLGraphBackend</definition>
+        <argsstring>()</argsstring>
+        <name>OpenGLGraphBackend</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::OpenGLGraphBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="671" column="5" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4366" bodyend="4370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1acf4470da2aff106e0d404ec40112c037" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::OpenGLGraphBackend::~OpenGLGraphBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~OpenGLGraphBackend</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::~OpenGLGraphBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="672" column="5" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4373" bodyend="4375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a0ff560ad866d0995e7e0568c5f103ff9" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::OpenGLGraphBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="674" column="16" bodyfile="include/acceleration/graphics_backends.h" bodystart="674" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1ae1c3be2ee745567f8625fbe177736c2b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::OpenGLGraphBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="675" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="675" bodyend="675"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a3afeb9f54122da81055e749fb6b04428" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::OpenGLGraphBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="676" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4377" bodyend="4399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a49a3bcf10b685361ad5b6a7fe06f8f8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::OpenGLGraphBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="678" column="25" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4401" bodyend="4414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1afed8bfa6e1cdb9fe4c0c24d709c07444" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::OpenGLGraphBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: loadEGLLibrary(), <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, loadEGLFunctions(), createEGLContext(), cleanup(), loadGLFunctions(), createShaderPrograms(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="679" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4421" bodyend="4456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a7872c031d50c341957b1072f83748510" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::OpenGLGraphBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cleanup(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="680" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4462" bodyend="4469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a8ce143b1783863c50b03480efc12d5b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; uint32_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint32_t &gt; &gt; themis::acceleration::OpenGLGraphBackend::batchBFS</definition>
+        <argsstring>(const uint32_t *adjacency, size_t numVertices, const uint32_t *startVertices, size_t numStarts, uint32_t maxDepth) override</argsstring>
+        <name>batchBFS</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::batchBFS</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_graph_backend_1a78629a5ff3824ff3acd986efe24b0915">batchBFS</reimplements>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>adjacency</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>startVertices</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numStarts</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>maxDepth</declname>
+        </param>
+        <briefdescription>
+<para>Batch BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adjacency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">startVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numStarts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">maxDepth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, ErrorContext(), <ref refid="namespacethemis_1_1acceleration_1_1_error_context_helpers_1ac05131265745a900204e8ff30b64744b" kindref="member">ErrorContextHelpers::createValidationError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, std::to_string(), gpuBFS(), results(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="684" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4481" bodyend="4578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1adcfa039585db3731c5737a32df22cf50" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; uint32_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint32_t &gt; &gt; themis::acceleration::OpenGLGraphBackend::batchShortestPath</definition>
+        <argsstring>(const uint32_t *adjacency, const float *weights, size_t numVertices, const uint32_t *startVertices, const uint32_t *endVertices, size_t numPairs) override</argsstring>
+        <name>batchShortestPath</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::batchShortestPath</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_graph_backend_1a96ceb95dea176351bbed0c80a2ac7fc5">batchShortestPath</reimplements>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>adjacency</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>startVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>endVertices</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPairs</declname>
+        </param>
+        <briefdescription>
+<para>Batch Shortest Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adjacency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">startVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, ErrorContext(), <ref refid="namespacethemis_1_1acceleration_1_1_error_context_helpers_1ac05131265745a900204e8ff30b64744b" kindref="member">ErrorContextHelpers::createValidationError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, std::to_string(), gpuBellmanFord(), results(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="695" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="4591" bodyend="4721"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_graph_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::OpenGLGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_graph_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::OpenGLGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/graphics_backends.h" line="669" column="1" bodyfile="include/acceleration/graphics_backends.h" bodystart="669" bodyend="708"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a8ce143b1783863c50b03480efc12d5b2" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>batchBFS</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1adcfa039585db3731c5737a32df22cf50" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>batchShortestPath</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a49a3bcf10b685361ad5b6a7fe06f8f8e" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1aef973a4f100b530039a3934b8675f930" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1afed8bfa6e1cdb9fe4c0c24d709c07444" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a69a1f1f1c62c8571b19380e3d3a88199" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a3afeb9f54122da81055e749fb6b04428" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a0ff560ad866d0995e7e0568c5f103ff9" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1ae540d1b8d4f2061bb8ab549d7dd99be3" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>OpenGLGraphBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a7872c031d50c341957b1072f83748510" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1ae1c3be2ee745567f8625fbe177736c2b" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_graph_backend_1a06d06da610fce8ddc200a45cd303454f" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>~IGraphBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1acf4470da2aff106e0d404ec40112c037" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLGraphBackend</scope><name>~OpenGLGraphBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

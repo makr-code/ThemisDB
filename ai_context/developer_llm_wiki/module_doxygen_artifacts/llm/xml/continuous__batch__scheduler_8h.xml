@@ -1,0 +1,922 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="continuous__batch__scheduler_8h" kind="file" language="C++">
+    <compoundname>continuous_batch_scheduler.h</compoundname>
+    <includes refid="llm__plugin__interface_8h" local="yes">llm/llm_plugin_interface.h</includes>
+    <includes refid="paged__kv__cache_8h" local="yes">llm/paged_kv_cache.h</includes>
+    <includes refid="grafana__metrics_8h" local="yes">llm/grafana_metrics.h</includes>
+    <includes refid="token__quota__manager_8h" local="yes">llm/token_quota_manager.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="inference__engine__enhanced_8h" local="yes">include/llm/inference_engine_enhanced.h</includedby>
+    <includedby refid="llama__wrapper_8h" local="yes">include/llm/llama_wrapper.h</includedby>
+    <includedby refid="production__validator_8h" local="yes">include/llm/production_validator.h</includedby>
+    <includedby refid="continuous__batch__scheduler_8cpp" local="yes">src/llm/continuous_batch_scheduler.cpp</includedby>
+    <includedby refid="production__validator_8cpp" local="yes">src/llm/production_validator.cpp</includedby>
+    <includedby refid="bench__continuous__batch__scheduler_8cpp" local="yes">tests/llm/bench_continuous_batch_scheduler.cpp</includedby>
+    <includedby refid="test__llm__hardening__phase4_8cpp" local="yes">tests/llm/test_llm_hardening_phase4.cpp</includedby>
+    <includedby refid="test__llm__phase5__hardening_8cpp" local="yes">tests/llm/test_llm_phase5_hardening.cpp</includedby>
+    <includedby refid="test__llm__raid__integration_8cpp" local="yes">tests/llm/test_llm_raid_integration.cpp</includedby>
+    <includedby refid="test__move__semantics__llm_8cpp" local="yes">tests/llm/test_move_semantics_llm.cpp</includedby>
+    <incdepgraph>
+      <node id="15">
+        <label>llm/block_table.h</label>
+        <link refid="block__table_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/continuous_batch_scheduler.h</label>
+        <link refid="continuous__batch__scheduler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>llm/grafana_metrics.h</label>
+        <link refid="grafana__metrics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>llm/paged_block_manager.h</label>
+        <link refid="paged__block__manager_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>llm/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>llm/token_quota_manager.h</label>
+        <link refid="token__quota__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="22">
+        <label>chrono</label>
+      </node>
+      <node id="25">
+        <label>condition_variable</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="20">
+        <label>list</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="18">
+        <label>queue</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="23">
+        <label>thread</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="17">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="24">
+        <label>benchmarks/llm/bench_embedded_llm.cpp</label>
+        <link refid="bench__embedded__llm_8cpp"/>
+      </node>
+      <node id="22">
+        <label>benchmarks/llm/bench_phase1_flash_attention.cpp</label>
+        <link refid="bench__phase1__flash__attention_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/llm/llm_bench.cpp</label>
+        <link refid="llm__bench_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/llm/continuous_batch_scheduler.h</label>
+        <link refid="continuous__batch__scheduler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/llm/embedded_llm.h</label>
+        <link refid="embedded__llm_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/inference_engine_enhanced.h</label>
+        <link refid="inference__engine__enhanced_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/llm/llama_wrapper.h</label>
+        <link refid="llama__wrapper_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/llm/ml_model_manager.h</label>
+        <link refid="ml__model__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/llm/moral_analyzer.h</label>
+        <link refid="moral__analyzer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/llm/production_validator.h</label>
+        <link refid="production__validator_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/llm/wiki_chunk_splitter.h</label>
+        <link refid="wiki__chunk__splitter_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/llm/wiki_index_store.h</label>
+        <link refid="wiki__index__store_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/llm/wiki_rag_source.h</label>
+        <link refid="wiki__rag__source_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>src/llm/api/embedded_llm_adapter.cpp</label>
+        <link refid="embedded__llm__adapter_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/llm/applications/themis_help_lora.cpp</label>
+        <link refid="themis__help__lora_8cpp"/>
+      </node>
+      <node id="59">
+        <label>src/llm/continuous_batch_scheduler.cpp</label>
+        <link refid="continuous__batch__scheduler_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/llm/docs_assistant.cpp</label>
+        <link refid="docs__assistant_8cpp"/>
+      </node>
+      <node id="41">
+        <label>src/llm/embedded_llm.cpp</label>
+        <link refid="embedded__llm_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/llm/embedded_llm_stub.cpp</label>
+        <link refid="embedded__llm__stub_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/llm/inference_engine_enhanced.cpp</label>
+        <link refid="inference__engine__enhanced_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/llm/inference_guard.cpp</label>
+        <link refid="inference__guard_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/llm/llama_wrapper.cpp</label>
+        <link refid="llama__wrapper_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/llm/llm_plugin_manager.cpp</label>
+        <link refid="llm__plugin__manager_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/llm/llm_response_cache.cpp</label>
+        <link refid="llm__response__cache_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/ml_model_manager.cpp</label>
+        <link refid="ml__model__manager_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/llm/moral_analyzer.cpp</label>
+        <link refid="moral__analyzer_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/llm/production_validator.cpp</label>
+        <link refid="production__validator_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/llm/wiki_chunk_splitter.cpp</label>
+        <link refid="wiki__chunk__splitter_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/llm/wiki_index_store.cpp</label>
+        <link refid="wiki__index__store_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/llm/wiki_rag_source.cpp</label>
+        <link refid="wiki__rag__source_8cpp"/>
+      </node>
+      <node id="60">
+        <label>tests/llm/bench_continuous_batch_scheduler.cpp</label>
+        <link refid="bench__continuous__batch__scheduler_8cpp"/>
+      </node>
+      <node id="53">
+        <label>tests/llm/bench_model_loading_from_themisdb.cpp</label>
+        <link refid="bench__model__loading__from__themisdb_8cpp"/>
+      </node>
+      <node id="45">
+        <label>tests/llm/test_embedded_llm_batch_contract.cpp</label>
+        <link refid="test__embedded__llm__batch__contract_8cpp"/>
+      </node>
+      <node id="54">
+        <label>tests/llm/test_llama_wrapper_state.cpp</label>
+        <link refid="test__llama__wrapper__state_8cpp"/>
+      </node>
+      <node id="46">
+        <label>tests/llm/test_llm_aql_handler.cpp</label>
+        <link refid="test__llm__aql__handler_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+      <node id="31">
+        <label>tests/llm/test_llm_doku_rag.cpp</label>
+        <link refid="test__llm__doku__rag_8cpp"/>
+      </node>
+      <node id="47">
+        <label>tests/llm/test_llm_exception_safety.cpp</label>
+        <link refid="test__llm__exception__safety_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/llm/test_llm_federated_failure_envelopes.cpp</label>
+        <link refid="test__llm__federated__failure__envelopes_8cpp"/>
+      </node>
+      <node id="55">
+        <label>tests/llm/test_llm_grafana_metrics.cpp</label>
+        <link refid="test__llm__grafana__metrics_8cpp"/>
+      </node>
+      <node id="61">
+        <label>tests/llm/test_llm_hardening_phase4.cpp</label>
+        <link refid="test__llm__hardening__phase4_8cpp"/>
+      </node>
+      <node id="56">
+        <label>tests/llm/test_llm_inference_roles.cpp</label>
+        <link refid="test__llm__inference__roles_8cpp"/>
+      </node>
+      <node id="48">
+        <label>tests/llm/test_llm_memory_lifecycle.cpp</label>
+        <link refid="test__llm__memory__lifecycle_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/llm/test_llm_multi_model_integration.cpp</label>
+        <link refid="test__llm__multi__model__integration_8cpp"/>
+      </node>
+      <node id="49">
+        <label>tests/llm/test_llm_p0_hardening.cpp</label>
+        <link refid="test__llm__p0__hardening_8cpp"/>
+      </node>
+      <node id="62">
+        <label>tests/llm/test_llm_phase5_hardening.cpp</label>
+        <link refid="test__llm__phase5__hardening_8cpp"/>
+      </node>
+      <node id="57">
+        <label>tests/llm/test_llm_plugin.cpp</label>
+        <link refid="test__llm__plugin_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/llm/test_llm_raid_integration.cpp</label>
+        <link refid="test__llm__raid__integration_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/llm/test_llm_timeout_cancellation.cpp</label>
+        <link refid="test__llm__timeout__cancellation_8cpp"/>
+      </node>
+      <node id="50">
+        <label>tests/llm/test_llm_tinyllama_inference.cpp</label>
+        <link refid="test__llm__tinyllama__inference_8cpp"/>
+      </node>
+      <node id="34">
+        <label>tests/llm/test_llm_wiki_phase3_features_focused.cpp</label>
+        <link refid="test__llm__wiki__phase3__features__focused_8cpp"/>
+      </node>
+      <node id="35">
+        <label>tests/llm/test_llm_wiki_provenance_focused.cpp</label>
+        <link refid="test__llm__wiki__provenance__focused_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/llm/test_lora_hot_loading.cpp</label>
+        <link refid="test__lora__hot__loading_8cpp"/>
+      </node>
+      <node id="58">
+        <label>tests/llm/test_model_loading_from_themisdb.cpp</label>
+        <link refid="test__model__loading__from__themisdb_8cpp"/>
+      </node>
+      <node id="63">
+        <label>tests/llm/test_move_semantics_llm.cpp</label>
+        <link refid="test__move__semantics__llm_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/llm/test_wave5_llm_stubs.cpp</label>
+        <link refid="test__wave5__llm__stubs_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/llm/test_wave9_speculative_decode_bridges.cpp</label>
+        <link refid="test__wave9__speculative__decode__bridges_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/llm/test_wave_next_llm_threadsafety.cpp</label>
+        <link refid="test__wave__next__llm__threadsafety_8cpp"/>
+      </node>
+      <node id="36">
+        <label>tests/llm/test_wiki_crossdep_focused.cpp</label>
+        <link refid="test__wiki__crossdep__focused_8cpp"/>
+      </node>
+      <node id="37">
+        <label>tests/llm/test_wiki_eval_metrics.cpp</label>
+        <link refid="test__wiki__eval__metrics_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/llm/test_wiki_index_store.cpp</label>
+        <link refid="test__wiki__index__store_8cpp"/>
+      </node>
+      <node id="38">
+        <label>tests/llm/test_wiki_index_store_phase_b.cpp</label>
+        <link refid="test__wiki__index__store__phase__b_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/llm/test_wiki_rag_quality.cpp</label>
+        <link refid="test__wiki__rag__quality_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_continuous_batch_scheduler" prot="public">themis::llm::ContinuousBatchScheduler</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config" prot="public">themis::llm::ContinuousBatchScheduler::SchedulerConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" prot="public">themis::llm::ContinuousBatchScheduler::ScheduledRequest</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats" prot="public">themis::llm::ContinuousBatchScheduler::Stats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats" prot="public">themis::llm::ContinuousBatchScheduler::LLMStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__interface_8h" kindref="compound">llm/llm_plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="paged__kv__cache_8h" kindref="compound">llm/paged_kv_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="grafana__metrics_8h" kindref="compound">llm/grafana_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="token__quota__manager_8h" kindref="compound">llm/token_quota_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a98834b14d611b76d1177e629dfd7adf2" kindref="member">ContinuousBatchScheduler</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config" kindref="compound">SchedulerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a856cc19f98462cc26ae3c74cb689efb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a856cc19f98462cc26ae3c74cb689efb5" kindref="member">max_batch_size</ref><sp/>=<sp/>256;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>sequences<sp/>in<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a8d32a6f02e0e701365f089c2fa9577c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a8d32a6f02e0e701365f089c2fa9577c0" kindref="member">max_concurrent_requests</ref><sp/>=<sp/>128;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>pending<sp/>requests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a855fb2e8dfd77ed5b3ada3095f089b1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a855fb2e8dfd77ed5b3ada3095f089b1a" kindref="member">max_tokens_per_batch</ref><sp/>=<sp/>8192;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>token<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backpressure:<sp/>maximum<sp/>combined<sp/>waiting<sp/>+<sp/>active<sp/>requests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>the<sp/>queue<sp/>reaches<sp/>this<sp/>depth,<sp/>submitRequest()<sp/>returns<sp/>an<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>string<sp/>immediately<sp/>instead<sp/>of<sp/>enqueuing<sp/>the<sp/>request.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>means<sp/>unlimited<sp/>(no<sp/>backpressure).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1ace0f6a22990d7dfe658769837ac91b60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1ace0f6a22990d7dfe658769837ac91b60" kindref="member">max_queue_depth</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scheduling<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1adfc125aa26250760109ed334d834813e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1adfc125aa26250760109ed334d834813e" kindref="member">enable_preemption</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1ad2c7d16b0bb99f95b1a5ad7e5501bc0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1ad2c7d16b0bb99f95b1a5ad7e5501bc0a" kindref="member">enable_chunked_prefill</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chunk<sp/>large<sp/>prefills</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a64b38eb1c25c7821456f5bf55085fc50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a64b38eb1c25c7821456f5bf55085fc50" kindref="member">prefill_chunk_size</ref><sp/>=<sp/>512;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokens<sp/>per<sp/>prefill<sp/>chunk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a7c3eb3aa1f0ac2b7654e39bf92b7166d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a7c3eb3aa1f0ac2b7654e39bf92b7166d" kindref="member">enable_adaptive_batch_retry</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Retry<sp/>decode<sp/>failures<sp/>with<sp/>downshift</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Priority<sp/>scheduling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a5b21444f29788ffd53b604c3c30841bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a5b21444f29788ffd53b604c3c30841bd" kindref="member">enable_priority_scheduling</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1afc88bac666f106739bfe2f15dffd34fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1afc88bac666f106739bfe2f15dffd34fc" kindref="member">high_priority_threshold</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a22bf70d598e2b350c0c1382e73a6b0d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a22bf70d598e2b350c0c1382e73a6b0d6" kindref="member">scheduling_overhead_ms</ref><sp/>=<sp/>5;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Target<sp/>scheduling<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a4cbdae40460dbaaac8fee8c0feed071c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a4cbdae40460dbaaac8fee8c0feed071c" kindref="member">enable_continuous_batching</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>management<sp/>(PagedAttention<sp/>integration)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1af8772fe19f1ed8bbdafe1439474039bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1af8772fe19f1ed8bbdafe1439474039bd" kindref="member">block_size_tokens</ref><sp/>=<sp/>16;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokens<sp/>per<sp/>block<sp/>(MUST<sp/>match<sp/>PagedKVCache)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1aeffcd6f3a6922795d8f91df71988f18d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1aeffcd6f3a6922795d8f91df71988f18d" kindref="member">low_memory_threshold_blocks</ref><sp/>=<sp/>10;<sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>pressure<sp/>trigger</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a0921dc3cd2e9cd57ac85e3810b612111" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a0921dc3cd2e9cd57ac85e3810b612111" kindref="member">memory_pressure_throughput_factor</ref><sp/>=<sp/>0.8;<sp/><sp/></highlight><highlight class="comment">//<sp/>Throughput<sp/>reduction<sp/>(0.0-1.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backwards-compatibility<sp/>alias:<sp/>older<sp/>callers<sp/>used<sp/>`ContinuousBatchScheduler::Config`</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a774bf91e4b715b7420f0fc2271381746" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a774bf91e4b715b7420f0fc2271381746" kindref="member">Config</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config" kindref="compound">SchedulerConfig</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18" kindref="member">RequestPriority</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18a41bc94cbd8eebea13ce0491b2ac11b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">LOW</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18a1e23852820b9154316c7c06e2b7ba051" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18a1e23852820b9154316c7c06e2b7ba051" kindref="member">NORMAL</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18ab89de3b4b81c4facfac906edf29aec8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18ab89de3b4b81c4facfac906edf29aec8c" kindref="member">HIGH</ref><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/>=<sp/>15</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062" kindref="member">RequestState</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a1869d56535e8b1449a6da54ff5e11f50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a1869d56535e8b1449a6da54ff5e11f50" kindref="member">WAITING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>queue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062af792bcd85a91f6eef6b621509b2c4e51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062af792bcd85a91f6eef6b621509b2c4e51" kindref="member">PREFILL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Processing<sp/>prompt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a31b1c3e891cbbcff9f9433a5dc99cb7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a31b1c3e891cbbcff9f9433a5dc99cb7d" kindref="member">DECODE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generating<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a389073a144bcaffca8cfbfc6f5418ef1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a389073a144bcaffca8cfbfc6f5418ef1" kindref="member">PREEMPTED</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Temporarily<sp/>paused</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Finished</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>occurred</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a0ee5ac999f2fe457494a4e89d47cbf62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a0ee5ac999f2fe457494a4e89d47cbf62" kindref="member">request_id</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a7cdcb2edfcc45677d1da0ab266395354" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a7cdcb2edfcc45677d1da0ab266395354" kindref="member">inference_request</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1abc47d04bf16fabdc7aac3b29a0a31dcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18" kindref="member">RequestPriority</ref><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1abc47d04bf16fabdc7aac3b29a0a31dcd" kindref="member">priority</ref><sp/>=<sp/>RequestPriority::NORMAL;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a445d719b9a2ef9fb862771deb733594e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062" kindref="member">RequestState</ref><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a445d719b9a2ef9fb862771deb733594e" kindref="member">state</ref><sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a1869d56535e8b1449a6da54ff5e11f50" kindref="member">RequestState::WAITING</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Progress<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a528b45f02d4b48c37ba1928117792cf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a528b45f02d4b48c37ba1928117792cf9" kindref="member">tokens_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a98629e4009c88fadeec81e1004755c7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a98629e4009c88fadeec81e1004755c7c" kindref="member">tokens_generated</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1ad2d2e4be127e8234b5db4605eb4d0e3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1ad2d2e4be127e8234b5db4605eb4d0e3c" kindref="member">total_prompt_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PagedAttention<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a45d0776cc3dc88f688ed1dd5ea64e4f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a45d0776cc3dc88f688ed1dd5ea64e4f2" kindref="member">allocated_blocks</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Physical<sp/>block<sp/>IDs<sp/>from<sp/>PagedKVCache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a68fce4fb5c71c945a1cf85e1f3e3567f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a68fce4fb5c71c945a1cf85e1f3e3567f" kindref="member">sequence_id</ref><sp/>=<sp/>-1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>sequence<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamps<sp/>for<sp/>accurate<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a0085c59a9e7fe9dfca3d3efaac06eae3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a0085c59a9e7fe9dfca3d3efaac06eae3" kindref="member">submitted_at</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>submission<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1abf5ba4a89a85c7871ab3b673a342f776" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1abf5ba4a89a85c7871ab3b673a342f776" kindref="member">started_at</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prefill<sp/>start<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a67cbac9b77d519120d8013afcc73e413" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a67cbac9b77d519120d8013afcc73e413" kindref="member">first_token_at</ref>;<sp/></highlight><highlight class="comment">//<sp/>First<sp/>token<sp/>generated<sp/>(for<sp/>TTFT)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a243a41cdfa5447c6945561cfaa3b9790" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a243a41cdfa5447c6945561cfaa3b9790" kindref="member">last_token_at</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a5d8b3dc602e39921e1a94d6092b4b8f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a5d8b3dc602e39921e1a94d6092b4b8f5" kindref="member">callback</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Preemption<sp/>support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1ac36cbcdcaf5260ecc7e9b0299f913732" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1ac36cbcdcaf5260ecc7e9b0299f913732" kindref="member">can_be_preempted</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a532293ed67a8beb4c0e31fcc9674d4a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a532293ed67a8beb4c0e31fcc9674d4a7" kindref="member">preemption_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a98834b14d611b76d1177e629dfd7adf2" kindref="member">ContinuousBatchScheduler</ref>(</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config" kindref="compound">SchedulerConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref>*<sp/>kv_cache</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a1c9ba81b514dddbd7234f2da229b18d9" kindref="member">~ContinuousBatchScheduler</ref>();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a0046c2073d9bffcf651e17bcb7c75e19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a0046c2073d9bffcf651e17bcb7c75e19" kindref="member">setMetricsCollector</ref>(<ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector" kindref="compound">monitoring::LLMMetricsCollector</ref>*<sp/>collector)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics_collector_<sp/>=<sp/>collector;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ac33b52ca728046f666fd94b6f7383c9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ac33b52ca728046f666fd94b6f7383c9f" kindref="member">setQuotaManager</ref>(<ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref>*<sp/>quota)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quota_manager_<sp/>=<sp/>quota;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a017b06e4838d8a7e9b89bf517be65b9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a017b06e4838d8a7e9b89bf517be65b9d" kindref="member">ShardLoadCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pending,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>avg_queue_ms)&gt;;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a62b664477608b3d0fe2627395f2c1562" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a62b664477608b3d0fe2627395f2c1562" kindref="member">setShardLoadCallback</ref>(<ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a017b06e4838d8a7e9b89bf517be65b9d" kindref="member">ShardLoadCallback</ref><sp/>cb)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_load_cb_<sp/>=<sp/>std::move(cb);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>submission</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a7e54b7eeca14fd1b87c3174f7746e464" kindref="member">submitRequest</ref>(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>request,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1af487e6e8f634790637df9ef6de69ed86" kindref="member">RequestPriority</ref><sp/>priority<sp/>=<sp/>RequestPriority::NORMAL,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref>&amp;)&gt;<sp/>callback<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ae3fa29c88f189d63f9625dc3d4355bab" kindref="member">cancelRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>request_id);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a7d42d2f28bf69fc80ec0f14e75983c08" kindref="member">reprioritizeRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>request_id,<sp/><ref refid="namespacethemis_1_1llm_1af487e6e8f634790637df9ef6de69ed86" kindref="member">RequestPriority</ref><sp/>new_priority);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scheduler<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a2274c2d9e4ac5ac0546d96e5e450a4e0" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ad3267ac61f6e8bcbedeece5d2cebaad6" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a240af73d71312cc581d97aa417496a18" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ScheduledRequest*&gt;<sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ad783fdaeb9f2ff9ebed98c4ffedfea55" kindref="member">scheduleNextBatch</ref>();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Process<sp/>batch<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ab38e8fd37d3d9726b4d466b25e92cd4c" kindref="member">processBatchResults</ref>(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ScheduledRequest*&gt;&amp;<sp/>batch,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;InferenceResponse&gt;&amp;<sp/>responses</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Preemption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a6cb971ac0c090cc12fc77094c022971f" kindref="member">preemptRequests</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>request_ids);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a916338f1f77797d370b5b64ae32f8c71" kindref="member">resumeRequests</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>request_ids);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="222" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aba229cdb8700e79d008388bd185a9fac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aba229cdb8700e79d008388bd185a9fac" kindref="member">total_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="223" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a45eb6109e0a8212756a86db1de699c66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a45eb6109e0a8212756a86db1de699c66" kindref="member">active_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a84da32d70b3cb418414cd38ca88bb1da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a84da32d70b3cb418414cd38ca88bb1da" kindref="member">completed_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="225" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1ab503e825864f80cabfe3f5adc0a16f79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1ab503e825864f80cabfe3f5adc0a16f79" kindref="member">failed_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aaa88fe389347b97584a514cf010b4ea9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aaa88fe389347b97584a514cf010b4ea9" kindref="member">preempted_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Requests<sp/>shed<sp/>by<sp/>backpressure<sp/>(queue<sp/>depth<sp/>limit<sp/>reached)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a7f82009ad91bad1140f533908664339d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a7f82009ad91bad1140f533908664339d" kindref="member">rejected_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a9b61b16d2f411c769f9a21db13b93dad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a9b61b16d2f411c769f9a21db13b93dad" kindref="member">avg_scheduling_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a5bcd2d13ba76310a25621d7f6db99f43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a5bcd2d13ba76310a25621d7f6db99f43" kindref="member">avg_time_to_first_token_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a53fc247c2a56f2d456bb2485578546ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a53fc247c2a56f2d456bb2485578546ae" kindref="member">avg_tokens_per_second</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a53d183735723fdafa659c2334a8dbffc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a53d183735723fdafa659c2334a8dbffc" kindref="member">current_batch_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aaea20f71bf619080aa4d91ecf7f152b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1aaea20f71bf619080aa4d91ecf7f152b6" kindref="member">max_batch_size_seen</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="236" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a7c172b392277ca033e112fa0c144bd8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a7c172b392277ca033e112fa0c144bd8b" kindref="member">batch_retry_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="237" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a03765a605079ba729a7489f8b2c22bce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a03765a605079ba729a7489f8b2c22bce" kindref="member">adaptive_prefill_chunk_size_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>combined<sp/>depth<sp/>of<sp/>waiting<sp/>+<sp/>active<sp/>requests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a4f55fb85f83b678109fe43b2f3633088" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1a4f55fb85f83b678109fe43b2f3633088" kindref="member">current_queue_depth</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="240" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1ac511cbcd0e67b507b953a8d3158486ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats_1ac511cbcd0e67b507b953a8d3158486ae" kindref="member">kv_budget_exhausted_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a82dcb575c7b343a8d288046213aafb53" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats" kindref="compound">LLMStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="250" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats_1a07e5290dca858aebafecf3822d8902fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats_1a07e5290dca858aebafecf3822d8902fb" kindref="member">pending_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="251" refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats_1adf04421d4227dce5727e06219a1cfc74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats_1adf04421d4227dce5727e06219a1cfc74" kindref="member">avg_queue_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats" kindref="compound">LLMStats</ref><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a81aabb9b46014bc89d8602f998a21243" kindref="member">getLLMStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config" kindref="compound">SchedulerConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref>*<sp/>kv_cache_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>metrics<sp/>collector<sp/>—<sp/>not<sp/>owned,<sp/>may<sp/>be<sp/>nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector" kindref="compound">monitoring::LLMMetricsCollector</ref>*<sp/>metrics_collector_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>quota<sp/>manager<sp/>—<sp/>not<sp/>owned,<sp/>may<sp/>be<sp/>nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref>*<sp/>quota_manager_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>shard-load<sp/>callback<sp/>—<sp/>fired<sp/>on<sp/>queue<sp/>depth<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a017b06e4838d8a7e9b89bf517be65b9d" kindref="member">ShardLoadCallback</ref><sp/>shard_load_cb_;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>queues<sp/>by<sp/>priority</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::priority_queue&lt;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ScheduledRequest&gt;,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;ScheduledRequest&gt;&gt;,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;ScheduledRequest&gt;&amp;,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;ScheduledRequest&gt;&amp;)&gt;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>&gt;<sp/>waiting_queue_;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Active<sp/>requests<sp/>(currently<sp/>in<sp/>batch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;ScheduledRequest&gt;&gt;<sp/>active_requests_;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Preempted<sp/>requests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;ScheduledRequest&gt;&gt;<sp/>preempted_requests_;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Completed<sp/>requests<sp/>(for<sp/>stats)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;ScheduledRequest&gt;&gt;<sp/>completed_requests_;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::shared_ptr&lt;ScheduledRequest&gt;&gt;<sp/>all_requests_;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LOCK<sp/>HIERARCHY<sp/>ENFORCEMENT<sp/>(§3.3):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>┌─<sp/>mutex_<sp/>:<sp/>std::mutex<sp/>(exclusive<sp/>access<sp/>to<sp/>all<sp/>request<sp/>queues<sp/>and<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>└─<sp/>cv_<sp/>:<sp/>std::condition_variable<sp/>(paired<sp/>with<sp/>mutex_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>No<sp/>nested<sp/>locks<sp/>-<sp/>external<sp/>callbacks<sp/>(metrics_collector_,<sp/>shard_load_cb_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>are<sp/>invoked<sp/>while<sp/>holding<sp/>mutex_<sp/>but<sp/>must<sp/>not<sp/>acquire<sp/>it<sp/>themselves</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>cv_;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>running_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>(protected<sp/>by<sp/>mutex_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats" kindref="compound">Stats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>last_schedule_time_;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adaptive<sp/>prefill<sp/>chunk<sp/>state;<sp/>accessed<sp/>only<sp/>while<sp/>holding<sp/>mutex_<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>scheduleNextBatch()<sp/>and<sp/>processBatchResults().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>effective_prefill_chunk_size_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>canAddToBatch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref>*<sp/>request,</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_batch_tokens,</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>reserved_blocks)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>allocateKVCacheBlocks(<ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref>*<sp/>request);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>freeKVCacheBlocks(<ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref>*<sp/>request);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStats();</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateRequestId();</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread-safe<sp/>counters<sp/>using<sp/>atomics<sp/>(std::memory_order_relaxed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>These<sp/>are<sp/>incremented<sp/>during<sp/>request<sp/>submission<sp/>under<sp/>mutex_,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>but<sp/>making<sp/>them<sp/>atomic<sp/>is<sp/>defensive<sp/>programming<sp/>for<sp/>future<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>next_request_id_{0};</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>next_sequence_id_{0};</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Backwards-compatibility:<sp/>expose<sp/>the<sp/>nested<sp/>RequestPriority<sp/>as<sp/>a<sp/>namespace-level</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight><highlight class="comment">//<sp/>alias<sp/>so<sp/>older<sp/>tests<sp/>and<sp/>callers<sp/>can<sp/>refer<sp/>to<sp/>`themis::llm::RequestPriority`.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="355" refid="namespacethemis_1_1llm_1af487e6e8f634790637df9ef6de69ed86" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1af487e6e8f634790637df9ef6de69ed86" kindref="member">RequestPriority</ref><sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18" kindref="member">ContinuousBatchScheduler::RequestPriority</ref>;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/continuous_batch_scheduler.h"/>
+  </compounddef>
+</doxygen>

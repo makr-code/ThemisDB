@@ -1,0 +1,1400 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_index_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::IndexManager</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IIndexManager</basecompoundref>
+    <includes refid="index__manager_8h" local="no">index_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1a0dc4469e98f68be19d70ce00c64e0ec5" prot="private" static="no" mutable="no">
+        <type>IExpressionEvaluatorPtr</type>
+        <definition>IExpressionEvaluatorPtr themis::IndexManager::evaluator_</definition>
+        <argsstring></argsstring>
+        <name>evaluator_</name>
+        <qualifiedname>themis::IndexManager::evaluator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="211" column="29" bodyfile="include/index/index_manager.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1ae40ffaa3b846087aafe0a44c3c6c3afa" prot="private" static="no" mutable="no">
+        <type>IStorageEnginePtr</type>
+        <definition>IStorageEnginePtr themis::IndexManager::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::IndexManager::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="212" column="23" bodyfile="include/index/index_manager.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1a23e4bd9fc14292b13a59e06e18dd1cee" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::IndexManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::IndexManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="213" column="21" bodyfile="include/index/index_manager.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1a161fd73cd480e1a6d2c35c8dc1b709db" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; themis::IndexManager::vector_manager_</definition>
+        <argsstring></argsstring>
+        <name>vector_manager_</name>
+        <qualifiedname>themis::IndexManager::vector_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="216" column="21" bodyfile="include/index/index_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1a629c3dc0a799a7030d11efab9d630cf8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_secondary_index_manager" kindref="compound">SecondaryIndexManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; themis::IndexManager::secondary_manager_</definition>
+        <argsstring></argsstring>
+        <name>secondary_manager_</name>
+        <qualifiedname>themis::IndexManager::secondary_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="217" column="21" bodyfile="include/index/index_manager.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1a37699ef4056adae87787dd11812d379e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_graph_index_manager" kindref="compound">GraphIndexManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;GraphIndexManager&gt; themis::IndexManager::graph_manager_</definition>
+        <argsstring></argsstring>
+        <name>graph_manager_</name>
+        <qualifiedname>themis::IndexManager::graph_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="218" column="21" bodyfile="include/index/index_manager.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1a6598ee3f7b36b58978d4d65a528eb89c" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::IndexManager::registry_mutex_</definition>
+        <argsstring></argsstring>
+        <name>registry_mutex_</name>
+        <qualifiedname>themis::IndexManager::registry_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="221" column="31" bodyfile="include/index/index_manager.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1a2a8da34dbd2d9393ea81231a70c95e9b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, ISecondaryIndex * &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ISecondaryIndex*&gt; themis::IndexManager::secondary_indices_</definition>
+        <argsstring></argsstring>
+        <name>secondary_indices_</name>
+        <qualifiedname>themis::IndexManager::secondary_indices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="222" column="24" bodyfile="include/index/index_manager.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1a6bf24c6a4c02a4eb54f6ca7b306d59bd" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, IVectorIndex * &gt;</type>
+        <definition>std::unordered_map&lt;std::string, IVectorIndex*&gt; themis::IndexManager::vector_indices_</definition>
+        <argsstring></argsstring>
+        <name>vector_indices_</name>
+        <qualifiedname>themis::IndexManager::vector_indices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="223" column="24" bodyfile="include/index/index_manager.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1aca382bd80f3150d49ce257a62b8619c5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, IGraphIndex * &gt;</type>
+        <definition>std::unordered_map&lt;std::string, IGraphIndex*&gt; themis::IndexManager::graph_indices_</definition>
+        <argsstring></argsstring>
+        <name>graph_indices_</name>
+        <qualifiedname>themis::IndexManager::graph_indices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="224" column="24" bodyfile="include/index/index_manager.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1a496eaaedf1838b9b51c2625cc814d631" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, IndexType &gt;</type>
+        <definition>std::unordered_map&lt;std::string, IndexType&gt; themis::IndexManager::index_types_</definition>
+        <argsstring></argsstring>
+        <name>index_types_</name>
+        <qualifiedname>themis::IndexManager::index_types_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="225" column="24" bodyfile="include/index/index_manager.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1a3b9132659472c27b7dd55e51efbb1ece" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; ISecondaryIndex &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;ISecondaryIndex&gt; &gt; themis::IndexManager::owned_secondary_adapters_</definition>
+        <argsstring></argsstring>
+        <name>owned_secondary_adapters_</name>
+        <qualifiedname>themis::IndexManager::owned_secondary_adapters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="228" column="24" bodyfile="include/index/index_manager.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_1afe2dc9bef6f20b6aac96707ff798916d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; IVectorIndex &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;IVectorIndex&gt; &gt; themis::IndexManager::owned_vector_adapters_</definition>
+        <argsstring></argsstring>
+        <name>owned_vector_adapters_</name>
+        <qualifiedname>themis::IndexManager::owned_vector_adapters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="229" column="24" bodyfile="include/index/index_manager.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1ae970ce5d01abf8a97bbaf6c1e7b84c80" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::IndexManager::IndexManager</definition>
+        <argsstring>(IExpressionEvaluatorPtr evaluator=nullptr, IStorageEnginePtr storage=nullptr)</argsstring>
+        <name>IndexManager</name>
+        <qualifiedname>themis::IndexManager::IndexManager</qualifiedname>
+        <param>
+          <type>IExpressionEvaluatorPtr</type>
+          <declname>evaluator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>IStorageEnginePtr</type>
+          <declname>storage</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructor with Dependency Injection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expression evaluator for WHERE clauses (optional) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional storage for metadata (can be nullptr) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="58" column="14" bodyfile="src/index/index_manager.cpp" bodystart="217" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1ad1ea88711fb6ebbaf6c357e560dd0207" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::IndexManager::~IndexManager</definition>
+        <argsstring>() override</argsstring>
+        <name>~IndexManager</name>
+        <qualifiedname>themis::IndexManager::~IndexManager</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="64" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a166efb94ae59cfc352326b3959a10473" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::IndexManager::setExpressionEvaluator</definition>
+        <argsstring>(IExpressionEvaluatorPtr evaluator)</argsstring>
+        <name>setExpressionEvaluator</name>
+        <qualifiedname>themis::IndexManager::setExpressionEvaluator</qualifiedname>
+        <param>
+          <type>IExpressionEvaluatorPtr</type>
+          <declname>evaluator</declname>
+        </param>
+        <briefdescription>
+<para>Set evaluator (for late binding). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Expression Evaluator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: propagateEvaluatorToManagers(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="72" column="10" bodyfile="src/index/index_manager.cpp" bodystart="266" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a57008086e386c8af075753e60dca9c94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::IndexManager::setStorage</definition>
+        <argsstring>(IStorageEnginePtr storage)</argsstring>
+        <name>setStorage</name>
+        <qualifiedname>themis::IndexManager::setStorage</qualifiedname>
+        <param>
+          <type>IStorageEnginePtr</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+<para>Set storage (for late binding). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Storage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="75" column="10" bodyfile="src/index/index_manager.cpp" bodystart="276" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a6315f7a318e49fb45bb2cbb0c62ffbd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::IndexManager::setRocksDB</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db)</argsstring>
+        <name>setRocksDB</name>
+        <qualifiedname>themis::IndexManager::setRocksDB</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Set RocksDB wrapper (for internal index managers). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Rocks DB.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: propagateEvaluatorToManagers(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="78" column="10" bodyfile="src/index/index_manager.cpp" bodystart="285" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a6d997cc3aba9d40c88b41295061a8ac1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>IExpressionEvaluatorPtr</type>
+        <definition>IExpressionEvaluatorPtr themis::IndexManager::getExpressionEvaluator</definition>
+        <argsstring>() const</argsstring>
+        <name>getExpressionEvaluator</name>
+        <qualifiedname>themis::IndexManager::getExpressionEvaluator</qualifiedname>
+        <briefdescription>
+<para>Get the expression evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the expression evaluator (may be nullptr). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="82" column="29" bodyfile="src/index/index_manager.cpp" bodystart="301" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a490e162dffdef23c49eddc1f73007458" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; VectorIndexManager &gt; themis::IndexManager::getVectorIndexManager</definition>
+        <argsstring>() const</argsstring>
+        <name>getVectorIndexManager</name>
+        <qualifiedname>themis::IndexManager::getVectorIndexManager</qualifiedname>
+        <briefdescription>
+<para>Get the vector index manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to the <ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="86" column="21" bodyfile="src/index/index_manager.cpp" bodystart="305" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a859b6a672efc3a76f4d500e0e16a8e26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="class_secondary_index_manager" kindref="compound">SecondaryIndexManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; SecondaryIndexManager &gt; themis::IndexManager::getSecondaryIndexManager</definition>
+        <argsstring>() const</argsstring>
+        <name>getSecondaryIndexManager</name>
+        <qualifiedname>themis::IndexManager::getSecondaryIndexManager</qualifiedname>
+        <briefdescription>
+<para>Get the secondary index manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to the <ref refid="classthemis_1_1_secondary_index_manager" kindref="compound">SecondaryIndexManager</ref> instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="90" column="21" bodyfile="src/index/index_manager.cpp" bodystart="309" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a13aefa0a40afcdb0da3f3f7de7d00bf2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_graph_index_manager" kindref="compound">GraphIndexManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; GraphIndexManager &gt; themis::IndexManager::getGraphIndexManager</definition>
+        <argsstring>() const</argsstring>
+        <name>getGraphIndexManager</name>
+        <qualifiedname>themis::IndexManager::getGraphIndexManager</qualifiedname>
+        <briefdescription>
+<para>Get the graph index manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to the <ref refid="classthemis_1_1_graph_index_manager" kindref="compound">GraphIndexManager</ref> instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="94" column="21" bodyfile="src/index/index_manager.cpp" bodystart="313" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a26623511fb302cfb45892782afcb4b2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; ISecondaryIndex * &gt;</type>
+        <definition>Result&lt; ISecondaryIndex * &gt; themis::IndexManager::createSecondaryIndex</definition>
+        <argsstring>(std::string_view name, std::string_view field_name, const std::string &amp;config=&quot;&quot;) override</argsstring>
+        <name>createSecondaryIndex</name>
+        <qualifiedname>themis::IndexManager::createSecondaryIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create Secondary Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: span(), setAttribute(), std::string(), lock(), THEMIS_ERROR(), setStatus(), fmt::format(), name_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="98" column="12" bodyfile="src/index/index_manager.cpp" bodystart="327" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a3a2a43dccd79892c9d83d8cf2c9cf588" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; IVectorIndex * &gt;</type>
+        <definition>Result&lt; IVectorIndex * &gt; themis::IndexManager::createVectorIndex</definition>
+        <argsstring>(std::string_view name, uint32_t dimension, const std::string &amp;config=&quot;&quot;) override</argsstring>
+        <name>createVectorIndex</name>
+        <qualifiedname>themis::IndexManager::createVectorIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create Vector Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: span(), setAttribute(), std::string(), lock(), THEMIS_ERROR(), setStatus(), fmt::format(), name_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="103" column="12" bodyfile="src/index/index_manager.cpp" bodystart="451" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1ab9033eeac1017f6683787b8b75b5ff87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; IGraphIndex * &gt;</type>
+        <definition>Result&lt; IGraphIndex * &gt; themis::IndexManager::createGraphIndex</definition>
+        <argsstring>(std::string_view name, const std::string &amp;config=&quot;&quot;) override</argsstring>
+        <name>createGraphIndex</name>
+        <qualifiedname>themis::IndexManager::createGraphIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create Graph Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), THEMIS_ERROR(), fmt::format(), name_str(), find(), end(), THEMIS_WARN(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="108" column="12" bodyfile="src/index/index_manager.cpp" bodystart="526" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a95f4b0b22885f87345118fd2dd44e180" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; ISecondaryIndex * &gt;</type>
+        <definition>Result&lt; ISecondaryIndex * &gt; themis::IndexManager::getSecondaryIndex</definition>
+        <argsstring>(std::string_view name) const override</argsstring>
+        <name>getSecondaryIndex</name>
+        <qualifiedname>themis::IndexManager::getSecondaryIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Name str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="112" column="12" bodyfile="src/index/index_manager.cpp" bodystart="560" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a8e1464caa7048da8a7f5036c98972752" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; IVectorIndex * &gt;</type>
+        <definition>Result&lt; IVectorIndex * &gt; themis::IndexManager::getVectorIndex</definition>
+        <argsstring>(std::string_view name) const override</argsstring>
+        <name>getVectorIndex</name>
+        <qualifiedname>themis::IndexManager::getVectorIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Name str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="114" column="12" bodyfile="src/index/index_manager.cpp" bodystart="588" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a5121409d83b2085a599a8f2c65bce603" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; IGraphIndex * &gt;</type>
+        <definition>Result&lt; IGraphIndex * &gt; themis::IndexManager::getGraphIndex</definition>
+        <argsstring>(std::string_view name) const override</argsstring>
+        <name>getGraphIndex</name>
+        <qualifiedname>themis::IndexManager::getGraphIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Name str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="116" column="12" bodyfile="src/index/index_manager.cpp" bodystart="616" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a493d329c3bb231b045c2973097c66c4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::IndexManager::dropIndex</definition>
+        <argsstring>(std::string_view name) override</argsstring>
+        <name>dropIndex</name>
+        <qualifiedname>themis::IndexManager::dropIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Drop Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), name_str(), find(), end(), THEMIS_WARN(), ErrVoid(), fmt::format(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="118" column="12" bodyfile="src/index/index_manager.cpp" bodystart="650" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1aca4aae669a377797b14ffd806ef1bfa0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::IndexManager::listIndexes</definition>
+        <argsstring>() const override</argsstring>
+        <name>listIndexes</name>
+        <qualifiedname>themis::IndexManager::listIndexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="120" column="17" bodyfile="src/index/index_manager.cpp" bodystart="719" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1af24a6d5a90d14c2d36b523720314b4ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; IndexType &gt;</type>
+        <definition>Result&lt; IndexType &gt; themis::IndexManager::getIndexType</definition>
+        <argsstring>(std::string_view name) const override</argsstring>
+        <name>getIndexType</name>
+        <qualifiedname>themis::IndexManager::getIndexType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Name str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="122" column="12" bodyfile="src/index/index_manager.cpp" bodystart="740" bodyend="761"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1ae2981afec46147760cdfd580d37d7c0d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_secondary_index_manager_1_1_index_stats" kindref="compound">SecondaryIndexManager::IndexStats</ref> &gt;</type>
+        <definition>std::vector&lt; SecondaryIndexManager::IndexStats &gt; themis::IndexManager::exportIndexStats</definition>
+        <argsstring>(std::string_view table_name) const</argsstring>
+        <name>exportIndexStats</name>
+        <qualifiedname>themis::IndexManager::exportIndexStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Collect all secondary-index statistics for a given table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns one entry per (table, column) secondary index registered in the <ref refid="classthemis_1_1_secondary_index_manager" kindref="compound">SecondaryIndexManager</ref> that was built around the same RocksDB instance. If no <ref refid="classthemis_1_1_secondary_index_manager" kindref="compound">SecondaryIndexManager</ref> has been wired (i.e. setRocksDB was never called) an empty vector is returned rather than throwing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table/collection whose index statistics to export. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of per-index statistics (may be empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="145" column="9" bodyfile="src/index/index_manager.cpp" bodystart="768" bodyend="778"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1ad8de24bb8ffddc3ac8850ed6c86d770f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; ISecondaryIndex * &gt;</type>
+        <definition>Result&lt; ISecondaryIndex * &gt; themis::IndexManager::createSecondaryIndex</definition>
+        <argsstring>(std::string_view tenant_id, std::string_view name, std::string_view field_name, const std::string &amp;config=&quot;&quot;)</argsstring>
+        <name>createSecondaryIndex</name>
+        <qualifiedname>themis::IndexManager::createSecondaryIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a secondary index scoped to a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ndash/> tenant-scoped create -------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isValidTenantComponent(), <ref refid="classthemis_1_1_index_manager_1aafe0000a546686976d11b4c939e9c4a1" kindref="member">makeTenantIndexName()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="165" column="12" bodyfile="src/index/index_manager.cpp" bodystart="806" bodyend="824"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1ac569dd90bac2bf7ca99b8586627974b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; IVectorIndex * &gt;</type>
+        <definition>Result&lt; IVectorIndex * &gt; themis::IndexManager::createVectorIndex</definition>
+        <argsstring>(std::string_view tenant_id, std::string_view name, uint32_t dimension, const std::string &amp;config=&quot;&quot;)</argsstring>
+        <name>createVectorIndex</name>
+        <qualifiedname>themis::IndexManager::createVectorIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a vector index scoped to a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Vector Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isValidTenantComponent(), <ref refid="classthemis_1_1_index_manager_1aafe0000a546686976d11b4c939e9c4a1" kindref="member">makeTenantIndexName()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="171" column="12" bodyfile="src/index/index_manager.cpp" bodystart="835" bodyend="853"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a1cffb8cb89ae7a6d1d3889fc1ec876d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; IGraphIndex * &gt;</type>
+        <definition>Result&lt; IGraphIndex * &gt; themis::IndexManager::createGraphIndex</definition>
+        <argsstring>(std::string_view tenant_id, std::string_view name, const std::string &amp;config=&quot;&quot;)</argsstring>
+        <name>createGraphIndex</name>
+        <qualifiedname>themis::IndexManager::createGraphIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a graph index scoped to a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Graph Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isValidTenantComponent(), <ref refid="classthemis_1_1_index_manager_1aafe0000a546686976d11b4c939e9c4a1" kindref="member">makeTenantIndexName()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="177" column="12" bodyfile="src/index/index_manager.cpp" bodystart="863" bodyend="879"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a9209077f3811a53e5d703860fa1f8bc0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; ISecondaryIndex * &gt;</type>
+        <definition>Result&lt; ISecondaryIndex * &gt; themis::IndexManager::getSecondaryIndex</definition>
+        <argsstring>(std::string_view tenant_id, std::string_view name) const</argsstring>
+        <name>getSecondaryIndex</name>
+        <qualifiedname>themis::IndexManager::getSecondaryIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Look up a secondary index scoped to a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="182" column="12" bodyfile="src/index/index_manager.cpp" bodystart="883" bodyend="898"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1af3be0a762ed84a20986950971abf542a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; IVectorIndex * &gt;</type>
+        <definition>Result&lt; IVectorIndex * &gt; themis::IndexManager::getVectorIndex</definition>
+        <argsstring>(std::string_view tenant_id, std::string_view name) const</argsstring>
+        <name>getVectorIndex</name>
+        <qualifiedname>themis::IndexManager::getVectorIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Look up a vector index scoped to a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="186" column="12" bodyfile="src/index/index_manager.cpp" bodystart="900" bodyend="915"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a07bb9be2055f28cc285ccfc82a5d34f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; IGraphIndex * &gt;</type>
+        <definition>Result&lt; IGraphIndex * &gt; themis::IndexManager::getGraphIndex</definition>
+        <argsstring>(std::string_view tenant_id, std::string_view name) const</argsstring>
+        <name>getGraphIndex</name>
+        <qualifiedname>themis::IndexManager::getGraphIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Look up a graph index scoped to a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="190" column="12" bodyfile="src/index/index_manager.cpp" bodystart="917" bodyend="932"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1aa26a816a3ade6e203cd22dedea792a6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::IndexManager::dropIndex</definition>
+        <argsstring>(std::string_view tenant_id, std::string_view name)</argsstring>
+        <name>dropIndex</name>
+        <qualifiedname>themis::IndexManager::dropIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Drop an index scoped to a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ndash/> tenant-scoped drop ---------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isValidTenantComponent(), ErrVoid(), <ref refid="classthemis_1_1_index_manager_1aafe0000a546686976d11b4c939e9c4a1" kindref="member">makeTenantIndexName()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="194" column="12" bodyfile="src/index/index_manager.cpp" bodystart="942" bodyend="955"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a40b1e752361e05108df5ab6a28d5b25a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::IndexManager::dropTenantIndexes</definition>
+        <argsstring>(std::string_view tenant_id)</argsstring>
+        <name>dropTenantIndexes</name>
+        <qualifiedname>themis::IndexManager::dropTenantIndexes</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Drop all indexes belonging to a given tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Drop Tenant Indexes.</para>
+<para>Safe to call even when the tenant has no indexes (returns Ok).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isValidTenantComponent(), ErrVoid(), fmt::format(), lock(), starts_with(), push_back(), <ref refid="classthemis_1_1_index_manager_1a493d329c3bb231b045c2973097c66c4c" kindref="member">dropIndex()</ref>, has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="199" column="12" bodyfile="src/index/index_manager.cpp" bodystart="963" bodyend="994"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1af48b20baf5120eac62c8db9298adec67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::IndexManager::listIndexes</definition>
+        <argsstring>(std::string_view tenant_id) const</argsstring>
+        <name>listIndexes</name>
+        <qualifiedname>themis::IndexManager::listIndexes</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>List all index names registered for a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns logical names (without the &quot;tenant:&lt;id&gt;:&quot; prefix). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="204" column="17" bodyfile="src/index/index_manager.cpp" bodystart="998" bodyend="1018"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a784bdc1ee9485d32765d8ceb6a5caf73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; IndexType &gt;</type>
+        <definition>Result&lt; IndexType &gt; themis::IndexManager::getIndexType</definition>
+        <argsstring>(std::string_view tenant_id, std::string_view name) const</argsstring>
+        <name>getIndexType</name>
+        <qualifiedname>themis::IndexManager::getIndexType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Return the type of an index scoped to a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="207" column="12" bodyfile="src/index/index_manager.cpp" bodystart="1020" bodyend="1033"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1a416b7a66e8a3218828e30e9caca8ea33" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_index_manager_1ae970ce5d01abf8a97bbaf6c1e7b84c80" kindref="member">IndexManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IndexManager &gt; themis::IndexManager::createDefault</definition>
+        <argsstring>()</argsstring>
+        <name>createDefault</name>
+        <qualifiedname>themis::IndexManager::createDefault</qualifiedname>
+        <briefdescription>
+<para>Static factory (backward compatible) Creates default implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Default.</para>
+<para><simplesect kind="return"><para>Shared pointer to a default <ref refid="classthemis_1_1_index_manager" kindref="compound">IndexManager</ref> instance.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDefault without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="69" column="28" bodyfile="src/index/index_manager.cpp" bodystart="236" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1aafe0000a546686976d11b4c939e9c4a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::IndexManager::makeTenantIndexName</definition>
+        <argsstring>(std::string_view tenant_id, std::string_view index_name)</argsstring>
+        <name>makeTenantIndexName</name>
+        <qualifiedname>themis::IndexManager::makeTenantIndexName</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>index_name</declname>
+        </param>
+        <briefdescription>
+<para>Build the tenant-scoped RocksDB key prefix for an index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Tenant Index Name.</para>
+<para>Format: &quot;tenant:&lt;tenant_id&gt;:&lt;index_name&gt;&quot;</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-empty tenant identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical index name within the tenant namespace </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Prefixed index key used internally by all underlying managers</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fmt::format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="161" column="24" bodyfile="src/index/index_manager.cpp" bodystart="791" bodyend="794"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_index_manager_1af53baed40787cc7961281a5bfa0beb83" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::IndexManager::propagateEvaluatorToManagers</definition>
+        <argsstring>()</argsstring>
+        <name>propagateEvaluatorToManagers</name>
+        <qualifiedname>themis::IndexManager::propagateEvaluatorToManagers</qualifiedname>
+        <briefdescription>
+<para>Propagate Evaluator To Managers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1_index_manager_1a166efb94ae59cfc352326b3959a10473" kindref="member">setExpressionEvaluator()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_manager.h" line="232" column="10" bodyfile="src/index/index_manager.cpp" bodystart="245" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unified index manager coordinating all index types. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_index_manager" kindref="compound">IndexManager</ref> implements the IIndexManager interface and coordinates the existing <ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref>, <ref refid="classthemis_1_1_secondary_index_manager" kindref="compound">SecondaryIndexManager</ref>, and <ref refid="classthemis_1_1_graph_index_manager" kindref="compound">GraphIndexManager</ref>. It uses dependency injection for expression evaluation and storage. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IIndexManager</label>
+      </node>
+      <node id="1">
+        <label>themis::IndexManager</label>
+        <link refid="classthemis_1_1_index_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IIndexManager</label>
+      </node>
+      <node id="1">
+        <label>themis::IndexManager</label>
+        <link refid="classthemis_1_1_index_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/index/index_manager.h" line="52" column="1" bodyfile="include/index/index_manager.h" bodystart="52" bodyend="233"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_index_manager_1a416b7a66e8a3218828e30e9caca8ea33" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>createDefault</name></member>
+      <member refid="classthemis_1_1_index_manager_1ab9033eeac1017f6683787b8b75b5ff87" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>createGraphIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1a1cffb8cb89ae7a6d1d3889fc1ec876d3" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>createGraphIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1a26623511fb302cfb45892782afcb4b2c" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>createSecondaryIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1ad8de24bb8ffddc3ac8850ed6c86d770f" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>createSecondaryIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1a3a2a43dccd79892c9d83d8cf2c9cf588" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>createVectorIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1ac569dd90bac2bf7ca99b8586627974b4" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>createVectorIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1a23e4bd9fc14292b13a59e06e18dd1cee" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_index_manager_1a493d329c3bb231b045c2973097c66c4c" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>dropIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1aa26a816a3ade6e203cd22dedea792a6c" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>dropIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1a40b1e752361e05108df5ab6a28d5b25a" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>dropTenantIndexes</name></member>
+      <member refid="classthemis_1_1_index_manager_1a0dc4469e98f68be19d70ce00c64e0ec5" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>evaluator_</name></member>
+      <member refid="classthemis_1_1_index_manager_1ae2981afec46147760cdfd580d37d7c0d" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>exportIndexStats</name></member>
+      <member refid="classthemis_1_1_index_manager_1a6d997cc3aba9d40c88b41295061a8ac1" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getExpressionEvaluator</name></member>
+      <member refid="classthemis_1_1_index_manager_1a5121409d83b2085a599a8f2c65bce603" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getGraphIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1a07bb9be2055f28cc285ccfc82a5d34f3" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getGraphIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1a13aefa0a40afcdb0da3f3f7de7d00bf2" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getGraphIndexManager</name></member>
+      <member refid="classthemis_1_1_index_manager_1af24a6d5a90d14c2d36b523720314b4ed" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getIndexType</name></member>
+      <member refid="classthemis_1_1_index_manager_1a784bdc1ee9485d32765d8ceb6a5caf73" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getIndexType</name></member>
+      <member refid="classthemis_1_1_index_manager_1a95f4b0b22885f87345118fd2dd44e180" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getSecondaryIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1a9209077f3811a53e5d703860fa1f8bc0" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getSecondaryIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1a859b6a672efc3a76f4d500e0e16a8e26" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getSecondaryIndexManager</name></member>
+      <member refid="classthemis_1_1_index_manager_1a8e1464caa7048da8a7f5036c98972752" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getVectorIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1af3be0a762ed84a20986950971abf542a" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getVectorIndex</name></member>
+      <member refid="classthemis_1_1_index_manager_1a490e162dffdef23c49eddc1f73007458" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>getVectorIndexManager</name></member>
+      <member refid="classthemis_1_1_index_manager_1aca382bd80f3150d49ce257a62b8619c5" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>graph_indices_</name></member>
+      <member refid="classthemis_1_1_index_manager_1a37699ef4056adae87787dd11812d379e" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>graph_manager_</name></member>
+      <member refid="classthemis_1_1_index_manager_1a496eaaedf1838b9b51c2625cc814d631" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>index_types_</name></member>
+      <member refid="classthemis_1_1_index_manager_1ae970ce5d01abf8a97bbaf6c1e7b84c80" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>IndexManager</name></member>
+      <member refid="classthemis_1_1_index_manager_1aca4aae669a377797b14ffd806ef1bfa0" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>listIndexes</name></member>
+      <member refid="classthemis_1_1_index_manager_1af48b20baf5120eac62c8db9298adec67" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>listIndexes</name></member>
+      <member refid="classthemis_1_1_index_manager_1aafe0000a546686976d11b4c939e9c4a1" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>makeTenantIndexName</name></member>
+      <member refid="classthemis_1_1_index_manager_1a3b9132659472c27b7dd55e51efbb1ece" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>owned_secondary_adapters_</name></member>
+      <member refid="classthemis_1_1_index_manager_1afe2dc9bef6f20b6aac96707ff798916d" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>owned_vector_adapters_</name></member>
+      <member refid="classthemis_1_1_index_manager_1af53baed40787cc7961281a5bfa0beb83" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>propagateEvaluatorToManagers</name></member>
+      <member refid="classthemis_1_1_index_manager_1a6598ee3f7b36b58978d4d65a528eb89c" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>registry_mutex_</name></member>
+      <member refid="classthemis_1_1_index_manager_1a2a8da34dbd2d9393ea81231a70c95e9b" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>secondary_indices_</name></member>
+      <member refid="classthemis_1_1_index_manager_1a629c3dc0a799a7030d11efab9d630cf8" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>secondary_manager_</name></member>
+      <member refid="classthemis_1_1_index_manager_1a166efb94ae59cfc352326b3959a10473" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>setExpressionEvaluator</name></member>
+      <member refid="classthemis_1_1_index_manager_1a6315f7a318e49fb45bb2cbb0c62ffbd1" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>setRocksDB</name></member>
+      <member refid="classthemis_1_1_index_manager_1a57008086e386c8af075753e60dca9c94" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>setStorage</name></member>
+      <member refid="classthemis_1_1_index_manager_1ae40ffaa3b846087aafe0a44c3c6c3afa" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1_index_manager_1a6bf24c6a4c02a4eb54f6ca7b306d59bd" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>vector_indices_</name></member>
+      <member refid="classthemis_1_1_index_manager_1a161fd73cd480e1a6d2c35c8dc1b709db" prot="private" virt="non-virtual"><scope>themis::IndexManager</scope><name>vector_manager_</name></member>
+      <member refid="classthemis_1_1_index_manager_1ad1ea88711fb6ebbaf6c357e560dd0207" prot="public" virt="non-virtual"><scope>themis::IndexManager</scope><name>~IndexManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

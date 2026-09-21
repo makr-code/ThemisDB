@@ -1,0 +1,586 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::CRDTMergeResolver</compoundname>
+    <basecompoundref refid="classthemisdb_1_1replication_1_1_conflict_resolver" prot="public" virt="non-virtual">themisdb::replication::ConflictResolver</basecompoundref>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CRDTType</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::CRDTType</qualifiedname>
+        <enumvalue id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8a6cc0cfdf6ea907a88559d2c72ecf134e" prot="public">
+          <name>LWW_REGISTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8a4e414cad27bee894f856f4fc231da4a5" prot="public">
+          <name>MV_REGISTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8a68f0bc4ec26c2fbfca52519f70bad19f" prot="public">
+          <name>G_COUNTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8a121b38b1c87644dbc679a43efcca336f" prot="public">
+          <name>PN_COUNTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8a27959ef7669788398f2247ec2bf93642" prot="public">
+          <name>G_SET</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8acf4b767d622dfed2106976eaa89925da" prot="public">
+          <name>OR_SET</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8aaff880235b007729741b2e9a9a577160" prot="public">
+          <name>LWW_MAP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8abdc8693cdf0f6535c6d6d73690b18b05" prot="public">
+          <name>TWO_P_SET</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8a65bd197aba2caca16d64149d4ea81c67" prot="public">
+          <name>RGA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8a62e8951392abac4f7e103d59449eb27d" prot="public">
+          <name>FLAG_EW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8aa5e9cde3f8b29884f2a181c4c804ab4f" prot="public">
+          <name>FLAG_DW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="266" column="5" bodyfile="include/replication/multi_master_replication.h" bodystart="266" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a62ed56fa03d6860c6d69e7e640d23911" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8" kindref="member">CRDTType</ref></type>
+        <definition>CRDTType themisdb::replication::CRDTMergeResolver::crdt_type_</definition>
+        <argsstring></argsstring>
+        <name>crdt_type_</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::crdt_type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="290" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a392e4ede54f71aeda64f52aa873f489c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::CRDTMergeResolver::CRDTMergeResolver</definition>
+        <argsstring>(CRDTType type)</argsstring>
+        <name>CRDTMergeResolver</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::CRDTMergeResolver</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8" kindref="member">CRDTType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="280" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="3075" bodyend="3077"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a113b4ab34a8630afaa67baea78fcb229" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref></type>
+        <definition>MMWriteEntry themisdb::replication::CRDTMergeResolver::resolve</definition>
+        <argsstring>(const std::string &amp;document_id, const std::vector&lt; MMWriteEntry &gt; &amp;conflicting_writes) override</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::resolve</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_conflict_resolver_1afa9ae0d1b4f80b1cd7ce78e59cd0f84e">resolve</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>conflicting_writes</declname>
+        </param>
+        <briefdescription>
+<para>Resolve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflicting_writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="282" column="18" bodyfile="src/replication/replication_manager.cpp" bodystart="3085" bodyend="3122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1aa2330946a381fe112245d5f1ea1f831e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::strategyName</definition>
+        <argsstring>() const override</argsstring>
+        <name>strategyName</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::strategyName</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_conflict_resolver_1a03c7947a2aeabdbe0ad0f62437ec2ed7">strategyName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="287" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3124" bodyend="3140"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1ab862fd4283dffa938bfcd94060118819" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::mergeLWWRegister</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes)</argsstring>
+        <name>mergeLWWRegister</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::mergeLWWRegister</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+<para>CRDT merge strategies implement distributed consistency semantics: - LWW_REGISTER: Last-write-wins based on HLC timestamps (totally ordered) - MV_REGISTER: Multi-value register preserving all concurrent writes - G_COUNTER/PN_COUNTER: Grow-only/positive-negative counters (monotonic) - G_SET/OR_SET/TWO_P_SET: Set-based CRDTs (add/remove semantics) - LWW_MAP/RGA: Ordered map/sequence CRDTs - FLAG_EW/FLAG_DW: Enabled-wins/disabled-wins flags All implement strong eventual consistency (SEC) guarantees. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements mergeLWWRegister without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="293" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3149" bodyend="3158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1ab0c625ece4b9acca1ef9ae8b0e521cee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::mergeMVRegister</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes)</argsstring>
+        <name>mergeMVRegister</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::mergeMVRegister</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+<para>Merge MVRegister. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="294" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3166" bodyend="3180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a920a6ab5a60125bd106b65927c658e91" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::mergeGCounter</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes)</argsstring>
+        <name>mergeGCounter</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::mergeGCounter</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+<para>Merge GCounter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractJsonInts(), std::max(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="295" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3344" bodyend="3366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a8fc9979b0d9959109570cbb0c2554afd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::mergePNCounter</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes)</argsstring>
+        <name>mergePNCounter</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::mergePNCounter</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+<para>Merge PNCounter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractSubObject(), empty(), extractJsonInts(), std::max(), str(), serializeMap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="296" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3374" bodyend="3409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f47238089667b2c3339d89f40298064" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::mergeGSet</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes)</argsstring>
+        <name>mergeGSet</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::mergeGSet</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+<para>Merge GSet. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), find(), insert(), substr(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="297" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3417" bodyend="3448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a2dd2595513f65aeff05f91bc2f69b391" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::mergeORSet</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes)</argsstring>
+        <name>mergeORSet</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::mergeORSet</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+<para>Merge ORSet. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractSubArray(), extractJsonArrayStrings(), insert(), size(), find(), substr(), begin(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="298" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3456" bodyend="3525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1adb8480de0382f984853e9af433decbc7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::mergeLWWMap</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes)</argsstring>
+        <name>mergeLWWMap</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::mergeLWWMap</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+<para>Merge LWWMap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractJsonInts(), find(), end(), std::to_string(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="299" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3533" bodyend="3557"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1ab931e946f739a83f27c0b1af8989e752" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::mergeTwoPSet</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes)</argsstring>
+        <name>mergeTwoPSet</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::mergeTwoPSet</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+<para>Merge Two PSet. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractSubArray(), extractJsonArrayStrings(), insert(), count(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="300" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3565" bodyend="3599"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1ae2e1504d668a1ebbef6b28860531cbb5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::mergeRGA</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes)</argsstring>
+        <name>mergeRGA</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::mergeRGA</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+<para>Merge RGA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), find(), substr(), empty(), end(), std::move(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="301" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3607" bodyend="3716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1aeb76dcbc679d1f8e063fee5d09b01fe7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::mergeFlagEW</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes)</argsstring>
+        <name>mergeFlagEW</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::mergeFlagEW</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+<para>Merge Flag EW. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractSubArray(), extractJsonArrayStrings(), insert(), find(), end(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="302" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3724" bodyend="3750"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a762ca2b2ad687365c40d65cd8705a48b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CRDTMergeResolver::mergeFlagDW</definition>
+        <argsstring>(const std::vector&lt; MMWriteEntry &gt; &amp;writes)</argsstring>
+        <name>mergeFlagDW</name>
+        <qualifiedname>themisdb::replication::CRDTMergeResolver::mergeFlagDW</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>writes</declname>
+        </param>
+        <briefdescription>
+<para>Merge Flag DW. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractSubArray(), extractJsonArrayStrings(), insert(), empty(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="303" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3758" bodyend="3780"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>CRDT-based Merge Resolver Automatically merges concurrent writes using CRDT semantics </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themisdb::replication::CRDTMergeResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::ConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_conflict_resolver"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::replication::CRDTMergeResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::ConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_conflict_resolver"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/multi_master_replication.h" line="264" column="1" bodyfile="include/replication/multi_master_replication.h" bodystart="264" bodyend="304"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a62ed56fa03d6860c6d69e7e640d23911" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>crdt_type_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a392e4ede54f71aeda64f52aa873f489c" prot="public" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>CRDTMergeResolver</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f0d30cec21968626d3ce2a599edb7a8" prot="public" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>CRDTType</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a762ca2b2ad687365c40d65cd8705a48b" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>mergeFlagDW</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1aeb76dcbc679d1f8e063fee5d09b01fe7" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>mergeFlagEW</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a920a6ab5a60125bd106b65927c658e91" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>mergeGCounter</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a6f47238089667b2c3339d89f40298064" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>mergeGSet</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1adb8480de0382f984853e9af433decbc7" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>mergeLWWMap</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1ab862fd4283dffa938bfcd94060118819" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>mergeLWWRegister</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1ab0c625ece4b9acca1ef9ae8b0e521cee" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>mergeMVRegister</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a2dd2595513f65aeff05f91bc2f69b391" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>mergeORSet</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a8fc9979b0d9959109570cbb0c2554afd" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>mergePNCounter</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1ae2e1504d668a1ebbef6b28860531cbb5" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>mergeRGA</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1ab931e946f739a83f27c0b1af8989e752" prot="private" virt="non-virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>mergeTwoPSet</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1a113b4ab34a8630afaa67baea78fcb229" prot="public" virt="virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>resolve</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver_1aa2330946a381fe112245d5f1ea1f831e" prot="public" virt="virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>strategyName</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_conflict_resolver_1af763af2577df622c4341e9684d189c2e" prot="public" virt="virtual"><scope>themisdb::replication::CRDTMergeResolver</scope><name>~ConflictResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

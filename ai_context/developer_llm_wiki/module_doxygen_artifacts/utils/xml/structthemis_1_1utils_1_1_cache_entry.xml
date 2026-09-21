@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::CacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_cache_entry_1a8d10c2fd4c3089a933bfb8156b228393" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::utils::CacheEntry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::utils::CacheEntry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="40" column="37" bodyfile="src/utils/hkdf_cache.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_cache_entry_1a3c0b94ab14f578cf868f9ff2a64f29cc" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::utils::CacheEntry::inserted_at</definition>
+        <argsstring></argsstring>
+        <name>inserted_at</name>
+        <qualifiedname>themis::utils::CacheEntry::inserted_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="41" column="46" bodyfile="src/utils/hkdf_cache.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/hkdf_cache.cpp" line="39" column="1" bodyfile="src/utils/hkdf_cache.cpp" bodystart="39" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_cache_entry_1a3c0b94ab14f578cf868f9ff2a64f29cc" prot="public" virt="non-virtual"><scope>themis::utils::CacheEntry</scope><name>inserted_at</name></member>
+      <member refid="structthemis_1_1utils_1_1_cache_entry_1a8d10c2fd4c3089a933bfb8156b228393" prot="public" virt="non-virtual"><scope>themis::utils::CacheEntry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

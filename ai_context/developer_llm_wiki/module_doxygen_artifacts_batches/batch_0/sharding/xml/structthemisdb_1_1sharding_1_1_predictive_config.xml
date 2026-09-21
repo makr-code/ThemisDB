@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_predictive_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PredictiveConfig</compoundname>
+    <includes refid="predictive__detector_8h" local="no">predictive_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_config_1a2d9a795c9b587fcf8207aa2fef33e212" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PredictiveConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themisdb::sharding::PredictiveConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="44" column="10" bodyfile="include/sharding/predictive_detector.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_config_1a8779b5337e094e229caaba91248d8089" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::PredictiveConfig::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themisdb::sharding::PredictiveConfig::model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="45" column="17" bodyfile="include/sharding/predictive_detector.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_config_1a713acb18cf683b57e042488d8486be36" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themisdb::sharding::PredictiveConfig::check_interval</definition>
+        <argsstring></argsstring>
+        <name>check_interval</name>
+        <qualifiedname>themisdb::sharding::PredictiveConfig::check_interval</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="46" column="26" bodyfile="include/sharding/predictive_detector.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_config_1ac0fb014f50218ab957289955eacf6c71" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::sharding::PredictiveConfig::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themisdb::sharding::PredictiveConfig::failure_threshold</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="47" column="11" bodyfile="include/sharding/predictive_detector.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_config_1ab3e8c79902834d9d4ef15b99f4219cb6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::PredictiveConfig::lookback_days</definition>
+        <argsstring></argsstring>
+        <name>lookback_days</name>
+        <qualifiedname>themisdb::sharding::PredictiveConfig::lookback_days</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="48" column="14" bodyfile="include/sharding/predictive_detector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_config_1a164d15162c7ddcef11fb4c3f81fc2fc7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PredictiveConfig::enable_alerts</definition>
+        <argsstring></argsstring>
+        <name>enable_alerts</name>
+        <qualifiedname>themisdb::sharding::PredictiveConfig::enable_alerts</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="51" column="10" bodyfile="include/sharding/predictive_detector.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_config_1a0d3e8bac8e38b55f613c99297fb25513" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp;)&gt; themisdb::sharding::PredictiveConfig::alert_callback</definition>
+        <argsstring></argsstring>
+        <name>alert_callback</name>
+        <qualifiedname>themisdb::sharding::PredictiveConfig::alert_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="52" column="19" bodyfile="include/sharding/predictive_detector.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_config_1ae25796c9387727f58e420bd55e27680c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PredictiveConfig::collect_smart_metrics</definition>
+        <argsstring></argsstring>
+        <name>collect_smart_metrics</name>
+        <qualifiedname>themisdb::sharding::PredictiveConfig::collect_smart_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="55" column="10" bodyfile="include/sharding/predictive_detector.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_config_1ad8e1f65469ba73e43e901986d1225697" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PredictiveConfig::collect_performance_metrics</definition>
+        <argsstring></argsstring>
+        <name>collect_performance_metrics</name>
+        <qualifiedname>themisdb::sharding::PredictiveConfig::collect_performance_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="56" column="10" bodyfile="include/sharding/predictive_detector.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_config_1acf3b904f06a48dd3a2cfb0f34277e03c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PredictiveConfig::collect_io_patterns</definition>
+        <argsstring></argsstring>
+        <name>collect_io_patterns</name>
+        <qualifiedname>themisdb::sharding::PredictiveConfig::collect_io_patterns</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="57" column="10" bodyfile="include/sharding/predictive_detector.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/predictive_detector.h" line="43" column="1" bodyfile="include/sharding/predictive_detector.h" bodystart="43" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_config_1a0d3e8bac8e38b55f613c99297fb25513" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveConfig</scope><name>alert_callback</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_config_1a713acb18cf683b57e042488d8486be36" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveConfig</scope><name>check_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_config_1acf3b904f06a48dd3a2cfb0f34277e03c" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveConfig</scope><name>collect_io_patterns</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_config_1ad8e1f65469ba73e43e901986d1225697" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveConfig</scope><name>collect_performance_metrics</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_config_1ae25796c9387727f58e420bd55e27680c" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveConfig</scope><name>collect_smart_metrics</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_config_1a164d15162c7ddcef11fb4c3f81fc2fc7" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveConfig</scope><name>enable_alerts</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_config_1a2d9a795c9b587fcf8207aa2fef33e212" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveConfig</scope><name>enabled</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_config_1ac0fb014f50218ab957289955eacf6c71" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveConfig</scope><name>failure_threshold</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_config_1ab3e8c79902834d9d4ef15b99f4219cb6" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveConfig</scope><name>lookback_days</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_config_1a8779b5337e094e229caaba91248d8089" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveConfig</scope><name>model_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

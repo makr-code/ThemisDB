@@ -1,0 +1,422 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cdc__admin_8h" kind="file" language="C++">
+    <compoundname>cdc_admin.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes refid="changefeed_8h" local="yes">cdc/changefeed.h</includes>
+    <includes refid="cdc__metrics_8h" local="yes">cdc/cdc_metrics.h</includes>
+    <includes local="yes">nlohmann/json.hpp</includes>
+    <includedby refid="cdc__admin_8cpp" local="yes">src/cdc/cdc_admin.cpp</includedby>
+    <includedby refid="test__cdc__admin_8cpp" local="yes">tests/cdc/test_cdc_admin.cpp</includedby>
+    <includedby refid="test__cdc__diagnostics__hardening_8cpp" local="yes">tests/cdc/test_cdc_diagnostics_hardening.cpp</includedby>
+    <includedby refid="test__cdc__gdpr__redaction_8cpp" local="yes">tests/cdc/test_cdc_gdpr_redaction.cpp</includedby>
+    <includedby refid="test__cdc__retention_8cpp" local="yes">tests/cdc/test_cdc_retention.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cdc/cdc_admin.h</label>
+        <link refid="cdc__admin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>cdc/cdc_metrics.h</label>
+        <link refid="cdc__metrics_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>set</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cdc/cdc_admin.h</label>
+        <link refid="cdc__admin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/cdc/cdc_admin.cpp</label>
+        <link refid="cdc__admin_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/cdc/test_cdc_admin.cpp</label>
+        <link refid="test__cdc__admin_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/cdc/test_cdc_diagnostics_hardening.cpp</label>
+        <link refid="test__cdc__diagnostics__hardening_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/cdc/test_cdc_gdpr_redaction.cpp</label>
+        <link refid="test__cdc__gdpr__redaction_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/cdc/test_cdc_retention.cpp</label>
+        <link refid="test__cdc__retention_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1cdc_1_1_purge_result" prot="public">themis::cdc::PurgeResult</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_health_status" prot="public">themis::cdc::HealthStatus</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_diagnostics_info" prot="public">themis::cdc::DiagnosticsInfo</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_retention_status" prot="public">themis::cdc::RetentionStatus</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result" prot="public">themis::cdc::GDPRRedactionResult</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_c_d_c_admin" prot="public">themis::cdc::CDCAdmin</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cdc">themis::cdc</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed_8h" kindref="compound">cdc/changefeed.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cdc__metrics_8h" kindref="compound">cdc/cdc_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;nlohmann/json.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1cdc" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">cdc</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport" kindref="compound">ICDCTransport</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager" kindref="compound">TenantBufferManager</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1cdc_1_1_purge_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cdc_1_1_purge_result" kindref="compound">PurgeResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1cdc_1_1_purge_result_1abc308e50e9ab301f3115a257c9d1d47d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_purge_result_1abc308e50e9ab301f3115a257c9d1d47d" kindref="member">events_deleted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1cdc_1_1_purge_result_1aa240264527002d156df6d9594848673a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_purge_result_1aa240264527002d156df6d9594848673a" kindref="member">elapsed_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1cdc_1_1_purge_result_1acac87742148acb87b1013bb62f927351" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cdc_1_1_purge_result_1acac87742148acb87b1013bb62f927351" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_deleted&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_purge_result_1abc308e50e9ab301f3115a257c9d1d47d" kindref="member">events_deleted</ref>},</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;elapsed_time_ms&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_purge_result_1aa240264527002d156df6d9594848673a" kindref="member">elapsed_time_ms</ref>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1cdc_1_1_health_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cdc_1_1_health_status" kindref="compound">HealthStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1cdc_1_1_health_status_1acce1ac140ee753e0637378313e9d7a7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1acce1ac140ee753e0637378313e9d7a7d" kindref="member">is_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1cdc_1_1_health_status_1aa7b6658ec87b1f4348d2c4338337a6fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1aa7b6658ec87b1f4348d2c4338337a6fb" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Component<sp/>health</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1cdc_1_1_health_status_1a6a48dd1761d537dff1ac7a29f282ce76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a6a48dd1761d537dff1ac7a29f282ce76" kindref="member">changefeed_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1cdc_1_1_health_status_1a30b821d497b852efd1394d1f4813fb78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a30b821d497b852efd1394d1f4813fb78" kindref="member">buffer_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1cdc_1_1_health_status_1a01e0b413726abbb0f51dfbdfc09a2d78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a01e0b413726abbb0f51dfbdfc09a2d78" kindref="member">retention_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1cdc_1_1_health_status_1a3d90edabe97f801b8cc312e78b8c0152" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a3d90edabe97f801b8cc312e78b8c0152" kindref="member">buffer_utilization</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>0.0<sp/>to<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1cdc_1_1_health_status_1a97d76dbb72ce402b1c9e8101e1b95ac4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a97d76dbb72ce402b1c9e8101e1b95ac4" kindref="member">error_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1cdc_1_1_health_status_1a9d7e18c003c5ba7c3abc8ea34b847fe1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a9d7e18c003c5ba7c3abc8ea34b847fe1" kindref="member">error_rate_per_sec</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1cdc_1_1_health_status_1ac964fdf18a29404e0acc385901061e69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1ac964fdf18a29404e0acc385901061e69" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;is_healthy&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1acce1ac140ee753e0637378313e9d7a7d" kindref="member">is_healthy</ref>},</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1aa7b6658ec87b1f4348d2c4338337a6fb" kindref="member">message</ref>},</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;components&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;changefeed&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a6a48dd1761d537dff1ac7a29f282ce76" kindref="member">changefeed_healthy</ref>},</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;buffer&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a30b821d497b852efd1394d1f4813fb78" kindref="member">buffer_healthy</ref>},</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;retention&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a01e0b413726abbb0f51dfbdfc09a2d78" kindref="member">retention_healthy</ref>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;metrics&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;buffer_utilization&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a3d90edabe97f801b8cc312e78b8c0152" kindref="member">buffer_utilization</ref>},</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;error_count&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a97d76dbb72ce402b1c9e8101e1b95ac4" kindref="member">error_count</ref>},</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;error_rate_per_sec&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_health_status_1a9d7e18c003c5ba7c3abc8ea34b847fe1" kindref="member">error_rate_per_sec</ref>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1cdc_1_1_diagnostics_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cdc_1_1_diagnostics_info" kindref="compound">DiagnosticsInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1cdc_1_1_diagnostics_info_1a2efb02d11a7256f19c6e9e40fb3b6e46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_watermarks" kindref="compound">Changefeed::Watermarks</ref><sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1a2efb02d11a7256f19c6e9e40fb3b6e46" kindref="member">watermarks</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1cdc_1_1_diagnostics_info_1a59007069b2b832b753fb51f8ec8330ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics" kindref="compound">CDCMetrics</ref><sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1a59007069b2b832b753fb51f8ec8330ae" kindref="member">metrics</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1cdc_1_1_diagnostics_info_1aa6bc4d8a6b6d8fd88a9b795f63c57c2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_health_status" kindref="compound">HealthStatus</ref><sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1aa6bc4d8a6b6d8fd88a9b795f63c57c2b" kindref="member">health</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1cdc_1_1_diagnostics_info_1a9e42d22ae9735274fee2a43a95ecdd61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1a9e42d22ae9735274fee2a43a95ecdd61" kindref="member">total_events</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1cdc_1_1_diagnostics_info_1ae3717e5189b6005ec42f3d604911e715" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1ae3717e5189b6005ec42f3d604911e715" kindref="member">buffer_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1cdc_1_1_diagnostics_info_1aa8a71ade8c8de692dcdde5738cb8c067" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1aa8a71ade8c8de692dcdde5738cb8c067" kindref="member">uptime_start</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1cdc_1_1_diagnostics_info_1a734871c44e9d68f0e03969104849e15c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1a734871c44e9d68f0e03969104849e15c" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>uptime_ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>now<sp/>-<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1aa8a71ade8c8de692dcdde5738cb8c067" kindref="member">uptime_start</ref>).count();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;watermarks&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;low_watermark&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1a2efb02d11a7256f19c6e9e40fb3b6e46" kindref="member">watermarks</ref>.low_watermark},</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;high_watermark&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1a2efb02d11a7256f19c6e9e40fb3b6e46" kindref="member">watermarks</ref>.high_watermark},</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;oldest_timestamp_ms&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1a2efb02d11a7256f19c6e9e40fb3b6e46" kindref="member">watermarks</ref>.oldest_timestamp_ms},</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;newest_timestamp_ms&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1a2efb02d11a7256f19c6e9e40fb3b6e46" kindref="member">watermarks</ref>.newest_timestamp_ms}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;metrics&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1a59007069b2b832b753fb51f8ec8330ae" kindref="member">metrics</ref>.toJson()},</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;health&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1aa6bc4d8a6b6d8fd88a9b795f63c57c2b" kindref="member">health</ref>.toJson()},</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;stats&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_events&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1a9e42d22ae9735274fee2a43a95ecdd61" kindref="member">total_events</ref>},</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;buffer_size&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info_1ae3717e5189b6005ec42f3d604911e715" kindref="member">buffer_size</ref>},</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;uptime_ms&quot;</highlight><highlight class="normal">,<sp/>uptime_ms}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1cdc_1_1_retention_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cdc_1_1_retention_status" kindref="compound">RetentionStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Current<sp/>log<sp/>status<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1cdc_1_1_retention_status_1a7de160a6458754bdc76aa06b4067021a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a7de160a6458754bdc76aa06b4067021a" kindref="member">total_events</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1cdc_1_1_retention_status_1ab619401220a9283bb1e8009727db24dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1ab619401220a9283bb1e8009727db24dd" kindref="member">total_size_bytes</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1cdc_1_1_retention_status_1abaf8469c389a221e101d2118bac9bfcc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1abaf8469c389a221e101d2118bac9bfcc" kindref="member">oldest_event_age_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1cdc_1_1_retention_status_1afec9a743b0cc5fb98911fcd2cb653750" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1afec9a743b0cc5fb98911fcd2cb653750" kindref="member">oldest_timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1cdc_1_1_retention_status_1a399466ae72ee270c1de812922f03bd78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a399466ae72ee270c1de812922f03bd78" kindref="member">newest_timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1cdc_1_1_retention_status_1a6962dedddf4e1837d011a72a2514e43c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a6962dedddf4e1837d011a72a2514e43c" kindref="member">next_cleanup_time_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1cdc_1_1_retention_status_1a2d4f879676aedc3f42ba8b82a1d70200" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a2d4f879676aedc3f42ba8b82a1d70200" kindref="member">compact_on_cleanup</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Current<sp/>retention<sp/>policy<sp/>configuration<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1cdc_1_1_retention_status_1ac6556ce999f3f2a2aa417e933dc6abdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1ac6556ce999f3f2a2aa417e933dc6abdb" kindref="member">policy_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1cdc_1_1_retention_status_1a5a9b71f9d3d7fa437b61bbf54e3555b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a5a9b71f9d3d7fa437b61bbf54e3555b3" kindref="member">policy_max_age_hours</ref><sp/>=<sp/>168;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1cdc_1_1_retention_status_1aa2ca2c76cee08546f667e7ed38771e1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1aa2ca2c76cee08546f667e7ed38771e1f" kindref="member">policy_max_event_count</ref><sp/>=<sp/>1000000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1cdc_1_1_retention_status_1a5eb94620b63dfc93c005ed13978319d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a5eb94620b63dfc93c005ed13978319d0" kindref="member">policy_max_size_bytes</ref><sp/>=<sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1adf35895bcc414f85378a690852d43702" kindref="member">Changefeed::RetentionPolicy::DEFAULT_MAX_SIZE_BYTES</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1cdc_1_1_retention_status_1ad27c767963e34844f6ea8e27cf35ac31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1ad27c767963e34844f6ea8e27cf35ac31" kindref="member">policy_cleanup_interval_minutes</ref><sp/>=<sp/>60;<sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1cdc_1_1_retention_status_1a8998af4641c3f5423d34e80c7728fe5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a8998af4641c3f5423d34e80c7728fe5d" kindref="member">cleanup_thread_running</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1cdc_1_1_retention_status_1a73cdea3f5ae3da085861e70d22f1ac82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a73cdea3f5ae3da085861e70d22f1ac82" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_events&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a7de160a6458754bdc76aa06b4067021a" kindref="member">total_events</ref>},</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_size_bytes&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1ab619401220a9283bb1e8009727db24dd" kindref="member">total_size_bytes</ref>},</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;oldest_event_age_ms&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1abaf8469c389a221e101d2118bac9bfcc" kindref="member">oldest_event_age_ms</ref>},</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;oldest_timestamp_ms&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1afec9a743b0cc5fb98911fcd2cb653750" kindref="member">oldest_timestamp_ms</ref>},</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;newest_timestamp_ms&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a399466ae72ee270c1de812922f03bd78" kindref="member">newest_timestamp_ms</ref>},</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;next_cleanup_time_ms&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a6962dedddf4e1837d011a72a2514e43c" kindref="member">next_cleanup_time_ms</ref>},</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;compact_on_cleanup&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a2d4f879676aedc3f42ba8b82a1d70200" kindref="member">compact_on_cleanup</ref>},</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cleanup_thread_running&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a8998af4641c3f5423d34e80c7728fe5d" kindref="member">cleanup_thread_running</ref>},</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;policy&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;enabled&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1ac6556ce999f3f2a2aa417e933dc6abdb" kindref="member">policy_enabled</ref>},</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_age_hours&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a5a9b71f9d3d7fa437b61bbf54e3555b3" kindref="member">policy_max_age_hours</ref>},</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_event_count&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1aa2ca2c76cee08546f667e7ed38771e1f" kindref="member">policy_max_event_count</ref>},</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_size_bytes&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1a5eb94620b63dfc93c005ed13978319d0" kindref="member">policy_max_size_bytes</ref>},</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cleanup_interval_minutes&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status_1ad27c767963e34844f6ea8e27cf35ac31" kindref="member">policy_cleanup_interval_minutes</ref>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1cdc_1ae9d91c3c0ac066458494fd2bb61299a3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc_1ae9d91c3c0ac066458494fd2bb61299a3" kindref="member">CompactionResult</ref><sp/>=<sp/><ref refid="structthemis_1_1_changefeed_1_1_compaction_result" kindref="compound">Changefeed::CompactionResult</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result" kindref="compound">GDPRRedactionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a095eaeba6731db3818e5d590809bc56d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a095eaeba6731db3818e5d590809bc56d" kindref="member">events_scanned</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a70567a66df0b1fa52aa46a8117265a29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a70567a66df0b1fa52aa46a8117265a29" kindref="member">events_redacted</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a19335c9b1dd62f657235243c17982d0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a19335c9b1dd62f657235243c17982d0f" kindref="member">elapsed_time_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0e7fb3e80fc611e8a924c450b882feb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0e7fb3e80fc611e8a924c450b882feb4" kindref="member">key_prefix</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1aa7097ae877ce3f108dc551ac9bda246d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1aa7097ae877ce3f108dc551ac9bda246d" kindref="member">tenant_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0da8655f5721cb0b806267e36533c5c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0da8655f5721cb0b806267e36533c5c3" kindref="member">operator_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a10ac01e2a9fcb38bd03828a234866a64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a10ac01e2a9fcb38bd03828a234866a64" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a108d808a33bc7aef17ffbf5142011ad6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a108d808a33bc7aef17ffbf5142011ad6" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_scanned&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a095eaeba6731db3818e5d590809bc56d" kindref="member">events_scanned</ref>},</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_redacted&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a70567a66df0b1fa52aa46a8117265a29" kindref="member">events_redacted</ref>},</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;elapsed_time_ms&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a19335c9b1dd62f657235243c17982d0f" kindref="member">elapsed_time_ms</ref>},</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;key_prefix&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0e7fb3e80fc611e8a924c450b882feb4" kindref="member">key_prefix</ref>},</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;tenant_id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1aa7097ae877ce3f108dc551ac9bda246d" kindref="member">tenant_id</ref>},</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;operator_id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0da8655f5721cb0b806267e36533c5c3" kindref="member">operator_id</ref>},</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timestamp_ms&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a10ac01e2a9fcb38bd03828a234866a64" kindref="member">timestamp_ms</ref>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1cdc_1_1_c_d_c_admin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a7bdd9b66d1c0fad7755542b5c59f3be8" kindref="member">CDCAdmin</ref><sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a7bdd9b66d1c0fad7755542b5c59f3be8" kindref="member">CDCAdmin</ref>(<ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref>*<sp/>changefeed);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a7bdd9b66d1c0fad7755542b5c59f3be8" kindref="member">CDCAdmin</ref>(<ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager" kindref="compound">TenantBufferManager</ref>*<sp/>tenant_manager);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a35ee3956ec8b4d31da78cee6372f40ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a35ee3956ec8b4d31da78cee6372f40ad" kindref="member">~CDCAdmin</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a421b255c41d76ee6a1aabf6db9278efc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a421b255c41d76ee6a1aabf6db9278efc" kindref="member">setAuditStorage</ref>(RocksDBWrapper*<sp/>storage)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>audit_storage_<sp/>=<sp/>storage;<sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1cdc_1_1_c_d_c_admin_1ab26fb73d08f7b3444c32a9a55779d2f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1ab26fb73d08f7b3444c32a9a55779d2f3" kindref="member">setTransport</ref>(<ref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport" kindref="compound">ICDCTransport</ref>*<sp/>transport)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>transport_<sp/>=<sp/>transport;<sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Purge<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_purge_result" kindref="compound">PurgeResult</ref><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1adfde71275af5eee1197291fbf946243d" kindref="member">purgeAll</ref>();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_purge_result" kindref="compound">PurgeResult</ref><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a9aabfca8474c2c31c57e22f84829fd06" kindref="member">purgeBySequenceRange</ref>(uint64_t<sp/>start_sequence,<sp/>uint64_t<sp/>end_sequence);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_purge_result" kindref="compound">PurgeResult</ref><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a314966b88070c7bfcc4355af728f37c4" kindref="member">purgeByTimestamp</ref>(uint64_t<sp/>before_timestamp_ms);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_purge_result" kindref="compound">PurgeResult</ref><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a93760d534f46962f5e037fca9c0bc3a4" kindref="member">purgeOlderThan</ref>(int64_t<sp/>before_timestamp_ms);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_purge_result" kindref="compound">PurgeResult</ref><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1ab47cdf8a12b738a1237e72f49bb88f28" kindref="member">purgeTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replay<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Changefeed::ChangeEvent&gt;<sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a5274fcf0cc1e8c5fb8c3af04d443ba4b" kindref="member">replayFromSequence</ref>(</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>from_sequence,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>limit<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::set&lt;Changefeed::ChangeEventType&gt;&amp;<sp/>event_types<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1ae9d91c3c0ac066458494fd2bb61299a3" kindref="member">CompactionResult</ref><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a5f7001d1b2f7bace36e5f1334eeeaba0" kindref="member">compactLog</ref>();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GDPR<sp/>/<sp/>data-subject<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result" kindref="compound">GDPRRedactionResult</ref><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1ac040105f6451b448b8820a93abb89af8" kindref="member">redactByKeyPrefix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_prefix,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operator_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retention<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_retention_status" kindref="compound">RetentionStatus</ref><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a0accfa1d9b87eb75a25627a87a0ee4eb" kindref="member">getRetentionStatus</ref>();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health<sp/>&amp;<sp/>diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_health_status" kindref="compound">HealthStatus</ref><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a375e1866385fb7760460971389951183" kindref="member">healthCheck</ref>();</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_diagnostics_info" kindref="compound">DiagnosticsInfo</ref><sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a1f665e1d09b0506f6d736059f78c54f6" kindref="member">getDiagnostics</ref>();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref>*<sp/>changefeed_;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager" kindref="compound">TenantBufferManager</ref>*<sp/>tenant_manager_;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>creation_time_;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper*<sp/>audit_storage_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport" kindref="compound">ICDCTransport</ref>*<sp/>transport_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>countEventsInRange(uint64_t<sp/>start,<sp/>uint64_t<sp/>end);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validateSequenceRange(uint64_t<sp/>start,<sp/>uint64_t<sp/>end);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cdc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cdc/cdc_admin.h"/>
+  </compounddef>
+</doxygen>

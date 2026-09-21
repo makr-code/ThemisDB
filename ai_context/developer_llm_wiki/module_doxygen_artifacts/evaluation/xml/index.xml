@@ -1,0 +1,782 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="structthemis_1_1evaluation_1_1_ablation_config" kind="struct"><name>themis::evaluation::AblationConfig</name>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_config_1a55b4da9619bb610acaebcc54e950d91c" kind="variable"><name>path_variant</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_config_1acfbad7488adf18cdb5e5ae18856ad417" kind="variable"><name>freshness_variant</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_config_1a5c37ffe6083835d003e927d611da41dc" kind="variable"><name>update_variant</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_config_1a848e63c2257cb68d9d68ea90027acf08" kind="variable"><name>compute_variant</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_config_1a487c706d59e4b32758263d546b059b1a" kind="variable"><name>max_artifact_age_ms</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_config_1aed6e1b9b096f41e1a45f09edba3c08fc" kind="variable"><name>stale_artifact_age_ms</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_config_1a2a347e5183f0af786c693ea4e764b055" kind="variable"><name>gpu_available</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_config_1aa60bcc81b91f0a870c61dc7871a939ad" kind="variable"><name>description</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_ablation_error" kind="class"><name>themis::evaluation::AblationError</name>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_error_1a59a0b8485be0b7b482e7cd2d4697cbd5" kind="function"><name>AblationError</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_ablation_query" kind="struct"><name>themis::evaluation::AblationQuery</name>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_query_1a4b6fe394c2c66caa06a0efd4b8577311" kind="variable"><name>query_id</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_query_1a5c1d69ff1876443a4046a7764cf41378" kind="variable"><name>results</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_query_1ac6463cb1cfdbfc28b562b09654a6ade2" kind="variable"><name>ground_truth</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_query_1a3725eaeb3ce4fb4df0452011e3eb7ffa" kind="variable"><name>k</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_query_1a873f739c3e68468d33aac358095fbd93" kind="variable"><name>total_candidates</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_query_1aebd9737da17d81e4163cd50a20042848" kind="variable"><name>snapshot</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_ablation_report" kind="struct"><name>themis::evaluation::AblationReport</name>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_report_1aad660f0a64f68f1b26a91ae16293a090" kind="variable"><name>results</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_report_1a21425b39c452ac7f8682e88cfd7a9555" kind="function"><name>bestByRecall</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_report_1a35f62266f14a6edd689a4a3d821caa06" kind="function"><name>bestByNdcg</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_report_1ad90606229856378201d2c326bd096161" kind="function"><name>bestByFallbackEfficiency</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_report_1a80c19cb49e0ab54aba9da6711ac7aed0" kind="function"><name>recallGain</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_report_1a36b476c88328cc1844d2f513e99324b7" kind="function"><name>ndcgGain</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_ablation_result" kind="struct"><name>themis::evaluation::AblationResult</name>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1ab85d50bc6afc8295ce295c6e8e9cb1c5" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1a4f7d0fb6aa9a5bb630071f1669afae40" kind="variable"><name>config</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1afeb457308929be805fe13b99093b8fb7" kind="variable"><name>mean_recall_at_k</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1ab960e69687473e5e017285e1ca7459df" kind="variable"><name>mean_precision_at_k</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1a8cb7d06f8166465ea0351159b013f832" kind="variable"><name>mean_ndcg_at_k</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1af548bcc8c55a3e0f950efeeac80930fe" kind="variable"><name>mean_mrr</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1acca7ad8569d2bea2a491f1021bfe2c4a" kind="variable"><name>mean_candidate_reduction</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1a2ee852f4fe37d5330480a07ab7cbe501" kind="variable"><name>tensor_graph</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1a0e8d21e9ab884446e12cad02472ce2d6" kind="variable"><name>query_count</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1aedfb7fc4051b6ebf0a34c66611984f3b" kind="variable"><name>error_count</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1a3e74c088fb2057ea654e6bddcfc659cc" kind="variable"><name>gpu_fallback_occurred</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1ad25cbcf7bbf3da36869fcac624278aaa" kind="variable"><name>has_unrecovered_false_negatives</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1ab38e65b9e9e01a90399eb0573ecaed1f" kind="variable"><name>has_unsafe_residual</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_result_1ae149ee70eb17a1d7233f181410698444" kind="variable"><name>per_query_errors</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_ablation_runner" kind="class"><name>themis::evaluation::AblationRunner</name>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a6112d51151dfbfda026d8d3e30ea1ae0" kind="variable"><name>experiments_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a3aa3a6efbee9a1e7bfddc6be443eddb9" kind="function"><name>AblationRunner</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1af397a53f12ae5426d9cfca7704c2cea7" kind="function"><name>AblationRunner</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1aff942fb94750c5acc27df40cc85b5100" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a54d964c52ef1d22c217d69aa7f13a322" kind="function"><name>AblationRunner</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1ac1509046330b765861ae1462bc239034" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a5287423b5d4478a562cd3a27988842ca" kind="function"><name>addExperiment</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1abea93a2ac868fd8e6d1f73711648925d" kind="function"><name>experimentCount</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a41a3089f4b3a3d7634b4898ad577391a" kind="function"><name>run</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a11e8d7237b0407d632183d9deb1b9ecb" kind="function"><name>reset</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_ablation_runner_1a0b31becd1c54cd0d58758477fac69cbe" kind="function"><name>runExperiment</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_approximation_boundary" kind="struct"><name>themis::evaluation::ApproximationBoundary</name>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a710675896c58013b7ad1e28823fa1cd5" kind="variable"><name>layer</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a44b6379f9f1e4f80bee600a1f6ef456d" kind="variable"><name>zone</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a764f2ac8fc04cc501e63f04eba922d07" kind="variable"><name>max_kernel_category</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1af73bda1073af83b53aec5558f0d3bcc4" kind="variable"><name>truth_bearing</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a16451cb9c30f13d34f87af27b981fcdd" kind="variable"><name>gpu_eligible</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a9214128a031f2416401543de2b378a24" kind="variable"><name>fail_closed</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_approximation_policy" kind="struct"><name>themis::evaluation::ApproximationPolicy</name>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a34a5ea3e1e2e82d4cdfa50e7045ad869" kind="variable"><name>allow_approx_for_advisory</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1ab66f732636ca9ae91006e8eacf1e8ccd" kind="variable"><name>require_exact_for_acl</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1aaa28b668e1120f13d9e2c9b95bf0310f" kind="variable"><name>require_exact_for_provenance</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a0a3331f3465692e2f760cb1ca6d5af7a" kind="variable"><name>require_exact_for_transactions</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a33ff5b893ff08533dc471c33cce23057" kind="variable"><name>min_confidence_approx</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a1caa3096e245a76911fa12f93675036d" kind="variable"><name>min_confidence_bounded</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1acbee1412901640466e61be0b112d5b0a" kind="variable"><name>min_confidence_exact</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a4aee313a7951d31dd5b486eb38e61a50" kind="variable"><name>allow_bypass</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a57f664209a8fbe6f1cfa540303d7c4f2" kind="variable"><name>policy_version</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_approximation_rule_engine" kind="class"><name>themis::evaluation::ApproximationRuleEngine</name>
+    <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" kind="function"><name>ApproximationRuleEngine</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a415e1bc2aa02d5fe895011341fa520d9" kind="function"><name>~ApproximationRuleEngine</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1aa920935ff0f6d21d2cc9bc151fe521a4" kind="function"><name>ApproximationRuleEngine</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a75ba4f7f058768e6a1a3e4766b047ad3" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a3df18eb9928d6e774e0349c3e1312f3b" kind="function"><name>ApproximationRuleEngine</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1afd18663c226ec40f45044909b7d1f7d0" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1aeb9824edd2f790307d4488f2ae6a943d" kind="function"><name>checkBoundary</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a07bf8c632495ba4215b29e80a4fba7af" kind="function"><name>validatePlannedPath</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a488a08aa67fbed31b9e6a059c77c0c04" kind="function"><name>canonicalBoundary</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager" kind="class"><name>themis::evaluation::ArtifactLifecycleManager</name>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a516b3f82e7734f7c9e2bda2cee6f7b5d" kind="function"><name>ArtifactLifecycleManager</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a7e0bfcaf50c05cdea637c11cd062ce49" kind="function"><name>ArtifactLifecycleManager</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a478a886ca1b991be26f55022115b9582" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a022e88a42ae61131b71e6ef47c68d0da" kind="function"><name>ArtifactLifecycleManager</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1ac9bf406957541002e2fb3145f750c15d" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a224fbf7d764bd51bcd54a5e167be0c05" kind="function"><name>computeState</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a7bdc2e885b79dee8771a251525e457f9" kind="function"><name>diagnoseStalenessCause</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1256eb7188b86258790f8b3a8b7e5f63" kind="function"><name>computeStatesBatch</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1adc78db5a0d30bbdb846ac46ccdaa10d1" kind="function"><name>filterUsableArtifacts</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a06ef2ecba09cb82ac65f3af172871e46" kind="function"><name>identifyRebuildCandidates</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1c22923de2292ccc49413fca776541d2" kind="function"><name>isUsableForPlanning</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a749a65e2de833f4d94cc6f8c42f7b3f8" kind="function"><name>requiresImmediateRebuild</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a0bc19f32ca78f8375347e865794e434e" kind="function"><name>invalidate</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1f346da7e866a45405f9a0e14e6d79c1" kind="function"><name>beginRebuild</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a5592362e878f5c1ddc98b22626fd92d4" kind="function"><name>completeRebuildSuccess</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a451b1bc3f7f64401a0bd0156fd8c3d6d" kind="function"><name>completeRebuildFailure</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1ac5f1283ee7792755f7c9cc3a3f21d6e3" kind="function"><name>markReady</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_benchmark_entry" kind="struct"><name>themis::evaluation::BenchmarkEntry</name>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1adb4c570f9d25c5b4102aa33f2bd31d5b" kind="variable"><name>scenario</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1a692a2935675eb11a1e3fb698a4f9fc27" kind="variable"><name>dimension</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1a3bf16db6be3948b094e92aec366e6604" kind="variable"><name>result</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1a9ede6e09b1064eb586da5c0b52998904" kind="variable"><name>dataset_tag</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1aa641a682e40bcb4d9b41543d106a9a30" kind="variable"><name>hardware_tag</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_entry_1a86efd546d178365caafaad31b8097a7c" kind="variable"><name>runner_version</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_benchmark_matrix" kind="class"><name>themis::evaluation::BenchmarkMatrix</name>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1ab85fc8318b1d2f0d5abf52e31278b714" kind="variable"><name>cells_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5ad3699dd80e8c4c181a4c7b67e6231e" kind="function"><name>BenchmarkMatrix</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a2e44b88c236c765410dfd34b95c20d41" kind="function"><name>~BenchmarkMatrix</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1aefb9946da736b42b67f101a0fcb70e2c" kind="function"><name>BenchmarkMatrix</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a78bf3bd8a20c51d4e2d3c404faa8c4c0" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1aa11b609fff33280c80bdb833cc26900b" kind="function"><name>BenchmarkMatrix</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1aea52c39f1940bae036e4cbd3c6856014" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kind="function"><name>record</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a8a2c9a3e412b4f5ab93be8c61e45e8d2" kind="function"><name>invalidateScenario</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a330ba0c9d1177be725d511ac177702bb" kind="function"><name>invalidateDimension</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a1711b61178df924673fa0b9e3202d3ac" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kind="function"><name>lookup</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a29712620966139633fbaf7bc37df3acd" kind="function"><name>entries</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1ae298f092ee4d868c249142a21963f681" kind="function"><name>scenarioSlice</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a9d8abc5fd07cb2d3203a196a1c9dae7a" kind="function"><name>dimensionSlice</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1aed0f5f80a2ad6975f492485b876567c8" kind="function"><name>scenariosWithFullCoverage</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1ae1dfbeb2eee2675267f35af0bda22e33" kind="function"><name>size</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a79a9c45a3294b40f21b5c98c67fa863c" kind="function"><name>contains</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a7deb664690b1db63ae6031e50098ce55" kind="function"><name>compareScenarios</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a933e289d4b45ac61b12ffd1256edbfbd" kind="function"><name>bestScenario</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_benchmark_result" kind="struct"><name>themis::evaluation::BenchmarkResult</name>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1a10c3cd95cc8512ca17f448c1f149d645" kind="variable"><name>value</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1a9178c4431d9e9ce87db4f062aca5cd56" kind="variable"><name>stddev</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1aff56be99af3ad2324177c64a4d4acb5c" kind="variable"><name>sample_count</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1ab3904addb890763d7ca682f24b8d35db" kind="variable"><name>edge_flags</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1aec72c39959ad2006ca638cadf02efc2a" kind="function"><name>isClean</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1a66ca16f08dada75fa28a62562a6d529d" kind="function"><name>hasSufficientData</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_boundary_check_result" kind="struct"><name>themis::evaluation::BoundaryCheckResult</name>
+    <member refid="structthemis_1_1evaluation_1_1_boundary_check_result_1abbb5385feba2d12231e06a2f540e0f69" kind="variable"><name>decision</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_boundary_check_result_1aaf802d539739958ab89590b7cae43165" kind="variable"><name>violation</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_boundary_check_result_1a6bf312bfcca7e0eab6687d7841a80cce" kind="variable"><name>explanation</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_boundary_check_result_1ac63079f50d97da205ab2949fef5d1488" kind="variable"><name>policy_version</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_boundary_check_result_1a5f3a457e27063e97a2e93cddd722a7be" kind="function"><name>isAllowed</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_compression_metrics" kind="struct"><name>themis::evaluation::CompressionMetrics</name>
+    <member refid="structthemis_1_1evaluation_1_1_compression_metrics_1a789f5372b12e077afdd4be90e9e36c43" kind="variable"><name>compression_ratio</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_compression_metrics_1acb341e01d6d4eb09f2b3824d4fe1f4b4" kind="variable"><name>approximation_loss</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_compression_metrics_1a6ebf12cbd198e965b948fe74af5c9b36" kind="variable"><name>redundancy_elimination</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_compression_metrics_1aca10121c38b7f28b0d52264a113b1a46" kind="variable"><name>residual_error</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_compression_metrics_1aae08a13ff07a031bf6cc7706d9fd4824" kind="variable"><name>rank_growth_rate</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine" kind="class"><name>themis::evaluation::DefaultApproximationRuleEngine</name>
+    <member refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a092ad62a6e268f736afde06e51f70f19" kind="function"><name>DefaultApproximationRuleEngine</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1ad5fe37798dad92a47acccb2f555ccd2b" kind="function"><name>~DefaultApproximationRuleEngine</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a104c7407fac52dfa8f09231dd60bd8f5" kind="function"><name>checkBoundary</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a1f29e5c431030c9824fbd217f010e407" kind="function"><name>validatePlannedPath</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine_1a590e186a62d3a0545386e2078829903d" kind="function"><name>canonicalBoundary</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_default_query_planner" kind="class"><name>themis::evaluation::DefaultQueryPlanner</name>
+    <member refid="classthemis_1_1evaluation_1_1_default_query_planner_1a4b11fa413c75b0bf1f7a706334e9c8a7" kind="variable"><name>observer_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_default_query_planner_1a0442f92765728b7de5d6afdcafc144b7" kind="function"><name>DefaultQueryPlanner</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_default_query_planner_1ad08388895c34efc362f95038a4019188" kind="function"><name>DefaultQueryPlanner</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_default_query_planner_1a98cb7a2496714a5b8f7aecc10ce53508" kind="function"><name>~DefaultQueryPlanner</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_default_query_planner_1afe6c6f7f5ff91b637f66dffb15a01797" kind="function"><name>selectPath</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics" kind="struct"><name>themis::evaluation::DistributedEfficiencyMetrics</name>
+    <member refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a357f3c60b968059db1843c530534b648" kind="variable"><name>shard_fan_out</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a74b99aca8e6c22a5f1f2f574825de7b1" kind="variable"><name>bytes_per_query</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1af4914ec77e5f391b857734d50ace09f5" kind="variable"><name>summary_first_selectivity</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a719b3261f6c478008cee1b0796fdc19f" kind="variable"><name>selective_exact_load</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1abed9e170d33d9a15d18c302282413cfa" kind="variable"><name>total_queries</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics" kind="struct"><name>themis::evaluation::EvidenceQualityMetrics</name>
+    <member refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a0063a8a3676a1f1e4a496e83a37a4595" kind="variable"><name>coverage_rate</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a34706203625416154715f8ea489f11a7" kind="variable"><name>evidence_precision</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a793951dd20f0b64c760f476ec4af1824" kind="variable"><name>multi_hop_support</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_execution_eligibility" kind="struct"><name>themis::evaluation::ExecutionEligibility</name>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1ac61043c69d4b292e74dad4bea3852e40" kind="variable"><name>cuda_available</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a1f39e1281965a6775d21d3115fbcd4d8" kind="variable"><name>ann_enabled</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1ab02c72874e26bc3321bea56495e0374f" kind="variable"><name>gpu_error_handling_gate</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a187b46a179f4cd63385229713430d813" kind="variable"><name>gpu_parity_validated</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1ae883ccb59da813a6ca62a603fdc6ea7a" kind="variable"><name>force_exact</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a9bf5a3957db72a47e1c21731c51fab2d" kind="variable"><name>force_cpu</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a51dcfaa7bf3e1893cf2fc3a768c3e123" kind="variable"><name>requires_exact_graph_validation</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a3a1ad8424b557a2b85b7321652cf671c" kind="variable"><name>query_thread_safety_ok</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a3b777ffdf54ccf9b75e4880d17732dcc" kind="variable"><name>query_exception_handling_ok</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a2b7fe3ab22a3dd103356e5ab4f5b8ca2" kind="variable"><name>index_buffer_safety_ok</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a83dec50410b6188bc49d8013ea49e5ea" kind="variable"><name>distributed_multi_shard</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1ac0cd2d2d7f8fd82ccf546427c0bdd3fb" kind="variable"><name>shard_manifests_available</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1ae6d52d14c44381368cd903985ce6e4ca" kind="function"><name>isGpuEligible</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_ablation_runner_1_1_experiment" kind="struct"><name>themis::evaluation::AblationRunner::Experiment</name>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_runner_1_1_experiment_1aee9643baabfc462e9914ec1b2c82fd68" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ablation_runner_1_1_experiment_1a72a83f75ccdcfe5caa4e1306a0b9b45f" kind="variable"><name>config</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_hardware_profile" kind="struct"><name>themis::evaluation::HardwareProfile</name>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1aaa22d69f32eb92c9bb0338ecf4fe06fc" kind="variable"><name>id</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a039e5b4cecc943c579a954e0e554f1dc" kind="variable"><name>canonical_name</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1adb5c25a14bfc08e0abfc628ff3ca9059" kind="variable"><name>description</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a304f9e1a54c2f5abcc4dedbcf7d12016" kind="variable"><name>cpu_cores</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a9bf554005fc3edd0941c83b338055af7" kind="variable"><name>ram_gib</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1acb998b1f46f83665adc070f2d20fc0fb" kind="variable"><name>nvme_devices</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a6f229f92ba387ea0dfc5c160742f5c47" kind="variable"><name>nvme_capacity_gib</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1ac9eb675874cd1d25d765ed208aa72f66" kind="variable"><name>gpu_count</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a6d70b4ec5fd4e2b810b4995fa364518d" kind="variable"><name>gpu_vram_gib</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a3b96024b1f50cb5e40e3f69977f633c1" kind="variable"><name>network_gbps</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a789da34a8195095e2d68fbb4db51469d" kind="variable"><name>accelerator_class</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a4a508b6aa387ac7cbfe35c8554e80b43" kind="variable"><name>network_fabric</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1acac369b95d04fc313c449ccfaff3f08b" kind="variable"><name>tiering</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1ab87332a1ea73fa2793b6a10e77b8f7bb" kind="variable"><name>supported_tiers</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_1a1b3e1e30c79ae3b7fb6799f5568faf5b" kind="variable"><name>layer_rules</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_hardware_profile_registry" kind="class"><name>themis::evaluation::HardwareProfileRegistry</name>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a07dd85b9ff0f104fdeca53ce38521927" kind="variable"><name>profiles_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a5cbb67a8b08a8e0fb93b2a674542e311" kind="variable"><name>active_profile_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1adde01cf3d9f8984b5c040eb4a47f8671" kind="function"><name>HardwareProfileRegistry</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a9871860aee5c75ef364bf51bb1b7cfdf" kind="function"><name>HardwareProfileRegistry</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a016b09dd33c779d6f9670be29ac84dc9" kind="function"><name>profiles</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a60b44e7c7a4c9e735df010030c7b0e8a" kind="function"><name>activeProfile</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a8295ffa821bc9c68b16b792e18d52836" kind="function"><name>find</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a0e1226b5023de688652d8bd31c36589b" kind="function"><name>find</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a01f793abcbf33174cfd37dcae5d856e1" kind="function"><name>activate</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a865069766a172cc62eed362f959f4c6e" kind="function"><name>activate</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a736bd6bce74ef050b18d5b585fdbc9e4" kind="function"><name>validate</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1ad00480bb798d2e2a3e6c939a31827114" kind="function"><name>transitionTo</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a2a0180f020951aaf3bb7eb218e1f8d4a" kind="function"><name>withBuiltIns</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_hardware_profile_validation_result" kind="struct"><name>themis::evaluation::HardwareProfileValidationResult</name>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_validation_result_1ab321e2ec20ad0c9a7aec89f7a7469d3f" kind="variable"><name>errors</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_validation_result_1a4fe1f0d54db06bcc323306008608de00" kind="variable"><name>warnings</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_hardware_profile_validation_result_1acaa1a7c4fa411eb8eb987cd9ba6bcf91" kind="function"><name>ok</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key" kind="struct"><name>themis::evaluation::BenchmarkMatrix::Key</name>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_1a28794abe2fe4e1f87e12dc8bf55ec388" kind="variable"><name>scenario</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_1a198133027086738c0faa5ba20a487761" kind="variable"><name>dimension</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_1a40c24b8622323d6fbd6a4239b37ee108" kind="function"><name>operator==</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_hash" kind="struct"><name>themis::evaluation::BenchmarkMatrix::KeyHash</name>
+    <member refid="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_hash_1a01733e5d6e1af61e43a767392b16b007" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_layer_sizing_rule" kind="struct"><name>themis::evaluation::LayerSizingRule</name>
+    <member refid="structthemis_1_1evaluation_1_1_layer_sizing_rule_1a6f4b9b70d2309e6e404765f7210c736d" kind="variable"><name>layer</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_layer_sizing_rule_1aa3b533aece3ae4eeb574b94ebd16e42f" kind="variable"><name>preferred_tier</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_layer_sizing_rule_1a5158529926b6c78163a5e98683fd7f4b" kind="variable"><name>minimum_ram_gib</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_layer_sizing_rule_1a3d0e8e0fb17c6db67d0d3f9e2619c8b2" kind="variable"><name>recommended_ram_gib</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_layer_sizing_rule_1a247faa4792a6871bce8dfd55219caa44" kind="variable"><name>minimum_nvme_gib</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_layer_sizing_rule_1a48a32c2269ea207378bf5672efdcf849" kind="variable"><name>recommended_gpu_vram_gib</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_layer_sizing_rule_1acf99fb3e962fe60f3154d3eaf8426297" kind="variable"><name>diskann_break_even_million_vectors</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kind="struct"><name>themis::evaluation::LifecycleMetadata</name>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aa61bd872dde6a971a7021503d89c0cbe" kind="variable"><name>artifact_id</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a42725718ef42cc828ce9f14ff14f74c8" kind="variable"><name>state</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1ad0a02efd9d95f95c1b27670398562041" kind="variable"><name>invalidation_reason</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1ac93b4d9942fa55a859c21c3d1a0fe331" kind="variable"><name>source_seq_start</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a2c13ecc7b9b27a8c0ceaecb5b98ed220" kind="variable"><name>source_seq_end</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a1554e057e755a48ad1ca5db8cbd25e79" kind="variable"><name>delta_lag</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aaaff3de124b46e62a39bfbc5c813c956" kind="variable"><name>artifact_age_ms</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a4f2b0bb339f758448c8be37b102eadf3" kind="variable"><name>approximation_residual</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a1a13cd0215e5bb163e74187c0723f892" kind="variable"><name>residual_variance</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a426d74d321b9e576871a54e7542b5237" kind="variable"><name>max_permissible_rank</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a05f8df130ab25db84e7a6de21775b3ff" kind="variable"><name>state_change_timestamp_ms</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1abc8caf666bb25439c03b136f6ae84109" kind="variable"><name>rebuild_attempt_count</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aacdc2ff671af6edaf6c7f26f2808129d" kind="variable"><name>last_successful_rebuild_ms</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a4e122a4c4fa0747466c37a2d5420db6c" kind="variable"><name>last_failed_rebuild_ms</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics" kind="struct"><name>themis::evaluation::LlmAnswerQualityMetrics</name>
+    <member refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1ab819589173afc82127ed8ff1620e7470" kind="variable"><name>faithfulness_score</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1ad0cfae9091a753e2916e0fb3523422e6" kind="variable"><name>hallucination_rate</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1a561f5d4e48698d0a1b70e460ee187f18" kind="variable"><name>groundedness_score</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1aece6c8bf3069feb1e0a213eab7c4ad14" kind="variable"><name>answer_support_density</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1afef12e29d0c681cdfd7b3a960c832848" kind="variable"><name>prompt_token_count</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_metric_collector" kind="class"><name>themis::evaluation::MetricCollector</name>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a9a935aa195dfb34c660ca23150004a8a" kind="variable"><name>snapshots_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1ad943366ad13f2c03689f19c893d5840d" kind="variable"><name>shard_counts_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a88c6ea079b86d0684b8094658640d6b4" kind="variable"><name>shard_bytes_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1ab14ce7cb5358a3ed861ec0feb0e58ca9" kind="variable"><name>shard_skipped_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kind="function"><name>MetricCollector</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a749e0cc38ada3e212f0aad872e9e7e82" kind="function"><name>MetricCollector</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1ab457c7b0c06255ed4d87cdc0c97d0c5c" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a79cbb82c116466e29d89207b2ebf3bb5" kind="function"><name>MetricCollector</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1af81f5f46b287b362207e47dd72f9e362" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a7118858c739ad6f9f63baa1ff2d05396" kind="function"><name>recordSnapshot</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a4ac7218be07eb7d4577ddfd81d819771" kind="function"><name>recordShardQuery</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1abaef883fe410bdd2fc7259691a113811" kind="function"><name>snapshotCount</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a8c012fc6ad48dec23fb8ba234d271328" kind="function"><name>summarizeTensorGraph</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1ac701d6afee319ef61a57d4ef186f165f" kind="function"><name>summarizeDistributed</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a53f0ffa14b8c21907a5829f2a038532e" kind="function"><name>reset</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_metric_error" kind="class"><name>themis::evaluation::MetricError</name>
+    <member refid="classthemis_1_1evaluation_1_1_metric_error_1a3caf74e6d1292a7bca61b25228765f08" kind="variable"><name>kind_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_error_1a600336526c7d9dba9beca5abd3849931" kind="function"><name>MetricError</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_metric_error_1aa17ea3b56cbf044bf70a250f7c0ae174" kind="function"><name>kind</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_planner_config" kind="struct"><name>themis::evaluation::PlannerConfig</name>
+    <member refid="structthemis_1_1evaluation_1_1_planner_config_1a07bfb8b47ecdd76940f8ecb3e4235c97" kind="variable"><name>max_staleness_ms</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_config_1a602afda9534e353a12f642715d3351dd" kind="variable"><name>max_delta_lag</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_config_1ab4275d0b6a1537a591be8f65ffe1b819" kind="variable"><name>min_residual_threshold</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_config_1aa449fe5ec7c9f91706031703e7735d83" kind="variable"><name>max_rank_cap</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_config_1a2d3d9c92d1fb14fa30ff826bcdc62973" kind="variable"><name>min_shard_summary_confidence</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_config_1a03f9e01198b2f4db96f05c6734211449" kind="variable"><name>policy_version</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_config_1afc2f6360bbeebff519731a7b42669e30" kind="variable"><name>staleness_threshold_key</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_planner_decision" kind="struct"><name>themis::evaluation::PlannerDecision</name>
+    <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a987886017f10b55e5c6b532a1007d44e" kind="variable"><name>path</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a1e937e11ad0828d2a86d7a68756b8ac0" kind="variable"><name>fallback_reason</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a99f4d89d8ba0edc3a23f2fe032029741" kind="variable"><name>decision_note</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_decision_1aa22a82ad838d8002d1c6410760a9f918" kind="variable"><name>confidence_policy_version</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a75811c7c5d4b5c9ff5a6930c67745ef8" kind="variable"><name>confidence_threshold_key</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a5935521a08c76afebe1a194e5ff31f9e" kind="variable"><name>uses_gpu</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a2bad19f8f4b0024bfe3b340ae5acbb1d" kind="variable"><name>uses_tensor</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_planner_decision_1a43c79fdaa1d2c9150f68d94870037beb" kind="variable"><name>uses_exact_graph</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_planner_observer" kind="class"><name>themis::evaluation::PlannerObserver</name>
+    <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a68b40062ac215e4145a939a625015a6f" kind="function"><name>PlannerObserver</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a2f350959fc9ac91597a7bb9ee9d087d6" kind="function"><name>~PlannerObserver</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a1772ea44774d56ef7ca663bb2060462a" kind="function"><name>PlannerObserver</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a90fca38d019046b09c0a99fba00d717a" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a450af4d8575d8cb0217dcbf8afa9ecd8" kind="function"><name>PlannerObserver</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_planner_observer_1ad8532321a77d72d57234e930d44b3a82" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a194eef3877c6cefbb2df2e5a78f67135" kind="function"><name>onDecision</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_provenance_assertion" kind="struct"><name>themis::evaluation::ProvenanceAssertion</name>
+    <member refid="structthemis_1_1evaluation_1_1_provenance_assertion_1abc6f2ffd4c589af7293dc086f5e59dcf" kind="variable"><name>claim_id</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_provenance_assertion_1a889b2cf13254f08a0b7676aa73966dbf" kind="variable"><name>source_id</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_provenance_assertion_1a259b51ae77b5c7712b556954b10f2329" kind="variable"><name>confidence</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics" kind="struct"><name>themis::evaluation::ProvenanceQualityMetrics</name>
+    <member refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1af8f97931ead35d9b065e27941a7d58f3" kind="variable"><name>fidelity_score</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1abb713a9cd07d4f85aaf8848d7ce3068d" kind="variable"><name>source_attribution_completeness</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1afc01ff4764ee3fab47e00d547faf52e8" kind="variable"><name>trust_signal_correctness</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_query_planner" kind="class"><name>themis::evaluation::QueryPlanner</name>
+    <member refid="classthemis_1_1evaluation_1_1_query_planner_1a857e79fa498aba733b3ed2b8e69bfc2a" kind="function"><name>QueryPlanner</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_query_planner_1a1320c6690a842a05b6dac40e42e65120" kind="function"><name>~QueryPlanner</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_query_planner_1a341b22b620f58e4c03c28a8a42997af4" kind="function"><name>QueryPlanner</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_query_planner_1a214ca1aaee23e0944815bab29a9ec208" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_query_planner_1a09647479584b209c08733fac45a1d4a2" kind="function"><name>QueryPlanner</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_query_planner_1a2041c3b31c0ef85a2e3a9d4706fd4c26" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_query_planner_1a26e40d112fd1fbde3abf0c7fc5372a90" kind="function"><name>selectPath</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_query_planner_1ad0eb3ee7e6c1b35bb2db0841b10f2434" kind="function"><name>isKernelEligibleForGpu</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_ranked_result" kind="struct"><name>themis::evaluation::RankedResult</name>
+    <member refid="structthemis_1_1evaluation_1_1_ranked_result_1a1ffa2ed4935b03b01027e68b3b0b8c6a" kind="variable"><name>id</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_ranked_result_1aa98ad637c203c6fb8e0e9be1e589146e" kind="variable"><name>score</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_resource_sizing_band" kind="struct"><name>themis::evaluation::ResourceSizingBand</name>
+    <member refid="structthemis_1_1evaluation_1_1_resource_sizing_band_1adf4c06552da3416467add3aa1cdc6067" kind="variable"><name>minimum</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_resource_sizing_band_1a7586883e28f8d73e3ac50b5d4bd35f71" kind="variable"><name>recommended</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics" kind="struct"><name>themis::evaluation::RetrievalQualityMetrics</name>
+    <member refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a6d8b28388c11d77d09fd9e2ffe1bfea8" kind="variable"><name>recall_at_k</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1ae935f4b6fff14f598247f7d1878391ce" kind="variable"><name>precision_at_k</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1af1904eb62b6a47a7e4ecf10f00e82ae8" kind="variable"><name>ndcg_at_k</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a792e6b836d677a4f305f62df6655618d" kind="variable"><name>mrr</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a5320b354c978d93a0421ec5c9b1ce0f5" kind="variable"><name>candidate_reduction_ratio</name></member>
+  </compound>
+  <compound refid="classthemis_1_1evaluation_1_1_staleness_policy" kind="class"><name>themis::evaluation::StalenessPolicy</name>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a0079462e442545b23c6419abba41bb4d" kind="variable"><name>age_threshold_ms_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a75307b05cdd0ba60f3b3ff18b7c872a3" kind="variable"><name>delta_lag_threshold_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a6f1b73d4febb2bf0776fca8782e35235" kind="variable"><name>residual_threshold_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1ae0d9271b34e42fc2d117d40559c43bfc" kind="variable"><name>rank_cap_threshold_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1ac7efcbf8b4634a6ad51b139e69190cde" kind="variable"><name>residual_variance_threshold_</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a65dcb561c02aec9bbc9c404a33653126" kind="function"><name>StalenessPolicy</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1afe2bc8d11050ebd3ccc1c5bf830c7e02" kind="function"><name>withAgeThresholdMs</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1afaeec2b5b653b758049ed199c3c9f5a7" kind="function"><name>withDeltaLagThreshold</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a505c3b76334484ec638ab2d687587147" kind="function"><name>withResidualThreshold</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1aca819445e2612cffbe91fc2567f40d13" kind="function"><name>withRankCapThreshold</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1ad0831dd26824fae5600c5b86d632566f" kind="function"><name>withResidualVarianceThreshold</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a43dacfe56ee30af80edf1f84aa0078ed" kind="function"><name>ageThresholdMs</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a140806a39ccba2673b693e95f26f9650" kind="function"><name>deltaLagThreshold</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a3f4bf51b2b7461031a883280982dd45f" kind="function"><name>residualThreshold</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1aacdb9c079f211a004bd5e2b59fa5cf24" kind="function"><name>rankCapThreshold</name></member>
+    <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a5579d37386fdf47d9305d7eace88498c" kind="function"><name>residualVarianceThreshold</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness" kind="struct"><name>themis::evaluation::TensorArtifactFreshness</name>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a3d79b593b5a761dc7ddf03e21a149d90" kind="variable"><name>artifact_age_ms</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a1bb48db818af98cff52a62a0d74b41cb" kind="variable"><name>delta_lag</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1ae6e925d42d9d19bd1d2cb40275c69352" kind="variable"><name>source_seq_start</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a885300ace6cbdc790d0eb0262d7dede3" kind="variable"><name>source_seq_end</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a46b000940e2a4f8b38d5a64d6bdee494" kind="variable"><name>residual_threshold</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a2c705e5e0c7cae6978cacf8eff6db7e5" kind="variable"><name>rank_cap</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1ab9cffcfea57ac40fa30f9ccc57c0af63" kind="variable"><name>rebuild_in_progress</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a80e5d68cccf9b5500801ef45d8de8853" kind="function"><name>isFresh</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1ac0576d77f24b7b44685801b0d372bc4d" kind="function"><name>staleness_reason</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics" kind="struct"><name>themis::evaluation::TensorGraphRuntimeMetrics</name>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1ad234b28ab9d30b5c7cb079e7bd0ce4f1" kind="variable"><name>mean_artifact_age_ms</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a50704c43bda311009b7536ef6fb355f1" kind="variable"><name>mean_delta_lag</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a58e9bffb606be6902cbb5c274fdb9c45" kind="variable"><name>mean_residual_error</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a1e386e1cd5c0dff1d1f8d6c02544fbac" kind="variable"><name>rank_growth_fraction</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a4043165a2055f428c5292a4d633cfe06" kind="variable"><name>rebuild_frequency</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a7ad5123a1490fa6f204821ca4102ba87" kind="variable"><name>exact_fallback_frequency</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1af344bff17b1d9b516cd56ef1ebfabf86" kind="variable"><name>summary_first_false_negative_rate</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a8a9aba63f6f9317d4e1502fc99ad67d2" kind="variable"><name>graph_verified_finalization_pass_rate</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" kind="struct"><name>themis::evaluation::TensorGraphSnapshot</name>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a85acae21dd9a65c18f39b608d684fa1a" kind="variable"><name>artifact_age_ms</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a3cb74ffc1d87be971ab4aa462ea11c7d" kind="variable"><name>delta_lag</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a90c5f7e2d1112e73975ae672ffb64dd3" kind="variable"><name>residual_error</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a53740e91f2b96dfb5cbc9cae449aa13c" kind="variable"><name>rank_cap_used</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a88d1bf5839b6a2e022c775fbd54d100c" kind="variable"><name>rank_cap_limit</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a57eb884191d159c13f9145330a1f74e2" kind="variable"><name>rebuild_triggered</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1aa5518f5e07e6ee580b2aeeea2d467e52" kind="variable"><name>exact_fallback_used</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1afdf3bf0fe05d0ced56840453d6416b3a" kind="variable"><name>summary_first_false_negative</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1acca289aad580b2fc84011fd98d4015a2" kind="variable"><name>graph_finalization_passed</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a7a28b0279cd0e556ca83bfd4df3e1ee8" kind="variable"><name>summary_first_routing_used</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a22f21a893e8457571a8d1dc9c7ebfc5f" kind="function"><name>isUnrecoveredFalseNegative</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1ab791d9a7d64dae9c887dc0120586ee8c" kind="function"><name>isResidualUnsafe</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_tiering_policy" kind="struct"><name>themis::evaluation::TieringPolicy</name>
+    <member refid="structthemis_1_1evaluation_1_1_tiering_policy_1afc67b9cf1d54624c8f0fbe54f8f217e0" kind="variable"><name>hot_tier_max_gib</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tiering_policy_1a1be351d2e13f7c6c4c115536729a5559" kind="variable"><name>warm_tier_max_gib</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tiering_policy_1ac836e2868e383b153b1a9084fc033e99" kind="variable"><name>cold_tier_requires_remote_storage</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tiering_policy_1ac22e7643edef54c40d6396baa1dc5e5d" kind="variable"><name>supports_live_tier_rebalancing</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_tier_transition_request" kind="struct"><name>themis::evaluation::TierTransitionRequest</name>
+    <member refid="structthemis_1_1evaluation_1_1_tier_transition_request_1aeef54e997e39760c1c837ef7e24adc33" kind="variable"><name>source_tier</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tier_transition_request_1a3b9799cebc1c90860f53f073a9288a99" kind="variable"><name>target_tier</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tier_transition_request_1aefe49248275bace6523d7bfd7e6a1718" kind="variable"><name>hot_data_pinned</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tier_transition_request_1aea6f47f6de8c1dd7853eabdececb28eb" kind="variable"><name>remote_cold_storage_available</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tier_transition_request_1a9a8279ecde08b8a74e4ad6b5c507e366" kind="variable"><name>cross_shard_graph_validation_active</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tier_transition_request_1a36ccaef3f93b459302f56edf0164ad00" kind="variable"><name>gpu_resident_llm_active</name></member>
+  </compound>
+  <compound refid="structthemis_1_1evaluation_1_1_tier_transition_result" kind="struct"><name>themis::evaluation::TierTransitionResult</name>
+    <member refid="structthemis_1_1evaluation_1_1_tier_transition_result_1a2c3cfce427da61565580a31674ce55cf" kind="variable"><name>errors</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tier_transition_result_1a51abfc73a46c41b8f41d43c35bfc14fc" kind="variable"><name>warnings</name></member>
+    <member refid="structthemis_1_1evaluation_1_1_tier_transition_result_1a43e7eff104a81b4361b2095f7a66b5c5" kind="function"><name>ok</name></member>
+  </compound>
+  <compound refid="namespace_0d002276072133101103132351126060376144072146012147" kind="namespace"><name>@002276072133101103132351126060376144072146012147</name>
+  </compound>
+  <compound refid="namespace_0d150123117004047174025066317366336231340131333017" kind="namespace"><name>@150123117004047174025066317366336231340131333017</name>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1evaluation" kind="namespace"><name>themis::evaluation</name>
+    <member refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018" kind="enum"><name>PathVariant</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a3e68b850f1a019ba9d2201c9cd484dd4" kind="enumvalue"><name>AnnOnly</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a897795e8f83035e14a64f027a8653a07" kind="enumvalue"><name>AnnTensor</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a8dfa4f3f3946a828bbe52e7e52005d47" kind="enumvalue"><name>AnnTensorGraph</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662" kind="enum"><name>FreshnessVariant</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662afe8965a9748c1bc48af1711be837124e" kind="enumvalue"><name>Fresh</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662af1ac273d3c6d8e6489bf332819a2f650" kind="enumvalue"><name>Stale</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75bef" kind="enum"><name>UpdateVariant</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75befa156e10596fdc76ee5300bab931d89c0f" kind="enumvalue"><name>Patch</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75befa1c6aac0280240c97962b30423f1f852b" kind="enumvalue"><name>Rebuild</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210" kind="enum"><name>ComputeVariant</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210a54c82ef76ecbbd4c2293e09bae01b54e" kind="enumvalue"><name>Cpu</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210a3432ca64f06615abf07ab44c10cada38" kind="enumvalue"><name>Gpu</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4" kind="enum"><name>ApproximationZone</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4ab81a30c12698563b79179ec37d43629b" kind="enumvalue"><name>Approximate</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4ab6369be4060d10dd19fce02048a7b304" kind="enumvalue"><name>Bounded</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4a1649aed298f99d587e2eb30c1db5946b" kind="enumvalue"><name>Exact</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117c" kind="enum"><name>RetrievalLayer</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca82e335f7ac0e0e412b2ae15abe662110" kind="enumvalue"><name>Ann</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca394db8ff39ea04432ee87ef30f156958" kind="enumvalue"><name>TensorSummary</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117cad37c39b27db98d9282658cc19099967f" kind="enumvalue"><name>ExactGraph</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca7bd46c646101021cf4b172812926575e" kind="enumvalue"><name>DistributedShard</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daae" kind="enum"><name>GovernanceDecision</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea45f0fb72a0defdfdb01de4b5a5a6876b" kind="enumvalue"><name>Allow</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea3682d1665cf331373000c20680732d3a" kind="enumvalue"><name>Deny</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaead031c6077533a83e8ef9c1f180484912" kind="enumvalue"><name>EscalateToExact</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea5ce88c4d66118388a69c6fd4262ca3a1" kind="enumvalue"><name>Bypass</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675f" kind="enum"><name>ExactnessViolation</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa6adf97f83acf6453d4a6a4b1070f3754" kind="enumvalue"><name>None</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa69b037b46eeb02ab2f3bb61bcce41941" kind="enumvalue"><name>ApproximateForTruthBearing</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa2cd3c88004a83f389b86d7743d5431e6" kind="enumvalue"><name>BoundedForTruthBearing</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa6e63e7794fd9328dce2e3a04a8cb916a" kind="enumvalue"><name>RequestedZoneBelowCanonicalMinimum</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675facbbd2082c49f2bc89c28d0b20402c26c" kind="enumvalue"><name>CategoryCOnNonExactLayer</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa303614724233738e20b9085ea31a5916" kind="enumvalue"><name>CategoryCGpuAttempt</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa483faf71bb22d660ca20930e4f1979e7" kind="enumvalue"><name>StaleArtifactForFreshnessGate</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fab0e5510a5e92be5da7b2619756dc9d8c" kind="enumvalue"><name>ConfidenceBelowThreshold</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fade91009326c29955bdf1c36a08e7fc19" kind="enumvalue"><name>PolicyVersionMismatch</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675facbaa02a5090716731070d716f782c527" kind="enumvalue"><name>FallbackNotPermitted</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa293978564768b201fad5348a8949f806" kind="enumvalue"><name>UnknownLayer</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa0fce1bb8327d611ed4327993879a9d13" kind="enumvalue"><name>UnknownZone</name></member>
+    <member refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1" kind="enum"><name>LifecycleState</name></member>
+    <member refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a491ca4a69e8dd441c32a551d1339552c" kind="enumvalue"><name>PRISTINE</name></member>
+    <member refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2baa69eafc7204f3bd8648eba580c489" kind="enumvalue"><name>READY</name></member>
+    <member refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a4d855a061b3066dc14a3b12ed26b5456" kind="enumvalue"><name>STALE</name></member>
+    <member refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2b4710604f043a2056edb0c8d2462e39" kind="enumvalue"><name>INVALIDATED</name></member>
+    <member refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a509579b889462e42f8ff497733516749" kind="enumvalue"><name>REBUILDING</name></member>
+    <member refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1ab9e14d9b2886bcff408b85aefa780419" kind="enumvalue"><name>FAILED</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0b" kind="enum"><name>InvalidationReason</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0ba696b031073e74bf2cb98e5ef201d4aa3" kind="enumvalue"><name>UNKNOWN</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0baf378dffaebd3e65168c2771db0d4effd" kind="enumvalue"><name>INTEGRITY_CHECK_FAILED</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0bab3cb5a62e39afc6be880a16f152a78bc" kind="enumvalue"><name>STALENESS_EXCEEDED</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0ba73b8097d176de6d65433a5d20c803b9b" kind="enumvalue"><name>SOURCE_INVALIDATED</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0bae53a408c01b8dbc39be51928fc7b261c" kind="enumvalue"><name>SOURCE_LINEAGE_CORRUPTED</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0ba169cb04bda558347b02294770e4b9e0c" kind="enumvalue"><name>POLICY_VIOLATION</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0baf436b6d4588b7b891c8bbe0933b3e60d" kind="enumvalue"><name>ADMIN_REQUESTED</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0baf71da8a6c905d1ee9298d5136f147b09" kind="enumvalue"><name>SHARD_UNAVAILABLE</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0baa6a01402082b80b96fd6b78011d3a636" kind="enumvalue"><name>SCHEMA_INCOMPATIBLE</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kind="enum"><name>BenchmarkScenario</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kind="enumvalue"><name>HNSW_ANN_ONLY</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea12df5614c70b3d838a2cb5ea7f2f6e99" kind="enumvalue"><name>DISKANN_ANN_ONLY</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea496f63b968ae8e46cb0d4d28a1e07209" kind="enumvalue"><name>ANN_TENSOR</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea2eea721a5537ae58d443d8de4e46953d" kind="enumvalue"><name>ANN_TENSOR_DYNAMIC_UPDATE</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea24d000bd9799da1760a3b1e35f97d898" kind="enumvalue"><name>ANN_TENSOR_SNAPSHOT_REBUILT</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea1da9425cfd34b4395281054307a0164a" kind="enumvalue"><name>ANN_TENSOR_PATCH_REFIT</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea2bbbb8739643f0deadf2b41bb8b54e2d" kind="enumvalue"><name>ANN_TENSOR_GRAPH</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea6a40b89028ffc066bf1a72a776890136" kind="enumvalue"><name>DIRECT_EXACT_GRAPH</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea9fd91a7825726781e935de1b76d466ff" kind="enumvalue"><name>SUMMARY_FIRST_DISTRIBUTED</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47beaf0f1fb3fb63e58006dbf71383be5a6d0" kind="enumvalue"><name>DISTRIBUTED_EXACT_LOAD</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea583bcf118d9b6d4f7692af74f3fdfe31" kind="enumvalue"><name>LLM_FULL_PROMPT</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea8cc2cf881df44681d9cd49c4de73ea5e" kind="enumvalue"><name>LLM_TENSOR_COMPRESSED</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47beabe3575a442a1ea5f149a7ff3c6d38bb4" kind="enumvalue"><name>LORA_INFERENCE</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea1d9cb6da711af8efc2c9a155bca9bd75" kind="enumvalue"><name>COMMIT_OVERHEAD</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea9393911bc06bdfb0c3663d541246e15a" kind="enumvalue"><name>CPU_ONLY</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea54d9009c7b3fbaf79084799dcba5026e" kind="enumvalue"><name>GPU_ACCELERATED</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47beaf3351ee60ccc810690817d90739bf103" kind="enumvalue"><name>_COUNT</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kind="enum"><name>BenchmarkDimension</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba065cd7a8414d42706ee4684abcf04833" kind="enumvalue"><name>RECALL_AT_K</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba45c3147a308601984faf36c7da48e780" kind="enumvalue"><name>PRECISION_AT_K</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abacd82b88f5a4cdcf97383b40bac3c8469" kind="enumvalue"><name>CANDIDATE_REDUCTION</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kind="enumvalue"><name>QUERY_LATENCY_MS</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba89e05821481765643ff0e7711c8ea3cf" kind="enumvalue"><name>REBUILD_LATENCY_MS</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abafe41ed2e5b551209e34e83a3063f04d3" kind="enumvalue"><name>COMMIT_OVERHEAD_MS</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abac01848341f440fa8cf8fd87f94a569f4" kind="enumvalue"><name>QPS</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abaf7eb094c5036475f18d0832384b8160f" kind="enumvalue"><name>UPDATE_THROUGHPUT</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abaacef616112c28bc2e9eb903b028c1e7d" kind="enumvalue"><name>MEMORY_MB</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba34fba297be8e598015ebb5045e3d8880" kind="enumvalue"><name>INDEX_BUILD_TIME_S</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abaee78f2e63392e2c01b808cf41ae56d9c" kind="enumvalue"><name>COMPRESSION_RATIO</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba751b6069d471b406ff784b9380935cd0" kind="enumvalue"><name>APPROXIMATION_LOSS</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba90f62f87c57d2f34bd74f5ee81887059" kind="enumvalue"><name>FAITHFULNESS_SCORE</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba93dc0c04be8024b3869270333cfdb369" kind="enumvalue"><name>HALLUCINATION_RATE</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba53aae05f98ee035ea910ef0bcfaa8a8e" kind="enumvalue"><name>PROMPT_TOKEN_COUNT</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba76461f533eb8eea040dd9c8f9f9baf03" kind="enumvalue"><name>SHARD_FAN_OUT</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba5e054a708f3773dc668cd13727bd00ec" kind="enumvalue"><name>BYTES_TRANSFERRED</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ababbd35d1df4332a1af9f9889fd8e0a2b6" kind="enumvalue"><name>GPU_SPEEDUP_FACTOR</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abaf3351ee60ccc810690817d90739bf103" kind="enumvalue"><name>_COUNT</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298" kind="enum"><name>BenchmarkEdgeCase</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298ab50339a10e1de285ac99d4c3990b8693" kind="enumvalue"><name>NONE</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298abbcaa8bc3d625c61baebec95c2db13ab" kind="enumvalue"><name>STALE_ARTIFACT</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298a3a525c7c12eb369eda4c576ab79e602d" kind="enumvalue"><name>SHARD_SUMMARY_MISMATCH</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298a27d0db46c3d63f95758e58c90965919e" kind="enumvalue"><name>RESIDUAL_PLANNER_FALLBACK</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298afa871617d0f703031384eae9d4673df3" kind="enumvalue"><name>UNMEASURED_COMBINATION</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298acb10a43e03a0bc4f6b2bbdb34db299c6" kind="enumvalue"><name>INSUFFICIENT_METRIC_DATA</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8" kind="enum"><name>DeploymentProfileId</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8a330f49df8243756a8a4dc7f7f7ee6dfe" kind="enumvalue"><name>Development</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8a756d97bb256b8580d4d71ee0c547804e" kind="enumvalue"><name>Production</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8af21f4e05a9f9862c3dffdb453c86a7f7" kind="enumvalue"><name>HighPerformanceFederated</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a884006dfed1b453fbcba52017164a006" kind="enum"><name>StorageTier</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a884006dfed1b453fbcba52017164a006a4194726ee334e1085d93e002837b73f0" kind="enumvalue"><name>Hot</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a884006dfed1b453fbcba52017164a006a18297117d3d251afceed9ecbe797c849" kind="enumvalue"><name>Warm</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a884006dfed1b453fbcba52017164a006a1a3c2e99e572ec71d3820d0363d90742" kind="enumvalue"><name>Cold</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa08a12bdae7ba2e56509b3b9f9c65564" kind="enum"><name>NetworkFabric</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa08a12bdae7ba2e56509b3b9f9c65564a92d3a56e45f42d8178a4d201b14d6a1c" kind="enumvalue"><name>Workstation</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa08a12bdae7ba2e56509b3b9f9c65564a615707baa418ce315e44ac2a5d6164af" kind="enumvalue"><name>Datacenter</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa08a12bdae7ba2e56509b3b9f9c65564a79d896d6e86ccd07f23376b06210eccb" kind="enumvalue"><name>HighBandwidthFabric</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa23a8a349d52d38e3e43519983e3b81e" kind="enum"><name>AcceleratorClass</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa23a8a349d52d38e3e43519983e3b81ea704a9259df22b8d5fce1391c71c5a28a" kind="enumvalue"><name>CpuOnly</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa23a8a349d52d38e3e43519983e3b81ea9921067bafc39971a17aea89661a7ede" kind="enumvalue"><name>OptionalGpu</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa23a8a349d52d38e3e43519983e3b81ea9980ae3a0be09167bfacbbf3469bae6e" kind="enumvalue"><name>RequiredGpu</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253" kind="enum"><name>LayerId</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253a9e4320e6012570a78bd81858dc506274" kind="enumvalue"><name>AnnFrontdoor</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253ab4ee09f11b7b4f9d7f1d93cca4f816c7" kind="enumvalue"><name>TensorMidLayer</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253a7e39368105b4be0d2fdca2e053ad4cf2" kind="enumvalue"><name>GraphTruthLayer</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253a0b0422f8342a2c718ffac13f8f19e859" kind="enumvalue"><name>LlmFinalLayer</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adc" kind="enum"><name>ExecutionPath</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adca3e68b850f1a019ba9d2201c9cd484dd4" kind="enumvalue"><name>AnnOnly</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adcaedf65229175b3f9e0ad9863c098a7935" kind="enumvalue"><name>AnnTensorSummary</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adca675a13e49d361f283141ff3635a31661" kind="enumvalue"><name>AnnTensorExactGraph</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adcadefc5c9258471d12484c76a1b8ec77f5" kind="enumvalue"><name>DirectExactGraph</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adcaff320726a7386907a4b3e1ab862474cb" kind="enumvalue"><name>DistributedSummaryFirstExactOnDemand</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170a" kind="enum"><name>KernelCategory</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170aa7fc56270e7a70fa81a5935b72eacbe29" kind="enumvalue"><name>A</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170aa9d5ed678fe57bcca610140957afab571" kind="enumvalue"><name>B</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170aa0d61f8370cad1d412f80b84d143e1257" kind="enumvalue"><name>C</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008" kind="enum"><name>FallbackReason</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a6adf97f83acf6453d4a6a4b1070f3754" kind="enumvalue"><name>None</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a36aec4337256da10b758eff39b78a9ca" kind="enumvalue"><name>GpuKernelError</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008aee510c37ce684b32ddc17964f0cdfdda" kind="enumvalue"><name>GpuKernelTimeout</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a7d1f422b1d5bca39b94aff5c6a793807" kind="enumvalue"><name>GpuOutputValidation</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a67d3b489ae3fd96f71cfe0889889db8a" kind="enumvalue"><name>GpuParityCheckFailed</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008aa7489ebe985075ee40501e8ff2bcd639" kind="enumvalue"><name>GpuUnavailable</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a74146f4f47e7ff98c6745cce0748b1c1" kind="enumvalue"><name>BfsFrontierExceeded</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a3110b3598eb3fb71e49a138eb5569cdb" kind="enumvalue"><name>BfsHopsExceeded</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a4dafc5a88f94f7a0179eadaf2dafe008" kind="enumvalue"><name>DijkstraPairsExceeded</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008aa01d771e3a66e59e86f1ee00d066f415" kind="enumvalue"><name>GeoCoordInvalid</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a84849ff8635b4c1411de1ccd0bc140d5" kind="enumvalue"><name>GeoOutputRangeInvalid</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a59774dca9301646249ac0d4bee97fd1f" kind="enumvalue"><name>TensorArtifactStale</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008ac55af387e71423a47b27ddb7d0d87168" kind="enumvalue"><name>TensorArtifactMissing</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008aa051848d06e36169113af22d86e3d695" kind="enumvalue"><name>TensorRebuildInProgress</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008ac9a520749be0e53446cf7c68c2a80925" kind="enumvalue"><name>TensorResidualLow</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a039db5d7e1eb442df98a0b637b332e6d" kind="enumvalue"><name>TensorRankCapExceeded</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008aefb9d08b82be15577ec904173c3ba5f5" kind="enumvalue"><name>TensorSeqIncompatible</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a241b1a16c6e6361ca15299c321021281" kind="enumvalue"><name>ModuleGapThreshold</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008afd66bbd02925c26f69ca3a82cfab8c38" kind="enumvalue"><name>CategoryCSubpathDetected</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a9ab734a0b94fa80d2ccaa4231128ab14" kind="enumvalue"><name>ForceExact</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008afa420e55a6bf1bbc22ad9c1d14f66be1" kind="enumvalue"><name>ForceCpu</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a636bdaeff00ed9dfc9adddd8d8411d6a" kind="enumvalue"><name>ShardSummaryLowConfidence</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a8b09f2d0000af4518f88b44efa825d9c" kind="enumvalue"><name>ShardManifestMissing</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7" kind="enum"><name>MetricErrorKind</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7aeef25089cff60a497bfad633196f143c" kind="enumvalue"><name>EmptyGroundTruth</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a62f8017bdad8c34179b416fa34e107f9" kind="enumvalue"><name>InvalidK</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a21ae32494c3baf76d7a186e0086b45d3" kind="enumvalue"><name>NonFiniteInput</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7aefcb4954ae74945cf0eba28983e28b6e" kind="enumvalue"><name>InvalidRange</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a0399549e1d8624c81e1861fee9438f26" kind="enumvalue"><name>DuplicateEntries</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ae36c5525b73a21d250a5f57bad1aaadb" kind="enumvalue"><name>MissingGroundTruthLabels</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ac625fc07928707117b1f8f15de501ec8" kind="enumvalue"><name>DoubleCountedItems</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a51017b10ba8591ea01c2cb4cb146477b" kind="enumvalue"><name>SummaryFirstFalseNegativeNoFallback</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ac57ac2c219c709a77e00018b6dbff53e" kind="enumvalue"><name>ResidualTooHighForPlanner</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a64f0d5505b0bde72fbe51f6b3a1c47b5" kind="function"><name>makeDefaultApproximationRuleEngine</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a66b11552f028e4c30b8bbad3663db0dd" kind="function"><name>lifecycleStateToString</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a7fb2a414afe6e3b78e08d0f0f4608704" kind="function"><name>stringToLifecycleState</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a74cc438ee9219bc5e4ca661092912ffe" kind="function"><name>invalidationReasonToString</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a1e28138232aa33f7cd468569ff9f2491" kind="function"><name>stringToInvalidationReason</name></member>
+    <member refid="namespacethemis_1_1evaluation_1afea47a6a5647bdeeacac41db01048049" kind="function"><name>scenarioName</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ae68e4a389d405d8487b1293ca3c00d51" kind="function"><name>dimensionName</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a96ee2b42119fbfd50fa96103a7eb72c0" kind="function"><name>operator|</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aab68a85fc578ef49c9be73dac3fde074" kind="function"><name>operator&amp;</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a5b3fef6bf6cd31fa19741182f70a1e07" kind="function"><name>hasEdgeCase</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a18ada6dfe2fd4378ca0dc8f0f97128d5" kind="function"><name>toString</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a2efb0c2b812c2bb0c11c105c7d20bc64" kind="function"><name>toString</name></member>
+    <member refid="namespacethemis_1_1evaluation_1aefc896334432506b710b358b4154f771" kind="function"><name>toString</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ad0a1c4b69147d0d81e4acacc81f68740" kind="function"><name>toString</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a5575abb9552ae2c629a2e7c628ca0f60" kind="function"><name>toString</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a14b67248c6b52b6ef68b791596dd2847" kind="function"><name>parseDeploymentProfileId</name></member>
+    <member refid="namespacethemis_1_1evaluation_1ab5f169e1b3677310bc4cc84ec82c10ad" kind="function"><name>parseStorageTier</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a63618a5697f00a18b64da3bc10577113" kind="function"><name>defaultHardwareProfiles</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a77c962c7565dfa47bf899a2b31133977" kind="function"><name>validateHardwareProfile</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a453f264503c4ba18a57b159dd2406ca6" kind="function"><name>findHardwareProfile</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a99574c4e6455db4f923e7b895f802d2e" kind="function"><name>findHardwareProfile</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a6a9105073d9dd99e5a9155ba820aa864" kind="function"><name>findLayerSizingRule</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a4d4fcc86b5ec08cfc1d45a6b54c7ac11" kind="function"><name>validateTierTransition</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a588a9eafb4aa8c95bdaf7b3fe98e2917" kind="function"><name>makeDefaultQueryPlanner</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a6be0551e196c7763f9f88cf8dcef9e9d" kind="function"><name>makeDefaultQueryPlanner</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a1ec04aaaf0ce841c811f026d0de3cf5f" kind="function"><name>computeRetrievalQuality</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a001499e7402ac77eef88306c2e2df397" kind="function"><name>computeEvidenceQuality</name></member>
+    <member refid="namespacethemis_1_1evaluation_1af096c24f110831a0f6ea6acba30061a5" kind="function"><name>computeProvenanceQuality</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a8499ffac1ddde63a29158d96b836c446" kind="function"><name>computeCompressionMetrics</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a9118a2961c1c0ac5ba3c45f3b6e64c5e" kind="function"><name>computeLlmAnswerQuality</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a40fae84fd82855a0552a8d2ed282636b" kind="function"><name>computeDistributedEfficiency</name></member>
+    <member refid="namespacethemis_1_1evaluation_1a69400ea30de03cc98147030206c9084c" kind="function"><name>computeTensorGraphRuntimeMetrics</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1evaluation_1_1_0d125056133326231214200176341270221143324233276016" kind="namespace"><name>themis::evaluation::@125056133326231214200176341270221143324233276016</name>
+  </compound>
+  <compound refid="namespacethemis_1_1evaluation_1_1_0d127275355372217344014074020015040113153124173156" kind="namespace"><name>themis::evaluation::@127275355372217344014074020015040113153124173156</name>
+  </compound>
+  <compound refid="namespacethemis_1_1evaluation_1_1_0d220257120155045327240072173322026322232316155171" kind="namespace"><name>themis::evaluation::@220257120155045327240072173322026322232316155171</name>
+  </compound>
+  <compound refid="namespacethemis_1_1evaluation_1_1_0d234357071373162255261116132103335120262231232261" kind="namespace"><name>themis::evaluation::@234357071373162255261116132103335120262231232261</name>
+  </compound>
+  <compound refid="namespacethemis_1_1evaluation_1_1_0d256263074225077107263060060241310206177227143355" kind="namespace"><name>themis::evaluation::@256263074225077107263060060241310206177227143355</name>
+  </compound>
+  <compound refid="bench__evaluation__dedicated__gates_8cpp" kind="file"><name>bench_evaluation_dedicated_gates.cpp</name>
+    <member refid="bench__evaluation__dedicated__gates_8cpp_1a8a85412ffb7421380a657d39ca116c94" kind="function"><name>BM_EV_BM_01_MetricComputationThroughput</name></member>
+    <member refid="bench__evaluation__dedicated__gates_8cpp_1aa12ee4eaee94e95f75905a8c65d880b2" kind="function"><name>Threads</name></member>
+    <member refid="bench__evaluation__dedicated__gates_8cpp_1acd80cbc05cbfe2c3c81dc1e8f460c0d4" kind="function"><name>BM_EV_BM_02_AggregationLatency</name></member>
+    <member refid="bench__evaluation__dedicated__gates_8cpp_1a20cd142a1794d4958f7a639b50a9c448" kind="function"><name>MinTime</name></member>
+    <member refid="bench__evaluation__dedicated__gates_8cpp_1a42b16a07c40e68a1616e69b3971c781b" kind="function"><name>BM_EV_BM_03_HarnessInvocation</name></member>
+    <member refid="bench__evaluation__dedicated__gates_8cpp_1a04868c41aa9c62429eee5ad2af6abded" kind="function"><name>BM_EV_BM_04_JudgeRequestLatency</name></member>
+    <member refid="bench__evaluation__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="evaluation_8h" kind="file"><name>evaluation.h</name>
+  </compound>
+  <compound refid="ablation__framework_8h" kind="file"><name>ablation_framework.h</name>
+  </compound>
+  <compound refid="approximation__rules_8h" kind="file"><name>approximation_rules.h</name>
+  </compound>
+  <compound refid="artifact__lifecycle_8h" kind="file"><name>artifact_lifecycle.h</name>
+  </compound>
+  <compound refid="benchmark__matrix_8h" kind="file"><name>benchmark_matrix.h</name>
+  </compound>
+  <compound refid="hardware__profile_8h" kind="file"><name>hardware_profile.h</name>
+  </compound>
+  <compound refid="query__planner_8h" kind="file"><name>query_planner.h</name>
+  </compound>
+  <compound refid="retrieval__metrics_8h" kind="file"><name>retrieval_metrics.h</name>
+  </compound>
+  <compound refid="ablation__framework_8cc" kind="file"><name>ablation_framework.cc</name>
+  </compound>
+  <compound refid="approximation__rules_8cc" kind="file"><name>approximation_rules.cc</name>
+  </compound>
+  <compound refid="artifact__lifecycle_8cc" kind="file"><name>artifact_lifecycle.cc</name>
+  </compound>
+  <compound refid="benchmark__matrix_8cc" kind="file"><name>benchmark_matrix.cc</name>
+  </compound>
+  <compound refid="hardware__profile_8cc" kind="file"><name>hardware_profile.cc</name>
+  </compound>
+  <compound refid="query__planner_8cc" kind="file"><name>query_planner.cc</name>
+  </compound>
+  <compound refid="retrieval__metrics_8cc" kind="file"><name>retrieval_metrics.cc</name>
+  </compound>
+  <compound refid="test__evaluation__ablation__framework__focused_8cpp" kind="file"><name>test_evaluation_ablation_framework_focused.cpp</name>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1a416e8bd4994a07010724d73a036bc259" kind="function"><name>make_simple_query</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1adff7865eab1e9e6c0aba3d06f78293aa" kind="function"><name>make_config</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1a7752856bbbd920f215560357c5759443" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1ae4b27cdebc4b4b5441fddd0d1bbafc04" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1ab3646b94627fc8e5ee643c25751e27c4" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1a526368a0559bbf899c3bc05717d805dd" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1a427bb9ab89f1994ab799679638d215c7" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1a0b7d5a0d120c60b6eaa572fa4d0a8c67" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1a7de4409d3e0c5fb5bfa9691468595f7f" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1af015a68c394b07081155073ec8e89593" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1a5c8f981f938a1027d266da0263c6fbca" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1a16106dd018c77e63b41bc703b85b767a" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__ablation__framework__focused_8cpp_1a2ece909d4ace9bd11d08965362437685" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__evaluation__artifact__lifecycle__focused_8cpp" kind="file"><name>test_evaluation_artifact_lifecycle_focused.cpp</name>
+    <member refid="test__evaluation__artifact__lifecycle__focused_8cpp_1a81e2881a74db25133a5295f517a27486" kind="function"><name>make_ready_metadata</name></member>
+    <member refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__artifact__lifecycle__focused_8cpp_1a3354648195926cbf2f3d4096605ad465" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa720ff0ccd5917976ec3429a8f0a50ef" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__artifact__lifecycle__focused_8cpp_1a5adc7abda15cf82acb2af4687c857960" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__artifact__lifecycle__focused_8cpp_1ade79b22eec68fb7c78c68814aca96432" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__artifact__lifecycle__focused_8cpp_1a2ab50b5548e6cd60c1739d5742da25f7" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__artifact__lifecycle__focused_8cpp_1a5920803ae7a9b03711367586e4b265e9" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__artifact__lifecycle__focused_8cpp_1ad0191699417adef482a36980fc10c700" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__artifact__lifecycle__focused_8cpp_1a8cb5baee4715c11200dab62c0fe33552" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__artifact__lifecycle__focused_8cpp_1ad4edac9dd62ba6bae8857a9d588c0311" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__evaluation__benchmark__matrix__focused_8cpp" kind="file"><name>test_evaluation_benchmark_matrix_focused.cpp</name>
+    <member refid="test__evaluation__benchmark__matrix__focused_8cpp_1ae961c22638c4153e519fd92acba3be84" kind="function"><name>make_result</name></member>
+    <member refid="test__evaluation__benchmark__matrix__focused_8cpp_1a2aee50d03bd2868af6abf2f752b0250d" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__benchmark__matrix__focused_8cpp_1a25a86b6490f2504c8cb683492044e30f" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__benchmark__matrix__focused_8cpp_1a96771af86c8d36d8b42619ce0e633b95" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__benchmark__matrix__focused_8cpp_1adcefd573b59e37660880052e3bd27041" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__benchmark__matrix__focused_8cpp_1a0fac297d0671998bd19ea3d2fb02b9dd" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__benchmark__matrix__focused_8cpp_1a5ba4a8d99d5ab591b0b43b58d57d1f9c" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__benchmark__matrix__focused_8cpp_1a048c6303810bf698a05ad398dabd07df" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__benchmark__matrix__focused_8cpp_1a21cd4738da71289121f1cfbc5318154d" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__benchmark__matrix__focused_8cpp_1abe9adb1802cdbe9b2404a8cbaf75033b" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__evaluation__highcardinality__stress_8cpp" kind="file"><name>test_evaluation_highcardinality_stress.cpp</name>
+    <member refid="test__evaluation__highcardinality__stress_8cpp_1a6194e23364f047da6a853336c012dc82" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__highcardinality__stress_8cpp_1aa350643b40ac1083699c3c8ea882a938" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__highcardinality__stress_8cpp_1a9634cb22059e3969459b60e981fb053a" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__evaluation__retrieval__metrics__focused_8cpp" kind="file"><name>test_evaluation_retrieval_metrics_focused.cpp</name>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a16b3672c95679ecaf468ecd98c03f71b" kind="function"><name>make_ranked</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a4bbee142420705713a579349d4f4837e" kind="function"><name>make_gt</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a3b146eadab41da9009b1007874e2d608" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a516ad8af04eef3a9b15ada03f05c29d7" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a07f9666516cd865895fa2758068feb95" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1af38ae95c579adcaa4a798eae09c7274e" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a492909511490b6d009eaa2ec0889d751" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1ac32471fd9f2663c9b3ce164743e030c8" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a8d67567bca91166bc287fb7e664fbdc6" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a1f0f3a56dae6b32912daf76d3b8fd192" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a3feb26bfee2ac55baae38ee955b98da2" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a4ce36090acebbdc3b3a282de7f564fd5" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a9f8128970d8c484ed123f1c0165e6f8d" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1ad0e459a070def58350dc0f8e41a65e30" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1a2aa5b76ead810332218819578852525b" kind="function"><name>TEST</name></member>
+    <member refid="test__evaluation__retrieval__metrics__focused_8cpp_1aba182f404ac37c5460660c6a9685d568" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_2c67a0b13df6ad9de8aa8b4c05801330" kind="dir"><name>benchmarks/evaluation</name>
+  </compound>
+  <compound refid="dir_dc06816d3d0f294fb74a149aeaedb58c" kind="dir"><name>include/evaluation</name>
+  </compound>
+  <compound refid="dir_211e0f6adb36544d22235d2adc40a517" kind="dir"><name>src/evaluation</name>
+  </compound>
+  <compound refid="dir_c024eacef3c245f46398e893f696ffb6" kind="dir"><name>tests/evaluation</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_dce7065c2927bf3886d6f7965b6b860c" kind="dir"><name>src/evaluation/include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_563b60af13ffb0f9cc8a982ddb359828" kind="dir"><name>src/evaluation/src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

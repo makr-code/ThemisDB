@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_streaming_handler" kind="class" language="C++" prot="public">
+    <compoundname>StreamingHandler</compoundname>
+    <includes refid="streaming__handler_8h" local="no">streaming_handler.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_streaming_handler_1a604c10c69b1664e71fb5072f9813013d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::StreamingHandler::formatSseEvent</definition>
+        <argsstring>(const std::string &amp;token, const std::string &amp;request_id, size_t index, bool done=false)</argsstring>
+        <name>formatSseEvent</name>
+        <qualifiedname>StreamingHandler::formatSseEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>done</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ <ref refid="classthemis_1_1llm_1_1_streaming_handler" kindref="compound">StreamingHandler</ref> — public static methods ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">done</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/streaming_handler.h" line="23" column="24" bodyfile="src/llm/streaming_handler.cpp" bodystart="68" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_streaming_handler_1abdd5d9260f32263a9d0626e787e18487" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::StreamingHandler::formatDoneEvent</definition>
+        <argsstring>(const std::string &amp;request_id)</argsstring>
+        <name>formatDoneEvent</name>
+        <qualifiedname>StreamingHandler::formatDoneEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Format Done Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/streaming_handler.h" line="34" column="24" bodyfile="src/llm/streaming_handler.cpp" bodystart="97" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_streaming_handler_1a819a95439b97fa49f3ee0e474af1b345" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::StreamingHandler::formatChunkedData</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>formatChunkedData</name>
+        <qualifiedname>StreamingHandler::formatChunkedData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Format Chunked Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/streaming_handler.h" line="41" column="24" bodyfile="src/llm/streaming_handler.cpp" bodystart="112" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="class_streaming_handler_1ac152d67baa59d5eac046a68308b54bfc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt; void(const std::string &amp;)&gt; themis::llm::StreamingHandler::makeStreamCallback</definition>
+        <argsstring>(std::function&lt; void(const std::string &amp;)&gt; sink, const std::string &amp;request_id)</argsstring>
+        <name>makeStreamCallback</name>
+        <qualifiedname>StreamingHandler::makeStreamCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+          <declname>sink</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/streaming_handler.h" line="43" column="26" bodyfile="src/llm/streaming_handler.cpp" bodystart="121" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/streaming_handler.h" line="21" column="1" bodyfile="include/llm/streaming_handler.h" bodystart="21" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_streaming_handler_1a819a95439b97fa49f3ee0e474af1b345" prot="public" virt="non-virtual"><scope>StreamingHandler</scope><name>formatChunkedData</name></member>
+      <member refid="class_streaming_handler_1abdd5d9260f32263a9d0626e787e18487" prot="public" virt="non-virtual"><scope>StreamingHandler</scope><name>formatDoneEvent</name></member>
+      <member refid="class_streaming_handler_1a604c10c69b1664e71fb5072f9813013d" prot="public" virt="non-virtual"><scope>StreamingHandler</scope><name>formatSseEvent</name></member>
+      <member refid="class_streaming_handler_1ac152d67baa59d5eac046a68308b54bfc" prot="public" virt="non-virtual"><scope>StreamingHandler</scope><name>makeStreamCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_text_clause_extractor" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::TextClauseExtractor</compoundname>
+    <includes refid="modality__parser_8h" local="no">modality_parser.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_text_clause_extractor_1a2acdac08e696e74e60fde7329fd39af7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref></type>
+        <definition>ModalityParserConfig themis::training::TextClauseExtractor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::training::TextClauseExtractor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="122" column="26" bodyfile="include/training/modality_parser.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_text_clause_extractor_1a93b88346583581d4abad542b404792c1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TextClauseExtractor::TextClauseExtractor</definition>
+        <argsstring>(const ModalityParserConfig &amp;config)</argsstring>
+        <name>TextClauseExtractor</name>
+        <qualifiedname>themis::training::TextClauseExtractor::TextClauseExtractor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="106" column="14" bodyfile="src/training/modality_parser.cpp" bodystart="288" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_text_clause_extractor_1afd9b378dfa6a371c9786aee85b2f2bd9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt;</type>
+        <definition>std::vector&lt; TrainingSample &gt; themis::training::TextClauseExtractor::extract</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;document_id) const</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::training::TextClauseExtractor::extract</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+<para>Extract text clauses from <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw document text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier propagated to sample.source_id. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of TEXT_CLAUSE-typed <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> records.</para>
+</simplesect>
+Applies shared prompt-safety policy per extracted clause. Clauses matching blocked prompt-injection patterns are dropped (fail-closed). Allowed clauses are emitted with control-token redaction applied. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="118" column="17" bodyfile="src/training/modality_parser.cpp" bodystart="292" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extracts plain-text legal clauses from a document. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Splits content at sentence and paragraph boundaries, filters tokens that are clearly tabular or citation-like, and assigns TEXT_CLAUSE modality. Each resulting sample represents a single legal clause or sentence that meets the minimum length threshold. </para>
+    </detaileddescription>
+    <location file="include/training/modality_parser.h" line="104" column="1" bodyfile="include/training/modality_parser.h" bodystart="104" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_text_clause_extractor_1a2acdac08e696e74e60fde7329fd39af7" prot="private" virt="non-virtual"><scope>themis::training::TextClauseExtractor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1training_1_1_text_clause_extractor_1afd9b378dfa6a371c9786aee85b2f2bd9" prot="public" virt="non-virtual"><scope>themis::training::TextClauseExtractor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1training_1_1_text_clause_extractor_1a93b88346583581d4abad542b404792c1" prot="public" virt="non-virtual"><scope>themis::training::TextClauseExtractor</scope><name>TextClauseExtractor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

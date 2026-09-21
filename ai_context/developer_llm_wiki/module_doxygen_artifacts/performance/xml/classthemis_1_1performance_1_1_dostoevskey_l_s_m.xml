@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_dostoevskey_l_s_m" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::DostoevskeyLSM</compoundname>
+    <includes refid="dostoevsky_8h" local="no">dostoevsky.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost" prot="public">themis::performance::DostoevskeyLSM::MergeCost</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1ae082155cbda2552acf4fcbff85837944" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::DostoevskeyLSM::READ_HEAVY_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>READ_HEAVY_THRESHOLD</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::READ_HEAVY_THRESHOLD</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="75" column="29" bodyfile="include/performance/dostoevsky.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a2b343d68c9391e313efd00d59921cc60" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::DostoevskeyLSM::WRITE_HEAVY_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>WRITE_HEAVY_THRESHOLD</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::WRITE_HEAVY_THRESHOLD</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="76" column="29" bodyfile="include/performance/dostoevsky.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1af69eed95d540856a0105d9358d7ac413" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::DostoevskeyLSM::num_levels_</definition>
+        <argsstring></argsstring>
+        <name>num_levels_</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::num_levels_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="98" column="9" bodyfile="include/performance/dostoevsky.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a54587e3b32bad754b2ab4dba9fe986b6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879" kindref="member">MergePolicy</ref> &gt;</type>
+        <definition>std::vector&lt;MergePolicy&gt; themis::performance::DostoevskeyLSM::level_policies_</definition>
+        <argsstring></argsstring>
+        <name>level_policies_</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::level_policies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="99" column="17" bodyfile="include/performance/dostoevsky.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1af42ba8f4734786640a7b53d4cec9edf5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::DostoevskeyLSM::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="100" column="24" bodyfile="include/performance/dostoevsky.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a792bb3e536c475ffba436220ef2dd4a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::DostoevskeyLSM::DostoevskeyLSM</definition>
+        <argsstring>(int num_levels)</argsstring>
+        <name>DostoevskeyLSM</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::DostoevskeyLSM</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_levels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="78" column="5" bodyfile="src/performance/dostoevsky.cpp" bodystart="29" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1aed63e013d1ee54411ef41c64f18b11a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879" kindref="member">MergePolicy</ref></type>
+        <definition>MergePolicy themis::performance::DostoevskeyLSM::compute_optimal_policy</definition>
+        <argsstring>(int level, const WorkloadStats &amp;stats) const</argsstring>
+        <name>compute_optimal_policy</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::compute_optimal_policy</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_workload_stats" kindref="compound">WorkloadStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="81" column="17" bodyfile="src/performance/dostoevsky.cpp" bodystart="51" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a968174abce4a3c998809ff462cca13dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879" kindref="member">MergePolicy</ref></type>
+        <definition>MergePolicy themis::performance::DostoevskeyLSM::get_policy</definition>
+        <argsstring>(int level) const</argsstring>
+        <name>get_policy</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::get_policy</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="84" column="17" bodyfile="src/performance/dostoevsky.cpp" bodystart="74" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1ac827070a33d4186d72cce00c2f8d11ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::DostoevskeyLSM::update_policy</definition>
+        <argsstring>(int level, const WorkloadStats &amp;stats)</argsstring>
+        <name>update_policy</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::update_policy</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_workload_stats" kindref="compound">WorkloadStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Update policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), <ref refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1aed63e013d1ee54411ef41c64f18b11a4" kindref="member">compute_optimal_policy()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="87" column="10" bodyfile="src/performance/dostoevsky.cpp" bodystart="95" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1ae4994fb11b328c483be9f8463bd7a96b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost" kindref="compound">MergeCost</ref></type>
+        <definition>DostoevskeyLSM::MergeCost themis::performance::DostoevskeyLSM::estimate_cost</definition>
+        <argsstring>(int level, MergePolicy policy) const</argsstring>
+        <name>estimate_cost</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::estimate_cost</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879" kindref="member">MergePolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="95" column="15" bodyfile="src/performance/dostoevsky.cpp" bodystart="104" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adaptive LSM tree configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/dostoevsky.h" line="72" column="1" bodyfile="include/performance/dostoevsky.h" bodystart="72" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1aed63e013d1ee54411ef41c64f18b11a4" prot="public" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM</scope><name>compute_optimal_policy</name></member>
+      <member refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a792bb3e536c475ffba436220ef2dd4a1" prot="public" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM</scope><name>DostoevskeyLSM</name></member>
+      <member refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1ae4994fb11b328c483be9f8463bd7a96b" prot="public" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM</scope><name>estimate_cost</name></member>
+      <member refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a968174abce4a3c998809ff462cca13dd" prot="public" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM</scope><name>get_policy</name></member>
+      <member refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a54587e3b32bad754b2ab4dba9fe986b6" prot="private" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM</scope><name>level_policies_</name></member>
+      <member refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1af42ba8f4734786640a7b53d4cec9edf5" prot="private" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1af69eed95d540856a0105d9358d7ac413" prot="private" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM</scope><name>num_levels_</name></member>
+      <member refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1ae082155cbda2552acf4fcbff85837944" prot="public" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM</scope><name>READ_HEAVY_THRESHOLD</name></member>
+      <member refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1ac827070a33d4186d72cce00c2f8d11ea" prot="public" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM</scope><name>update_policy</name></member>
+      <member refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a2b343d68c9391e313efd00d59921cc60" prot="public" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM</scope><name>WRITE_HEAVY_THRESHOLD</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

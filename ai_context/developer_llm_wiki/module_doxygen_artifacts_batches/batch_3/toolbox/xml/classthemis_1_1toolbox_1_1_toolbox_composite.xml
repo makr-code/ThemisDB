@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1toolbox_1_1_toolbox_composite" kind="class" language="C++" prot="public">
+    <compoundname>themis::toolbox::ToolboxComposite</compoundname>
+    <includes refid="toolbox__composite_8h" local="no">toolbox_composite.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1toolbox_1_1_toolbox_composite_1ab60a0d5b07f14acb3a92315540d5c0f4" prot="public" static="no">
+        <type>std::pair&lt; std::string, std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt; &gt;</type>
+        <definition>using themis::toolbox::ToolboxComposite::Route = std::pair&lt;std::string, std::shared_ptr&lt;IngestionToolbox&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Route</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::Route</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="34" column="5" bodyfile="include/toolbox/toolbox_composite.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1toolbox_1_1_toolbox_composite_1a6913e3eadeb19234ee141d06196ab1c6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_1ab60a0d5b07f14acb3a92315540d5c0f4" kindref="member">Route</ref> &gt;</type>
+        <definition>std::vector&lt;Route&gt; themis::toolbox::ToolboxComposite::routes_</definition>
+        <argsstring></argsstring>
+        <name>routes_</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::routes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="90" column="32" bodyfile="include/toolbox/toolbox_composite.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1toolbox_1_1_toolbox_composite_1a1a0e7146a3d9d4136521041f3153550e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IngestionToolbox&gt; themis::toolbox::ToolboxComposite::fallback_</definition>
+        <argsstring></argsstring>
+        <name>fallback_</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::fallback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="91" column="21" bodyfile="include/toolbox/toolbox_composite.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_1aa38b9ca5e937b6f1aff9fab353636888" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxComposite::ToolboxComposite</definition>
+        <argsstring>(std::vector&lt; Route &gt; routes, std::shared_ptr&lt; IngestionToolbox &gt; fallback=nullptr)</argsstring>
+        <name>ToolboxComposite</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::ToolboxComposite</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_1ab60a0d5b07f14acb3a92315540d5c0f4" kindref="member">Route</ref> &gt;</type>
+          <declname>routes</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+          <declname>fallback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct with a routing table and optional fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>routes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ordered list of (mime_prefix, toolbox) pairs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fallback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Toolbox to use when no route matches. May be null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="42" column="14" bodyfile="src/toolbox/toolbox_composite.cpp" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_1a0827a301ea6688ee1a33c2215933a4fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxComposite::~ToolboxComposite</definition>
+        <argsstring>()</argsstring>
+        <name>~ToolboxComposite</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::~ToolboxComposite</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_1a89381ce59597f36243c648d3c0ca9970" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxComposite::ToolboxComposite</definition>
+        <argsstring>(const ToolboxComposite &amp;)=delete</argsstring>
+        <name>ToolboxComposite</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::ToolboxComposite</qualifiedname>
+        <param>
+          <type>const ToolboxComposite &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_1a1c21e05da7dacbf30d0783077168dee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_1aa38b9ca5e937b6f1aff9fab353636888" kindref="member">ToolboxComposite</ref> &amp;</type>
+        <definition>ToolboxComposite &amp; themis::toolbox::ToolboxComposite::operator=</definition>
+        <argsstring>(const ToolboxComposite &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_1aa38b9ca5e937b6f1aff9fab353636888" kindref="member">ToolboxComposite</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="49" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_1a43f05d3ba4a55b8b94bcd284e4c9d4c6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxComposite::ToolboxComposite</definition>
+        <argsstring>(ToolboxComposite &amp;&amp;) noexcept=default</argsstring>
+        <name>ToolboxComposite</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::ToolboxComposite</qualifiedname>
+        <param>
+          <type>ToolboxComposite &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_1a4f22e6bbcbeee10ba3c9270fe75d4df0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_1aa38b9ca5e937b6f1aff9fab353636888" kindref="member">ToolboxComposite</ref> &amp;</type>
+        <definition>ToolboxComposite &amp; themis::toolbox::ToolboxComposite::operator=</definition>
+        <argsstring>(ToolboxComposite &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_1aa38b9ca5e937b6f1aff9fab353636888" kindref="member">ToolboxComposite</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="51" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_1a2c8aba1213d7da45fd0f4f2b7cae5eaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; ingestion::BaseEntity &gt;</type>
+        <definition>std::vector&lt; ingestion::BaseEntity &gt; themis::toolbox::ToolboxComposite::extractEntities</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;mime=&quot;text/plain&quot;, const std::string &amp;filename=&quot;input.txt&quot;)</argsstring>
+        <name>extractEntities</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::extractEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+          <defval>&quot;text/plain&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+          <defval>&quot;input.txt&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Extract entities, dispatching to the matching toolbox. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Entities.</para>
+<para>Finds the first route whose prefix matches the start of <computeroutput>mime</computeroutput> and delegates to its <computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kindref="member">IngestionToolbox::extractEntities()</ref></computeroutput>. Falls back to the fallback toolbox if no route matches.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MIME type used for routing (e.g. &quot;text/plain&quot;, &quot;application/pdf&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename hint forwarded to the selected toolbox. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Extracted entities, or an empty vector when no toolbox is available for the given MIME type.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="67" column="17" bodyfile="src/toolbox/toolbox_composite.cpp" bodystart="53" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_1ae1994d7efbb93316bf324b541130263a" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_1ab60a0d5b07f14acb3a92315540d5c0f4" kindref="member">Route</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; ToolboxComposite::Route &gt; &amp; themis::toolbox::ToolboxComposite::routes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>routes</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::routes</qualifiedname>
+        <briefdescription>
+<para>Return the registered routes (for inspection / testing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="75" column="23" bodyfile="src/toolbox/toolbox_composite.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_1a77095803e9b237a153678d14dfbe3041" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IngestionToolbox &gt; themis::toolbox::ToolboxComposite::fallback</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>fallback</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::fallback</qualifiedname>
+        <briefdescription>
+<para>Return the fallback toolbox (may be null). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="80" column="21" bodyfile="src/toolbox/toolbox_composite.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_1a6fb6d01ac8b31fcd2e2e9327e7a672ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IngestionToolbox &gt; themis::toolbox::ToolboxComposite::resolve</definition>
+        <argsstring>(const std::string &amp;mime) const</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themis::toolbox::ToolboxComposite::resolve</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+        </param>
+        <briefdescription>
+<para>Look up the toolbox that would be used for <computeroutput>mime</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns <computeroutput>nullptr</computeroutput> when no route and no fallback match. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="87" column="21" bodyfile="src/toolbox/toolbox_composite.cpp" bodystart="33" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>MIME-routing composite that dispatches entity extraction to the appropriate <computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></computeroutput> based on MIME-type prefix. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safety: the routing table is immutable after construction; concurrent <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a2c8aba1213d7da45fd0f4f2b7cae5eaa" kindref="member">extractEntities()</ref></computeroutput> calls are safe. </para>
+    </detaileddescription>
+    <location file="include/toolbox/toolbox_composite.h" line="32" column="1" bodyfile="include/toolbox/toolbox_composite.h" bodystart="32" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a2c8aba1213d7da45fd0f4f2b7cae5eaa" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>extractEntities</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a77095803e9b237a153678d14dfbe3041" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>fallback</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a1a0e7146a3d9d4136521041f3153550e" prot="private" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>fallback_</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a1c21e05da7dacbf30d0783077168dee7" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a4f22e6bbcbeee10ba3c9270fe75d4df0" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a6fb6d01ac8b31fcd2e2e9327e7a672ec" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>resolve</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1ab60a0d5b07f14acb3a92315540d5c0f4" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>Route</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1ae1994d7efbb93316bf324b541130263a" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>routes</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a6913e3eadeb19234ee141d06196ab1c6" prot="private" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>routes_</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1aa38b9ca5e937b6f1aff9fab353636888" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>ToolboxComposite</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a89381ce59597f36243c648d3c0ca9970" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>ToolboxComposite</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a43f05d3ba4a55b8b94bcd284e4c9d4c6" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>ToolboxComposite</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_1a0827a301ea6688ee1a33c2215933a4fd" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxComposite</scope><name>~ToolboxComposite</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_consensus_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ConsensusConfig</compoundname>
+    <derivedcompoundref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" prot="public" virt="non-virtual">themisdb::sharding::RAIDPaxosConfig</derivedcompoundref>
+    <includes refid="consensus__module_8h" local="no">consensus_module.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1aed1b47b471b6f3c04d5e78543af73127" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref></type>
+        <definition>ConsensusType themisdb::sharding::ConsensusConfig::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfaf831d834df040618e0117917ac0dcb62" kindref="member">ConsensusType::RAFT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="307" column="19" bodyfile="include/sharding/consensus_module.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1aaca1a059869f0f0a3d7e3a9b8e445c55" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ConsensusConfig::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="310" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1accf720e654faf5c0660dc61488c8baf8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::ConsensusConfig::cluster_nodes</definition>
+        <argsstring></argsstring>
+        <name>cluster_nodes</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::cluster_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="311" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a3e0064c54b2ab21d7e0896d39be179cc" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ConsensusConfig::heartbeat_interval</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::heartbeat_interval</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="312" column="31" bodyfile="include/sharding/consensus_module.h" bodystart="312" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1adf2a1c6d854904d2eaf142080a5b9209" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ConsensusConfig::election_timeout_min</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_min</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::election_timeout_min</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="313" column="31" bodyfile="include/sharding/consensus_module.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1ad2cb7031b2eeddab81b128c4842e4371" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ConsensusConfig::election_timeout_max</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_max</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::election_timeout_max</qualifiedname>
+        <initializer>{2000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="314" column="31" bodyfile="include/sharding/consensus_module.h" bodystart="314" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a57487b28b31b3fb19c0c77bf4a049314" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ConsensusConfig::raft_log_max_entries</definition>
+        <argsstring></argsstring>
+        <name>raft_log_max_entries</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::raft_log_max_entries</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="317" column="12" bodyfile="include/sharding/consensus_module.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a1f0ed266c7d812599fefc3d5e8794457" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ConsensusConfig::raft_enable_pipelining</definition>
+        <argsstring></argsstring>
+        <name>raft_enable_pipelining</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::raft_enable_pipelining</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="318" column="10" bodyfile="include/sharding/consensus_module.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a0060209741b662f04873e28d7d726637" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ConsensusConfig::gossip_fanout</definition>
+        <argsstring></argsstring>
+        <name>gossip_fanout</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::gossip_fanout</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="321" column="12" bodyfile="include/sharding/consensus_module.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a3f5017678d6635aa7fc059fba0cedb2c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ConsensusConfig::gossip_interval</definition>
+        <argsstring></argsstring>
+        <name>gossip_interval</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::gossip_interval</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="322" column="31" bodyfile="include/sharding/consensus_module.h" bodystart="322" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a2e34db5ec6d2daa445421583b2f3904a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ConsensusConfig::paxos_quorum_size</definition>
+        <argsstring></argsstring>
+        <name>paxos_quorum_size</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::paxos_quorum_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="325" column="12" bodyfile="include/sharding/consensus_module.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a0f96d6c142b1c4d8ba709285bb1f46f8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ConsensusConfig::paxos_enable_fast_path</definition>
+        <argsstring></argsstring>
+        <name>paxos_enable_fast_path</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::paxos_enable_fast_path</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="326" column="10" bodyfile="include/sharding/consensus_module.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a15814d4753f9961a187afac0da7bbd6a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ConsensusConfig::paxos_prepare_timeout</definition>
+        <argsstring></argsstring>
+        <name>paxos_prepare_timeout</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::paxos_prepare_timeout</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="327" column="31" bodyfile="include/sharding/consensus_module.h" bodystart="327" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a61ed494b970acdedbaeb5216ac84cc8d" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ConsensusConfig::paxos_accept_timeout</definition>
+        <argsstring></argsstring>
+        <name>paxos_accept_timeout</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::paxos_accept_timeout</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="328" column="31" bodyfile="include/sharding/consensus_module.h" bodystart="328" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1aafddc1131b1f4622b0ce2f0bdb82e263" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ConsensusConfig::data_dir</definition>
+        <argsstring></argsstring>
+        <name>data_dir</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::data_dir</qualifiedname>
+        <initializer>= &quot;./consensus_data&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="331" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1ada6a6b8dc558e72d3a52e3b9717db2bb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ConsensusConfig::enable_persistence</definition>
+        <argsstring></argsstring>
+        <name>enable_persistence</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::enable_persistence</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="332" column="10" bodyfile="include/sharding/consensus_module.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a7b88d5de85de06edad682ba7eeea5219" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ConsensusConfig::snapshot_interval</definition>
+        <argsstring></argsstring>
+        <name>snapshot_interval</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::snapshot_interval</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="333" column="12" bodyfile="include/sharding/consensus_module.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a0e7d649ec877391be06404c6d1630cae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ConsensusConfig::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::max_batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="336" column="12" bodyfile="include/sharding/consensus_module.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a769e6765f20c49210a7c77ac38fb50ac" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ConsensusConfig::rpc_timeout</definition>
+        <argsstring></argsstring>
+        <name>rpc_timeout</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::rpc_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="337" column="31" bodyfile="include/sharding/consensus_module.h" bodystart="337" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_config_1a0aef100316de66798cc9b18e628c3a1a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ConsensusConfig::enable_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_compression</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::enable_compression</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="338" column="10" bodyfile="include/sharding/consensus_module.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_consensus_config_1a53a8e978e7da24a6be77f28a81985c2b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::ConsensusConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::ConsensusConfig::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="340" column="20" bodyfile="include/sharding/consensus_module.h" bodystart="340" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for consensus modules. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themisdb::sharding::ConsensusConfig</label>
+        <link refid="structthemisdb_1_1sharding_1_1_consensus_config"/>
+      </node>
+      <node id="2">
+        <label>themisdb::sharding::RAIDPaxosConfig</label>
+        <link refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/consensus_module.h" line="306" column="1" bodyfile="include/sharding/consensus_module.h" bodystart="306" bodyend="352"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1accf720e654faf5c0660dc61488c8baf8" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>cluster_nodes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1aafddc1131b1f4622b0ce2f0bdb82e263" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>data_dir</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1ad2cb7031b2eeddab81b128c4842e4371" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>election_timeout_max</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1adf2a1c6d854904d2eaf142080a5b9209" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>election_timeout_min</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0aef100316de66798cc9b18e628c3a1a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>enable_compression</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1ada6a6b8dc558e72d3a52e3b9717db2bb" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>enable_persistence</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0060209741b662f04873e28d7d726637" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>gossip_fanout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a3f5017678d6635aa7fc059fba0cedb2c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>gossip_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a3e0064c54b2ab21d7e0896d39be179cc" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>heartbeat_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0e7d649ec877391be06404c6d1630cae" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>max_batch_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1aaca1a059869f0f0a3d7e3a9b8e445c55" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a61ed494b970acdedbaeb5216ac84cc8d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>paxos_accept_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0f96d6c142b1c4d8ba709285bb1f46f8" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>paxos_enable_fast_path</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a15814d4753f9961a187afac0da7bbd6a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>paxos_prepare_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a2e34db5ec6d2daa445421583b2f3904a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>paxos_quorum_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a1f0ed266c7d812599fefc3d5e8794457" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>raft_enable_pipelining</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a57487b28b31b3fb19c0c77bf4a049314" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>raft_log_max_entries</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a769e6765f20c49210a7c77ac38fb50ac" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>rpc_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a7b88d5de85de06edad682ba7eeea5219" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>snapshot_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a53a8e978e7da24a6be77f28a81985c2b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1aed1b47b471b6f3c04d5e78543af73127" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

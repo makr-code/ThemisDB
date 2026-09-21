@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="plugin__health__monitor_8h" kind="file" language="C++">
+    <compoundname>plugin_health_monitor.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">core/concerns/i_metrics.h</includes>
+    <includes refid="self__healing__plugin_8h" local="yes">plugins/self_healing_plugin.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="plugin__health__monitor_8cpp" local="yes">src/plugins/plugin_health_monitor.cpp</includedby>
+    <includedby refid="plugin__manager_8cpp" local="yes">src/plugins/plugin_manager.cpp</includedby>
+    <includedby refid="test__plugin__health__monitor_8cpp" local="yes">tests/plugins/test_plugin_health_monitor.cpp</includedby>
+    <includedby refid="test__plugin__manager__comprehensive_8cpp" local="yes">tests/plugins/test_plugin_manager_comprehensive.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/plugins/plugin_health_monitor.h</label>
+        <link refid="plugin__health__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>plugins/self_healing_plugin.h</label>
+        <link refid="self__healing__plugin_8h"/>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>core/concerns/i_metrics.h</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/plugins/plugin_health_monitor.h</label>
+        <link refid="plugin__health__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/plugins/plugin_health_monitor.cpp</label>
+        <link refid="plugin__health__monitor_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/plugins/plugin_manager.cpp</label>
+        <link refid="plugin__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/plugins/test_plugin_health_monitor.cpp</label>
+        <link refid="test__plugin__health__monitor_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/plugins/test_plugin_manager_comprehensive.cpp</label>
+        <link refid="test__plugin__manager__comprehensive_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1plugins_1_1_health_monitor_config" prot="public">themis::plugins::HealthMonitorConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_monitored_plugin" prot="public">themis::plugins::MonitoredPlugin</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_monitoring_event_data" prot="public">themis::plugins::MonitoringEventData</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_health_monitor" prot="public">themis::plugins::PluginHealthMonitor</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats" prot="public">themis::plugins::PluginHealthMonitor::GlobalStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core/concerns/i_metrics.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="self__healing__plugin_8h" kindref="compound">plugins/self_healing_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1plugins_1_1_health_monitor_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1plugins_1_1_health_monitor_config_1a14b32f0448050c2b142144270da05463" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a14b32f0448050c2b142144270da05463" kindref="member">check_interval</ref>{30};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1plugins_1_1_health_monitor_config_1a6cf8adc8a288a151419c440ca0a18f30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a6cf8adc8a288a151419c440ca0a18f30" kindref="member">max_recovery_attempts</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3b55361e29c95b2b04e841bc4a4b39f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3b55361e29c95b2b04e841bc4a4b39f2" kindref="member">backoff_strategy</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;exponential&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1plugins_1_1_health_monitor_config_1ab057cab8e419eaaa558fe5d17f0a8315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1ab057cab8e419eaaa558fe5d17f0a8315" kindref="member">initial_backoff</ref>{5};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3a8b48889199ddce8e9651671d38b260" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3a8b48889199ddce8e9651671d38b260" kindref="member">max_backoff</ref>{300};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1plugins_1_1_health_monitor_config_1a77f337637f94c51e04b7ec6474e23dd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a77f337637f94c51e04b7ec6474e23dd1" kindref="member">notify_on_critical</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3b3b7f03751aa16cb257e160154004ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3b3b7f03751aa16cb257e160154004ca" kindref="member">auto_disable_on_failure</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1plugins_1_1_health_monitor_config_1ac050033184d96675559cb8389a72350a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1ac050033184d96675559cb8389a72350a" kindref="member">health_check_timeout</ref>{10};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1plugins_1_1_health_monitor_config_1adf6cda273fb3c2699943e34cca3fcdd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config_1adf6cda273fb3c2699943e34cca3fcdd1" kindref="member">recovery_timeout</ref>{30};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1plugins_1_1_monitored_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1plugins_1_1_monitored_plugin_1a7b41442eab1fdb758ea6454efda0d59a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin_1a7b41442eab1fdb758ea6454efda0d59a" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1plugins_1_1_monitored_plugin_1a155d5a065d8f34edba4389c860e79294" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin" kindref="compound">ISelfHealingPlugin</ref>*<sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin_1a155d5a065d8f34edba4389c860e79294" kindref="member">plugin</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1plugins_1_1_monitored_plugin_1a9613e9b507c25e9de0f8a31cdb90b3cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref><sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin_1a9613e9b507c25e9de0f8a31cdb90b3cf" kindref="member">last_diagnostics</ref>;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1plugins_1_1_monitored_plugin_1acdddfd425679ac582bb8a3b82fdea053" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin_1acdddfd425679ac582bb8a3b82fdea053" kindref="member">last_check</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1plugins_1_1_monitored_plugin_1a7ccf1200371030fb3d6390d5b87045d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin_1a7ccf1200371030fb3d6390d5b87045d3" kindref="member">last_recovery_attempt</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1plugins_1_1_monitored_plugin_1a942c95de5af4f4d8bf4d20b8309691e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin_1a942c95de5af4f4d8bf4d20b8309691e7" kindref="member">consecutive_failures</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1plugins_1_1_monitored_plugin_1a479b14d235aac177d7de670f0c2423c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin_1a479b14d235aac177d7de670f0c2423c6" kindref="member">total_recovery_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1plugins_1_1_monitored_plugin_1a95688697f87ffc87d45992efd8719992" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin_1a95688697f87ffc87d45992efd8719992" kindref="member">successful_recoveries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1plugins_1_1_monitored_plugin_1ae0d2a2b2ee75cd60a3885eb5de59c2ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin_1ae0d2a2b2ee75cd60a3885eb5de59c2ff" kindref="member">failed_recoveries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1plugins_1_1_monitored_plugin_1a7926faf1ea4cc258df44aeeb384b0bea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin_1a7926faf1ea4cc258df44aeeb384b0bea" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1plugins_1_1_monitored_plugin_1ad33cb336c0e03e0083add00e1de05292" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin_1ad33cb336c0e03e0083add00e1de05292" kindref="member">in_recovery</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3" kindref="member">MonitoringEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a6748096aa39a46fe2681a74366cb3cc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a6748096aa39a46fe2681a74366cb3cc8" kindref="member">PLUGIN_REGISTERED</ref>,</highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3afbed9892b6d2596bb15602d60f478bf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3afbed9892b6d2596bb15602d60f478bf0" kindref="member">PLUGIN_UNREGISTERED</ref>,</highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a952314b4ea392e0e96980cf7d58cf8fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a952314b4ea392e0e96980cf7d58cf8fe" kindref="member">HEALTH_CHECK_STARTED</ref>,</highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3ab33855a7f93cdc2cb8980d831b4bdf00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3ab33855a7f93cdc2cb8980d831b4bdf00" kindref="member">HEALTH_CHECK_COMPLETED</ref>,</highlight></codeline>
+<codeline lineno="89" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a60aa272283adc6e0fba42b681e0d77ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a60aa272283adc6e0fba42b681e0d77ba" kindref="member">HEALTH_CHECK_FAILED</ref>,</highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a9a9a599d514a4c238444def873897363" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a9a9a599d514a4c238444def873897363" kindref="member">PLUGIN_UNHEALTHY_DETECTED</ref>,</highlight></codeline>
+<codeline lineno="91" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a4b610a4613fcf11d25506c94d47f6d9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a4b610a4613fcf11d25506c94d47f6d9b" kindref="member">RECOVERY_STARTED</ref>,</highlight></codeline>
+<codeline lineno="92" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3ac60119117eb531c3ca46a0eb3fcc21dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3ac60119117eb531c3ca46a0eb3fcc21dd" kindref="member">RECOVERY_SUCCESSFUL</ref>,</highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3aa5ae556eafda7b1b2942433cd519c000" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3aa5ae556eafda7b1b2942433cd519c000" kindref="member">RECOVERY_FAILED</ref>,</highlight></codeline>
+<codeline lineno="94" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3ac017f127d9bf5fc6ca6438c5953c0b8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3ac017f127d9bf5fc6ca6438c5953c0b8b" kindref="member">PLUGIN_DISABLED</ref>,</highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a8447ede7f521486f1f1c6bad34b078ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3a8447ede7f521486f1f1c6bad34b078ec" kindref="member">ADMIN_NOTIFIED</ref></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1plugins_1_1_monitoring_event_data" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data" kindref="compound">MonitoringEventData</ref><sp/>{</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1plugins_1_1_monitoring_event_data_1a68af55b20e5d399e1b5483a02d552982" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8d8d15fd925fd078d883553ea49649e3" kindref="member">MonitoringEvent</ref><sp/><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data_1a68af55b20e5d399e1b5483a02d552982" kindref="member">event</ref>;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1plugins_1_1_monitoring_event_data_1ab56d40a1160d8b84fd9d97edf185069a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data_1ab56d40a1160d8b84fd9d97edf185069a" kindref="member">plugin_name</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1plugins_1_1_monitoring_event_data_1a2911dca38ca12833b786dc922a949396" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data_1a2911dca38ca12833b786dc922a949396" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1plugins_1_1_monitoring_event_data_1a825ae6f041730c9be695480c3039282d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606" kindref="member">PluginHealthStatus</ref><sp/><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data_1a825ae6f041730c9be695480c3039282d" kindref="member">health_status</ref>;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1plugins_1_1_monitoring_event_data_1a75cb7e08ce40f4d54e97a57ca88b56d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data_1a75cb7e08ce40f4d54e97a57ca88b56d6" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1plugins_1_1_monitoring_event_data_1aeed0012df4ac0d6cb12a365714db5f46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data_1aeed0012df4ac0d6cb12a365714db5f46" kindref="member">details</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="namespacethemis_1_1plugins_1a9398bc6ef55878f4d1182169be93c382" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1a9398bc6ef55878f4d1182169be93c382" kindref="member">MonitoringEventCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data" kindref="compound">MonitoringEventData</ref>&amp;<sp/>event)&gt;;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1plugins_1_1_plugin_health_monitor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a19131964dc27a0439a78873407e513ba" kindref="member">PluginHealthMonitor</ref><sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>MonitoredPlugin&gt;<sp/>monitored_plugins_;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>monitor_thread_;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MonitoringEventCallback&gt;<sp/>event_callbacks_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>IMetrics<sp/>sink<sp/>for<sp/>publishing<sp/>health<sp/>scores<sp/>to<sp/>Prometheus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::core::concerns::IMetrics*<sp/>metrics_sink_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_health_checks_{0};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_recovery_attempts_{0};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_successful_recoveries_{0};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_failed_recoveries_{0};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a19131964dc27a0439a78873407e513ba" kindref="member">PluginHealthMonitor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref>());</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a9f1e2906b1f13f85a57af23f35abf276" kindref="member">~PluginHealthMonitor</ref>();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a59c63164dfcfcb98b64f08f47858f96a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a59c63164dfcfcb98b64f08f47858f96a" kindref="member">PluginHealthMonitor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a19131964dc27a0439a78873407e513ba" kindref="member">PluginHealthMonitor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ad6cad55886d1eab04965fd80d50109ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a19131964dc27a0439a78873407e513ba" kindref="member">PluginHealthMonitor</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ad6cad55886d1eab04965fd80d50109ca" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a19131964dc27a0439a78873407e513ba" kindref="member">PluginHealthMonitor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a535c966ac2d1368a6b906734a3e9f93f" kindref="member">startMonitoring</ref>();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a57838e1587ec73f17671865bfdfd6547" kindref="member">stopMonitoring</ref>();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1aa2ed4ea6eae7929d4abdb46d750ada79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1aa2ed4ea6eae7929d4abdb46d750ada79" kindref="member">isRunning</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>running_;<sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a28e9029cb5dc7fdde6d09cf4836b6bed" kindref="member">registerPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin" kindref="compound">ISelfHealingPlugin</ref>*<sp/>plugin);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1acb457938dd13146bb1a01722ec167e42" kindref="member">unregisterPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;PluginDiagnostics&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1afd20d80c78fb094e2ed729392e931b49" kindref="member">checkPluginHealth</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;RecoveryResult&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a74a77f4275161e77f71e9f88956ae1d1" kindref="member">triggerRecovery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MonitoredPlugin&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a38c34aff2fcd42c76027a91d69cbb147" kindref="member">getPluginStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>MonitoredPlugin&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ad9602f426046b648be104601383e3a74" kindref="member">getAllPluginStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229" refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats" kindref="compound">GlobalStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="230" refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1ac20908f84f5078b9050164a9a23b039a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1ac20908f84f5078b9050164a9a23b039a" kindref="member">total_health_checks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a179b7aafd8907792628c956ef91d5e34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a179b7aafd8907792628c956ef91d5e34" kindref="member">total_recovery_attempts</ref>;</highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a8d8f32a3e8addc3aa219f8be903ee051" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a8d8f32a3e8addc3aa219f8be903ee051" kindref="member">total_successful_recoveries</ref>;</highlight></codeline>
+<codeline lineno="233" refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a1caf7d74fb2a6479c577d3ec4531255b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a1caf7d74fb2a6479c577d3ec4531255b" kindref="member">total_failed_recoveries</ref>;</highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a1212272b9bf9693b74059e8fb31bebdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a1212272b9bf9693b74059e8fb31bebdc" kindref="member">monitored_plugins_count</ref>;</highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a6b1beddd021c67b336cbd057500897cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a6b1beddd021c67b336cbd057500897cf" kindref="member">healthy_plugins_count</ref>;</highlight></codeline>
+<codeline lineno="236" refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a8e54b20f2bc55f28cb8c98034269f63d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a8e54b20f2bc55f28cb8c98034269f63d" kindref="member">unhealthy_plugins_count</ref>;</highlight></codeline>
+<codeline lineno="237" refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a95128337541157613680add853b7a655" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a95128337541157613680add853b7a655" kindref="member">recovering_plugins_count</ref>;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats" kindref="compound">GlobalStats</ref><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a9e695bfaadf96123bc696ad5bc1036c9" kindref="member">getGlobalStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a88fdf405730ec4dad749e3c95471a928" kindref="member">registerEventCallback</ref>(<ref refid="namespacethemis_1_1plugins_1a9398bc6ef55878f4d1182169be93c382" kindref="member">MonitoringEventCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a16a6d6ea20abd23609639528a43e7a07" kindref="member">clearEventCallbacks</ref>();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ab4823311e80269e62d877bc58f34c022" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a2231b23e5c3144d825bc0a675ce2d4ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a2231b23e5c3144d825bc0a675ce2d4ad" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ac2fe7275a8037d0e44461d9d1eaf1d62" kindref="member">setPluginMonitoringEnabled</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a0b89e4ce542b8e6cf8ed884ff796cbee" kindref="member">attachMetrics</ref>(themis::core::concerns::IMetrics*<sp/>sink);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor" kindref="compound">PluginHealthMonitor</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a369a75a09048019a88462daaf3d5fdfd" kindref="member">instance</ref>();</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>monitoringLoop();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkPlugin(<ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref>&amp;<sp/>plugin);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleUnhealthyPlugin(<ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref>&amp;<sp/>plugin);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_recovery_result" kindref="compound">RecoveryResult</ref><sp/>attemptRecoveryWithBackoff(<ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref>&amp;<sp/>plugin);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>calculateBackoff(uint32_t<sp/>attempt_count)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>notifyAdministrators(</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin_name,</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref>&amp;<sp/>diagnostics,</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>emitEvent(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_monitoring_event_data" kindref="compound">MonitoringEventData</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>disablePlugin(<ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref>&amp;<sp/>plugin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeHealthScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref>&amp;<sp/>diag)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>publishHealthScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref>&amp;<sp/>plugin)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/plugin_health_monitor.h"/>
+  </compounddef>
+</doxygen>

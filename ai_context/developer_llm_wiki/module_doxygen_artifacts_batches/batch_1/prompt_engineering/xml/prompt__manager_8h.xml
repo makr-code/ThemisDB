@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="prompt__manager_8h" kind="file" language="C++">
+    <compoundname>prompt_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="yes">utils/tbb_compat.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__prompt__engineering_8cpp" local="yes">benchmarks/prompt_engineering/bench_prompt_engineering.cpp</includedby>
+    <includedby refid="prompt__engineering__integration_8h" local="yes">include/prompt_engineering/prompt_engineering_integration.h</includedby>
+    <includedby refid="prompt__library__io_8h" local="yes">include/prompt_engineering/prompt_library_io.h</includedby>
+    <includedby refid="prompt__manager_8cpp" local="yes">src/prompt_engineering/prompt_manager.cpp</includedby>
+    <includedby refid="self__improvement__orchestrator_8cpp" local="yes">src/prompt_engineering/self_improvement_orchestrator.cpp</includedby>
+    <includedby refid="test__prompt__engineering__adversarial__focused_8cpp" local="yes">tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp</includedby>
+    <includedby refid="test__prompt__engineering__focused_8cpp" local="yes">tests/prompt_engineering/test_prompt_engineering_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_manager.h</label>
+        <link refid="prompt__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>utils/tbb_compat.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/prompt_engineering/bench_prompt_engineering.cpp</label>
+        <link refid="bench__prompt__engineering_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/prompt_engineering/prompt_engineering_integration.h</label>
+        <link refid="prompt__engineering__integration_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/prompt_engineering/prompt_library_io.h</label>
+        <link refid="prompt__library__io_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_manager.h</label>
+        <link refid="prompt__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/prompt_engineering/prompt_engineering_integration.cpp</label>
+        <link refid="prompt__engineering__integration_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/prompt_engineering/prompt_library_io.cpp</label>
+        <link refid="prompt__library__io_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/prompt_engineering/prompt_manager.cpp</label>
+        <link refid="prompt__manager_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/prompt_engineering/self_improvement_orchestrator.cpp</label>
+        <link refid="self__improvement__orchestrator_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp</label>
+        <link refid="test__prompt__engineering__adversarial__focused_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/prompt_engineering/test_prompt_engineering_focused.cpp</label>
+        <link refid="test__prompt__engineering__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" prot="public">themis::prompt_engineering::PromptManager</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description" prot="public">themis::prompt_engineering::PromptManager::ImageDescription</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" prot="public">themis::prompt_engineering::PromptManager::PromptTemplate</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result" prot="public">themis::prompt_engineering::PromptManager::ValidationResult</innerclass>
+    <innernamespace refid="namespacerocksdb">rocksdb</innernamespace>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/tbb_compat.h&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>for<sp/>environments<sp/>without<sp/>Intel<sp/>TBB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacerocksdb" kindref="compound">rocksdb</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ColumnFamilyHandle;<sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SchemaManager;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1aa0de2c07597493b5e2908fca46a48899" kindref="member">PromptManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description" kindref="compound">ImageDescription</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a1577d0b5c0953f5e3c19359ecc48854e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a1577d0b5c0953f5e3c19359ecc48854e" kindref="member">url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a83a07f2530ca3499dfd4f58399e0354a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a83a07f2530ca3499dfd4f58399e0354a" kindref="member">alt_text</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1aad4e306c9fa6131c777f21fc4a477e87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1aad4e306c9fa6131c777f21fc4a477e87" kindref="member">description</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1aac32cc5d7ab5d1c0b47ff91c85ee5e00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1aac32cc5d7ab5d1c0b47ff91c85ee5e00" kindref="member">mime_type</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a55d5e72c608c400b95b189055089ba46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a55d5e72c608c400b95b189055089ba46" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;url&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a1577d0b5c0953f5e3c19359ecc48854e" kindref="member">url</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;alt_text&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a83a07f2530ca3499dfd4f58399e0354a" kindref="member">alt_text</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1aad4e306c9fa6131c777f21fc4a477e87" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;mime_type&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1aac32cc5d7ab5d1c0b47ff91c85ee5e00" kindref="member">mime_type</ref>.empty()<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal"><sp/>:<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1aac32cc5d7ab5d1c0b47ff91c85ee5e00" kindref="member">mime_type</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a4bca860d959566425b24c23bbec06c5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description" kindref="compound">ImageDescription</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a4bca860d959566425b24c23bbec06c5f" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description" kindref="compound">ImageDescription</ref><sp/>img;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>img.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a1577d0b5c0953f5e3c19359ecc48854e" kindref="member">url</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;url&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>img.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1a83a07f2530ca3499dfd4f58399e0354a" kindref="member">alt_text</ref><sp/><sp/><sp/><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;alt_text&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>img.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1aad4e306c9fa6131c777f21fc4a477e87" kindref="member">description</ref><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>img.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description_1aac32cc5d7ab5d1c0b47ff91c85ee5e00" kindref="member">mime_type</ref><sp/><sp/><sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;mime_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>img;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptTemplate</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d8cd7e4676976394dbf25a872d828f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d8cd7e4676976394dbf25a872d828f5" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>generated<sp/>id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a62bd7f00d9852a123edc6ac21eb799ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a62bd7f00d9852a123edc6ac21eb799ea" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>human<sp/>readable<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d3399d8823207c1ab27209d8551b2bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d3399d8823207c1ab27209d8551b2bc" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>version<sp/>string,<sp/>e.g.<sp/>&quot;v1&quot;,<sp/>&quot;2.3&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a9fa2f923fc372a65fafd4a37c8d80f04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a9fa2f923fc372a65fafd4a37c8d80f04" kindref="member">content</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>template<sp/>body</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1ac9c4d6e1c02d429f02ef235b22b04959" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1ac9c4d6e1c02d429f02ef235b22b04959" kindref="member">description</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>description<sp/>of<sp/>the<sp/>prompt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a09575ff1d9389a4dd72bfd8c173b942e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a09575ff1d9389a4dd72bfd8c173b942e" kindref="member">metadata</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>arbitrary<sp/>metadata<sp/>(experiment<sp/>flags<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a66237dc50cee964112072f55998d3fd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a66237dc50cee964112072f55998d3fd0" kindref="member">active</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a7ab331ef49b6f842c108d0734d650cc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ImageDescription&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a7ab331ef49b6f842c108d0734d650cc5" kindref="member">images</ref>;<sp/></highlight><highlight class="comment">//<sp/>optional<sp/>multi-modal<sp/>image<sp/>descriptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a62d11f08c3ffe5ee931a116ad4e3757e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a62d11f08c3ffe5ee931a116ad4e3757e" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d8cd7e4676976394dbf25a872d828f5" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a62bd7f00d9852a123edc6ac21eb799ea" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d3399d8823207c1ab27209d8551b2bc" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a9fa2f923fc372a65fafd4a37c8d80f04" kindref="member">content</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1ac9c4d6e1c02d429f02ef235b22b04959" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;metadata&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a09575ff1d9389a4dd72bfd8c173b942e" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a66237dc50cee964112072f55998d3fd0" kindref="member">active</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>imgs<sp/>=<sp/>nlohmann::json::array();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>img<sp/>:<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a7ab331ef49b6f842c108d0734d650cc5" kindref="member">images</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>imgs.push_back(img.toJson());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;images&quot;</highlight><highlight class="normal">]<sp/>=<sp/>imgs;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1aa0de2c07597493b5e2908fca46a48899" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1aa0de2c07597493b5e2908fca46a48899" kindref="member">PromptManager</ref>();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1aa0de2c07597493b5e2908fca46a48899" kindref="member">PromptManager</ref>(RocksDBWrapper*<sp/>db,<sp/>rocksdb::ColumnFamilyHandle*<sp/>cf<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1ab8cab8117fd6654af6b60c10e170d4c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1ab8cab8117fd6654af6b60c10e170d4c8" kindref="member">~PromptManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptTemplate</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a95e1205d5cd546f043442898a712a67b" kindref="member">createTemplate</ref>(<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptTemplate</ref><sp/>t);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;PromptTemplate&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a2bcd2d054434a2879f1d7de81c885918" kindref="member">getTemplate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PromptTemplate&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1abf056b6e6a7c3eaa3bd6aa0cd6f5f0bc" kindref="member">listTemplates</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a00015f21380c7898be65dcec96e7fb58" kindref="member">updateTemplate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>metadata,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>active);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1ad79b465519380c7127bec2e6846c1cab" kindref="member">assignExperiment</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>experiment_id);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1a53266035381a119d1466836c9af92bc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1a53266035381a119d1466836c9af92bc0" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1aa77f469d821e82aa00b49630a569c7ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1aa77f469d821e82aa00b49630a569c7ca" kindref="member">errors</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1a4ee1ebc7dfa6ff8878026e1dcb487bca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1a4ee1ebc7dfa6ff8878026e1dcb487bca" kindref="member">warnings</ref>;<sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a5e6d1db58c86404e842e89ad965afe89" kindref="member">validateTemplate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptTemplate</ref>&amp;<sp/>t);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1ab51e77b310916b9e819b789b6e625b29" kindref="member">loadFromYAML</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>yaml_path);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a959712289c985e8f0d363b35719c3136" kindref="member">injectContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>template_str,<sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1ac3e640a7e276ec5c94ee05683ce641b7" kindref="member">getPromptWithContext</ref>(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1ac2bfadde016ff88fccd19ba9540d9a83" kindref="member">buildContextFromSchema</ref>(</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SchemaManager*<sp/>schema_mgr,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>edition<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Community&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a42438eff2d8905cfdc26220a9205565f" kindref="member">buildMultiModalPrompt</ref>(</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptTemplate</ref>&amp;<sp/>t,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>context<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1.1.0:<sp/>Lock-free<sp/>concurrent<sp/>hash<sp/>map<sp/>(2-3x<sp/>throughput)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">StoreType<sp/>=<sp/>tbb::concurrent_hash_map&lt;std::string,<sp/>PromptTemplate&gt;;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>StoreType<sp/>store_;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>persistence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper*<sp/>db_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>not<sp/>owned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::ColumnFamilyHandle*<sp/>cf_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>not<sp/>owned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>KEY_PREFIX<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;prompt_template:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>prompt_engineering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/prompt_engineering/prompt_manager.h"/>
+  </compounddef>
+</doxygen>

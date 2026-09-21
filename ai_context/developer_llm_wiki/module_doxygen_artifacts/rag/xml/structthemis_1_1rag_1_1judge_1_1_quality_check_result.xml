@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_quality_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::QualityCheckResult</compoundname>
+    <includes refid="quality__control__pipeline_8h" local="no">quality_control_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a9c0c2ba5d51d5da3bfb0ce422d43a88c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a9309ca773636352d9ad81044c03e364f" kindref="member">QualityGateStatus</ref></type>
+        <definition>QualityGateStatus themis::rag::judge::QualityCheckResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="77" column="23" bodyfile="include/rag/quality_control_pipeline.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1ae23aecf547cbaac35becd7b218dc53d2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityCheckResult::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::overall_score</qualifiedname>
+        <briefdescription>
+<para>Aggregate score (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="78" column="12" bodyfile="include/rag/quality_control_pipeline.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1ab3e594a60d49be66938327d0a315d7fa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityCheckResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::confidence</qualifiedname>
+        <briefdescription>
+<para>Aggregate confidence (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="79" column="12" bodyfile="include/rag/quality_control_pipeline.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a5ef77674e24b8c2d2abb58d5b85c39f2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_score" kindref="compound">DimensionScore</ref> &gt;</type>
+        <definition>std::vector&lt;DimensionScore&gt; themis::rag::judge::QualityCheckResult::dimension_scores</definition>
+        <argsstring></argsstring>
+        <name>dimension_scores</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::dimension_scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="82" column="17" bodyfile="include/rag/quality_control_pipeline.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a675b640ce283e69cca13f9d70bb3900f" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::QualityCheckResult::fast_stage_time</definition>
+        <argsstring></argsstring>
+        <name>fast_stage_time</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::fast_stage_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="85" column="31" bodyfile="include/rag/quality_control_pipeline.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1ab6e4daad268ccab7fee15cc46c85497e" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::QualityCheckResult::balanced_stage_time</definition>
+        <argsstring></argsstring>
+        <name>balanced_stage_time</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::balanced_stage_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="86" column="31" bodyfile="include/rag/quality_control_pipeline.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a996eb380b8977484fc1a3039d1c5e379" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::QualityCheckResult::thorough_stage_time</definition>
+        <argsstring></argsstring>
+        <name>thorough_stage_time</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::thorough_stage_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="87" column="31" bodyfile="include/rag/quality_control_pipeline.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1aaf6c28a1a22bdf76c9a15b4d47ce99c3" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::QualityCheckResult::total_time</definition>
+        <argsstring></argsstring>
+        <name>total_time</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::total_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="88" column="31" bodyfile="include/rag/quality_control_pipeline.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a1cf7b8d812a30d8721770a850e97577d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::QualityCheckResult::failure_reasons</definition>
+        <argsstring></argsstring>
+        <name>failure_reasons</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::failure_reasons</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="91" column="17" bodyfile="include/rag/quality_control_pipeline.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a47d0ded8d1062247f3781e20ebae3e7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityCheckResult::should_retry</definition>
+        <argsstring></argsstring>
+        <name>should_retry</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::should_retry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="94" column="10" bodyfile="include/rag/quality_control_pipeline.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1affc75de81b7a87101de6d22d7e7f1103" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::QualityCheckResult::improvement_suggestions</definition>
+        <argsstring></argsstring>
+        <name>improvement_suggestions</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::improvement_suggestions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="95" column="17" bodyfile="include/rag/quality_control_pipeline.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1aba71323fcef472f5d9cba3ef11e0c3ed" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityCheckResult::sent_to_learning_system</definition>
+        <argsstring></argsstring>
+        <name>sent_to_learning_system</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::sent_to_learning_system</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="98" column="10" bodyfile="include/rag/quality_control_pipeline.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a236d51f5a69090fa95afa7e5eda595ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QualityCheckResult::learning_feedback_id</definition>
+        <argsstring></argsstring>
+        <name>learning_feedback_id</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::learning_feedback_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="99" column="17" bodyfile="include/rag/quality_control_pipeline.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1af43c5c607f20a5262ea251b02d11a56f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityCheckResult::citation_coverage</definition>
+        <argsstring></argsstring>
+        <name>citation_coverage</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::citation_coverage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of answer sentences with at least one source citation [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="102" column="12" bodyfile="include/rag/quality_control_pipeline.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a7e0cba0ab66d0e7682b83bbe777cf2b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::QualityCheckResult::QualityCheckResult</definition>
+        <argsstring>()</argsstring>
+        <name>QualityCheckResult</name>
+        <qualifiedname>themis::rag::judge::QualityCheckResult::QualityCheckResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="60" column="5" bodyfile="include/rag/quality_control_pipeline.h" bodystart="60" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quality check result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/quality_control_pipeline.h" line="59" column="1" bodyfile="include/rag/quality_control_pipeline.h" bodystart="59" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1ab6e4daad268ccab7fee15cc46c85497e" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>balanced_stage_time</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1af43c5c607f20a5262ea251b02d11a56f" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>citation_coverage</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1ab3e594a60d49be66938327d0a315d7fa" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a5ef77674e24b8c2d2abb58d5b85c39f2" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>dimension_scores</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a1cf7b8d812a30d8721770a850e97577d" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>failure_reasons</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a675b640ce283e69cca13f9d70bb3900f" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>fast_stage_time</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1affc75de81b7a87101de6d22d7e7f1103" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>improvement_suggestions</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a236d51f5a69090fa95afa7e5eda595ba" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>learning_feedback_id</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1ae23aecf547cbaac35becd7b218dc53d2" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a7e0cba0ab66d0e7682b83bbe777cf2b1" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>QualityCheckResult</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1aba71323fcef472f5d9cba3ef11e0c3ed" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>sent_to_learning_system</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a47d0ded8d1062247f3781e20ebae3e7e" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>should_retry</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a9c0c2ba5d51d5da3bfb0ce422d43a88c" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>status</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1a996eb380b8977484fc1a3039d1c5e379" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>thorough_stage_time</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result_1aaf6c28a1a22bdf76c9a15b4d47ce99c3" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityCheckResult</scope><name>total_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

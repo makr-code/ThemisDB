@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_exporter_stress_test_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ExporterStressTestResult</compoundname>
+    <includes refid="exporter__stress__framework_8h" local="no">exporter_stress_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac4650aa98bf2b2c321172b25a4253922" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config" kindref="compound">ExporterStressTestConfig</ref></type>
+        <definition>ExporterStressTestConfig themis::observability::ExporterStressTestResult::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::observability::ExporterStressTestResult::config</qualifiedname>
+        <briefdescription>
+<para>Test configuration that was run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="193" column="30" bodyfile="include/observability/exporter_stress_framework.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_result_1afbe77b4c3f190d1c131c8b4dbe469a4a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics" kindref="compound">ExporterStressTestMetrics</ref></type>
+        <definition>ExporterStressTestMetrics themis::observability::ExporterStressTestResult::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::observability::ExporterStressTestResult::metrics</qualifiedname>
+        <briefdescription>
+<para>Collected metrics from the test run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="196" column="31" bodyfile="include/observability/exporter_stress_framework.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_result_1af62bb9751fec8eb7a55d72387dfc091c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91" kindref="member">StressTestStatus</ref></type>
+        <definition>StressTestStatus themis::observability::ExporterStressTestResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::observability::ExporterStressTestResult::status</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91a2e47f45b8584e07c8ebd4f693d8cfe10" kindref="member">StressTestStatus::INCOMPLETE</ref>}</initializer>
+        <briefdescription>
+<para>Overall test status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="199" column="22" bodyfile="include/observability/exporter_stress_framework.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_result_1a868cc5028cfb7ff6ce2e32e5d193e586" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ExporterStressTestResult::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::observability::ExporterStressTestResult::summary</qualifiedname>
+        <briefdescription>
+<para>Human-readable summary of the result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="202" column="17" bodyfile="include/observability/exporter_stress_framework.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac15841784eba8723ce24a3642752fcd1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ExporterStressTestResult::failure_reason</definition>
+        <argsstring></argsstring>
+        <name>failure_reason</name>
+        <qualifiedname>themis::observability::ExporterStressTestResult::failure_reason</qualifiedname>
+        <briefdescription>
+<para>Detailed failure reason if status != PASSED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="205" column="17" bodyfile="include/observability/exporter_stress_framework.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac78074a1ce59f9398b179f4ee3975758" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::ExporterStressTestResult::failed_checks</definition>
+        <argsstring></argsstring>
+        <name>failed_checks</name>
+        <qualifiedname>themis::observability::ExporterStressTestResult::failed_checks</qualifiedname>
+        <briefdescription>
+<para>List of failed checks with explanations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="208" column="17" bodyfile="include/observability/exporter_stress_framework.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_result_1a687794ba27166852b6c9d4275cf26718" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::ExporterStressTestResult::recommendations</definition>
+        <argsstring></argsstring>
+        <name>recommendations</name>
+        <qualifiedname>themis::observability::ExporterStressTestResult::recommendations</qualifiedname>
+        <briefdescription>
+<para>Recommendations for improvement if degraded/failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="211" column="17" bodyfile="include/observability/exporter_stress_framework.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exporter_stress_test_result_1aa5119dd1b8003185edb0e829b8b83f99" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_observation" kindref="compound">Observation</ref> &gt;</type>
+        <definition>std::vector&lt;Observation&gt; themis::observability::ExporterStressTestResult::sample_observations</definition>
+        <argsstring></argsstring>
+        <name>sample_observations</name>
+        <qualifiedname>themis::observability::ExporterStressTestResult::sample_observations</qualifiedname>
+        <briefdescription>
+<para>Raw observations (may be empty for large test runs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/exporter_stress_framework.h" line="214" column="17" bodyfile="include/observability/exporter_stress_framework.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single stress test run. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::ExporterStressTestConfig</label>
+        <link refid="structthemis_1_1observability_1_1_exporter_stress_test_config"/>
+      </node>
+      <node id="3">
+        <label>themis::observability::ExporterStressTestMetrics</label>
+        <link refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::ExporterStressTestResult</label>
+        <link refid="structthemis_1_1observability_1_1_exporter_stress_test_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/exporter_stress_framework.h" line="191" column="1" bodyfile="include/observability/exporter_stress_framework.h" bodystart="191" bodyend="215"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac4650aa98bf2b2c321172b25a4253922" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestResult</scope><name>config</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac78074a1ce59f9398b179f4ee3975758" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestResult</scope><name>failed_checks</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac15841784eba8723ce24a3642752fcd1" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestResult</scope><name>failure_reason</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1afbe77b4c3f190d1c131c8b4dbe469a4a" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestResult</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1a687794ba27166852b6c9d4275cf26718" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestResult</scope><name>recommendations</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1aa5119dd1b8003185edb0e829b8b83f99" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestResult</scope><name>sample_observations</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1af62bb9751fec8eb7a55d72387dfc091c" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestResult</scope><name>status</name></member>
+      <member refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1a868cc5028cfb7ff6ce2e32e5d193e586" prot="public" virt="non-virtual"><scope>themis::observability::ExporterStressTestResult</scope><name>summary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

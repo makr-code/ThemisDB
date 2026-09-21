@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPUDataLoaderConfig</compoundname>
+    <includes refid="gpu__data__loader_8h" local="no">gpu_data_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1abcf15cd6486684e185afc6edab253df9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUDataLoaderConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoaderConfig::batch_size</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="48" column="12" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a59bddbd77985d5701c7bb7946692e8c9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUDataLoaderConfig::max_sequence_length</definition>
+        <argsstring></argsstring>
+        <name>max_sequence_length</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoaderConfig::max_sequence_length</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="49" column="12" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a90cbc4c65b6b5852ae826377bebe2359" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUDataLoaderConfig::shuffle</definition>
+        <argsstring></argsstring>
+        <name>shuffle</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoaderConfig::shuffle</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="50" column="10" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae736b02205f553cbc29235405830ca7b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUDataLoaderConfig::pad_to_max_length</definition>
+        <argsstring></argsstring>
+        <name>pad_to_max_length</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoaderConfig::pad_to_max_length</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="51" column="10" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a32e3123ded201ff46077dc3289cc46fb" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::GPUDataLoaderConfig::target_device</definition>
+        <argsstring></argsstring>
+        <name>target_device</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoaderConfig::target_device</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a2b36573071ecbef41d06d30b2436928b" kindref="member">Device::cuda</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="52" column="12" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae2c04d0a7664f970fafee48fa5edb74c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUDataLoaderConfig::async_loading</definition>
+        <argsstring></argsstring>
+        <name>async_loading</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoaderConfig::async_loading</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="53" column="10" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae97caac40fba7522f5d177ec9f755b6c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUDataLoaderConfig::prefetch_batches</definition>
+        <argsstring></argsstring>
+        <name>prefetch_batches</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoaderConfig::prefetch_batches</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="54" column="12" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a452cd36f6a9ab22dca0d6cb635dfcc4c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUDataLoaderConfig::pin_cpu_memory</definition>
+        <argsstring></argsstring>
+        <name>pin_cpu_memory</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoaderConfig::pin_cpu_memory</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="55" column="10" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::Device</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_device"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::GPUDataLoaderConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>target_device</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/gpu_data_loader.h" line="47" column="1" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="47" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae2c04d0a7664f970fafee48fa5edb74c" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoaderConfig</scope><name>async_loading</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1abcf15cd6486684e185afc6edab253df9" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoaderConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a59bddbd77985d5701c7bb7946692e8c9" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoaderConfig</scope><name>max_sequence_length</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae736b02205f553cbc29235405830ca7b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoaderConfig</scope><name>pad_to_max_length</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a452cd36f6a9ab22dca0d6cb635dfcc4c" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoaderConfig</scope><name>pin_cpu_memory</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1ae97caac40fba7522f5d177ec9f755b6c" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoaderConfig</scope><name>prefetch_batches</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a90cbc4c65b6b5852ae826377bebe2359" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoaderConfig</scope><name>shuffle</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_config_1a32e3123ded201ff46077dc3289cc46fb" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoaderConfig</scope><name>target_device</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

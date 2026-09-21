@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_hot_spare_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::HotSpareConfig</compoundname>
+    <includes refid="hot__spare__manager_8h" local="no">hot_spare_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1a757087bbf2628cbe233ac7af496b9c92" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareConfig::enable</definition>
+        <argsstring></argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::enable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="86" column="10" bodyfile="include/sharding/hot_spare_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1a6ef6476bf7303c5b86589a9574f93a5e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::HotSpareConfig::spare_shards</definition>
+        <argsstring></argsstring>
+        <name>spare_shards</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::spare_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="87" column="17" bodyfile="include/sharding/hot_spare_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1ad92b5241c472eb6a50d5661ab70eba2d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareConfig::auto_rebuild</definition>
+        <argsstring></argsstring>
+        <name>auto_rebuild</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::auto_rebuild</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="90" column="10" bodyfile="include/sharding/hot_spare_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1ae915d6cf5b642c6149b243c7cf03abea" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162" kindref="member">RebuildPriority</ref></type>
+        <definition>RebuildPriority themis::sharding::HotSpareConfig::rebuild_priority</definition>
+        <argsstring></argsstring>
+        <name>rebuild_priority</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::rebuild_priority</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1a2634b5a23b2634676b085cc6ab66d162ab89de3b4b81c4facfac906edf29aec8c" kindref="member">RebuildPriority::HIGH</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="91" column="21" bodyfile="include/sharding/hot_spare_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1ab624ed41e3b1372956a22d990ac50f76" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::HotSpareConfig::rebuild_throttle_mbps</definition>
+        <argsstring></argsstring>
+        <name>rebuild_throttle_mbps</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::rebuild_throttle_mbps</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="92" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1a63a19f4eadb9df31494079165ea79269" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::HotSpareConfig::health_check_interval</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::health_check_interval</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="95" column="26" bodyfile="include/sharding/hot_spare_manager.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1af6f89b2e483b2c37deae87aa8aede06c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::HotSpareConfig::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::failure_threshold</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="96" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1af14662532f98333b6f41f9d10bd96193" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::HotSpareConfig::max_concurrent_rebuilds</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_rebuilds</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::max_concurrent_rebuilds</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="99" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1ade665fe912693499899f5aeb7462f589" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareConfig::rebuild_in_chunks</definition>
+        <argsstring></argsstring>
+        <name>rebuild_in_chunks</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::rebuild_in_chunks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="100" column="10" bodyfile="include/sharding/hot_spare_manager.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1a8a8c230c34a82bec7099f0ee9f57e33e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::HotSpareConfig::rebuild_chunk_size_mb</definition>
+        <argsstring></argsstring>
+        <name>rebuild_chunk_size_mb</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::rebuild_chunk_size_mb</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="101" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1ab0fd1b7d65ca870fe6fece0f82021083" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareConfig::enable_alerts</definition>
+        <argsstring></argsstring>
+        <name>enable_alerts</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::enable_alerts</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="104" column="10" bodyfile="include/sharding/hot_spare_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_1a37b5297c4298219d2a72b21e3f3efef1" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp;)&gt; themis::sharding::HotSpareConfig::alert_callback</definition>
+        <argsstring></argsstring>
+        <name>alert_callback</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::alert_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="105" column="19" bodyfile="include/sharding/hot_spare_manager.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_hot_spare_config_1a8459c9517c5df1f715340abf90a68827" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareConfig::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::sharding::HotSpareConfig::validate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="108" column="10" bodyfile="src/sharding/hot_spare_manager.cpp" bodystart="39" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Hot Spare Configuration </para>
+    </detaileddescription>
+    <location file="include/sharding/hot_spare_manager.h" line="85" column="1" bodyfile="include/sharding/hot_spare_manager.h" bodystart="85" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1a37b5297c4298219d2a72b21e3f3efef1" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>alert_callback</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1ad92b5241c472eb6a50d5661ab70eba2d" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>auto_rebuild</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1a757087bbf2628cbe233ac7af496b9c92" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>enable</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1ab0fd1b7d65ca870fe6fece0f82021083" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>enable_alerts</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1af6f89b2e483b2c37deae87aa8aede06c" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1a63a19f4eadb9df31494079165ea79269" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>health_check_interval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1af14662532f98333b6f41f9d10bd96193" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>max_concurrent_rebuilds</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1a8a8c230c34a82bec7099f0ee9f57e33e" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>rebuild_chunk_size_mb</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1ade665fe912693499899f5aeb7462f589" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>rebuild_in_chunks</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1ae915d6cf5b642c6149b243c7cf03abea" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>rebuild_priority</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1ab624ed41e3b1372956a22d990ac50f76" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>rebuild_throttle_mbps</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1a6ef6476bf7303c5b86589a9574f93a5e" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>spare_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_1a8459c9517c5df1f715340abf90a68827" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfig</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

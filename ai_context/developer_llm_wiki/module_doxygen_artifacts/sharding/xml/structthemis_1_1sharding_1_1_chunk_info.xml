@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_chunk_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ChunkInfo</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_chunk_info_1a2e9b57bc50d6d134a75ed8535d2fe040" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ChunkInfo::chunk_id</definition>
+        <argsstring></argsstring>
+        <name>chunk_id</name>
+        <qualifiedname>themis::sharding::ChunkInfo::chunk_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="239" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_chunk_info_1adfa21ad62f6210bfa321ef91eb8f5957" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ChunkInfo::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::sharding::ChunkInfo::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="240" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_chunk_info_1a85932a5dbf76ac90437b362db8ba5602" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ChunkInfo::chunk_index</definition>
+        <argsstring></argsstring>
+        <name>chunk_index</name>
+        <qualifiedname>themis::sharding::ChunkInfo::chunk_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="241" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_chunk_info_1a4dc75cfbb9ed590cb4c9d01f18b436d3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ChunkInfo::total_chunks</definition>
+        <argsstring></argsstring>
+        <name>total_chunks</name>
+        <qualifiedname>themis::sharding::ChunkInfo::total_chunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="242" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_chunk_info_1aa317eb46882ad1a33eff43793f7e340d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ChunkInfo::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::sharding::ChunkInfo::offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="243" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_chunk_info_1a761f52ede9bd19e63f93b04677d916c4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ChunkInfo::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::sharding::ChunkInfo::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="244" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_chunk_info_1ae6af75dc044ff839629a4fda1179a229" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ChunkInfo::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::ChunkInfo::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="245" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_chunk_info_1a8cc9a9eeda3fe2e5184196244c208575" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ChunkInfo::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::sharding::ChunkInfo::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="246" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_chunk_info_1a0e6894a1e93674870695527806e2cccc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ChunkInfo::is_parity</definition>
+        <argsstring></argsstring>
+        <name>is_parity</name>
+        <qualifiedname>themis::sharding::ChunkInfo::is_parity</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="247" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_chunk_info_1a00f7d5f23a716fdbfc2de9ef72cf378c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::sharding::ChunkInfo::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::sharding::ChunkInfo::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="250" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="223" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_chunk_info_1a2c4266276e891802e886f21206f8e063" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_chunk_info" kindref="compound">ChunkInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ChunkInfo &gt; themis::sharding::ChunkInfo::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::sharding::ChunkInfo::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements deserialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="251" column="26" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="236" bodyend="240"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metadata for one striped/parity chunk of a logical document. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="238" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="238" bodyend="252"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_chunk_info_1a8cc9a9eeda3fe2e5184196244c208575" prot="public" virt="non-virtual"><scope>themis::sharding::ChunkInfo</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1sharding_1_1_chunk_info_1a2e9b57bc50d6d134a75ed8535d2fe040" prot="public" virt="non-virtual"><scope>themis::sharding::ChunkInfo</scope><name>chunk_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_chunk_info_1a85932a5dbf76ac90437b362db8ba5602" prot="public" virt="non-virtual"><scope>themis::sharding::ChunkInfo</scope><name>chunk_index</name></member>
+      <member refid="structthemis_1_1sharding_1_1_chunk_info_1a2c4266276e891802e886f21206f8e063" prot="public" virt="non-virtual"><scope>themis::sharding::ChunkInfo</scope><name>deserialize</name></member>
+      <member refid="structthemis_1_1sharding_1_1_chunk_info_1adfa21ad62f6210bfa321ef91eb8f5957" prot="public" virt="non-virtual"><scope>themis::sharding::ChunkInfo</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_chunk_info_1a0e6894a1e93674870695527806e2cccc" prot="public" virt="non-virtual"><scope>themis::sharding::ChunkInfo</scope><name>is_parity</name></member>
+      <member refid="structthemis_1_1sharding_1_1_chunk_info_1aa317eb46882ad1a33eff43793f7e340d" prot="public" virt="non-virtual"><scope>themis::sharding::ChunkInfo</scope><name>offset</name></member>
+      <member refid="structthemis_1_1sharding_1_1_chunk_info_1a00f7d5f23a716fdbfc2de9ef72cf378c" prot="public" virt="non-virtual"><scope>themis::sharding::ChunkInfo</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1sharding_1_1_chunk_info_1ae6af75dc044ff839629a4fda1179a229" prot="public" virt="non-virtual"><scope>themis::sharding::ChunkInfo</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_chunk_info_1a761f52ede9bd19e63f93b04677d916c4" prot="public" virt="non-virtual"><scope>themis::sharding::ChunkInfo</scope><name>size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_chunk_info_1a4dc75cfbb9ed590cb4c9d01f18b436d3" prot="public" virt="non-virtual"><scope>themis::sharding::ChunkInfo</scope><name>total_chunks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

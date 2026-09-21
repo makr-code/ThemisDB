@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::attention::hip::FlashAttentionHIP</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention" prot="public" virt="non-virtual">themis::llm::attention::IFlashAttention</basecompoundref>
+    <includes refid="flash__attention__hip_8h" local="no">flash_attention_hip.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a1ddaf7c054ac53c0a0c849eef41e7edb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" kindref="compound">FlashAttentionConfig</ref></type>
+        <definition>FlashAttentionConfig themis::llm::attention::hip::FlashAttentionHIP::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="57" column="26" bodyfile="include/llm/attention/hip/flash_attention_hip.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a5e7c300ef6e6f0d9d2a36d358ee231f3" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::attention::hip::FlashAttentionHIP::hip_stream_</definition>
+        <argsstring></argsstring>
+        <name>hip_stream_</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::hip_stream_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="60" column="10" bodyfile="include/llm/attention/hip/flash_attention_hip.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a9cbe28904873f533a8c5ac32dc40e53c" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::attention::hip::FlashAttentionHIP::d_workspace_</definition>
+        <argsstring></argsstring>
+        <name>d_workspace_</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::d_workspace_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="61" column="10" bodyfile="include/llm/attention/hip/flash_attention_hip.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a14c107056ebcb928ea53a30da5e560bd" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::hip::FlashAttentionHIP::workspace_size_</definition>
+        <argsstring></argsstring>
+        <name>workspace_size_</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::workspace_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="62" column="12" bodyfile="include/llm/attention/hip/flash_attention_hip.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1abd0d37b6f531de5af5ad96f9b093199c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::hip::FlashAttentionHIP::FlashAttentionHIP</definition>
+        <argsstring>(const FlashAttentionConfig &amp;config)</argsstring>
+        <name>FlashAttentionHIP</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::FlashAttentionHIP</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" kindref="compound">FlashAttentionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Flash Attention HIP. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="29" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a657043aee0614fc4b30c749d35d30b9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::hip::FlashAttentionHIP::~FlashAttentionHIP</definition>
+        <argsstring>() override</argsstring>
+        <name>~FlashAttentionHIP</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::~FlashAttentionHIP</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a081e573ab9bf106466e09d63f84665f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::hip::FlashAttentionHIP::forward</definition>
+        <argsstring>(const Tensor &amp;Q, const Tensor &amp;K, const Tensor &amp;V, Tensor &amp;O, const KVCacheManager *kv_cache=nullptr) override</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::forward</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a7c0913857f75209720e959517b5e5250">forward</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager" kindref="compound">KVCacheManager</ref> *</type>
+          <declname>kv_cache</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="32" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a1875bb9f3111b0beeb92d0881000026e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::hip::FlashAttentionHIP::backward</definition>
+        <argsstring>(const Tensor &amp;dO, Tensor &amp;dQ, Tensor &amp;dK, Tensor &amp;dV) override</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::backward</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a78d23c9d48d190ac8a03e078f2afe382">backward</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dO</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dQ</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dK</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dV</declname>
+        </param>
+        <briefdescription>
+<para>Backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dO</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dQ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dV</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="40" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a96ebaa78bb520ccfec08822eb28b26e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::attention::hip::FlashAttentionHIP::getBackendName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getBackendName</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::getBackendName</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a5efbd390b10ff2f4e6676fe9b3d7fe06">getBackendName</reimplements>
+        <briefdescription>
+<para>Get <ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref> Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="47" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a56a3d77a7df0aede1f279e7be9b4cb86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" kindref="compound">AttentionMemoryStats</ref></type>
+        <definition>AttentionMemoryStats themis::llm::attention::hip::FlashAttentionHIP::getMemoryStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::getMemoryStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1af771cc05c9302afde1122f4a88326951">getMemoryStats</reimplements>
+        <briefdescription>
+<para>Get Memory Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="48" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1ae63714215696218d07c8600044e8eadd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::llm::attention::hip::FlashAttentionHIP::isAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="54" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1abe38c256969c662c105fcd1b8e08a33d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::hip::FlashAttentionHIP::initializeHIP</definition>
+        <argsstring>()</argsstring>
+        <name>initializeHIP</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::initializeHIP</qualifiedname>
+        <briefdescription>
+<para>Initialize HIP. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="67" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a056115ff26cc5b3ac5155537f0cf72ea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::hip::FlashAttentionHIP::cleanupHIP</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupHIP</name>
+        <qualifiedname>themis::llm::attention::hip::FlashAttentionHIP::cleanupHIP</qualifiedname>
+        <briefdescription>
+<para>Cleanup HIP. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/hip/flash_attention_hip.h" line="71" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::attention::IFlashAttention</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::attention::hip::FlashAttentionHIP</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::attention::IFlashAttention</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::attention::hip::FlashAttentionHIP</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/attention/hip/flash_attention_hip.h" line="22" column="1" bodyfile="include/llm/attention/hip/flash_attention_hip.h" bodystart="22" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a1875bb9f3111b0beeb92d0881000026e" prot="public" virt="virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a056115ff26cc5b3ac5155537f0cf72ea" prot="private" virt="non-virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>cleanupHIP</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a1ddaf7c054ac53c0a0c849eef41e7edb" prot="private" virt="non-virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a9cbe28904873f533a8c5ac32dc40e53c" prot="private" virt="non-virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>d_workspace_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1abd0d37b6f531de5af5ad96f9b093199c" prot="public" virt="non-virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>FlashAttentionHIP</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a081e573ab9bf106466e09d63f84665f5" prot="public" virt="virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a96ebaa78bb520ccfec08822eb28b26e9" prot="public" virt="virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>getBackendName</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a56a3d77a7df0aede1f279e7be9b4cb86" prot="public" virt="virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a5e7c300ef6e6f0d9d2a36d358ee231f3" prot="private" virt="non-virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>hip_stream_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1abe38c256969c662c105fcd1b8e08a33d" prot="private" virt="non-virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>initializeHIP</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1ae63714215696218d07c8600044e8eadd" prot="public" virt="non-virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a14c107056ebcb928ea53a30da5e560bd" prot="private" virt="non-virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>workspace_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1a657043aee0614fc4b30c749d35d30b9c" prot="public" virt="non-virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>~FlashAttentionHIP</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1abe74ffe785c2ad56eb715030bf5bcc56" prot="public" virt="virtual"><scope>themis::llm::attention::hip::FlashAttentionHIP</scope><name>~IFlashAttention</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

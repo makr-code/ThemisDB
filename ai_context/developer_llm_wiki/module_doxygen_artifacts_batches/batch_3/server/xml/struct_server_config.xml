@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_server_config" kind="struct" language="C++" prot="public">
+    <compoundname>ServerConfig</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_server_config_1a7f641b9924b20b40ff655ca3308bb417" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds ServerConfig::request_timeout</definition>
+        <argsstring></argsstring>
+        <name>request_timeout</name>
+        <qualifiedname>ServerConfig::request_timeout</qualifiedname>
+        <initializer>{100ms}</initializer>
+        <briefdescription>
+<para>Per-request deadline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="233" column="31" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="233" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_server_config_1a1ebf53224565308aa04a8426fdc98005" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds ServerConfig::idle_timeout</definition>
+        <argsstring></argsstring>
+        <name>idle_timeout</name>
+        <qualifiedname>ServerConfig::idle_timeout</qualifiedname>
+        <initializer>{200ms}</initializer>
+        <briefdescription>
+<para>Idle-connection recycle deadline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="234" column="31" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="234" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_server_config_1a693f48bf08cad0be3198d52f5df3978a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds ServerConfig::keepalive_timeout</definition>
+        <argsstring></argsstring>
+        <name>keepalive_timeout</name>
+        <qualifiedname>ServerConfig::keepalive_timeout</qualifiedname>
+        <initializer>{150ms}</initializer>
+        <briefdescription>
+<para>Keepalive inactivity threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="235" column="31" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="235" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_server_config_1a29cce9f4493cdb8e498f3da9286056ad" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds ServerConfig::max_shutdown_duration</definition>
+        <argsstring></argsstring>
+        <name>max_shutdown_duration</name>
+        <qualifiedname>ServerConfig::max_shutdown_duration</qualifiedname>
+        <initializer>{300ms}</initializer>
+        <briefdescription>
+<para>Maximum graceful-shutdown window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="236" column="31" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="236" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the in-process <ref refid="class_server_stub" kindref="compound">ServerStub</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_phase5_hardening.cpp" line="232" column="1" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="232" bodyend="237"/>
+    <listofallmembers>
+      <member refid="struct_server_config_1a1ebf53224565308aa04a8426fdc98005" prot="public" virt="non-virtual"><scope>ServerConfig</scope><name>idle_timeout</name></member>
+      <member refid="struct_server_config_1a693f48bf08cad0be3198d52f5df3978a" prot="public" virt="non-virtual"><scope>ServerConfig</scope><name>keepalive_timeout</name></member>
+      <member refid="struct_server_config_1a29cce9f4493cdb8e498f3da9286056ad" prot="public" virt="non-virtual"><scope>ServerConfig</scope><name>max_shutdown_duration</name></member>
+      <member refid="struct_server_config_1a7f641b9924b20b40ff655ca3308bb417" prot="public" virt="non-virtual"><scope>ServerConfig</scope><name>request_timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

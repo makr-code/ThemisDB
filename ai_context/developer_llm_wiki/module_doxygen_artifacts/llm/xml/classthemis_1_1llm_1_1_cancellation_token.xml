@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_cancellation_token" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::CancellationToken</compoundname>
+    <includes refid="model__loader_8h" local="no">model_loader.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_cancellation_token_1a17fbed7b907e0e1b2c665fbeece67032" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::atomic&lt; bool &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::atomic&lt;bool&gt; &gt; themis::llm::CancellationToken::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::llm::CancellationToken::cancelled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="64" column="21" bodyfile="include/llm/model_loader.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_cancellation_token_1a96ae07c971f655ffa443a90b96c7ff60" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::CancellationToken::CancellationToken</definition>
+        <argsstring>()</argsstring>
+        <name>CancellationToken</name>
+        <qualifiedname>themis::llm::CancellationToken::CancellationToken</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="54" column="5" bodyfile="include/llm/model_loader.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_cancellation_token_1a394b9e7b462c972b545af464dfa78eaa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::CancellationToken::cancel</definition>
+        <argsstring>()</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::llm::CancellationToken::cancel</qualifiedname>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="60" column="10" bodyfile="include/llm/model_loader.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_cancellation_token_1adc329c35ce902328d6bc840247f650cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::CancellationToken::is_cancelled</definition>
+        <argsstring>() const</argsstring>
+        <name>is_cancelled</name>
+        <qualifiedname>themis::llm::CancellationToken::is_cancelled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="61" column="10" bodyfile="include/llm/model_loader.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_loader.h" line="52" column="1" bodyfile="include/llm/model_loader.h" bodystart="52" bodyend="65"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_cancellation_token_1a394b9e7b462c972b545af464dfa78eaa" prot="public" virt="non-virtual"><scope>themis::llm::CancellationToken</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1llm_1_1_cancellation_token_1a96ae07c971f655ffa443a90b96c7ff60" prot="public" virt="non-virtual"><scope>themis::llm::CancellationToken</scope><name>CancellationToken</name></member>
+      <member refid="classthemis_1_1llm_1_1_cancellation_token_1a17fbed7b907e0e1b2c665fbeece67032" prot="private" virt="non-virtual"><scope>themis::llm::CancellationToken</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1llm_1_1_cancellation_token_1adc329c35ce902328d6bc840247f650cf" prot="public" virt="non-virtual"><scope>themis::llm::CancellationToken</scope><name>is_cancelled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,526 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_lo_r_a_certificate_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::LoRACertificateStore</compoundname>
+    <includes refid="lora__certificate__store_8h" local="no">lora_certificate_store.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a279d34efcff8a41cc07c7776f6b9fe70" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRACertificateStore::store_path_</definition>
+        <argsstring></argsstring>
+        <name>store_path_</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::store_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="64" column="17" bodyfile="include/llm/lora_certificate_store.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a84167c36c21b96e4d255ab24002f3f39" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRACertificateStore::system_store_path_</definition>
+        <argsstring></argsstring>
+        <name>system_store_path_</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::system_store_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="65" column="17" bodyfile="include/llm/lora_certificate_store.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a52a9450b7ac5a47848e15cbd4393ac83" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::LoRACertificateStore::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="67" column="24" bodyfile="include/llm/lora_certificate_store.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a217bb297d09444ca0e09dbfb24c79c4e" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::llm::LoRACertificateStore::cert_cache_</definition>
+        <argsstring></argsstring>
+        <name>cert_cache_</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::cert_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="68" column="32" bodyfile="include/llm/lora_certificate_store.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LoRACertificateStore::LoRACertificateStore</definition>
+        <argsstring>(const std::string &amp;store_path=&quot;config/security/lora_certs/&quot;, const std::string &amp;system_store_path=&quot;/etc/ssl/certs&quot;)</argsstring>
+        <name>LoRACertificateStore</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::LoRACertificateStore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>store_path</declname>
+          <defval>&quot;config/<ref refid="namespacethemis_1_1llm_1_1security" kindref="compound">security</ref>/lora_certs/&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>system_store_path</declname>
+          <defval>&quot;/etc/ssl/certs&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="25" column="14" bodyfile="src/llm/lora_certificate_store.cpp" bodystart="79" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1adb9c58d35564e60e10f6508ca2c2c81e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LoRACertificateStore::~LoRACertificateStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LoRACertificateStore</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::~LoRACertificateStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="29" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1aa28886d47023f5c92be3b1ab60290fbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LoRACertificateStore::LoRACertificateStore</definition>
+        <argsstring>(const LoRACertificateStore &amp;)=delete</argsstring>
+        <name>LoRACertificateStore</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::LoRACertificateStore</qualifiedname>
+        <param>
+          <type>const LoRACertificateStore &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="32" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a9713f5d7eec47346d3a01efe3c62489b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref> &amp;</type>
+        <definition>LoRACertificateStore &amp; themis::llm::LoRACertificateStore::operator=</definition>
+        <argsstring>(const LoRACertificateStore &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="33" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a64ecac54ba683720304b821b8faab7f7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LoRACertificateStore::LoRACertificateStore</definition>
+        <argsstring>(LoRACertificateStore &amp;&amp;) noexcept=default</argsstring>
+        <name>LoRACertificateStore</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::LoRACertificateStore</qualifiedname>
+        <param>
+          <type>LoRACertificateStore &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="34" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a81ac4c10736d3b332d6f48df93cf6db6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref> &amp;</type>
+        <definition>LoRACertificateStore &amp; themis::llm::LoRACertificateStore::operator=</definition>
+        <argsstring>(LoRACertificateStore &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="35" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a4531aafcd4a07596ba5f2d52a748ae3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::llm::LoRACertificateStore::lookupByFingerprint</definition>
+        <argsstring>(const std::string &amp;fingerprint) const</argsstring>
+        <name>lookupByFingerprint</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::lookupByFingerprint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Lookup By Fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Populate cache for future lookups <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="42" column="19" bodyfile="src/llm/lora_certificate_store.cpp" bodystart="90" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a36e52cf95d2d0ae9fe8fcb09c07ea7fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LoRACertificateStore::registerCertificate</definition>
+        <argsstring>(const std::string &amp;fingerprint, const std::string &amp;cert_pem)</argsstring>
+        <name>registerCertificate</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::registerCertificate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <briefdescription>
+<para>Register Certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::warn(), lock(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="50" column="10" bodyfile="src/llm/lora_certificate_store.cpp" bodystart="183" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a840f6a9b01eaf7f0afaf19b8da2ee2a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LoRACertificateStore::evictCertificate</definition>
+        <argsstring>(const std::string &amp;fingerprint)</argsstring>
+        <name>evictCertificate</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::evictCertificate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Evict Certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="57" column="10" bodyfile="src/llm/lora_certificate_store.cpp" bodystart="200" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1afa54d3bfcb39de07e1110c960caa7a08" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::LoRACertificateStore::storePath</definition>
+        <argsstring>() const</argsstring>
+        <name>storePath</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::storePath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="59" column="23" bodyfile="include/llm/lora_certificate_store.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a90cbf4424ff3e8ee45852dede2eecc4e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::LoRACertificateStore::systemStorePath</definition>
+        <argsstring>() const</argsstring>
+        <name>systemStorePath</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::systemStorePath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="61" column="23" bodyfile="include/llm/lora_certificate_store.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a0799fcf7bfd90f2e59d8d7fffb4dfcb0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::llm::LoRACertificateStore::loadPemFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadPemFile</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::loadPemFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load a PEM file from disk and return its contents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Pem File.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), is_open(), rdbuf(), str(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="75" column="26" bodyfile="src/llm/lora_certificate_store.cpp" bodystart="217" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1abb81c499fec86dee4968bbb069644ecf" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRACertificateStore::fingerprintMatches</definition>
+        <argsstring>(const std::string &amp;cert_pem, const std::string &amp;fingerprint)</argsstring>
+        <name>fingerprintMatches</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::fingerprintMatches</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Compute SHA-256 fingerprint of a PEM certificate and compare. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fingerprint Matches.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), BIO_new_mem_buf(), data(), size(), PEM_read_bio_X509(), BIO_free(), computeCertFingerprint(), X509_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="83" column="17" bodyfile="src/llm/lora_certificate_store.cpp" bodystart="239" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a51566dd46056bff2922df488bed36cd5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::llm::LoRACertificateStore::searchSystemStore</definition>
+        <argsstring>(const std::string &amp;fingerprint) const</argsstring>
+        <name>searchSystemStore</name>
+        <qualifiedname>themis::llm::LoRACertificateStore::searchSystemStore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Search the system certificate directory for a cert matching fingerprint (Linux/macOS: iterates PEM/CRT files under system_store_path_). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_certificate_store.h" line="91" column="19" bodyfile="src/llm/lora_certificate_store.cpp" bodystart="272" bodyend="330"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_certificate_store.h" line="23" column="1" bodyfile="include/llm/lora_certificate_store.h" bodystart="23" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a52a9450b7ac5a47848e15cbd4393ac83" prot="private" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a217bb297d09444ca0e09dbfb24c79c4e" prot="private" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>cert_cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a840f6a9b01eaf7f0afaf19b8da2ee2a4" prot="public" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>evictCertificate</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1abb81c499fec86dee4968bbb069644ecf" prot="private" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>fingerprintMatches</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a0799fcf7bfd90f2e59d8d7fffb4dfcb0" prot="private" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>loadPemFile</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a4531aafcd4a07596ba5f2d52a748ae3f" prot="public" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>lookupByFingerprint</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" prot="public" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>LoRACertificateStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1aa28886d47023f5c92be3b1ab60290fbf" prot="public" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>LoRACertificateStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a64ecac54ba683720304b821b8faab7f7" prot="public" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>LoRACertificateStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a9713f5d7eec47346d3a01efe3c62489b" prot="public" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a81ac4c10736d3b332d6f48df93cf6db6" prot="public" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a36e52cf95d2d0ae9fe8fcb09c07ea7fb" prot="public" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>registerCertificate</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a51566dd46056bff2922df488bed36cd5" prot="private" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>searchSystemStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a279d34efcff8a41cc07c7776f6b9fe70" prot="private" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>store_path_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1afa54d3bfcb39de07e1110c960caa7a08" prot="public" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>storePath</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a84167c36c21b96e4d255ab24002f3f39" prot="private" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>system_store_path_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a90cbf4424ff3e8ee45852dede2eecc4e" prot="public" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>systemStorePath</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1adb9c58d35564e60e10f6508ca2c2c81e" prot="public" virt="non-virtual"><scope>themis::llm::LoRACertificateStore</scope><name>~LoRACertificateStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

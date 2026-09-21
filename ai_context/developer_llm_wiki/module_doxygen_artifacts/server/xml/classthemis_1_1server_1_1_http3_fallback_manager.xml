@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_http3_fallback_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::Http3FallbackManager</compoundname>
+    <includes refid="http3__production__config_8h" local="no">http3_production_config.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_http3_fallback_manager_1_1_client_state" prot="private">themis::server::Http3FallbackManager::ClientState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http3_fallback_manager_1adad5f9102b5c584c211bd37a782d986f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_http3_production_config" kindref="compound">Http3ProductionConfig</ref></type>
+        <definition>Http3ProductionConfig themis::server::Http3FallbackManager::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::server::Http3FallbackManager::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="181" column="27" bodyfile="include/server/http3_production_config.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http3_fallback_manager_1aae949ddd85a0c1ea93e682b323af93b2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::Http3FallbackManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::server::Http3FallbackManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="182" column="24" bodyfile="include/server/http3_production_config.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http3_fallback_manager_1a1e16257b2109884d24eaae9834d93c59" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, ClientState &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ClientState&gt; themis::server::Http3FallbackManager::clients_</definition>
+        <argsstring></argsstring>
+        <name>clients_</name>
+        <qualifiedname>themis::server::Http3FallbackManager::clients_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="183" column="24" bodyfile="include/server/http3_production_config.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http3_fallback_manager_1a777f93c23d849fd14e73c96dfcfebbce" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::Http3FallbackManager::Http3FallbackManager</definition>
+        <argsstring>(const Http3ProductionConfig &amp;cfg)</argsstring>
+        <name>Http3FallbackManager</name>
+        <qualifiedname>themis::server::Http3FallbackManager::Http3FallbackManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_http3_production_config" kindref="compound">Http3ProductionConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Http3 Fallback Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="133" column="14" bodyfile="src/server/http3_production_config.cpp" bodystart="21" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http3_fallback_manager_1ae2e7073f6ddc68dd866375c2c10bb417" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::Http3FallbackManager::recordQuicFailure</definition>
+        <argsstring>(const std::string &amp;client_ip)</argsstring>
+        <name>recordQuicFailure</name>
+        <qualifiedname>themis::server::Http3FallbackManager::recordQuicFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_ip</declname>
+        </param>
+        <briefdescription>
+<para>Record Quic Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::steady_clock::now(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="139" column="10" bodyfile="src/server/http3_production_config.cpp" bodystart="31" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http3_fallback_manager_1abb6c21c2b78cbbc6ba61befaef87217b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::Http3FallbackManager::recordQuicSuccess</definition>
+        <argsstring>(const std::string &amp;client_ip)</argsstring>
+        <name>recordQuicSuccess</name>
+        <qualifiedname>themis::server::Http3FallbackManager::recordQuicSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_ip</declname>
+        </param>
+        <briefdescription>
+<para>Record Quic Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="145" column="10" bodyfile="src/server/http3_production_config.cpp" bodystart="53" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http3_fallback_manager_1acee328c62788277b4acab8d57aec2c36" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::Http3FallbackManager::shouldFallbackToHttp2</definition>
+        <argsstring>(const std::string &amp;client_ip) const</argsstring>
+        <name>shouldFallbackToHttp2</name>
+        <qualifiedname>themis::server::Http3FallbackManager::shouldFallbackToHttp2</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_ip</declname>
+        </param>
+        <briefdescription>
+<para>Should Fallback To Http2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="152" column="10" bodyfile="src/server/http3_production_config.cpp" bodystart="62" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http3_fallback_manager_1a4565f35eeb8f4d096a9605266846fff3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::Http3FallbackManager::altSvcValue</definition>
+        <argsstring>(uint16_t h3_port, const std::string &amp;client_ip) const</argsstring>
+        <name>altSvcValue</name>
+        <qualifiedname>themis::server::Http3FallbackManager::altSvcValue</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>h3_port</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_ip</declname>
+        </param>
+        <briefdescription>
+<para>Alt Svc Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">h3_port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="160" column="17" bodyfile="src/server/http3_production_config.cpp" bodystart="92" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http3_fallback_manager_1a7bd29e293ecb44453e2a32e70d34a563" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::Http3FallbackManager::purgeExpired</definition>
+        <argsstring>()</argsstring>
+        <name>purgeExpired</name>
+        <qualifiedname>themis::server::Http3FallbackManager::purgeExpired</qualifiedname>
+        <briefdescription>
+<para>Purge Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::chrono::steady_clock::now(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="166" column="10" bodyfile="src/server/http3_production_config.cpp" bodystart="105" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http3_fallback_manager_1aa73385784e20820d773cf40ef438ec60" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::Http3FallbackManager::fallbackClientCount</definition>
+        <argsstring>() const</argsstring>
+        <name>fallbackClientCount</name>
+        <qualifiedname>themis::server::Http3FallbackManager::fallbackClientCount</qualifiedname>
+        <briefdescription>
+<para>Fallback Client Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="172" column="12" bodyfile="src/server/http3_production_config.cpp" bodystart="118" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/http3_production_config.h" line="126" column="1" bodyfile="include/server/http3_production_config.h" bodystart="126" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_http3_fallback_manager_1a4565f35eeb8f4d096a9605266846fff3" prot="public" virt="non-virtual"><scope>themis::server::Http3FallbackManager</scope><name>altSvcValue</name></member>
+      <member refid="classthemis_1_1server_1_1_http3_fallback_manager_1adad5f9102b5c584c211bd37a782d986f" prot="private" virt="non-virtual"><scope>themis::server::Http3FallbackManager</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1server_1_1_http3_fallback_manager_1a1e16257b2109884d24eaae9834d93c59" prot="private" virt="non-virtual"><scope>themis::server::Http3FallbackManager</scope><name>clients_</name></member>
+      <member refid="classthemis_1_1server_1_1_http3_fallback_manager_1aa73385784e20820d773cf40ef438ec60" prot="public" virt="non-virtual"><scope>themis::server::Http3FallbackManager</scope><name>fallbackClientCount</name></member>
+      <member refid="classthemis_1_1server_1_1_http3_fallback_manager_1a777f93c23d849fd14e73c96dfcfebbce" prot="public" virt="non-virtual"><scope>themis::server::Http3FallbackManager</scope><name>Http3FallbackManager</name></member>
+      <member refid="classthemis_1_1server_1_1_http3_fallback_manager_1aae949ddd85a0c1ea93e682b323af93b2" prot="private" virt="non-virtual"><scope>themis::server::Http3FallbackManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_http3_fallback_manager_1a7bd29e293ecb44453e2a32e70d34a563" prot="public" virt="non-virtual"><scope>themis::server::Http3FallbackManager</scope><name>purgeExpired</name></member>
+      <member refid="classthemis_1_1server_1_1_http3_fallback_manager_1ae2e7073f6ddc68dd866375c2c10bb417" prot="public" virt="non-virtual"><scope>themis::server::Http3FallbackManager</scope><name>recordQuicFailure</name></member>
+      <member refid="classthemis_1_1server_1_1_http3_fallback_manager_1abb6c21c2b78cbbc6ba61befaef87217b" prot="public" virt="non-virtual"><scope>themis::server::Http3FallbackManager</scope><name>recordQuicSuccess</name></member>
+      <member refid="classthemis_1_1server_1_1_http3_fallback_manager_1acee328c62788277b4acab8d57aec2c36" prot="public" virt="non-virtual"><scope>themis::server::Http3FallbackManager</scope><name>shouldFallbackToHttp2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

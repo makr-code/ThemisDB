@@ -1,0 +1,665 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossShardSSIManager</compoundname>
+    <includes refid="cross__shard__ssi__manager_8h" local="no">cross_shard_ssi_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config" prot="public">themisdb::sharding::CrossShardSSIManager::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a20927d4a9b49395577a725ca3cbee857" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::CrossShardSSIManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects all mutable state below. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="255" column="24" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a7315a0798c025b9879287dbc6c039103" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::sharding::CrossShardSSIManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::config_</qualifiedname>
+        <briefdescription>
+<para>Runtime tuning parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="256" column="12" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a02d8ae28fc5bf0e9630c383cd284b827" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_predicate_lock" kindref="compound">CrossShardPredicateLock</ref> &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, std::vector&lt;CrossShardPredicateLock&gt; &gt; &gt; themisdb::sharding::CrossShardSSIManager::read_sets_</definition>
+        <argsstring></argsstring>
+        <name>read_sets_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::read_sets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Predicate (range) locks per transaction, grouped by shard. Outer key: txn_id → inner key: shard_id → vector of predicate ranges. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="261" column="2" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a004e2aded71bc6fe542139232c914870" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; &gt; themisdb::sharding::CrossShardSSIManager::write_sets_</definition>
+        <argsstring></argsstring>
+        <name>write_sets_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::write_sets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Write keys per transaction, grouped by shard. Outer key: txn_id → inner key: shard_id → vector of written keys. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="266" column="2" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1acad4e33c09bfd957314a353679287001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardSSIManager::CrossShardSSIManager</definition>
+        <argsstring>()</argsstring>
+        <name>CrossShardSSIManager</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::CrossShardSSIManager</qualifiedname>
+        <briefdescription>
+<para>Default-construct the manager with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="132" column="5" bodyfile="src/sharding/cross_shard_ssi_manager.cpp" bodystart="23" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1ae433d64479120f8f43b33d7c82a1b196" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardSSIManager::CrossShardSSIManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>CrossShardSSIManager</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::CrossShardSSIManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct the manager with the supplied configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial SSI tuning parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="138" column="14" bodyfile="src/sharding/cross_shard_ssi_manager.cpp" bodystart="26" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1af8dc7ac848302981c4d71980cdab0c18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardSSIManager::~CrossShardSSIManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CrossShardSSIManager</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::~CrossShardSSIManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="140" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1ac5e6ce51f5c3b6dd671a13a850ddc830" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardSSIManager::CrossShardSSIManager</definition>
+        <argsstring>(const CrossShardSSIManager &amp;)=delete</argsstring>
+        <name>CrossShardSSIManager</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::CrossShardSSIManager</qualifiedname>
+        <param>
+          <type>const CrossShardSSIManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="143" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1ae923ca8fdcb3c29d7c82ec0f0df95cd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1acad4e33c09bfd957314a353679287001" kindref="member">CrossShardSSIManager</ref> &amp;</type>
+        <definition>CrossShardSSIManager &amp; themisdb::sharding::CrossShardSSIManager::operator=</definition>
+        <argsstring>(const CrossShardSSIManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1acad4e33c09bfd957314a353679287001" kindref="member">CrossShardSSIManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="144" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a39352d1694361e9fd873896fd9b82460" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardSSIManager::CrossShardSSIManager</definition>
+        <argsstring>(CrossShardSSIManager &amp;&amp;) noexcept=default</argsstring>
+        <name>CrossShardSSIManager</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::CrossShardSSIManager</qualifiedname>
+        <param>
+          <type>CrossShardSSIManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="145" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a628219a0c32b12b5c82aefbfaf7f2524" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1acad4e33c09bfd957314a353679287001" kindref="member">CrossShardSSIManager</ref> &amp;</type>
+        <definition>CrossShardSSIManager &amp; themisdb::sharding::CrossShardSSIManager::operator=</definition>
+        <argsstring>(CrossShardSSIManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1acad4e33c09bfd957314a353679287001" kindref="member">CrossShardSSIManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="146" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1aa5810789e1636d113600a7d85ea006c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSSIManager::registerReadSet</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::string &amp;shard_id, const std::vector&lt; CrossShardPredicateLock &gt; &amp;predicates)</argsstring>
+        <name>registerReadSet</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::registerReadSet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_predicate_lock" kindref="compound">CrossShardPredicateLock</ref> &gt; &amp;</type>
+          <declname>predicates</declname>
+        </param>
+        <briefdescription>
+<para>Register the predicate (range) locks observed on <computeroutput>shard_id</computeroutput> by transaction <computeroutput>txn_id</computeroutput> during its read phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Read Set.</para>
+<para>May be called multiple times for the same (txn_id, shard_id) pair; new predicates are appended up to the per-transaction cap. Calls on finished or unknown transactions are silently ignored.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Global transaction identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard that performed the reads. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>predicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Predicate ranges observed on <computeroutput>shard_id</computeroutput>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="164" column="10" bodyfile="src/sharding/cross_shard_ssi_manager.cpp" bodystart="39" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a3bfcb11c5a45f02e6fa4c85296d25cea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSSIManager::registerWriteSet</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::string &amp;shard_id, const std::vector&lt; std::string &gt; &amp;keys)</argsstring>
+        <name>registerWriteSet</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::registerWriteSet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Register the keys written on <computeroutput>shard_id</computeroutput> by transaction <computeroutput>txn_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Write Set.</para>
+<para>May be called multiple times for the same (txn_id, shard_id) pair; new keys are appended up to the per-transaction cap.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Global transaction identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard that performed the writes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Written keys on <computeroutput>shard_id</computeroutput>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="180" column="10" bodyfile="src/sharding/cross_shard_ssi_manager.cpp" bodystart="82" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a526d2831966852aadc7d421b44c3676a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict" kindref="compound">CrossShardSSIConflict</ref> &gt;</type>
+        <definition>std::vector&lt; CrossShardSSIConflict &gt; themisdb::sharding::CrossShardSSIManager::validateAtPrepare</definition>
+        <argsstring>(const std::string &amp;txn_id) const</argsstring>
+        <name>validateAtPrepare</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::validateAtPrepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Validate cross-shard SSI conflicts for <computeroutput>txn_id</computeroutput> at prepare time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compares <computeroutput>txn_id&apos;s</computeroutput> combined read-set and write-set against those of every other tracked transaction that has overlapping shard participation.</para>
+<para>Returns an empty vector when:<itemizedlist>
+<listitem><para>predicate locking is disabled,</para>
+</listitem><listitem><para><computeroutput>txn_id</computeroutput> has no registered read or write sets,</para>
+</listitem><listitem><para>no conflicting transactions are tracked.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe; acquires a shared lock internally.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction to validate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>All detected serialization conflicts; empty == no conflict. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="203" column="5" bodyfile="src/sharding/cross_shard_ssi_manager.cpp" bodystart="119" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a8a871d8f0fef112a037180ad380f5683" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSSIManager::clearTransaction</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>clearTransaction</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::clearTransaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove all bookkeeping for <computeroutput>txn_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Transaction.</para>
+<para>Must be called when a transaction commits or aborts to prevent unbounded memory growth. Safe to call for unknown transaction IDs (no-op).</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction whose data should be released.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="217" column="10" bodyfile="src/sharding/cross_shard_ssi_manager.cpp" bodystart="277" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1aab18ee64ef71bfae2e28e9aeb0769bc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSSIManager::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the runtime configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config" kindref="compound">Config</ref>.</para>
+<para>New values take effect immediately for subsequent registrations and validations; in-flight transactions are unaffected.</para>
+<para>Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New SSI tuning parameters.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="231" column="10" bodyfile="src/sharding/cross_shard_ssi_manager.cpp" bodystart="300" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1af4c39020f16f2e43fc9e4b0f8b2e4616" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>CrossShardSSIManager::Config themisdb::sharding::CrossShardSSIManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the currently active configuration. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="237" column="13" bodyfile="src/sharding/cross_shard_ssi_manager.cpp" bodystart="311" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a781dcd4918f96adb72fabbfd4f663948" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::CrossShardSSIManager::trackedTransactionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>trackedTransactionCount</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::trackedTransactionCount</qualifiedname>
+        <briefdescription>
+<para>Returns the number of transactions currently tracked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="242" column="13" bodyfile="src/sharding/cross_shard_ssi_manager.cpp" bodystart="326" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1af3ea7b2c3208312f4a941f3595b64f5f" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardSSIManager::keyInRange</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;start, const std::string &amp;end) noexcept</argsstring>
+        <name>keyInRange</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::keyInRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true when <computeroutput>key</computeroutput> falls within the predicate range [start, end]. An empty <computeroutput>end</computeroutput> is treated as a single-key predicate (key == start). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="249" column="18" bodyfile="src/sharding/cross_shard_ssi_manager.cpp" bodystart="348" bodyend="360"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Distributed SSI coordinator: tracks per-shard read/write sets for all active SERIALIZABLE cross-shard transactions and validates conflicts at prepare time. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Usage</heading>
+</para>
+<para><orderedlist>
+<listitem><para>Before (or during) executing a shard&apos;s portion of a SERIALIZABLE transaction, the shard reports its predicate ranges via <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1aa5810789e1636d113600a7d85ea006c9" kindref="member">registerReadSet()</ref> and its written keys via <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a3bfcb11c5a45f02e6fa4c85296d25cea" kindref="member">registerWriteSet()</ref>.</para>
+</listitem><listitem><para>At prepare time <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator" kindref="compound">CrossShardTransactionCoordinator</ref> calls <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a526d2831966852aadc7d421b44c3676a" kindref="member">validateAtPrepare()</ref> for the committing transaction. A non-empty result means at least one serialization anomaly was detected; the coordinator must abort the transaction.</para>
+</listitem><listitem><para>After a transaction commits or aborts, call <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a8a871d8f0fef112a037180ad380f5683" kindref="member">clearTransaction()</ref> to free its bookkeeping.</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Conflict detection semantics</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><bold>RW conflict</bold> (write-skew / phantom): A write key K in <emphasis>this</emphasis> transaction&apos;s write-set falls within a predicate range held by another active SERIALIZABLE transaction, <emphasis>or</emphasis> a write key K in another transaction falls within a predicate range held by <emphasis>this</emphasis> transaction.</para>
+</listitem><listitem><para><bold>WW conflict</bold> (lost update): A write key K appears in both <emphasis>this</emphasis> transaction&apos;s write-set and another active SERIALIZABLE transaction&apos;s write-set.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>Only transactions registered via <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1aa5810789e1636d113600a7d85ea006c9" kindref="member">registerReadSet()</ref> / <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a3bfcb11c5a45f02e6fa4c85296d25cea" kindref="member">registerWriteSet()</ref> are visible to conflict detection. Participants that do not call these methods are invisible (no cross-shard anomaly is detected for them). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_ssi_manager.h" line="103" column="1" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="103" bodyend="267"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a8a871d8f0fef112a037180ad380f5683" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>clearTransaction</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a7315a0798c025b9879287dbc6c039103" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1acad4e33c09bfd957314a353679287001" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>CrossShardSSIManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1ae433d64479120f8f43b33d7c82a1b196" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>CrossShardSSIManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1ac5e6ce51f5c3b6dd671a13a850ddc830" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>CrossShardSSIManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a39352d1694361e9fd873896fd9b82460" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>CrossShardSSIManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1af4c39020f16f2e43fc9e4b0f8b2e4616" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1af3ea7b2c3208312f4a941f3595b64f5f" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>keyInRange</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a20927d4a9b49395577a725ca3cbee857" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1ae923ca8fdcb3c29d7c82ec0f0df95cd3" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a628219a0c32b12b5c82aefbfaf7f2524" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a02d8ae28fc5bf0e9630c383cd284b827" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>read_sets_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1aa5810789e1636d113600a7d85ea006c9" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>registerReadSet</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a3bfcb11c5a45f02e6fa4c85296d25cea" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>registerWriteSet</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1aab18ee64ef71bfae2e28e9aeb0769bc6" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>setConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a781dcd4918f96adb72fabbfd4f663948" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>trackedTransactionCount</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a526d2831966852aadc7d421b44c3676a" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>validateAtPrepare</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a004e2aded71bc6fe542139232c914870" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>write_sets_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1af8dc7ac848302981c4d71980cdab0c18" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager</scope><name>~CrossShardSSIManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

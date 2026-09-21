@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_update_history_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::UpdateHistoryLogger</compoundname>
+    <includes refid="update__history__logger_8h" local="no">update_history_logger.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_update_history_logger_1a22b6c70ead505ee86ead5d69532ece70" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateHistoryLogger::log_file_path_</definition>
+        <argsstring></argsstring>
+        <name>log_file_path_</name>
+        <qualifiedname>themis::updates::UpdateHistoryLogger::log_file_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="116" column="17" bodyfile="include/updates/update_history_logger.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_update_history_logger_1ace1af34a0a4596c4f99a092578ab499e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::updates::UpdateHistoryLogger::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::updates::UpdateHistoryLogger::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="117" column="24" bodyfile="include/updates/update_history_logger.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_history_logger_1ae06805b3fb731cd5ab9f639097296807" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::UpdateHistoryLogger::UpdateHistoryLogger</definition>
+        <argsstring>(const std::string &amp;log_file_path)</argsstring>
+        <name>UpdateHistoryLogger</name>
+        <qualifiedname>themis::updates::UpdateHistoryLogger::UpdateHistoryLogger</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log_file_path</declname>
+        </param>
+        <briefdescription>
+<para>Construct the logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>log_file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the JSON history file. The file is created if it does not exist. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="90" column="14" bodyfile="src/updates/update_history_logger.cpp" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_history_logger_1ae5e504df12be3bbe97c5d4f45cd30325" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::UpdateHistoryLogger::record</definition>
+        <argsstring>(const UpdateHistoryEntry &amp;entry)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::updates::UpdateHistoryLogger::record</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_update_history_entry" kindref="compound">UpdateHistoryEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Append an entry to the history log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The update event to persist.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), loadEntries(), push_back(), saveEntries(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="96" column="10" bodyfile="src/updates/update_history_logger.cpp" bodystart="85" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_history_logger_1af50bcd71618f64e94a9229d62e1dd75e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_update_history_entry" kindref="compound">UpdateHistoryEntry</ref> &gt;</type>
+        <definition>std::vector&lt; UpdateHistoryEntry &gt; themis::updates::UpdateHistoryLogger::getHistory</definition>
+        <argsstring>(size_t limit=0) const</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>themis::updates::UpdateHistoryLogger::getHistory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Retrieve the most recent history entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of entries to return (0 = all, newest first). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of entries ordered newest-first. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="103" column="17" bodyfile="src/updates/update_history_logger.cpp" bodystart="94" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_history_logger_1ab5382fb961644d6067d17a1ac5d36fab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::UpdateHistoryLogger::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::updates::UpdateHistoryLogger::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all entries from the history log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(), saveEntries(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="108" column="10" bodyfile="src/updates/update_history_logger.cpp" bodystart="114" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_history_logger_1a72e725c6d7a1a898f7df247665f998c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::updates::UpdateHistoryLogger::logFilePath</definition>
+        <argsstring>() const</argsstring>
+        <name>logFilePath</name>
+        <qualifiedname>themis::updates::UpdateHistoryLogger::logFilePath</qualifiedname>
+        <briefdescription>
+<para>Return the path of the backing log file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="113" column="23" bodyfile="src/updates/update_history_logger.cpp" bodystart="120" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_history_logger_1aa1e1bf2ec14ff2d5fed282e1351fd65a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_update_history_entry" kindref="compound">UpdateHistoryEntry</ref> &gt;</type>
+        <definition>std::vector&lt; UpdateHistoryEntry &gt; themis::updates::UpdateHistoryLogger::loadEntries</definition>
+        <argsstring>() const</argsstring>
+        <name>loadEntries</name>
+        <qualifiedname>themis::updates::UpdateHistoryLogger::loadEntries</qualifiedname>
+        <briefdescription>
+<para>Load entries from the JSON file; returns empty vector on any error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_file_path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="120" column="17" bodyfile="src/updates/update_history_logger.cpp" bodystart="128" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_update_history_logger_1a4ff757036d2321adba368d6e70abbaa6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::UpdateHistoryLogger::saveEntries</definition>
+        <argsstring>(const std::vector&lt; UpdateHistoryEntry &gt; &amp;entries) const</argsstring>
+        <name>saveEntries</name>
+        <qualifiedname>themis::updates::UpdateHistoryLogger::saveEntries</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1updates_1_1_update_history_entry" kindref="compound">UpdateHistoryEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Persist <computeroutput>entries</computeroutput> to the JSON file (overwrites). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_file_path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="123" column="10" bodyfile="src/updates/update_history_logger.cpp" bodystart="160" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistent, append-only log of update operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Entries are written as a JSON array to a single log file. The file is read on construction and appended on every <ref refid="classthemis_1_1updates_1_1_update_history_logger_1ae5e504df12be3bbe97c5d4f45cd30325" kindref="member">record</ref> call. The class is intentionally lightweight and does not depend on RocksDB or any heavy storage layer.</para>
+<para><heading level="3">Thread Safety</heading>
+</para>
+<para>All public methods are protected by an internal mutex and are safe to call from multiple threads.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_update_history_logger_1ae06805b3fb731cd5ab9f639097296807" kindref="member">UpdateHistoryLogger</ref><sp/>logger(</highlight><highlight class="stringliteral">&quot;/var/lib/themisdb/update_history.json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">UpdateHistoryEntry<sp/>e;</highlight></codeline>
+<codeline><highlight class="normal">e.who<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">e.from_version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.4.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">e.to_version<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">e.event_type<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;update&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">e.success<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">e.timestamp_ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline><highlight class="normal">logger.record(e);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>logger.getHistory(10);<sp/><sp/></highlight><highlight class="comment">//<sp/>last<sp/>10<sp/>entries</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/updates/update_history_logger.h" line="83" column="1" bodyfile="include/updates/update_history_logger.h" bodystart="83" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_update_history_logger_1ab5382fb961644d6067d17a1ac5d36fab" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryLogger</scope><name>clear</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_history_logger_1af50bcd71618f64e94a9229d62e1dd75e" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryLogger</scope><name>getHistory</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_history_logger_1aa1e1bf2ec14ff2d5fed282e1351fd65a" prot="private" virt="non-virtual"><scope>themis::updates::UpdateHistoryLogger</scope><name>loadEntries</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_history_logger_1a22b6c70ead505ee86ead5d69532ece70" prot="private" virt="non-virtual"><scope>themis::updates::UpdateHistoryLogger</scope><name>log_file_path_</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_history_logger_1a72e725c6d7a1a898f7df247665f998c1" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryLogger</scope><name>logFilePath</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_history_logger_1ace1af34a0a4596c4f99a092578ab499e" prot="private" virt="non-virtual"><scope>themis::updates::UpdateHistoryLogger</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_history_logger_1ae5e504df12be3bbe97c5d4f45cd30325" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryLogger</scope><name>record</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_history_logger_1a4ff757036d2321adba368d6e70abbaa6" prot="private" virt="non-virtual"><scope>themis::updates::UpdateHistoryLogger</scope><name>saveEntries</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_history_logger_1ae06805b3fb731cd5ab9f639097296807" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryLogger</scope><name>UpdateHistoryLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_redis_importer_1_1_config" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::RedisImporter::Config</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_redis_importer_1_1_config_1ac40a0fa20f1d36840189c425559b7ca4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RedisImporter::Config::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::importers::RedisImporter::Config::host</qualifiedname>
+        <initializer>{&quot;127.0.0.1&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="67" column="21" bodyfile="include/importers/redis_importer.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_redis_importer_1_1_config_1a35bd165489c8c0c723fa264bbcfa0120" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::RedisImporter::Config::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::importers::RedisImporter::Config::port</qualifiedname>
+        <initializer>{6379}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="68" column="13" bodyfile="include/importers/redis_importer.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_redis_importer_1_1_config_1a4ad4372127b45939946fb3346a4ee0c1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::RedisImporter::Config::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>themis::importers::RedisImporter::Config::db</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="70" column="13" bodyfile="include/importers/redis_importer.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_redis_importer_1_1_config_1a23402874e3d2364fab70c84017d17ac9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RedisImporter::Config::key_pattern</definition>
+        <argsstring></argsstring>
+        <name>key_pattern</name>
+        <qualifiedname>themis::importers::RedisImporter::Config::key_pattern</qualifiedname>
+        <initializer>{&quot;*&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="71" column="21" bodyfile="include/importers/redis_importer.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_redis_importer_1_1_config_1aa3995d45774b9031a32b8c5f552e5d0d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::RedisImporter::Config::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::importers::RedisImporter::Config::batch_size</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="72" column="13" bodyfile="include/importers/redis_importer.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_redis_importer_1_1_config_1adeeedfa339a19f1f335187fde371e9c8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::RedisImporter::Config::pipeline_size</definition>
+        <argsstring></argsstring>
+        <name>pipeline_size</name>
+        <qualifiedname>themis::importers::RedisImporter::Config::pipeline_size</qualifiedname>
+        <initializer>{50}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="73" column="13" bodyfile="include/importers/redis_importer.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_redis_importer_1_1_config_1ad87fe3978f392407b9a28f93e7c581e4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::importers::RedisImporter::Config::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::importers::RedisImporter::Config::timeout_ms</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="74" column="18" bodyfile="include/importers/redis_importer.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_redis_importer_1_1_config_1a06f956e94b1aabb97d8ec4d9ef883909" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::RedisImporter::Config::tls</definition>
+        <argsstring></argsstring>
+        <name>tls</name>
+        <qualifiedname>themis::importers::RedisImporter::Config::tls</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/redis_importer.h" line="75" column="14" bodyfile="include/importers/redis_importer.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/redis_importer.h" line="66" column="5" bodyfile="include/importers/redis_importer.h" bodystart="66" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_redis_importer_1_1_config_1aa3995d45774b9031a32b8c5f552e5d0d" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter::Config</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1importers_1_1_redis_importer_1_1_config_1a4ad4372127b45939946fb3346a4ee0c1" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter::Config</scope><name>db</name></member>
+      <member refid="structthemis_1_1importers_1_1_redis_importer_1_1_config_1ac40a0fa20f1d36840189c425559b7ca4" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter::Config</scope><name>host</name></member>
+      <member refid="structthemis_1_1importers_1_1_redis_importer_1_1_config_1a23402874e3d2364fab70c84017d17ac9" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter::Config</scope><name>key_pattern</name></member>
+      <member refid="structthemis_1_1importers_1_1_redis_importer_1_1_config_1adeeedfa339a19f1f335187fde371e9c8" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter::Config</scope><name>pipeline_size</name></member>
+      <member refid="structthemis_1_1importers_1_1_redis_importer_1_1_config_1a35bd165489c8c0c723fa264bbcfa0120" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter::Config</scope><name>port</name></member>
+      <member refid="structthemis_1_1importers_1_1_redis_importer_1_1_config_1ad87fe3978f392407b9a28f93e7c581e4" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter::Config</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1importers_1_1_redis_importer_1_1_config_1a06f956e94b1aabb97d8ec4d9ef883909" prot="public" virt="non-virtual"><scope>themis::importers::RedisImporter::Config</scope><name>tls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

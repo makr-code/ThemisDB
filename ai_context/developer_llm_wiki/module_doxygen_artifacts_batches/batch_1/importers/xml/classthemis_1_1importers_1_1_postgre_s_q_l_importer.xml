@@ -1,0 +1,2571 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_postgre_s_q_l_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::PostgreSQLImporter</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_importer" prot="public" virt="non-virtual">themis::importers::IImporter</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m" prot="public" virt="non-virtual">themis::importers::PostgreSQLImporterWithMDM</derivedcompoundref>
+    <includes refid="postgres__importer_8h" local="no">postgres_importer.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_check_constraint" prot="private">themis::importers::PostgreSQLImporter::CheckConstraint</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_generated_column_info" prot="private">themis::importers::PostgreSQLImporter::GeneratedColumnInfo</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint" prot="private">themis::importers::PostgreSQLImporter::ExcludeConstraint</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint" prot="private">themis::importers::PostgreSQLImporter::ForeignKeyConstraint</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata" prot="private">themis::importers::PostgreSQLImporter::IndexMetadata</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_table_schema" prot="private">themis::importers::PostgreSQLImporter::TableSchema</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a2d9bb64f66f20b12b984f1c298bed0c6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::importers::PostgreSQLImporter::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="261" column="17" bodyfile="include/importers/postgres_importer.h" bodystart="261" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ad4a6e84d2b6677c916d4fd6f67b1db40" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::importers::PostgreSQLImporter::custom_type_map_mutex_</definition>
+        <argsstring></argsstring>
+        <name>custom_type_map_mutex_</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::custom_type_map_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects custom_type_map_ concurrent access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="262" column="28" bodyfile="include/importers/postgres_importer.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a35dd6f524d34ab58ed326324ab7d6e04" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, TableSchema &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TableSchema&gt; themis::importers::PostgreSQLImporter::schemas_</definition>
+        <argsstring></argsstring>
+        <name>schemas_</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::schemas_</qualifiedname>
+        <briefdescription>
+<para>O(1) lookup by table name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="263" column="24" bodyfile="include/importers/postgres_importer.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a110f24d4896f499b0da2225d02e84beb" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::importers::PostgreSQLImporter::custom_type_map_</definition>
+        <argsstring></argsstring>
+        <name>custom_type_map_</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::custom_type_map_</qualifiedname>
+        <briefdescription>
+<para>Types from CREATE TYPE. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="264" column="24" bodyfile="include/importers/postgres_importer.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ac72982b55f78ef0190c76cac82adf277" prot="private" static="no" mutable="no">
+        <type><ref refid="class_import_conflict_resolver" kindref="compound">ImportConflictResolver</ref></type>
+        <definition>ImportConflictResolver themis::importers::PostgreSQLImporter::conflict_resolver_</definition>
+        <argsstring></argsstring>
+        <name>conflict_resolver_</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::conflict_resolver_</qualifiedname>
+        <briefdescription>
+<para>In-session conflict tracker. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="265" column="28" bodyfile="include/importers/postgres_importer.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1abaa59c6ec027238b0c2883806941fd13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::PostgreSQLImporter::PostgreSQLImporter</definition>
+        <argsstring>()</argsstring>
+        <name>PostgreSQLImporter</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::PostgreSQLImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="29" column="5" bodyfile="src/importers/postgres_importer.cpp" bodystart="319" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af8512db1eee2e32bf7c35ae7269f41d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::PostgreSQLImporter::~PostgreSQLImporter</definition>
+        <argsstring>() override</argsstring>
+        <name>~PostgreSQLImporter</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::~PostgreSQLImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="30" column="5" bodyfile="src/importers/postgres_importer.cpp" bodystart="322" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a012b0368ead0def37b09b2733173df78" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::PostgreSQLImporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212">getName</reimplements>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a560dee31fa4c6a813d179d01c2a8438e">getName</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="33" column="16" bodyfile="include/importers/postgres_importer.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1acdae4f7401afaca131b6fe35129e45da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::PostgreSQLImporter::getSupportedTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::getSupportedTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6">getSupportedTypes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="34" column="17" bodyfile="src/importers/postgres_importer.cpp" bodystart="326" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ae14ca8e9447b41d7e225115e47e2e28d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::initialize</definition>
+        <argsstring>(const std::string &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1ae57ccf0cf0c3b0dbe9647f43be339afc">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: clear(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="35" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="336" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a05bcbe6f9e00075029116b7117d814db" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::validateSource</definition>
+        <argsstring>(const std::string &amp;source_path, std::vector&lt; std::string &gt; &amp;errors) override</argsstring>
+        <name>validateSource</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::validateSource</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5">validateSource</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Validate Source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), push_back(), std::getline(), find(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="36" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="351" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af5e9d718b1db740ba302d43075a3aade" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::PostgreSQLImporter::importData</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, ProgressCallback progress_callback=nullptr) override</argsstring>
+        <name>importData</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::importData</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02">importData</reimplements>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a5888e94d6ce778896c3ca55bbef9d1cb">importData</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Import Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), toJson(), dump(), pgAuditLogEvent(), std::to_string(), permission_check(), addError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="37" column="17" bodyfile="src/importers/postgres_importer.cpp" bodystart="390" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ad21b2167fc9bcb34df74afc3e4f6d74a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::PostgreSQLImporter::importDataStreaming</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, RowCallback row_callback) override</argsstring>
+        <name>importDataStreaming</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::importDataStreaming</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52">importDataStreaming</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1acb7a87a714267217a947b9c5c4b56398" kindref="member">RowCallback</ref></type>
+          <declname>row_callback</declname>
+        </param>
+        <briefdescription>
+<para>Import Data Streaming. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(), <ref refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af5e9d718b1db740ba302d43075a3aade" kindref="member">importData()</ref>, erase(), std::remove_if(), begin(), end(), std::remove(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="42" column="17" bodyfile="src/importers/postgres_importer.cpp" bodystart="580" bodyend="621"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a2d880dcf2b0f80f870b7c3fda489a36f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; themis::importers::PostgreSQLImporter::importDataAsync</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options) override</argsstring>
+        <name>importDataAsync</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::importDataAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8">importDataAsync</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Import Data Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="47" column="21" bodyfile="src/importers/postgres_importer.cpp" bodystart="499" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a1b95944589481cd843c5caac5aab8be8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLImporter::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="51" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="567" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a54ec6a1a4c318d8b28f076b16d90e1c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::PostgreSQLImporter::getSourceSchema</definition>
+        <argsstring>(const std::string &amp;source_path) override</argsstring>
+        <name>getSourceSchema</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::getSourceSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a">getSourceSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <briefdescription>
+<para>Get Source Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clear(), file(), json::array(), reserve(), std::getline(), empty(), find_first_not_of(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="52" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="629" bodyend="785"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a797068da28789b6899b9f49aa1197498" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseDumpFile</definition>
+        <argsstring>(const std::string &amp;file_path, const ImportOptions &amp;options, ImportStats &amp;stats, ProgressCallback &amp;callback)</argsstring>
+        <name>parseDumpFile</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseDumpFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Parse Dump File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), addError(), streamReadLinePg(), tellg(), find(), empty(), size(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="276" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="800" bodyend="1224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a2cd49a8d08774f0e807be9830871eb4a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseCreateTable</definition>
+        <argsstring>(const std::string &amp;sql, TableSchema &amp;schema)</argsstring>
+        <name>parseCreateTable</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseCreateTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <param>
+          <type>TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Parse Create Table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::regex_search(), size(), str(), find(), position(), empty(), findMatchingParen(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="284" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="1233" bodyend="1435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a1db05464c8dc488e91682698c10780ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseInsert</definition>
+        <argsstring>(const std::string &amp;sql, const ImportOptions &amp;options, ImportStats &amp;stats, size_t line_number)</argsstring>
+        <name>parseInsert</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseInsert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>line_number</declname>
+        </param>
+        <briefdescription>
+<para>Parse Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">line_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">line_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: insert_regex(), std::regex_search(), addError(), std::to_string(), str(), shouldImportTable(), empty(), css(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="293" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2098" bodyend="2213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a789c559e5a22ad6627743bebef2a11c1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseCopy</definition>
+        <argsstring>(std::ifstream &amp;file, const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;columns, const ImportOptions &amp;options, ImportStats &amp;stats, std::unordered_set&lt; uint64_t &gt; &amp;delta_hashes)</argsstring>
+        <name>parseCopy</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseCopy</qualifiedname>
+        <param>
+          <type>std::ifstream &amp;</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>columns</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; uint64_t &gt; &amp;</type>
+          <declname>delta_hashes</declname>
+        </param>
+        <briefdescription>
+<para>Parse Copy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">delta_hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">delta_hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: shouldImportTable(), streamReadLinePg(), rfind(), count(), empty(), std::to_string(), push_back(), writeQuarantineRow(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="305" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2226" bodyend="2476"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ac16b26c5b3bde027860f4458e6191e56" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseForeignKeyConstraint</definition>
+        <argsstring>(const std::string &amp;constraint_def, TableSchema &amp;schema) const</argsstring>
+        <name>parseForeignKeyConstraint</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseForeignKeyConstraint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>constraint_def</declname>
+        </param>
+        <param>
+          <type>TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>v2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+0: Foreign Key helpers </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="317" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="1458" bodyend="1536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1aae7d6f816e9366d05e85788cb2406be9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseInlineReference</definition>
+        <argsstring>(const std::string &amp;col_name, const std::string &amp;col_def, TableSchema &amp;schema) const</argsstring>
+        <name>parseInlineReference</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseInlineReference</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>col_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>col_def</declname>
+        </param>
+        <param>
+          <type>TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Parse Inline Reference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">col_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the col. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">col_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="327" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="1538" bodyend="1594"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1abb8fe52598c399ea4108fdcdc8bc2713" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLImporter::parseAlterTableAddFk</definition>
+        <argsstring>(const std::string &amp;sql, const ImportOptions &amp;options, ImportStats &amp;stats)</argsstring>
+        <name>parseAlterTableAddFk</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseAlterTableAddFk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Parse Alter Table Add Fk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: tbl_regex(), std::regex_search(), str(), count(), THEMIS_DEBUG(), size(), parseForeignKeyConstraint(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="337" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="1603" bodyend="1633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a70a70b7317f2d7fb4d198c82defa4b33" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseForeignKeyConstraint</definition>
+        <argsstring>(const std::string &amp;constraint_def, ForeignKeyConstraint &amp;fk)</argsstring>
+        <name>parseForeignKeyConstraint</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseForeignKeyConstraint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>constraint_def</declname>
+        </param>
+        <param>
+          <type>ForeignKeyConstraint &amp;</type>
+          <declname>fk</declname>
+        </param>
+        <briefdescription>
+<para>v2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+0 parser methods</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+0 Parser Methods ============================================================================ Calls: std::regex_search(), str(), find_first_not_of(), find_last_not_of(), substr(), ss(), std::getline(), trimStr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="347" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="1643" bodyend="1724"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1adb87d757dfd8fed41c894e28178812cd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseCreateIndex</definition>
+        <argsstring>(const std::string &amp;sql, const std::string &amp;table_name, IndexMetadata &amp;index)</argsstring>
+        <name>parseCreateIndex</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseCreateIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>IndexMetadata &amp;</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Parse Create Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::regex_search(), str(), empty(), std::tolower(), css(), std::getline(), find_first_of(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="356" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="1734" bodyend="1790"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ae1968038fedf12635861f8918d1a33b6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseAlterTableForeignKey</definition>
+        <argsstring>(const std::string &amp;sql, std::string &amp;out_table, ForeignKeyConstraint &amp;fk)</argsstring>
+        <name>parseAlterTableForeignKey</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseAlterTableForeignKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out_table</declname>
+        </param>
+        <param>
+          <type>ForeignKeyConstraint &amp;</type>
+          <declname>fk</declname>
+        </param>
+        <briefdescription>
+<para>Parse Alter Table Foreign Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::regex_search(), str(), parseForeignKeyConstraint(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="366" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="1800" bodyend="1810"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ad2615c748acf777edb24744f2ab57179" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::validateForeignKeyReferences</definition>
+        <argsstring>(const ImportOptions &amp;options, ImportStats &amp;stats)</argsstring>
+        <name>validateForeignKeyReferences</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::validateForeignKeyReferences</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Validate Foreign Key References. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), count(), push_back(), find(), end(), at(), emplace(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="375" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="1819" bodyend="1871"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af52e9034549d06b449bf4c60eb5e4fbf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseCheckConstraint</definition>
+        <argsstring>(const std::string &amp;constraint_def, CheckConstraint &amp;ck)</argsstring>
+        <name>parseCheckConstraint</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseCheckConstraint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>constraint_def</declname>
+        </param>
+        <param>
+          <type>CheckConstraint &amp;</type>
+          <declname>ck</declname>
+        </param>
+        <briefdescription>
+<para>v2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ v2.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ck</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+1 parser methods</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ck</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+1 Parser Methods ============================================================================ Calls: std::regex_search(), str(), std::toupper(), find(), findMatchingParen(), substr(), find_first_not_of(), find_last_not_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="385" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="1881" bodyend="1916"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a8fdfb32cdd82713a0061418f3e76cb40" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseExcludeConstraint</definition>
+        <argsstring>(const std::string &amp;constraint_def, ExcludeConstraint &amp;excl)</argsstring>
+        <name>parseExcludeConstraint</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseExcludeConstraint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>constraint_def</declname>
+        </param>
+        <param>
+          <type>ExcludeConstraint &amp;</type>
+          <declname>excl</declname>
+        </param>
+        <briefdescription>
+<para>Parse Exclude Constraint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">excl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraint_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">excl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::regex_search(), str(), std::toupper(), find(), substr(), find_last_not_of(), size(), std::isspace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="392" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="1925" bodyend="2006"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ad0b9c4de460d72f85f750bb611ed193a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::parseGeneratedColumn</definition>
+        <argsstring>(const std::string &amp;col_def, const std::string &amp;col_name, GeneratedColumnInfo &amp;gen)</argsstring>
+        <name>parseGeneratedColumn</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseGeneratedColumn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>col_def</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>col_name</declname>
+        </param>
+        <param>
+          <type>GeneratedColumnInfo &amp;</type>
+          <declname>gen</declname>
+        </param>
+        <briefdescription>
+<para>Parse Generated Column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">col_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">col_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the col. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">gen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">col_def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">col_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the col. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">gen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::toupper(), find(), substr(), find_first_not_of(), empty(), findMatchingParen(), find_last_not_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="400" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2016" bodyend="2087"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a7915f827a3e73ddfb5fcb7cefb7c68cf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::mapPostgreSQLTypeToThemis</definition>
+        <argsstring>(const std::string &amp;pg_type, const ImportOptions &amp;options) const</argsstring>
+        <name>mapPostgreSQLTypeToThemis</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::mapPostgreSQLTypeToThemis</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pg_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Map Postgre SQLType To Themis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pg_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">custom_type_map_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="410" column="17" bodyfile="src/importers/postgres_importer.cpp" bodystart="2579" bodyend="2708"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a92857b3548f75c1e4adfc7f9235da462" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::shouldImportTable</definition>
+        <argsstring>(const std::string &amp;table_name, const ImportOptions &amp;options)</argsstring>
+        <name>shouldImportTable</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::shouldImportTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Should Import Table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::find(), begin(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="418" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2717" bodyend="2729"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a8304b89e400a1a3adee903e2d6cff4e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::PostgreSQLImporter::convertRowToEntity</definition>
+        <argsstring>(const TableSchema &amp;schema, const std::vector&lt; std::string &gt; &amp;values)</argsstring>
+        <name>convertRowToEntity</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::convertRowToEntity</qualifiedname>
+        <param>
+          <type>const TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Convert Row To Entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), empty(), json::array(), push_back(), toJson(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="427" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2738" bodyend="2756"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a905583616a021d5549b59f103dc3748b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::PostgreSQLImporter::parseCopyRow</definition>
+        <argsstring>(const std::string &amp;line) const</argsstring>
+        <name>parseCopyRow</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseCopyRow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Parse Copy Row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="435" column="17" bodyfile="src/importers/postgres_importer.cpp" bodystart="2478" bodyend="2496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a7946b9214e28a6809b43590f95a3f782" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::unescapeCopyValue</definition>
+        <argsstring>(const std::string &amp;val) const</argsstring>
+        <name>unescapeCopyValue</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::unescapeCopyValue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Unescape Copy Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="441" column="17" bodyfile="src/importers/postgres_importer.cpp" bodystart="2498" bodyend="2522"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a76deac7f1bc7c184a6e4aa1db6ae8fd8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::PostgreSQLImporter::parseInsertValues</definition>
+        <argsstring>(const std::string &amp;values_clause) const</argsstring>
+        <name>parseInsertValues</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::parseInsertValues</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>values_clause</declname>
+        </param>
+        <briefdescription>
+<para>Parse Insert Values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values_clause</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="449" column="17" bodyfile="src/importers/postgres_importer.cpp" bodystart="2524" bodyend="2577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a9bc728553395c6d0abccd4a3ba26a363" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLImporter::addError</definition>
+        <argsstring>(ImportStats &amp;stats, ImportErrorCode code, ImportErrorSeverity severity, const std::string &amp;message, const std::string &amp;location=&quot;&quot;) const</argsstring>
+        <name>addError</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::addError</qualifiedname>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a7ab8f0c7a8a3d9ee85ae85e2dc82739f" kindref="member">ImportErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1ab84e8d97ff72a5766b99d350cbe478d0" kindref="member">ImportErrorSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>location</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="452" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2758" bodyend="2770"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1abcbc7b3dd68e4199d5dbf99b86671688" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLImporter::addPostgreSQLError</definition>
+        <argsstring>(ImportStats &amp;stats, ImportErrorSeverity severity, const std::string &amp;pg_error_msg, const std::string &amp;location=&quot;&quot;) const</argsstring>
+        <name>addPostgreSQLError</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::addPostgreSQLError</qualifiedname>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1ab84e8d97ff72a5766b99d350cbe478d0" kindref="member">ImportErrorSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pg_error_msg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>location</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="456" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2773" bodyend="2780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a782fb52ddee85601cb1afc64b0092eaa" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLImporter::emitMetric</definition>
+        <argsstring>(const ImportOptions &amp;options, const std::string &amp;metric, const std::map&lt; std::string, std::string &gt; &amp;labels, double value) const</argsstring>
+        <name>emitMetric</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::emitMetric</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="461" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2782" bodyend="2789"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ac11dc72e3e753e2bdb8ff6b93a2a660b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLImporter::emitSpan</definition>
+        <argsstring>(const ImportOptions &amp;options, const std::string &amp;operation, const std::map&lt; std::string, std::string &gt; &amp;attributes, double duration_seconds) const</argsstring>
+        <name>emitSpan</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::emitSpan</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>attributes</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_seconds</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="467" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2791" bodyend="2798"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ab8c209cdbb84ecce4c62e70c4ba89318" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::loadCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_file, std::streampos &amp;offset, ImportStats &amp;accumulated_stats) const</argsstring>
+        <name>loadCheckpoint</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::loadCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_file</declname>
+        </param>
+        <param>
+          <type>std::streampos &amp;</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>accumulated_stats</declname>
+        </param>
+        <briefdescription>
+<para>Load Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">accumulated_stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="487" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2866" bodyend="2901"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a1f30784079a87a6e965aca2aafea5b56" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLImporter::saveCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_file, std::streampos offset, const ImportStats &amp;stats) const</argsstring>
+        <name>saveCheckpoint</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::saveCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_file</declname>
+        </param>
+        <param>
+          <type>std::streampos</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Save Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="495" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2903" bodyend="2928"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a591ba19fca51fb9686bd0c4ee78e3ad0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLImporter::writeQuarantineRow</definition>
+        <argsstring>(const std::string &amp;quarantine_file, const std::string &amp;table_name, const std::string &amp;raw_row, const ImportError &amp;error) const</argsstring>
+        <name>writeQuarantineRow</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::writeQuarantineRow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>quarantine_file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw_row</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_error" kindref="compound">ImportError</ref> &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Write Quarantine Row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">quarantine_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">quarantine_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">app</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="506" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2948" bodyend="2977"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ab92dfba2f7ad888192ea49bbe0e92d7b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLImporter::reportProgress</definition>
+        <argsstring>(ProgressCallback &amp;callback, const std::string &amp;stage, size_t current, size_t total)</argsstring>
+        <name>reportProgress</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::reportProgress</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stage</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>current</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total</declname>
+        </param>
+        <briefdescription>
+<para>Report Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="545" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="2938" bodyend="2942"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ac8afa231476b63da04d48a4377e408e9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::isValidUtf8</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>isValidUtf8</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::isValidUtf8</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>UTF-8 validation helper. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Valid Utf8.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="477" column="17" bodyfile="src/importers/postgres_importer.cpp" bodystart="2806" bodyend="2864"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a322a54c0e4389d4ddaa22a134f2e6b5d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::PostgreSQLImporter::computeRowHash</definition>
+        <argsstring>(const std::string &amp;raw_row, const std::vector&lt; std::string &gt; &amp;values, const std::vector&lt; std::string &gt; &amp;key_columns, const std::vector&lt; std::string &gt; &amp;schema_columns)</argsstring>
+        <name>computeRowHash</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::computeRowHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw_row</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>key_columns</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>schema_columns</declname>
+        </param>
+        <briefdescription>
+<para>Delta / incremental import helpers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Row Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema_columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema_columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), fnv1a64(), data(), size(), reserve(), emplace(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="519" column="21" bodyfile="src/importers/postgres_importer.cpp" bodystart="3008" bodyend="3038"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af6a91974f4cb467665f5410915fd58d3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_set&lt; uint64_t &gt;</type>
+        <definition>std::unordered_set&lt; uint64_t &gt; themis::importers::PostgreSQLImporter::loadDeltaHashes</definition>
+        <argsstring>(const std::string &amp;delta_hash_file)</argsstring>
+        <name>loadDeltaHashes</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::loadDeltaHashes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>delta_hash_file</declname>
+        </param>
+        <briefdescription>
+<para>Load Delta Hashes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_hash_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_hash_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: f(), std::getline(), empty(), insert(), std::stoull(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="528" column="31" bodyfile="src/importers/postgres_importer.cpp" bodystart="3046" bodyend="3062"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a5c34e40105399cd11db9fa8e10f8558a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLImporter::saveDeltaHashes</definition>
+        <argsstring>(const std::string &amp;delta_hash_file, const std::unordered_set&lt; uint64_t &gt; &amp;hashes)</argsstring>
+        <name>saveDeltaHashes</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::saveDeltaHashes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>delta_hash_file</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; uint64_t &gt; &amp;</type>
+          <declname>hashes</declname>
+        </param>
+        <briefdescription>
+<para>Save Delta Hashes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_hash_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_hash_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: f(), std::setfill(), std::setw(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="534" column="17" bodyfile="src/importers/postgres_importer.cpp" bodystart="3070" bodyend="3081"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::PostgreSQLImporter</label>
+        <link refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::importers::PostgreSQLImporterWithMDM</label>
+        <link refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::PostgreSQLImporter</label>
+        <link refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/postgres_importer.h" line="27" column="1" bodyfile="include/importers/postgres_importer.h" bodystart="27" bodyend="546"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a9bc728553395c6d0abccd4a3ba26a363" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>addError</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1abcbc7b3dd68e4199d5dbf99b86671688" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>addPostgreSQLError</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a1b95944589481cd843c5caac5aab8be8" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a2d9bb64f66f20b12b984f1c298bed0c6" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a322a54c0e4389d4ddaa22a134f2e6b5d" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>computeRowHash</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ac72982b55f78ef0190c76cac82adf277" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>conflict_resolver_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a8304b89e400a1a3adee903e2d6cff4e4" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>convertRowToEntity</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a110f24d4896f499b0da2225d02e84beb" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>custom_type_map_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ad4a6e84d2b6677c916d4fd6f67b1db40" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>custom_type_map_mutex_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a782fb52ddee85601cb1afc64b0092eaa" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>emitMetric</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ac11dc72e3e753e2bdb8ff6b93a2a660b" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>emitSpan</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a012b0368ead0def37b09b2733173df78" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a54ec6a1a4c318d8b28f076b16d90e1c9" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>getSourceSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1acdae4f7401afaca131b6fe35129e45da" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af5e9d718b1db740ba302d43075a3aade" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>importData</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a2d880dcf2b0f80f870b7c3fda489a36f" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ad21b2167fc9bcb34df74afc3e4f6d74a" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>importDataStreaming</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ae14ca8e9447b41d7e225115e47e2e28d" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ac8afa231476b63da04d48a4377e408e9" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>isValidUtf8</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ab8c209cdbb84ecce4c62e70c4ba89318" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>loadCheckpoint</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af6a91974f4cb467665f5410915fd58d3" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>loadDeltaHashes</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a7915f827a3e73ddfb5fcb7cefb7c68cf" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>mapPostgreSQLTypeToThemis</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1abb8fe52598c399ea4108fdcdc8bc2713" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseAlterTableAddFk</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ae1968038fedf12635861f8918d1a33b6" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseAlterTableForeignKey</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af52e9034549d06b449bf4c60eb5e4fbf" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseCheckConstraint</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a789c559e5a22ad6627743bebef2a11c1" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseCopy</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a905583616a021d5549b59f103dc3748b" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseCopyRow</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1adb87d757dfd8fed41c894e28178812cd" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseCreateIndex</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a2cd49a8d08774f0e807be9830871eb4a" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseCreateTable</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a797068da28789b6899b9f49aa1197498" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseDumpFile</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a8fdfb32cdd82713a0061418f3e76cb40" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseExcludeConstraint</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ac16b26c5b3bde027860f4458e6191e56" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseForeignKeyConstraint</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a70a70b7317f2d7fb4d198c82defa4b33" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseForeignKeyConstraint</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ad0b9c4de460d72f85f750bb611ed193a" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseGeneratedColumn</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1aae7d6f816e9366d05e85788cb2406be9" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseInlineReference</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a1db05464c8dc488e91682698c10780ba" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseInsert</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a76deac7f1bc7c184a6e4aa1db6ae8fd8" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>parseInsertValues</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1abaa59c6ec027238b0c2883806941fd13" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>PostgreSQLImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ab92dfba2f7ad888192ea49bbe0e92d7b" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>reportProgress</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a1f30784079a87a6e965aca2aafea5b56" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>saveCheckpoint</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a5c34e40105399cd11db9fa8e10f8558a" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>saveDeltaHashes</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a35dd6f524d34ab58ed326324ab7d6e04" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>schemas_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a92857b3548f75c1e4adfc7f9235da462" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>shouldImportTable</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a7946b9214e28a6809b43590f95a3f782" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>unescapeCopyValue</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ad2615c748acf777edb24744f2ab57179" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>validateForeignKeyReferences</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a05bcbe6f9e00075029116b7117d814db" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a591ba19fca51fb9686bd0c4ee78e3ad0" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>writeQuarantineRow</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>~IImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af8512db1eee2e32bf7c35ae7269f41d3" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter</scope><name>~PostgreSQLImporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,703 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_policy_versioning_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::PolicyVersioningApiHandler</compoundname>
+    <includes refid="policy__versioning__api__handler_8h" local="no">policy_versioning_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1a8cd70dc0c50e5b0a01379f23e75a3905" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::governance::PolicyManagerWithVersioning &gt;</type>
+        <definition>std::shared_ptr&lt;themis::governance::PolicyManagerWithVersioning&gt; themis::server::PolicyVersioningApiHandler::policy_manager_versioned_</definition>
+        <argsstring></argsstring>
+        <name>policy_manager_versioned_</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::policy_manager_versioned_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="106" column="21" bodyfile="include/server/policy_versioning_api_handler.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1a4369041ac0def3a105535ebb08205153" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::PolicyVersioningApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="107" column="21" bodyfile="include/server/policy_versioning_api_handler.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1ac8a0fbd28d0c84299b63249118d3dc51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PolicyVersioningApiHandler::PolicyVersioningApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; themis::governance::PolicyManagerWithVersioning &gt; policy_manager_versioned, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>PolicyVersioningApiHandler</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::PolicyVersioningApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::governance::PolicyManagerWithVersioning &gt;</type>
+          <declname>policy_manager_versioned</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="30" column="5" bodyfile="src/server/policy_versioning_api_handler.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1a79e02d419808c7c12b508ed891914a1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyVersioningApiHandler::handleListVersions</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;rule_id)</argsstring>
+        <name>handleListVersions</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::handleListVersions</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isValidIdentifier(), makeErrorResponse(), checkAuth(), getRuleVersions(), nlohmann::json::array(), push_back(), toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="41" column="20" bodyfile="src/server/policy_versioning_api_handler.cpp" bodystart="76" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1a5cf127412abc28a9cb970f8d825f5bed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyVersioningApiHandler::handleGetVersion</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;rule_id, const std::string &amp;version)</argsstring>
+        <name>handleGetVersion</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::handleGetVersion</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isValidIdentifier(), makeErrorResponse(), checkAuth(), getRuleVersion(), has_value(), makeResponse(), toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="53" column="20" bodyfile="src/server/policy_versioning_api_handler.cpp" bodystart="125" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1aefdad1626d84310e0c6daf371e86f683" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyVersioningApiHandler::handleRollback</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;rule_id, const std::string &amp;target_version)</argsstring>
+        <name>handleRollback</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::handleRollback</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_version</declname>
+        </param>
+        <briefdescription>
+<para>Handle Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isValidIdentifier(), makeErrorResponse(), checkAuth(), body(), empty(), nlohmann::json::parse(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="66" column="20" bodyfile="src/server/policy_versioning_api_handler.cpp" bodystart="168" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1a232c80ff2141aa58ae887dafe297d113" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyVersioningApiHandler::handleCompareVersions</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;rule_id, const std::string &amp;version1, const std::string &amp;version2)</argsstring>
+        <name>handleCompareVersions</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::handleCompareVersions</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version2</declname>
+        </param>
+        <briefdescription>
+<para>Handle Compare Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isValidIdentifier(), makeErrorResponse(), checkAuth(), compareVersions(), makeResponse(), toJson(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="80" column="20" bodyfile="src/server/policy_versioning_api_handler.cpp" bodystart="241" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1a3b509d3fd653474c5ed9bfb72c3b62b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyVersioningApiHandler::handleQueryAudit</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleQueryAudit</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::handleQueryAudit</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Query Audit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), url(), target(), getQueryParam(), has_value(), isValidIdentifier(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="92" column="20" bodyfile="src/server/policy_versioning_api_handler.cpp" bodystart="280" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1a44f2d26cdf7732c9d7e14e0d4e12e715" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyVersioningApiHandler::handleGetConflicts</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetConflicts</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::handleGetConflicts</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), getActiveConflicts(), nlohmann::json::array(), push_back(), toJson(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="101" column="20" bodyfile="src/server/policy_versioning_api_handler.cpp" bodystart="363" bodyend="401"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1a36045c08db334805eccc24a80ccb1b21" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::PolicyVersioningApiHandler::checkAuth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;required_role) const</argsstring>
+        <name>checkAuth</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::checkAuth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_role</declname>
+        </param>
+        <briefdescription>
+<para>Check Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="115" column="10" bodyfile="src/server/policy_versioning_api_handler.cpp" bodystart="403" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1ad062fc4bf01e67b168d62068971db122" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyVersioningApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="124" column="20" bodyfile="src/server/policy_versioning_api_handler.cpp" bodystart="449" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1af241aba27e1578442c1c67559d2986e4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PolicyVersioningApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="137" column="20" bodyfile="src/server/policy_versioning_api_handler.cpp" bodystart="463" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_policy_versioning_api_handler_1a8e2a794b12500b8b32c1ab6133e9dfb7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::server::PolicyVersioningApiHandler::getQueryParam</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;param) const</argsstring>
+        <name>getQueryParam</name>
+        <qualifiedname>themis::server::PolicyVersioningApiHandler::getQueryParam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+<para>Get Query Param. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/policy_versioning_api_handler.h" line="149" column="19" bodyfile="src/server/policy_versioning_api_handler.cpp" bodystart="475" bodyend="509"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/policy_versioning_api_handler.h" line="28" column="1" bodyfile="include/server/policy_versioning_api_handler.h" bodystart="28" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1a4369041ac0def3a105535ebb08205153" prot="private" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1a36045c08db334805eccc24a80ccb1b21" prot="private" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>checkAuth</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1a8e2a794b12500b8b32c1ab6133e9dfb7" prot="private" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>getQueryParam</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1a232c80ff2141aa58ae887dafe297d113" prot="public" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>handleCompareVersions</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1a44f2d26cdf7732c9d7e14e0d4e12e715" prot="public" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>handleGetConflicts</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1a5cf127412abc28a9cb970f8d825f5bed" prot="public" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>handleGetVersion</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1a79e02d419808c7c12b508ed891914a1c" prot="public" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>handleListVersions</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1a3b509d3fd653474c5ed9bfb72c3b62b4" prot="public" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>handleQueryAudit</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1aefdad1626d84310e0c6daf371e86f683" prot="public" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>handleRollback</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1af241aba27e1578442c1c67559d2986e4" prot="private" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1ad062fc4bf01e67b168d62068971db122" prot="private" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1a8cd70dc0c50e5b0a01379f23e75a3905" prot="private" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>policy_manager_versioned_</name></member>
+      <member refid="classthemis_1_1server_1_1_policy_versioning_api_handler_1ac8a0fbd28d0c84299b63249118d3dc51" prot="public" virt="non-virtual"><scope>themis::server::PolicyVersioningApiHandler</scope><name>PolicyVersioningApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

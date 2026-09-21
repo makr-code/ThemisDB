@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_fetch_record" kind="struct" language="C++" prot="public">
+    <compoundname>FetchRecord</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_fetch_record_1a69edf4082b1fa27e8ae50d67b92b94c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string FetchRecord::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>FetchRecord::url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="42" column="17" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fetch_record_1acdb03929dd6038a130bd7b3e458a062f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool FetchRecord::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>FetchRecord::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="43" column="17" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fetch_record_1ac7e03e0d42389d84e0cfe4bb46fc5281" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t FetchRecord::http_status</definition>
+        <argsstring></argsstring>
+        <name>http_status</name>
+        <qualifiedname>FetchRecord::http_status</qualifiedname>
+        <initializer>{200}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="44" column="17" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fetch_record_1a7a55ff560a988c6c511cb2408791abd0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t FetchRecord::bytes</definition>
+        <argsstring></argsstring>
+        <name>bytes</name>
+        <qualifiedname>FetchRecord::bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="45" column="17" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="41" column="1" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="41" bodyend="46"/>
+    <listofallmembers>
+      <member refid="struct_fetch_record_1a7a55ff560a988c6c511cb2408791abd0" prot="public" virt="non-virtual"><scope>FetchRecord</scope><name>bytes</name></member>
+      <member refid="struct_fetch_record_1ac7e03e0d42389d84e0cfe4bb46fc5281" prot="public" virt="non-virtual"><scope>FetchRecord</scope><name>http_status</name></member>
+      <member refid="struct_fetch_record_1acdb03929dd6038a130bd7b3e458a062f" prot="public" virt="non-virtual"><scope>FetchRecord</scope><name>success</name></member>
+      <member refid="struct_fetch_record_1a69edf4082b1fa27e8ae50d67b92b94c7" prot="public" virt="non-virtual"><scope>FetchRecord</scope><name>url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

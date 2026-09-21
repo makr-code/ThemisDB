@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::bench::ConfigEncryptedStoreHotPathFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a9ae463170a591e1190aa0f9428286f02" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1config_1_1_config_encrypted_store" kindref="compound">ConfigEncryptedStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ConfigEncryptedStore&gt; themis::config::bench::ConfigEncryptedStoreHotPathFixture::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::config::bench::ConfigEncryptedStoreHotPathFixture::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="159" column="21" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a0dab837535ebdb104ad54a6e99be5516" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::bench::ConfigEncryptedStoreHotPathFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::bench::ConfigEncryptedStoreHotPathFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="148" column="10" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="148" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a5824413d42160058f76585375fe4aeff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::bench::ConfigEncryptedStoreHotPathFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::config::bench::ConfigEncryptedStoreHotPathFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="154" column="10" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="154" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::config::bench::ConfigEncryptedStoreHotPathFixture</label>
+        <link refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::config::bench::ConfigEncryptedStoreHotPathFixture</label>
+        <link refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/config/bench_config_release_gates.cpp" line="146" column="1" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="146" bodyend="160"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a0dab837535ebdb104ad54a6e99be5516" prot="public" virt="non-virtual"><scope>themis::config::bench::ConfigEncryptedStoreHotPathFixture</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a9ae463170a591e1190aa0f9428286f02" prot="protected" virt="non-virtual"><scope>themis::config::bench::ConfigEncryptedStoreHotPathFixture</scope><name>store_</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_encrypted_store_hot_path_fixture_1a5824413d42160058f76585375fe4aeff" prot="public" virt="non-virtual"><scope>themis::config::bench::ConfigEncryptedStoreHotPathFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

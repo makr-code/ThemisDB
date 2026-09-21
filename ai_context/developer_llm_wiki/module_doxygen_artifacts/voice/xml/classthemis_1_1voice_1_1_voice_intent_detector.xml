@@ -1,0 +1,628 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_intent_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceIntentDetector</compoundname>
+    <includes refid="voice__intent__detector_8h" local="no">voice_intent_detector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_intent_detector_1ad01fe1f6490de561829400960b0d0a1c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_intent_detector_config" kindref="compound">IntentDetectorConfig</ref></type>
+        <definition>IntentDetectorConfig themis::voice::VoiceIntentDetector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="288" column="26" bodyfile="include/voice/voice_intent_detector.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_intent_detector_1a06174bd5af974e0887254f9091899c83" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceIntentDetector::detections_total_</definition>
+        <argsstring></argsstring>
+        <name>detections_total_</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::detections_total_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="289" column="14" bodyfile="include/voice/voice_intent_detector.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_intent_detector_1a79f0743a330dd6a52d893af650588df0" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceIntentDetector::high_confidence_</definition>
+        <argsstring></argsstring>
+        <name>high_confidence_</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::high_confidence_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="290" column="14" bodyfile="include/voice/voice_intent_detector.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_intent_detector_1af87929a38fe80ead995493cf6cd57866" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceIntentDetector::low_confidence_</definition>
+        <argsstring></argsstring>
+        <name>low_confidence_</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::low_confidence_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="291" column="14" bodyfile="include/voice/voice_intent_detector.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_intent_detector_1ab421c659b2e5e4ceb224535b78978d31" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceIntentDetector::timeout_fallbacks_</definition>
+        <argsstring></argsstring>
+        <name>timeout_fallbacks_</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::timeout_fallbacks_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Phase 3: timeout fallback count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="292" column="14" bodyfile="include/voice/voice_intent_detector.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_intent_detector_1a72af24c8c556b63944128c8028469a23" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceIntentDetector::last_detection_start_ms_</definition>
+        <argsstring></argsstring>
+        <name>last_detection_start_ms_</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::last_detection_start_ms_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Phase 3: for timeout tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="294" column="13" bodyfile="include/voice/voice_intent_detector.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_intent_detector_1a51da6f4a945b640e79342d8615fbfc3e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceIntentDetector::timeout_detected_</definition>
+        <argsstring></argsstring>
+        <name>timeout_detected_</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::timeout_detected_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Phase 3: timeout flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="295" column="10" bodyfile="include/voice/voice_intent_detector.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1ae20eb0208214f77c64313d43ac688823" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceIntentDetector::VoiceIntentDetector</definition>
+        <argsstring>(const IntentDetectorConfig &amp;config={})</argsstring>
+        <name>VoiceIntentDetector</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::VoiceIntentDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_intent_detector_config" kindref="compound">IntentDetectorConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with configuration (frozen Phase 1 defaults + Phase 3 options). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="222" column="14" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="138" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1ac8822169e205b9611cb651dddd13b988" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceIntentDetector::~VoiceIntentDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VoiceIntentDetector</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::~VoiceIntentDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="223" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1a8b43dd6a6a415749214a66bffcd60654" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_intent_result" kindref="compound">IntentResult</ref></type>
+        <definition>IntentResult themis::voice::VoiceIntentDetector::detect</definition>
+        <argsstring>(const std::string &amp;text, const ConversationContext *context=nullptr)</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::detect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1voice_1_1_conversation_context" kindref="compound">ConversationContext</ref> *</type>
+          <declname>context</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Detect intent from transcribed text (frozen contract). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>TASK 2.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transcribed user utterance (non-empty required). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional conversation context for pronoun resolution.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="pre"><para>text must not be empty </para>
+</simplesect>
+<simplesect kind="post"><para>result.intent set to detected category (or UNKNOWN) </para>
+</simplesect>
+<simplesect kind="post"><para>result.entities populated with extracted entities</para>
+</simplesect>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_intent_result" kindref="compound">IntentResult</ref> with detected intent and confidence. @error 6800 Intent detection failed @error 6802 Unknown/unclassified intent @error 6803 Ambiguous intent @error 6805 Context resolution failed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+3: Intent detection fallback chain Primary model → Backup model → Safe default Confidence threshold: kMinIntentConfidence = 0.6 (error code 6801 if below) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="239" column="18" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="367" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1acc9d6d6742631ba84133394e1697f25e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_named_entity" kindref="compound">NamedEntity</ref> &gt;</type>
+        <definition>std::vector&lt; NamedEntity &gt; themis::voice::VoiceIntentDetector::extractEntities</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>extractEntities</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::extractEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract named entities from text (standalone). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Entities.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text to analyze. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of extracted <ref refid="structthemis_1_1voice_1_1_named_entity" kindref="compound">NamedEntity</ref> objects. @error 6804 NER error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractDateEntities(), extractNumberEntities(), extractMetricEntities(), insert(), end(), begin(), erase(), std::remove_if(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="246" column="17" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="311" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1a7da4676bb3caa1bd9075119c4d7c056e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4b" kindref="member">IntentCategory</ref></type>
+        <definition>IntentCategory themis::voice::VoiceIntentDetector::classifyIntent</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>classifyIntent</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::classifyIntent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Classify intent category (without confidence scoring). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Classify Intent.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4b" kindref="member">IntentCategory</ref> (or UNKNOWN if no clear category).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: containsAny(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="252" column="20" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="181" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1ac35150e442520abd6d597e8afd628d87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceIntentDetector::meetsThreshold</definition>
+        <argsstring>(float confidence) const</argsstring>
+        <name>meetsThreshold</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::meetsThreshold</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>confidence</declname>
+        </param>
+        <briefdescription>
+<para>Check if confidence meets frozen threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Score [0.0, 1.0]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if confidence &gt;= min_confidence_threshold; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="258" column="10" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="355" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1ac1beb789a66c7c09ef7395f54661e835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceIntentDetector::normalizeQuery</definition>
+        <argsstring>(const std::string &amp;text, const ConversationContext *context=nullptr)</argsstring>
+        <name>normalizeQuery</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::normalizeQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1voice_1_1_conversation_context" kindref="compound">ConversationContext</ref> *</type>
+          <declname>context</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Normalize/canonicalize a query (frozen algorithm). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalize Query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional context for pronoun resolution. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Normalized query string.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="265" column="17" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="337" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1a1928201a7b22a25cb2fc6fd48884d8d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceIntentDetector::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get aggregate statistics (JSON). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON with detection counts and confidence distribution. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="270" column="10" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="441" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1ab487e3ae87ae32b93a05511819a222bd" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceIntentDetector::isConfidenceTooLow</definition>
+        <argsstring>(float confidence) const noexcept</argsstring>
+        <name>isConfidenceTooLow</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::isConfidenceTooLow</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>confidence</declname>
+        </param>
+        <briefdescription>
+<para>Detect if confidence is too low for acceptance (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Confidence score [0.0, 1.0]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if confidence below threshold (should ask for clarification). </para>
+</simplesect>
+<simplesect kind="note"><para>Only meaningful if ask_clarification_on_low_confidence=true. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="276" column="10" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="457" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1a599ee482e880402acc4769650422b57d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_intent_result" kindref="compound">IntentResult</ref></type>
+        <definition>IntentResult themis::voice::VoiceIntentDetector::getTimeoutDefault</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getTimeoutDefault</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::getTimeoutDefault</qualifiedname>
+        <briefdescription>
+<para>Get safe default result when detection times out (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_intent_result" kindref="compound">IntentResult</ref> with intent=UNKNOWN and confidence=0. </para>
+</simplesect>
+<simplesect kind="note"><para>Returned when use_timeout_protection=true and timeout occurs. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="281" column="18" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="461" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1a83241a1718220403f492bcbeb2fa3d89" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceIntentDetector::isTimeoutDetected</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isTimeoutDetected</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::isTimeoutDetected</qualifiedname>
+        <briefdescription>
+<para>Detect if detector is experiencing timeout delays (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if timeout_detected_ flag is set after slow detection. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="285" column="10" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="469" bodyend="471"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1ab321370f70c4368a0abe7ab7f2309af7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_named_entity" kindref="compound">NamedEntity</ref> &gt;</type>
+        <definition>std::vector&lt; NamedEntity &gt; themis::voice::VoiceIntentDetector::extractDateEntities</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extractDateEntities</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::extractDateEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="297" column="17" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="232" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1aa2869e10521f53f642afaa3589f71b25" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_named_entity" kindref="compound">NamedEntity</ref> &gt;</type>
+        <definition>std::vector&lt; NamedEntity &gt; themis::voice::VoiceIntentDetector::extractNumberEntities</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extractNumberEntities</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::extractNumberEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="298" column="17" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="263" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1a188b03e4c018c4edf34ddcd9583f70e2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_named_entity" kindref="compound">NamedEntity</ref> &gt;</type>
+        <definition>std::vector&lt; NamedEntity &gt; themis::voice::VoiceIntentDetector::extractMetricEntities</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extractMetricEntities</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::extractMetricEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="299" column="17" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="281" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1afc50997425e30089ce985be74d2e9841" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::voice::VoiceIntentDetector::computeIntentConfidence</definition>
+        <argsstring>(const std::string &amp;text, IntentCategory cat) const</argsstring>
+        <name>computeIntentConfidence</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::computeIntentConfidence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4b" kindref="member">IntentCategory</ref></type>
+          <declname>cat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="300" column="11" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="202" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_intent_detector_1a64e1cc1196cc9309cff8a8265a82a2d5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceIntentDetector::nowMs</definition>
+        <argsstring>() const</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::voice::VoiceIntentDetector::nowMs</qualifiedname>
+        <briefdescription>
+<para>Phase 3: Get current wall-clock time in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="303" column="13" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="473" bodyend="476"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Intent detection and named entity recognition (frozen Phase 1 + Phase 3). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Detects user intent category from transcribed text and extracts relevant named entities for downstream processing.</para>
+<para><bold>Confidence Thresholds (Frozen):</bold><itemizedlist>
+<listitem><para>min_confidence_threshold: 0.5 (default)</para>
+</listitem><listitem><para>entity_confidence_threshold: 0.4 (default)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Phase 3 Extensions:</bold><itemizedlist>
+<listitem><para>Timeout protection: detections exceeding detection_timeout_ms return safe default</para>
+</listitem><listitem><para>Clarification prompts: low-confidence results trigger user feedback loop</para>
+</listitem><listitem><para>Timeout tracking: <ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1a83241a1718220403f492bcbeb2fa3d89" kindref="member">isTimeoutDetected()</ref> reports detection delays </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/voice/voice_intent_detector.h" line="219" column="1" bodyfile="include/voice/voice_intent_detector.h" bodystart="219" bodyend="304"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1a7da4676bb3caa1bd9075119c4d7c056e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>classifyIntent</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1afc50997425e30089ce985be74d2e9841" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>computeIntentConfidence</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1ad01fe1f6490de561829400960b0d0a1c" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1a8b43dd6a6a415749214a66bffcd60654" prot="public" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1a06174bd5af974e0887254f9091899c83" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>detections_total_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1ab321370f70c4368a0abe7ab7f2309af7" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>extractDateEntities</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1acc9d6d6742631ba84133394e1697f25e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>extractEntities</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1a188b03e4c018c4edf34ddcd9583f70e2" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>extractMetricEntities</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1aa2869e10521f53f642afaa3589f71b25" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>extractNumberEntities</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1a1928201a7b22a25cb2fc6fd48884d8d3" prot="public" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1a599ee482e880402acc4769650422b57d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>getTimeoutDefault</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1a79f0743a330dd6a52d893af650588df0" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>high_confidence_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1ab487e3ae87ae32b93a05511819a222bd" prot="public" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>isConfidenceTooLow</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1a83241a1718220403f492bcbeb2fa3d89" prot="public" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>isTimeoutDetected</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1a72af24c8c556b63944128c8028469a23" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>last_detection_start_ms_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1af87929a38fe80ead995493cf6cd57866" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>low_confidence_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1ac35150e442520abd6d597e8afd628d87" prot="public" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>meetsThreshold</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1ac1beb789a66c7c09ef7395f54661e835" prot="public" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>normalizeQuery</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1a64e1cc1196cc9309cff8a8265a82a2d5" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1a51da6f4a945b640e79342d8615fbfc3e" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>timeout_detected_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1ab421c659b2e5e4ceb224535b78978d31" prot="private" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>timeout_fallbacks_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1ae20eb0208214f77c64313d43ac688823" prot="public" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>VoiceIntentDetector</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_intent_detector_1ac8822169e205b9611cb651dddd13b988" prot="public" virt="non-virtual"><scope>themis::voice::VoiceIntentDetector</scope><name>~VoiceIntentDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,574 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::LLMBatchTuner</compoundname>
+    <includes refid="adaptive__batch__tuner_8h" local="no">adaptive_batch_tuner.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config" prot="public">themis::performance::phase3::LLMBatchTuner::Config</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record" prot="public">themis::performance::phase3::LLMBatchTuner::BatchRecord</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats" prot="public">themis::performance::phase3::LLMBatchTuner::Stats</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard" prot="public">themis::performance::phase3::LLMBatchTuner::BatchGuard</innerclass>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1ad211eb86cb33b8ece0ca0f2e29ea5948" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class BatchGuard</definition>
+        <argsstring></argsstring>
+        <name>BatchGuard</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::BatchGuard</qualifiedname>
+        <param>
+          <type>BatchGuard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="236" column="18" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1ad362bc7981af6f86c32b7868ad3a3f7e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::performance::phase3::LLMBatchTuner::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="245" column="12" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1acd8502e50807c5ea3da9cc307ea0446c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::phase3::LLMBatchTuner::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="247" column="26" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1ab217c1cc5bf3599de847f68ed76ca944" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record" kindref="compound">BatchRecord</ref> &gt;</type>
+        <definition>std::vector&lt;BatchRecord&gt; themis::performance::phase3::LLMBatchTuner::records_</definition>
+        <argsstring></argsstring>
+        <name>records_</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::records_</qualifiedname>
+        <briefdescription>
+<para>Rolling window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="248" column="17" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a678bc9213e5458e5126fc7813ea61a79" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::LLMBatchTuner::current_batch_size_</definition>
+        <argsstring></argsstring>
+        <name>current_batch_size_</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::current_batch_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="250" column="14" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1ab2104f772106b35b027230730a18fb1d" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::LLMBatchTuner::ema_throughput_</definition>
+        <argsstring></argsstring>
+        <name>ema_throughput_</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::ema_throughput_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="251" column="14" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a406036f3128b88b6a17a172f0d88c978" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::LLMBatchTuner::prev_ema_</definition>
+        <argsstring></argsstring>
+        <name>prev_ema_</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::prev_ema_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>EMA at last tuning event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="252" column="14" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a80e6ccd8b5251be92f711abd37418e95" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::performance::phase3::LLMBatchTuner::total_batches_</definition>
+        <argsstring></argsstring>
+        <name>total_batches_</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::total_batches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="254" column="17" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a7190aedced00701cb45cce401931a4b8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::performance::phase3::LLMBatchTuner::tuning_events_</definition>
+        <argsstring></argsstring>
+        <name>tuning_events_</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::tuning_events_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="255" column="17" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::LLMBatchTuner::LLMBatchTuner</definition>
+        <argsstring>()</argsstring>
+        <name>LLMBatchTuner</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::LLMBatchTuner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="171" column="5" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="32" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aa50b4e9fbf1191208bf0b648ae94adfe" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::LLMBatchTuner::LLMBatchTuner</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>LLMBatchTuner</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::LLMBatchTuner</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="172" column="14" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="35" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a743a3735afa2299885bb95cc8baedf95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::LLMBatchTuner::~LLMBatchTuner</definition>
+        <argsstring>()</argsstring>
+        <name>~LLMBatchTuner</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::~LLMBatchTuner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="173" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aa50f6922b4aca27dac40998007d9914c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::LLMBatchTuner::LLMBatchTuner</definition>
+        <argsstring>(const LLMBatchTuner &amp;)=delete</argsstring>
+        <name>LLMBatchTuner</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::LLMBatchTuner</qualifiedname>
+        <param>
+          <type>const LLMBatchTuner &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="175" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aae7108151862cd88b5faa1aeee551469" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref> &amp;</type>
+        <definition>LLMBatchTuner &amp; themis::performance::phase3::LLMBatchTuner::operator=</definition>
+        <argsstring>(const LLMBatchTuner &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="176" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::LLMBatchTuner::recommendedBatchSize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>recommendedBatchSize</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::recommendedBatchSize</qualifiedname>
+        <briefdescription>
+<para>Return the currently recommended batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Safe to call from multiple threads; the value is updated after every tuning cycle. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="188" column="12" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="64" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afbe27a2174ef455e9068461abc4e3afe" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard" kindref="compound">BatchGuard</ref></type>
+        <definition>LLMBatchTuner::BatchGuard themis::performance::phase3::LLMBatchTuner::beginBatch</definition>
+        <argsstring>(size_t batch_size, size_t total_tokens) noexcept</argsstring>
+        <name>beginBatch</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::beginBatch</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Start timing an inference batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of sequences in this batch. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>total_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total token count across all sequences. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>RAII guard – call guard.end() or let it destruct. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="198" column="16" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::LLMBatchTuner::recordBatch</definition>
+        <argsstring>(size_t batch_size, size_t total_tokens, double latency_ms) noexcept</argsstring>
+        <name>recordBatch</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::recordBatch</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_tokens</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record a completed batch directly (without RAII guard). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful when the caller measures latency through other means.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of sequences processed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>total_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total tokens processed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wall-clock duration of the batch (ms). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="209" column="10" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="79" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1af4f6fc28adaec4feb6c6986d93093afa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>LLMBatchTuner::Stats themis::performance::phase3::LLMBatchTuner::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::getStats</qualifiedname>
+        <briefdescription>
+<para>Aggregate statistics over the current measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="218" column="11" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="191" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::LLMBatchTuner::totalBatches</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalBatches</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::totalBatches</qualifiedname>
+        <briefdescription>
+<para>Total batches recorded since construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="221" column="12" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="228" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afd8b6f1bcdb9bc960c88662b942a4a14" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record" kindref="compound">BatchRecord</ref> &gt;</type>
+        <definition>std::vector&lt; LLMBatchTuner::BatchRecord &gt; themis::performance::phase3::LLMBatchTuner::getRecentRecords</definition>
+        <argsstring>(size_t limit=32) const</argsstring>
+        <name>getRecentRecords</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::getRecentRecords</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>32</defval>
+        </param>
+        <briefdescription>
+<para>Return the most recent records (up to <computeroutput>limit</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of records to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="227" column="17" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="233" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a64fe5f4ea4d349c92d4dc1cf77372b2d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::LLMBatchTuner::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all accumulated state; batch size reverts to initial. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="230" column="10" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="251" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a301c9244ae752c08014fd731eae114a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::phase3::LLMBatchTuner::summary</definition>
+        <argsstring>() const</argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::summary</qualifiedname>
+        <briefdescription>
+<para>Human-readable summary for logging / diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="233" column="17" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="268" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1af00df733e6a516f8d4e490b3b70e7361" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::LLMBatchTuner::pushRecord</definition>
+        <argsstring>(BatchRecord record) noexcept</argsstring>
+        <name>pushRecord</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::pushRecord</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record" kindref="compound">BatchRecord</ref></type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Called from <ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_guard_1afe8ce618fd5cc7d915466082084557d1" kindref="member">BatchGuard::end()</ref> after a batch completes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="239" column="10" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="99" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aac89e325710ebf954d1f450e96dafd85" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::LLMBatchTuner::maybeTune</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>maybeTune</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::maybeTune</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Re-evaluate and possibly update current_batch_size_. Must be called with mutex_ held. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="243" column="10" bodyfile="src/performance/phase3/adaptive_batch_tuner.cpp" bodystart="135" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adaptive batch size tuner for LLM inference workloads. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Measures per-batch inference throughput using hardware cycle counters and adjusts the recommended batch size to maximise tokens/second while staying within a configurable latency budget.</para>
+<para>Thread-safety: all public methods are safe to call concurrently.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" kindref="member">LLMBatchTuner</ref><sp/>tuner;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>At<sp/>the<sp/>start<sp/>of<sp/>each<sp/>inference<sp/>batch:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_size<sp/>=<sp/>tuner.recommendedBatchSize();</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>guard<sp/>=<sp/>tuner.beginBatch(batch_size,<sp/>total_tokens);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...<sp/>run<sp/>inference<sp/>for<sp/>batch_size<sp/>requests<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>guard<sp/>records<sp/>the<sp/>measurement<sp/>and<sp/>may<sp/>trigger<sp/>a<sp/>tuning<sp/>step</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/performance/phase3/adaptive_batch_tuner.h" line="72" column="1" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="72" bodyend="256"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1ad211eb86cb33b8ece0ca0f2e29ea5948" prot="private" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>BatchGuard</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afbe27a2174ef455e9068461abc4e3afe" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>beginBatch</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1ad362bc7981af6f86c32b7868ad3a3f7e" prot="private" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>config_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a678bc9213e5458e5126fc7813ea61a79" prot="private" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>current_batch_size_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1ab2104f772106b35b027230730a18fb1d" prot="private" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>ema_throughput_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afd8b6f1bcdb9bc960c88662b942a4a14" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>getRecentRecords</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1af4f6fc28adaec4feb6c6986d93093afa" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a62dc452841ec6ddabb52966f2cdff105" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>LLMBatchTuner</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aa50b4e9fbf1191208bf0b648ae94adfe" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>LLMBatchTuner</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aa50f6922b4aca27dac40998007d9914c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>LLMBatchTuner</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aac89e325710ebf954d1f450e96dafd85" prot="private" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>maybeTune</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1acd8502e50807c5ea3da9cc307ea0446c" prot="private" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aae7108151862cd88b5faa1aeee551469" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a406036f3128b88b6a17a172f0d88c978" prot="private" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>prev_ema_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1af00df733e6a516f8d4e490b3b70e7361" prot="private" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>pushRecord</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>recommendedBatchSize</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>recordBatch</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1ab217c1cc5bf3599de847f68ed76ca944" prot="private" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>records_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a64fe5f4ea4d349c92d4dc1cf77372b2d" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>reset</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a301c9244ae752c08014fd731eae114a1" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>summary</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a80e6ccd8b5251be92f711abd37418e95" prot="private" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>total_batches_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>totalBatches</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a7190aedced00701cb45cce401931a4b8" prot="private" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>tuning_events_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a743a3735afa2299885bb95cc8baedf95" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner</scope><name>~LLMBatchTuner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

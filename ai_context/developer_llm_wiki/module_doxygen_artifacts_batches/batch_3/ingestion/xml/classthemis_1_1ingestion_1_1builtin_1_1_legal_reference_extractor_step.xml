@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::ingestion::builtin::LegalReferenceExtractorStep</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" prot="public" virt="non-virtual">themis::ingestion::IIngestionStep</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1a5e6a459aa6d0b812e4bd8f808cacbc18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::ingestion::builtin::LegalReferenceExtractorStep::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::ingestion::builtin::LegalReferenceExtractorStep::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/legal_reference_step.cpp" line="26" column="16" bodyfile="src/ingestion/steps/legal_reference_step.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1acc975cf9273228225b1b23568a3f968b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::ingestion::builtin::LegalReferenceExtractorStep::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::ingestion::builtin::LegalReferenceExtractorStep::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/legal_reference_step.cpp" line="27" column="16" bodyfile="src/ingestion/steps/legal_reference_step.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1ac8857c168c3258e233f1a642dc2d4fae" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::ingestion::builtin::LegalReferenceExtractorStep::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::ingestion::builtin::LegalReferenceExtractorStep::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/legal_reference_step.cpp" line="28" column="33" bodyfile="src/ingestion/steps/legal_reference_step.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1a234db2d53ecfcaedf07139d3e839b3ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::builtin::LegalReferenceExtractorStep::initialize</definition>
+        <argsstring>(const char *) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::builtin::LegalReferenceExtractorStep::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/legal_reference_step.cpp" line="29" column="11" bodyfile="src/ingestion/steps/legal_reference_step.cpp" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1a5f8bfd14132ee8e9872bd8b829ec85db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::builtin::LegalReferenceExtractorStep::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::ingestion::builtin::LegalReferenceExtractorStep::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/legal_reference_step.cpp" line="30" column="11" bodyfile="src/ingestion/steps/legal_reference_step.cpp" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1a78c8df49e36184cadb61cfcc9b3a7a07" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::ingestion::builtin::LegalReferenceExtractorStep::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::ingestion::builtin::LegalReferenceExtractorStep::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/legal_reference_step.cpp" line="31" column="10" bodyfile="src/ingestion/steps/legal_reference_step.cpp" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1ad7c50b9b8946c42115c37052a2ff1501" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ingestion::builtin::LegalReferenceExtractorStep::supportedMimeTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>supportedMimeTypes</name>
+        <qualifiedname>themis::ingestion::builtin::LegalReferenceExtractorStep::supportedMimeTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1acd860b2bb15580a25ce67280f671f29a">supportedMimeTypes</reimplements>
+        <briefdescription>
+<para>Returns the MIME types this step can process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>An empty vector means &quot;any MIME type&quot;. Used by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" kindref="member">canHandle()</ref></computeroutput> default implementation. Override <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" kindref="member">canHandle()</ref></computeroutput> directly for more complex logic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/legal_reference_step.cpp" line="33" column="17" bodyfile="src/ingestion/steps/legal_reference_step.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1aa7ea12cde0a2967456ae53938c24b1f0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::builtin::LegalReferenceExtractorStep::execute</definition>
+        <argsstring>(ExtractionContext &amp;ctx, const StepConfig &amp;cfg) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::ingestion::builtin::LegalReferenceExtractorStep::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ae420e2b6ce844d288d51bea1d79955d8">execute</reimplements>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Execute the step, enriching <computeroutput>ctx</computeroutput> in-place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The step reads any fields it needs from <computeroutput>ctx</computeroutput> and appends results to the appropriate collections (e.g. <computeroutput>ctx.entities</computeroutput>, <computeroutput>ctx.chunks</computeroutput>). It must not clear or overwrite data written by preceding steps.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pipeline context — modified in-place. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step configuration parsed from the YAML profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> — success, or an error with an <computeroutput>ErrorCode</computeroutput> from the <computeroutput>ERR_WORKFLOW_*</computeroutput> range. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/legal_reference_step.cpp" line="35" column="12" bodyfile="src/ingestion/steps/legal_reference_step.cpp" bodystart="35" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::builtin::LegalReferenceExtractorStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::builtin::LegalReferenceExtractorStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </collaborationgraph>
+    <location file="src/ingestion/steps/legal_reference_step.cpp" line="23" column="1" bodyfile="src/ingestion/steps/legal_reference_step.cpp" bodystart="23" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" prot="public" virt="virtual"><scope>themis::ingestion::builtin::LegalReferenceExtractorStep</scope><name>canHandle</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1aa7ea12cde0a2967456ae53938c24b1f0" prot="public" virt="virtual"><scope>themis::ingestion::builtin::LegalReferenceExtractorStep</scope><name>execute</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1ac8857c168c3258e233f1a642dc2d4fae" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LegalReferenceExtractorStep</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1a78c8df49e36184cadb61cfcc9b3a7a07" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LegalReferenceExtractorStep</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1a5e6a459aa6d0b812e4bd8f808cacbc18" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LegalReferenceExtractorStep</scope><name>getName</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1abee3ec226507c6c1038ef541caaee044" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LegalReferenceExtractorStep</scope><name>getType</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1acc975cf9273228225b1b23568a3f968b" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LegalReferenceExtractorStep</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1a234db2d53ecfcaedf07139d3e839b3ce" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LegalReferenceExtractorStep</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1a5f8bfd14132ee8e9872bd8b829ec85db" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LegalReferenceExtractorStep</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_legal_reference_extractor_step_1ad7c50b9b8946c42115c37052a2ff1501" prot="public" virt="virtual"><scope>themis::ingestion::builtin::LegalReferenceExtractorStep</scope><name>supportedMimeTypes</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ad350e511cf2ebd67ae0c5baf09f33060" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LegalReferenceExtractorStep</scope><name>~IIngestionStep</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

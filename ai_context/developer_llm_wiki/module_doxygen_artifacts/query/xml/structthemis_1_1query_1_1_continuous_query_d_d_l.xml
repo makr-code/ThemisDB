@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_continuous_query_d_d_l" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ContinuousQueryDDL</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec" prot="public">themis::query::ContinuousQueryDDL::CreateSpec</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_d_d_l_1a11b22ba34d30a1726f4ac5b5a1ff488c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1aff87b39dd6f869c2033b65ab8c0fa8a3" kindref="member">ContinuousQueryDDLType</ref></type>
+        <definition>ContinuousQueryDDLType themis::query::ContinuousQueryDDL::ddl_type</definition>
+        <argsstring></argsstring>
+        <name>ddl_type</name>
+        <qualifiedname>themis::query::ContinuousQueryDDL::ddl_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1query_1aff87b39dd6f869c2033b65ab8c0fa8a3ac34fbad9a5e2a1d0c8f7cf8d226808b9" kindref="member">ContinuousQueryDDLType::SHOW</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="888" column="28" bodyfile="include/query/aql_parser.h" bodystart="888" bodyend="888"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_d_d_l_1a0e471218df3611c8d7f170d860a33eea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContinuousQueryDDL::query_name</definition>
+        <argsstring></argsstring>
+        <name>query_name</name>
+        <qualifiedname>themis::query::ContinuousQueryDDL::query_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="890" column="17" bodyfile="include/query/aql_parser.h" bodystart="890" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_d_d_l_1ab7e79f358c0bbf3c054b544537575c28" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec" kindref="compound">CreateSpec</ref></type>
+        <definition>CreateSpec themis::query::ContinuousQueryDDL::spec</definition>
+        <argsstring></argsstring>
+        <name>spec</name>
+        <qualifiedname>themis::query::ContinuousQueryDDL::spec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="901" column="16" bodyfile="include/query/aql_parser.h" bodystart="901" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_continuous_query_d_d_l_1a0ea8cd4320ab31253320885ea0d45bd3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::ContinuousQueryDDL::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::ContinuousQueryDDL::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="903" column="20" bodyfile="include/query/aql_parser.h" bodystart="903" bodyend="926"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::ContinuousQueryDDL</label>
+        <link refid="structthemis_1_1query_1_1_continuous_query_d_d_l"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::ContinuousQueryDDL::CreateSpec</label>
+        <link refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="887" column="1" bodyfile="include/query/aql_parser.h" bodystart="887" bodyend="927"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1a11b22ba34d30a1726f4ac5b5a1ff488c" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryDDL</scope><name>ddl_type</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1a0e471218df3611c8d7f170d860a33eea" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryDDL</scope><name>query_name</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1ab7e79f358c0bbf3c054b544537575c28" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryDDL</scope><name>spec</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1a0ea8cd4320ab31253320885ea0d45bd3" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryDDL</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

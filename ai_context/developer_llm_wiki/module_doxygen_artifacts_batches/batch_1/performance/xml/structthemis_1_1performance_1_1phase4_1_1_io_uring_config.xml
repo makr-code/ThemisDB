@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase4_1_1_io_uring_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::IoUringConfig</compoundname>
+    <includes refid="io__uring__zero__copy_8h" local="no">io_uring_zero_copy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a488a0dd40f20e3f4fd14c7e88bae0258" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::performance::phase4::IoUringConfig::ring_size</definition>
+        <argsstring></argsstring>
+        <name>ring_size</name>
+        <qualifiedname>themis::performance::phase4::IoUringConfig::ring_size</qualifiedname>
+        <initializer>{4096}</initializer>
+        <briefdescription>
+<para>SQ/CQ ring depth (power of 2). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="109" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a65e0c4dac772d6060001ff51ef6b5261" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::IoUringConfig::sq_poll</definition>
+        <argsstring></argsstring>
+        <name>sq_poll</name>
+        <qualifiedname>themis::performance::phase4::IoUringConfig::sq_poll</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Enable IORING_SETUP_SQPOLL (requires CAP_SYS_NICE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="110" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1af9414a093aff0a7da1b53dac505a9585" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::phase4::IoUringConfig::sq_thread_cpu</definition>
+        <argsstring></argsstring>
+        <name>sq_thread_cpu</name>
+        <qualifiedname>themis::performance::phase4::IoUringConfig::sq_thread_cpu</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+<para>CPU affinity for SQ poll thread (-1 = any). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="111" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a8715cc989f2a26a63e790e1dc0a3b260" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::performance::phase4::IoUringConfig::sq_thread_idle_ms</definition>
+        <argsstring></argsstring>
+        <name>sq_thread_idle_ms</name>
+        <qualifiedname>themis::performance::phase4::IoUringConfig::sq_thread_idle_ms</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Idle timeout for SQ poll thread (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="112" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a53d62f1a5f6f0334803dda5d6652f35e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::IoUringConfig::buffer_size</definition>
+        <argsstring></argsstring>
+        <name>buffer_size</name>
+        <qualifiedname>themis::performance::phase4::IoUringConfig::buffer_size</qualifiedname>
+        <initializer>{65536}</initializer>
+        <briefdescription>
+<para>Default send/recv buffer size (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="113" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a2aa42f11a9146e361b961e593a047abc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::performance::phase4::IoUringConfig::num_buffers</definition>
+        <argsstring></argsstring>
+        <name>num_buffers</name>
+        <qualifiedname>themis::performance::phase4::IoUringConfig::num_buffers</qualifiedname>
+        <initializer>{16}</initializer>
+        <briefdescription>
+<para>Number of pre-registered I/O buffers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="114" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a0c798027d5f66779b87d839a6578efcd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::IoUringConfig::fixed_files</definition>
+        <argsstring></argsstring>
+        <name>fixed_files</name>
+        <qualifiedname>themis::performance::phase4::IoUringConfig::fixed_files</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Register file descriptors for reduced overhead. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="115" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration parameters for <ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o" kindref="compound">IoUringZeroCopyIO</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase4/io_uring_zero_copy.h" line="108" column="1" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="108" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a53d62f1a5f6f0334803dda5d6652f35e" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringConfig</scope><name>buffer_size</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a0c798027d5f66779b87d839a6578efcd" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringConfig</scope><name>fixed_files</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a2aa42f11a9146e361b961e593a047abc" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringConfig</scope><name>num_buffers</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a488a0dd40f20e3f4fd14c7e88bae0258" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringConfig</scope><name>ring_size</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a65e0c4dac772d6060001ff51ef6b5261" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringConfig</scope><name>sq_poll</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1af9414a093aff0a7da1b53dac505a9585" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringConfig</scope><name>sq_thread_cpu</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a8715cc989f2a26a63e790e1dc0a3b260" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringConfig</scope><name>sq_thread_idle_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

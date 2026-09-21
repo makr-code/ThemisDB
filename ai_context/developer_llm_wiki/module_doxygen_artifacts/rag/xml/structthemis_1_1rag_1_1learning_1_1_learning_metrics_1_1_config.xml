@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::LearningMetrics::Config</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config_1a1ff516395c48a7eede7660d4751c6650" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::LearningMetrics::Config::window_size</definition>
+        <argsstring></argsstring>
+        <name>window_size</name>
+        <qualifiedname>themis::rag::learning::LearningMetrics::Config::window_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Maximum number of evaluations to retain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="202" column="16" bodyfile="include/rag/learning_metrics.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics" kindref="compound">LearningMetrics</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/learning_metrics.h" line="201" column="5" bodyfile="include/rag/learning_metrics.h" bodystart="201" bodyend="203"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config_1a1ff516395c48a7eede7660d4751c6650" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningMetrics::Config</scope><name>window_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

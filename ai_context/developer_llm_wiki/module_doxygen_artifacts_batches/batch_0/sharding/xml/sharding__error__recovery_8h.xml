@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="sharding__error__recovery_8h" kind="file" language="C++">
+    <compoundname>sharding_error_recovery.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">utility</includes>
+    <includes refid="sharding__error__recovery__impl_8h" local="yes">sharding_error_recovery_impl.h</includes>
+    <includedby refid="sharding__error__recovery__impl_8h" local="yes">include/sharding/sharding_error_recovery_impl.h</includedby>
+    <includedby refid="test__sharding__phase3__edgecases_8cpp" local="yes">tests/sharding/test_sharding_phase3_edgecases.cpp</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>sharding_api_contract.h</label>
+        <link refid="sharding__api__contract_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/sharding_error_recovery.h</label>
+        <link refid="sharding__error__recovery_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sharding_error_recovery_impl.h</label>
+        <link refid="sharding__error__recovery__impl_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="1" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/sharding_error_recovery.h</label>
+        <link refid="sharding__error__recovery_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/sharding/sharding_error_recovery_impl.h</label>
+        <link refid="sharding__error__recovery__impl_8h"/>
+        <childnode refid="1" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/sharding/test_sharding_phase3_edgecases.cpp</label>
+        <link refid="test__sharding__phase3__edgecases_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_recovery_action" prot="public">themis::sharding::RecoveryAction</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation" prot="public">themis::sharding::IdempotentRecoveryOperation</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Phase 3: Standardized Error Recovery Policies for Sharding Failures. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the canonical recovery strategy for each error code in the sharding module. All components MUST follow these recovery policies to ensure consistent fail-safe behavior across the system.</para>
+<sect1 id="sharding__error__recovery_8h_1strategy">
+<title>Recovery Strategy Categories</title><para><itemizedlist>
+<listitem><para>FAIL_CLOSED: Do not proceed; return error immediately. (e.g., QUORUM_LOST)</para>
+</listitem><listitem><para>RETRY_WITH_BACKOFF: Attempt retry with exponential backoff. (e.g., SHARD_UNAVAILABLE)</para>
+</listitem><listitem><para>DEGRADE_READONLY: Fall back to read-only mode. (e.g., COORDINATOR_FAILURE)</para>
+</listitem><listitem><para>TIMEOUT_AND_ABORT: Wait up to configured timeout, then abort. (e.g., CONSENSUS_TIMEOUT)</para>
+</listitem><listitem><para>ROLLBACK_AUTOMATIC: Automatically roll back pending changes. (e.g., MIGRATION_FAULT)</para>
+</listitem><listitem><para>RECOVERY_REQUIRED: Manual operator intervention required. (e.g., WAL_CORRUPTION)</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="sharding__error__recovery_8h_1idempotence">
+<title>Idempotence Guarantee</title><para>All recovery paths MUST be idempotent: executing a recovery action twice with the same input must produce the same output as executing it once. This is essential for fault-tolerant distributed systems where recovery actions may be retried due to transient failures.</para>
+<para><simplesect kind="see"><para>src/sharding/ROADMAP.md — Phase 3 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="test__sharding__phase3__edgecases_8cpp" kindref="compound">tests/sharding/test_sharding_phase3_edgecases.cpp</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>docs/sharding/QUORUM_LOSS_RUNBOOK.md </para>
+</simplesect>
+</para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref><sp/>:<sp/>int;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74" kindref="member">ErrorRecoveryStrategy</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74a7d8e2271b5e4fbbed93c60aa39bf350f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74a7d8e2271b5e4fbbed93c60aa39bf350f" kindref="member">FAIL_CLOSED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74afdd0168686ad6e589e86cbb61a224079" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74afdd0168686ad6e589e86cbb61a224079" kindref="member">RETRY_WITH_BACKOFF</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74ace832b88ff87fff3eeb73b48b2eac0fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74ace832b88ff87fff3eeb73b48b2eac0fc" kindref="member">DEGRADE_READONLY</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74a1e786c6c293c219d05693b951ac21a90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74a1e786c6c293c219d05693b951ac21a90" kindref="member">TIMEOUT_AND_ABORT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74adbbafd51da97a284d6a71749c0db805f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74adbbafd51da97a284d6a71749c0db805f" kindref="member">ROLLBACK_AUTOMATIC</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74ab0abcd2350d0f34995a7eb78c6a3c035" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74ab0abcd2350d0f34995a7eb78c6a3c035" kindref="member">RECOVERY_REQUIRED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1sharding_1_1_recovery_action" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_recovery_action_1ae0f69af8df4159eddee91aebfa77e3b7" kindref="member">RecoveryAction</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1sharding_1_1_recovery_action_1ae7d31afc7c02994e07d9613b7fe2ee18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74" kindref="member">ErrorRecoveryStrategy</ref><sp/><ref refid="structthemis_1_1sharding_1_1_recovery_action_1ae7d31afc7c02994e07d9613b7fe2ee18" kindref="member">strategy</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1sharding_1_1_recovery_action_1a7da376b9f99f101d8d3567eb5356c167" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_recovery_action_1a7da376b9f99f101d8d3567eb5356c167" kindref="member">retry_count</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1sharding_1_1_recovery_action_1a025882fa6fb9f67975c8251ca8271fb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_recovery_action_1a025882fa6fb9f67975c8251ca8271fb7" kindref="member">timeout_ms</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1sharding_1_1_recovery_action_1a5f0e774cfa33a5add44891aead21ef60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_recovery_action_1a5f0e774cfa33a5add44891aead21ef60" kindref="member">description</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1sharding_1_1_recovery_action_1ae0f69af8df4159eddee91aebfa77e3b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_recovery_action_1ae0f69af8df4159eddee91aebfa77e3b7" kindref="member">RecoveryAction</ref>(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a5e1958331e6f6a915df534992b8c1e74" kindref="member">ErrorRecoveryStrategy</ref><sp/>strat,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>retries<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>timeout<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>desc<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>:<sp/><ref refid="structthemis_1_1sharding_1_1_recovery_action_1ae7d31afc7c02994e07d9613b7fe2ee18" kindref="member">strategy</ref>(strat),<sp/><ref refid="structthemis_1_1sharding_1_1_recovery_action_1a7da376b9f99f101d8d3567eb5356c167" kindref="member">retry_count</ref>(retries),<sp/><ref refid="structthemis_1_1sharding_1_1_recovery_action_1a025882fa6fb9f67975c8251ca8271fb7" kindref="member">timeout_ms</ref>(timeout),<sp/><ref refid="structthemis_1_1sharding_1_1_recovery_action_1a5f0e774cfa33a5add44891aead21ef60" kindref="member">description</ref>(desc)<sp/>{}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Recovery<sp/>Strategy<sp/>Mapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>RecoveryAction<sp/><ref refid="namespacethemis_1_1sharding_1a0681752da841758b84c60fa905bea915" kindref="member">getRecoveryAction</ref>(<ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref><sp/>ec)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">[[nodiscard]]<sp/>std::string<sp/><ref refid="namespacethemis_1_1sharding_1a088b3d0fef9181a41c2828588f13a0f4" kindref="member">errorCodeName</ref>(<ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref><sp/>ec)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a8c0cd0818ba2ef84a4face641d8d0fec" kindref="member">isFailClosedError</ref>(<ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref><sp/>ec)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Recovery<sp/>Path<sp/>Idempotence<sp/>Guarantees</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation" kindref="compound">IdempotentRecoveryOperation</ref><sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1ac119b5d89fed52c976b73ec3e6645563" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1ac119b5d89fed52c976b73ec3e6645563" kindref="member">~IdempotentRecoveryOperation</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1ac583e9dc96677d69ccaa779924a417e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::pair&lt;bool,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1ac583e9dc96677d69ccaa779924a417e8" kindref="member">execute</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1a5c539439ace01812256ec7957d43572f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1a5c539439ace01812256ec7957d43572f" kindref="member">getOperationId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Recovery<sp/>Configuration<sp/>Constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="namespacethemis_1_1sharding_1a869e8cacd14af6db9dd27277efc7a97f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a869e8cacd14af6db9dd27277efc7a97f" kindref="member">kRetryMaxAttempts</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="namespacethemis_1_1sharding_1a927b4d965db49f42c0e485c9148fb634" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a927b4d965db49f42c0e485c9148fb634" kindref="member">kRetryBackoffMs</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="namespacethemis_1_1sharding_1a5b0762d062bfcdc6a8bec18f3766b2a8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a5b0762d062bfcdc6a8bec18f3766b2a8" kindref="member">kRetryMaxBackoffMs</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="namespacethemis_1_1sharding_1af9ef025cd725fdeea7a4981e32e84173" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1af9ef025cd725fdeea7a4981e32e84173" kindref="member">kErrorRecoveryTimeout</ref><sp/>=<sp/>30000;<sp/><sp/></highlight><highlight class="comment">//<sp/>30<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="namespacethemis_1_1sharding_1a4fbf0eddbe40f3c8ef51ec79e6c7b6c5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a4fbf0eddbe40f3c8ef51ec79e6c7b6c5" kindref="member">kRollbackTimeout</ref><sp/>=<sp/>60000;<sp/><sp/></highlight><highlight class="comment">//<sp/>60<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Include<sp/>implementation<sp/>(out-of-line<sp/>definitions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="sharding__error__recovery__impl_8h" kindref="compound">sharding_error_recovery_impl.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/sharding_error_recovery.h"/>
+  </compounddef>
+</doxygen>

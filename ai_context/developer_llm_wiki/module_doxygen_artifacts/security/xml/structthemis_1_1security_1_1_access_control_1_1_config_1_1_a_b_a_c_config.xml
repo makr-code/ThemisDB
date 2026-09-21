@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_a_b_a_c_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessControl::Config::ABACConfig</compoundname>
+    <includes refid="access__control_8h" local="no">access_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_a_b_a_c_config_1a3846900358ba845f2a7aed0881d6124b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::Config::ABACConfig::enable_abac</definition>
+        <argsstring></argsstring>
+        <name>enable_abac</name>
+        <qualifiedname>themis::security::AccessControl::Config::ABACConfig::enable_abac</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="116" column="18" bodyfile="include/security/access_control.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1_1_a_b_a_c_config_1ab886dc4a930e9932cd0795a5d36ff9f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControl::Config::ABACConfig::abac_policy_path</definition>
+        <argsstring></argsstring>
+        <name>abac_policy_path</name>
+        <qualifiedname>themis::security::AccessControl::Config::ABACConfig::abac_policy_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="117" column="25" bodyfile="include/security/access_control.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control.h" line="115" column="9" bodyfile="include/security/access_control.h" bodystart="115" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_a_b_a_c_config_1ab886dc4a930e9932cd0795a5d36ff9f4" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::ABACConfig</scope><name>abac_policy_path</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_a_b_a_c_config_1a3846900358ba845f2a7aed0881d6124b" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config::ABACConfig</scope><name>enable_abac</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

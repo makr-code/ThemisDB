@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_executor" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryExecutor</compoundname>
+    <includes refid="query__executor_8h" local="no">query_executor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_executor_1ade35740c82369c45224fa2e12e401b00" prot="private" static="no" mutable="no">
+        <type>const <ref refid="structthemis_1_1query_1_1_query_plan" kindref="compound">QueryPlan</ref> *</type>
+        <definition>const QueryPlan* themis::query::QueryExecutor::plan_</definition>
+        <argsstring></argsstring>
+        <name>plan_</name>
+        <qualifiedname>themis::query::QueryExecutor::plan_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="127" column="25" bodyfile="include/query/query_executor.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_executor_1a6a082c4ca448da9b2915e5f0f20bfc88" prot="private" static="no" mutable="no">
+        <type>const <ref refid="structthemis_1_1query_1_1_execution_context" kindref="compound">ExecutionContext</ref> *</type>
+        <definition>const ExecutionContext* themis::query::QueryExecutor::context_</definition>
+        <argsstring></argsstring>
+        <name>context_</name>
+        <qualifiedname>themis::query::QueryExecutor::context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="128" column="28" bodyfile="include/query/query_executor.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_executor_1a9b1348a5f53e6c6895d9fb87de80cc21" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::query::QueryExecutor::aborted_</definition>
+        <argsstring></argsstring>
+        <name>aborted_</name>
+        <qualifiedname>themis::query::QueryExecutor::aborted_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="129" column="20" bodyfile="include/query/query_executor.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_executor_1ad0ba6e320faa81c526312e8995ffe0dc" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::query::QueryExecutor::execution_start_</definition>
+        <argsstring></argsstring>
+        <name>execution_start_</name>
+        <qualifiedname>themis::query::QueryExecutor::execution_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="130" column="43" bodyfile="include/query/query_executor.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_executor_1a5c2773545dab6e7b7e82bf0592a8e4e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryExecutor::QueryExecutor</definition>
+        <argsstring>(const QueryPlan &amp;plan, const ExecutionContext &amp;context)</argsstring>
+        <name>QueryExecutor</name>
+        <qualifiedname>themis::query::QueryExecutor::QueryExecutor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_plan" kindref="compound">QueryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_execution_context" kindref="compound">ExecutionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="101" column="5" bodyfile="src/query/query_executor.cpp" bodystart="98" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_executor_1a13fc2587b3305136dd4aec4696b386ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryExecutor::~QueryExecutor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~QueryExecutor</name>
+        <qualifiedname>themis::query::QueryExecutor::~QueryExecutor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="103" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_executor_1af3d2bf1bbbf8c7467396d6f4a000af99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryExecutor::QueryExecutor</definition>
+        <argsstring>(const QueryExecutor &amp;)=delete</argsstring>
+        <name>QueryExecutor</name>
+        <qualifiedname>themis::query::QueryExecutor::QueryExecutor</qualifiedname>
+        <param>
+          <type>const QueryExecutor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="106" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_executor_1a47bcb73598498a3cc401daf720fa98ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_executor_1a5c2773545dab6e7b7e82bf0592a8e4e7" kindref="member">QueryExecutor</ref> &amp;</type>
+        <definition>QueryExecutor &amp; themis::query::QueryExecutor::operator=</definition>
+        <argsstring>(const QueryExecutor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::QueryExecutor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_query_executor_1a5c2773545dab6e7b7e82bf0592a8e4e7" kindref="member">QueryExecutor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="107" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_executor_1ad457f38c0370002103241c715e97db91" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryExecutor::QueryExecutor</definition>
+        <argsstring>(QueryExecutor &amp;&amp;) noexcept=default</argsstring>
+        <name>QueryExecutor</name>
+        <qualifiedname>themis::query::QueryExecutor::QueryExecutor</qualifiedname>
+        <param>
+          <type>QueryExecutor &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="108" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_executor_1a6809c494b6db1c50c6894467a2942178" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_executor_1a5c2773545dab6e7b7e82bf0592a8e4e7" kindref="member">QueryExecutor</ref> &amp;</type>
+        <definition>QueryExecutor &amp; themis::query::QueryExecutor::operator=</definition>
+        <argsstring>(QueryExecutor &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::QueryExecutor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_executor_1a5c2773545dab6e7b7e82bf0592a8e4e7" kindref="member">QueryExecutor</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="109" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_executor_1a6062c989ef287738a3663382859e216c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_result_set" kindref="compound">ResultSet</ref></type>
+        <definition>ResultSet themis::query::QueryExecutor::execute</definition>
+        <argsstring>()</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::QueryExecutor::execute</qualifiedname>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="111" column="16" bodyfile="src/query/query_executor.cpp" bodystart="150" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_executor_1a4d3ee64139dc69f9bd01a4abdb152521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::QueryExecutor::execute_streaming</definition>
+        <argsstring>(RowCallback cb)</argsstring>
+        <name>execute_streaming</name>
+        <qualifiedname>themis::query::QueryExecutor::execute_streaming</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1af268686c40bfc71245ebd08b8b20fbd1" kindref="member">RowCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Execute streaming. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="118" column="17" bodyfile="src/query/query_executor.cpp" bodystart="208" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_executor_1ade31a122356c96fbf9f7c2466acd4cf6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryExecutor::abort</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>abort</name>
+        <qualifiedname>themis::query::QueryExecutor::abort</qualifiedname>
+        <briefdescription>
+<para>Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="124" column="10" bodyfile="src/query/query_executor.cpp" bodystart="261" bodyend="264"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_executor_1a7438088c666b96f8e73a6aec4819c7a0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1a1e5822b55f2c69fe4e683b3395dbe3fe" kindref="member">Row</ref></type>
+        <definition>Row themis::query::QueryExecutor::build_row</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, ColumnValue &gt; &amp;src) const</argsstring>
+        <name>build_row</name>
+        <qualifiedname>themis::query::QueryExecutor::build_row</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1query_1a95c0b82e4c3487ff114ed64a4124bf5a" kindref="member">ColumnValue</ref> &gt; &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="132" column="9" bodyfile="src/query/query_executor.cpp" bodystart="107" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_executor_1a3aca04f1d0ef8a708c1941a706bbf9ba" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryExecutor::isExecutionTimeoutExceeded</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isExecutionTimeoutExceeded</name>
+        <qualifiedname>themis::query::QueryExecutor::isExecutionTimeoutExceeded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="134" column="11" bodyfile="src/query/query_executor.cpp" bodystart="135" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_executor.h" line="99" column="1" bodyfile="include/query/query_executor.h" bodystart="99" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_executor_1ade31a122356c96fbf9f7c2466acd4cf6" prot="public" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>abort</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1a9b1348a5f53e6c6895d9fb87de80cc21" prot="private" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>aborted_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1a7438088c666b96f8e73a6aec4819c7a0" prot="private" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>build_row</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1a6a082c4ca448da9b2915e5f0f20bfc88" prot="private" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>context_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1a6062c989ef287738a3663382859e216c" prot="public" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1a4d3ee64139dc69f9bd01a4abdb152521" prot="public" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>execute_streaming</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1ad0ba6e320faa81c526312e8995ffe0dc" prot="private" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>execution_start_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1a3aca04f1d0ef8a708c1941a706bbf9ba" prot="private" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>isExecutionTimeoutExceeded</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1a47bcb73598498a3cc401daf720fa98ad" prot="public" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1a6809c494b6db1c50c6894467a2942178" prot="public" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1ade35740c82369c45224fa2e12e401b00" prot="private" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>plan_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1a5c2773545dab6e7b7e82bf0592a8e4e7" prot="public" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>QueryExecutor</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1af3d2bf1bbbf8c7467396d6f4a000af99" prot="public" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>QueryExecutor</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1ad457f38c0370002103241c715e97db91" prot="public" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>QueryExecutor</name></member>
+      <member refid="classthemis_1_1query_1_1_query_executor_1a13fc2587b3305136dd4aec4696b386ec" prot="public" virt="non-virtual"><scope>themis::query::QueryExecutor</scope><name>~QueryExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

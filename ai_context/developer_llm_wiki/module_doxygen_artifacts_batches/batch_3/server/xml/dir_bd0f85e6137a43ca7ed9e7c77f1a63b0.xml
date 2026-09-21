@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_bd0f85e6137a43ca7ed9e7c77f1a63b0" kind="dir">
+    <compoundname>src/server/rpc</compoundname>
+    <innerfile refid="blob__transfer__handler_8cpp">blob_transfer_handler.cpp</innerfile>
+    <innerfile refid="differential__update__engine_8cpp">differential_update_engine.cpp</innerfile>
+    <innerfile refid="rpc__service__impl_8cpp">rpc_service_impl.cpp</innerfile>
+    <innerfile refid="snapshot__transfer__handler_8cpp">snapshot_transfer_handler.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/server/rpc/"/>
+  </compounddef>
+</doxygen>

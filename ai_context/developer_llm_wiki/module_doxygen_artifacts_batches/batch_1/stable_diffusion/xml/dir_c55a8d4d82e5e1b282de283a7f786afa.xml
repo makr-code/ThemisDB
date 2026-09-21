@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c55a8d4d82e5e1b282de283a7f786afa" kind="dir">
+    <compoundname>benchmarks/stable_diffusion</compoundname>
+    <innerfile refid="bench__stable__diffusion__release__gates_8cpp">bench_stable_diffusion_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/stable_diffusion/"/>
+  </compounddef>
+</doxygen>

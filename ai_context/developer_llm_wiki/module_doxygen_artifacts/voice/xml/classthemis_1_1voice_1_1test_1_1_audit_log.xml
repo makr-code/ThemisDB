@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1test_1_1_audit_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::test::AuditLog</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_audit_log_1a47bd2e5c52b0101b0b986a266ca755fd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::test::AuditLog::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::voice::test::AuditLog::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="254" column="22" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_audit_log_1a1413211e69c45af95cf85d9dfae1659c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::test::AuditLog::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>themis::voice::test::AuditLog::events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="255" column="15" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="255" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_audit_log_1a3f898c3453384737e8cc1e8603628c16" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::test::AuditLog::record</definition>
+        <argsstring>(const std::string &amp;event)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::voice::test::AuditLog::record</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="233" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="233" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_audit_log_1abe7ce652dc3b76a8b3587e9a181f39fe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::test::AuditLog::contains</definition>
+        <argsstring>(const std::string &amp;substr) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::voice::test::AuditLog::contains</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>substr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="238" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="238" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_audit_log_1a0ca6d4cfa9df8c9f0d89387999ecd9e8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::voice::test::AuditLog::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::voice::test::AuditLog::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="248" column="15" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="248" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="231" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="231" bodyend="256"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1test_1_1_audit_log_1abe7ce652dc3b76a8b3587e9a181f39fe" prot="public" virt="non-virtual"><scope>themis::voice::test::AuditLog</scope><name>contains</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_audit_log_1a1413211e69c45af95cf85d9dfae1659c" prot="private" virt="non-virtual"><scope>themis::voice::test::AuditLog</scope><name>events_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_audit_log_1a47bd2e5c52b0101b0b986a266ca755fd" prot="private" virt="non-virtual"><scope>themis::voice::test::AuditLog</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_audit_log_1a3f898c3453384737e8cc1e8603628c16" prot="public" virt="non-virtual"><scope>themis::voice::test::AuditLog</scope><name>record</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_audit_log_1a0ca6d4cfa9df8c9f0d89387999ecd9e8" prot="public" virt="non-virtual"><scope>themis::voice::test::AuditLog</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

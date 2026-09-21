@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_c_q_result_stream_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::CQResultStreamImpl</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1_c_q_result_stream" prot="public" virt="non-virtual">themis::query::CQResultStream</basecompoundref>
+    <includes refid="continuous__query__engine__impl_8h" local="no">continuous_query_engine_impl.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_q_result_stream_impl_1a751bb69bb58211ab5151371f88d9bf45" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_result_queue" kindref="compound">ResultQueue</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ResultQueue&gt; themis::query::CQResultStreamImpl::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>themis::query::CQResultStreamImpl::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="93" column="21" bodyfile="include/query/continuous_query_engine_impl.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_result_stream_impl_1a472b336eb7dd248226563eb68b5ae050" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CQResultStreamImpl::~CQResultStreamImpl</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~CQResultStreamImpl</name>
+        <qualifiedname>themis::query::CQResultStreamImpl::~CQResultStreamImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="79" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_result_stream_impl_1a9f27119d810d0f9bd932ea523596505f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CQResultStreamImpl::CQResultStreamImpl</definition>
+        <argsstring>(std::shared_ptr&lt; ResultQueue &gt; queue)</argsstring>
+        <name>CQResultStreamImpl</name>
+        <qualifiedname>themis::query::CQResultStreamImpl::CQResultStreamImpl</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_result_queue" kindref="compound">ResultQueue</ref> &gt;</type>
+          <declname>queue</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_c_q_result" kindref="compound">CQResult</ref> Stream Impl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="85" column="14" bodyfile="src/query/continuous_query_engine.cpp" bodystart="94" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_result_stream_impl_1a6ef9ee3bc8151ee51263c535037ab1aa" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::query::CQResultStreamImpl::hasMore</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>hasMore</name>
+        <qualifiedname>themis::query::CQResultStreamImpl::hasMore</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_c_q_result_stream_1ad3ad66ffd4cf699e129c6353dade0eb1">hasMore</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="87" column="10" bodyfile="src/query/continuous_query_engine.cpp" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_result_stream_impl_1aec50254899b12fadbb7cfd747affcf37" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_c_q_result" kindref="compound">CQResult</ref> &gt;</type>
+        <definition>std::optional&lt; CQResult &gt; themis::query::CQResultStreamImpl::next</definition>
+        <argsstring>(std::chrono::milliseconds timeout) override</argsstring>
+        <name>next</name>
+        <qualifiedname>themis::query::CQResultStreamImpl::next</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_c_q_result_stream_1a4ea085fe9a77c699b94718ca5edf3c75">next</reimplements>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Next. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: pop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="88" column="19" bodyfile="src/query/continuous_query_engine.cpp" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_result_stream_impl_1a14a9383dc03e98f17ea723fa28f47618" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::query::CQResultStreamImpl::cancel</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::query::CQResultStreamImpl::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_c_q_result_stream_1a0c41209ffde320756b19dff3bbd1fa73">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="89" column="12" bodyfile="src/query/continuous_query_engine.cpp" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_c_q_result_stream_impl_1aa30965113384f0cbaefe323a34ca5c47" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::CQResultStreamImpl::queueDepth</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>queueDepth</name>
+        <qualifiedname>themis::query::CQResultStreamImpl::queueDepth</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_c_q_result_stream_1a84719b11f96f283c59808922bd3456f5">queueDepth</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="90" column="12" bodyfile="src/query/continuous_query_engine.cpp" bodystart="116" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::CQResultStream</label>
+        <link refid="classthemis_1_1query_1_1_c_q_result_stream"/>
+      </node>
+      <node id="1">
+        <label>themis::query::CQResultStreamImpl</label>
+        <link refid="classthemis_1_1query_1_1_c_q_result_stream_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::CQResultStream</label>
+        <link refid="classthemis_1_1query_1_1_c_q_result_stream"/>
+      </node>
+      <node id="1">
+        <label>themis::query::CQResultStreamImpl</label>
+        <link refid="classthemis_1_1query_1_1_c_q_result_stream_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/continuous_query_engine_impl.h" line="77" column="1" bodyfile="include/query/continuous_query_engine_impl.h" bodystart="77" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_c_q_result_stream_impl_1a14a9383dc03e98f17ea723fa28f47618" prot="public" virt="virtual"><scope>themis::query::CQResultStreamImpl</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_result_stream_impl_1a9f27119d810d0f9bd932ea523596505f" prot="public" virt="non-virtual"><scope>themis::query::CQResultStreamImpl</scope><name>CQResultStreamImpl</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_result_stream_impl_1a6ef9ee3bc8151ee51263c535037ab1aa" prot="public" virt="virtual"><scope>themis::query::CQResultStreamImpl</scope><name>hasMore</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_result_stream_impl_1aec50254899b12fadbb7cfd747affcf37" prot="public" virt="virtual"><scope>themis::query::CQResultStreamImpl</scope><name>next</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_result_stream_impl_1a751bb69bb58211ab5151371f88d9bf45" prot="private" virt="non-virtual"><scope>themis::query::CQResultStreamImpl</scope><name>queue_</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_result_stream_impl_1aa30965113384f0cbaefe323a34ca5c47" prot="public" virt="virtual"><scope>themis::query::CQResultStreamImpl</scope><name>queueDepth</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_result_stream_1a312e8db06af834d1e95d57ccf502ec35" prot="public" virt="virtual"><scope>themis::query::CQResultStreamImpl</scope><name>~CQResultStream</name></member>
+      <member refid="classthemis_1_1query_1_1_c_q_result_stream_impl_1a472b336eb7dd248226563eb68b5ae050" prot="public" virt="non-virtual"><scope>themis::query::CQResultStreamImpl</scope><name>~CQResultStreamImpl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

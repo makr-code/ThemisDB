@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_temporal_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::TemporalQuery</compoundname>
+    <includes refid="model__history__contract_8h" local="no">model_history_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_1ac837cc2ca85033db105ec778e337471c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TemporalQuery::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::TemporalQuery::model_id</qualifiedname>
+        <briefdescription>
+<para>Model ID to query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="280" column="17" bodyfile="include/process/model_history_contract.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_1aa6146b718261dd5eb1dbc26c0e883891" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::TemporalQuery::target_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>target_timestamp_ns</name>
+        <qualifiedname>themis::process::TemporalQuery::target_timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Target timestamp (UTC, nanoseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="283" column="13" bodyfile="include/process/model_history_contract.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_1ab5881cc3ab6fa6f35dec9ba5d64fcf1b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::TemporalQuery::nearest_before</definition>
+        <argsstring></argsstring>
+        <name>nearest_before</name>
+        <qualifiedname>themis::process::TemporalQuery::nearest_before</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true: find nearest snapshot at or before timestamp If false: fail if exact timestamp not found </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="287" column="10" bodyfile="include/process/model_history_contract.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_1ac41f4985f953f4acef131487a0b42907" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::TemporalQuery::max_age_ms</definition>
+        <argsstring></argsstring>
+        <name>max_age_ms</name>
+        <qualifiedname>themis::process::TemporalQuery::max_age_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum age of snapshot to accept (ms); 0 = no limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="290" column="14" bodyfile="include/process/model_history_contract.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_1aa1c34450fc53c35357a65c45e171cd1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TemporalQuery::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::TemporalQuery::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="293" column="17" bodyfile="include/process/model_history_contract.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Query for model state at a specific point in time. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used by: <computeroutput>getHistoricalModel(model_id, target_timestamp)</computeroutput> </para>
+    </detaileddescription>
+    <location file="include/process/model_history_contract.h" line="278" column="1" bodyfile="include/process/model_history_contract.h" bodystart="278" bodyend="294"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_temporal_query_1ac41f4985f953f4acef131487a0b42907" prot="public" virt="non-virtual"><scope>themis::process::TemporalQuery</scope><name>max_age_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_temporal_query_1ac837cc2ca85033db105ec778e337471c" prot="public" virt="non-virtual"><scope>themis::process::TemporalQuery</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_temporal_query_1ab5881cc3ab6fa6f35dec9ba5d64fcf1b" prot="public" virt="non-virtual"><scope>themis::process::TemporalQuery</scope><name>nearest_before</name></member>
+      <member refid="structthemis_1_1process_1_1_temporal_query_1aa6146b718261dd5eb1dbc26c0e883891" prot="public" virt="non-virtual"><scope>themis::process::TemporalQuery</scope><name>target_timestamp_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_temporal_query_1aa1c34450fc53c35357a65c45e171cd1e" prot="public" virt="non-virtual"><scope>themis::process::TemporalQuery</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

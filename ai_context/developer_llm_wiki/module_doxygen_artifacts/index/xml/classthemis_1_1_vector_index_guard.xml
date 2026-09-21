@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_vector_index_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::VectorIndexGuard</compoundname>
+    <includes refid="vector__index__manager__safety_8h" local="no">vector_index_manager_safety.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_vector_index_guard_1aedc53dc9647e00ab8f976e81eaedd563" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_vector_index_manager_safety" kindref="compound">VectorIndexManagerSafety</ref> &amp;</type>
+        <definition>VectorIndexManagerSafety&amp; themis::VectorIndexGuard::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::VectorIndexGuard::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="195" column="30" bodyfile="include/index/vector_index_manager_safety.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_index_guard_1a92845091338885848d18df6848908cc4" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_vector_index_handle" kindref="compound">VectorIndexHandle</ref></type>
+        <definition>VectorIndexHandle themis::VectorIndexGuard::handle_</definition>
+        <argsstring></argsstring>
+        <name>handle_</name>
+        <qualifiedname>themis::VectorIndexGuard::handle_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="196" column="23" bodyfile="include/index/vector_index_manager_safety.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_index_guard_1ad32eb3c096f68b939c75007fe9a41ff0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_vector_index_data" kindref="compound">VectorIndexData</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexData&gt; themis::VectorIndexGuard::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>themis::VectorIndexGuard::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="197" column="21" bodyfile="include/index/vector_index_manager_safety.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_vector_index_guard_1af67d044532e3fe664d0c08f05c8ac215" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorIndexGuard::VectorIndexGuard</definition>
+        <argsstring>(VectorIndexManagerSafety &amp;mgr, const VectorIndexHandle &amp;handle)</argsstring>
+        <name>VectorIndexGuard</name>
+        <qualifiedname>themis::VectorIndexGuard::VectorIndexGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_vector_index_manager_safety" kindref="compound">VectorIndexManagerSafety</ref> &amp;</type>
+          <declname>mgr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_vector_index_handle" kindref="compound">VectorIndexHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="175" column="5" bodyfile="include/index/vector_index_manager_safety.h" bodystart="175" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_guard_1a8afceba35aefc4c899602b8ccbf09b0c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorIndexGuard::~VectorIndexGuard</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~VectorIndexGuard</name>
+        <qualifiedname>themis::VectorIndexGuard::~VectorIndexGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="180" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_guard_1a3578e949f101508a3f6fb01eee29f2b2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::VectorIndexGuard::IsValid</definition>
+        <argsstring>() const</argsstring>
+        <name>IsValid</name>
+        <qualifiedname>themis::VectorIndexGuard::IsValid</qualifiedname>
+        <briefdescription>
+<para>Check if index is still valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if index can be safely accessed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="186" column="10" bodyfile="include/index/vector_index_manager_safety.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_guard_1a695822165e5bbdef659079caab7e382f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_vector_index_data" kindref="compound">VectorIndexData</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; VectorIndexData &gt; themis::VectorIndexGuard::Get</definition>
+        <argsstring>() const</argsstring>
+        <name>Get</name>
+        <qualifiedname>themis::VectorIndexGuard::Get</qualifiedname>
+        <briefdescription>
+<para>Get index data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Index data pointer, or nullptr if invalid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="192" column="21" bodyfile="include/index/vector_index_manager_safety.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII guard for vector index lifetime management. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Ensures index is not accessed after removal.</para>
+<para><simplesect kind="note"><para>Gap A-2-07: Exception-safe lifetime tracking with snapshot </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/index/vector_index_manager_safety.h" line="173" column="1" bodyfile="include/index/vector_index_manager_safety.h" bodystart="173" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_vector_index_guard_1a695822165e5bbdef659079caab7e382f" prot="public" virt="non-virtual"><scope>themis::VectorIndexGuard</scope><name>Get</name></member>
+      <member refid="classthemis_1_1_vector_index_guard_1a92845091338885848d18df6848908cc4" prot="private" virt="non-virtual"><scope>themis::VectorIndexGuard</scope><name>handle_</name></member>
+      <member refid="classthemis_1_1_vector_index_guard_1ad32eb3c096f68b939c75007fe9a41ff0" prot="private" virt="non-virtual"><scope>themis::VectorIndexGuard</scope><name>index_</name></member>
+      <member refid="classthemis_1_1_vector_index_guard_1a3578e949f101508a3f6fb01eee29f2b2" prot="public" virt="non-virtual"><scope>themis::VectorIndexGuard</scope><name>IsValid</name></member>
+      <member refid="classthemis_1_1_vector_index_guard_1aedc53dc9647e00ab8f976e81eaedd563" prot="private" virt="non-virtual"><scope>themis::VectorIndexGuard</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1_vector_index_guard_1af67d044532e3fe664d0c08f05c8ac215" prot="public" virt="non-virtual"><scope>themis::VectorIndexGuard</scope><name>VectorIndexGuard</name></member>
+      <member refid="classthemis_1_1_vector_index_guard_1a8afceba35aefc4c899602b8ccbf09b0c" prot="public" virt="non-virtual"><scope>themis::VectorIndexGuard</scope><name>~VectorIndexGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

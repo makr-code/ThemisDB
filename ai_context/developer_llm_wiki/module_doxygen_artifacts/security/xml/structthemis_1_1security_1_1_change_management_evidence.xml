@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_change_management_evidence" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::ChangeManagementEvidence</compoundname>
+    <includes refid="security__evidence__collector_8h" local="no">security_evidence_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_change_management_evidence_1abccacb99a5d4d018f0b1885303461bf6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt;nlohmann::json&gt; themis::security::ChangeManagementEvidence::config_audit_trail</definition>
+        <argsstring></argsstring>
+        <name>config_audit_trail</name>
+        <qualifiedname>themis::security::ChangeManagementEvidence::config_audit_trail</qualifiedname>
+        <briefdescription>
+<para><ref refid="test__tls__hot__reload_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> changes (last 30 days). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="153" column="17" bodyfile="include/security/security_evidence_collector.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_change_management_evidence_1ada134c26734400b63966820e64e5fd6f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1security_1_1_key_rotation_record" kindref="compound">KeyRotationRecord</ref> &gt;</type>
+        <definition>std::vector&lt;KeyRotationRecord&gt; themis::security::ChangeManagementEvidence::key_rotation_log</definition>
+        <argsstring></argsstring>
+        <name>key_rotation_log</name>
+        <qualifiedname>themis::security::ChangeManagementEvidence::key_rotation_log</qualifiedname>
+        <briefdescription>
+<para>Key rotation events in window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="154" column="17" bodyfile="include/security/security_evidence_collector.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_change_management_evidence_1ae70fabbbe00d5c6c5df1d97f315ab420" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::ChangeManagementEvidence::from_ms</definition>
+        <argsstring></argsstring>
+        <name>from_ms</name>
+        <qualifiedname>themis::security::ChangeManagementEvidence::from_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Window start (Unix epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="155" column="13" bodyfile="include/security/security_evidence_collector.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_change_management_evidence_1aad754a5f912776d45f65e83d23505117" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::ChangeManagementEvidence::to_ms</definition>
+        <argsstring></argsstring>
+        <name>to_ms</name>
+        <qualifiedname>themis::security::ChangeManagementEvidence::to_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Window end (Unix epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="156" column="13" bodyfile="include/security/security_evidence_collector.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_change_management_evidence_1a22a695f99ef3d3964150fa7469000218" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::ChangeManagementEvidence::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::security::ChangeManagementEvidence::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="162" column="20" bodyfile="src/security/security_evidence_collector.cpp" bodystart="89" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Evidence of change management events for SOC 2 audit. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures configuration audit trail entries and key rotation records within a specified time window. </para>
+    </detaileddescription>
+    <location file="include/security/security_evidence_collector.h" line="152" column="1" bodyfile="include/security/security_evidence_collector.h" bodystart="152" bodyend="163"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_change_management_evidence_1abccacb99a5d4d018f0b1885303461bf6" prot="public" virt="non-virtual"><scope>themis::security::ChangeManagementEvidence</scope><name>config_audit_trail</name></member>
+      <member refid="structthemis_1_1security_1_1_change_management_evidence_1ae70fabbbe00d5c6c5df1d97f315ab420" prot="public" virt="non-virtual"><scope>themis::security::ChangeManagementEvidence</scope><name>from_ms</name></member>
+      <member refid="structthemis_1_1security_1_1_change_management_evidence_1ada134c26734400b63966820e64e5fd6f" prot="public" virt="non-virtual"><scope>themis::security::ChangeManagementEvidence</scope><name>key_rotation_log</name></member>
+      <member refid="structthemis_1_1security_1_1_change_management_evidence_1aad754a5f912776d45f65e83d23505117" prot="public" virt="non-virtual"><scope>themis::security::ChangeManagementEvidence</scope><name>to_ms</name></member>
+      <member refid="structthemis_1_1security_1_1_change_management_evidence_1a22a695f99ef3d3964150fa7469000218" prot="public" virt="non-virtual"><scope>themis::security::ChangeManagementEvidence</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

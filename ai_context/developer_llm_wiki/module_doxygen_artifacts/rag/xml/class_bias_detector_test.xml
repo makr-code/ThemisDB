@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_bias_detector_test" kind="class" language="C++" prot="public">
+    <compoundname>BiasDetectorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_bias_detector_test_1a836e2e2a2bfcba7ef8917316dd3b6c59" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_bias_detector" kindref="compound">BiasDetector</ref></type>
+        <definition>BiasDetector BiasDetectorTest::detector_</definition>
+        <argsstring></argsstring>
+        <name>detector_</name>
+        <qualifiedname>BiasDetectorTest::detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ethics.cpp" line="148" column="18" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BiasDetectorTest</label>
+        <link refid="class_bias_detector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BiasDetectorTest</label>
+        <link refid="class_bias_detector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>detector_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::BiasDetector</label>
+        <link refid="classthemis_1_1rag_1_1judge_1_1_bias_detector"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_ethics.cpp" line="146" column="1" bodyfile="tests/rag/test_rag_ethics.cpp" bodystart="146" bodyend="149"/>
+    <listofallmembers>
+      <member refid="class_bias_detector_test_1a836e2e2a2bfcba7ef8917316dd3b6c59" prot="protected" virt="non-virtual"><scope>BiasDetectorTest</scope><name>detector_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

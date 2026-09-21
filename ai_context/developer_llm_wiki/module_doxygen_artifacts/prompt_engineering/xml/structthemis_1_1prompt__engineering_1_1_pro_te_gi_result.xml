@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ProTeGiResult</compoundname>
+    <includes refid="protegi__optimizer_8h" local="no">protegi_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1ac45fe6fd5b27186b2e014e79de6ff460" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ProTeGiResult::best_prompt</definition>
+        <argsstring></argsstring>
+        <name>best_prompt</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiResult::best_prompt</qualifiedname>
+        <briefdescription>
+<para>Prompt with the highest score at end of run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="63" column="30" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1a0ff51167c75bc32c663b7debfddffa2a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ProTeGiResult::best_score</definition>
+        <argsstring></argsstring>
+        <name>best_score</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiResult::best_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Score of <computeroutput>best_prompt</computeroutput> on the full test set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="64" column="30" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1ab2a03e3c8e30d0da9acb6e4c1867027f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ProTeGiResult::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiResult::steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of gradient steps taken. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="65" column="30" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1a07e8a62a3109b07d2d0bed959b24ae2c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ProTeGiResult::converged</definition>
+        <argsstring></argsstring>
+        <name>converged</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiResult::converged</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when target_score reached or no improvement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="66" column="30" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1a6e300f15ff1e3609726d44d53aa5c2c1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::prompt_engineering::ProTeGiResult::score_history</definition>
+        <argsstring></argsstring>
+        <name>score_history</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiResult::score_history</qualifiedname>
+        <briefdescription>
+<para>Best beam score after each step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="67" column="22" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1a2443339d22cefa129060d07e5cd73436" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::ProTeGiResult::beam</definition>
+        <argsstring></argsstring>
+        <name>beam</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiResult::beam</qualifiedname>
+        <briefdescription>
+<para>Final beam of candidate prompts (best first). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="68" column="17" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete result of a ProTeGi optimization run. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/protegi_optimizer.h" line="62" column="1" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="62" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1a2443339d22cefa129060d07e5cd73436" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiResult</scope><name>beam</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1ac45fe6fd5b27186b2e014e79de6ff460" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiResult</scope><name>best_prompt</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1a0ff51167c75bc32c663b7debfddffa2a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiResult</scope><name>best_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1a07e8a62a3109b07d2d0bed959b24ae2c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiResult</scope><name>converged</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1a6e300f15ff1e3609726d44d53aa5c2c1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiResult</scope><name>score_history</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result_1ab2a03e3c8e30d0da9acb6e4c1867027f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiResult</scope><name>steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

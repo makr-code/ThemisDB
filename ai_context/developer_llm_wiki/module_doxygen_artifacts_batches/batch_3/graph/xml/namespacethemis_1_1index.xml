@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1index" kind="namespace" language="C++">
+    <compoundname>themis::index</compoundname>
+    <innernamespace refid="namespacethemis_1_1index_1_1tests">themis::index::tests</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="12" column="1"/>
+  </compounddef>
+</doxygen>

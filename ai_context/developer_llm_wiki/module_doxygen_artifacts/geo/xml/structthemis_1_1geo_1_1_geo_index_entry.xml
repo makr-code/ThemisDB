@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geo_index_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeoIndexEntry</compoundname>
+    <includes refid="rtree__cursor_8h" local="no">rtree_cursor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_index_entry_1a078ea3ba0844f5e961d843ab39363b0b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeoIndexEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::geo::GeoIndexEntry::key</qualifiedname>
+        <briefdescription>
+<para>User-supplied key of the indexed geometry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="38" column="18" bodyfile="include/geo/rtree_cursor.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_index_entry_1aea5442652b809551cca5906b7e52130b" prot="public" static="no" mutable="no">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::GeoIndexEntry::geom</definition>
+        <argsstring></argsstring>
+        <name>geom</name>
+        <qualifiedname>themis::geo::GeoIndexEntry::geom</qualifiedname>
+        <briefdescription>
+<para>Geometry (as stored in the index). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="39" column="18" bodyfile="include/geo/rtree_cursor.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_index_entry_1a1d64b3182834093c3f90846c1f5e9c3c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::GeoIndexEntry::distance_m</definition>
+        <argsstring></argsstring>
+        <name>distance_m</name>
+        <qualifiedname>themis::geo::GeoIndexEntry::distance_m</qualifiedname>
+        <briefdescription>
+<para>Centroid-to-centroid distance (k-NN only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="40" column="18" bodyfile="include/geo/rtree_cursor.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/rtree_cursor.h" line="37" column="1" bodyfile="include/geo/rtree_cursor.h" bodystart="37" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geo_index_entry_1a1d64b3182834093c3f90846c1f5e9c3c" prot="public" virt="non-virtual"><scope>themis::geo::GeoIndexEntry</scope><name>distance_m</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_index_entry_1aea5442652b809551cca5906b7e52130b" prot="public" virt="non-virtual"><scope>themis::geo::GeoIndexEntry</scope><name>geom</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_index_entry_1a078ea3ba0844f5e961d843ab39363b0b" prot="public" virt="non-virtual"><scope>themis::geo::GeoIndexEntry</scope><name>key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

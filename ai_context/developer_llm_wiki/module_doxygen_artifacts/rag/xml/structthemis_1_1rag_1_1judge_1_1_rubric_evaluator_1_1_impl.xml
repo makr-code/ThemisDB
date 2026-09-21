@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RubricEvaluator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1a7b3128803b411af1018786f0e10d6820" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::rag::judge::RubricEvaluator::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluator::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rubric_evaluator.cpp" line="25" column="12" bodyfile="src/rag/rubric_evaluator.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1adf4b3098e3a52beb37ec4c2a0efafd4b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" kindref="compound">EvaluationRubric</ref></type>
+        <definition>EvaluationRubric themis::rag::judge::RubricEvaluator::Impl::active_rubric</definition>
+        <argsstring></argsstring>
+        <name>active_rubric</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluator::Impl::active_rubric</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rubric_evaluator.cpp" line="26" column="22" bodyfile="src/rag/rubric_evaluator.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1a78dd02a07bd2a13656828e50c53938ca" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LLMJudgeIntegration&gt; themis::rag::judge::RubricEvaluator::Impl::llm_integration</definition>
+        <argsstring></argsstring>
+        <name>llm_integration</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluator::Impl::llm_integration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rubric_evaluator.cpp" line="27" column="21" bodyfile="src/rag/rubric_evaluator.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1a3cb7f1bf97d9ae72ef7ab6cc52d8d310" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser" kindref="compound">ResponseParser</ref></type>
+        <definition>ResponseParser themis::rag::judge::RubricEvaluator::Impl::parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluator::Impl::parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rubric_evaluator.cpp" line="28" column="20" bodyfile="src/rag/rubric_evaluator.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1a8e30cb1eabb2fa0462c498edb988560d" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::RubricEvaluator::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluator::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rubric_evaluator.cpp" line="29" column="24" bodyfile="src/rag/rubric_evaluator.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1a89c74890d429d9542543180ed9c788f2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RubricEvaluator::Impl::generateRubricPrompt</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;answer, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;documents, const DimensionRubric &amp;dimension_rubric)</argsstring>
+        <name>generateRubricPrompt</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluator::Impl::generateRubricPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric" kindref="compound">DimensionRubric</ref> &amp;</type>
+          <declname>dimension_rubric</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rubric_evaluator.cpp" line="32" column="17" bodyfile="src/rag/rubric_evaluator.cpp" bodystart="32" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::rag::judge::EvaluationRubric</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric"/>
+      </node>
+      <node id="4">
+        <label>themis::rag::judge::ResponseParser</label>
+        <link refid="classthemis_1_1rag_1_1judge_1_1_response_parser"/>
+      </node>
+      <node id="2">
+        <label>themis::rag::judge::RubricEvaluator::Config</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::judge::RubricEvaluator::Impl</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>active_rubric</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>parser</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/rubric_evaluator.cpp" line="24" column="1" bodyfile="src/rag/rubric_evaluator.cpp" bodystart="24" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1adf4b3098e3a52beb37ec4c2a0efafd4b" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluator::Impl</scope><name>active_rubric</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1a7b3128803b411af1018786f0e10d6820" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluator::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1a89c74890d429d9542543180ed9c788f2" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluator::Impl</scope><name>generateRubricPrompt</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1a78dd02a07bd2a13656828e50c53938ca" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluator::Impl</scope><name>llm_integration</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1a3cb7f1bf97d9ae72ef7ab6cc52d8d310" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluator::Impl</scope><name>parser</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl_1a8e30cb1eabb2fa0462c498edb988560d" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluator::Impl</scope><name>state_mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

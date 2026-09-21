@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1streaming_1_1_stream_file_info" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::streaming::StreamFileInfo</compoundname>
+    <includes refid="stream__protocol_8h" local="no">stream_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_info_1a2ab0fe26d3b170144ffefc27c3e4e74a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamFileInfo::collection_name</definition>
+        <argsstring></argsstring>
+        <name>collection_name</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::collection_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="221" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_info_1a2723db502974bb4519dcb96e1894dd51" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamFileInfo::file_id</definition>
+        <argsstring></argsstring>
+        <name>file_id</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::file_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="222" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_info_1a3f077121428b7f879735e09ae25a39af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamFileInfo::source_path</definition>
+        <argsstring></argsstring>
+        <name>source_path</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::source_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="225" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_info_1aaffb15ea945d44ddbf085726964cae9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamFileInfo::target_path</definition>
+        <argsstring></argsstring>
+        <name>target_path</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::target_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="226" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_info_1a695b8867ffe9f080fc08de36585f3984" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::streaming::StreamFileInfo::file_size</definition>
+        <argsstring></argsstring>
+        <name>file_size</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::file_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="227" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_info_1a675cc80f3abc6e015f0ad1a4a17d8d18" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::streaming::StreamFileInfo::num_documents</definition>
+        <argsstring></argsstring>
+        <name>num_documents</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::num_documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="228" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_info_1a22839e851e1092ee44c50061125a2ebb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::streaming::StreamFileInfo::token_range_start</definition>
+        <argsstring></argsstring>
+        <name>token_range_start</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::token_range_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="229" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_info_1a0eab3b284a8b13974be434cc6899f12e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::streaming::StreamFileInfo::token_range_end</definition>
+        <argsstring></argsstring>
+        <name>token_range_end</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::token_range_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="230" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_info_1a4add078971892c8d7308a25cb7ed161d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamFileInfo::content_hash</definition>
+        <argsstring></argsstring>
+        <name>content_hash</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::content_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="231" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_info_1a589f49d902dfaf3e7ba2ec5ebfb2bfeb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1streaming_1a072111760fa646882dda384546a08b38" kindref="member">CompressionAlgorithm</ref></type>
+        <definition>CompressionAlgorithm themisdb::streaming::StreamFileInfo::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::compression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="232" column="26" bodyfile="include/sharding/stream_protocol.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1streaming_1_1_stream_file_info_1a16ca86b1b0004f3247ea87851f094c82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::streaming::StreamFileInfo::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize file metadata for transport. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="235" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1streaming_1_1_stream_file_info_1acd31b17a38d062186cb17a148eaeb73d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1streaming_1_1_stream_file_info" kindref="compound">StreamFileInfo</ref> &gt;</type>
+        <definition>static std::optional&lt; StreamFileInfo &gt; themisdb::streaming::StreamFileInfo::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::streaming::StreamFileInfo::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Parse file metadata from transport bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="238" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>File/Collection metadata for transfer </para>
+    </detaileddescription>
+    <location file="include/sharding/stream_protocol.h" line="220" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="220" bodyend="239"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1a2ab0fe26d3b170144ffefc27c3e4e74a" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>collection_name</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1a589f49d902dfaf3e7ba2ec5ebfb2bfeb" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>compression</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1a4add078971892c8d7308a25cb7ed161d" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>content_hash</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1acd31b17a38d062186cb17a148eaeb73d" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>deserialize</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1a2723db502974bb4519dcb96e1894dd51" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>file_id</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1a695b8867ffe9f080fc08de36585f3984" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>file_size</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1a675cc80f3abc6e015f0ad1a4a17d8d18" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>num_documents</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1a16ca86b1b0004f3247ea87851f094c82" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>serialize</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1a3f077121428b7f879735e09ae25a39af" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>source_path</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1aaffb15ea945d44ddbf085726964cae9a" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>target_path</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1a0eab3b284a8b13974be434cc6899f12e" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>token_range_end</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_info_1a22839e851e1092ee44c50061125a2ebb" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileInfo</scope><name>token_range_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

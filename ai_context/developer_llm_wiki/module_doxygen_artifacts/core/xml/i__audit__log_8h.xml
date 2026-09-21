@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="i__audit__log_8h" kind="file" language="C++">
+    <compoundname>i_audit_log.h</compoundname>
+    <includes refid="lifecycle_8h" local="yes">core/concerns/lifecycle.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="concerns__context_8h" local="yes">include/core/concerns/concerns_context.h</includedby>
+    <includedby refid="noop__implementations_8h" local="yes">include/core/concerns/noop_implementations.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/core/concerns/i_audit_log.h</label>
+        <link refid="i__audit__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>core/concerns/lifecycle.h</label>
+        <link refid="lifecycle_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/core/concerns/concerns_context.h</label>
+        <link refid="concerns__context_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/core/concerns/i_audit_log.h</label>
+        <link refid="i__audit__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/core/concerns/noop_implementations.h</label>
+        <link refid="noop__implementations_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/core/concerns/concerns_context.cpp</label>
+        <link refid="concerns__context_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/core/test_circuit_breaker_focused.cpp</label>
+        <link refid="test__circuit__breaker__focused_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/core/test_concerns_context_focused.cpp</label>
+        <link refid="test__concerns__context__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/core/test_core_smoke.cpp</label>
+        <link refid="test__core__smoke_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_audit_event" prot="public">themis::core::concerns::AuditEvent</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log" prot="public">themis::core::concerns::IAuditLog</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log" prot="public">themis::core::concerns::InMemoryAuditLog</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns">themis::core::concerns</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lifecycle_8h" kindref="compound">core/concerns/lifecycle.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">concerns</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1core_1_1concerns_1_1_audit_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad5a589520e868a924a34d879429354f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad5a589520e868a924a34d879429354f4" kindref="member">event_type</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a525c3cfa8a45b15ce3742f37157a32a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a525c3cfa8a45b15ce3742f37157a32a3" kindref="member">actor</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aadb0a87c398d953f8e45cbd3280fd4db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aadb0a87c398d953f8e45cbd3280fd4db" kindref="member">resource</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1acfbc9c0379711c9f300a30aa8a4ba9d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1acfbc9c0379711c9f300a30aa8a4ba9d4" kindref="member">action</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a4d4041670822adac06b0733e3565bef5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a4d4041670822adac06b0733e3565bef5" kindref="member">outcome</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aa3d59bb41e11fe627e2b9276add81cb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aa3d59bb41e11fe627e2b9276add81cb9" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a9f7744457d8f3732c6049559f5f900a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a9f7744457d8f3732c6049559f5f900a8" kindref="member">details</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convenience<sp/>factories</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aa123a45a7fca78a94a2c9912c5476aa6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aa123a45a7fca78a94a2c9912c5476aa6" kindref="member">make</ref>(std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad5a589520e868a924a34d879429354f4" kindref="member">event_type</ref>,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a525c3cfa8a45b15ce3742f37157a32a3" kindref="member">actor</ref>,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aadb0a87c398d953f8e45cbd3280fd4db" kindref="member">resource</ref>,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1acfbc9c0379711c9f300a30aa8a4ba9d4" kindref="member">action</ref>,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a4d4041670822adac06b0733e3565bef5" kindref="member">outcome</ref>,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a9f7744457d8f3732c6049559f5f900a8" kindref="member">details</ref><sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad5a589520e868a924a34d879429354f4" kindref="member">event_type</ref><sp/><sp/><sp/><sp/>=<sp/>std::string(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad5a589520e868a924a34d879429354f4" kindref="member">event_type</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a525c3cfa8a45b15ce3742f37157a32a3" kindref="member">actor</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a525c3cfa8a45b15ce3742f37157a32a3" kindref="member">actor</ref>);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aadb0a87c398d953f8e45cbd3280fd4db" kindref="member">resource</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aadb0a87c398d953f8e45cbd3280fd4db" kindref="member">resource</ref>);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1acfbc9c0379711c9f300a30aa8a4ba9d4" kindref="member">action</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1acfbc9c0379711c9f300a30aa8a4ba9d4" kindref="member">action</ref>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a4d4041670822adac06b0733e3565bef5" kindref="member">outcome</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a4d4041670822adac06b0733e3565bef5" kindref="member">outcome</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aa3d59bb41e11fe627e2b9276add81cb9" kindref="member">timestamp_ms</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>duration_cast&lt;milliseconds&gt;(system_clock::now().time_since_epoch())</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.count());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a9f7744457d8f3732c6049559f5f900a8" kindref="member">details</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::move(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a9f7744457d8f3732c6049559f5f900a8" kindref="member">details</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ev;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ac433a9dd18116adba33ff7e6ea95c2d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ac433a9dd18116adba33ff7e6ea95c2d2" kindref="member">success</ref>(std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad5a589520e868a924a34d879429354f4" kindref="member">event_type</ref>,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a525c3cfa8a45b15ce3742f37157a32a3" kindref="member">actor</ref>,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aadb0a87c398d953f8e45cbd3280fd4db" kindref="member">resource</ref>,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1acfbc9c0379711c9f300a30aa8a4ba9d4" kindref="member">action</ref>,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a9f7744457d8f3732c6049559f5f900a8" kindref="member">details</ref><sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aa123a45a7fca78a94a2c9912c5476aa6" kindref="member">make</ref>(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad5a589520e868a924a34d879429354f4" kindref="member">event_type</ref>,<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a525c3cfa8a45b15ce3742f37157a32a3" kindref="member">actor</ref>,<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aadb0a87c398d953f8e45cbd3280fd4db" kindref="member">resource</ref>,<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1acfbc9c0379711c9f300a30aa8a4ba9d4" kindref="member">action</ref>,<sp/></highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a9f7744457d8f3732c6049559f5f900a8" kindref="member">details</ref>));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad9425327e7c67ba863a52d580d554d3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad9425327e7c67ba863a52d580d554d3f" kindref="member">denied</ref>(std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad5a589520e868a924a34d879429354f4" kindref="member">event_type</ref>,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a525c3cfa8a45b15ce3742f37157a32a3" kindref="member">actor</ref>,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aadb0a87c398d953f8e45cbd3280fd4db" kindref="member">resource</ref>,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1acfbc9c0379711c9f300a30aa8a4ba9d4" kindref="member">action</ref>,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a9f7744457d8f3732c6049559f5f900a8" kindref="member">details</ref><sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aa123a45a7fca78a94a2c9912c5476aa6" kindref="member">make</ref>(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad5a589520e868a924a34d879429354f4" kindref="member">event_type</ref>,<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a525c3cfa8a45b15ce3742f37157a32a3" kindref="member">actor</ref>,<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aadb0a87c398d953f8e45cbd3280fd4db" kindref="member">resource</ref>,<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1acfbc9c0379711c9f300a30aa8a4ba9d4" kindref="member">action</ref>,<sp/></highlight><highlight class="stringliteral">&quot;denied&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a9f7744457d8f3732c6049559f5f900a8" kindref="member">details</ref>));</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1abb2d67a1a26baf3848d42559b0e1dd67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1abb2d67a1a26baf3848d42559b0e1dd67" kindref="member">error</ref>(std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad5a589520e868a924a34d879429354f4" kindref="member">event_type</ref>,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a525c3cfa8a45b15ce3742f37157a32a3" kindref="member">actor</ref>,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aadb0a87c398d953f8e45cbd3280fd4db" kindref="member">resource</ref>,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1acfbc9c0379711c9f300a30aa8a4ba9d4" kindref="member">action</ref>,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a9f7744457d8f3732c6049559f5f900a8" kindref="member">details</ref><sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aa123a45a7fca78a94a2c9912c5476aa6" kindref="member">make</ref>(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1ad5a589520e868a924a34d879429354f4" kindref="member">event_type</ref>,<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a525c3cfa8a45b15ce3742f37157a32a3" kindref="member">actor</ref>,<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1aadb0a87c398d953f8e45cbd3280fd4db" kindref="member">resource</ref>,<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1acfbc9c0379711c9f300a30aa8a4ba9d4" kindref="member">action</ref>,<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(<ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event_1a9f7744457d8f3732c6049559f5f900a8" kindref="member">details</ref>));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log" kindref="compound">IAuditLog</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1acdfe176daf140fec578238b9cd2caeb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1acdfe176daf140fec578238b9cd2caeb7" kindref="member">~IAuditLog</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a56ffdfabec07471bd9d3ddcf4a0963c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a56ffdfabec07471bd9d3ddcf4a0963c5" kindref="member">record</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref>&amp;<sp/>event)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle<sp/>hooks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a06e3357f276d00e6c26ca2affe279461" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a06e3357f276d00e6c26ca2affe279461" kindref="member">flush</ref>()<sp/>noexcept<sp/>{}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a6259ba30cf6a331f5a008e2fad43f01b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a6259ba30cf6a331f5a008e2fad43f01b" kindref="member">shutdown</ref>()<sp/>noexcept<sp/>{}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1acac1f85564bdbbf1a32b8851e541c5fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1acac1f85564bdbbf1a32b8851e541c5fd" kindref="member">isHealthy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" kindref="member">ProbeResult::healthy</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In-memory<sp/>implementation<sp/>(for<sp/>testing<sp/>and<sp/>single-process<sp/>deployments)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log" kindref="compound">InMemoryAuditLog</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log" kindref="compound">IAuditLog</ref><sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1aaa965441bbf334f1acfcf7531a7e5280" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1aaa965441bbf334f1acfcf7531a7e5280" kindref="member">record</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref>&amp;<sp/>event)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>events_.push_back(event);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a11004952976c858c79a193230920ec3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditEvent&gt;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a11004952976c858c79a193230920ec3e" kindref="member">getEvents</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>events_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a48785618cbbb48bdfe8fa3d4559073bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a48785618cbbb48bdfe8fa3d4559073bd" kindref="member">size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>events_.size();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a096b294955fc3eaba889ccfd24c40736" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a096b294955fc3eaba889ccfd24c40736" kindref="member">clear</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>events_.clear();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a54c337d9dc09aae8ab8b63c533742f33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a54c337d9dc09aae8ab8b63c533742f33" kindref="member">flush</ref>()<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a0ac9c5a592c2969d6c0496750b287d3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a0ac9c5a592c2969d6c0496750b287d3b" kindref="member">shutdown</ref>()<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a096b294955fc3eaba889ccfd24c40736" kindref="member">clear</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a95fa312b52ad371caf7ee71f0c332601" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log_1a95fa312b52ad371caf7ee71f0c332601" kindref="member">isHealthy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" kindref="member">ProbeResult::healthy</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditEvent&gt;<sp/>events_;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>concerns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/core/concerns/i_audit_log.h"/>
+  </compounddef>
+</doxygen>

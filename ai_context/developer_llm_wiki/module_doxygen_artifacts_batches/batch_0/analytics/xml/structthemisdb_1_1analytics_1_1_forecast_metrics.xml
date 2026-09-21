@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_forecast_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ForecastMetrics</compoundname>
+    <includes refid="forecasting_8h" local="no">forecasting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_metrics_1aa4acc9298b5ef98aa215e64ea7ad4695" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastMetrics::mae</definition>
+        <argsstring></argsstring>
+        <name>mae</name>
+        <qualifiedname>themisdb::analytics::ForecastMetrics::mae</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean Absolute Error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="226" column="12" bodyfile="include/analytics/forecasting.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_metrics_1aced1eae07fab4cdcce025da13be3a7cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastMetrics::rmse</definition>
+        <argsstring></argsstring>
+        <name>rmse</name>
+        <qualifiedname>themisdb::analytics::ForecastMetrics::rmse</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Root Mean Squared Error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="227" column="12" bodyfile="include/analytics/forecasting.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_metrics_1a424f7013eeba36f192b3476aca2a6b0c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastMetrics::mape</definition>
+        <argsstring></argsstring>
+        <name>mape</name>
+        <qualifiedname>themisdb::analytics::ForecastMetrics::mape</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean Absolute Percentage Error (%). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="228" column="12" bodyfile="include/analytics/forecasting.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_metrics_1a1467f60c8838c365798aaff934e23785" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastMetrics::smape</definition>
+        <argsstring></argsstring>
+        <name>smape</name>
+        <qualifiedname>themisdb::analytics::ForecastMetrics::smape</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Symmetric MAPE (%). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="229" column="12" bodyfile="include/analytics/forecasting.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_metrics_1a1751be7aa5c3f028fb402c8a03699730" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ForecastMetrics::n</definition>
+        <argsstring></argsstring>
+        <name>n</name>
+        <qualifiedname>themisdb::analytics::ForecastMetrics::n</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>number of evaluation points </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="230" column="12" bodyfile="include/analytics/forecasting.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/forecasting.h" line="225" column="1" bodyfile="include/analytics/forecasting.h" bodystart="225" bodyend="231"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_metrics_1aa4acc9298b5ef98aa215e64ea7ad4695" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastMetrics</scope><name>mae</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_metrics_1a424f7013eeba36f192b3476aca2a6b0c" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastMetrics</scope><name>mape</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_metrics_1a1751be7aa5c3f028fb402c8a03699730" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastMetrics</scope><name>n</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_metrics_1aced1eae07fab4cdcce025da13be3a7cc" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastMetrics</scope><name>rmse</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_metrics_1a1467f60c8838c365798aaff934e23785" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastMetrics</scope><name>smape</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

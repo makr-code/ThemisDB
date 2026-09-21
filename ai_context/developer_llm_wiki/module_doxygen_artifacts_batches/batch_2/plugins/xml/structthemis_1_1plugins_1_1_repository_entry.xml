@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_repository_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::RepositoryEntry</compoundname>
+    <includes refid="signed__plugin__repository_8h" local="no">signed_plugin_repository.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_repository_entry_1a21083dff04a3bee408c1b09280972979" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_marketplace_manifest" kindref="compound">MarketplaceManifest</ref></type>
+        <definition>MarketplaceManifest themis::plugins::RepositoryEntry::manifest</definition>
+        <argsstring></argsstring>
+        <name>manifest</name>
+        <qualifiedname>themis::plugins::RepositoryEntry::manifest</qualifiedname>
+        <briefdescription>
+<para>Full plugin manifest (name, version, binary hashes, capabilities …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/signed_plugin_repository.h" line="61" column="25" bodyfile="include/plugins/signed_plugin_repository.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_repository_entry_1a092d7324e8849761f4d3a269a4bf4edd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::RepositoryEntry::signature_b64</definition>
+        <argsstring></argsstring>
+        <name>signature_b64</name>
+        <qualifiedname>themis::plugins::RepositoryEntry::signature_b64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Base64-encoded detached Ed25519 signature over the canonical manifest JSON produced by <ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository_1ab85be335d3011c814fb2e1145987f5c5" kindref="member">SignedPluginRepository::canonicalManifestJson</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/signed_plugin_repository.h" line="65" column="17" bodyfile="include/plugins/signed_plugin_repository.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_repository_entry_1a25c24c447d733bcbca757733b12e0a18" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::RepositoryEntry::key_fingerprint</definition>
+        <argsstring></argsstring>
+        <name>key_fingerprint</name>
+        <qualifiedname>themis::plugins::RepositoryEntry::key_fingerprint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fingerprint (hex SHA-256) of the <ref refid="structthemis_1_1plugins_1_1_pinned_key" kindref="compound">PinnedKey</ref> that produced the signature. Used to look up the matching key during verification. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/signed_plugin_repository.h" line="69" column="17" bodyfile="include/plugins/signed_plugin_repository.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single signed entry in the plugin repository catalog. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each entry pairs a <ref refid="structthemis_1_1plugins_1_1_marketplace_manifest" kindref="compound">MarketplaceManifest</ref> with a detached Ed25519 signature so that the catalog can be verified independently of any transport-layer security. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::plugins::MarketplaceManifest</label>
+        <link refid="structthemis_1_1plugins_1_1_marketplace_manifest"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>signature</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::plugins::PluginCapabilities</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_capabilities"/>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginManifest</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_manifest"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>capabilities</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::plugins::PluginSignatureInfo</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_signature_info"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::RepositoryEntry</label>
+        <link refid="structthemis_1_1plugins_1_1_repository_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>manifest</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/plugins/signed_plugin_repository.h" line="59" column="1" bodyfile="include/plugins/signed_plugin_repository.h" bodystart="59" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_repository_entry_1a25c24c447d733bcbca757733b12e0a18" prot="public" virt="non-virtual"><scope>themis::plugins::RepositoryEntry</scope><name>key_fingerprint</name></member>
+      <member refid="structthemis_1_1plugins_1_1_repository_entry_1a21083dff04a3bee408c1b09280972979" prot="public" virt="non-virtual"><scope>themis::plugins::RepositoryEntry</scope><name>manifest</name></member>
+      <member refid="structthemis_1_1plugins_1_1_repository_entry_1a092d7324e8849761f4d3a269a4bf4edd" prot="public" virt="non-virtual"><scope>themis::plugins::RepositoryEntry</scope><name>signature_b64</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_experiment_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ExperimentSummary</compoundname>
+    <includes refid="prompt__ab__experiment_8h" local="no">prompt_ab_experiment.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_summary_1ad529471be9165c45ec84addd2dfd8abd" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment" kindref="compound">PromptExperiment</ref></type>
+        <definition>PromptExperiment themis::prompt_engineering::ExperimentSummary::experiment</definition>
+        <argsstring></argsstring>
+        <name>experiment</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentSummary::experiment</qualifiedname>
+        <briefdescription>
+<para>Experiment descriptor (current state). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="136" column="22" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a16a6fc238c3910ee4dc6daf41f6a8f67" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::prompt_engineering::ExperimentSummary::control_samples</definition>
+        <argsstring></argsstring>
+        <name>control_samples</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentSummary::control_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="137" column="17" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a398bbbebd96d6cde1ee5767591b43c21" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::prompt_engineering::ExperimentSummary::treatment_samples</definition>
+        <argsstring></argsstring>
+        <name>treatment_samples</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentSummary::treatment_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="138" column="17" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_summary_1abcbf0143d9a69006b81a20d5dbd19b37" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ExperimentSummary::mean_control_score</definition>
+        <argsstring></argsstring>
+        <name>mean_control_score</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentSummary::mean_control_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="139" column="12" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a3912a70065a6766e0c0b80f9b54abf4e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ExperimentSummary::mean_treatment_score</definition>
+        <argsstring></argsstring>
+        <name>mean_treatment_score</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentSummary::mean_treatment_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="140" column="12" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_summary_1af3343ba957436a7e82a13691f4d8443f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ExperimentSummary::delta_pct</definition>
+        <argsstring></argsstring>
+        <name>delta_pct</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentSummary::delta_pct</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>(treatment-control)/control × 100. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="141" column="12" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_summary_1ae45a6633d837f02f43a526a702793bbb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ExperimentSummary::p_value</definition>
+        <argsstring></argsstring>
+        <name>p_value</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentSummary::p_value</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Welch t-test p-value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="142" column="12" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_summary_1aa53ced95676baf7382f2ce45db1efb6d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ExperimentSummary::significant</definition>
+        <argsstring></argsstring>
+        <name>significant</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentSummary::significant</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="143" column="12" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_summary_1abb4115612f5bbde7c7f36137ec2b2bda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ExperimentSummary::winner_version_id</definition>
+        <argsstring></argsstring>
+        <name>winner_version_id</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentSummary::winner_version_id</qualifiedname>
+        <briefdescription>
+<para>Non-empty once a winner is determined. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="144" column="17" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a28a712575f22dd799b2ba777511d20d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::ExperimentSummary::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentSummary::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="147" column="20" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="137" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of current experiment metrics for reporting. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::prompt_engineering::ExperimentSummary</label>
+        <link refid="structthemis_1_1prompt__engineering_1_1_experiment_summary"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>experiment</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::PromptExperiment</label>
+        <link refid="structthemis_1_1prompt__engineering_1_1_prompt_experiment"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/prompt_ab_experiment.h" line="135" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="135" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a16a6fc238c3910ee4dc6daf41f6a8f67" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentSummary</scope><name>control_samples</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1af3343ba957436a7e82a13691f4d8443f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentSummary</scope><name>delta_pct</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1ad529471be9165c45ec84addd2dfd8abd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentSummary</scope><name>experiment</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1abcbf0143d9a69006b81a20d5dbd19b37" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentSummary</scope><name>mean_control_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a3912a70065a6766e0c0b80f9b54abf4e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentSummary</scope><name>mean_treatment_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1ae45a6633d837f02f43a526a702793bbb" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentSummary</scope><name>p_value</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1aa53ced95676baf7382f2ce45db1efb6d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentSummary</scope><name>significant</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a28a712575f22dd799b2ba777511d20d9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentSummary</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1a398bbbebd96d6cde1ee5767591b43c21" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentSummary</scope><name>treatment_samples</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_summary_1abb4115612f5bbde7c7f36137ec2b2bda" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentSummary</scope><name>winner_version_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_split_brain_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::SplitBrainConfig</compoundname>
+    <includes refid="federated__consensus__contract_8h" local="no">federated_consensus_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_split_brain_config_1a652ac5676ceda9221dacb11a6ffc6670" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::SplitBrainConfig::election_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_ms</name>
+        <qualifiedname>themis::process::SplitBrainConfig::election_timeout_ms</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+<para>Maximum time to tolerate missing heartbeat before starting election (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="510" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="510" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_split_brain_config_1a32bd868520625b242345626a4da966ad" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::SplitBrainConfig::detection_window_ms</definition>
+        <argsstring></argsstring>
+        <name>detection_window_ms</name>
+        <qualifiedname>themis::process::SplitBrainConfig::detection_window_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Maximum detection window for split-brain (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="513" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="513" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_split_brain_config_1a084fe3036d63e315a0ba314326686943" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::SplitBrainConfig::recovery_policy</definition>
+        <argsstring></argsstring>
+        <name>recovery_policy</name>
+        <qualifiedname>themis::process::SplitBrainConfig::recovery_policy</qualifiedname>
+        <initializer>= &quot;fail_closed&quot;</initializer>
+        <briefdescription>
+<para>Policy on split-brain detection: &quot;fail_closed&quot; (reject writes) or &quot;last_write_wins&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="516" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="516" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_split_brain_config_1a829f6c4c850f7bd336450b835780a91b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::SplitBrainConfig::auto_recover</definition>
+        <argsstring></argsstring>
+        <name>auto_recover</name>
+        <qualifiedname>themis::process::SplitBrainConfig::auto_recover</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true to enable automatic recovery; false for manual intervention </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="519" column="10" bodyfile="include/process/federated_consensus_contract.h" bodystart="519" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_split_brain_config_1a5634de5339f536ffa4d379e78966b4f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::SplitBrainConfig::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::SplitBrainConfig::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="522" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="522" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for split-brain detection and recovery. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/federated_consensus_contract.h" line="508" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="508" bodyend="523"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_split_brain_config_1a829f6c4c850f7bd336450b835780a91b" prot="public" virt="non-virtual"><scope>themis::process::SplitBrainConfig</scope><name>auto_recover</name></member>
+      <member refid="structthemis_1_1process_1_1_split_brain_config_1a32bd868520625b242345626a4da966ad" prot="public" virt="non-virtual"><scope>themis::process::SplitBrainConfig</scope><name>detection_window_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_split_brain_config_1a652ac5676ceda9221dacb11a6ffc6670" prot="public" virt="non-virtual"><scope>themis::process::SplitBrainConfig</scope><name>election_timeout_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_split_brain_config_1a084fe3036d63e315a0ba314326686943" prot="public" virt="non-virtual"><scope>themis::process::SplitBrainConfig</scope><name>recovery_policy</name></member>
+      <member refid="structthemis_1_1process_1_1_split_brain_config_1a5634de5339f536ffa4d379e78966b4f6" prot="public" virt="non-virtual"><scope>themis::process::SplitBrainConfig</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

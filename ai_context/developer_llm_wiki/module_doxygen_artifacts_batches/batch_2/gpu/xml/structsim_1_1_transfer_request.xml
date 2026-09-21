@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structsim_1_1_transfer_request" kind="struct" language="C++" prot="public">
+    <compoundname>sim::TransferRequest</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsim_1_1_transfer_request_1a756969aa187eb2e7b6099c75e3270666" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sim::TransferRequest::src_device</definition>
+        <argsstring></argsstring>
+        <name>src_device</name>
+        <qualifiedname>sim::TransferRequest::src_device</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="69" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_transfer_request_1a5a59fdfe399c702734dcdff7e56e9304" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sim::TransferRequest::dst_device</definition>
+        <argsstring></argsstring>
+        <name>dst_device</name>
+        <qualifiedname>sim::TransferRequest::dst_device</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="70" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_transfer_request_1a5f6a4ca2ae19da919faff672f0cdcda5" prot="public" static="no" mutable="no">
+        <type>const void *</type>
+        <definition>const void* sim::TransferRequest::src_ptr</definition>
+        <argsstring></argsstring>
+        <name>src_ptr</name>
+        <qualifiedname>sim::TransferRequest::src_ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="71" column="16" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_transfer_request_1a7953c1bd9fcf958490d0ce57d59a9a77" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* sim::TransferRequest::dst_ptr</definition>
+        <argsstring></argsstring>
+        <name>dst_ptr</name>
+        <qualifiedname>sim::TransferRequest::dst_ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="72" column="16" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_transfer_request_1a323cdc6c7cb9b08fa15a2d5f4f67833c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t sim::TransferRequest::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>sim::TransferRequest::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="73" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="68" column="1" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="68" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structsim_1_1_transfer_request_1a5a59fdfe399c702734dcdff7e56e9304" prot="public" virt="non-virtual"><scope>sim::TransferRequest</scope><name>dst_device</name></member>
+      <member refid="structsim_1_1_transfer_request_1a7953c1bd9fcf958490d0ce57d59a9a77" prot="public" virt="non-virtual"><scope>sim::TransferRequest</scope><name>dst_ptr</name></member>
+      <member refid="structsim_1_1_transfer_request_1a323cdc6c7cb9b08fa15a2d5f4f67833c" prot="public" virt="non-virtual"><scope>sim::TransferRequest</scope><name>size_bytes</name></member>
+      <member refid="structsim_1_1_transfer_request_1a756969aa187eb2e7b6099c75e3270666" prot="public" virt="non-virtual"><scope>sim::TransferRequest</scope><name>src_device</name></member>
+      <member refid="structsim_1_1_transfer_request_1a5f6a4ca2ae19da919faff672f0cdcda5" prot="public" virt="non-virtual"><scope>sim::TransferRequest</scope><name>src_ptr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

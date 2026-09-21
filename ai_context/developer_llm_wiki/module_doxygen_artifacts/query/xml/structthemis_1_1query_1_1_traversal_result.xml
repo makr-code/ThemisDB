@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_traversal_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::TraversalResult</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_traversal_result_1a05618c0e9ba7fda3dedaba57ab732e45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::TraversalResult::vertex_pk</definition>
+        <argsstring></argsstring>
+        <name>vertex_pk</name>
+        <qualifiedname>themis::query::TraversalResult::vertex_pk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="87" column="17" bodyfile="include/query/query_engine.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_traversal_result_1a657edfe12517cbca862753a44dee35ba" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::TraversalResult::depth</definition>
+        <argsstring></argsstring>
+        <name>depth</name>
+        <qualifiedname>themis::query::TraversalResult::depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="88" column="9" bodyfile="include/query/query_engine.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_traversal_result_1a6c5206cc244ba8a4481948b33f566b44" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::TraversalResult::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::query::TraversalResult::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="89" column="17" bodyfile="include/query/query_engine.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_traversal_result_1a52f1487fe8077f0bdef9c96cc7487cda" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::TraversalResult::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::query::TraversalResult::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="90" column="17" bodyfile="include/query/query_engine.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_traversal_result_1aa3a7a45b67c60fc5a94068eda7a8f454" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::TraversalResult::vertex_data</definition>
+        <argsstring></argsstring>
+        <name>vertex_data</name>
+        <qualifiedname>themis::query::TraversalResult::vertex_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="91" column="20" bodyfile="include/query/query_engine.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="86" column="1" bodyfile="include/query/query_engine.h" bodystart="86" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_traversal_result_1a657edfe12517cbca862753a44dee35ba" prot="public" virt="non-virtual"><scope>themis::query::TraversalResult</scope><name>depth</name></member>
+      <member refid="structthemis_1_1query_1_1_traversal_result_1a52f1487fe8077f0bdef9c96cc7487cda" prot="public" virt="non-virtual"><scope>themis::query::TraversalResult</scope><name>edges</name></member>
+      <member refid="structthemis_1_1query_1_1_traversal_result_1a6c5206cc244ba8a4481948b33f566b44" prot="public" virt="non-virtual"><scope>themis::query::TraversalResult</scope><name>path</name></member>
+      <member refid="structthemis_1_1query_1_1_traversal_result_1aa3a7a45b67c60fc5a94068eda7a8f454" prot="public" virt="non-virtual"><scope>themis::query::TraversalResult</scope><name>vertex_data</name></member>
+      <member refid="structthemis_1_1query_1_1_traversal_result_1a05618c0e9ba7fda3dedaba57ab732e45" prot="public" virt="non-virtual"><scope>themis::query::TraversalResult</scope><name>vertex_pk</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

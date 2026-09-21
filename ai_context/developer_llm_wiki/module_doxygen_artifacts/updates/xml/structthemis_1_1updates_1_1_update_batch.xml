@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_update_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::UpdateBatch</compoundname>
+    <includes refid="batch5__safety__helpers_8h" local="no">batch5_safety_helpers.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_batch_1a0620e7f8df5699347df79f9dcca4f1d7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateBatch::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::updates::UpdateBatch::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="178" column="17" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_batch_1a2fdb9c0a767a52aff13f5c160699b126" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::UpdateBatch::update_count</definition>
+        <argsstring></argsstring>
+        <name>update_count</name>
+        <qualifiedname>themis::updates::UpdateBatch::update_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="179" column="12" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_batch_1af5e5c1b727c954e1d3ceb81d99b02d15" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdateBatch::partial_failure</definition>
+        <argsstring></argsstring>
+        <name>partial_failure</name>
+        <qualifiedname>themis::updates::UpdateBatch::partial_failure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="180" column="10" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock <ref refid="structthemis_1_1updates_1_1_update_batch" kindref="compound">UpdateBatch</ref> for demonstration of RAII pattern. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Error Code: 7503</para>
+</simplesect>
+This shows how <ref refid="structthemis_1_1updates_1_1_update_batch" kindref="compound">UpdateBatch</ref> should be managed with unique_ptr in <ref refid="cluster__update__manager_8cpp" kindref="compound">cluster_update_manager.cpp</ref> for exception safety. </para>
+    </detaileddescription>
+    <location file="include/updates/batch5_safety_helpers.h" line="177" column="1" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="177" bodyend="181"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_update_batch_1a0620e7f8df5699347df79f9dcca4f1d7" prot="public" virt="non-virtual"><scope>themis::updates::UpdateBatch</scope><name>id</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_batch_1af5e5c1b727c954e1d3ceb81d99b02d15" prot="public" virt="non-virtual"><scope>themis::updates::UpdateBatch</scope><name>partial_failure</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_batch_1a2fdb9c0a767a52aff13f5c160699b126" prot="public" virt="non-virtual"><scope>themis::updates::UpdateBatch</scope><name>update_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

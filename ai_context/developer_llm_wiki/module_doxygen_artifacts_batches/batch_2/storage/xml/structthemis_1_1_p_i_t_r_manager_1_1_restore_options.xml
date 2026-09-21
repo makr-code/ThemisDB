@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::PITRManager::RestoreOptions</compoundname>
+    <includes refid="pitr__manager_8h" local="no">pitr_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a97e850ab6b054f79c269c3a73c18f629" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::PITRManager::RestoreOptions::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>themis::PITRManager::RestoreOptions::dry_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="68" column="14" bodyfile="include/storage/pitr_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a8d40d6d197ca70c1b77ba9bb74977765" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::PITRManager::RestoreOptions::create_backup</definition>
+        <argsstring></argsstring>
+        <name>create_backup</name>
+        <qualifiedname>themis::PITRManager::RestoreOptions::create_backup</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="69" column="14" bodyfile="include/storage/pitr_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a7432980924b2301fdc0d1b6aedc9af3d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::PITRManager::RestoreOptions::abort_on_first_error</definition>
+        <argsstring></argsstring>
+        <name>abort_on_first_error</name>
+        <qualifiedname>themis::PITRManager::RestoreOptions::abort_on_first_error</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="70" column="14" bodyfile="include/storage/pitr_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a1882e0c8323b104ed3d204775b5ae2cd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::PITRManager::RestoreOptions::tables</definition>
+        <argsstring></argsstring>
+        <name>tables</name>
+        <qualifiedname>themis::PITRManager::RestoreOptions::tables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="71" column="21" bodyfile="include/storage/pitr_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a36aff18382560cf461c64aff4d24063c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::PITRManager::RestoreOptions::max_events_to_replay</definition>
+        <argsstring></argsstring>
+        <name>max_events_to_replay</name>
+        <qualifiedname>themis::PITRManager::RestoreOptions::max_events_to_replay</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="72" column="18" bodyfile="include/storage/pitr_manager.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1ac617ce5e43fe4542ff141a3d52e84f91" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PITRManager::RestoreOptions::backup_tag</definition>
+        <argsstring></argsstring>
+        <name>backup_tag</name>
+        <qualifiedname>themis::PITRManager::RestoreOptions::backup_tag</qualifiedname>
+        <initializer>= &quot;before_pitr_restore&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="73" column="21" bodyfile="include/storage/pitr_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Restore options. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/pitr_manager.h" line="67" column="5" bodyfile="include/storage/pitr_manager.h" bodystart="67" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a7432980924b2301fdc0d1b6aedc9af3d" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreOptions</scope><name>abort_on_first_error</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1ac617ce5e43fe4542ff141a3d52e84f91" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreOptions</scope><name>backup_tag</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a8d40d6d197ca70c1b77ba9bb74977765" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreOptions</scope><name>create_backup</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a97e850ab6b054f79c269c3a73c18f629" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreOptions</scope><name>dry_run</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a36aff18382560cf461c64aff4d24063c" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreOptions</scope><name>max_events_to_replay</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options_1a1882e0c8323b104ed3d204775b5ae2cd" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreOptions</scope><name>tables</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

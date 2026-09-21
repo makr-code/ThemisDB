@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_pattern_matcher" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::PatternMatcher</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_pattern_matcher_1_1_n_f_a_state" prot="private">themisdb::analytics::PatternMatcher::NFAState</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_pattern_matcher_1_1_partial_match" prot="private">themisdb::analytics::PatternMatcher::PartialMatch</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a77aeacd0a2e7184b931977aa888f88ba" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_pattern_config" kindref="compound">PatternConfig</ref></type>
+        <definition>PatternConfig themisdb::analytics::PatternMatcher::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="569" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="569" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a3fe8e87a316fa835983401fc827e291f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::PatternMatcher::match_count_</definition>
+        <argsstring></argsstring>
+        <name>match_count_</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::match_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="570" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="570" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a25e16c5f1c5d30e90052d53be3f6b61a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; NFAState &gt;</type>
+        <definition>std::vector&lt;NFAState&gt; themisdb::analytics::PatternMatcher::nfa_states_</definition>
+        <argsstring></argsstring>
+        <name>nfa_states_</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::nfa_states_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="579" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="579" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1aef123909d61155f137337ea8640e29f3" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; PartialMatch &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;PartialMatch&gt; &gt; themisdb::analytics::PatternMatcher::partial_matches_</definition>
+        <argsstring></argsstring>
+        <name>partial_matches_</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::partial_matches_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="588" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="588" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a800a2a7bc42851745d7056cf0ea9598e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::PatternMatcher::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="589" column="24" bodyfile="include/analytics/cep_engine.h" bodystart="589" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a5255f430766b2242eefa01c3eef09869" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::PatternMatcher::PatternMatcher</definition>
+        <argsstring>(const PatternConfig &amp;config)</argsstring>
+        <name>PatternMatcher</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::PatternMatcher</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_pattern_config" kindref="compound">PatternConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Pattern Matcher. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="531" column="14" bodyfile="src/analytics/cep_engine.cpp" bodystart="754" bodyend="756"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a81bab6a16d264b7a3d03dc32c382efba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::PatternMatcher::~PatternMatcher</definition>
+        <argsstring>()</argsstring>
+        <name>~PatternMatcher</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::~PatternMatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="532" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a297e3b6113980981b5c37b9bd2470987" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_pattern_match" kindref="compound">PatternMatch</ref> &gt;</type>
+        <definition>std::vector&lt; PatternMatch &gt; themisdb::analytics::PatternMatcher::processEvent</definition>
+        <argsstring>(const Event &amp;event)</argsstring>
+        <name>processEvent</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::processEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Process <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lk(), pruneExpiredMatches(), find(), end(), fieldValueToString(), str(), matchesEventType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="539" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="847" bodyend="1078"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a4b1b76bdb85594221168b85d435a90bc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themisdb::analytics::PatternMatcher::getPatternId</definition>
+        <argsstring>() const</argsstring>
+        <name>getPatternId</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::getPatternId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="541" column="23" bodyfile="include/analytics/cep_engine.h" bodystart="541" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a36e157a4e3bf11f9ec6713ea526b2db3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::PatternMatcher::getMatchCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getMatchCount</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::getMatchCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="543" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="543" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a8daf71181a88ff9f7ad1b58d2e9d605e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::PatternMatcher::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="548" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1084" bodyend="1088"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a04344d6b57a042f1d186b62c76359032" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::PatternMatcher::getPendingMatchCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getPendingMatchCount</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::getPendingMatchCount</qualifiedname>
+        <briefdescription>
+<para>Get Pending Match Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="554" column="12" bodyfile="src/analytics/cep_engine.cpp" bodystart="1090" bodyend="1102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a1b38430d791847c67d0dcfb9d1d02430" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::PatternMatcher::serializeState</definition>
+        <argsstring>() const</argsstring>
+        <name>serializeState</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::serializeState</qualifiedname>
+        <briefdescription>
+<para>Serialize State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="560" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="1104" bodyend="1128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a49eb8e5975b352f3fd0d27acaf4f40c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::PatternMatcher::restoreState</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>restoreState</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::restoreState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Restore State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), clear(), empty(), std::chrono::steady_clock::now(), iss(), std::getline(), rfind(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="566" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="1135" bodyend="1186"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a7186b9ecd9e6031afbc7e8bfb4bd7665" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::PatternMatcher::buildNFA</definition>
+        <argsstring>()</argsstring>
+        <name>buildNFA</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::buildNFA</qualifiedname>
+        <briefdescription>
+<para>Build NFA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), empty(), size(), push_back(), std::move(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="594" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="764" bodyend="790"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a3c1ba710a749a259d1ba3e9d29f6caba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::PatternMatcher::matchesEventType</definition>
+        <argsstring>(const Event &amp;event, const std::string &amp;expected) const</argsstring>
+        <name>matchesEventType</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::matchesEventType</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+<para>Matches <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="601" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="792" bodyend="804"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a24d09948ee05bfd53094fbcdc579b7cc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::PatternMatcher::evaluateCondition</definition>
+        <argsstring>(const Event &amp;event) const</argsstring>
+        <name>evaluateCondition</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::evaluateCondition</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Condition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="607" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="806" bodyend="819"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_pattern_matcher_1a492e9c55ab51229acc7983be65d62d91" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::PatternMatcher::pruneExpiredMatches</definition>
+        <argsstring>()</argsstring>
+        <name>pruneExpiredMatches</name>
+        <qualifiedname>themisdb::analytics::PatternMatcher::pruneExpiredMatches</qualifiedname>
+        <briefdescription>
+<para>Prune Expired Matches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: count(), std::chrono::steady_clock::now(), erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="611" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="825" bodyend="839"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="524" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="524" bodyend="612"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a7186b9ecd9e6031afbc7e8bfb4bd7665" prot="private" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>buildNFA</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a77aeacd0a2e7184b931977aa888f88ba" prot="private" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a24d09948ee05bfd53094fbcdc579b7cc" prot="private" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>evaluateCondition</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a36e157a4e3bf11f9ec6713ea526b2db3" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>getMatchCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a4b1b76bdb85594221168b85d435a90bc" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>getPatternId</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a04344d6b57a042f1d186b62c76359032" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>getPendingMatchCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a3fe8e87a316fa835983401fc827e291f" prot="private" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>match_count_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a3c1ba710a749a259d1ba3e9d29f6caba" prot="private" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>matchesEventType</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a25e16c5f1c5d30e90052d53be3f6b61a" prot="private" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>nfa_states_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1aef123909d61155f137337ea8640e29f3" prot="private" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>partial_matches_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a5255f430766b2242eefa01c3eef09869" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>PatternMatcher</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a297e3b6113980981b5c37b9bd2470987" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>processEvent</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a492e9c55ab51229acc7983be65d62d91" prot="private" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>pruneExpiredMatches</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a8daf71181a88ff9f7ad1b58d2e9d605e" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>reset</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a49eb8e5975b352f3fd0d27acaf4f40c4" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>restoreState</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a1b38430d791847c67d0dcfb9d1d02430" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>serializeState</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a800a2a7bc42851745d7056cf0ea9598e" prot="private" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>state_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_pattern_matcher_1a81bab6a16d264b7a3d03dc32c382efba" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternMatcher</scope><name>~PatternMatcher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

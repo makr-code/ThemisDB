@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_storage_parquet_exporter_focused_tests" kind="class" language="C++" prot="public">
+    <compoundname>StorageParquetExporterFocusedTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_storage_parquet_exporter_focused_tests_1a87e07f8dadfe8c0085572079cbb364ae" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_storage_parquet_exporter" kindref="compound">StorageParquetExporter</ref></type>
+        <definition>StorageParquetExporter StorageParquetExporterFocusedTests::exporter</definition>
+        <argsstring></argsstring>
+        <name>exporter</name>
+        <qualifiedname>StorageParquetExporterFocusedTests::exporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_parquet_exporter.cpp" line="74" column="28" bodyfile="tests/storage/test_storage_parquet_exporter.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_storage_parquet_exporter_focused_tests_1a47539a7fc96afaa3ec0d7c819c665797" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StorageParquetExporterFocusedTests::test_dir</definition>
+        <argsstring></argsstring>
+        <name>test_dir</name>
+        <qualifiedname>StorageParquetExporterFocusedTests::test_dir</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_parquet_exporter.cpp" line="75" column="17" bodyfile="tests/storage/test_storage_parquet_exporter.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_storage_parquet_exporter_focused_tests_1ad866af92a39360ff25dab0fa8855695c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StorageParquetExporterFocusedTests::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>StorageParquetExporterFocusedTests::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_parquet_exporter.cpp" line="77" column="10" bodyfile="tests/storage/test_storage_parquet_exporter.cpp" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_storage_parquet_exporter_focused_tests_1a3b13d29cde676ccef0bd0193f3adb89a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StorageParquetExporterFocusedTests::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>StorageParquetExporterFocusedTests::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_parquet_exporter.cpp" line="84" column="10" bodyfile="tests/storage/test_storage_parquet_exporter.cpp" bodystart="84" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StorageParquetExporterFocusedTests</label>
+        <link refid="class_storage_parquet_exporter_focused_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StorageParquetExporterFocusedTests</label>
+        <link refid="class_storage_parquet_exporter_focused_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>exporter</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::storage::StorageParquetExporter</label>
+        <link refid="classthemis_1_1storage_1_1_storage_parquet_exporter"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/storage/test_storage_parquet_exporter.cpp" line="72" column="1" bodyfile="tests/storage/test_storage_parquet_exporter.cpp" bodystart="72" bodyend="89"/>
+    <listofallmembers>
+      <member refid="class_storage_parquet_exporter_focused_tests_1a87e07f8dadfe8c0085572079cbb364ae" prot="protected" virt="non-virtual"><scope>StorageParquetExporterFocusedTests</scope><name>exporter</name></member>
+      <member refid="class_storage_parquet_exporter_focused_tests_1ad866af92a39360ff25dab0fa8855695c" prot="protected" virt="non-virtual"><scope>StorageParquetExporterFocusedTests</scope><name>SetUp</name></member>
+      <member refid="class_storage_parquet_exporter_focused_tests_1a3b13d29cde676ccef0bd0193f3adb89a" prot="protected" virt="non-virtual"><scope>StorageParquetExporterFocusedTests</scope><name>TearDown</name></member>
+      <member refid="class_storage_parquet_exporter_focused_tests_1a47539a7fc96afaa3ec0d7c819c665797" prot="protected" virt="non-virtual"><scope>StorageParquetExporterFocusedTests</scope><name>test_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

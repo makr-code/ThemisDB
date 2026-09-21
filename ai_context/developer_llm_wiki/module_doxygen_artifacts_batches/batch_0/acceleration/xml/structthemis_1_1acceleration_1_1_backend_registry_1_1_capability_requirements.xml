@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::BackendRegistry::CapabilityRequirements</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1a9322d4ff44cd7d264daea08232c57472" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendRegistry::CapabilityRequirements::needsVectorOps</definition>
+        <argsstring></argsstring>
+        <name>needsVectorOps</name>
+        <qualifiedname>themis::acceleration::BackendRegistry::CapabilityRequirements::needsVectorOps</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Must support vector (ANN) operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="715" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="715" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1a07f9ea763ae61e2a9bd0cac11ce18c20" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendRegistry::CapabilityRequirements::needsGraphOps</definition>
+        <argsstring></argsstring>
+        <name>needsGraphOps</name>
+        <qualifiedname>themis::acceleration::BackendRegistry::CapabilityRequirements::needsGraphOps</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Must support graph traversal (BFS, Dijkstra). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="716" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="716" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1a0c5a935d767ea647a5099580c771d097" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendRegistry::CapabilityRequirements::needsGeoOps</definition>
+        <argsstring></argsstring>
+        <name>needsGeoOps</name>
+        <qualifiedname>themis::acceleration::BackendRegistry::CapabilityRequirements::needsGeoOps</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Must support geospatial operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="717" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="717" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1afe2cb75668563894de9872cfac74f6a0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendRegistry::CapabilityRequirements::needsMatrixOps</definition>
+        <argsstring></argsstring>
+        <name>needsMatrixOps</name>
+        <qualifiedname>themis::acceleration::BackendRegistry::CapabilityRequirements::needsMatrixOps</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Must support FP16/BF16 matrix multiply. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="718" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="718" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1ab67f1619643c23058b3750cbce95dc7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendRegistry::CapabilityRequirements::needsBatch</definition>
+        <argsstring></argsstring>
+        <name>needsBatch</name>
+        <qualifiedname>themis::acceleration::BackendRegistry::CapabilityRequirements::needsBatch</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Must support batch processing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="719" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="719" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1a1a2d066e8c45ff8980dc2d7502c0d5db" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendRegistry::CapabilityRequirements::needsAsync</definition>
+        <argsstring></argsstring>
+        <name>needsAsync</name>
+        <qualifiedname>themis::acceleration::BackendRegistry::CapabilityRequirements::needsAsync</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Must support asynchronous execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="720" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="720" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1ad5856360fab3e1265089a2e061d66450" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode themis::acceleration::BackendRegistry::CapabilityRequirements::requiredPrecisions</definition>
+        <argsstring></argsstring>
+        <name>requiredPrecisions</name>
+        <qualifiedname>themis::acceleration::BackendRegistry::CapabilityRequirements::requiredPrecisions</qualifiedname>
+        <initializer>= PrecisionMode::NONE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="722" column="19" bodyfile="include/acceleration/compute_backend.h" bodystart="722" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1ae1f172171f3bb65ff8996b9a4f89846b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::BackendRegistry::CapabilityRequirements::requiredMetrics</definition>
+        <argsstring></argsstring>
+        <name>requiredMetrics</name>
+        <qualifiedname>themis::acceleration::BackendRegistry::CapabilityRequirements::requiredMetrics</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="724" column="14" bodyfile="include/acceleration/compute_backend.h" bodystart="724" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="714" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="714" bodyend="725"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1a1a2d066e8c45ff8980dc2d7502c0d5db" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendRegistry::CapabilityRequirements</scope><name>needsAsync</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1ab67f1619643c23058b3750cbce95dc7e" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendRegistry::CapabilityRequirements</scope><name>needsBatch</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1a0c5a935d767ea647a5099580c771d097" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendRegistry::CapabilityRequirements</scope><name>needsGeoOps</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1a07f9ea763ae61e2a9bd0cac11ce18c20" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendRegistry::CapabilityRequirements</scope><name>needsGraphOps</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1afe2cb75668563894de9872cfac74f6a0" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendRegistry::CapabilityRequirements</scope><name>needsMatrixOps</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1a9322d4ff44cd7d264daea08232c57472" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendRegistry::CapabilityRequirements</scope><name>needsVectorOps</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1ae1f172171f3bb65ff8996b9a4f89846b" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendRegistry::CapabilityRequirements</scope><name>requiredMetrics</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_registry_1_1_capability_requirements_1ad5856360fab3e1265089a2e061d66450" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendRegistry::CapabilityRequirements</scope><name>requiredPrecisions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

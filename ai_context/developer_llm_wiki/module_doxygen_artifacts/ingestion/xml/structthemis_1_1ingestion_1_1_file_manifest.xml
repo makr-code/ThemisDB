@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_file_manifest" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::FileManifest</compoundname>
+    <includes refid="file__manifest_8h" local="no">file_manifest.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_manifest_1a016f0084474c1d8b71c0a1d314587542" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FileManifest::file_id</definition>
+        <argsstring></argsstring>
+        <name>file_id</name>
+        <qualifiedname>themis::ingestion::FileManifest::file_id</qualifiedname>
+        <briefdescription>
+<para>&quot;sha256:&lt;hex64&gt;&quot; — stable content ID </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="60" column="17" bodyfile="include/ingestion/file_manifest.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_manifest_1aba0b09535e871dd29dd5e4e12576bad2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FileManifest::original_path</definition>
+        <argsstring></argsstring>
+        <name>original_path</name>
+        <qualifiedname>themis::ingestion::FileManifest::original_path</qualifiedname>
+        <briefdescription>
+<para>Absolute path at ingestion time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="61" column="17" bodyfile="include/ingestion/file_manifest.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_manifest_1a8cb1225e4bcde8e185e93b11bfbce7ac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FileManifest::detected_mime</definition>
+        <argsstring></argsstring>
+        <name>detected_mime</name>
+        <qualifiedname>themis::ingestion::FileManifest::detected_mime</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;application/pdf&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="64" column="17" bodyfile="include/ingestion/file_manifest.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_manifest_1a2ac82b4acc2880797380f3cb87609d96" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1a74053f889a5dfc4afffbb4b710073cae" kindref="member">FileFormat</ref></type>
+        <definition>FileFormat themis::ingestion::FileManifest::detected_format</definition>
+        <argsstring></argsstring>
+        <name>detected_format</name>
+        <qualifiedname>themis::ingestion::FileManifest::detected_format</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1ingestion_1a74053f889a5dfc4afffbb4b710073caea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">FileFormat::UNKNOWN</ref>}</initializer>
+        <briefdescription>
+<para>Strongly-typed format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="65" column="17" bodyfile="include/ingestion/file_manifest.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_manifest_1af8a3c83517940ff76460c918bc1b2f0c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FileManifest::detected_mime_charset</definition>
+        <argsstring></argsstring>
+        <name>detected_mime_charset</name>
+        <qualifiedname>themis::ingestion::FileManifest::detected_mime_charset</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;utf-8&quot; (text formats only) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="66" column="17" bodyfile="include/ingestion/file_manifest.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_manifest_1a67c7e9b35e07cc51e0af9a1d71990dfe" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::FileManifest::file_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>file_size_bytes</name>
+        <qualifiedname>themis::ingestion::FileManifest::file_size_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="69" column="19" bodyfile="include/ingestion/file_manifest.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_manifest_1ae5af20f664b6e70079138254fc997239" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FileManifest::filename_stem</definition>
+        <argsstring></argsstring>
+        <name>filename_stem</name>
+        <qualifiedname>themis::ingestion::FileManifest::filename_stem</qualifiedname>
+        <briefdescription>
+<para>Basename without extension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="72" column="17" bodyfile="include/ingestion/file_manifest.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_manifest_1a1ed47067b156deea281da8e78e50c131" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FileManifest::extension</definition>
+        <argsstring></argsstring>
+        <name>extension</name>
+        <qualifiedname>themis::ingestion::FileManifest::extension</qualifiedname>
+        <briefdescription>
+<para>Lower-case with dot, e.g. &quot;.pdf&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="73" column="17" bodyfile="include/ingestion/file_manifest.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_manifest_1a42959595d43c8e87165711c1e5694a0f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FileManifest::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::ingestion::FileManifest::created_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 or empty if unknown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="76" column="17" bodyfile="include/ingestion/file_manifest.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_manifest_1a672093c60ebda1af1480b5093df6ce9d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FileManifest::modified_at</definition>
+        <argsstring></argsstring>
+        <name>modified_at</name>
+        <qualifiedname>themis::ingestion::FileManifest::modified_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 or empty if unknown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="77" column="17" bodyfile="include/ingestion/file_manifest.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_file_manifest_1abe128693c8e46ea5d80c2bc445beb454" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1a3c2cb9038ddab5b8f13f306f66067d9c" kindref="member">ExifMap</ref></type>
+        <definition>ExifMap themis::ingestion::FileManifest::exif</definition>
+        <argsstring></argsstring>
+        <name>exif</name>
+        <qualifiedname>themis::ingestion::FileManifest::exif</qualifiedname>
+        <briefdescription>
+<para>EXIF / XMP / document properties. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="80" column="13" bodyfile="include/ingestion/file_manifest.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_file_manifest_1a9599b22f8a3c73859ff814239c03c138" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::FileManifest::hasKnownFormat</definition>
+        <argsstring>() const</argsstring>
+        <name>hasKnownFormat</name>
+        <qualifiedname>themis::ingestion::FileManifest::hasKnownFormat</qualifiedname>
+        <briefdescription>
+<para>Returns true when the file has a known (non-UNKNOWN) format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="85" column="10" bodyfile="include/ingestion/file_manifest.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_file_manifest_1a8003ecf2a45d4f050b43eb3bef078c94" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::FileManifest::hasMime</definition>
+        <argsstring>() const</argsstring>
+        <name>hasMime</name>
+        <qualifiedname>themis::ingestion::FileManifest::hasMime</qualifiedname>
+        <briefdescription>
+<para>Returns true when the MIME type is set (non-empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="88" column="10" bodyfile="include/ingestion/file_manifest.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_file_manifest_1a628d0525a06d4d9ab8b6df53d67e0c5c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::ingestion::FileManifest::exifOr</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;default_val) const</argsstring>
+        <name>exifOr</name>
+        <qualifiedname>themis::ingestion::FileManifest::exifOr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>default_val</declname>
+        </param>
+        <briefdescription>
+<para>Returns the EXIF value for <computeroutput>key</computeroutput>, or <computeroutput>default_val</computeroutput> when absent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/file_manifest.h" line="91" column="23" bodyfile="include/ingestion/file_manifest.h" bodystart="91" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical description of an ingested file. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest" kindref="compound">FileManifest</ref></computeroutput> is produced by the File Intake Layer (Stage 1) and flows unchanged through every workflow step inside <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context_1ae32bf028bb5090986929a9dc643d9102" kindref="member">ExtractionContext::manifest</ref></computeroutput>. Steps read from it; none of them write back to it.</para>
+<para>Fields ────── • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a016f0084474c1d8b71c0a1d314587542" kindref="member">file_id</ref></computeroutput> — SHA-256 hex digest of the raw file bytes, prefixed with &quot;sha256:&quot;. Stable identity across re-ingestion of the same bytes. • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest_1aba0b09535e871dd29dd5e4e12576bad2" kindref="member">original_path</ref></computeroutput> — Absolute filesystem path at ingestion time (may be a temporary upload path). • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a8cb1225e4bcde8e185e93b11bfbce7ac" kindref="member">detected_mime</ref></computeroutput> — MIME type string, e.g. &quot;application/pdf&quot;. • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a2ac82b4acc2880797380f3cb87609d96" kindref="member">detected_format</ref></computeroutput> — Strongly-typed format enum resolved from MIME + magic bytes. • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a67c7e9b35e07cc51e0af9a1d71990dfe" kindref="member">file_size_bytes</ref></computeroutput> — Raw byte count of the original file. • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest_1ae5af20f664b6e70079138254fc997239" kindref="member">filename_stem</ref></computeroutput> — Basename without extension, e.g. &quot;BImSchG_2024&quot;. • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a1ed47067b156deea281da8e78e50c131" kindref="member">extension</ref></computeroutput> — Lower-case extension including dot, e.g. &quot;.pdf&quot;. • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a42959595d43c8e87165711c1e5694a0f" kindref="member">created_at</ref></computeroutput> — File creation timestamp (filesystem or embedded). • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a672093c60ebda1af1480b5093df6ce9d" kindref="member">modified_at</ref></computeroutput> — File modification timestamp. • <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest_1abe128693c8e46ea5d80c2bc445beb454" kindref="member">exif</ref></computeroutput> — Format-specific metadata map (EXIF for images, XMP/PDF info dict for documents). May be empty. </para>
+    </detaileddescription>
+    <location file="include/ingestion/file_manifest.h" line="58" column="1" bodyfile="include/ingestion/file_manifest.h" bodystart="58" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1a42959595d43c8e87165711c1e5694a0f" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1a2ac82b4acc2880797380f3cb87609d96" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>detected_format</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1a8cb1225e4bcde8e185e93b11bfbce7ac" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>detected_mime</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1af8a3c83517940ff76460c918bc1b2f0c" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>detected_mime_charset</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1abe128693c8e46ea5d80c2bc445beb454" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>exif</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1a628d0525a06d4d9ab8b6df53d67e0c5c" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>exifOr</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1a1ed47067b156deea281da8e78e50c131" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>extension</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1a016f0084474c1d8b71c0a1d314587542" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>file_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1a67c7e9b35e07cc51e0af9a1d71990dfe" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>file_size_bytes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1ae5af20f664b6e70079138254fc997239" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>filename_stem</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1a9599b22f8a3c73859ff814239c03c138" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>hasKnownFormat</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1a8003ecf2a45d4f050b43eb3bef078c94" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>hasMime</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1a672093c60ebda1af1480b5093df6ce9d" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>modified_at</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_file_manifest_1aba0b09535e871dd29dd5e4e12576bad2" prot="public" virt="non-virtual"><scope>themis::ingestion::FileManifest</scope><name>original_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

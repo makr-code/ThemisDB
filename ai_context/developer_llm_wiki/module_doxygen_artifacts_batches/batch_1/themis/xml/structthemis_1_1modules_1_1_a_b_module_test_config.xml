@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_a_b_module_test_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::ABModuleTestConfig</compoundname>
+    <includes refid="ab__test__manager_8h" local="no">ab_test_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_config_1a425ad854d45ac68fd97f4926baaa2202" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ABModuleTestConfig::test_id</definition>
+        <argsstring></argsstring>
+        <name>test_id</name>
+        <qualifiedname>themis::modules::ABModuleTestConfig::test_id</qualifiedname>
+        <briefdescription>
+<para>Unique test identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="88" column="17" bodyfile="include/themis/base/ab_test_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_config_1af8d846e8a13b5ceff6bc8cbeed7718ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ABModuleTestConfig::module_name</definition>
+        <argsstring></argsstring>
+        <name>module_name</name>
+        <qualifiedname>themis::modules::ABModuleTestConfig::module_name</qualifiedname>
+        <briefdescription>
+<para>Logical module name already registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="89" column="17" bodyfile="include/themis/base/ab_test_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_config_1a22736a3ca11781ff0c52ef1cf39a7dd4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ABModuleTestConfig::control_path</definition>
+        <argsstring></argsstring>
+        <name>control_path</name>
+        <qualifiedname>themis::modules::ABModuleTestConfig::control_path</qualifiedname>
+        <briefdescription>
+<para>Filesystem path to the control binary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="90" column="17" bodyfile="include/themis/base/ab_test_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_config_1aa3e18345ecaf76600c4bbc500e8c9787" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ABModuleTestConfig::treatment_path</definition>
+        <argsstring></argsstring>
+        <name>treatment_path</name>
+        <qualifiedname>themis::modules::ABModuleTestConfig::treatment_path</qualifiedname>
+        <briefdescription>
+<para>Filesystem path to the treatment binary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="91" column="17" bodyfile="include/themis/base/ab_test_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_config_1a8d5ad1ce58bdfdfa18dbfce5e30bc0d7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABModuleTestConfig::traffic_split</definition>
+        <argsstring></argsstring>
+        <name>traffic_split</name>
+        <qualifiedname>themis::modules::ABModuleTestConfig::traffic_split</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>Fraction routed to treatment [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="92" column="17" bodyfile="include/themis/base/ab_test_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_config_1ab15b7d932f02c3a51a236815b5bcccac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::ABModuleTestConfig::min_samples</definition>
+        <argsstring></argsstring>
+        <name>min_samples</name>
+        <qualifiedname>themis::modules::ABModuleTestConfig::min_samples</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Min samples required for evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="93" column="17" bodyfile="include/themis/base/ab_test_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_config_1a65abc4ea7e9db3c36e81f427563fd907" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABModuleTestConfig::significance_level</definition>
+        <argsstring></argsstring>
+        <name>significance_level</name>
+        <qualifiedname>themis::modules::ABModuleTestConfig::significance_level</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>p-value threshold </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="94" column="17" bodyfile="include/themis/base/ab_test_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_config_1a9b50f3c09eb2baa42cd11fc9b7805e8e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABModuleTestConfig::min_improvement</definition>
+        <argsstring></argsstring>
+        <name>min_improvement</name>
+        <qualifiedname>themis::modules::ABModuleTestConfig::min_improvement</qualifiedname>
+        <initializer>= 0.02</initializer>
+        <briefdescription>
+<para>Minimum improvement to consider promoting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="95" column="17" bodyfile="include/themis/base/ab_test_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_config_1a9a5824c8294064278303c0bb84f7cd1d" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::modules::ABModuleTestConfig::max_duration</definition>
+        <argsstring></argsstring>
+        <name>max_duration</name>
+        <qualifiedname>themis::modules::ABModuleTestConfig::max_duration</qualifiedname>
+        <initializer>{72}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum test duration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="96" column="24" bodyfile="include/themis/base/ab_test_manager.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_config_1a06568d2ce299654696d2b43a7d90ed75" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABModuleTestConfig::thompson_stop_threshold</definition>
+        <argsstring></argsstring>
+        <name>thompson_stop_threshold</name>
+        <qualifiedname>themis::modules::ABModuleTestConfig::thompson_stop_threshold</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bayesian Thompson Sampling auto-stop threshold. When P(treatment beats control) exceeds this value the test is auto-concluded. Set to 0.0 to disable auto-stop. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="100" column="17" bodyfile="include/themis/base/ab_test_manager.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a single A/B module test. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/ab_test_manager.h" line="87" column="1" bodyfile="include/themis/base/ab_test_manager.h" bodystart="87" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_config_1a22736a3ca11781ff0c52ef1cf39a7dd4" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestConfig</scope><name>control_path</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_config_1a9a5824c8294064278303c0bb84f7cd1d" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestConfig</scope><name>max_duration</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_config_1a9b50f3c09eb2baa42cd11fc9b7805e8e" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestConfig</scope><name>min_improvement</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_config_1ab15b7d932f02c3a51a236815b5bcccac" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestConfig</scope><name>min_samples</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_config_1af8d846e8a13b5ceff6bc8cbeed7718ee" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestConfig</scope><name>module_name</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_config_1a65abc4ea7e9db3c36e81f427563fd907" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestConfig</scope><name>significance_level</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_config_1a425ad854d45ac68fd97f4926baaa2202" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestConfig</scope><name>test_id</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_config_1a06568d2ce299654696d2b43a7d90ed75" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestConfig</scope><name>thompson_stop_threshold</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_config_1a8d5ad1ce58bdfdfa18dbfce5e30bc0d7" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestConfig</scope><name>traffic_split</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_config_1aa3e18345ecaf76600c4bbc500e8c9787" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestConfig</scope><name>treatment_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

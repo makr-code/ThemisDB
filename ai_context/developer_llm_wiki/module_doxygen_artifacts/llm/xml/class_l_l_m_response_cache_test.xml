@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_response_cache_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMResponseCacheTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_response_cache_test_1aecc9d745c9a90fe3213177d086b4c684" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config" kindref="compound">LLMResponseCache::Config</ref></type>
+        <definition>LLMResponseCache::Config LLMResponseCacheTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>LLMResponseCacheTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_response_cache.cpp" line="36" column="30" bodyfile="tests/llm/test_llm_response_cache.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_l_l_m_response_cache_test_1aa266fc77244a474358fde8a9f9319ae9" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string LLMResponseCacheTest::cache_dir_</definition>
+        <argsstring></argsstring>
+        <name>cache_dir_</name>
+        <qualifiedname>LLMResponseCacheTest::cache_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_response_cache.cpp" line="37" column="17" bodyfile="tests/llm/test_llm_response_cache.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_response_cache_test_1a21fe165986e12ef4b041d4bc54693fef" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMResponseCacheTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMResponseCacheTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_response_cache.cpp" line="11" column="10" bodyfile="tests/llm/test_llm_response_cache.cpp" bodystart="11" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_response_cache_test_1a0e71c45e7e50c3008aa1f44d0da614cc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMResponseCacheTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LLMResponseCacheTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_response_cache.cpp" line="21" column="10" bodyfile="tests/llm/test_llm_response_cache.cpp" bodystart="21" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_response_cache_test_1ac1c0f74bff172be9381f9a19e5070c3c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse LLMResponseCacheTest::createResponse</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>createResponse</name>
+        <qualifiedname>LLMResponseCacheTest::createResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_response_cache.cpp" line="28" column="23" bodyfile="tests/llm/test_llm_response_cache.cpp" bodystart="28" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMResponseCacheTest</label>
+        <link refid="class_l_l_m_response_cache_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMResponseCacheTest</label>
+        <link refid="class_l_l_m_response_cache_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::llm::EmbeddedLLM</label>
+        <link refid="classthemis_1_1llm_1_1_embedded_l_l_m"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::LLMResponseCache::Config</label>
+        <link refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>llm_ptr</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_response_cache.cpp" line="9" column="1" bodyfile="tests/llm/test_llm_response_cache.cpp" bodystart="9" bodyend="38"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_response_cache_test_1aa266fc77244a474358fde8a9f9319ae9" prot="protected" virt="non-virtual"><scope>LLMResponseCacheTest</scope><name>cache_dir_</name></member>
+      <member refid="class_l_l_m_response_cache_test_1aecc9d745c9a90fe3213177d086b4c684" prot="protected" virt="non-virtual"><scope>LLMResponseCacheTest</scope><name>config_</name></member>
+      <member refid="class_l_l_m_response_cache_test_1ac1c0f74bff172be9381f9a19e5070c3c" prot="protected" virt="non-virtual"><scope>LLMResponseCacheTest</scope><name>createResponse</name></member>
+      <member refid="class_l_l_m_response_cache_test_1a21fe165986e12ef4b041d4bc54693fef" prot="protected" virt="non-virtual"><scope>LLMResponseCacheTest</scope><name>SetUp</name></member>
+      <member refid="class_l_l_m_response_cache_test_1a0e71c45e7e50c3008aa1f44d0da614cc" prot="protected" virt="non-virtual"><scope>LLMResponseCacheTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

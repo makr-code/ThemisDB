@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_mmap_bridge_1_1_region" kind="struct" language="C++" prot="private">
+    <compoundname>themis::tensor::TensorMmapBridge::Region</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_mmap_bridge_1_1_region_1a313cb3f47331e4f7b2806a2757e6122b" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::tensor::TensorMmapBridge::Region::ptr</definition>
+        <argsstring></argsstring>
+        <name>ptr</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::Region::ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="205" column="20" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_mmap_bridge_1_1_region_1aa926e07defba448ad3c8bb42255a3146" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorMmapBridge::Region::bytes</definition>
+        <argsstring></argsstring>
+        <name>bytes</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::Region::bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="206" column="21" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_mmap_bridge_1_1_region_1a7a8925b232309a0b56e8bdf75df07ab9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorMmapBridge::Region::locked</definition>
+        <argsstring></argsstring>
+        <name>locked</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::Region::locked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="207" column="21" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_mmap_bridge_1_1_region_1a58eed2a5c4715fe0253a4dd667870f87" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorMmapBridge::Region::externally_owned</definition>
+        <argsstring></argsstring>
+        <name>externally_owned</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::Region::externally_owned</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, the region was provided by <ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ad72a420bd8d2635b98b75add7c503514" kindref="member">SstMapFn</ref> (caller owns the mapping); the bridge destructor must NOT call freeRegion() on this pointer. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="210" column="21" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_mmap_bridge.h" line="204" column="5" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="204" bodyend="211"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_mmap_bridge_1_1_region_1aa926e07defba448ad3c8bb42255a3146" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge::Region</scope><name>bytes</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_mmap_bridge_1_1_region_1a58eed2a5c4715fe0253a4dd667870f87" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge::Region</scope><name>externally_owned</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_mmap_bridge_1_1_region_1a7a8925b232309a0b56e8bdf75df07ab9" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge::Region</scope><name>locked</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_mmap_bridge_1_1_region_1a313cb3f47331e4f7b2806a2757e6122b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge::Region</scope><name>ptr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

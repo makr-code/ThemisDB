@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_plugin_manager_comprehensive_test" kind="class" language="C++" prot="public">
+    <compoundname>PluginManagerComprehensiveTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_plugin_manager_comprehensive_test_1abd5a4668b27100ce1c99593c3731244d" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PluginManagerComprehensiveTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>PluginManagerComprehensiveTest::test_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager_comprehensive.cpp" line="34" column="17" bodyfile="tests/plugins/test_plugin_manager_comprehensive.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plugin_manager_comprehensive_test_1a2769a498fb901a393fcb0d0222a3a87d" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> *</type>
+        <definition>PluginManager* PluginManagerComprehensiveTest::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>PluginManagerComprehensiveTest::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager_comprehensive.cpp" line="35" column="19" bodyfile="tests/plugins/test_plugin_manager_comprehensive.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_plugin_manager_comprehensive_test_1a82963709ad54cddc0fe092f7e2d8e58c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginManagerComprehensiveTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PluginManagerComprehensiveTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager_comprehensive.cpp" line="37" column="10" bodyfile="tests/plugins/test_plugin_manager_comprehensive.cpp" bodystart="37" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_manager_comprehensive_test_1a0000344759182b811f07f2afa4df28eb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginManagerComprehensiveTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PluginManagerComprehensiveTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager_comprehensive.cpp" line="50" column="10" bodyfile="tests/plugins/test_plugin_manager_comprehensive.cpp" bodystart="50" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_manager_comprehensive_test_1a383285570b8bc1d88a0d46a82740f808" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginManagerComprehensiveTest::createManifest</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;type=&quot;custom&quot;, bool auto_load=false, const std::vector&lt; std::string &gt; &amp;deps={}, const std::string &amp;version=&quot;1.0.0&quot;)</argsstring>
+        <name>createManifest</name>
+        <qualifiedname>PluginManagerComprehensiveTest::createManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+          <defval>&quot;custom&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_load</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>deps</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+          <defval>&quot;1.0.0&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager_comprehensive.cpp" line="67" column="10" bodyfile="tests/plugins/test_plugin_manager_comprehensive.cpp" bodystart="67" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PluginManagerComprehensiveTest</label>
+        <link refid="class_plugin_manager_comprehensive_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PluginManagerComprehensiveTest</label>
+        <link refid="class_plugin_manager_comprehensive_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>manager_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginManager</label>
+        <link refid="classthemis_1_1plugins_1_1_plugin_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_manager_comprehensive.cpp" line="32" column="1" bodyfile="tests/plugins/test_plugin_manager_comprehensive.cpp" bodystart="32" bodyend="112"/>
+    <listofallmembers>
+      <member refid="class_plugin_manager_comprehensive_test_1a383285570b8bc1d88a0d46a82740f808" prot="protected" virt="non-virtual"><scope>PluginManagerComprehensiveTest</scope><name>createManifest</name></member>
+      <member refid="class_plugin_manager_comprehensive_test_1a2769a498fb901a393fcb0d0222a3a87d" prot="protected" virt="non-virtual"><scope>PluginManagerComprehensiveTest</scope><name>manager_</name></member>
+      <member refid="class_plugin_manager_comprehensive_test_1a82963709ad54cddc0fe092f7e2d8e58c" prot="protected" virt="non-virtual"><scope>PluginManagerComprehensiveTest</scope><name>SetUp</name></member>
+      <member refid="class_plugin_manager_comprehensive_test_1a0000344759182b811f07f2afa4df28eb" prot="protected" virt="non-virtual"><scope>PluginManagerComprehensiveTest</scope><name>TearDown</name></member>
+      <member refid="class_plugin_manager_comprehensive_test_1abd5a4668b27100ce1c99593c3731244d" prot="protected" virt="non-virtual"><scope>PluginManagerComprehensiveTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

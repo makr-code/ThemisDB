@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_cache_replication_listener" kind="class" language="C++" prot="public">
+    <compoundname>MockCacheReplicationListener</compoundname>
+    <basecompoundref refid="classthemis_1_1cache_1_1_i_cache_replication_listener" prot="public" virt="non-virtual">themis::cache::ICacheReplicationListener</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_cache_replication_listener_1afe0666fd3815e8a90678ffb1aa7ce6b1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockCacheReplicationListener::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>MockCacheReplicationListener::id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="398" column="17" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_cache_replication_listener_1a6487913ba349da04dbd75cdae4985093" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cache_1_1_cache_replication_event" kindref="compound">CacheReplicationEvent</ref> &gt;</type>
+        <definition>std::vector&lt;CacheReplicationEvent&gt; MockCacheReplicationListener::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>MockCacheReplicationListener::events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="399" column="17" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_cache_replication_listener_1accf5f54d880e7197941dddfdc03af6e8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockCacheReplicationListener::fail_next_</definition>
+        <argsstring></argsstring>
+        <name>fail_next_</name>
+        <qualifiedname>MockCacheReplicationListener::fail_next_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="400" column="10" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_cache_replication_listener_1ac69184a0912b66be06691aa1d1cf9bb1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockCacheReplicationListener::ping_alive_</definition>
+        <argsstring></argsstring>
+        <name>ping_alive_</name>
+        <qualifiedname>MockCacheReplicationListener::ping_alive_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="401" column="10" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="401" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_cache_replication_listener_1a140ef84a7d0cde6a70a2c5f30fcdcbe4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockCacheReplicationListener::MockCacheReplicationListener</definition>
+        <argsstring>(const std::string &amp;id=&quot;mock-replica&quot;)</argsstring>
+        <name>MockCacheReplicationListener</name>
+        <qualifiedname>MockCacheReplicationListener::MockCacheReplicationListener</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+          <defval>&quot;mock-replica&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="365" column="14" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="365" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_replication_listener_1a7eecd90b9e05a91eacfdbc04b7667c7a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockCacheReplicationListener::onReplicationEvent</definition>
+        <argsstring>(const CacheReplicationEvent &amp;event) override</argsstring>
+        <name>onReplicationEvent</name>
+        <qualifiedname>MockCacheReplicationListener::onReplicationEvent</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1a44503ca56ac98a7b91a5104cf0e19bca">onReplicationEvent</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_cache_replication_event" kindref="compound">CacheReplicationEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="368" column="10" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="368" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_replication_listener_1a6931fb20bf66469d21b844539fa6e2a9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockCacheReplicationListener::ping</definition>
+        <argsstring>() override</argsstring>
+        <name>ping</name>
+        <qualifiedname>MockCacheReplicationListener::ping</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1a3e23ee2bcc13b88166fee02b99804766">ping</reimplements>
+        <briefdescription>
+<para>Ping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements ping without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="377" column="10" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="377" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_replication_listener_1af8a99d281d60806ac95a33d63dede874" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string MockCacheReplicationListener::replicaId</definition>
+        <argsstring>() const override</argsstring>
+        <name>replicaId</name>
+        <qualifiedname>MockCacheReplicationListener::replicaId</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1af3b04a5644cfb5e525e02570daba78da">replicaId</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="379" column="17" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="379" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_replication_listener_1a5c3b1ebd934c1460599842522c528dc2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockCacheReplicationListener::setFailNext</definition>
+        <argsstring>(bool v=true)</argsstring>
+        <name>setFailNext</name>
+        <qualifiedname>MockCacheReplicationListener::setFailNext</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="382" column="10" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="382" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_replication_listener_1a05268d6c9026e54941ccd59a13f41554" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockCacheReplicationListener::setPingAlive</definition>
+        <argsstring>(bool v)</argsstring>
+        <name>setPingAlive</name>
+        <qualifiedname>MockCacheReplicationListener::setPingAlive</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="383" column="10" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="383" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_replication_listener_1aa92bbd657b66ab0c722a810cb07fba6a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1cache_1_1_cache_replication_event" kindref="compound">CacheReplicationEvent</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; CacheReplicationEvent &gt; &amp; MockCacheReplicationListener::events</definition>
+        <argsstring>() const</argsstring>
+        <name>events</name>
+        <qualifiedname>MockCacheReplicationListener::events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="385" column="23" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="385" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_replication_listener_1a243cc284c6d2ad9d1f0fff1e66811f54" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t MockCacheReplicationListener::countByType</definition>
+        <argsstring>(CacheReplicationEventType t) const</argsstring>
+        <name>countByType</name>
+        <qualifiedname>MockCacheReplicationListener::countByType</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acd" kindref="member">CacheReplicationEventType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="387" column="12" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="387" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_replication_listener_1adb32959ed57956a4153b39cda2736af7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockCacheReplicationListener::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>MockCacheReplicationListener::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication.cpp" line="395" column="10" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="395" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockCacheReplicationListener</label>
+        <link refid="class_mock_cache_replication_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheReplicationListener</label>
+        <link refid="classthemis_1_1cache_1_1_i_cache_replication_listener"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockCacheReplicationListener</label>
+        <link refid="class_mock_cache_replication_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheReplicationListener</label>
+        <link refid="classthemis_1_1cache_1_1_i_cache_replication_listener"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_replication.cpp" line="363" column="1" bodyfile="tests/cache/test_cache_replication.cpp" bodystart="363" bodyend="402"/>
+    <listofallmembers>
+      <member refid="class_mock_cache_replication_listener_1adb32959ed57956a4153b39cda2736af7" prot="public" virt="non-virtual"><scope>MockCacheReplicationListener</scope><name>clear</name></member>
+      <member refid="class_mock_cache_replication_listener_1a243cc284c6d2ad9d1f0fff1e66811f54" prot="public" virt="non-virtual"><scope>MockCacheReplicationListener</scope><name>countByType</name></member>
+      <member refid="class_mock_cache_replication_listener_1aa92bbd657b66ab0c722a810cb07fba6a" prot="public" virt="non-virtual"><scope>MockCacheReplicationListener</scope><name>events</name></member>
+      <member refid="class_mock_cache_replication_listener_1a6487913ba349da04dbd75cdae4985093" prot="private" virt="non-virtual"><scope>MockCacheReplicationListener</scope><name>events_</name></member>
+      <member refid="class_mock_cache_replication_listener_1accf5f54d880e7197941dddfdc03af6e8" prot="private" virt="non-virtual"><scope>MockCacheReplicationListener</scope><name>fail_next_</name></member>
+      <member refid="class_mock_cache_replication_listener_1afe0666fd3815e8a90678ffb1aa7ce6b1" prot="private" virt="non-virtual"><scope>MockCacheReplicationListener</scope><name>id_</name></member>
+      <member refid="class_mock_cache_replication_listener_1a140ef84a7d0cde6a70a2c5f30fcdcbe4" prot="public" virt="non-virtual"><scope>MockCacheReplicationListener</scope><name>MockCacheReplicationListener</name></member>
+      <member refid="class_mock_cache_replication_listener_1a7eecd90b9e05a91eacfdbc04b7667c7a" prot="public" virt="virtual"><scope>MockCacheReplicationListener</scope><name>onReplicationEvent</name></member>
+      <member refid="class_mock_cache_replication_listener_1a6931fb20bf66469d21b844539fa6e2a9" prot="public" virt="virtual"><scope>MockCacheReplicationListener</scope><name>ping</name></member>
+      <member refid="class_mock_cache_replication_listener_1ac69184a0912b66be06691aa1d1cf9bb1" prot="private" virt="non-virtual"><scope>MockCacheReplicationListener</scope><name>ping_alive_</name></member>
+      <member refid="class_mock_cache_replication_listener_1af8a99d281d60806ac95a33d63dede874" prot="public" virt="virtual"><scope>MockCacheReplicationListener</scope><name>replicaId</name></member>
+      <member refid="class_mock_cache_replication_listener_1a5c3b1ebd934c1460599842522c528dc2" prot="public" virt="non-virtual"><scope>MockCacheReplicationListener</scope><name>setFailNext</name></member>
+      <member refid="class_mock_cache_replication_listener_1a05268d6c9026e54941ccd59a13f41554" prot="public" virt="non-virtual"><scope>MockCacheReplicationListener</scope><name>setPingAlive</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1abb06224526a928d2c57b076bbc90d19e" prot="public" virt="virtual"><scope>MockCacheReplicationListener</scope><name>~ICacheReplicationListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

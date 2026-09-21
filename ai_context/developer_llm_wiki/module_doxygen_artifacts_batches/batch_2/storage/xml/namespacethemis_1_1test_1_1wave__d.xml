@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test_1_1wave__d" kind="namespace" language="C++">
+    <compoundname>themis::test::wave_d</compoundname>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_k_v_store" prot="public">themis::test::wave_d::KVStore</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_compactable_shard" prot="public">themis::test::wave_d::CompactableShard</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_tiered_blob_store" prot="public">themis::test::wave_d::TieredBlobStore</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1test_1_1wave__d_1a8c1ba83b958966964d2bdb73a31ec5d4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Tier</name>
+        <qualifiedname>themis::test::wave_d::Tier</qualifiedname>
+        <enumvalue id="namespacethemis_1_1test_1_1wave__d_1a8c1ba83b958966964d2bdb73a31ec5d4a69490830e99d2632e4d31a94aac7d628" prot="public">
+          <name>kHot</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1test_1_1wave__d_1a8c1ba83b958966964d2bdb73a31ec5d4a0fa8546b2ac0873839dc44641757b365" prot="public">
+          <name>kWarm</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1test_1_1wave__d_1a8c1ba83b958966964d2bdb73a31ec5d4a735ea69825df35eefc36aeb4533bc83a" prot="public">
+          <name>kCold</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="108" column="1" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1abc000f3514ccef7eb8c946f1937cff19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(HighCardinalityKeyWrite, AllKeysPresent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>HighCardinalityKeyWrite</type>
+        </param>
+        <param>
+          <type>AllKeysPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="158" column="1" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="158" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a7ad01f3f1eed85bad820202dde5fcde0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(ConcurrentCompactionStress, NoDataLossOrCorruption)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>ConcurrentCompactionStress</type>
+        </param>
+        <param>
+          <type>NoDataLossOrCorruption</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="198" column="1" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="198" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1af89346930ef0a822ebd8a2814ec57020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(BlobTieringEdgeCases, PromotionAndDemotionConsistency)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>BlobTieringEdgeCases</type>
+        </param>
+        <param>
+          <type>PromotionAndDemotionConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="244" column="1" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="244" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="37" column="1"/>
+  </compounddef>
+</doxygen>

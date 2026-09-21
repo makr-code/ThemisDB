@@ -1,0 +1,624 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_a_q_l_translator" kind="class" language="C++" prot="public">
+    <compoundname>themis::AQLTranslator</compoundname>
+    <includes refid="aql__translator_8h" local="no">aql_translator.h</includes>
+    <innerclass refid="structthemis_1_1_a_q_l_translator_1_1_translation_result" prot="public">themis::AQLTranslator::TranslationResult</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_a_q_l_translator_1afe28cf2fd466c84446fd21128164a0c7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result" kindref="compound">TranslationResult</ref></type>
+        <definition>AQLTranslator::TranslationResult themis::AQLTranslator::translate</definition>
+        <argsstring>(const std::shared_ptr&lt; Query &gt; &amp;ast)</argsstring>
+        <name>translate</name>
+        <qualifiedname>themis::AQLTranslator::translate</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> &gt; &amp;</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>Translate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1a99e6ec75d38e51eb34f4b7eed506ae0a" kindref="member">TranslationResult::Error()</ref>, reserve(), size(), countCTEReferences(), shouldMaterializeCTE(), push_back(), std::move(), attachCTEs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="227" column="30" bodyfile="src/query/aql_translator.cpp" bodystart="41" bodyend="1241"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_a_q_l_translator_1a98cfee4980515e076c35abf119a72e95" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AQLTranslator::extractPredicates</definition>
+        <argsstring>(const std::shared_ptr&lt; Expression &gt; &amp;expr, std::vector&lt; PredicateEq &gt; &amp;eqPredicates, std::vector&lt; PredicateRange &gt; &amp;rangePredicates, std::string &amp;error)</argsstring>
+        <name>extractPredicates</name>
+        <qualifiedname>themis::AQLTranslator::extractPredicates</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &amp;</type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_predicate_eq" kindref="compound">PredicateEq</ref> &gt; &amp;</type>
+          <declname>eqPredicates</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_predicate_range" kindref="compound">PredicateRange</ref> &gt; &amp;</type>
+          <declname>rangePredicates</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Extract Predicates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">eqPredicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rangePredicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">eqPredicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rangePredicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getType(), std::transform(), begin(), end(), extractColumnName(), literalToString(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="238" column="17" bodyfile="src/query/aql_translator.cpp" bodystart="1252" bodyend="1383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_a_q_l_translator_1a65508c450b197bd76e0b6e7c24b70b3e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AQLTranslator::containsOr</definition>
+        <argsstring>(const std::shared_ptr&lt; Expression &gt; &amp;expr)</argsstring>
+        <name>containsOr</name>
+        <qualifiedname>themis::AQLTranslator::containsOr</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &amp;</type>
+          <declname>expr</declname>
+        </param>
+        <briefdescription>
+<para>Contains Or. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="250" column="17" bodyfile="src/query/aql_translator.cpp" bodystart="1478" bodyend="1493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_a_q_l_translator_1a0d2a29af570127cd521a8b59115b97d6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_conjunctive_query" kindref="compound">ConjunctiveQuery</ref> &gt;</type>
+        <definition>std::vector&lt; ConjunctiveQuery &gt; themis::AQLTranslator::convertToDNF</definition>
+        <argsstring>(const std::shared_ptr&lt; Expression &gt; &amp;expr, const std::string &amp;table, std::string &amp;error)</argsstring>
+        <name>convertToDNF</name>
+        <qualifiedname>themis::AQLTranslator::convertToDNF</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &amp;</type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Convert To DNF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getType(), empty(), insert(), end(), begin(), reserve(), size(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="259" column="24" bodyfile="src/query/aql_translator.cpp" bodystart="1503" bodyend="1756"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_a_q_l_translator_1a754cd81eb5645518f3d73b3ee1b704cf" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::extractColumnName</definition>
+        <argsstring>(const std::shared_ptr&lt; Expression &gt; &amp;expr)</argsstring>
+        <name>extractColumnName</name>
+        <qualifiedname>themis::AQLTranslator::extractColumnName</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &amp;</type>
+          <declname>expr</declname>
+        </param>
+        <briefdescription>
+<para>Extract Column Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="270" column="24" bodyfile="src/query/aql_translator.cpp" bodystart="1391" bodyend="1409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_a_q_l_translator_1a9d6802c01e1f98150480b1ec144d0e4c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::literalToString</definition>
+        <argsstring>(const LiteralValue &amp;value)</argsstring>
+        <name>literalToString</name>
+        <qualifiedname>themis::AQLTranslator::literalToString</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1ae84c12941c8ca6e3fc6c92c275f16e42" kindref="member">LiteralValue</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Literal To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::visit(), constexpr(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="277" column="24" bodyfile="src/query/aql_translator.cpp" bodystart="1417" bodyend="1435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_a_q_l_translator_1a52ab24a4f128398ff5bd29fb2e15cef1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="struct_order_by" kindref="compound">OrderBy</ref> &gt;</type>
+        <definition>std::optional&lt; OrderBy &gt; themis::AQLTranslator::extractOrderBy</definition>
+        <argsstring>(const std::shared_ptr&lt; SortNode &gt; &amp;sort, const std::shared_ptr&lt; LimitNode &gt; &amp;limit)</argsstring>
+        <name>extractOrderBy</name>
+        <qualifiedname>themis::AQLTranslator::extractOrderBy</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_sort_node" kindref="compound">SortNode</ref> &gt; &amp;</type>
+          <declname>sort</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_limit_node" kindref="compound">LimitNode</ref> &gt; &amp;</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+<para>Extract Order By. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sort</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sort</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), extractColumnName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="285" column="26" bodyfile="src/query/aql_translator.cpp" bodystart="1444" bodyend="1470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_a_q_l_translator_1a89cf5c391d945de88ae5491758a302d8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::AQLTranslator::countCTEReferences</definition>
+        <argsstring>(const std::shared_ptr&lt; Query &gt; &amp;ast, const std::string &amp;cte_name)</argsstring>
+        <name>countCTEReferences</name>
+        <qualifiedname>themis::AQLTranslator::countCTEReferences</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> &gt; &amp;</type>
+          <declname>ast</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cte_name</declname>
+        </param>
+        <briefdescription>
+<para>Count CTEReferences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cte_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the cte. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cte_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the cte. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getType(), countCTEReferencesInExpr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="296" column="19" bodyfile="src/query/aql_translator.cpp" bodystart="1765" bodyend="1798"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_a_q_l_translator_1a7b2e0919c9111d9da2c1bf8efeee62d1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::AQLTranslator::countCTEReferencesInExpr</definition>
+        <argsstring>(const std::shared_ptr&lt; Expression &gt; &amp;expr, const std::string &amp;cte_name)</argsstring>
+        <name>countCTEReferencesInExpr</name>
+        <qualifiedname>themis::AQLTranslator::countCTEReferencesInExpr</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &amp;</type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cte_name</declname>
+        </param>
+        <briefdescription>
+<para>Count CTEReferences In Expr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cte_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the cte. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cte_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the cte. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getType(), countCTEReferences(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="307" column="19" bodyfile="src/query/aql_translator.cpp" bodystart="1807" bodyend="1851"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_a_q_l_translator_1a704d31c10cd7e51e1071e4c064426cf0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AQLTranslator::attachCTEs</definition>
+        <argsstring>(TranslationResult &amp;result, std::vector&lt; TranslationResult::CTEExecution &gt; ctes)</argsstring>
+        <name>attachCTEs</name>
+        <qualifiedname>themis::AQLTranslator::attachCTEs</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result" kindref="compound">TranslationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_c_t_e_execution" kindref="compound">TranslationResult::CTEExecution</ref> &gt;</type>
+          <declname>ctes</declname>
+        </param>
+        <briefdescription>
+<para>Attach CTEs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="317" column="17" bodyfile="src/query/aql_translator.cpp" bodystart="1859" bodyend="1866"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_translator.h" line="60" column="1" bodyfile="include/query/aql_translator.h" bodystart="60" bodyend="321"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_a_q_l_translator_1a704d31c10cd7e51e1071e4c064426cf0" prot="private" virt="non-virtual"><scope>themis::AQLTranslator</scope><name>attachCTEs</name></member>
+      <member refid="classthemis_1_1_a_q_l_translator_1a65508c450b197bd76e0b6e7c24b70b3e" prot="private" virt="non-virtual"><scope>themis::AQLTranslator</scope><name>containsOr</name></member>
+      <member refid="classthemis_1_1_a_q_l_translator_1a0d2a29af570127cd521a8b59115b97d6" prot="private" virt="non-virtual"><scope>themis::AQLTranslator</scope><name>convertToDNF</name></member>
+      <member refid="classthemis_1_1_a_q_l_translator_1a89cf5c391d945de88ae5491758a302d8" prot="private" virt="non-virtual"><scope>themis::AQLTranslator</scope><name>countCTEReferences</name></member>
+      <member refid="classthemis_1_1_a_q_l_translator_1a7b2e0919c9111d9da2c1bf8efeee62d1" prot="private" virt="non-virtual"><scope>themis::AQLTranslator</scope><name>countCTEReferencesInExpr</name></member>
+      <member refid="classthemis_1_1_a_q_l_translator_1a754cd81eb5645518f3d73b3ee1b704cf" prot="private" virt="non-virtual"><scope>themis::AQLTranslator</scope><name>extractColumnName</name></member>
+      <member refid="classthemis_1_1_a_q_l_translator_1a52ab24a4f128398ff5bd29fb2e15cef1" prot="private" virt="non-virtual"><scope>themis::AQLTranslator</scope><name>extractOrderBy</name></member>
+      <member refid="classthemis_1_1_a_q_l_translator_1a98cfee4980515e076c35abf119a72e95" prot="private" virt="non-virtual"><scope>themis::AQLTranslator</scope><name>extractPredicates</name></member>
+      <member refid="classthemis_1_1_a_q_l_translator_1a9d6802c01e1f98150480b1ec144d0e4c" prot="private" virt="non-virtual"><scope>themis::AQLTranslator</scope><name>literalToString</name></member>
+      <member refid="classthemis_1_1_a_q_l_translator_1afe28cf2fd466c84446fd21128164a0c7" prot="public" virt="non-virtual"><scope>themis::AQLTranslator</scope><name>translate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

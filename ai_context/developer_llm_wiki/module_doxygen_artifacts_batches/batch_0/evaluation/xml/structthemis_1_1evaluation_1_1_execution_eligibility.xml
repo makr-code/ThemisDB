@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_execution_eligibility" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::ExecutionEligibility</compoundname>
+    <includes refid="query__planner_8h" local="no">query_planner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1ac61043c69d4b292e74dad4bea3852e40" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::cuda_available</definition>
+        <argsstring></argsstring>
+        <name>cuda_available</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::cuda_available</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>CUDA device detected and initialized. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="169" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1a1f39e1281965a6775d21d3115fbcd4d8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::ann_enabled</definition>
+        <argsstring></argsstring>
+        <name>ann_enabled</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::ann_enabled</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>ANN retrieval enabled for this query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="172" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="172" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1ab02c72874e26bc3321bea56495e0374f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::gpu_error_handling_gate</definition>
+        <argsstring></argsstring>
+        <name>gpu_error_handling_gate</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::gpu_error_handling_gate</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Category A gate: 50 % CUDA error-handling gaps fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="173" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1a187b46a179f4cd63385229713430d813" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::gpu_parity_validated</definition>
+        <argsstring></argsstring>
+        <name>gpu_parity_validated</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::gpu_parity_validated</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Category B gate: GPU/CPU parity tests pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="176" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="176" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1ae883ccb59da813a6ca62a603fdc6ea7a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::force_exact</definition>
+        <argsstring></argsstring>
+        <name>force_exact</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::force_exact</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Override: always use exact graph (Path 4). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="179" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1a9bf5a3957db72a47e1c21731c51fab2d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::force_cpu</definition>
+        <argsstring></argsstring>
+        <name>force_cpu</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::force_cpu</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Override: disable all GPU paths. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="180" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1a51dcfaa7bf3e1893cf2fc3a768c3e123" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::requires_exact_graph_validation</definition>
+        <argsstring></argsstring>
+        <name>requires_exact_graph_validation</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::requires_exact_graph_validation</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="182" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1a3a1ad8424b557a2b85b7321652cf671c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::query_thread_safety_ok</definition>
+        <argsstring></argsstring>
+        <name>query_thread_safety_ok</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::query_thread_safety_ok</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Parallel plan optimization is safe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="185" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1a3b777ffdf54ccf9b75e4880d17732dcc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::query_exception_handling_ok</definition>
+        <argsstring></argsstring>
+        <name>query_exception_handling_ok</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::query_exception_handling_ok</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Fallback logic is exception-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="186" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1a2b7fe3ab22a3dd103356e5ab4f5b8ca2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::index_buffer_safety_ok</definition>
+        <argsstring></argsstring>
+        <name>index_buffer_safety_ok</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::index_buffer_safety_ok</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>ANN candidate buffers are lifecycle-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="187" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1a83dec50410b6188bc49d8013ea49e5ea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::distributed_multi_shard</definition>
+        <argsstring></argsstring>
+        <name>distributed_multi_shard</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::distributed_multi_shard</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Query spans ≥ 2 shards; activate Path 5. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="190" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_execution_eligibility_1ac0cd2d2d7f8fd82ccf546427c0bdd3fb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::shard_manifests_available</definition>
+        <argsstring></argsstring>
+        <name>shard_manifests_available</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::shard_manifests_available</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>All required shard manifests are reachable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="191" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_execution_eligibility_1ae6d52d14c44381368cd903985ce6e4ca" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ExecutionEligibility::isGpuEligible</definition>
+        <argsstring>(KernelCategory category) const noexcept</argsstring>
+        <name>isGpuEligible</name>
+        <qualifiedname>themis::evaluation::ExecutionEligibility::isGpuEligible</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170a" kindref="member">KernelCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="193" column="11" bodyfile="src/evaluation/include/query_planner.h" bodystart="193" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/query_planner.h" line="167" column="1" bodyfile="src/evaluation/include/query_planner.h" bodystart="167" bodyend="207"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a1f39e1281965a6775d21d3115fbcd4d8" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>ann_enabled</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1ac61043c69d4b292e74dad4bea3852e40" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>cuda_available</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a83dec50410b6188bc49d8013ea49e5ea" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>distributed_multi_shard</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a9bf5a3957db72a47e1c21731c51fab2d" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>force_cpu</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1ae883ccb59da813a6ca62a603fdc6ea7a" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>force_exact</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1ab02c72874e26bc3321bea56495e0374f" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>gpu_error_handling_gate</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a187b46a179f4cd63385229713430d813" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>gpu_parity_validated</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a2b7fe3ab22a3dd103356e5ab4f5b8ca2" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>index_buffer_safety_ok</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1ae6d52d14c44381368cd903985ce6e4ca" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>isGpuEligible</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a3b777ffdf54ccf9b75e4880d17732dcc" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>query_exception_handling_ok</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a3a1ad8424b557a2b85b7321652cf671c" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>query_thread_safety_ok</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1a51dcfaa7bf3e1893cf2fc3a768c3e123" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>requires_exact_graph_validation</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_execution_eligibility_1ac0cd2d2d7f8fd82ccf546427c0bdd3fb" prot="public" virt="non-virtual"><scope>themis::evaluation::ExecutionEligibility</scope><name>shard_manifests_available</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

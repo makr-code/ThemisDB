@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_s_p_a_r_q_l_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::SPARQLParser</compoundname>
+    <includes refid="sparql__parser_8h" local="no">sparql_parser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_p_a_r_q_l_parser_1ab16e4b9c8cbfd9b3bae57b20e44caa4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::SPARQLParser::SPARQLParser</definition>
+        <argsstring>()=default</argsstring>
+        <name>SPARQLParser</name>
+        <qualifiedname>themis::query::SPARQLParser::SPARQLParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="163" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_p_a_r_q_l_parser_1ae8d37942f82d0df52a74c739e27e0567" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node" kindref="compound">SPARQLASTNode</ref> &gt;</type>
+        <definition>Result&lt; SPARQLASTNode &gt; themis::query::SPARQLParser::parse</definition>
+        <argsstring>(const std::string &amp;sparql_query)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::query::SPARQLParser::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sparql_query</declname>
+        </param>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sparql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sparql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lexer(), tokenize(), impl(), std::move(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="170" column="12" bodyfile="src/query/sparql_parser.cpp" bodystart="978" bodyend="988"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sparql_parser.h" line="161" column="1" bodyfile="include/query/sparql_parser.h" bodystart="161" bodyend="176"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_s_p_a_r_q_l_parser_1ae8d37942f82d0df52a74c739e27e0567" prot="public" virt="non-virtual"><scope>themis::query::SPARQLParser</scope><name>parse</name></member>
+      <member refid="classthemis_1_1query_1_1_s_p_a_r_q_l_parser_1ab16e4b9c8cbfd9b3bae57b20e44caa4f" prot="public" virt="non-virtual"><scope>themis::query::SPARQLParser</scope><name>SPARQLParser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

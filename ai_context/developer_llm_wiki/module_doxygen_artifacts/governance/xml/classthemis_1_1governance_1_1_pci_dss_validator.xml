@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_pci_dss_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::PciDssValidator</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_i_compliance_validator" prot="public" virt="non-virtual">themis::governance::IComplianceValidator</basecompoundref>
+    <includes refid="compliance__validator_8h" local="no">compliance_validator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_pci_dss_validator_1a1fe411aed147a69f06e8608104e42e81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+        <definition>ComplianceFramework themis::governance::PciDssValidator::getFramework</definition>
+        <argsstring>() const override</argsstring>
+        <name>getFramework</name>
+        <qualifiedname>themis::governance::PciDssValidator::getFramework</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1ad12bce1c3ec4734f4e2e2b370e5d66ba">getFramework</reimplements>
+        <briefdescription>
+<para>Get Framework. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="351" column="25" bodyfile="src/governance/compliance_validator.cpp" bodystart="601" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_pci_dss_validator_1a05184716da69ef129df036e3962ea253" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345" kindref="member">ComplianceStatus</ref></type>
+        <definition>ComplianceStatus themis::governance::PciDssValidator::validateRequirement</definition>
+        <argsstring>(const ComplianceRequirement &amp;req, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>validateRequirement</name>
+        <qualifiedname>themis::governance::PciDssValidator::validateRequirement</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1a95688465cbfa96b03f64fe4f8f06bc2f">validateRequirement</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Requirement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="353" column="22" bodyfile="src/governance/compliance_validator.cpp" bodystart="612" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_pci_dss_validator_1acdd688ea7b6f61b2b4b36a6923b84d0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1governance_1a320138f8db931f9c7432ade21d5a0345" kindref="member">ComplianceStatus</ref></type>
+        <definition>ComplianceStatus themis::governance::PciDssValidator::validateControl</definition>
+        <argsstring>(const ComplianceControl &amp;ctl, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>validateControl</name>
+        <qualifiedname>themis::governance::PciDssValidator::validateControl</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1a689f41c7561c0c5efb9188943c897840">validateControl</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_control" kindref="compound">ComplianceControl</ref> &amp;</type>
+          <declname>ctl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Control. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="357" column="22" bodyfile="src/governance/compliance_validator.cpp" bodystart="648" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_pci_dss_validator_1a11c3b18fdd819d1b9a67a8a1719d41ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref> &gt;</type>
+        <definition>std::vector&lt; ComplianceEvidence &gt; themis::governance::PciDssValidator::collectEvidence</definition>
+        <argsstring>(const ComplianceControl &amp;ctl, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>collectEvidence</name>
+        <qualifiedname>themis::governance::PciDssValidator::collectEvidence</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1ab512a65887aa840db5881d02379acab4">collectEvidence</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_control" kindref="compound">ComplianceControl</ref> &amp;</type>
+          <declname>ctl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Collect Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="361" column="17" bodyfile="src/governance/compliance_validator.cpp" bodystart="673" bodyend="693"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_pci_dss_validator_1ad24e79f473161430fbedc4351b970a15" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PciDssValidator::checkPolicySatisfaction</definition>
+        <argsstring>(const ComplianceRequirement &amp;req, const ComplianceContext &amp;ctx) override</argsstring>
+        <name>checkPolicySatisfaction</name>
+        <qualifiedname>themis::governance::PciDssValidator::checkPolicySatisfaction</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_validator_1a048d627bf3a7dcefc85fc34e204611a2">checkPolicySatisfaction</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Check Policy Satisfaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1governance_1_1_pci_dss_validator_1a05184716da69ef129df036e3962ea253" kindref="member">validateRequirement()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="365" column="10" bodyfile="src/governance/compliance_validator.cpp" bodystart="702" bodyend="707"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_pci_dss_validator_1a3e695682d8e9694f8304e42b8bf6ec23" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PciDssValidator::validateCardDataEncryption</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateCardDataEncryption</name>
+        <qualifiedname>themis::governance::PciDssValidator::validateCardDataEncryption</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Card Data Encryption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="375" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_pci_dss_validator_1a43bbf63ededfa0049a6177c6b306d3e7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PciDssValidator::validateAccessControl</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateAccessControl</name>
+        <qualifiedname>themis::governance::PciDssValidator::validateAccessControl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Access Control. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="381" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_pci_dss_validator_1a8ac550c66165f69f387cdf610e97eb23" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PciDssValidator::validateVulnerabilityManagement</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateVulnerabilityManagement</name>
+        <qualifiedname>themis::governance::PciDssValidator::validateVulnerabilityManagement</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Vulnerability Management. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="387" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_pci_dss_validator_1aa556a40f5e11112a7cbdb7a108fd207e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PciDssValidator::validateMonitoring</definition>
+        <argsstring>(const ComplianceContext &amp;ctx)</argsstring>
+        <name>validateMonitoring</name>
+        <qualifiedname>themis::governance::PciDssValidator::validateMonitoring</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Validate Monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_validator.h" line="393" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::governance::IComplianceValidator</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_validator"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::PciDssValidator</label>
+        <link refid="classthemis_1_1governance_1_1_pci_dss_validator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::governance::IComplianceValidator</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_validator"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::PciDssValidator</label>
+        <link refid="classthemis_1_1governance_1_1_pci_dss_validator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/compliance_validator.h" line="349" column="1" bodyfile="include/governance/compliance_validator.h" bodystart="349" bodyend="394"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_pci_dss_validator_1ad24e79f473161430fbedc4351b970a15" prot="public" virt="virtual"><scope>themis::governance::PciDssValidator</scope><name>checkPolicySatisfaction</name></member>
+      <member refid="classthemis_1_1governance_1_1_pci_dss_validator_1a11c3b18fdd819d1b9a67a8a1719d41ed" prot="public" virt="virtual"><scope>themis::governance::PciDssValidator</scope><name>collectEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_pci_dss_validator_1a1fe411aed147a69f06e8608104e42e81" prot="public" virt="virtual"><scope>themis::governance::PciDssValidator</scope><name>getFramework</name></member>
+      <member refid="classthemis_1_1governance_1_1_pci_dss_validator_1a43bbf63ededfa0049a6177c6b306d3e7" prot="private" virt="non-virtual"><scope>themis::governance::PciDssValidator</scope><name>validateAccessControl</name></member>
+      <member refid="classthemis_1_1governance_1_1_pci_dss_validator_1a3e695682d8e9694f8304e42b8bf6ec23" prot="private" virt="non-virtual"><scope>themis::governance::PciDssValidator</scope><name>validateCardDataEncryption</name></member>
+      <member refid="classthemis_1_1governance_1_1_pci_dss_validator_1acdd688ea7b6f61b2b4b36a6923b84d0e" prot="public" virt="virtual"><scope>themis::governance::PciDssValidator</scope><name>validateControl</name></member>
+      <member refid="classthemis_1_1governance_1_1_pci_dss_validator_1aa556a40f5e11112a7cbdb7a108fd207e" prot="private" virt="non-virtual"><scope>themis::governance::PciDssValidator</scope><name>validateMonitoring</name></member>
+      <member refid="classthemis_1_1governance_1_1_pci_dss_validator_1a05184716da69ef129df036e3962ea253" prot="public" virt="virtual"><scope>themis::governance::PciDssValidator</scope><name>validateRequirement</name></member>
+      <member refid="classthemis_1_1governance_1_1_pci_dss_validator_1a8ac550c66165f69f387cdf610e97eb23" prot="private" virt="non-virtual"><scope>themis::governance::PciDssValidator</scope><name>validateVulnerabilityManagement</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_validator_1a6acacf1b60b005c458e2ff3a7ff3979e" prot="public" virt="virtual"><scope>themis::governance::PciDssValidator</scope><name>~IComplianceValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

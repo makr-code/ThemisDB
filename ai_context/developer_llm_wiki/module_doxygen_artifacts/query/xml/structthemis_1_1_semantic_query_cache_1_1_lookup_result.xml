@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_semantic_query_cache_1_1_lookup_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SemanticQueryCache::LookupResult</compoundname>
+    <includes refid="semantic__cache_8h" local="no">semantic_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1a5a42c97c1e81e2921d3cd3d5729a7139" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SemanticQueryCache::LookupResult::found</definition>
+        <argsstring></argsstring>
+        <name>found</name>
+        <qualifiedname>themis::SemanticQueryCache::LookupResult::found</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="76" column="14" bodyfile="include/query/semantic_cache.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1a34e82fc42eb91cec5bf2a4bce0aa06ef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SemanticQueryCache::LookupResult::exact_match</definition>
+        <argsstring></argsstring>
+        <name>exact_match</name>
+        <qualifiedname>themis::SemanticQueryCache::LookupResult::exact_match</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="77" column="14" bodyfile="include/query/semantic_cache.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1a32dc4c810c8815c3ea5832e3c0f48aa8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SemanticQueryCache::LookupResult::result_json</definition>
+        <argsstring></argsstring>
+        <name>result_json</name>
+        <qualifiedname>themis::SemanticQueryCache::LookupResult::result_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="78" column="21" bodyfile="include/query/semantic_cache.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1a5f58b78526bc3e42f94ab7ea5bcaf925" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::SemanticQueryCache::LookupResult::similarity</definition>
+        <argsstring></argsstring>
+        <name>similarity</name>
+        <qualifiedname>themis::SemanticQueryCache::LookupResult::similarity</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="79" column="15" bodyfile="include/query/semantic_cache.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1a9279bc339cd186f06ffb9271eaddbe2d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SemanticQueryCache::LookupResult::matched_query</definition>
+        <argsstring></argsstring>
+        <name>matched_query</name>
+        <qualifiedname>themis::SemanticQueryCache::LookupResult::matched_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="80" column="21" bodyfile="include/query/semantic_cache.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1ad0b9050fb60c714d9383346b5640963d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SemanticQueryCache::LookupResult::LookupResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>LookupResult</name>
+        <qualifiedname>themis::SemanticQueryCache::LookupResult::LookupResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="82" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1abe059ccb5146e4ee55641a02dc087e10" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::SemanticQueryCache::LookupResult::LookupResult</definition>
+        <argsstring>(bool f)</argsstring>
+        <name>LookupResult</name>
+        <qualifiedname>themis::SemanticQueryCache::LookupResult::LookupResult</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="83" column="18" bodyfile="include/query/semantic_cache.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/semantic_cache.h" line="75" column="5" bodyfile="include/query/semantic_cache.h" bodystart="75" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1a34e82fc42eb91cec5bf2a4bce0aa06ef" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::LookupResult</scope><name>exact_match</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1a5a42c97c1e81e2921d3cd3d5729a7139" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::LookupResult</scope><name>found</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1ad0b9050fb60c714d9383346b5640963d" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::LookupResult</scope><name>LookupResult</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1abe059ccb5146e4ee55641a02dc087e10" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::LookupResult</scope><name>LookupResult</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1a9279bc339cd186f06ffb9271eaddbe2d" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::LookupResult</scope><name>matched_query</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1a32dc4c810c8815c3ea5832e3c0f48aa8" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::LookupResult</scope><name>result_json</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_lookup_result_1a5f58b78526bc3e42f94ab7ea5bcaf925" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::LookupResult</scope><name>similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

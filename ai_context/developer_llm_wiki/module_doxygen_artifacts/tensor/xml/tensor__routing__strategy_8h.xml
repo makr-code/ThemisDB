@@ -1,0 +1,412 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__routing__strategy_8h" kind="file" language="C++">
+    <compoundname>tensor_routing_strategy.h</compoundname>
+    <includes local="yes">index/ann_frontdoor.h</includes>
+    <includes refid="tensor__summary__types_8h" local="yes">tensor/tensor_summary_types.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__tensor__integration__baseline_8cpp" local="yes">benchmarks/tensor/bench_tensor_integration_baseline.cpp</includedby>
+    <includedby refid="tensor__error__handling_8h" local="yes">include/tensor/tensor_error_handling.h</includedby>
+    <includedby refid="tensor__routing__strategy_8cpp" local="yes">src/tensor/tensor_routing_strategy.cpp</includedby>
+    <includedby refid="test__tensor__mid__layer__abstractions_8cpp" local="yes">tests/tensor/test_tensor_mid_layer_abstractions.cpp</includedby>
+    <incdepgraph>
+      <node id="4">
+        <label>tensor/compression_strategy.h</label>
+        <link refid="compression__strategy_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>tensor/tensor_compat.h</label>
+        <link refid="tensor__compat_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/tensor/tensor_routing_strategy.h</label>
+        <link refid="tensor__routing__strategy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tensor/tensor_summary_types.h</label>
+        <link refid="tensor__summary__types_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>index/ann_frontdoor.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>storage/tensor_train_decomposer.h</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/tensor/bench_tensor_integration_baseline.cpp</label>
+        <link refid="bench__tensor__integration__baseline_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/tensor/tensor_error_handling.h</label>
+        <link refid="tensor__error__handling_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/tensor/tensor_routing_strategy.h</label>
+        <link refid="tensor__routing__strategy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/tensor/tensor_error_handling.cpp</label>
+        <link refid="tensor__error__handling_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/tensor/tensor_fingerprint_graph.cpp</label>
+        <link refid="tensor__fingerprint__graph_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/tensor/tensor_routing_strategy.cpp</label>
+        <link refid="tensor__routing__strategy_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/tensor/test_tensor_mid_layer_abstractions.cpp</label>
+        <link refid="test__tensor__mid__layer__abstractions_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/tensor/test_tensor_mid_layer_integration.cpp</label>
+        <link refid="test__tensor__mid__layer__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1tensor_1_1_routing_decision" prot="public">themis::tensor::RoutingDecision</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_prioritization_strategy" prot="public">themis::tensor::IPrioritizationStrategy</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_similarity_based_prioritization" prot="public">themis::tensor::SimilarityBasedPrioritization</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_rank_based_prioritization" prot="public">themis::tensor::RankBasedPrioritization</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_cost_based_prioritization" prot="public">themis::tensor::CostBasedPrioritization</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_i_routing_strategy" prot="public">themis::tensor::IRoutingStrategy</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_quality_based_routing" prot="public">themis::tensor::QualityBasedRouting</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_shard_aware_routing" prot="public">themis::tensor::ShardAwareRouting</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_adaptive_routing" prot="public">themis::tensor::AdaptiveRouting</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_adaptive_routing_1_1_route_metrics" prot="private">themis::tensor::AdaptiveRouting::RouteMetrics</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_routing_factory" prot="public">themis::tensor::RoutingFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <briefdescription>
+<para>Routing and prioritization abstractions for the tensor mid-layer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines routing decisions, prioritization strategies, and policies for directing tensor-layer results to downstream graph validation or fallback paths. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/ann_frontdoor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__summary__types_8h" kindref="compound">tensor/tensor_summary_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RoutingDecision<sp/>—<sp/>decision<sp/>output<sp/>from<sp/>routing<sp/>strategies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1tensor_1_1_routing_decision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1tensor_1_1_routing_decision_1aa86994c03ce58e3f9c7d224626283dd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1aa86994c03ce58e3f9c7d224626283dd8" kindref="member">primary_target</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1tensor_1_1_routing_decision_1a15e592538b1742238981369213d15c8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1a15e592538b1742238981369213d15c8c" kindref="member">fallback_target</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1tensor_1_1_routing_decision_1a2fa06ffbcb555f165c70404a86d87c67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1a2fa06ffbcb555f165c70404a86d87c67" kindref="member">confidence</ref><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1tensor_1_1_routing_decision_1ae94eed650b095d0a1aca60d6720288f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1ae94eed650b095d0a1aca60d6720288f3" kindref="member">primary_cost</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1tensor_1_1_routing_decision_1afc6745837a15620d2d3f1fb83652adf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1afc6745837a15620d2d3f1fb83652adf6" kindref="member">fallback_cost</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1tensor_1_1_routing_decision_1ad8900b3a92c2c6db864b90d3b97f017e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1ad8900b3a92c2c6db864b90d3b97f017e" kindref="member">expected_latency_ms</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1tensor_1_1_routing_decision_1a9b3dcfa6bcd1e9dfc5df03750df4375f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1a9b3dcfa6bcd1e9dfc5df03750df4375f" kindref="member">reason</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1tensor_1_1_routing_decision_1a69324942f9dda1739ce61cddc48b9b09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1a69324942f9dda1739ce61cddc48b9b09" kindref="member">reason_code</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1tensor_1_1_routing_decision_1af5d253583097713475865e7af41cad7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1af5d253583097713475865e7af41cad7d" kindref="member">enable_caching</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1tensor_1_1_routing_decision_1a4f22afc6fead51a2420a7990f91d74fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1a4f22afc6fead51a2420a7990f91d74fa" kindref="member">cache_ttl_seconds</ref><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1tensor_1_1_routing_decision_1ae750608f69967fe5f2918062363ffd79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1ae750608f69967fe5f2918062363ffd79" kindref="member">priority</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1tensor_1_1_routing_decision_1a096970c072835091ce89625cda6c943e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision_1a096970c072835091ce89625cda6c943e" kindref="member">shard_hints</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PrioritizationStrategy<sp/>—<sp/>interface<sp/>for<sp/>candidate<sp/>prioritization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1tensor_1_1_i_prioritization_strategy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy" kindref="compound">IPrioritizationStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a8ad2a45dbb8ca01461982bc3c4d7acd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a8ad2a45dbb8ca01461982bc3c4d7acd2" kindref="member">~IPrioritizationStrategy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a96b2fc1d6553a9dd8ec44fd430881e04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1a96b2fc1d6553a9dd8ec44fd430881e04" kindref="member">prioritize</ref>(</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;const<sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref>*&gt;&amp;<sp/>summaries)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1aa80f83b2b63293eb8f43e26996487bb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1aa80f83b2b63293eb8f43e26996487bb2" kindref="member">sort</ref>(std::vector&lt;<ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref>&gt;&amp;<sp/>summaries)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SimilarityBasedPrioritization<sp/>—<sp/>prioritization<sp/>by<sp/>similarity<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1tensor_1_1_similarity_based_prioritization" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1tensor_1_1_similarity_based_prioritization" kindref="compound">SimilarityBasedPrioritization</ref><sp/>:<sp/>public<sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy" kindref="compound">IPrioritizationStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1tensor_1_1_similarity_based_prioritization_1a3b97d5e3fce490579c1c0be579e7bf79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_similarity_based_prioritization_1a3b97d5e3fce490579c1c0be579e7bf79" kindref="member">similarity_weight</ref><sp/>=<sp/>0.7f;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1tensor_1_1_similarity_based_prioritization_1a4f3de3d5364174e7b620b626c9d0019d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_similarity_based_prioritization_1a4f3de3d5364174e7b620b626c9d0019d" kindref="member">confidence_weight</ref><sp/>=<sp/>0.3f;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1tensor_1_1_similarity_based_prioritization_1ac637c178a9c17bf5d21e81a81d0d2f82" kindref="member">prioritize</ref>(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;const<sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref>*&gt;&amp;<sp/>summaries)<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_similarity_based_prioritization_1a4855a06182792650f66351e2f1a1e763" kindref="member">sort</ref>(std::vector&lt;<ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref>&gt;&amp;<sp/>summaries)<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RankeBasedPrioritization<sp/>—<sp/>prioritization<sp/>by<sp/>rank<sp/>and<sp/>freshness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1tensor_1_1_rank_based_prioritization" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1tensor_1_1_rank_based_prioritization" kindref="compound">RankBasedPrioritization</ref><sp/>:<sp/>public<sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy" kindref="compound">IPrioritizationStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a777b10268b3df6dee6efc638015e83f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a777b10268b3df6dee6efc638015e83f7" kindref="member">rank_weight</ref><sp/>=<sp/>0.6f;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a500e6303a36f414f3ad834060bb1bb7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a500e6303a36f414f3ad834060bb1bb7c" kindref="member">freshness_weight</ref><sp/>=<sp/>0.4f;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a204e2791d687350bf9fdb17c18010f6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a204e2791d687350bf9fdb17c18010f6e" kindref="member">max_age_hours</ref><sp/>=<sp/>24.0f;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1a2680cf76adebe19ac7faf3bcbd64bf3f" kindref="member">prioritize</ref>(</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;const<sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref>*&gt;&amp;<sp/>summaries)<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_rank_based_prioritization_1ab49d6bc2b7cb99173b590d62f65c9e34" kindref="member">sort</ref>(std::vector&lt;<ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref>&gt;&amp;<sp/>summaries)<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CostBasedPrioritization<sp/>—<sp/>prioritization<sp/>considering<sp/>cost/latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="classthemis_1_1tensor_1_1_cost_based_prioritization" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1tensor_1_1_cost_based_prioritization" kindref="compound">CostBasedPrioritization</ref><sp/>:<sp/>public<sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy" kindref="compound">IPrioritizationStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1abd34fa43a8f3c4b08e0ee378c0a6fdfc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1abd34fa43a8f3c4b08e0ee378c0a6fdfc" kindref="member">quality_weight</ref><sp/>=<sp/>0.6f;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1a8f52d83330b7b0e1fb3be4a52891f880" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1a8f52d83330b7b0e1fb3be4a52891f880" kindref="member">efficiency_weight</ref><sp/>=<sp/>0.4f;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1ab118ea3194f5e2bc41ad22ee2eb20861" kindref="member">prioritize</ref>(</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;const<sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref>*&gt;&amp;<sp/>summaries)<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_cost_based_prioritization_1aaee33e2d7c6c39b851737cf0095a773c" kindref="member">sort</ref>(std::vector&lt;<ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref>&gt;&amp;<sp/>summaries)<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RoutingStrategy<sp/>—<sp/>interface<sp/>for<sp/>routing<sp/>decisions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1tensor_1_1_i_routing_strategy" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1tensor_1_1_i_routing_strategy" kindref="compound">IRoutingStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a9b1482d4c6307d526debca572c637a5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a9b1482d4c6307d526debca572c637a5c" kindref="member">~IRoutingStrategy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ae07d5ac8344484ea0e4d85d77c4a4480" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ae07d5ac8344484ea0e4d85d77c4a4480" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a4acfd3d094925721f69dfb41f0b2669e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref><sp/><ref refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a4acfd3d094925721f69dfb41f0b2669e" kindref="member">route</ref>(</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref>&gt;&amp;<sp/>summaries,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>candidate_count,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compression_ratio,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacethemis_1_1index" kindref="compound">index</ref>::AnnQueryContext&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query_context)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ab7c3f15ff0659c25544328688ec3c671" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ab7c3f15ff0659c25544328688ec3c671" kindref="member">shouldRetryOnFailure</ref>(</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>reason,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attempt_count,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_attempts)<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QualityBasedRouting<sp/>—<sp/>route<sp/>based<sp/>on<sp/>summary<sp/>quality<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1tensor_1_1_quality_based_routing" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1tensor_1_1_quality_based_routing" kindref="compound">QualityBasedRouting</ref><sp/>:<sp/>public<sp/><ref refid="classthemis_1_1tensor_1_1_i_routing_strategy" kindref="compound">IRoutingStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="255" refid="classthemis_1_1tensor_1_1_quality_based_routing_1a0aaabc2431d7fd7f7c8be8a7f07f619b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_quality_based_routing_1a0aaabc2431d7fd7f7c8be8a7f07f619b" kindref="member">confidence_threshold</ref><sp/>=<sp/>0.7f;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1tensor_1_1_quality_based_routing_1a22a841039d00163e40242f1014d5535f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_quality_based_routing_1a22a841039d00163e40242f1014d5535f" kindref="member">compression_ratio_threshold</ref><sp/>=<sp/>2.0f;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref><sp/><ref refid="classthemis_1_1tensor_1_1_quality_based_routing_1a87ef512e014d41acf280dfda06bb44cb" kindref="member">route</ref>(</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref>&gt;&amp;<sp/>summaries,</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>candidate_count,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compression_ratio,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacethemis_1_1index" kindref="compound">index</ref>::AnnQueryContext&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query_context)<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_quality_based_routing_1a08a5cd8c9401ca64c4aa52cc8678aa75" kindref="member">shouldRetryOnFailure</ref>(</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>reason,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attempt_count,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_attempts)<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ShardAwareRouting<sp/>—<sp/>route<sp/>considering<sp/>shard<sp/>health<sp/>and<sp/>availability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284" refid="classthemis_1_1tensor_1_1_shard_aware_routing" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1tensor_1_1_shard_aware_routing" kindref="compound">ShardAwareRouting</ref><sp/>:<sp/>public<sp/><ref refid="classthemis_1_1tensor_1_1_i_routing_strategy" kindref="compound">IRoutingStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="287" refid="classthemis_1_1tensor_1_1_shard_aware_routing_1a423e0df0424b32b7da081cf58bc0a70e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_shard_aware_routing_1a423e0df0424b32b7da081cf58bc0a70e" kindref="member">latency_threshold_ms</ref><sp/>=<sp/>100.0f;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="classthemis_1_1tensor_1_1_shard_aware_routing_1ad6e5b49c998edec585e6d132565c2f6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_shard_aware_routing_1ad6e5b49c998edec585e6d132565c2f6e" kindref="member">health_threshold</ref><sp/>=<sp/>0.8f;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref><sp/><ref refid="classthemis_1_1tensor_1_1_shard_aware_routing_1a094cbceb959ad8e45df7935396ecf385" kindref="member">route</ref>(</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref>&gt;&amp;<sp/>summaries,</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>candidate_count,</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compression_ratio,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacethemis_1_1index" kindref="compound">index</ref>::AnnQueryContext&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query_context)<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_shard_aware_routing_1a97d7df03421ac6a2773df406ee052971" kindref="member">shouldRetryOnFailure</ref>(</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>reason,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attempt_count,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_attempts)<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdaptiveRouting<sp/>—<sp/>adaptive<sp/>routing<sp/>based<sp/>on<sp/>runtime<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316" refid="classthemis_1_1tensor_1_1_adaptive_routing" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1tensor_1_1_adaptive_routing" kindref="compound">AdaptiveRouting</ref><sp/>:<sp/>public<sp/><ref refid="classthemis_1_1tensor_1_1_i_routing_strategy" kindref="compound">IRoutingStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1tensor_1_1_i_prioritization_strategy_1ac8e07ba51e062aa9a5d979668f2e42fa" kindref="member">name</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref><sp/><ref refid="classthemis_1_1tensor_1_1_adaptive_routing_1a8094396fc205f9b57fec1098e15eecb6" kindref="member">route</ref>(</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaseTensorSummary&gt;&amp;<sp/>summaries,</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>candidate_count,</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compression_ratio,</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>index::AnnQueryContext&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query_context)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adaptive_routing_1a48451dce36e5f3edc752b27cb61aba18" kindref="member">shouldRetryOnFailure</ref>(</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason,</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attempt_count,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_attempts)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adaptive_routing_1a9a92fa374bd07d6f597e0e042fb3ce2e" kindref="member">recordOutcome</ref>(</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref>&amp;<sp/>decision,</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success,</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latency_ms)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RouteMetrics<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>success_rate<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>avg_latency_ms<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>observation_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>RouteMetrics&gt;<sp/>metrics_;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RoutingFactory<sp/>—<sp/>factory<sp/>for<sp/>creating<sp/>routing<sp/>strategies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360" refid="classthemis_1_1tensor_1_1_routing_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_routing_factory" kindref="compound">RoutingFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;IRoutingStrategy&gt;<sp/><ref refid="classthemis_1_1tensor_1_1_routing_factory_1a520f20874d8f7db493f0e63ff5e2e319" kindref="member">createRouting</ref>(</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>strategy_name);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;IPrioritizationStrategy&gt;<sp/><ref refid="classthemis_1_1tensor_1_1_routing_factory_1a7ccaf06ab165e86e6abcc291b27d241d" kindref="member">createPrioritization</ref>(</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>strategy_name);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/tensor/tensor_routing_strategy.h"/>
+  </compounddef>
+</doxygen>

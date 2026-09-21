@@ -1,0 +1,726 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::OpenGLVectorBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_vector_backend" prot="public" virt="non-virtual">themis::acceleration::IVectorBackend</basecompoundref>
+    <includes refid="graphics__backends_8h" local="no">graphics_backends.h</includes>
+    <innerclass refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl" prot="public">themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1af64db1d459975d5b1dc06dc65e3c31f2" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::acceleration::OpenGLVectorBackend::AvailabilityFn = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>AvailabilityFn</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::AvailabilityFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="453" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a9db5fbb442cb91cd9805eb4caf028eab" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::acceleration::OpenGLVectorBackend::InitializeFn = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>InitializeFn</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::InitializeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="454" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1afda509bf8371fe122586791c60fd6ade" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;( const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, bool useL2)&gt;</type>
+        <definition>using themis::acceleration::OpenGLVectorBackend::ComputeDistancesFn = std::function&lt;std::vector&lt;float&gt;(
+       const float* queries,
+       size_t numQueries,
+       size_t dim,
+       const float* vectors,
+       size_t numVectors,
+       bool useL2)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ComputeDistancesFn</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::ComputeDistancesFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="455" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a3e3452f94adf9b3214d91ccddac02b13" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;( const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, size_t k, bool useL2)&gt;</type>
+        <definition>using themis::acceleration::OpenGLVectorBackend::BatchKnnSearchFn = std::function&lt;std::vector&lt;std::vector&lt;std::pair&lt;uint32_t, float&gt;&gt;&gt;(
+       const float* queries,
+       size_t numQueries,
+       size_t dim,
+       const float* vectors,
+       size_t numVectors,
+       size_t k,
+       bool useL2)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BatchKnnSearchFn</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::BatchKnnSearchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="462" column="5" bodyfile="include/acceleration/graphics_backends.h" bodystart="462" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a78fcaa342d3b40df40ccfbf32cd5e558" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::OpenGLVectorBackend::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="611" column="10" bodyfile="include/acceleration/graphics_backends.h" bodystart="611" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a6321d05780602621141eab9bff70f8dd" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl" kindref="compound">OpenGLVectorBackendImpl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;OpenGLVectorBackendImpl&gt; themis::acceleration::OpenGLVectorBackend::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="613" column="21" bodyfile="include/acceleration/graphics_backends.h" bodystart="613" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a9c9d40cb70c85b1f902ac4d60c6a71c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackend</definition>
+        <argsstring>()</argsstring>
+        <name>OpenGLVectorBackend</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="471" column="5" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="3691" bodyend="3695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a54685206dea9315622e181dd975514ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::OpenGLVectorBackend::~OpenGLVectorBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~OpenGLVectorBackend</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::~OpenGLVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="472" column="5" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="3698" bodyend="3700"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a358c33271d7701e3208b7bffbb0cf190" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::OpenGLVectorBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="474" column="16" bodyfile="include/acceleration/graphics_backends.h" bodystart="474" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a5df93f998373996471530d52245aee60" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::OpenGLVectorBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="475" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="475" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a719a4aa04033c5521e7a7d0ceb2238ef" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::OpenGLVectorBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="476" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="3702" bodyend="3779"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a8008fa7cc1af38c1cce8728b2566717d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::OpenGLVectorBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="478" column="25" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="3781" bodyend="3799"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1acf183e692bb5ba03fceec06b7249fff5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::OpenGLVectorBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: loadEGLLibrary(), loadEGLFunctions(), createEGLContext(), loadGLFunctions(), createShaderPrograms(), pfnGlGetString(), pfnGlGetIntegerv(), <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="479" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="3806" bodyend="3871"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1adeee0fcd641f049fe54dbea5c1e38936" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::OpenGLVectorBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cleanup(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="480" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="3877" bodyend="3884"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1aada631065939c8a287de6b5e88d6456c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::OpenGLVectorBackend::computeDistances</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, bool useL2=true) override</argsstring>
+        <name>computeDistances</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::computeDistances</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a56cc8ea7f1d8a7f2c8bb77025403f8e2">computeDistances</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Compute Distances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numQueries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">useL2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, ErrorContext(), <ref refid="namespacethemis_1_1acceleration_1_1_error_context_helpers_1ac05131265745a900204e8ff30b64744b" kindref="member">ErrorContextHelpers::createValidationError()</ref>, gpuDispatch(), <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1ad75895aada9719837764c14c52209f32" kindref="member">OpenGLVectorBackendImpl::cpuL2()</ref>, <ref refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a314b0c207d7186144334dcc86ca56b1e" kindref="member">OpenGLVectorBackendImpl::cpuCosine()</ref>, what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="482" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="3897" bodyend="3982"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a43d46196d1fd181867cfeebc0998bbfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt; themis::acceleration::OpenGLVectorBackend::batchKnnSearch</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, size_t k, bool useL2=true) override</argsstring>
+        <name>batchKnnSearch</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::batchKnnSearch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a7f0c7e6ce9e71f79406f2de2fa627008">batchKnnSearch</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="491" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="3984" bodyend="4089"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1ab8b82f4d1de0898ba26e55755da424a7" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::OpenGLVectorBackend::setAvailabilityFn</definition>
+        <argsstring>(AvailabilityFn fn)</argsstring>
+        <name>setAvailabilityFn</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::setAvailabilityFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1af64db1d459975d5b1dc06dc65e3c31f2" kindref="member">AvailabilityFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Availability Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), availabilityFnMutex(), availabilityFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="506" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="506" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1ae26656b83687bb944ed34dbfe9d52b48" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::OpenGLVectorBackend::setInitializeFn</definition>
+        <argsstring>(InitializeFn fn)</argsstring>
+        <name>setInitializeFn</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::setInitializeFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a9db5fbb442cb91cd9805eb4caf028eab" kindref="member">InitializeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Initialize Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), initializeFnMutex(), initializeFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="515" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="515" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1af406e23e6db5f4291bbc54c6c1d58ec0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::OpenGLVectorBackend::setComputeDistancesFn</definition>
+        <argsstring>(ComputeDistancesFn fn)</argsstring>
+        <name>setComputeDistancesFn</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::setComputeDistancesFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1afda509bf8371fe122586791c60fd6ade" kindref="member">ComputeDistancesFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Compute Distances Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), computeDistancesFnMutex(), computeDistancesFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="524" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="524" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1ac2e7d85ec8455dfdb9e5ba2a65177047" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::acceleration::OpenGLVectorBackend::setBatchKnnSearchFn</definition>
+        <argsstring>(BatchKnnSearchFn fn)</argsstring>
+        <name>setBatchKnnSearchFn</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::setBatchKnnSearchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a3e3452f94adf9b3214d91ccddac02b13" kindref="member">BatchKnnSearchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Batch Knn Search Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), batchKnnSearchFnMutex(), batchKnnSearchFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="533" column="17" bodyfile="include/acceleration/graphics_backends.h" bodystart="533" bodyend="536"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a3077661950b87b912b5490de043ec303" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::OpenGLVectorBackend::availabilityFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>availabilityFnMutex</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::availabilityFnMutex</qualifiedname>
+        <briefdescription>
+<para>Availability Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements availabilityFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="544" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="544" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a9d0a390c0e8df989aedc372a1a0222de" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1af64db1d459975d5b1dc06dc65e3c31f2" kindref="member">AvailabilityFn</ref> &amp;</type>
+        <definition>static AvailabilityFn &amp; themis::acceleration::OpenGLVectorBackend::availabilityFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>availabilityFnStorage</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::availabilityFnStorage</qualifiedname>
+        <briefdescription>
+<para>Availability Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements availabilityFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="553" column="27" bodyfile="include/acceleration/graphics_backends.h" bodystart="553" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1aa7ca97d508b887a3f9af559b03772270" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::OpenGLVectorBackend::initializeFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>initializeFnMutex</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::initializeFnMutex</qualifiedname>
+        <briefdescription>
+<para>Initialize Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements initializeFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="562" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="562" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1adcc25d802b00cf79554837d6d3dff774" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a9db5fbb442cb91cd9805eb4caf028eab" kindref="member">InitializeFn</ref> &amp;</type>
+        <definition>static InitializeFn &amp; themis::acceleration::OpenGLVectorBackend::initializeFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>initializeFnStorage</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::initializeFnStorage</qualifiedname>
+        <briefdescription>
+<para>Initialize Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements initializeFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="571" column="25" bodyfile="include/acceleration/graphics_backends.h" bodystart="571" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a03e81c2217344f00e53136b766cb54d0" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::OpenGLVectorBackend::computeDistancesFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>computeDistancesFnMutex</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::computeDistancesFnMutex</qualifiedname>
+        <briefdescription>
+<para>Compute Distances Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeDistancesFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="580" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="580" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1aeb6e725be55270da41f9010d51edfe81" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1afda509bf8371fe122586791c60fd6ade" kindref="member">ComputeDistancesFn</ref> &amp;</type>
+        <definition>static ComputeDistancesFn &amp; themis::acceleration::OpenGLVectorBackend::computeDistancesFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>computeDistancesFnStorage</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::computeDistancesFnStorage</qualifiedname>
+        <briefdescription>
+<para>Compute Distances Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeDistancesFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="589" column="31" bodyfile="include/acceleration/graphics_backends.h" bodystart="589" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a8107cac210a6f65afc774bc6e275a172" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::acceleration::OpenGLVectorBackend::batchKnnSearchFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>batchKnnSearchFnMutex</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::batchKnnSearchFnMutex</qualifiedname>
+        <briefdescription>
+<para>Batch Knn Search Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements batchKnnSearchFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="598" column="23" bodyfile="include/acceleration/graphics_backends.h" bodystart="598" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a89fcfdce2478fe7166c7a94c0c2b6f12" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a3e3452f94adf9b3214d91ccddac02b13" kindref="member">BatchKnnSearchFn</ref> &amp;</type>
+        <definition>static BatchKnnSearchFn &amp; themis::acceleration::OpenGLVectorBackend::batchKnnSearchFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>batchKnnSearchFnStorage</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::batchKnnSearchFnStorage</qualifiedname>
+        <briefdescription>
+<para>Batch Knn Search Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements batchKnnSearchFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graphics_backends.h" line="607" column="29" bodyfile="include/acceleration/graphics_backends.h" bodystart="607" bodyend="610"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::OpenGLVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::OpenGLVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/graphics_backends.h" line="451" column="1" bodyfile="include/acceleration/graphics_backends.h" bodystart="451" bodyend="614"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1af64db1d459975d5b1dc06dc65e3c31f2" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>AvailabilityFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a3077661950b87b912b5490de043ec303" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>availabilityFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a9d0a390c0e8df989aedc372a1a0222de" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>availabilityFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a43d46196d1fd181867cfeebc0998bbfb" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>batchKnnSearch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a3e3452f94adf9b3214d91ccddac02b13" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>BatchKnnSearchFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a8107cac210a6f65afc774bc6e275a172" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>batchKnnSearchFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a89fcfdce2478fe7166c7a94c0c2b6f12" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>batchKnnSearchFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a2143e8e963e3190e8bc602b329abeb82" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>batchKnnSearchSafe</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1aada631065939c8a287de6b5e88d6456c" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>computeDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1afda509bf8371fe122586791c60fd6ade" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>ComputeDistancesFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a03e81c2217344f00e53136b766cb54d0" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>computeDistancesFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1aeb6e725be55270da41f9010d51edfe81" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>computeDistancesFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a8008fa7cc1af38c1cce8728b2566717d" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a6321d05780602621141eab9bff70f8dd" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1acf183e692bb5ba03fceec06b7249fff5" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a78fcaa342d3b40df40ccfbf32cd5e558" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a9db5fbb442cb91cd9805eb4caf028eab" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>InitializeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1aa7ca97d508b887a3f9af559b03772270" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>initializeFnMutex</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1adcc25d802b00cf79554837d6d3dff774" prot="private" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>initializeFnStorage</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a719a4aa04033c5521e7a7d0ceb2238ef" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a358c33271d7701e3208b7bffbb0cf190" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a9c9d40cb70c85b1f902ac4d60c6a71c7" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>OpenGLVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1afe7b6b9c94e550943146ae6dd2633573" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>populateANNDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1ab8b82f4d1de0898ba26e55755da424a7" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>setAvailabilityFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1ac2e7d85ec8455dfdb9e5ba2a65177047" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>setBatchKnnSearchFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1af406e23e6db5f4291bbc54c6c1d58ec0" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>setComputeDistancesFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1ae26656b83687bb944ed34dbfe9d52b48" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>setInitializeFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1adeee0fcd641f049fe54dbea5c1e38936" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a5df93f998373996471530d52245aee60" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a80795a79f28f4f5dab65de8acd2af35f" prot="public" virt="virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>~IVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a54685206dea9315622e181dd975514ae" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend</scope><name>~OpenGLVectorBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

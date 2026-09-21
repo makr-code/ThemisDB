@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1auth_1_1_0d031135357066036177140031066373366354133065232322" kind="namespace" language="C++">
+    <compoundname>themis::auth::@031135357066036177140031066373366354133065232322</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/auth/jwt_validator.cpp" line="41" column="1"/>
+  </compounddef>
+</doxygen>

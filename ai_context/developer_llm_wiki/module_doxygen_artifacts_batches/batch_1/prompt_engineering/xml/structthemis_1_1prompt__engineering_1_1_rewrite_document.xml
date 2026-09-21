@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_rewrite_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RewriteDocument</compoundname>
+    <includes refid="rewrite__engine_8h" local="no">rewrite_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a3f5f7d661d59a640851462c647e4d6aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RewriteDocument::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::prompt_engineering::RewriteDocument::content</qualifiedname>
+        <briefdescription>
+<para>Document content (input/output). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="125" column="17" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ac15db3a9e5293aea2c1e954b8ba57c4c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RewriteDocument::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::prompt_engineering::RewriteDocument::document_id</qualifiedname>
+        <briefdescription>
+<para>Unique document identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="126" column="17" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ae325978fa2505e7e010e0d305a8b446d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RewriteDocument::document_type</definition>
+        <argsstring></argsstring>
+        <name>document_type</name>
+        <qualifiedname>themis::prompt_engineering::RewriteDocument::document_type</qualifiedname>
+        <briefdescription>
+<para>Type hint (prompt/template/query/etc). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="127" column="17" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a791422c5499b72df1f0d99a363a2d810" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RewriteDocument::source_language</definition>
+        <argsstring></argsstring>
+        <name>source_language</name>
+        <qualifiedname>themis::prompt_engineering::RewriteDocument::source_language</qualifiedname>
+        <briefdescription>
+<para>Source language (en/de/etc or &quot;auto&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="128" column="17" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a9fc684a5e414d591a83a2212526b9649" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteDocument::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::prompt_engineering::RewriteDocument::size_bytes</qualifiedname>
+        <briefdescription>
+<para>Document size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="129" column="14" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_document_1aadf1b957237d57e9a60906084d0278de" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RewriteDocument::is_multi_modal</definition>
+        <argsstring></argsstring>
+        <name>is_multi_modal</name>
+        <qualifiedname>themis::prompt_engineering::RewriteDocument::is_multi_modal</qualifiedname>
+        <briefdescription>
+<para>Whether document contains multi-modal content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="130" column="10" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ad38cb1e9afab95a4c322d9af36637c67" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::prompt_engineering::RewriteDocument::language_code</definition>
+        <argsstring></argsstring>
+        <name>language_code</name>
+        <qualifiedname>themis::prompt_engineering::RewriteDocument::language_code</qualifiedname>
+        <briefdescription>
+<para>BCP 47 language code for content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="131" column="14" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_rewrite_document_1af3b3c181866ce85b79af794fac68f71f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::RewriteDocument::RewriteDocument</definition>
+        <argsstring>()</argsstring>
+        <name>RewriteDocument</name>
+        <qualifiedname>themis::prompt_engineering::RewriteDocument::RewriteDocument</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="133" column="5" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Input/output container for rewrite operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents the document being rewritten and tracks metadata. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/rewrite_engine.h" line="124" column="1" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="124" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a3f5f7d661d59a640851462c647e4d6aa" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteDocument</scope><name>content</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ac15db3a9e5293aea2c1e954b8ba57c4c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteDocument</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ae325978fa2505e7e010e0d305a8b446d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteDocument</scope><name>document_type</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1aadf1b957237d57e9a60906084d0278de" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteDocument</scope><name>is_multi_modal</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ad38cb1e9afab95a4c322d9af36637c67" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteDocument</scope><name>language_code</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1af3b3c181866ce85b79af794fac68f71f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteDocument</scope><name>RewriteDocument</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a9fc684a5e414d591a83a2212526b9649" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteDocument</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a791422c5499b72df1f0d99a363a2d810" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteDocument</scope><name>source_language</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

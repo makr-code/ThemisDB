@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1detail" kind="namespace" language="C++">
+    <compoundname>themis::observability::detail</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1detail_1a2f64b5ed84031e0226e54e8d7be0fae5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::detail::generateTraceId</definition>
+        <argsstring>()</argsstring>
+        <name>generateTraceId</name>
+        <qualifiedname>themis::observability::detail::generateTraceId</qualifiedname>
+        <briefdescription>
+<para>Generate Trace Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dist(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer_utils.h" line="35" column="20" bodyfile="src/observability/tracer_utils.h" bodystart="35" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1detail_1a2d62df4bcdce0355fcb25fcc82649423" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::detail::generateSpanId</definition>
+        <argsstring>()</argsstring>
+        <name>generateSpanId</name>
+        <qualifiedname>themis::observability::detail::generateSpanId</qualifiedname>
+        <briefdescription>
+<para>Generate Span Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setfill(), std::setw(), dist(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer_utils.h" line="52" column="20" bodyfile="src/observability/tracer_utils.h" bodystart="52" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1detail_1a300b66b1e01fd9559dc684a2f6fa0736" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::detail::shouldSample</definition>
+        <argsstring>(double rate)</argsstring>
+        <name>shouldSample</name>
+        <qualifiedname>themis::observability::detail::shouldSample</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+<para>Should Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: dist(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer_utils.h" line="66" column="13" bodyfile="src/observability/tracer_utils.h" bodystart="66" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1detail_1ad07916f8eefd45f2c043a430fc429988" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>std::pair&lt; std::string, std::string &gt; themis::observability::detail::parseTraceparent</definition>
+        <argsstring>(const std::string &amp;value) noexcept</argsstring>
+        <name>parseTraceparent</name>
+        <qualifiedname>themis::observability::detail::parseTraceparent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer_utils.h" line="78" column="18" bodyfile="src/observability/tracer_utils.h" bodystart="78" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1detail_1a5bab9ea39af0507d2710902edfaf3754" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::detail::buildTraceparent</definition>
+        <argsstring>(const std::string &amp;trace_id, const std::string &amp;span_id, bool sampled=true)</argsstring>
+        <name>buildTraceparent</name>
+        <qualifiedname>themis::observability::detail::buildTraceparent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>trace_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>span_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sampled</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer_utils.h" line="97" column="20" bodyfile="src/observability/tracer_utils.h" bodystart="97" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1detail_1a3464c39e1cfbaebbc42dcc454ead9916" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::detail::findHeader</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;headers, const std::string &amp;lower_key)</argsstring>
+        <name>findHeader</name>
+        <qualifiedname>themis::observability::detail::findHeader</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lower_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer_utils.h" line="103" column="20" bodyfile="src/observability/tracer_utils.h" bodystart="103" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/observability/tracer_utils.h" line="28" column="1"/>
+  </compounddef>
+</doxygen>

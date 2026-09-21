@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_lo_r_a_rope_adapter_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::LoRARopeAdapterRegistry</compoundname>
+    <includes refid="lora__rope_8h" local="no">lora_rope.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_lo_r_a_rope_adapter_registry_1a61f46559854b82f233c784ac2d8c8da6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::LoRARopeAdapterRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::LoRARopeAdapterRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="128" column="24" bodyfile="include/index/lora_rope.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_lo_r_a_rope_adapter_registry_1a5e9c7df66a4f4a7489ebb7a2fb782fbb" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_lo_r_a_rope_adapter" kindref="compound">LoRARopeAdapter</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LoRARopeAdapter&gt; themis::LoRARopeAdapterRegistry::adapters_</definition>
+        <argsstring></argsstring>
+        <name>adapters_</name>
+        <qualifiedname>themis::LoRARopeAdapterRegistry::adapters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="129" column="24" bodyfile="include/index/lora_rope.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_lo_r_a_rope_adapter_registry_1a560b1af8aa545e525f5dcbcc08666ed5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LoRARopeAdapterRegistry::LoRARopeAdapterRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>LoRARopeAdapterRegistry</name>
+        <qualifiedname>themis::LoRARopeAdapterRegistry::LoRARopeAdapterRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="101" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lo_r_a_rope_adapter_registry_1adb310e6f0241d6b040ddb52fc567edcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LoRARopeAdapterRegistry::registerAdapter</definition>
+        <argsstring>(const LoRARopeAdapter &amp;adapter)</argsstring>
+        <name>registerAdapter</name>
+        <qualifiedname>themis::LoRARopeAdapterRegistry::registerAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_lo_r_a_rope_adapter" kindref="compound">LoRARopeAdapter</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <briefdescription>
+<para>Register a new adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Adapter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="104" column="10" bodyfile="src/index/lora_rope.cpp" bodystart="139" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lo_r_a_rope_adapter_registry_1a918b4d64f265d76de36d9d04bc1a38e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LoRARopeAdapterRegistry::unregisterAdapter</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unregisterAdapter</name>
+        <qualifiedname>themis::LoRARopeAdapterRegistry::unregisterAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister an adapter by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Adapter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="107" column="10" bodyfile="src/index/lora_rope.cpp" bodystart="157" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lo_r_a_rope_adapter_registry_1a945bcd71ad337a50d0faad4a644043de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_lo_r_a_rope_adapter" kindref="compound">LoRARopeAdapter</ref> &gt;</type>
+        <definition>std::optional&lt; LoRARopeAdapter &gt; themis::LoRARopeAdapterRegistry::getAdapter</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getAdapter</name>
+        <qualifiedname>themis::LoRARopeAdapterRegistry::getAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get adapter by name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="110" column="19" bodyfile="src/index/lora_rope.cpp" bodystart="162" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lo_r_a_rope_adapter_registry_1a529e4397718f2aa20fb2d084ff85fde2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LoRARopeAdapterRegistry::hasAdapter</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasAdapter</name>
+        <qualifiedname>themis::LoRARopeAdapterRegistry::hasAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Check if adapter exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="113" column="10" bodyfile="src/index/lora_rope.cpp" bodystart="177" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lo_r_a_rope_adapter_registry_1aefde445452a29d02c8e25fd244dd12b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::LoRARopeAdapterRegistry::listAdapters</definition>
+        <argsstring>() const</argsstring>
+        <name>listAdapters</name>
+        <qualifiedname>themis::LoRARopeAdapterRegistry::listAdapters</qualifiedname>
+        <briefdescription>
+<para>List all registered adapter names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="116" column="17" bodyfile="src/index/lora_rope.cpp" bodystart="187" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lo_r_a_rope_adapter_registry_1afe6ac243529ea68d330b4d176e24b40e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LoRARopeAdapterRegistry::setAdapterEnabled</definition>
+        <argsstring>(const std::string &amp;name, bool enabled)</argsstring>
+        <name>setAdapterEnabled</name>
+        <qualifiedname>themis::LoRARopeAdapterRegistry::setAdapterEnabled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Enable/disable an adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Adapter Enabled.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="119" column="10" bodyfile="src/index/lora_rope.cpp" bodystart="213" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lo_r_a_rope_adapter_registry_1a7b2db5a87dd471f8fce3ff2e5462afaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LoRARopeAdapterRegistry::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::LoRARopeAdapterRegistry::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="122" column="10" bodyfile="src/index/lora_rope.cpp" bodystart="228" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_lo_r_a_rope_adapter_registry_1a4ca650500a582dcb37a6ccc943613a00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::LoRARopeAdapterRegistry::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::LoRARopeAdapterRegistry::size</qualifiedname>
+        <briefdescription>
+<para>Get number of registered adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/lora_rope.h" line="125" column="12" bodyfile="src/index/lora_rope.cpp" bodystart="233" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Registry for managing multiple LoRA adapters for RoPE. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/lora_rope.h" line="99" column="1" bodyfile="include/index/lora_rope.h" bodystart="99" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_lo_r_a_rope_adapter_registry_1a5e9c7df66a4f4a7489ebb7a2fb782fbb" prot="private" virt="non-virtual"><scope>themis::LoRARopeAdapterRegistry</scope><name>adapters_</name></member>
+      <member refid="classthemis_1_1_lo_r_a_rope_adapter_registry_1a7b2db5a87dd471f8fce3ff2e5462afaa" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapterRegistry</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_lo_r_a_rope_adapter_registry_1a945bcd71ad337a50d0faad4a644043de" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapterRegistry</scope><name>getAdapter</name></member>
+      <member refid="classthemis_1_1_lo_r_a_rope_adapter_registry_1a529e4397718f2aa20fb2d084ff85fde2" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapterRegistry</scope><name>hasAdapter</name></member>
+      <member refid="classthemis_1_1_lo_r_a_rope_adapter_registry_1aefde445452a29d02c8e25fd244dd12b5" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapterRegistry</scope><name>listAdapters</name></member>
+      <member refid="classthemis_1_1_lo_r_a_rope_adapter_registry_1a560b1af8aa545e525f5dcbcc08666ed5" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapterRegistry</scope><name>LoRARopeAdapterRegistry</name></member>
+      <member refid="classthemis_1_1_lo_r_a_rope_adapter_registry_1a61f46559854b82f233c784ac2d8c8da6" prot="private" virt="non-virtual"><scope>themis::LoRARopeAdapterRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_lo_r_a_rope_adapter_registry_1adb310e6f0241d6b040ddb52fc567edcb" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapterRegistry</scope><name>registerAdapter</name></member>
+      <member refid="classthemis_1_1_lo_r_a_rope_adapter_registry_1afe6ac243529ea68d330b4d176e24b40e" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapterRegistry</scope><name>setAdapterEnabled</name></member>
+      <member refid="classthemis_1_1_lo_r_a_rope_adapter_registry_1a4ca650500a582dcb37a6ccc943613a00" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapterRegistry</scope><name>size</name></member>
+      <member refid="classthemis_1_1_lo_r_a_rope_adapter_registry_1a918b4d64f265d76de36d9d04bc1a38e1" prot="public" virt="non-virtual"><scope>themis::LoRARopeAdapterRegistry</scope><name>unregisterAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

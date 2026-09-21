@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1streaming_1_1_stream_session_progress" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::streaming::StreamSessionProgress</compoundname>
+    <includes refid="stream__protocol_8h" local="no">stream_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_progress_1ac1bb984071218bca7a09267add4d64d1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamSessionProgress::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themisdb::streaming::StreamSessionProgress::session_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="291" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_progress_1af39dd4691fe2596241fe78147406b951" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4" kindref="member">StreamSessionState</ref></type>
+        <definition>StreamSessionState themisdb::streaming::StreamSessionProgress::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::streaming::StreamSessionProgress::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4adee5f03c2c4e73657824e028494b18c0" kindref="member">StreamSessionState::INITIALIZED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="292" column="24" bodyfile="include/sharding/stream_protocol.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_progress_1ac132e7b5c3f9efbb20ff4644a24f97af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamSessionProgress::remote_shard_id</definition>
+        <argsstring></argsstring>
+        <name>remote_shard_id</name>
+        <qualifiedname>themisdb::streaming::StreamSessionProgress::remote_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="293" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_progress_1ab30464cced9e86831fba0f27a52c6a1a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1streaming_1a2aff88aef0a4a923dcdf9b16e7b91abe" kindref="member">StreamDirection</ref></type>
+        <definition>StreamDirection themisdb::streaming::StreamSessionProgress::direction</definition>
+        <argsstring></argsstring>
+        <name>direction</name>
+        <qualifiedname>themisdb::streaming::StreamSessionProgress::direction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="294" column="21" bodyfile="include/sharding/stream_protocol.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_progress_1a5cad1b2d43f38551c74893e5f2098a81" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamSessionProgress::files_completed</definition>
+        <argsstring></argsstring>
+        <name>files_completed</name>
+        <qualifiedname>themisdb::streaming::StreamSessionProgress::files_completed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="296" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_progress_1a56b07728a49e99c16b5c68a2b0470028" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamSessionProgress::files_total</definition>
+        <argsstring></argsstring>
+        <name>files_total</name>
+        <qualifiedname>themisdb::streaming::StreamSessionProgress::files_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="297" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_progress_1ad5935c2cf2d275d96b23e181ae190f89" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::streaming::StreamSessionProgress::bytes_transferred</definition>
+        <argsstring></argsstring>
+        <name>bytes_transferred</name>
+        <qualifiedname>themisdb::streaming::StreamSessionProgress::bytes_transferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="298" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_progress_1aff14fa059f8cb7935f146c8537dad0a7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::streaming::StreamSessionProgress::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themisdb::streaming::StreamSessionProgress::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="299" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_progress_1ad988d52ef07b0b252cf2ac52be614908" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1streaming_1_1_stream_file_progress" kindref="compound">StreamFileProgress</ref> &gt;</type>
+        <definition>std::vector&lt;StreamFileProgress&gt; themisdb::streaming::StreamSessionProgress::file_progress</definition>
+        <argsstring></argsstring>
+        <name>file_progress</name>
+        <qualifiedname>themisdb::streaming::StreamSessionProgress::file_progress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="301" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1streaming_1_1_stream_session_progress_1afd4d967b147159bade239d3a10fb0e13" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::streaming::StreamSessionProgress::getProgressPercent</definition>
+        <argsstring>() const</argsstring>
+        <name>getProgressPercent</name>
+        <qualifiedname>themisdb::streaming::StreamSessionProgress::getProgressPercent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="303" column="12" bodyfile="include/sharding/stream_protocol.h" bodystart="303" bodyend="305"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Progress for an entire session </para>
+    </detaileddescription>
+    <location file="include/sharding/stream_protocol.h" line="290" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="290" bodyend="306"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_progress_1ad5935c2cf2d275d96b23e181ae190f89" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionProgress</scope><name>bytes_transferred</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_progress_1ab30464cced9e86831fba0f27a52c6a1a" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionProgress</scope><name>direction</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_progress_1ad988d52ef07b0b252cf2ac52be614908" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionProgress</scope><name>file_progress</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_progress_1a5cad1b2d43f38551c74893e5f2098a81" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionProgress</scope><name>files_completed</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_progress_1a56b07728a49e99c16b5c68a2b0470028" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionProgress</scope><name>files_total</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_progress_1afd4d967b147159bade239d3a10fb0e13" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionProgress</scope><name>getProgressPercent</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_progress_1ac132e7b5c3f9efbb20ff4644a24f97af" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionProgress</scope><name>remote_shard_id</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_progress_1ac1bb984071218bca7a09267add4d64d1" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionProgress</scope><name>session_id</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_progress_1af39dd4691fe2596241fe78147406b951" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionProgress</scope><name>state</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_progress_1aff14fa059f8cb7935f146c8537dad0a7" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionProgress</scope><name>total_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

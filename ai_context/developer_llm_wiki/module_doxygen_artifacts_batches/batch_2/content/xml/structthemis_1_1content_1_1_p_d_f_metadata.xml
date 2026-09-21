@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_p_d_f_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::PDFMetadata</compoundname>
+    <includes refid="pdf__processor_8h" local="no">pdf_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1ae92b64fa82692c2c489eca6007be9994" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFMetadata::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::content::PDFMetadata::title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="38" column="17" bodyfile="include/content/pdf_processor.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1a102181c591dd6e8fa7c08e0df88b58b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFMetadata::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::content::PDFMetadata::author</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="39" column="17" bodyfile="include/content/pdf_processor.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1af469af87b3294ff2f7502d6714117255" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFMetadata::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themis::content::PDFMetadata::subject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="40" column="17" bodyfile="include/content/pdf_processor.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1aa94fece8260896a346cabd02d3eff4fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFMetadata::keywords</definition>
+        <argsstring></argsstring>
+        <name>keywords</name>
+        <qualifiedname>themis::content::PDFMetadata::keywords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="41" column="17" bodyfile="include/content/pdf_processor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1a5f1f430edbb00240cf79ac78dd29dbf9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFMetadata::creator</definition>
+        <argsstring></argsstring>
+        <name>creator</name>
+        <qualifiedname>themis::content::PDFMetadata::creator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="42" column="17" bodyfile="include/content/pdf_processor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1a11ecee9e51ed9d6f6b93085eeda36231" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFMetadata::producer</definition>
+        <argsstring></argsstring>
+        <name>producer</name>
+        <qualifiedname>themis::content::PDFMetadata::producer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="43" column="17" bodyfile="include/content/pdf_processor.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1a9f04bc107dfb1bfaba3fad4109837434" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFMetadata::creation_date</definition>
+        <argsstring></argsstring>
+        <name>creation_date</name>
+        <qualifiedname>themis::content::PDFMetadata::creation_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="44" column="17" bodyfile="include/content/pdf_processor.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1ac0f80f8b5bba78e2b8f0b7a51dabb342" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFMetadata::modification_date</definition>
+        <argsstring></argsstring>
+        <name>modification_date</name>
+        <qualifiedname>themis::content::PDFMetadata::modification_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="45" column="17" bodyfile="include/content/pdf_processor.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1a988ded2a8cf123765679909241c9e1de" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::PDFMetadata::page_count</definition>
+        <argsstring></argsstring>
+        <name>page_count</name>
+        <qualifiedname>themis::content::PDFMetadata::page_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of pages (CON-020). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="46" column="9" bodyfile="include/content/pdf_processor.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1afc1e417fb04b3669ad6933c1d224a3bc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::PDFMetadata::is_encrypted</definition>
+        <argsstring></argsstring>
+        <name>is_encrypted</name>
+        <qualifiedname>themis::content::PDFMetadata::is_encrypted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if document is password-protected (CON-020). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="47" column="10" bodyfile="include/content/pdf_processor.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1a13de19dc31c352824915bb56faac280a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::PDFMetadata::is_linearized</definition>
+        <argsstring></argsstring>
+        <name>is_linearized</name>
+        <qualifiedname>themis::content::PDFMetadata::is_linearized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if PDF is web-optimised/linearized (CON-020). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="48" column="10" bodyfile="include/content/pdf_processor.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_d_f_metadata_1a14d64d3d3f2a4d05cbd88c1c0b3972e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PDFMetadata::pdf_version</definition>
+        <argsstring></argsstring>
+        <name>pdf_version</name>
+        <qualifiedname>themis::content::PDFMetadata::pdf_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pdf_processor.h" line="49" column="17" bodyfile="include/content/pdf_processor.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pdf_processor.h" line="37" column="1" bodyfile="include/content/pdf_processor.h" bodystart="37" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1a102181c591dd6e8fa7c08e0df88b58b2" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>author</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1a9f04bc107dfb1bfaba3fad4109837434" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>creation_date</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1a5f1f430edbb00240cf79ac78dd29dbf9" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>creator</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1afc1e417fb04b3669ad6933c1d224a3bc" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>is_encrypted</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1a13de19dc31c352824915bb56faac280a" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>is_linearized</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1aa94fece8260896a346cabd02d3eff4fa" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>keywords</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1ac0f80f8b5bba78e2b8f0b7a51dabb342" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>modification_date</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1a988ded2a8cf123765679909241c9e1de" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>page_count</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1a14d64d3d3f2a4d05cbd88c1c0b3972e9" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>pdf_version</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1a11ecee9e51ed9d6f6b93085eeda36231" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>producer</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1af469af87b3294ff2f7502d6714117255" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>subject</name></member>
+      <member refid="structthemis_1_1content_1_1_p_d_f_metadata_1ae92b64fa82692c2c489eca6007be9994" prot="public" virt="non-virtual"><scope>themis::content::PDFMetadata</scope><name>title</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_few_shot_example" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FewShotExample</compoundname>
+    <includes refid="fewshot__optimizer_8h" local="no">fewshot_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_example_1a543a4cfe5dd150734d163fc37d3d593d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FewShotExample::input</definition>
+        <argsstring></argsstring>
+        <name>input</name>
+        <qualifiedname>themis::llm::FewShotExample::input</qualifiedname>
+        <briefdescription>
+<para>Example input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="23" column="17" bodyfile="include/llm/fewshot_optimizer.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_example_1a371b6e121a6445445421290c538aa2ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FewShotExample::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>themis::llm::FewShotExample::output</qualifiedname>
+        <briefdescription>
+<para>Example output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="24" column="17" bodyfile="include/llm/fewshot_optimizer.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_example_1a31f202a84635eb65c8933b6dc38a07d5" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::FewShotExample::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::llm::FewShotExample::context</qualifiedname>
+        <briefdescription>
+<para>Additional context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="25" column="20" bodyfile="include/llm/fewshot_optimizer.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_example_1a5469566038013c84a44d6e061948c0cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::FewShotExample::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::llm::FewShotExample::relevance_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Relevance to query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="26" column="12" bodyfile="include/llm/fewshot_optimizer.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_example_1a7f9868f9ccf86e9145199240632a7b15" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::FewShotExample::diversity_score</definition>
+        <argsstring></argsstring>
+        <name>diversity_score</name>
+        <qualifiedname>themis::llm::FewShotExample::diversity_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Diversity from other examples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="27" column="12" bodyfile="include/llm/fewshot_optimizer.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_few_shot_example_1aa25ed3e07a36cfe9c8d03c76ef8caf8d" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::FewShotExample::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::FewShotExample::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/fewshot_optimizer.h" line="28" column="20" bodyfile="include/llm/fewshot_optimizer.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/fewshot_optimizer.h" line="22" column="1" bodyfile="include/llm/fewshot_optimizer.h" bodystart="22" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_few_shot_example_1a31f202a84635eb65c8933b6dc38a07d5" prot="public" virt="non-virtual"><scope>themis::llm::FewShotExample</scope><name>context</name></member>
+      <member refid="structthemis_1_1llm_1_1_few_shot_example_1a7f9868f9ccf86e9145199240632a7b15" prot="public" virt="non-virtual"><scope>themis::llm::FewShotExample</scope><name>diversity_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_few_shot_example_1a543a4cfe5dd150734d163fc37d3d593d" prot="public" virt="non-virtual"><scope>themis::llm::FewShotExample</scope><name>input</name></member>
+      <member refid="structthemis_1_1llm_1_1_few_shot_example_1aa25ed3e07a36cfe9c8d03c76ef8caf8d" prot="public" virt="non-virtual"><scope>themis::llm::FewShotExample</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_few_shot_example_1a371b6e121a6445445421290c538aa2ae" prot="public" virt="non-virtual"><scope>themis::llm::FewShotExample</scope><name>output</name></member>
+      <member refid="structthemis_1_1llm_1_1_few_shot_example_1a5469566038013c84a44d6e061948c0cc" prot="public" virt="non-virtual"><scope>themis::llm::FewShotExample</scope><name>relevance_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

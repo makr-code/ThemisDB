@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0",
+  "description": "Machine-readable GitHub compliance guideline index for ThemisDB.",
+  "owner": "maintainers",
+  "domains": {
+    "issue": {
+      "path": ".github/issue-compliance.json",
+      "description": "Issue intake, triage, labeling, and evidence requirements."
+    },
+    "pr": {
+      "path": ".github/pr-compliance.json",
+      "description": "Pull request quality gates, labels, branch expectations, and review requirements."
+    },
+    "documentation": {
+      "path": ".github/documentation-compliance.json",
+      "description": "Documentation metadata, source-of-truth, and release-readiness expectations."
+    },
+    "security": {
+      "path": ".github/security-compliance.json",
+      "description": "Security policy, secret handling, and vulnerability disclosure controls."
+    }
+  },
+  "enforcement": {
+    "required": [
+      "issue",
+      "pr",
+      "documentation",
+      "security"
+    ],
+    "mode": "policy-as-code",
+    "sync_with": [
+      ".github/WORKFLOW_GUIDELINES.md",
+      ".github/WORKFLOW_REGISTRY.md",
+      ".github/SECURITY.md",
+      "DOCUMENTATION_GOVERNANCE.md"
+    ]
+  }
+}

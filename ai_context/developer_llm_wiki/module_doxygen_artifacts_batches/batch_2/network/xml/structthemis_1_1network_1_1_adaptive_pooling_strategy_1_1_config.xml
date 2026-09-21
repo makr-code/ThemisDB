@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::AdaptivePoolingStrategy::Config</compoundname>
+    <includes refid="wire__protocol__connection__pool_8h" local="no">wire_protocol_connection_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1af476c7a9a0b73b13ac2c599c2cce1dcf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::AdaptivePoolingStrategy::Config::target_utilization</definition>
+        <argsstring></argsstring>
+        <name>target_utilization</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::Config::target_utilization</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Target utilization (fraction of connections that should be active). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="103" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a9b5a6d184ac55af3608a82bac3394026" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::AdaptivePoolingStrategy::Config::scale_up_threshold</definition>
+        <argsstring></argsstring>
+        <name>scale_up_threshold</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::Config::scale_up_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+<para>Trigger scale-up when utilization exceeds this value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="105" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a89eb1aaed6f7af09f15211e6889362fd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::AdaptivePoolingStrategy::Config::scale_down_threshold</definition>
+        <argsstring></argsstring>
+        <name>scale_down_threshold</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::Config::scale_down_threshold</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+<para>Trigger scale-down when utilization drops below this value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="107" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a108c193cf42b97a550b67ccebaee924b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::AdaptivePoolingStrategy::Config::scale_up_factor</definition>
+        <argsstring></argsstring>
+        <name>scale_up_factor</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::Config::scale_up_factor</qualifiedname>
+        <initializer>= 1.5</initializer>
+        <briefdescription>
+<para>Multiplier applied when growing the pool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="109" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a7f4daa15d0f642d1f46dcf2b480c6197" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::AdaptivePoolingStrategy::Config::scale_down_factor</definition>
+        <argsstring></argsstring>
+        <name>scale_down_factor</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::Config::scale_down_factor</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Multiplier applied when shrinking the pool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="111" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a88e52b85399870a7b5f03fe171c02dff" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::network::AdaptivePoolingStrategy::Config::min_idle_time</definition>
+        <argsstring></argsstring>
+        <name>min_idle_time</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::Config::min_idle_time</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>An idle connection must have been unused for at least this long before it is eligible for removal. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="114" column="30" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_connection_pool.h" line="101" column="5" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="101" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a88e52b85399870a7b5f03fe171c02dff" prot="public" virt="non-virtual"><scope>themis::network::AdaptivePoolingStrategy::Config</scope><name>min_idle_time</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a7f4daa15d0f642d1f46dcf2b480c6197" prot="public" virt="non-virtual"><scope>themis::network::AdaptivePoolingStrategy::Config</scope><name>scale_down_factor</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a89eb1aaed6f7af09f15211e6889362fd" prot="public" virt="non-virtual"><scope>themis::network::AdaptivePoolingStrategy::Config</scope><name>scale_down_threshold</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a108c193cf42b97a550b67ccebaee924b" prot="public" virt="non-virtual"><scope>themis::network::AdaptivePoolingStrategy::Config</scope><name>scale_up_factor</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1a9b5a6d184ac55af3608a82bac3394026" prot="public" virt="non-virtual"><scope>themis::network::AdaptivePoolingStrategy::Config</scope><name>scale_up_threshold</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config_1af476c7a9a0b73b13ac2c599c2cce1dcf" prot="public" virt="non-virtual"><scope>themis::network::AdaptivePoolingStrategy::Config</scope><name>target_utilization</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

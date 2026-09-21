@@ -1,0 +1,483 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_d_p_r_vectorizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::DPRVectorizer</compoundname>
+    <basecompoundref refid="classthemis_1_1rag_1_1_i_vectorizer" prot="public" virt="non-virtual">themis::rag::IVectorizer</basecompoundref>
+    <includes refid="dpr__vectorizer_8h" local="no">dpr_vectorizer.h</includes>
+    <innerclass refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl" prot="public">themis::rag::DPRVectorizer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a63f8ca9bf61e2a36af4b46f46aa1e08e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref></type>
+        <definition>DPRVectorizerConfig themis::rag::DPRVectorizer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::DPRVectorizer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="146" column="25" bodyfile="include/rag/dpr_vectorizer.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a872d92c20259c98726b6d89eeb0baeef" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rag::DPRVectorizer::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::rag::DPRVectorizer::initialized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="147" column="17" bodyfile="include/rag/dpr_vectorizer.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a7144a0673effe23df099cc9e253e3a3a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::DPRVectorizer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::DPRVectorizer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="151" column="21" bodyfile="include/rag/dpr_vectorizer.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a1ab69a68b77201e1e973217e3d0182f5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DPRVectorizer::DPRVectorizer</definition>
+        <argsstring>(const DPRVectorizerConfig &amp;config)</argsstring>
+        <name>DPRVectorizer</name>
+        <qualifiedname>themis::rag::DPRVectorizer::DPRVectorizer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a DPR vectorizer with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration specifying model paths and inference settings. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="70" column="14" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="238" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a144b248d9a703926521ff448b417a658" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DPRVectorizer::~DPRVectorizer</definition>
+        <argsstring>() override</argsstring>
+        <name>~DPRVectorizer</name>
+        <qualifiedname>themis::rag::DPRVectorizer::~DPRVectorizer</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0dae9f0b5ac465d0230d5a345e7712c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::rag::DPRVectorizer::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::rag::DPRVectorizer::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_vectorizer_1a3a25d011adb8ef03a97862438ba7a8fd">initialize</reimplements>
+        <briefdescription>
+<para>Initialize the vectorizer (load models). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para>Loads query and passage encoder models from configured paths. Must be called before <ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a7118c55df679eb925f69347d4161a56f" kindref="member">encodeQuery()</ref> or <ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0e816049b858a88df0d58c7e9a2f83f4" kindref="member">encodePassage()</ref>.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if models cannot be loaded or paths are invalid. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if configuration is invalid.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), THEMIS_INFO(), empty(), THEMIS_ERROR(), loadModel(), lock(), SetIntraOpNumThreads(), SetGraphOptimizationLevel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="86" column="10" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="255" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0954c1876444ffa8546c863ccae05a19" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::DPRVectorizer::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::rag::DPRVectorizer::isInitialized</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_vectorizer_1a7007d76fcbf88751424b4a57b7203b85">isInitialized</reimplements>
+        <briefdescription>
+<para>Check if vectorizer is initialized and ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if both query and passage encoders are loaded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="93" column="10" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="383" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a7118c55df679eb925f69347d4161a56f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::rag::DPRVectorizer::encodeQuery</definition>
+        <argsstring>(const std::string &amp;query) override</argsstring>
+        <name>encodeQuery</name>
+        <qualifiedname>themis::rag::DPRVectorizer::encodeQuery</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_vectorizer_1ab7cc8ceba0472758dc53aadc01eb4ea8">encodeQuery</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Encode a query using the query encoder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode Query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The query text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dense query embedding (size = embedding_dimension). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if not initialized or encoding fails. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if query is empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0954c1876444ffa8546c863ccae05a19" kindref="member">isInitialized()</ref>, THEMIS_WARN(), empty(), size(), lock(), tokenizeText(), get(), runONNXEmbedding(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="103" column="17" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="399" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0e816049b858a88df0d58c7e9a2f83f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::rag::DPRVectorizer::encodePassage</definition>
+        <argsstring>(const std::string &amp;passage) override</argsstring>
+        <name>encodePassage</name>
+        <qualifiedname>themis::rag::DPRVectorizer::encodePassage</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_vectorizer_1a6aff9e92adace5777a774ec68620ef9e">encodePassage</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>passage</declname>
+        </param>
+        <briefdescription>
+<para>Encode a passage using the passage encoder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode Passage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>passage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The passage text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dense passage embedding (size = embedding_dimension). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if not initialized or encoding fails. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if passage is empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">passage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0954c1876444ffa8546c863ccae05a19" kindref="member">isInitialized()</ref>, THEMIS_WARN(), empty(), size(), lock(), tokenizeText(), get(), runONNXEmbedding(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="113" column="17" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="460" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1ad757732b72b1268a558d46feecbb2e47" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::rag::DPRVectorizer::encodePassageBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;passages) override</argsstring>
+        <name>encodePassageBatch</name>
+        <qualifiedname>themis::rag::DPRVectorizer::encodePassageBatch</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_vectorizer_1ac4453b89116cd5abf4b6db044c360c89">encodePassageBatch</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>passages</declname>
+        </param>
+        <briefdescription>
+<para>Batch-encode multiple passages (GPU-optimized). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode Passage Batch.</para>
+<para>Processes passages in batches for improved throughput on GPU. Target: ≥ 100 docs/sec for batch_size=32.</para>
+<para>An empty <computeroutput>passages</computeroutput> input is valid and returns an empty vector immediately without any I/O or ONNX calls.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>passages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of passage texts (may be empty). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of dense embeddings (same length as input, empty when input is empty). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if not initialized or any encoding fails.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">passages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0954c1876444ffa8546c863ccae05a19" kindref="member">isInitialized()</ref>, THEMIS_WARN(), size(), THEMIS_DEBUG(), empty(), reserve(), std::min(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="128" column="17" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="521" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a6706618c6912999cfe5f7ea65e7304e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DPRVectorizer::getEmbeddingDimension</definition>
+        <argsstring>() const override</argsstring>
+        <name>getEmbeddingDimension</name>
+        <qualifiedname>themis::rag::DPRVectorizer::getEmbeddingDimension</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_vectorizer_1a87b6bae3eab789c4b5753db553d980fa">getEmbeddingDimension</reimplements>
+        <briefdescription>
+<para>Get the embedding dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Dimension of query/passage embeddings (e.g., 384). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="136" column="12" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="609" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a84acdc528019ef77089ebdfce244f6e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref> &amp;</type>
+        <definition>const DPRVectorizerConfig &amp; themis::rag::DPRVectorizer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::DPRVectorizer::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get the configuration used by this vectorizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Configuration struct. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="143" column="31" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="615" bodyend="617"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dense Passage Retrieval (DPR) bi-encoder vectorizer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements the DPR approach: separate query and passage encoders that produce fixed-size embeddings. Used in <ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref> for dense retrieval alongside BM25 sparse retrieval.</para>
+<para>Thread Safety: A single <ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref> instance is NOT thread-safe. Create one instance per thread or protect concurrent calls with a mutex. Batch operations (<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1ad757732b72b1268a558d46feecbb2e47" kindref="member">encodePassageBatch</ref>) are optimized for GPU utilization. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::rag::DPRVectorizer</label>
+        <link refid="classthemis_1_1rag_1_1_d_p_r_vectorizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::IVectorizer</label>
+        <link refid="classthemis_1_1rag_1_1_i_vectorizer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::DPRVectorizer</label>
+        <link refid="classthemis_1_1rag_1_1_d_p_r_vectorizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::IVectorizer</label>
+        <link refid="classthemis_1_1rag_1_1_i_vectorizer"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/dpr_vectorizer.h" line="63" column="1" bodyfile="include/rag/dpr_vectorizer.h" bodystart="63" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a63f8ca9bf61e2a36af4b46f46aa1e08e" prot="private" virt="non-virtual"><scope>themis::rag::DPRVectorizer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a1ab69a68b77201e1e973217e3d0182f5" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer</scope><name>DPRVectorizer</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0e816049b858a88df0d58c7e9a2f83f4" prot="public" virt="virtual"><scope>themis::rag::DPRVectorizer</scope><name>encodePassage</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1ad757732b72b1268a558d46feecbb2e47" prot="public" virt="virtual"><scope>themis::rag::DPRVectorizer</scope><name>encodePassageBatch</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a7118c55df679eb925f69347d4161a56f" prot="public" virt="virtual"><scope>themis::rag::DPRVectorizer</scope><name>encodeQuery</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a84acdc528019ef77089ebdfce244f6e7" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a6706618c6912999cfe5f7ea65e7304e5" prot="public" virt="virtual"><scope>themis::rag::DPRVectorizer</scope><name>getEmbeddingDimension</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a7144a0673effe23df099cc9e253e3a3a" prot="private" virt="non-virtual"><scope>themis::rag::DPRVectorizer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0dae9f0b5ac465d0230d5a345e7712c1" prot="public" virt="virtual"><scope>themis::rag::DPRVectorizer</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a872d92c20259c98726b6d89eeb0baeef" prot="private" virt="non-virtual"><scope>themis::rag::DPRVectorizer</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a0954c1876444ffa8546c863ccae05a19" prot="public" virt="virtual"><scope>themis::rag::DPRVectorizer</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1a144b248d9a703926521ff448b417a658" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer</scope><name>~DPRVectorizer</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_vectorizer_1a28824ae036efc37adf5a151faa580326" prot="public" virt="virtual"><scope>themis::rag::DPRVectorizer</scope><name>~IVectorizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

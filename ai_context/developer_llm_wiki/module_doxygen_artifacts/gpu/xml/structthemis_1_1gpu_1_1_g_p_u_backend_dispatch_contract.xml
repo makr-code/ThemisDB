@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUBackendDispatchContract</compoundname>
+    <includes refid="gpu__backend__dispatch__contract_8h" local="no">gpu_backend_dispatch_contract.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1ac61c73b23f11a590c2e4c0736e9a4fd9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUBackendDispatchContract::MAX_ALLOCATE_LATENCY_US</definition>
+        <argsstring></argsstring>
+        <name>MAX_ALLOCATE_LATENCY_US</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::MAX_ALLOCATE_LATENCY_US</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum time for <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ae028c2252f0c6b82adae027ca6d26aa9" kindref="member">GPUMemoryAllocator::allocate()</ref> under normal conditions (no contention). Includes device malloc, allocation tracking, but NOT VRAM initialization. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="103" column="31" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a0a1abe7f132ff2ef3341b55ae28922fe" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUBackendDispatchContract::MAX_SELECT_DEVICE_LATENCY_US</definition>
+        <argsstring></argsstring>
+        <name>MAX_SELECT_DEVICE_LATENCY_US</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::MAX_SELECT_DEVICE_LATENCY_US</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Maximum time for GPULoadBalancer::selectDevice() (lock acquisition + device scan). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="106" column="31" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1ae2a7222cee3aa31f93588c6ea55579fe" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUBackendDispatchContract::MAX_QUOTA_CHECK_LATENCY_US</definition>
+        <argsstring></argsstring>
+        <name>MAX_QUOTA_CHECK_LATENCY_US</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::MAX_QUOTA_CHECK_LATENCY_US</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum time for quota policy checks (lookup + accounting update). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="109" column="31" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a81d066bb9c66bdc4410c580bca0e9567" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUBackendDispatchContract::DEFAULT_KERNEL_SLA_US</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_KERNEL_SLA_US</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::DEFAULT_KERNEL_SLA_US</qualifiedname>
+        <initializer>= 5&apos;000&apos;000</initializer>
+        <briefdescription>
+<para>Default kernel/query execution SLA (hard timeout for watchdog). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="113" column="31" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a78cd4eaff5a4a02dc2de27d2a3b58cab" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUBackendDispatchContract::MIN_HEALTH_CHECK_INTERVAL_US</definition>
+        <argsstring></argsstring>
+        <name>MIN_HEALTH_CHECK_INTERVAL_US</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::MIN_HEALTH_CHECK_INTERVAL_US</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+<para>Minimum time between backend health checks (avoid excessive probing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="116" column="31" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a9692e41c21eae852b9d09e2a5063f480" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUBackendDispatchContract::MAX_EMIT_DIAGNOSTIC_LATENCY_US</definition>
+        <argsstring></argsstring>
+        <name>MAX_EMIT_DIAGNOSTIC_LATENCY_US</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::MAX_EMIT_DIAGNOSTIC_LATENCY_US</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Maximum time for emitting diagnostics (logging + callback + event). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="119" column="31" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a33373dd3cbbdd5957b4b0607fd42ac09" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::GPUBackendDispatchContract::CANONICAL_LOCK_ORDER</definition>
+        <argsstring></argsstring>
+        <name>CANONICAL_LOCK_ORDER</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::CANONICAL_LOCK_ORDER</qualifiedname>
+        <initializer>                                             = 
+&quot;allocation_mutex → device_state_mutex → dispatch_mutex&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Lock order (must be respected to avoid deadlocks):<orderedlist>
+<listitem><para>allocation_mutex (outer)</para>
+</listitem><listitem><para>device_state_mutex (per-device)</para>
+</listitem><listitem><para>dispatch_mutex (innermost) Never acquire a lock in reverse order. </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="127" column="33" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a70f32e10d192f91a58678d6565e712a6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUBackendDispatchContract::MAX_STOP_LATENCY_US</definition>
+        <argsstring></argsstring>
+        <name>MAX_STOP_LATENCY_US</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::MAX_STOP_LATENCY_US</qualifiedname>
+        <initializer>= 1&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum time for stop/cleanup operations. Includes draining dispatch queues and releasing resources. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="132" column="31" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a30525c6f8ac08dac8be6be8b7b293147" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUBackendDispatchContract::ALLOCATION_FAIL_CLOSED</definition>
+        <argsstring></argsstring>
+        <name>ALLOCATION_FAIL_CLOSED</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::ALLOCATION_FAIL_CLOSED</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>On any allocation failure, immediately return error code (no retry, no blocking). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="136" column="27" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a1dfe8cf20a02cd8443550ecbb0b67956" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUBackendDispatchContract::BACKEND_SELECTION_FAIL_CLOSED</definition>
+        <argsstring></argsstring>
+        <name>BACKEND_SELECTION_FAIL_CLOSED</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::BACKEND_SELECTION_FAIL_CLOSED</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>On any backend selection failure (no device available), immediately return nullptr and emit BACKEND_NO_DEVICE_AVAILABLE diagnostic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="140" column="27" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a52aa1bb9af151c595fd2371e2ce30d4a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUBackendDispatchContract::DISPATCH_CONCURRENT_FAIL_CLOSED</definition>
+        <argsstring></argsstring>
+        <name>DISPATCH_CONCURRENT_FAIL_CLOSED</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::DISPATCH_CONCURRENT_FAIL_CLOSED</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>On dispatch concurrency conflict (another dispatch in progress), immediately reject with DISPATCH_CONCURRENT_EXECUTION_REJECTED. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="144" column="27" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a9d0a98a9d5ec2f6a91afc94856c05181" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUBackendDispatchContract::DIAGNOSTIC_EMISSION_MANDATORY</definition>
+        <argsstring></argsstring>
+        <name>DIAGNOSTIC_EMISSION_MANDATORY</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::DIAGNOSTIC_EMISSION_MANDATORY</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Every error condition MUST emit an emitDiagnostic() call before returning. Emission includes: structured log + event callback. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="149" column="27" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a43362b7c3617b75099a5c1827f47773d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUBackendDispatchContract::DIAGNOSTIC_EMISSION_SYNCHRONOUS</definition>
+        <argsstring></argsstring>
+        <name>DIAGNOSTIC_EMISSION_SYNCHRONOUS</name>
+        <qualifiedname>themis::gpu::GPUBackendDispatchContract::DIAGNOSTIC_EMISSION_SYNCHRONOUS</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Diagnostic events must be synchronous (not queued) to ensure observability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="152" column="27" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>GPU backend dispatch bounded runtime contract. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Guarantees:<itemizedlist>
+<listitem><para>All allocation operations complete with bounded latency (see timeout constants).</para>
+</listitem><listitem><para>Backend selection happens under a single lock acquisition (selectDevice()).</para>
+</listitem><listitem><para>Diagnostic events are emitted atomically for each error condition.</para>
+</listitem><listitem><para>Concurrent dispatch attempts are rejected fail-closed rather than silently serialized. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/gpu/gpu_backend_dispatch_contract.h" line="99" column="1" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="99" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a30525c6f8ac08dac8be6be8b7b293147" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>ALLOCATION_FAIL_CLOSED</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a1dfe8cf20a02cd8443550ecbb0b67956" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>BACKEND_SELECTION_FAIL_CLOSED</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a33373dd3cbbdd5957b4b0607fd42ac09" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>CANONICAL_LOCK_ORDER</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a81d066bb9c66bdc4410c580bca0e9567" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>DEFAULT_KERNEL_SLA_US</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a9d0a98a9d5ec2f6a91afc94856c05181" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>DIAGNOSTIC_EMISSION_MANDATORY</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a43362b7c3617b75099a5c1827f47773d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>DIAGNOSTIC_EMISSION_SYNCHRONOUS</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a52aa1bb9af151c595fd2371e2ce30d4a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>DISPATCH_CONCURRENT_FAIL_CLOSED</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1ac61c73b23f11a590c2e4c0736e9a4fd9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>MAX_ALLOCATE_LATENCY_US</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a9692e41c21eae852b9d09e2a5063f480" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>MAX_EMIT_DIAGNOSTIC_LATENCY_US</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1ae2a7222cee3aa31f93588c6ea55579fe" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>MAX_QUOTA_CHECK_LATENCY_US</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a0a1abe7f132ff2ef3341b55ae28922fe" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>MAX_SELECT_DEVICE_LATENCY_US</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a70f32e10d192f91a58678d6565e712a6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>MAX_STOP_LATENCY_US</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a78cd4eaff5a4a02dc2de27d2a3b58cab" prot="public" virt="non-virtual"><scope>themis::gpu::GPUBackendDispatchContract</scope><name>MIN_HEALTH_CHECK_INTERVAL_US</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

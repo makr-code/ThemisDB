@@ -1,0 +1,344 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1frg" kind="namespace" language="C++">
+    <compoundname>themis::bench::frg</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg" prot="public">themis::bench::frg::HeartbeatMsg</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1frg_1_1_state_sync_msg" prot="public">themis::bench::frg::StateSyncMsg</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1frg_1_1_node_health_state" prot="public">themis::bench::frg::NodeHealthState</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer" prot="public">themis::bench::frg::InFlightBuffer</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1frg_1a0bd3565d96ba48dad7fab16bf0725f44" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::frg::kFailoverCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kFailoverCanonicalSeed</name>
+        <qualifiedname>themis::bench::frg::kFailoverCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="71" column="27" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1frg_1a0d2b7fd8881955092a6d1df138e232a5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::frg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::frg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="72" column="27" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1frg_1af4d941aeaaa0b7c6936cb179004a1323" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::frg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::frg::kWarmupIterations</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="73" column="27" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1frg_1acf722f4d719f07a0b2220a8f365463bb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::frg::kBufSize</definition>
+        <argsstring></argsstring>
+        <name>kBufSize</name>
+        <qualifiedname>themis::bench::frg::kBufSize</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="144" column="30" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1frg_1af2a64e383406a2b5528fbda1f3bf3969" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; std::uint64_t &gt;</type>
+        <definition>std::atomic&lt;std::uint64_t&gt; themis::bench::frg::g_epoch</definition>
+        <argsstring></argsstring>
+        <name>g_epoch</name>
+        <qualifiedname>themis::bench::frg::g_epoch</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1failover_1a96705c0d00320ad61f269ccf4a36aa83" kindref="member">kFirstValidEpoch</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="159" column="20" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="159" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1a0af6117d0cd501a8aa32114041ddd625" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg" kindref="compound">HeartbeatMsg</ref></type>
+        <definition>static HeartbeatMsg themis::bench::frg::makeHeartbeat</definition>
+        <argsstring>(std::uint64_t epoch, std::uint64_t id) noexcept</argsstring>
+        <name>makeHeartbeat</name>
+        <qualifiedname>themis::bench::frg::makeHeartbeat</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="86" column="21" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1aea47a1e4d41637daeffdfc57193e4cea" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>static std::uint64_t themis::bench::frg::runMockElection</definition>
+        <argsstring>(std::uint64_t current_epoch, std::uint64_t n_nodes) noexcept</argsstring>
+        <name>runMockElection</name>
+        <qualifiedname>themis::bench::frg::runMockElection</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>current_epoch</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>n_nodes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="95" column="22" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="95" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1acb95f56ad598c7ad1eacb302f11fbfa6" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1frg_1_1_state_sync_msg" kindref="compound">StateSyncMsg</ref></type>
+        <definition>static StateSyncMsg themis::bench::frg::makeStateSync</definition>
+        <argsstring>(std::uint64_t epoch, std::uint64_t offset) noexcept</argsstring>
+        <name>makeStateSync</name>
+        <qualifiedname>themis::bench::frg::makeStateSync</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="117" column="21" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="117" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1a1eb7fc93fb0f0971d70659d8fd43afe6" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::frg::evaluateHealth</definition>
+        <argsstring>(const NodeHealthState &amp;s, std::uint64_t now_ms) noexcept</argsstring>
+        <name>evaluateHealth</name>
+        <qualifiedname>themis::bench::frg::evaluateHealth</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1bench_1_1frg_1_1_node_health_state" kindref="compound">NodeHealthState</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>now_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="135" column="14" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="135" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1a4919143fb2dba44e49dfad3186972b62" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>static std::uint64_t themis::bench::frg::incrementAndPersistEpoch</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>incrementAndPersistEpoch</name>
+        <qualifiedname>themis::bench::frg::incrementAndPersistEpoch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="161" column="22" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="161" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1ae6be2360ed1059b14601bddf7960e5f0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::frg::BM_FRG01_HeartbeatSendOverhead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FRG01_HeartbeatSendOverhead</name>
+        <qualifiedname>themis::bench::frg::BM_FRG01_HeartbeatSendOverhead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FRG-01: Heartbeat message construction + in-memory &quot;send&quot; overhead. GATE-FRG-01: p99 ≤ 500 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="174" column="13" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="174" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1a4dc518c9f992bfc259186e1076d058b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::frg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::frg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="186" column="5" declfile="benchmarks/failover/bench_failover_release_gates.cpp" declline="186" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1af48ce1349ba7ed90f2f14353024640db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::frg::BM_FRG02_ElectionDecision</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FRG02_ElectionDecision</name>
+        <qualifiedname>themis::bench::frg::BM_FRG02_ElectionDecision</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FRG-02: In-memory leader election decision for 5-node cluster. GATE-FRG-02: p99 ≤ 5 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="198" column="13" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="198" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1afb3c124674e8eb2f77b4b651e9563fc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::frg::Arg</definition>
+        <argsstring>(3) -&gt; Arg(5) -&gt;Arg(9) -&gt;Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Arg</name>
+        <qualifiedname>themis::bench::frg::Arg</qualifiedname>
+        <param>
+          <type>3</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="210" column="5" declfile="benchmarks/failover/bench_failover_release_gates.cpp" declline="210" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1a072a47b87c928e9271a2d91d38f5faf3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::frg::BM_FRG03_StateSyncSerialize</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FRG03_StateSyncSerialize</name>
+        <qualifiedname>themis::bench::frg::BM_FRG03_StateSyncSerialize</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FRG-03: <ref refid="structthemis_1_1bench_1_1frg_1_1_state_sync_msg" kindref="compound">StateSyncMsg</ref> construction (mock serialize). GATE-FRG-03: p99 ≤ 200 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="222" column="13" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="222" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1a8b94f3d5752eb1dd2f7887156274521a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::frg::BM_FRG04_HealthCheckEvaluation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FRG04_HealthCheckEvaluation</name>
+        <qualifiedname>themis::bench::frg::BM_FRG04_HealthCheckEvaluation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FRG-04: <ref refid="structthemis_1_1bench_1_1frg_1_1_node_health_state" kindref="compound">NodeHealthState</ref> evaluation (single node). GATE-FRG-04: p99 ≤ 100 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="244" column="13" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="244" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1a8d792ad41ef6cdc4149282873c8ff681" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::frg::BM_FRG05_InFlightBufferCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FRG05_InFlightBufferCheck</name>
+        <qualifiedname>themis::bench::frg::BM_FRG05_InFlightBufferCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FRG-05: <ref refid="structthemis_1_1bench_1_1frg_1_1_in_flight_buffer_1a2e5bb76b56e20b031c05e1c0182e9b51" kindref="member">InFlightBuffer::hasRoom()</ref> atomic load. GATE-FRG-05: p99 ≤ 50 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="271" column="13" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="271" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1frg_1a0b8d320480853f1dc1c39944264fd1ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::frg::BM_FRG06_EpochIncrementPersist</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FRG06_EpochIncrementPersist</name>
+        <qualifiedname>themis::bench::frg::BM_FRG06_EpochIncrementPersist</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FRG-06: Atomic epoch increment (models &quot;increment + mock persist&quot; cost). GATE-FRG-06: p99 ≤ 1 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="295" column="13" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="295" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="65" column="1"/>
+  </compounddef>
+</doxygen>

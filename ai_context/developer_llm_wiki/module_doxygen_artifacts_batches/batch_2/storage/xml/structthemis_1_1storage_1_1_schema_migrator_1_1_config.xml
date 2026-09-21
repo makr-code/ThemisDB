@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_schema_migrator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::SchemaMigrator::Config</compoundname>
+    <includes refid="online__schema__migration_8h" local="no">online_schema_migration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_migrator_1_1_config_1abee0c46cf55e663194c9041207292917" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::SchemaMigrator::Config::max_ops</definition>
+        <argsstring></argsstring>
+        <name>max_ops</name>
+        <qualifiedname>themis::storage::SchemaMigrator::Config::max_ops</qualifiedname>
+        <initializer>{128}</initializer>
+        <briefdescription>
+<para>Maximum number of staged operations per <ref refid="classthemis_1_1storage_1_1_schema_migrator_1a4b29d319fa6b96e33c6de1638d55123e" kindref="member">migrate()</ref> call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="157" column="16" bodyfile="include/storage/online_schema_migration.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_migrator_1_1_config_1ae0ad8ea8e3e6b185efed891659cd1a24" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::SchemaMigrator::Config::abort_on_first_error</definition>
+        <argsstring></argsstring>
+        <name>abort_on_first_error</name>
+        <qualifiedname>themis::storage::SchemaMigrator::Config::abort_on_first_error</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>When true, a failed operation aborts remaining operations in the batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="160" column="14" bodyfile="include/storage/online_schema_migration.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_migrator_1_1_config_1ac56fd1daa6c540c44915b8a647d8d746" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SchemaMigrator::Config::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::storage::SchemaMigrator::Config::author</qualifiedname>
+        <initializer>{&quot;SchemaMigrator&quot;}</initializer>
+        <briefdescription>
+<para>Author recorded in schema version history entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="163" column="21" bodyfile="include/storage/online_schema_migration.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the online migrator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/online_schema_migration.h" line="155" column="5" bodyfile="include/storage/online_schema_migration.h" bodystart="155" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_schema_migrator_1_1_config_1ae0ad8ea8e3e6b185efed891659cd1a24" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator::Config</scope><name>abort_on_first_error</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_migrator_1_1_config_1ac56fd1daa6c540c44915b8a647d8d746" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator::Config</scope><name>author</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_migrator_1_1_config_1abee0c46cf55e663194c9041207292917" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator::Config</scope><name>max_ops</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,735 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_cache_replication_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::CacheReplicationManager</compoundname>
+    <basecompoundref refid="classthemis_1_1cache_1_1_i_cache_replication_listener" prot="public" virt="non-virtual">themis::cache::ICacheReplicationListener</basecompoundref>
+    <includes refid="cache__replication_8h" local="no">cache_replication.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_manager_1aedf8d26446aa39339945b04eaff1a919" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_replication_config" kindref="compound">CacheReplicationConfig</ref></type>
+        <definition>CacheReplicationConfig themis::cache::CacheReplicationManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="236" column="28" bodyfile="include/cache/cache_replication.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_manager_1a31a3c157db351564484f0e5ef1e203cf" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::CacheReplicationManager::replicas_mutex_</definition>
+        <argsstring></argsstring>
+        <name>replicas_mutex_</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::replicas_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="237" column="24" bodyfile="include/cache/cache_replication.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_manager_1a65230b63744ed63f89d1ce896db874d2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cache_1_1_cache_replica_state" kindref="compound">CacheReplicaState</ref> &gt;</type>
+        <definition>std::vector&lt;CacheReplicaState&gt; themis::cache::CacheReplicationManager::replicas_</definition>
+        <argsstring></argsstring>
+        <name>replicas_</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::replicas_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="238" column="17" bodyfile="include/cache/cache_replication.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_manager_1a49d48b7728c2485964a10245942666ce" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_replication_stats" kindref="compound">CacheReplicationStats</ref></type>
+        <definition>CacheReplicationStats themis::cache::CacheReplicationManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="239" column="35" bodyfile="include/cache/cache_replication.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_cache_replication_manager_1a06aae7a3a0a1b6be190bc5b00b867e68" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cache::CacheReplicationManager::sequence_</definition>
+        <argsstring></argsstring>
+        <name>sequence_</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::sequence_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="240" column="25" bodyfile="include/cache/cache_replication.h" bodystart="240" bodyend="240"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1acfc3d7dc3dd792ca7bc2cdc0ce72fdaf" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::CacheReplicationManager::CacheReplicationManager</definition>
+        <argsstring>(const CacheReplicationConfig &amp;config={})</argsstring>
+        <name>CacheReplicationManager</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::CacheReplicationManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_cache_replication_config" kindref="compound">CacheReplicationConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="152" column="14" bodyfile="src/cache/cache_replication.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1afda3000bc7c3a07ad81d20c238f6d778" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::CacheReplicationManager::~CacheReplicationManager</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~CacheReplicationManager</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::~CacheReplicationManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="153" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a3cea3fd094aca6636c5d6c0811f29738" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::CacheReplicationManager::CacheReplicationManager</definition>
+        <argsstring>(const CacheReplicationManager &amp;)=delete</argsstring>
+        <name>CacheReplicationManager</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::CacheReplicationManager</qualifiedname>
+        <param>
+          <type>const CacheReplicationManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="156" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a7d6d4bd9ee4239fb6d1bfd10baeec0b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1acfc3d7dc3dd792ca7bc2cdc0ce72fdaf" kindref="member">CacheReplicationManager</ref> &amp;</type>
+        <definition>CacheReplicationManager &amp; themis::cache::CacheReplicationManager::operator=</definition>
+        <argsstring>(const CacheReplicationManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1acfc3d7dc3dd792ca7bc2cdc0ce72fdaf" kindref="member">CacheReplicationManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="157" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1ade5dc96d3b7d02d732ed286910c8ade0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationManager::addReplica</definition>
+        <argsstring>(std::shared_ptr&lt; ICacheReplicationListener &gt; listener, const std::string &amp;snapshot_ndjson=&quot;&quot;)</argsstring>
+        <name>addReplica</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::addReplica</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1cache_1_1_i_cache_replication_listener" kindref="compound">ICacheReplicationListener</ref> &gt;</type>
+          <declname>listener</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_ndjson</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add Replica. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_ndjson</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_WARN(), <ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1aafe350f6c2b4064d8d1c375c66717d7a" kindref="member">replicaId()</ref>, lock(), erase(), std::remove_if(), begin(), end(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="163" column="10" bodyfile="src/cache/cache_replication.cpp" bodystart="73" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a8cc884b544cbc338b612ea5b353f6409" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationManager::removeReplica</definition>
+        <argsstring>(const std::string &amp;replica_id)</argsstring>
+        <name>removeReplica</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::removeReplica</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Replica. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), std::remove_if(), begin(), end(), <ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1aafe350f6c2b4064d8d1c375c66717d7a" kindref="member">replicaId()</ref>, THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="170" column="10" bodyfile="src/cache/cache_replication.cpp" bodystart="116" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1aa42d85b81a920b17ab609a7f3c169a2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cache::CacheReplicationManager::replicaCount</definition>
+        <argsstring>() const</argsstring>
+        <name>replicaCount</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::replicaCount</qualifiedname>
+        <briefdescription>
+<para>Replica Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="176" column="12" bodyfile="src/cache/cache_replication.cpp" bodystart="126" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a68562c1b43aeb8fb99434aa80dfca9ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationManager::probeUnhealthyReplicas</definition>
+        <argsstring>()</argsstring>
+        <name>probeUnhealthyReplicas</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::probeUnhealthyReplicas</qualifiedname>
+        <briefdescription>
+<para>Probe Unhealthy Replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), <ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a4f31d208d3c35a7f9a327c74eef901c9" kindref="member">ping()</ref>, THEMIS_WARN(), <ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1aafe350f6c2b4064d8d1c375c66717d7a" kindref="member">replicaId()</ref>, what(), std::chrono::steady_clock::now(), THEMIS_INFO(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="181" column="10" bodyfile="src/cache/cache_replication.cpp" bodystart="144" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a6c27fd1914b9af01eb109e1a62f395d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheReplicationManager::onReplicationEvent</definition>
+        <argsstring>(const CacheReplicationEvent &amp;event) override</argsstring>
+        <name>onReplicationEvent</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::onReplicationEvent</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1a44503ca56ac98a7b91a5104cf0e19bca">onReplicationEvent</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_cache_replication_event" kindref="compound">CacheReplicationEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>On Replication Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: dispatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="188" column="10" bodyfile="src/cache/cache_replication.cpp" bodystart="193" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a4f31d208d3c35a7f9a327c74eef901c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheReplicationManager::ping</definition>
+        <argsstring>() override</argsstring>
+        <name>ping</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::ping</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1a3e23ee2bcc13b88166fee02b99804766">ping</reimplements>
+        <briefdescription>
+<para>Ping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements ping without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="189" column="10" bodyfile="src/cache/cache_replication.cpp" bodystart="206" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1aafe350f6c2b4064d8d1c375c66717d7a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheReplicationManager::replicaId</definition>
+        <argsstring>() const override</argsstring>
+        <name>replicaId</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::replicaId</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1af3b04a5644cfb5e525e02570daba78da">replicaId</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="190" column="17" bodyfile="include/cache/cache_replication.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a11e535a241f08967c46372cbe417fb54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationManager::notifyWrite</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;payload, const std::string &amp;tenant_id, int ttl_seconds)</argsstring>
+        <name>notifyWrite</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::notifyWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ttl_seconds</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> Convenience helpers called by <ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref> hooks ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Notify Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeEvent(), dispatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="200" column="10" bodyfile="src/cache/cache_replication.cpp" bodystart="222" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a5869cc34297504f13faad2e8f710580a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationManager::notifyInvalidate</definition>
+        <argsstring>(const std::string &amp;pattern)</argsstring>
+        <name>notifyInvalidate</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::notifyInvalidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Notify Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeEvent(), dispatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="209" column="10" bodyfile="src/cache/cache_replication.cpp" bodystart="241" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a872fa4c4240f9ec20df16329e51ce021" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationManager::notifyInvalidateTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>notifyInvalidateTenant</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::notifyInvalidateTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify Invalidate Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeEvent(), dispatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="215" column="10" bodyfile="src/cache/cache_replication.cpp" bodystart="256" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a3ebf7b9a12b222d4c5b53633f65a05dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cache::CacheReplicationManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="225" column="20" bodyfile="src/cache/cache_replication.cpp" bodystart="270" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1ae58740d8d1b829d27aed87649aa9b69e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cache::CacheReplicationManager::getReplicaHealth</definition>
+        <argsstring>() const</argsstring>
+        <name>getReplicaHealth</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::getReplicaHealth</qualifiedname>
+        <briefdescription>
+<para>Get Replica Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="231" column="20" bodyfile="src/cache/cache_replication.cpp" bodystart="278" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a145c621d0b545985eed59fd99ef0a297" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1cache_1_1_cache_replication_stats" kindref="compound">CacheReplicationStats</ref> &amp;</type>
+        <definition>const CacheReplicationStats &amp; themis::cache::CacheReplicationManager::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="233" column="33" bodyfile="include/cache/cache_replication.h" bodystart="233" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1aff3e6ccae8f35d40b21acda0e45254fe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CacheReplicationManager::dispatch</definition>
+        <argsstring>(const CacheReplicationEvent &amp;event)</argsstring>
+        <name>dispatch</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::dispatch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_cache_replication_event" kindref="compound">CacheReplicationEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), <ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a6c27fd1914b9af01eb109e1a62f395d4" kindref="member">onReplicationEvent()</ref>, THEMIS_WARN(), <ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1aafe350f6c2b4064d8d1c375c66717d7a" kindref="member">replicaId()</ref>, what(), std::chrono::steady_clock::now(), store(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="246" column="10" bodyfile="src/cache/cache_replication.cpp" bodystart="307" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a81097f77b19549db162e7f4b0b336f51" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_replication_event" kindref="compound">CacheReplicationEvent</ref></type>
+        <definition>CacheReplicationEvent themis::cache::CacheReplicationManager::makeEvent</definition>
+        <argsstring>(CacheReplicationEventType type) const</argsstring>
+        <name>makeEvent</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::makeEvent</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acd" kindref="member">CacheReplicationEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Make Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="253" column="27" bodyfile="src/cache/cache_replication.cpp" bodystart="371" bodyend="377"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_replication_manager_1a08b4709fc00a2b2c4589237a03281fd9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::cache::CacheReplicationManager::healthToString</definition>
+        <argsstring>(CacheReplicaHealth h)</argsstring>
+        <name>healthToString</name>
+        <qualifiedname>themis::cache::CacheReplicationManager::healthToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0" kindref="member">CacheReplicaHealth</ref></type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+<para>Health To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="260" column="23" bodyfile="src/cache/cache_replication.cpp" bodystart="45" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cache::CacheReplicationManager</label>
+        <link refid="classthemis_1_1cache_1_1_cache_replication_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheReplicationListener</label>
+        <link refid="classthemis_1_1cache_1_1_i_cache_replication_listener"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::cache::CacheReplicationManager</label>
+        <link refid="classthemis_1_1cache_1_1_cache_replication_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheReplicationListener</label>
+        <link refid="classthemis_1_1cache_1_1_i_cache_replication_listener"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cache/cache_replication.h" line="150" column="1" bodyfile="include/cache/cache_replication.h" bodystart="150" bodyend="261"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1ade5dc96d3b7d02d732ed286910c8ade0" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>addReplica</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1acfc3d7dc3dd792ca7bc2cdc0ce72fdaf" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>CacheReplicationManager</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a3cea3fd094aca6636c5d6c0811f29738" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>CacheReplicationManager</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1aedf8d26446aa39339945b04eaff1a919" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1aff3e6ccae8f35d40b21acda0e45254fe" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>dispatch</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1ae58740d8d1b829d27aed87649aa9b69e" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>getReplicaHealth</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a3ebf7b9a12b222d4c5b53633f65a05dd" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a08b4709fc00a2b2c4589237a03281fd9" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>healthToString</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a81097f77b19549db162e7f4b0b336f51" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>makeEvent</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a5869cc34297504f13faad2e8f710580a" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>notifyInvalidate</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a872fa4c4240f9ec20df16329e51ce021" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>notifyInvalidateTenant</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a11e535a241f08967c46372cbe417fb54" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>notifyWrite</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a6c27fd1914b9af01eb109e1a62f395d4" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationManager</scope><name>onReplicationEvent</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a7d6d4bd9ee4239fb6d1bfd10baeec0b8" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a4f31d208d3c35a7f9a327c74eef901c9" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationManager</scope><name>ping</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a68562c1b43aeb8fb99434aa80dfca9ea" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>probeUnhealthyReplicas</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a8cc884b544cbc338b612ea5b353f6409" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>removeReplica</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1aa42d85b81a920b17ab609a7f3c169a2b" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>replicaCount</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1aafe350f6c2b4064d8d1c375c66717d7a" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationManager</scope><name>replicaId</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a65230b63744ed63f89d1ce896db874d2" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>replicas_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a31a3c157db351564484f0e5ef1e203cf" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>replicas_mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a06aae7a3a0a1b6be190bc5b00b867e68" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>sequence_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a145c621d0b545985eed59fd99ef0a297" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>stats</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1a49d48b7728c2485964a10245942666ce" prot="private" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_replication_manager_1afda3000bc7c3a07ad81d20c238f6d778" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationManager</scope><name>~CacheReplicationManager</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1abb06224526a928d2c57b076bbc90d19e" prot="public" virt="virtual"><scope>themis::cache::CacheReplicationManager</scope><name>~ICacheReplicationListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

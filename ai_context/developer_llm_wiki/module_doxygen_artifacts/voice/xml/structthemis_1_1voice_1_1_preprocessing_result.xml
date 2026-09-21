@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_preprocessing_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::PreprocessingResult</compoundname>
+    <includes refid="audio__preprocessing_8h" local="no">audio_preprocessing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_result_1a7c1ea96e12d0188af2c0b8d1b0d9b6ad" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::PreprocessingResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::voice::PreprocessingResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if preprocessing succeeded; false if pipeline error occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="206" column="10" bodyfile="include/voice/audio_preprocessing.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_result_1afdee8471597c836e4aa28518687ca05a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::PreprocessingResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::voice::PreprocessingResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Error description when success=false. Maps to error codes [6700-6799] (see file header). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="210" column="17" bodyfile="include/voice/audio_preprocessing.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_result_1a6b02afa3d0ad764070b2fd0afe2c54f2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_audio_frame" kindref="compound">AudioFrame</ref></type>
+        <definition>AudioFrame themis::voice::PreprocessingResult::processed_audio</definition>
+        <argsstring></argsstring>
+        <name>processed_audio</name>
+        <qualifiedname>themis::voice::PreprocessingResult::processed_audio</qualifiedname>
+        <briefdescription>
+<para>Processed audio frame (populated when success=true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="213" column="16" bodyfile="include/voice/audio_preprocessing.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_result_1ad9704a6ec93f925d08901b483b721d83" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::PreprocessingResult::detected_noise_level</definition>
+        <argsstring></argsstring>
+        <name>detected_noise_level</name>
+        <qualifiedname>themis::voice::PreprocessingResult::detected_noise_level</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Estimated noise floor [0.0, 1.0] after preprocessing. High values indicate residual noise; consider tuning noise_reduction_strength. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="217" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_result_1aeb5abcd258ac53c1924013fa802a8830" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::PreprocessingResult::voice_activity_ratio</definition>
+        <argsstring></argsstring>
+        <name>voice_activity_ratio</name>
+        <qualifiedname>themis::voice::PreprocessingResult::voice_activity_ratio</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Fraction of audio with detected voice [0.0, 1.0]. 0 = pure silence; 1 = pure voice. Helps detect inactive sessions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="221" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_result_1afe954acc7dc5bee98b5b5dbcb34b50d5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::PreprocessingResult::rnnoise_vad_probability</definition>
+        <argsstring></argsstring>
+        <name>rnnoise_vad_probability</name>
+        <qualifiedname>themis::voice::PreprocessingResult::rnnoise_vad_probability</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>RNNoise mean VAD probability (when RNNoise enabled). Mean of per-frame VAD outputs [0.0, 1.0]. Complements voice_activity_ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="225" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_result_1afe6de0f92644a415387857d1b8b25723" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::PreprocessingResult::processing_time_ms</definition>
+        <argsstring></argsstring>
+        <name>processing_time_ms</name>
+        <qualifiedname>themis::voice::PreprocessingResult::processing_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock milliseconds spent in preprocessing. Useful for monitoring real-time performance on target hardware. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="229" column="13" bodyfile="include/voice/audio_preprocessing.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_result_1a199578d971f97b6de8c885877ed9c9cc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::PreprocessingResult::diagnostics</definition>
+        <argsstring></argsstring>
+        <name>diagnostics</name>
+        <qualifiedname>themis::voice::PreprocessingResult::diagnostics</qualifiedname>
+        <briefdescription>
+<para>Diagnostic metadata (sampling rates, filter settings, etc.). JSON structure varies by pipeline configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="233" column="10" bodyfile="include/voice/audio_preprocessing.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Outcome of processFrame() or process(). Contains diagnostics to inform caller of pipeline quality metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::voice::AudioFrame</label>
+        <link refid="structthemis_1_1voice_1_1_audio_frame"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::PreprocessingResult</label>
+        <link refid="structthemis_1_1voice_1_1_preprocessing_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>processed_audio</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/audio_preprocessing.h" line="204" column="1" bodyfile="include/voice/audio_preprocessing.h" bodystart="204" bodyend="234"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_result_1ad9704a6ec93f925d08901b483b721d83" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingResult</scope><name>detected_noise_level</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_result_1a199578d971f97b6de8c885877ed9c9cc" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingResult</scope><name>diagnostics</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_result_1afdee8471597c836e4aa28518687ca05a" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_result_1a6b02afa3d0ad764070b2fd0afe2c54f2" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingResult</scope><name>processed_audio</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_result_1afe6de0f92644a415387857d1b8b25723" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingResult</scope><name>processing_time_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_result_1afe954acc7dc5bee98b5b5dbcb34b50d5" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingResult</scope><name>rnnoise_vad_probability</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_result_1a7c1ea96e12d0188af2c0b8d1b0d9b6ad" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_result_1aeb5abcd258ac53c1924013fa802a8830" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingResult</scope><name>voice_activity_ratio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

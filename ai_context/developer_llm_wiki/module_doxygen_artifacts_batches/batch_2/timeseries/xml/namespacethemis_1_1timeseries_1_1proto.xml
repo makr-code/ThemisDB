@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1timeseries_1_1proto" kind="namespace" language="C++">
+    <compoundname>themis::timeseries::proto</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1proto_1a1fc6e82ba0ae1d9316dcf784c452eb38" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::timeseries::proto::readVarint64</definition>
+        <argsstring>(const uint8_t *buf, size_t &amp;pos, size_t end, uint64_t &amp;out)</argsstring>
+        <name>readVarint64</name>
+        <qualifiedname>themis::timeseries::proto::readVarint64</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Read Varint64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements readVarint64 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/prometheus_remote_write.cpp" line="75" column="13" bodyfile="src/timeseries/prometheus_remote_write.cpp" bodystart="75" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1proto_1a51c8a52f7eba42ef1d0dd0afd01070f5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::timeseries::proto::readLenDelim</definition>
+        <argsstring>(const uint8_t *buf, size_t &amp;pos, size_t end, const uint8_t *&amp;span_begin, size_t &amp;span_len)</argsstring>
+        <name>readLenDelim</name>
+        <qualifiedname>themis::timeseries::proto::readLenDelim</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>const uint8_t *&amp;</type>
+          <declname>span_begin</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>span_len</declname>
+        </param>
+        <briefdescription>
+<para>Read Len Delim. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">span_begin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">span_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: readVarint64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/prometheus_remote_write.cpp" line="100" column="13" bodyfile="src/timeseries/prometheus_remote_write.cpp" bodystart="100" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1proto_1aeda221b473bce166632df7c3c581ab1d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::timeseries::proto::skipField</definition>
+        <argsstring>(const uint8_t *buf, size_t &amp;pos, size_t end, uint32_t wire_type)</argsstring>
+        <name>skipField</name>
+        <qualifiedname>themis::timeseries::proto::skipField</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>wire_type</declname>
+        </param>
+        <briefdescription>
+<para>Skip Field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">wire_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: readVarint64(), readLenDelim(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/prometheus_remote_write.cpp" line="125" column="13" bodyfile="src/timeseries/prometheus_remote_write.cpp" bodystart="125" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1proto_1a19abe709902fc185bfb7a37533939c00" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::timeseries::proto::decodeLabel</definition>
+        <argsstring>(const uint8_t *buf, size_t size, PromLabel &amp;out)</argsstring>
+        <name>decodeLabel</name>
+        <qualifiedname>themis::timeseries::proto::decodeLabel</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_prom_label" kindref="compound">PromLabel</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>── Label ───────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: readVarint64(), readLenDelim(), assign(), skipField(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/prometheus_remote_write.cpp" line="164" column="13" bodyfile="src/timeseries/prometheus_remote_write.cpp" bodystart="164" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1proto_1ab6aec817d9845ac07adaf34de3284d21" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::timeseries::proto::decodeSample</definition>
+        <argsstring>(const uint8_t *buf, size_t size, PromSample &amp;out)</argsstring>
+        <name>decodeSample</name>
+        <qualifiedname>themis::timeseries::proto::decodeSample</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_prom_sample" kindref="compound">PromSample</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>── Sample ──────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: readVarint64(), static_assert(), std::memcpy(), skipField(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/prometheus_remote_write.cpp" line="205" column="13" bodyfile="src/timeseries/prometheus_remote_write.cpp" bodystart="205" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1proto_1ae9ec4255e4f7f08a3ef831c0c2cbfd47" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::timeseries::proto::decodeTimeSeries</definition>
+        <argsstring>(const uint8_t *buf, size_t size, PromTimeSeries &amp;out)</argsstring>
+        <name>decodeTimeSeries</name>
+        <qualifiedname>themis::timeseries::proto::decodeTimeSeries</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_prom_time_series" kindref="compound">PromTimeSeries</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>── TimeSeries ──────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: readVarint64(), readLenDelim(), decodeLabel(), push_back(), std::move(), decodeSample(), skipField(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/prometheus_remote_write.cpp" line="249" column="13" bodyfile="src/timeseries/prometheus_remote_write.cpp" bodystart="249" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1timeseries_1_1proto_1af3996f11a7b08bfff8a25fcd458ceaa9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::timeseries::proto::decodeWriteRequest</definition>
+        <argsstring>(const uint8_t *buf, size_t size, PromWriteRequest &amp;out)</argsstring>
+        <name>decodeWriteRequest</name>
+        <qualifiedname>themis::timeseries::proto::decodeWriteRequest</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_prom_write_request" kindref="compound">PromWriteRequest</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>── WriteRequest ────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: readVarint64(), readLenDelim(), decodeTimeSeries(), push_back(), std::move(), skipField(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/timeseries/prometheus_remote_write.cpp" line="298" column="13" bodyfile="src/timeseries/prometheus_remote_write.cpp" bodystart="298" bodyend="330"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/timeseries/prometheus_remote_write.cpp" line="64" column="1"/>
+  </compounddef>
+</doxygen>

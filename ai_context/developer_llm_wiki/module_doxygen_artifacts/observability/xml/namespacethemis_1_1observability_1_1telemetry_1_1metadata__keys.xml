@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1telemetry_1_1metadata__keys" kind="namespace" language="C++">
+    <compoundname>themis::observability::telemetry::metadata_keys</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1metadata__keys_1a00e7249465d529131ab39fadffbab806" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::metadata_keys::kReasoningChain</definition>
+        <argsstring></argsstring>
+        <name>kReasoningChain</name>
+        <qualifiedname>themis::observability::telemetry::metadata_keys::kReasoningChain</qualifiedname>
+        <initializer>= &quot;reasoning_chain&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="45" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/telemetry_keys.h" line="44" column="1"/>
+  </compounddef>
+</doxygen>

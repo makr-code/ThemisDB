@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_word_document_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::WordDocumentInfo</compoundname>
+    <includes refid="office__processor_8h" local="no">office_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_word_document_info_1a9d33f3d13d9927b4b55942c3606814aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::WordDocumentInfo::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::content::WordDocumentInfo::text</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="40" column="17" bodyfile="include/content/office_processor.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_word_document_info_1a177d6dab95ff582249200a3be3a7e1ec" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::WordDocumentInfo::paragraphs</definition>
+        <argsstring></argsstring>
+        <name>paragraphs</name>
+        <qualifiedname>themis::content::WordDocumentInfo::paragraphs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="41" column="17" bodyfile="include/content/office_processor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_word_document_info_1a9fbe2fb4cd82dffdb82fa9154ed71b28" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::WordDocumentInfo::headings</definition>
+        <argsstring></argsstring>
+        <name>headings</name>
+        <qualifiedname>themis::content::WordDocumentInfo::headings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="42" column="17" bodyfile="include/content/office_processor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_word_document_info_1abe873c34aa2c7393473971c24cc05eb2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::content::WordDocumentInfo::comments</definition>
+        <argsstring></argsstring>
+        <name>comments</name>
+        <qualifiedname>themis::content::WordDocumentInfo::comments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="43" column="17" bodyfile="include/content/office_processor.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_word_document_info_1a926ea4b37ff9e05facf226a168dce955" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::WordDocumentInfo::word_count</definition>
+        <argsstring></argsstring>
+        <name>word_count</name>
+        <qualifiedname>themis::content::WordDocumentInfo::word_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-021. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="44" column="9" bodyfile="include/content/office_processor.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_word_document_info_1a15a8b25265bbef9ffc442999a68000ec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::WordDocumentInfo::paragraph_count</definition>
+        <argsstring></argsstring>
+        <name>paragraph_count</name>
+        <qualifiedname>themis::content::WordDocumentInfo::paragraph_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-021. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="45" column="9" bodyfile="include/content/office_processor.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_word_document_info_1a623876ff4425b6634da3b0e6aae121f5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::WordDocumentInfo::page_count</definition>
+        <argsstring></argsstring>
+        <name>page_count</name>
+        <qualifiedname>themis::content::WordDocumentInfo::page_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-021. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="46" column="9" bodyfile="include/content/office_processor.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/office_processor.h" line="39" column="1" bodyfile="include/content/office_processor.h" bodystart="39" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_word_document_info_1abe873c34aa2c7393473971c24cc05eb2" prot="public" virt="non-virtual"><scope>themis::content::WordDocumentInfo</scope><name>comments</name></member>
+      <member refid="structthemis_1_1content_1_1_word_document_info_1a9fbe2fb4cd82dffdb82fa9154ed71b28" prot="public" virt="non-virtual"><scope>themis::content::WordDocumentInfo</scope><name>headings</name></member>
+      <member refid="structthemis_1_1content_1_1_word_document_info_1a623876ff4425b6634da3b0e6aae121f5" prot="public" virt="non-virtual"><scope>themis::content::WordDocumentInfo</scope><name>page_count</name></member>
+      <member refid="structthemis_1_1content_1_1_word_document_info_1a15a8b25265bbef9ffc442999a68000ec" prot="public" virt="non-virtual"><scope>themis::content::WordDocumentInfo</scope><name>paragraph_count</name></member>
+      <member refid="structthemis_1_1content_1_1_word_document_info_1a177d6dab95ff582249200a3be3a7e1ec" prot="public" virt="non-virtual"><scope>themis::content::WordDocumentInfo</scope><name>paragraphs</name></member>
+      <member refid="structthemis_1_1content_1_1_word_document_info_1a9d33f3d13d9927b4b55942c3606814aa" prot="public" virt="non-virtual"><scope>themis::content::WordDocumentInfo</scope><name>text</name></member>
+      <member refid="structthemis_1_1content_1_1_word_document_info_1a926ea4b37ff9e05facf226a168dce955" prot="public" virt="non-virtual"><scope>themis::content::WordDocumentInfo</scope><name>word_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_time_series_point" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::TimeSeriesPoint</compoundname>
+    <includes refid="forecasting_8h" local="no">forecasting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_time_series_point_1a66fccab1239c07a99ec646cd4018b366" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::TimeSeriesPoint::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themisdb::analytics::TimeSeriesPoint::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="66" column="13" bodyfile="include/analytics/forecasting.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_time_series_point_1ae253bf3bc11ef48cb12767a8a102fcdf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::TimeSeriesPoint::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::analytics::TimeSeriesPoint::value</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="67" column="13" bodyfile="include/analytics/forecasting.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_time_series_point_1a6797d9cdf01f75e5e957e0505f29fc33" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::TimeSeriesPoint::operator&lt;</definition>
+        <argsstring>(const TimeSeriesPoint &amp;o) const noexcept</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themisdb::analytics::TimeSeriesPoint::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_time_series_point" kindref="compound">TimeSeriesPoint</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="69" column="5" bodyfile="include/analytics/forecasting.h" bodystart="69" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/forecasting.h" line="65" column="1" bodyfile="include/analytics/forecasting.h" bodystart="65" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_time_series_point_1a6797d9cdf01f75e5e957e0505f29fc33" prot="public" virt="non-virtual"><scope>themisdb::analytics::TimeSeriesPoint</scope><name>operator&lt;</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_time_series_point_1a66fccab1239c07a99ec646cd4018b366" prot="public" virt="non-virtual"><scope>themisdb::analytics::TimeSeriesPoint</scope><name>timestamp_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_time_series_point_1ae253bf3bc11ef48cb12767a8a102fcdf" prot="public" virt="non-virtual"><scope>themisdb::analytics::TimeSeriesPoint</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

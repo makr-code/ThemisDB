@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_t_t_l_adapter" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockTTLAdapter</compoundname>
+    <basecompoundref refid="structthemis_1_1cache_1_1_i_t_t_l_adapter" prot="public" virt="non-virtual">themis::cache::ITTLAdapter</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_t_t_l_adapter_1ac38c3c364fac85bc8dbca8d8cea38b01" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_t_t_l_adapter_config" kindref="compound">TTLAdapterConfig</ref></type>
+        <definition>TTLAdapterConfig MockTTLAdapter::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>MockTTLAdapter::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="170" column="22" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_t_t_l_adapter_1ae63384b677b3fe7c856f9b2d1e1d8967" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockTTLAdapter::MockTTLAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>MockTTLAdapter</name>
+        <qualifiedname>MockTTLAdapter::MockTTLAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="172" column="5" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="172" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_t_t_l_adapter_1a1b81ae296898cb7b5a6bb638a7d04d4b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds MockTTLAdapter::computeTTL</definition>
+        <argsstring>(const std::string &amp;, const AccessPattern &amp;pattern) const override</argsstring>
+        <name>computeTTL</name>
+        <qualifiedname>MockTTLAdapter::computeTTL</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_t_t_l_adapter_1aece9fcb2aa127e4af60a46d1a4125493">computeTTL</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_access_pattern" kindref="compound">AccessPattern</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="178" column="31" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="178" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_t_t_l_adapter_1a2fab70b81fcd72d23d5f9c5d3265ba84" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockTTLAdapter::configure</definition>
+        <argsstring>(const TTLAdapterConfig &amp;config) override</argsstring>
+        <name>configure</name>
+        <qualifiedname>MockTTLAdapter::configure</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_t_t_l_adapter_1a230d9e17cc5b2bf7e6460cf36bdeaea8">configure</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_t_t_l_adapter_config" kindref="compound">TTLAdapterConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="196" column="10" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="196" bodyend="196"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1cache_1_1_i_t_t_l_adapter" kindref="compound">ITTLAdapter</ref> that clamps to [minTTL, maxTTL] and scales by access_frequency. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockTTLAdapter</label>
+        <link refid="class_mock_t_t_l_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ITTLAdapter</label>
+        <link refid="structthemis_1_1cache_1_1_i_t_t_l_adapter"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockTTLAdapter</label>
+        <link refid="class_mock_t_t_l_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ITTLAdapter</label>
+        <link refid="structthemis_1_1cache_1_1_i_t_t_l_adapter"/>
+      </node>
+      <node id="3">
+        <label>themis::cache::TTLAdapterConfig</label>
+        <link refid="structthemis_1_1cache_1_1_t_t_l_adapter_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_interfaces.cpp" line="168" column="1" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="168" bodyend="197"/>
+    <listofallmembers>
+      <member refid="class_mock_t_t_l_adapter_1ac38c3c364fac85bc8dbca8d8cea38b01" prot="public" virt="non-virtual"><scope>MockTTLAdapter</scope><name>cfg_</name></member>
+      <member refid="class_mock_t_t_l_adapter_1a1b81ae296898cb7b5a6bb638a7d04d4b" prot="public" virt="virtual"><scope>MockTTLAdapter</scope><name>computeTTL</name></member>
+      <member refid="class_mock_t_t_l_adapter_1a2fab70b81fcd72d23d5f9c5d3265ba84" prot="public" virt="virtual"><scope>MockTTLAdapter</scope><name>configure</name></member>
+      <member refid="class_mock_t_t_l_adapter_1ae63384b677b3fe7c856f9b2d1e1d8967" prot="public" virt="non-virtual"><scope>MockTTLAdapter</scope><name>MockTTLAdapter</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_t_t_l_adapter_1ad35f5d1472111f72818cb12376291b51" prot="public" virt="virtual"><scope>MockTTLAdapter</scope><name>~ITTLAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

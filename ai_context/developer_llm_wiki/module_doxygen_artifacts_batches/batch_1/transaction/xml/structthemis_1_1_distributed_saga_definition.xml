@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_distributed_saga_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DistributedSagaDefinition</compoundname>
+    <includes refid="distributed__saga_8h" local="no">distributed_saga.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_definition_1a2dab4a009f3ee32796d58148d909d3f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedSagaDefinition::saga_id</definition>
+        <argsstring></argsstring>
+        <name>saga_id</name>
+        <qualifiedname>themis::DistributedSagaDefinition::saga_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="99" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_definition_1a78d47f435e0247d3022736249d11835c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_distributed_saga_step" kindref="compound">DistributedSagaStep</ref> &gt;</type>
+        <definition>std::vector&lt;DistributedSagaStep&gt; themis::DistributedSagaDefinition::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::DistributedSagaDefinition::steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="101" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_definition_1a7517f36cfe831fc59350699d11eefdc0" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::DistributedSagaDefinition::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::DistributedSagaDefinition::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="103" column="14" bodyfile="include/transaction/distributed_saga.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_saga.h" line="98" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="98" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_distributed_saga_definition_1a7517f36cfe831fc59350699d11eefdc0" prot="public" virt="non-virtual"><scope>themis::DistributedSagaDefinition</scope><name>context</name></member>
+      <member refid="structthemis_1_1_distributed_saga_definition_1a2dab4a009f3ee32796d58148d909d3f7" prot="public" virt="non-virtual"><scope>themis::DistributedSagaDefinition</scope><name>saga_id</name></member>
+      <member refid="structthemis_1_1_distributed_saga_definition_1a78d47f435e0247d3022736249d11835c" prot="public" virt="non-virtual"><scope>themis::DistributedSagaDefinition</scope><name>steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

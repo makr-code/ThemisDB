@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_rebuild_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RebuildStatus</compoundname>
+    <includes refid="hot__spare__manager_8h" local="no">hot_spare_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebuild_status_1aca7895a14d083b32d4332c3b6e396686" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebuildStatus::is_rebuilding</definition>
+        <argsstring></argsstring>
+        <name>is_rebuilding</name>
+        <qualifiedname>themis::sharding::RebuildStatus::is_rebuilding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="178" column="10" bodyfile="include/sharding/hot_spare_manager.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebuild_status_1ae7672b184910ac12d4160be3b85577eb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RebuildStatus::active_rebuilds</definition>
+        <argsstring></argsstring>
+        <name>active_rebuilds</name>
+        <qualifiedname>themis::sharding::RebuildStatus::active_rebuilds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="179" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebuild_status_1ac071c40a4d2b14fb9e4c11564a169314" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_spare_shard_info" kindref="compound">SpareShardInfo</ref> &gt;</type>
+        <definition>std::vector&lt;SpareShardInfo&gt; themis::sharding::RebuildStatus::rebuilding_spares</definition>
+        <argsstring></argsstring>
+        <name>rebuilding_spares</name>
+        <qualifiedname>themis::sharding::RebuildStatus::rebuilding_spares</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="180" column="17" bodyfile="include/sharding/hot_spare_manager.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebuild_status_1a5e07e20a1ec0ce9d5dea51bcf1ad7f87" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::RebuildStatus::overall_progress</definition>
+        <argsstring></argsstring>
+        <name>overall_progress</name>
+        <qualifiedname>themis::sharding::RebuildStatus::overall_progress</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="183" column="12" bodyfile="include/sharding/hot_spare_manager.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebuild_status_1ac340f25999302b15e6d04bb47d7197c0" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::RebuildStatus::estimated_time_remaining</definition>
+        <argsstring></argsstring>
+        <name>estimated_time_remaining</name>
+        <qualifiedname>themis::sharding::RebuildStatus::estimated_time_remaining</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="184" column="26" bodyfile="include/sharding/hot_spare_manager.h" bodystart="184" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebuild_status_1ab949d40682808d65b056f82713797f49" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::RebuildStatus::average_throughput_mbps</definition>
+        <argsstring></argsstring>
+        <name>average_throughput_mbps</name>
+        <qualifiedname>themis::sharding::RebuildStatus::average_throughput_mbps</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="185" column="12" bodyfile="include/sharding/hot_spare_manager.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebuild_status_1aa2cf9173bd669cd090aa1ce0a98f1e79" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RebuildStatus::total_rebuilds_completed</definition>
+        <argsstring></argsstring>
+        <name>total_rebuilds_completed</name>
+        <qualifiedname>themis::sharding::RebuildStatus::total_rebuilds_completed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="188" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebuild_status_1a61fc44542e6f06498c82babcce667439" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RebuildStatus::total_rebuilds_failed</definition>
+        <argsstring></argsstring>
+        <name>total_rebuilds_failed</name>
+        <qualifiedname>themis::sharding::RebuildStatus::total_rebuilds_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="189" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebuild_status_1a63346a8edd127c22c3d42e9d3e454734" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::RebuildStatus::average_rebuild_time</definition>
+        <argsstring></argsstring>
+        <name>average_rebuild_time</name>
+        <qualifiedname>themis::sharding::RebuildStatus::average_rebuild_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="190" column="31" bodyfile="include/sharding/hot_spare_manager.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Rebuild Status </para>
+    </detaileddescription>
+    <location file="include/sharding/hot_spare_manager.h" line="177" column="1" bodyfile="include/sharding/hot_spare_manager.h" bodystart="177" bodyend="191"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_rebuild_status_1ae7672b184910ac12d4160be3b85577eb" prot="public" virt="non-virtual"><scope>themis::sharding::RebuildStatus</scope><name>active_rebuilds</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebuild_status_1a63346a8edd127c22c3d42e9d3e454734" prot="public" virt="non-virtual"><scope>themis::sharding::RebuildStatus</scope><name>average_rebuild_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebuild_status_1ab949d40682808d65b056f82713797f49" prot="public" virt="non-virtual"><scope>themis::sharding::RebuildStatus</scope><name>average_throughput_mbps</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebuild_status_1ac340f25999302b15e6d04bb47d7197c0" prot="public" virt="non-virtual"><scope>themis::sharding::RebuildStatus</scope><name>estimated_time_remaining</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebuild_status_1aca7895a14d083b32d4332c3b6e396686" prot="public" virt="non-virtual"><scope>themis::sharding::RebuildStatus</scope><name>is_rebuilding</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebuild_status_1a5e07e20a1ec0ce9d5dea51bcf1ad7f87" prot="public" virt="non-virtual"><scope>themis::sharding::RebuildStatus</scope><name>overall_progress</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebuild_status_1ac071c40a4d2b14fb9e4c11564a169314" prot="public" virt="non-virtual"><scope>themis::sharding::RebuildStatus</scope><name>rebuilding_spares</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebuild_status_1aa2cf9173bd669cd090aa1ce0a98f1e79" prot="public" virt="non-virtual"><scope>themis::sharding::RebuildStatus</scope><name>total_rebuilds_completed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebuild_status_1a61fc44542e6f06498c82babcce667439" prot="public" virt="non-virtual"><scope>themis::sharding::RebuildStatus</scope><name>total_rebuilds_failed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="pdf__processor_8h" kind="file" language="C++">
+    <compoundname>pdf_processor.h</compoundname>
+    <includes refid="content__processor_8h" local="yes">content/content_processor.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="pdf__extractor__adapter_8cpp" local="yes">src/content/adapters/pdf_extractor_adapter.cpp</includedby>
+    <includedby refid="pdf__processor_8cpp" local="yes">src/content/pdf_processor.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>content/content_processor.h</label>
+        <link refid="content__processor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>content/content_type.h</label>
+        <link refid="content__type_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/content/pdf_processor.h</label>
+        <link refid="pdf__processor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/content/pdf_processor.h</label>
+        <link refid="pdf__processor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/content/adapters/pdf_extractor_adapter.cpp</label>
+        <link refid="pdf__extractor__adapter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/content/pdf_processor.cpp</label>
+        <link refid="pdf__processor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1content_1_1_p_d_f_page_info" prot="public">themis::content::PDFPageInfo</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_p_d_f_metadata" prot="public">themis::content::PDFMetadata</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_p_d_f_processor" prot="public">themis::content::PDFProcessor</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config" prot="public">themis::content::PDFProcessor::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__processor_8h" kindref="compound">content/content_processor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_PDF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;poppler/cpp/poppler-page.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_content_metrics" kindref="compound">ContentMetrics</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1content_1_1_p_d_f_page_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_p_d_f_page_info" kindref="compound">PDFPageInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1content_1_1_p_d_f_page_info_1ada3e8853db7bedebfb6b2ec61ce05315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_page_info_1ada3e8853db7bedebfb6b2ec61ce05315" kindref="member">page_number</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1content_1_1_p_d_f_page_info_1aee53d988a9df381edd7d3b3b9a49a731" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_page_info_1aee53d988a9df381edd7d3b3b9a49a731" kindref="member">text</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1content_1_1_p_d_f_page_info_1a5eb01ab16981e223910a202f72ac648b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_page_info_1a5eb01ab16981e223910a202f72ac648b" kindref="member">width</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1content_1_1_p_d_f_page_info_1a67ea3c88ead27a72e3d4d0d32f537ba9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_page_info_1a67ea3c88ead27a72e3d4d0d32f537ba9" kindref="member">height</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1content_1_1_p_d_f_page_info_1abcd6904c5df4ddbd0cbf449f41202e16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_page_info_1abcd6904c5df4ddbd0cbf449f41202e16" kindref="member">rotation</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1content_1_1_p_d_f_page_info_1a6c0a3bc781647f3aa26abd67a3b32626" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;float,<sp/>float&gt;&gt;<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_page_info_1a6c0a3bc781647f3aa26abd67a3b32626" kindref="member">text_positions</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>x,y<sp/>positions<sp/>of<sp/>text<sp/>blocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1content_1_1_p_d_f_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_p_d_f_metadata" kindref="compound">PDFMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1content_1_1_p_d_f_metadata_1ae92b64fa82692c2c489eca6007be9994" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1ae92b64fa82692c2c489eca6007be9994" kindref="member">title</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1content_1_1_p_d_f_metadata_1a102181c591dd6e8fa7c08e0df88b58b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1a102181c591dd6e8fa7c08e0df88b58b2" kindref="member">author</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1content_1_1_p_d_f_metadata_1af469af87b3294ff2f7502d6714117255" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1af469af87b3294ff2f7502d6714117255" kindref="member">subject</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1content_1_1_p_d_f_metadata_1aa94fece8260896a346cabd02d3eff4fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1aa94fece8260896a346cabd02d3eff4fa" kindref="member">keywords</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1content_1_1_p_d_f_metadata_1a5f1f430edbb00240cf79ac78dd29dbf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1a5f1f430edbb00240cf79ac78dd29dbf9" kindref="member">creator</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1content_1_1_p_d_f_metadata_1a11ecee9e51ed9d6f6b93085eeda36231" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1a11ecee9e51ed9d6f6b93085eeda36231" kindref="member">producer</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1content_1_1_p_d_f_metadata_1a9f04bc107dfb1bfaba3fad4109837434" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1a9f04bc107dfb1bfaba3fad4109837434" kindref="member">creation_date</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ISO<sp/>8601</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1content_1_1_p_d_f_metadata_1ac0f80f8b5bba78e2b8f0b7a51dabb342" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1ac0f80f8b5bba78e2b8f0b7a51dabb342" kindref="member">modification_date</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>ISO<sp/>8601</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1content_1_1_p_d_f_metadata_1a988ded2a8cf123765679909241c9e1de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1a988ded2a8cf123765679909241c9e1de" kindref="member">page_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1content_1_1_p_d_f_metadata_1afc1e417fb04b3669ad6933c1d224a3bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1afc1e417fb04b3669ad6933c1d224a3bc" kindref="member">is_encrypted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1content_1_1_p_d_f_metadata_1a13de19dc31c352824915bb56faac280a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1a13de19dc31c352824915bb56faac280a" kindref="member">is_linearized</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1content_1_1_p_d_f_metadata_1a14d64d3d3f2a4d05cbd88c1c0b3972e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata_1a14d64d3d3f2a4d05cbd88c1c0b3972e9" kindref="member">pdf_version</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1content_1_1_p_d_f_processor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_p_d_f_processor_1a42023b18aee433f7b45154ae68f41de7" kindref="member">PDFProcessor</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a2633fe176595ad0251c40e77dd4cf518" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a2633fe176595ad0251c40e77dd4cf518" kindref="member">extract_text</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1afbb65d3111b24fe8ff71865876e2752e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1afbb65d3111b24fe8ff71865876e2752e" kindref="member">extract_metadata</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a937661ce55f45cc148023ea2971c2839" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a937661ce55f45cc148023ea2971c2839" kindref="member">extract_images</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>yet<sp/>implemented</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a9dd9a0e5e39b633d2e7c48728cd83ff6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a9dd9a0e5e39b633d2e7c48728cd83ff6" kindref="member">maintain_layout</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maintain<sp/>text<sp/>positioning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a525e703d45356819de1857915bc9ce5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a525e703d45356819de1857915bc9ce5d" kindref="member">detect_tables</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Basic<sp/>table<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a9337c5b50446b56e8e03607080241016" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a9337c5b50446b56e8e03607080241016" kindref="member">max_pages</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>no<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a4b27ce62f9a1389edd79d63cda1e63bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a4b27ce62f9a1389edd79d63cda1e63bd" kindref="member">password</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>encrypted<sp/>PDFs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a7854c98723ccdd2c63d07d11f82fea0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_metrics" kindref="compound">ContentMetrics</ref>*<sp/><ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config_1a7854c98723ccdd2c63d07d11f82fea0a" kindref="member">metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>report<sp/>pdf_extracted<sp/>/<sp/>extract_error<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_p_d_f_processor_1a42023b18aee433f7b45154ae68f41de7" kindref="member">PDFProcessor</ref>();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_p_d_f_processor_1a42023b18aee433f7b45154ae68f41de7" kindref="member">PDFProcessor</ref>(<ref refid="structthemis_1_1content_1_1_p_d_f_processor_1_1_config" kindref="compound">Config</ref><sp/>config);</highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1content_1_1_p_d_f_processor_1a56fd3376c4d0a6fa25bb3c2b763cd58e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_p_d_f_processor_1a56fd3376c4d0a6fa25bb3c2b763cd58e" kindref="member">~PDFProcessor</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/><ref refid="classthemis_1_1content_1_1_p_d_f_processor_1a373493882e5df20453bbb46bfabf04ae" kindref="member">extract</ref>(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref>&amp;<sp/>content_type</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/><ref refid="classthemis_1_1content_1_1_p_d_f_processor_1a4e124482c9432f143e75994a351117f2" kindref="member">chunk</ref>(</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref>&amp;<sp/>extraction_result,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>chunk_size,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>overlap</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1content_1_1_p_d_f_processor_1af62ae8bd3384462f9eae2251750b402a" kindref="member">generateEmbedding</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_data)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1content_1_1_p_d_f_processor_1ad2e652698ca257cc3fbed42d32bc5f37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1content_1_1_p_d_f_processor_1ad2e652698ca257cc3fbed42d32bc5f37" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;PDFProcessor&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1content_1_1_p_d_f_processor_1ac7339cca3a816621d9e49fceb4836bc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ContentCategory&gt;<sp/><ref refid="classthemis_1_1content_1_1_p_d_f_processor_1ac7339cca3a816621d9e49fceb4836bc4" kindref="member">getSupportedCategories</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>};<sp/><sp/></highlight><highlight class="comment">//<sp/>PDF<sp/>is<sp/>categorized<sp/>as<sp/>TEXT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_p_d_f_processor_1a9f9b2d711f85adc65ba82cf8b63f1282" kindref="member">isAvailable</ref>();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1content_1_1_p_d_f_processor_1aa78bd2e8c3e9e372029b6134144be720" kindref="member">getLibraryVersion</ref>();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>extraction<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_p_d_f_metadata" kindref="compound">PDFMetadata</ref><sp/>extractMetadata(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PDFPageInfo&gt;<sp/>extractPages(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>extractAllText(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PDFPageInfo&gt;&amp;<sp/>pages);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1af5b4c2d5e4f47a70645a225a95de29f8" kindref="member">countTokens</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>parsePDFDate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pdf_date);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isPDFValid(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_PDF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Assemble<sp/>text<sp/>from<sp/>positioned<sp/>poppler<sp/>text<sp/>boxes<sp/>preserving<sp/>reading<sp/>order.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sorts<sp/>boxes<sp/>top-to-bottom<sp/>then<sp/>left-to-right<sp/>and<sp/>inserts<sp/>newlines<sp/>at<sp/>line<sp/>breaks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populates<sp/>positions_out<sp/>with<sp/>(x,<sp/>y)<sp/>of<sp/>each<sp/>box<sp/>for<sp/>downstream<sp/>use.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>assembleTextWithLayout(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;poppler::text_box&gt;&amp;<sp/>boxes,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;float,<sp/>float&gt;&gt;&amp;<sp/>positions_out</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal">std::unique_ptr&lt;IContentProcessor&gt;<sp/><ref refid="namespacethemis_1_1content_1a6dc409b47375da3654539e940828ab0e" kindref="member">createPDFProcessor</ref>();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">std::unique_ptr&lt;IContentProcessor&gt;<sp/><ref refid="namespacethemis_1_1content_1a6dc409b47375da3654539e940828ab0e" kindref="member">createPDFProcessor</ref>(</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>PDFProcessor::Config<sp/>config</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/pdf_processor.h"/>
+  </compounddef>
+</doxygen>

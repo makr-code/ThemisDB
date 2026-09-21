@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_security_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentSecurityConfig</compoundname>
+    <includes refid="content__security_8h" local="no">content_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1a7030d4b9bad900d03c25c48f9b3d69e9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentSecurityConfig::enable_malware_scan</definition>
+        <argsstring></argsstring>
+        <name>enable_malware_scan</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::enable_malware_scan</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="31" column="10" bodyfile="include/content/content_security.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1a1fe68ccae8b2f1f17532e3514f98d2d7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentSecurityConfig::block_on_malware</definition>
+        <argsstring></argsstring>
+        <name>block_on_malware</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::block_on_malware</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="32" column="10" bodyfile="include/content/content_security.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1a6c52798d6c67a13e2e424b7462e96e11" prot="public" static="no" mutable="no">
+        <type>security::ThreatLevel</type>
+        <definition>security::ThreatLevel themis::content::ContentSecurityConfig::malware_block_threshold</definition>
+        <argsstring></argsstring>
+        <name>malware_block_threshold</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::malware_block_threshold</qualifiedname>
+        <initializer>= security::ThreatLevel::MEDIUM</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="33" column="27" bodyfile="include/content/content_security.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1a0c108aac39a2c515d401a8827dbf9cb8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentSecurityConfig::enable_pii_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_pii_detection</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::enable_pii_detection</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="36" column="10" bodyfile="include/content/content_security.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1ad7ebd0b96b40452a1934b112464668f1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentSecurityConfig::block_on_pii</definition>
+        <argsstring></argsstring>
+        <name>block_on_pii</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::block_on_pii</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="37" column="10" bodyfile="include/content/content_security.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1a48062a29d126944e624392ce50c9fc14" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentSecurityConfig::redact_pii_in_logs</definition>
+        <argsstring></argsstring>
+        <name>redact_pii_in_logs</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::redact_pii_in_logs</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="38" column="10" bodyfile="include/content/content_security.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1ab6f13e1a2b8d5dedff42e636db14b29b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentSecurityConfig::enable_abuse_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_abuse_detection</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::enable_abuse_detection</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable abuse detection via registered <ref refid="classthemis_1_1content_1_1_i_abuse_detector" kindref="compound">IAbuseDetector</ref> instances. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="41" column="10" bodyfile="include/content/content_security.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1af8aee063487632c64d54b6db04772758" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentSecurityConfig::block_on_abuse</definition>
+        <argsstring></argsstring>
+        <name>block_on_abuse</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::block_on_abuse</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="42" column="10" bodyfile="include/content/content_security.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1aa48f5f76ad6da4228bd84801829b4986" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentSecurityConfig::sanitize_error_messages</definition>
+        <argsstring></argsstring>
+        <name>sanitize_error_messages</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::sanitize_error_messages</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="45" column="10" bodyfile="include/content/content_security.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1a07a9204f3aed2ba582db2c138e719a4a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentSecurityConfig::hide_internal_paths</definition>
+        <argsstring></argsstring>
+        <name>hide_internal_paths</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::hide_internal_paths</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="46" column="10" bodyfile="include/content/content_security.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1a6cc112d99537562ad396a9978f23957b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentSecurityConfig::hide_system_info</definition>
+        <argsstring></argsstring>
+        <name>hide_system_info</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::hide_system_info</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="47" column="10" bodyfile="include/content/content_security.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1a3012217381c786c91a9bf9a70a3389f2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentSecurityConfig::enable_zip_bomb_check</definition>
+        <argsstring></argsstring>
+        <name>enable_zip_bomb_check</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::enable_zip_bomb_check</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="50" column="10" bodyfile="include/content/content_security.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1a5063fcd17665cdbddf72964aa6947617" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentSecurityConfig::max_zip_bomb_ratio</definition>
+        <argsstring></argsstring>
+        <name>max_zip_bomb_ratio</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::max_zip_bomb_ratio</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="51" column="14" bodyfile="include/content/content_security.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_security_config_1ae613d84b7142e2d2980b885d3ff0243d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::ContentSecurityConfig::max_zip_file_count</definition>
+        <argsstring></argsstring>
+        <name>max_zip_file_count</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::max_zip_file_count</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="52" column="12" bodyfile="include/content/content_security.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_security_config_1a2e8430ac8d84855aa551752121223832" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentSecurityConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="58" column="10" bodyfile="src/content/content_security.cpp" bodystart="50" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_security_config_1a6232503f605bd1e9034d947e3d3af6fd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_security_config" kindref="compound">ContentSecurityConfig</ref></type>
+        <definition>ContentSecurityConfig themis::content::ContentSecurityConfig::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::content::ContentSecurityConfig::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="64" column="34" bodyfile="src/content/content_security.cpp" bodystart="75" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_security.h" line="29" column="1" bodyfile="include/content/content_security.h" bodystart="29" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1af8aee063487632c64d54b6db04772758" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>block_on_abuse</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1a1fe68ccae8b2f1f17532e3514f98d2d7" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>block_on_malware</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1ad7ebd0b96b40452a1934b112464668f1" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>block_on_pii</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1ab6f13e1a2b8d5dedff42e636db14b29b" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>enable_abuse_detection</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1a7030d4b9bad900d03c25c48f9b3d69e9" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>enable_malware_scan</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1a0c108aac39a2c515d401a8827dbf9cb8" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>enable_pii_detection</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1a3012217381c786c91a9bf9a70a3389f2" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>enable_zip_bomb_check</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1a6232503f605bd1e9034d947e3d3af6fd" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1a07a9204f3aed2ba582db2c138e719a4a" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>hide_internal_paths</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1a6cc112d99537562ad396a9978f23957b" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>hide_system_info</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1a6c52798d6c67a13e2e424b7462e96e11" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>malware_block_threshold</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1a5063fcd17665cdbddf72964aa6947617" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>max_zip_bomb_ratio</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1ae613d84b7142e2d2980b885d3ff0243d" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>max_zip_file_count</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1a48062a29d126944e624392ce50c9fc14" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>redact_pii_in_logs</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1aa48f5f76ad6da4228bd84801829b4986" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>sanitize_error_messages</name></member>
+      <member refid="structthemis_1_1content_1_1_content_security_config_1a2e8430ac8d84855aa551752121223832" prot="public" virt="non-virtual"><scope>themis::content::ContentSecurityConfig</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

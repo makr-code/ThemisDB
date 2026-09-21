@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_compression_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::CompressionGuard</compoundname>
+    <includes refid="tensor__error__handling_8h" local="no">tensor_error_handling.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_compression_guard_1aec8c03a6fee4cc9aaa305c251e4254a5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_compression_strategy" kindref="compound">ICompressionStrategy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ICompressionStrategy&gt; themis::tensor::CompressionGuard::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themis::tensor::CompressionGuard::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="244" column="21" bodyfile="include/tensor/tensor_error_handling.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_compression_guard_1aaa1438c6c7b4b754b8868e53a823e2ed" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_error_handler" kindref="compound">TensorErrorHandler</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorErrorHandler&gt; themis::tensor::CompressionGuard::error_handler_</definition>
+        <argsstring></argsstring>
+        <name>error_handler_</name>
+        <qualifiedname>themis::tensor::CompressionGuard::error_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="245" column="21" bodyfile="include/tensor/tensor_error_handling.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_compression_guard_1a13f9c386d512cab778a1860d782a7723" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::tensor::CompressionGuard::result_</definition>
+        <argsstring></argsstring>
+        <name>result_</name>
+        <qualifiedname>themis::tensor::CompressionGuard::result_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="246" column="23" bodyfile="include/tensor/tensor_error_handling.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_compression_guard_1a1f7cd3c936f021f0277fbacdc463370f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::CompressionGuard::CompressionGuard</definition>
+        <argsstring>(std::shared_ptr&lt; ICompressionStrategy &gt; strategy, std::shared_ptr&lt; TensorErrorHandler &gt; error_handler)</argsstring>
+        <name>CompressionGuard</name>
+        <qualifiedname>themis::tensor::CompressionGuard::CompressionGuard</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_compression_strategy" kindref="compound">ICompressionStrategy</ref> &gt;</type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_error_handler" kindref="compound">TensorErrorHandler</ref> &gt;</type>
+          <declname>error_handler</declname>
+        </param>
+        <briefdescription>
+<para>Construct a compression guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression strategy to use. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error handler for failures. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="199" column="5" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="168" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_compression_guard_1aec59df8fce483b60234150c3ffdec25d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::CompressionGuard::~CompressionGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~CompressionGuard</name>
+        <qualifiedname>themis::tensor::CompressionGuard::~CompressionGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="203" column="5" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="178" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_compression_guard_1a2bee5b295eae1eda6827d3be1f3a5794" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::tensor::CompressionGuard::execute</definition>
+        <argsstring>(const float *data, std::size_t dim, const std::vector&lt; size_t &gt; &amp;mode_sizes, const CompressionConfig &amp;config) noexcept</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::tensor::CompressionGuard::execute</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Safely execute compression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to compress. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mode sizes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression config. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Compression result with error handling. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="214" column="24" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="187" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_compression_guard_1a07c9630376f30cc90c1ec15459775be1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::tensor::CompressionGuard::getResultOrFallback</definition>
+        <argsstring>(float fallback_ratio=1.0f) const noexcept</argsstring>
+        <name>getResultOrFallback</name>
+        <qualifiedname>themis::tensor::CompressionGuard::getResultOrFallback</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>fallback_ratio</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+<para>Get the result or a fallback value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fallback_ratio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fallback compression ratio if failed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result or fallback result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="226" column="24" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="223" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_compression_guard_1a89bba16afd6c85067b650bffdfbbcb0f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::CompressionGuard::succeeded</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themis::tensor::CompressionGuard::succeeded</qualifiedname>
+        <briefdescription>
+<para>Check if compression succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if compression succeeded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="234" column="11" bodyfile="include/tensor/tensor_error_handling.h" bodystart="234" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_compression_guard_1a5719e445f290ee1191f97079c096cd6f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::CompressionGuard::isHealthy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::tensor::CompressionGuard::isHealthy</qualifiedname>
+        <briefdescription>
+<para>Backwards-compatible alias used by older tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if compression succeeded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="241" column="11" bodyfile="include/tensor/tensor_error_handling.h" bodystart="241" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for safe compression operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically handles cleanup and error recovery on scope exit. </para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_error_handling.h" line="191" column="1" bodyfile="include/tensor/tensor_error_handling.h" bodystart="191" bodyend="247"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_compression_guard_1a1f7cd3c936f021f0277fbacdc463370f" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionGuard</scope><name>CompressionGuard</name></member>
+      <member refid="classthemis_1_1tensor_1_1_compression_guard_1aaa1438c6c7b4b754b8868e53a823e2ed" prot="private" virt="non-virtual"><scope>themis::tensor::CompressionGuard</scope><name>error_handler_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_compression_guard_1a2bee5b295eae1eda6827d3be1f3a5794" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionGuard</scope><name>execute</name></member>
+      <member refid="classthemis_1_1tensor_1_1_compression_guard_1a07c9630376f30cc90c1ec15459775be1" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionGuard</scope><name>getResultOrFallback</name></member>
+      <member refid="classthemis_1_1tensor_1_1_compression_guard_1a5719e445f290ee1191f97079c096cd6f" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionGuard</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1tensor_1_1_compression_guard_1a13f9c386d512cab778a1860d782a7723" prot="private" virt="non-virtual"><scope>themis::tensor::CompressionGuard</scope><name>result_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_compression_guard_1aec8c03a6fee4cc9aaa305c251e4254a5" prot="private" virt="non-virtual"><scope>themis::tensor::CompressionGuard</scope><name>strategy_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_compression_guard_1a89bba16afd6c85067b650bffdfbbcb0f" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionGuard</scope><name>succeeded</name></member>
+      <member refid="classthemis_1_1tensor_1_1_compression_guard_1aec59df8fce483b60234150c3ffdec25d" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionGuard</scope><name>~CompressionGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

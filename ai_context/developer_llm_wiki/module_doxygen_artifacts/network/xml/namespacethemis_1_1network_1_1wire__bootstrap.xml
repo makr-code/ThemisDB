@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1network_1_1wire__bootstrap" kind="namespace" language="C++">
+    <compoundname>themis::network::wire_bootstrap</compoundname>
+    <innerclass refid="structthemis_1_1network_1_1wire__bootstrap_1_1_required_backend" prot="public">themis::network::wire_bootstrap::RequiredBackend</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1network_1_1wire__bootstrap_1a2122a06a2598d4e2a968d1879f00a59f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::wire_bootstrap::validateRequiredBackends</definition>
+        <argsstring>(const char *server_tag, std::initializer_list&lt; RequiredBackend &gt; required, std::ostream &amp;err)</argsstring>
+        <name>validateRequiredBackends</name>
+        <qualifiedname>themis::network::wire_bootstrap::validateRequiredBackends</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>server_tag</declname>
+        </param>
+        <param>
+          <type>std::initializer_list&lt; <ref refid="structthemis_1_1network_1_1wire__bootstrap_1_1_required_backend" kindref="compound">RequiredBackend</ref> &gt;</type>
+          <declname>required</declname>
+        </param>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+<para>Validate fail-closed Wire bootstrap dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If any required backend is unavailable, a consistent startup-refused log line is emitted and false is returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>server_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prefix used in log output (for example &quot;WireProtocol&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required backend list. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output stream for refusal diagnostics. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when all required backends are available, otherwise false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_bootstrap_validation.h" line="38" column="13" bodyfile="include/network/wire_bootstrap_validation.h" bodystart="38" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_bootstrap_validation.h" line="17" column="1"/>
+  </compounddef>
+</doxygen>

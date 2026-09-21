@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="scheduler__api__contract_8h" kind="file" language="C++">
+    <compoundname>scheduler_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="bench__scheduler__release__gates_8cpp" local="yes">benchmarks/scheduler/bench_scheduler_release_gates.cpp</includedby>
+    <includedby refid="distributed__task__coordinator_8h" local="yes">include/scheduler/distributed_task_coordinator.h</includedby>
+    <includedby refid="event__trigger_8h" local="yes">include/scheduler/event_trigger.h</includedby>
+    <includedby refid="external__scheduler__adapter_8h" local="yes">include/scheduler/external_scheduler_adapter.h</includedby>
+    <includedby refid="task__audit__manager_8h" local="yes">include/scheduler/task_audit_manager.h</includedby>
+    <includedby refid="task__result__store_8h" local="yes">include/scheduler/task_result_store.h</includedby>
+    <includedby refid="task__scheduler_8h" local="yes">include/scheduler/task_scheduler.h</includedby>
+    <includedby refid="hybrid__retention__manager_8cpp" local="yes">src/scheduler/hybrid_retention_manager.cpp</includedby>
+    <includedby refid="test__scheduler__concurrency__edge__cases_8cpp" local="yes">tests/scheduler/test_scheduler_concurrency_edge_cases.cpp</includedby>
+    <includedby refid="test__scheduler__contract__hardening__focused_8cpp" local="yes">tests/scheduler/test_scheduler_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__scheduler__coordination__failures_8cpp" local="yes">tests/scheduler/test_scheduler_coordination_failures.cpp</includedby>
+    <includedby refid="test__scheduler__stress__burst__retention_8cpp" local="yes">tests/scheduler/test_scheduler_stress_burst_retention.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/scheduler/scheduler_api_contract.h</label>
+        <link refid="scheduler__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/scheduler/bench_scheduler_release_gates.cpp</label>
+        <link refid="bench__scheduler__release__gates_8cpp"/>
+      </node>
+      <node id="15">
+        <label>benchmarks/scheduler/bench_task_scheduler.cpp</label>
+        <link refid="bench__task__scheduler_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/scheduler/distributed_task_coordinator.h</label>
+        <link refid="distributed__task__coordinator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/scheduler/event_trigger.h</label>
+        <link refid="event__trigger_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/scheduler/external_scheduler_adapter.h</label>
+        <link refid="external__scheduler__adapter_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/scheduler/hybrid_retention_manager.h</label>
+        <link refid="hybrid__retention__manager_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/scheduler/scheduler_api_contract.h</label>
+        <link refid="scheduler__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/scheduler/task_audit_manager.h</label>
+        <link refid="task__audit__manager_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/scheduler/task_result_store.h</label>
+        <link refid="task__result__store_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/scheduler/task_scheduler.h</label>
+        <link refid="task__scheduler_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/scheduler/distributed_task_coordinator.cpp</label>
+        <link refid="distributed__task__coordinator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/scheduler/event_trigger.cpp</label>
+        <link refid="event__trigger_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/scheduler/external_scheduler_adapter.cpp</label>
+        <link refid="external__scheduler__adapter_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/scheduler/hybrid_retention_manager.cpp</label>
+        <link refid="hybrid__retention__manager_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/scheduler/task_audit_manager.cpp</label>
+        <link refid="task__audit__manager_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/scheduler/task_execution_result.cpp</label>
+        <link refid="task__execution__result_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/scheduler/task_result_store.cpp</label>
+        <link refid="task__result__store_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/scheduler/task_scheduler.cpp</label>
+        <link refid="task__scheduler_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/scheduler/test_scheduler_concurrency_edge_cases.cpp</label>
+        <link refid="test__scheduler__concurrency__edge__cases_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/scheduler/test_scheduler_contract_hardening_focused.cpp</label>
+        <link refid="test__scheduler__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/scheduler/test_scheduler_coordination_failures.cpp</label>
+        <link refid="test__scheduler__coordination__failures_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/scheduler/test_scheduler_integration.cpp</label>
+        <link refid="test__scheduler__integration_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/scheduler/test_scheduler_stress_burst_retention.cpp</label>
+        <link refid="test__scheduler__stress__burst__retention_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scheduler">themis::scheduler</innernamespace>
+    <briefdescription>
+<para>Frozen scheduler task lifecycle and coordination API contract for v1.x. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="scheduler__api__contract_8h_1autotoc_md0_1s1"><sect2 id="scheduler__api__contract_8h_1autotoc_md0">
+<title>§Purpose</title><para>Defines the normative contract for the scheduler module covering task registration, execution dispatch, lifecycle state management, distributed coordination, retention policies, and anomaly/trigger observability.</para>
+</sect2></sect1>
+<sect1 id="scheduler__api__contract_8h_1autotoc_md1_1s1"><sect2 id="scheduler__api__contract_8h_1autotoc_md1">
+<title>§API Contracts</title><para>Key behavioural invariants:<orderedlist>
+<listitem><para>Task registration is idempotent only if the registration descriptor is byte-identical to the existing entry; divergent re-registration produces kTaskAlreadyExists.</para>
+</listitem><listitem><para>Execution dispatch is fail-closed: if the coordination layer is unavailable, tasks are not dispatched and kCoordinationError is raised.</para>
+</listitem><listitem><para>Retention limits are enforced before new results are written; an attempt to store results when at the limit produces kRetentionLimitExceeded.</para>
+</listitem><listitem><para>Trigger predicates are evaluated atomically; partial trigger evaluations that fail produce kTriggerInvalid and do not modify task state.</para>
+</listitem><listitem><para>Anomaly detection alerts are advisory; they do not block task execution but are surfaced via the kAnomalyDetected error code in observability callbacks.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="scheduler__api__contract_8h_1autotoc_md2_1s1"><sect2 id="scheduler__api__contract_8h_1autotoc_md2">
+<title>§Error Taxonomy</title><para><table rows="10" cols="3"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Constant  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>0  </para>
+</entry><entry thead="no"><para>kSuccess  </para>
+</entry><entry thead="no"><para>Operation completed without error  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8400  </para>
+</entry><entry thead="no"><para>kTaskNotFound  </para>
+</entry><entry thead="no"><para>Referenced task ID not present in scheduler  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8401  </para>
+</entry><entry thead="no"><para>kTaskAlreadyExists  </para>
+</entry><entry thead="no"><para>Conflicting task ID already registered  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8402  </para>
+</entry><entry thead="no"><para>kExecutionFailed  </para>
+</entry><entry thead="no"><para>Task execution returned a non-success status  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8403  </para>
+</entry><entry thead="no"><para>kCoordinationError  </para>
+</entry><entry thead="no"><para>Distributed coordination layer unavailable  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8404  </para>
+</entry><entry thead="no"><para>kRetentionLimitExceeded  </para>
+</entry><entry thead="no"><para>Result store retention cap reached  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8405  </para>
+</entry><entry thead="no"><para>kTriggerInvalid  </para>
+</entry><entry thead="no"><para>Trigger predicate failed structural checks  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8406  </para>
+</entry><entry thead="no"><para>kAnomalyDetected  </para>
+</entry><entry thead="no"><para>Anomaly detector flagged task behaviour  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8407  </para>
+</entry><entry thead="no"><para>kInternalError  </para>
+</entry><entry thead="no"><para>Unclassified internal error; always deny  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="scheduler__api__contract_8h_1autotoc_md3_1s1"><sect2 id="scheduler__api__contract_8h_1autotoc_md3">
+<title>§Threading Guarantees</title><para><itemizedlist>
+<listitem><para>Task registration and lookup are thread-safe; the registry uses a shared mutex (read-mostly).</para>
+</listitem><listitem><para>Execution dispatch is serialized per task ID to prevent concurrent runs of the same task.</para>
+</listitem><listitem><para>Anomaly detection callbacks are delivered on a dedicated background thread and MUST NOT re-enter the task scheduler.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="scheduler__api__contract_8h_1autotoc_md4_1s1"><sect2 id="scheduler__api__contract_8h_1autotoc_md4">
+<title>§Contract Freeze</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/scheduler/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scheduler" kindref="compound">scheduler</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a8c632159fa131f09d04f94e3cbcd8782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a8c632159fa131f09d04f94e3cbcd8782" kindref="member">kSuccess</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a2d09c29ff280c50c3328c44d6dda88c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a2d09c29ff280c50c3328c44d6dda88c1" kindref="member">kTaskNotFound</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8400,</highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1aa6f59390976acefdb5b21e7922c2dd47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1aa6f59390976acefdb5b21e7922c2dd47" kindref="member">kTaskAlreadyExists</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8401,</highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1ae27aa1baec6232e57cbfad551c6b90b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1ae27aa1baec6232e57cbfad551c6b90b0" kindref="member">kExecutionFailed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8402,</highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a9d5b55c0775961298a75c0c1fc66412a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a9d5b55c0775961298a75c0c1fc66412a" kindref="member">kCoordinationError</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8403,</highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1ae4f20412061c5797d85c33a2bc9eb179" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1ae4f20412061c5797d85c33a2bc9eb179" kindref="member">kRetentionLimitExceeded</ref><sp/>=<sp/>8404,</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1ad98623da4fba73369ac8f8d8917cc593" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1ad98623da4fba73369ac8f8d8917cc593" kindref="member">kTriggerInvalid</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8405,</highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1acd5c471ea69f65457215173da83c5906" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1acd5c471ea69f65457215173da83c5906" kindref="member">kAnomalyDetected</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8406,</highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1afcd417a134c251034b0d61b07c826394" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1afcd417a134c251034b0d61b07c826394" kindref="member">kInternalError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8407,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration<sp/>constants<sp/>kept<sp/>minimal<sp/>in<sp/>this<sp/>header.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1scheduler_1a1d4d16744effb1011e7679f48a1b1afa" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1scheduler_1a1d4d16744effb1011e7679f48a1b1afa" kindref="member">kMaxTaskIdBytes</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1scheduler_1aa5387a582f4a1ce25cbb60ca1acc0b95" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1scheduler_1aa5387a582f4a1ce25cbb60ca1acc0b95" kindref="member">kDefaultRetentionLimit</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1scheduler_1a49b7a447e43d54db16ed96b7438af169" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::minutes<sp/><ref refid="namespacethemis_1_1scheduler_1a49b7a447e43d54db16ed96b7438af169" kindref="member">kDefaultTaskExecutionTimeout</ref>{10};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="namespacethemis_1_1scheduler_1ae3ea9cc06e8c59ffbfc5e86d5b10417a" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scheduler_1ae3ea9cc06e8c59ffbfc5e86d5b10417a" kindref="member">isSchedulerFailClosed</ref>(<ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref><sp/>e)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a9d5b55c0775961298a75c0c1fc66412a" kindref="member">SchedulerError::kCoordinationError</ref><sp/>||<sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1afcd417a134c251034b0d61b07c826394" kindref="member">SchedulerError::kInternalError</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scheduler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">scheduler::SchedulerError</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scheduler/scheduler_api_contract.h"/>
+  </compounddef>
+</doxygen>

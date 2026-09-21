@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1llm_1_1_lo_r_a_layer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::llm::LoRALayerConfig</compoundname>
+    <includes refid="llamacpp__training__backend_8h" local="no">llamacpp_training_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a65c47b64568a6f8b75804d1688dfb48c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::llm::LoRALayerConfig::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themisdb::llm::LoRALayerConfig::rank</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="79" column="9" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a2868c25a26181ee0d9abea4affe3a8f1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::llm::LoRALayerConfig::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>themisdb::llm::LoRALayerConfig::alpha</qualifiedname>
+        <initializer>= 16.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="80" column="11" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a9f3fda75a9b5461c88baa7081fdde74c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::llm::LoRALayerConfig::dropout</definition>
+        <argsstring></argsstring>
+        <name>dropout</name>
+        <qualifiedname>themisdb::llm::LoRALayerConfig::dropout</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="81" column="11" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a51868beb2116cd80fce9a8c9a6d95620" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::llm::LoRALayerConfig::target_modules</definition>
+        <argsstring></argsstring>
+        <name>target_modules</name>
+        <qualifiedname>themisdb::llm::LoRALayerConfig::target_modules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="82" column="17" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a7723b7da5f9eafd1c5a4d4596368ccb7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::llm::LoRALayerConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themisdb::llm::LoRALayerConfig::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="84" column="20" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="84" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a9aa523d8afefa752794622343a1c49d0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1llm_1_1_lo_r_a_layer_config" kindref="compound">LoRALayerConfig</ref></type>
+        <definition>static LoRALayerConfig themisdb::llm::LoRALayerConfig::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themisdb::llm::LoRALayerConfig::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="99" column="28" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="99" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llamacpp_training_backend.h" line="78" column="1" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="78" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a2868c25a26181ee0d9abea4affe3a8f1" prot="public" virt="non-virtual"><scope>themisdb::llm::LoRALayerConfig</scope><name>alpha</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a9f3fda75a9b5461c88baa7081fdde74c" prot="public" virt="non-virtual"><scope>themisdb::llm::LoRALayerConfig</scope><name>dropout</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a9aa523d8afefa752794622343a1c49d0" prot="public" virt="non-virtual"><scope>themisdb::llm::LoRALayerConfig</scope><name>fromJSON</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a65c47b64568a6f8b75804d1688dfb48c" prot="public" virt="non-virtual"><scope>themisdb::llm::LoRALayerConfig</scope><name>rank</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a51868beb2116cd80fce9a8c9a6d95620" prot="public" virt="non-virtual"><scope>themisdb::llm::LoRALayerConfig</scope><name>target_modules</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_lo_r_a_layer_config_1a7723b7da5f9eafd1c5a4d4596368ccb7" prot="public" virt="non-virtual"><scope>themisdb::llm::LoRALayerConfig</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

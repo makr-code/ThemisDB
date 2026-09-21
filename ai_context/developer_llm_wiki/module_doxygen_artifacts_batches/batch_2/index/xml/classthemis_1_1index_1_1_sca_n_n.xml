@@ -1,0 +1,700 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_sca_n_n" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::index::ScaNN</compoundname>
+    <basecompoundref refid="classthemis_1_1index_1_1_i_ann_index" prot="public" virt="non-virtual">themis::index::IAnnIndex</basecompoundref>
+    <includes refid="ann__index_8h" local="no">ann_index.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_sca_n_n_1_1_p_q_codebook" prot="private">themis::index::ScaNN::PQCodebook</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_sca_n_n_1_1_leaf" prot="private">themis::index::ScaNN::Leaf</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_sca_n_n_1ad2febdea4c0eef072b919e09c41e8594" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_sca_n_n_config" kindref="compound">ScaNNConfig</ref></type>
+        <definition>ScaNNConfig themis::index::ScaNN::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::index::ScaNN::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="222" column="17" bodyfile="include/index/ann_index.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_sca_n_n_1a66a5c026d2380e0b4a5a6ca1d50dd2fd" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::ScaNN::dim_</definition>
+        <argsstring></argsstring>
+        <name>dim_</name>
+        <qualifiedname>themis::index::ScaNN::dim_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="223" column="12" bodyfile="include/index/ann_index.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_sca_n_n_1ae6731d1a06e72973c5aa123dd7a23113" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Leaf &gt;</type>
+        <definition>std::vector&lt;Leaf&gt; themis::index::ScaNN::leaves_</definition>
+        <argsstring></argsstring>
+        <name>leaves_</name>
+        <qualifiedname>themis::index::ScaNN::leaves_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="224" column="21" bodyfile="include/index/ann_index.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_sca_n_n_1a380c67cf34d02178504fbd0acd12a1b6" prot="private" static="no" mutable="no">
+        <type>PQCodebook</type>
+        <definition>PQCodebook themis::index::ScaNN::codebook_</definition>
+        <argsstring></argsstring>
+        <name>codebook_</name>
+        <qualifiedname>themis::index::ScaNN::codebook_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="225" column="27" bodyfile="include/index/ann_index.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_sca_n_n_1a4ade5c564bb245df70c1999dfb4fd8ff" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::ScaNN::trained_</definition>
+        <argsstring></argsstring>
+        <name>trained_</name>
+        <qualifiedname>themis::index::ScaNN::trained_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="226" column="27" bodyfile="include/index/ann_index.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_sca_n_n_1abf9d6c64f215810d996817cbfcf87099" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::index::ScaNN::flat_ids_</definition>
+        <argsstring></argsstring>
+        <name>flat_ids_</name>
+        <qualifiedname>themis::index::ScaNN::flat_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="229" column="27" bodyfile="include/index/ann_index.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_sca_n_n_1ad0b1938989c9c422f036c01f894cb4c2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; themis::index::ScaNN::flat_vectors_</definition>
+        <argsstring></argsstring>
+        <name>flat_vectors_</name>
+        <qualifiedname>themis::index::ScaNN::flat_vectors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="230" column="17" bodyfile="include/index/ann_index.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_sca_n_n_1ac5f6de18baa990ee13427f392ead275c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::ScaNN::ScaNN</definition>
+        <argsstring>(ScaNNConfig cfg={})</argsstring>
+        <name>ScaNN</name>
+        <qualifiedname>themis::index::ScaNN::ScaNN</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_sca_n_n_config" kindref="compound">ScaNNConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="137" column="14" bodyfile="src/index/ann_index.cpp" bodystart="375" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_sca_n_n_1ac91ee228016695fc8120372becab883a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::ScaNN::~ScaNN</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ScaNN</name>
+        <qualifiedname>themis::index::ScaNN::~ScaNN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::index::ScaNN::build</definition>
+        <argsstring>(const float *vectors, const int64_t *ids, size_t count, size_t dim) override</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::index::ScaNN::build</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a08ee17d6a1ff89a68b672568bf2f29c2">build</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>const int64_t *</type>
+          <declname>ids</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::min(), kmeans(), <ref refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" kindref="member">size()</ref>, resize(), std::move(), checkedRow(), push_back(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="140" column="10" bodyfile="src/index/ann_index.cpp" bodystart="386" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_sca_n_n_1ad147f60a26745724e33a5124a3dd02a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::index::ScaNN::add</definition>
+        <argsstring>(int64_t id, const float *vector, size_t dim) override</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::index::ScaNN::add</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a4cfa5afd89bd1ab7baf49fb694574c8f">add</reimplements>
+        <param>
+          <type>int64_t</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vector</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: push_back(), emplace_back(), empty(), max(), <ref refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" kindref="member">size()</ref>, THEMIS_WARN(), l2sq(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="143" column="10" bodyfile="src/index/ann_index.cpp" bodystart="452" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; AnnSearchResult &gt; themis::index::ScaNN::search</definition>
+        <argsstring>(const float *query, size_t dim, int k) const override</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::index::ScaNN::search</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a66af8daad73bd7ff73dea815e4ad85f7">search</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="145" column="17" bodyfile="src/index/ann_index.cpp" bodystart="495" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_sca_n_n_1aff787a126aeac3f4c144a390fdcaa0d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::index::ScaNN::save</definition>
+        <argsstring>(const std::string &amp;path) const override</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::index::ScaNN::save</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a3414fa6ccd0f02eafa7e71cf8670898f">save</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="148" column="10" bodyfile="src/index/ann_index.cpp" bodystart="595" bodyend="621"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_sca_n_n_1ad54553961d133fcec969ab1409b82760" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::index::ScaNN::load</definition>
+        <argsstring>(const std::string &amp;path) override</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::index::ScaNN::load</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a4e2c38210a05670457d233117d0b668d">load</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: ifs(), read(), resize(), data(), good(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="149" column="10" bodyfile="src/index/ann_index.cpp" bodystart="629" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::ScaNN::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::index::ScaNN::size</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a1dcbf3570258251ecde3b3fbc91ee7b4">size</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="151" column="12" bodyfile="src/index/ann_index.cpp" bodystart="588" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_sca_n_n_1a7866df19dec24eb507f161ea46a13554" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1index_1_1_sca_n_n_config" kindref="compound">ScaNNConfig</ref> &amp;</type>
+        <definition>const ScaNNConfig &amp; themis::index::ScaNN::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::index::ScaNN::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="153" column="23" bodyfile="include/index/ann_index.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_sca_n_n_1a159b5637df1d739a26e25d847fc7565c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::index::ScaNN::l2sq</definition>
+        <argsstring>(const float *a, const float *b, size_t d)</argsstring>
+        <name>l2sq</name>
+        <qualifiedname>themis::index::ScaNN::l2sq</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> helpers -<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>L2sq.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements l2sq without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="205" column="18" bodyfile="src/index/ann_index.cpp" bodystart="116" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_sca_n_n_1ac4a0ac017c228ce8fdfd50167de1a2f1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::ScaNN::kmeans</definition>
+        <argsstring>(const float *data, size_t n, size_t d, size_t k, size_t iters, std::vector&lt; std::vector&lt; float &gt; &gt; &amp;centroids, std::vector&lt; size_t &gt; &amp;assignments)</argsstring>
+        <name>kmeans</name>
+        <qualifiedname>themis::index::ScaNN::kmeans</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>iters</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>centroids</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; size_t &gt; &amp;</type>
+          <declname>assignments</declname>
+        </param>
+        <briefdescription>
+<para>Kmeans. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simple Lloyd&apos;s k-means (k iterations, seeded with k-means++).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">iters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">centroids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">assignments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">iters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">centroids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">assignments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::min(), rng(), clear(), reserve(), uni(), checkedRow(), emplace_back(), dists(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="216" column="18" bodyfile="src/index/ann_index.cpp" bodystart="136" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::index::IAnnIndex</label>
+        <link refid="classthemis_1_1index_1_1_i_ann_index"/>
+      </node>
+      <node id="1">
+        <label>themis::index::ScaNN</label>
+        <link refid="classthemis_1_1index_1_1_sca_n_n"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::index::IAnnIndex</label>
+        <link refid="classthemis_1_1index_1_1_i_ann_index"/>
+      </node>
+      <node id="1">
+        <label>themis::index::ScaNN</label>
+        <link refid="classthemis_1_1index_1_1_sca_n_n"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/index/ann_index.h" line="135" column="1" bodyfile="include/index/ann_index.h" bodystart="135" bodyend="231"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1ad147f60a26745724e33a5124a3dd02a2" prot="public" virt="virtual"><scope>themis::index::ScaNN</scope><name>add</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" prot="public" virt="virtual"><scope>themis::index::ScaNN</scope><name>build</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1ad2febdea4c0eef072b919e09c41e8594" prot="private" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1a380c67cf34d02178504fbd0acd12a1b6" prot="private" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>codebook_</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1a7866df19dec24eb507f161ea46a13554" prot="public" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>config</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1a66a5c026d2380e0b4a5a6ca1d50dd2fd" prot="private" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>dim_</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1abf9d6c64f215810d996817cbfcf87099" prot="private" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>flat_ids_</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1ad0b1938989c9c422f036c01f894cb4c2" prot="private" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>flat_vectors_</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1ac4a0ac017c228ce8fdfd50167de1a2f1" prot="private" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>kmeans</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1a159b5637df1d739a26e25d847fc7565c" prot="private" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>l2sq</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1ae6731d1a06e72973c5aa123dd7a23113" prot="private" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>leaves_</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1ad54553961d133fcec969ab1409b82760" prot="public" virt="virtual"><scope>themis::index::ScaNN</scope><name>load</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1aff787a126aeac3f4c144a390fdcaa0d8" prot="public" virt="virtual"><scope>themis::index::ScaNN</scope><name>save</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1ac5f6de18baa990ee13427f392ead275c" prot="public" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>ScaNN</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" prot="public" virt="virtual"><scope>themis::index::ScaNN</scope><name>search</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" prot="public" virt="virtual"><scope>themis::index::ScaNN</scope><name>size</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1a4ade5c564bb245df70c1999dfb4fd8ff" prot="private" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>trained_</name></member>
+      <member refid="classthemis_1_1index_1_1_i_ann_index_1a6be55350cefa2fb417b5c25f3a37d320" prot="public" virt="virtual"><scope>themis::index::ScaNN</scope><name>~IAnnIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_sca_n_n_1ac91ee228016695fc8120372becab883a" prot="public" virt="non-virtual"><scope>themis::index::ScaNN</scope><name>~ScaNN</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

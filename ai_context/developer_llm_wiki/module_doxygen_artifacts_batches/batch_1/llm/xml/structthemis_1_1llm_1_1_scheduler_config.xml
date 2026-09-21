@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_scheduler_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SchedulerConfig</compoundname>
+    <includes refid="inline__training__engine_8h" local="no">inline_training_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_scheduler_config_1ab613506535fbbede3ae3995d02741d27" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a7c4d2781364aa16a5dfc07cb304d49f2" kindref="member">SchedulerType</ref></type>
+        <definition>SchedulerType themis::llm::SchedulerConfig::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::SchedulerConfig::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a7c4d2781364aa16a5dfc07cb304d49f2a72d4a6cf9b2554ed35f923bea8bf04bc" kindref="member">SchedulerType::COSINE_WITH_WARMUP</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="89" column="19" bodyfile="include/llm/inline_training_engine.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_scheduler_config_1adc7aef8fc745d8a1758600bab1054efb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SchedulerConfig::warmup_steps</definition>
+        <argsstring></argsstring>
+        <name>warmup_steps</name>
+        <qualifiedname>themis::llm::SchedulerConfig::warmup_steps</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="90" column="9" bodyfile="include/llm/inline_training_engine.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_scheduler_config_1ae11f0629d7193dfff71cffeee31122fc" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::SchedulerConfig::min_lr</definition>
+        <argsstring></argsstring>
+        <name>min_lr</name>
+        <qualifiedname>themis::llm::SchedulerConfig::min_lr</qualifiedname>
+        <initializer>= 1e-6f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="91" column="11" bodyfile="include/llm/inline_training_engine.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_scheduler_config_1a2f0e24e10ea14de98e57184c4236b67a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::SchedulerConfig::max_lr</definition>
+        <argsstring></argsstring>
+        <name>max_lr</name>
+        <qualifiedname>themis::llm::SchedulerConfig::max_lr</qualifiedname>
+        <initializer>= 1e-4f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="92" column="11" bodyfile="include/llm/inline_training_engine.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_scheduler_config_1ad4198473e7c9450f2bffaa8c9617bbee" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SchedulerConfig::total_steps</definition>
+        <argsstring></argsstring>
+        <name>total_steps</name>
+        <qualifiedname>themis::llm::SchedulerConfig::total_steps</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="93" column="9" bodyfile="include/llm/inline_training_engine.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_scheduler_config_1a820a88dcce056199409a5527b5bfdf35" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::SchedulerConfig::power</definition>
+        <argsstring></argsstring>
+        <name>power</name>
+        <qualifiedname>themis::llm::SchedulerConfig::power</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="94" column="11" bodyfile="include/llm/inline_training_engine.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_scheduler_config_1a39a76f01547366de00f1f15f218af79c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::llm::SchedulerConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::SchedulerConfig::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="100" column="20" bodyfile="src/llm/inline_training_engine.cpp" bodystart="106" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_scheduler_config_1ac0ae89105a849e927d9cd9cc188eed86" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_scheduler_config" kindref="compound">SchedulerConfig</ref></type>
+        <definition>SchedulerConfig themis::llm::SchedulerConfig::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::SchedulerConfig::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="106" column="28" bodyfile="src/llm/inline_training_engine.cpp" bodystart="123" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/inline_training_engine.h" line="88" column="1" bodyfile="include/llm/inline_training_engine.h" bodystart="88" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_scheduler_config_1ac0ae89105a849e927d9cd9cc188eed86" prot="public" virt="non-virtual"><scope>themis::llm::SchedulerConfig</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_scheduler_config_1a2f0e24e10ea14de98e57184c4236b67a" prot="public" virt="non-virtual"><scope>themis::llm::SchedulerConfig</scope><name>max_lr</name></member>
+      <member refid="structthemis_1_1llm_1_1_scheduler_config_1ae11f0629d7193dfff71cffeee31122fc" prot="public" virt="non-virtual"><scope>themis::llm::SchedulerConfig</scope><name>min_lr</name></member>
+      <member refid="structthemis_1_1llm_1_1_scheduler_config_1a820a88dcce056199409a5527b5bfdf35" prot="public" virt="non-virtual"><scope>themis::llm::SchedulerConfig</scope><name>power</name></member>
+      <member refid="structthemis_1_1llm_1_1_scheduler_config_1a39a76f01547366de00f1f15f218af79c" prot="public" virt="non-virtual"><scope>themis::llm::SchedulerConfig</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_scheduler_config_1ad4198473e7c9450f2bffaa8c9617bbee" prot="public" virt="non-virtual"><scope>themis::llm::SchedulerConfig</scope><name>total_steps</name></member>
+      <member refid="structthemis_1_1llm_1_1_scheduler_config_1ab613506535fbbede3ae3995d02741d27" prot="public" virt="non-virtual"><scope>themis::llm::SchedulerConfig</scope><name>type</name></member>
+      <member refid="structthemis_1_1llm_1_1_scheduler_config_1adc7aef8fc745d8a1758600bab1054efb" prot="public" virt="non-virtual"><scope>themis::llm::SchedulerConfig</scope><name>warmup_steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

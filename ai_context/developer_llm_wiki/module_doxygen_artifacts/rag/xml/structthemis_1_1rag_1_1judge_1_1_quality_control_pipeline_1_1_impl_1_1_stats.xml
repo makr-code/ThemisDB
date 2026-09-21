@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::QualityControlPipeline::Impl::Stats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a01254bd581dbfcf500f910cdc6d2c2d4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::QualityControlPipeline::Impl::Stats::total_checks</definition>
+        <argsstring></argsstring>
+        <name>total_checks</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Impl::Stats::total_checks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/quality_control_pipeline.cpp" line="49" column="16" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a79520886c1e7715f3dfec0d8cf54322d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::QualityControlPipeline::Impl::Stats::passed_fast</definition>
+        <argsstring></argsstring>
+        <name>passed_fast</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Impl::Stats::passed_fast</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/quality_control_pipeline.cpp" line="50" column="16" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a92dfec1a736235fa6060760292906853" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::QualityControlPipeline::Impl::Stats::passed_balanced</definition>
+        <argsstring></argsstring>
+        <name>passed_balanced</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Impl::Stats::passed_balanced</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/quality_control_pipeline.cpp" line="51" column="16" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a530c8033ca2651a483984655141f99b7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::QualityControlPipeline::Impl::Stats::passed_thorough</definition>
+        <argsstring></argsstring>
+        <name>passed_thorough</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Impl::Stats::passed_thorough</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/quality_control_pipeline.cpp" line="52" column="16" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a8d4a1b2b1a9b0558a048a5509332036e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::QualityControlPipeline::Impl::Stats::failed</definition>
+        <argsstring></argsstring>
+        <name>failed</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Impl::Stats::failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/quality_control_pipeline.cpp" line="53" column="16" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a8411ef44974c85f532785e9613faa217" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::QualityControlPipeline::Impl::Stats::retries</definition>
+        <argsstring></argsstring>
+        <name>retries</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Impl::Stats::retries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/quality_control_pipeline.cpp" line="54" column="16" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1af80f728f3731c1f64b92c337322063cb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Impl::Stats::avg_fast_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_fast_time_ms</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Impl::Stats::avg_fast_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/quality_control_pipeline.cpp" line="55" column="16" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a2aa94e2ed7e8f3de461034f1791aadbb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Impl::Stats::avg_balanced_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_balanced_time_ms</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Impl::Stats::avg_balanced_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/quality_control_pipeline.cpp" line="56" column="16" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a4e22d635c246366bcf660bf40263b2e4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Impl::Stats::avg_thorough_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_thorough_time_ms</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Impl::Stats::avg_thorough_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/quality_control_pipeline.cpp" line="57" column="16" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rag/quality_control_pipeline.cpp" line="48" column="5" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="48" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a2aa94e2ed7e8f3de461034f1791aadbb" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Impl::Stats</scope><name>avg_balanced_time_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1af80f728f3731c1f64b92c337322063cb" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Impl::Stats</scope><name>avg_fast_time_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a4e22d635c246366bcf660bf40263b2e4" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Impl::Stats</scope><name>avg_thorough_time_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a8d4a1b2b1a9b0558a048a5509332036e" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Impl::Stats</scope><name>failed</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a92dfec1a736235fa6060760292906853" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Impl::Stats</scope><name>passed_balanced</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a79520886c1e7715f3dfec0d8cf54322d" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Impl::Stats</scope><name>passed_fast</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a530c8033ca2651a483984655141f99b7" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Impl::Stats</scope><name>passed_thorough</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a8411ef44974c85f532785e9613faa217" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Impl::Stats</scope><name>retries</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_impl_1_1_stats_1a01254bd581dbfcf500f910cdc6d2c2d4" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Impl::Stats</scope><name>total_checks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

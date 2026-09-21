@@ -1,0 +1,366 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats" kind="struct"><name>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats</name>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a75143b24aafff709d1756e9a29893c09" kind="variable"><name>recall_at_k1</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1ade595e57fad307f24ff5a605f21db3b6" kind="variable"><name>recall_at_k3</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1ac3efcdea7318e6e9aedaa78fef846d7d" kind="variable"><name>recall_at_k5</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a815231410b52525b4fc5f0dabfd61131" kind="variable"><name>recall_at_k10</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a12ef878cd669cd637c81a21a1ceccc7b" kind="variable"><name>mrr</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a755a1d6e8290778f481784695a055f54" kind="variable"><name>p95_query_latency_ms</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a5266419029ba0ed6bc2aa9f16096169e" kind="variable"><name>query_count</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin" kind="class"><name>themis::plugins::llm_wiki::ILLMWikiPlugin</name>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1ad5016eb7eec1a16084e78c866653168b" kind="function"><name>~ILLMWikiPlugin</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a5e4a8c06cffd28a6537174a79508a945" kind="function"><name>pluginId</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1aefbd6750d6e93a8a5a294c20d20cd286" kind="function"><name>pluginVersion</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a3077971e16ebb92957f87e68d81cc339" kind="function"><name>getType</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1afd216307943fd2f76da6d525386829c9" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a4d688da79f871291b6d0219f1fbd97cd" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a06d2ba30a839e13275853b941f35376b" kind="function"><name>ingest</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a67f46949ca4179d0b67b216312a7aa3c" kind="function"><name>query</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1acc143344377ac3f4ffca73defc7426c2" kind="function"><name>wikiInit</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a2c2ce8a1cc191bf86791905a781160d5" kind="function"><name>wikiIngest</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1af275709a6a33c6910d9270d905a8fe59" kind="function"><name>wikiQuery</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a83554a44aa8e75a9dcdc6e5a6fcb282e" kind="function"><name>wikiLint</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a753513352eb44c63eef1e0d2126fc14a" kind="function"><name>ingestWikipediaDump</name></member>
+    <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a88de5596a0f7894cfc236d5de3da2c3d" kind="function"><name>stats</name></member>
+  </compound>
+  <compound refid="structthemis_1_1llm__wiki_1_1_knob_bounds" kind="struct"><name>themis::llm_wiki::KnobBounds</name>
+    <member refid="structthemis_1_1llm__wiki_1_1_knob_bounds_1a2f828e8e50063324b8c57eaec304f61c" kind="variable"><name>min</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_knob_bounds_1ae241a33ea921775dff3e7aa7e1f59a22" kind="variable"><name>max</name></member>
+  </compound>
+  <compound refid="class_llm_wiki_core_test" kind="class"><name>LlmWikiCoreTest</name>
+    <member refid="class_llm_wiki_core_test_1a4929aa3d365b46ed9550d63bf3ccd66c" kind="variable"><name>tmp_dir_</name></member>
+    <member refid="class_llm_wiki_core_test_1af1fa17f1800909110bc01a57c8efcab2" kind="function"><name>SetUp</name></member>
+    <member refid="class_llm_wiki_core_test_1ad93ffdc3fc9aecb3f9b8019d52f28f9a" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="class_llm_wiki_edge_case_test" kind="class"><name>LlmWikiEdgeCaseTest</name>
+    <member refid="class_llm_wiki_edge_case_test_1a0dc9fe762d04f75b8308c513700d81e1" kind="variable"><name>tmp_dir_</name></member>
+    <member refid="class_llm_wiki_edge_case_test_1aabf9b3b1bacb74f7b0fa7359b96004a5" kind="function"><name>SetUp</name></member>
+    <member refid="class_llm_wiki_edge_case_test_1a055d16ac436a8c06c4ca89c4acbbc2b3" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy" kind="struct"><name>themis::llm_wiki::LLMWikiProcessPolicy</name>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1abba97b3844d6cc2620b239c346c12d79" kind="variable"><name>version</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a2636897f64a1cf98a05afa58e2345b78" kind="variable"><name>policy_id</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ac77e0f35f43273e14f57325a948b87ab" kind="variable"><name>mode</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1aaa4ef139e838f494750b94567274cb7d" kind="variable"><name>planner_owner</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a9d9652f670f9a7e3d5a8ba765eb0ad7e" kind="variable"><name>second_planner_allowed</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a1a2c146b8e0837f90d6c584a0c59f877" kind="variable"><name>interactive_timeout_ms</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a42a0516bbe194c31f72f2b6dcdd1c9aa" kind="variable"><name>ingest</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ad5185709cc54e61ab247439730632f26" kind="variable"><name>extract</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a6605322bc957a3e74c1e0186c927b00e" kind="variable"><name>synthesize</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1acad92b6970be17829cb622a31ef686b7" kind="variable"><name>validate</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a7dd26a961164652ae7e8cd37d275660f" kind="variable"><name>re_anchor</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1afdfbf4290e38a17de6caa04814fdcd18" kind="variable"><name>synthesize_max_evidence_items</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1afaea809266b4d79b19e66d7a9c139c6e" kind="variable"><name>synthesize_min_provenance_confidence</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a4b27d20af92a00355ace014ecd51f85d" kind="variable"><name>policy_snapshot_required</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1aa9cb15acb7824a0febaaf304bad05b88" kind="variable"><name>require_reason_codes</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1ae571043f3eb81d3b12450ac622bfbdaa" kind="variable"><name>adjustable_knobs</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a2a9c23f63391baac8513ad8df1112e31" kind="variable"><name>hard_bounds</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_l_l_m_wiki_process_policy_1a77770af1c589b6c98c2f0b39437286be" kind="variable"><name>never_adjust</name></member>
+  </compound>
+  <compound refid="classthemis_1_1llm__wiki_1_1_process_policy_manager" kind="class"><name>themis::llm_wiki::ProcessPolicyManager</name>
+    <member refid="classthemis_1_1llm__wiki_1_1_process_policy_manager_1ac0f0f3dcd20e2a6ace8a2d390dd067b7" kind="function"><name>loadFromYaml</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_process_policy_manager_1aff81c49b0e6d52d098ea072649c08b04" kind="function"><name>validate</name></member>
+  </compound>
+  <compound refid="structthemis_1_1llm__wiki_1_1_process_policy_status" kind="struct"><name>themis::llm_wiki::ProcessPolicyStatus</name>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093" kind="enum"><name>Code</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093aa60852f204ed8028c1c58808b746d115" kind="enumvalue"><name>Ok</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093abb149a06efb0aa1a2ea6711f20c82bbe" kind="enumvalue"><name>InvalidFile</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093ae41199faa7290c167f70f314c5e6c165" kind="enumvalue"><name>ParseError</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a3820f933918e023ba5d5b8cc7249b093a8180c46099f957f51b2bc31f7f0f5c42" kind="enumvalue"><name>ValidationError</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc4b2b0de9fee7bac75f36eb0922b4e9" kind="variable"><name>code</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a41bf92a4e174e0f35fb6d63d86b100d9" kind="variable"><name>message</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1ab5bd8307012c92d9075405275f517597" kind="function"><name>ok</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a00c7038010a974f214486dc8ad53b6e2" kind="function"><name>Ok</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1a5526c87bf5cb4fffc5b41d58e85ebdde" kind="function"><name>InvalidFile</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1afc0bc6c94662363a452e18b626231fcc" kind="function"><name>ParseError</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_process_policy_status_1acdde0346d320e286b1cf6f1e447590e8" kind="function"><name>ValidationError</name></member>
+  </compound>
+  <compound refid="structthemis_1_1llm__wiki_1_1_stage_policy" kind="struct"><name>themis::llm_wiki::StagePolicy</name>
+    <member refid="structthemis_1_1llm__wiki_1_1_stage_policy_1a8f13e915606beb138aa862853f5f5fc8" kind="variable"><name>enabled</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_stage_policy_1a34cd098575bff930b4269582999dfa1e" kind="variable"><name>schedule</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kind="struct"><name>themis::plugins::llm_wiki::Status</name>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878c" kind="enum"><name>Code</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878caa60852f204ed8028c1c58808b746d115" kind="enumvalue"><name>Ok</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca902b0d55fddef6f8d651fe1035b7d4bd" kind="enumvalue"><name>Error</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca4b33a686be73bb172407d73b26356275" kind="enumvalue"><name>PermissionDenied</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca253ca7dd096ee0956cccee4d376cab8b" kind="enumvalue"><name>InvalidArgument</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca9646ad3a1c3e708b4fa8b4b4270fbab6" kind="enumvalue"><name>NotInitialized</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a371b99511d4d6b22328695121ae46b2b" kind="variable"><name>code</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a27f76e3d4bf3a07f071d9fef5cd94ee1" kind="variable"><name>message</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a1c6a84d78e81fb99b233e477977b16a5" kind="function"><name>ok</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34b5c0c5020ded76a271c1aee6d63b36" kind="function"><name>Ok</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34847d45fb3d85cb4cd3344cbadd15a7" kind="function"><name>Error</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1aec39157a3baceccb4b4c01dc3ed987a4" kind="function"><name>PermissionDenied</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a75478ac033d73371c1522da88ab5a3fe" kind="function"><name>InvalidArgument</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a154b9fcf798b18d04e37b671eee624dc" kind="function"><name>NotInitialized</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options" kind="struct"><name>themis::plugins::llm_wiki::WikiDumpIngestOptions</name>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1ad9fba9113215a2ed2fa4cadbf9ccb5b1" kind="variable"><name>recursive</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a076e22a4022a4fbf5b5cf926591d6ef8" kind="variable"><name>lang</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a7169f5e634afca83fb58f54247152df0" kind="variable"><name>batch_size</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1adf8f218bb53512b0e58a8149fc38e861" kind="variable"><name>max_articles</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a27b429d9e6934ee7179ceb7620fef4b7" kind="variable"><name>project_vector</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a8c59aab1f45254ef647d58d9104e4221" kind="variable"><name>project_graph</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1ae18d0bd00e6d2c1581459f98a5a146ae" kind="variable"><name>project_timeseries</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a5af7b65fd69b2064c05b3277742885e0" kind="variable"><name>checkpoint_dir</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a7f4336428933171765c16df1ec074e60" kind="variable"><name>filter_category</name></member>
+  </compound>
+  <compound refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails" kind="class"><name>themis::llm_wiki::WikiGuardrails</name>
+    <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a4a42fac14884538afaff4df137591c08" kind="function"><name>WikiGuardrails</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a21362cf682cfb2d2f2e0b861ec4337a8" kind="function"><name>~WikiGuardrails</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1ad73e23a60e09d69adfc8ea3847f2a480" kind="function"><name>WikiGuardrails</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a3e871a84dbb40f69b20833511e954b34" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1ac6e530df186e44b3b47718b7d5c4d335" kind="function"><name>WikiGuardrails</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1a53dc943e96eb9dd718e4593c8c3cd91e" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1ab90051bc8b90c01b3b69524bc4d94d33" kind="function"><name>isUnsafeQuery</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1acab2e9dfe80b3870a720f4b9f629c200" kind="function"><name>isUnsafeContent</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_wiki_guardrails_1af2eca8bee3bbfb747dcf933ba1df8f9d" kind="function"><name>checkPatterns</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options" kind="struct"><name>themis::plugins::llm_wiki::WikiIngestOptions</name>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a69927feec29d177641ca449ad15488d7" kind="variable"><name>recursive</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1aef18e42bc23fd9ab28d80c8a4e52cf07" kind="variable"><name>file_glob</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1aca9e6678499f7077c8a7d3ba85e1c146" kind="variable"><name>splitter_max_tokens</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a47c2b4f0b6467c04f27dce3df70ad396" kind="variable"><name>splitter_overlap_tokens</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a3a3e3d0a92f66bf64a0fce27c10b93e5" kind="variable"><name>embedding_provider</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1ac8a0dca6763dd53b564fbdfeb1036105" kind="variable"><name>embedding_model</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a480bfb98e640129c09f2a05e8f795c9c" kind="variable"><name>embedding_dim</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a32f4ec20e441f4dbbd6e94a8f9c74e5f" kind="variable"><name>skip_existing</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a2a4bbf6798231f18ed72d5a3d2f272e3" kind="variable"><name>workspace_root</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1ab896ae95f94468899ce3479bec36c39b" kind="variable"><name>page_title</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result" kind="struct"><name>themis::plugins::llm_wiki::WikiIngestResult</name>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a19b49339d4a6a3a66c244a9e8b55889f" kind="variable"><name>files_processed</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a3d6a39c64966b337fa93992732b908d1" kind="variable"><name>chunks_written</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a47d57af5ce35e5485525c031a5774d09" kind="variable"><name>chunks_skipped</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a8e892a7bd2e0c6139727b2db07fb1602" kind="variable"><name>errors</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a933e1f64a62e8dc2c8ebdaae75b05ea1" kind="variable"><name>failed_files</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1abd34b5a4403b25def88b21e8ac0b0c42" kind="variable"><name>duration</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result" kind="struct"><name>themis::plugins::llm_wiki::WikiLintResult</name>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1ad69521ad26ece4ee329c64b0e88621aa" kind="variable"><name>orphan_pages</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1af25bfe334cfbfa7a19bd4360cba2da6a" kind="variable"><name>missing_backlinks</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1a4b5d983d7f09330e09a8273abf66a19f" kind="variable"><name>stale_synthesis_pages</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1aa051ce40681f3999d93a0f9c6a5811dd" kind="variable"><name>unresolved_tasks</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1a0feba19180fc87bef7048fc315d3b0dc" kind="variable"><name>degraded_pages</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_lint_result_1a483676c865e5a6eb74315d27265f5f80" kind="variable"><name>reanchor_required_pages</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options" kind="struct"><name>themis::plugins::llm_wiki::WikiQueryOptions</name>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1aef53396d5edd0b2151f9aeed7595f6e5" kind="variable"><name>top_k</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1a53081d0e5b6a30eb506b11f334344b65" kind="variable"><name>min_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1ade04009ee731c4bd40ca8b49815a53a3" kind="variable"><name>save_as_page</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1a5ed1889caec62830c74b0864dd294a82" kind="variable"><name>page_title</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_options_1abe99867ef9812a1305ad38e665102c06" kind="variable"><name>workspace_root</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result" kind="struct"><name>themis::plugins::llm_wiki::WikiQueryResult</name>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1a794aefca6c1ab4c8eccd70cbd8d6713d" kind="variable"><name>candidates</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1ac075dd596ae5d121796926daaf37f59a" kind="variable"><name>query_flagged_for_prompt_injection</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1ab608bfcbbec72a1a3563ff5b6bf98388" kind="variable"><name>filtered_unsafe_chunks</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1aa32865bdfe14e8e8921b8b26821838a8" kind="variable"><name>saved_page_path</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1a551737a00d9396d256cbf4043189848b" kind="variable"><name>duration</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats" kind="struct"><name>themis::plugins::llm_wiki::WikiWorkspaceStats</name>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1a91195105080c93810b88dfe02e56ef46" kind="variable"><name>total_chunks</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1a787e17fd724b87b8c927cbc45799b299" kind="variable"><name>total_docs</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1a2b975597615835e864c8e41f83ed11c9" kind="variable"><name>wiki_pages</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1af18538c084612fac1f0688fcffa999b1" kind="variable"><name>open_tasks</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1af609cff92136ae71f22b414a29b69c84" kind="variable"><name>orphan_pages</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1a7c8a969c1743e965aeca911f4a6f54e7" kind="variable"><name>provenance_records</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1ac68cc96bacf4e40cf66a70efd4a76af9" kind="variable"><name>llm_iterations</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1aa578fd5e284ad87c6a978531f54fc6eb" kind="variable"><name>reanchor_required_pages</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1a89a908c9e6ac6ee89211c8f36bd2935f" kind="variable"><name>rocksdb_backed</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1ad39964d53a46f380768ae5fbe11e823c" kind="variable"><name>embedding_provider</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1a35e243765ae7464d22b6c5930583427a" kind="variable"><name>average_synthetic_chain_length</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1af4c12d1fb0cc0dedfed254e6173c9604" kind="variable"><name>max_synthetic_chain_length</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1aa068160bbea559d8fd17c037e6c5e3da" kind="variable"><name>average_provenance_confidence</name></member>
+    <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1adf8873376ec463f7f0aff2dcd19c7b91" kind="variable"><name>evaluation</name></member>
+  </compound>
+  <compound refid="structthemis_1_1llm__wiki_1_1_workspace_state" kind="struct"><name>themis::llm_wiki::WorkspaceState</name>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" kind="variable"><name>version</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1ad03d2715979bb47d7eda552c826375b0" kind="variable"><name>created_at</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a27657c024721d91eb48d16092cee7f36" kind="variable"><name>last_updated</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a1c5d3342adf34fccf69e3aba155fc40b" kind="variable"><name>checksum</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kind="variable"><name>workspace_root</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a571cbf76a1f7743061b8e3c640616d4f" kind="variable"><name>links</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1af9a730a36c3c58fa2e81723527e22ca3" kind="variable"><name>tasks</name></member>
+  </compound>
+  <compound refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kind="class"><name>themis::llm_wiki::WorkspaceStateManager</name>
+    <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1aed601dd86a52c86cd7fdab98f460b1ed" kind="variable"><name>workspace_root_</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a1af54fce4e2b904cce4b7dc357d29432" kind="variable"><name>state_file_</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a69f05e384d509950405c3dfd0d0bc790" kind="variable"><name>log_file_</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a68c7bcf18fab23282b02d577926eb0dd" kind="function"><name>WorkspaceStateManager</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a6d7ed2481635c9924ca78ea599c9bf36" kind="function"><name>~WorkspaceStateManager</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1ac3f631c1f5c72a57085def7b72816637" kind="function"><name>WorkspaceStateManager</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a79c5fb2c29f32875f50b20f93f1697be" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a457836c232e5da3cff1d72fab52929fa" kind="function"><name>load</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a403540d19705ab7a040581be09f01481" kind="function"><name>save</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a9eab3f855b283e3470679fcee574865b" kind="function"><name>recoverFromLog</name></member>
+    <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a4475be79a777fee1728a0edad0b48c60" kind="function"><name>validateChecksum</name></member>
+  </compound>
+  <compound refid="structthemis_1_1llm__wiki_1_1_workspace_status" kind="struct"><name>themis::llm_wiki::WorkspaceStatus</name>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edc" kind="enum"><name>Code</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaa60852f204ed8028c1c58808b746d115" kind="enumvalue"><name>Ok</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca902b0d55fddef6f8d651fe1035b7d4bd" kind="enumvalue"><name>Error</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca27551f1033382ea4b027e79402e18c7a" kind="enumvalue"><name>CorruptState</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca4f67c44b93cc62755fee6051885d5e5a" kind="enumvalue"><name>InvalidJson</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca2767828026039e8ba7b38973cbb701f2" kind="enumvalue"><name>FileNotFound</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaf2b0e5c3d94c2f5b19d679412a1953cb" kind="enumvalue"><name>WriteFailure</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca23cd86e43512932a4bc975552c8d17fd" kind="enumvalue"><name>ChecksumMismatch</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1a53433b9f1375b0da354f90a5e3f5e5de" kind="variable"><name>code</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1afc455196a06c97611f4b97b5294dfd93" kind="variable"><name>message</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1acb470b5a540916709fd0f4ff1bbbe9fd" kind="function"><name>ok</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1afb5b412f97c84218b677114304213df6" kind="function"><name>Ok</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1ac0813b014bf96f5c9dbdef9a93d28c68" kind="function"><name>Error</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1a8fd1d72f832500ed348ebd0d0adebb32" kind="function"><name>CorruptState</name></member>
+    <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1ad4c8f78e446e89e5e5628b0ee165ea15" kind="function"><name>ChecksumMismatch</name></member>
+  </compound>
+  <compound refid="namespace_0d012216142030031076212065300174342203057014244155" kind="namespace"><name>@012216142030031076212065300174342203057014244155</name>
+  </compound>
+  <compound refid="namespace_0d033243363205005241247265350053112264112327153255" kind="namespace"><name>@033243363205005241247265350053112264112327153255</name>
+  </compound>
+  <compound refid="namespace_0d270142366144113220161013147076055043224053321102" kind="namespace"><name>@270142366144113220161013147076055043224053321102</name>
+  </compound>
+  <compound refid="namespacetesting" kind="namespace"><name>testing</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1llm__wiki" kind="namespace"><name>themis::llm_wiki</name>
+    <member refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176" kind="enum"><name>ProcessSchedule</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a24b9b8c0634a40138e76b2fb86894698" kind="enumvalue"><name>Interactive</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a680f20394e5d431b948f71b9243cfd90" kind="enumvalue"><name>NearRealtime</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a009213a992aed2f5d34959b6a8dd9176a51ffe9dd1b1e143c1b9f1144d040e454" kind="enumvalue"><name>Batch</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64d" kind="enum"><name>Edition</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da7d61983c34edc2a8cabbea71c4732f62" kind="enumvalue"><name>Community</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da30fc6bbba82125243ecf4ddb27fee645" kind="enumvalue"><name>Minimal</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64daa0f27638260642afb474516cc918407e" kind="enumvalue"><name>Enterprise</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64dac1b47471a575ac0bf20392ca17ecd880" kind="enumvalue"><name>Hyperscaler</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da7d2957dfd3b888fc4087f60c3c650953" kind="enumvalue"><name>Military</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a3125d162c4ec0a67de0f1889b3aa2576" kind="typedef"><name>PluginStatus</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a69c4b9eaa54fc62034584823d077b510" kind="typedef"><name>json</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a55f56e5bf2ad4e95c85e1c896839860b" kind="variable"><name>kLLMWikiCompileTimeEnabled</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a4caa2dcae58c1590947e13082b1f0070" kind="variable"><name>kLLMWikiWikipediaCompileTimeEnabled</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a84b93b352b5764a01ad2a1d37b5e5b83" kind="function"><name>getCurrentEdition</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a1d17818ab76f202de7ad5a7378fe0673" kind="function"><name>isLLMWikiEnabled</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a126ba246a3641f59aa5b75679239598e" kind="function"><name>isLLMWikiFeatureEnabled</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1aaddee830161f5670ca4230f9f9e83cf9" kind="function"><name>enforcePluginGate</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a7a236b00e5231cb39111ee7d71bd12e7" kind="function"><name>enforceFeatureGate</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a37c161c5e7212c74dff8a431fc3d09c3" kind="function"><name>normalizeForGuardrailCheck</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1ae87eb34c4b42108ad8dfb1ab71f3f7b7" kind="function"><name>computeSHA256</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1ac617dd0daeb15bf0b638600416993e6c" kind="function"><name>serializeStateToJson</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1a5819bb9f14204f6e8ae7399a18c1332f" kind="function"><name>deserializeJsonToState</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1llm__wiki_1_1_0d343207204233274270215210361202125047140313132347" kind="namespace"><name>themis::llm_wiki::@343207204233274270215210361202125047140313132347</name>
+  </compound>
+  <compound refid="namespacethemis_1_1llm__wiki_1_1guardrail__patterns" kind="namespace"><name>themis::llm_wiki::guardrail_patterns</name>
+    <member refid="namespacethemis_1_1llm__wiki_1_1guardrail__patterns_1a0c822cb314bd31d4eda5048b665d8a1d" kind="variable"><name>kShellPatterns</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1_1guardrail__patterns_1a630b8e8108fa59cec4e6c974d65b1b30" kind="variable"><name>kCodeExecutionPatterns</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1_1guardrail__patterns_1a09f3d200d3af53e443e2d0927ae20d86" kind="variable"><name>kEncodingPatterns</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1_1guardrail__patterns_1a92d74a8d3209487beeff81c4adf38854" kind="variable"><name>kPrivilegePatterns</name></member>
+    <member refid="namespacethemis_1_1llm__wiki_1_1guardrail__patterns_1a38887117617821cb835ac434a9d9009d" kind="variable"><name>kControlFlowPatterns</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins" kind="namespace"><name>themis::plugins</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1llm__wiki" kind="namespace"><name>themis::plugins::llm_wiki</name>
+    <member refid="namespacethemis_1_1plugins_1_1llm__wiki_1a93f882bc49e6ef6f55f9675cf08df184" kind="typedef"><name>LLMWikiPluginFactory</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1llm__wiki_1a6257a24ccac7dfd256332e2702f7af5a" kind="typedef"><name>LLMWikiPluginDestroyFunc</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1llm__wiki_1a79b95256c372db86be938444c3857f65" kind="variable"><name>kLLMWikiPluginFactorySymbol</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1llm__wiki_1a4d7d2e02cb47d76277c8a1c07f21044c" kind="variable"><name>kLLMWikiPluginDestroySymbol</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1llm__wiki_1ad8e0ce1bb51e61062d7f9af7e3ae4fde" kind="variable"><name>kLLMWikiPluginId</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1_0d134323175143040353020153275305247335143314012041" kind="namespace"><name>themis::plugins::llm_wiki::@134323175143040353020153275305247335143314012041</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1_0d205223110360050335272230121117015364325211274303" kind="namespace"><name>themis::plugins::llm_wiki::@205223110360050335272230121117015364325211274303</name>
+  </compound>
+  <compound refid="bench__llm__wiki__dedicated__gates_8cpp" kind="file"><name>bench_llm_wiki_dedicated_gates.cpp</name>
+    <member refid="bench__llm__wiki__dedicated__gates_8cpp_1a2eb532cf6086867fbbb5aa1c0b59e473" kind="function"><name>sharedIndex</name></member>
+    <member refid="bench__llm__wiki__dedicated__gates_8cpp_1a17fe2637969b3a1172329e988341efb0" kind="function"><name>BM_LW_BM_01_IndexQueryThroughput</name></member>
+    <member refid="bench__llm__wiki__dedicated__gates_8cpp_1aa12ee4eaee94e95f75905a8c65d880b2" kind="function"><name>Threads</name></member>
+    <member refid="bench__llm__wiki__dedicated__gates_8cpp_1a9a002c7aa69ba352205f5371dca10d5d" kind="function"><name>BM_LW_BM_02_ArticleSyncLatency</name></member>
+    <member refid="bench__llm__wiki__dedicated__gates_8cpp_1a20cd142a1794d4958f7a639b50a9c448" kind="function"><name>MinTime</name></member>
+    <member refid="bench__llm__wiki__dedicated__gates_8cpp_1a0f52c7787ad7b6e77d752f7f95cd26c3" kind="function"><name>BM_LW_BM_03_SemanticSearchLatency</name></member>
+    <member refid="bench__llm__wiki__dedicated__gates_8cpp_1adcd9fc5d1b060534f8508744deebcd31" kind="function"><name>BM_LW_BM_04_CacheLookupLatency</name></member>
+    <member refid="bench__llm__wiki__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__wikipedia__throughput_8cpp" kind="file"><name>bench_wikipedia_throughput.cpp</name>
+  </compound>
+  <compound refid="llm__wiki__plugin__interface_8h" kind="file"><name>llm_wiki_plugin_interface.h</name>
+  </compound>
+  <compound refid="llm__wiki__status_8h" kind="file"><name>llm_wiki_status.h</name>
+  </compound>
+  <compound refid="process__policy__manager_8h" kind="file"><name>process_policy_manager.h</name>
+  </compound>
+  <compound refid="rocksdb__wiki__store_8h" kind="file"><name>rocksdb_wiki_store.h</name>
+  </compound>
+  <compound refid="workspace__state__manager_8h" kind="file"><name>workspace_state_manager.h</name>
+  </compound>
+  <compound refid="edition__gate_8cpp" kind="file"><name>edition_gate.cpp</name>
+  </compound>
+  <compound refid="edition__gate_8h" kind="file"><name>edition_gate.h</name>
+  </compound>
+  <compound refid="guardrail__patterns_8h" kind="file"><name>guardrail_patterns.h</name>
+  </compound>
+  <compound refid="process__policy__manager_8cpp" kind="file"><name>process_policy_manager.cpp</name>
+  </compound>
+  <compound refid="rocksdb__wiki__store_8cpp" kind="file"><name>rocksdb_wiki_store.cpp</name>
+  </compound>
+  <compound refid="llm__wiki__plugin__factory_8cpp" kind="file"><name>llm_wiki_plugin_factory.cpp</name>
+  </compound>
+  <compound refid="llm__wiki__plugin__impl_8cpp" kind="file"><name>llm_wiki_plugin_impl.cpp</name>
+  </compound>
+  <compound refid="wiki__workspace__orchestrator_8cpp" kind="file"><name>wiki_workspace_orchestrator.cpp</name>
+  </compound>
+  <compound refid="workspace__state__manager_8cpp" kind="file"><name>workspace_state_manager.cpp</name>
+  </compound>
+  <compound refid="test__llm__wiki__core__focused_8cpp" kind="file"><name>test_llm_wiki_core_focused.cpp</name>
+    <member refid="test__llm__wiki__core__focused_8cpp_1a9f8a49654564c04bb17067decc666c3b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__llm__wiki__core__focused_8cpp_1afbf63ce155338ae2e74bc1561b9a6503" kind="function"><name>TEST_F</name></member>
+    <member refid="test__llm__wiki__core__focused_8cpp_1a8dff04826f07c5604949cd21c52fe40a" kind="function"><name>TEST_F</name></member>
+    <member refid="test__llm__wiki__core__focused_8cpp_1a48b82ef07f44b37979bd0fe277f35dc8" kind="function"><name>TEST_F</name></member>
+    <member refid="test__llm__wiki__core__focused_8cpp_1a5d205046001f46ad6ac6441516cab89c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__llm__wiki__core__focused_8cpp_1aca42486e6d8ca321561db93c34b4ed03" kind="function"><name>TEST_F</name></member>
+    <member refid="test__llm__wiki__core__focused_8cpp_1a254a0b8d4835af966c4cbe8d7b5eb104" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__llm__wiki__edge__cases__focused_8cpp" kind="file"><name>test_llm_wiki_edge_cases_focused.cpp</name>
+    <member refid="test__llm__wiki__edge__cases__focused_8cpp_1a0a925ec0dbf9e0ac45979f33ff8011ad" kind="function"><name>TEST_F</name></member>
+    <member refid="test__llm__wiki__edge__cases__focused_8cpp_1a17fdbec07a8d72a45b1a5b10a7ea08db" kind="function"><name>TEST_F</name></member>
+    <member refid="test__llm__wiki__edge__cases__focused_8cpp_1a4f44407d8200a337be25b0240e5edbe9" kind="function"><name>TEST_F</name></member>
+    <member refid="test__llm__wiki__edge__cases__focused_8cpp_1a31678b023a1dc3f2c55d400afbad91fa" kind="function"><name>TEST_F</name></member>
+    <member refid="test__llm__wiki__edge__cases__focused_8cpp_1a8e091dc1d990a2cfb78e2f8bee849a97" kind="function"><name>TEST_F</name></member>
+    <member refid="test__llm__wiki__edge__cases__focused_8cpp_1a72a98964c5654108fb86beb0c192279c" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__llm__wiki__highcardinality__stress_8cpp" kind="file"><name>test_llm_wiki_highcardinality_stress.cpp</name>
+    <member refid="test__llm__wiki__highcardinality__stress_8cpp_1a35811680d1cd118822c21f78b73110d6" kind="function"><name>TEST</name></member>
+    <member refid="test__llm__wiki__highcardinality__stress_8cpp_1a38c682ebed1a6e33ca3417c0986b844d" kind="function"><name>TEST</name></member>
+    <member refid="test__llm__wiki__highcardinality__stress_8cpp_1a0706416cb5e0ae8126c176a56a3963f3" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__llm__wiki__llm__integration__focused_8cpp" kind="file"><name>test_llm_wiki_llm_integration_focused.cpp</name>
+    <member refid="test__llm__wiki__llm__integration__focused_8cpp_1a021786f3899014886fbe55fd42bf7b46" kind="function"><name>TEST</name></member>
+    <member refid="test__llm__wiki__llm__integration__focused_8cpp_1ab61cf139dd1aac7f85b942139adeaa8f" kind="function"><name>TEST</name></member>
+    <member refid="test__llm__wiki__llm__integration__focused_8cpp_1a45d8c8cfdd9eff811c9d6b06faf8c7cd" kind="function"><name>TEST</name></member>
+    <member refid="test__llm__wiki__llm__integration__focused_8cpp_1a0d21d7af92b590b655401db854f42a71" kind="function"><name>TEST</name></member>
+    <member refid="test__llm__wiki__llm__integration__focused_8cpp_1a7944c4a177471f7d5f2aa618a0fccad5" kind="function"><name>TEST</name></member>
+    <member refid="test__llm__wiki__llm__integration__focused_8cpp_1aba7d5397e0d7d232b170875e5e62c2c7" kind="function"><name>TEST</name></member>
+    <member refid="test__llm__wiki__llm__integration__focused_8cpp_1ac17796e517eb49697af157e614a99f79" kind="function"><name>TEST</name></member>
+    <member refid="test__llm__wiki__llm__integration__focused_8cpp_1a3ee5050b9c9620ad521be453c92d4945" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_7295bfe70283d86b006104b6b7e881a8" kind="dir"><name>benchmarks/llm_wiki</name>
+  </compound>
+  <compound refid="dir_060a9bb23ef0b89d3545c70f2607e353" kind="dir"><name>include/llm_wiki</name>
+  </compound>
+  <compound refid="dir_f3e86320732c53583bd0bbb9a6050416" kind="dir"><name>src/llm_wiki</name>
+  </compound>
+  <compound refid="dir_a7bc0faf572047611724614beb31b23b" kind="dir"><name>tests/llm_wiki</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+  <compound refid="dir_f242a1be4055320fd0524350baa53ad4" kind="dir"><name>src/llm_wiki/wikipedia</name>
+  </compound>
+</doxygenindex>

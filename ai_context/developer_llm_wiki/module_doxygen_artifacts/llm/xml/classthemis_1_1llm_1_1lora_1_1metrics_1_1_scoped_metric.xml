@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_scoped_metric" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::metrics::ScopedMetric</compoundname>
+    <includes refid="lora__metrics_8h" local="no">lora_metrics.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Func</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_scoped_metric_1a7d723db10cd432cfba5dec196a101c3c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_metric_timer" kindref="compound">MetricTimer</ref></type>
+        <definition>MetricTimer themis::llm::lora::metrics::ScopedMetric&lt; Func &gt;::timer_</definition>
+        <argsstring></argsstring>
+        <name>timer_</name>
+        <qualifiedname>themis::llm::lora::metrics::ScopedMetric::timer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="398" column="17" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_scoped_metric_1afe9cde1f51d6aa4bf710bde0380cb556" prot="private" static="no" mutable="no">
+        <type>Func</type>
+        <definition>Func themis::llm::lora::metrics::ScopedMetric&lt; Func &gt;::on_complete_</definition>
+        <argsstring></argsstring>
+        <name>on_complete_</name>
+        <qualifiedname>themis::llm::lora::metrics::ScopedMetric::on_complete_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="399" column="10" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_scoped_metric_1a81e34bd19da94618914b8791508e992f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::metrics::ScopedMetric&lt; Func &gt;::ScopedMetric</definition>
+        <argsstring>(Func on_complete)</argsstring>
+        <name>ScopedMetric</name>
+        <qualifiedname>themis::llm::lora::metrics::ScopedMetric::ScopedMetric</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>on_complete</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="387" column="5" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="387" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1metrics_1_1_scoped_metric_1a269b2f1af8ce88bb94aa93fb37dbfb80" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::metrics::ScopedMetric&lt; Func &gt;::~ScopedMetric</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedMetric</name>
+        <qualifiedname>themis::llm::lora::metrics::ScopedMetric::~ScopedMetric</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_metrics.h" line="389" column="5" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="389" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_metrics.h" line="385" column="1" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="385" bodyend="400"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_scoped_metric_1afe9cde1f51d6aa4bf710bde0380cb556" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::ScopedMetric</scope><name>on_complete_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_scoped_metric_1a81e34bd19da94618914b8791508e992f" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::ScopedMetric</scope><name>ScopedMetric</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_scoped_metric_1a7d723db10cd432cfba5dec196a101c3c" prot="private" virt="non-virtual"><scope>themis::llm::lora::metrics::ScopedMetric</scope><name>timer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1metrics_1_1_scoped_metric_1a269b2f1af8ce88bb94aa93fb37dbfb80" prot="public" virt="non-virtual"><scope>themis::llm::lora::metrics::ScopedMetric</scope><name>~ScopedMetric</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

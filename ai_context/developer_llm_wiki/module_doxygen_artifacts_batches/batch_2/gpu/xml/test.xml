@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a9f304d84fab6d00271483e1cb307cfcc" kindref="member">TEST_F</ref>  (<ref refid="class_quota_exceeded_test" kindref="compound">QuotaExceededTest</ref>, QuotaExceeded_IsClassifiedCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000033"/>test_quota_exceeded_classification  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a9c23eff33d3778607d1c505ef3d54fff" kindref="member">TEST_F</ref>  (<ref refid="class_quota_exceeded_test" kindref="compound">QuotaExceededTest</ref>, QuotaExceeded_TriggersCPUFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000034"/>test_quota_exceeded_fallback  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a261259c956cec144acd9d191768c8c59" kindref="member">TEST_F</ref>  (<ref refid="class_quota_exceeded_test" kindref="compound">QuotaExceededTest</ref>, QuotaExceeded_ExceptionSafe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000035"/>test_quota_exceeded_exception_safety  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1ac9033a3e8fe7c69c99d5d2d56cd9e382" kindref="member">TEST_F</ref>  (<ref refid="class_kernel_timeout_test" kindref="compound">KernelTimeoutTest</ref>, KernelTimeout_IsClassifiedCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000036"/>test_kernel_timeout_classification  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a87321bb7f9b02b1d9dcadfa917615698" kindref="member">TEST_F</ref>  (<ref refid="class_kernel_timeout_test" kindref="compound">KernelTimeoutTest</ref>, KernelTimeout_TriggersCPUFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000037"/>test_kernel_timeout_fallback  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a30f6068bc4a6105555e4e135bee628e4" kindref="member">TEST_F</ref>  (<ref refid="class_kernel_timeout_test" kindref="compound">KernelTimeoutTest</ref>, KernelTimeout_SLAEnforced5Seconds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000038"/>test_kernel_timeout_sla_enforcement  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a480c48a38849864dfc3c35e731d3d9e3" kindref="member">TEST_F</ref>  (<ref refid="class_kernel_timeout_test" kindref="compound">KernelTimeoutTest</ref>, KernelTimeout_DiagnosticEmitted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000039"/>test_kernel_timeout_diagnostic_emitted  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1afd8c3bec3daa49c505cb41c97e1bd9fd" kindref="member">TEST_F</ref>  (<ref refid="class_backend_unavailable_test" kindref="compound">BackendUnavailableTest</ref>, BackendUnavailable_IsClassifiedCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000040"/>test_backend_unavailable_classification  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a6cda630a4b037970c7d28275f78517fc" kindref="member">TEST_F</ref>  (<ref refid="class_backend_unavailable_test" kindref="compound">BackendUnavailableTest</ref>, BackendUnavailable_TriggersCPUFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000041"/>test_backend_unavailable_fallback  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a3d5f7087f34e30ba159ba77de978c1bf" kindref="member">TEST_F</ref>  (<ref refid="class_backend_unavailable_test" kindref="compound">BackendUnavailableTest</ref>, BackendUnavailable_DeviceMarked)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000042"/>test_backend_unavailable_device_marked  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a1308ab376e2fae94cb2083e72c1abb95" kindref="member">TEST_F</ref>  (<ref refid="class_memory_communication_test" kindref="compound">MemoryCommunicationTest</ref>, MemoryCommunication_IsClassifiedCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000043"/>test_memory_communication_classification  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a6a5e76e2fbc46ab2cf559cf583e6e2c6" kindref="member">TEST_F</ref>  (<ref refid="class_memory_communication_test" kindref="compound">MemoryCommunicationTest</ref>, MemoryCommunication_TriggersCPUFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000044"/>test_memory_communication_fallback  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a6184e244d5e3511b276c1622b5440546" kindref="member">TEST_F</ref>  (<ref refid="class_memory_communication_test" kindref="compound">MemoryCommunicationTest</ref>, MemoryCommunication_RetryProtocol)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000045"/>test_memory_communication_retry_protocol  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a3665bb6a823b97d70787b56e752ddb02" kindref="member">TEST_F</ref>  (<ref refid="class_numerical_error_test" kindref="compound">NumericalErrorTest</ref>, NumericalError_IsClassifiedCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000046"/>test_numerical_error_classification  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1ad5cb84c5088bd36b496f7eeb50eaa5aa" kindref="member">TEST_F</ref>  (<ref refid="class_numerical_error_test" kindref="compound">NumericalErrorTest</ref>, NumericalError_WarningEmitted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000047"/>test_numerical_error_warning_emitted  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a15b0b6a1d25a47bdef11a703af8893cd" kindref="member">TEST_F</ref>  (<ref refid="class_numerical_error_test" kindref="compound">NumericalErrorTest</ref>, NumericalError_NaNDetection)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000048"/>test_numerical_error_nan_detection  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1ae8b4b61aecab172b1d92f1a3b522ebcc" kindref="member">TEST_F</ref>  (<ref refid="class_unsupported_operation_test" kindref="compound">UnsupportedOperationTest</ref>, UnsupportedOperation_IsClassifiedCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000049"/>test_unsupported_operation_classification  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a14573f35d4646889f88a6f9836579b2c" kindref="member">TEST_F</ref>  (<ref refid="class_unsupported_operation_test" kindref="compound">UnsupportedOperationTest</ref>, UnsupportedOperation_TriggersCPUFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000050"/>test_unsupported_operation_fallback  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a3bec3f3d379ca4fa81817281fcb2bb0a" kindref="member">TEST_F</ref>  (<ref refid="class_unsupported_operation_test" kindref="compound">UnsupportedOperationTest</ref>, UnsupportedOperation_DiagnosticEmitted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000051"/>test_unsupported_operation_diagnostic  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a43ded1877572e0c8d15ab7dfa6fb6bbf" kindref="member">TEST_F</ref>  (<ref refid="class_integrated_error_handling_test" kindref="compound">IntegratedErrorHandlingTest</ref>, ErrorHandling_SequenceComplete)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000052"/>test_error_handling_sequence  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a5da1fd63562d61920bd896cf91d8646b" kindref="member">TEST_F</ref>  (<ref refid="class_integrated_error_handling_test" kindref="compound">IntegratedErrorHandlingTest</ref>, ErrorHandling_ThreadSafe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000053"/>test_error_recording_thread_safe  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a78487b15c76ee20c802d752d9e60d3ec" kindref="member">TEST_F</ref>  (<ref refid="class_integrated_error_handling_test" kindref="compound">IntegratedErrorHandlingTest</ref>, ErrorHandling_AllClassesHaveRecovery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000054"/>test_all_error_classes_have_recovery  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1ac6aaa0c2c732304588c41cd7e33810b8" kindref="member">TEST_F</ref>  (<ref refid="class_g_p_u_c_p_u_parity_test" kindref="compound">GPUCPUParityTest</ref>, CPUFallback_ParityVerified)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000055"/>test_cpu_fallback_parity  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a605f83ea3673dff576c47634ac6ff796" kindref="member">TEST_F</ref>  (<ref refid="class_g_p_u_c_p_u_parity_test" kindref="compound">GPUCPUParityTest</ref>, Precision_FP16Tolerance)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000056"/>test_fp16_precision_tolerance  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__error__handling__comprehensive_8cpp_1a153460405d96b8201982a1c97be04368" kindref="member">TEST_F</ref>  (<ref refid="class_g_p_u_c_p_u_parity_test" kindref="compound">GPUCPUParityTest</ref>, Precision_BF16Tolerance)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000057"/>test_bf16_precision_tolerance  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1aedd99a0b986d79c9a224f8dc9ed96756" kindref="member">TEST_F</ref>  (<ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref>, QueryAccelWithErrorInjection_QuotaExceeded)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000070"/>test_query_accel_with_error_injection_quota  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1a0b27405e5c0f63ad1332fc739dcbce73" kindref="member">TEST_F</ref>  (<ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref>, QueryAccelWithErrorInjection_KernelTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000071"/>test_query_accel_with_error_injection_timeout  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1a683c77bae994ed98d8fc1011197a52e0" kindref="member">TEST_F</ref>  (<ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref>, QueryAccelWithErrorInjection_Communication)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000072"/>test_query_accel_with_error_injection_communication  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1a87781dddc139371c64c7714f633efb8b" kindref="member">TEST_F</ref>  (<ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref>, QueryAccelFallback_CorrectResult)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000073"/>test_query_accel_fallback_produces_correct_result  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1ae339a990c4e3d990565759ae47fc3d5d" kindref="member">TEST_F</ref>  (<ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref>, MemoryManagerWithTimeout_Allocation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000074"/>test_memory_manager_with_timeout_allocation  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1a1d8f5e3113a0bfaaf9e9635d5a5afc0b" kindref="member">TEST_F</ref>  (<ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref>, MemoryManagerWithTimeout_Deallocation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000075"/>test_memory_manager_with_timeout_deallocation  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1a4cb0a5e8c56ede9db12964499387cd32" kindref="member">TEST_F</ref>  (<ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref>, MemoryManagerWithTimeout_ExceptionSafe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000076"/>test_memory_manager_with_timeout_exception_safe  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1aaf3c1f9accb0721a9a9ec451f144b837" kindref="member">TEST_F</ref>  (<ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref>, MemoryManagerWithTimeout_QuotaInteraction)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000077"/>test_memory_manager_with_timeout_quota_interaction  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1ab95b8abcc86890042fec0dbdfd8813b4" kindref="member">TEST_F</ref>  (<ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref>, ROCmBackendWithFallback_HIPError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000078"/>test_rocm_backend_with_fallback_hip_error  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1ae41a34ebf449798a63ee7294e1f614dc" kindref="member">TEST_F</ref>  (<ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref>, ROCmBackendWithFallback_UnifiedMemory)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000079"/>test_rocm_backend_with_fallback_unified_memory  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1a41c8a87a0be6828e372f15dc8a3d7547" kindref="member">TEST_F</ref>  (<ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref>, ROCmBackendWithFallback_DeviceOffline)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000080"/>test_rocm_backend_with_fallback_device_offline  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1ac33078eaeb68392fa2f3c139135d56e6" kindref="member">TEST_F</ref>  (<ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref>, ROCmBackendWithFallback_Parity)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000081"/>test_rocm_backend_with_fallback_parity  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1ad5b87fbba82e66f7dd3ed8135dd6ae98" kindref="member">TEST_F</ref>  (<ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref>, RAIILifecycle_MoveSemantics)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000082"/>test_raii_lifecycle_move_semantics  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1ac9e065a12afd3b7e185b8436966bcbee" kindref="member">TEST_F</ref>  (<ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref>, RAIILifecycle_ExceptionCleanup)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000083"/>test_raii_lifecycle_exception_cleanup  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1ae26d8b069d446438b409dc0d635dc8ec" kindref="member">TEST_F</ref>  (<ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref>, RAIILifecycle_NestedScopes)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000084"/>test_raii_lifecycle_nested_scopes  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1a84a896053fd3aa42ec2511ffa8fe3478" kindref="member">TEST_F</ref>  (<ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref>, RAIILifecycle_ThrowingDestructor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000085"/>test_raii_lifecycle_exception_in_raii  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1aba724a415721458e8907fbe3eb5df49e" kindref="member">TEST_F</ref>  (<ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref>, RAIILifecycle_ConcurrentCleanup)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000086"/>test_raii_lifecycle_concurrent_cleanup  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1a2ffe204dc6f9efa5ac2f42e782ca7346" kindref="member">TEST_F</ref>  (<ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref>, FullPipeline_GPUSuccess)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000087"/>test_full_pipeline_gpu_success  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1acb53a2131a18f23b0528a2e35fc4b0a9" kindref="member">TEST_F</ref>  (<ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref>, FullPipeline_GPUToCPUQuota)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000088"/>test_full_pipeline_gpu_to_cpu_quota  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1a2f23b431987cb09235a5af2b0bf2ff9c" kindref="member">TEST_F</ref>  (<ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref>, FullPipeline_GPUToCPUTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000089"/>test_full_pipeline_gpu_to_cpu_timeout  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1a42ad68be6ec72f3fe94174a29afa00be" kindref="member">TEST_F</ref>  (<ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref>, FullPipeline_GPUToCPUCommunication)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000090"/>test_full_pipeline_gpu_to_cpu_communication  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__gpu__phase__c__integration_8cpp_1a433b0df6e3129fa00e7c51750b5a6ea0" kindref="member">TEST_F</ref>  (<ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref>, FullPipeline_DeterministicFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000091"/>test_full_pipeline_deterministic_fallback  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a81fcb89c7a201e2e59ffb43ec2da0878" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, CUDA_CHECK_ThrowsOnError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>CUDA_CHECK macro catches errors and throws on failure  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1afb87b630df0baec1f418f09bddfbe4b8" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, DeviceMemoryGuardAllocatesFrees)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/><ref refid="classthemis_1_1gpu_1_1_device_memory_guard" kindref="compound">DeviceMemoryGuard</ref> allocates and frees GPU memory correctly  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a33d27f1fd20c4b79a4c73888ecfc87e4" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, DeviceMemoryGuardMoveSemantics)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/><ref refid="classthemis_1_1gpu_1_1_device_memory_guard" kindref="compound">DeviceMemoryGuard</ref> move semantics transfer ownership  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1abfd177d8a739460d924702704942a7e9" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, DeviceMemoryGuardNoCopy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/><ref refid="classthemis_1_1gpu_1_1_device_memory_guard" kindref="compound">DeviceMemoryGuard</ref> prevents copying (move-only)  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1abdb54384ebf67959d0be813862884e5c" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, KernelTimeoutGuardCompletesInTime)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_guard" kindref="compound">KernelTimeoutGuard</ref> monitors timeout correctly  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1adaf5b5b8f1186f6a8fdd70d004a10c3d" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, KernelTimeoutGuardDetectsTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_guard" kindref="compound">KernelTimeoutGuard</ref> detects timeout  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a0b445a958a514cc8590ac9ee40cca84e" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, RAIIPreventUseAfterFree)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>RAII memory guard prevents use-after-free  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1ad82816f1fac70e3d0fc8e7033e39f0c7" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, NestedRAIIGuardsNoLeaks)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>Nested RAII guards prevent resource leaks  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a5323a5e583d1b5ea85289327ada447b4" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, KernelTimeoutEnforcerBudget)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kindref="compound">KernelTimeoutEnforcer</ref> enforces timeout budget  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a00e78636ac668d1952da2ecd15466e92" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, KernelTimeoutEnforcerDetectsSlow)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kindref="compound">KernelTimeoutEnforcer</ref> detects slow operations  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a327eb2ff802fe3020798f09a13c44599" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, KernelTimeoutEnforcerCPUFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kindref="compound">KernelTimeoutEnforcer</ref> provides CPU fallback  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a1046fc4480b0320472a3b6b74cff3b76" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, GPUErrorCodesFailClosed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>GPU error codes are fail-closed  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a82a461bcebf7eb82ca8881b3fd94d5aa" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, GPUDispatchContractTimeouts)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>GPU dispatch contract enforcement timeouts  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a1f403329403827992f5a22d492250a36" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, GPUDispatchContractLockOrdering)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>GPU dispatch contract lock ordering prevents deadlocks  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1ad6d4ab0708b406a75562a138578e0040" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, HandleAllocationFailure)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>Handling of allocation failure (OOM)  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a87ada7527bde4f6be88012b3abeb9afc" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, ConcurrentGPUOperations)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>Concurrent GPU operations with resource constraints  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1ac7796dcb34b07d86ad324beca83de532" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, CompleteGPUCPUFallbackWorkflow)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>Complete GPU→CPU fallback workflow  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a1889e7131ab2d3000e8f57493dd057b2" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_safety_test" kindref="compound">GPUBatchA9SafetyTest</ref>, RAIITimeoutFallbackIntegration)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>RAII + Timeout + Fallback integration  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a7db88313674277f9c0e5e5ed7c043005" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, GPUMemoryHandleRAII)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle" kindref="compound">GPUMemoryHandle</ref> RAII wrapper allocates and frees correctly  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a7bbd426a38d257b40a64e1d16ba3951e" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, GPUMemoryHandleMove)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle" kindref="compound">GPUMemoryHandle</ref> move semantics work correctly  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1ac3b6ebcd7f2fdc4f30eba51b103b68cb" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, GPUStreamHandleLifecycle)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_handle" kindref="compound">GPUStreamHandle</ref> creates and destroys streams  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a3a29e2b82d5bacde5671010b208b94c8" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, GPUEventHandleLifecycle)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/><ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle" kindref="compound">GPUEventHandle</ref> records and waits for events  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a9f8c38ed6c5cadac4804275b340b8844" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, KernelExecutionWithTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>Kernel execution with 5-second timeout enforcement  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a6a2583438be9a2371f240b1b5b0bcd01" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, KernelTimeoutTriggersCPUFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>Kernel timeout with fallback to CPU  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1aad74aa4823265722cf590e192c060e23" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, SafeMemoryOperations)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>Safe CUDA memory operations with validation  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a0e03d503bed498977dc2c5166aa3f93a" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, GPUAvailabilityDetection)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>GPU availability detection  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a0e3d295074e86b66794f0e8118715daa" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, AllocationSizeValidation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>Allocation size validation  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a4bb72ae602cb8622d91e72df4b3a632f" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, StreamSyncWithTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>Stream synchronization with timeout  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a6a33ea9c1108d923bbbbf2387d1b15ef" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, RAIIGPUOperationSequence)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>RAII-based GPU operation sequence  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a2d0472b342a6935ff4fc99a36887f5f4" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, GPUErrorCodeFailSafe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>GPU error code fail-safe semantics  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a927e656b93dddce35cceacf61bc1102d" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, NestedTimeoutGuards)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>Nested timeout guards prevent double-timeout  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1gpu_1_1test_1a3a688d8b47e3aae6be5eb01adf994dfd" kindref="member">themis::gpu::test::TEST_F</ref>  (<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kindref="compound">GPUBatchA9HardeningTest</ref>, MemoryAllocationBoundaries)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000032"/>GPU memory allocation size boundaries </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

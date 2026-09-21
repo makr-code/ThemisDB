@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_dependency_conflict" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::DependencyConflict</compoundname>
+    <includes refid="dependency__resolver_8h" local="no">dependency_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_dependency_conflict_1a549c7e1aafab704180ac3f1ee7e973f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::DependencyConflict::package1</definition>
+        <argsstring></argsstring>
+        <name>package1</name>
+        <qualifiedname>themis::updates::DependencyConflict::package1</qualifiedname>
+        <briefdescription>
+<para>First package involved in the conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="78" column="17" bodyfile="include/updates/dependency_resolver.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_dependency_conflict_1abce8101afd1614d13ce39cf151fc16ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::DependencyConflict::package2</definition>
+        <argsstring></argsstring>
+        <name>package2</name>
+        <qualifiedname>themis::updates::DependencyConflict::package2</qualifiedname>
+        <briefdescription>
+<para>Second package involved in the conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="79" column="17" bodyfile="include/updates/dependency_resolver.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_dependency_conflict_1a9671e2c2ef315fc09172d434382b6998" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::DependencyConflict::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::updates::DependencyConflict::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/dependency_resolver.h" line="80" column="17" bodyfile="include/updates/dependency_resolver.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a conflict between two packages. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/dependency_resolver.h" line="77" column="1" bodyfile="include/updates/dependency_resolver.h" bodystart="77" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_dependency_conflict_1a549c7e1aafab704180ac3f1ee7e973f2" prot="public" virt="non-virtual"><scope>themis::updates::DependencyConflict</scope><name>package1</name></member>
+      <member refid="structthemis_1_1updates_1_1_dependency_conflict_1abce8101afd1614d13ce39cf151fc16ba" prot="public" virt="non-virtual"><scope>themis::updates::DependencyConflict</scope><name>package2</name></member>
+      <member refid="structthemis_1_1updates_1_1_dependency_conflict_1a9671e2c2ef315fc09172d434382b6998" prot="public" virt="non-virtual"><scope>themis::updates::DependencyConflict</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

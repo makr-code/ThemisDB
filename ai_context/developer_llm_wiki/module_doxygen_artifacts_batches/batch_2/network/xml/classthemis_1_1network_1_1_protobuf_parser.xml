@@ -1,0 +1,341 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_protobuf_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::ProtobufParser</compoundname>
+    <includes refid="wire__protocol__helpers_8h" local="no">wire_protocol_helpers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_protobuf_parser_1a3e5d98775a237948efb2da1e76bbce9b" prot="private" static="no" mutable="no">
+        <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        <definition>const std::vector&lt;uint8_t&gt;&amp; themis::network::ProtobufParser::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::network::ProtobufParser::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="68" column="23" bodyfile="include/network/wire_protocol_helpers.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_protobuf_parser_1a0712134ffd26b134dc39e53db5a3aa79" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::ProtobufParser::pos_</definition>
+        <argsstring></argsstring>
+        <name>pos_</name>
+        <qualifiedname>themis::network::ProtobufParser::pos_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="69" column="12" bodyfile="include/network/wire_protocol_helpers.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_parser_1a390d6e942b6c1a100d6a3d0869e50d20" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::ProtobufParser::ProtobufParser</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>ProtobufParser</name>
+        <qualifiedname>themis::network::ProtobufParser::ProtobufParser</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="39" column="14" bodyfile="include/network/wire_protocol_helpers.h" bodystart="39" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_parser_1af31491c759c9ce57ede90d33e3b46073" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::ProtobufParser::readVarint</definition>
+        <argsstring>(uint64_t &amp;value)</argsstring>
+        <name>readVarint</name>
+        <qualifiedname>themis::network::ProtobufParser::readVarint</qualifiedname>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Read Varint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="43" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="29" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_parser_1adf474cd53941774b45d70a10de34d2b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::ProtobufParser::readFixed64</definition>
+        <argsstring>(uint64_t &amp;value)</argsstring>
+        <name>readFixed64</name>
+        <qualifiedname>themis::network::ProtobufParser::readFixed64</qualifiedname>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Read Fixed64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="46" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="56" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_parser_1a217a1cb57dd163300c38a2562b40ca68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::ProtobufParser::readFixed32</definition>
+        <argsstring>(uint32_t &amp;value)</argsstring>
+        <name>readFixed32</name>
+        <qualifiedname>themis::network::ProtobufParser::readFixed32</qualifiedname>
+        <param>
+          <type>uint32_t &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Read Fixed32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="49" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="76" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_parser_1af2d9742849c50fd3bc51769dda68f302" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::ProtobufParser::readLengthDelimited</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;value)</argsstring>
+        <name>readLengthDelimited</name>
+        <qualifiedname>themis::network::ProtobufParser::readLengthDelimited</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Read Length Delimited. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1network_1_1_protobuf_parser_1af31491c759c9ce57ede90d33e3b46073" kindref="member">readVarint()</ref>, size(), assign(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="52" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="96" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_parser_1a3a2932290925af6a4571a9e38d53ac26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::ProtobufParser::readString</definition>
+        <argsstring>(std::string &amp;value)</argsstring>
+        <name>readString</name>
+        <qualifiedname>themis::network::ProtobufParser::readString</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Read String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1network_1_1_protobuf_parser_1af2d9742849c50fd3bc51769dda68f302" kindref="member">readLengthDelimited()</ref>, assign(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="53" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="117" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_parser_1a66087a96d258d7035d00682a42019fe0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::ProtobufParser::readTag</definition>
+        <argsstring>(uint32_t &amp;field_number, uint32_t &amp;wire_type)</argsstring>
+        <name>readTag</name>
+        <qualifiedname>themis::network::ProtobufParser::readTag</qualifiedname>
+        <param>
+          <type>uint32_t &amp;</type>
+          <declname>field_number</declname>
+        </param>
+        <param>
+          <type>uint32_t &amp;</type>
+          <declname>wire_type</declname>
+        </param>
+        <briefdescription>
+<para>Read Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">field_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">wire_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1network_1_1_protobuf_parser_1af31491c759c9ce57ede90d33e3b46073" kindref="member">readVarint()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="56" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="135" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_parser_1ad139b574bc8c48206ea96aa6162154e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::ProtobufParser::skipField</definition>
+        <argsstring>(uint32_t wire_type)</argsstring>
+        <name>skipField</name>
+        <qualifiedname>themis::network::ProtobufParser::skipField</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>wire_type</declname>
+        </param>
+        <briefdescription>
+<para>Skip Field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wire_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1network_1_1_protobuf_parser_1af31491c759c9ce57ede90d33e3b46073" kindref="member">readVarint()</ref>, <ref refid="classthemis_1_1network_1_1_protobuf_parser_1adf474cd53941774b45d70a10de34d2b7" kindref="member">readFixed64()</ref>, <ref refid="classthemis_1_1network_1_1_protobuf_parser_1af2d9742849c50fd3bc51769dda68f302" kindref="member">readLengthDelimited()</ref>, <ref refid="classthemis_1_1network_1_1_protobuf_parser_1a217a1cb57dd163300c38a2562b40ca68" kindref="member">readFixed32()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="59" column="10" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="152" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_parser_1a68c7063d641e40f557210b2ae0eea9f1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::ProtobufParser::atEnd</definition>
+        <argsstring>() const</argsstring>
+        <name>atEnd</name>
+        <qualifiedname>themis::network::ProtobufParser::atEnd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="62" column="10" bodyfile="include/network/wire_protocol_helpers.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_protobuf_parser_1a4a606eccbc4b7a374ed047a60fed0b6d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::ProtobufParser::position</definition>
+        <argsstring>() const</argsstring>
+        <name>position</name>
+        <qualifiedname>themis::network::ProtobufParser::position</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="65" column="12" bodyfile="include/network/wire_protocol_helpers.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight protobuf wire format parser. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This implements protobuf wire format parsing without requiring protobuf library dependency, suitable for embedded use in the wire protocol server.</para>
+<para>Wire Format:<itemizedlist>
+<listitem><para>Varint encoding for integers</para>
+</listitem><listitem><para>Length-delimited for strings/bytes</para>
+</listitem><listitem><para>Tag = (field_number &lt;&lt; 3) | wire_type </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_helpers.h" line="37" column="1" bodyfile="include/network/wire_protocol_helpers.h" bodystart="37" bodyend="70"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1a68c7063d641e40f557210b2ae0eea9f1" prot="public" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>atEnd</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1a3e5d98775a237948efb2da1e76bbce9b" prot="private" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>data_</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1a0712134ffd26b134dc39e53db5a3aa79" prot="private" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>pos_</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1a4a606eccbc4b7a374ed047a60fed0b6d" prot="public" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>position</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1a390d6e942b6c1a100d6a3d0869e50d20" prot="public" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>ProtobufParser</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1a217a1cb57dd163300c38a2562b40ca68" prot="public" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>readFixed32</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1adf474cd53941774b45d70a10de34d2b7" prot="public" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>readFixed64</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1af2d9742849c50fd3bc51769dda68f302" prot="public" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>readLengthDelimited</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1a3a2932290925af6a4571a9e38d53ac26" prot="public" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>readString</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1a66087a96d258d7035d00682a42019fe0" prot="public" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>readTag</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1af31491c759c9ce57ede90d33e3b46073" prot="public" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>readVarint</name></member>
+      <member refid="classthemis_1_1network_1_1_protobuf_parser_1ad139b574bc8c48206ea96aa6162154e5" prot="public" virt="non-virtual"><scope>themis::network::ProtobufParser</scope><name>skipField</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

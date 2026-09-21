@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::MVCCChainPruner::PruneStats</compoundname>
+    <includes refid="mvcc__chain__pruner_8h" local="no">mvcc_chain_pruner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats_1ac848eebcfd8e294ca3355cc6b4ef00a4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MVCCChainPruner::PruneStats::keys_scanned</definition>
+        <argsstring></argsstring>
+        <name>keys_scanned</name>
+        <qualifiedname>themis::MVCCChainPruner::PruneStats::keys_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Distinct base keys examined. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="72" column="18" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats_1a9e5871feaf64179c1af32831b19eb6db" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MVCCChainPruner::PruneStats::keys_pruned</definition>
+        <argsstring></argsstring>
+        <name>keys_pruned</name>
+        <qualifiedname>themis::MVCCChainPruner::PruneStats::keys_pruned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Keys from which ≥1 version was pruned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="73" column="18" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats_1a3d05d533bcc2341e243dbb57496a001d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MVCCChainPruner::PruneStats::versions_migrated</definition>
+        <argsstring></argsstring>
+        <name>versions_migrated</name>
+        <qualifiedname>themis::MVCCChainPruner::PruneStats::versions_migrated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Versions inserted into tier manager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="74" column="18" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats_1a050602c2efebb451a24e5ecd5e08a171" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MVCCChainPruner::PruneStats::versions_deleted</definition>
+        <argsstring></argsstring>
+        <name>versions_deleted</name>
+        <qualifiedname>themis::MVCCChainPruner::PruneStats::versions_deleted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Versions removed from MVCC store. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="75" column="18" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats_1aedb5e5633f595dd1fd3a7d1ecc1d63b6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats" kindref="compound">PruneStats</ref> &amp;</type>
+        <definition>PruneStats &amp; themis::MVCCChainPruner::PruneStats::operator+=</definition>
+        <argsstring>(const PruneStats &amp;o) noexcept</argsstring>
+        <name>operator+=</name>
+        <qualifiedname>themis::MVCCChainPruner::PruneStats::operator+=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats" kindref="compound">PruneStats</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="77" column="20" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="77" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics returned by each prune call. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/mvcc_chain_pruner.h" line="71" column="5" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="71" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats_1a9e5871feaf64179c1af32831b19eb6db" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner::PruneStats</scope><name>keys_pruned</name></member>
+      <member refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats_1ac848eebcfd8e294ca3355cc6b4ef00a4" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner::PruneStats</scope><name>keys_scanned</name></member>
+      <member refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats_1aedb5e5633f595dd1fd3a7d1ecc1d63b6" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner::PruneStats</scope><name>operator+=</name></member>
+      <member refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats_1a050602c2efebb451a24e5ecd5e08a171" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner::PruneStats</scope><name>versions_deleted</name></member>
+      <member refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats_1a3d05d533bcc2341e243dbb57496a001d" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner::PruneStats</scope><name>versions_migrated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

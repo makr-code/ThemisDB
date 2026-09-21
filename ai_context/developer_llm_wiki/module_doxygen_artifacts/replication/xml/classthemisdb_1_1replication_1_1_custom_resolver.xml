@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_custom_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::CustomResolver</compoundname>
+    <basecompoundref refid="classthemisdb_1_1replication_1_1_conflict_resolver" prot="public" virt="non-virtual">themisdb::replication::ConflictResolver</basecompoundref>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1_custom_resolver_1a19982bdf90a22351e4a3a7a7694d919d" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref>( const std::string &amp;document_id, const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;writes)&gt;</type>
+        <definition>using themisdb::replication::CustomResolver::ResolverFunc = std::function&lt;MMWriteEntry(
+       const std::string&amp; document_id,
+       const std::vector&lt;MMWriteEntry&gt;&amp; writes
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResolverFunc</name>
+        <qualifiedname>themisdb::replication::CustomResolver::ResolverFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="312" column="5" bodyfile="include/replication/multi_master_replication.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_custom_resolver_1aa39501dfec74e2e9eaecf4793c99c677" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_custom_resolver_1a19982bdf90a22351e4a3a7a7694d919d" kindref="member">ResolverFunc</ref></type>
+        <definition>ResolverFunc themisdb::replication::CustomResolver::resolver_</definition>
+        <argsstring></argsstring>
+        <name>resolver_</name>
+        <qualifiedname>themisdb::replication::CustomResolver::resolver_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="327" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_custom_resolver_1ae7232d244ce8c7b03544767856fd77e4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::CustomResolver::CustomResolver</definition>
+        <argsstring>(ResolverFunc resolver)</argsstring>
+        <name>CustomResolver</name>
+        <qualifiedname>themisdb::replication::CustomResolver::CustomResolver</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_custom_resolver_1a19982bdf90a22351e4a3a7a7694d919d" kindref="member">ResolverFunc</ref></type>
+          <declname>resolver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="317" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="3890" bodyend="3892"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_custom_resolver_1a89c7a8ce18214bd113ff61dd81391770" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref></type>
+        <definition>MMWriteEntry themisdb::replication::CustomResolver::resolve</definition>
+        <argsstring>(const std::string &amp;document_id, const std::vector&lt; MMWriteEntry &gt; &amp;conflicting_writes) override</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themisdb::replication::CustomResolver::resolve</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_conflict_resolver_1afa9ae0d1b4f80b1cd7ce78e59cd0f84e">resolve</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>conflicting_writes</declname>
+        </param>
+        <briefdescription>
+<para>Resolve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflicting_writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="319" column="18" bodyfile="src/replication/replication_manager.cpp" bodystart="3900" bodyend="3910"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_custom_resolver_1a19aa6c8e2cf58af4d83b00f8dd23d8e0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CustomResolver::strategyName</definition>
+        <argsstring>() const override</argsstring>
+        <name>strategyName</name>
+        <qualifiedname>themisdb::replication::CustomResolver::strategyName</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_conflict_resolver_1a03c7947a2aeabdbe0ad0f62437ec2ed7">strategyName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="324" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="324" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Custom Application Resolver Allows application-specific conflict resolution logic </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::replication::ConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_conflict_resolver"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::CustomResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_custom_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::replication::ConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_conflict_resolver"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::CustomResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_custom_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/multi_master_replication.h" line="310" column="1" bodyfile="include/replication/multi_master_replication.h" bodystart="310" bodyend="328"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_custom_resolver_1ae7232d244ce8c7b03544767856fd77e4" prot="public" virt="non-virtual"><scope>themisdb::replication::CustomResolver</scope><name>CustomResolver</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_custom_resolver_1a89c7a8ce18214bd113ff61dd81391770" prot="public" virt="virtual"><scope>themisdb::replication::CustomResolver</scope><name>resolve</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_custom_resolver_1aa39501dfec74e2e9eaecf4793c99c677" prot="private" virt="non-virtual"><scope>themisdb::replication::CustomResolver</scope><name>resolver_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_custom_resolver_1a19982bdf90a22351e4a3a7a7694d919d" prot="public" virt="non-virtual"><scope>themisdb::replication::CustomResolver</scope><name>ResolverFunc</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_custom_resolver_1a19aa6c8e2cf58af4d83b00f8dd23d8e0" prot="public" virt="virtual"><scope>themisdb::replication::CustomResolver</scope><name>strategyName</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_conflict_resolver_1af763af2577df622c4341e9684d189c2e" prot="public" virt="virtual"><scope>themisdb::replication::CustomResolver</scope><name>~ConflictResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

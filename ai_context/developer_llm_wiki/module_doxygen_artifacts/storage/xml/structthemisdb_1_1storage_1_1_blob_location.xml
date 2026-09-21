@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1storage_1_1_blob_location" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::storage::BlobLocation</compoundname>
+    <includes refid="blob__redundancy__manager_8h" local="no">blob_redundancy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_location_1a7ff4e0b4e22ef36002ca676af5d4f78a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobLocation::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::storage::BlobLocation::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="249" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_location_1afba50808eb561127c35532ef53f9b81f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobLocation::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themisdb::storage::BlobLocation::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="250" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_location_1a3789931c816a77959641434cf354bad2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1storage_1af621d748d6a2a85cbadefeb0dd4c3bd5" kindref="member">StorageTier</ref></type>
+        <definition>StorageTier themisdb::storage::BlobLocation::tier</definition>
+        <argsstring></argsstring>
+        <name>tier</name>
+        <qualifiedname>themisdb::storage::BlobLocation::tier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="251" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_location_1a87192ac3945caf20321a8ef40f840b31" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobLocation::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themisdb::storage::BlobLocation::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="252" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_location_1a23ff4a28e7750497c35dd367f0cb3096" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobLocation::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themisdb::storage::BlobLocation::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="253" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_location_1ac05454814eb45225db872d32dba0776f" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::storage::BlobLocation::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themisdb::storage::BlobLocation::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="254" column="43" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_location_1a14972193e0527044535c2bfe88b5146f" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::storage::BlobLocation::last_verified</definition>
+        <argsstring></argsstring>
+        <name>last_verified</name>
+        <qualifiedname>themisdb::storage::BlobLocation::last_verified</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="255" column="43" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_location_1ab450ac1131fb9b801206c04b68fbdca8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::storage::BlobLocation::is_parity</definition>
+        <argsstring></argsstring>
+        <name>is_parity</name>
+        <qualifiedname>themisdb::storage::BlobLocation::is_parity</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="256" column="10" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_location_1a4e009a2dafa54d65e816380816eb84dc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::storage::BlobLocation::chunk_index</definition>
+        <argsstring></argsstring>
+        <name>chunk_index</name>
+        <qualifiedname>themisdb::storage::BlobLocation::chunk_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="257" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_location_1a0708288c4c42eff42fdcfac89fb12f26" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::storage::BlobLocation::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themisdb::storage::BlobLocation::is_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="258" column="10" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_location_1ac1deab303d62dd2d1116ecdd20b2215a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobLocation::datacenter</definition>
+        <argsstring></argsstring>
+        <name>datacenter</name>
+        <qualifiedname>themisdb::storage::BlobLocation::datacenter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="259" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Blob Location Information </para>
+    </detaileddescription>
+    <location file="include/storage/blob_redundancy_manager.h" line="248" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="248" bodyend="260"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1storage_1_1_blob_location_1a87192ac3945caf20321a8ef40f840b31" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobLocation</scope><name>checksum</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_location_1a4e009a2dafa54d65e816380816eb84dc" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobLocation</scope><name>chunk_index</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_location_1ac05454814eb45225db872d32dba0776f" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobLocation</scope><name>created_at</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_location_1ac1deab303d62dd2d1116ecdd20b2215a" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobLocation</scope><name>datacenter</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_location_1a0708288c4c42eff42fdcfac89fb12f26" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobLocation</scope><name>is_healthy</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_location_1ab450ac1131fb9b801206c04b68fbdca8" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobLocation</scope><name>is_parity</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_location_1a14972193e0527044535c2bfe88b5146f" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobLocation</scope><name>last_verified</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_location_1afba50808eb561127c35532ef53f9b81f" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobLocation</scope><name>path</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_location_1a7ff4e0b4e22ef36002ca676af5d4f78a" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobLocation</scope><name>shard_id</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_location_1a23ff4a28e7750497c35dd367f0cb3096" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobLocation</scope><name>size_bytes</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_location_1a3789931c816a77959641434cf354bad2" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobLocation</scope><name>tier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

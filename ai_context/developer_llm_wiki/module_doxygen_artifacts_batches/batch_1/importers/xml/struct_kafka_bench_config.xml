@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_kafka_bench_config" kind="struct" language="C++" prot="public">
+    <compoundname>KafkaBenchConfig</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_kafka_bench_config_1a192deb6508b6ce24001715998f02d429" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string KafkaBenchConfig::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>KafkaBenchConfig::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="701" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="701" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_kafka_bench_config_1a7447ce3f952e400389aa05d30342d489" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t KafkaBenchConfig::num_messages</definition>
+        <argsstring></argsstring>
+        <name>num_messages</name>
+        <qualifiedname>KafkaBenchConfig::num_messages</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="702" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="702" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_kafka_bench_config_1a01674f047eef5081bb80ff4547229e8e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t KafkaBenchConfig::payload_bytes</definition>
+        <argsstring></argsstring>
+        <name>payload_bytes</name>
+        <qualifiedname>KafkaBenchConfig::payload_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="703" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="703" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_kafka_bench_config_1a09e200a3d62652cbac7b186226d4e85f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool KafkaBenchConfig::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>KafkaBenchConfig::dry_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="704" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="704" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single Kafka message payload shapes for benchmarking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importer_throughput.cpp" line="700" column="1" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="700" bodyend="705"/>
+    <listofallmembers>
+      <member refid="struct_kafka_bench_config_1a09e200a3d62652cbac7b186226d4e85f" prot="public" virt="non-virtual"><scope>KafkaBenchConfig</scope><name>dry_run</name></member>
+      <member refid="struct_kafka_bench_config_1a192deb6508b6ce24001715998f02d429" prot="public" virt="non-virtual"><scope>KafkaBenchConfig</scope><name>label</name></member>
+      <member refid="struct_kafka_bench_config_1a7447ce3f952e400389aa05d30342d489" prot="public" virt="non-virtual"><scope>KafkaBenchConfig</scope><name>num_messages</name></member>
+      <member refid="struct_kafka_bench_config_1a01674f047eef5081bb80ff4547229e8e" prot="public" virt="non-virtual"><scope>KafkaBenchConfig</scope><name>payload_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

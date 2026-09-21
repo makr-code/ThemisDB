@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1mtn_1_1_0d223335055325354072056021255276227072066257021250" kind="namespace" language="C++">
+    <compoundname>themis::bench::mtn::@223335055325354072056021255276227072066257021250</compoundname>
+    <briefdescription>
+<para>Measures persist+reload round-trip for 10 schedules using the real nlohmann::json serialisation path and a temp-file write/read. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses UseRealTime() to measure wall-clock time (I/O bound). Gate: p99 ≤ 2 ms. </para>
+    </detaileddescription>
+    <location file="benchmarks/maintenance/bench_maintenance_release_gates.cpp" line="216" column="1"/>
+  </compounddef>
+</doxygen>

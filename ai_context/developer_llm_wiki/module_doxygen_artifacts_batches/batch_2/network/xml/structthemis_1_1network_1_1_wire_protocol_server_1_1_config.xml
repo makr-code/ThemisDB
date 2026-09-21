@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolServer::Config</compoundname>
+    <includes refid="wire__protocol__server_8h" local="no">wire_protocol_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1ae5fcf28b21d31dead0ad27359af83fc0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::WireProtocolServer::Config::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::host</qualifiedname>
+        <initializer>= &quot;0.0.0.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="262" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a37b70fb6dec7e8baaf74999300a037b5" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::WireProtocolServer::Config::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::port</qualifiedname>
+        <initializer>= 8766</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="263" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a4af056625ebc1a6cafb2f681e9fac4f4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolServer::Config::num_io_threads</definition>
+        <argsstring></argsstring>
+        <name>num_io_threads</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::num_io_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="264" column="16" bodyfile="include/network/wire_protocol_server.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a619c381894f32aaa2bced8880614ef8b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolServer::Config::num_worker_threads</definition>
+        <argsstring></argsstring>
+        <name>num_worker_threads</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::num_worker_threads</qualifiedname>
+        <initializer>= std::thread::hardware_concurrency()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="265" column="16" bodyfile="include/network/wire_protocol_server.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a923e21f71f07dc1104c172c4bc0b8ac4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireProtocolServer::Config::max_connections</definition>
+        <argsstring></argsstring>
+        <name>max_connections</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::max_connections</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="268" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a373cf9774751e5bcdac04d677fe4737b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireProtocolServer::Config::max_connections_per_ip</definition>
+        <argsstring></argsstring>
+        <name>max_connections_per_ip</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::max_connections_per_ip</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="269" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a9ea8376d09a7f0c3c302d58892f04216" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireProtocolServer::Config::max_frame_size_mb</definition>
+        <argsstring></argsstring>
+        <name>max_frame_size_mb</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::max_frame_size_mb</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="270" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a4422dc0e67b0cf2a6a21eab5cd44c918" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireProtocolServer::Config::connection_timeout_sec</definition>
+        <argsstring></argsstring>
+        <name>connection_timeout_sec</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::connection_timeout_sec</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="271" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1ab5d2eb3e9187230189d01ae699adc1b9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireProtocolServer::Config::auth_timeout_sec</definition>
+        <argsstring></argsstring>
+        <name>auth_timeout_sec</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::auth_timeout_sec</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="272" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1ac9daf273565d671244cdd5afc62d42bd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireProtocolServer::Config::request_timeout_sec</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_sec</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::request_timeout_sec</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="273" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a2f7edfa16fa123a204cf48fe755f6670" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireProtocolServer::Config::max_requests_per_second</definition>
+        <argsstring></argsstring>
+        <name>max_requests_per_second</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::max_requests_per_second</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="276" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a85188e1dea2dea3fd7c951e43283bc3b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireProtocolServer::Config::max_requests_per_minute</definition>
+        <argsstring></argsstring>
+        <name>max_requests_per_minute</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::max_requests_per_minute</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="277" column="18" bodyfile="include/network/wire_protocol_server.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a5db69be0eaca94f5b7905b6c37426196" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolServer::Config::enable_tls</definition>
+        <argsstring></argsstring>
+        <name>enable_tls</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::enable_tls</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="280" column="14" bodyfile="include/network/wire_protocol_server.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a26c3355983ceae7d7748577dc68b989d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::WireProtocolServer::Config::tls_cert_path</definition>
+        <argsstring></argsstring>
+        <name>tls_cert_path</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::tls_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="281" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a0ca26d13907ab474d5de46b5fd823783" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::WireProtocolServer::Config::tls_key_path</definition>
+        <argsstring></argsstring>
+        <name>tls_key_path</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::tls_key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="282" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1add345f79f32442eeef3dbbd2ce93655c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::WireProtocolServer::Config::tls_ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>tls_ca_cert_path</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::tls_ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="283" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1aacdc47a2b5b520edd4bcdc9171e9217b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolServer::Config::tls_require_client_cert</definition>
+        <argsstring></argsstring>
+        <name>tls_require_client_cert</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::tls_require_client_cert</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="284" column="14" bodyfile="include/network/wire_protocol_server.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a580eb8284fc9c0e63ad597a0b813e8b2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolServer::Config::require_auth</definition>
+        <argsstring></argsstring>
+        <name>require_auth</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::require_auth</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="287" column="14" bodyfile="include/network/wire_protocol_server.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a98f9a22ab646c4489b31e3a6be41ff77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::WireProtocolServer::Config::auth_mechanism</definition>
+        <argsstring></argsstring>
+        <name>auth_mechanism</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::auth_mechanism</qualifiedname>
+        <initializer>= &quot;SCRAM-SHA-256&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="288" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a0d1aec609a4f50b3d547e927efb4a981" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::WireProtocolServer::Config::auth_token</definition>
+        <argsstring></argsstring>
+        <name>auth_token</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::auth_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="293" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a09df76ddafe714e93e28ee704122cbe6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolServer::Config::enable_websocket_upgrade</definition>
+        <argsstring></argsstring>
+        <name>enable_websocket_upgrade</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::enable_websocket_upgrade</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="299" column="14" bodyfile="include/network/wire_protocol_server.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a7b8c0409c35a6779ae83321ea96eedcf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolServer::Config::enable_ipv6</definition>
+        <argsstring></argsstring>
+        <name>enable_ipv6</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::enable_ipv6</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="306" column="14" bodyfile="include/network/wire_protocol_server.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a1567b42305b3147b6cec29147fa2936b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolServer::Config::ipv6_dual_stack</definition>
+        <argsstring></argsstring>
+        <name>ipv6_dual_stack</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::ipv6_dual_stack</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="313" column="14" bodyfile="include/network/wire_protocol_server.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::WireProtocolServer::Config::tcp_backlog</definition>
+        <argsstring></argsstring>
+        <name>tcp_backlog</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::tcp_backlog</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="321" column="13" bodyfile="include/network/wire_protocol_server.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1ac451866adbf640c18acecf65b7792244" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::WireProtocolServer::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::network::WireProtocolServer::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="323" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_server.h" line="261" column="5" bodyfile="include/network/wire_protocol_server.h" bodystart="261" bodyend="324"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a98f9a22ab646c4489b31e3a6be41ff77" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>auth_mechanism</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1ab5d2eb3e9187230189d01ae699adc1b9" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>auth_timeout_sec</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a0d1aec609a4f50b3d547e927efb4a981" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>auth_token</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1ac451866adbf640c18acecf65b7792244" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a4422dc0e67b0cf2a6a21eab5cd44c918" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>connection_timeout_sec</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a7b8c0409c35a6779ae83321ea96eedcf" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>enable_ipv6</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a5db69be0eaca94f5b7905b6c37426196" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>enable_tls</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a09df76ddafe714e93e28ee704122cbe6" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>enable_websocket_upgrade</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1ae5fcf28b21d31dead0ad27359af83fc0" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>host</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a1567b42305b3147b6cec29147fa2936b" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>ipv6_dual_stack</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a923e21f71f07dc1104c172c4bc0b8ac4" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>max_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a373cf9774751e5bcdac04d677fe4737b" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>max_connections_per_ip</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a9ea8376d09a7f0c3c302d58892f04216" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>max_frame_size_mb</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a85188e1dea2dea3fd7c951e43283bc3b" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>max_requests_per_minute</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a2f7edfa16fa123a204cf48fe755f6670" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>max_requests_per_second</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a4af056625ebc1a6cafb2f681e9fac4f4" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>num_io_threads</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a619c381894f32aaa2bced8880614ef8b" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>num_worker_threads</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a37b70fb6dec7e8baaf74999300a037b5" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>port</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1ac9daf273565d671244cdd5afc62d42bd" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>request_timeout_sec</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a580eb8284fc9c0e63ad597a0b813e8b2" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>require_auth</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a8cda1963e863036bd0d5fa22db96fc46" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>tcp_backlog</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1add345f79f32442eeef3dbbd2ce93655c" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>tls_ca_cert_path</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a26c3355983ceae7d7748577dc68b989d" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>tls_cert_path</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a0ca26d13907ab474d5de46b5fd823783" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>tls_key_path</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1aacdc47a2b5b520edd4bcdc9171e9217b" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::Config</scope><name>tls_require_client_cert</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

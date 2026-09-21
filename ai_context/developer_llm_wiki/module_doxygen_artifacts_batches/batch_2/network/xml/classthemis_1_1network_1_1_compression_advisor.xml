@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_compression_advisor" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::CompressionAdvisor</compoundname>
+    <includes refid="wire__protocol__performance_8h" local="no">wire_protocol_performance.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_compression_advisor_1_1_config" prot="public">themis::network::CompressionAdvisor::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Decision</name>
+        <qualifiedname>themis::network::CompressionAdvisor::Decision</qualifiedname>
+        <enumvalue id="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7cab85df04e922fe1dd3c1f0692faeaacef" prot="public">
+          <name>SKIP</name>
+          <briefdescription>
+<para>Do not compress (payload too small or incompressible). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7ca27edb327dc97c010c3c66132714fb237" prot="public">
+          <name>LZ4_FAST</name>
+          <briefdescription>
+<para>LZ4 with default acceleration (1). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7caadaa5cc5151323430c71e77b91bed9bf" prot="public">
+          <name>LZ4_FAST_X</name>
+          <briefdescription>
+<para>LZ4 with high acceleration (3) – ultra-low latency. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7ca9cad032456bf4193bf91b1d8fba6fdb0" prot="public">
+          <name>LZ4_HC</name>
+          <briefdescription>
+<para>LZ4-HC (high compression) for large payloads. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="312" column="5" bodyfile="include/network/wire_protocol_performance.h" bodystart="312" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_compression_advisor_1aac680095690154dd091346e2c964a4ca" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::network::CompressionAdvisor::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::network::CompressionAdvisor::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="350" column="12" bodyfile="include/network/wire_protocol_performance.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_compression_advisor_1a455eedeee925d14c697fe257be083cae" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::CompressionAdvisor::CompressionAdvisor</definition>
+        <argsstring>(const Config &amp;cfg=Config::defaults())</argsstring>
+        <name>CompressionAdvisor</name>
+        <qualifiedname>themis::network::CompressionAdvisor::CompressionAdvisor</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>Config::defaults()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="329" column="14" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="347" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7c" kindref="member">Decision</ref></type>
+        <definition>CompressionAdvisor::Decision themis::network::CompressionAdvisor::advise</definition>
+        <argsstring>(size_t payload_size) const noexcept</argsstring>
+        <name>advise</name>
+        <qualifiedname>themis::network::CompressionAdvisor::advise</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>payload_size</declname>
+        </param>
+        <briefdescription>
+<para>Advise on compression for a payload of <computeroutput>size</computeroutput> bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="334" column="14" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="349" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_compression_advisor_1af6d4ff1a8318e4faacf09dccdd155b83" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::network::CompressionAdvisor::lz4Acceleration</definition>
+        <argsstring>(Decision d) const noexcept</argsstring>
+        <name>lz4Acceleration</name>
+        <qualifiedname>themis::network::CompressionAdvisor::lz4Acceleration</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7c" kindref="member">Decision</ref></type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+<para>Return the LZ4 acceleration parameter for a given decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>0 for HC decisions (use lz4_hc_level instead), else acceleration int. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="340" column="9" bodyfile="src/network/wire_protocol_performance.cpp" bodystart="358" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_compression_advisor_1a5141d813796772064939c89964dc3032" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::network::CompressionAdvisor::lz4HcLevel</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lz4HcLevel</name>
+        <qualifiedname>themis::network::CompressionAdvisor::lz4HcLevel</qualifiedname>
+        <briefdescription>
+<para>Return the LZ4-HC compression level for HC decisions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="345" column="9" bodyfile="include/network/wire_protocol_performance.h" bodystart="345" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_compression_advisor_1a240c3af9a6fc37cc006c2c1e11537f31" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::network::CompressionAdvisor::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::network::CompressionAdvisor::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="347" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="347" bodyend="347"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Decides whether (and how) to compress a wire-protocol payload. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The advisor implements an adaptive policy:<itemizedlist>
+<listitem><para>Skip compression for small payloads (overhead exceeds benefit).</para>
+</listitem><listitem><para>Use fast LZ4 for medium payloads (speed &gt; ratio).</para>
+</listitem><listitem><para>Use LZ4-HC for large payloads (ratio &gt; speed).</para>
+</listitem></itemizedlist>
+</para>
+<para>The thresholds and acceleration factors are tunable. </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_performance.h" line="310" column="1" bodyfile="include/network/wire_protocol_performance.h" bodystart="310" bodyend="351"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_compression_advisor_1ac36ac50f49159c0287984a843f6a1614" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor</scope><name>advise</name></member>
+      <member refid="classthemis_1_1network_1_1_compression_advisor_1aac680095690154dd091346e2c964a4ca" prot="private" virt="non-virtual"><scope>themis::network::CompressionAdvisor</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1network_1_1_compression_advisor_1a455eedeee925d14c697fe257be083cae" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor</scope><name>CompressionAdvisor</name></member>
+      <member refid="classthemis_1_1network_1_1_compression_advisor_1a240c3af9a6fc37cc006c2c1e11537f31" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor</scope><name>config</name></member>
+      <member refid="classthemis_1_1network_1_1_compression_advisor_1a8c273b537823d806007115849a546f7c" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor</scope><name>Decision</name></member>
+      <member refid="classthemis_1_1network_1_1_compression_advisor_1af6d4ff1a8318e4faacf09dccdd155b83" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor</scope><name>lz4Acceleration</name></member>
+      <member refid="classthemis_1_1network_1_1_compression_advisor_1a5141d813796772064939c89964dc3032" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor</scope><name>lz4HcLevel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

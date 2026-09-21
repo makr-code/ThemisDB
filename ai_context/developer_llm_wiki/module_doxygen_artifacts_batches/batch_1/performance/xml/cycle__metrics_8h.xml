@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cycle__metrics_8h" kind="file" language="C++">
+    <compoundname>cycle_metrics.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includedby refid="cycle__metrics__config_8h" local="yes">include/performance/cycle_metrics_config.h</includedby>
+    <includedby refid="lockfree__metrics__buffer_8h" local="yes">include/performance/lockfree_metrics_buffer.h</includedby>
+    <includedby refid="adaptive__batch__tuner_8h" local="yes">include/performance/phase3/adaptive_batch_tuner.h</includedby>
+    <includedby refid="per__query__cost__model_8h" local="yes">include/performance/phase3/per_query_cost_model.h</includedby>
+    <includedby refid="async__metrics__exporter_8cpp" local="yes">src/performance/async_metrics_exporter.cpp</includedby>
+    <includedby refid="chimera__exporter_8cpp" local="yes">src/performance/chimera_exporter.cpp</includedby>
+    <includedby refid="cycle__metrics_8cpp" local="yes">src/performance/cycle_metrics.cpp</includedby>
+    <includedby refid="prometheus__exporter_8cpp" local="yes">src/performance/prometheus_exporter.cpp</includedby>
+    <includedby refid="test__cycle__metrics_8cpp" local="yes">tests/performance/test_cycle_metrics.cpp</includedby>
+    <includedby refid="test__performance__cycle__metrics_8cpp" local="yes">tests/performance/test_performance_cycle_metrics.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/cycle_metrics.h</label>
+        <link refid="cycle__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/cycle_metrics.h</label>
+        <link refid="cycle__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/performance/cycle_metrics_config.h</label>
+        <link refid="cycle__metrics__config_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/performance/lockfree_metrics_buffer.h</label>
+        <link refid="lockfree__metrics__buffer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/performance/phase3/adaptive_batch_tuner.h</label>
+        <link refid="adaptive__batch__tuner_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/performance/phase3/per_query_cost_model.h</label>
+        <link refid="per__query__cost__model_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/performance/async_metrics_exporter.cpp</label>
+        <link refid="async__metrics__exporter_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/performance/chimera_exporter.cpp</label>
+        <link refid="chimera__exporter_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/performance/cycle_metrics.cpp</label>
+        <link refid="cycle__metrics_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/performance/phase3/adaptive_batch_tuner.cpp</label>
+        <link refid="adaptive__batch__tuner_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/performance/phase3/per_query_cost_model.cpp</label>
+        <link refid="per__query__cost__model_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/performance/prometheus_exporter.cpp</label>
+        <link refid="prometheus__exporter_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/performance/phase3/test_adaptive_batch_tuner.cpp</label>
+        <link refid="test__adaptive__batch__tuner_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/performance/phase3/test_per_query_cost_model.cpp</label>
+        <link refid="test__per__query__cost__model_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/performance/test_cycle_metrics.cpp</label>
+        <link refid="test__cycle__metrics_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/performance/test_performance_cycle_metrics.cpp</label>
+        <link refid="test__performance__cycle__metrics_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1performance_1_1_hardware_cycle_counter" prot="public">themis::performance::HardwareCycleCounter</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_operation_cycle_metrics" prot="public">themis::performance::OperationCycleMetrics</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_scoped_cycle_timer" prot="public">themis::performance::ScopedCycleTimer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_MSC_VER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;intrin.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>_M_ARM64</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&lt;arm64_neon.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1performance_1_1_hardware_cycle_counter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter" kindref="compound">HardwareCycleCounter</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" kindref="member">cpu_cycles</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_MSC_VER)<sp/>&amp;&amp;<sp/>(defined(_M_X64)<sp/>||<sp/>defined(_M_IX86))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>__rdtsc();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__GNUC__)<sp/>&amp;&amp;<sp/>(defined(__x86_64__)<sp/>||<sp/>defined(__i386__))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>lo,<sp/>hi;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/>__volatile__(</highlight><highlight class="stringliteral">&quot;rdtsc&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;=a&quot;</highlight><highlight class="normal">(lo),<sp/></highlight><highlight class="stringliteral">&quot;=d&quot;</highlight><highlight class="normal">(hi));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((uint64_t)hi<sp/>&lt;&lt;<sp/>32)<sp/>|<sp/>lo;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__aarch64__)<sp/>||<sp/>defined(_M_ARM64)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>val<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_MSC_VER)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val<sp/>=<sp/>_ReadStatusReg(ARM64_CNTVCT);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/>__volatile__(</highlight><highlight class="stringliteral">&quot;mrs<sp/>%0,<sp/>cntvct_el0&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;=r&quot;</highlight><highlight class="normal">(val));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>val;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>for<sp/>unsupported<sp/>architectures:<sp/>steady_clock<sp/>nanoseconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(not<sp/>CPU<sp/>cycles,<sp/>but<sp/>provides<sp/>monotonic<sp/>timing<sp/>for<sp/>relative<sp/>measurements)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a5136a8e4aca5d9e101c86b7a3fe2b8c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a5136a8e4aca5d9e101c86b7a3fe2b8c9" kindref="member">rdtscp</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_MSC_VER)<sp/>&amp;&amp;<sp/>(defined(_M_X64)<sp/>||<sp/>defined(_M_IX86))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>aux;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>__rdtscp(&amp;aux);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__GNUC__)<sp/>&amp;&amp;<sp/>(defined(__x86_64__)<sp/>||<sp/>defined(__i386__))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>lo,<sp/>hi;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/>__volatile__(</highlight><highlight class="stringliteral">&quot;rdtscp&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;=a&quot;</highlight><highlight class="normal">(lo),<sp/></highlight><highlight class="stringliteral">&quot;=d&quot;</highlight><highlight class="normal">(hi)<sp/>::<sp/></highlight><highlight class="stringliteral">&quot;rcx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((uint64_t)hi<sp/>&lt;&lt;<sp/>32)<sp/>|<sp/>lo;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__aarch64__)<sp/>||<sp/>defined(_M_ARM64)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_MSC_VER)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__isb(_ARM64_BARRIER_SY);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_ReadStatusReg(ARM64_CNTVCT);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ARM64:<sp/>use<sp/>ISB<sp/>to<sp/>serialize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/>__volatile__(</highlight><highlight class="stringliteral">&quot;isb&quot;</highlight><highlight class="normal"><sp/>:::<sp/></highlight><highlight class="stringliteral">&quot;memory&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>val<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/>__volatile__(</highlight><highlight class="stringliteral">&quot;mrs<sp/>%0,<sp/>cntvct_el0&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;=r&quot;</highlight><highlight class="normal">(val));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>val;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count());</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a108c9eefbcca61eda1b01905ac365c8b" kindref="member">cpu_frequency_hz</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1aded86837d9ca403a97695ab599a807b5" kindref="member">cpu_model</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_GPU_CYCLE_METRICS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">GpuCyclesStartFn<sp/>=<sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*()&gt;;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">GpuCyclesEndFn<sp/>=<sp/>std::function&lt;uint64_t(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>event)&gt;;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setGpuCyclesStartFn(GpuCyclesStartFn<sp/>fn);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setGpuCyclesEndFn(GpuCyclesEndFn<sp/>fn);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>gpu_cycles_start()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>uint64_t<sp/>gpu_cycles_end(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>event)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1performance_1_1_operation_cycle_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics" kindref="compound">OperationCycleMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" kindref="member">hnsw_search_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a446f843157a3b9c7bf7dc0849aa32dcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a446f843157a3b9c7bf7dc0849aa32dcf" kindref="member">hnsw_index_traversal_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9bb45127211030a478a51c4edd37f486" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9bb45127211030a478a51c4edd37f486" kindref="member">hnsw_distance_computation_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a71ebc08687e57efd5ad39d8bcb761b00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a71ebc08687e57efd5ad39d8bcb761b00" kindref="member">pointer_passing_cycles</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Critical:<sp/>Should<sp/>be<sp/>~100-500<sp/>cycles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9c2ba4a7b29b1c2c4c27eab5443e7687" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9c2ba4a7b29b1c2c4c27eab5443e7687" kindref="member">memory_copy_cycles</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>comparison</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a3d823b1b1d0e17fde0ad27326a68b59c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a3d823b1b1d0e17fde0ad27326a68b59c" kindref="member">llm_inference_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ad6acc9829def230d1d59a05dc3ddb189" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ad6acc9829def230d1d59a05dc3ddb189" kindref="member">llm_tokenization_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a2594225b315ff7ed41f1ff297660dd44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a2594225b315ff7ed41f1ff297660dd44" kindref="member">llm_forward_pass_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1aa8d54b8f29afd4e00162814242606ca2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1aa8d54b8f29afd4e00162814242606ca2" kindref="member">llm_sampling_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>subsystem</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1afa8efdc98a9b96a9a19a37587607dc7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1afa8efdc98a9b96a9a19a37587607dc7a" kindref="member">l1_cache_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a6a706adade0c4e1218ea01287b30ccb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a6a706adade0c4e1218ea01287b30ccb0" kindref="member">l2_cache_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1adcaa7362d909d156ee116f823b711052" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1adcaa7362d909d156ee116f823b711052" kindref="member">l3_cache_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a37fb50de054e8e0da165f85187784ae6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a37fb50de054e8e0da165f85187784ae6" kindref="member">ram_access_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ab30720bc6ae6d48496947500996b613e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ab30720bc6ae6d48496947500996b613e" kindref="member">cache_miss_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1aa0e8729686c88f03a9f435234528a6d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1aa0e8729686c88f03a9f435234528a6d1" kindref="member">gpu_kernel_launch_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a6b3e732c6d2cd783a1bd25de75c03dc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a6b3e732c6d2cd783a1bd25de75c03dc1" kindref="member">gpu_compute_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ac2e9df8114d227c06eb386847d7b80ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ac2e9df8114d227c06eb386847d7b80ec" kindref="member">gpu_memory_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bus<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a63b9fe66b187738d52dfa74fd169de01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a63b9fe66b187738d52dfa74fd169de01" kindref="member">pcie_host_to_device_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a06ae3746106bf4939a9e4be9f61b0984" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a06ae3746106bf4939a9e4be9f61b0984" kindref="member">pcie_device_to_host_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9a75ae708595fcf7bd16d95e70522333" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9a75ae708595fcf7bd16d95e70522333" kindref="member">total_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a93df68c37078b99a68c42d8497605093" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a93df68c37078b99a68c42d8497605093" kindref="member">idle_cycles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Efficiency<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a661e864b4cc2daeb8cc85d6c88b09b27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a661e864b4cc2daeb8cc85d6c88b09b27" kindref="member">cpu_efficiency_ratio</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a31c6da22036e2a15b9261e3f96f95561" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a31c6da22036e2a15b9261e3f96f95561" kindref="member">memory_efficiency_ratio</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1afaaf797c441b8f1c7361f2d8d5de7636" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1afaaf797c441b8f1c7361f2d8d5de7636" kindref="member">pcie_efficiency_ratio</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>System<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1af9d97f4d9564b92a01f1ab1c014fc546" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1af9d97f4d9564b92a01f1ab1c014fc546" kindref="member">cpu_frequency_hz</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ada9dcc9408de2ed134756c617074b2f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ada9dcc9408de2ed134756c617074b2f0" kindref="member">cpu_model</ref>;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a7b433e68c7fc969677f1a25126940f2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a7b433e68c7fc969677f1a25126940f2a" kindref="member">calculate_totals</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9a75ae708595fcf7bd16d95e70522333" kindref="member">total_cycles</ref><sp/>=<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" kindref="member">hnsw_search_cycles</ref><sp/>+<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a71ebc08687e57efd5ad39d8bcb761b00" kindref="member">pointer_passing_cycles</ref><sp/>+<sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a3d823b1b1d0e17fde0ad27326a68b59c" kindref="member">llm_inference_cycles</ref><sp/>+<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ab30720bc6ae6d48496947500996b613e" kindref="member">cache_miss_cycles</ref><sp/>+</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a63b9fe66b187738d52dfa74fd169de01" kindref="member">pcie_host_to_device_cycles</ref><sp/>+<sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a06ae3746106bf4939a9e4be9f61b0984" kindref="member">pcie_device_to_host_cycles</ref><sp/>+</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a6b3e732c6d2cd783a1bd25de75c03dc1" kindref="member">gpu_compute_cycles</ref>;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1performance_1_1_scoped_cycle_timer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac4610539208f910d35433544a928eaaf" kindref="member">ScopedCycleTimer</ref><sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac4610539208f910d35433544a928eaaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac4610539208f910d35433544a928eaaf" kindref="member">ScopedCycleTimer</ref>(uint64_t*<sp/>output)<sp/>noexcept</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>output_(output),<sp/>start_(<ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" kindref="member">HardwareCycleCounter::cpu_cycles</ref>())<sp/>{}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac409dc7e024dabf3954f477e8073ed26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac409dc7e024dabf3954f477e8073ed26" kindref="member">~ScopedCycleTimer</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(output_)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*output_<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a5136a8e4aca5d9e101c86b7a3fe2b8c9" kindref="member">HardwareCycleCounter::rdtscp</ref>()<sp/>-<sp/>start_;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1a699ebd0896e8889252cf56a66bfe97f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1a699ebd0896e8889252cf56a66bfe97f0" kindref="member">ScopedCycleTimer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac4610539208f910d35433544a928eaaf" kindref="member">ScopedCycleTimer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1a64e2c3297216e6991974524c3a140eda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac4610539208f910d35433544a928eaaf" kindref="member">ScopedCycleTimer</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1a64e2c3297216e6991974524c3a140eda" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer_1ac4610539208f910d35433544a928eaaf" kindref="member">ScopedCycleTimer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t*<sp/>output_;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>start_;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/cycle_metrics.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_multi_model_training_data" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MultiModelTrainingData</compoundname>
+    <includes refid="multi__model__training__data_8h" local="no">multi_model_training_data.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_multi_model_training_data_1ae95139de9ee460ea9431bbc29327135a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Impl &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::MultiModelTrainingData::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="226" column="21" bodyfile="include/llm/multi_model_training_data.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1ad28576131b5b4dd508db31b71169a7d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MultiModelTrainingData::MultiModelTrainingData</definition>
+        <argsstring>(std::shared_ptr&lt; TrainingDataIterator &gt; base_iterator, const MultiModelEnrichmentConfig &amp;config)</argsstring>
+        <name>MultiModelTrainingData</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::MultiModelTrainingData</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_training_data_iterator" kindref="compound">TrainingDataIterator</ref> &gt;</type>
+          <declname>base_iterator</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_config" kindref="compound">MultiModelEnrichmentConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="174" column="5" bodyfile="src/llm/multi_model_training_data.cpp" bodystart="19" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1acfda90d88f48f899bcc6c6cb5ae7a171" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MultiModelTrainingData::~MultiModelTrainingData</definition>
+        <argsstring>()</argsstring>
+        <name>~MultiModelTrainingData</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::~MultiModelTrainingData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="179" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1a4bae3aca50d8dcd08f507fd5356e3175" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_enriched_training_example" kindref="compound">EnrichedTrainingExample</ref> &gt;</type>
+        <definition>std::optional&lt; EnrichedTrainingExample &gt; themis::llm::MultiModelTrainingData::nextExample</definition>
+        <argsstring>()</argsstring>
+        <name>nextExample</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::nextExample</qualifiedname>
+        <briefdescription>
+<para>Next Example. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="185" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1a61539916df4b860174e7d7ab80574f29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_enriched_training_example" kindref="compound">EnrichedTrainingExample</ref> &gt;</type>
+        <definition>std::vector&lt; EnrichedTrainingExample &gt; themis::llm::MultiModelTrainingData::nextBatch</definition>
+        <argsstring>(int batch_size)</argsstring>
+        <name>nextBatch</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::nextBatch</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+<para>Next Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="192" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1adf0a41a1f7d180d53d3281b278e31aaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MultiModelTrainingData::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="197" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1a594eaa80d8b61a63c5b6f0dd5aeb3d4c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_enrichment_statistics" kindref="compound">EnrichmentStatistics</ref></type>
+        <definition>EnrichmentStatistics themis::llm::MultiModelTrainingData::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="203" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1a7beacfc12335e14e5cf6d9b4bd36502b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MultiModelTrainingData::setGraphProvider</definition>
+        <argsstring>(std::shared_ptr&lt; GraphContextProvider &gt; provider)</argsstring>
+        <name>setGraphProvider</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::setGraphProvider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_graph_context_provider" kindref="compound">GraphContextProvider</ref> &gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Set Graph Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="209" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1a26e4128c222bf697144e851cb3c99fa7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MultiModelTrainingData::setVectorProvider</definition>
+        <argsstring>(std::shared_ptr&lt; VectorSimilarityProvider &gt; provider)</argsstring>
+        <name>setVectorProvider</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::setVectorProvider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_vector_similarity_provider" kindref="compound">VectorSimilarityProvider</ref> &gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Set Vector Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="215" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1a5d340f6ca09782432d5070d52b278a42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MultiModelTrainingData::setRelationalProvider</definition>
+        <argsstring>(std::shared_ptr&lt; RelationalJoinProvider &gt; provider)</argsstring>
+        <name>setRelationalProvider</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::setRelationalProvider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_relational_join_provider" kindref="compound">RelationalJoinProvider</ref> &gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Set Relational Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="221" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1a0833c39c38a6276ffc4a7e895e400308" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_enriched_training_example" kindref="compound">EnrichedTrainingExample</ref></type>
+        <definition>EnrichedTrainingExample themis::llm::MultiModelTrainingData::enrichExample</definition>
+        <argsstring>(const TrainingSample &amp;example)</argsstring>
+        <name>enrichExample</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::enrichExample</qualifiedname>
+        <param>
+          <type>const TrainingSample &amp;</type>
+          <declname>example</declname>
+        </param>
+        <briefdescription>
+<para>Enrich Example. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">example</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="234" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1afbc38698d196237a1707517baaa16a6f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_graph_context" kindref="compound">GraphContext</ref> &gt;</type>
+        <definition>std::optional&lt; GraphContext &gt; themis::llm::MultiModelTrainingData::enrichWithGraph</definition>
+        <argsstring>(const TrainingSample &amp;example)</argsstring>
+        <name>enrichWithGraph</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::enrichWithGraph</qualifiedname>
+        <param>
+          <type>const TrainingSample &amp;</type>
+          <declname>example</declname>
+        </param>
+        <briefdescription>
+<para>Enrich With Graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">example</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="242" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1ac8e255efb26de9eaca4a7f646d899905" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_vector_similarity" kindref="compound">VectorSimilarity</ref> &gt;</type>
+        <definition>std::optional&lt; VectorSimilarity &gt; themis::llm::MultiModelTrainingData::enrichWithVector</definition>
+        <argsstring>(const TrainingSample &amp;example)</argsstring>
+        <name>enrichWithVector</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::enrichWithVector</qualifiedname>
+        <param>
+          <type>const TrainingSample &amp;</type>
+          <declname>example</declname>
+        </param>
+        <briefdescription>
+<para>Enrich With Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">example</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="248" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_model_training_data_1a029883cad53ab41a499e1116864cee1c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_relational_join" kindref="compound">RelationalJoin</ref> &gt;</type>
+        <definition>std::optional&lt; RelationalJoin &gt; themis::llm::MultiModelTrainingData::enrichWithRelational</definition>
+        <argsstring>(const TrainingSample &amp;example)</argsstring>
+        <name>enrichWithRelational</name>
+        <qualifiedname>themis::llm::MultiModelTrainingData::enrichWithRelational</qualifiedname>
+        <param>
+          <type>const TrainingSample &amp;</type>
+          <declname>example</declname>
+        </param>
+        <briefdescription>
+<para>Enrich With Relational. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">example</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="254" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_model_training_data.h" line="172" column="1" bodyfile="include/llm/multi_model_training_data.h" bodystart="172" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1a0833c39c38a6276ffc4a7e895e400308" prot="private" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>enrichExample</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1afbc38698d196237a1707517baaa16a6f" prot="private" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>enrichWithGraph</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1a029883cad53ab41a499e1116864cee1c" prot="private" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>enrichWithRelational</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1ac8e255efb26de9eaca4a7f646d899905" prot="private" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>enrichWithVector</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1a594eaa80d8b61a63c5b6f0dd5aeb3d4c" prot="public" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1ae95139de9ee460ea9431bbc29327135a" prot="private" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1ad28576131b5b4dd508db31b71169a7d6" prot="public" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>MultiModelTrainingData</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1a61539916df4b860174e7d7ab80574f29" prot="public" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>nextBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1a4bae3aca50d8dcd08f507fd5356e3175" prot="public" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>nextExample</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1adf0a41a1f7d180d53d3281b278e31aaa" prot="public" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1a7beacfc12335e14e5cf6d9b4bd36502b" prot="public" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>setGraphProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1a5d340f6ca09782432d5070d52b278a42" prot="public" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>setRelationalProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1a26e4128c222bf697144e851cb3c99fa7" prot="public" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>setVectorProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_model_training_data_1acfda90d88f48f899bcc6c6cb5ae7a171" prot="public" virt="non-virtual"><scope>themis::llm::MultiModelTrainingData</scope><name>~MultiModelTrainingData</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

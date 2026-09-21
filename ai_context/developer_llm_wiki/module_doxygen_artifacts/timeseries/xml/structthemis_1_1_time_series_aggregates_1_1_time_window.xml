@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_time_series_aggregates_1_1_time_window" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TimeSeriesAggregates::TimeWindow</compoundname>
+    <includes refid="aggregates_8h" local="no">aggregates.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_time_series_aggregates_1_1_time_window_1a1823a83c611b2fdd900569c7545872d8" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TimeSeriesAggregates::TimeWindow::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::TimeSeriesAggregates::TimeWindow::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="61" column="17" bodyfile="include/timeseries/aggregates.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_aggregates_1_1_time_window_1a3cae04649e862fff8786dc015955739a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TimeSeriesAggregates::TimeWindow::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::TimeSeriesAggregates::TimeWindow::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="62" column="17" bodyfile="include/timeseries/aggregates.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_aggregates_1_1_time_window_1a17ea08d47c2bfab87fb93701fa94cc2c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TimeSeriesAggregates::TimeWindow::interval_seconds</definition>
+        <argsstring></argsstring>
+        <name>interval_seconds</name>
+        <qualifiedname>themis::TimeSeriesAggregates::TimeWindow::interval_seconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="63" column="17" bodyfile="include/timeseries/aggregates.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/aggregates.h" line="60" column="5" bodyfile="include/timeseries/aggregates.h" bodystart="60" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_time_series_aggregates_1_1_time_window_1a3cae04649e862fff8786dc015955739a" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates::TimeWindow</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1_time_series_aggregates_1_1_time_window_1a17ea08d47c2bfab87fb93701fa94cc2c" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates::TimeWindow</scope><name>interval_seconds</name></member>
+      <member refid="structthemis_1_1_time_series_aggregates_1_1_time_window_1a1823a83c611b2fdd900569c7545872d8" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates::TimeWindow</scope><name>start_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

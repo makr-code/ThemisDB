@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f0fec0e2562fe6d4722dc5c1ffbd0adc" kind="dir">
+    <compoundname>benchmarks/temporal</compoundname>
+    <innerfile refid="bench__interval__tree__erase_8cpp">bench_interval_tree_erase.cpp</innerfile>
+    <innerfile refid="bench__temporal__dedicated__gates_8cpp">bench_temporal_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__temporal__queries_8cpp">bench_temporal_queries.cpp</innerfile>
+    <innerfile refid="bench__temporal__release__gates_8cpp">bench_temporal_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/temporal/"/>
+  </compounddef>
+</doxygen>

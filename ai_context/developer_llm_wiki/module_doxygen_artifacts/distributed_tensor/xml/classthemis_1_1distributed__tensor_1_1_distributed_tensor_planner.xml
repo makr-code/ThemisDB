@@ -1,0 +1,754 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::DistributedTensorPlanner</compoundname>
+    <includes refid="include_2distributed__tensor_2distributed__planner_8h" local="no">distributed_planner.h</includes>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" prot="public">themis::distributed_tensor::DistributedTensorPlanner::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1af37c6a558349456d2386662fa22bea8d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher" kindref="compound">IFragmentFetcher</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IFragmentFetcher &gt; themis::distributed_tensor::DistributedTensorPlanner::fragment_fetcher_</definition>
+        <argsstring></argsstring>
+        <name>fragment_fetcher_</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::fragment_fetcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="309" column="17" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1af4b9ed4b243b08a65e09646366a32fd7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; rag::GraphTruthValidator &gt;</type>
+        <definition>std::shared_ptr&lt; rag::GraphTruthValidator &gt; themis::distributed_tensor::DistributedTensorPlanner::graph_validator_</definition>
+        <argsstring></argsstring>
+        <name>graph_validator_</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::graph_validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="310" column="17" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aa40ee68a788286c2d518c610a07ae4e5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::distributed_tensor::DistributedTensorPlanner::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="311" column="8" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DistributedTensorPlanner::DistributedTensorPlanner</definition>
+        <argsstring>()=default</argsstring>
+        <name>DistributedTensorPlanner</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::DistributedTensorPlanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="197" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a012a5f46a1fc75aa7ed7a0e1ec2b210f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DistributedTensorPlanner::~DistributedTensorPlanner</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedTensorPlanner</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::~DistributedTensorPlanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="198" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a648a87477259a7fa2c6328fd07ad9f0d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::DistributedTensorPlanner::setFragmentFetcher</definition>
+        <argsstring>(std::shared_ptr&lt; IFragmentFetcher &gt; fetcher) noexcept</argsstring>
+        <name>setFragmentFetcher</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::setFragmentFetcher</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher" kindref="compound">IFragmentFetcher</ref> &gt;</type>
+          <declname>fetcher</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="200" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a968f801c7c9e5c03394adf1514903277" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::DistributedTensorPlanner::setGraphValidator</definition>
+        <argsstring>(std::shared_ptr&lt; rag::GraphTruthValidator &gt; validator) noexcept</argsstring>
+        <name>setGraphValidator</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::setGraphValidator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; rag::GraphTruthValidator &gt;</type>
+          <declname>validator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="201" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a3d5d9ac4b7570e3e14293a479317a1d9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary" kindref="compound">RoutingSummary</ref> &gt;</type>
+        <definition>std::vector&lt; RoutingSummary &gt; themis::distributed_tensor::DistributedTensorPlanner::planSummaryFirstRouting</definition>
+        <argsstring>(const std::vector&lt; tensor::ShardSummary &gt; &amp;summaries, const std::string &amp;correlation_id={}, uint32_t freshness_ttl_s=3600) noexcept</argsstring>
+        <name>planSummaryFirstRouting</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::planSummaryFirstRouting</qualifiedname>
+        <param>
+          <type>const std::vector&lt; tensor::ShardSummary &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>freshness_ttl_s</declname>
+          <defval>3600</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="203" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="203" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a32c9e88398b95faa8c263150999a79a4" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" kindref="compound">FragmentLoadRequest</ref> &gt;</type>
+        <definition>std::vector&lt; FragmentLoadRequest &gt; themis::distributed_tensor::DistributedTensorPlanner::planExactOnDemandLoading</definition>
+        <argsstring>(const std::vector&lt; RoutingSummary &gt; &amp;routing_summaries, const std::string &amp;query_context={}, const std::string &amp;correlation_id={}) noexcept</argsstring>
+        <name>planExactOnDemandLoading</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::planExactOnDemandLoading</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary" kindref="compound">RoutingSummary</ref> &gt; &amp;</type>
+          <declname>routing_summaries</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_context</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="226" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="226" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1ac4952eca34c978acf9a5e86c592e9872" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" kindref="compound">TensorRetrievalPlan</ref></type>
+        <definition>TensorRetrievalPlan themis::distributed_tensor::DistributedTensorPlanner::buildRetrievalPlan</definition>
+        <argsstring>(const std::vector&lt; tensor::ShardSummary &gt; &amp;summaries, const std::string &amp;query_context={}, const std::string &amp;correlation_id={}) noexcept</argsstring>
+        <name>buildRetrievalPlan</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::buildRetrievalPlan</qualifiedname>
+        <param>
+          <type>const std::vector&lt; tensor::ShardSummary &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_context</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="248" column="21" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="248" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aecff156b422bc9a47c8219c1f02958f7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result" kindref="compound">FragmentLoadResult</ref> &gt;</type>
+        <definition>std::vector&lt; FragmentLoadResult &gt; themis::distributed_tensor::DistributedTensorPlanner::executeFragmentLoads</definition>
+        <argsstring>(const std::vector&lt; FragmentLoadRequest &gt; &amp;requests, const std::string &amp;correlation_id={}) noexcept</argsstring>
+        <name>executeFragmentLoads</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::executeFragmentLoads</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" kindref="compound">FragmentLoadRequest</ref> &gt; &amp;</type>
+          <declname>requests</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="265" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="265" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1afd69cd1307550cd3158569b40d2c65cd" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>rag::GraphTruthValidationResult</type>
+        <definition>rag::GraphTruthValidationResult themis::distributed_tensor::DistributedTensorPlanner::validateAgainstGraphTruth</definition>
+        <argsstring>(const TensorRetrievalPlan &amp;plan, const std::string &amp;query, const rag::GraphTruthValidatorConfig &amp;config={}) const noexcept</argsstring>
+        <name>validateAgainstGraphTruth</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::validateAgainstGraphTruth</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" kindref="compound">TensorRetrievalPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const rag::GraphTruthValidatorConfig &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="282" column="34" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="282" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a73f24486ae73fdda637cc3fc90678ef8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DistributedTensorPlanner::isValidFinalPlan</definition>
+        <argsstring>(const TensorRetrievalPlan &amp;plan) const noexcept</argsstring>
+        <name>isValidFinalPlan</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::isValidFinalPlan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" kindref="compound">TensorRetrievalPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="295" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="295" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a50dec68d633ecb215d9d889a5a053bfb" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::DistributedTensorPlanner::setConfig</definition>
+        <argsstring>(const Config &amp;c) noexcept</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="305" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="305" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a5698fe91fd30a10caad9040fb44b23ef" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" kindref="compound">Config</ref></type>
+        <definition>const DistributedTensorPlanner::Config &amp; themis::distributed_tensor::DistributedTensorPlanner::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="306" column="8" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="306" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DistributedTensorPlanner::DistributedTensorPlanner</definition>
+        <argsstring>()=default</argsstring>
+        <name>DistributedTensorPlanner</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::DistributedTensorPlanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="128" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a012a5f46a1fc75aa7ed7a0e1ec2b210f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DistributedTensorPlanner::~DistributedTensorPlanner</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedTensorPlanner</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::~DistributedTensorPlanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="129" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a6beeabc12bab9a6f9d984c1639de06cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DistributedTensorPlanner::DistributedTensorPlanner</definition>
+        <argsstring>(const DistributedTensorPlanner &amp;)=delete</argsstring>
+        <name>DistributedTensorPlanner</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::DistributedTensorPlanner</qualifiedname>
+        <param>
+          <type>const DistributedTensorPlanner &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a770a222622c2d7d0987ca5f2b10c2470" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" kindref="member">DistributedTensorPlanner</ref> &amp;</type>
+        <definition>DistributedTensorPlanner &amp; themis::distributed_tensor::DistributedTensorPlanner::operator=</definition>
+        <argsstring>(const DistributedTensorPlanner &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" kindref="member">DistributedTensorPlanner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="133" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a97a6b18c009b0e8f862fb11757136bf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DistributedTensorPlanner::DistributedTensorPlanner</definition>
+        <argsstring>(DistributedTensorPlanner &amp;&amp;)=delete</argsstring>
+        <name>DistributedTensorPlanner</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::DistributedTensorPlanner</qualifiedname>
+        <param>
+          <type>DistributedTensorPlanner &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a8314142136bd813747ba15ad4b4e3949" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" kindref="member">DistributedTensorPlanner</ref> &amp;</type>
+        <definition>DistributedTensorPlanner &amp; themis::distributed_tensor::DistributedTensorPlanner::operator=</definition>
+        <argsstring>(DistributedTensorPlanner &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" kindref="member">DistributedTensorPlanner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="135" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a648a87477259a7fa2c6328fd07ad9f0d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::DistributedTensorPlanner::setFragmentFetcher</definition>
+        <argsstring>(std::shared_ptr&lt; IFragmentFetcher &gt; fetcher) noexcept</argsstring>
+        <name>setFragmentFetcher</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::setFragmentFetcher</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher" kindref="compound">IFragmentFetcher</ref> &gt;</type>
+          <declname>fetcher</declname>
+        </param>
+        <briefdescription>
+<para>─── Dependency Injection ────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fetcher</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="143" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a968f801c7c9e5c03394adf1514903277" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::DistributedTensorPlanner::setGraphValidator</definition>
+        <argsstring>(std::shared_ptr&lt; rag::GraphTruthValidator &gt; validator) noexcept</argsstring>
+        <name>setGraphValidator</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::setGraphValidator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; rag::GraphTruthValidator &gt;</type>
+          <declname>validator</declname>
+        </param>
+        <briefdescription>
+<para>Set Graph Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="150" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a3d5d9ac4b7570e3e14293a479317a1d9" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary" kindref="compound">RoutingSummary</ref> &gt;</type>
+        <definition>std::vector&lt; RoutingSummary &gt; themis::distributed_tensor::DistributedTensorPlanner::planSummaryFirstRouting</definition>
+        <argsstring>(const std::vector&lt; tensor::ShardSummary &gt; &amp;summaries, const std::string &amp;correlation_id={}, uint32_t freshness_ttl_s=3600) noexcept</argsstring>
+        <name>planSummaryFirstRouting</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::planSummaryFirstRouting</qualifiedname>
+        <param>
+          <type>const std::vector&lt; tensor::ShardSummary &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>freshness_ttl_s</declname>
+          <defval>3600</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="154" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a32c9e88398b95faa8c263150999a79a4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" kindref="compound">FragmentLoadRequest</ref> &gt;</type>
+        <definition>std::vector&lt; FragmentLoadRequest &gt; themis::distributed_tensor::DistributedTensorPlanner::planExactOnDemandLoading</definition>
+        <argsstring>(const std::vector&lt; RoutingSummary &gt; &amp;routing_summaries, const std::string &amp;query_context={}, const std::string &amp;correlation_id={}) noexcept</argsstring>
+        <name>planExactOnDemandLoading</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::planExactOnDemandLoading</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary" kindref="compound">RoutingSummary</ref> &gt; &amp;</type>
+          <declname>routing_summaries</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_context</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="159" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1ac4952eca34c978acf9a5e86c592e9872" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" kindref="compound">TensorRetrievalPlan</ref></type>
+        <definition>TensorRetrievalPlan themis::distributed_tensor::DistributedTensorPlanner::buildRetrievalPlan</definition>
+        <argsstring>(const std::vector&lt; tensor::ShardSummary &gt; &amp;summaries, const std::string &amp;query_context={}, const std::string &amp;correlation_id={}) noexcept</argsstring>
+        <name>buildRetrievalPlan</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::buildRetrievalPlan</qualifiedname>
+        <param>
+          <type>const std::vector&lt; tensor::ShardSummary &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_context</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="164" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aecff156b422bc9a47c8219c1f02958f7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result" kindref="compound">FragmentLoadResult</ref> &gt;</type>
+        <definition>std::vector&lt; FragmentLoadResult &gt; themis::distributed_tensor::DistributedTensorPlanner::executeFragmentLoads</definition>
+        <argsstring>(const std::vector&lt; FragmentLoadRequest &gt; &amp;requests, const std::string &amp;correlation_id={}) noexcept</argsstring>
+        <name>executeFragmentLoads</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::executeFragmentLoads</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" kindref="compound">FragmentLoadRequest</ref> &gt; &amp;</type>
+          <declname>requests</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="171" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1afd69cd1307550cd3158569b40d2c65cd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>rag::GraphTruthValidationResult</type>
+        <definition>rag::GraphTruthValidationResult themis::distributed_tensor::DistributedTensorPlanner::validateAgainstGraphTruth</definition>
+        <argsstring>(const TensorRetrievalPlan &amp;plan, const std::string &amp;query, const rag::GraphTruthValidatorConfig &amp;config={}) const noexcept</argsstring>
+        <name>validateAgainstGraphTruth</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::validateAgainstGraphTruth</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" kindref="compound">TensorRetrievalPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const rag::GraphTruthValidatorConfig &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="175" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a73f24486ae73fdda637cc3fc90678ef8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DistributedTensorPlanner::isValidFinalPlan</definition>
+        <argsstring>(const TensorRetrievalPlan &amp;plan) const noexcept</argsstring>
+        <name>isValidFinalPlan</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::isValidFinalPlan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" kindref="compound">TensorRetrievalPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="180" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a8a1e1ce46ed5d5781d918961c20c1d98" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::DistributedTensorPlanner::setConfig</definition>
+        <argsstring>(const Config &amp;config) noexcept</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="201" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aa3ff044a60e4c743f1704b3f87d5a0ec" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::distributed_tensor::DistributedTensorPlanner::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="203" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a77119585b8b5ac2acc02d164b6503af6" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DistributedTensorPlanner::validateSummaryFreshness</definition>
+        <argsstring>(const tensor::ShardSummary &amp;summary) const noexcept</argsstring>
+        <name>validateSummaryFreshness</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::validateSummaryFreshness</qualifiedname>
+        <param>
+          <type>const tensor::ShardSummary &amp;</type>
+          <declname>summary</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="211" column="11" bodyfile="src/distributed_tensor/src/distributed_planner.cc" bodystart="314" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aaaf68ec57c99573c7225dea95c86d7d9" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::DistributedTensorPlanner::computeRoutingRelevance</definition>
+        <argsstring>(const tensor::ShardSummary &amp;summary) const noexcept</argsstring>
+        <name>computeRoutingRelevance</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::computeRoutingRelevance</qualifiedname>
+        <param>
+          <type>const tensor::ShardSummary &amp;</type>
+          <declname>summary</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="214" column="12" bodyfile="src/distributed_tensor/src/distributed_planner.cc" bodystart="329" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a72fa5d1b746f3800e481f6de156b43f9" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::DistributedTensorPlanner::buildFallbackRouting</definition>
+        <argsstring>(const std::vector&lt; tensor::ShardSummary &gt; &amp;summaries) const noexcept</argsstring>
+        <name>buildFallbackRouting</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::buildFallbackRouting</qualifiedname>
+        <param>
+          <type>const std::vector&lt; tensor::ShardSummary &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="217" column="18" bodyfile="src/distributed_tensor/src/distributed_planner.cc" bodystart="343" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/distributed_planner.h" line="187" column="1" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="187" bodyend="312"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a72fa5d1b746f3800e481f6de156b43f9" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>buildFallbackRouting</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1ac4952eca34c978acf9a5e86c592e9872" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>buildRetrievalPlan</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1ac4952eca34c978acf9a5e86c592e9872" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>buildRetrievalPlan</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aaaf68ec57c99573c7225dea95c86d7d9" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>computeRoutingRelevance</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a5698fe91fd30a10caad9040fb44b23ef" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>config</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aa3ff044a60e4c743f1704b3f87d5a0ec" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>config</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aa40ee68a788286c2d518c610a07ae4e5" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>config_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>DistributedTensorPlanner</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>DistributedTensorPlanner</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a6beeabc12bab9a6f9d984c1639de06cd" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>DistributedTensorPlanner</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a97a6b18c009b0e8f862fb11757136bf9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>DistributedTensorPlanner</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aecff156b422bc9a47c8219c1f02958f7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>executeFragmentLoads</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aecff156b422bc9a47c8219c1f02958f7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>executeFragmentLoads</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1af37c6a558349456d2386662fa22bea8d" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>fragment_fetcher_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1af4b9ed4b243b08a65e09646366a32fd7" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>graph_validator_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a73f24486ae73fdda637cc3fc90678ef8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>isValidFinalPlan</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a73f24486ae73fdda637cc3fc90678ef8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>isValidFinalPlan</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a770a222622c2d7d0987ca5f2b10c2470" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a8314142136bd813747ba15ad4b4e3949" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a32c9e88398b95faa8c263150999a79a4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>planExactOnDemandLoading</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a32c9e88398b95faa8c263150999a79a4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>planExactOnDemandLoading</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a3d5d9ac4b7570e3e14293a479317a1d9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>planSummaryFirstRouting</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a3d5d9ac4b7570e3e14293a479317a1d9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>planSummaryFirstRouting</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a50dec68d633ecb215d9d889a5a053bfb" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a8a1e1ce46ed5d5781d918961c20c1d98" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a648a87477259a7fa2c6328fd07ad9f0d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>setFragmentFetcher</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a648a87477259a7fa2c6328fd07ad9f0d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>setFragmentFetcher</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a968f801c7c9e5c03394adf1514903277" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>setGraphValidator</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a968f801c7c9e5c03394adf1514903277" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>setGraphValidator</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1afd69cd1307550cd3158569b40d2c65cd" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>validateAgainstGraphTruth</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1afd69cd1307550cd3158569b40d2c65cd" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>validateAgainstGraphTruth</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a77119585b8b5ac2acc02d164b6503af6" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>validateSummaryFreshness</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a012a5f46a1fc75aa7ed7a0e1ec2b210f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>~DistributedTensorPlanner</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a012a5f46a1fc75aa7ed7a0e1ec2b210f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner</scope><name>~DistributedTensorPlanner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

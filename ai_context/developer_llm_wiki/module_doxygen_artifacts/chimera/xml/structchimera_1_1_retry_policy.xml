@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structchimera_1_1_retry_policy" kind="struct" language="C++" prot="public">
+    <compoundname>chimera::RetryPolicy</compoundname>
+    <includes refid="retry__executor_8hpp" local="no">retry_executor.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structchimera_1_1_retry_policy_1aeba8c5f829146c196b8838ad83f32465" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t chimera::RetryPolicy::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>chimera::RetryPolicy::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="21" column="14" bodyfile="include/chimera/retry_executor.hpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_retry_policy_1af6510cec3d5acca29035780fde40b452" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t chimera::RetryPolicy::initial_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>initial_backoff_ms</name>
+        <qualifiedname>chimera::RetryPolicy::initial_backoff_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="22" column="14" bodyfile="include/chimera/retry_executor.hpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_retry_policy_1aecb0d14461a1ca6294143a48b9d7e9ac" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t chimera::RetryPolicy::max_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>max_backoff_ms</name>
+        <qualifiedname>chimera::RetryPolicy::max_backoff_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="23" column="14" bodyfile="include/chimera/retry_executor.hpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_retry_policy_1a466a46341c8f70712338f4610253d5e0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double chimera::RetryPolicy::backoff_multiplier</definition>
+        <argsstring></argsstring>
+        <name>backoff_multiplier</name>
+        <qualifiedname>chimera::RetryPolicy::backoff_multiplier</qualifiedname>
+        <initializer>= 1.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="24" column="12" bodyfile="include/chimera/retry_executor.hpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_retry_policy_1a480fedf4971d83f59eb747496c7749b4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double chimera::RetryPolicy::jitter_factor</definition>
+        <argsstring></argsstring>
+        <name>jitter_factor</name>
+        <qualifiedname>chimera::RetryPolicy::jitter_factor</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="25" column="12" bodyfile="include/chimera/retry_executor.hpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_retry_policy_1a6d097f47243334f4c8e6d0053bb4e429" prot="public" static="no" mutable="no">
+        <type>std::set&lt; <ref refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39" kindref="member">ErrorCode</ref> &gt;</type>
+        <definition>std::set&lt;ErrorCode&gt; chimera::RetryPolicy::retry_on_codes</definition>
+        <argsstring></argsstring>
+        <name>retry_on_codes</name>
+        <qualifiedname>chimera::RetryPolicy::retry_on_codes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="26" column="14" bodyfile="include/chimera/retry_executor.hpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_retry_policy_1a1ecf71770b3c36ea2a65c69437a02514" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool chimera::RetryPolicy::retry_on_connection_error</definition>
+        <argsstring></argsstring>
+        <name>retry_on_connection_error</name>
+        <qualifiedname>chimera::RetryPolicy::retry_on_connection_error</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="27" column="10" bodyfile="include/chimera/retry_executor.hpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_retry_policy_1a851e41e3614ba197f7bdf77af88d474b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool chimera::RetryPolicy::retry_on_resource_exhausted</definition>
+        <argsstring></argsstring>
+        <name>retry_on_resource_exhausted</name>
+        <qualifiedname>chimera::RetryPolicy::retry_on_resource_exhausted</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="28" column="10" bodyfile="include/chimera/retry_executor.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_retry_policy_1a18bfc4e160b0c52955e78744c3f37d54" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool chimera::RetryPolicy::retry_on_internal_error</definition>
+        <argsstring></argsstring>
+        <name>retry_on_internal_error</name>
+        <qualifiedname>chimera::RetryPolicy::retry_on_internal_error</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/retry_executor.hpp" line="29" column="10" bodyfile="include/chimera/retry_executor.hpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/retry_executor.hpp" line="20" column="1" bodyfile="include/chimera/retry_executor.hpp" bodystart="20" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structchimera_1_1_retry_policy_1a466a46341c8f70712338f4610253d5e0" prot="public" virt="non-virtual"><scope>chimera::RetryPolicy</scope><name>backoff_multiplier</name></member>
+      <member refid="structchimera_1_1_retry_policy_1af6510cec3d5acca29035780fde40b452" prot="public" virt="non-virtual"><scope>chimera::RetryPolicy</scope><name>initial_backoff_ms</name></member>
+      <member refid="structchimera_1_1_retry_policy_1a480fedf4971d83f59eb747496c7749b4" prot="public" virt="non-virtual"><scope>chimera::RetryPolicy</scope><name>jitter_factor</name></member>
+      <member refid="structchimera_1_1_retry_policy_1aecb0d14461a1ca6294143a48b9d7e9ac" prot="public" virt="non-virtual"><scope>chimera::RetryPolicy</scope><name>max_backoff_ms</name></member>
+      <member refid="structchimera_1_1_retry_policy_1aeba8c5f829146c196b8838ad83f32465" prot="public" virt="non-virtual"><scope>chimera::RetryPolicy</scope><name>max_retries</name></member>
+      <member refid="structchimera_1_1_retry_policy_1a6d097f47243334f4c8e6d0053bb4e429" prot="public" virt="non-virtual"><scope>chimera::RetryPolicy</scope><name>retry_on_codes</name></member>
+      <member refid="structchimera_1_1_retry_policy_1a1ecf71770b3c36ea2a65c69437a02514" prot="public" virt="non-virtual"><scope>chimera::RetryPolicy</scope><name>retry_on_connection_error</name></member>
+      <member refid="structchimera_1_1_retry_policy_1a18bfc4e160b0c52955e78744c3f37d54" prot="public" virt="non-virtual"><scope>chimera::RetryPolicy</scope><name>retry_on_internal_error</name></member>
+      <member refid="structchimera_1_1_retry_policy_1a851e41e3614ba197f7bdf77af88d474b" prot="public" virt="non-virtual"><scope>chimera::RetryPolicy</scope><name>retry_on_resource_exhausted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

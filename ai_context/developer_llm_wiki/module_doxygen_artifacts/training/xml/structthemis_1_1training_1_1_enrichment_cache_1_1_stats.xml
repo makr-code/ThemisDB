@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_enrichment_cache_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::EnrichmentCache::Stats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1a39d26d0e3bef9bd7d08bfe3586e9b7e8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCache::Stats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::training::EnrichmentCache::Stats::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="143" column="16" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1a471b1360527daf1b5560808c1cf3b1ea" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCache::Stats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::training::EnrichmentCache::Stats::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="144" column="16" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1abd4b45f0f45df40445aaf741763a7229" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCache::Stats::puts</definition>
+        <argsstring></argsstring>
+        <name>puts</name>
+        <qualifiedname>themis::training::EnrichmentCache::Stats::puts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="145" column="16" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1a905c734c01bc72948eb355e9391728b6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCache::Stats::invalidations</definition>
+        <argsstring></argsstring>
+        <name>invalidations</name>
+        <qualifiedname>themis::training::EnrichmentCache::Stats::invalidations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="146" column="16" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1a0b08d1dda6b9e96b8f042ff78604abd6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCache::Stats::expirations</definition>
+        <argsstring></argsstring>
+        <name>expirations</name>
+        <qualifiedname>themis::training::EnrichmentCache::Stats::expirations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="147" column="16" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1a84d776d2b9a76df63e4bf07bfca285e8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::training::EnrichmentCache::Stats::hitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::training::EnrichmentCache::Stats::hitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="149" column="16" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="149" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/training/test_enrichment_cache.cpp" line="142" column="5" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="142" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1a0b08d1dda6b9e96b8f042ff78604abd6" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache::Stats</scope><name>expirations</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1a84d776d2b9a76df63e4bf07bfca285e8" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache::Stats</scope><name>hitRate</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1a39d26d0e3bef9bd7d08bfe3586e9b7e8" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache::Stats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1a905c734c01bc72948eb355e9391728b6" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache::Stats</scope><name>invalidations</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1a471b1360527daf1b5560808c1cf3b1ea" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache::Stats</scope><name>misses</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_1_1_stats_1abd4b45f0f45df40445aaf741763a7229" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache::Stats</scope><name>puts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

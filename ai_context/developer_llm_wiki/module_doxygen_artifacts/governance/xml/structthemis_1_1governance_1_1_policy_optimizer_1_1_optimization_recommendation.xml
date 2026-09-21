@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyOptimizer::OptimizationRecommendation</compoundname>
+    <includes refid="policy__validation_8h" local="no">policy_validation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1a5d6181a3f3394027b2dceef13a44b083" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyOptimizer::OptimizationRecommendation::recommendation_id</definition>
+        <argsstring></argsstring>
+        <name>recommendation_id</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::OptimizationRecommendation::recommendation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="282" column="21" bodyfile="include/governance/policy_validation.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1a34dec1d270ec97834f5af4ce598f94ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyOptimizer::OptimizationRecommendation::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::OptimizationRecommendation::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="283" column="21" bodyfile="include/governance/policy_validation.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1a8259de3a1d0d754e20e6e2ce6a11b3cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyOptimizer::OptimizationRecommendation::optimization_type</definition>
+        <argsstring></argsstring>
+        <name>optimization_type</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::OptimizationRecommendation::optimization_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="284" column="21" bodyfile="include/governance/policy_validation.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1a0aabafa32ff1b3e6026b2298f05fccdf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyOptimizer::OptimizationRecommendation::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::OptimizationRecommendation::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="285" column="21" bodyfile="include/governance/policy_validation.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1a8cd3f97d7f3f87c29b7c31b614775be3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyOptimizer::OptimizationRecommendation::rationale</definition>
+        <argsstring></argsstring>
+        <name>rationale</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::OptimizationRecommendation::rationale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="286" column="21" bodyfile="include/governance/policy_validation.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1ad74ae2d1ed734e3ca86a580cf148e78d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyOptimizer::OptimizationRecommendation::expected_benefit</definition>
+        <argsstring></argsstring>
+        <name>expected_benefit</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::OptimizationRecommendation::expected_benefit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="287" column="21" bodyfile="include/governance/policy_validation.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1ab42ff2def5ae9d950032d4de5ed5b88a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyOptimizer::OptimizationRecommendation::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::OptimizationRecommendation::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="288" column="13" bodyfile="include/governance/policy_validation.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1aa633298c70002a6ddee0a856977622e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyOptimizer::OptimizationRecommendation::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::OptimizationRecommendation::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="294" column="24" bodyfile="src/governance/policy_validation.cpp" bodystart="1081" bodyend="1091"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_validation.h" line="281" column="5" bodyfile="include/governance/policy_validation.h" bodystart="281" bodyend="295"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1a0aabafa32ff1b3e6026b2298f05fccdf" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer::OptimizationRecommendation</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1ad74ae2d1ed734e3ca86a580cf148e78d" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer::OptimizationRecommendation</scope><name>expected_benefit</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1a8259de3a1d0d754e20e6e2ce6a11b3cc" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer::OptimizationRecommendation</scope><name>optimization_type</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1ab42ff2def5ae9d950032d4de5ed5b88a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer::OptimizationRecommendation</scope><name>priority</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1a8cd3f97d7f3f87c29b7c31b614775be3" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer::OptimizationRecommendation</scope><name>rationale</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1a5d6181a3f3394027b2dceef13a44b083" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer::OptimizationRecommendation</scope><name>recommendation_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1a34dec1d270ec97834f5af4ce598f94ec" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer::OptimizationRecommendation</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation_1aa633298c70002a6ddee0a856977622e0" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer::OptimizationRecommendation</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

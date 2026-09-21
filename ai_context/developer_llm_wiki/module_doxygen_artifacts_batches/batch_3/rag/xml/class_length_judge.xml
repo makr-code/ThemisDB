@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_length_judge" kind="class" language="C++" prot="public">
+    <compoundname>LengthJudge</compoundname>
+    <basecompoundref refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge" prot="public" virt="non-virtual">themis::rag::training::IAIJudge</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_length_judge_1adb26f089581a06a49947c15597b9a0f0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>double LengthJudge::judge</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;response_a, const std::string &amp;response_b) const override</argsstring>
+        <name>judge</name>
+        <qualifiedname>LengthJudge::judge</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge_1aafed9334b42440ec19a31a31e16c3039">judge</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response_b</declname>
+        </param>
+        <briefdescription>
+<para>Compare two responses and return preference for response_a. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original user prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First candidate response. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second candidate response. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Score in [0, 1]; &gt;0.5 ⟹ prefer response_a. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_rlaif_trainer.cpp" line="78" column="12" bodyfile="tests/rag/test_rag_rlaif_trainer.cpp" bodystart="78" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_length_judge_1af148a552eb89923c34f1078a8a2f3806" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string LengthJudge::critique</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;, const AIPrinciple &amp;principle) const override</argsstring>
+        <name>critique</name>
+        <qualifiedname>LengthJudge::critique</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge_1a2aaab55ad0137362c2cdb98fbcf17ba4">critique</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1training_1_1_a_i_principle" kindref="compound">AIPrinciple</ref> &amp;</type>
+          <declname>principle</declname>
+        </param>
+        <briefdescription>
+<para>Generate a critique of a response according to a principle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original user prompt (context for the critique). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The response to critique. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The constitutional principle to apply. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A critique text (may be empty if no violation detected). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_rlaif_trainer.cpp" line="89" column="17" bodyfile="tests/rag/test_rag_rlaif_trainer.cpp" bodystart="89" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_length_judge_1a6b4c73dac402d8780e5f2d6c3a0ab7d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string LengthJudge::revise</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;response, const std::string &amp;, const AIPrinciple &amp;) const override</argsstring>
+        <name>revise</name>
+        <qualifiedname>LengthJudge::revise</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge_1a37ec4d52aa5e6643d331509bdaa53d62">revise</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>critique_text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1training_1_1_a_i_principle" kindref="compound">AIPrinciple</ref> &amp;</type>
+          <declname>principle</declname>
+        </param>
+        <briefdescription>
+<para>Generate a revised response that addresses the critique. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original user prompt (context for revision). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original response. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>critique_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The critique to address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The constitutional principle being applied. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A revised response (may equal the original if no change). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_rlaif_trainer.cpp" line="96" column="17" bodyfile="tests/rag/test_rag_rlaif_trainer.cpp" bodystart="96" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="class_length_judge_1a7852b8f6705541f1f20192f05cc214d3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string LengthJudge::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>LengthJudge::name</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge_1aa47a10eaea09a49464b5c7e8b618cfb8">name</reimplements>
+        <briefdescription>
+<para>Human-readable name for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_rlaif_trainer.cpp" line="104" column="17" bodyfile="tests/rag/test_rag_rlaif_trainer.cpp" bodystart="104" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LengthJudge</label>
+        <link refid="class_length_judge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::training::IAIJudge</label>
+        <link refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LengthJudge</label>
+        <link refid="class_length_judge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::training::IAIJudge</label>
+        <link refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_rlaif_trainer.cpp" line="76" column="1" bodyfile="tests/rag/test_rag_rlaif_trainer.cpp" bodystart="76" bodyend="105"/>
+    <listofallmembers>
+      <member refid="class_length_judge_1af148a552eb89923c34f1078a8a2f3806" prot="public" virt="virtual"><scope>LengthJudge</scope><name>critique</name></member>
+      <member refid="class_length_judge_1adb26f089581a06a49947c15597b9a0f0" prot="public" virt="virtual"><scope>LengthJudge</scope><name>judge</name></member>
+      <member refid="class_length_judge_1a7852b8f6705541f1f20192f05cc214d3" prot="public" virt="virtual"><scope>LengthJudge</scope><name>name</name></member>
+      <member refid="class_length_judge_1a6b4c73dac402d8780e5f2d6c3a0ab7d0" prot="public" virt="virtual"><scope>LengthJudge</scope><name>revise</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge_1a24b9fb03aa618660deecb1938ebbe441" prot="public" virt="virtual"><scope>LengthJudge</scope><name>~IAIJudge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

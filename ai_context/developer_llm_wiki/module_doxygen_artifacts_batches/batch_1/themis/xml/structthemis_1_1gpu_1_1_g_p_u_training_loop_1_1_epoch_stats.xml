@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUTrainingLoop::EpochStats</compoundname>
+    <includes refid="training__loop_8h" local="no">training_loop.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1aacab187e37c5324756b3de4e6452927d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTrainingLoop::EpochStats::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::EpochStats::epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="76" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1a7061ef20a24fa8865f421d1747a7638e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTrainingLoop::EpochStats::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::EpochStats::steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="77" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1a2b98211991a936476b4a9a6668d00f6b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::gpu::GPUTrainingLoop::EpochStats::avg_loss</definition>
+        <argsstring></argsstring>
+        <name>avg_loss</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::EpochStats::avg_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="78" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1a6dbe8995a5f9a5bf9a156dc9076ab1e3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::gpu::GPUTrainingLoop::EpochStats::min_loss</definition>
+        <argsstring></argsstring>
+        <name>min_loss</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::EpochStats::min_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="79" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1afc44183daa8bc027ae50c3eb90209cce" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::gpu::GPUTrainingLoop::EpochStats::max_loss</definition>
+        <argsstring></argsstring>
+        <name>max_loss</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::EpochStats::max_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="80" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1ade1025415cb6824a8b5964bd5a6a6deb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTrainingLoop::EpochStats::gpu_steps</definition>
+        <argsstring></argsstring>
+        <name>gpu_steps</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::EpochStats::gpu_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="81" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1ac16815a63f9f5bb82bef50d25ac22a1b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTrainingLoop::EpochStats::cpu_steps</definition>
+        <argsstring></argsstring>
+        <name>cpu_steps</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::EpochStats::cpu_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="82" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/training_loop.h" line="75" column="5" bodyfile="include/themis/gpu/training_loop.h" bodystart="75" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1a2b98211991a936476b4a9a6668d00f6b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::EpochStats</scope><name>avg_loss</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1ac16815a63f9f5bb82bef50d25ac22a1b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::EpochStats</scope><name>cpu_steps</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1aacab187e37c5324756b3de4e6452927d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::EpochStats</scope><name>epoch</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1ade1025415cb6824a8b5964bd5a6a6deb" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::EpochStats</scope><name>gpu_steps</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1afc44183daa8bc027ae50c3eb90209cce" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::EpochStats</scope><name>max_loss</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1a6dbe8995a5f9a5bf9a156dc9076ab1e3" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::EpochStats</scope><name>min_loss</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats_1a7061ef20a24fa8865f421d1747a7638e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::EpochStats</scope><name>steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

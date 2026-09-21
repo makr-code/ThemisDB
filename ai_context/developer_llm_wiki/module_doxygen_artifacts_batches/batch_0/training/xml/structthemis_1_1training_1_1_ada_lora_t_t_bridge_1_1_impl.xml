@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdaLoraTTBridge::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a013386fe063db93b79ade2b4502c96b3" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::TensorNetworkStorageEngine &gt;</type>
+        <definition>std::shared_ptr&lt;storage::TensorNetworkStorageEngine&gt; themis::training::AdaLoraTTBridge::Impl::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::Impl::engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/adalora_tt_bridge.cpp" line="152" column="21" bodyfile="src/training/adalora_tt_bridge.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1ac4f721d30828372a7a2bf4f62af22ab7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config" kindref="compound">AdaLoraTTBridgeConfig</ref></type>
+        <definition>AdaLoraTTBridgeConfig themis::training::AdaLoraTTBridge::Impl::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::Impl::cfg</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config" kindref="compound">AdaLoraTTBridgeConfig</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/adalora_tt_bridge.cpp" line="153" column="27" bodyfile="src/training/adalora_tt_bridge.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1af51a55441b5af1fadf9e199b21cc51d1" prot="public" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats" kindref="compound">BridgeStats</ref></type>
+        <definition>BridgeStats themis::training::AdaLoraTTBridge::Impl::stats_data</definition>
+        <argsstring></argsstring>
+        <name>stats_data</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::Impl::stats_data</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/adalora_tt_bridge.cpp" line="154" column="25" bodyfile="src/training/adalora_tt_bridge.cpp" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a17d756c8951dd343164538eecb892969" prot="public" static="no" mutable="yes">
+        <type>graph::TensorFingerprintGraph</type>
+        <definition>graph::TensorFingerprintGraph themis::training::AdaLoraTTBridge::Impl::fingerprint_graph</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_graph</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::Impl::fingerprint_graph</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/adalora_tt_bridge.cpp" line="155" column="43" bodyfile="src/training/adalora_tt_bridge.cpp" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a1216695e375768279cc28e5744ff9001" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::AdaLoraTTBridge::Impl::fingerprint_graph_mutex</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_graph_mutex</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::Impl::fingerprint_graph_mutex</qualifiedname>
+        <briefdescription>
+<para>Guards fingerprint_graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/adalora_tt_bridge.cpp" line="156" column="24" bodyfile="src/training/adalora_tt_bridge.cpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a1d1c5eefaeb4c26bad9b2454f5d5e66e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1training_1_1_ada_lora_t_t_bridge_1aa5ff7a67c1254769b2e60976775549f7" kindref="member">MapAdapterFn</ref></type>
+        <definition>MapAdapterFn themis::training::AdaLoraTTBridge::Impl::map_adapter_fn</definition>
+        <argsstring></argsstring>
+        <name>map_adapter_fn</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::Impl::map_adapter_fn</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1training_1_1_ada_lora_t_t_bridge_1aa5ff7a67c1254769b2e60976775549f7" kindref="member">MapAdapterFn</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/adalora_tt_bridge.cpp" line="158" column="18" bodyfile="src/training/adalora_tt_bridge.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a27f352267dceeb5ecbe5d9b40f14dbd8" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::AdaLoraTTBridge::Impl::map_adapter_mutex</definition>
+        <argsstring></argsstring>
+        <name>map_adapter_mutex</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::Impl::map_adapter_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/adalora_tt_bridge.cpp" line="159" column="24" bodyfile="src/training/adalora_tt_bridge.cpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1af98098ff6f404ab0d2e45370b86921fc" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::AdaLoraTTBridge::Impl::cache_mutex</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::Impl::cache_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/adalora_tt_bridge.cpp" line="161" column="24" bodyfile="src/training/adalora_tt_bridge.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a7463adf26acef27ff044c1fd4ef653dc" prot="public" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1training_1_1_ada_lora_t_t_export" kindref="compound">AdaLoraTTExport</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AdaLoraTTExport&gt; themis::training::AdaLoraTTBridge::Impl::export_cache</definition>
+        <argsstring></argsstring>
+        <name>export_cache</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::Impl::export_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/adalora_tt_bridge.cpp" line="162" column="32" bodyfile="src/training/adalora_tt_bridge.cpp" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::training::AdaLoraTTBridge::BridgeStats</label>
+        <link refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats"/>
+      </node>
+      <node id="1">
+        <label>themis::training::AdaLoraTTBridge::Impl</label>
+        <link refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats_data</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::AdaLoraTTBridgeConfig</label>
+        <link refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/training/adalora_tt_bridge.cpp" line="151" column="1" bodyfile="src/training/adalora_tt_bridge.cpp" bodystart="151" bodyend="163"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1af98098ff6f404ab0d2e45370b86921fc" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::Impl</scope><name>cache_mutex</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1ac4f721d30828372a7a2bf4f62af22ab7" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::Impl</scope><name>cfg</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a013386fe063db93b79ade2b4502c96b3" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::Impl</scope><name>engine</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a7463adf26acef27ff044c1fd4ef653dc" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::Impl</scope><name>export_cache</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a17d756c8951dd343164538eecb892969" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::Impl</scope><name>fingerprint_graph</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a1216695e375768279cc28e5744ff9001" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::Impl</scope><name>fingerprint_graph_mutex</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a1d1c5eefaeb4c26bad9b2454f5d5e66e" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::Impl</scope><name>map_adapter_fn</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1a27f352267dceeb5ecbe5d9b40f14dbd8" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::Impl</scope><name>map_adapter_mutex</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_impl_1af51a55441b5af1fadf9e199b21cc51d1" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::Impl</scope><name>stats_data</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_j_w_k_key_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::JWKKeyInfo</compoundname>
+    <includes refid="jwt__key__rotation__manager_8h" local="no">jwt_key_rotation_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Status</name>
+        <qualifiedname>themis::auth::JWKKeyInfo::Status</qualifiedname>
+        <enumvalue id="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+<para>Current signing key – issued tokens have this kid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7ade1c70a20d797811b2fd32facf64bbd4" prot="public">
+          <name>PASSIVE</name>
+          <briefdescription>
+<para>Still valid for verification; no new tokens issued with it. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7a727e10d767d9a626c3d8a6a921447323" prot="public">
+          <name>REVOKED</name>
+          <briefdescription>
+<para>No longer trusted – tokens signed with this kid are rejected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="35" column="5" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="35" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_key_info_1a4425a2a46345c68afaa7b9417e5f5bc3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWKKeyInfo::kid</definition>
+        <argsstring></argsstring>
+        <name>kid</name>
+        <qualifiedname>themis::auth::JWKKeyInfo::kid</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="33" column="17" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_key_info_1a3d399a9a0b5a60d79b194c8e69a38a26" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7" kindref="member">Status</ref></type>
+        <definition>Status themis::auth::JWKKeyInfo::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::auth::JWKKeyInfo::status</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7a18ff74f43da410c5529f7d6fca84f115" kindref="member">Status::ACTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="41" column="12" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_key_info_1a0c600971b838a4f9663cf49e96565e7f" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::JWKKeyInfo::activated_at</definition>
+        <argsstring></argsstring>
+        <name>activated_at</name>
+        <qualifiedname>themis::auth::JWKKeyInfo::activated_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="43" column="43" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_key_info_1a94fc1d86b068a020bb463e2c2aee7054" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::JWKKeyInfo::demoted_at</definition>
+        <argsstring></argsstring>
+        <name>demoted_at</name>
+        <qualifiedname>themis::auth::JWKKeyInfo::demoted_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="45" column="43" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_key_info_1af18c83c31cddc4473fdcb6b44c2d159c" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::JWKKeyInfo::max_age</definition>
+        <argsstring></argsstring>
+        <name>max_age</name>
+        <qualifiedname>themis::auth::JWKKeyInfo::max_age</qualifiedname>
+        <initializer>{86400 * 30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="47" column="26" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_j_w_k_key_info_1a928639e05bbcedb9b14771ad18a6a9b7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKKeyInfo::isExpired</definition>
+        <argsstring>() const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::auth::JWKKeyInfo::isExpired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_key_rotation_manager.h" line="49" column="10" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="49" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwt_key_rotation_manager.h" line="32" column="1" bodyfile="include/auth/jwt_key_rotation_manager.h" bodystart="32" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a0c600971b838a4f9663cf49e96565e7f" prot="public" virt="non-virtual"><scope>themis::auth::JWKKeyInfo</scope><name>activated_at</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a94fc1d86b068a020bb463e2c2aee7054" prot="public" virt="non-virtual"><scope>themis::auth::JWKKeyInfo</scope><name>demoted_at</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a928639e05bbcedb9b14771ad18a6a9b7" prot="public" virt="non-virtual"><scope>themis::auth::JWKKeyInfo</scope><name>isExpired</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a4425a2a46345c68afaa7b9417e5f5bc3" prot="public" virt="non-virtual"><scope>themis::auth::JWKKeyInfo</scope><name>kid</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_key_info_1af18c83c31cddc4473fdcb6b44c2d159c" prot="public" virt="non-virtual"><scope>themis::auth::JWKKeyInfo</scope><name>max_age</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_key_info_1aaff03460875019db079a536112a13ad7" prot="public" virt="non-virtual"><scope>themis::auth::JWKKeyInfo</scope><name>Status</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_key_info_1a3d399a9a0b5a60d79b194c8e69a38a26" prot="public" virt="non-virtual"><scope>themis::auth::JWKKeyInfo</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

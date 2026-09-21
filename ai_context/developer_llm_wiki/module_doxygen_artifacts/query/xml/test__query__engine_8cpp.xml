@@ -1,0 +1,497 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__query__engine_8cpp" kind="file" language="C++">
+    <compoundname>test_query_engine.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes refid="query__engine_8h" local="yes">query/query_engine.h</includes>
+    <includes refid="query__optimizer_8h" local="yes">query/query_optimizer.h</includes>
+    <incdepgraph>
+      <node id="26">
+        <label>query/adaptive_optimizer.h</label>
+        <link refid="adaptive__optimizer_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>query/optimizer_cost_model.h</label>
+        <link refid="optimizer__cost__model_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>query/query_engine.h</label>
+        <link refid="query__engine_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>query/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_query_engine.cpp</label>
+        <link refid="test__query__engine_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="29">
+        <label>cstddef</label>
+      </node>
+      <node id="30">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>filesystem</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="25">
+        <label>map</label>
+      </node>
+      <node id="16">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>mutex</label>
+      </node>
+      <node id="19">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="7">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>string_view</label>
+      </node>
+      <node id="22">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="23">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="21">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="28">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>utility</label>
+      </node>
+      <node id="20">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__query__engine_8cpp_1af00f492a6f45c664bb373920433fec78" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string tmpPath</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>tmpPath</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine.cpp" line="18" column="20" bodyfile="tests/query/test_query_engine.cpp" bodystart="18" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__engine_8cpp_1ab3def883bfc0004ae306f7276844fdb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryEngineTest, AndQuery_UsesSecondaryIndexes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryEngineTest</type>
+        </param>
+        <param>
+          <type>AndQuery_UsesSecondaryIndexes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine.cpp" line="24" column="1" bodyfile="tests/query/test_query_engine.cpp" bodystart="24" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__engine_8cpp_1a0e163f92570a8bcc7867f95e089165f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryEngineTest, OptimizedSequentialOrder)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryEngineTest</type>
+        </param>
+        <param>
+          <type>OptimizedSequentialOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine.cpp" line="62" column="1" bodyfile="tests/query/test_query_engine.cpp" bodystart="62" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__engine_8cpp_1a7b5707e594720c7d353377f81aad2577" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryEngineTest, NoIndexReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryEngineTest</type>
+        </param>
+        <param>
+          <type>NoIndexReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine.cpp" line="98" column="1" bodyfile="tests/query/test_query_engine.cpp" bodystart="98" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__engine_8cpp_1a33b8d1212b554767275bddfce022557b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryEngineTest, NoMatchReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryEngineTest</type>
+        </param>
+        <param>
+          <type>NoMatchReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine.cpp" line="117" column="1" bodyfile="tests/query/test_query_engine.cpp" bodystart="117" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__engine_8cpp_1adaf7064c4ad9e3db47210b18d249c3a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryEngineTest, NoIndexWithFallbackReturnsKeys)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryEngineTest</type>
+        </param>
+        <param>
+          <type>NoIndexWithFallbackReturnsKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine.cpp" line="139" column="1" bodyfile="tests/query/test_query_engine.cpp" bodystart="139" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>QueryEngine<sp/>index-backed<sp/>equality<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__engine_8h" kindref="compound">query/query_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__optimizer_8h" kindref="compound">query/query_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>tmpPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(fs::temp_directory_path()<sp/>/<sp/>(name<sp/>+<sp/>std::to_string(now))).string();</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="test__query__engine_8cpp_1ab3def883bfc0004ae306f7276844fdb9" kindref="member">TEST</ref>(QueryEngineTest,<sp/>AndQuery_UsesSecondaryIndexes)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;<sp/>cfg.db_path<sp/>=<sp/>tmpPath(</highlight><highlight class="stringliteral">&quot;vccdb_qe_&quot;</highlight><highlight class="normal">);<sp/>cfg.enable_blobdb=</highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ab02ef3ee235ca169ad1967ca78042d8a" kindref="member">RocksDBWrapper</ref><sp/>db(cfg);<sp/>ASSERT_TRUE(db.open());</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">SecondaryIndexManager</ref><sp/>idx(db);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.createIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.createIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>put<sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pk,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>age,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>city){</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>f{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;N&quot;</highlight><highlight class="normal">+pk},{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>int64_t(age)},{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,<sp/>city}};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref><sp/>e<sp/>=<sp/>BaseEntity::fromFields(pk,<sp/>f);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>e).ok);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>put(</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">,<sp/>30,<sp/></highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>put(</highlight><highlight class="stringliteral">&quot;u2&quot;</highlight><highlight class="normal">,<sp/>31,<sp/></highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>put(</highlight><highlight class="stringliteral">&quot;u3&quot;</highlight><highlight class="normal">,<sp/>30,<sp/></highlight><highlight class="stringliteral">&quot;Munich&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">QueryEngine</ref><sp/>engine(db,<sp/>idx);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_conjunctive_query" kindref="compound">ConjunctiveQuery</ref><sp/>q{</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;30&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parallel<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resultK<sp/>=<sp/>engine.executeAndKeys(q);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(resultK);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>keys<sp/>=<sp/>*resultK;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(keys.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(keys[0],<sp/></highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resultE<sp/>=<sp/>engine.executeAndEntities(q);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(resultE);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ents<sp/>=<sp/>*resultE;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(ents.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resultC<sp/>=<sp/>engine.executeAndCount(q);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(resultC);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*resultC,<sp/>1u);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>db.close();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__query__engine_8cpp_1ab3def883bfc0004ae306f7276844fdb9" kindref="member">TEST</ref>(QueryEngineTest,<sp/>OptimizedSequentialOrder)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;<sp/>cfg.db_path<sp/>=<sp/>tmpPath(</highlight><highlight class="stringliteral">&quot;vccdb_qe_opt_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ab02ef3ee235ca169ad1967ca78042d8a" kindref="member">RocksDBWrapper</ref><sp/>db(cfg);<sp/>ASSERT_TRUE(db.open());</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">SecondaryIndexManager</ref><sp/>idx(db);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.createIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.createIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i=0;i&lt;50;++i)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>f{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;N&quot;</highlight><highlight class="normal">+std::to_string(i)},{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>int64_t(30)},{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref><sp/>e<sp/>=<sp/>BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;u&quot;</highlight><highlight class="normal">+std::to_string(i),<sp/>f);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>e).ok);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>make<sp/>a<sp/>rare<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity::FieldMap<sp/>f{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Rare&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>int64_t(99)},{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;rare&quot;</highlight><highlight class="normal">,<sp/>f)).ok);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">QueryEngine</ref><sp/>engine(db,<sp/>idx);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_optimizer" kindref="compound">QueryOptimizer</ref><sp/>opt(idx);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_conjunctive_query" kindref="compound">ConjunctiveQuery</ref><sp/>q{</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;99&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>opt.chooseOrderForAndQuery(q,<sp/>10);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(plan.orderedPredicates.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>age=99<sp/>should<sp/>be<sp/>first<sp/>due<sp/>to<sp/>low<sp/>estimate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.orderedPredicates[0].column,<sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>keys_result<sp/>=<sp/>opt.executeOptimizedKeys(engine,<sp/>q,<sp/>plan);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(keys_result.has_value())<sp/>&lt;&lt;<sp/>keys_result.error().message();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(keys_result-&gt;size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ((*keys_result)[0],<sp/></highlight><highlight class="stringliteral">&quot;rare&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>count_result<sp/>=<sp/>opt.executeOptimizedCount(engine,<sp/>q,<sp/>plan);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(count_result.has_value())<sp/>&lt;&lt;<sp/>count_result.error().message();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*count_result,<sp/>1u);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>db.close();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__query__engine_8cpp_1ab3def883bfc0004ae306f7276844fdb9" kindref="member">TEST</ref>(QueryEngineTest,<sp/>NoIndexReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;<sp/>cfg.db_path<sp/>=<sp/>tmpPath(</highlight><highlight class="stringliteral">&quot;vccdb_qe_noidx_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ab02ef3ee235ca169ad1967ca78042d8a" kindref="member">RocksDBWrapper</ref><sp/>db(cfg);<sp/>ASSERT_TRUE(db.open());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">SecondaryIndexManager</ref><sp/>idx(db);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Kein<sp/>Index<sp/>angelegt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Daten<sp/>schreiben<sp/>direkt<sp/>via<sp/>Indexmanager<sp/>(pflegt<sp/>hier<sp/>keine<sp/>Indizes<sp/>da<sp/>keine<sp/>Meta-Keys<sp/>existieren,<sp/>aber<sp/>entspr.<sp/>Relationseintrag<sp/>wird<sp/>geschrieben)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref><sp/>e<sp/>=<sp/>BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>int64_t(30)}});</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Um<sp/>Relationseintrag<sp/>zu<sp/>erstellen,<sp/>nutzen<sp/>wir<sp/>put<sp/>auf<sp/>Tabelle<sp/>users<sp/>(ohne<sp/>Index<sp/>keine<sp/>Index-Keys)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>e).ok);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">QueryEngine</ref><sp/>engine(db,<sp/>idx);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_conjunctive_query" kindref="compound">ConjunctiveQuery</ref><sp/>q{</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;30&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resultK<sp/>=<sp/>engine.executeAndKeys(q);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resultK);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resultC<sp/>=<sp/>engine.executeAndCount(q);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resultC);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>db.close();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__query__engine_8cpp_1ab3def883bfc0004ae306f7276844fdb9" kindref="member">TEST</ref>(QueryEngineTest,<sp/>NoMatchReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;<sp/>cfg.db_path<sp/>=<sp/>tmpPath(</highlight><highlight class="stringliteral">&quot;vccdb_qe_nomatch_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ab02ef3ee235ca169ad1967ca78042d8a" kindref="member">RocksDBWrapper</ref><sp/>db(cfg);<sp/>ASSERT_TRUE(db.open());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">SecondaryIndexManager</ref><sp/>idx(db);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.createIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref><sp/>e<sp/>=<sp/>BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>int64_t(30)}});</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>e).ok);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">QueryEngine</ref><sp/>engine(db,<sp/>idx);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_conjunctive_query" kindref="compound">ConjunctiveQuery</ref><sp/>q{</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;99&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resultK<sp/>=<sp/>engine.executeAndKeys(q);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(resultK);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>keys<sp/>=<sp/>*resultK;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(keys.empty());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resultC<sp/>=<sp/>engine.executeAndCount(q);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(resultC);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*resultC,<sp/>0u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>db.close();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__query__engine_8cpp_1ab3def883bfc0004ae306f7276844fdb9" kindref="member">TEST</ref>(QueryEngineTest,<sp/>NoIndexWithFallbackReturnsKeys)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;<sp/>cfg.db_path<sp/>=<sp/>tmpPath(</highlight><highlight class="stringliteral">&quot;vccdb_qe_fallback_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ab02ef3ee235ca169ad1967ca78042d8a" kindref="member">RocksDBWrapper</ref><sp/>db(cfg);<sp/>ASSERT_TRUE(db.open());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">SecondaryIndexManager</ref><sp/>idx(db);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Kein<sp/>Index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref><sp/>e<sp/>=<sp/>BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>int64_t(30)},<sp/>{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>e).ok);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">QueryEngine</ref><sp/>engine(db,<sp/>idx);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_conjunctive_query" kindref="compound">ConjunctiveQuery</ref><sp/>q{</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;30&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine.executeAndKeysWithFallback(q,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>keys<sp/>=<sp/>*result;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(keys.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(keys[0],<sp/></highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>db.close();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_query_engine.cpp"/>
+  </compounddef>
+</doxygen>

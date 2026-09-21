@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AQLConfidenceScorer::Config</compoundname>
+    <includes refid="aql__confidence__scorer_8h" local="no">aql_confidence_scorer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a6d10edacb963a81a8d6749e909172289" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::AQLConfidenceScorer::Config::structural_weight</definition>
+        <argsstring></argsstring>
+        <name>structural_weight</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::Config::structural_weight</qualifiedname>
+        <initializer>= 0.50f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="38" column="15" bodyfile="include/aql/aql_confidence_scorer.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a9a216f6d70f20d91f0aa3076abf88a28" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::AQLConfidenceScorer::Config::completeness_weight</definition>
+        <argsstring></argsstring>
+        <name>completeness_weight</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::Config::completeness_weight</qualifiedname>
+        <initializer>= 0.30f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="39" column="15" bodyfile="include/aql/aql_confidence_scorer.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a7bf9f2ca1e391a9a2290932e450bb05e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::AQLConfidenceScorer::Config::schema_match_weight</definition>
+        <argsstring></argsstring>
+        <name>schema_match_weight</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::Config::schema_match_weight</qualifiedname>
+        <initializer>= 0.20f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="40" column="15" bodyfile="include/aql/aql_confidence_scorer.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a37ee2ebba9b1041b7e2cc520dd1ca1a9" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, float &gt;</type>
+        <definition>std::unordered_map&lt;std::string, float&gt; themis::aql::AQLConfidenceScorer::Config::keyword_bonuses</definition>
+        <argsstring></argsstring>
+        <name>keyword_bonuses</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::Config::keyword_bonuses</qualifiedname>
+        <initializer>                                   = {
+    {&quot;filter&quot;,  0.20f},
+    {&quot;sort&quot;,    0.15f},
+    {&quot;limit&quot;,   0.15f},
+    {&quot;let&quot;,     0.10f},
+    {&quot;collect&quot;, 0.10f},
+    {&quot;insert&quot;,  0.10f},
+    {&quot;update&quot;,  0.10f},
+    {&quot;remove&quot;,  0.10f},
+    {&quot;upsert&quot;,  0.10f},
+    {&quot;graph&quot;,   0.10f},
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="42" column="28" bodyfile="include/aql/aql_confidence_scorer.h" bodystart="42" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1aa8929d6dd0734f07be95e2b6f4f1b568" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::AQLConfidenceScorer::Config::no_schema_neutral</definition>
+        <argsstring></argsstring>
+        <name>no_schema_neutral</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::Config::no_schema_neutral</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="55" column="15" bodyfile="include/aql/aql_confidence_scorer.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a2d3b3f177ab9a0d522783c8c798fdb2a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::AQLConfidenceScorer::Config::zero_match_floor</definition>
+        <argsstring></argsstring>
+        <name>zero_match_floor</name>
+        <qualifiedname>themis::aql::AQLConfidenceScorer::Config::zero_match_floor</qualifiedname>
+        <initializer>= 0.1f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_confidence_scorer.h" line="56" column="15" bodyfile="include/aql/aql_confidence_scorer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_confidence_scorer.h" line="37" column="5" bodyfile="include/aql/aql_confidence_scorer.h" bodystart="37" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a9a216f6d70f20d91f0aa3076abf88a28" prot="public" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer::Config</scope><name>completeness_weight</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a37ee2ebba9b1041b7e2cc520dd1ca1a9" prot="public" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer::Config</scope><name>keyword_bonuses</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1aa8929d6dd0734f07be95e2b6f4f1b568" prot="public" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer::Config</scope><name>no_schema_neutral</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a7bf9f2ca1e391a9a2290932e450bb05e" prot="public" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer::Config</scope><name>schema_match_weight</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a6d10edacb963a81a8d6749e909172289" prot="public" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer::Config</scope><name>structural_weight</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_confidence_scorer_1_1_config_1a2d3b3f177ab9a0d522783c8c798fdb2a" prot="public" virt="non-virtual"><scope>themis::aql::AQLConfidenceScorer::Config</scope><name>zero_match_floor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

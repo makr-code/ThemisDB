@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_diff_engine_1_1_cached_diff" kind="struct" language="C++" prot="private">
+    <compoundname>themis::analytics::DiffEngine::CachedDiff</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_cached_diff_1aafeb73271ade94f1da47996573f5b5c7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref></type>
+        <definition>DiffResult themis::analytics::DiffEngine::CachedDiff::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::analytics::DiffEngine::CachedDiff::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="227" column="20" bodyfile="include/analytics/diff_engine.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_cached_diff_1abe0b7dbec75e4d45edbca48d8e748095" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::analytics::DiffEngine::CachedDiff::cached_at</definition>
+        <argsstring></argsstring>
+        <name>cached_at</name>
+        <qualifiedname>themis::analytics::DiffEngine::CachedDiff::cached_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="228" column="47" bodyfile="include/analytics/diff_engine.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::analytics::DiffEngine::CachedDiff</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>result</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::analytics::DiffEngine::DiffResult</label>
+        <link refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::analytics::DiffEngine::DiffStats</label>
+        <link refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/diff_engine.h" line="226" column="5" bodyfile="include/analytics/diff_engine.h" bodystart="226" bodyend="229"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_cached_diff_1abe0b7dbec75e4d45edbca48d8e748095" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::CachedDiff</scope><name>cached_at</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_cached_diff_1aafeb73271ade94f1da47996573f5b5c7" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::CachedDiff</scope><name>result</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer::GraphStatistics</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1ae531ab73a1c15f817938ca08fa59f74c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::GraphStatistics::vertex_count</definition>
+        <argsstring></argsstring>
+        <name>vertex_count</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphStatistics::vertex_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="61" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a0ad98fa12388a6763860f8c1d1bcc738" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::GraphStatistics::edge_count</definition>
+        <argsstring></argsstring>
+        <name>edge_count</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphStatistics::edge_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="62" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a57b0e4553b0e5957a73c07b2f066ec39" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::GraphStatistics::avg_degree</definition>
+        <argsstring></argsstring>
+        <name>avg_degree</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphStatistics::avg_degree</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="63" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a64d16b34b78debe73905ee6cebcbc560" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::GraphStatistics::avg_branching_factor</definition>
+        <argsstring></argsstring>
+        <name>avg_branching_factor</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphStatistics::avg_branching_factor</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="64" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1af6d2329004da3ed8b069b39b21aa4ff9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::GraphStatistics::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphStatistics::max_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="65" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1ac8946fb4655866a2d67d48ef7e4300ef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::GraphStatistics::has_edge_index</definition>
+        <argsstring></argsstring>
+        <name>has_edge_index</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphStatistics::has_edge_index</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="66" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1ac4b2a4ae91f35a887dd10c02d3d7393a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::GraphStatistics::has_adjacency_cache</definition>
+        <argsstring></argsstring>
+        <name>has_adjacency_cache</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphStatistics::has_adjacency_cache</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="67" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a389ca47e0d13d32ac9f57b3723229f33" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::graph::GraphQueryOptimizer::GraphStatistics::edge_type_counts</definition>
+        <argsstring></argsstring>
+        <name>edge_type_counts</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphStatistics::edge_type_counts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="70" column="28" bodyfile="include/graph/graph_query_optimizer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a7cf76613a454a439fcd3340083978963" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::graph::GraphQueryOptimizer::GraphStatistics::edge_type_selectivity</definition>
+        <argsstring></argsstring>
+        <name>edge_type_selectivity</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphStatistics::edge_type_selectivity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="71" column="28" bodyfile="include/graph/graph_query_optimizer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a1fe8652664c1dcecbdacbd79cd6dd43b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::graph::GraphQueryOptimizer::GraphStatistics::node_label_counts</definition>
+        <argsstring></argsstring>
+        <name>node_label_counts</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphStatistics::node_label_counts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="76" column="28" bodyfile="include/graph/graph_query_optimizer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a25d9942ba502d3acc94b428c63e15cfb" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::graph::GraphQueryOptimizer::GraphStatistics::node_label_selectivity</definition>
+        <argsstring></argsstring>
+        <name>node_label_selectivity</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphStatistics::node_label_selectivity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="77" column="28" bodyfile="include/graph/graph_query_optimizer.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_optimizer.h" line="60" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="60" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a64d16b34b78debe73905ee6cebcbc560" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphStatistics</scope><name>avg_branching_factor</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a57b0e4553b0e5957a73c07b2f066ec39" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphStatistics</scope><name>avg_degree</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a0ad98fa12388a6763860f8c1d1bcc738" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphStatistics</scope><name>edge_count</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a389ca47e0d13d32ac9f57b3723229f33" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphStatistics</scope><name>edge_type_counts</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a7cf76613a454a439fcd3340083978963" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphStatistics</scope><name>edge_type_selectivity</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1ac4b2a4ae91f35a887dd10c02d3d7393a" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphStatistics</scope><name>has_adjacency_cache</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1ac8946fb4655866a2d67d48ef7e4300ef" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphStatistics</scope><name>has_edge_index</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1af6d2329004da3ed8b069b39b21aa4ff9" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphStatistics</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a1fe8652664c1dcecbdacbd79cd6dd43b" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphStatistics</scope><name>node_label_counts</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1a25d9942ba502d3acc94b428c63e15cfb" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphStatistics</scope><name>node_label_selectivity</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_statistics_1ae531ab73a1c15f817938ca08fa59f74c" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphStatistics</scope><name>vertex_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

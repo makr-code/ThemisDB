@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_learned_index_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::LearnedIndexConfig</compoundname>
+    <includes refid="learned__index_8h" local="no">learned_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_learned_index_config_1a1101f0104c8be93a7745c0902fe386f5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::LearnedIndexConfig::num_experts</definition>
+        <argsstring></argsstring>
+        <name>num_experts</name>
+        <qualifiedname>themis::index::LearnedIndexConfig::num_experts</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of second-stage expert models. More experts → smaller per-expert error bound, faster lookup, more memory. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="99" column="12" bodyfile="include/index/learned_index.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_learned_index_config_1a88345ad2c605253010bf5f8d684637bd" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::index::LearnedIndexConfig::max_error</definition>
+        <argsstring></argsstring>
+        <name>max_error</name>
+        <qualifiedname>themis::index::LearnedIndexConfig::max_error</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum allowed prediction error (array positions). The correction binary search range is [pred - max_error, pred + max_error]. Set automatically during training if &lt;= 0. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="104" column="13" bodyfile="include/index/learned_index.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_learned_index_config_1a94103f7e9b3b41f72764fb0a166a1c85" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::LearnedIndexConfig::min_train_size</definition>
+        <argsstring></argsstring>
+        <name>min_train_size</name>
+        <qualifiedname>themis::index::LearnedIndexConfig::min_train_size</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Minimum training samples required to build the index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="107" column="12" bodyfile="include/index/learned_index.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_learned_index_config_1a3892c50d71d8170743f9166d02064f4b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::LearnedIndexConfig::retrain_threshold</definition>
+        <argsstring></argsstring>
+        <name>retrain_threshold</name>
+        <qualifiedname>themis::index::LearnedIndexConfig::retrain_threshold</qualifiedname>
+        <initializer>= 0.10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrain threshold: fraction of keys that changed since last training. When exceeded, the index flags itself as stale. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="111" column="12" bodyfile="include/index/learned_index.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1index_1_1_learned_index_config_1adf315c7d331d7bcc1c7fdf11fd5e2806" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::LearnedIndexConfig::LearnedIndexConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>LearnedIndexConfig</name>
+        <qualifiedname>themis::index::LearnedIndexConfig::LearnedIndexConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="113" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1index_1_1_learned_index_config_1a4ffa87963b64b824e2a8566421167669" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::LearnedIndexConfig::LearnedIndexConfig</definition>
+        <argsstring>(size_t experts, int64_t max_error_override=-1, double retrain=0.10)</argsstring>
+        <name>LearnedIndexConfig</name>
+        <qualifiedname>themis::index::LearnedIndexConfig::LearnedIndexConfig</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>experts</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>max_error_override</declname>
+          <defval>-1</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>retrain</declname>
+          <defval>0.10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="114" column="14" bodyfile="include/index/learned_index.h" bodystart="114" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/learned_index.h" line="96" column="1" bodyfile="include/index/learned_index.h" bodystart="96" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_learned_index_config_1adf315c7d331d7bcc1c7fdf11fd5e2806" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndexConfig</scope><name>LearnedIndexConfig</name></member>
+      <member refid="structthemis_1_1index_1_1_learned_index_config_1a4ffa87963b64b824e2a8566421167669" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndexConfig</scope><name>LearnedIndexConfig</name></member>
+      <member refid="structthemis_1_1index_1_1_learned_index_config_1a88345ad2c605253010bf5f8d684637bd" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndexConfig</scope><name>max_error</name></member>
+      <member refid="structthemis_1_1index_1_1_learned_index_config_1a94103f7e9b3b41f72764fb0a166a1c85" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndexConfig</scope><name>min_train_size</name></member>
+      <member refid="structthemis_1_1index_1_1_learned_index_config_1a1101f0104c8be93a7745c0902fe386f5" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndexConfig</scope><name>num_experts</name></member>
+      <member refid="structthemis_1_1index_1_1_learned_index_config_1a3892c50d71d8170743f9166d02064f4b" prot="public" virt="non-virtual"><scope>themis::index::LearnedIndexConfig</scope><name>retrain_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

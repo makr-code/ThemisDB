@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::ImageAnalysisManager::Statistics</compoundname>
+    <includes refid="image__analysis__manager_8h" local="no">image_analysis_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1a364d7a713413dd71b94c4a89341c1f7f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::image::ImageAnalysisManager::Statistics::total_plugins_loaded</definition>
+        <argsstring></argsstring>
+        <name>total_plugins_loaded</name>
+        <qualifiedname>themis::plugins::image::ImageAnalysisManager::Statistics::total_plugins_loaded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="286" column="16" bodyfile="include/plugins/image_analysis_manager.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1aa1b14969e16190cffddb9eac00c43ea1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::image::ImageAnalysisManager::Statistics::total_inferences</definition>
+        <argsstring></argsstring>
+        <name>total_inferences</name>
+        <qualifiedname>themis::plugins::image::ImageAnalysisManager::Statistics::total_inferences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="287" column="16" bodyfile="include/plugins/image_analysis_manager.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1a30cd833e79a12998a735274998344c0c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::image::ImageAnalysisManager::Statistics::total_inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_inference_time_ms</name>
+        <qualifiedname>themis::plugins::image::ImageAnalysisManager::Statistics::total_inference_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="288" column="17" bodyfile="include/plugins/image_analysis_manager.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1a8cf21f5fd27749e20a24f4f6bb134d1d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::image::ImageAnalysisManager::Statistics::average_inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>average_inference_time_ms</name>
+        <qualifiedname>themis::plugins::image::ImageAnalysisManager::Statistics::average_inference_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="289" column="16" bodyfile="include/plugins/image_analysis_manager.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1a234e8d4758fd96f9fe6f4b4fcb35ae69" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::plugins::image::ImageAnalysisManager::Statistics::inferences_per_plugin</definition>
+        <argsstring></argsstring>
+        <name>inferences_per_plugin</name>
+        <qualifiedname>themis::plugins::image::ImageAnalysisManager::Statistics::inferences_per_plugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="291" column="28" bodyfile="include/plugins/image_analysis_manager.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1abf36de0753ce6381bef0a2894d2b1895" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int64_t&gt; themis::plugins::image::ImageAnalysisManager::Statistics::time_per_plugin_ms</definition>
+        <argsstring></argsstring>
+        <name>time_per_plugin_ms</name>
+        <qualifiedname>themis::plugins::image::ImageAnalysisManager::Statistics::time_per_plugin_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_manager.h" line="292" column="28" bodyfile="include/plugins/image_analysis_manager.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get aggregate statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/image_analysis_manager.h" line="285" column="5" bodyfile="include/plugins/image_analysis_manager.h" bodystart="285" bodyend="293"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1a8cf21f5fd27749e20a24f4f6bb134d1d" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageAnalysisManager::Statistics</scope><name>average_inference_time_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1a234e8d4758fd96f9fe6f4b4fcb35ae69" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageAnalysisManager::Statistics</scope><name>inferences_per_plugin</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1abf36de0753ce6381bef0a2894d2b1895" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageAnalysisManager::Statistics</scope><name>time_per_plugin_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1a30cd833e79a12998a735274998344c0c" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageAnalysisManager::Statistics</scope><name>total_inference_time_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1aa1b14969e16190cffddb9eac00c43ea1" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageAnalysisManager::Statistics</scope><name>total_inferences</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_image_analysis_manager_1_1_statistics_1a364d7a713413dd71b94c4a89341c1f7f" prot="public" virt="non-virtual"><scope>themis::plugins::image::ImageAnalysisManager::Statistics</scope><name>total_plugins_loaded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

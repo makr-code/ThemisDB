@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_raft_v2_state" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::RaftV2State</compoundname>
+    <includes refid="raft__v2_8h" local="no">raft_v2.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_raft_v2_state_1abc5272eca6cc1076624bd483297736c4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::RaftV2State::current_term</definition>
+        <argsstring></argsstring>
+        <name>current_term</name>
+        <qualifiedname>themisdb::replication::RaftV2State::current_term</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Latest term seen by this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="163" column="14" bodyfile="include/replication/raft_v2.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_raft_v2_state_1a3a1795a851b15e74538a4ce1e9d6e494" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::RaftV2State::voted_for</definition>
+        <argsstring></argsstring>
+        <name>voted_for</name>
+        <qualifiedname>themisdb::replication::RaftV2State::voted_for</qualifiedname>
+        <briefdescription>
+<para>Candidate voted for in current_term (empty = none). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="164" column="17" bodyfile="include/replication/raft_v2.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_raft_v2_state_1a81d9dcec14014a670855ab880ca254b3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::RaftV2State::commit_index</definition>
+        <argsstring></argsstring>
+        <name>commit_index</name>
+        <qualifiedname>themisdb::replication::RaftV2State::commit_index</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Highest log entry known to be committed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="165" column="14" bodyfile="include/replication/raft_v2.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_raft_v2_state_1aca324c453f28d09347aca48a1c6aad79" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::RaftV2State::last_applied</definition>
+        <argsstring></argsstring>
+        <name>last_applied</name>
+        <qualifiedname>themisdb::replication::RaftV2State::last_applied</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Highest log entry applied to state machine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="166" column="14" bodyfile="include/replication/raft_v2.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_raft_v2_state_1ae56731e20d7703c021526b1f8ef70d4b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::RaftV2State::hasVoted</definition>
+        <argsstring>() const</argsstring>
+        <name>hasVoted</name>
+        <qualifiedname>themisdb::replication::RaftV2State::hasVoted</qualifiedname>
+        <briefdescription>
+<para>Returns true when this node has cast a vote in the current term. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="169" column="10" bodyfile="include/replication/raft_v2.h" bodystart="169" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistent per-node Raft state (currentTerm, votedFor, commitIndex). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields that must survive a restart are stored here so they can be flushed to disk atomically. </para>
+    </detaileddescription>
+    <location file="include/replication/raft_v2.h" line="162" column="1" bodyfile="include/replication/raft_v2.h" bodystart="162" bodyend="170"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_raft_v2_state_1a81d9dcec14014a670855ab880ca254b3" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2State</scope><name>commit_index</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_raft_v2_state_1abc5272eca6cc1076624bd483297736c4" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2State</scope><name>current_term</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_raft_v2_state_1ae56731e20d7703c021526b1f8ef70d4b" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2State</scope><name>hasVoted</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_raft_v2_state_1aca324c453f28d09347aca48a1c6aad79" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2State</scope><name>last_applied</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_raft_v2_state_1a3a1795a851b15e74538a4ce1e9d6e494" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2State</scope><name>voted_for</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

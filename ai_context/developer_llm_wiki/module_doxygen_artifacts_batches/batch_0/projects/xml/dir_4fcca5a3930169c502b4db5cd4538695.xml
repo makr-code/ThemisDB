@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4fcca5a3930169c502b4db5cd4538695" kind="dir">
+    <compoundname>include/projects</compoundname>
+    <innerdir refid="dir_2849e551574ae3c960da2a75ac349785">include/projects/DocumentManager</innerdir>
+    <innerfile refid="collaboration__manager_8h">collaboration_manager.h</innerfile>
+    <innerfile refid="in__memory__project__audit__log_8h">in_memory_project_audit_log.h</innerfile>
+    <innerfile refid="project__audit__log_8h">project_audit_log.h</innerfile>
+    <innerfile refid="project__bundle_8h">project_bundle.h</innerfile>
+    <innerfile refid="project__diff_8h">project_diff.h</innerfile>
+    <innerfile refid="project__lifecycle_8h">project_lifecycle.h</innerfile>
+    <innerfile refid="project__metrics_8h">project_metrics.h</innerfile>
+    <innerfile refid="project__template_8h">project_template.h</innerfile>
+    <innerfile refid="project__versioning_8h">project_versioning.h</innerfile>
+    <innerfile refid="projects__api__contract_8h">projects_api_contract.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/"/>
+  </compounddef>
+</doxygen>

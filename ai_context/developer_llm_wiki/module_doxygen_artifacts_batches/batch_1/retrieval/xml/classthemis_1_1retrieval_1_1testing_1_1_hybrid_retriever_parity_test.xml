@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::retrieval::testing::HybridRetrieverParityTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_contract_test" prot="public" virt="non-virtual">themis::retrieval::testing::HybridRetrieverParityContractTest</derivedcompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test_1acbd1eb783483482662d45d7a9476e9e4" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine" kindref="compound">HybridRetrieverEngine</ref></type>
+        <definition>HybridRetrieverEngine themis::retrieval::testing::HybridRetrieverParityTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverParityTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="325" column="27" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="325" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test_1a3af4c988030f8563a28b0b83bd2a7384" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::HybridRetrieverParityTest::HybridRetrieverParityTest</definition>
+        <argsstring>()</argsstring>
+        <name>HybridRetrieverParityTest</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverParityTest::HybridRetrieverParityTest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="263" column="5" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="263" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test_1a1cfb8b4fe19d24cf7eaadfc08d048fe7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::retrieval::testing::HybridRetrieverParityTest::computeSpearmanCorrelation</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;scores1, const std::vector&lt; float &gt; &amp;scores2)</argsstring>
+        <name>computeSpearmanCorrelation</name>
+        <qualifiedname>themis::retrieval::testing::HybridRetrieverParityTest::computeSpearmanCorrelation</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>scores1</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>scores2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Spearman rank correlation between two score sequences Returns correlation coefficient in [-1, 1] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="272" column="12" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="272" bodyend="323"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base class for parity tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::retrieval::testing::HybridRetrieverParityContractTest</label>
+        <link refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_contract_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::retrieval::testing::HybridRetrieverParityTest</label>
+        <link refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::retrieval::testing::HybridRetrieverEngine</label>
+        <link refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine"/>
+      </node>
+      <node id="1">
+        <label>themis::retrieval::testing::HybridRetrieverParityTest</label>
+        <link refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>engine_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="261" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="261" bodyend="326"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test_1a1cfb8b4fe19d24cf7eaadfc08d048fe7" prot="protected" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverParityTest</scope><name>computeSpearmanCorrelation</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test_1acbd1eb783483482662d45d7a9476e9e4" prot="protected" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverParityTest</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test_1a3af4c988030f8563a28b0b83bd2a7384" prot="protected" virt="non-virtual"><scope>themis::retrieval::testing::HybridRetrieverParityTest</scope><name>HybridRetrieverParityTest</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_wiki_index_store_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::WikiIndexStoreConfig</compoundname>
+    <includes refid="wiki__index__store_8h" local="no">wiki_index_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_config_1a4ab3b33dbef51fcab978ff36beeb2c20" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::WikiIndexStoreConfig::avg_doc_len</definition>
+        <argsstring></argsstring>
+        <name>avg_doc_len</name>
+        <qualifiedname>themis::rag::WikiIndexStoreConfig::avg_doc_len</qualifiedname>
+        <initializer>{128.0f}</initializer>
+        <briefdescription>
+<para>Corpus average document length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="81" column="11" bodyfile="include/rag/wiki_index_store.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_config_1a07c6d297183a799a7385bc0ecdfc69ca" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::WikiIndexStoreConfig::rrf_k</definition>
+        <argsstring></argsstring>
+        <name>rrf_k</name>
+        <qualifiedname>themis::rag::WikiIndexStoreConfig::rrf_k</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>RRF constant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="82" column="11" bodyfile="include/rag/wiki_index_store.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_config_1ade6fc0f3ec0a5313c5baa1e7a9527521" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::WikiIndexStoreConfig::enable_hnsw</definition>
+        <argsstring></argsstring>
+        <name>enable_hnsw</name>
+        <qualifiedname>themis::rag::WikiIndexStoreConfig::enable_hnsw</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable HNSW approximate nearest-neighbour search. Requires <computeroutput>addVector()</computeroutput> calls and a wired backend (Wave B). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="87" column="12" bodyfile="include/rag/wiki_index_store.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_config_1a9625a90e372c7ff32d8b4632924fe68b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::WikiIndexStoreConfig::hnsw_ef</definition>
+        <argsstring></argsstring>
+        <name>hnsw_ef</name>
+        <qualifiedname>themis::rag::WikiIndexStoreConfig::hnsw_ef</qualifiedname>
+        <initializer>{200}</initializer>
+        <briefdescription>
+<para>ef search parameter (query-time accuracy/speed trade-off). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="89" column="12" bodyfile="include/rag/wiki_index_store.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_config_1ad0cb688e9a33be57c0d2194f5bf4db90" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::WikiIndexStoreConfig::hnsw_m</definition>
+        <argsstring></argsstring>
+        <name>hnsw_m</name>
+        <qualifiedname>themis::rag::WikiIndexStoreConfig::hnsw_m</qualifiedname>
+        <initializer>{16}</initializer>
+        <briefdescription>
+<para>M connections per new node (graph connectivity). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="91" column="12" bodyfile="include/rag/wiki_index_store.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_config_1a2a09355c893dfbbff3bdcc058b3c3870" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::WikiIndexStoreConfig::hnsw_max_m0</definition>
+        <argsstring></argsstring>
+        <name>hnsw_max_m0</name>
+        <qualifiedname>themis::rag::WikiIndexStoreConfig::hnsw_max_m0</qualifiedname>
+        <initializer>{32}</initializer>
+        <briefdescription>
+<para>Maximum connections per node in layer 0 (= 2 × M by default). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="93" column="12" bodyfile="include/rag/wiki_index_store.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_config_1ab4d89911c861dd243aa2ce6820b8504a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::WikiIndexStoreConfig::hnsw_ef_construction</definition>
+        <argsstring></argsstring>
+        <name>hnsw_ef_construction</name>
+        <qualifiedname>themis::rag::WikiIndexStoreConfig::hnsw_ef_construction</qualifiedname>
+        <initializer>{200}</initializer>
+        <briefdescription>
+<para>ef_construction — candidate list size during index build. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="95" column="12" bodyfile="include/rag/wiki_index_store.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_config_1a6bd6289a121f2f218bed990608d7a599" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::WikiIndexStoreConfig::cache_dir</definition>
+        <argsstring></argsstring>
+        <name>cache_dir</name>
+        <qualifiedname>themis::rag::WikiIndexStoreConfig::cache_dir</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Filesystem path for the RocksDB embedding cache; empty = disabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="99" column="17" bodyfile="include/rag/wiki_index_store.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_config_1ac02510c19d1cd806c786d68958c7be5a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::WikiIndexStoreConfig::cache_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl_seconds</name>
+        <qualifiedname>themis::rag::WikiIndexStoreConfig::cache_ttl_seconds</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+<para>Per-entry TTL in seconds (0 = no expiry). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="101" column="12" bodyfile="include/rag/wiki_index_store.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_wiki_index_store_config_1a9ea03b14f006e8630d0fa66a630f14f8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::WikiIndexStoreConfig::max_cache_size</definition>
+        <argsstring></argsstring>
+        <name>max_cache_size</name>
+        <qualifiedname>themis::rag::WikiIndexStoreConfig::max_cache_size</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+<para>Maximum number of in-memory cached embeddings (LRU eviction above cap). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="103" column="12" bodyfile="include/rag/wiki_index_store.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/wiki_index_store.h" line="80" column="1" bodyfile="include/rag/wiki_index_store.h" bodystart="80" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a4ab3b33dbef51fcab978ff36beeb2c20" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStoreConfig</scope><name>avg_doc_len</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a6bd6289a121f2f218bed990608d7a599" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStoreConfig</scope><name>cache_dir</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ac02510c19d1cd806c786d68958c7be5a" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStoreConfig</scope><name>cache_ttl_seconds</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ade6fc0f3ec0a5313c5baa1e7a9527521" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStoreConfig</scope><name>enable_hnsw</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a9625a90e372c7ff32d8b4632924fe68b" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStoreConfig</scope><name>hnsw_ef</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ab4d89911c861dd243aa2ce6820b8504a" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStoreConfig</scope><name>hnsw_ef_construction</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ad0cb688e9a33be57c0d2194f5bf4db90" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStoreConfig</scope><name>hnsw_m</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a2a09355c893dfbbff3bdcc058b3c3870" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStoreConfig</scope><name>hnsw_max_m0</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a9ea03b14f006e8630d0fa66a630f14f8" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStoreConfig</scope><name>max_cache_size</name></member>
+      <member refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a07c6d297183a799a7385bc0ecdfc69ca" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStoreConfig</scope><name>rrf_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

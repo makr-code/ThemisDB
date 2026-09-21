@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1_config_key_not_found_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::ConfigKeyNotFoundException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="config__encrypted__store_8h" local="no">config_encrypted_store.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_key_not_found_exception_1a288cad92b1951018ef04425fa7bb3ff4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::ConfigKeyNotFoundException::ConfigKeyNotFoundException</definition>
+        <argsstring>(const std::string &amp;key_id)</argsstring>
+        <name>ConfigKeyNotFoundException</name>
+        <qualifiedname>themis::config::ConfigKeyNotFoundException::ConfigKeyNotFoundException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Config Key Not Found Exception. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_encrypted_store.h" line="46" column="14" bodyfile="include/config/config_encrypted_store.h" bodystart="46" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::config::ConfigKeyNotFoundException</label>
+        <link refid="classthemis_1_1config_1_1_config_key_not_found_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::config::ConfigKeyNotFoundException</label>
+        <link refid="classthemis_1_1config_1_1_config_key_not_found_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/config/config_encrypted_store.h" line="39" column="1" bodyfile="include/config/config_encrypted_store.h" bodystart="39" bodyend="48"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1_config_key_not_found_exception_1a288cad92b1951018ef04425fa7bb3ff4" prot="public" virt="non-virtual"><scope>themis::config::ConfigKeyNotFoundException</scope><name>ConfigKeyNotFoundException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

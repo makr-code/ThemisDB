@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cursor_8h" kind="file" language="C++">
+    <compoundname>cursor.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="cursor_8cpp" local="yes">src/utils/cursor.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/cursor.h</label>
+        <link refid="cursor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/cursor.h</label>
+        <link refid="cursor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/utils/cursor.cpp</label>
+        <link refid="cursor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1utils_1_1_pagination_config" prot="public">themis::utils::PaginationConfig</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_cursor_info" prot="public">themis::utils::CursorInfo</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_cursor" prot="public">themis::utils::Cursor</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_page_info" prot="public">themis::utils::PageInfo</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_paginated_response" prot="public">themis::utils::PaginatedResponse</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1utils_1_1_pagination_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_pagination_config" kindref="compound">PaginationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1utils_1_1_pagination_config_1a040dab744e371448a4aae6fdc3daaa50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_pagination_config_1a040dab744e371448a4aae6fdc3daaa50" kindref="member">default_page_size</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>items<sp/>per<sp/>page</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1utils_1_1_pagination_config_1afeda3fba580c5ac26e25e582cb2acea9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_pagination_config_1afeda3fba580c5ac26e25e582cb2acea9" kindref="member">min_page_size</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>allowed<sp/>page<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1utils_1_1_pagination_config_1ab7cc5eb173a368c13ed7f4a4611ab995" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_pagination_config_1ab7cc5eb173a368c13ed7f4a4611ab995" kindref="member">max_page_size</ref><sp/>=<sp/>10000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>allowed<sp/>page<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1utils_1_1_pagination_config_1a51cecebebfcee7db21b3555e9fb8fcbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1utils_1_1_pagination_config_1a51cecebebfcee7db21b3555e9fb8fcbf" kindref="member">cursor_ttl_seconds</ref><sp/>=<sp/>3600;<sp/><sp/></highlight><highlight class="comment">//<sp/>Cursor<sp/>validity<sp/>duration<sp/>(1<sp/>hour)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1utils_1_1_pagination_config_1a47b765e1ef126ba40a9980c17fd04114" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_pagination_config_1a47b765e1ef126ba40a9980c17fd04114" kindref="member">enable_total_count</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>to<sp/>compute<sp/>total<sp/>count<sp/>(expensive,<sp/>future<sp/>feature)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1utils_1_1_cursor_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_cursor_info" kindref="compound">CursorInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1utils_1_1_cursor_info_1abc70af552a7f7d3a59a74049e2a8408b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_cursor_info_1abc70af552a7f7d3a59a74049e2a8408b" kindref="member">pk</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>primary<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1utils_1_1_cursor_info_1acd7f909d0a6690147c824fdef4de3f9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_cursor_info_1acd7f909d0a6690147c824fdef4de3f9b" kindref="member">collection</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Collection<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1utils_1_1_cursor_info_1af96d6f902364f05ee3c76a16fa8753d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1utils_1_1_cursor_info_1af96d6f902364f05ee3c76a16fa8753d9" kindref="member">order_value</ref>;<sp/></highlight><highlight class="comment">//<sp/>Last<sp/>ORDER<sp/>BY<sp/>value<sp/>(for<sp/>keyset<sp/>pagination)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1utils_1_1_cursor_info_1a262ef942c5b1ca311923c339d4b8c32c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1utils_1_1_cursor_info_1a262ef942c5b1ca311923c339d4b8c32c" kindref="member">created_at</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unix<sp/>timestamp<sp/>when<sp/>cursor<sp/>was<sp/>created</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1utils_1_1_cursor_info_1a66521202a55ab7a193b55f51279383f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_cursor_info_1a66521202a55ab7a193b55f51279383f4" kindref="member">version</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cursor<sp/>format<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1utils_1_1_cursor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_cursor" kindref="compound">Cursor</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1utils_1_1_cursor_1a47867068a0b8d60a3bc6c001a7bfc3fb" kindref="member">encode</ref>(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>last_pk,<sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>order_value<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;CursorInfo&gt;<sp/><ref refid="classthemis_1_1utils_1_1_cursor_1a322a79ff5c060e9e0005813dcaeb8ffc" kindref="member">decodeDetailed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cursor_token);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="classthemis_1_1utils_1_1_cursor_1a854cbaa5e1d605baf53fbee77ae47728" kindref="member">decode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cursor_token);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_cursor_1aedc98a371b54467828471462cb1a33cd" kindref="member">isValid</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cursor_token,<sp/>int64_t<sp/>ttl_seconds<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_cursor_1ab35c14754c02e1d049bc864274dd5387" kindref="member">normalizePageSize</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>requested_size,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_pagination_config" kindref="compound">PaginationConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base64<sp/>encode/decode<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1utils_1_1_cursor_1ad8058a9ab5403dee5a857a31290c91e3" kindref="member">base64Encode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1utils_1_1_cursor_1a7bf46f2729c6efccb8fd7ef19abb39f7" kindref="member">base64Decode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>current<sp/>Unix<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>int64_t<sp/>getCurrentTimestamp();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64f" kindref="member">PaginationMethod</ref><sp/>{</highlight></codeline>
+<codeline lineno="123" refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64fab463a0d9beb14bdcecd3a50d70655963" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64fab463a0d9beb14bdcecd3a50d70655963" kindref="member">CURSOR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cursor-based<sp/>pagination<sp/>(stateless,<sp/>efficient)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64fa1b8a8605d2ff5670a215e55c6645e0d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64fa1b8a8605d2ff5670a215e55c6645e0d9" kindref="member">OFFSET</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Offset-based<sp/>pagination<sp/>(page_number<sp/>*<sp/>page_size)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64fa878b0c8e32b67fc230d6efb9653238a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64fa878b0c8e32b67fc230d6efb9653238a9" kindref="member">KEYSET</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keyset/seek<sp/>pagination<sp/>(ORDER<sp/>BY<sp/>value<sp/>+<sp/>pk)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1utils_1_1_page_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_page_info" kindref="compound">PageInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1utils_1_1_page_info_1af0e49abdab86d33794ebea206449915a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_page_info_1af0e49abdab86d33794ebea206449915a" kindref="member">page_size</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Items<sp/>in<sp/>current<sp/>page</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1utils_1_1_page_info_1a2c3d202ae84026bd20c30e561c7b2d85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_page_info_1a2c3d202ae84026bd20c30e561c7b2d85" kindref="member">has_next_page</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>More<sp/>results<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1utils_1_1_page_info_1a5d5388d62bf470525d91f38d655eaf05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_page_info_1a5d5388d62bf470525d91f38d655eaf05" kindref="member">has_prev_page</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Previous<sp/>page<sp/>available<sp/>(offset-based<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1utils_1_1_page_info_1ac1413ba5c4939bf18e700f38a0d2841b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;size_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_page_info_1ac1413ba5c4939bf18e700f38a0d2841b" kindref="member">total_count</ref>;<sp/></highlight><highlight class="comment">//<sp/>Total<sp/>items<sp/>(if<sp/>computed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1utils_1_1_page_info_1a973f66c7d7aa7086b03754499576a801" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;size_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_page_info_1a973f66c7d7aa7086b03754499576a801" kindref="member">current_page</ref>;<sp/></highlight><highlight class="comment">//<sp/>Current<sp/>page<sp/>number<sp/>(offset-based<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1utils_1_1_page_info_1a898878a0f086ba72e8cac96f5a843879" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;size_t&gt;<sp/><ref refid="structthemis_1_1utils_1_1_page_info_1a898878a0f086ba72e8cac96f5a843879" kindref="member">total_pages</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>pages<sp/>(offset-based<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1utils_1_1_page_info_1a01eaf0bc19b2e92675ddc3ec6e9d0cfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1utils_1_1_page_info_1a01eaf0bc19b2e92675ddc3ec6e9d0cfe" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>result<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;page_size&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1utils_1_1_page_info_1af0e49abdab86d33794ebea206449915a" kindref="member">page_size</ref>},</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;has_next_page&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1utils_1_1_page_info_1a2c3d202ae84026bd20c30e561c7b2d85" kindref="member">has_next_page</ref>},</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;has_prev_page&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1utils_1_1_page_info_1a5d5388d62bf470525d91f38d655eaf05" kindref="member">has_prev_page</ref>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1utils_1_1_page_info_1ac1413ba5c4939bf18e700f38a0d2841b" kindref="member">total_count</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result[</highlight><highlight class="stringliteral">&quot;total_count&quot;</highlight><highlight class="normal">]<sp/>=<sp/>*<ref refid="structthemis_1_1utils_1_1_page_info_1ac1413ba5c4939bf18e700f38a0d2841b" kindref="member">total_count</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1utils_1_1_page_info_1a973f66c7d7aa7086b03754499576a801" kindref="member">current_page</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result[</highlight><highlight class="stringliteral">&quot;current_page&quot;</highlight><highlight class="normal">]<sp/>=<sp/>*<ref refid="structthemis_1_1utils_1_1_page_info_1a973f66c7d7aa7086b03754499576a801" kindref="member">current_page</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1utils_1_1_page_info_1a898878a0f086ba72e8cac96f5a843879" kindref="member">total_pages</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result[</highlight><highlight class="stringliteral">&quot;total_pages&quot;</highlight><highlight class="normal">]<sp/>=<sp/>*<ref refid="structthemis_1_1utils_1_1_page_info_1a898878a0f086ba72e8cac96f5a843879" kindref="member">total_pages</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1utils_1_1_paginated_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_paginated_response" kindref="compound">PaginatedResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1utils_1_1_paginated_response_1a7ed4326e895f63cd0e8f557ecb927327" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1a7ed4326e895f63cd0e8f557ecb927327" kindref="member">items</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Array<sp/>of<sp/>result<sp/>items</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1utils_1_1_paginated_response_1ab556f7c297a56d4c805e67692b9962c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1ab556f7c297a56d4c805e67692b9962c8" kindref="member">has_more</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>there<sp/>are<sp/>more<sp/>results<sp/>(legacy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1utils_1_1_paginated_response_1a4d3a71f913e3b79ed86730f637a006d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1a4d3a71f913e3b79ed86730f637a006d7" kindref="member">next_cursor</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cursor<sp/>for<sp/>next<sp/>page<sp/>(empty<sp/>if<sp/>no<sp/>more)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1utils_1_1_paginated_response_1abfbe54847a3f3f7822eeebd8b7ab1730" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1abfbe54847a3f3f7822eeebd8b7ab1730" kindref="member">batch_size</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>items<sp/>in<sp/>current<sp/>batch<sp/>(legacy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enhanced<sp/>pagination<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1utils_1_1_paginated_response_1af28cab2ea122c075b1efda240a8f64e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_page_info" kindref="compound">PageInfo</ref><sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1af28cab2ea122c075b1efda240a8f64e6" kindref="member">page_info</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Detailed<sp/>pagination<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1utils_1_1_paginated_response_1aeef68575a21aa477dc19773034731acc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64f" kindref="member">PaginationMethod</ref><sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1aeef68575a21aa477dc19773034731acc" kindref="member">method</ref><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64fab463a0d9beb14bdcecd3a50d70655963" kindref="member">PaginationMethod::CURSOR</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Pagination<sp/>method<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1utils_1_1_paginated_response_1ab1876f319d663e46970abf8673a20372" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1ab1876f319d663e46970abf8673a20372" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>result<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1a7ed4326e895f63cd0e8f557ecb927327" kindref="member">items</ref>},</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;has_more&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1ab556f7c297a56d4c805e67692b9962c8" kindref="member">has_more</ref>},<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;batch_size&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1abfbe54847a3f3f7822eeebd8b7ab1730" kindref="member">batch_size</ref>},<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;page_info&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1af28cab2ea122c075b1efda240a8f64e6" kindref="member">page_info</ref>.toJSON()},</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;pagination_method&quot;</highlight><highlight class="normal">,<sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1aeef68575a21aa477dc19773034731acc" kindref="member">method</ref><sp/>==<sp/><ref refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64fab463a0d9beb14bdcecd3a50d70655963" kindref="member">PaginationMethod::CURSOR</ref><sp/>?<sp/></highlight><highlight class="stringliteral">&quot;cursor&quot;</highlight><highlight class="normal"><sp/>:</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1aeef68575a21aa477dc19773034731acc" kindref="member">method</ref><sp/>==<sp/><ref refid="namespacethemis_1_1utils_1a9288ffa1ac45b51555efd577e530d64fa1b8a8605d2ff5670a215e55c6645e0d9" kindref="member">PaginationMethod::OFFSET</ref><sp/>?<sp/></highlight><highlight class="stringliteral">&quot;offset&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;keyset&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1utils_1_1_paginated_response_1ab556f7c297a56d4c805e67692b9962c8" kindref="member">has_more</ref><sp/>&amp;&amp;<sp/>!<ref refid="structthemis_1_1utils_1_1_paginated_response_1a4d3a71f913e3b79ed86730f637a006d7" kindref="member">next_cursor</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result[</highlight><highlight class="stringliteral">&quot;next_cursor&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1utils_1_1_paginated_response_1a4d3a71f913e3b79ed86730f637a006d7" kindref="member">next_cursor</ref>;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/cursor.h"/>
+  </compounddef>
+</doxygen>

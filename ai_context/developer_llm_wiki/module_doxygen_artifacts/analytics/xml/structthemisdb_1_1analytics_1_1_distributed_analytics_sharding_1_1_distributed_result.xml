@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</compoundname>
+    <includes refid="distributed__analytics_8h" local="no">distributed_analytics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a1edab0165a4c3d119cdce55517ded9ea" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref></type>
+        <definition>themis::analytics::OLAPResult themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::merged</definition>
+        <argsstring></argsstring>
+        <name>merged</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::merged</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="187" column="39" bodyfile="include/analytics/distributed_analytics.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a38e0e20f30aae1db1a5ddc73c082d408" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_execution_info" kindref="compound">ShardExecutionInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ShardExecutionInfo&gt; themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::shard_info</definition>
+        <argsstring></argsstring>
+        <name>shard_info</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::shard_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="188" column="21" bodyfile="include/analytics/distributed_analytics.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a4935fdeac577333b32659e56068766ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::successful_shards</definition>
+        <argsstring></argsstring>
+        <name>successful_shards</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::successful_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="189" column="16" bodyfile="include/analytics/distributed_analytics.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a79dd7b3aaa6ed97d645ddf8942bcab92" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::total_shards</definition>
+        <argsstring></argsstring>
+        <name>total_shards</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::total_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="190" column="16" bodyfile="include/analytics/distributed_analytics.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a1de68f63eafb926cd1fe0def2aea32c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::operation_id</definition>
+        <argsstring></argsstring>
+        <name>operation_id</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::operation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="191" column="21" bodyfile="include/analytics/distributed_analytics.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1adab6fd742ba123418f05f8a008e4e415" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="192" column="21" bodyfile="include/analytics/distributed_analytics.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a21105c1ba7551fa908d752c1147540ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::failure_class</definition>
+        <argsstring></argsstring>
+        <name>failure_class</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::failure_class</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="193" column="21" bodyfile="include/analytics/distributed_analytics.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1ae8c1fda3b9e7ac58ee744aab128f0c7f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::total_execution_ms</definition>
+        <argsstring></argsstring>
+        <name>total_execution_ms</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::total_execution_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="194" column="16" bodyfile="include/analytics/distributed_analytics.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1aee938df14025abf1b870a8d6d7d372e9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::merge_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>merge_duration_ms</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::merge_duration_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="195" column="16" bodyfile="include/analytics/distributed_analytics.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a155f7bc700b6bb90f604a5d8f613a459" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::operator_hints</definition>
+        <argsstring></argsstring>
+        <name>operator_hints</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult::operator_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="196" column="21" bodyfile="include/analytics/distributed_analytics.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::analytics::OLAPResult</label>
+        <link refid="structthemis_1_1analytics_1_1_o_l_a_p_result"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</label>
+        <link refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>merged</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/distributed_analytics.h" line="186" column="5" bodyfile="include/analytics/distributed_analytics.h" bodystart="186" bodyend="197"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1adab6fd742ba123418f05f8a008e4e415" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</scope><name>correlation_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a21105c1ba7551fa908d752c1147540ea" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</scope><name>failure_class</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1aee938df14025abf1b870a8d6d7d372e9" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</scope><name>merge_duration_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a1edab0165a4c3d119cdce55517ded9ea" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</scope><name>merged</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a1de68f63eafb926cd1fe0def2aea32c0" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</scope><name>operation_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a155f7bc700b6bb90f604a5d8f613a459" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</scope><name>operator_hints</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a38e0e20f30aae1db1a5ddc73c082d408" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</scope><name>shard_info</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a4935fdeac577333b32659e56068766ac" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</scope><name>successful_shards</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1ae8c1fda3b9e7ac58ee744aab128f0c7f" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</scope><name>total_execution_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result_1a79dd7b3aaa6ed97d645ddf8942bcab92" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</scope><name>total_shards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

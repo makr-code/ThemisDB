@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_content_hash" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ContentHash</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2integrity__verification_8h" local="no">integrity_verification.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_content_hash_1a68725dfbfe3b7a7e04d5a9f6dd4439f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ContentHash::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::distributed_tensor::ContentHash::value</qualifiedname>
+        <briefdescription>
+<para>SHA-256 hash as lowercase hex string (64 chars). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="48" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_content_hash_1a73e8ce4649a35d9919ae8f739152e979" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ContentHash::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::distributed_tensor::ContentHash::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="50" column="11" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="82" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_content_hash_1ac11bf2942ad0139683e2deb052e30ac7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ContentHash::operator==</definition>
+        <argsstring>(const ContentHash &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::distributed_tensor::ContentHash::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_content_hash" kindref="compound">ContentHash</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="52" column="10" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_content_hash_1a059607135c06cd8e7196c68bf8de2c9e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ContentHash::operator!=</definition>
+        <argsstring>(const ContentHash &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::distributed_tensor::ContentHash::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_content_hash" kindref="compound">ContentHash</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="56" column="10" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="56" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/integrity_verification.h" line="47" column="1" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="47" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_content_hash_1a73e8ce4649a35d9919ae8f739152e979" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ContentHash</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_content_hash_1a059607135c06cd8e7196c68bf8de2c9e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ContentHash</scope><name>operator!=</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_content_hash_1ac11bf2942ad0139683e2deb052e30ac7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ContentHash</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_content_hash_1a68725dfbfe3b7a7e04d5a9f6dd4439f9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ContentHash</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_batched_ack_tracker_1_1_ack_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::BatchedAckTracker::AckBatch</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_batched_ack_tracker_1_1_ack_batch_1a211733565ef765ef3483c1e0ebd9902a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themisdb::replication::BatchedAckTracker::AckBatch::sequences</definition>
+        <argsstring></argsstring>
+        <name>sequences</name>
+        <qualifiedname>themisdb::replication::BatchedAckTracker::AckBatch::sequences</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1388" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_batched_ack_tracker_1_1_ack_batch_1a940e8ae445537e2f598ab3d4297c7bff" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::BatchedAckTracker::AckBatch::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themisdb::replication::BatchedAckTracker::AckBatch::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1389" column="47" bodyfile="include/replication/replication_manager.h" bodystart="1389" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1387" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1387" bodyend="1390"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_batched_ack_tracker_1_1_ack_batch_1a940e8ae445537e2f598ab3d4297c7bff" prot="public" virt="non-virtual"><scope>themisdb::replication::BatchedAckTracker::AckBatch</scope><name>created_at</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_batched_ack_tracker_1_1_ack_batch_1a211733565ef765ef3483c1e0ebd9902a" prot="public" virt="non-virtual"><scope>themisdb::replication::BatchedAckTracker::AckBatch</scope><name>sequences</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

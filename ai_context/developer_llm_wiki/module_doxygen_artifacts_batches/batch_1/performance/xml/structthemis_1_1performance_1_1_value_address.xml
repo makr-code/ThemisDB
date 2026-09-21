@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_value_address" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::ValueAddress</compoundname>
+    <includes refid="wisckey_8h" local="no">wisckey.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_value_address_1a7ea39dcec8600961be3b7cce52ece2b1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::ValueAddress::ENCODED_SIZE</definition>
+        <argsstring></argsstring>
+        <name>ENCODED_SIZE</name>
+        <qualifiedname>themis::performance::ValueAddress::ENCODED_SIZE</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="37" column="29" bodyfile="include/performance/wisckey.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_value_address_1a3a9a876ee3a76ba8369a986da84f38b4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ValueAddress::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::performance::ValueAddress::offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="39" column="14" bodyfile="include/performance/wisckey.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_value_address_1aa015b1963ed560d171c8b491cfa408c1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::performance::ValueAddress::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::performance::ValueAddress::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="40" column="14" bodyfile="include/performance/wisckey.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_value_address_1a4292e3f2697a4a34f08f2f673e75837e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ValueAddress::encode</definition>
+        <argsstring>() const</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::performance::ValueAddress::encode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="44" column="17" bodyfile="include/performance/wisckey.h" bodystart="44" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_value_address_1afbd979abad9e724ba17397773f80b62f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_value_address" kindref="compound">ValueAddress</ref></type>
+        <definition>static ValueAddress themis::performance::ValueAddress::decode</definition>
+        <argsstring>(const std::string &amp;encoded)</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::performance::ValueAddress::decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encoded</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/wisckey.h" line="51" column="25" bodyfile="include/performance/wisckey.h" bodystart="51" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Value address in the value log. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/wisckey.h" line="36" column="1" bodyfile="include/performance/wisckey.h" bodystart="36" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_value_address_1afbd979abad9e724ba17397773f80b62f" prot="public" virt="non-virtual"><scope>themis::performance::ValueAddress</scope><name>decode</name></member>
+      <member refid="structthemis_1_1performance_1_1_value_address_1a4292e3f2697a4a34f08f2f673e75837e" prot="public" virt="non-virtual"><scope>themis::performance::ValueAddress</scope><name>encode</name></member>
+      <member refid="structthemis_1_1performance_1_1_value_address_1a7ea39dcec8600961be3b7cce52ece2b1" prot="public" virt="non-virtual"><scope>themis::performance::ValueAddress</scope><name>ENCODED_SIZE</name></member>
+      <member refid="structthemis_1_1performance_1_1_value_address_1a3a9a876ee3a76ba8369a986da84f38b4" prot="public" virt="non-virtual"><scope>themis::performance::ValueAddress</scope><name>offset</name></member>
+      <member refid="structthemis_1_1performance_1_1_value_address_1aa015b1963ed560d171c8b491cfa408c1" prot="public" virt="non-virtual"><scope>themis::performance::ValueAddress</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

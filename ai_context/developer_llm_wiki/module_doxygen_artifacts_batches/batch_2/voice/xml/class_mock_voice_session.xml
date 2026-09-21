@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_voice_session" kind="class" language="C++" prot="public">
+    <compoundname>MockVoiceSession</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_voice_session_1a02db67a4408762c40ab11ad88a90cdd1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockVoiceSession::session_id_</definition>
+        <argsstring></argsstring>
+        <name>session_id_</name>
+        <qualifiedname>MockVoiceSession::session_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_session_lifecycle.cpp" line="45" column="17" bodyfile="benchmarks/voice/bench_voice_session_lifecycle.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_voice_session_1a4f8e74e11155f8abfb33b1f9f2b0ee22" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; MockVoiceSession::context_data_</definition>
+        <argsstring></argsstring>
+        <name>context_data_</name>
+        <qualifiedname>MockVoiceSession::context_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_session_lifecycle.cpp" line="46" column="17" bodyfile="benchmarks/voice/bench_voice_session_lifecycle.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_voice_session_1a7759471aebb598fb4507ca8d0066abda" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point MockVoiceSession::created_at_</definition>
+        <argsstring></argsstring>
+        <name>created_at_</name>
+        <qualifiedname>MockVoiceSession::created_at_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_session_lifecycle.cpp" line="47" column="43" bodyfile="benchmarks/voice/bench_voice_session_lifecycle.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_voice_session_1a5c32730e1a8f0027e140653af176b1d7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockVoiceSession::MockVoiceSession</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>MockVoiceSession</name>
+        <qualifiedname>MockVoiceSession::MockVoiceSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_session_lifecycle.cpp" line="29" column="14" bodyfile="benchmarks/voice/bench_voice_session_lifecycle.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_voice_session_1a07ffb00f2f5c7122f84227eebba08267" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; MockVoiceSession::getId</definition>
+        <argsstring>() const</argsstring>
+        <name>getId</name>
+        <qualifiedname>MockVoiceSession::getId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_session_lifecycle.cpp" line="34" column="23" bodyfile="benchmarks/voice/bench_voice_session_lifecycle.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_voice_session_1adf02a046a4d57b7cc32e593f8cb6bd1e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockVoiceSession::updateContext</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;ctx)</argsstring>
+        <name>updateContext</name>
+        <qualifiedname>MockVoiceSession::updateContext</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_session_lifecycle.cpp" line="36" column="10" bodyfile="benchmarks/voice/bench_voice_session_lifecycle.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_voice_session_1aec31cc867898bd69662403c14d4a249d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t MockVoiceSession::getMemoryUsage</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryUsage</name>
+        <qualifiedname>MockVoiceSession::getMemoryUsage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_session_lifecycle.cpp" line="40" column="12" bodyfile="benchmarks/voice/bench_voice_session_lifecycle.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_session_lifecycle.cpp" line="27" column="1" bodyfile="benchmarks/voice/bench_voice_session_lifecycle.cpp" bodystart="27" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_mock_voice_session_1a4f8e74e11155f8abfb33b1f9f2b0ee22" prot="private" virt="non-virtual"><scope>MockVoiceSession</scope><name>context_data_</name></member>
+      <member refid="class_mock_voice_session_1a7759471aebb598fb4507ca8d0066abda" prot="private" virt="non-virtual"><scope>MockVoiceSession</scope><name>created_at_</name></member>
+      <member refid="class_mock_voice_session_1a07ffb00f2f5c7122f84227eebba08267" prot="public" virt="non-virtual"><scope>MockVoiceSession</scope><name>getId</name></member>
+      <member refid="class_mock_voice_session_1aec31cc867898bd69662403c14d4a249d" prot="public" virt="non-virtual"><scope>MockVoiceSession</scope><name>getMemoryUsage</name></member>
+      <member refid="class_mock_voice_session_1a5c32730e1a8f0027e140653af176b1d7" prot="public" virt="non-virtual"><scope>MockVoiceSession</scope><name>MockVoiceSession</name></member>
+      <member refid="class_mock_voice_session_1a02db67a4408762c40ab11ad88a90cdd1" prot="private" virt="non-virtual"><scope>MockVoiceSession</scope><name>session_id_</name></member>
+      <member refid="class_mock_voice_session_1adf02a046a4d57b7cc32e593f8cb6bd1e" prot="public" virt="non-virtual"><scope>MockVoiceSession</scope><name>updateContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

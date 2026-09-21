@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_mutation_execution_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MutationExecutionPlan</compoundname>
+    <includes refid="mutation__execution__plan_8h" local="no">mutation_execution_plan.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_execution_plan_1a0b3cca479d1f1ec7c8a016a6502d7aa0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>ASTNodeType themis::query::MutationExecutionPlan::mutation_type</definition>
+        <argsstring></argsstring>
+        <name>mutation_type</name>
+        <qualifiedname>themis::query::MutationExecutionPlan::mutation_type</qualifiedname>
+        <briefdescription>
+<para>INSERT/UPDATE/REMOVE/REPLACE/UPSERT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="73" column="34" bodyfile="include/query/mutation_execution_plan.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_execution_plan_1a57b313f9393d8588f222a07cf9f2a54b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MutationExecutionPlan::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::query::MutationExecutionPlan::collection</qualifiedname>
+        <briefdescription>
+<para>Target collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="74" column="34" bodyfile="include/query/mutation_execution_plan.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_execution_plan_1a7c13df4daf91c8f1939abbea08f3f34d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_mutation_step" kindref="compound">MutationStep</ref> &gt;</type>
+        <definition>std::vector&lt;MutationStep&gt; themis::query::MutationExecutionPlan::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::query::MutationExecutionPlan::steps</qualifiedname>
+        <briefdescription>
+<para>Ordered execution steps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="75" column="20" bodyfile="include/query/mutation_execution_plan.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_execution_plan_1a9f4f349cd6487ed0c4358af929b1a7ea" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::MutationExecutionPlan::estimated_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>estimated_latency_ms</name>
+        <qualifiedname>themis::query::MutationExecutionPlan::estimated_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated latency (0 = unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="76" column="34" bodyfile="include/query/mutation_execution_plan.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_execution_plan_1a1e460103abb9d1fd8e50cf24f3fa417a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::MutationExecutionPlan::requires_transaction</definition>
+        <argsstring></argsstring>
+        <name>requires_transaction</name>
+        <qualifiedname>themis::query::MutationExecutionPlan::requires_transaction</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether a transaction context is needed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="77" column="34" bodyfile="include/query/mutation_execution_plan.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_execution_plan_1ab38b4b97209fdcc346fd9e73dbe253b4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::query::MutationExecutionPlan::affected_limit</definition>
+        <argsstring></argsstring>
+        <name>affected_limit</name>
+        <qualifiedname>themis::query::MutationExecutionPlan::affected_limit</qualifiedname>
+        <briefdescription>
+<para>Max rows from LIMIT clause (nullopt = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="78" column="25" bodyfile="include/query/mutation_execution_plan.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_mutation_execution_plan_1aa7083fe2333108646c58e1b33cc221bf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::MutationExecutionPlan::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::MutationExecutionPlan::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_execution_plan.h" line="80" column="21" bodyfile="include/query/mutation_execution_plan.h" bodystart="139" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/mutation_execution_plan.h" line="72" column="1" bodyfile="include/query/mutation_execution_plan.h" bodystart="72" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_mutation_execution_plan_1ab38b4b97209fdcc346fd9e73dbe253b4" prot="public" virt="non-virtual"><scope>themis::query::MutationExecutionPlan</scope><name>affected_limit</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_execution_plan_1a57b313f9393d8588f222a07cf9f2a54b" prot="public" virt="non-virtual"><scope>themis::query::MutationExecutionPlan</scope><name>collection</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_execution_plan_1a9f4f349cd6487ed0c4358af929b1a7ea" prot="public" virt="non-virtual"><scope>themis::query::MutationExecutionPlan</scope><name>estimated_latency_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_execution_plan_1a0b3cca479d1f1ec7c8a016a6502d7aa0" prot="public" virt="non-virtual"><scope>themis::query::MutationExecutionPlan</scope><name>mutation_type</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_execution_plan_1a1e460103abb9d1fd8e50cf24f3fa417a" prot="public" virt="non-virtual"><scope>themis::query::MutationExecutionPlan</scope><name>requires_transaction</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_execution_plan_1a7c13df4daf91c8f1939abbea08f3f34d" prot="public" virt="non-virtual"><scope>themis::query::MutationExecutionPlan</scope><name>steps</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_execution_plan_1aa7083fe2333108646c58e1b33cc221bf" prot="public" virt="non-virtual"><scope>themis::query::MutationExecutionPlan</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

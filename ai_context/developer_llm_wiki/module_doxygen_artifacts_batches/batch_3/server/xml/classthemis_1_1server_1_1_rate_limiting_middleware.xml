@@ -1,0 +1,442 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_rate_limiting_middleware" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::RateLimitingMiddleware</compoundname>
+    <includes refid="rate__limiting__middleware_8h" local="no">rate_limiting_middleware.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit" prot="public">themis::server::RateLimitingMiddleware::EndpointLimit</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" prot="public">themis::server::RateLimitingMiddleware::Config</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result" prot="public">themis::server::RateLimitingMiddleware::CheckResult</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats" prot="public">themis::server::RateLimitingMiddleware::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiting_middleware_1a14d0e6af17cd3cdb57a4f11dcdd92422" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::RateLimitingMiddleware::config_mutex_</definition>
+        <argsstring></argsstring>
+        <name>config_mutex_</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::config_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="119" column="24" bodyfile="include/server/rate_limiting_middleware.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiting_middleware_1a646af2f88359780d4f4138147ea7421a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::RateLimitingMiddleware::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="120" column="12" bodyfile="include/server/rate_limiting_middleware.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiting_middleware_1aaf24003ccc5c54526f272e4b2c1741a2" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::server::RateLimitingMiddleware::whitelist_set_</definition>
+        <argsstring></argsstring>
+        <name>whitelist_set_</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::whitelist_set_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="123" column="24" bodyfile="include/server/rate_limiting_middleware.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiting_middleware_1a3e0f8d8e4ad8c5b4e20ea727531f9c82" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1server_1_1_per_client_rate_limiter" kindref="compound">PerClientRateLimiter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PerClientRateLimiter&gt; themis::server::RateLimitingMiddleware::default_limiter_</definition>
+        <argsstring></argsstring>
+        <name>default_limiter_</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::default_limiter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="126" column="21" bodyfile="include/server/rate_limiting_middleware.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiting_middleware_1ad43e545f5f5e36b4c0bfd8073bbff6db" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1server_1_1_per_client_rate_limiter" kindref="compound">PerClientRateLimiter</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;PerClientRateLimiter&gt; &gt; themis::server::RateLimitingMiddleware::override_limiters_</definition>
+        <argsstring></argsstring>
+        <name>override_limiters_</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::override_limiters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="129" column="17" bodyfile="include/server/rate_limiting_middleware.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiting_middleware_1a170b2fa4219c2c90b6560dd129a6d45a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RateLimitingMiddleware::total_requests_</definition>
+        <argsstring></argsstring>
+        <name>total_requests_</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::total_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="132" column="17" bodyfile="include/server/rate_limiting_middleware.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiting_middleware_1a01d3ad9740b82da88e916bc96e429896" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RateLimitingMiddleware::allowed_requests_</definition>
+        <argsstring></argsstring>
+        <name>allowed_requests_</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::allowed_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="133" column="17" bodyfile="include/server/rate_limiting_middleware.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rate_limiting_middleware_1ae184f9c48adfcc8fd9837919281f46c7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::RateLimitingMiddleware::rejected_requests_</definition>
+        <argsstring></argsstring>
+        <name>rejected_requests_</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::rejected_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="134" column="17" bodyfile="include/server/rate_limiting_middleware.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiting_middleware_1ab72cf73df39d51271a0aee5e99f3ba37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RateLimitingMiddleware::RateLimitingMiddleware</definition>
+        <argsstring>()</argsstring>
+        <name>RateLimitingMiddleware</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::RateLimitingMiddleware</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="60" column="5" bodyfile="src/server/rate_limiting_middleware.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiting_middleware_1a41776dfb88ff0c24dc03eb882aafe311" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RateLimitingMiddleware::RateLimitingMiddleware</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>RateLimitingMiddleware</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::RateLimitingMiddleware</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Rate Limiting Middleware. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="67" column="14" bodyfile="src/server/rate_limiting_middleware.cpp" bodystart="29" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiting_middleware_1ad4a9fa6b5ac3545154f7f7f5e42e4ce1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_check_result" kindref="compound">CheckResult</ref></type>
+        <definition>RateLimitingMiddleware::CheckResult themis::server::RateLimitingMiddleware::check</definition>
+        <argsstring>(const std::string &amp;client_key, const std::string &amp;path, size_t cost=1)</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::check</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>cost</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Hdr lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="69" column="17" bodyfile="src/server/rate_limiting_middleware.cpp" bodystart="149" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiting_middleware_1afe585f4ef70a8c5a36185708a3997a30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RateLimitingMiddleware::updateConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the access control configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), rebuildLimiters(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="77" column="10" bodyfile="src/server/rate_limiting_middleware.cpp" bodystart="83" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiting_middleware_1a5e81c635d2debadf39909e6eef0d6bef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" kindref="compound">Config</ref></type>
+        <definition>RateLimitingMiddleware::Config themis::server::RateLimitingMiddleware::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="83" column="12" bodyfile="src/server/rate_limiting_middleware.cpp" bodystart="91" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiting_middleware_1a02af4f904ffef9d319ead9f69c7d15e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>RateLimitingMiddleware::Stats themis::server::RateLimitingMiddleware::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="96" column="11" bodyfile="src/server/rate_limiting_middleware.cpp" bodystart="248" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiting_middleware_1ad8920003badfc3024678faf2667fb8d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RateLimitingMiddleware::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(), lock(), rebuildLimiters(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="101" column="10" bodyfile="src/server/rate_limiting_middleware.cpp" bodystart="274" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiting_middleware_1a9f7b621ef9aac8a9bedf898e25a1c1a5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::RateLimitingMiddleware::findOverrideIndex</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>findOverrideIndex</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::findOverrideIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Find Override Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="109" column="17" bodyfile="src/server/rate_limiting_middleware.cpp" bodystart="106" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiting_middleware_1a86bb01c6e06b8ff620177a8fb6e23d22" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; size_t, double &gt;</type>
+        <definition>std::pair&lt; size_t, double &gt; themis::server::RateLimitingMiddleware::limitForPath</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>limitForPath</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::limitForPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="111" column="15" bodyfile="src/server/rate_limiting_middleware.cpp" bodystart="134" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rate_limiting_middleware_1aafd13c352fbbc194840cc2618b92bae3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RateLimitingMiddleware::rebuildLimiters</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildLimiters</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::rebuildLimiters</qualifiedname>
+        <briefdescription>
+<para>Rebuild Limiters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), insert(), std::max(), reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="116" column="10" bodyfile="src/server/rate_limiting_middleware.cpp" bodystart="49" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiting_middleware.h" line="27" column="1" bodyfile="include/server/rate_limiting_middleware.h" bodystart="27" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a01d3ad9740b82da88e916bc96e429896" prot="private" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>allowed_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1ad4a9fa6b5ac3545154f7f7f5e42e4ce1" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>check</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a646af2f88359780d4f4138147ea7421a" prot="private" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a14d0e6af17cd3cdb57a4f11dcdd92422" prot="private" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>config_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a3e0f8d8e4ad8c5b4e20ea727531f9c82" prot="private" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>default_limiter_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a9f7b621ef9aac8a9bedf898e25a1c1a5" prot="private" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>findOverrideIndex</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a5e81c635d2debadf39909e6eef0d6bef" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a02af4f904ffef9d319ead9f69c7d15e9" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a86bb01c6e06b8ff620177a8fb6e23d22" prot="private" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>limitForPath</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1ad43e545f5f5e36b4c0bfd8073bbff6db" prot="private" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>override_limiters_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1ab72cf73df39d51271a0aee5e99f3ba37" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>RateLimitingMiddleware</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a41776dfb88ff0c24dc03eb882aafe311" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>RateLimitingMiddleware</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1aafd13c352fbbc194840cc2618b92bae3" prot="private" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>rebuildLimiters</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1ae184f9c48adfcc8fd9837919281f46c7" prot="private" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>rejected_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1ad8920003badfc3024678faf2667fb8d2" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>reset</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1a170b2fa4219c2c90b6560dd129a6d45a" prot="private" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>total_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1afe585f4ef70a8c5a36185708a3997a30" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1server_1_1_rate_limiting_middleware_1aaf24003ccc5c54526f272e4b2c1741a2" prot="private" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware</scope><name>whitelist_set_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::BackgroundOptimizationWorker</compoundname>
+    <includes refid="prompt__engineering__integration_8h" local="no">prompt_engineering_integration.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a73a00be446811f24762bac65afb5edce" prot="private" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::prompt_engineering::BackgroundOptimizationWorker::interval_</definition>
+        <argsstring></argsstring>
+        <name>interval_</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::interval_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="153" column="26" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1aa22678e3597408e918330d710ea5371d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker" kindref="compound">PromptPerformanceTracker</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptPerformanceTracker&gt; themis::prompt_engineering::BackgroundOptimizationWorker::tracker_</definition>
+        <argsstring></argsstring>
+        <name>tracker_</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="154" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ac8d293b38dbfed4bf6069a0219235d7d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator" kindref="compound">SelfImprovementOrchestrator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SelfImprovementOrchestrator&gt; themis::prompt_engineering::BackgroundOptimizationWorker::orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="155" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1afd0f78028bddc86937b6f0ec9cac6eaa" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control" kindref="compound">PromptVersionControl</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptVersionControl&gt; themis::prompt_engineering::BackgroundOptimizationWorker::version_control_</definition>
+        <argsstring></argsstring>
+        <name>version_control_</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::version_control_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="156" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a40e6fb01f6534591551e485e52609955" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::prompt_engineering::BackgroundOptimizationWorker::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="158" column="17" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1abf3db072e0b999a80ce66f9987991a5f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::prompt_engineering::BackgroundOptimizationWorker::stop_requested_</definition>
+        <argsstring></argsstring>
+        <name>stop_requested_</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::stop_requested_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="159" column="17" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1acdad06ac4a8abf456b7e68c6873463ea" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::thread &gt;</type>
+        <definition>std::unique_ptr&lt;std::thread&gt; themis::prompt_engineering::BackgroundOptimizationWorker::worker_thread_</definition>
+        <argsstring></argsstring>
+        <name>worker_thread_</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::worker_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="160" column="21" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ab0a88393d872d265ea7193097e5c6143" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::BackgroundOptimizationWorker::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="161" column="24" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a42ac319b4ed9700ee01887f2ea44d90e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BackgroundOptimizationWorker::cycles_completed_</definition>
+        <argsstring></argsstring>
+        <name>cycles_completed_</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::cycles_completed_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="164" column="12" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ab5b8d35d456da25861cfff65721a51ac" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BackgroundOptimizationWorker::prompts_optimized_</definition>
+        <argsstring></argsstring>
+        <name>prompts_optimized_</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::prompts_optimized_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="165" column="12" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ab6c11a4308e16417f2c7124c4c618529" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::BackgroundOptimizationWorker::last_run_</definition>
+        <argsstring></argsstring>
+        <name>last_run_</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::last_run_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="166" column="43" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ac4125dc3aa0e0d25c89a24349ce14423" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::BackgroundOptimizationWorker::BackgroundOptimizationWorker</definition>
+        <argsstring>(std::chrono::seconds interval, std::shared_ptr&lt; PromptPerformanceTracker &gt; tracker, std::shared_ptr&lt; SelfImprovementOrchestrator &gt; orchestrator, std::shared_ptr&lt; PromptVersionControl &gt; version_control)</argsstring>
+        <name>BackgroundOptimizationWorker</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::BackgroundOptimizationWorker</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>interval</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_performance_tracker" kindref="compound">PromptPerformanceTracker</ref> &gt;</type>
+          <declname>tracker</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_self_improvement_orchestrator" kindref="compound">SelfImprovementOrchestrator</ref> &gt;</type>
+          <declname>orchestrator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control" kindref="compound">PromptVersionControl</ref> &gt;</type>
+          <declname>version_control</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="130" column="5" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="150" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1aa3b1a32b6296e446060202d9eb058518" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::BackgroundOptimizationWorker::~BackgroundOptimizationWorker</definition>
+        <argsstring>()</argsstring>
+        <name>~BackgroundOptimizationWorker</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::~BackgroundOptimizationWorker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="137" column="5" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="161" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a35ce52fa5e5d3289a51c14aff3fd65a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::BackgroundOptimizationWorker::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="140" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="169" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1af0b1eae67ce4eebbe32857533138f4b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::BackgroundOptimizationWorker::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), store(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="141" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="184" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a6ee6dbdc9e81356a650548caa45e8c90" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::BackgroundOptimizationWorker::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="142" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="198" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a8cdf19e34b784142b9190a65ff09a855" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_worker_status" kindref="compound">WorkerStatus</ref></type>
+        <definition>WorkerStatus themis::prompt_engineering::BackgroundOptimizationWorker::getStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::getStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="145" column="18" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="202" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a078cbe480e59c86a548e85ea8ec4a087" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::BackgroundOptimizationWorker::runOptimizationCycle</definition>
+        <argsstring>()</argsstring>
+        <name>runOptimizationCycle</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::runOptimizationCycle</qualifiedname>
+        <briefdescription>
+<para>Run Optimization Cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::chrono::system_clock::now(), runAutoOptimization(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="148" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="224" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ae4a7afcb75e2aa19420c7d5e56cb822e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::BackgroundOptimizationWorker::workerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>workerLoop</name>
+        <qualifiedname>themis::prompt_engineering::BackgroundOptimizationWorker::workerLoop</qualifiedname>
+        <briefdescription>
+<para>Worker Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), <ref refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a078cbe480e59c86a548e85ea8ec4a087" kindref="member">runOptimizationCycle()</ref>, std::chrono::steady_clock::now(), std::this_thread::sleep_for(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_integration.h" line="151" column="10" bodyfile="src/prompt_engineering/prompt_engineering_integration.cpp" bodystart="247" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Background optimization worker. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Runs periodic optimization cycles on all prompts. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_engineering_integration.h" line="128" column="1" bodyfile="include/prompt_engineering/prompt_engineering_integration.h" bodystart="128" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ac4125dc3aa0e0d25c89a24349ce14423" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>BackgroundOptimizationWorker</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a42ac319b4ed9700ee01887f2ea44d90e" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>cycles_completed_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a8cdf19e34b784142b9190a65ff09a855" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>getStatus</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a73a00be446811f24762bac65afb5edce" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>interval_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a6ee6dbdc9e81356a650548caa45e8c90" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ab6c11a4308e16417f2c7124c4c618529" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>last_run_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ab0a88393d872d265ea7193097e5c6143" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ac8d293b38dbfed4bf6069a0219235d7d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>orchestrator_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ab5b8d35d456da25861cfff65721a51ac" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>prompts_optimized_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a40e6fb01f6534591551e485e52609955" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>running_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a078cbe480e59c86a548e85ea8ec4a087" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>runOptimizationCycle</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1a35ce52fa5e5d3289a51c14aff3fd65a9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>start</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1af0b1eae67ce4eebbe32857533138f4b8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>stop</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1abf3db072e0b999a80ce66f9987991a5f" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>stop_requested_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1aa22678e3597408e918330d710ea5371d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>tracker_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1afd0f78028bddc86937b6f0ec9cac6eaa" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>version_control_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1acdad06ac4a8abf456b7e68c6873463ea" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>worker_thread_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1ae4a7afcb75e2aa19420c7d5e56cb822e" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>workerLoop</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_background_optimization_worker_1aa3b1a32b6296e446060202d9eb058518" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BackgroundOptimizationWorker</scope><name>~BackgroundOptimizationWorker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

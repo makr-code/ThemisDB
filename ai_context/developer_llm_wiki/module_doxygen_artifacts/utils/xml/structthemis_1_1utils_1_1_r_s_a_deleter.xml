@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_r_s_a_deleter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::RSADeleter</compoundname>
+    <includes refid="openssl__deleter_8h" local="no">openssl_deleter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_r_s_a_deleter_1abfd4c316be55c9b4900fee5a5d4b87ec" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::RSADeleter::operator()</definition>
+        <argsstring>(RSA *rsa) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::utils::RSADeleter::operator()</qualifiedname>
+        <param>
+          <type>RSA *</type>
+          <declname>rsa</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/openssl_deleter.h" line="119" column="10" bodyfile="include/utils/openssl_deleter.h" bodystart="119" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deleter for RSA. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/openssl_deleter.h" line="118" column="1" bodyfile="include/utils/openssl_deleter.h" bodystart="118" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_r_s_a_deleter_1abfd4c316be55c9b4900fee5a5d4b87ec" prot="public" virt="non-virtual"><scope>themis::utils::RSADeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

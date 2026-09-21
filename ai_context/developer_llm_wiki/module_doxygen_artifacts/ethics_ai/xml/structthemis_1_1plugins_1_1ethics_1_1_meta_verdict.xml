@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::MetaVerdict</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6b" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ConvergenceVerdict</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::ConvergenceVerdict</qualifiedname>
+        <enumvalue id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba3ecc0491ccb53bbed853e9b5580556a5" prot="public">
+          <name>CLEAR_CONSENSUS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><blockquote><para>0.75 agreement. </para>
+</blockquote></para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba5d8e613338daa5898de012d9801257a4" prot="public">
+          <name>TENDENCY</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>0.60–0.75 agreement. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba88b484a0c3c2776618e1178ff90a1b35" prot="public">
+          <name>CONTESTED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>0.40–0.60 agreement. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba2afabad12fb856249fd19dd680f0affe" prot="public">
+          <name>DISSENT</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>&lt; 0.40 agreement (also: all-ABSTAIN). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="379" column="5" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="379" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1af241fadf1c4bb8bbf2be774bca7da9ae" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6b" kindref="member">ConvergenceVerdict</ref></type>
+        <definition>ConvergenceVerdict themis::plugins::ethics::MetaVerdict::convergence_verdict</definition>
+        <argsstring></argsstring>
+        <name>convergence_verdict</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::convergence_verdict</qualifiedname>
+        <initializer>{<ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba2afabad12fb856249fd19dd680f0affe" kindref="member">ConvergenceVerdict::DISSENT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="386" column="24" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="386" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1aecff473ffe0bb38cb3e23d2aa7a84e68" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::MetaVerdict::convergence_score</definition>
+        <argsstring></argsstring>
+        <name>convergence_score</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::convergence_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="387" column="24" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="387" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1aa6b5c2558105be57b1d25e4a69a06e2b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::MetaVerdict::participating_schools</definition>
+        <argsstring></argsstring>
+        <name>participating_schools</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::participating_schools</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="389" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a05392c37918793e4d0dc74f50ec08942" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::MetaVerdict::dissenting_schools</definition>
+        <argsstring></argsstring>
+        <name>dissenting_schools</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::dissenting_schools</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="391" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a651605dfdfc5c3050ddfb9be27a7577d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::MetaVerdict::cross_cultural_flag</definition>
+        <argsstring></argsstring>
+        <name>cross_cultural_flag</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::cross_cultural_flag</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="393" column="10" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="393" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1ab1532d6b2c6460ea6923f031288cb74e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref> &gt;</type>
+        <definition>std::vector&lt;DiscourseRoundOutput&gt; themis::plugins::ethics::MetaVerdict::minority_dissent</definition>
+        <argsstring></argsstring>
+        <name>minority_dissent</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::minority_dissent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="395" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a57ff9ac20e62c571c31f55d59751db12" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote" kindref="compound">MetaVerdictSchoolVote</ref> &gt;</type>
+        <definition>std::vector&lt;MetaVerdictSchoolVote&gt; themis::plugins::ethics::MetaVerdict::participating_school_votes</definition>
+        <argsstring></argsstring>
+        <name>participating_school_votes</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::participating_school_votes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="397" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1afde164b8a76b4474a591ef65740c8d81" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_norm_evidence" kindref="compound">NormEvidence</ref></type>
+        <definition>NormEvidence themis::plugins::ethics::MetaVerdict::norm_evidence</definition>
+        <argsstring></argsstring>
+        <name>norm_evidence</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::norm_evidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="399" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1ae1e4d9d4b61eda0717e0a0ea4060491a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" kindref="compound">LegalGrounding</ref></type>
+        <definition>LegalGrounding themis::plugins::ethics::MetaVerdict::legal_grounding</definition>
+        <argsstring></argsstring>
+        <name>legal_grounding</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::legal_grounding</qualifiedname>
+        <briefdescription>
+<para>Legal-DB citation, or flagged unavailable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="401" column="20" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a9e175edfd724181f9b35e466085a5695" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1" kindref="member">DiscourseMode</ref></type>
+        <definition>DiscourseMode themis::plugins::ethics::MetaVerdict::discourse_mode</definition>
+        <argsstring></argsstring>
+        <name>discourse_mode</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::discourse_mode</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="403" column="19" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="403" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a305fa3115b0cd65df0bf79db99f623e4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602e" kindref="member">DiscourseVerdict</ref></type>
+        <definition>DiscourseVerdict themis::plugins::ethics::MetaVerdict::dominant_verdict</definition>
+        <argsstring></argsstring>
+        <name>dominant_verdict</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdict::dominant_verdict</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602eaf4d833a3465758569accea637f9fc592" kindref="member">DiscourseVerdict::ABSTAIN</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="405" column="22" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="405" bodyend="405"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::plugins::ethics::LegalGrounding</label>
+        <link refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::ethics::MetaVerdict</label>
+        <link refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>norm_evidence</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>legal_grounding</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::ethics::NormEvidence</label>
+        <link refid="structthemis_1_1plugins_1_1ethics_1_1_norm_evidence"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="378" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="378" bodyend="406"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1aecff473ffe0bb38cb3e23d2aa7a84e68" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>convergence_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1af241fadf1c4bb8bbf2be774bca7da9ae" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>convergence_verdict</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>ConvergenceVerdict</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a651605dfdfc5c3050ddfb9be27a7577d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>cross_cultural_flag</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a9e175edfd724181f9b35e466085a5695" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>discourse_mode</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a05392c37918793e4d0dc74f50ec08942" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>dissenting_schools</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a305fa3115b0cd65df0bf79db99f623e4" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>dominant_verdict</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1ae1e4d9d4b61eda0717e0a0ea4060491a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>legal_grounding</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1ab1532d6b2c6460ea6923f031288cb74e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>minority_dissent</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1afde164b8a76b4474a591ef65740c8d81" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>norm_evidence</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a57ff9ac20e62c571c31f55d59751db12" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>participating_school_votes</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1aa6b5c2558105be57b1d25e4a69a06e2b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdict</scope><name>participating_schools</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_router_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::RouterResult</compoundname>
+    <includes refid="ethics__selection__router_8h" local="no">ethics_selection_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a1cf0340e8f25237c1fc85ccb23df5ac1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate" kindref="compound">RouterCandidate</ref> &gt;</type>
+        <definition>std::vector&lt;RouterCandidate&gt; themis::plugins::ethics::RouterResult::selected</definition>
+        <argsstring></argsstring>
+        <name>selected</name>
+        <qualifiedname>themis::plugins::ethics::RouterResult::selected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="92" column="17" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a8f5aab9bbba232889675d8c1c077fc2f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::RouterResult::stage1_count</definition>
+        <argsstring></argsstring>
+        <name>stage1_count</name>
+        <qualifiedname>themis::plugins::ethics::RouterResult::stage1_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="93" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_result_1ac5868c597ad073d211d581fd5b17f4cc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::RouterResult::stage2_count</definition>
+        <argsstring></argsstring>
+        <name>stage2_count</name>
+        <qualifiedname>themis::plugins::ethics::RouterResult::stage2_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="94" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a485f755768c15db350c8a10ef48702d7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::RouterResult::stage3_count</definition>
+        <argsstring></argsstring>
+        <name>stage3_count</name>
+        <qualifiedname>themis::plugins::ethics::RouterResult::stage3_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="95" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_selection_router.h" line="91" column="1" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="91" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a1cf0340e8f25237c1fc85ccb23df5ac1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterResult</scope><name>selected</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a8f5aab9bbba232889675d8c1c077fc2f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterResult</scope><name>stage1_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1ac5868c597ad073d211d581fd5b17f4cc" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterResult</scope><name>stage2_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a485f755768c15db350c8a10ef48702d7" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterResult</scope><name>stage3_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

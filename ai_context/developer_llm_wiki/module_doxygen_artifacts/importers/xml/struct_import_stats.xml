@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_import_stats" kind="struct" language="C++" prot="public">
+    <compoundname>ImportStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_import_stats_1a3528d82c2030930cd59eff273aab42a2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ImportStats::total_records</definition>
+        <argsstring></argsstring>
+        <name>total_records</name>
+        <qualifiedname>ImportStats::total_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="53" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_stats_1a215f2e1e9f110e933227343704d0e0d0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ImportStats::imported_records</definition>
+        <argsstring></argsstring>
+        <name>imported_records</name>
+        <qualifiedname>ImportStats::imported_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="54" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_stats_1a708c8ec8134fdb0e1512c87d0826a665" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ImportStats::failed_records</definition>
+        <argsstring></argsstring>
+        <name>failed_records</name>
+        <qualifiedname>ImportStats::failed_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="55" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_stats_1a9e9a8694de27e30317fdbdef3a2228f9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ImportStats::skipped_records</definition>
+        <argsstring></argsstring>
+        <name>skipped_records</name>
+        <qualifiedname>ImportStats::skipped_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="56" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_stats_1a397874a003b2d5d14ccb721ded29832b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ImportStats::tables_processed</definition>
+        <argsstring></argsstring>
+        <name>tables_processed</name>
+        <qualifiedname>ImportStats::tables_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="57" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_stats_1afb23ee71e0f8957b4b4d5b51efcddee7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ImportStats::elapsed_seconds</definition>
+        <argsstring></argsstring>
+        <name>elapsed_seconds</name>
+        <qualifiedname>ImportStats::elapsed_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="58" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_stats_1acd014098fe540dcefdf0a48436af5595" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; ImportStats::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>ImportStats::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="59" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_stats_1a37fe8ce990ec4a433718a261687c43d4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; ImportStats::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>ImportStats::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="60" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_stats_1a5761361314dec0276682bf321364292e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_import_error" kindref="compound">ImportError</ref> &gt;</type>
+        <definition>std::vector&lt; ImportError &gt; ImportStats::structured_errors</definition>
+        <argsstring></argsstring>
+        <name>structured_errors</name>
+        <qualifiedname>ImportStats::structured_errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="61" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_stats_1a766f05c4cfb7e25c4f4bb6828e97d879" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ImportStats::conflicts_skipped</definition>
+        <argsstring></argsstring>
+        <name>conflicts_skipped</name>
+        <qualifiedname>ImportStats::conflicts_skipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="50" column="12" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_stats_1a1e4b98a801423e7a5453fe5f0a99623e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ImportStats::conflicts_overwritten</definition>
+        <argsstring></argsstring>
+        <name>conflicts_overwritten</name>
+        <qualifiedname>ImportStats::conflicts_overwritten</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="51" column="12" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_stats_1a3866159a65cc1585f04e7e90e62f1d36" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ImportStats::conflicts_merged</definition>
+        <argsstring></argsstring>
+        <name>conflicts_merged</name>
+        <qualifiedname>ImportStats::conflicts_merged</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="52" column="12" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/importers/test_importer_async_api.cpp" line="52" column="1" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="52" bodyend="62"/>
+    <listofallmembers>
+      <member refid="struct_import_stats_1a3866159a65cc1585f04e7e90e62f1d36" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>conflicts_merged</name></member>
+      <member refid="struct_import_stats_1a1e4b98a801423e7a5453fe5f0a99623e" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>conflicts_overwritten</name></member>
+      <member refid="struct_import_stats_1a766f05c4cfb7e25c4f4bb6828e97d879" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>conflicts_skipped</name></member>
+      <member refid="struct_import_stats_1afb23ee71e0f8957b4b4d5b51efcddee7" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>elapsed_seconds</name></member>
+      <member refid="struct_import_stats_1a37fe8ce990ec4a433718a261687c43d4" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>errors</name></member>
+      <member refid="struct_import_stats_1a708c8ec8134fdb0e1512c87d0826a665" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>failed_records</name></member>
+      <member refid="struct_import_stats_1a215f2e1e9f110e933227343704d0e0d0" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>imported_records</name></member>
+      <member refid="struct_import_stats_1a9e9a8694de27e30317fdbdef3a2228f9" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>skipped_records</name></member>
+      <member refid="struct_import_stats_1a5761361314dec0276682bf321364292e" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>structured_errors</name></member>
+      <member refid="struct_import_stats_1a397874a003b2d5d14ccb721ded29832b" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>tables_processed</name></member>
+      <member refid="struct_import_stats_1a3528d82c2030930cd59eff273aab42a2" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>total_records</name></member>
+      <member refid="struct_import_stats_1acd014098fe540dcefdf0a48436af5595" prot="public" virt="non-virtual"><scope>ImportStats</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

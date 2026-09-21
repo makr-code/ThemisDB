@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_plugin_auto_register" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginAutoRegister</compoundname>
+    <includes refid="plugin__registry_8h" local="no">plugin_registry.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename PluginInterface</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_auto_register_1a4bf5c2c94e0a9a127ea7716f4092606a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginAutoRegister&lt; PluginInterface &gt;::PluginAutoRegister</definition>
+        <argsstring>(const std::string &amp;name, std::function&lt; std::unique_ptr&lt; PluginInterface &gt;()&gt; factory)</argsstring>
+        <name>PluginAutoRegister</name>
+        <qualifiedname>themis::plugins::PluginAutoRegister::PluginAutoRegister</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::function&lt; std::unique_ptr&lt; PluginInterface &gt;()&gt;</type>
+          <declname>factory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_registry.h" line="280" column="5" bodyfile="include/plugins/plugin_registry.h" bodystart="280" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Helper for automatic plugin registration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage in plugin implementation: <programlisting filename=".cpp"><codeline><highlight class="keyword">class<sp/></highlight><highlight class="normal">S3BlobPlugin<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IBlobStorageBackend<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>In<sp/>.cpp<sp/>file:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1_plugin_auto_register_1a4bf5c2c94e0a9a127ea7716f4092606a" kindref="member">PluginAutoRegister&lt;IBlobStorageBackend&gt;</ref><sp/>s3_registrar(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;s3_plugin&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[]()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;S3BlobPlugin&gt;();<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_registry.h" line="278" column="1" bodyfile="include/plugins/plugin_registry.h" bodystart="278" bodyend="286"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_plugin_auto_register_1a4bf5c2c94e0a9a127ea7716f4092606a" prot="public" virt="non-virtual"><scope>themis::plugins::PluginAutoRegister</scope><name>PluginAutoRegister</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

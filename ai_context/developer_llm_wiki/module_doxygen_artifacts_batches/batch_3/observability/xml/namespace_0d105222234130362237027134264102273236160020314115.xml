@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d105222234130362237027134264102273236160020314115" kind="namespace" language="C++">
+    <compoundname>@105222234130362237027134264102273236160020314115</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d105222234130362237027134264102273236160020314115_1a2586e45b6c907a93f58760b47eb5437c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LogLevel</name>
+        <qualifiedname>@105222234130362237027134264102273236160020314115::LogLevel</qualifiedname>
+        <enumvalue id="namespace_0d105222234130362237027134264102273236160020314115_1a2586e45b6c907a93f58760b47eb5437cadc30ec20708ef7b0f641ef78b7880a15" prot="public">
+          <name>DEBUG</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d105222234130362237027134264102273236160020314115_1a2586e45b6c907a93f58760b47eb5437ca551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d105222234130362237027134264102273236160020314115_1a2586e45b6c907a93f58760b47eb5437ca32bd8a1db2275458673903bdb84cb277" prot="public">
+          <name>WARN</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d105222234130362237027134264102273236160020314115_1a2586e45b6c907a93f58760b47eb5437cabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_contract_hardening_focused.cpp" line="154" column="1" bodyfile="tests/observability/test_observability_contract_hardening_focused.cpp" bodystart="154" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/observability/test_observability_contract_hardening_focused.cpp" line="67" column="1"/>
+  </compounddef>
+</doxygen>

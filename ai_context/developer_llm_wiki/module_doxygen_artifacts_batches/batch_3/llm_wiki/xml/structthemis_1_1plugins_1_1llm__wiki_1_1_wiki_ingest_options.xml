@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::WikiIngestOptions</compoundname>
+    <includes refid="llm__wiki__plugin__interface_8h" local="no">llm_wiki_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a69927feec29d177641ca449ad15488d7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::WikiIngestOptions::recursive</definition>
+        <argsstring></argsstring>
+        <name>recursive</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestOptions::recursive</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Recurse into subdirectories. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="91" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1aef18e42bc23fd9ab28d80c8a4e52cf07" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::WikiIngestOptions::file_glob</definition>
+        <argsstring></argsstring>
+        <name>file_glob</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestOptions::file_glob</qualifiedname>
+        <initializer>= &quot;*.md&quot;</initializer>
+        <briefdescription>
+<para>File glob filter (Markdown default). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="92" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1aca9e6678499f7077c8a7d3ba85e1c146" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::WikiIngestOptions::splitter_max_tokens</definition>
+        <argsstring></argsstring>
+        <name>splitter_max_tokens</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestOptions::splitter_max_tokens</qualifiedname>
+        <initializer>= 220</initializer>
+        <briefdescription>
+<para>Max tokens per chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="93" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a47c2b4f0b6467c04f27dce3df70ad396" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::WikiIngestOptions::splitter_overlap_tokens</definition>
+        <argsstring></argsstring>
+        <name>splitter_overlap_tokens</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestOptions::splitter_overlap_tokens</qualifiedname>
+        <initializer>= 40</initializer>
+        <briefdescription>
+<para>Overlap tokens between consecutive chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="94" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a3a3e3d0a92f66bf64a0fce27c10b93e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::WikiIngestOptions::embedding_provider</definition>
+        <argsstring></argsstring>
+        <name>embedding_provider</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestOptions::embedding_provider</qualifiedname>
+        <initializer>= &quot;hash&quot;</initializer>
+        <briefdescription>
+<para>Embedding provider name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="95" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1ac8a0dca6763dd53b564fbdfeb1036105" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::WikiIngestOptions::embedding_model</definition>
+        <argsstring></argsstring>
+        <name>embedding_model</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestOptions::embedding_model</qualifiedname>
+        <briefdescription>
+<para>Model name (used by sentence-transformers/openai). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="96" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a480bfb98e640129c09f2a05e8f795c9c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::WikiIngestOptions::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestOptions::embedding_dim</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+<para>Dimension for hash provider. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="97" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a32f4ec20e441f4dbbd6e94a8f9c74e5f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::WikiIngestOptions::skip_existing</definition>
+        <argsstring></argsstring>
+        <name>skip_existing</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestOptions::skip_existing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Skip files already present in the index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="98" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a2a4bbf6798231f18ed72d5a3d2f272e3" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::plugins::llm_wiki::WikiIngestOptions::workspace_root</definition>
+        <argsstring></argsstring>
+        <name>workspace_root</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestOptions::workspace_root</qualifiedname>
+        <briefdescription>
+<para>Persistent workspace root (wiki-workspace mode). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="99" column="19" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1ab896ae95f94468899ce3479bec36c39b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::plugins::llm_wiki::WikiIngestOptions::page_title</definition>
+        <argsstring></argsstring>
+        <name>page_title</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestOptions::page_title</qualifiedname>
+        <briefdescription>
+<para>Display title for persisted wiki page. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="100" column="19" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Options controlling document ingestion into the LLM Wiki index. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Passed to <computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a06d2ba30a839e13275853b941f35376b" kindref="member">ILLMWikiPlugin::ingest()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a2c2ce8a1cc191bf86791905a781160d5" kindref="member">ILLMWikiPlugin::wikiIngest()</ref></computeroutput>.</para>
+<para><simplesect kind="note"><para><computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a3a3e3d0a92f66bf64a0fce27c10b93e5" kindref="member">embedding_provider</ref></computeroutput> must be one of <computeroutput>"hash"</computeroutput> (default, no deps), <computeroutput>"mock"</computeroutput> (tests), <computeroutput>"sentence-transformers"</computeroutput> (requires Python bridge in enterprise builds), or <computeroutput>"openai"</computeroutput> (requires <computeroutput>OPENAI_API_KEY</computeroutput>). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="90" column="1" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="90" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a480bfb98e640129c09f2a05e8f795c9c" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestOptions</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1ac8a0dca6763dd53b564fbdfeb1036105" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestOptions</scope><name>embedding_model</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a3a3e3d0a92f66bf64a0fce27c10b93e5" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestOptions</scope><name>embedding_provider</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1aef18e42bc23fd9ab28d80c8a4e52cf07" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestOptions</scope><name>file_glob</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1ab896ae95f94468899ce3479bec36c39b" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestOptions</scope><name>page_title</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a69927feec29d177641ca449ad15488d7" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestOptions</scope><name>recursive</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a32f4ec20e441f4dbbd6e94a8f9c74e5f" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestOptions</scope><name>skip_existing</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1aca9e6678499f7077c8a7d3ba85e1c146" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestOptions</scope><name>splitter_max_tokens</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a47c2b4f0b6467c04f27dce3df70ad396" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestOptions</scope><name>splitter_overlap_tokens</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_options_1a2a4bbf6798231f18ed72d5a3d2f272e3" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestOptions</scope><name>workspace_root</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

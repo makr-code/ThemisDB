@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_c_q_watermark_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::CQWatermarkTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_c_q_watermark_test_1a48fa2459c0aee34bcfa40e480a40ada3" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_c_q_watermark" kindref="compound">CQWatermark</ref></type>
+        <definition>CQWatermark themis::query::CQWatermarkTest::watermark_</definition>
+        <argsstring></argsstring>
+        <name>watermark_</name>
+        <qualifiedname>themis::query::CQWatermarkTest::watermark_</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_safety_fixes.cpp" line="157" column="17" bodyfile="tests/query/test_query_safety_fixes.cpp" bodystart="157" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::CQWatermarkTest</label>
+        <link refid="classthemis_1_1query_1_1_c_q_watermark_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::CQWatermark</label>
+        <link refid="classthemis_1_1query_1_1_c_q_watermark"/>
+      </node>
+      <node id="1">
+        <label>themis::query::CQWatermarkTest</label>
+        <link refid="classthemis_1_1query_1_1_c_q_watermark_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>watermark_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_safety_fixes.cpp" line="155" column="1" bodyfile="tests/query/test_query_safety_fixes.cpp" bodystart="155" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_c_q_watermark_test_1a48fa2459c0aee34bcfa40e480a40ada3" prot="protected" virt="non-virtual"><scope>themis::query::CQWatermarkTest</scope><name>watermark_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_tensor_aware_optimizer_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::TensorAwareOptimizerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_tensor_aware_optimizer_test_1ab6612194714afe2bb481f50a38395ae5" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer" kindref="compound">TensorAwareQueryOptimizer</ref></type>
+        <definition>TensorAwareQueryOptimizer themis::query::TensorAwareOptimizerTest::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>themis::query::TensorAwareOptimizerTest::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_safety_fixes.cpp" line="93" column="31" bodyfile="tests/query/test_query_safety_fixes.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::TensorAwareOptimizerTest</label>
+        <link refid="classthemis_1_1query_1_1_tensor_aware_optimizer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::TensorAwareOptimizerTest</label>
+        <link refid="classthemis_1_1query_1_1_tensor_aware_optimizer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>optimizer_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::query::TensorAwareQueryOptimizer</label>
+        <link refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_safety_fixes.cpp" line="91" column="1" bodyfile="tests/query/test_query_safety_fixes.cpp" bodystart="91" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_optimizer_test_1ab6612194714afe2bb481f50a38395ae5" prot="protected" virt="non-virtual"><scope>themis::query::TensorAwareOptimizerTest</scope><name>optimizer_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hybrid_search_1_1_search_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HybridSearch::SearchStats</compoundname>
+    <includes refid="hybrid__search_8h" local="no">hybrid_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_search_stats_1aa201a5ba0145dc0f327195dc5ddab5f9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::HybridSearch::SearchStats::bm25_ok</definition>
+        <argsstring></argsstring>
+        <name>bm25_ok</name>
+        <qualifiedname>themis::HybridSearch::SearchStats::bm25_ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>BM25 search ran without error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="124" column="14" bodyfile="include/search/hybrid_search.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_search_stats_1ace8966371dad88603d662e1c9e0ff987" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::HybridSearch::SearchStats::vector_ok</definition>
+        <argsstring></argsstring>
+        <name>vector_ok</name>
+        <qualifiedname>themis::HybridSearch::SearchStats::vector_ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Vector search ran without error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="125" column="14" bodyfile="include/search/hybrid_search.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_search_stats_1aa1f1ecce8871f88fbe67be2929b1dd9d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::HybridSearch::SearchStats::partial_result</definition>
+        <argsstring></argsstring>
+        <name>partial_result</name>
+        <qualifiedname>themis::HybridSearch::SearchStats::partial_result</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when one source failed but the other succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="126" column="14" bodyfile="include/search/hybrid_search.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_search_stats_1a11a54a3a94b3e593e88c795554e7f4a8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HybridSearch::SearchStats::bm25_count</definition>
+        <argsstring></argsstring>
+        <name>bm25_count</name>
+        <qualifiedname>themis::HybridSearch::SearchStats::bm25_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Raw BM25 candidate count before fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="127" column="16" bodyfile="include/search/hybrid_search.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_search_stats_1a45dc8b18d43bca0b8ddaa88a3bd03286" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HybridSearch::SearchStats::vector_count</definition>
+        <argsstring></argsstring>
+        <name>vector_count</name>
+        <qualifiedname>themis::HybridSearch::SearchStats::vector_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Raw vector candidate count before fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="128" column="16" bodyfile="include/search/hybrid_search.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_search_stats_1ac96e6ca5a22247ffd0fdc3fb73979d55" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::HybridSearch::SearchStats::primary_error_code</definition>
+        <argsstring></argsstring>
+        <name>primary_error_code</name>
+        <qualifiedname>themis::HybridSearch::SearchStats::primary_error_code</qualifiedname>
+        <initializer>= 0x0000</initializer>
+        <briefdescription>
+<para>Error code from <ref refid="search__error__codes_8h" kindref="compound">search_error_codes.h</ref> (0x0000 = SUCCESS). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="131" column="18" bodyfile="include/search/hybrid_search.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_search_stats_1a3e297d4523bdffe2d3d0fd0361789d95" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::HybridSearch::SearchStats::fusion_failed</definition>
+        <argsstring></argsstring>
+        <name>fusion_failed</name>
+        <qualifiedname>themis::HybridSearch::SearchStats::fusion_failed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Fusion/normalization failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="132" column="14" bodyfile="include/search/hybrid_search.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_search_stats_1afb7653f3af2cd8a06e03b349518ed1d5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::HybridSearch::SearchStats::rerank_fallback</definition>
+        <argsstring></argsstring>
+        <name>rerank_fallback</name>
+        <qualifiedname>themis::HybridSearch::SearchStats::rerank_fallback</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>LLM reranker fallback applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="133" column="14" bodyfile="include/search/hybrid_search.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Diagnostic information returned alongside search results. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Callers should check partial_result to detect degraded-mode responses. Phase 2: Enhanced degradation flags for explicit backend health visibility. </para>
+    </detaileddescription>
+    <location file="include/search/hybrid_search.h" line="123" column="5" bodyfile="include/search/hybrid_search.h" bodystart="123" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a11a54a3a94b3e593e88c795554e7f4a8" prot="public" virt="non-virtual"><scope>themis::HybridSearch::SearchStats</scope><name>bm25_count</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1aa201a5ba0145dc0f327195dc5ddab5f9" prot="public" virt="non-virtual"><scope>themis::HybridSearch::SearchStats</scope><name>bm25_ok</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a3e297d4523bdffe2d3d0fd0361789d95" prot="public" virt="non-virtual"><scope>themis::HybridSearch::SearchStats</scope><name>fusion_failed</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1aa1f1ecce8871f88fbe67be2929b1dd9d" prot="public" virt="non-virtual"><scope>themis::HybridSearch::SearchStats</scope><name>partial_result</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1ac96e6ca5a22247ffd0fdc3fb73979d55" prot="public" virt="non-virtual"><scope>themis::HybridSearch::SearchStats</scope><name>primary_error_code</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1afb7653f3af2cd8a06e03b349518ed1d5" prot="public" virt="non-virtual"><scope>themis::HybridSearch::SearchStats</scope><name>rerank_fallback</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a45dc8b18d43bca0b8ddaa88a3bd03286" prot="public" virt="non-virtual"><scope>themis::HybridSearch::SearchStats</scope><name>vector_count</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1ace8966371dad88603d662e1c9e0ff987" prot="public" virt="non-virtual"><scope>themis::HybridSearch::SearchStats</scope><name>vector_ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

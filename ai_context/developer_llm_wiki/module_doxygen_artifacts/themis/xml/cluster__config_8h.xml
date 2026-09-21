@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cluster__config_8h" kind="file" language="C++">
+    <compoundname>cluster_config.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="cluster__coordinator_8h" local="yes">include/themis/gpu/cluster_coordinator.h</includedby>
+    <includedby refid="config_8h" local="yes">include/themis/gpu/config.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/cluster_config.h</label>
+        <link refid="cluster__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>include/themis/gpu/admin_api.h</label>
+        <link refid="admin__api_8h"/>
+      </node>
+      <node id="1">
+        <label>include/themis/gpu/cluster_config.h</label>
+        <link refid="cluster__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/themis/gpu/cluster_coordinator.h</label>
+        <link refid="cluster__coordinator_8h"/>
+      </node>
+      <node id="3">
+        <label>include/themis/gpu/config.h</label>
+        <link refid="config_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/themis/gpu/gpu_module.h</label>
+        <link refid="gpu__module_8h"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1gpu_1_1_cluster_config" prot="public">themis::gpu::ClusterConfig</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_cluster_config_1_1_node_entry" prot="public">themis::gpu::ClusterConfig::NodeEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1gpu_1_1_cluster_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_cluster_config" kindref="compound">ClusterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>flag<sp/>(single-node<sp/>default<sp/>preserves<sp/>backward<sp/>compatibility)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1gpu_1_1_cluster_config_1ae47e37aa0e082df34a23348a757fa932" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1ae47e37aa0e082df34a23348a757fa932" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Node<sp/>role</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2" kindref="member">Mode</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2ac80c9a0aec39457c14002a282aefd73a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2ac80c9a0aec39457c14002a282aefd73a" kindref="member">STANDALONE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2ad5ca8f4640f74943b969fb9f2ff9ccdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2ad5ca8f4640f74943b969fb9f2ff9ccdd" kindref="member">COORDINATOR</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2a531886e636f1aa36e0fc96d49f342613" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2a531886e636f1aa36e0fc96d49f342613" kindref="member">WORKER</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1gpu_1_1_cluster_config_1a3a7a45d63da193f808dabb94a976ef84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2" kindref="member">Mode</ref><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a3a7a45d63da193f808dabb94a976ef84" kindref="member">mode</ref><sp/>=<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1abae6a3aad80deddc61492fd861c303e2ac80c9a0aec39457c14002a282aefd73a" kindref="member">Mode::STANDALONE</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Node<sp/>identity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1gpu_1_1_cluster_config_1ad435f72644b835b15aaa53a34e7a2146" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1ad435f72644b835b15aaa53a34e7a2146" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1gpu_1_1_cluster_config_1a519d28ca10871b2038abbf6f2153aeea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a519d28ca10871b2038abbf6f2153aeea" kindref="member">rank</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1gpu_1_1_cluster_config_1a0c1ced7863052b4895c948268bf33bac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a0c1ced7863052b4895c948268bf33bac" kindref="member">world_size</ref><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Coordinator<sp/>connectivity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1gpu_1_1_cluster_config_1a54d31319810fa33bf7bf38337c9f7def" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a54d31319810fa33bf7bf38337c9f7def" kindref="member">coordinator_address</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Heartbeat<sp/>/<sp/>health-check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1gpu_1_1_cluster_config_1a8941a284f44e3e09b7a92eb37ec366c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a8941a284f44e3e09b7a92eb37ec366c8" kindref="member">heartbeat_interval_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1gpu_1_1_cluster_config_1a4be4c4ab44e44695a3a545481d790066" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a4be4c4ab44e44695a3a545481d790066" kindref="member">node_timeout_ms</ref><sp/>=<sp/>15000;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Static<sp/>cluster<sp/>membership<sp/>(seeded<sp/>by<sp/>the<sp/>coordinator)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1gpu_1_1_cluster_config_1_1_node_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_cluster_config_1_1_node_entry" kindref="compound">NodeEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1gpu_1_1_cluster_config_1_1_node_entry_1a126fbf6499e544244174b494aee17909" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1_1_node_entry_1a126fbf6499e544244174b494aee17909" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1gpu_1_1_cluster_config_1_1_node_entry_1a451862c19e043456c86550b0a791ba1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1_1_node_entry_1a451862c19e043456c86550b0a791ba1a" kindref="member">address</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1gpu_1_1_cluster_config_1_1_node_entry_1a48dc8a23b95abf152e11488b4aec33ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1_1_node_entry_1a48dc8a23b95abf152e11488b4aec33ad" kindref="member">gpu_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1gpu_1_1_cluster_config_1ad4fe2e23877232ce9922484a188a24ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;NodeEntry&gt;<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1ad4fe2e23877232ce9922484a188a24ca" kindref="member">nodes</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Peer<sp/>nodes<sp/>(topology-aware<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1gpu_1_1_cluster_config_1a56108e1d2d3836bf51e3460a1d47f944" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a56108e1d2d3836bf51e3460a1d47f944" kindref="member">peer_nodes</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>InfiniBand<sp/>/<sp/>RDMA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1gpu_1_1_cluster_config_1a2b75e8af97d6b79009f9907158894edf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a2b75e8af97d6b79009f9907158894edf" kindref="member">ib_device</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1gpu_1_1_cluster_config_1a119f949575c508d765b4e3a83a1d496c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a119f949575c508d765b4e3a83a1d496c" kindref="member">ib_port</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feature<sp/>toggles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1gpu_1_1_cluster_config_1ae670672d7fbeebe433080d0a448b8e9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1ae670672d7fbeebe433080d0a448b8e9a" kindref="member">enable_nvlink</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1gpu_1_1_cluster_config_1afa59db5c0c60396c4fbc524eb72e5088" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1afa59db5c0c60396c4fbc524eb72e5088" kindref="member">enable_infiniband</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1gpu_1_1_cluster_config_1a535b0eaaeb2f3cdb417f2354c8a948cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a535b0eaaeb2f3cdb417f2354c8a948cb" kindref="member">is_multi_node</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1ae47e37aa0e082df34a23348a757fa932" kindref="member">enabled</ref><sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1a0c1ced7863052b4895c948268bf33bac" kindref="member">world_size</ref><sp/>&gt;<sp/>1;<sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1gpu_1_1_cluster_config_1ae433b846b305da7a47c9adccec1a5fe6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1ae433b846b305da7a47c9adccec1a5fe6" kindref="member">has_infiniband</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1ae47e37aa0e082df34a23348a757fa932" kindref="member">enabled</ref><sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1gpu_1_1_cluster_config_1afa59db5c0c60396c4fbc524eb72e5088" kindref="member">enable_infiniband</ref><sp/>&amp;&amp;<sp/>!<ref refid="structthemis_1_1gpu_1_1_cluster_config_1a2b75e8af97d6b79009f9907158894edf" kindref="member">ib_device</ref>.empty();</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/cluster_config.h"/>
+  </compounddef>
+</doxygen>

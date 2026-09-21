@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::user_storage::EncryptionBackendInterface</compoundname>
+    <derivedcompoundref refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend" prot="public" virt="non-virtual">themis::plugins::user_storage::GocryptfsBackend</derivedcompoundref>
+    <includes refid="encryption__backend__interface_8hpp" local="no">encryption_backend_interface.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a7fcfc7bb7ebbe6aab54c6a6ee71f48db" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::user_storage::EncryptionBackendInterface::~EncryptionBackendInterface</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EncryptionBackendInterface</name>
+        <qualifiedname>themis::plugins::user_storage::EncryptionBackendInterface::~EncryptionBackendInterface</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="106" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6e6d63f00c64df2cdc4959b427ecd97b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::plugins::user_storage::EncryptionBackendInterface::initialize</definition>
+        <argsstring>(const std::string &amp;config_json)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::user_storage::EncryptionBackendInterface::initialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a21337816c8b532759835417425d73617">initialize</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize encryption backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration as JSON string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref> indicating success or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="114" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a9b82bb07f11eaab99e57d9ffd4775166" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::plugins::user_storage::EncryptionBackendInterface::createContainer</definition>
+        <argsstring>(const std::string &amp;encrypted_dir, const std::string &amp;mount_point, const std::vector&lt; uint8_t &gt; &amp;key_material)=0</argsstring>
+        <name>createContainer</name>
+        <qualifiedname>themis::plugins::user_storage::EncryptionBackendInterface::createContainer</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1aeb6d7c08ff95c6d043b0f377d0be1431">createContainer</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encrypted_dir</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_point</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_material</declname>
+        </param>
+        <briefdescription>
+<para>Create and initialize an encrypted container. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>encrypted_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to encrypted data directory </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mount_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path where decrypted data will be accessible </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_material</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Encryption key bytes (32 bytes for AES-256) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref> indicating success or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="124" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1adb183b46addf68150eaa2299e567fdec" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::plugins::user_storage::EncryptionBackendInterface::mountContainer</definition>
+        <argsstring>(const std::string &amp;encrypted_dir, const std::string &amp;mount_point, const std::vector&lt; uint8_t &gt; &amp;key_material)=0</argsstring>
+        <name>mountContainer</name>
+        <qualifiedname>themis::plugins::user_storage::EncryptionBackendInterface::mountContainer</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1ad370458d97a6d4e3759b27ac1f5af087">mountContainer</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encrypted_dir</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_point</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_material</declname>
+        </param>
+        <briefdescription>
+<para>Mount an encrypted container. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>encrypted_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to encrypted data directory </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mount_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path where decrypted data will be accessible </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_material</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Encryption key bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref> indicating success or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="138" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae7b0830d46716df3f02194712cc6861c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::plugins::user_storage::EncryptionBackendInterface::unmountContainer</definition>
+        <argsstring>(const std::string &amp;mount_point)=0</argsstring>
+        <name>unmountContainer</name>
+        <qualifiedname>themis::plugins::user_storage::EncryptionBackendInterface::unmountContainer</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a5521a44a722449b5cd9460be08453007">unmountContainer</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_point</declname>
+        </param>
+        <briefdescription>
+<para>Unmount an encrypted container. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mount_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to mounted container </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref> indicating success or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="150" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1aa2993add4aaccef2a244de4ad5a6a376" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::user_storage::EncryptionBackendInterface::isMounted</definition>
+        <argsstring>(const std::string &amp;mount_point)=0</argsstring>
+        <name>isMounted</name>
+        <qualifiedname>themis::plugins::user_storage::EncryptionBackendInterface::isMounted</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a731cc0c29cb03857714073f084e1535d">isMounted</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_point</declname>
+        </param>
+        <briefdescription>
+<para>Check if a container is currently mounted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mount_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if mounted, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="160" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae4d6cd7940216534f2da29b2424fbb25" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::plugins::user_storage::EncryptionBackendInterface::getBackendName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getBackendName</name>
+        <qualifiedname>themis::plugins::user_storage::EncryptionBackendInterface::getBackendName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a572eb23016587e1495539617b40d9e8f">getBackendName</reimplementedby>
+        <briefdescription>
+<para>Get backend name (e.g., &quot;gocryptfs&quot;, &quot;fscrypt&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="165" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a24c0538fc98746aad724928516175cd2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::plugins::user_storage::EncryptionBackendInterface::getBackendVersion</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getBackendVersion</name>
+        <qualifiedname>themis::plugins::user_storage::EncryptionBackendInterface::getBackendVersion</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1abe032546435bfce241a7bf1a4b004134">getBackendVersion</reimplementedby>
+        <briefdescription>
+<para>Get backend version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="170" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6ede73ebf8f28fcbe657bf335464e2d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::plugins::user_storage::EncryptionBackendInterface::checkAvailability</definition>
+        <argsstring>()=0</argsstring>
+        <name>checkAvailability</name>
+        <qualifiedname>themis::plugins::user_storage::EncryptionBackendInterface::checkAvailability</qualifiedname>
+        <reimplementedby refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a0c684b0192c158a359027e3000c81718">checkAvailability</reimplementedby>
+        <briefdescription>
+<para>Check if backend is available on the system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref> with error message if backend is not available </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="177" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for encryption backends. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enables pluggable encryption implementations:<itemizedlist>
+<listitem><para>gocryptfs (filesystem-level encryption)</para>
+</listitem><listitem><para>fscrypt (Linux ext4/f2fs encryption)</para>
+</listitem><listitem><para>encfs (older FUSE-based encryption)</para>
+</listitem><listitem><para>Custom implementations </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::plugins::user_storage::EncryptionBackendInterface</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface"/>
+      </node>
+      <node id="2">
+        <label>themis::plugins::user_storage::GocryptfsBackend</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/user_storage_encrypted/encryption_backend_interface.hpp" line="104" column="1" bodyfile="include/user_storage_encrypted/encryption_backend_interface.hpp" bodystart="104" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6ede73ebf8f28fcbe657bf335464e2d6" prot="public" virt="pure-virtual"><scope>themis::plugins::user_storage::EncryptionBackendInterface</scope><name>checkAvailability</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a9b82bb07f11eaab99e57d9ffd4775166" prot="public" virt="pure-virtual"><scope>themis::plugins::user_storage::EncryptionBackendInterface</scope><name>createContainer</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae4d6cd7940216534f2da29b2424fbb25" prot="public" virt="pure-virtual"><scope>themis::plugins::user_storage::EncryptionBackendInterface</scope><name>getBackendName</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a24c0538fc98746aad724928516175cd2" prot="public" virt="pure-virtual"><scope>themis::plugins::user_storage::EncryptionBackendInterface</scope><name>getBackendVersion</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6e6d63f00c64df2cdc4959b427ecd97b" prot="public" virt="pure-virtual"><scope>themis::plugins::user_storage::EncryptionBackendInterface</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1aa2993add4aaccef2a244de4ad5a6a376" prot="public" virt="pure-virtual"><scope>themis::plugins::user_storage::EncryptionBackendInterface</scope><name>isMounted</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1adb183b46addf68150eaa2299e567fdec" prot="public" virt="pure-virtual"><scope>themis::plugins::user_storage::EncryptionBackendInterface</scope><name>mountContainer</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae7b0830d46716df3f02194712cc6861c" prot="public" virt="pure-virtual"><scope>themis::plugins::user_storage::EncryptionBackendInterface</scope><name>unmountContainer</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a7fcfc7bb7ebbe6aab54c6a6ee71f48db" prot="public" virt="virtual"><scope>themis::plugins::user_storage::EncryptionBackendInterface</scope><name>~EncryptionBackendInterface</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

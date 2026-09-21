@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_flat_h_t_index" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::tensor::FlatHTIndex</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index" prot="public" virt="non-virtual">themis::tensor::IHierarchicalTuckerIndex</basecompoundref>
+    <includes refid="ht__index_8h" local="no">ht_index.h</includes>
+    <innerclass refid="structthemis_1_1tensor_1_1_flat_h_t_index_1_1_entry" prot="private">themis::tensor::FlatHTIndex::Entry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_flat_h_t_index_1a0a84fd6bcb4eac69f866166c0cd46cb7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Entry &gt;</type>
+        <definition>std::vector&lt;Entry&gt; themis::tensor::FlatHTIndex::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::tensor::FlatHTIndex::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="137" column="19" bodyfile="include/tensor/ht_index.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_flat_h_t_index_1a9ee87e651858172f8b2326cd0b75cfc7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::tensor::FlatHTIndex::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::tensor::FlatHTIndex::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="138" column="26" bodyfile="include/tensor/ht_index.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_h_t_index_1ad5c8bdf9735b9bfd8e6e4030cdcedf0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::FlatHTIndex::FlatHTIndex</definition>
+        <argsstring>()=default</argsstring>
+        <name>FlatHTIndex</name>
+        <qualifiedname>themis::tensor::FlatHTIndex::FlatHTIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_h_t_index_1a47869f6187694ac85e2a1e058239431a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::FlatHTIndex::~FlatHTIndex</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~FlatHTIndex</name>
+        <qualifiedname>themis::tensor::FlatHTIndex::~FlatHTIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="111" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_h_t_index_1ab17126a702921b6171537357263e74ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::tensor::FlatHTIndex::add</definition>
+        <argsstring>(const std::string &amp;id, HTTrain train) override</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::tensor::FlatHTIndex::add</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1aefd5ba98b7cb8b52a87b1fa8619b0d37">add</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref></type>
+          <declname>train</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="115" column="10" bodyfile="src/tensor/ht_index.cpp" bodystart="35" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_h_t_index_1a9dd5a157a092dc5444d29f96fe2e2fc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::FlatHTIndex::remove</definition>
+        <argsstring>(const std::string &amp;id) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::tensor::FlatHTIndex::remove</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1ab3723cd34547bb57336fa302cd8082d9">remove</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), std::find_if(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="116" column="10" bodyfile="src/tensor/ht_index.cpp" bodystart="53" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_h_t_index_1a40b5bfa0812f7f18894dfb966ce95b4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_h_t_search_result" kindref="compound">HTSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; HTSearchResult &gt; themis::tensor::FlatHTIndex::search</definition>
+        <argsstring>(const HTTrain &amp;query, std::size_t k) const override</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::tensor::FlatHTIndex::search</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1adf47f1a1b03049fb617e1ad7a816ba20">search</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>k-nearest-neighbour search by cosine similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> encoding the query tensor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Up to k results in descending similarity order. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="119" column="5" bodyfile="src/tensor/ht_index.cpp" bodystart="65" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_h_t_index_1a0341453d9128a881935de90512485ab7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::FlatHTIndex::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::tensor::FlatHTIndex::size</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1aa905744dcb78d47db1a57d2c0acd7241">size</reimplements>
+        <briefdescription>
+<para>Number of tensors currently stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="121" column="17" bodyfile="src/tensor/ht_index.cpp" bodystart="93" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_h_t_index_1a4e516e2c0cdd66f660611c640d35dbf5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::tensor::FlatHTIndex::serialize</definition>
+        <argsstring>() const override</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::tensor::FlatHTIndex::serialize</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1acd7782067d82ad132cfd43132450a5b1">serialize</reimplements>
+        <briefdescription>
+<para>Serialise the full index to a byte blob. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="123" column="17" bodyfile="src/tensor/ht_index.cpp" bodystart="184" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_h_t_index_1aada47135c79fb30b3a576588c9a6874f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::FlatHTIndex::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes) override</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::tensor::FlatHTIndex::deserialize</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1adb3bc26a47f43eb8d3d5af14c5b5f199">deserialize</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: data(), <ref refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a0341453d9128a881935de90512485ab7" kindref="member">size()</ref>, u64(), u8(), lk(), clear(), reserve(), std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="124" column="26" bodyfile="src/tensor/ht_index.cpp" bodystart="217" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_flat_h_t_index_1afccf45c96ae303f5bc8d5a288c528264" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; const <ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> * &gt;</type>
+        <definition>std::optional&lt; const HTTrain * &gt; themis::tensor::FlatHTIndex::get</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::tensor::FlatHTIndex::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve an <ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> by id; returns nullopt if not found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/ht_index.h" line="129" column="19" bodyfile="src/tensor/ht_index.cpp" bodystart="103" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Linear-scan Hierarchical Tucker index (<ref refid="classthemis_1_1tensor_1_1_flat_h_t_index" kindref="compound">FlatHTIndex</ref>). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Computes exact cosine similarity for every stored entry on each query; suitable for up to ~10 000 entries at modest rank.</para>
+<para>Thread safety: concurrent reads are safe; writes are serialised by an internal mutex. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::tensor::FlatHTIndex</label>
+        <link refid="classthemis_1_1tensor_1_1_flat_h_t_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IHierarchicalTuckerIndex</label>
+        <link refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::tensor::FlatHTIndex</label>
+        <link refid="classthemis_1_1tensor_1_1_flat_h_t_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IHierarchicalTuckerIndex</label>
+        <link refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/ht_index.h" line="108" column="1" bodyfile="include/tensor/ht_index.h" bodystart="108" bodyend="139"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_flat_h_t_index_1ab17126a702921b6171537357263e74ea" prot="public" virt="virtual"><scope>themis::tensor::FlatHTIndex</scope><name>add</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_h_t_index_1aada47135c79fb30b3a576588c9a6874f" prot="public" virt="virtual"><scope>themis::tensor::FlatHTIndex</scope><name>deserialize</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a0a84fd6bcb4eac69f866166c0cd46cb7" prot="private" virt="non-virtual"><scope>themis::tensor::FlatHTIndex</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_h_t_index_1ad5c8bdf9735b9bfd8e6e4030cdcedf0d" prot="public" virt="non-virtual"><scope>themis::tensor::FlatHTIndex</scope><name>FlatHTIndex</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_h_t_index_1afccf45c96ae303f5bc8d5a288c528264" prot="public" virt="non-virtual"><scope>themis::tensor::FlatHTIndex</scope><name>get</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a9ee87e651858172f8b2326cd0b75cfc7" prot="private" virt="non-virtual"><scope>themis::tensor::FlatHTIndex</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a9dd5a157a092dc5444d29f96fe2e2fc2" prot="public" virt="virtual"><scope>themis::tensor::FlatHTIndex</scope><name>remove</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a40b5bfa0812f7f18894dfb966ce95b4d" prot="public" virt="virtual"><scope>themis::tensor::FlatHTIndex</scope><name>search</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a4e516e2c0cdd66f660611c640d35dbf5" prot="public" virt="virtual"><scope>themis::tensor::FlatHTIndex</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a0341453d9128a881935de90512485ab7" prot="public" virt="virtual"><scope>themis::tensor::FlatHTIndex</scope><name>size</name></member>
+      <member refid="classthemis_1_1tensor_1_1_flat_h_t_index_1a47869f6187694ac85e2a1e058239431a" prot="public" virt="non-virtual"><scope>themis::tensor::FlatHTIndex</scope><name>~FlatHTIndex</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_hierarchical_tucker_index_1a29110057cb66044ef3b95e46c507e683" prot="public" virt="virtual"><scope>themis::tensor::FlatHTIndex</scope><name>~IHierarchicalTuckerIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

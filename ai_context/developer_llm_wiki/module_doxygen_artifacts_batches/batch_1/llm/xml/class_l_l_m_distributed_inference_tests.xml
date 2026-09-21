@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_distributed_inference_tests" kind="class" language="C++" prot="public">
+    <compoundname>LLMDistributedInferenceTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_distributed_inference_tests_1a5fab5b7da4bc9e7ec3006c97fd112ac0" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; LLMDistributedInferenceTests::shard_count</definition>
+        <argsstring></argsstring>
+        <name>shard_count</name>
+        <qualifiedname>LLMDistributedInferenceTests::shard_count</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="670" column="17" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="670" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_l_l_m_distributed_inference_tests_1ac0dee8b1f550c42c3f4b80bd79c1f61a" prot="protected" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex LLMDistributedInferenceTests::coordinator_lock</definition>
+        <argsstring></argsstring>
+        <name>coordinator_lock</name>
+        <qualifiedname>LLMDistributedInferenceTests::coordinator_lock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="671" column="16" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="671" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMDistributedInferenceTests</label>
+        <link refid="class_l_l_m_distributed_inference_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMDistributedInferenceTests</label>
+        <link refid="class_l_l_m_distributed_inference_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_phase1_hardening.cpp" line="668" column="1" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="668" bodyend="672"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_distributed_inference_tests_1ac0dee8b1f550c42c3f4b80bd79c1f61a" prot="protected" virt="non-virtual"><scope>LLMDistributedInferenceTests</scope><name>coordinator_lock</name></member>
+      <member refid="class_l_l_m_distributed_inference_tests_1a5fab5b7da4bc9e7ec3006c97fd112ac0" prot="protected" virt="non-virtual"><scope>LLMDistributedInferenceTests</scope><name>shard_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

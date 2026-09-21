@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_memory_shard_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::MemoryShardSpec</compoundname>
+    <includes refid="huggingface__hub__client_8h" local="no">huggingface_hub_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_memory_shard_spec_1abb7b84bf3989e411dfcc8387018e55ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::MemoryShardSpec::relative_path</definition>
+        <argsstring></argsstring>
+        <name>relative_path</name>
+        <qualifiedname>themis::exporters::MemoryShardSpec::relative_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="78" column="17" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_memory_shard_spec_1a3bd389a74e5810d564492476eda8acfe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; char &gt;</type>
+        <definition>std::vector&lt;char&gt; themis::exporters::MemoryShardSpec::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::exporters::MemoryShardSpec::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="79" column="17" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/huggingface_hub_client.h" line="77" column="1" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="77" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_memory_shard_spec_1a3bd389a74e5810d564492476eda8acfe" prot="public" virt="non-virtual"><scope>themis::exporters::MemoryShardSpec</scope><name>content</name></member>
+      <member refid="structthemis_1_1exporters_1_1_memory_shard_spec_1abb7b84bf3989e411dfcc8387018e55ad" prot="public" virt="non-virtual"><scope>themis::exporters::MemoryShardSpec</scope><name>relative_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

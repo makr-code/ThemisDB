@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_three_tier_query_test" kind="class" language="C++" prot="public">
+    <compoundname>ThreeTierQueryTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_three_tier_query_test_1a64cb128276192ded9d4c795d45a4de0a" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store" kindref="compound">TemporalColdStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TemporalColdStore&gt; ThreeTierQueryTest::cold</definition>
+        <argsstring></argsstring>
+        <name>cold</name>
+        <qualifiedname>ThreeTierQueryTest::cold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_tier_manager.cpp" line="345" column="21" bodyfile="tests/temporal/test_temporal_tier_manager.cpp" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_three_tier_query_test_1af5e7ad16933128c996c78c1dcda63f7d" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager" kindref="compound">TemporalTierManager</ref> *</type>
+        <definition>TemporalTierManager* ThreeTierQueryTest::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>ThreeTierQueryTest::mgr</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_tier_manager.cpp" line="346" column="25" bodyfile="tests/temporal/test_temporal_tier_manager.cpp" bodystart="346" bodyend="346"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_three_tier_query_test_1aebc5d2c4e4465124fdd74d5301000535" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ThreeTierQueryTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ThreeTierQueryTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_tier_manager.cpp" line="348" column="10" bodyfile="tests/temporal/test_temporal_tier_manager.cpp" bodystart="348" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="class_three_tier_query_test_1aa9a4332d6772935e4fd2e4116637eb7a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ThreeTierQueryTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ThreeTierQueryTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_tier_manager.cpp" line="364" column="10" bodyfile="tests/temporal/test_temporal_tier_manager.cpp" bodystart="364" bodyend="364"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ThreeTierQueryTest</label>
+        <link refid="class_three_tier_query_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ThreeTierQueryTest</label>
+        <link refid="class_three_tier_query_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mgr</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TemporalTierManager</label>
+        <link refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_tier_manager.cpp" line="343" column="1" bodyfile="tests/temporal/test_temporal_tier_manager.cpp" bodystart="343" bodyend="365"/>
+    <listofallmembers>
+      <member refid="class_three_tier_query_test_1a64cb128276192ded9d4c795d45a4de0a" prot="protected" virt="non-virtual"><scope>ThreeTierQueryTest</scope><name>cold</name></member>
+      <member refid="class_three_tier_query_test_1af5e7ad16933128c996c78c1dcda63f7d" prot="protected" virt="non-virtual"><scope>ThreeTierQueryTest</scope><name>mgr</name></member>
+      <member refid="class_three_tier_query_test_1aebc5d2c4e4465124fdd74d5301000535" prot="protected" virt="non-virtual"><scope>ThreeTierQueryTest</scope><name>SetUp</name></member>
+      <member refid="class_three_tier_query_test_1aa9a4332d6772935e4fd2e4116637eb7a" prot="protected" virt="non-virtual"><scope>ThreeTierQueryTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

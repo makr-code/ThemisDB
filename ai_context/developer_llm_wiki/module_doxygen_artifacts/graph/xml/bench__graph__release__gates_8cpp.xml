@@ -1,0 +1,658 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__graph__release__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_graph_release_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="yes">graph/query_planner.h</includes>
+    <includes local="yes">graph/graph_traversal.h</includes>
+    <includes refid="knowledge__graph__reasoner_8h" local="yes">graph/knowledge_graph_reasoner.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/graph/bench_graph_release_gates.cpp</label>
+        <link refid="bench__graph__release__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>graph/knowledge_graph_reasoner.h</label>
+        <link refid="knowledge__graph__reasoner_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>graph/graph_traversal.h</label>
+      </node>
+      <node id="3">
+        <label>graph/query_planner.h</label>
+      </node>
+      <node id="10">
+        <label>list</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>themis/export.h</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>unordered_set</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_graph_optimization_fixture" prot="public">GraphOptimizationFixture</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1a6babd97a790d764fab27580a77a7656a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t kGrgCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kGrgCanonicalSeed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical seed for all Graph benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="65" column="27" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1a9d31281e8728c8ccb2a56410f88ba640" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="68" column="22" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" prot="public" static="no" mutable="no">
+        <type>benchmark::State &amp;</type>
+        <definition>benchmark::State &amp; state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <initializer>{
+    TraversalQuery <ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="99" column="18" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1a1fc38ecb33efa6960db45184bc09c7a0" prot="public" static="no" mutable="no">
+        <type><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref></type>
+        <definition>query start_vertex_id</definition>
+        <argsstring></argsstring>
+        <name>start_vertex_id</name>
+        <initializer>= &quot;v0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="101" column="10" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1a27328d5307a4bcb2ce9731495ace07d5" prot="public" static="no" mutable="no">
+        <type><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref></type>
+        <definition>query depth_limit</definition>
+        <argsstring></argsstring>
+        <name>depth_limit</name>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="102" column="10" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1a5a4ec807ee7fa2424bd471f55335e36a" prot="public" static="no" mutable="no">
+        <type><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref></type>
+        <definition>query max_results</definition>
+        <argsstring></argsstring>
+        <name>max_results</name>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="103" column="10" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" prot="public" static="no" mutable="no">
+        <type>auto</type>
+        <definition>auto plan</definition>
+        <argsstring></argsstring>
+        <name>plan</name>
+        <initializer>= planner_-&gt;planTraversal(<ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="128" column="10" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" prot="public" static="no" mutable="no">
+        <type>TraversalQuery</type>
+        <definition>LinkPredictionQuery query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="158" column="20" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1a9e158cabe159ffcc172d0e3578b90448" prot="public" static="no" mutable="no">
+        <type><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref></type>
+        <definition>query constraints</definition>
+        <argsstring></argsstring>
+        <name>constraints</name>
+        <initializer>= constraints</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="159" column="10" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1ac72a771ea2b869ce89fd02dff768f05f" prot="public" static="no" mutable="no">
+        <type><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref></type>
+        <definition>query source_entity</definition>
+        <argsstring></argsstring>
+        <name>source_entity</name>
+        <initializer>= &quot;entity_1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="236" column="10" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1af8865e4576aa090bf83e1c115efa8280" prot="public" static="no" mutable="no">
+        <type><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref></type>
+        <definition>query target_entity</definition>
+        <argsstring></argsstring>
+        <name>target_entity</name>
+        <initializer>= &quot;entity_2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="237" column="10" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1a9e6bd034e42fe35816c6e1eb0dfad260" prot="public" static="no" mutable="no">
+        <type><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref></type>
+        <definition>query relation</definition>
+        <argsstring></argsstring>
+        <name>relation</name>
+        <initializer>= &quot;relation_1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="238" column="10" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__graph__release__gates_8cpp_1a23b8897b7a37a8919cd5df0c0fe8335f" prot="public" static="no" mutable="no">
+        <type><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref></type>
+        <definition>query topk</definition>
+        <argsstring></argsstring>
+        <name>topk</name>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="239" column="10" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="239" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__graph__release__gates_8cpp_1ad6a7b6b73caa2bc27f897bd23d8740ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>for</definition>
+        <argsstring>(auto _ :state)</argsstring>
+        <name>for</name>
+        <param>
+          <type>auto _ :<ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="105" column="5" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="105" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__graph__release__gates_8cpp_1ab66f823899ff34acba815a6fbbccf4ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        <definition>state SetItemsProcessed</definition>
+        <argsstring>(state.iterations())</argsstring>
+        <name>SetItemsProcessed</name>
+        <param>
+          <type>state.</type>
+          <declname>iterations</declname>
+          <array>()</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="109" column="10" declfile="benchmarks/graph/bench_graph_release_gates.cpp" declline="109" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__graph__release__gates_8cpp_1a936aec74f365aa737a6d990e95746f7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMicrosecond) -&gt; Repetitions(kRepetitions) -&gt;Iterations(500) -&gt;UseRealTime()</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMicrosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="112" column="5" declfile="benchmarks/graph/bench_graph_release_gates.cpp" declline="112" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__graph__release__gates_8cpp_1aedf1ea67d0861e399ea290886f4033ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>for</definition>
+        <argsstring>(int i=0;i&lt; 10;++i)</argsstring>
+        <name>for</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="151" column="5" bodyfile="benchmarks/graph/bench_graph_release_gates.cpp" bodystart="151" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__graph__release__gates_8cpp_1ac72d75947dfa33713de88745de2f6476" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        <definition>state SetItemsProcessed</definition>
+        <argsstring>(state.iterations() *10)</argsstring>
+        <name>SetItemsProcessed</name>
+        <param>
+          <type>state.iterations() *</type>
+          <declname>10</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_release_gates.cpp" line="165" column="10" declfile="benchmarks/graph/bench_graph_release_gates.cpp" declline="165" declcolumn="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 5 graph module query optimizer and traversal release-gate benchmarks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides reproducible latency and throughput measurements for the graph optimizer and traversal hot paths identified in the graph module roadmap (Phase 5 — Performance and Hardening). Results are used as release gates; a regression beyond 10% vs. the baseline blocks promotion.</para>
+<sect1 id="bench__graph__release__gates_8cpp_1autotoc_md3_1s1"><sect2 id="bench__graph__release__gates_8cpp_1autotoc_md3">
+<title>Benchmark families</title><para><heading level="3">GRG-01..03 — Query optimizer hot paths</heading>
+</para>
+<para>GRG-01 QueryPlanner::planTraversal() with constraint-aware optimization GRG-02 ExplainPlan::explain() generation for decision analysis GRG-03 ConstraintResolver::resolveConstraints() with 10 constraints</para>
+<para><heading level="3">GRG-04..05 — Traversal execution</heading>
+</para>
+<para>GRG-04 GraphTraversal::dfs() on 1K-node graph, depth=5 GRG-05 GraphTraversal::bfs() on 10K-node graph, depth=3</para>
+<para><heading level="3">GRG-06 — Reasoning integration</heading>
+</para>
+<para>GRG-06 <ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner" kindref="compound">KnowledgeGraphReasoner</ref> link prediction with RotatE embeddings</para>
+</sect2></sect1>
+<sect1 id="bench__graph__release__gates_8cpp_1autotoc_md4_1s1"><sect2 id="bench__graph__release__gates_8cpp_1autotoc_md4">
+<title>Hard release gates</title><para><table rows="7" cols="3"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Benchmark  </para>
+</entry><entry thead="yes"><para>Threshold  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-GRG-01  </para>
+</entry><entry thead="no"><para>GRG-01  </para>
+</entry><entry thead="no"><para>p99 ≤ 1 ms (plan)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-GRG-02  </para>
+</entry><entry thead="no"><para>GRG-02  </para>
+</entry><entry thead="no"><para>p99 ≤ 500 µs (explain)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-GRG-03  </para>
+</entry><entry thead="no"><para>GRG-03  </para>
+</entry><entry thead="no"><para>p99 ≤ 200 µs (constraints)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-GRG-04  </para>
+</entry><entry thead="no"><para>GRG-04  </para>
+</entry><entry thead="no"><para>p99 ≤ 10 ms (dfs 1K)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-GRG-05  </para>
+</entry><entry thead="no"><para>GRG-05  </para>
+</entry><entry thead="no"><para>p99 ≤ 50 ms (bfs 10K)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-GRG-06  </para>
+</entry><entry thead="no"><para>GRG-06  </para>
+</entry><entry thead="no"><para>p99 ≤ 100 µs (reasoning)  </para>
+</entry></row>
+</table>
+</para>
+<para>All benchmarks:<itemizedlist>
+<listitem><para>Use kGrgCanonicalSeed = 42 for deterministic graph generation.</para>
+</listitem><listitem><para>Run with Repetitions(kRepetitions) to capture variance.</para>
+</listitem><listitem><para>Synthetic graph fixtures with controlled fan-out and depth.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>src/graph/ROADMAP.md — Phase 5 items </para>
+</simplesect>
+<simplesect kind="see"><para>include/graph/query_planner.h — <ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref> optimization </para>
+</simplesect>
+<simplesect kind="see"><para>include/graph/graph_traversal.h — traversal engines </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;graph/query_planner.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;graph/graph_traversal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="knowledge__graph__reasoner_8h" kindref="compound">graph/knowledge_graph_reasoner.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">themis::graph</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants<sp/>—<sp/>deterministic,<sp/>release-pinned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kGrgCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRepetitions<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="class_graph_optimization_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryPlanner&gt;<sp/><ref refid="class_graph_optimization_fixture_1a5fa4607d73b5193b6aab0929850cc665" kindref="member">planner_</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GraphTraversal&gt;<sp/><ref refid="class_graph_optimization_fixture_1a116b539d711cf7da69a6a1b72e0792b0" kindref="member">traversal_</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;KnowledgeGraphReasoner&gt;<sp/><ref refid="class_graph_optimization_fixture_1a2849e7d9ac8d72a0e528c4157b4c65a2" kindref="member">reasoner_</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graph_optimization_fixture_1a6e8ccd7ac286d86cbd18b449928fff06" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_optimization_fixture_1a5fa4607d73b5193b6aab0929850cc665" kindref="member">planner_</ref><sp/>=<sp/>std::make_unique&lt;QueryPlanner&gt;();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_optimization_fixture_1a116b539d711cf7da69a6a1b72e0792b0" kindref="member">traversal_</ref><sp/>=<sp/>std::make_unique&lt;GraphTraversal&gt;();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_optimization_fixture_1a2849e7d9ac8d72a0e528c4157b4c65a2" kindref="member">reasoner_</ref><sp/>=<sp/>std::make_unique&lt;KnowledgeGraphReasoner&gt;();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_graph_optimization_fixture_1a49509066c98b1fa01d8285821a3e19ad" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_optimization_fixture_1a5fa4607d73b5193b6aab0929850cc665" kindref="member">planner_</ref>.reset();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_optimization_fixture_1a116b539d711cf7da69a6a1b72e0792b0" kindref="member">traversal_</ref>.reset();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_graph_optimization_fixture_1a2849e7d9ac8d72a0e528c4157b4c65a2" kindref="member">reasoner_</ref>.reset();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRG-01:<sp/>QueryPlanner::planTraversal()<sp/>with<sp/>constraint-aware<sp/>optimization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>1<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="bench__gnn__embeddings_8cpp_1a10dfb561917147b286941bc9a2e73fc7" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG01_PlanTraversal)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>TraversalQuery<sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.start_vertex_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.depth_limit<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.max_results<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref><sp/>=<sp/>planner_-&gt;planTraversal(<ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(<ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG01_PlanTraversal)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(500)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRG-02:<sp/>ExplainPlan::explain()<sp/>generation<sp/>for<sp/>decision<sp/>analysis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>500<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="bench__gnn__embeddings_8cpp_1a10dfb561917147b286941bc9a2e73fc7" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG02_ExplainPlan)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>TraversalQuery<sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.start_vertex_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.depth_limit<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref><sp/>=<sp/>planner_-&gt;planTraversal(<ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>explain<sp/>=<sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>-&gt;explain();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(explain);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG02_ExplainPlan)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(1000)</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRG-03:<sp/>ConstraintResolver::resolveConstraints()<sp/>with<sp/>10<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>200<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="bench__gnn__embeddings_8cpp_1a10dfb561917147b286941bc9a2e73fc7" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG03_ResolveConstraints)</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryConstraint&gt;<sp/><ref refid="bench__graph__release__gates_8cpp_1a9e158cabe159ffcc172d0e3578b90448" kindref="member">constraints</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QueryConstraint<sp/>c;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.property<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;prop_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.value<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;value_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a9e158cabe159ffcc172d0e3578b90448" kindref="member">constraints</ref>.push_back(c);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>TraversalQuery<sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.constraints<sp/>=<sp/><ref refid="bench__graph__release__gates_8cpp_1a9e158cabe159ffcc172d0e3578b90448" kindref="member">constraints</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolved<sp/>=<sp/>planner_-&gt;resolveConstraints(<ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(resolved);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations()<sp/>*<sp/>10);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG03_ResolveConstraints)</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(1000)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRG-04:<sp/>GraphTraversal::dfs()<sp/>on<sp/>1K-node<sp/>graph,<sp/>depth=5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>10<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="bench__gnn__embeddings_8cpp_1a10dfb561917147b286941bc9a2e73fc7" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG04_DfsTraversal1K)</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>traversal<sp/>engine<sp/>with<sp/>1K-node<sp/>synthetic<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>traversal_-&gt;initializeSyntheticGraph(1000,<sp/>kGrgCanonicalSeed);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>TraversalQuery<sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.start_vertex_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.depth_limit<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>traversal_-&gt;dfs(<ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG04_DfsTraversal1K)</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(50)</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRG-05:<sp/>GraphTraversal::bfs()<sp/>on<sp/>10K-node<sp/>graph,<sp/>depth=3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>50<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="bench__gnn__embeddings_8cpp_1a10dfb561917147b286941bc9a2e73fc7" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG05_BfsTraversal10K)</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>traversal<sp/>engine<sp/>with<sp/>10K-node<sp/>synthetic<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>traversal_-&gt;initializeSyntheticGraph(10000,<sp/>kGrgCanonicalSeed);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>TraversalQuery<sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.start_vertex_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.depth_limit<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>traversal_-&gt;bfs(<ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG05_BfsTraversal10K)</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(20)</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRG-06:<sp/>KnowledgeGraphReasoner<sp/>link<sp/>prediction<sp/>with<sp/>RotatE<sp/>embeddings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>100<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><ref refid="bench__gnn__embeddings_8cpp_1a10dfb561917147b286941bc9a2e73fc7" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG06_LinkPrediction)</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>RotatE<sp/>embeddings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>reasoner_-&gt;loadEmbeddings(</highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>LinkPredictionQuery<sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.source_entity<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;entity_1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.target_entity<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;entity_2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.relation<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;relation_1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>.topk<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>predictions<sp/>=<sp/>reasoner_-&gt;predictLinks(<ref refid="bench__graph__release__gates_8cpp_1a852719a2d68f43d156b029bdce4949bb" kindref="member">query</ref>);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(predictions);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__graph__release__gates_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_graph_optimization_fixture" kindref="compound">GraphOptimizationFixture</ref>,<sp/>GRG06_LinkPrediction)</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(2000)</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/graph/bench_graph_release_gates.cpp"/>
+  </compounddef>
+</doxygen>

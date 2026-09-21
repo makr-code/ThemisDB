@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_allocation_hint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::AllocationHint</compoundname>
+    <includes refid="numa__memory__manager_8h" local="no">numa_memory_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_allocation_hint_1abe44fd83d5d0e2b0156a564e4e4a2de0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::AllocationHint::preferred_node</definition>
+        <argsstring></argsstring>
+        <name>preferred_node</name>
+        <qualifiedname>themis::performance::AllocationHint::preferred_node</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>Preferred NUMA node (-1 = auto-detect from calling thread). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="50" column="9" bodyfile="include/performance/numa_memory_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_allocation_hint_1ab8f51e4421b78f1a3006622ba0038481" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::AllocationHint::allow_migration</definition>
+        <argsstring></argsstring>
+        <name>allow_migration</name>
+        <qualifiedname>themis::performance::AllocationHint::allow_migration</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Allow the kernel to migrate this allocation to a better node later. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="52" column="10" bodyfile="include/performance/numa_memory_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_allocation_hint_1a226df264b48e001e2a1bc5ac404a05d9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::AllocationHint::use_huge_pages</definition>
+        <argsstring></argsstring>
+        <name>use_huge_pages</name>
+        <qualifiedname>themis::performance::AllocationHint::use_huge_pages</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Request huge-page backing (transparent huge-pages on Linux). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="54" column="10" bodyfile="include/performance/numa_memory_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hint supplied by the caller to guide NUMA allocation decisions. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/numa_memory_manager.h" line="48" column="1" bodyfile="include/performance/numa_memory_manager.h" bodystart="48" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_allocation_hint_1ab8f51e4421b78f1a3006622ba0038481" prot="public" virt="non-virtual"><scope>themis::performance::AllocationHint</scope><name>allow_migration</name></member>
+      <member refid="structthemis_1_1performance_1_1_allocation_hint_1abe44fd83d5d0e2b0156a564e4e4a2de0" prot="public" virt="non-virtual"><scope>themis::performance::AllocationHint</scope><name>preferred_node</name></member>
+      <member refid="structthemis_1_1performance_1_1_allocation_hint_1a226df264b48e001e2a1bc5ac404a05d9" prot="public" virt="non-virtual"><scope>themis::performance::AllocationHint</scope><name>use_huge_pages</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

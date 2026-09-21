@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_context_propagation" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::ContextPropagation</compoundname>
+    <includes refid="context__propagation_8h" local="no">context_propagation.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1core_1_1concerns_1_1_context_propagation_1a2866aa0f94eedf47f5341709ac89b15b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class ContextScope</definition>
+        <argsstring></argsstring>
+        <name>ContextScope</name>
+        <qualifiedname>themis::core::concerns::ContextPropagation::ContextScope</qualifiedname>
+        <param>
+          <type>ContextScope</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="43" column="18" bodyfile="include/core/concerns/context_propagation.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_context_propagation_1a046d1ca044163d859e52942c40580f3a" prot="private" static="yes" mutable="no" thread_local="yes">
+        <type><ref refid="namespacethemis_1_1core_1_1concerns_1a831cdd39cc5d78686339175934e5c26a" kindref="member">IContextPtr</ref></type>
+        <definition>IContextPtr themis::core::concerns::ContextPropagation::current_</definition>
+        <argsstring></argsstring>
+        <name>current_</name>
+        <qualifiedname>themis::core::concerns::ContextPropagation::current_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="45" column="37" bodyfile="include/core/concerns/context_propagation.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_context_propagation_1a38d2a5e5b05f14e22774b046193568cb" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1core_1_1concerns_1a831cdd39cc5d78686339175934e5c26a" kindref="member">IContextPtr</ref></type>
+        <definition>static IContextPtr themis::core::concerns::ContextPropagation::current</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>current</name>
+        <qualifiedname>themis::core::concerns::ContextPropagation::current</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="27" column="24" bodyfile="include/core/concerns/context_propagation.h" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_context_propagation_1a16bd46f0732fd962060053070ceecdd5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Fn</type>
+          </param>
+        </templateparamlist>
+        <type>std::future&lt; std::invoke_result_t&lt; Fn &gt; &gt;</type>
+        <definition>std::future&lt; std::invoke_result_t&lt; Fn &gt; &gt; themis::core::concerns::ContextPropagation::propagate</definition>
+        <argsstring>(Fn &amp;&amp;fn)</argsstring>
+        <name>propagate</name>
+        <qualifiedname>themis::core::concerns::ContextPropagation::propagate</qualifiedname>
+        <param>
+          <type>Fn &amp;&amp;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Propagate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Install the propagated context for the duration of this task. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="37" column="17" bodyfile="include/core/concerns/context_propagation.h" bodystart="86" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_context_propagation_1ada022512bfd8dac113c7d355e3352e76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::ContextPropagation::ContextPropagation</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ContextPropagation</name>
+        <qualifiedname>themis::core::concerns::ContextPropagation::ContextPropagation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/context_propagation.h" line="40" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/context_propagation.h" line="25" column="1" bodyfile="include/core/concerns/context_propagation.h" bodystart="25" bodyend="46"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_propagation_1ada022512bfd8dac113c7d355e3352e76" prot="public" virt="non-virtual"><scope>themis::core::concerns::ContextPropagation</scope><name>ContextPropagation</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_propagation_1a2866aa0f94eedf47f5341709ac89b15b" prot="private" virt="non-virtual"><scope>themis::core::concerns::ContextPropagation</scope><name>ContextScope</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_propagation_1a38d2a5e5b05f14e22774b046193568cb" prot="public" virt="non-virtual"><scope>themis::core::concerns::ContextPropagation</scope><name>current</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_propagation_1a046d1ca044163d859e52942c40580f3a" prot="private" virt="non-virtual"><scope>themis::core::concerns::ContextPropagation</scope><name>current_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_context_propagation_1a16bd46f0732fd962060053070ceecdd5" prot="public" virt="non-virtual"><scope>themis::core::concerns::ContextPropagation</scope><name>propagate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

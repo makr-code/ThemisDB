@@ -1,0 +1,567 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_bpmn_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::BpmnApiHandler</compoundname>
+    <includes refid="bpmn__api__handler_8h" local="no">bpmn_api_handler.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_bpmn_api_handler_1_1_auth_context" prot="public">themis::server::BpmnApiHandler::AuthContext</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_bpmn_api_handler_1a01ea8357f2cd478ea19bbc37ebafd05f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ProcessGraphManager &gt;</type>
+        <definition>std::shared_ptr&lt;ProcessGraphManager&gt; themis::server::BpmnApiHandler::process_graph_</definition>
+        <argsstring></argsstring>
+        <name>process_graph_</name>
+        <qualifiedname>themis::server::BpmnApiHandler::process_graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/bpmn_api_handler.h" line="64" column="21" bodyfile="include/server/bpmn_api_handler.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_bpmn_api_handler_1ac7ffa0cc5274b1c2e724bccb4a39504f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::BpmnApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::BpmnApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/bpmn_api_handler.h" line="65" column="21" bodyfile="include/server/bpmn_api_handler.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_bpmn_api_handler_1a06182ad34ae02e35cdeb3c44c7e3bde2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::BpmnApiHandler::BpmnApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; ProcessGraphManager &gt; process_graph, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>BpmnApiHandler</name>
+        <qualifiedname>themis::server::BpmnApiHandler::BpmnApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ProcessGraphManager &gt;</type>
+          <declname>process_graph</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/bpmn_api_handler.h" line="37" column="5" bodyfile="src/server/bpmn_api_handler.cpp" bodystart="47" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_bpmn_api_handler_1a39c4d5841a99e050bb6159bb40e48af2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BpmnApiHandler::handleStartProcess</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStartProcess</name>
+        <qualifiedname>themis::server::BpmnApiHandler::handleStartProcess</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Start Process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), requireAccess(), makeErrorResponse(), json::parse(), body(), value(), json::object(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/bpmn_api_handler.h" line="47" column="20" bodyfile="src/server/bpmn_api_handler.cpp" bodystart="217" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_bpmn_api_handler_1aa6e8005358caa264f06fd5f34561abe8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BpmnApiHandler::handleTaskComplete</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleTaskComplete</name>
+        <qualifiedname>themis::server::BpmnApiHandler::handleTaskComplete</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Task Complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), requireAccess(), makeErrorResponse(), std::string(), target(), size(), find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/bpmn_api_handler.h" line="54" column="20" bodyfile="src/server/bpmn_api_handler.cpp" bodystart="328" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_bpmn_api_handler_1ad772f14d929a744e00baff504eaa6628" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BpmnApiHandler::handleQueryInstance</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleQueryInstance</name>
+        <qualifiedname>themis::server::BpmnApiHandler::handleQueryInstance</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Query Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), requireAccess(), makeErrorResponse(), std::string(), target(), extractPathParam(), empty(), isValidBpmnIdentifier(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/bpmn_api_handler.h" line="61" column="20" bodyfile="src/server/bpmn_api_handler.cpp" bodystart="430" bodyend="569"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_bpmn_api_handler_1a4f8b34af1de78675e6065e50c2117dd7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::BpmnApiHandler::extractPathParam</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;prefix)</argsstring>
+        <name>extractPathParam</name>
+        <qualifiedname>themis::server::BpmnApiHandler::extractPathParam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Extract Path Param. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/bpmn_api_handler.h" line="74" column="17" bodyfile="src/server/bpmn_api_handler.cpp" bodystart="149" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_bpmn_api_handler_1aa841c24c20766a81f4babdd984b53eba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BpmnApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::BpmnApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), dump(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/bpmn_api_handler.h" line="82" column="20" bodyfile="src/server/bpmn_api_handler.cpp" bodystart="171" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_bpmn_api_handler_1a3249e91993c1be40b03f218ff7a13403" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::BpmnApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::BpmnApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/bpmn_api_handler.h" line="91" column="20" bodyfile="src/server/bpmn_api_handler.cpp" bodystart="197" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_bpmn_api_handler_1a702b88474ee6352945972119b5e412a7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_bpmn_api_handler_1_1_auth_context" kindref="compound">AuthContext</ref></type>
+        <definition>BpmnApiHandler::AuthContext themis::server::BpmnApiHandler::extractAuthContext</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>extractAuthContext</name>
+        <qualifiedname>themis::server::BpmnApiHandler::extractAuthContext</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Extract Auth Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/bpmn_api_handler.h" line="100" column="17" bodyfile="src/server/bpmn_api_handler.cpp" bodystart="56" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_bpmn_api_handler_1adb1afab3fda514432a84453dddf3190a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; http::response&lt; http::string_body &gt; &gt;</type>
+        <definition>std::optional&lt; http::response&lt; http::string_body &gt; &gt; themis::server::BpmnApiHandler::requireAccess</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;scope, const std::string &amp;action, const std::string &amp;resource)</argsstring>
+        <name>requireAccess</name>
+        <qualifiedname>themis::server::BpmnApiHandler::requireAccess</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Require Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), empty(), makeErrorResponse(), <ref refid="classthemis_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" kindref="member">themis::AuthMiddleware::extractBearerToken()</ref>, std::string_view(), data(), size(), authorize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/bpmn_api_handler.h" line="109" column="19" bodyfile="src/server/bpmn_api_handler.cpp" bodystart="99" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/bpmn_api_handler.h" line="30" column="1" bodyfile="include/server/bpmn_api_handler.h" bodystart="30" bodyend="115"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_bpmn_api_handler_1ac7ffa0cc5274b1c2e724bccb4a39504f" prot="private" virt="non-virtual"><scope>themis::server::BpmnApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_bpmn_api_handler_1a06182ad34ae02e35cdeb3c44c7e3bde2" prot="public" virt="non-virtual"><scope>themis::server::BpmnApiHandler</scope><name>BpmnApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_bpmn_api_handler_1a702b88474ee6352945972119b5e412a7" prot="private" virt="non-virtual"><scope>themis::server::BpmnApiHandler</scope><name>extractAuthContext</name></member>
+      <member refid="classthemis_1_1server_1_1_bpmn_api_handler_1a4f8b34af1de78675e6065e50c2117dd7" prot="private" virt="non-virtual"><scope>themis::server::BpmnApiHandler</scope><name>extractPathParam</name></member>
+      <member refid="classthemis_1_1server_1_1_bpmn_api_handler_1ad772f14d929a744e00baff504eaa6628" prot="public" virt="non-virtual"><scope>themis::server::BpmnApiHandler</scope><name>handleQueryInstance</name></member>
+      <member refid="classthemis_1_1server_1_1_bpmn_api_handler_1a39c4d5841a99e050bb6159bb40e48af2" prot="public" virt="non-virtual"><scope>themis::server::BpmnApiHandler</scope><name>handleStartProcess</name></member>
+      <member refid="classthemis_1_1server_1_1_bpmn_api_handler_1aa6e8005358caa264f06fd5f34561abe8" prot="public" virt="non-virtual"><scope>themis::server::BpmnApiHandler</scope><name>handleTaskComplete</name></member>
+      <member refid="classthemis_1_1server_1_1_bpmn_api_handler_1aa841c24c20766a81f4babdd984b53eba" prot="private" virt="non-virtual"><scope>themis::server::BpmnApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_bpmn_api_handler_1a3249e91993c1be40b03f218ff7a13403" prot="private" virt="non-virtual"><scope>themis::server::BpmnApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_bpmn_api_handler_1a01ea8357f2cd478ea19bbc37ebafd05f" prot="private" virt="non-virtual"><scope>themis::server::BpmnApiHandler</scope><name>process_graph_</name></member>
+      <member refid="classthemis_1_1server_1_1_bpmn_api_handler_1adb1afab3fda514432a84453dddf3190a" prot="private" virt="non-virtual"><scope>themis::server::BpmnApiHandler</scope><name>requireAccess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,633 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__circuit__breaker__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_circuit_breaker_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="i__circuit__breaker_8h" local="yes">core/concerns/i_circuit_breaker.h</includes>
+    <includes refid="noop__implementations_8h" local="yes">core/concerns/noop_implementations.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="26">
+        <label>core/concerns/i_audit_log.h</label>
+        <link refid="i__audit__log_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>core/concerns/i_cache.h</label>
+        <link refid="i__cache_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>core/concerns/i_circuit_breaker.h</label>
+        <link refid="i__circuit__breaker_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>core/concerns/i_feature_flags.h</label>
+        <link refid="i__feature__flags_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>core/concerns/i_logger.h</label>
+        <link refid="i__logger_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>core/concerns/i_metrics.h</label>
+        <link refid="i__metrics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>core/concerns/i_secrets.h</label>
+        <link refid="i__secrets_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>core/concerns/i_tracer.h</label>
+        <link refid="i__tracer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>core/concerns/lifecycle.h</label>
+        <link refid="lifecycle_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>core/concerns/noop_implementations.h</label>
+        <link refid="noop__implementations_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/core/test_circuit_breaker_focused.cpp</label>
+        <link refid="test__circuit__breaker__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="19">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="12">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="25">
+        <label>mutex</label>
+      </node>
+      <node id="18">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>sharding/circuit_breaker.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>type_traits</label>
+      </node>
+      <node id="23">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>utility</label>
+      </node>
+      <node id="21">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__circuit__breaker__focused_8cpp_1a8d6ef724d070e8e9d89293a39eee7d4b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker" kindref="compound">DefaultCircuitBreaker</ref></type>
+        <definition>static DefaultCircuitBreaker makeBreaker</definition>
+        <argsstring>(size_t threshold=3, std::chrono::seconds timeout=std::chrono::seconds(0), size_t success_threshold=1)</argsstring>
+        <name>makeBreaker</name>
+        <param>
+          <type>size_t</type>
+          <declname>threshold</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds(0)</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>success_threshold</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Build a <ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker" kindref="compound">DefaultCircuitBreaker</ref> with a low failure threshold and zero timeout so OPEN→HALF_OPEN transitions happen immediately in tests. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_circuit_breaker_focused.cpp" line="16" column="30" bodyfile="tests/core/test_circuit_breaker_focused.cpp" bodystart="16" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="test__circuit__breaker__focused_8cpp_1a79036f7991872327203cf2d5f2400636" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void tripBreaker</definition>
+        <argsstring>(ICircuitBreaker &amp;cb, size_t n)</argsstring>
+        <name>tripBreaker</name>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker" kindref="compound">ICircuitBreaker</ref> &amp;</type>
+          <declname>cb</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Trip the circuit by calling recordFailure() <computeroutput>n</computeroutput> times. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_circuit_breaker_focused.cpp" line="27" column="13" bodyfile="tests/core/test_circuit_breaker_focused.cpp" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__circuit__breaker__focused_8cpp_1a22c04b64f29f38ec1b853c874077cda3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CircuitBreakerTest, CB_01_ClosedStateExecutesFn)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CircuitBreakerTest</type>
+        </param>
+        <param>
+          <type>CB_01_ClosedStateExecutesFn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_circuit_breaker_focused.cpp" line="36" column="1" bodyfile="tests/core/test_circuit_breaker_focused.cpp" bodystart="36" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__circuit__breaker__focused_8cpp_1a2291a58f8f0d03426096f3ead0ea253f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CircuitBreakerTest, CB_02_OpenAfterThreshold_CallUsesFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CircuitBreakerTest</type>
+        </param>
+        <param>
+          <type>CB_02_OpenAfterThreshold_CallUsesFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_circuit_breaker_focused.cpp" line="55" column="1" bodyfile="tests/core/test_circuit_breaker_focused.cpp" bodystart="55" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__circuit__breaker__focused_8cpp_1ad05354c8a4444e4dd37fe84a3d8481e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CircuitBreakerTest, CB_03_GetStateOpenAfterThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CircuitBreakerTest</type>
+        </param>
+        <param>
+          <type>CB_03_GetStateOpenAfterThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_circuit_breaker_focused.cpp" line="74" column="1" bodyfile="tests/core/test_circuit_breaker_focused.cpp" bodystart="74" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__circuit__breaker__focused_8cpp_1acc8c192c92dd628f231bd3da749003ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CircuitBreakerTest, CB_04_CallReturnTypeMatchesFn)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CircuitBreakerTest</type>
+        </param>
+        <param>
+          <type>CB_04_CallReturnTypeMatchesFn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_circuit_breaker_focused.cpp" line="85" column="1" bodyfile="tests/core/test_circuit_breaker_focused.cpp" bodystart="85" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__circuit__breaker__focused_8cpp_1aa4d589f55fc7d0b180104d795093b0ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CircuitBreakerTest, CB_05_VoidFnAndFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CircuitBreakerTest</type>
+        </param>
+        <param>
+          <type>CB_05_VoidFnAndFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_circuit_breaker_focused.cpp" line="99" column="1" bodyfile="tests/core/test_circuit_breaker_focused.cpp" bodystart="99" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__circuit__breaker__focused_8cpp_1a2d329c60f94d4fb34858dae11e1693c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CircuitBreakerTest, CB_06_ResetClosesCircuit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CircuitBreakerTest</type>
+        </param>
+        <param>
+          <type>CB_06_ResetClosesCircuit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_circuit_breaker_focused.cpp" line="126" column="1" bodyfile="tests/core/test_circuit_breaker_focused.cpp" bodystart="126" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__circuit__breaker__focused_8cpp_1ac250f866e356118901d928f19241356d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CircuitBreakerTest, CB_07_HalfOpenAllowsProbeCall)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CircuitBreakerTest</type>
+        </param>
+        <param>
+          <type>CB_07_HalfOpenAllowsProbeCall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_circuit_breaker_focused.cpp" line="144" column="1" bodyfile="tests/core/test_circuit_breaker_focused.cpp" bodystart="144" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__circuit__breaker__focused_8cpp_1a7e430449730ace93ca4f66616f6f1e91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CircuitBreakerTest, CB_08_StateObservableViaGetState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CircuitBreakerTest</type>
+        </param>
+        <param>
+          <type>CB_08_StateObservableViaGetState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_circuit_breaker_focused.cpp" line="170" column="1" bodyfile="tests/core/test_circuit_breaker_focused.cpp" bodystart="170" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="i__circuit__breaker_8h" kindref="compound">core/concerns/i_circuit_breaker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="noop__implementations_8h" kindref="compound">core/concerns/noop_implementations.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">themis::core::concerns</ref>;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker" kindref="compound">DefaultCircuitBreaker</ref><sp/>makeBreaker(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>threshold<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>timeout<sp/>=<sp/>std::chrono::seconds(0),</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>success_threshold<sp/>=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config" kindref="compound">ICircuitBreaker::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a86c739424210adaee7b64257e98fddbb" kindref="member">failure_threshold</ref><sp/>=<sp/>threshold;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a5886fcb5a0f03830745a241a83db3878" kindref="member">timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>timeout;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config_1a06d3df7ff50656bf1cc7db84fd84be0e" kindref="member">success_threshold</ref><sp/>=<sp/>success_threshold;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker" kindref="compound">DefaultCircuitBreaker</ref>(cfg);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>tripBreaker(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker" kindref="compound">ICircuitBreaker</ref>&amp;<sp/>cb,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a8973c56d0d50232422e2d36afeaabc08" kindref="member">recordFailure</ref>();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CB_01<sp/>—<sp/>closed<sp/>state:<sp/>call()<sp/>executes<sp/>fn,<sp/>not<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><ref refid="test__circuit__breaker__focused_8cpp_1a22c04b64f29f38ec1b853c874077cda3" kindref="member">TEST</ref>(CircuitBreakerTest,<sp/>CB_01_ClosedStateExecutesFn)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/>makeBreaker();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fn_called<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fallback_called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" kindref="member">call</ref>(</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>fn_called<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;<sp/>},</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>fallback_called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fn_called);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fallback_called);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">ICircuitBreaker::State::CLOSED</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CB_02<sp/>—<sp/>after<sp/>N<sp/>failures,<sp/>circuit<sp/>opens<sp/>and<sp/>call()<sp/>uses<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__circuit__breaker__focused_8cpp_1a22c04b64f29f38ec1b853c874077cda3" kindref="member">TEST</ref>(CircuitBreakerTest,<sp/>CB_02_OpenAfterThreshold_CallUsesFallback)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/>makeBreaker(</highlight><highlight class="comment">/*threshold=*/</highlight><highlight class="normal">3);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>tripBreaker(cb,<sp/>3);<sp/></highlight><highlight class="comment">//<sp/>trips<sp/>the<sp/>circuit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fn_called<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fallback_called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" kindref="member">call</ref>(</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>fn_called<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>},</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>fallback_called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fn_called);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fallback_called);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CB_03<sp/>—<sp/>getState()<sp/>returns<sp/>OPEN<sp/>after<sp/>threshold<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__circuit__breaker__focused_8cpp_1a22c04b64f29f38ec1b853c874077cda3" kindref="member">TEST</ref>(CircuitBreakerTest,<sp/>CB_03_GetStateOpenAfterThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/>makeBreaker(</highlight><highlight class="comment">/*threshold=*/</highlight><highlight class="normal">2);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">ICircuitBreaker::State::CLOSED</ref>);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>tripBreaker(cb,<sp/>2);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">ICircuitBreaker::State::OPEN</ref>);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CB_04<sp/>—<sp/>call()<sp/>return<sp/>type<sp/>matches<sp/>fn<sp/>return<sp/>type<sp/>(int<sp/>case)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__circuit__breaker__focused_8cpp_1a22c04b64f29f38ec1b853c874077cda3" kindref="member">TEST</ref>(CircuitBreakerTest,<sp/>CB_04_CallReturnTypeMatchesFn)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/>makeBreaker();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" kindref="member">call</ref>(</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>42;<sp/>},</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result,<sp/>42);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CB_05<sp/>—<sp/>call()<sp/>with<sp/>void<sp/>fn<sp/>and<sp/>void<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__circuit__breaker__focused_8cpp_1a22c04b64f29f38ec1b853c874077cda3" kindref="member">TEST</ref>(CircuitBreakerTest,<sp/>CB_05_VoidFnAndFallback)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/>makeBreaker();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>fn_count{0};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>fallback_count{0};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Closed<sp/>—<sp/>fn<sp/>should<sp/>run</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" kindref="member">call</ref>(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>++fn_count;<sp/>},</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>++fallback_count;<sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fn_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fallback_count.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trip<sp/>and<sp/>verify<sp/>fallback<sp/>runs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>tripBreaker(cb,<sp/>3);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" kindref="member">call</ref>(</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>++fn_count;<sp/>},</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>++fallback_count;<sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fn_count.load(),<sp/>1);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fn<sp/>not<sp/>called<sp/>again</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fallback_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CB_06<sp/>—<sp/>reset()<sp/>closes<sp/>the<sp/>circuit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__circuit__breaker__focused_8cpp_1a22c04b64f29f38ec1b853c874077cda3" kindref="member">TEST</ref>(CircuitBreakerTest,<sp/>CB_06_ResetClosesCircuit)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/>makeBreaker(</highlight><highlight class="comment">/*threshold=*/</highlight><highlight class="normal">1);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>tripBreaker(cb,<sp/>1);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">ICircuitBreaker::State::OPEN</ref>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a325d3e82ff9211af3a35150782c9ad9c" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">ICircuitBreaker::State::CLOSED</ref>);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae9226af0c51d4bcf6f69a853bd88350f" kindref="member">getFailureCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>fn<sp/>runs<sp/>after<sp/>reset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fn_called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" kindref="member">call</ref>([&amp;]<sp/>{<sp/>fn_called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>},<sp/>[]<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/>});</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fn_called);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CB_07<sp/>—<sp/>HALF_OPEN:<sp/>after<sp/>timeout<sp/>elapses,<sp/>one<sp/>probe<sp/>call<sp/>is<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__circuit__breaker__focused_8cpp_1a22c04b64f29f38ec1b853c874077cda3" kindref="member">TEST</ref>(CircuitBreakerTest,<sp/>CB_07_HalfOpenAllowsProbeCall)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>timeout<sp/>=<sp/>0s<sp/>means<sp/>the<sp/>circuit<sp/>transitions<sp/>to<sp/>HALF_OPEN<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>when<sp/>allowRequest()<sp/>is<sp/>called<sp/>after<sp/>being<sp/>OPEN.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/>makeBreaker(</highlight><highlight class="comment">/*threshold=*/</highlight><highlight class="normal">1,<sp/></highlight><highlight class="comment">/*timeout=*/</highlight><highlight class="normal">std::chrono::seconds(0));</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trip<sp/>to<sp/>OPEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>tripBreaker(cb,<sp/>1);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">ICircuitBreaker::State::OPEN</ref>);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>timeout<sp/>=<sp/>0,<sp/>the<sp/>first<sp/>allowRequest()<sp/>call<sp/>should<sp/>transition<sp/>to<sp/>HALF_OPEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>return<sp/>true<sp/>(probe<sp/>allowed).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fn_called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" kindref="member">call</ref>(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>fn_called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>},</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;<sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>probe<sp/>fn<sp/>was<sp/>called<sp/>(half-open<sp/>probe)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fn_called);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>a<sp/>successful<sp/>probe,<sp/>the<sp/>circuit<sp/>should<sp/>close<sp/>(success_threshold<sp/>=<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">ICircuitBreaker::State::CLOSED</ref>);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CB_08<sp/>—<sp/>circuit<sp/>breaker<sp/>state<sp/>transitions<sp/>are<sp/>observable<sp/>via<sp/>getState()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(serves<sp/>as<sp/>the<sp/>&quot;metrics<sp/>side<sp/>effect&quot;<sp/>observability<sp/>proxy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__circuit__breaker__focused_8cpp_1a22c04b64f29f38ec1b853c874077cda3" kindref="member">TEST</ref>(CircuitBreakerTest,<sp/>CB_08_StateObservableViaGetState)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/>makeBreaker(</highlight><highlight class="comment">/*threshold=*/</highlight><highlight class="normal">2,<sp/></highlight><highlight class="comment">/*timeout=*/</highlight><highlight class="normal">std::chrono::seconds(0),</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*success_threshold=*/</highlight><highlight class="normal">2);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initial<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">ICircuitBreaker::State::CLOSED</ref>);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>one<sp/>failure<sp/>—<sp/>should<sp/>still<sp/>be<sp/>closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a8973c56d0d50232422e2d36afeaabc08" kindref="member">recordFailure</ref>();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">ICircuitBreaker::State::CLOSED</ref>);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>second<sp/>failure<sp/>—<sp/>trips<sp/>to<sp/>OPEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a8973c56d0d50232422e2d36afeaabc08" kindref="member">recordFailure</ref>();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">ICircuitBreaker::State::OPEN</ref>);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>allowRequest()<sp/>with<sp/>0s<sp/>timeout<sp/>triggers<sp/>OPEN<sp/>→<sp/>HALF_OPEN<sp/>transition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allowed<sp/>=<sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a193b41a0595d4488ae4499bdc4fb8f1a" kindref="member">allowRequest</ref>();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allowed);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a5c1c0fca237f238d3c656d55a4db3ca4" kindref="member">ICircuitBreaker::State::HALF_OPEN</ref>);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>success<sp/>—<sp/>not<sp/>yet<sp/>enough<sp/>to<sp/>close<sp/>(success_threshold=2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a867dc804ca92a81224039bcde19b7a7a" kindref="member">recordSuccess</ref>();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a5c1c0fca237f238d3c656d55a4db3ca4" kindref="member">ICircuitBreaker::State::HALF_OPEN</ref>);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>success<sp/>—<sp/>closes<sp/>circuit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a867dc804ca92a81224039bcde19b7a7a" kindref="member">recordSuccess</ref>();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.<ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">ICircuitBreaker::State::CLOSED</ref>);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NoOpCircuitBreaker<sp/>is<sp/>always<sp/>CLOSED<sp/>and<sp/>always<sp/>allows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker" kindref="compound">NoOpCircuitBreaker</ref><sp/>noop;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(noop.<ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a4812327f9a05c1669c76cbc2e8b1c2c1" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">ICircuitBreaker::State::CLOSED</ref>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(noop.<ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a512b46346b70df72f18d5249d9a755c3" kindref="member">allowRequest</ref>());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>noop.<ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a5e9e6988dd6c420ae1f120faa8f182d0" kindref="member">recordFailure</ref>();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(noop.<ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a4812327f9a05c1669c76cbc2e8b1c2c1" kindref="member">getState</ref>(),<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">ICircuitBreaker::State::CLOSED</ref>);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/core/test_circuit_breaker_focused.cpp"/>
+  </compounddef>
+</doxygen>

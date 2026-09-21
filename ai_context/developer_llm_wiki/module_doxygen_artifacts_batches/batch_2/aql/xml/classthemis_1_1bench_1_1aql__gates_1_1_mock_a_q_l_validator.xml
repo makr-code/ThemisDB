@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1aql__gates_1_1_mock_a_q_l_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::aql_gates::MockAQLValidator</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1aql__gates_1_1_mock_a_q_l_validator_1afd9cd966194b2eac2be7f17eca58e88b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::aql_gates::MockAQLValidator::validateSimple</definition>
+        <argsstring>(const std::string &amp;aql_query)</argsstring>
+        <name>validateSimple</name>
+        <qualifiedname>themis::bench::aql_gates::MockAQLValidator::validateSimple</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="146" column="10" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="146" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1aql__gates_1_1_mock_a_q_l_validator_1a2537bb3faf31e59d1a3dece7cd184871" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::aql_gates::MockAQLValidator::validateBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;queries)</argsstring>
+        <name>validateBatch</name>
+        <qualifiedname>themis::bench::aql_gates::MockAQLValidator::validateBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="151" column="10" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="151" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Mock AQL validator. Simulates validation overhead without parser dependency. </para>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="144" column="1" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="144" bodyend="159"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1aql__gates_1_1_mock_a_q_l_validator_1a2537bb3faf31e59d1a3dece7cd184871" prot="public" virt="non-virtual"><scope>themis::bench::aql_gates::MockAQLValidator</scope><name>validateBatch</name></member>
+      <member refid="classthemis_1_1bench_1_1aql__gates_1_1_mock_a_q_l_validator_1afd9cd966194b2eac2be7f17eca58e88b" prot="public" virt="non-virtual"><scope>themis::bench::aql_gates::MockAQLValidator</scope><name>validateSimple</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

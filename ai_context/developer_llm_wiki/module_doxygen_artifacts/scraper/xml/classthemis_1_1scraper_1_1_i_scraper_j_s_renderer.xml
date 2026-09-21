@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::scraper::IScraperJSRenderer</compoundname>
+    <derivedcompoundref refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer" prot="public" virt="non-virtual">themis::scraper::InMemoryJSRenderer</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer" prot="public" virt="non-virtual">themis::scraper::SubprocessJSRenderer</derivedcompoundref>
+    <includes refid="scraper__js__renderer_8h" local="no">scraper_js_renderer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1aa2e2207fbe85d69ca0b836f75dfb3e39" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::scraper::IScraperJSRenderer::~IScraperJSRenderer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IScraperJSRenderer</name>
+        <qualifiedname>themis::scraper::IScraperJSRenderer::~IScraperJSRenderer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="68" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1a2a07e25df7d60cfc155637404a794d8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref></type>
+        <definition>virtual JsRenderResult themis::scraper::IScraperJSRenderer::render</definition>
+        <argsstring>(const JsRenderRequest &amp;req)=0</argsstring>
+        <name>render</name>
+        <qualifiedname>themis::scraper::IScraperJSRenderer::render</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a906c22b68ffe4542cf33787449cfbfc5">render</reimplementedby>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1aff9c42dc1bf5cc33e34101af720a8905">render</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_js_render_request" kindref="compound">JsRenderRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Render a URL using a headless browser and return the resulting HTML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Render request with URL, timeout, and optional CSS wait selector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref> — success==false with an error message on timeout or subprocess failure. Never throws. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="76" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1abe584bf134f16c721ca06b1894f6d547" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::scraper::IScraperJSRenderer::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::scraper::IScraperJSRenderer::isAvailable</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a389e4c56e64036ed67dc778163246fa4">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a3bbd554f4125984730758f3f5f682124">isAvailable</reimplementedby>
+        <briefdescription>
+<para>Returns true when the renderer backend is available and usable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For <ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer" kindref="compound">SubprocessJSRenderer</ref> this means the renderer command is non-empty and its first token resolves to an executable on PATH. Call before <ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a232d9da7392056ec2bb5a9d1355ad2ce" kindref="member">ScraperPlugin::initialize()</ref> to validate JS rendering mode. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="85" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstraction for JavaScript-capable page rendering. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used when a target page is a React/Vue/Angular SPA or when content is injected by webpack-dev-server / Vite / Next.js at runtime.</para>
+<para>The default production implementation launches an external renderer process (<ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer" kindref="compound">SubprocessJSRenderer</ref>). Tests use <ref refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer" kindref="compound">InMemoryJSRenderer</ref>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::scraper::IScraperJSRenderer</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer"/>
+      </node>
+      <node id="2">
+        <label>themis::scraper::InMemoryJSRenderer</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::scraper::SubprocessJSRenderer</label>
+        <link refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/scraper/scraper_js_renderer.h" line="66" column="1" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="66" bodyend="86"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1abe584bf134f16c721ca06b1894f6d547" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperJSRenderer</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1a2a07e25df7d60cfc155637404a794d8d" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperJSRenderer</scope><name>render</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1aa2e2207fbe85d69ca0b836f75dfb3e39" prot="public" virt="virtual"><scope>themis::scraper::IScraperJSRenderer</scope><name>~IScraperJSRenderer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_snapshot_handle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SnapshotHandle</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_handle_1a91506805dac063ce289779334828d610" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SnapshotHandle::snapshot_id</definition>
+        <argsstring></argsstring>
+        <name>snapshot_id</name>
+        <qualifiedname>themis::sharding::SnapshotHandle::snapshot_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="221" column="17" bodyfile="include/sharding/sharding_interfaces.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_handle_1ae3d70fc5d63659c4d630fa6cb6919b04" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::SnapshotHandle::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::sharding::SnapshotHandle::size_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="222" column="12" bodyfile="include/sharding/sharding_interfaces.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_handle_1a697ca541a5f462ab3dc45f8dec24b630" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::SnapshotHandle::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::sharding::SnapshotHandle::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="223" column="43" bodyfile="include/sharding/sharding_interfaces.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_handle_1a2e452dffc20287fb4dcc7baf414a1631" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SnapshotHandle::last_log_index</definition>
+        <argsstring></argsstring>
+        <name>last_log_index</name>
+        <qualifiedname>themis::sharding::SnapshotHandle::last_log_index</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="224" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_handle_1a02144027b97e35d5f2d0ba9872483f0b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SnapshotHandle::last_log_term</definition>
+        <argsstring></argsstring>
+        <name>last_log_term</name>
+        <qualifiedname>themis::sharding::SnapshotHandle::last_log_term</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="225" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_handle_1aa91b8ac43b7b10cb0b8af0001d23bacf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::SnapshotHandle::is_corrupted</definition>
+        <argsstring></argsstring>
+        <name>is_corrupted</name>
+        <qualifiedname>themis::sharding::SnapshotHandle::is_corrupted</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set to true by <ref refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager" kindref="compound">IRaftSnapshotManager</ref> when HMAC verification detects tampering. Concrete implementations must set this field when they detect that snapshot content no longer matches its stored HMAC. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="229" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="229" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_snapshot_handle_1a69f3f9a2cd399c5f17f53f72b1699912" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::sharding::SnapshotHandle::id</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::sharding::SnapshotHandle::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="231" column="23" bodyfile="include/sharding/sharding_interfaces.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_snapshot_handle_1a57d1ee2681360716fe6b61b460a9096d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::SnapshotHandle::sizeBytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>sizeBytes</name>
+        <qualifiedname>themis::sharding::SnapshotHandle::sizeBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="232" column="12" bodyfile="include/sharding/sharding_interfaces.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_snapshot_handle_1a03495f2ac52b51d4fbe50a5152a7ae5c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::SnapshotHandle::createdAt</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>createdAt</name>
+        <qualifiedname>themis::sharding::SnapshotHandle::createdAt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="233" column="43" bodyfile="include/sharding/sharding_interfaces.h" bodystart="233" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_snapshot_handle_1a65afc266f9828432854ed2259f9765ce" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SnapshotHandle::verifyIntegrity</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>verifyIntegrity</name>
+        <qualifiedname>themis::sharding::SnapshotHandle::verifyIntegrity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns false if the snapshot HMAC is invalid, the handle is empty, or is_corrupted has been set by the snapshot manager. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="237" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="237" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Value-type handle for a Raft snapshot created by <ref refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager" kindref="compound">IRaftSnapshotManager</ref>.</para>
+<para><ref refid="structthemis_1_1sharding_1_1_snapshot_handle_1a65afc266f9828432854ed2259f9765ce" kindref="member">verifyIntegrity()</ref> performs an HMAC-SHA-256 check over the snapshot content before any compactLog() call may proceed; tampered snapshots are rejected. </para>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="220" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="220" bodyend="240"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_handle_1a697ca541a5f462ab3dc45f8dec24b630" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotHandle</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_handle_1a03495f2ac52b51d4fbe50a5152a7ae5c" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotHandle</scope><name>createdAt</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_handle_1a69f3f9a2cd399c5f17f53f72b1699912" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotHandle</scope><name>id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_handle_1aa91b8ac43b7b10cb0b8af0001d23bacf" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotHandle</scope><name>is_corrupted</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_handle_1a2e452dffc20287fb4dcc7baf414a1631" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotHandle</scope><name>last_log_index</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_handle_1a02144027b97e35d5f2d0ba9872483f0b" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotHandle</scope><name>last_log_term</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_handle_1ae3d70fc5d63659c4d630fa6cb6919b04" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotHandle</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_handle_1a57d1ee2681360716fe6b61b460a9096d" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotHandle</scope><name>sizeBytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_handle_1a91506805dac063ce289779334828d610" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotHandle</scope><name>snapshot_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_handle_1a65afc266f9828432854ed2259f9765ce" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotHandle</scope><name>verifyIntegrity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

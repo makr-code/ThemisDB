@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_export_encryption_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::ExportEncryptionConfig</compoundname>
+    <includes refid="export__encryption_8h" local="no">export_encryption.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_encryption_config_1aef8ac37bc69445a5866500443f56ce88" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::ExportEncryptionConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::exporters::ExportEncryptionConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="30" column="10" bodyfile="include/exporters/export_encryption.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_encryption_config_1a756c9748acf5e418f83a814ff4828775" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ExportEncryptionConfig::kek_id</definition>
+        <argsstring></argsstring>
+        <name>kek_id</name>
+        <qualifiedname>themis::exporters::ExportEncryptionConfig::kek_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="31" column="17" bodyfile="include/exporters/export_encryption.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_encryption_config_1afa529e0d78f6734c17207b4d8feede7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ExportEncryptionConfig::job_id</definition>
+        <argsstring></argsstring>
+        <name>job_id</name>
+        <qualifiedname>themis::exporters::ExportEncryptionConfig::job_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="32" column="17" bodyfile="include/exporters/export_encryption.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_encryption_config_1abf3e4abb81c5721fb5618e41687c5db3" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt;themis::KeyProvider&gt; themis::exporters::ExportEncryptionConfig::key_provider</definition>
+        <argsstring></argsstring>
+        <name>key_provider</name>
+        <qualifiedname>themis::exporters::ExportEncryptionConfig::key_provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="33" column="21" bodyfile="include/exporters/export_encryption.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1exporters_1_1_export_encryption_config_1aac9db4e7f1eb59d7dd79b1bf2e291f02" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::ExportEncryptionConfig::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::exporters::ExportEncryptionConfig::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_encryption.h" line="35" column="10" bodyfile="include/exporters/export_encryption.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/export_encryption.h" line="29" column="1" bodyfile="include/exporters/export_encryption.h" bodystart="29" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_export_encryption_config_1aac9db4e7f1eb59d7dd79b1bf2e291f02" prot="public" virt="non-virtual"><scope>themis::exporters::ExportEncryptionConfig</scope><name>empty</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_encryption_config_1aef8ac37bc69445a5866500443f56ce88" prot="public" virt="non-virtual"><scope>themis::exporters::ExportEncryptionConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_encryption_config_1afa529e0d78f6734c17207b4d8feede7d" prot="public" virt="non-virtual"><scope>themis::exporters::ExportEncryptionConfig</scope><name>job_id</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_encryption_config_1a756c9748acf5e418f83a814ff4828775" prot="public" virt="non-virtual"><scope>themis::exporters::ExportEncryptionConfig</scope><name>kek_id</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_encryption_config_1abf3e4abb81c5721fb5618e41687c5db3" prot="public" virt="non-virtual"><scope>themis::exporters::ExportEncryptionConfig</scope><name>key_provider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

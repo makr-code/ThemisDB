@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="unionthemis_1_1storage_1_1_column_predicate_1_1_value" kind="union" language="C++" prot="public">
+    <compoundname>themis::storage::ColumnPredicate::Value</compoundname>
+    <includes refid="simd__filter_8h" local="no">simd_filter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="unionthemis_1_1storage_1_1_column_predicate_1_1_value_1a6eabdbed8d729e0b75ff50933a5dc890" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::storage::ColumnPredicate::Value::i32</definition>
+        <argsstring></argsstring>
+        <name>i32</name>
+        <qualifiedname>themis::storage::ColumnPredicate::Value::i32</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/simd_filter.h" line="117" column="18" bodyfile="include/storage/simd_filter.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="unionthemis_1_1storage_1_1_column_predicate_1_1_value_1a3d175725d9f6d5ecd0b7991c8cc3702f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ColumnPredicate::Value::i64</definition>
+        <argsstring></argsstring>
+        <name>i64</name>
+        <qualifiedname>themis::storage::ColumnPredicate::Value::i64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/simd_filter.h" line="118" column="18" bodyfile="include/storage/simd_filter.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="unionthemis_1_1storage_1_1_column_predicate_1_1_value_1ad1a9c81ea87f6d52a66ea41a1e23d64a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::ColumnPredicate::Value::f32</definition>
+        <argsstring></argsstring>
+        <name>f32</name>
+        <qualifiedname>themis::storage::ColumnPredicate::Value::f32</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/simd_filter.h" line="119" column="18" bodyfile="include/storage/simd_filter.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="unionthemis_1_1storage_1_1_column_predicate_1_1_value_1aee0c60da4a42f86927a209e65675e827" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::ColumnPredicate::Value::f64</definition>
+        <argsstring></argsstring>
+        <name>f64</name>
+        <qualifiedname>themis::storage::ColumnPredicate::Value::f64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/simd_filter.h" line="120" column="18" bodyfile="include/storage/simd_filter.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/simd_filter.h" line="116" column="5" bodyfile="include/storage/simd_filter.h" bodystart="116" bodyend="121"/>
+    <listofallmembers>
+      <member refid="unionthemis_1_1storage_1_1_column_predicate_1_1_value_1ad1a9c81ea87f6d52a66ea41a1e23d64a" prot="public" virt="non-virtual"><scope>themis::storage::ColumnPredicate::Value</scope><name>f32</name></member>
+      <member refid="unionthemis_1_1storage_1_1_column_predicate_1_1_value_1aee0c60da4a42f86927a209e65675e827" prot="public" virt="non-virtual"><scope>themis::storage::ColumnPredicate::Value</scope><name>f64</name></member>
+      <member refid="unionthemis_1_1storage_1_1_column_predicate_1_1_value_1a6eabdbed8d729e0b75ff50933a5dc890" prot="public" virt="non-virtual"><scope>themis::storage::ColumnPredicate::Value</scope><name>i32</name></member>
+      <member refid="unionthemis_1_1storage_1_1_column_predicate_1_1_value_1a3d175725d9f6d5ecd0b7991c8cc3702f" prot="public" virt="non-virtual"><scope>themis::storage::ColumnPredicate::Value</scope><name>i64</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

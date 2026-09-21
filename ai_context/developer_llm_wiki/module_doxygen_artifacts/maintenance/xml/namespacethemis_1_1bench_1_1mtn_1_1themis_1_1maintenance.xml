@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance" kind="namespace" language="C++">
+    <compoundname>themis::bench::mtn::themis::maintenance</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_module_health_signal" prot="public">themis::bench::mtn::themis::maintenance::ModuleHealthSignal</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome" prot="public">themis::bench::mtn::themis::maintenance::DispatchOutcome</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report" prot="public">themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ModuleHealthStatus</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::ModuleHealthStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <briefdescription>
+<para>Module is healthy. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8a0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+<para>Module is functional but shows warning indicators. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>Module has failures that require immediate attention. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+<para>Module did not respond or is not registered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="17" column="1" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="17" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DispatchOutcomeType</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::DispatchOutcomeType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31ead0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <briefdescription>
+<para>Task dispatched and completed successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31ea7e3ae277b577a5e6879fd7c1f842a5c2" prot="public">
+          <name>SKIPPED_NO_HANDLER</name>
+          <briefdescription>
+<para>No IMaintenanceTaskHandler registered for this task type. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31ea3624804b46a56b1b5d7b09875834aa73" prot="public">
+          <name>SKIPPED_CONCURRENT</name>
+          <briefdescription>
+<para>Schedule was already in-flight; this invocation was skipped. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31eab57c10a5f3e6901566d3f7ac773f3ed4" prot="public">
+          <name>FAILED_PERSISTENCE</name>
+          <briefdescription>
+<para>Persistence layer error prevented execution. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31eab1dbae1b20b78825b1e0d7808631ecec" prot="public">
+          <name>FAILED_DISPATCH</name>
+          <briefdescription>
+<para>Task handler returned a failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Categorises the outcome of a single schedule/task dispatch attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="67" column="1" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="67" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a876eb5e3d4802b8afab7800491278116" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::bench::mtn::themis::maintenance::moduleHealthStatusToString</definition>
+        <argsstring>(ModuleHealthStatus s)</argsstring>
+        <name>moduleHealthStatusToString</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::moduleHealthStatusToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8" kindref="member">ModuleHealthStatus</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="24" column="20" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="24" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a1cf9abf98188baf6498d6fc9978c2e0e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::bench::mtn::themis::maintenance::dispatchOutcomeTypeToString</definition>
+        <argsstring>(DispatchOutcomeType t)</argsstring>
+        <name>dispatchOutcomeTypeToString</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::dispatchOutcomeTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31e" kindref="member">DispatchOutcomeType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="75" column="20" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="75" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/maintenance/maintenance_health_report.h" line="11" column="1"/>
+  </compounddef>
+</doxygen>

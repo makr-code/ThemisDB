@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1document_1_1_in_memory_encrypted_entity" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::document::InMemoryEncryptedEntity</compoundname>
+    <basecompoundref refid="classthemis_1_1document_1_1_i_encrypted_document_entity" prot="public" virt="non-virtual">themis::document::IEncryptedDocumentEntity</basecompoundref>
+    <includes refid="document__manager_8h" local="no">document_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1document_1_1_in_memory_encrypted_entity_1a2ca3aa65fdb05662684e79acc0c9752c" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref></type>
+        <definition>DocumentId themis::document::InMemoryEncryptedEntity::doc_id_</definition>
+        <argsstring></argsstring>
+        <name>doc_id_</name>
+        <qualifiedname>themis::document::InMemoryEncryptedEntity::doc_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="157" column="18" bodyfile="include/document/document_manager.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1document_1_1_in_memory_encrypted_entity_1a56c5c6f5c49fb91ff199fd4bd8cb736d" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref></type>
+        <definition>CollectionId themis::document::InMemoryEncryptedEntity::col_id_</definition>
+        <argsstring></argsstring>
+        <name>col_id_</name>
+        <qualifiedname>themis::document::InMemoryEncryptedEntity::col_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="158" column="18" bodyfile="include/document/document_manager.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1document_1_1_in_memory_encrypted_entity_1aa1e9edaa772c4aa44352e0608041697c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::InMemoryEncryptedEntity::current_key_id_</definition>
+        <argsstring></argsstring>
+        <name>current_key_id_</name>
+        <qualifiedname>themis::document::InMemoryEncryptedEntity::current_key_id_</qualifiedname>
+        <briefdescription>
+<para>Updated on each successful <ref refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1ac5734b7dc53803dae5f0ffaae2b8aa41" kindref="member">reencrypt()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="159" column="18" bodyfile="include/document/document_manager.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_encrypted_entity_1a50cfb726a8e6b32a291f2ddd13a4f5d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::document::InMemoryEncryptedEntity::InMemoryEncryptedEntity</definition>
+        <argsstring>(DocumentId doc_id, CollectionId col_id)</argsstring>
+        <name>InMemoryEncryptedEntity</name>
+        <qualifiedname>themis::document::InMemoryEncryptedEntity::InMemoryEncryptedEntity</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref></type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref></type>
+          <declname>col_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="133" column="5" bodyfile="include/document/document_manager.h" bodystart="133" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_encrypted_entity_1abb3b625360c0351ae2ad71515542c31e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+        <definition>const DocumentId &amp; themis::document::InMemoryEncryptedEntity::documentId</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>documentId</name>
+        <qualifiedname>themis::document::InMemoryEncryptedEntity::documentId</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1a4facf8ff8b6d4e2ff54863c232c154c6">documentId</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="136" column="24" bodyfile="include/document/document_manager.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_encrypted_entity_1aaa4909d4f43b75db943d5ce1ce6142c5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref> &amp;</type>
+        <definition>const CollectionId &amp; themis::document::InMemoryEncryptedEntity::collectionId</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>collectionId</name>
+        <qualifiedname>themis::document::InMemoryEncryptedEntity::collectionId</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1ab59fb690ea360c1da5eb42c56eb989c2">collectionId</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="137" column="24" bodyfile="include/document/document_manager.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_encrypted_entity_1ac5734b7dc53803dae5f0ffaae2b8aa41" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::document::InMemoryEncryptedEntity::reencrypt</definition>
+        <argsstring>(const KeyRotationDescriptor &amp;desc) override</argsstring>
+        <name>reencrypt</name>
+        <qualifiedname>themis::document::InMemoryEncryptedEntity::reencrypt</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1a6d0b810024f1f169074c42f87de947b0">reencrypt</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_key_rotation_descriptor" kindref="compound">KeyRotationDescriptor</ref> &amp;</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="139" column="12" bodyfile="include/document/document_manager.h" bodystart="139" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_in_memory_encrypted_entity_1adbf5e88f2f4079aa861c416d76c3a4fc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::document::InMemoryEncryptedEntity::currentKeyId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>currentKeyId</name>
+        <qualifiedname>themis::document::InMemoryEncryptedEntity::currentKeyId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="152" column="24" bodyfile="include/document/document_manager.h" bodystart="152" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::document::IEncryptedDocumentEntity</label>
+        <link refid="classthemis_1_1document_1_1_i_encrypted_document_entity"/>
+      </node>
+      <node id="1">
+        <label>themis::document::InMemoryEncryptedEntity</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_encrypted_entity"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::document::IEncryptedDocumentEntity</label>
+        <link refid="classthemis_1_1document_1_1_i_encrypted_document_entity"/>
+      </node>
+      <node id="1">
+        <label>themis::document::InMemoryEncryptedEntity</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_encrypted_entity"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/document/document_manager.h" line="131" column="1" bodyfile="include/document/document_manager.h" bodystart="131" bodyend="160"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1a56c5c6f5c49fb91ff199fd4bd8cb736d" prot="private" virt="non-virtual"><scope>themis::document::InMemoryEncryptedEntity</scope><name>col_id_</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1aaa4909d4f43b75db943d5ce1ce6142c5" prot="public" virt="virtual"><scope>themis::document::InMemoryEncryptedEntity</scope><name>collectionId</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1aa1e9edaa772c4aa44352e0608041697c" prot="private" virt="non-virtual"><scope>themis::document::InMemoryEncryptedEntity</scope><name>current_key_id_</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1adbf5e88f2f4079aa861c416d76c3a4fc" prot="public" virt="non-virtual"><scope>themis::document::InMemoryEncryptedEntity</scope><name>currentKeyId</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1a2ca3aa65fdb05662684e79acc0c9752c" prot="private" virt="non-virtual"><scope>themis::document::InMemoryEncryptedEntity</scope><name>doc_id_</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1abb3b625360c0351ae2ad71515542c31e" prot="public" virt="virtual"><scope>themis::document::InMemoryEncryptedEntity</scope><name>documentId</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1a50cfb726a8e6b32a291f2ddd13a4f5d7" prot="public" virt="non-virtual"><scope>themis::document::InMemoryEncryptedEntity</scope><name>InMemoryEncryptedEntity</name></member>
+      <member refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1ac5734b7dc53803dae5f0ffaae2b8aa41" prot="public" virt="virtual"><scope>themis::document::InMemoryEncryptedEntity</scope><name>reencrypt</name></member>
+      <member refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1a0376bc43d3c5ad6060f1ac3539a1f0db" prot="public" virt="virtual"><scope>themis::document::InMemoryEncryptedEntity</scope><name>~IEncryptedDocumentEntity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

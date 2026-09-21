@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_i_span" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::process::ISpan</compoundname>
+    <includes refid="federated__span__contract_8h" local="no">federated_span_contract.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_span_1aba9d15445f2bf602b4ff254d8fc8d15e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::process::ISpan::~ISpan</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISpan</name>
+        <qualifiedname>themis::process::ISpan::~ISpan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="357" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_span_1a9600571b55a7a1f24c27f30b4393c760" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref></type>
+        <definition>virtual TraceContext themis::process::ISpan::traceContext</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>traceContext</name>
+        <qualifiedname>themis::process::ISpan::traceContext</qualifiedname>
+        <briefdescription>
+<para>Get trace context (for RPC propagation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref> containing trace_id and span_id </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="363" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_span_1ac2bd28c5a15b72b1c318a7a9eaab135b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::process::ISpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)=0</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::process::ISpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Add an attribute to this span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="370" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_span_1a31260823054ece87741bcadc5220719e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::process::ISpan::addEvent</definition>
+        <argsstring>(const SpanEvent &amp;event)=0</argsstring>
+        <name>addEvent</name>
+        <qualifiedname>themis::process::ISpan::addEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_span_event" kindref="compound">SpanEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Add an event (milestone) to this span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1process_1_1_span_event" kindref="compound">SpanEvent</ref> to record </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="376" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_span_1a2a47034bcf6d3fa3dbece1c23c678ba5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::process::ISpan::setStatus</definition>
+        <argsstring>(SpanStatus status, const std::string &amp;description=&quot;&quot;)=0</argsstring>
+        <name>setStatus</name>
+        <qualifiedname>themis::process::ISpan::setStatus</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106" kindref="member">SpanStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Set span status (success, error, cancelled). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1ad46c8698aedc17f8d0582dc1ce931106" kindref="member">SpanStatus</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional error description </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="383" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_span_1a5ade710110a7e3a26906c051c8f6525f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::process::ISpan::end</definition>
+        <argsstring>()=0</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::process::ISpan::end</qualifiedname>
+        <briefdescription>
+<para>End this span (mark as complete). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>After calling <ref refid="classthemis_1_1process_1_1_i_span_1a5ade710110a7e3a26906c051c8f6525f" kindref="member">end()</ref>, span is immutable. No further modifications are allowed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="390" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight span representing a unit of work in federated operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Spans are created by process module and managed by OpenTelemetry tracer. Application code should not create spans directly (use process module APIs). </para>
+    </detaileddescription>
+    <location file="include/process/federated_span_contract.h" line="355" column="1" bodyfile="include/process/federated_span_contract.h" bodystart="355" bodyend="391"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_i_span_1a31260823054ece87741bcadc5220719e" prot="public" virt="pure-virtual"><scope>themis::process::ISpan</scope><name>addEvent</name></member>
+      <member refid="classthemis_1_1process_1_1_i_span_1a5ade710110a7e3a26906c051c8f6525f" prot="public" virt="pure-virtual"><scope>themis::process::ISpan</scope><name>end</name></member>
+      <member refid="classthemis_1_1process_1_1_i_span_1ac2bd28c5a15b72b1c318a7a9eaab135b" prot="public" virt="pure-virtual"><scope>themis::process::ISpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1process_1_1_i_span_1a2a47034bcf6d3fa3dbece1c23c678ba5" prot="public" virt="pure-virtual"><scope>themis::process::ISpan</scope><name>setStatus</name></member>
+      <member refid="classthemis_1_1process_1_1_i_span_1a9600571b55a7a1f24c27f30b4393c760" prot="public" virt="pure-virtual"><scope>themis::process::ISpan</scope><name>traceContext</name></member>
+      <member refid="classthemis_1_1process_1_1_i_span_1aba9d15445f2bf602b4ff254d8fc8d15e" prot="public" virt="virtual"><scope>themis::process::ISpan</scope><name>~ISpan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

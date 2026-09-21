@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_hipaa_retention" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::governance::HipaaRetention</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_i_compliance_rule" prot="public" virt="non-virtual">themis::governance::IComplianceRule</basecompoundref>
+    <includes refid="hipaa__rules_8h" local="no">hipaa_rules.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_retention_1ad31754e0f90e2b38df743c6f49626648" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaRetention::id</definition>
+        <argsstring>() const override</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::governance::HipaaRetention::id</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a01395f8af99fa20ce9be6b77cd3b5557">id</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="120" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_retention_1a0bba266cde53960c16eb18d96f03394a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaRetention::framework</definition>
+        <argsstring>() const override</argsstring>
+        <name>framework</name>
+        <qualifiedname>themis::governance::HipaaRetention::framework</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1ae95c843e2f550ded2eeb7ad923960aba">framework</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="121" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_retention_1a4b57dd184c7c7d502b2232b2f1cdf1dd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaRetention::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::HipaaRetention::description</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1af1ff57617e2151936aa46d9a4d6d39b2">description</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="122" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="122" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_retention_1ae3394ff3aa3f260df2927bfe25ae0243" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::HipaaRetention::evaluate</definition>
+        <argsstring>(const PolicyRule &amp;rule) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::HipaaRetention::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a96562e0417b8471400cfcf2ea185a7ea">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="129" column="10" bodyfile="src/governance/hipaa_rules.cpp" bodystart="113" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::HipaaRetention</label>
+        <link refid="classthemis_1_1governance_1_1_hipaa_retention"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::HipaaRetention</label>
+        <link refid="classthemis_1_1governance_1_1_hipaa_retention"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/hipaa_rules.h" line="118" column="1" bodyfile="include/governance/hipaa_rules.h" bodystart="118" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_hipaa_retention_1a4b57dd184c7c7d502b2232b2f1cdf1dd" prot="public" virt="virtual"><scope>themis::governance::HipaaRetention</scope><name>description</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_retention_1ae3394ff3aa3f260df2927bfe25ae0243" prot="public" virt="virtual"><scope>themis::governance::HipaaRetention</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_retention_1a0bba266cde53960c16eb18d96f03394a" prot="public" virt="virtual"><scope>themis::governance::HipaaRetention</scope><name>framework</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_retention_1ad31754e0f90e2b38df743c6f49626648" prot="public" virt="virtual"><scope>themis::governance::HipaaRetention</scope><name>id</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_rule_1a6f34423b2bbde587233879f221cb63b8" prot="public" virt="virtual"><scope>themis::governance::HipaaRetention</scope><name>~IComplianceRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

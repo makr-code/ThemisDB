@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_i_l_l_m_process_adapter" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::process::ILLMProcessAdapter</compoundname>
+    <includes refid="llm__process__adapter_8h" local="no">llm_process_adapter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_l_l_m_process_adapter_1a065820901006c2ad84f2bca2eb1aa791" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::process::ILLMProcessAdapter::~ILLMProcessAdapter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILLMProcessAdapter</name>
+        <qualifiedname>themis::process::ILLMProcessAdapter::~ILLMProcessAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="45" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_l_l_m_process_adapter_1a5d6f33eafc9475bd3d4ae94f1dc6d64e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_descriptor" kindref="compound">ProcessDescriptor</ref></type>
+        <definition>virtual ProcessDescriptor themis::process::ILLMProcessAdapter::generateDescriptor</definition>
+        <argsstring>(const std::string &amp;activity_id, const std::string &amp;activity_name, const std::string &amp;process_context=&quot;&quot;)=0</argsstring>
+        <name>generateDescriptor</name>
+        <qualifiedname>themis::process::ILLMProcessAdapter::generateDescriptor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>activity_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>activity_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>process_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="46" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_l_l_m_process_adapter_1ad3bf868f02df6731a6b6a40ac1772e25" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_process_descriptor" kindref="compound">ProcessDescriptor</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ProcessDescriptor &gt; themis::process::ILLMProcessAdapter::generateBatch</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;activity_name_pairs, const std::string &amp;process_context=&quot;&quot;)=0</argsstring>
+        <name>generateBatch</name>
+        <qualifiedname>themis::process::ILLMProcessAdapter::generateBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>activity_name_pairs</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>process_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="50" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_l_l_m_process_adapter_1a9fd83f1f7f6d482bd44b4c7cd6a2c482" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1process_1a96139a60e89cdcfc981cb4013056a198" kindref="member">LLMDescriptorBackend</ref></type>
+        <definition>virtual LLMDescriptorBackend themis::process::ILLMProcessAdapter::activeBackend</definition>
+        <argsstring>() const =0</argsstring>
+        <name>activeBackend</name>
+        <qualifiedname>themis::process::ILLMProcessAdapter::activeBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="53" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_l_l_m_process_adapter_1a4eb789dc0ccade6905db296905733f23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::process::ILLMProcessAdapter::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::process::ILLMProcessAdapter::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/llm_process_adapter.h" line="54" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Illm process adapter component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/llm_process_adapter.h" line="43" column="1" bodyfile="include/process/llm_process_adapter.h" bodystart="43" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_i_l_l_m_process_adapter_1a9fd83f1f7f6d482bd44b4c7cd6a2c482" prot="public" virt="pure-virtual"><scope>themis::process::ILLMProcessAdapter</scope><name>activeBackend</name></member>
+      <member refid="classthemis_1_1process_1_1_i_l_l_m_process_adapter_1ad3bf868f02df6731a6b6a40ac1772e25" prot="public" virt="pure-virtual"><scope>themis::process::ILLMProcessAdapter</scope><name>generateBatch</name></member>
+      <member refid="classthemis_1_1process_1_1_i_l_l_m_process_adapter_1a5d6f33eafc9475bd3d4ae94f1dc6d64e" prot="public" virt="pure-virtual"><scope>themis::process::ILLMProcessAdapter</scope><name>generateDescriptor</name></member>
+      <member refid="classthemis_1_1process_1_1_i_l_l_m_process_adapter_1a4eb789dc0ccade6905db296905733f23" prot="public" virt="pure-virtual"><scope>themis::process::ILLMProcessAdapter</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1process_1_1_i_l_l_m_process_adapter_1a065820901006c2ad84f2bca2eb1aa791" prot="public" virt="virtual"><scope>themis::process::ILLMProcessAdapter</scope><name>~ILLMProcessAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

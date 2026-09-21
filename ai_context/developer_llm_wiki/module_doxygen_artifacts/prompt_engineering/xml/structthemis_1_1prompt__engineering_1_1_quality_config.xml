@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_quality_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::QualityConfig</compoundname>
+    <includes refid="prompt__quality__evaluator_8h" local="no">prompt_quality_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_config_1a07ad6339192a69d775becdbdf7f3743c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::QualityConfig::injection_blocklist</definition>
+        <argsstring></argsstring>
+        <name>injection_blocklist</name>
+        <qualifiedname>themis::prompt_engineering::QualityConfig::injection_blocklist</qualifiedname>
+        <briefdescription>
+<para>Patterns that must not appear in the rendered prompt text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Matching is case-insensitive substring search. Each matched pattern produces a separate <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_quality_check" kindref="compound">QualityCheck</ref></computeroutput> failure with id <computeroutput>"INJ-&lt;n&gt;"</computeroutput>. Recommended: populate from OWASP LLM Top 10 patterns. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="68" column="17" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_config_1aa1af0871a3e20d00ac9bf2503aea8950" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::QualityConfig::min_token_diversity</definition>
+        <argsstring></argsstring>
+        <name>min_token_diversity</name>
+        <qualifiedname>themis::prompt_engineering::QualityConfig::min_token_diversity</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+<para>Minimum acceptable token diversity ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Token diversity = <computeroutput>distinct_words / total_words</computeroutput>. Values below this threshold fail check <computeroutput>"DIV-001"</computeroutput>. Default: 0.30 (30 %). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="76" column="12" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_config_1adc150a059cbdb1465e111f30d8ff4857" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::QualityConfig::max_repetition_ratio</definition>
+        <argsstring></argsstring>
+        <name>max_repetition_ratio</name>
+        <qualifiedname>themis::prompt_engineering::QualityConfig::max_repetition_ratio</qualifiedname>
+        <initializer>= 0.50</initializer>
+        <briefdescription>
+<para>Maximum acceptable consecutive-bigram repetition ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Repetition ratio = <computeroutput>repeated_bigrams / total_bigrams</computeroutput>. Values above this threshold fail check <computeroutput>"REP-001"</computeroutput>. Default: 0.50 (50 %). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="84" column="12" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_config_1a2eaaa98abef5acdafda05b920553ae90" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::QualityConfig::min_score_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_score_threshold</name>
+        <qualifiedname>themis::prompt_engineering::QualityConfig::min_score_threshold</qualifiedname>
+        <initializer>= 0.60</initializer>
+        <briefdescription>
+<para>Minimum overall quality score for <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report_1a7846d7f5b7b93745dc55db7feea62bcf" kindref="member">QualityReport::passed()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: 0.60 (60 %). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="91" column="12" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator" kindref="compound">IPromptQualityEvaluator</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All thresholds are normalised to [0.0, 1.0] unless noted. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="60" column="1" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="60" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_config_1a07ad6339192a69d775becdbdf7f3743c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityConfig</scope><name>injection_blocklist</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_config_1adc150a059cbdb1465e111f30d8ff4857" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityConfig</scope><name>max_repetition_ratio</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_config_1a2eaaa98abef5acdafda05b920553ae90" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityConfig</scope><name>min_score_threshold</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_config_1aa1af0871a3e20d00ac9bf2503aea8950" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityConfig</scope><name>min_token_diversity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

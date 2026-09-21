@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_optimizer_1_1_multi_index_optimizer" kind="class" language="C++" prot="private">
+    <compoundname>themis::query::QueryOptimizer::MultiIndexOptimizer</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_optimizer_1_1_multi_index_optimizer_1a815993283d90aeccbe72c7fd79f0e44a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryOptimizer::MultiIndexOptimizer::MultiIndexOptimizer</definition>
+        <argsstring>()=default</argsstring>
+        <name>MultiIndexOptimizer</name>
+        <qualifiedname>themis::query::QueryOptimizer::MultiIndexOptimizer::MultiIndexOptimizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="421" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_optimizer.h" line="419" column="5" bodyfile="include/query/query_optimizer.h" bodystart="419" bodyend="422"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_optimizer_1_1_multi_index_optimizer_1a815993283d90aeccbe72c7fd79f0e44a" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::MultiIndexOptimizer</scope><name>MultiIndexOptimizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_filter_stage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::VectorizedQueryPlan::FilterStage</compoundname>
+    <includes refid="vectorized__execution_8h" local="no">vectorized_execution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_filter_stage_1a947737273379f98874f447d0010c0213" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref> &gt;</type>
+        <definition>std::vector&lt;VectorizedPredicate&gt; themis::query::VectorizedQueryPlan::FilterStage::predicates</definition>
+        <argsstring></argsstring>
+        <name>predicates</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::FilterStage::predicates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="192" column="37" bodyfile="include/query/vectorized_execution.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/vectorized_execution.h" line="192" column="5" bodyfile="include/query/vectorized_execution.h" bodystart="192" bodyend="192"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_filter_stage_1a947737273379f98874f447d0010c0213" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan::FilterStage</scope><name>predicates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

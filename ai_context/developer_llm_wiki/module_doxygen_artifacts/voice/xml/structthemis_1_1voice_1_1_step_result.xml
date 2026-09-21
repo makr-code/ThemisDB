@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_step_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::StepResult</compoundname>
+    <includes refid="voice__macro_8h" local="no">voice_macro.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_step_result_1af5041533773e5006f8dac26ec1754f62" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::StepResult::step_index</definition>
+        <argsstring></argsstring>
+        <name>step_index</name>
+        <qualifiedname>themis::voice::StepResult::step_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0-based index into <ref refid="structthemis_1_1voice_1_1_macro_info_1a3f07080e51ed8c6cbb2053b72e11d96e" kindref="member">MacroInfo::steps</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="103" column="9" bodyfile="include/voice/voice_macro.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_step_result_1a914853d240e08abd76c6cd0f4520f7af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::StepResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::voice::StepResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="104" column="10" bodyfile="include/voice/voice_macro.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_step_result_1a72cb6e17a17843b62821085746a205a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::StepResult::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>themis::voice::StepResult::output</qualifiedname>
+        <briefdescription>
+<para>Step output (e.g. query result summary). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="105" column="17" bodyfile="include/voice/voice_macro.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_step_result_1a654c14bd4623f1ab31aae9c4ef7bcc1e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::StepResult::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::voice::StepResult::duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="106" column="13" bodyfile="include/voice/voice_macro.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_step_result_1a2d7cded50316c3a01ab757b16433dfeb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::StepResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::voice::StepResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="107" column="17" bodyfile="include/voice/voice_macro.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of one macro step. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_macro.h" line="102" column="1" bodyfile="include/voice/voice_macro.h" bodystart="102" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_step_result_1a654c14bd4623f1ab31aae9c4ef7bcc1e" prot="public" virt="non-virtual"><scope>themis::voice::StepResult</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_step_result_1a2d7cded50316c3a01ab757b16433dfeb" prot="public" virt="non-virtual"><scope>themis::voice::StepResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1voice_1_1_step_result_1a72cb6e17a17843b62821085746a205a7" prot="public" virt="non-virtual"><scope>themis::voice::StepResult</scope><name>output</name></member>
+      <member refid="structthemis_1_1voice_1_1_step_result_1af5041533773e5006f8dac26ec1754f62" prot="public" virt="non-virtual"><scope>themis::voice::StepResult</scope><name>step_index</name></member>
+      <member refid="structthemis_1_1voice_1_1_step_result_1a914853d240e08abd76c6cd0f4520f7af" prot="public" virt="non-virtual"><scope>themis::voice::StepResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

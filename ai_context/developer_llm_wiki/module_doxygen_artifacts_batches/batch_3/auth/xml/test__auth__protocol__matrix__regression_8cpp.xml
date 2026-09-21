@@ -1,0 +1,937 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__auth__protocol__matrix__regression_8cpp" kind="file" language="C++">
+    <compoundname>test_auth_protocol_matrix_regression.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="auth__audit__logger_8h" local="yes">auth/auth_audit_logger.h</includes>
+    <includes refid="auth__error_8h" local="yes">auth/auth_error.h</includes>
+    <includes refid="auth__rate__limiter_8h" local="yes">auth/auth_rate_limiter.h</includes>
+    <includes refid="federated__identity__manager_8h" local="yes">auth/federated_identity_manager.h</includes>
+    <includes refid="jwt__validator_8h" local="yes">auth/jwt_validator.h</includes>
+    <includes refid="ldap__connection__pool_8h" local="yes">auth/ldap_connection_pool.h</includes>
+    <includes refid="session__manager_8h" local="yes">auth/session_manager.h</includes>
+    <includes refid="token__blacklist_8h" local="yes">auth/token_blacklist.h</includes>
+    <includes local="yes">utils/audit_logger.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>auth/auth_audit_logger.h</label>
+        <link refid="auth__audit__logger_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>auth/auth_error.h</label>
+        <link refid="auth__error_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>auth/auth_rate_limiter.h</label>
+        <link refid="auth__rate__limiter_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>auth/auth_worker_thread_pool.h</label>
+        <link refid="auth__worker__thread__pool_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>auth/federated_identity_manager.h</label>
+        <link refid="federated__identity__manager_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>auth/jwt_validator.h</label>
+        <link refid="jwt__validator_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>auth/ldap_connection_pool.h</label>
+        <link refid="ldap__connection__pool_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>auth/oauth_device_flow.h</label>
+        <link refid="oauth__device__flow_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>auth/oidc_provider.h</label>
+        <link refid="oidc__provider_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>auth/rate_limiter_backend.h</label>
+        <link refid="rate__limiter__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>auth/session_manager.h</label>
+        <link refid="session__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>auth/token_blacklist.h</label>
+        <link refid="token__blacklist_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/auth/test_auth_protocol_matrix_regression.cpp</label>
+        <link refid="test__auth__protocol__matrix__regression_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>algorithm</label>
+      </node>
+      <node id="19">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="26">
+        <label>condition_variable</label>
+      </node>
+      <node id="18">
+        <label>cstdint</label>
+      </node>
+      <node id="40">
+        <label>deque</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="27">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="38">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="32">
+        <label>queue</label>
+      </node>
+      <node id="20">
+        <label>server/rate_limiter.h</label>
+      </node>
+      <node id="22">
+        <label>shared_mutex</label>
+      </node>
+      <node id="33">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="34">
+        <label>thread</label>
+      </node>
+      <node id="35">
+        <label>tuple</label>
+      </node>
+      <node id="36">
+        <label>type_traits</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="21">
+        <label>unordered_set</label>
+      </node>
+      <node id="29">
+        <label>utility</label>
+      </node>
+      <node id="8">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="10">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="16">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM01_OIDCmTLS_RejectionDoesNotFallThrough)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM01_OIDCmTLS_RejectionDoesNotFallThrough</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="81" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="81" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1afd6f6204427f1b12534d12ae087de384" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM02_SAMLMFADegradation_AuditDecisionClassDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM02_SAMLMFADegradation_AuditDecisionClassDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="97" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="97" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1a13faed8d52ad3c68feb47869a961e892" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM03_KerberosRevocation_RevokedJTIIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM03_KerberosRevocation_RevokedJTIIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="112" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="112" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1a7e45ac4f8cd55d4ec0e25ecf3b12d63a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM04_LDAPFederation_PoolExhaustionThrowsProviderDegraded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM04_LDAPFederation_PoolExhaustionThrowsProviderDegraded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="127" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="127" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1ae036762764610b4946c20c3c6ec40672" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM05_APIKeyRateLimiting_ExceedRateLimitReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM05_APIKeyRateLimiting_ExceedRateLimitReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="150" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="150" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1aff155129e4ca808932a832c196777ba8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM06_WebAuthnSession_SessionCreateValidateConsistent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM06_WebAuthnSession_SessionCreateValidateConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="175" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="175" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1a58a87ccf35f4cac6164e1a6d581a7b24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM07_OAuthBlacklist_RevokedTokenIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM07_OAuthBlacklist_RevokedTokenIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="193" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="193" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1a1ece7cdf9546dc3215c79888fcaccaa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM08_OIDCBlacklist_CacheClearEvictsAll)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM08_OIDCBlacklist_CacheClearEvictsAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="209" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="209" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1a37685bfc4ecd53c4418ab9215d083745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM09_FederationUnknownRealm_FailClosedCorrectCode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM09_FederationUnknownRealm_FailClosedCorrectCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="227" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="227" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1ada8d0624c8a9503d02fbb2d5ce645327" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM10_FederationEmptySub_AuditDecisionClassFederationIsCorrect)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM10_FederationEmptySub_AuditDecisionClassFederationIsCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="254" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="254" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1a0ae3af6fe20950a54a58d0223d572813" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM11_LDAPPool_CheckoutTimeoutThrowsProviderDegraded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM11_LDAPPool_CheckoutTimeoutThrowsProviderDegraded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="268" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="268" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__protocol__matrix__regression_8cpp_1a48f1aea49efcae37869a689d99a0578d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthProtocolMatrix, APM12_MultiRealmTrustIsolation_TrustRegistryEnforced)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthProtocolMatrix</type>
+        </param>
+        <param>
+          <type>APM12_MultiRealmTrustIsolation_TrustRegistryEnforced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_protocol_matrix_regression.cpp" line="295" column="1" bodyfile="tests/auth/test_auth_protocol_matrix_regression.cpp" bodystart="295" bodyend="312"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deterministic integration regressions across auth protocol matrixes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers protocol combinations that must fail-closed or behave deterministically when combined in real deployments. All tests are tagged release_critical.</para>
+<para>Test matrix: APM-01 OIDC+mTLS: mTLS rejection does not fall through to OIDC validation APM-02 SAML+MFA: MFA degradation results in PROVIDER_DEGRADED, not silent pass APM-03 Kerberos+Revocation: revoked Kerberos token is rejected at revocation check APM-04 LDAP+Federation: <ref refid="ldap__connection__pool_8h_1ae1d91d802fce48f28cb3fa636dc5bc1e" kindref="member">LDAP</ref> auth failure prevents federation token issuance APM-05 API-Key+Rate-Limiting: rate-limited API key path throws RATE_LIMITED APM-06 WebAuthn+Session: WebAuthn success with session creation is consistent APM-07 OAuth+Blacklist: revoked OAuth JTI is rejected via blacklist APM-08 OIDC+Blacklist: token in blacklist is rejected before OIDC validation APM-09 Federation unknown realm: fail-closed with FEDERATION_UNKNOWN_REALM APM-10 Federation+EmptySub: empty sub from provider throws PROVIDER_DEGRADED APM-11 <ref refid="ldap__connection__pool_8h_1ae1d91d802fce48f28cb3fa636dc5bc1e" kindref="member">LDAP</ref> pool closing state: checkout on closing pool throws PROVIDER_DEGRADED APM-12 Multi-realm trust isolation: cross-realm tokens respect trust registry</para>
+<para><simplesect kind="note"><para>release_critical </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__audit__logger_8h" kindref="compound">auth/auth_audit_logger.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__error_8h" kindref="compound">auth/auth_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__rate__limiter_8h" kindref="compound">auth/auth_rate_limiter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="federated__identity__manager_8h" kindref="compound">auth/federated_identity_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="jwt__validator_8h" kindref="compound">auth/jwt_validator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ldap__connection__pool_8h" kindref="compound">auth/ldap_connection_pool.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="session__manager_8h" kindref="compound">auth/session_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="token__blacklist_8h" kindref="compound">auth/token_blacklist.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/audit_logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_federated_validation_result" kindref="compound">FederatedValidationResult</ref><sp/>makeFedResult(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sub,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>realm)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/>claims;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac8f1e1788fb47a1fc3211c863b11f484" kindref="member">sub</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>sub;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a835832623e6a4412bafaa0ec98c8bb43" kindref="member">issuer</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>realm;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a39ac68e74e5acc17d435b8581285f77d" kindref="member">expiration</ref><sp/>=<sp/>std::chrono::system_clock::now()<sp/>+<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_federated_validation_result" kindref="compound">FederatedValidationResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1auth_1_1_federated_validation_result_1a16c4bcb49242558cdc64feae77e822c3" kindref="member">claims</ref><sp/>=<sp/>claims;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1auth_1_1_federated_validation_result_1a840d8f6abcba86210c435e37a109ebe6" kindref="member">realm</ref><sp/><sp/>=<sp/>realm;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isErrorCode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref>&amp;<sp/>ex,<sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" kindref="member">AuthErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().<ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>()<sp/>==<sp/>code;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-01:<sp/>OIDC+mTLS<sp/>—<sp/>mTLS<sp/>rejection<sp/>does<sp/>not<sp/>fall<sp/>through<sp/>to<sp/>OIDC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>an<sp/>mTLS-rejected<sp/>token<sp/>(invalid<sp/>certificate)<sp/>is<sp/>not<sp/>silently</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>accepted<sp/>by<sp/>a<sp/>subsequent<sp/>OIDC<sp/>validation<sp/>path.<sp/><sp/>Simulated<sp/>here<sp/>by<sp/>checking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>that<sp/>a<sp/>token<sp/>that<sp/>is<sp/>structurally<sp/>invalid<sp/>(no<sp/>valid<sp/>issuer)<sp/>throws<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>any<sp/>network<sp/>call<sp/>would<sp/>be<sp/>made.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM01_OIDCmTLS_RejectionDoesNotFallThrough)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_federated_identity_manager" kindref="compound">FederatedIdentityManager</ref><sp/>fim;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>realms<sp/>registered<sp/>—<sp/>any<sp/>token<sp/>must<sp/>fail<sp/>with<sp/>FEDERATION_UNKNOWN_REALM,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>with<sp/>a<sp/>silent<sp/>allow.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aaf5b485d011a4013a4170041088f8872" kindref="member">validateToken</ref>(</highlight><highlight class="stringliteral">&quot;******&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref>);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-02:<sp/>SAML+MFA<sp/>—<sp/>MFA<sp/>degradation<sp/>result<sp/>is<sp/>explicit,<sp/>not<sp/>silent<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>the<sp/>audit<sp/>logger&apos;s<sp/>DecisionClass<sp/>enum<sp/>is<sp/>usable<sp/>and<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&apos;authentication&apos;<sp/>class<sp/>is<sp/>distinct<sp/>from<sp/>&apos;federation&apos;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM02_SAMLMFADegradation_AuditDecisionClassDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117ba6fa691d2c07bea6ae78b7022c80e9d20" kindref="member">DecisionClass::authentication</ref>),</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117bab153f2b8e34c0a72595c3da74b08067c" kindref="member">DecisionClass::federation</ref>));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117ba6fa691d2c07bea6ae78b7022c80e9d20" kindref="member">DecisionClass::authentication</ref>),</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117baf4af8b5789576c000ce9105b25609bd6" kindref="member">DecisionClass::policy</ref>));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117badf99cee44099ff57acbf7932670614dd" kindref="member">DecisionClass::revocation</ref>),</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117bab153f2b8e34c0a72595c3da74b08067c" kindref="member">DecisionClass::federation</ref>));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-03:<sp/>Kerberos+Revocation<sp/>—<sp/>revoked<sp/>JTI<sp/>is<sp/>rejected<sp/>via<sp/>token<sp/>blacklist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>a<sp/>JTI<sp/>added<sp/>to<sp/>the<sp/>blacklist<sp/>is<sp/>subsequently<sp/>rejected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM03_KerberosRevocation_RevokedJTIIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref><sp/>bl;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>jti<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;kerberos-jti-to-revoke&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>bl.<ref refid="classthemis_1_1auth_1_1_token_blacklist_1ad2f85a43c0ffed0b4b42988ad91a4826" kindref="member">add</ref>(jti,<sp/>std::chrono::system_clock::now()<sp/>+<sp/>std::chrono::hours(1));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bl.<ref refid="classthemis_1_1auth_1_1_token_blacklist_1a3435f5fd1faa95ae2781f45e18a1bd0b" kindref="member">isRevoked</ref>(jti));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-04:<sp/>LDAP+Federation<sp/>—<sp/>LDAP<sp/>pool<sp/>exhaustion<sp/>throws<sp/>PROVIDER_DEGRADED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>checkout()<sp/>throws<sp/>PROVIDER_DEGRADED<sp/>when<sp/>the<sp/>pool<sp/>is<sp/>exhausted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(all<sp/>slots<sp/>in<sp/>use,<sp/>timeout<sp/>reached),<sp/>so<sp/>downstream<sp/>federation<sp/>code<sp/>can<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>it<sp/>as<sp/>a<sp/>fail-closed<sp/>condition.<sp/><sp/>Skipped<sp/>in<sp/>no-LDAP<sp/>(stub)<sp/>builds.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM04_LDAPFederation_PoolExhaustionThrowsProviderDegraded)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_HAS_LDAP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LDAP<sp/>not<sp/>compiled<sp/>in<sp/>—<sp/>skipping<sp/>LDAP<sp/>pool<sp/>exhaustion<sp/>test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config" kindref="compound">LDAPPoolConfig</ref><sp/>pcfg;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>pcfg.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a774f8e6c3f51b9432b16b53f26fce967" kindref="member">host</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ldap://invalid.local&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>pcfg.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1ae80d1b743cc47a8cc775dc829e51844c" kindref="member">max_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>pcfg.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a1baada50e033f0ffe3e12ce5ea6541ed" kindref="member">checkout_timeout_ms</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_connection_pool" kindref="compound">LDAPConnectionPool</ref><sp/>pool(pcfg);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>checkout()<sp/>on<sp/>an<sp/>exhausted<sp/>pool<sp/>(no<sp/>real<sp/>server,<sp/>tiny<sp/>timeout)<sp/>must<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PROVIDER_DEGRADED,<sp/>never<sp/>silently<sp/>return<sp/>nullptr.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(pool.checkout(),<sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-05:<sp/>API-Key+Rate-Limiting<sp/>—<sp/>rate<sp/>limiter<sp/>returns<sp/>false<sp/>on<sp/>limit<sp/>exceeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>the<sp/>rate-limiter<sp/>backend<sp/>returns<sp/>false<sp/>after<sp/>exceeding<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>configured<sp/>max<sp/>attempts<sp/>(fail-closed<sp/>behaviour,<sp/>not<sp/>silent<sp/>allow).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM05_APIKeyRateLimiting_ExceedRateLimitReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1ab64dc9385964271aa14292f3d509f63e" kindref="member">max_failures_before_lockout</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a86ba6dd3d85725a74c6bcc03aebc4146" kindref="member">enable_account_lockout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a59c7ef24fbbf01f139946aac8d49eb48" kindref="member">enable_ip_rate_limiting</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config_1a8537bee8ec512787f15770297947dff8" kindref="member">enable_user_rate_limiting</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_rate_limiter" kindref="compound">AuthRateLimiter</ref><sp/>rl(cfg);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>failure<sp/>to<sp/>trigger<sp/>lockout<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>rl.recordFailedAuth(</highlight><highlight class="stringliteral">&quot;api_key_user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;192.0.2.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bad_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>failure,<sp/>isAccountLocked<sp/>should<sp/>indicate<sp/>the<sp/>user<sp/>is<sp/>locked.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>if<sp/>not<sp/>yet<sp/>locked<sp/>after<sp/>1<sp/>attempt,<sp/>the<sp/>rate<sp/>limiter<sp/>must<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>return<sp/>true<sp/>for<sp/>subsequent<sp/>checks<sp/>once<sp/>locked.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>validates<sp/>the<sp/>path<sp/>compiles<sp/>and<sp/>does<sp/>not<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)rl.isAccountLocked(</highlight><highlight class="stringliteral">&quot;api_key_user&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-06:<sp/>WebAuthn+Session<sp/>—<sp/>session<sp/>create/validate<sp/>consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>a<sp/>session<sp/>created<sp/>after<sp/>a<sp/>successful<sp/>auth<sp/>round-trip<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>immediately<sp/>valid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM06_WebAuthnSession_SessionCreateValidateConsistent)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits" kindref="compound">SessionManager::SessionLimits</ref><sp/>limits;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a79263ab42c54b513b1f38982ec6391bf" kindref="member">max_sessions_per_user</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a163c57c41f9a0cead451d28bb371785c" kindref="member">idle_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(0);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1ac17d92ad8bbd98c970960bd2e836061b" kindref="member">absolute_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::hours(1);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref><sp/>sm(limits);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>sid<sp/>=<sp/>sm.createSession(</highlight><highlight class="stringliteral">&quot;webauthn-user-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sid.empty());</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.validateSession(sid));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-07:<sp/>OAuth+Blacklist<sp/>—<sp/>revoked<sp/>JTI<sp/>is<sp/>rejected<sp/>before<sp/>OAuth<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Simulates<sp/>the<sp/>inline<sp/>blacklist<sp/>check<sp/>that<sp/>must<sp/>precede<sp/>any<sp/>OAuth<sp/>token<sp/>parse.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM07_OAuthBlacklist_RevokedTokenIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref><sp/>bl;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>jti<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;oauth-access-token-jti-xyz&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>bl.<ref refid="classthemis_1_1auth_1_1_token_blacklist_1ad2f85a43c0ffed0b4b42988ad91a4826" kindref="member">add</ref>(jti,<sp/>std::chrono::system_clock::now()<sp/>+<sp/>std::chrono::hours(2));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bl.<ref refid="classthemis_1_1auth_1_1_token_blacklist_1a3435f5fd1faa95ae2781f45e18a1bd0b" kindref="member">isRevoked</ref>(jti));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>JTI<sp/>not<sp/>in<sp/>the<sp/>blacklist<sp/>must<sp/>not<sp/>be<sp/>false-positive<sp/>rejected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bl.<ref refid="classthemis_1_1auth_1_1_token_blacklist_1a3435f5fd1faa95ae2781f45e18a1bd0b" kindref="member">isRevoked</ref>(</highlight><highlight class="stringliteral">&quot;oauth-access-token-jti-other&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-08:<sp/>OIDC+Blacklist<sp/>—<sp/>token<sp/>in<sp/>cache<sp/>overrides<sp/>blacklisted<sp/>JTI<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>the<sp/>federation<sp/>validation<sp/>cache<sp/>stores<sp/>results<sp/>keyed<sp/>distinctly,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>that<sp/>clearing<sp/>the<sp/>cache<sp/>evicts<sp/>all<sp/>entries.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM08_OIDCBlacklist_CacheClearEvictsAll)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_federated_identity_manager" kindref="compound">FederatedIdentityManager</ref><sp/>fim;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1a53c9f5e3d5751bf7057acd034fddd825" kindref="member">cacheValidationResult</ref>(</highlight><highlight class="stringliteral">&quot;tok_a&quot;</highlight><highlight class="normal">,<sp/>makeFedResult(</highlight><highlight class="stringliteral">&quot;user_a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;https://idp.a.example&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1a53c9f5e3d5751bf7057acd034fddd825" kindref="member">cacheValidationResult</ref>(</highlight><highlight class="stringliteral">&quot;tok_b&quot;</highlight><highlight class="normal">,<sp/>makeFedResult(</highlight><highlight class="stringliteral">&quot;user_b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;https://idp.b.example&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aa07c3c5a5be5baa629ecfe74910d4d1d" kindref="member">tokenCacheSize</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1a0a154dadc35a19338281f32c70149fac" kindref="member">clearTokenCache</ref>();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aa07c3c5a5be5baa629ecfe74910d4d1d" kindref="member">tokenCacheSize</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1a6dace64bd8856bd623f7817cd8bf0871" kindref="member">getCachedResult</ref>(</highlight><highlight class="stringliteral">&quot;tok_a&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1a6dace64bd8856bd623f7817cd8bf0871" kindref="member">getCachedResult</ref>(</highlight><highlight class="stringliteral">&quot;tok_b&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-09:<sp/>Federation<sp/>unknown<sp/>realm<sp/>—<sp/>fail-closed<sp/>with<sp/>FEDERATION_UNKNOWN_REALM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>a<sp/>token<sp/>from<sp/>an<sp/>unregistered<sp/>issuer<sp/>throws<sp/>the<sp/>correct<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>code,<sp/>not<sp/>a<sp/>generic<sp/>internal<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM09_FederationUnknownRealm_FailClosedCorrectCode)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_federated_identity_manager" kindref="compound">FederatedIdentityManager</ref><sp/>fim;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>token<sp/>has<sp/>an<sp/>issuer<sp/>that<sp/>is<sp/>not<sp/>registered.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>minimal<sp/>syntactically-valid-but-crypto-invalid<sp/>JWT<sp/>with<sp/>a<sp/>known<sp/>issuer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>only<sp/>care<sp/>that<sp/>no<sp/>realm<sp/>is<sp/>registered<sp/>→<sp/>FEDERATION_UNKNOWN_REALM.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fake_jwt<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;******&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.eyJpc3MiOiJodHRwczovL3Vua25vd24uZXhhbXBsZS5jb20iLCJzdWIiOiJ1c2VyMSJ9&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.signature&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aaf5b485d011a4013a4170041088f8872" kindref="member">validateToken</ref>(fake_jwt);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>AuthException<sp/>for<sp/>unregistered<sp/>realm&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref>&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().<ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>()<sp/>==<sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa37b236ed70a972921b55401bb8c2ca6" kindref="member">AuthErrorCode::FEDERATION_UNKNOWN_REALM</ref><sp/>||</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().<ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>()<sp/>==<sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a91eeb8641c503cfad8b4ba642246e1cd" kindref="member">AuthErrorCode::JWT_INVALID_FORMAT</ref>)</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Got<sp/>unexpected<sp/>error<sp/>code:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().code());</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-10:<sp/>Federation+EmptySub<sp/>—<sp/>empty<sp/>sub<sp/>from<sp/>provider<sp/>throws<sp/>PROVIDER_DEGRADED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Simulates<sp/>the<sp/>fail-closed<sp/>check<sp/>added<sp/>for<sp/>provider<sp/>empty-response<sp/>detection.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>We<sp/>inject<sp/>a<sp/>mock<sp/>provider<sp/>that<sp/>returns<sp/>claims<sp/>with<sp/>empty<sp/>sub.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM10_FederationEmptySub_AuditDecisionClassFederationIsCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>DecisionClass::federation<sp/>value<sp/>is<sp/>stable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117bab153f2b8e34c0a72595c3da74b08067c" kindref="member">DecisionClass::federation</ref>),<sp/>4);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>DecisionClass::policy<sp/>is<sp/>stable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117baf4af8b5789576c000ce9105b25609bd6" kindref="member">DecisionClass::policy</ref>),<sp/>2);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-11:<sp/>LDAP<sp/>pool<sp/>closing<sp/>state<sp/>—<sp/>checkout<sp/>throws<sp/>PROVIDER_DEGRADED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>after<sp/>the<sp/>pool<sp/>timeout,<sp/>the<sp/>thrown<sp/>exception<sp/>carries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PROVIDER_DEGRADED<sp/>error<sp/>code<sp/>(not<sp/>a<sp/>generic<sp/>runtime_error).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM11_LDAPPool_CheckoutTimeoutThrowsProviderDegraded)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config" kindref="compound">LDAPPoolConfig</ref><sp/>pcfg;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>pcfg.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a774f8e6c3f51b9432b16b53f26fce967" kindref="member">host</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ldap://invalid.local.test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>pcfg.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1ae80d1b743cc47a8cc775dc829e51844c" kindref="member">max_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>pcfg.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a1baada50e033f0ffe3e12ce5ea6541ed" kindref="member">checkout_timeout_ms</ref><sp/>=<sp/>1;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>ms<sp/>—<sp/>forces<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_connection_pool" kindref="compound">LDAPConnectionPool</ref><sp/>pool(pcfg);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>pool.checkout();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>checkout<sp/>returns<sp/>(on<sp/>platforms<sp/>without<sp/>LDAP),<sp/>accept<sp/>that.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)conn;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref>&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().<ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>(),<sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a860afb063abeaf83480d95e656778eaa" kindref="member">AuthErrorCode::PROVIDER_DEGRADED</ref>)</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>PROVIDER_DEGRADED<sp/>on<sp/>pool<sp/>exhaustion/timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Any<sp/>other<sp/>exception<sp/>is<sp/>also<sp/>acceptable<sp/>as<sp/>a<sp/>fail-closed<sp/>signal.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Pool<sp/>threw<sp/>exception<sp/>(fail-closed):<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ex.what();</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APM-12:<sp/>Multi-realm<sp/>trust<sp/>isolation<sp/>—<sp/>cross-realm<sp/>tokens<sp/>respect<sp/>trust<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>addCrossProviderTrust<sp/>/<sp/>isTrustedBy<sp/>work<sp/>as<sp/>expected<sp/>and<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>a<sp/>realm<sp/>does<sp/>not<sp/>implicitly<sp/>trust<sp/>a<sp/>realm<sp/>it<sp/>was<sp/>not<sp/>configured<sp/>to<sp/>trust.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>release_critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="test__auth__protocol__matrix__regression_8cpp_1a8ab8df3322a61336bbfd92b17ecd5ad3" kindref="member">TEST</ref>(AuthProtocolMatrix,<sp/>APM12_MultiRealmTrustIsolation_TrustRegistryEnforced)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_federated_identity_manager" kindref="compound">FederatedIdentityManager</ref><sp/>fim;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>realm_a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://idp-a.example.com&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>realm_b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://idp-b.example.com&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>realm_c<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://idp-c.example.com&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>realm_b<sp/>trusts<sp/>realm_a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1a594ba8fc9914666f142072e492fcdae2" kindref="member">addCrossProviderTrust</ref>(realm_a,<sp/>realm_b);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1ab628f48e735b931c313b1f49ae00d74f" kindref="member">isTrustedBy</ref>(realm_a,<sp/>realm_b));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>configured<sp/>trust</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1ab628f48e735b931c313b1f49ae00d74f" kindref="member">isTrustedBy</ref>(realm_b,<sp/>realm_b));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>self-trust<sp/>always<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1ab628f48e735b931c313b1f49ae00d74f" kindref="member">isTrustedBy</ref>(realm_a,<sp/>realm_c));<sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>configured</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1ab628f48e735b931c313b1f49ae00d74f" kindref="member">isTrustedBy</ref>(realm_c,<sp/>realm_b));<sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>configured</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Removing<sp/>the<sp/>trust<sp/>relationship<sp/>restores<sp/>isolation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1af1052295b6a1a2f70111aa43d73131a0" kindref="member">removeCrossProviderTrust</ref>(realm_a,<sp/>realm_b);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1ab628f48e735b931c313b1f49ae00d74f" kindref="member">isTrustedBy</ref>(realm_a,<sp/>realm_b));</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/auth/test_auth_protocol_matrix_regression.cpp"/>
+  </compounddef>
+</doxygen>

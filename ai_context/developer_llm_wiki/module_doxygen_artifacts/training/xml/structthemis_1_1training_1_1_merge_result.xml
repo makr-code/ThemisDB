@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_merge_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::MergeResult</compoundname>
+    <includes refid="lora__adapter__merger_8h" local="no">lora_adapter_merger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_merge_result_1a143ec17d97aa1a380b482bf691051243" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_merge_layer_result" kindref="compound">MergeLayerResult</ref> &gt;</type>
+        <definition>std::vector&lt;MergeLayerResult&gt; themis::training::MergeResult::layers</definition>
+        <argsstring></argsstring>
+        <name>layers</name>
+        <qualifiedname>themis::training::MergeResult::layers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="48" column="17" bodyfile="include/training/lora_adapter_merger.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_merge_result_1af3ea85fd4153e8fa402d99576d8a6293" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::MergeResult::layers_merged</definition>
+        <argsstring></argsstring>
+        <name>layers_merged</name>
+        <qualifiedname>themis::training::MergeResult::layers_merged</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="49" column="12" bodyfile="include/training/lora_adapter_merger.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_merge_result_1a85952ec6cbc480f84e35371791894fff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::MergeResult::layers_failed</definition>
+        <argsstring></argsstring>
+        <name>layers_failed</name>
+        <qualifiedname>themis::training::MergeResult::layers_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="50" column="12" bodyfile="include/training/lora_adapter_merger.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_merge_result_1a0405e718ffa9e133abff681316a51e98" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::MergeResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::MergeResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="51" column="12" bodyfile="include/training/lora_adapter_merger.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_merge_result_1ada8e56c1ebf4a3705f6d0a827357ff7c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::MergeResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::training::MergeResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="52" column="17" bodyfile="include/training/lora_adapter_merger.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Summary of a full merge pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/lora_adapter_merger.h" line="47" column="1" bodyfile="include/training/lora_adapter_merger.h" bodystart="47" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_merge_result_1ada8e56c1ebf4a3705f6d0a827357ff7c" prot="public" virt="non-virtual"><scope>themis::training::MergeResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1training_1_1_merge_result_1a143ec17d97aa1a380b482bf691051243" prot="public" virt="non-virtual"><scope>themis::training::MergeResult</scope><name>layers</name></member>
+      <member refid="structthemis_1_1training_1_1_merge_result_1a85952ec6cbc480f84e35371791894fff" prot="public" virt="non-virtual"><scope>themis::training::MergeResult</scope><name>layers_failed</name></member>
+      <member refid="structthemis_1_1training_1_1_merge_result_1af3ea85fd4153e8fa402d99576d8a6293" prot="public" virt="non-virtual"><scope>themis::training::MergeResult</scope><name>layers_merged</name></member>
+      <member refid="structthemis_1_1training_1_1_merge_result_1a0405e718ffa9e133abff681316a51e98" prot="public" virt="non-virtual"><scope>themis::training::MergeResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

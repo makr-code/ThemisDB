@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::core::concerns::ICircuitBreaker</compoundname>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker" prot="public" virt="non-virtual">themis::core::concerns::DefaultCircuitBreaker</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker" prot="public" virt="non-virtual">themis::core::concerns::NoOpCircuitBreaker</derivedcompoundref>
+    <includes refid="i__circuit__breaker_8h" local="no">i_circuit_breaker.h</includes>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1_1_config" prot="public">themis::core::concerns::ICircuitBreaker::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::State</qualifiedname>
+        <enumvalue id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+<para>Normal operation — requests are allowed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751aa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+<para>Circuit tripped — requests are blocked. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751a5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <briefdescription>
+<para>Recovery probe — limited requests are allowed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="26" column="5" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="26" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1afef1f62ec60cf2061162ab1b97fcd27a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::core::concerns::ICircuitBreaker::~ICircuitBreaker</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICircuitBreaker</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::~ICircuitBreaker</qualifiedname>
+        <briefdescription>
+<para>ICircuit Breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="43" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a193b41a0595d4488ae4499bdc4fb8f1a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::core::concerns::ICircuitBreaker::allowRequest</definition>
+        <argsstring>()=0</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::allowRequest</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a854f0df30ef17bb91a64348a3e453205">allowRequest</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a512b46346b70df72f18d5249d9a755c3">allowRequest</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="49" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a867dc804ca92a81224039bcde19b7a7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ICircuitBreaker::recordSuccess</definition>
+        <argsstring>()=0</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::recordSuccess</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a1a413e903940ed044298d462e2678414">recordSuccess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a5769c455d2ceaeccb587aec594e25470">recordSuccess</reimplementedby>
+        <briefdescription>
+<para>Record Success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="54" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a8973c56d0d50232422e2d36afeaabc08" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ICircuitBreaker::recordFailure</definition>
+        <argsstring>()=0</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::recordFailure</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a453bb751f60ada316256914ee8fb59ef">recordFailure</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a5e9e6988dd6c420ae1f120faa8f182d0">recordFailure</reimplementedby>
+        <briefdescription>
+<para>Record Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="59" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" kindref="member">State</ref></type>
+        <definition>virtual State themis::core::concerns::ICircuitBreaker::getState</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::getState</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a4a1952976d5c5b1956350a18a258f76e">getState</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a4812327f9a05c1669c76cbc2e8b1c2c1">getState</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="61" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae9226af0c51d4bcf6f69a853bd88350f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::core::concerns::ICircuitBreaker::getFailureCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getFailureCount</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::getFailureCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a0e2e75d6d60f504d918b0e51a695366d">getFailureCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a94edd2ff28b860fb175f2383167c2d92">getFailureCount</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="63" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1adadc5a1abafe13279d833edca10fa715" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::core::concerns::ICircuitBreaker::getSuccessCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getSuccessCount</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::getSuccessCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1a5237bbd7bb1893fda0dbf43c1b08797b">getSuccessCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a47a0832725db8effa4e471e625bd5b89">getSuccessCount</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="65" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a325d3e82ff9211af3a35150782c9ad9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ICircuitBreaker::reset</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::reset</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1ab11a5bfadd3bec29be6350ce97b8ca04">reset</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a342562e1749852f688ae7e1f5f0bba6d">reset</reimplementedby>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="70" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a15cf257a04ddc0c586ce1e43d03da701" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ICircuitBreaker::forceOpen</definition>
+        <argsstring>()=0</argsstring>
+        <name>forceOpen</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::forceOpen</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker_1ae2acb04bbdb462a44656cc23dad89f47">forceOpen</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1aafb6dd8bf1ec3413017d02b70c690963">forceOpen</reimplementedby>
+        <briefdescription>
+<para>Force Open. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="75" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Fn</type>
+          </param>
+          <param>
+            <type>typename Fallback</type>
+          </param>
+        </templateparamlist>
+        <type>decltype(fn())</type>
+        <definition>decltype(fn()) themis::core::concerns::ICircuitBreaker::call</definition>
+        <argsstring>(Fn &amp;&amp;fn, Fallback &amp;&amp;fallback)</argsstring>
+        <name>call</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::call</qualifiedname>
+        <param>
+          <type>Fn &amp;&amp;</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>Fallback &amp;&amp;</type>
+          <declname>fallback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="82" column="10" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="82" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a975e8766eb47ecdfe9116450e0660d79" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ICircuitBreaker::flush</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::flush</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a4e131156a0595a120cec33ae7c2653cc">flush</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="125" column="18" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a7c97ce4f356e987552aab5f2529c2847" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ICircuitBreaker::shutdown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::shutdown</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a6c845ebb1eb45d042f6b13eedc53c97c">shutdown</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="127" column="18" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6904e3f4a8d692678b3beb1e0e53914e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>virtual ProbeResult themis::core::concerns::ICircuitBreaker::isHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::isHealthy</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1ac5d4d5e311b1ddddabc836f60b31d7e8">isHealthy</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="129" column="25" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="129" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a22f6b1d7a69201eede78c7c1b1498268" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::core::concerns::ICircuitBreaker::stateToString</definition>
+        <argsstring>(State state)</argsstring>
+        <name>stateToString</name>
+        <qualifiedname>themis::core::concerns::ICircuitBreaker::stateToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" kindref="member">State</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" kindref="member">State</ref> To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stateToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_circuit_breaker.h" line="112" column="24" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="112" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::DefaultCircuitBreaker</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::ICircuitBreaker</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker"/>
+      </node>
+      <node id="3">
+        <label>themis::core::concerns::NoOpCircuitBreaker</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/core/concerns/i_circuit_breaker.h" line="24" column="1" bodyfile="include/core/concerns/i_circuit_breaker.h" bodystart="24" bodyend="134"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a193b41a0595d4488ae4499bdc4fb8f1a" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" prot="public" virt="non-virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>call</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a975e8766eb47ecdfe9116450e0660d79" prot="public" virt="virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a15cf257a04ddc0c586ce1e43d03da701" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>forceOpen</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae9226af0c51d4bcf6f69a853bd88350f" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>getFailureCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>getState</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1adadc5a1abafe13279d833edca10fa715" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>getSuccessCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6904e3f4a8d692678b3beb1e0e53914e" prot="public" virt="virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a8973c56d0d50232422e2d36afeaabc08" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a867dc804ca92a81224039bcde19b7a7a" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a325d3e82ff9211af3a35150782c9ad9c" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a7c97ce4f356e987552aab5f2529c2847" prot="public" virt="virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" prot="public" virt="non-virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>State</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a22f6b1d7a69201eede78c7c1b1498268" prot="public" virt="non-virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>stateToString</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1afef1f62ec60cf2061162ab1b97fcd27a" prot="public" virt="virtual"><scope>themis::core::concerns::ICircuitBreaker</scope><name>~ICircuitBreaker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

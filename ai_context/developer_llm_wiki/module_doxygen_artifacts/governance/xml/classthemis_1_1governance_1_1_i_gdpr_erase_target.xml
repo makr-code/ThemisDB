@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_i_gdpr_erase_target" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::governance::IGdprEraseTarget</compoundname>
+    <includes refid="gdpr__subject__rights_8h" local="no">gdpr_subject_rights.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a3bcdee8da436a98819bd7b5709b62a78" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::governance::IGdprEraseTarget::~IGdprEraseTarget</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGdprEraseTarget</name>
+        <qualifiedname>themis::governance::IGdprEraseTarget::~IGdprEraseTarget</qualifiedname>
+        <briefdescription>
+<para>IGdpr Erase Target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="71" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a49eec9bb9121a576bd57cc6f8d675bf7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::governance::IGdprEraseTarget::storeId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>storeId</name>
+        <qualifiedname>themis::governance::IGdprEraseTarget::storeId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="73" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a8d9474355b4eaf1bf19e7281d5a639b2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_store_erasure_result" kindref="compound">StoreErasureResult</ref></type>
+        <definition>virtual StoreErasureResult themis::governance::IGdprEraseTarget::eraseSubject</definition>
+        <argsstring>(const std::string &amp;subject_id, Regulation regulation)=0</argsstring>
+        <name>eraseSubject</name>
+        <qualifiedname>themis::governance::IGdprEraseTarget::eraseSubject</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" kindref="member">Regulation</ref></type>
+          <declname>regulation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="75" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a832e23c8f21e9c293d382ad141428189" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::governance::IGdprEraseTarget::exportSubjectData</definition>
+        <argsstring>(const std::string &amp;subject_id, const std::string &amp;format)=0</argsstring>
+        <name>exportSubjectData</name>
+        <qualifiedname>themis::governance::IGdprEraseTarget::exportSubjectData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="78" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/gdpr_subject_rights.h" line="65" column="1" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="65" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a8d9474355b4eaf1bf19e7281d5a639b2" prot="public" virt="pure-virtual"><scope>themis::governance::IGdprEraseTarget</scope><name>eraseSubject</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a832e23c8f21e9c293d382ad141428189" prot="public" virt="pure-virtual"><scope>themis::governance::IGdprEraseTarget</scope><name>exportSubjectData</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a49eec9bb9121a576bd57cc6f8d675bf7" prot="public" virt="pure-virtual"><scope>themis::governance::IGdprEraseTarget</scope><name>storeId</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_gdpr_erase_target_1a3bcdee8da436a98819bd7b5709b62a78" prot="public" virt="virtual"><scope>themis::governance::IGdprEraseTarget</scope><name>~IGdprEraseTarget</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

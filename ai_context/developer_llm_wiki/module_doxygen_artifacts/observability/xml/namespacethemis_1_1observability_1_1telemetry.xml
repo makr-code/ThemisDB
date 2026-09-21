@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1telemetry" kind="namespace" language="C++">
+    <compoundname>themis::observability::telemetry</compoundname>
+    <innernamespace refid="namespacethemis_1_1observability_1_1telemetry_1_1fields">themis::observability::telemetry::fields</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1telemetry_1_1events">themis::observability::telemetry::events</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1telemetry_1_1layers">themis::observability::telemetry::layers</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1telemetry_1_1defaults">themis::observability::telemetry::defaults</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1telemetry_1_1metadata__keys">themis::observability::telemetry::metadata_keys</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/telemetry_keys.h" line="13" column="1"/>
+  </compounddef>
+</doxygen>

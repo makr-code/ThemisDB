@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1document_1_1_document_store_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::document::DocumentStoreFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a6d09f1b7c6d1c613be0b7eb17e1cdc74" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1document_1_1_in_memory_document_store" kindref="compound">themis::document::InMemoryDocumentStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::document::InMemoryDocumentStore&gt; themis::bench::document::DocumentStoreFixture::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="170" column="29" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a261afc435467dee745ad092031382a0c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution" kindref="compound">themis::document::InMemoryDocumentSchemaEvolution</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::document::InMemoryDocumentSchemaEvolution&gt; themis::bench::document::DocumentStoreFixture::schemaEngine_</definition>
+        <argsstring></argsstring>
+        <name>schemaEngine_</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::schemaEngine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="171" column="21" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1ac1e8713729ec7b0ef5628fd602f9c370" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::bench::document::DocumentStoreFixture::preloadedIds_</definition>
+        <argsstring></argsstring>
+        <name>preloadedIds_</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::preloadedIds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="172" column="58" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1acd81b405d021295ebc57dd74589b5985" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt;nlohmann::json&gt; themis::bench::document::DocumentStoreFixture::schemaBodies_</definition>
+        <argsstring></argsstring>
+        <name>schemaBodies_</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::schemaBodies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="173" column="55" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a2b38fb0268a6311c1eaddef0c55e799a" prot="protected" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::bench::document::DocumentStoreFixture::largBody_</definition>
+        <argsstring></argsstring>
+        <name>largBody_</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::largBody_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="174" column="71" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a12d1ce0bb55723ba6b6caf3debbacc5c" prot="protected" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::bench::document::DocumentStoreFixture::iterCounter_</definition>
+        <argsstring></argsstring>
+        <name>iterCounter_</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::iterCounter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="175" column="71" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a275bf7a86772300d469935c325bf7cce" prot="protected" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themis::bench::document::DocumentStoreFixture::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::rng_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="176" column="71" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="176" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a356d9b73ef22e7566ed5359bc7fa6f21" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::document::DocumentStoreFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="149" column="10" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="149" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a71c2247012a6009e3c1764f1eef8f9c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::document::DocumentStoreFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="162" column="10" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="162" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a61c66682e4c0ed5044690503c845d8a9" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::document::DocumentStoreFixture::preloadReadCollection</definition>
+        <argsstring>()</argsstring>
+        <name>preloadReadCollection</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::preloadReadCollection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="179" column="10" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="179" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1adb45dc3fe94447807f08266c236114a2" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::document::DocumentStoreFixture::prepareSchemaEngine</definition>
+        <argsstring>()</argsstring>
+        <name>prepareSchemaEngine</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::prepareSchemaEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="191" column="10" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="191" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1aa2ad66d45187c659e8c77a6503a5ce91" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::document::DocumentStoreFixture::warmUp</definition>
+        <argsstring>()</argsstring>
+        <name>warmUp</name>
+        <qualifiedname>themis::bench::document::DocumentStoreFixture::warmUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="212" column="10" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="212" bodyend="221"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for document-store benchmarks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a356d9b73ef22e7566ed5359bc7fa6f21" kindref="member">SetUp()</ref> pre-populates <computeroutput>kPreloadCount</computeroutput> documents in kReadCollection to provide stable targets for GetLatency, ListThroughput, CountLatency, and UpdateThroughput. PutThroughput and RemoveThroughput manage their own data in kWriteCollection using per-iteration unique IDs.</para>
+<para>A separate InMemoryDocumentSchemaEvolution is initialised with a 10-field schema for DST-BM-08. Pre-built document bodies avoid JSON construction overhead inside the schema-validation measurement loop.</para>
+<para>Seed: kDocCanonicalSeed = 42 drives the std::mt19937 used for random document access in GetLatency. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::bench::document::DocumentStoreFixture</label>
+        <link refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::bench::document::DocumentStoreFixture</label>
+        <link refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/document/bench_document_store.cpp" line="147" column="1" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="147" bodyend="222"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a12d1ce0bb55723ba6b6caf3debbacc5c" prot="protected" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>iterCounter_</name></member>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a2b38fb0268a6311c1eaddef0c55e799a" prot="protected" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>largBody_</name></member>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1ac1e8713729ec7b0ef5628fd602f9c370" prot="protected" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>preloadedIds_</name></member>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a61c66682e4c0ed5044690503c845d8a9" prot="private" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>preloadReadCollection</name></member>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1adb45dc3fe94447807f08266c236114a2" prot="private" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>prepareSchemaEngine</name></member>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a275bf7a86772300d469935c325bf7cce" prot="protected" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>rng_</name></member>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1acd81b405d021295ebc57dd74589b5985" prot="protected" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>schemaBodies_</name></member>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a261afc435467dee745ad092031382a0c" prot="protected" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>schemaEngine_</name></member>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a356d9b73ef22e7566ed5359bc7fa6f21" prot="public" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a6d09f1b7c6d1c613be0b7eb17e1cdc74" prot="protected" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>store_</name></member>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1a71c2247012a6009e3c1764f1eef8f9c8" prot="public" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture_1aa2ad66d45187c659e8c77a6503a5ce91" prot="private" virt="non-virtual"><scope>themis::bench::document::DocumentStoreFixture</scope><name>warmUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

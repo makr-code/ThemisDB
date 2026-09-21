@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_prompt_engineering_grpc_service" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::server::PromptEngineeringGrpcService</compoundname>
+    <includes refid="prompt__engineering__grpc__service_8h" local="no">prompt_engineering_grpc_service.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a710987efed53f710d28ac35944c43149" prot="public" static="no">
+        <type>std::function&lt; void *()&gt;</type>
+        <definition>using themis::server::PromptEngineeringGrpcService::ServiceAccessorFn = std::function&lt;void*()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ServiceAccessorFn</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::ServiceAccessorFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="37" column="5" bodyfile="include/server/prompt_engineering_grpc_service.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a4f8048eb2f90e2618261c8286b39a6f7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::PromptEngineeringGrpcService::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="68" column="21" bodyfile="include/server/prompt_engineering_grpc_service.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a58b13d5139a30f872993aa73c60530e8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt;::themis::prompt_engineering::PromptManager &gt;</type>
+        <definition>std::shared_ptr&lt;::themis::prompt_engineering::PromptManager&gt; themis::server::PromptEngineeringGrpcService::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="69" column="21" bodyfile="include/server/prompt_engineering_grpc_service.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a88054e1af600f0c6c05df610c529ef0e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt;::themis::prompt_engineering::PromptOptimizer &gt;</type>
+        <definition>std::shared_ptr&lt;::themis::prompt_engineering::PromptOptimizer&gt; themis::server::PromptEngineeringGrpcService::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="70" column="21" bodyfile="include/server/prompt_engineering_grpc_service.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a77bebe51db2ac7cb799d2b020639d152" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt;::themis::prompt_engineering::PromptPerformanceTracker &gt;</type>
+        <definition>std::shared_ptr&lt;::themis::prompt_engineering::PromptPerformanceTracker&gt; themis::server::PromptEngineeringGrpcService::tracker_</definition>
+        <argsstring></argsstring>
+        <name>tracker_</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="71" column="21" bodyfile="include/server/prompt_engineering_grpc_service.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a163710ca0b22fcc9441b974c2c7768e8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt;::themis::prompt_engineering::SelfImprovementOrchestrator &gt;</type>
+        <definition>std::shared_ptr&lt;::themis::prompt_engineering::SelfImprovementOrchestrator&gt; themis::server::PromptEngineeringGrpcService::orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="72" column="21" bodyfile="include/server/prompt_engineering_grpc_service.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1aa46a79c8e540636e9d5de7657ece63aa" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt;::themis::prompt_engineering::FeedbackCollector &gt;</type>
+        <definition>std::shared_ptr&lt;::themis::prompt_engineering::FeedbackCollector&gt; themis::server::PromptEngineeringGrpcService::feedback_collector_</definition>
+        <argsstring></argsstring>
+        <name>feedback_collector_</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::feedback_collector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="73" column="21" bodyfile="include/server/prompt_engineering_grpc_service.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a70237fbc22458169fea7d328093c6d2e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt;::themis::prompt_engineering::PromptVersionControl &gt;</type>
+        <definition>std::shared_ptr&lt;::themis::prompt_engineering::PromptVersionControl&gt; themis::server::PromptEngineeringGrpcService::version_control_</definition>
+        <argsstring></argsstring>
+        <name>version_control_</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::version_control_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="74" column="21" bodyfile="include/server/prompt_engineering_grpc_service.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1aadf0e8796ff30dd62e693f5c97110255" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt;::themis::prompt_engineering::PromptEngineeringIntegration &gt;</type>
+        <definition>std::shared_ptr&lt;::themis::prompt_engineering::PromptEngineeringIntegration&gt; themis::server::PromptEngineeringGrpcService::integration_</definition>
+        <argsstring></argsstring>
+        <name>integration_</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::integration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="75" column="21" bodyfile="include/server/prompt_engineering_grpc_service.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a10478cd62ef0c2adc43dd84edc397db3" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::server::PromptEngineeringGrpcService::service_ptr_</definition>
+        <argsstring></argsstring>
+        <name>service_ptr_</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::service_ptr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="76" column="10" bodyfile="include/server/prompt_engineering_grpc_service.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1adb2755f2065c11b686f853be141c79a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PromptEngineeringGrpcService::PromptEngineeringGrpcService</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt;::themis::prompt_engineering::PromptManager &gt; manager, std::shared_ptr&lt;::themis::prompt_engineering::PromptOptimizer &gt; optimizer, std::shared_ptr&lt;::themis::prompt_engineering::PromptPerformanceTracker &gt; tracker, std::shared_ptr&lt;::themis::prompt_engineering::SelfImprovementOrchestrator &gt; orchestrator, std::shared_ptr&lt;::themis::prompt_engineering::FeedbackCollector &gt; feedback_collector, std::shared_ptr&lt;::themis::prompt_engineering::PromptVersionControl &gt; version_control, std::shared_ptr&lt;::themis::prompt_engineering::PromptEngineeringIntegration &gt; integration)</argsstring>
+        <name>PromptEngineeringGrpcService</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::PromptEngineeringGrpcService</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt;::themis::prompt_engineering::PromptManager &gt;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt;::themis::prompt_engineering::PromptOptimizer &gt;</type>
+          <declname>optimizer</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt;::themis::prompt_engineering::PromptPerformanceTracker &gt;</type>
+          <declname>tracker</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt;::themis::prompt_engineering::SelfImprovementOrchestrator &gt;</type>
+          <declname>orchestrator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt;::themis::prompt_engineering::FeedbackCollector &gt;</type>
+          <declname>feedback_collector</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt;::themis::prompt_engineering::PromptVersionControl &gt;</type>
+          <declname>version_control</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt;::themis::prompt_engineering::PromptEngineeringIntegration &gt;</type>
+          <declname>integration</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_prompt_grpc_service_accessor_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="39" column="5" bodyfile="src/server/prompt_engineering_grpc_service.cpp" bodystart="26" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a2f268c5644116127faef2f9aa604e3f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PromptEngineeringGrpcService::~PromptEngineeringGrpcService</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PromptEngineeringGrpcService</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::~PromptEngineeringGrpcService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1aeb6ab726d0a323f871abdc62a87d24f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::server::PromptEngineeringGrpcService::service</definition>
+        <argsstring>() const</argsstring>
+        <name>service</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::service</qualifiedname>
+        <briefdescription>
+<para>Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="56" column="10" bodyfile="src/server/prompt_engineering_grpc_service.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1ae251c58778e4d8c99d264f48f92dd51f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::PromptEngineeringGrpcService::setServiceAccessorFn</definition>
+        <argsstring>(ServiceAccessorFn fn)</argsstring>
+        <name>setServiceAccessorFn</name>
+        <qualifiedname>themis::server::PromptEngineeringGrpcService::setServiceAccessorFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a710987efed53f710d28ac35944c43149" kindref="member">ServiceAccessorFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Service Accessor Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_grpc_service.h" line="62" column="17" bodyfile="src/server/prompt_engineering_grpc_service.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/prompt_engineering_grpc_service.h" line="35" column="1" bodyfile="include/server/prompt_engineering_grpc_service.h" bodystart="35" bodyend="77"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1aa46a79c8e540636e9d5de7657ece63aa" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>feedback_collector_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1aadf0e8796ff30dd62e693f5c97110255" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>integration_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a58b13d5139a30f872993aa73c60530e8" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a88054e1af600f0c6c05df610c529ef0e" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>optimizer_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a163710ca0b22fcc9441b974c2c7768e8" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>orchestrator_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1adb2755f2065c11b686f853be141c79a8" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>PromptEngineeringGrpcService</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1aeb6ab726d0a323f871abdc62a87d24f4" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>service</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a10478cd62ef0c2adc43dd84edc397db3" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>service_ptr_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a710987efed53f710d28ac35944c43149" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>ServiceAccessorFn</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1ae251c58778e4d8c99d264f48f92dd51f" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>setServiceAccessorFn</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a4f8048eb2f90e2618261c8286b39a6f7" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a77bebe51db2ac7cb799d2b020639d152" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>tracker_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a70237fbc22458169fea7d328093c6d2e" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>version_control_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service_1a2f268c5644116127faef2f9aa604e3f2" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringGrpcService</scope><name>~PromptEngineeringGrpcService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

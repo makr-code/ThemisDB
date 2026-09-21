@@ -1,0 +1,2435 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_graph_index_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::GraphIndexManager</compoundname>
+    <includes refid="graph__index_8h" local="no">graph_index.h</includes>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info" prot="public">themis::GraphIndexManager::AdjacencyInfo</innerclass>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_status" prot="public">themis::GraphIndexManager::Status</innerclass>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_path_result" prot="public">themis::GraphIndexManager::PathResult</innerclass>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_path_constraints" prot="public">themis::GraphIndexManager::PathConstraints</innerclass>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_edge_info" prot="public">themis::GraphIndexManager::EdgeInfo</innerclass>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_temporal_aggregation_result" prot="public">themis::GraphIndexManager::TemporalAggregationResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083af" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Aggregation</name>
+        <qualifiedname>themis::GraphIndexManager::Aggregation</qualifiedname>
+        <enumvalue id="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083afa4905ac9d6a22bdfc1ae096094ce6248d" prot="public">
+          <name>COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083afa6970bdc2201030b9c03fbdcf3973858a" prot="public">
+          <name>SUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083afafcefd647d6a866603c627b11347c707a" prot="public">
+          <name>AVG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083aface31e2a082d17e038fcc6e3006166653" prot="public">
+          <name>MIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083afa26a4b44a837bf97b972628509912b4a5" prot="public">
+          <name>MAX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="186" column="5" bodyfile="include/index/graph_index.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_graph_index_manager_1a7e732ddfdde38e4f5e3687f8383473ff" prot="public" static="no">
+        <type>std::function&lt; double(const std::string &amp;node)&gt;</type>
+        <definition>using themis::GraphIndexManager::HeuristicFunc = std::function&lt;double(const std::string&amp; node)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HeuristicFunc</name>
+        <qualifiedname>themis::GraphIndexManager::HeuristicFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="263" column="5" bodyfile="include/index/graph_index.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_graph_index_manager_1a21b12929885c731b0fc444f7b17679b3" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::GraphIndexManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::GraphIndexManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="307" column="20" bodyfile="include/index/graph_index.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_graph_index_manager_1a164d4280e6ac6f535d0ba66de134505e" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::GraphIndexManager::topology_mutex_</definition>
+        <argsstring></argsstring>
+        <name>topology_mutex_</name>
+        <qualifiedname>themis::GraphIndexManager::topology_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="323" column="31" bodyfile="include/index/graph_index.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_graph_index_manager_1a14fc3613bb1b10cd5279409052b05df3" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info" kindref="compound">AdjacencyInfo</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;AdjacencyInfo&gt; &gt; themis::GraphIndexManager::outEdges_</definition>
+        <argsstring></argsstring>
+        <name>outEdges_</name>
+        <qualifiedname>themis::GraphIndexManager::outEdges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="324" column="24" bodyfile="include/index/graph_index.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_graph_index_manager_1a1ea1a063b938c9b00861d2be962ed378" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info" kindref="compound">AdjacencyInfo</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;AdjacencyInfo&gt; &gt; themis::GraphIndexManager::inEdges_</definition>
+        <argsstring></argsstring>
+        <name>inEdges_</name>
+        <qualifiedname>themis::GraphIndexManager::inEdges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="325" column="24" bodyfile="include/index/graph_index.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_graph_index_manager_1a50d3d09f6109b0cd736a05e2c738efe0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::GraphIndexManager::topologyLoaded_</definition>
+        <argsstring></argsstring>
+        <name>topologyLoaded_</name>
+        <qualifiedname>themis::GraphIndexManager::topologyLoaded_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="326" column="17" bodyfile="include/index/graph_index.h" bodystart="326" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_graph_index_manager_1ad958f717c1895cc98f05ed11c8489277" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; class FieldEncryption &gt;</type>
+        <definition>std::shared_ptr&lt;class FieldEncryption&gt; themis::GraphIndexManager::field_encryption_</definition>
+        <argsstring></argsstring>
+        <name>field_encryption_</name>
+        <qualifiedname>themis::GraphIndexManager::field_encryption_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="348" column="21" bodyfile="include/index/graph_index.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_graph_index_manager_1aa31dca8de85d4dc6fb31634d6c2d5dc9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::AuditLogger &gt;</type>
+        <definition>std::shared_ptr&lt;utils::AuditLogger&gt; themis::GraphIndexManager::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::GraphIndexManager::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="351" column="21" bodyfile="include/index/graph_index.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_graph_index_manager_1a9dec714b47cb897e5ca4f1b3dd01c1ce" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphIndexManager::user_context_</definition>
+        <argsstring></argsstring>
+        <name>user_context_</name>
+        <qualifiedname>themis::GraphIndexManager::user_context_</qualifiedname>
+        <initializer>= &quot;system&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="352" column="17" bodyfile="include/index/graph_index.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_graph_index_manager_1acce286992a7c170e481e9c0955fdf4bb" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; IExpressionEvaluator &gt;</type>
+        <definition>std::shared_ptr&lt;IExpressionEvaluator&gt; themis::GraphIndexManager::expression_evaluator_</definition>
+        <argsstring></argsstring>
+        <name>expression_evaluator_</name>
+        <qualifiedname>themis::GraphIndexManager::expression_evaluator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="355" column="21" bodyfile="include/index/graph_index.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1add4708f8c43aa98f531acfd32d265bec" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::GraphIndexManager::GraphIndexManager</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>GraphIndexManager</name>
+        <qualifiedname>themis::GraphIndexManager::GraphIndexManager</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="69" column="14" bodyfile="src/index/graph_index.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1af245f3731400b889c4c3c75beeff01c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GraphIndexManager::setAuditLogger</definition>
+        <argsstring>(std::shared_ptr&lt; utils::AuditLogger &gt; logger, std::string user_context=&quot;system&quot;)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::GraphIndexManager::setAuditLogger</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; utils::AuditLogger &gt;</type>
+          <declname>logger</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>user_context</declname>
+          <defval>&quot;system&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Phase 1: Set audit logger for tracking graph operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="72" column="10" bodyfile="src/index/graph_index.cpp" bodystart="90" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1afd19f3fff08af50595f1f75fe8474155" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GraphIndexManager::setUserContext</definition>
+        <argsstring>(std::string user_id)</argsstring>
+        <name>setUserContext</name>
+        <qualifiedname>themis::GraphIndexManager::setUserContext</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Set User Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="75" column="10" bodyfile="src/index/graph_index.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a30cd2456235f39e77cbf1af5c4d96ed8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GraphIndexManager::setExpressionEvaluator</definition>
+        <argsstring>(std::shared_ptr&lt; IExpressionEvaluator &gt; evaluator)</argsstring>
+        <name>setExpressionEvaluator</name>
+        <qualifiedname>themis::GraphIndexManager::setExpressionEvaluator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; IExpressionEvaluator &gt;</type>
+          <declname>evaluator</declname>
+        </param>
+        <briefdescription>
+<para>Phase 4: Set expression evaluator for advanced filtering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="78" column="10" bodyfile="src/index/graph_index.cpp" bodystart="109" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a5cb0ac793406def76f9a4bd5c5d3c5a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; IExpressionEvaluator &gt;</type>
+        <definition>std::shared_ptr&lt; IExpressionEvaluator &gt; themis::GraphIndexManager::getExpressionEvaluator</definition>
+        <argsstring>() const</argsstring>
+        <name>getExpressionEvaluator</name>
+        <qualifiedname>themis::GraphIndexManager::getExpressionEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="81" column="21" bodyfile="src/index/graph_index.cpp" bodystart="113" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a33f1b2f319c39567ca59211a89068071" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GraphIndexManager::Status themis::GraphIndexManager::rebuildTopology</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildTopology</name>
+        <qualifiedname>themis::GraphIndexManager::rebuildTopology</qualifiedname>
+        <briefdescription>
+<para>Rebuild Topology. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1a53929f944bce44937bc0ab7bfdaa621d" kindref="member">Status::Error()</ref>, lock(), clear(), scanPrefix(), keyStr(), rfind(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="85" column="12" bodyfile="src/index/graph_index.cpp" bodystart="950" bodyend="1024"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a888a48808644ed7e8a06cddf33795294" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GraphIndexManager::Status themis::GraphIndexManager::addEdge</definition>
+        <argsstring>(const BaseEntity &amp;edge)</argsstring>
+        <name>addEdge</name>
+        <qualifiedname>themis::GraphIndexManager::addEdge</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <briefdescription>
+<para>Fügt eine Kante zum Graphen hinzu (atomare Operation über WriteBatch). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Edge.</para>
+<para>Edge-Operationen (Edge-Entity benötigt Felder: id, _from, _to)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>BaseEntity mit erforderlichen Feldern:<itemizedlist>
+<listitem><para>id: Eindeutige Kanten-ID (non-empty)</para>
+</listitem><listitem><para>_from: Quell-Knoten-ID (non-empty, fail-closed QW-45 Guard)</para>
+</listitem><listitem><para>_to: Ziel-Knoten-ID (non-empty, fail-closed QW-45 Guard)</para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_graph_index_manager_1_1_status_1ae25f491ecf8d6626221e431f1b53acca" kindref="member">Status::OK()</ref> bei erfolgreicher Einfügung, <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1a53929f944bce44937bc0ab7bfdaa621d" kindref="member">Status::Error()</ref> bei Validierungsfehlern (fehlende Felder, leere Node-IDs).</para>
+</simplesect>
+<simplesect kind="note"><para><bold>QW-45 Fail-Closed Guard:</bold> Empty or missing _from/_to node IDs are rejected before persistence to prevent graph topology corruption. The guards ensure that every edge has valid, non-empty source and target node references. Any validation failure returns <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1a53929f944bce44937bc0ab7bfdaa621d" kindref="member">Status::Error()</ref> immediately (fail-closed behavior).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1a53929f944bce44937bc0ab7bfdaa621d" kindref="member">Status::Error()</ref>, getFieldAsString(), empty(), THEMIS_ERROR(), <ref refid="classthemis_1_1_graph_index_manager_1a516ddad6aedcba29351f65f49a9c2bff" kindref="member">createWriteBatch()</ref>, rollback(), commit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="103" column="12" bodyfile="src/index/graph_index.cpp" bodystart="174" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a669ba9d6f8515dc90beda1fe876144e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GraphIndexManager::Status themis::GraphIndexManager::deleteEdge</definition>
+        <argsstring>(std::string_view edgeId)</argsstring>
+        <name>deleteEdge</name>
+        <qualifiedname>themis::GraphIndexManager::deleteEdge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <briefdescription>
+<para>Delete Edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edgeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1a53929f944bce44937bc0ab7bfdaa621d" kindref="member">Status::Error()</ref>, empty(), KeySchema::makeGraphEdgeKey(), get(), <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1ae25f491ecf8d6626221e431f1b53acca" kindref="member">Status::OK()</ref>, BaseEntity::deserialize(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="104" column="12" bodyfile="src/index/graph_index.cpp" bodystart="224" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a7d7d5d2cd68c8c6cf73d5c1e1a5a98d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GraphIndexManager::Status themis::GraphIndexManager::addEdge</definition>
+        <argsstring>(const BaseEntity &amp;edge, RocksDBWrapper::WriteBatchWrapper &amp;batch)</argsstring>
+        <name>addEdge</name>
+        <qualifiedname>themis::GraphIndexManager::addEdge</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper::WriteBatchWrapper &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Add Edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>WriteBatch variant for atomic multi-edge operations. Applies same QW-45 fail-closed guards as the main addEdge method.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getFieldAsString(), <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1a53929f944bce44937bc0ab7bfdaa621d" kindref="member">Status::Error()</ref>, empty(), THEMIS_ERROR(), nlohmann::json::parse(), is_array(), size(), is_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="109" column="12" bodyfile="src/index/graph_index.cpp" bodystart="268" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1af6d1c031f9581c17684de80faa6aefb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GraphIndexManager::Status themis::GraphIndexManager::deleteEdge</definition>
+        <argsstring>(std::string_view edgeId, RocksDBWrapper::WriteBatchWrapper &amp;batch)</argsstring>
+        <name>deleteEdge</name>
+        <qualifiedname>themis::GraphIndexManager::deleteEdge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper::WriteBatchWrapper &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Delete Edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edgeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1a53929f944bce44937bc0ab7bfdaa621d" kindref="member">Status::Error()</ref>, KeySchema::makeGraphEdgeKey(), get(), <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1ae25f491ecf8d6626221e431f1b53acca" kindref="member">Status::OK()</ref>, BaseEntity::deserialize(), std::string(), getFieldAsString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="110" column="12" bodyfile="src/index/graph_index.cpp" bodystart="440" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a04006caae9fca4332d7f4137ec3c293e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GraphIndexManager::Status themis::GraphIndexManager::addEdge</definition>
+        <argsstring>(const BaseEntity &amp;edge, RocksDBWrapper::TransactionWrapper &amp;txn)</argsstring>
+        <name>addEdge</name>
+        <qualifiedname>themis::GraphIndexManager::addEdge</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper::TransactionWrapper &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Add Edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transaction variant for MVCC isolation. Applies same QW-45 fail-closed guards as the main addEdge method.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isActive(), <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1a53929f944bce44937bc0ab7bfdaa621d" kindref="member">Status::Error()</ref>, getFieldAsString(), empty(), THEMIS_ERROR(), nlohmann::json::parse(), is_array(), is_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="115" column="12" bodyfile="src/index/graph_index.cpp" bodystart="1962" bodyend="2117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a93b078191e5266b59890aa3691ad0a15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GraphIndexManager::Status themis::GraphIndexManager::deleteEdge</definition>
+        <argsstring>(std::string_view edgeId, RocksDBWrapper::TransactionWrapper &amp;txn)</argsstring>
+        <name>deleteEdge</name>
+        <qualifiedname>themis::GraphIndexManager::deleteEdge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper::TransactionWrapper &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Delete Edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edgeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isActive(), <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1a53929f944bce44937bc0ab7bfdaa621d" kindref="member">Status::Error()</ref>, empty(), KeySchema::makeGraphEdgeKey(), get(), <ref refid="structthemis_1_1_graph_index_manager_1_1_status_1ae25f491ecf8d6626221e431f1b53acca" kindref="member">Status::OK()</ref>, BaseEntity::deserialize(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="116" column="12" bodyfile="src/index/graph_index.cpp" bodystart="2126" bodyend="2165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a516ddad6aedcba29351f65f49a9c2bff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; RocksDBWrapper::WriteBatchWrapper &gt;</type>
+        <definition>std::unique_ptr&lt; RocksDBWrapper::WriteBatchWrapper &gt; themis::GraphIndexManager::createWriteBatch</definition>
+        <argsstring>()</argsstring>
+        <name>createWriteBatch</name>
+        <qualifiedname>themis::GraphIndexManager::createWriteBatch</qualifiedname>
+        <briefdescription>
+<para>Create a write batch for atomic multi-edge mutations (e.g. scheduled refresh). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Write Batch.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createWriteBatch without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="119" column="21" bodyfile="src/index/graph_index.cpp" bodystart="164" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a2039642b6cd391d8c64bbec0c3adf3de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, std::vector&lt; std::string &gt; &gt; themis::GraphIndexManager::outNeighbors</definition>
+        <argsstring>(std::string_view fromPk) const</argsstring>
+        <name>outNeighbors</name>
+        <qualifiedname>themis::GraphIndexManager::outNeighbors</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>fromPk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="122" column="15" bodyfile="src/index/graph_index.cpp" bodystart="473" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a1c93f35f7fc6503aa44bc5f89240a91e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, std::vector&lt; std::string &gt; &gt; themis::GraphIndexManager::inNeighbors</definition>
+        <argsstring>(std::string_view toPk) const</argsstring>
+        <name>inNeighbors</name>
+        <qualifiedname>themis::GraphIndexManager::inNeighbors</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>toPk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="123" column="15" bodyfile="src/index/graph_index.cpp" bodystart="534" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1af82d44c87cc08a24c231fc6bb095f1b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info" kindref="compound">AdjacencyInfo</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, std::vector&lt; GraphIndexManager::AdjacencyInfo &gt; &gt; themis::GraphIndexManager::outAdjacency</definition>
+        <argsstring>(std::string_view fromPk) const</argsstring>
+        <name>outAdjacency</name>
+        <qualifiedname>themis::GraphIndexManager::outAdjacency</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>fromPk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="126" column="15" bodyfile="src/index/graph_index.cpp" bodystart="587" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a873447493dd72fb49d56e44a3219fb45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info" kindref="compound">AdjacencyInfo</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, std::vector&lt; GraphIndexManager::AdjacencyInfo &gt; &gt; themis::GraphIndexManager::inAdjacency</definition>
+        <argsstring>(std::string_view toPk) const</argsstring>
+        <name>inAdjacency</name>
+        <qualifiedname>themis::GraphIndexManager::inAdjacency</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>toPk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="127" column="15" bodyfile="src/index/graph_index.cpp" bodystart="640" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a9b24c6b1fb1cb5970e623acf33408d0c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, std::vector&lt; std::string &gt; &gt; themis::GraphIndexManager::bfsAtTime</definition>
+        <argsstring>(std::string_view startPk, int64_t timestamp_ms, int maxDepth=3) const</argsstring>
+        <name>bfsAtTime</name>
+        <qualifiedname>themis::GraphIndexManager::bfsAtTime</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>startPk</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxDepth</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="149" column="15" bodyfile="src/index/graph_index.cpp" bodystart="2170" bodyend="2229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a8b862c6550ca0937c1efc3261ae3983c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_graph_index_manager_1_1_path_result" kindref="compound">PathResult</ref> &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, GraphIndexManager::PathResult &gt; themis::GraphIndexManager::dijkstraAtTime</definition>
+        <argsstring>(std::string_view startPk, std::string_view targetPk, int64_t timestamp_ms) const</argsstring>
+        <name>dijkstraAtTime</name>
+        <qualifiedname>themis::GraphIndexManager::dijkstraAtTime</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>startPk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>targetPk</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Start. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">startPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Target. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">targetPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="155" column="15" bodyfile="src/index/graph_index.cpp" bodystart="2232" bodyend="2332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a3a98f87a1cc854b1969f52e2d22c77fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_edge_info" kindref="compound">EdgeInfo</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, std::vector&lt; GraphIndexManager::EdgeInfo &gt; &gt; themis::GraphIndexManager::getEdgesInTimeRange</definition>
+        <argsstring>(int64_t range_start_ms, int64_t range_end_ms, bool require_full_containment=false) const</argsstring>
+        <name>getEdgesInTimeRange</name>
+        <qualifiedname>themis::GraphIndexManager::getEdgesInTimeRange</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>range_start_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>range_end_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>require_full_containment</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Parse key: graph:out:&lt;from_pk&gt;:&lt;edge_id&gt; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+To Pk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="171" column="15" bodyfile="src/index/graph_index.cpp" bodystart="2337" bodyend="2399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1ab25a13110c512f56ca3c7081a61383c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_edge_info" kindref="compound">EdgeInfo</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, std::vector&lt; GraphIndexManager::EdgeInfo &gt; &gt; themis::GraphIndexManager::getOutEdgesInTimeRange</definition>
+        <argsstring>(std::string_view fromPk, int64_t range_start_ms, int64_t range_end_ms, bool require_full_containment=false) const</argsstring>
+        <name>getOutEdgesInTimeRange</name>
+        <qualifiedname>themis::GraphIndexManager::getOutEdgesInTimeRange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>fromPk</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>range_start_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>range_end_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>require_full_containment</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Parse key: graph:out:&lt;from_pk&gt;:&lt;edge_id&gt; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+To Pk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="178" column="15" bodyfile="src/index/graph_index.cpp" bodystart="2402" bodyend="2458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a105fb7b44f675fc8a0101a96086beb68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_graph_index_manager_1_1_temporal_aggregation_result" kindref="compound">TemporalAggregationResult</ref> &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, GraphIndexManager::TemporalAggregationResult &gt; themis::GraphIndexManager::aggregateEdgePropertyInTimeRange</definition>
+        <argsstring>(std::string_view property, Aggregation agg, int64_t range_start_ms, int64_t range_end_ms, bool require_full_containment=false, std::optional&lt; std::string_view &gt; edge_type=std::nullopt) const</argsstring>
+        <name>aggregateEdgePropertyInTimeRange</name>
+        <qualifiedname>themis::GraphIndexManager::aggregateEdgePropertyInTimeRange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>property</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083af" kindref="member">Aggregation</ref></type>
+          <declname>agg</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>range_start_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>range_end_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>require_full_containment</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string_view &gt;</type>
+          <declname>edge_type</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Aggregate a numeric edge property across edges matching the time range.<itemizedlist>
+<listitem><para>property: the numeric field name on the Edge entity (e.g. &quot;_weight&quot; or &quot;cost&quot;)</para>
+</listitem><listitem><para>agg: aggregation type (COUNT, SUM, AVG, MIN, MAX)</para>
+</listitem><listitem><para>range_start_ms / range_end_ms: time window</para>
+</listitem><listitem><para>require_full_containment: if true only include fully contained edges</para>
+</listitem><listitem><para>optional edge_type: if provided, only consider edges with matching _type </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>LEGACY PATH (requires human approval — INDEX-AUD-GI-03): fallback to pre-v2. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+0 key format Reason: parseOutKey_ may reject a key that parseInKey_ already fell back to legacy format. Activation: when parseOutKey_ returns false (key has no graphId segment). Primary Delta: v2.0+ code uses parseOutKey_ successfully; old keys fall through here. Approved By: Index module maintainer — INDEX-AUD-GI-03 Removal Target: v2.6.0</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="199" column="15" bodyfile="src/index/graph_index.cpp" bodystart="2462" bodyend="2590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a906656b1492ba3bdc07e4f684a18ed32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_temporal_stats" kindref="compound">TemporalStats</ref> &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, TemporalStats &gt; themis::GraphIndexManager::getTemporalStats</definition>
+        <argsstring>(int64_t range_start_ms, int64_t range_end_ms, bool require_full_containment=false) const</argsstring>
+        <name>getTemporalStats</name>
+        <qualifiedname>themis::GraphIndexManager::getTemporalStats</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>range_start_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>range_end_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>require_full_containment</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Parse key: graph:out:&lt;from_pk&gt;:&lt;edge_id&gt; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="209" column="15" bodyfile="src/index/graph_index.cpp" bodystart="2593" bodyend="2674"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a573f901735e72e7afcae0f0192a11897" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, std::vector&lt; std::string &gt; &gt; themis::GraphIndexManager::bfs</definition>
+        <argsstring>(std::string_view startPk, int maxDepth=3) const</argsstring>
+        <name>bfs</name>
+        <qualifiedname>themis::GraphIndexManager::bfs</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>startPk</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxDepth</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global topology protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Robust parsing that supports both formats: - graph:out:&lt;graphId&gt;:&lt;fromPk&gt;:&lt;edgeId&gt; - graph:out:&lt;fromPk&gt;:&lt;edgeId&gt; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Neigh. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="216" column="15" bodyfile="src/index/graph_index.cpp" bodystart="694" bodyend="824"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a6b6694697dffa10033329779ec490cf7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, std::vector&lt; std::string &gt; &gt; themis::GraphIndexManager::bfs</definition>
+        <argsstring>(std::string_view startPk, int maxDepth, std::string_view edge_type, std::string_view graph_id) const</argsstring>
+        <name>bfs</name>
+        <qualifiedname>themis::GraphIndexManager::bfs</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>startPk</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxDepth</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Type Filter. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Graph Filter. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global topology protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Neigh. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="222" column="15" bodyfile="src/index/graph_index.cpp" bodystart="828" bodyend="939"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1aaa1d45605867c8bae5abb0598c7c2952" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_graph_index_manager_1_1_path_result" kindref="compound">PathResult</ref> &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, GraphIndexManager::PathResult &gt; themis::GraphIndexManager::dijkstra</definition>
+        <argsstring>(std::string_view startPk, std::string_view targetPk) const</argsstring>
+        <name>dijkstra</name>
+        <qualifiedname>themis::GraphIndexManager::dijkstra</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>startPk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>targetPk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Start. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">startPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Target. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">targetPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global topology protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Robust parse (support optional graphId segment) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Neighbor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="230" column="15" bodyfile="src/index/graph_index.cpp" bodystart="1512" bodyend="1657"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1aba12a5766602d16165c7a6a370237d66" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_graph_index_manager_1_1_path_result" kindref="compound">PathResult</ref> &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, GraphIndexManager::PathResult &gt; themis::GraphIndexManager::dijkstra</definition>
+        <argsstring>(std::string_view startPk, std::string_view targetPk, std::string_view edge_type, std::string_view graph_id) const</argsstring>
+        <name>dijkstra</name>
+        <qualifiedname>themis::GraphIndexManager::dijkstra</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>startPk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>targetPk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Start. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">startPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Target. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">targetPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Type Filter. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Graph Filter. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global topology protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Neighbor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="236" column="15" bodyfile="src/index/graph_index.cpp" bodystart="1661" bodyend="1809"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a60d07ba57a0e5762fea59ffb7ecbf20b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, std::vector&lt; std::string &gt; &gt; themis::GraphIndexManager::bfsWithConstraints</definition>
+        <argsstring>(std::string_view startPk, int maxDepth, const PathConstraints &amp;constraints, std::string_view edge_type=&quot;&quot;, std::string_view graph_id=&quot;&quot;) const</argsstring>
+        <name>bfsWithConstraints</name>
+        <qualifiedname>themis::GraphIndexManager::bfsWithConstraints</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>startPk</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxDepth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints" kindref="compound">PathConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Type Filter. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Graph Filter. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global topology protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Neigh. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="244" column="15" bodyfile="src/index/graph_index.cpp" bodystart="2678" bodyend="2882"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a6eaffe957dc2762eec4940c4e4c08659" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_graph_index_manager_1_1_path_result" kindref="compound">PathResult</ref> &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, GraphIndexManager::PathResult &gt; themis::GraphIndexManager::dijkstraWithConstraints</definition>
+        <argsstring>(std::string_view startPk, std::string_view targetPk, const PathConstraints &amp;constraints, std::string_view edge_type=&quot;&quot;, std::string_view graph_id=&quot;&quot;) const</argsstring>
+        <name>dijkstraWithConstraints</name>
+        <qualifiedname>themis::GraphIndexManager::dijkstraWithConstraints</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>startPk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>targetPk</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints" kindref="compound">PathConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Type Filter. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Graph Filter. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global topology protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="253" column="15" bodyfile="src/index/graph_index.cpp" bodystart="2886" bodyend="3072"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a0b89c2eb9b130f95624c10658dd96352" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_graph_index_manager_1_1_path_result" kindref="compound">PathResult</ref> &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, GraphIndexManager::PathResult &gt; themis::GraphIndexManager::aStar</definition>
+        <argsstring>(std::string_view startPk, std::string_view targetPk, HeuristicFunc heuristic=nullptr) const</argsstring>
+        <name>aStar</name>
+        <qualifiedname>themis::GraphIndexManager::aStar</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>startPk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>targetPk</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_graph_index_manager_1a7e732ddfdde38e4f5e3687f8383473ff" kindref="member">HeuristicFunc</ref></type>
+          <declname>heuristic</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Start. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">startPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Target. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">targetPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global topology protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Neighbor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="264" column="15" bodyfile="src/index/graph_index.cpp" bodystart="1812" bodyend="1949"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a328de5a60cff21a1e2506b9b87042e9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::GraphIndexManager::getTopologyNodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTopologyNodeCount</name>
+        <qualifiedname>themis::GraphIndexManager::getTopologyNodeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global topology protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="271" column="12" bodyfile="src/index/graph_index.cpp" bodystart="1101" bodyend="1117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1aed70586afb62cb7666dadfec5b69cb72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::GraphIndexManager::getTopologyEdgeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTopologyEdgeCount</name>
+        <qualifiedname>themis::GraphIndexManager::getTopologyEdgeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global topology protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="272" column="12" bodyfile="src/index/graph_index.cpp" bodystart="1169" bodyend="1181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a6e7ad8b8b1264bd6ba8c79901d4fe9eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::GraphIndexManager::getAllVertices</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllVertices</name>
+        <qualifiedname>themis::GraphIndexManager::getAllVertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all vertex IDs present in the in-memory topology (sources and targets of all edges added via addEdge). When the topology has not been loaded, returns an empty vector. Thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="277" column="17" bodyfile="src/index/graph_index.cpp" bodystart="1183" bodyend="1228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1afcc7ea0e8aa18d0271a282a824938c83" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::GraphIndexManager::getEdgeWeight</definition>
+        <argsstring>(std::string_view graphId, std::string_view edgeId, std::string_view weightAttribute=&quot;_weight&quot;) const</argsstring>
+        <name>getEdgeWeight</name>
+        <qualifiedname>themis::GraphIndexManager::getEdgeWeight</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graphId</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>weightAttribute</declname>
+          <defval>&quot;_weight&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="282" column="12" bodyfile="src/index/graph_index.cpp" bodystart="1292" bodyend="1350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1abc2527a8ac198dff1a4facef5f70ade7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::GraphIndexManager::getEdgeField</definition>
+        <argsstring>(std::string_view edgeId, std::string_view fieldName) const</argsstring>
+        <name>getEdgeField</name>
+        <qualifiedname>themis::GraphIndexManager::getEdgeField</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>fieldName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Try the topology keys in the in-memory edge map to find a graphId LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global topology protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="288" column="19" bodyfile="src/index/graph_index.cpp" bodystart="1352" bodyend="1388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1af71fa902ac1a168dc6cb47b5c058aa22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::GraphIndexManager::getNodeField</definition>
+        <argsstring>(std::string_view vertexId, std::string_view fieldName) const</argsstring>
+        <name>getNodeField</name>
+        <qualifiedname>themis::GraphIndexManager::getNodeField</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>vertexId</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>fieldName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="294" column="19" bodyfile="src/index/graph_index.cpp" bodystart="1390" bodyend="1399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1ac19781ac53ad650de8c06877b2ea5e9b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GraphIndexManager::setFieldEncryption</definition>
+        <argsstring>(std::shared_ptr&lt; class FieldEncryption &gt; fe)</argsstring>
+        <name>setFieldEncryption</name>
+        <qualifiedname>themis::GraphIndexManager::setFieldEncryption</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; class FieldEncryption &gt;</type>
+          <declname>fe</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="298" column="10" bodyfile="include/index/graph_index.h" bodystart="298" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a93c50394321cb99a105bf7623661964e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; GraphIndexManager::Status, std::vector&lt; std::string &gt; &gt; themis::GraphIndexManager::allVertices</definition>
+        <argsstring>() const</argsstring>
+        <name>allVertices</name>
+        <qualifiedname>themis::GraphIndexManager::allVertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>LOCK: <ref refid="test__tiered__index__migration_8cpp_1a1ada9d2890a73a32788b47a4b5f73613" kindref="member">Tier</ref> 1 (Global topology protection, read-only) — Phase 3 A-5 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="304" column="15" bodyfile="src/index/graph_index.cpp" bodystart="1120" bodyend="1167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1ad3bf4f0ecd79af3f17d8e271b5507452" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GraphIndexManager::addEdgeToTopology_</definition>
+        <argsstring>(const std::string &amp;edgeId, const std::string &amp;from, const std::string &amp;to, const std::string &amp;graphId=&quot;&quot;)</argsstring>
+        <name>addEdgeToTopology_</name>
+        <qualifiedname>themis::GraphIndexManager::addEdgeToTopology_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>edgeId</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from</declname>
+          <defname>fromPk</defname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to</declname>
+          <defname>toPk</defname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graphId</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add Edge To Topology. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edgeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fromPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">toPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graphId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), addEdgeToTopologyUnlocked_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="329" column="10" bodyfile="src/index/graph_index.cpp" bodystart="1034" bodyend="1038"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1aa5fab2d84e848f3ef15996690a94b7ee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GraphIndexManager::removeEdgeFromTopology_</definition>
+        <argsstring>(const std::string &amp;edgeId, const std::string &amp;from, const std::string &amp;to, const std::string &amp;graphId=&quot;&quot;)</argsstring>
+        <name>removeEdgeFromTopology_</name>
+        <qualifiedname>themis::GraphIndexManager::removeEdgeFromTopology_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>edgeId</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from</declname>
+          <defname>fromPk</defname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to</declname>
+          <defname>toPk</defname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graphId</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Remove Edge From Topology. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edgeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fromPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">toPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graphId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), removeEdgeFromTopologyUnlocked_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="330" column="10" bodyfile="src/index/graph_index.cpp" bodystart="1048" bodyend="1052"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a51ea73b32c599f220682353310677314" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GraphIndexManager::addEdgeToTopologyUnlocked_</definition>
+        <argsstring>(const std::string &amp;edgeId, const std::string &amp;from, const std::string &amp;to, const std::string &amp;graphId=&quot;&quot;)</argsstring>
+        <name>addEdgeToTopologyUnlocked_</name>
+        <qualifiedname>themis::GraphIndexManager::addEdgeToTopologyUnlocked_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>edgeId</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from</declname>
+          <defname>fromPk</defname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to</declname>
+          <defname>toPk</defname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graphId</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add Edge To Topology Unlocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edgeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fromPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">toPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graphId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="331" column="10" bodyfile="src/index/graph_index.cpp" bodystart="1062" bodyend="1065"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1aca3fd81a437437571fd069a02341d960" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GraphIndexManager::removeEdgeFromTopologyUnlocked_</definition>
+        <argsstring>(const std::string &amp;edgeId, const std::string &amp;from, const std::string &amp;to, const std::string &amp;graphId=&quot;&quot;)</argsstring>
+        <name>removeEdgeFromTopologyUnlocked_</name>
+        <qualifiedname>themis::GraphIndexManager::removeEdgeFromTopologyUnlocked_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>edgeId</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from</declname>
+          <defname>fromPk</defname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to</declname>
+          <defname>toPk</defname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graphId</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Remove Edge From Topology Unlocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edgeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fromPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">toPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graphId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), erase(), std::remove_if(), begin(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="332" column="10" bodyfile="src/index/graph_index.cpp" bodystart="1075" bodyend="1099"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a11404353f3f251435f7c597027723ea2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::GraphIndexManager::getEdgeWeight_</definition>
+        <argsstring>(std::string_view graphId, std::string_view edgeId) const</argsstring>
+        <name>getEdgeWeight_</name>
+        <qualifiedname>themis::GraphIndexManager::getEdgeWeight_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graphId</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="335" column="12" bodyfile="src/index/graph_index.cpp" bodystart="1234" bodyend="1289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a2b3aeb11356a34accc927d530be28419" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::GraphIndexManager::getEdgeType_</definition>
+        <argsstring>(std::string_view graphId, std::string_view edgeId) const</argsstring>
+        <name>getEdgeType_</name>
+        <qualifiedname>themis::GraphIndexManager::getEdgeType_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graphId</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="338" column="17" bodyfile="src/index/graph_index.cpp" bodystart="1401" bodyend="1430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1ab5fa362a5e636abce3a6c187bce5072c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GraphIndexManager::logAuditEvent_</definition>
+        <argsstring>(const std::string &amp;event_type, const std::string &amp;resource, const std::string &amp;operation, size_t count=0, int depth=0) const</argsstring>
+        <name>logAuditEvent_</name>
+        <qualifiedname>themis::GraphIndexManager::logAuditEvent_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="358" column="10" bodyfile="src/index/graph_index.cpp" bodystart="118" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1af5755cc73587fa0b4fef9292cf5df928" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::GraphIndexManager::parseOutKey_</definition>
+        <argsstring>(std::string_view key, std::string &amp;graphId, std::string &amp;fromPk, std::string &amp;edgeId)</argsstring>
+        <name>parseOutKey_</name>
+        <qualifiedname>themis::GraphIndexManager::parseOutKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>graphId</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>fromPk</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>edgeId</declname>
+        </param>
+        <briefdescription>
+<para>Parse Out Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">graphId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fromPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">edgeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: rfind(), s(), substr(), find(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="341" column="17" bodyfile="src/index/graph_index.cpp" bodystart="1441" bodyend="1471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a54b919c28a94c575a6ca2173a2ba6438" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::GraphIndexManager::parseInKey_</definition>
+        <argsstring>(std::string_view key, std::string &amp;graphId, std::string &amp;toPk, std::string &amp;edgeId)</argsstring>
+        <name>parseInKey_</name>
+        <qualifiedname>themis::GraphIndexManager::parseInKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>graphId</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>toPk</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>edgeId</declname>
+        </param>
+        <briefdescription>
+<para>Parse In Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">graphId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">toPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">edgeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: rfind(), s(), substr(), find(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="343" column="17" bodyfile="src/index/graph_index.cpp" bodystart="1482" bodyend="1509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_graph_index_manager_1a27cb7b941b47f085dd27a5e6fbc15eb8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::GraphIndexManager::toBytes</definition>
+        <argsstring>(std::string_view sv)</argsstring>
+        <name>toBytes</name>
+        <qualifiedname>themis::GraphIndexManager::toBytes</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>sv</declname>
+        </param>
+        <briefdescription>
+<para>static </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="345" column="24" bodyfile="src/index/graph_index.cpp" bodystart="78" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_graph_index_manager" kindref="compound">GraphIndexManager</ref><itemizedlist>
+<listitem><para>Verwaltet Adjazenz-Indizes für gerichtete Kanten</para>
+</listitem><listitem><para>Key-Schema:<itemizedlist>
+<listitem><para>Out: graph:out:&lt;from_pk&gt;:&lt;edge_id&gt; -&gt; value: &lt;to_pk&gt;</para>
+</listitem><listitem><para>In: graph:in:&lt;to_pk&gt;:&lt;edge_id&gt; -&gt; value: &lt;from_pk&gt;</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Atomare Operationen via WriteBatch</para>
+</listitem><listitem><para>In-Memory Topologie für O(1) Nachbarschaftsabfragen</para>
+</listitem><listitem><para>Saubere Fehler über Status-Rückgabe, kein Exception-API nach außen</para>
+</listitem><listitem><para>Optional: Audit Logging für Graph-Operationen (Phase 1 Knowledge Graph Protection)</para>
+</listitem></itemizedlist>
+</para>
+<para>Note: Windows DLL exports are handled centrally by the module target via CMake&apos;s WINDOWS_EXPORT_ALL_SYMBOLS. Keeping the explicit class-level export here creates inconsistent dllimport/dllexport bindings across translation units and triggers C4273 in mixed build/import scenarios. </para>
+    </detaileddescription>
+    <location file="include/index/graph_index.h" line="54" column="1" bodyfile="include/index/graph_index.h" bodystart="54" bodyend="360"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_graph_index_manager_1a888a48808644ed7e8a06cddf33795294" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>addEdge</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a7d7d5d2cd68c8c6cf73d5c1e1a5a98d5" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>addEdge</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a04006caae9fca4332d7f4137ec3c293e" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>addEdge</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1ad3bf4f0ecd79af3f17d8e271b5507452" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>addEdgeToTopology_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a51ea73b32c599f220682353310677314" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>addEdgeToTopologyUnlocked_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a105fb7b44f675fc8a0101a96086beb68" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>aggregateEdgePropertyInTimeRange</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083af" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>Aggregation</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a93c50394321cb99a105bf7623661964e" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>allVertices</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a0b89c2eb9b130f95624c10658dd96352" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>aStar</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1aa31dca8de85d4dc6fb31634d6c2d5dc9" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a573f901735e72e7afcae0f0192a11897" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>bfs</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a6b6694697dffa10033329779ec490cf7" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>bfs</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a9b24c6b1fb1cb5970e623acf33408d0c" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>bfsAtTime</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a60d07ba57a0e5762fea59ffb7ecbf20b" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>bfsWithConstraints</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a516ddad6aedcba29351f65f49a9c2bff" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>createWriteBatch</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a21b12929885c731b0fc444f7b17679b3" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a669ba9d6f8515dc90beda1fe876144e6" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>deleteEdge</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1af6d1c031f9581c17684de80faa6aefb5" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>deleteEdge</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a93b078191e5266b59890aa3691ad0a15" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>deleteEdge</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1aaa1d45605867c8bae5abb0598c7c2952" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>dijkstra</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1aba12a5766602d16165c7a6a370237d66" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>dijkstra</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a8b862c6550ca0937c1efc3261ae3983c" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>dijkstraAtTime</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a6eaffe957dc2762eec4940c4e4c08659" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>dijkstraWithConstraints</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1acce286992a7c170e481e9c0955fdf4bb" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>expression_evaluator_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1ad958f717c1895cc98f05ed11c8489277" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>field_encryption_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a6e7ad8b8b1264bd6ba8c79901d4fe9eb" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getAllVertices</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1abc2527a8ac198dff1a4facef5f70ade7" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getEdgeField</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a3a98f87a1cc854b1969f52e2d22c77fd" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getEdgesInTimeRange</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a2b3aeb11356a34accc927d530be28419" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getEdgeType_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1afcc7ea0e8aa18d0271a282a824938c83" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getEdgeWeight</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a11404353f3f251435f7c597027723ea2" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getEdgeWeight_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a5cb0ac793406def76f9a4bd5c5d3c5a5" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getExpressionEvaluator</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1af71fa902ac1a168dc6cb47b5c058aa22" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getNodeField</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1ab25a13110c512f56ca3c7081a61383c6" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getOutEdgesInTimeRange</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a906656b1492ba3bdc07e4f684a18ed32" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getTemporalStats</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1aed70586afb62cb7666dadfec5b69cb72" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getTopologyEdgeCount</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a328de5a60cff21a1e2506b9b87042e9e" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>getTopologyNodeCount</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1add4708f8c43aa98f531acfd32d265bec" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>GraphIndexManager</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a7e732ddfdde38e4f5e3687f8383473ff" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>HeuristicFunc</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a873447493dd72fb49d56e44a3219fb45" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>inAdjacency</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a1ea1a063b938c9b00861d2be962ed378" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>inEdges_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a1c93f35f7fc6503aa44bc5f89240a91e" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>inNeighbors</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1ab5fa362a5e636abce3a6c187bce5072c" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>logAuditEvent_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1af82d44c87cc08a24c231fc6bb095f1b7" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>outAdjacency</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a14fc3613bb1b10cd5279409052b05df3" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>outEdges_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a2039642b6cd391d8c64bbec0c3adf3de" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>outNeighbors</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a54b919c28a94c575a6ca2173a2ba6438" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>parseInKey_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1af5755cc73587fa0b4fef9292cf5df928" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>parseOutKey_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a33f1b2f319c39567ca59211a89068071" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>rebuildTopology</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1aa5fab2d84e848f3ef15996690a94b7ee" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>removeEdgeFromTopology_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1aca3fd81a437437571fd069a02341d960" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>removeEdgeFromTopologyUnlocked_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1af245f3731400b889c4c3c75beeff01c3" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a30cd2456235f39e77cbf1af5c4d96ed8" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>setExpressionEvaluator</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1ac19781ac53ad650de8c06877b2ea5e9b" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>setFieldEncryption</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1afd19f3fff08af50595f1f75fe8474155" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>setUserContext</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a27cb7b941b47f085dd27a5e6fbc15eb8" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>toBytes</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a164d4280e6ac6f535d0ba66de134505e" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>topology_mutex_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a50d3d09f6109b0cd736a05e2c738efe0" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>topologyLoaded_</name></member>
+      <member refid="classthemis_1_1_graph_index_manager_1a9dec714b47cb897e5ca4f1b3dd01c1ce" prot="private" virt="non-virtual"><scope>themis::GraphIndexManager</scope><name>user_context_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

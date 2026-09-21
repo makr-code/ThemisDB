@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_r_b_a_c_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::RBACConfig</compoundname>
+    <includes refid="rbac_8h" local="no">rbac.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_b_a_c_config_1acdca2c9ae1aff2b9e3d61dc33d771561" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::RBACConfig::config_path</definition>
+        <argsstring></argsstring>
+        <name>config_path</name>
+        <qualifiedname>themis::security::RBACConfig::config_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="70" column="17" bodyfile="include/security/rbac.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_b_a_c_config_1adb6d0c2a5a8dd79d422d8a9c63822471" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::RBACConfig::enable_role_inheritance</definition>
+        <argsstring></argsstring>
+        <name>enable_role_inheritance</name>
+        <qualifiedname>themis::security::RBACConfig::enable_role_inheritance</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="71" column="10" bodyfile="include/security/rbac.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_b_a_c_config_1a6d3cde95be7db95fdf36c4b86a1b5f30" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::RBACConfig::enable_resource_wildcards</definition>
+        <argsstring></argsstring>
+        <name>enable_resource_wildcards</name>
+        <qualifiedname>themis::security::RBACConfig::enable_resource_wildcards</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="72" column="10" bodyfile="include/security/rbac.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_b_a_c_config_1aefc324a870ac0915359d1b594a6ce773" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::RBACConfig::use_builtin_roles</definition>
+        <argsstring></argsstring>
+        <name>use_builtin_roles</name>
+        <qualifiedname>themis::security::RBACConfig::use_builtin_roles</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="75" column="10" bodyfile="include/security/rbac.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> Configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/rbac.h" line="69" column="1" bodyfile="include/security/rbac.h" bodystart="69" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_r_b_a_c_config_1acdca2c9ae1aff2b9e3d61dc33d771561" prot="public" virt="non-virtual"><scope>themis::security::RBACConfig</scope><name>config_path</name></member>
+      <member refid="structthemis_1_1security_1_1_r_b_a_c_config_1a6d3cde95be7db95fdf36c4b86a1b5f30" prot="public" virt="non-virtual"><scope>themis::security::RBACConfig</scope><name>enable_resource_wildcards</name></member>
+      <member refid="structthemis_1_1security_1_1_r_b_a_c_config_1adb6d0c2a5a8dd79d422d8a9c63822471" prot="public" virt="non-virtual"><scope>themis::security::RBACConfig</scope><name>enable_role_inheritance</name></member>
+      <member refid="structthemis_1_1security_1_1_r_b_a_c_config_1aefc324a870ac0915359d1b594a6ce773" prot="public" virt="non-virtual"><scope>themis::security::RBACConfig</scope><name>use_builtin_roles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_cache_partition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::CachePartition</compoundname>
+    <includes refid="advanced__cache__manager_8h" local="no">advanced_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_partition_1a6bf6ccd9f8a165174315b517d2fc5223" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::CachePartition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::performance::CachePartition::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="59" column="24" bodyfile="include/performance/advanced_cache_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_partition_1ac6a478c6788b5c5f8fb70d0871167c7a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::CachePartition::size_mb</definition>
+        <argsstring></argsstring>
+        <name>size_mb</name>
+        <qualifiedname>themis::performance::CachePartition::size_mb</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="60" column="24" bodyfile="include/performance/advanced_cache_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_partition_1aebc990f99e9e1025468bb822183fe0b5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1a36f69b01c7f892bb544c20c0e47c0d3b" kindref="member">EvictionPolicy</ref></type>
+        <definition>EvictionPolicy themis::performance::CachePartition::policy</definition>
+        <argsstring></argsstring>
+        <name>policy</name>
+        <qualifiedname>themis::performance::CachePartition::policy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1performance_1a36f69b01c7f892bb544c20c0e47c0d3ba875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">EvictionPolicy::LRU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="61" column="24" bodyfile="include/performance/advanced_cache_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_partition_1a81472d474428749a9919d00a7bf013a6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::CachePartition::enable_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_compression</name>
+        <qualifiedname>themis::performance::CachePartition::enable_compression</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="62" column="24" bodyfile="include/performance/advanced_cache_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cache_partition_1ab80089ab7abc1b3f27dbf64540ecb43f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1a96e9e9877069811441df4c5d31c22508" kindref="member">CompressionAlgorithm</ref></type>
+        <definition>CompressionAlgorithm themis::performance::CachePartition::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themis::performance::CachePartition::compression</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1performance_1a96e9e9877069811441df4c5d31c22508aca0c64c0de8f56bc573828ea6d764594" kindref="member">CompressionAlgorithm::LZ4</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="63" column="26" bodyfile="include/performance/advanced_cache_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a single cache partition. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/advanced_cache_manager.h" line="58" column="1" bodyfile="include/performance/advanced_cache_manager.h" bodystart="58" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_cache_partition_1ab80089ab7abc1b3f27dbf64540ecb43f" prot="public" virt="non-virtual"><scope>themis::performance::CachePartition</scope><name>compression</name></member>
+      <member refid="structthemis_1_1performance_1_1_cache_partition_1a81472d474428749a9919d00a7bf013a6" prot="public" virt="non-virtual"><scope>themis::performance::CachePartition</scope><name>enable_compression</name></member>
+      <member refid="structthemis_1_1performance_1_1_cache_partition_1a6bf6ccd9f8a165174315b517d2fc5223" prot="public" virt="non-virtual"><scope>themis::performance::CachePartition</scope><name>name</name></member>
+      <member refid="structthemis_1_1performance_1_1_cache_partition_1aebc990f99e9e1025468bb822183fe0b5" prot="public" virt="non-virtual"><scope>themis::performance::CachePartition</scope><name>policy</name></member>
+      <member refid="structthemis_1_1performance_1_1_cache_partition_1ac6a478c6788b5c5f8fb70d0871167c7a" prot="public" virt="non-virtual"><scope>themis::performance::CachePartition</scope><name>size_mb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

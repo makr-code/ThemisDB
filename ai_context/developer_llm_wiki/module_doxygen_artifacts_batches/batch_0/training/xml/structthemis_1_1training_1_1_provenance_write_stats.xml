@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_provenance_write_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::ProvenanceWriteStats</compoundname>
+    <includes refid="provenance__tracker_8h" local="no">provenance_tracker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_write_stats_1a5218d71bdfaf2c5d17797b390bf6b56e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ProvenanceWriteStats::records_written</definition>
+        <argsstring></argsstring>
+        <name>records_written</name>
+        <qualifiedname>themis::training::ProvenanceWriteStats::records_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="70" column="12" bodyfile="include/training/provenance_tracker.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_write_stats_1aabdd21856f59e323c22c03a729a9e54f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ProvenanceWriteStats::records_rejected</definition>
+        <argsstring></argsstring>
+        <name>records_rejected</name>
+        <qualifiedname>themis::training::ProvenanceWriteStats::records_rejected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Missing required fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="71" column="12" bodyfile="include/training/provenance_tracker.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_provenance_write_stats_1a824263324ab75ccd2b46fc81cf74ed4e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::ProvenanceWriteStats::elapsed_seconds</definition>
+        <argsstring></argsstring>
+        <name>elapsed_seconds</name>
+        <qualifiedname>themis::training::ProvenanceWriteStats::elapsed_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="72" column="12" bodyfile="include/training/provenance_tracker.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_provenance_write_stats_1a11d23ff61a941667679586ee178d9649" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ProvenanceWriteStats::ProvenanceWriteStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>ProvenanceWriteStats</name>
+        <qualifiedname>themis::training::ProvenanceWriteStats::ProvenanceWriteStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="74" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Write statistics for a provenance batch. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/provenance_tracker.h" line="69" column="1" bodyfile="include/training/provenance_tracker.h" bodystart="69" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_provenance_write_stats_1a824263324ab75ccd2b46fc81cf74ed4e" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceWriteStats</scope><name>elapsed_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_write_stats_1a11d23ff61a941667679586ee178d9649" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceWriteStats</scope><name>ProvenanceWriteStats</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_write_stats_1aabdd21856f59e323c22c03a729a9e54f" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceWriteStats</scope><name>records_rejected</name></member>
+      <member refid="structthemis_1_1training_1_1_provenance_write_stats_1a5218d71bdfaf2c5d17797b390bf6b56e" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceWriteStats</scope><name>records_written</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

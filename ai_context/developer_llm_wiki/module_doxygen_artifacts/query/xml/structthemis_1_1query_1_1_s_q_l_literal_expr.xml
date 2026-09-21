@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_q_l_literal_expr" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SQLLiteralExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_s_q_l_expr" prot="public" virt="non-virtual">themis::query::SQLExpr</basecompoundref>
+    <includes refid="sql__parser_8h" local="no">sql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_literal_expr_1a08acbb19affb85e7fe78bf1a5cb9e03b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a52cb07cd3837eaf7d7ea4bf23b103b7f" kindref="member">SQLValue</ref></type>
+        <definition>SQLValue themis::query::SQLLiteralExpr::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::SQLLiteralExpr::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="71" column="14" bodyfile="include/query/sql_parser.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_s_q_l_literal_expr_1ada4ecace6669c7305d11e09f51ea8157" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::SQLLiteralExpr::SQLLiteralExpr</definition>
+        <argsstring>(SQLValue v)</argsstring>
+        <name>SQLLiteralExpr</name>
+        <qualifiedname>themis::query::SQLLiteralExpr::SQLLiteralExpr</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a52cb07cd3837eaf7d7ea4bf23b103b7f" kindref="member">SQLValue</ref></type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="72" column="14" bodyfile="include/query/sql_parser.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_s_q_l_literal_expr_1a169378b4243c6ba481fa391f64cc201e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86" kindref="member">SQLExprType</ref></type>
+        <definition>SQLExprType themis::query::SQLLiteralExpr::type</definition>
+        <argsstring>() const override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::SQLLiteralExpr::type</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_s_q_l_expr_1a2fe6810ef4d8a8219f266ce073e16fc6">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="73" column="17" bodyfile="include/query/sql_parser.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_s_q_l_literal_expr_1a32b2d3256bd55297af45f1935d148e52" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLLiteralExpr::toAQL</definition>
+        <argsstring>(const std::string &amp;var) const override</argsstring>
+        <name>toAQL</name>
+        <qualifiedname>themis::query::SQLLiteralExpr::toAQL</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_s_q_l_expr_1af20858045228af595128fb418c6584cb">toAQL</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>var</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="74" column="17" bodyfile="src/query/sql_parser.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::SQLExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_expr"/>
+      </node>
+      <node id="1">
+        <label>themis::query::SQLLiteralExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_literal_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::SQLExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_expr"/>
+      </node>
+      <node id="1">
+        <label>themis::query::SQLLiteralExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_literal_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/sql_parser.h" line="70" column="1" bodyfile="include/query/sql_parser.h" bodystart="70" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1ada4ecace6669c7305d11e09f51ea8157" prot="public" virt="non-virtual"><scope>themis::query::SQLLiteralExpr</scope><name>SQLLiteralExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1a32b2d3256bd55297af45f1935d148e52" prot="public" virt="virtual"><scope>themis::query::SQLLiteralExpr</scope><name>toAQL</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1a169378b4243c6ba481fa391f64cc201e" prot="public" virt="virtual"><scope>themis::query::SQLLiteralExpr</scope><name>type</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_literal_expr_1a08acbb19affb85e7fe78bf1a5cb9e03b" prot="public" virt="non-virtual"><scope>themis::query::SQLLiteralExpr</scope><name>value</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_expr_1a92962f465a26cee5a1a0884ffb0f3a3f" prot="public" virt="virtual"><scope>themis::query::SQLLiteralExpr</scope><name>~SQLExpr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

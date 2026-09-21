@@ -1,0 +1,1087 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__lora__hot__loading_8cpp" kind="file" language="C++">
+    <compoundname>test_lora_hot_loading.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="inference__engine__enhanced_8h" local="yes">llm/inference_engine_enhanced.h</includes>
+    <includes refid="llm__plugin__interface_8h" local="yes">llm/llm_plugin_interface.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>llm/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>llm/block_table.h</label>
+        <link refid="block__table_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>llm/continuous_batch_scheduler.h</label>
+        <link refid="continuous__batch__scheduler_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>llm/grafana_metrics.h</label>
+        <link refid="grafana__metrics_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>llm/i_federated_inference_backend.h</label>
+        <link refid="i__federated__inference__backend_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/inference_engine_enhanced.h</label>
+        <link refid="inference__engine__enhanced_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>llm/inference_handle.h</label>
+        <link refid="inference__handle_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>llm/llm_prefix_cache.h</label>
+        <link refid="llm__prefix__cache_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>llm/lookup_decoder.h</label>
+        <link refid="lookup__decoder_8h"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>llm/model_router.h</label>
+        <link refid="model__router_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>llm/paged_block_manager.h</label>
+        <link refid="paged__block__manager_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>llm/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>llm/shared_worker_pool.h</label>
+        <link refid="shared__worker__pool_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>llm/speculative_decoder.h</label>
+        <link refid="speculative__decoder_8h"/>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>llm/token_quota_manager.h</label>
+        <link refid="token__quota__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_lora_hot_loading.cpp</label>
+        <link refid="test__lora__hot__loading_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>algorithm</label>
+      </node>
+      <node id="20">
+        <label>atomic</label>
+      </node>
+      <node id="30">
+        <label>chrono</label>
+      </node>
+      <node id="33">
+        <label>condition_variable</label>
+      </node>
+      <node id="48">
+        <label>cstddef</label>
+      </node>
+      <node id="19">
+        <label>cstdint</label>
+      </node>
+      <node id="43">
+        <label>deque</label>
+      </node>
+      <node id="52">
+        <label>filesystem</label>
+      </node>
+      <node id="53">
+        <label>fstream</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="36">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="28">
+        <label>list</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="21">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="26">
+        <label>queue</label>
+      </node>
+      <node id="49">
+        <label>rag/self_rag.h</label>
+      </node>
+      <node id="46">
+        <label>random</label>
+      </node>
+      <node id="41">
+        <label>regex</label>
+      </node>
+      <node id="50">
+        <label>sharding/remote_executor.h</label>
+      </node>
+      <node id="14">
+        <label>shared_mutex</label>
+      </node>
+      <node id="5">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="51">
+        <label>string_view</label>
+      </node>
+      <node id="31">
+        <label>thread</label>
+      </node>
+      <node id="27">
+        <label>unordered_map</label>
+      </node>
+      <node id="54">
+        <label>unordered_set</label>
+      </node>
+      <node id="37">
+        <label>utility</label>
+      </node>
+      <node id="39">
+        <label>utils/clock.h</label>
+      </node>
+      <node id="25">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_lo_r_a_tracking_plugin" prot="public">LoRATrackingPlugin</innerclass>
+    <innerclass refid="class_lo_r_a_hot_loading_test" prot="public">LoRAHotLoadingTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, LoadAdapter_RegistersAndPreloadsOnPlugin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>LoadAdapter_RegistersAndPreloadsOnPlugin</type>
+        </param>
+        <briefdescription>
+<para>loadLoRAAdapter registers the adapter and pre-loads it on the plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="143" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="143" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1aee13b66677b85c4a80c5440a3e432da7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, LoadAdapter_EmptyId_Throws)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>LoadAdapter_EmptyId_Throws</type>
+        </param>
+        <briefdescription>
+<para>loadLoRAAdapter with empty adapter_id throws std::invalid_argument. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="160" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="160" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1a6dcbf3aa2348795fc770be43bce991c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, LoadAdapter_EmptyPath_Throws)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>LoadAdapter_EmptyPath_Throws</type>
+        </param>
+        <briefdescription>
+<para>loadLoRAAdapter with empty path throws std::invalid_argument. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="166" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="166" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1a7a9771ba43ded0d2f2f4b7257d002ddc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, LoadAdapter_Multiple_AllRegistered)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>LoadAdapter_Multiple_AllRegistered</type>
+        </param>
+        <briefdescription>
+<para>Multiple adapters can be loaded independently. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="172" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="172" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1a8cbb0b11afde792e1c72db1b004034fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, UnloadAdapter_RemovesRegistrationAndPlugin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>UnloadAdapter_RemovesRegistrationAndPlugin</type>
+        </param>
+        <briefdescription>
+<para>unloadLoRAAdapter removes registration and tells the plugin to unload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="188" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="188" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1a51769e2ae7e799826f1e65f26bc7d1ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, UnloadAdapter_NotRegistered_ReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>UnloadAdapter_NotRegistered_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+<para>Unloading a non-existent adapter returns false without error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="200" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="200" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1af8aae6fa4559546e1d108954c92718dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, HotLoad_DuringActiveInference_ThreadSafe)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>HotLoad_DuringActiveInference_ThreadSafe</type>
+        </param>
+        <briefdescription>
+<para>Hot-loading adapter while inference is running works safely. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="206" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="206" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1a7dc9c3b570e568c1030f783e11ba2284" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, PerRequestAdapter_ForwardedToPlugin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>PerRequestAdapter_ForwardedToPlugin</type>
+        </param>
+        <briefdescription>
+<para>Per-request lora_adapter_id is forwarded through the engine to the plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="237" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="237" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1a33c2cb781bf7e07b2c14598301746905" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, UnknownAdapter_RequestStillCompletes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>UnknownAdapter_RequestStillCompletes</type>
+        </param>
+        <briefdescription>
+<para>Requests referencing an unknown adapter still complete (degraded mode). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="257" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="257" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1a7b2203a5ccced6583c0e7b2092458c5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, LoadAdapter_ModelScoped_OnlyAffectsTargetModel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>LoadAdapter_ModelScoped_OnlyAffectsTargetModel</type>
+        </param>
+        <briefdescription>
+<para>loadLoRAAdapter on a specific model_id only loads the adapter on that model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="273" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="273" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1a847bfb91cedbe45455f626276d927242" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, GetLoadedAdapters_InitiallyEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>GetLoadedAdapters_InitiallyEmpty</type>
+        </param>
+        <briefdescription>
+<para>getLoadedLoRAAdapters returns empty when no adapters are registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="286" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="286" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1aeca9dcc26b5a4cf2d2933d10e471bbef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAHotLoadingTest, HotLoad_WallClock_Under5Seconds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref></type>
+        </param>
+        <param>
+          <type>HotLoad_WallClock_Under5Seconds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AC-5 performance gate: loadLoRAAdapter must complete in ≤ 5 s wall-clock. Gated on THEMIS_RUN_PERF_TESTS=1 so it is opt-in in CI. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="292" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="292" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__hot__loading_8cpp_1a1d38076baa8f0665a81af109018b06b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAHotLoadingStandaloneTest, LoadAdapter_BeforeModelRegistered_PreloadedOnLaterModel)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAHotLoadingStandaloneTest</type>
+        </param>
+        <param>
+          <type>LoadAdapter_BeforeModelRegistered_PreloadedOnLaterModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calling loadLoRAAdapter before any model is registered still completes, and the adapter is pre-loaded when a model is registered afterwards. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="314" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="314" bodyend="333"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for LoRA adapter hot-loading at inference time. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates <ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1a3d60e4e45bf0f299701a12c3b5a84644" kindref="member">InferenceEngineEnhanced::loadLoRAAdapter()</ref>, unloadLoRAAdapter(), and getLoadedLoRAAdapters().</para>
+<para>Acceptance criteria (from roadmap issue):<itemizedlist>
+<listitem><para>Adapters can be loaded / unloaded without restarting the engine</para>
+</listitem><listitem><para>Per-request lora_adapter_id is forwarded to the plugin</para>
+</listitem><listitem><para>Thread-safety: concurrent load/unload/generate is race-free</para>
+</listitem><listitem><para>getLoadedLoRAAdapters() reflects the current registration state </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="inference__engine__enhanced_8h" kindref="compound">llm/inference_engine_enhanced.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__interface_8h" kindref="compound">llm/llm_plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Helpers<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="class_lo_r_a_tracking_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_lo_r_a_tracking_plugin_1a2a236c75a3c4d6bdec5eceefaf1ed34d" kindref="member">LoRATrackingPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" kindref="member">ILLMPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_tracking_plugin_1a2a236c75a3c4d6bdec5eceefaf1ed34d" kindref="member">LoRATrackingPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;mock-model&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>model_id_(model_id)<sp/>{}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>ILLMPlugin<sp/>interface<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_tracking_plugin_1a5ecd616fdeb6bac15111c4be3bd0bd95" kindref="member">loadModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref>&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_tracking_plugin_1aaad65c5727638136bd3dacf5cce98f8f" kindref="member">unloadModel</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_tracking_plugin_1a546bb3bab5fe020b9a91f14305fa8a85" kindref="member">isModelLoaded</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ModelInfo&gt;<sp/><ref refid="class_lo_r_a_tracking_plugin_1ae734cb2feb07f0735ae62ef1049f2fd2" kindref="member">getModelInfo</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref><sp/>info{};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1llm_1_1_model_info_1adb5deea22fcafb6f314d9c64933b1894" kindref="member">model_id</ref><sp/>=<sp/>model_id_;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1llm_1_1_model_info_1af28311f532e262d73ffabdecfed2a8f2" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>model_id_;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1llm_1_1_model_info_1a7d448c8893c2c527b2d74a91958036ed" kindref="member">is_loaded</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref><sp/><ref refid="class_lo_r_a_tracking_plugin_1abe2eda4130859c8b45b96445efc129df" kindref="member">generate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>request)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref><sp/>resp;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_inference_response_1a18ccf9719efdca2acb2d5d3fe7af8f41" kindref="member">request_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>request.<ref refid="structthemis_1_1llm_1_1_inference_request_1afd00b541568845c3b1d2fb15478444a3" kindref="member">request_id</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_inference_response_1ad04cebfa352e42c334dfc14fa9c436dd" kindref="member">model_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>model_id_;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_inference_response_1ac666692ca58c1a61fc42c100d1119d05" kindref="member">text</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1llm_1_1_inference_response_1a0119497bd67929326d7a6bf0e821e2e1" kindref="member">lora_used</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>request.<ref refid="structthemis_1_1llm_1_1_inference_request_1ae928960d1325a6935e0edc8af8cf828e" kindref="member">lora_adapter_id</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resp;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref><sp/><ref refid="class_lo_r_a_tracking_plugin_1a88e2cbcdb57764555ba3c0faa595b890" kindref="member">generateRAG</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref>&amp;,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>req)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_tracking_plugin_1abe2eda4130859c8b45b96445efc129df" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="class_lo_r_a_tracking_plugin_1a63814bfd403e0908dad7283cdabbf7e1" kindref="member">embed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref><sp/><sp/><ref refid="class_lo_r_a_tracking_plugin_1a724a6cfe7801289a4f24d17709830d3f" kindref="member">getCapabilities</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_tracking_plugin_1a729413381833ee505b9f8470d191b6f0" kindref="member">getMemoryStats</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_tracking_plugin_1a1695260d59d160be91eb17127dc54809" kindref="member">getPerformanceStats</ref>()</highlight><highlight class="keyword">const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="class_lo_r_a_tracking_plugin_1afb051fd10cd0d3292995d382d26da747" kindref="member">exportLoRA</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_tracking_plugin_1a632a86b63c7ee4f015f5b95f7ccd9e01" kindref="member">importLoRA</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_tracking_plugin_1ad04a5da7db1ccf9c73864397dac40a6c" kindref="member">loadLoRA</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*path*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*scale*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>loaded_loras_.insert(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_tracking_plugin_1a49c221dad52d245aeecd7740d1866378" kindref="member">unloadLoRA</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>loaded_loras_.erase(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LoRAInfo&gt;<sp/><ref refid="class_lo_r_a_tracking_plugin_1a43fe11235b7bcdc67ed8206c6058f3e0" kindref="member">listLoRAs</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;LoRAInfo&gt;<sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>:<sp/>loaded_loras_)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_lo_r_a_info" kindref="compound">LoRAInfo</ref><sp/>info;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1llm_1_1_lo_r_a_info_1a74fb7626552ceb84a9c8ab77e8ffc51f" kindref="member">id</ref><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1llm_1_1_lo_r_a_info_1a84aa2537674f6fc9045676581bde1c22" kindref="member">lora_id</ref><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1llm_1_1_lo_r_a_info_1a37d07c6d1e0451a2af34aa9b667cb663" kindref="member">is_loaded</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(info);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_tracking_plugin_1a7e5a69c19cf186ae0a8f3c61d470718a" kindref="member">isLoRALoaded</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>loaded_loras_.count(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_id_;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/>mu_;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>loaded_loras_;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="class_lo_r_a_hot_loading_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_hot_loading_test_1afadbf6aeddd221ac5a65794f9d483932" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config" kindref="compound">InferenceEngineEnhanced::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1aebfce81c19ceb9e532eed77488c4da0b" kindref="member">num_worker_threads</ref><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ac0b057216ca1d41ea43cc4645b2edb57" kindref="member">max_queue_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a87924400c26409e77aa34e7c55529c24" kindref="member">batch_timeout_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a99a45c4a913b53336968d06a055d5a5f" kindref="member">enable_batch_processing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a0806ca69628e3b0830f85da63fd52eda" kindref="member">enable_context_caching</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>keep<sp/>tests<sp/>simple</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a378fe65a519213e8fae3fad843f2e6ca" kindref="member">enable_load_balancing</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_hot_loading_test_1ac6f807febb9c3fb8b7fd47fd4de02c5b" kindref="member">engine_</ref><sp/>=<sp/>std::make_unique&lt;InferenceEngineEnhanced&gt;(cfg);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_hot_loading_test_1aa3e5c6f4a2ba2af9b892ba908204c352" kindref="member">plugin_</ref><sp/>=<sp/>std::make_shared&lt;LoRATrackingPlugin&gt;(</highlight><highlight class="stringliteral">&quot;model1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_hot_loading_test_1ac6f807febb9c3fb8b7fd47fd4de02c5b" kindref="member">engine_</ref>-&gt;registerModel(</highlight><highlight class="stringliteral">&quot;model1&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_lo_r_a_hot_loading_test_1aa3e5c6f4a2ba2af9b892ba908204c352" kindref="member">plugin_</ref>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_hot_loading_test_1ac6f807febb9c3fb8b7fd47fd4de02c5b" kindref="member">engine_</ref>-&gt;start();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_hot_loading_test_1a2f3f9d89e56fd18f4cbeaa61d64d67a5" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_hot_loading_test_1ac6f807febb9c3fb8b7fd47fd4de02c5b" kindref="member">engine_</ref>-&gt;shutdown();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_lo_r_a_hot_loading_test_1a3376f116d5671ad87d548b0eed25131b" kindref="member">makeMockAdapterFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dir<sp/><sp/>=<sp/>std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_lora_hot_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(dir);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>dir<sp/>/<sp/>(name<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(path,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>minimal<sp/>content<sp/>so<sp/>the<sp/>file<sp/>exists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.write(</highlight><highlight class="stringliteral">&quot;LORA_MOCK&quot;</highlight><highlight class="normal">,<sp/>9);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>path.string();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;InferenceEngineEnhanced&gt;<sp/><ref refid="class_lo_r_a_hot_loading_test_1ac6f807febb9c3fb8b7fd47fd4de02c5b" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;LoRATrackingPlugin&gt;<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_hot_loading_test_1aa3e5c6f4a2ba2af9b892ba908204c352" kindref="member">plugin_</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Tests<sp/>──────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>LoadAdapter_RegistersAndPreloadsOnPlugin)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>makeMockAdapterFile(</highlight><highlight class="stringliteral">&quot;legal_v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;legal-lora&quot;</highlight><highlight class="normal">,<sp/>path,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Registry<sp/>should<sp/>report<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapters<sp/>=<sp/>engine_-&gt;getLoadedLoRAAdapters();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(adapters.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapters[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;legal-lora&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapters[0].path,<sp/>path);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(adapters[0].scale,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plugin<sp/>should<sp/>have<sp/>been<sp/>pre-loaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;legal-lora&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>LoadAdapter_EmptyId_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(engine_-&gt;loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/some/path.bin&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>LoadAdapter_EmptyPath_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(engine_-&gt;loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;my-lora&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>LoadAdapter_Multiple_AllRegistered)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p1<sp/>=<sp/>makeMockAdapterFile(</highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p2<sp/>=<sp/>makeMockAdapterFile(</highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p3<sp/>=<sp/>makeMockAdapterFile(</highlight><highlight class="stringliteral">&quot;a3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;lora-a1&quot;</highlight><highlight class="normal">,<sp/>p1);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;lora-a2&quot;</highlight><highlight class="normal">,<sp/>p2);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;lora-a3&quot;</highlight><highlight class="normal">,<sp/>p3);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(engine_-&gt;getLoadedLoRAAdapters().size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;lora-a1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;lora-a2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;lora-a3&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>UnloadAdapter_RemovesRegistrationAndPlugin)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>makeMockAdapterFile(</highlight><highlight class="stringliteral">&quot;med_v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;med-lora&quot;</highlight><highlight class="normal">,<sp/>path);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(engine_-&gt;getLoadedLoRAAdapters().size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>unloaded<sp/>=<sp/>engine_-&gt;unloadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;med-lora&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(unloaded);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(engine_-&gt;getLoadedLoRAAdapters().size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plugin_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;med-lora&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>UnloadAdapter_NotRegistered_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_-&gt;unloadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;ghost-lora&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>HotLoad_DuringActiveInference_ThreadSafe)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>makeMockAdapterFile(</highlight><highlight class="stringliteral">&quot;code_v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Submit<sp/>several<sp/>requests<sp/>while<sp/>also<sp/>hot-loading<sp/>adapters<sp/>in<sp/>parallel.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>completed{0};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_requests<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>loader([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine_-&gt;loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;hot-lora-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>path);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(5));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_requests;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request" kindref="compound">InferenceEngineEnhanced::EnhancedInferenceRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1abb7885e1a22637cbeb974b021210d2d3" kindref="member">request_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afa5f01cd882b07ae3ed18c28fab05e3e" kindref="member">base_request</ref>.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>prompt<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afab4e60ce792fa612e16fe5e563cee0f" kindref="member">timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(5000);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handle<sp/>=<sp/>engine_-&gt;submit(req);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/><sp/><sp/>=<sp/>handle.get();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.text.empty());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>completed++;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>loader.join();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(completed.load(),<sp/>num_requests);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>PerRequestAdapter_ForwardedToPlugin)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>makeMockAdapterFile(</highlight><highlight class="stringliteral">&quot;qa_v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;qa-lora&quot;</highlight><highlight class="normal">,<sp/>path,<sp/>0.8f);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request" kindref="compound">InferenceEngineEnhanced::EnhancedInferenceRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1abb7885e1a22637cbeb974b021210d2d3" kindref="member">request_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;req-with-lora&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afa5f01cd882b07ae3ed18c28fab05e3e" kindref="member">base_request</ref>.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;answer<sp/>this<sp/>question&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afa5f01cd882b07ae3ed18c28fab05e3e" kindref="member">base_request</ref>.<ref refid="structthemis_1_1llm_1_1_inference_request_1ae928960d1325a6935e0edc8af8cf828e" kindref="member">lora_adapter_id</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;qa-lora&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afab4e60ce792fa612e16fe5e563cee0f" kindref="member">timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(5000);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handle<sp/>=<sp/>engine_-&gt;submit(req);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/><sp/><sp/>=<sp/>handle.get();</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.text.empty());</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>mock<sp/>plugin<sp/>echoes<sp/>lora_used<sp/>from<sp/>the<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(resp.lora_used.has_value());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*resp.lora_used,<sp/></highlight><highlight class="stringliteral">&quot;qa-lora&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>UnknownAdapter_RequestStillCompletes)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request" kindref="compound">InferenceEngineEnhanced::EnhancedInferenceRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1abb7885e1a22637cbeb974b021210d2d3" kindref="member">request_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;req-bad-lora&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afa5f01cd882b07ae3ed18c28fab05e3e" kindref="member">base_request</ref>.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;prompt<sp/>with<sp/>bad<sp/>lora&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afa5f01cd882b07ae3ed18c28fab05e3e" kindref="member">base_request</ref>.<ref refid="structthemis_1_1llm_1_1_inference_request_1ae928960d1325a6935e0edc8af8cf828e" kindref="member">lora_adapter_id</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;does-not-exist&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request_1afab4e60ce792fa612e16fe5e563cee0f" kindref="member">timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(5000);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handle<sp/>=<sp/>engine_-&gt;submit(req);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw;<sp/>should<sp/>complete<sp/>with<sp/>a<sp/>valid<sp/>(possibly<sp/>empty)<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>handle.get();</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)resp;<sp/><sp/></highlight><highlight class="comment">//<sp/>result<sp/>is<sp/>acceptable<sp/>even<sp/>if<sp/>degraded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>LoadAdapter_ModelScoped_OnlyAffectsTargetModel)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>second<sp/>plugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin2<sp/>=<sp/>std::make_shared&lt;LoRATrackingPlugin&gt;(</highlight><highlight class="stringliteral">&quot;model2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;registerModel(</highlight><highlight class="stringliteral">&quot;model2&quot;</highlight><highlight class="normal">,<sp/>plugin2);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>makeMockAdapterFile(</highlight><highlight class="stringliteral">&quot;scope_v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;scope-lora&quot;</highlight><highlight class="normal">,<sp/>path,<sp/>1.0f,<sp/></highlight><highlight class="stringliteral">&quot;model1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;scope-lora&quot;</highlight><highlight class="normal">));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>model1<sp/>—<sp/>should<sp/>be<sp/>loaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plugin2-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;scope-lora&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>model2<sp/>—<sp/>should<sp/>NOT<sp/>be<sp/>loaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>GetLoadedAdapters_InitiallyEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(engine_-&gt;getLoadedLoRAAdapters().empty());</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="test__lora__hot__loading_8cpp_1a141abacdd42457c5072250847407b9ec" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_hot_loading_test" kindref="compound">LoRAHotLoadingTest</ref>,<sp/>HotLoad_WallClock_Under5Seconds)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_RUN_PERF_TESTS&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Set<sp/>THEMIS_RUN_PERF_TESTS=1<sp/>to<sp/>enable<sp/>performance<sp/>gate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>makeMockAdapterFile(</highlight><highlight class="stringliteral">&quot;perf_7b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;perf-lora&quot;</highlight><highlight class="normal">,<sp/>path,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now()<sp/>-<sp/>t0)</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.count();</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(elapsed_ms,<sp/>5000)</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Hot-load<sp/>took<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>elapsed_ms<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms,<sp/>expected<sp/>≤<sp/>5000<sp/>ms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adapter<sp/>must<sp/>be<sp/>registered<sp/>and<sp/>pre-loaded<sp/>on<sp/>the<sp/>plugin<sp/>after<sp/>the<sp/>call.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin_-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;perf-lora&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LoRAHotLoadingStandaloneTest,<sp/>LoadAdapter_BeforeModelRegistered_PreloadedOnLaterModel)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config" kindref="compound">InferenceEngineEnhanced::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1aebfce81c19ceb9e532eed77488c4da0b" kindref="member">num_worker_threads</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>real<sp/>temp<sp/>file<sp/>so<sp/>the<sp/>plugin<sp/>sees<sp/>a<sp/>valid<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dir<sp/><sp/>=<sp/>std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_lora_hot_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(dir);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>(dir<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;orphan.bin&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>std::ofstream<sp/>f(path,<sp/>std::ios::binary);<sp/>f.write(</highlight><highlight class="stringliteral">&quot;LORA&quot;</highlight><highlight class="normal">,<sp/>4);<sp/>}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>adapter<sp/>before<sp/>any<sp/>model<sp/>is<sp/>registered<sp/>—<sp/>should<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(engine.loadLoRAAdapter(</highlight><highlight class="stringliteral">&quot;orphan-lora&quot;</highlight><highlight class="normal">,<sp/>path));</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(engine.getLoadedLoRAAdapters().size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>model<sp/>afterwards<sp/>—<sp/>adapter<sp/>should<sp/>be<sp/>pre-loaded<sp/>on<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>std::make_shared&lt;LoRATrackingPlugin&gt;(</highlight><highlight class="stringliteral">&quot;late-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.registerModel(</highlight><highlight class="stringliteral">&quot;late-model&quot;</highlight><highlight class="normal">,<sp/>plugin);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin-&gt;isLoRALoaded(</highlight><highlight class="stringliteral">&quot;orphan-lora&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_lora_hot_loading.cpp"/>
+  </compounddef>
+</doxygen>

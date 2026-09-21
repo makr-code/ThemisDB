@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_office_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::OfficeMetadata</compoundname>
+    <includes refid="office__processor_8h" local="no">office_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1a7636d051b8afa9a86f56f3fc2dcd5b7f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeMetadata::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::content::OfficeMetadata::title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="73" column="17" bodyfile="include/content/office_processor.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1aec9e3f39f2b17d7843c1bafa213e10c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeMetadata::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::content::OfficeMetadata::author</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="74" column="17" bodyfile="include/content/office_processor.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1a68c7c418b1b90a72f3b3e26222c54842" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeMetadata::last_modified_by</definition>
+        <argsstring></argsstring>
+        <name>last_modified_by</name>
+        <qualifiedname>themis::content::OfficeMetadata::last_modified_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="75" column="17" bodyfile="include/content/office_processor.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1a83008e5eb3da1795479cc372fabe0483" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeMetadata::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themis::content::OfficeMetadata::subject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="76" column="17" bodyfile="include/content/office_processor.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1a10d917d842851e7b4431f235821bb100" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeMetadata::keywords</definition>
+        <argsstring></argsstring>
+        <name>keywords</name>
+        <qualifiedname>themis::content::OfficeMetadata::keywords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="77" column="17" bodyfile="include/content/office_processor.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1af678b3a43314ea650f3d72f760ab0162" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeMetadata::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::content::OfficeMetadata::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="78" column="17" bodyfile="include/content/office_processor.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1a7c2a72eb63d1af612977d24206ccf2ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeMetadata::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::content::OfficeMetadata::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="79" column="17" bodyfile="include/content/office_processor.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1a8f4b3e60f52df5ff643698a7a113a51d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeMetadata::created_date</definition>
+        <argsstring></argsstring>
+        <name>created_date</name>
+        <qualifiedname>themis::content::OfficeMetadata::created_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="80" column="17" bodyfile="include/content/office_processor.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1a75148046a518462b6f945a0d175711bd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeMetadata::modified_date</definition>
+        <argsstring></argsstring>
+        <name>modified_date</name>
+        <qualifiedname>themis::content::OfficeMetadata::modified_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="81" column="17" bodyfile="include/content/office_processor.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1aa2a2a32c98933b4a4012f78a8da84cd3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeMetadata::application</definition>
+        <argsstring></argsstring>
+        <name>application</name>
+        <qualifiedname>themis::content::OfficeMetadata::application</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="82" column="17" bodyfile="include/content/office_processor.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1a3efcd2e44c8a40b8043be55a027579b7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::OfficeMetadata::revision</definition>
+        <argsstring></argsstring>
+        <name>revision</name>
+        <qualifiedname>themis::content::OfficeMetadata::revision</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Document revision number (CON-021). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="83" column="9" bodyfile="include/content/office_processor.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_office_metadata_1a4b137020fba19791ff046ecec14b09dc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::OfficeMetadata::edit_time_minutes</definition>
+        <argsstring></argsstring>
+        <name>edit_time_minutes</name>
+        <qualifiedname>themis::content::OfficeMetadata::edit_time_minutes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total editing time in minutes (CON-021). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="84" column="9" bodyfile="include/content/office_processor.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/office_processor.h" line="72" column="1" bodyfile="include/content/office_processor.h" bodystart="72" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1aa2a2a32c98933b4a4012f78a8da84cd3" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>application</name></member>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1aec9e3f39f2b17d7843c1bafa213e10c7" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>author</name></member>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1af678b3a43314ea650f3d72f760ab0162" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>category</name></member>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1a8f4b3e60f52df5ff643698a7a113a51d" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>created_date</name></member>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1a7c2a72eb63d1af612977d24206ccf2ec" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>description</name></member>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1a4b137020fba19791ff046ecec14b09dc" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>edit_time_minutes</name></member>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1a10d917d842851e7b4431f235821bb100" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>keywords</name></member>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1a68c7c418b1b90a72f3b3e26222c54842" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>last_modified_by</name></member>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1a75148046a518462b6f945a0d175711bd" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>modified_date</name></member>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1a3efcd2e44c8a40b8043be55a027579b7" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>revision</name></member>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1a83008e5eb3da1795479cc372fabe0483" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>subject</name></member>
+      <member refid="structthemis_1_1content_1_1_office_metadata_1a7636d051b8afa9a86f56f3fc2dcd5b7f" prot="public" virt="non-virtual"><scope>themis::content::OfficeMetadata</scope><name>title</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

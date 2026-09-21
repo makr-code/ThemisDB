@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_tensor_a_q_l_function_test" kind="class" language="C++" prot="public">
+    <compoundname>TensorAQLFunctionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_tensor_a_q_l_function_test_1aa0931d897abb62a6650fb30b908ce81b" prot="protected" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref></type>
+        <definition>json TensorAQLFunctionTest::sample_arg_</definition>
+        <argsstring></argsstring>
+        <name>sample_arg_</name>
+        <qualifiedname>TensorAQLFunctionTest::sample_arg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="207" column="10" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_tensor_a_q_l_function_test_1a98d19bcdbec103a2f13959f78decbda6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TensorAQLFunctionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TensorAQLFunctionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="198" column="10" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="198" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TensorAQLFunctionTest</label>
+        <link refid="class_tensor_a_q_l_function_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TensorAQLFunctionTest</label>
+        <link refid="class_tensor_a_q_l_function_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_tensor_contraction_engine.cpp" line="196" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="196" bodyend="208"/>
+    <listofallmembers>
+      <member refid="class_tensor_a_q_l_function_test_1aa0931d897abb62a6650fb30b908ce81b" prot="protected" virt="non-virtual"><scope>TensorAQLFunctionTest</scope><name>sample_arg_</name></member>
+      <member refid="class_tensor_a_q_l_function_test_1a98d19bcdbec103a2f13959f78decbda6" prot="protected" virt="non-virtual"><scope>TensorAQLFunctionTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

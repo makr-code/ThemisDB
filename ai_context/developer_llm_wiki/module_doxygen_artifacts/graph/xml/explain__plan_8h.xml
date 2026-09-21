@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="explain__plan_8h" kind="file" language="C++">
+    <compoundname>explain_plan.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includedby refid="explain__plan_8cpp" local="yes">src/graph/explain_plan.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/graph/explain_plan.h</label>
+        <link refid="explain__plan_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/graph/explain_plan.h</label>
+        <link refid="explain__plan_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/graph/explain_plan.cpp</label>
+        <link refid="explain__plan_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_plan_node" prot="public">themis::graph::GraphPlanNode</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_explain_plan" prot="public">themis::graph::GraphExplainPlan</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_i_graph_explain_provider" prot="public">themis::graph::IGraphExplainProvider</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GraphPlanNodeType</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2" kindref="member">GraphPlanNodeType</ref><sp/>{</highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a6dfe3de064463735ae92e17c598744cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a6dfe3de064463735ae92e17c598744cb" kindref="member">VERTEX_SCAN</ref>,</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2ace327bfca950470c626379aba6d3b1cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2ace327bfca950470c626379aba6d3b1cc" kindref="member">EDGE_SCAN</ref>,</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a60bd23725be8d74f2581d3b052f2d68b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a60bd23725be8d74f2581d3b052f2d68b" kindref="member">INDEX_LOOKUP</ref>,</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2aedeaea31b36c7e493c988b91b3439d1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2aedeaea31b36c7e493c988b91b3439d1c" kindref="member">BFS_TRAVERSAL</ref>,</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a56e5fc5a94cac637194511c100330369" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a56e5fc5a94cac637194511c100330369" kindref="member">DFS_TRAVERSAL</ref>,</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a50a7316887f56d2d783d2bbbf813c108" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a50a7316887f56d2d783d2bbbf813c108" kindref="member">SHORTEST_PATH</ref>,</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2ae75ab17a550f46adbbe891b819cf951d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2ae75ab17a550f46adbbe891b819cf951d" kindref="member">FILTER</ref>,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2af4ba3e491fc18c6a9379b4e3b2aa503e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2af4ba3e491fc18c6a9379b4e3b2aa503e" kindref="member">PROJECTION</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a361d91ce0f028b6708f607b76b12a318" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a361d91ce0f028b6708f607b76b12a318" kindref="member">AGGREGATE</ref>,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2aa7bdfbfac6ba2252b889996b1430abb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2aa7bdfbfac6ba2252b889996b1430abb4" kindref="member">SORT</ref>,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a3d49b5cb41d88e381beb0d887d7023a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a3d49b5cb41d88e381beb0d887d7023a2" kindref="member">LIMIT</ref>,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a2e0fc921614e47e1e6ee456f454c73a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2a2e0fc921614e47e1e6ee456f454c73a1" kindref="member">HASH_JOIN</ref>,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2af78ea30cb360ede78316ce967243f9e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2af78ea30cb360ede78316ce967243f9e4" kindref="member">NESTED_LOOP_JOIN</ref>,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GraphPlanNode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1graph_1_1_graph_plan_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_graph_plan_node" kindref="compound">GraphPlanNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1graph_1_1_graph_plan_node_1a97c5349519f197316e1575b46a32c973" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_graph_plan_node_1a97c5349519f197316e1575b46a32c973" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1graph_1_1_graph_plan_node_1a72b9682e2c18edacf8c06cc3bf3201c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2" kindref="member">GraphPlanNodeType</ref><sp/><ref refid="structthemis_1_1graph_1_1_graph_plan_node_1a72b9682e2c18edacf8c06cc3bf3201c9" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1graph_1_1_graph_plan_node_1a2a007d3556b93fafc72a4b332c5b87ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_graph_plan_node_1a2a007d3556b93fafc72a4b332c5b87ea" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1graph_1_1_graph_plan_node_1a8e6d6b3b53e2075b11dd09d28006bd3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_graph_plan_node_1a8e6d6b3b53e2075b11dd09d28006bd3b" kindref="member">child_node_ids</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1graph_1_1_graph_plan_node_1a16e792c31b4db328e9f9953c820c3f90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_graph_plan_node_1a16e792c31b4db328e9f9953c820c3f90" kindref="member">properties</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1graph_1_1_graph_plan_node_1a106fdb592557a76c6e27b81dc17a2dc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_plan_node_1a106fdb592557a76c6e27b81dc17a2dc4" kindref="member">estimated_cost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1graph_1_1_graph_plan_node_1ad841be88fc49ca10db4997479c762874" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_plan_node_1ad841be88fc49ca10db4997479c762874" kindref="member">estimated_rows</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1graph_1_1_graph_plan_node_1a63a2bf10cd465c97ff5642b4469ceb02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_plan_node_1a63a2bf10cd465c97ff5642b4469ceb02" kindref="member">actual_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>-1.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1graph_1_1_graph_plan_node_1a947e83b570b5eb9596238a0ae582cc01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_plan_node_1a947e83b570b5eb9596238a0ae582cc01" kindref="member">actual_rows</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GraphExplainPlan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1graph_1_1_graph_explain_plan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_graph_explain_plan" kindref="compound">GraphExplainPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1graph_1_1_graph_explain_plan_1a550b742c1376032c035153f7bc1ab1dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_graph_explain_plan_1a550b742c1376032c035153f7bc1ab1dd" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1graph_1_1_graph_explain_plan_1a29b35f57a2fd891e0de23f3db29c8aba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_graph_explain_plan_1a29b35f57a2fd891e0de23f3db29c8aba" kindref="member">plan_id</ref>;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1graph_1_1_graph_explain_plan_1abf350f9f8305dca4e7f098b909a88028" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GraphPlanNode&gt;<sp/><ref refid="structthemis_1_1graph_1_1_graph_explain_plan_1abf350f9f8305dca4e7f098b909a88028" kindref="member">nodes</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1graph_1_1_graph_explain_plan_1ae177810d9fa308157b98a5d714dd60fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_graph_explain_plan_1ae177810d9fa308157b98a5d714dd60fb" kindref="member">root_node_id</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1graph_1_1_graph_explain_plan_1ad2f402de243fae04ac115da0d8d4c411" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_explain_plan_1ad2f402de243fae04ac115da0d8d4c411" kindref="member">total_estimated_cost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1graph_1_1_graph_explain_plan_1ac32063ec0e03a2e018edbc533089b213" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_explain_plan_1ac32063ec0e03a2e018edbc533089b213" kindref="member">total_actual_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>-1.0;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1graph_1_1_graph_explain_plan_1acfb85cd17d16f865e4fce471a1d4c9cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_explain_plan_1acfb85cd17d16f865e4fce471a1d4c9cf" kindref="member">is_analyzed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_graph_explain_plan_1acd57046ce84a88f310d0664f0ad432c2" kindref="member">toDot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_graph_explain_plan_1a3248299153c970cef2e1fb56f666ada6" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IGraphExplainProvider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1graph_1_1_i_graph_explain_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_i_graph_explain_provider" kindref="compound">IGraphExplainProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1graph_1_1_i_graph_explain_provider_1a1f36c3b03fb5363a9d6692a386612ea3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_i_graph_explain_provider_1a1f36c3b03fb5363a9d6692a386612ea3" kindref="member">~IGraphExplainProvider</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1graph_1_1_i_graph_explain_provider_1adf67956e30af650e0db2148476785c1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_explain_plan" kindref="compound">GraphExplainPlan</ref><sp/><ref refid="classthemis_1_1graph_1_1_i_graph_explain_provider_1adf67956e30af650e0db2148476785c1d" kindref="member">explain</ref>(</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>params<sp/>=<sp/>{})<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1graph_1_1_i_graph_explain_provider_1a5d57bb9529c546cc3129261db98c2723" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_explain_plan" kindref="compound">GraphExplainPlan</ref><sp/><ref refid="classthemis_1_1graph_1_1_i_graph_explain_provider_1a5d57bb9529c546cc3129261db98c2723" kindref="member">explainAnalyze</ref>(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>params<sp/>=<sp/>{})<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/graph/explain_plan.h"/>
+  </compounddef>
+</doxygen>

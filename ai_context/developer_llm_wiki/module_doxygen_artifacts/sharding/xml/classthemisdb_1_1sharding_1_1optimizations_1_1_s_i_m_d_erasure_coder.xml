@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1optimizations_1_1_s_i_m_d_erasure_coder" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::optimizations::SIMDErasureCoder</compoundname>
+    <includes refid="raid__optimizations_8h" local="no">raid_optimizations.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_s_i_m_d_erasure_coder_1a876ec7a22872577f3c94c65b12545434" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themisdb::sharding::optimizations::SIMDErasureCoder::computeParitySIMD</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;data_chunks)</argsstring>
+        <name>computeParitySIMD</name>
+        <qualifiedname>themisdb::sharding::optimizations::SIMDErasureCoder::computeParitySIMD</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>data_chunks</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute XOR parity using SIMD instructions (AVX2) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="116" column="24" bodyfile="include/sharding/raid_optimizations.h" bodystart="116" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_s_i_m_d_erasure_coder_1a3f0283a7631e5c2674fc5d194ed1ee37" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>static std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themisdb::sharding::optimizations::SIMDErasureCoder::splitAligned</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, size_t num_chunks)</argsstring>
+        <name>splitAligned</name>
+        <qualifiedname>themisdb::sharding::optimizations::SIMDErasureCoder::splitAligned</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_chunks</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimized chunk splitting with aligned allocations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="166" column="24" bodyfile="include/sharding/raid_optimizations.h" bodystart="166" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SIMD-Accelerated Erasure Coding. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raid_optimizations.h" line="111" column="1" bodyfile="include/sharding/raid_optimizations.h" bodystart="111" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_s_i_m_d_erasure_coder_1a876ec7a22872577f3c94c65b12545434" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::SIMDErasureCoder</scope><name>computeParitySIMD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_s_i_m_d_erasure_coder_1a3f0283a7631e5c2674fc5d194ed1ee37" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::SIMDErasureCoder</scope><name>splitAligned</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

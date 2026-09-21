@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_cache_admin_ops" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockCacheAdminOps</compoundname>
+    <basecompoundref refid="structthemis_1_1cache_1_1_i_cache_admin_ops" prot="public" virt="non-virtual">themis::cache::ICacheAdminOps</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_cache_admin_ops_1a2058ec9a9054aec2dae01a159334a9a6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockCacheAdminOps::flushed</definition>
+        <argsstring></argsstring>
+        <name>flushed</name>
+        <qualifiedname>MockCacheAdminOps::flushed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="75" column="18" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_cache_admin_ops_1ab857946b6376ed799cee715c56fc1dcf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t MockCacheAdminOps::resized_to</definition>
+        <argsstring></argsstring>
+        <name>resized_to</name>
+        <qualifiedname>MockCacheAdminOps::resized_to</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="76" column="18" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_cache_admin_ops_1ac6d47ab1d80de51089fbc3312a720748" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>CacheStats MockCacheAdminOps::stats_snapshot</definition>
+        <argsstring></argsstring>
+        <name>stats_snapshot</name>
+        <qualifiedname>MockCacheAdminOps::stats_snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="77" column="18" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_cache_admin_ops_1a3520f20e36eca3bb7080a7eb54c0f812" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockCacheAdminOps::all_keys</definition>
+        <argsstring></argsstring>
+        <name>all_keys</name>
+        <qualifiedname>MockCacheAdminOps::all_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="78" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_cache_admin_ops_1afa11dae125b4fc007bc839a25fd38671" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockCacheAdminOps::flush</definition>
+        <argsstring>() override</argsstring>
+        <name>flush</name>
+        <qualifiedname>MockCacheAdminOps::flush</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1ace8ae021fda99a6e682cfa1836b28937">flush</reimplements>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="80" column="10" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_admin_ops_1a62eebd85a353c8063626422ef7697f79" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>CacheStats MockCacheAdminOps::stats</definition>
+        <argsstring>() const override</argsstring>
+        <name>stats</name>
+        <qualifiedname>MockCacheAdminOps::stats</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1af64167e47513dca43a7e364d40f5c058">stats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="82" column="16" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_admin_ops_1a9ab0b84af95820bd8e5a9969477bdf55" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockCacheAdminOps::resize</definition>
+        <argsstring>(size_t new_capacity) override</argsstring>
+        <name>resize</name>
+        <qualifiedname>MockCacheAdminOps::resize</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a8f41b3652fa1cfaf21a48a5418e254d2">resize</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>new_capacity</declname>
+        </param>
+        <briefdescription>
+<para>Resize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="84" column="10" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_admin_ops_1a4844d7a20a05f171a653dfc60ee81a71" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; MockCacheAdminOps::listKeys</definition>
+        <argsstring>(const KeyFilter &amp;filter) const override</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>MockCacheAdminOps::listKeys</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a92c8f859d3fe8b9d888a8070e4e942e1">listKeys</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_key_filter" kindref="compound">KeyFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="86" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="86" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal <ref refid="structthemis_1_1cache_1_1_i_cache_admin_ops" kindref="compound">ICacheAdminOps</ref> mock. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockCacheAdminOps</label>
+        <link refid="class_mock_cache_admin_ops"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheAdminOps</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_admin_ops"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockCacheAdminOps</label>
+        <link refid="class_mock_cache_admin_ops"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats_snapshot</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::cache::CacheStats</label>
+        <link refid="structthemis_1_1cache_1_1_cache_stats"/>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheAdminOps</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_admin_ops"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_interfaces.cpp" line="73" column="1" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="73" bodyend="101"/>
+    <listofallmembers>
+      <member refid="class_mock_cache_admin_ops_1a3520f20e36eca3bb7080a7eb54c0f812" prot="public" virt="non-virtual"><scope>MockCacheAdminOps</scope><name>all_keys</name></member>
+      <member refid="class_mock_cache_admin_ops_1afa11dae125b4fc007bc839a25fd38671" prot="public" virt="virtual"><scope>MockCacheAdminOps</scope><name>flush</name></member>
+      <member refid="class_mock_cache_admin_ops_1a2058ec9a9054aec2dae01a159334a9a6" prot="public" virt="non-virtual"><scope>MockCacheAdminOps</scope><name>flushed</name></member>
+      <member refid="class_mock_cache_admin_ops_1a4844d7a20a05f171a653dfc60ee81a71" prot="public" virt="virtual"><scope>MockCacheAdminOps</scope><name>listKeys</name></member>
+      <member refid="class_mock_cache_admin_ops_1a9ab0b84af95820bd8e5a9969477bdf55" prot="public" virt="virtual"><scope>MockCacheAdminOps</scope><name>resize</name></member>
+      <member refid="class_mock_cache_admin_ops_1ab857946b6376ed799cee715c56fc1dcf" prot="public" virt="non-virtual"><scope>MockCacheAdminOps</scope><name>resized_to</name></member>
+      <member refid="class_mock_cache_admin_ops_1a62eebd85a353c8063626422ef7697f79" prot="public" virt="virtual"><scope>MockCacheAdminOps</scope><name>stats</name></member>
+      <member refid="class_mock_cache_admin_ops_1ac6d47ab1d80de51089fbc3312a720748" prot="public" virt="non-virtual"><scope>MockCacheAdminOps</scope><name>stats_snapshot</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a0a34ed6a522f9188c70181e467d3aeca" prot="public" virt="virtual"><scope>MockCacheAdminOps</scope><name>~ICacheAdminOps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

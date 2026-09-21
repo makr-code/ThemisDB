@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AccessControl::Config</compoundname>
+    <includes refid="access__control_8h" local="no">access_control.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_password_policy" prot="public">themis::security::AccessControl::Config::PasswordPolicy</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config" prot="public">themis::security::AccessControl::Config::SessionConfig</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config" prot="public">themis::security::AccessControl::Config::RateLimitConfig</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config" prot="public">themis::security::AccessControl::Config::ThreatDetectionConfig</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config" prot="public">themis::security::AccessControl::Config::AuditConfig</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config" prot="public">themis::security::AccessControl::Config::OAuthConfig</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_a_b_a_c_config" prot="public">themis::security::AccessControl::Config::ABACConfig</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1aea27efbb630c44b36a215887939d7d0d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_r_b_a_c_config" kindref="compound">RBACConfig</ref></type>
+        <definition>RBACConfig themis::security::AccessControl::Config::rbac_config</definition>
+        <argsstring></argsstring>
+        <name>rbac_config</name>
+        <qualifiedname>themis::security::AccessControl::Config::rbac_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="50" column="20" bodyfile="include/security/access_control.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1ae6350956f6e41f7b5c8987469bb4e934" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_password_policy" kindref="compound">themis::security::AccessControl::Config::PasswordPolicy</ref></type>
+        <definition>struct themis::security::AccessControl::Config::PasswordPolicy themis::security::AccessControl::Config::password_policy</definition>
+        <argsstring></argsstring>
+        <name>password_policy</name>
+        <qualifiedname>themis::security::AccessControl::Config::password_policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="61" column="25"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1a74812b0eddb7c15025670f2f629c3f44" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config" kindref="compound">themis::security::AccessControl::Config::SessionConfig</ref></type>
+        <definition>struct themis::security::AccessControl::Config::SessionConfig themis::security::AccessControl::Config::session_config</definition>
+        <argsstring></argsstring>
+        <name>session_config</name>
+        <qualifiedname>themis::security::AccessControl::Config::session_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="77" column="24"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1a1c6c93c1afb709d98ddbad4892e8a2f9" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config" kindref="compound">themis::security::AccessControl::Config::RateLimitConfig</ref></type>
+        <definition>struct themis::security::AccessControl::Config::RateLimitConfig themis::security::AccessControl::Config::rate_limit_config</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_config</name>
+        <qualifiedname>themis::security::AccessControl::Config::rate_limit_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="85" column="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1a35afebf89df54461d9a4e430cf87a9cd" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config" kindref="compound">themis::security::AccessControl::Config::ThreatDetectionConfig</ref></type>
+        <definition>struct themis::security::AccessControl::Config::ThreatDetectionConfig themis::security::AccessControl::Config::threat_detection_config</definition>
+        <argsstring></argsstring>
+        <name>threat_detection_config</name>
+        <qualifiedname>themis::security::AccessControl::Config::threat_detection_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="93" column="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1a5e3778a8d49e410ff67df9171e5fa8ff" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config" kindref="compound">themis::security::AccessControl::Config::AuditConfig</ref></type>
+        <definition>struct themis::security::AccessControl::Config::AuditConfig themis::security::AccessControl::Config::audit_config</definition>
+        <argsstring></argsstring>
+        <name>audit_config</name>
+        <qualifiedname>themis::security::AccessControl::Config::audit_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="103" column="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1a401c90e33d8f39ee08816b60bca6dbd2" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config" kindref="compound">themis::security::AccessControl::Config::OAuthConfig</ref></type>
+        <definition>struct themis::security::AccessControl::Config::OAuthConfig themis::security::AccessControl::Config::oauth_config</definition>
+        <argsstring></argsstring>
+        <name>oauth_config</name>
+        <qualifiedname>themis::security::AccessControl::Config::oauth_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="112" column="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_config_1aa50f2273d359a2532b9a45bb2d089730" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_a_b_a_c_config" kindref="compound">themis::security::AccessControl::Config::ABACConfig</ref></type>
+        <definition>struct themis::security::AccessControl::Config::ABACConfig themis::security::AccessControl::Config::abac_config</definition>
+        <argsstring></argsstring>
+        <name>abac_config</name>
+        <qualifiedname>themis::security::AccessControl::Config::abac_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="118" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::security::AccessControl::Config</label>
+        <link refid="structthemis_1_1security_1_1_access_control_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>rbac_config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>password_policy</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>session_config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>rate_limit_config</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>threat_detection_config</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>audit_config</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>oauth_config</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>abac_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::security::AccessControl::Config::ABACConfig</label>
+        <link refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_a_b_a_c_config"/>
+      </node>
+      <node id="7">
+        <label>themis::security::AccessControl::Config::AuditConfig</label>
+        <link refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_audit_config"/>
+      </node>
+      <node id="8">
+        <label>themis::security::AccessControl::Config::OAuthConfig</label>
+        <link refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_o_auth_config"/>
+      </node>
+      <node id="3">
+        <label>themis::security::AccessControl::Config::PasswordPolicy</label>
+        <link refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_password_policy"/>
+      </node>
+      <node id="5">
+        <label>themis::security::AccessControl::Config::RateLimitConfig</label>
+        <link refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_rate_limit_config"/>
+      </node>
+      <node id="4">
+        <label>themis::security::AccessControl::Config::SessionConfig</label>
+        <link refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_session_config"/>
+      </node>
+      <node id="6">
+        <label>themis::security::AccessControl::Config::ThreatDetectionConfig</label>
+        <link refid="structthemis_1_1security_1_1_access_control_1_1_config_1_1_threat_detection_config"/>
+      </node>
+      <node id="2">
+        <label>themis::security::RBACConfig</label>
+        <link refid="structthemis_1_1security_1_1_r_b_a_c_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/access_control.h" line="48" column="5" bodyfile="include/security/access_control.h" bodystart="48" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1aa50f2273d359a2532b9a45bb2d089730" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config</scope><name>abac_config</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1a5e3778a8d49e410ff67df9171e5fa8ff" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config</scope><name>audit_config</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1a401c90e33d8f39ee08816b60bca6dbd2" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config</scope><name>oauth_config</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1ae6350956f6e41f7b5c8987469bb4e934" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config</scope><name>password_policy</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1a1c6c93c1afb709d98ddbad4892e8a2f9" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config</scope><name>rate_limit_config</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1aea27efbb630c44b36a215887939d7d0d" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config</scope><name>rbac_config</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1a74812b0eddb7c15025670f2f629c3f44" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config</scope><name>session_config</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_config_1a35afebf89df54461d9a4e430cf87a9cd" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::Config</scope><name>threat_detection_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

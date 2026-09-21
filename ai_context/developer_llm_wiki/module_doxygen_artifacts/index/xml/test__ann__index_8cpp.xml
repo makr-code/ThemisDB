@@ -1,0 +1,971 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ann__index_8cpp" kind="file" language="C++">
+    <compoundname>test_ann_index.cpp</compoundname>
+    <includes refid="ann__index_8h" local="yes">index/ann_index.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">random</includes>
+    <includes local="no">set</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>index/ann_index.h</label>
+        <link refid="ann__index_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/index/test_ann_index.cpp</label>
+        <link refid="test__ann__index_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>filesystem</label>
+      </node>
+      <node id="10">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>limits</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>numeric</label>
+      </node>
+      <node id="15">
+        <label>random</label>
+      </node>
+      <node id="16">
+        <label>set</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_sca_n_n_test" prot="public">ScaNNTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ann__index_8cpp_1a50ee77fdbf530ac4b1fd16028ed9e54b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>static std::vector&lt; std::vector&lt; float &gt; &gt; make_random_vectors</definition>
+        <argsstring>(size_t n, size_t dim, unsigned seed=42)</argsstring>
+        <name>make_random_vectors</name>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>seed</declname>
+          <defval>42</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="27" column="20" bodyfile="tests/index/test_ann_index.cpp" bodystart="27" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a9c21e5bc0841e222fe9175e5a34bdccd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float l2</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>l2</name>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="39" column="14" bodyfile="tests/index/test_ann_index.cpp" bodystart="39" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1ae5a4fede61718a0fe0bd657ee0510095" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>static std::vector&lt; int64_t &gt; brute_force_knn</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;db, const std::vector&lt; float &gt; &amp;query, int k)</argsstring>
+        <name>brute_force_knn</name>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="49" column="20" bodyfile="tests/index/test_ann_index.cpp" bodystart="49" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a502a1f626cf5d109c5ebfe9e78e2b913" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float recall_at_k</definition>
+        <argsstring>(const std::vector&lt; int64_t &gt; &amp;expected, const std::vector&lt; AnnSearchResult &gt; &amp;got)</argsstring>
+        <name>recall_at_k</name>
+        <param>
+          <type>const std::vector&lt; int64_t &gt; &amp;</type>
+          <declname>expected</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref> &gt; &amp;</type>
+          <declname>got</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="65" column="14" bodyfile="tests/index/test_ann_index.cpp" bodystart="65" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a5274d35c6fe1b623f124820e435d8f85" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; flatten</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;vecs)</argsstring>
+        <name>flatten</name>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>vecs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="77" column="20" bodyfile="tests/index/test_ann_index.cpp" bodystart="77" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, IAnnIndex_Build_And_Size)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>IAnnIndex_Build_And_Size</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="125" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="125" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a12b29677fc70290cd3362dbed16c8752" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, IAnnIndex_Search_Returns_K_Results)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>IAnnIndex_Search_Returns_K_Results</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="134" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="134" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1ad3c2c11d1e9be721c36665ea8f396fbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, IAnnIndex_Search_Distances_NonNegative)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>IAnnIndex_Search_Distances_NonNegative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="142" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="142" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1acd697713fbf8c8742ce5a7ab2d05a497" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, IAnnIndex_Search_Distances_Ascending)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>IAnnIndex_Search_Distances_Ascending</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="151" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="151" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a068ed07b4512d4c87cf9d98c0a0688a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Recall_At_K_Acceptable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Recall_At_K_Acceptable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="164" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="164" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1acddb1920e790c1b039a6997c377b7e97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Add_After_Build_Increases_Size)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Add_After_Build_Increases_Size</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="190" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="190" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a9de473501213dcbb24509b059970db4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Add_Without_Build_Then_Search)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Add_Without_Build_Then_Search</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="201" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="201" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1ad704fc1c32304859f0a7c55f92250f83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Save_And_Load_Roundtrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Save_And_Load_Roundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="218" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="218" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1ad92f6bcabd029deb1528d676ef48d93f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Build_Empty_Returns_False)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Build_Empty_Returns_False</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="240" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="240" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a7c21b2e8117e17a5577123b7bece1a27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Build_RejectsZeroLeaves)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Build_RejectsZeroLeaves</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="245" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="245" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a3638edecfcbfd643f598b9c3a467a650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Build_RejectsZeroPQSubspacesWhenAHEnabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Build_RejectsZeroPQSubspacesWhenAHEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="253" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="253" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a278d50f337116e24cdc408f971964a17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Search_Empty_Index_Returns_Empty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Search_Empty_Index_Returns_Empty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="262" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="262" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1aba1a13b5bc61bf82b92590ca4bd8b7b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Add_RejectsDimensionMismatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Add_RejectsDimensionMismatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="268" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="268" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a00dc57c13586fa0901f31ff9e22802bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Search_NullQuery_Returns_Empty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Search_NullQuery_Returns_Empty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="275" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="275" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a5c3f6539c63ab92e5143702250badf21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Small_Dataset_Single_Vector)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Small_Dataset_Single_Vector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="283" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="283" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a2021cb984b5aad903e9ee5672b74ca58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ScaNNTest, Config_Respected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref></type>
+        </param>
+        <param>
+          <type>Config_Respected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="296" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="296" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1abafd32e432d4866a67c689a50ff4690c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IAnnIndexPolymorphismStandaloneTest, UniquePtr_ScaNN)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IAnnIndexPolymorphismStandaloneTest</type>
+        </param>
+        <param>
+          <type>UniquePtr_ScaNN</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="377" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="377" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ann__index_8cpp_1a060fc8b65e7a88e3a808469b207d7401" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ScaNNLazyBuildTest, AddBeforeBuild_TopResult_IsFirst)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ScaNNLazyBuildTest</type>
+        </param>
+        <param>
+          <type>AddBeforeBuild_TopResult_IsFirst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="399" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="399" bodyend="410"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Unit<sp/>and<sp/>integration<sp/>tests<sp/>for<sp/>the<sp/>ScaNN<sp/>/<sp/>DiskANN<sp/>alternative<sp/>ANN<sp/>backends</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(index<sp/>module<sp/>–<sp/>Phase<sp/>3,<sp/>Issue<sp/>#1865/#1876)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Covers:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>ScaNN:<sp/>build,<sp/>search,<sp/>recall<sp/>quality,<sp/>add(),<sp/>save/load</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>DiskAnnAdapter<sp/>(compile-time<sp/>guarded<sp/>by<sp/>THEMIS_ENABLE_DISKANN)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>IAnnIndex<sp/>interface<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ann__index_8h" kindref="compound">index/ann_index.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">themis::index</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>make_random_vectors(</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>seed<sp/>=<sp/>42)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(seed);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;float&gt;<sp/>dist(-1.f,<sp/>1.f);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>vecs(n,<sp/>std::vector&lt;float&gt;(dim));</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>vecs)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>vecs;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>l2(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>b)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>0.f;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>a.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>a[i]<sp/>-<sp/>b[i];</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s<sp/>+=<sp/>d<sp/>*<sp/>d;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::sqrt(s);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compute<sp/>brute-force<sp/>k<sp/>nearest<sp/>neighbours;<sp/>returns<sp/>sorted<sp/>ids.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;int64_t&gt;<sp/>brute_force_knn(</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>db,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;float,<sp/>int64_t&gt;&gt;<sp/>scored;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>scored.reserve(db.size());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>db.size();<sp/>++i)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scored.emplace_back(l2(db[i],<sp/>query),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(scored.begin(),<sp/>scored.end());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>ids;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>ids.reserve(k);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>k<sp/>&amp;&amp;<sp/>i<sp/>&lt;<sp/>static_cast&lt;int&gt;(scored.size());<sp/>++i)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ids.push_back(scored[i].second);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ids;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>recall@k:<sp/>fraction<sp/>of<sp/>true<sp/>top-k<sp/>results<sp/>found<sp/>in<sp/>returned<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>recall_at_k(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int64_t&gt;&amp;<sp/>expected,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;AnnSearchResult&gt;&amp;<sp/>got)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;int64_t&gt;<sp/>expected_set(expected.begin(),<sp/>expected.end());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>hits<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>got)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(expected_set.count(r.id))<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++hits;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(hits)<sp/>/<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(expected.size());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Flatten<sp/>a<sp/>vector-of-vectors<sp/>into<sp/>a<sp/>contiguous<sp/>float<sp/>array</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>flatten(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>vecs)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(vecs.empty())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>out<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>out.reserve(vecs.size()<sp/>*<sp/>vecs[0].size());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>vecs)</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.insert(out.end(),<sp/>v.begin(),<sp/>v.end());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="class_sca_n_n_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_sca_n_n_test_1a043a9f9e270a3fe1d19b1568004adf8e" kindref="member">N</ref><sp/><sp/><sp/>=<sp/>2000;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_sca_n_n_test_1a0277133aeb1ab744af791fe51e80e2bc" kindref="member">DIM</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_sca_n_n_test_1ac12158cf2946876cf6f1e6e55522d050" kindref="member">K</ref><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/><ref refid="class_sca_n_n_test_1a22f7edb7f1d163a5e4d0c18106266870" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sca_n_n_test_1a43e23d850b9ad31871a0ca5b05a1af6a" kindref="member">flat_db_</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sca_n_n_test_1a9d6fce0c6a7e7d4773fd48fa191ab696" kindref="member">ids_</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sca_n_n_test_1add9566d1aeead8cb1b44bf9f555e0a93" kindref="member">query_</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sca_n_n_test_1a8bd837d3b8ef190f77a2558d00b319ac" kindref="member">tmp_dir_</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sca_n_n_test_1af522dd83fd908715715fbbe6c24bdccf" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sca_n_n_test_1a22f7edb7f1d163a5e4d0c18106266870" kindref="member">db_</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>make_random_vectors(<ref refid="class_sca_n_n_test_1a043a9f9e270a3fe1d19b1568004adf8e" kindref="member">N</ref>,<sp/><ref refid="class_sca_n_n_test_1a0277133aeb1ab744af791fe51e80e2bc" kindref="member">DIM</ref>);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sca_n_n_test_1a43e23d850b9ad31871a0ca5b05a1af6a" kindref="member">flat_db_</ref><sp/>=<sp/>flatten(<ref refid="class_sca_n_n_test_1a22f7edb7f1d163a5e4d0c18106266870" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sca_n_n_test_1a9d6fce0c6a7e7d4773fd48fa191ab696" kindref="member">ids_</ref>.resize(<ref refid="class_sca_n_n_test_1a043a9f9e270a3fe1d19b1568004adf8e" kindref="member">N</ref>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::iota(<ref refid="class_sca_n_n_test_1a9d6fce0c6a7e7d4773fd48fa191ab696" kindref="member">ids_</ref>.begin(),<sp/><ref refid="class_sca_n_n_test_1a9d6fce0c6a7e7d4773fd48fa191ab696" kindref="member">ids_</ref>.end(),<sp/>0);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pick<sp/>a<sp/>query<sp/>that<sp/>is<sp/>one<sp/>of<sp/>the<sp/>database<sp/>vectors<sp/>(perfect<sp/>recall<sp/>possible)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sca_n_n_test_1add9566d1aeead8cb1b44bf9f555e0a93" kindref="member">query_</ref><sp/>=<sp/><ref refid="class_sca_n_n_test_1a22f7edb7f1d163a5e4d0c18106266870" kindref="member">db_</ref>[0];</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sca_n_n_test_1a8bd837d3b8ef190f77a2558d00b319ac" kindref="member">tmp_dir_</ref><sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_ann_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_sca_n_n_test_1a8bd837d3b8ef190f77a2558d00b319ac" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sca_n_n_test_1aa4046cbf590c5901e02a54ef082f99d5" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_sca_n_n_test_1a8bd837d3b8ef190f77a2558d00b319ac" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IAnnIndex<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>IAnnIndex_Build_And_Size)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ok);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" kindref="member">size</ref>(),<sp/>N);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>IAnnIndex_Search_Returns_K_Results)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(query_.data(),<sp/>DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(results.size()),<sp/>K);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>IAnnIndex_Search_Distances_NonNegative)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(query_.data(),<sp/>DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(r.distance,<sp/>0.f);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>IAnnIndex_Search_Distances_Ascending)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(query_.data(),<sp/>DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>results.size();<sp/>++i)</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(results[i<sp/>-<sp/>1].distance,<sp/>results[i].distance);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Recall<sp/>quality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Recall_At_K_Acceptable)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config" kindref="compound">ScaNNConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_sca_n_n_config_1adaf5b067f0150093948162c6b0838efe" kindref="member">num_leaves</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ae4ba871f827a6e4756c6d49ee8d5932a" kindref="member">num_leaves_to_search</ref><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ab3bb6b3212c5602424b66e03c70ebeff" kindref="member">reorder_num_neighbors</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>recall<sp/>over<sp/>20<sp/>random<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>total_recall<sp/>=<sp/>0.f;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_queries<sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>queries<sp/>=<sp/>make_random_vectors(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(num_queries),<sp/>DIM,<sp/>99);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>q<sp/>:<sp/>queries)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>true_nn<sp/>=<sp/>brute_force_knn(db_,<sp/>q,<sp/>K);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(q.data(),<sp/>DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_recall<sp/>+=<sp/>recall_at_k(true_nn,<sp/>results);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>avg_recall<sp/>=<sp/>total_recall<sp/>/<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(num_queries);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expect<sp/>at<sp/>least<sp/>50%<sp/>recall@10<sp/>(generous<sp/>threshold<sp/>for<sp/>small<sp/>dataset<sp/>/<sp/>many<sp/>leaves)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(avg_recall,<sp/>0.5f)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Average<sp/>recall@&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>K<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>=<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>avg_recall;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Add()<sp/>after<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Add_After_Build_Increases_Size)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" kindref="member">size</ref>();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>new_vec<sp/>=<sp/>make_random_vectors(1,<sp/>DIM,<sp/>777)[0];</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1ad147f60a26745724e33a5124a3dd02a2" kindref="member">add</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(N),<sp/>new_vec.data(),<sp/>DIM);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" kindref="member">size</ref>(),<sp/>before<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Add_Without_Build_Then_Search)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>100<sp/>vectors<sp/>without<sp/>building<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vecs<sp/>=<sp/>make_random_vectors(100,<sp/>DIM,<sp/>55);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1ad147f60a26745724e33a5124a3dd02a2" kindref="member">add</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i),<sp/>vecs[i].data(),<sp/>DIM);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search<sp/>should<sp/>trigger<sp/>lazy<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(vecs[0].data(),<sp/>DIM,<sp/>5);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(results.size()),<sp/>5);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(results.size()),<sp/>0);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Save<sp/>/<sp/>Load</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Save_And_Load_Roundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results_before<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(query_.data(),<sp/>DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>path<sp/>=<sp/>(tmp_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;scann.bin&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aff787a126aeac3f4c144a390fdcaa0d8" kindref="member">save</ref>(path));</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>loaded;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.<ref refid="classthemis_1_1index_1_1_sca_n_n_1ad54553961d133fcec969ab1409b82760" kindref="member">load</ref>(path));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.<ref refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" kindref="member">size</ref>(),<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" kindref="member">size</ref>());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results_after<sp/>=<sp/>loaded.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(query_.data(),<sp/>DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(results_after.empty());</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Top-1<sp/>result<sp/>should<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results_after[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>results_before[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Build_Empty_Returns_False)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>0,<sp/>DIM));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Build_RejectsZeroLeaves)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config" kindref="compound">ScaNNConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_sca_n_n_config_1adaf5b067f0150093948162c6b0838efe" kindref="member">num_leaves</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM));</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Build_RejectsZeroPQSubspacesWhenAHEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config" kindref="compound">ScaNNConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ae3446486bd5dbbb1390b55fe4a6fe8e9" kindref="member">enable_ah</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_sca_n_n_config_1a083562ddc53f57d2bf74ca206261a5dc" kindref="member">pq_num_subspaces</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM));</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Search_Empty_Index_Returns_Empty)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(query_.data(),<sp/>DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Add_RejectsDimensionMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1ad147f60a26745724e33a5124a3dd02a2" kindref="member">add</ref>(1,<sp/>query_.data(),<sp/>DIM));</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1ad147f60a26745724e33a5124a3dd02a2" kindref="member">add</ref>(2,<sp/>query_.data(),<sp/>DIM<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Search_NullQuery_Returns_Empty)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM));</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Small_Dataset_Single_Vector)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v<sp/>=<sp/>{1.f,<sp/>2.f,<sp/>3.f,<sp/>4.f};</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aba4429fff7c0d6f8c76e5905a23a76fe" kindref="member">build</ref>(v.data(),<sp/>&amp;</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>1,<sp/>4));</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" kindref="member">size</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(v.data(),<sp/>4,<sp/>1);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>42);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(res[0].distance,<sp/>0.f,<sp/>1e-4f);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(<ref refid="class_sca_n_n_test" kindref="compound">ScaNNTest</ref>,<sp/>Config_Respected)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_sca_n_n_config" kindref="compound">ScaNNConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_sca_n_n_config_1adaf5b067f0150093948162c6b0838efe" kindref="member">num_leaves</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ae4ba871f827a6e4756c6d49ee8d5932a" kindref="member">num_leaves_to_search</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1a7866df19dec24eb507f161ea46a13554" kindref="member">config</ref>().<ref refid="structthemis_1_1index_1_1_sca_n_n_config_1adaf5b067f0150093948162c6b0838efe" kindref="member">num_leaves</ref>,<sp/>10u);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1a7866df19dec24eb507f161ea46a13554" kindref="member">config</ref>().<ref refid="structthemis_1_1index_1_1_sca_n_n_config_1ae4ba871f827a6e4756c6d49ee8d5932a" kindref="member">num_leaves_to_search</ref>,<sp/>5u);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DiskANN<sp/>adapter<sp/>(guarded<sp/>by<sp/>compile-time<sp/>flag)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_DISKANN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">DiskAnnAdapterTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>N<sp/><sp/><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>DIM<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>K<sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>db_;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>flat_db_;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ids_;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmp_dir_;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetUp()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>db_<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>make_random_vectors(N,<sp/>DIM,<sp/>7);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>flat_db_<sp/>=<sp/>flatten(db_);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ids_.resize(N);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::iota(ids_.begin(),<sp/>ids_.end(),<sp/>0);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmp_dir_<sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_diskann_adapter_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(tmp_dir_);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>TearDown()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(tmp_dir_);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(DiskAnnAdapterTest,<sp/>Build_And_Search)<sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>path<sp/>=<sp/>(tmp_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;diskann.graph&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>DiskAnnAdapter<sp/>adapter(path);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(adapter.build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM));</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapter.size(),<sp/>N);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>adapter.search(flat_db_.data(),<sp/>DIM,<sp/>K);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(results.empty());</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(results.size()),<sp/>K);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(DiskAnnAdapterTest,<sp/>Add_Single_Vector)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>path<sp/>=<sp/>(tmp_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;diskann_add.graph&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>DiskAnnAdapter<sp/>adapter(path);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>new_vec<sp/>=<sp/>make_random_vectors(1,<sp/>DIM,<sp/>888)[0];</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(adapter.add(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(N<sp/>+<sp/>1),<sp/>new_vec.data(),<sp/>DIM));</highlight></codeline>
+<codeline lineno="355"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="test__ann__index_8cpp_1a31b99ae048b096e7f884b3c62f14cb0b" kindref="member">TEST_F</ref>(DiskAnnAdapterTest,<sp/>Save_And_Load_Metadata_Roundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>graph_path<sp/>=<sp/>(tmp_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;diskann_save.graph&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>DiskAnnAdapter<sp/>adapter(graph_path);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(adapter.build(flat_db_.data(),<sp/>ids_.data(),<sp/>N,<sp/>DIM));</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>save(path)<sp/>creates<sp/>path<sp/>+<sp/>&quot;.meta&quot;<sp/>on<sp/>disk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>save_path<sp/>=<sp/>(tmp_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;diskann_save&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(adapter.save(save_path));</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>new<sp/>adapter<sp/>loading<sp/>the<sp/>saved<sp/>metadata<sp/>should<sp/>report<sp/>same<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>DiskAnnAdapter<sp/>loaded(graph_path,<sp/>64);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.<ref refid="classthemis_1_1index_1_1_sca_n_n_1ad54553961d133fcec969ab1409b82760" kindref="member">load</ref>(save_path));</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.<ref refid="classthemis_1_1index_1_1_sca_n_n_1a98209396e6ffcdfa8ddb29ba28c741fd" kindref="member">size</ref>(),<sp/>N);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_ENABLE_DISKANN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IAnnIndex<sp/>polymorphism<sp/>via<sp/>unique_ptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><ref refid="test__ann__index_8cpp_1abafd32e432d4866a67c689a50ff4690c" kindref="member">TEST</ref>(IAnnIndexPolymorphismStandaloneTest,<sp/>UniquePtr_ScaNN)<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>500,<sp/>DIM<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vecs<sp/>=<sp/>make_random_vectors(N,<sp/>DIM);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>flat<sp/>=<sp/>flatten(vecs);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>ids(N);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>std::iota(ids.begin(),<sp/>ids.end(),<sp/>0);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IAnnIndex&gt;<sp/>idx<sp/>=<sp/>std::make_unique&lt;ScaNN&gt;();</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx-&gt;build(flat.data(),<sp/>ids.data(),<sp/>N,<sp/>DIM));</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx-&gt;size(),<sp/>N);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>vecs[0];</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>idx-&gt;search(q.data(),<sp/>DIM,<sp/>5);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(res.empty());</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>0);<sp/></highlight><highlight class="comment">//<sp/>nearest<sp/>to<sp/>vecs[0]<sp/>should<sp/>be<sp/>itself</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(res[0].distance,<sp/>0.f,<sp/>1e-3f);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ScaNN<sp/>add()<sp/>before<sp/>build<sp/>–<sp/>lazy<sp/>build<sp/>triggered<sp/>on<sp/>search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><ref refid="test__ann__index_8cpp_1abafd32e432d4866a67c689a50ff4690c" kindref="member">TEST</ref>(ScaNNLazyBuildTest,<sp/>AddBeforeBuild_TopResult_IsFirst)<sp/>{</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>100,<sp/>DIM<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vecs<sp/>=<sp/>make_random_vectors(N,<sp/>DIM,<sp/>12);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1ad147f60a26745724e33a5124a3dd02a2" kindref="member">add</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i),<sp/>vecs[i].data(),<sp/>DIM);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>query<sp/>is<sp/>identical<sp/>to<sp/>first<sp/>vector<sp/>→<sp/>top-1<sp/>must<sp/>be<sp/>id=0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>idx.<ref refid="classthemis_1_1index_1_1_sca_n_n_1aab28142ff68884535cfbc9861de306ed" kindref="member">search</ref>(vecs[0].data(),<sp/>DIM,<sp/>1);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/index/test_ann_index.cpp"/>
+  </compounddef>
+</doxygen>

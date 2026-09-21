@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_neural_sparse_retrieval_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::NeuralSparseRetrieval::Result</compoundname>
+    <includes refid="neural__sparse__retrieval_8h" local="no">neural_sparse_retrieval.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_neural_sparse_retrieval_1_1_result_1a2be20c791a10d08ef17da84a0214a0d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::NeuralSparseRetrieval::Result::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::Result::document_id</qualifiedname>
+        <briefdescription>
+<para>Primary key of the matching document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="120" column="21" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_neural_sparse_retrieval_1_1_result_1abdaff2591c3d4763d5fb1cc40bd86fbd" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::NeuralSparseRetrieval::Result::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::Result::score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Final score (normalised if <ref refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1a5b8502c5c19b8ec6015e4071f09aa9dd" kindref="member">Config::normalize_scores</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="121" column="15" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_neural_sparse_retrieval_1_1_result_1af38530727e219c915ff748757f330f2d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::NeuralSparseRetrieval::Result::raw_score</definition>
+        <argsstring></argsstring>
+        <name>raw_score</name>
+        <qualifiedname>themis::NeuralSparseRetrieval::Result::raw_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Inner-product score before normalisation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="122" column="15" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single search result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/neural_sparse_retrieval.h" line="119" column="5" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="119" bodyend="123"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_neural_sparse_retrieval_1_1_result_1a2be20c791a10d08ef17da84a0214a0d2" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval::Result</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1_neural_sparse_retrieval_1_1_result_1af38530727e219c915ff748757f330f2d" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval::Result</scope><name>raw_score</name></member>
+      <member refid="structthemis_1_1_neural_sparse_retrieval_1_1_result_1abdaff2591c3d4763d5fb1cc40bd86fbd" prot="public" virt="non-virtual"><scope>themis::NeuralSparseRetrieval::Result</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

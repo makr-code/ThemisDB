@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_distributed_eviction" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockDistributedEviction</compoundname>
+    <basecompoundref refid="structthemis_1_1cache_1_1_i_distributed_eviction" prot="public" virt="non-virtual">themis::cache::IDistributedEviction</basecompoundref>
+    <innerclass refid="struct_mock_distributed_eviction_1_1_evict_call" prot="public">MockDistributedEviction::EvictCall</innerclass>
+    <innerclass refid="struct_mock_distributed_eviction_1_1_pattern_call" prot="public">MockDistributedEviction::PatternCall</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_distributed_eviction_1acfe19865caf5fcc7c42f9151eec90803" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_mock_distributed_eviction_1_1_evict_call" kindref="compound">EvictCall</ref> &gt;</type>
+        <definition>std::vector&lt;EvictCall&gt; MockDistributedEviction::evict_calls</definition>
+        <argsstring></argsstring>
+        <name>evict_calls</name>
+        <qualifiedname>MockDistributedEviction::evict_calls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="51" column="19" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_eviction_1a751518f723e414e5b5bfbefec200a5e7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockDistributedEviction::evict_tenant_calls</definition>
+        <argsstring></argsstring>
+        <name>evict_tenant_calls</name>
+        <qualifiedname>MockDistributedEviction::evict_tenant_calls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="52" column="17" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_eviction_1a5f2e31526dc623769a325396f563e171" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_mock_distributed_eviction_1_1_pattern_call" kindref="compound">PatternCall</ref> &gt;</type>
+        <definition>std::vector&lt;PatternCall&gt; MockDistributedEviction::pattern_calls</definition>
+        <argsstring></argsstring>
+        <name>pattern_calls</name>
+        <qualifiedname>MockDistributedEviction::pattern_calls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="53" column="17" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_eviction_1a35be662e984748c996c0a678182a0c9f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockDistributedEviction::flush_calls</definition>
+        <argsstring></argsstring>
+        <name>flush_calls</name>
+        <qualifiedname>MockDistributedEviction::flush_calls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="54" column="17" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_eviction_1ac6c124044115ab499ae03da8d0aff3db" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; MockDistributedEviction::listener_id_counter</definition>
+        <argsstring></argsstring>
+        <name>listener_id_counter</name>
+        <qualifiedname>MockDistributedEviction::listener_id_counter</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="56" column="17" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_eviction_1a82d49a22c359edd399c9fe0d111418ec" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, <ref refid="namespacethemis_1_1cache_1a8ccf6d50f436cfecacaa417d735628e4" kindref="member">DistributedEvictionListener</ref> &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, DistributedEvictionListener&gt; MockDistributedEviction::listeners</definition>
+        <argsstring></argsstring>
+        <name>listeners</name>
+        <qualifiedname>MockDistributedEviction::listeners</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="57" column="24" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_distributed_eviction_1a02056fb8a80a47cf7085c609dc7b77e4" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex MockDistributedEviction::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>MockDistributedEviction::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="58" column="24" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_distributed_eviction_1a92a4ead49b9e6893e7ae569ddaa8f4f8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockDistributedEviction::evict</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;tenant_id=&quot;&quot;, DistributedEvictionReason reason=DistributedEvictionReason::CAPACITY_PRESSURE) override</argsstring>
+        <name>evict</name>
+        <qualifiedname>MockDistributedEviction::evict</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_distributed_eviction_1af6172f91579c9eddcecd07c2611f0820">evict</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929" kindref="member">DistributedEvictionReason</ref></type>
+          <declname>reason</declname>
+          <defval>DistributedEvictionReason::CAPACITY_PRESSURE</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="60" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="60" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_eviction_1a6a5968baed0005ee5450b842ffadfd81" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockDistributedEviction::evictByPattern</definition>
+        <argsstring>(const std::string &amp;pattern, const std::string &amp;tenant_id) override</argsstring>
+        <name>evictByPattern</name>
+        <qualifiedname>MockDistributedEviction::evictByPattern</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0526c8697665da894309e4fb350b73c0">evictByPattern</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="68" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_eviction_1a828460e605801e6052e20aba0304d7f0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockDistributedEviction::evictByTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id) override</argsstring>
+        <name>evictByTenant</name>
+        <qualifiedname>MockDistributedEviction::evictByTenant</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_distributed_eviction_1ae8e575d1a8ba67266084d7b4d6000181">evictByTenant</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Evict By Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="74" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_eviction_1a1c4360a2b09f8b184b1f94b5d09316e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockDistributedEviction::flush</definition>
+        <argsstring>(const std::string &amp;tenant_id=&quot;&quot;) override</argsstring>
+        <name>flush</name>
+        <qualifiedname>MockDistributedEviction::flush</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a3ee7fe4bd99197d0ec521bce8760fe81">flush</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="79" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_eviction_1a40f359fd9b137863bd5ba92ab0ced692" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t MockDistributedEviction::registerEvictionListener</definition>
+        <argsstring>(DistributedEvictionListener listener) override</argsstring>
+        <name>registerEvictionListener</name>
+        <qualifiedname>MockDistributedEviction::registerEvictionListener</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0ae0891cf332880e998949d417dbb9e3">registerEvictionListener</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a8ccf6d50f436cfecacaa417d735628e4" kindref="member">DistributedEvictionListener</ref></type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="84" column="14" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_eviction_1a31688fe54b55fffbd7f94a47b7620c0a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockDistributedEviction::unregisterEvictionListener</definition>
+        <argsstring>(uint64_t handle) override</argsstring>
+        <name>unregisterEvictionListener</name>
+        <qualifiedname>MockDistributedEviction::unregisterEvictionListener</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a05e10babf42a9ae1e4f3f3f59bb8fb42">unregisterEvictionListener</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Eviction Listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="91" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_eviction_1a9998fd957c4fcaa763dd25fa9cd2f60a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_distributed_eviction_stats" kindref="compound">DistributedEvictionStats</ref></type>
+        <definition>DistributedEvictionStats MockDistributedEviction::stats</definition>
+        <argsstring>() const override</argsstring>
+        <name>stats</name>
+        <qualifiedname>MockDistributedEviction::stats</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0b40509052ca09b047d76a51c845f961">stats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="96" column="30" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_eviction_1ace745fb8e19c61de693cef3a9dcca426" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t MockDistributedEviction::peerCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>peerCount</name>
+        <qualifiedname>MockDistributedEviction::peerCount</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0b5d1773cc54e951870a80a2aded4f5c">peerCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="105" column="14" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_eviction_1a16d7808b34b0dbc1c66efe8582d03dc5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockDistributedEviction::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>MockDistributedEviction::isHealthy</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a38208e684627b75d1dff93b6f81e51ad">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="106" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_distributed_eviction_1a07fba1493d6e9e9fd04a708347f7633f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockDistributedEviction::fireInbound</definition>
+        <argsstring>(const DistributedEvictionEvent &amp;ev)</argsstring>
+        <name>fireInbound</name>
+        <qualifiedname>MockDistributedEviction::fireInbound</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_distributed_eviction_event" kindref="compound">DistributedEvictionEvent</ref> &amp;</type>
+          <declname>ev</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="109" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="109" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockDistributedEviction</label>
+        <link refid="class_mock_distributed_eviction"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IDistributedEviction</label>
+        <link refid="structthemis_1_1cache_1_1_i_distributed_eviction"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockDistributedEviction</label>
+        <link refid="class_mock_distributed_eviction"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IDistributedEviction</label>
+        <link refid="structthemis_1_1cache_1_1_i_distributed_eviction"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="39" column="1" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="39" bodyend="115"/>
+    <listofallmembers>
+      <member refid="class_mock_distributed_eviction_1a92a4ead49b9e6893e7ae569ddaa8f4f8" prot="public" virt="virtual"><scope>MockDistributedEviction</scope><name>evict</name></member>
+      <member refid="class_mock_distributed_eviction_1acfe19865caf5fcc7c42f9151eec90803" prot="public" virt="non-virtual"><scope>MockDistributedEviction</scope><name>evict_calls</name></member>
+      <member refid="class_mock_distributed_eviction_1a751518f723e414e5b5bfbefec200a5e7" prot="public" virt="non-virtual"><scope>MockDistributedEviction</scope><name>evict_tenant_calls</name></member>
+      <member refid="class_mock_distributed_eviction_1a6a5968baed0005ee5450b842ffadfd81" prot="public" virt="virtual"><scope>MockDistributedEviction</scope><name>evictByPattern</name></member>
+      <member refid="class_mock_distributed_eviction_1a828460e605801e6052e20aba0304d7f0" prot="public" virt="virtual"><scope>MockDistributedEviction</scope><name>evictByTenant</name></member>
+      <member refid="class_mock_distributed_eviction_1a07fba1493d6e9e9fd04a708347f7633f" prot="public" virt="non-virtual"><scope>MockDistributedEviction</scope><name>fireInbound</name></member>
+      <member refid="class_mock_distributed_eviction_1a1c4360a2b09f8b184b1f94b5d09316e1" prot="public" virt="virtual"><scope>MockDistributedEviction</scope><name>flush</name></member>
+      <member refid="class_mock_distributed_eviction_1a35be662e984748c996c0a678182a0c9f" prot="public" virt="non-virtual"><scope>MockDistributedEviction</scope><name>flush_calls</name></member>
+      <member refid="class_mock_distributed_eviction_1a16d7808b34b0dbc1c66efe8582d03dc5" prot="public" virt="virtual"><scope>MockDistributedEviction</scope><name>isHealthy</name></member>
+      <member refid="class_mock_distributed_eviction_1ac6c124044115ab499ae03da8d0aff3db" prot="public" virt="non-virtual"><scope>MockDistributedEviction</scope><name>listener_id_counter</name></member>
+      <member refid="class_mock_distributed_eviction_1a82d49a22c359edd399c9fe0d111418ec" prot="public" virt="non-virtual"><scope>MockDistributedEviction</scope><name>listeners</name></member>
+      <member refid="class_mock_distributed_eviction_1a02056fb8a80a47cf7085c609dc7b77e4" prot="public" virt="non-virtual"><scope>MockDistributedEviction</scope><name>mu</name></member>
+      <member refid="class_mock_distributed_eviction_1a5f2e31526dc623769a325396f563e171" prot="public" virt="non-virtual"><scope>MockDistributedEviction</scope><name>pattern_calls</name></member>
+      <member refid="class_mock_distributed_eviction_1ace745fb8e19c61de693cef3a9dcca426" prot="public" virt="virtual"><scope>MockDistributedEviction</scope><name>peerCount</name></member>
+      <member refid="class_mock_distributed_eviction_1a40f359fd9b137863bd5ba92ab0ced692" prot="public" virt="virtual"><scope>MockDistributedEviction</scope><name>registerEvictionListener</name></member>
+      <member refid="class_mock_distributed_eviction_1a9998fd957c4fcaa763dd25fa9cd2f60a" prot="public" virt="virtual"><scope>MockDistributedEviction</scope><name>stats</name></member>
+      <member refid="class_mock_distributed_eviction_1a31688fe54b55fffbd7f94a47b7620c0a" prot="public" virt="virtual"><scope>MockDistributedEviction</scope><name>unregisterEvictionListener</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0284ec035f1008ef4f03b0fec9c7768a" prot="public" virt="virtual"><scope>MockDistributedEviction</scope><name>~IDistributedEviction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

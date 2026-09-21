@@ -1,0 +1,442 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::multimodal::MultiModalRAG</compoundname>
+    <includes refid="multimodal__rag_8h" local="no">multimodal_rag.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl" prot="public">themis::rag::multimodal::MultiModalRAG::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a2eeab7c73f66800dabbf695aeb81e4aa" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::multimodal::MultiModalRAG::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="324" column="21" bodyfile="include/rag/multimodal_rag.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::multimodal::MultiModalRAG::MultiModalRAG</definition>
+        <argsstring>()</argsstring>
+        <name>MultiModalRAG</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::MultiModalRAG</qualifiedname>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="228" column="5" bodyfile="src/rag/multimodal_rag.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ae97478a7c7d4cef321142b5a59b9b26e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::multimodal::MultiModalRAG::MultiModalRAG</definition>
+        <argsstring>(const MultiModalRAGConfig &amp;config)</argsstring>
+        <name>MultiModalRAG</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::MultiModalRAG</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" kindref="compound">MultiModalRAGConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration for retrieval and fusion. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="234" column="14" bodyfile="src/rag/multimodal_rag.cpp" bodystart="83" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aaeff43116058cba39e73f2bee9b8e8d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::multimodal::MultiModalRAG::~MultiModalRAG</definition>
+        <argsstring>()</argsstring>
+        <name>~MultiModalRAG</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::~MultiModalRAG</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="239" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a44bcde51f68b7e79bc0b3059400bfa7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::multimodal::MultiModalRAG::MultiModalRAG</definition>
+        <argsstring>(const MultiModalRAG &amp;)=delete</argsstring>
+        <name>MultiModalRAG</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::MultiModalRAG</qualifiedname>
+        <param>
+          <type>const MultiModalRAG &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="242" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ac0a97e3dfdfa4dae22cc86eb027efc66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref> &amp;</type>
+        <definition>MultiModalRAG &amp; themis::rag::multimodal::MultiModalRAG::operator=</definition>
+        <argsstring>(const MultiModalRAG &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="243" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ab04ee61a9d9261fad175f57dabbb8f2e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::multimodal::MultiModalRAG::MultiModalRAG</definition>
+        <argsstring>(MultiModalRAG &amp;&amp;) noexcept=default</argsstring>
+        <name>MultiModalRAG</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::MultiModalRAG</qualifiedname>
+        <param>
+          <type>MultiModalRAG &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="244" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a2d0eaf369e632b30253d8b17864c56d7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref> &amp;</type>
+        <definition>MultiModalRAG &amp; themis::rag::multimodal::MultiModalRAG::operator=</definition>
+        <argsstring>(MultiModalRAG &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="245" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a974a5a180380e7f0566ef1ba07324c80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::multimodal::MultiModalRAG::setTextRetriever</definition>
+        <argsstring>(TextRetrievalFn fn)</argsstring>
+        <name>setTextRetriever</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::setTextRetriever</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1multimodal_1aced67b0ff237a36bbdf69d7710a203db" kindref="member">TextRetrievalFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set the text retrieval function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Retrieval backend configuration ──────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that retrieves text documents for a query.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="253" column="10" bodyfile="src/rag/multimodal_rag.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a5d5d0b159b509e4bdc6210fd552c42df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::multimodal::MultiModalRAG::setImageRetriever</definition>
+        <argsstring>(ImageRetrievalFn fn)</argsstring>
+        <name>setImageRetriever</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::setImageRetriever</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1multimodal_1add039d84424b72e8489ee0b27d00d596" kindref="member">ImageRetrievalFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set the image retrieval function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Image Retriever.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that retrieves image documents for an embedding.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="259" column="10" bodyfile="src/rag/multimodal_rag.cpp" bodystart="110" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ae81779da356a7f5eea93fc016fa90a06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::multimodal::MultiModalRAG::setImageCaptioner</definition>
+        <argsstring>(ImageCaptionFn fn)</argsstring>
+        <name>setImageCaptioner</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::setImageCaptioner</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1multimodal_1a8a121875d30235288874351629dd7a5a" kindref="member">ImageCaptionFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set the optional image caption generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Image Captioner.</para>
+<para>When set, images without a pre-computed caption have their caption populated by this function before the result is returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that generates a caption for an <ref refid="structthemis_1_1rag_1_1multimodal_1_1_image_document" kindref="compound">ImageDocument</ref>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="269" column="10" bodyfile="src/rag/multimodal_rag.cpp" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a62183aa9a5cb52e0e0e2beb2b7bc3687" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result" kindref="compound">MultiModalRAGResult</ref></type>
+        <definition>MultiModalRAGResult themis::rag::multimodal::MultiModalRAG::query</definition>
+        <argsstring>(const MultiModalQuery &amp;query) const</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::query</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query" kindref="compound">MultiModalQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute a multi-modal RAG query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieves from all enabled modalities specified in <computeroutput>query.modalities</computeroutput>, fuses results via RRF, and builds a formatted LLM context string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Multi-modal query with text and/or image embedding. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result containing mixed-modality sources and LLM context. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="282" column="25" bodyfile="src/rag/multimodal_rag.cpp" bodystart="140" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a9adf302ef23ca363f6ecd5d2258b28c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multimodal::MultiModalRAG::buildContext</definition>
+        <argsstring>(const std::vector&lt; MultiModalSource &gt; &amp;sources, const std::string &amp;question) const</argsstring>
+        <name>buildContext</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::buildContext</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source" kindref="compound">MultiModalSource</ref> &gt; &amp;</type>
+          <declname>sources</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>question</declname>
+        </param>
+        <briefdescription>
+<para>Build an LLM-ready context string from a list of sources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Format: <programlisting><codeline><highlight class="normal">Text<sp/>passages:</highlight></codeline>
+<codeline><highlight class="normal">[1]<sp/>(score=0.92)<sp/>&lt;content&gt;</highlight></codeline>
+<codeline><highlight class="normal">[2]<sp/>(score=0.85)<sp/>&lt;content&gt;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">Image<sp/>captions:</highlight></codeline>
+<codeline><highlight class="normal">[1]<sp/>(score=0.87)<sp/>&lt;caption&gt;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">Question:<sp/>&lt;question&gt;</highlight></codeline>
+<codeline><highlight class="normal">Answer:</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mixed-modality sources. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>question</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original query text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted context string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="306" column="17" bodyfile="src/rag/multimodal_rag.cpp" bodystart="302" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a78aa903290de51bbf04400042af0a658" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" kindref="compound">MultiModalRAGConfig</ref></type>
+        <definition>MultiModalRAGConfig themis::rag::multimodal::MultiModalRAG::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return a copy of the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="314" column="25" bodyfile="src/rag/multimodal_rag.cpp" bodystart="125" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ad71efb6b908cf577c1db47df87fcb956" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::multimodal::MultiModalRAG::setConfig</definition>
+        <argsstring>(const MultiModalRAGConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" kindref="compound">MultiModalRAGConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="320" column="10" bodyfile="src/rag/multimodal_rag.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Orchestrates multi-modal retrieval-augmented generation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Retrieves text and image documents using caller-supplied functions, fuses results via RRF, generates captions for image sources, and builds a formatted context string for downstream LLM consumption.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">MultiModalRAGConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.enable_image_retrieval<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref><sp/>mm_rag(cfg);</highlight></codeline>
+<codeline><highlight class="normal">mm_rag.setTextRetriever([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>q,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k)<sp/>{<sp/>...<sp/>});</highlight></codeline>
+<codeline><highlight class="normal">mm_rag.setImageRetriever([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>e,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k)<sp/>{<sp/>...<sp/>});</highlight></codeline>
+<codeline><highlight class="normal">mm_rag.setImageCaptioner([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ImageDocument&amp;<sp/>img)<sp/>{<sp/>...<sp/>});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mm_rag.query({</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>this<sp/>chart<sp/>showing?&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>clip_embedding,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<ref refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">Modality::TEXT</ref>,<sp/><ref refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda23a12f67f614b5518c7f1c2465bf95e3" kindref="member">Modality::IMAGE</ref>}});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/rag/multimodal_rag.h" line="223" column="1" bodyfile="include/rag/multimodal_rag.h" bodystart="223" bodyend="325"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a9adf302ef23ca363f6ecd5d2258b28c0" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>buildContext</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a78aa903290de51bbf04400042af0a658" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a2eeab7c73f66800dabbf695aeb81e4aa" prot="private" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>MultiModalRAG</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ae97478a7c7d4cef321142b5a59b9b26e" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>MultiModalRAG</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a44bcde51f68b7e79bc0b3059400bfa7f" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>MultiModalRAG</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ab04ee61a9d9261fad175f57dabbb8f2e" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>MultiModalRAG</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ac0a97e3dfdfa4dae22cc86eb027efc66" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a2d0eaf369e632b30253d8b17864c56d7" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a62183aa9a5cb52e0e0e2beb2b7bc3687" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>query</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ad71efb6b908cf577c1db47df87fcb956" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ae81779da356a7f5eea93fc016fa90a06" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>setImageCaptioner</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a5d5d0b159b509e4bdc6210fd552c42df" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>setImageRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a974a5a180380e7f0566ef1ba07324c80" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>setTextRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aaeff43116058cba39e73f2bee9b8e8d1" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG</scope><name>~MultiModalRAG</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

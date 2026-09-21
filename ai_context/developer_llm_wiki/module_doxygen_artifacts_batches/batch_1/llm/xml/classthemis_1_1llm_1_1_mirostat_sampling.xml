@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_mirostat_sampling" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MirostatSampling</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_sampling_strategy" prot="public" virt="non-virtual">themis::llm::ISamplingStrategy</basecompoundref>
+    <includes refid="sampling__strategy_8h" local="no">sampling_strategy.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_mirostat_sampling_1a7909c0d0c39c4c9e0741a2c6f3f8b460" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MirostatSampling::tau_</definition>
+        <argsstring></argsstring>
+        <name>tau_</name>
+        <qualifiedname>themis::llm::MirostatSampling::tau_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="93" column="11" bodyfile="include/llm/sampling_strategy.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_mirostat_sampling_1a600c44ab5194b134a1ac06010301b7aa" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MirostatSampling::eta_</definition>
+        <argsstring></argsstring>
+        <name>eta_</name>
+        <qualifiedname>themis::llm::MirostatSampling::eta_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="94" column="11" bodyfile="include/llm/sampling_strategy.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_mirostat_sampling_1a5302a43468dafff5b1d36c592ad86f31" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MirostatSampling::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::llm::MirostatSampling::mu_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="95" column="11" bodyfile="include/llm/sampling_strategy.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mirostat_sampling_1aca3a429360d9623dba520b1353feff8e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MirostatSampling::MirostatSampling</definition>
+        <argsstring>(float tau=5.0f, float eta=0.1f)</argsstring>
+        <name>MirostatSampling</name>
+        <qualifiedname>themis::llm::MirostatSampling::MirostatSampling</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>tau</declname>
+          <defval>5.0f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>eta</declname>
+          <defval>0.1f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="81" column="14" bodyfile="src/llm/sampling_strategy.cpp" bodystart="189" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mirostat_sampling_1a9134984cfe9c570f81f52ccfe2048b2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MirostatSampling::~MirostatSampling</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~MirostatSampling</name>
+        <qualifiedname>themis::llm::MirostatSampling::~MirostatSampling</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mirostat_sampling_1afa32454aebdda1e18b318a1616f267cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="llama__wrapper_8h_1a6650afdb61c5d4d386135d9edeb1e4ae" kindref="member">llama_token</ref></type>
+        <definition>llama_token themis::llm::MirostatSampling::sample</definition>
+        <argsstring>(llama_context *ctx, const std::vector&lt; llama_token &gt; &amp;last_tokens, int pos) override</argsstring>
+        <name>sample</name>
+        <qualifiedname>themis::llm::MirostatSampling::sample</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_sampling_strategy_1a48c6b7b6cc7cc7017a90c2cf9f4949c1">sample</reimplements>
+        <param>
+          <type>llama_context *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="llama__wrapper_8h_1a6650afdb61c5d4d386135d9edeb1e4ae" kindref="member">llama_token</ref> &gt; &amp;</type>
+          <declname>last_tokens</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+<para>Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), std::clamp(), <ref refid="sampling__strategy_8cpp_1a6bbde577d4a3c0c0f0cde76d5bfcf3d6" kindref="member">llama_get_logits_ith()</ref>, scores(), indices(), size(), std::iota(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="84" column="17" bodyfile="src/llm/sampling_strategy.cpp" bodystart="205" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mirostat_sampling_1aba1361ffddb8c2825a2d4fe5a594f0c4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MirostatSampling::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::MirostatSampling::name</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_sampling_strategy_1a9d5a5d09ad940c2150ec01c99a5e65ae">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="90" column="17" bodyfile="include/llm/sampling_strategy.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::ISamplingStrategy</label>
+        <link refid="classthemis_1_1llm_1_1_i_sampling_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::MirostatSampling</label>
+        <link refid="classthemis_1_1llm_1_1_mirostat_sampling"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::ISamplingStrategy</label>
+        <link refid="classthemis_1_1llm_1_1_i_sampling_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::MirostatSampling</label>
+        <link refid="classthemis_1_1llm_1_1_mirostat_sampling"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/sampling_strategy.h" line="79" column="1" bodyfile="include/llm/sampling_strategy.h" bodystart="79" bodyend="96"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_mirostat_sampling_1a600c44ab5194b134a1ac06010301b7aa" prot="private" virt="non-virtual"><scope>themis::llm::MirostatSampling</scope><name>eta_</name></member>
+      <member refid="classthemis_1_1llm_1_1_mirostat_sampling_1aca3a429360d9623dba520b1353feff8e" prot="public" virt="non-virtual"><scope>themis::llm::MirostatSampling</scope><name>MirostatSampling</name></member>
+      <member refid="classthemis_1_1llm_1_1_mirostat_sampling_1a5302a43468dafff5b1d36c592ad86f31" prot="private" virt="non-virtual"><scope>themis::llm::MirostatSampling</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1llm_1_1_mirostat_sampling_1aba1361ffddb8c2825a2d4fe5a594f0c4" prot="public" virt="virtual"><scope>themis::llm::MirostatSampling</scope><name>name</name></member>
+      <member refid="classthemis_1_1llm_1_1_mirostat_sampling_1afa32454aebdda1e18b318a1616f267cb" prot="public" virt="virtual"><scope>themis::llm::MirostatSampling</scope><name>sample</name></member>
+      <member refid="classthemis_1_1llm_1_1_mirostat_sampling_1a7909c0d0c39c4c9e0741a2c6f3f8b460" prot="private" virt="non-virtual"><scope>themis::llm::MirostatSampling</scope><name>tau_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_sampling_strategy_1a42bb6b62c32ca436e701d5129b062024" prot="public" virt="virtual"><scope>themis::llm::MirostatSampling</scope><name>~ISamplingStrategy</name></member>
+      <member refid="classthemis_1_1llm_1_1_mirostat_sampling_1a9134984cfe9c570f81f52ccfe2048b2d" prot="public" virt="non-virtual"><scope>themis::llm::MirostatSampling</scope><name>~MirostatSampling</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

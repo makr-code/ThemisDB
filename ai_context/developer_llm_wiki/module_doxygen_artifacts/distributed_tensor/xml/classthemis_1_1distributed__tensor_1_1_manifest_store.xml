@@ -1,0 +1,412 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_manifest_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ManifestStore</compoundname>
+    <includes refid="manifest__store_8h" local="no">manifest_store.h</includes>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key" prot="private">themis::distributed_tensor::ManifestStore::Key</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_hash" prot="private">themis::distributed_tensor::ManifestStore::KeyHash</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1a82028a7193d89b661ac09b8a94a6223b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::distributed_tensor::ManifestStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="116" column="69" bodyfile="src/distributed_tensor/include/manifest_store.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1ab5f121b276c23f8d0d21a2b822028bb3" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; Key, <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>, KeyHash &gt;</type>
+        <definition>std::unordered_map&lt;Key, ArtifactManifest, KeyHash&gt; themis::distributed_tensor::ManifestStore::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="117" column="36" bodyfile="src/distributed_tensor/include/manifest_store.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1a8dd1251293c43a368be83241092cf7aa" prot="private" static="no" mutable="no">
+        <type>observability::MetricsCollector *</type>
+        <definition>observability::MetricsCollector* themis::distributed_tensor::ManifestStore::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::metrics_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="118" column="68" bodyfile="src/distributed_tensor/include/manifest_store.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1a656e0803f6cbf68ee1dfe6501ffe6159" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ManifestStore::ManifestStore</definition>
+        <argsstring>(observability::MetricsCollector *metrics=nullptr) noexcept</argsstring>
+        <name>ManifestStore</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::ManifestStore</qualifiedname>
+        <param>
+          <type>observability::MetricsCollector *</type>
+          <declname>metrics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="48" column="14" bodyfile="src/distributed_tensor/src/manifest_store.cpp" bodystart="27" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1a90bb6c50fe4042b5396ed8fdfad3525e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ManifestStore::~ManifestStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ManifestStore</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::~ManifestStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1a8c57800c107e99017fa948254c5a719c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ManifestStore::ManifestStore</definition>
+        <argsstring>(const ManifestStore &amp;)=delete</argsstring>
+        <name>ManifestStore</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::ManifestStore</qualifiedname>
+        <param>
+          <type>const ManifestStore &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="54" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1a1e8ef90ff4c738bf5049c2d1e4157400" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a656e0803f6cbf68ee1dfe6501ffe6159" kindref="member">ManifestStore</ref> &amp;</type>
+        <definition>ManifestStore &amp; themis::distributed_tensor::ManifestStore::operator=</definition>
+        <argsstring>(const ManifestStore &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a656e0803f6cbf68ee1dfe6501ffe6159" kindref="member">ManifestStore</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="55" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1aced54130ba0fc12a44824dc6bea564cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ManifestStore::ManifestStore</definition>
+        <argsstring>(ManifestStore &amp;&amp;)=delete</argsstring>
+        <name>ManifestStore</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::ManifestStore</qualifiedname>
+        <param>
+          <type>ManifestStore &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1a012c33dc722354c8e20d36368bd583c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a656e0803f6cbf68ee1dfe6501ffe6159" kindref="member">ManifestStore</ref> &amp;</type>
+        <definition>ManifestStore &amp; themis::distributed_tensor::ManifestStore::operator=</definition>
+        <argsstring>(ManifestStore &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a656e0803f6cbf68ee1dfe6501ffe6159" kindref="member">ManifestStore</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="57" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1a7ae4a5a6f7928dc51b008bf9fc0f94e4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ManifestStore::store</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest)</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::store</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+<para>Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: validate(), lock(), find(), end(), emplace(), std::move(), unlock(), addCounter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="61" column="11" bodyfile="src/distributed_tensor/src/manifest_store.cpp" bodystart="40" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1a5f5ebb82574fa712f8d15bc2a1878b72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_tensor::ManifestStore::evict</definition>
+        <argsstring>(const std::string &amp;artifact_id)</argsstring>
+        <name>evict</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::evict</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Evict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="68" column="17" bodyfile="src/distributed_tensor/src/manifest_store.cpp" bodystart="83" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1abbe4ee1014d52bbb23ee0539070aac19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_tensor::ManifestStore::evictStale</definition>
+        <argsstring>(double max_age_s)</argsstring>
+        <name>evictStale</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::evictStale</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>max_age_s</declname>
+        </param>
+        <briefdescription>
+<para>Evict Stale. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_age_s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_age_s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), lock(), begin(), end(), isFresh(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="75" column="17" bodyfile="src/distributed_tensor/src/manifest_store.cpp" bodystart="107" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1a8252cac0193d606b893a8ce168068120" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &gt;</type>
+        <definition>std::optional&lt; ArtifactManifest &gt; themis::distributed_tensor::ManifestStore::get</definition>
+        <argsstring>(const std::string &amp;tensor_name, uint32_t shard_id) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tensor_name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="80" column="5" bodyfile="src/distributed_tensor/src/manifest_store.cpp" bodystart="127" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1ae1983f94e4699232c4177332c56fb55a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &gt;</type>
+        <definition>std::vector&lt; ArtifactManifest &gt; themis::distributed_tensor::ManifestStore::list</definition>
+        <argsstring>(const std::string &amp;tensor_name) const</argsstring>
+        <name>list</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::list</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tensor_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="83" column="5" bodyfile="src/distributed_tensor/src/manifest_store.cpp" bodystart="155" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1a5c26d98e93459c3c142a85c78d342271" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_tensor::ManifestStore::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="85" column="18" bodyfile="src/distributed_tensor/src/manifest_store.cpp" bodystart="187" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_manifest_store_1aeb034bb007ec6f3768eca7fdb2401fdb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::ManifestStore::refreshFreshnessMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>refreshFreshnessMetrics</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::refreshFreshnessMetrics</qualifiedname>
+        <briefdescription>
+<para>── Observability ─────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="91" column="10" bodyfile="src/distributed_tensor/src/manifest_store.cpp" bodystart="201" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/manifest_store.h" line="46" column="1" bodyfile="src/distributed_tensor/include/manifest_store.h" bodystart="46" bodyend="119"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1ab5f121b276c23f8d0d21a2b822028bb3" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a5f5ebb82574fa712f8d15bc2a1878b72" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>evict</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1abbe4ee1014d52bbb23ee0539070aac19" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>evictStale</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a8252cac0193d606b893a8ce168068120" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>get</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1ae1983f94e4699232c4177332c56fb55a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>list</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a656e0803f6cbf68ee1dfe6501ffe6159" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>ManifestStore</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a8c57800c107e99017fa948254c5a719c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>ManifestStore</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1aced54130ba0fc12a44824dc6bea564cb" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>ManifestStore</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a8dd1251293c43a368be83241092cf7aa" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a82028a7193d89b661ac09b8a94a6223b" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a1e8ef90ff4c738bf5049c2d1e4157400" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a012c33dc722354c8e20d36368bd583c0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1aeb034bb007ec6f3768eca7fdb2401fdb" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>refreshFreshnessMetrics</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a5c26d98e93459c3c142a85c78d342271" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>size</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a7ae4a5a6f7928dc51b008bf9fc0f94e4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>store</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_manifest_store_1a90bb6c50fe4042b5396ed8fdfad3525e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore</scope><name>~ManifestStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

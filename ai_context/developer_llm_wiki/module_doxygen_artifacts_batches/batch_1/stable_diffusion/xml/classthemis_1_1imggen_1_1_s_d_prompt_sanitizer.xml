@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::imggen::SDPromptSanitizer</compoundname>
+    <includes refid="sd__prompt__sanitizer_8h" local="no">sd_prompt_sanitizer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1aa81b13df5ed0bded4b94ffec7cae40e6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::imggen::SDPromptSanitizer::blocked_keywords_</definition>
+        <argsstring></argsstring>
+        <name>blocked_keywords_</name>
+        <qualifiedname>themis::imggen::SDPromptSanitizer::blocked_keywords_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_prompt_sanitizer.h" line="52" column="17" bodyfile="include/stable_diffusion/sd_prompt_sanitizer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a8e66ac7c687562d4f73ddb796801fe52" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::imggen::SDPromptSanitizer::SDPromptSanitizer</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;blocked_keywords={})</argsstring>
+        <name>SDPromptSanitizer</name>
+        <qualifiedname>themis::imggen::SDPromptSanitizer::SDPromptSanitizer</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>blocked_keywords</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_prompt_sanitizer.h" line="32" column="14" bodyfile="src/stable_diffusion/sd_prompt_sanitizer.cpp" bodystart="36" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1ae2a25fd8f291ca5f41fc51a2ffd02f2e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDPromptSanitizer::isAllowed</definition>
+        <argsstring>(const std::string &amp;prompt) const</argsstring>
+        <name>isAllowed</name>
+        <qualifiedname>themis::imggen::SDPromptSanitizer::isAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>false if the prompt contains any blocked keyword. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_prompt_sanitizer.h" line="41" column="10" bodyfile="src/stable_diffusion/sd_prompt_sanitizer.cpp" bodystart="77" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1abdb3ff272824812009a61036c119139b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDPromptSanitizer::sanitize</definition>
+        <argsstring>(const std::string &amp;prompt) const</argsstring>
+        <name>sanitize</name>
+        <qualifiedname>themis::imggen::SDPromptSanitizer::sanitize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Remove all blocked keywords from the prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Sanitized prompt string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_prompt_sanitizer.h" line="47" column="17" bodyfile="src/stable_diffusion/sd_prompt_sanitizer.cpp" bodystart="89" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a4dd4a97998d0670509578a8f8c13168c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::imggen::SDPromptSanitizer::blockedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>blockedCount</name>
+        <qualifiedname>themis::imggen::SDPromptSanitizer::blockedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_prompt_sanitizer.h" line="49" column="12" bodyfile="include/stable_diffusion/sd_prompt_sanitizer.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a9bfee7af8d99f6dfda94412ba77fe604" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a8e66ac7c687562d4f73ddb796801fe52" kindref="member">SDPromptSanitizer</ref></type>
+        <definition>SDPromptSanitizer themis::imggen::SDPromptSanitizer::fromFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>fromFile</name>
+        <qualifiedname>themis::imggen::SDPromptSanitizer::fromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load blocked keywords from a plain-text file (one keyword per line). Lines starting with &apos;#&apos; are treated as comments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From File.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: f(), is_open(), std::getline(), find_first_not_of(), substr(), empty(), push_back(), <ref refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a8e66ac7c687562d4f73ddb796801fe52" kindref="member">SDPromptSanitizer()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_prompt_sanitizer.h" line="38" column="30" bodyfile="src/stable_diffusion/sd_prompt_sanitizer.cpp" bodystart="53" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1ac2b8b21484b20af19259d4209c353dd3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDPromptSanitizer::toLower</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>toLower</name>
+        <qualifiedname>themis::imggen::SDPromptSanitizer::toLower</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>── helpers ─────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_prompt_sanitizer.h" line="54" column="24" bodyfile="src/stable_diffusion/sd_prompt_sanitizer.cpp" bodystart="27" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Content-policy sanitizer for image generation prompts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Blocks prompts containing any of the configured keywords (case-insensitive). Can be loaded from a YAML/text file (one keyword per line) or constructed directly from a vector of strings. </para>
+    </detaileddescription>
+    <location file="include/stable_diffusion/sd_prompt_sanitizer.h" line="30" column="1" bodyfile="include/stable_diffusion/sd_prompt_sanitizer.h" bodystart="30" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1aa81b13df5ed0bded4b94ffec7cae40e6" prot="private" virt="non-virtual"><scope>themis::imggen::SDPromptSanitizer</scope><name>blocked_keywords_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a4dd4a97998d0670509578a8f8c13168c" prot="public" virt="non-virtual"><scope>themis::imggen::SDPromptSanitizer</scope><name>blockedCount</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a9bfee7af8d99f6dfda94412ba77fe604" prot="public" virt="non-virtual"><scope>themis::imggen::SDPromptSanitizer</scope><name>fromFile</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1ae2a25fd8f291ca5f41fc51a2ffd02f2e" prot="public" virt="non-virtual"><scope>themis::imggen::SDPromptSanitizer</scope><name>isAllowed</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1abdb3ff272824812009a61036c119139b" prot="public" virt="non-virtual"><scope>themis::imggen::SDPromptSanitizer</scope><name>sanitize</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1a8e66ac7c687562d4f73ddb796801fe52" prot="public" virt="non-virtual"><scope>themis::imggen::SDPromptSanitizer</scope><name>SDPromptSanitizer</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer_1ac2b8b21484b20af19259d4209c353dd3" prot="private" virt="non-virtual"><scope>themis::imggen::SDPromptSanitizer</scope><name>toLower</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

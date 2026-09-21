@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_audio_preprocessor" kind="class" language="C++" prot="public">
+    <compoundname>MockAudioPreprocessor</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_audio_preprocessor_1a1d9f6b3d41e3a5b48de69ce51c3a4952" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockAudioPreprocessor::preprocess</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>preprocess</name>
+        <qualifiedname>MockAudioPreprocessor::preprocess</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="41" column="17" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_audio_preprocessor_1a31e2165dd323364c114ac460143549e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockAudioPreprocessor::normalize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>normalize</name>
+        <qualifiedname>MockAudioPreprocessor::normalize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="51" column="17" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="51" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_audio_preprocessor_1ac57c33858a94f00fde5f6a0cd3adc1e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockAudioPreprocessor::resample</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>resample</name>
+        <qualifiedname>MockAudioPreprocessor::resample</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="58" column="17" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_audio_preprocessor_1a0c825a87a95342c520cd011ef1c2d050" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockAudioPreprocessor::enhance</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>enhance</name>
+        <qualifiedname>MockAudioPreprocessor::enhance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="65" column="17" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="65" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_audio_preprocessor_1a191d5ff1ba3505d8d3dd03a4497b1c00" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockAudioPreprocessor::filter</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>filter</name>
+        <qualifiedname>MockAudioPreprocessor::filter</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="72" column="17" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="72" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="38" column="1" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="38" bodyend="77"/>
+    <listofallmembers>
+      <member refid="class_mock_audio_preprocessor_1a0c825a87a95342c520cd011ef1c2d050" prot="public" virt="non-virtual"><scope>MockAudioPreprocessor</scope><name>enhance</name></member>
+      <member refid="class_mock_audio_preprocessor_1a191d5ff1ba3505d8d3dd03a4497b1c00" prot="public" virt="non-virtual"><scope>MockAudioPreprocessor</scope><name>filter</name></member>
+      <member refid="class_mock_audio_preprocessor_1a31e2165dd323364c114ac460143549e2" prot="public" virt="non-virtual"><scope>MockAudioPreprocessor</scope><name>normalize</name></member>
+      <member refid="class_mock_audio_preprocessor_1a1d9f6b3d41e3a5b48de69ce51c3a4952" prot="public" virt="non-virtual"><scope>MockAudioPreprocessor</scope><name>preprocess</name></member>
+      <member refid="class_mock_audio_preprocessor_1ac57c33858a94f00fde5f6a0cd3adc1e3" prot="public" virt="non-virtual"><scope>MockAudioPreprocessor</scope><name>resample</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

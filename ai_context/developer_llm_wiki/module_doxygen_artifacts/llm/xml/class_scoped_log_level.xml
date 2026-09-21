@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_scoped_log_level" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>ScopedLogLevel</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_scoped_log_level_1a67240d645e37c0002734c19a0ebe27c2" prot="private" static="no" mutable="no">
+        <type>themis::utils::Logger::Level</type>
+        <definition>themis::utils::Logger::Level ScopedLogLevel::previous_</definition>
+        <argsstring></argsstring>
+        <name>previous_</name>
+        <qualifiedname>ScopedLogLevel::previous_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="62" column="34" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_scoped_log_level_1ac4c7b013d9afb53039bafb33a8cf8dd2" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ScopedLogLevel::ScopedLogLevel</definition>
+        <argsstring>(const themis::utils::Logger::Level level)</argsstring>
+        <name>ScopedLogLevel</name>
+        <qualifiedname>ScopedLogLevel::ScopedLogLevel</qualifiedname>
+        <param>
+          <type>const themis::utils::Logger::Level</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="49" column="14" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="49" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scoped_log_level_1a956e0a004a075f7ef8334fd16a9672b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ScopedLogLevel::~ScopedLogLevel</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedLogLevel</name>
+        <qualifiedname>ScopedLogLevel::~ScopedLogLevel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="54" column="5" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="54" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scoped_log_level_1aba4f8fdac88d67e3edd55af5f3ba706d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ScopedLogLevel::ScopedLogLevel</definition>
+        <argsstring>(const ScopedLogLevel &amp;)=delete</argsstring>
+        <name>ScopedLogLevel</name>
+        <qualifiedname>ScopedLogLevel::ScopedLogLevel</qualifiedname>
+        <param>
+          <type>const <ref refid="class_scoped_log_level" kindref="compound">ScopedLogLevel</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scoped_log_level_1ad7f3d2950f36186db5d8fef54db48f6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_scoped_log_level" kindref="compound">ScopedLogLevel</ref> &amp;</type>
+        <definition>ScopedLogLevel &amp; ScopedLogLevel::operator=</definition>
+        <argsstring>(const ScopedLogLevel &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>ScopedLogLevel::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_scoped_log_level" kindref="compound">ScopedLogLevel</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="59" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/bench_continuous_batch_scheduler.cpp" line="47" column="1" bodyfile="tests/llm/bench_continuous_batch_scheduler.cpp" bodystart="47" bodyend="63"/>
+    <listofallmembers>
+      <member refid="class_scoped_log_level_1ad7f3d2950f36186db5d8fef54db48f6d" prot="public" virt="non-virtual"><scope>ScopedLogLevel</scope><name>operator=</name></member>
+      <member refid="class_scoped_log_level_1a67240d645e37c0002734c19a0ebe27c2" prot="private" virt="non-virtual"><scope>ScopedLogLevel</scope><name>previous_</name></member>
+      <member refid="class_scoped_log_level_1ac4c7b013d9afb53039bafb33a8cf8dd2" prot="public" virt="non-virtual"><scope>ScopedLogLevel</scope><name>ScopedLogLevel</name></member>
+      <member refid="class_scoped_log_level_1aba4f8fdac88d67e3edd55af5f3ba706d" prot="public" virt="non-virtual"><scope>ScopedLogLevel</scope><name>ScopedLogLevel</name></member>
+      <member refid="class_scoped_log_level_1a956e0a004a075f7ef8334fd16a9672b2" prot="public" virt="non-virtual"><scope>ScopedLogLevel</scope><name>~ScopedLogLevel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

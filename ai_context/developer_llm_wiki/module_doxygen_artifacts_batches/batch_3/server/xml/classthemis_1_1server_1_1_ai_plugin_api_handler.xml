@@ -1,0 +1,458 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_ai_plugin_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::AiPluginApiHandler</compoundname>
+    <includes refid="ai__plugin__api__handler_8h" local="no">ai_plugin_api_handler.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_ai_plugin_api_handler_1_1_plugin_job_record" prot="private">themis::server::AiPluginApiHandler::PluginJobRecord</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1a507e85336932422785fb8c53945c8e3c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::AiPluginApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="120" column="39" bodyfile="include/server/ai_plugin_api_handler.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1ad91ececcf6f44e32e2d3ab4653e56c5b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::AiPluginApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="121" column="32" bodyfile="include/server/ai_plugin_api_handler.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1ad3c85523df416d2fc3ba2ae68ac1e14d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::plugins::ai::AIPluginGenerator &gt;</type>
+        <definition>std::unique_ptr&lt;themis::plugins::ai::AIPluginGenerator&gt; themis::server::AiPluginApiHandler::generator_</definition>
+        <argsstring></argsstring>
+        <name>generator_</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::generator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="122" column="21" bodyfile="include/server/ai_plugin_api_handler.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1aceef08634ecf73658ccc569508df1a41" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::AiPluginApiHandler::jobs_mutex_</definition>
+        <argsstring></argsstring>
+        <name>jobs_mutex_</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::jobs_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="123" column="16" bodyfile="include/server/ai_plugin_api_handler.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1a335e5d3407c3fbd5160262e95a1432d0" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, PluginJobRecord &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PluginJobRecord&gt; themis::server::AiPluginApiHandler::jobs_</definition>
+        <argsstring></argsstring>
+        <name>jobs_</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::jobs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="124" column="24" bodyfile="include/server/ai_plugin_api_handler.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1ada3b9302660decf0a4ce7c2392398db7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::uint64_t &gt;</type>
+        <definition>std::atomic&lt;std::uint64_t&gt; themis::server::AiPluginApiHandler::next_job_id_</definition>
+        <argsstring></argsstring>
+        <name>next_job_id_</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::next_job_id_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="125" column="17" bodyfile="include/server/ai_plugin_api_handler.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1a4ac0a681d1448169f930cb56ed78961d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::AiPluginApiHandler::AiPluginApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth, const themis::plugins::ai::AIPluginGenerator::Config &amp;generator_cfg={})</argsstring>
+        <name>AiPluginApiHandler</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::AiPluginApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>const themis::plugins::ai::AIPluginGenerator::Config &amp;</type>
+          <declname>generator_cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="50" column="5" bodyfile="src/server/ai_plugin_api_handler.cpp" bodystart="107" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1aa7bede30ef45b131a6c8ea42dd14351e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::AiPluginApiHandler::~AiPluginApiHandler</definition>
+        <argsstring>()</argsstring>
+        <name>~AiPluginApiHandler</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::~AiPluginApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1ae45a26f68ee630e667868f3bc640dee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::AiPluginApiHandler::AiPluginApiHandler</definition>
+        <argsstring>(const AiPluginApiHandler &amp;)=delete</argsstring>
+        <name>AiPluginApiHandler</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::AiPluginApiHandler</qualifiedname>
+        <param>
+          <type>const AiPluginApiHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1a0ac5e0445347936a7f7a121931bf0d61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1a4ac0a681d1448169f930cb56ed78961d" kindref="member">AiPluginApiHandler</ref> &amp;</type>
+        <definition>AiPluginApiHandler &amp; themis::server::AiPluginApiHandler::operator=</definition>
+        <argsstring>(const AiPluginApiHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1a4ac0a681d1448169f930cb56ed78961d" kindref="member">AiPluginApiHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="59" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1a108e84b9b394b1e8277ae050c3f0b6a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::AiPluginApiHandler::handle</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;target)</argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::handle</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="67" column="20" bodyfile="src/server/ai_plugin_api_handler.cpp" bodystart="148" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1a2845f270ff73764a431b52e182b2a2d0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::AiPluginApiHandler::toIso8601Now</definition>
+        <argsstring>()</argsstring>
+        <name>toIso8601Now</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::toIso8601Now</qualifiedname>
+        <briefdescription>
+<para>To Iso8601 Now. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="85" column="24" bodyfile="src/server/ai_plugin_api_handler.cpp" bodystart="124" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1a79a75a97eb9865f3ba3e4e698f2aa357" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::AiPluginApiHandler::handleGenerate</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGenerate</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::handleGenerate</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Generate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="92" column="20" bodyfile="src/server/ai_plugin_api_handler.cpp" bodystart="197" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1adfa37f62c459420dbc608c63b82d5ff7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::AiPluginApiHandler::handleList</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleList</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::handleList</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="99" column="20" bodyfile="src/server/ai_plugin_api_handler.cpp" bodystart="290" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1afd358ecf208d8946c1f66a0f7d219dff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::AiPluginApiHandler::handleStatus</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;job_id)</argsstring>
+        <name>handleStatus</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::handleStatus</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="107" column="20" bodyfile="src/server/ai_plugin_api_handler.cpp" bodystart="328" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ai_plugin_api_handler_1ac468385cf1cef1a7f74c1a042dc45ae8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::AiPluginApiHandler::handleDelete</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;job_id)</argsstring>
+        <name>handleDelete</name>
+        <qualifiedname>themis::server::AiPluginApiHandler::handleDelete</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/ai_plugin_api_handler.h" line="116" column="20" bodyfile="src/server/ai_plugin_api_handler.cpp" bodystart="371" bodyend="392"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/ai_plugin_api_handler.h" line="48" column="1" bodyfile="include/server/ai_plugin_api_handler.h" bodystart="48" bodyend="126"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1a4ac0a681d1448169f930cb56ed78961d" prot="public" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>AiPluginApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1ae45a26f68ee630e667868f3bc640dee2" prot="public" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>AiPluginApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1ad91ececcf6f44e32e2d3ab4653e56c5b" prot="private" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1ad3c85523df416d2fc3ba2ae68ac1e14d" prot="private" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>generator_</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1a108e84b9b394b1e8277ae050c3f0b6a5" prot="public" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>handle</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1ac468385cf1cef1a7f74c1a042dc45ae8" prot="private" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>handleDelete</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1a79a75a97eb9865f3ba3e4e698f2aa357" prot="private" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>handleGenerate</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1adfa37f62c459420dbc608c63b82d5ff7" prot="private" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>handleList</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1afd358ecf208d8946c1f66a0f7d219dff" prot="private" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>handleStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1a335e5d3407c3fbd5160262e95a1432d0" prot="private" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>jobs_</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1aceef08634ecf73658ccc569508df1a41" prot="private" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>jobs_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1ada3b9302660decf0a4ce7c2392398db7" prot="private" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>next_job_id_</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1a0ac5e0445347936a7f7a121931bf0d61" prot="public" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1a507e85336932422785fb8c53945c8e3c" prot="private" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1a2845f270ff73764a431b52e182b2a2d0" prot="private" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>toIso8601Now</name></member>
+      <member refid="classthemis_1_1server_1_1_ai_plugin_api_handler_1aa7bede30ef45b131a6c8ea42dd14351e" prot="public" virt="non-virtual"><scope>themis::server::AiPluginApiHandler</scope><name>~AiPluginApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

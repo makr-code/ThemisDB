@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::ingestion::builtin::DecompressStep</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" prot="public" virt="non-virtual">themis::ingestion::IIngestionStep</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a3e795a7f470516c50a9892eb45f749de" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::ingestion::builtin::DecompressStep::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::ingestion::builtin::DecompressStep::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/decompress_step.cpp" line="94" column="16" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a9f345b797501bedfdecb638d9dddac74" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::ingestion::builtin::DecompressStep::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::ingestion::builtin::DecompressStep::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/decompress_step.cpp" line="95" column="16" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1aaa7ed3c11335fa2a5d40e3a44c03c32c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::ingestion::builtin::DecompressStep::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::ingestion::builtin::DecompressStep::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/decompress_step.cpp" line="96" column="33" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1af3331e34b3396412efea183050e7dee7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::builtin::DecompressStep::initialize</definition>
+        <argsstring>(const char *) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::builtin::DecompressStep::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/decompress_step.cpp" line="97" column="11" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a1f0e400c562e710f9aa30d9c4bd7a0ae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::builtin::DecompressStep::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::ingestion::builtin::DecompressStep::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/decompress_step.cpp" line="98" column="11" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1ae3c9cc777af025f8839ce98d52bf9676" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::ingestion::builtin::DecompressStep::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::ingestion::builtin::DecompressStep::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/decompress_step.cpp" line="99" column="10" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a93ed9356506ecdf219efa52f6d1e2a10" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ingestion::builtin::DecompressStep::supportedMimeTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>supportedMimeTypes</name>
+        <qualifiedname>themis::ingestion::builtin::DecompressStep::supportedMimeTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1acd860b2bb15580a25ce67280f671f29a">supportedMimeTypes</reimplements>
+        <briefdescription>
+<para>Returns the MIME types this step can process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>An empty vector means &quot;any MIME type&quot;. Used by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" kindref="member">canHandle()</ref></computeroutput> default implementation. Override <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" kindref="member">canHandle()</ref></computeroutput> directly for more complex logic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/decompress_step.cpp" line="101" column="17" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="101" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a43c0251a1d78a1c92dbd1cdefa12e017" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::builtin::DecompressStep::execute</definition>
+        <argsstring>(ExtractionContext &amp;ctx, const StepConfig &amp;cfg) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::ingestion::builtin::DecompressStep::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ae420e2b6ce844d288d51bea1d79955d8">execute</reimplements>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Execute the step, enriching <computeroutput>ctx</computeroutput> in-place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The step reads any fields it needs from <computeroutput>ctx</computeroutput> and appends results to the appropriate collections (e.g. <computeroutput>ctx.entities</computeroutput>, <computeroutput>ctx.chunks</computeroutput>). It must not clear or overwrite data written by preceding steps.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pipeline context — modified in-place. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step configuration parsed from the YAML profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> — success, or an error with an <computeroutput>ErrorCode</computeroutput> from the <computeroutput>ERR_WORKFLOW_*</computeroutput> range. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/decompress_step.cpp" line="113" column="12" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="113" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::builtin::DecompressStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::builtin::DecompressStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </collaborationgraph>
+    <location file="src/ingestion/steps/decompress_step.cpp" line="91" column="1" bodyfile="src/ingestion/steps/decompress_step.cpp" bodystart="91" bodyend="211"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" prot="public" virt="virtual"><scope>themis::ingestion::builtin::DecompressStep</scope><name>canHandle</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a43c0251a1d78a1c92dbd1cdefa12e017" prot="public" virt="virtual"><scope>themis::ingestion::builtin::DecompressStep</scope><name>execute</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1aaa7ed3c11335fa2a5d40e3a44c03c32c" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::DecompressStep</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1ae3c9cc777af025f8839ce98d52bf9676" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::DecompressStep</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a3e795a7f470516c50a9892eb45f749de" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::DecompressStep</scope><name>getName</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1abee3ec226507c6c1038ef541caaee044" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::DecompressStep</scope><name>getType</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a9f345b797501bedfdecb638d9dddac74" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::DecompressStep</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1af3331e34b3396412efea183050e7dee7" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::DecompressStep</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a1f0e400c562e710f9aa30d9c4bd7a0ae" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::DecompressStep</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_decompress_step_1a93ed9356506ecdf219efa52f6d1e2a10" prot="public" virt="virtual"><scope>themis::ingestion::builtin::DecompressStep</scope><name>supportedMimeTypes</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ad350e511cf2ebd67ae0c5baf09f33060" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::DecompressStep</scope><name>~IIngestionStep</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

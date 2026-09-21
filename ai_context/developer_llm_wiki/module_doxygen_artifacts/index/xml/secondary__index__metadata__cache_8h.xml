@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="secondary__index__metadata__cache_8h" kind="file" language="C++">
+    <compoundname>secondary_index_metadata_cache.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="secondary__index_8cpp" local="yes">src/index/secondary_index.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/secondary_index_metadata_cache.h</label>
+        <link refid="secondary__index__metadata__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>unordered_set</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/index/secondary_index_metadata_cache.h</label>
+        <link refid="secondary__index__metadata__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/index/secondary_index.cpp</label>
+        <link refid="secondary__index_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_secondary_index_metadata_cache" prot="public">themis::SecondaryIndexMetadataCache</innerclass>
+    <innerclass refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config" prot="public">themis::SecondaryIndexMetadataCache::CachedFulltextConfig</innerclass>
+    <innerclass refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata" prot="public">themis::SecondaryIndexMetadataCache::IndexMetadata</innerclass>
+    <innerclass refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats" prot="public">themis::SecondaryIndexMetadataCache::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_entry" prot="private">themis::SecondaryIndexMetadataCache::CacheEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1_secondary_index_metadata_cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SecondaryIndexMetadataCache<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config" kindref="compound">CachedFulltextConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config_1a3916c5729bc8f653d391fcdeddf1de56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config_1a3916c5729bc8f653d391fcdeddf1de56" kindref="member">stemming_enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config_1a073616a2b8d9830f40d1f62abfba0380" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config_1a073616a2b8d9830f40d1f62abfba0380" kindref="member">language</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config_1aa66a382f6d5c5e59e5fd30c7c2faa1c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config_1aa66a382f6d5c5e59e5fd30c7c2faa1c0" kindref="member">stopwords_enabled</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config_1acd1a35060869fe5d64dc6abd25279f5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config_1acd1a35060869fe5d64dc6abd25279f5d" kindref="member">stopwords</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config_1afbbec3542e3a46fb74bb313d808d83f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config_1afbbec3542e3a46fb74bb313d808d83f9" kindref="member">normalize_umlauts</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata" kindref="compound">IndexMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a2760050b04570dfd5035571b71870b97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a2760050b04570dfd5035571b71870b97" kindref="member">regular_indexes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Equality<sp/>indexes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a269257f98d177a03bc0453f02d400c38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a269257f98d177a03bc0453f02d400c38" kindref="member">range_indexes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Range<sp/>indexes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a2ffcba929de5a0b882f87a286f95960b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a2ffcba929de5a0b882f87a286f95960b" kindref="member">sparse_indexes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sparse<sp/>indexes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a9ef2bfb8401e53613ce4dfb627df89ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a9ef2bfb8401e53613ce4dfb627df89ae" kindref="member">geo_indexes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Geo<sp/>indexes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a7a8fb223fe8f5e0b08c7268080107d4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a7a8fb223fe8f5e0b08c7268080107d4f" kindref="member">ttl_indexes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TTL<sp/>indexes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1abc6151e57f34ea70bc6c2f7a0ea5c992" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1abc6151e57f34ea70bc6c2f7a0ea5c992" kindref="member">fulltext_indexes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fulltext<sp/>indexes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ae901a942f833b48bccbaee0a21accfb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ae901a942f833b48bccbaee0a21accfb8" kindref="member">partial_indexes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Partial/filtered<sp/>indexes<sp/>(column<sp/>names)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>constraint<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1acd50052b83c276171b86b529455c5b4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1acd50052b83c276171b86b529455c5b4a" kindref="member">regular_unique</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a581c7c7787dfaba81a2d2ff8e43db1fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a581c7c7787dfaba81a2d2ff8e43db1fc" kindref="member">sparse_unique</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a743c087b4a4ccd8a6e4118b7ab3ce44e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a743c087b4a4ccd8a6e4118b7ab3ce44e" kindref="member">partial_predicates</ref>;<sp/></highlight><highlight class="comment">//<sp/>column<sp/>-&gt;<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ad83666783f3bb5d3c040cecfddca7adc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ad83666783f3bb5d3c040cecfddca7adc" kindref="member">partial_unique</ref>;<sp/></highlight><highlight class="comment">//<sp/>column<sp/>-&gt;<sp/>unique<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Precomputed<sp/>sets<sp/>for<sp/>O(1)<sp/>membership<sp/>lookup<sp/>in<sp/>write-path<sp/>hot<sp/>loops.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populated<sp/>alongside<sp/>the<sp/>vectors<sp/>so<sp/>callers<sp/>avoid<sp/>rebuilding<sp/>sets<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>every<sp/>cache<sp/>hit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ab3b94f212ce9992eefd109918121c371" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ab3b94f212ce9992eefd109918121c371" kindref="member">regular_indexes_set</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a0211bb8cfb9a9f9f6904b67eafb22326" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a0211bb8cfb9a9f9f6904b67eafb22326" kindref="member">range_indexes_set</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-column<sp/>config/metadata<sp/>cached<sp/>to<sp/>eliminate<sp/>extra<sp/>db.get()<sp/>calls<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>every<sp/>insert/upsert<sp/>in<sp/>the<sp/>hot<sp/>write<sp/>path<sp/>(v1.3.5<sp/>optimization).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ac87d3b86c473b8f8374ccbedf46258ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>CachedFulltextConfig&gt;<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1ac87d3b86c473b8f8374ccbedf46258ee" kindref="member">fulltext_configs</ref>;<sp/></highlight><highlight class="comment">//<sp/>column<sp/>-&gt;<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a144ec6614ca442094b5b41c6d4a7a02e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a144ec6614ca442094b5b41c6d4a7a02e" kindref="member">ttl_seconds</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>column<sp/>-&gt;<sp/>TTL<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a44a9908644b276bc9526bc56b124e8fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata_1a44a9908644b276bc9526bc56b124e8fa" kindref="member">composite_unique</ref>;<sp/></highlight><highlight class="comment">//<sp/>&quot;c1+c2&quot;<sp/>-&gt;<sp/>unique<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1_secondary_index_metadata_cache_1a13d7ec87e8c463ea3b61964c82eaa050" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>SecondaryIndexMetadataCache&amp;<sp/><ref refid="classthemis_1_1_secondary_index_metadata_cache_1a13d7ec87e8c463ea3b61964c82eaa050" kindref="member">instance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>SecondaryIndexMetadataCache<sp/>cache;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cache;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a66fe0a9876a3d0b5aadc0d1531c44f0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a66fe0a9876a3d0b5aadc0d1531c44f0b" kindref="member">total_lookups</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a5c2c22288030a748626d4892d626ee80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a5c2c22288030a748626d4892d626ee80" kindref="member">cache_hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1af998550fa9df6ef5f37bc5ae09248e19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1af998550fa9df6ef5f37bc5ae09248e19" kindref="member">cache_misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a0219aee9a6e78bc01b9e0370a57eadb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a0219aee9a6e78bc01b9e0370a57eadb7" kindref="member">hit_rate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a66fe0a9876a3d0b5aadc0d1531c44f0b" kindref="member">total_lookups</ref><sp/>&gt;<sp/>0<sp/>?<sp/>(100.0<sp/>*<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a5c2c22288030a748626d4892d626ee80" kindref="member">cache_hits</ref><sp/>/<sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a66fe0a9876a3d0b5aadc0d1531c44f0b" kindref="member">total_lookups</ref>)<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1_secondary_index_metadata_cache_1aa836c023b1f50d7ff40a1efe912c65a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;IndexMetadata&gt;<sp/><ref refid="classthemis_1_1_secondary_index_metadata_cache_1aa836c023b1f50d7ff40a1efe912c65a1" kindref="member">get</ref>(std::string_view<sp/>table)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>get()<sp/>updates<sp/>cache<sp/>statistics;<sp/>therefore<sp/>it<sp/>must<sp/>not<sp/>run<sp/>under<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>shared/read<sp/>lock<sp/>while<sp/>mutating<sp/>stats_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::shared_mutex&gt;<sp/>lock(cache_mutex_);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_.total_lookups++;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>metadata_cache_.find(std::string(table));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>!=<sp/>metadata_cache_.end())<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>cache<sp/>entry<sp/>is<sp/>still<sp/>valid<sp/>(TTL-based)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(now<sp/>-<sp/>it-&gt;second.timestamp<sp/>&lt;<sp/>cache_ttl_)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_.cache_hits++;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it-&gt;second.metadata;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_.cache_misses++;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1_secondary_index_metadata_cache_1a721c9153ad037dbb2bd3c87c421e48f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_secondary_index_metadata_cache_1a721c9153ad037dbb2bd3c87c421e48f5" kindref="member">set</ref>(std::string_view<sp/>table,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata" kindref="compound">IndexMetadata</ref>&amp;<sp/>metadata)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::shared_mutex&gt;<sp/>lock(cache_mutex_);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CacheEntry<sp/>entry;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.metadata<sp/>=<sp/>metadata;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.timestamp<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata_cache_[std::string(table)]<sp/>=<sp/>entry;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1_secondary_index_metadata_cache_1a47425357bc7b98492439236456d4f047" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_secondary_index_metadata_cache_1a47425357bc7b98492439236456d4f047" kindref="member">invalidate</ref>(std::string_view<sp/>table)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::shared_mutex&gt;<sp/>lock(cache_mutex_);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata_cache_.erase(std::string(table));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1_secondary_index_metadata_cache_1ac0ddd36c2fb614fedde37177128bcf2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_secondary_index_metadata_cache_1ac0ddd36c2fb614fedde37177128bcf2e" kindref="member">clear</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::shared_mutex&gt;<sp/>lock(cache_mutex_);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata_cache_.clear();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_.total_lookups<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_.cache_hits<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_.cache_misses<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1_secondary_index_metadata_cache_1a0c486d10d04789f084bb7cda149ed418" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/><ref refid="classthemis_1_1_secondary_index_metadata_cache_1a0c486d10d04789f084bb7cda149ed418" kindref="member">get_stats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_lock&lt;std::shared_mutex&gt;<sp/>lock(cache_mutex_);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1_secondary_index_metadata_cache_1aaeddb45cd02f5b618f09f5a84feef358" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_secondary_index_metadata_cache_1aaeddb45cd02f5b618f09f5a84feef358" kindref="member">set_ttl</ref>(std::chrono::seconds<sp/>ttl)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache_ttl_<sp/>=<sp/>ttl;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_secondary_index_metadata_cache" kindref="compound">SecondaryIndexMetadataCache</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">CacheEntry<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IndexMetadata<sp/>metadata;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>timestamp;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>CacheEntry&gt;<sp/>metadata_cache_;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>cache_mutex_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>cache_ttl_<sp/>=<sp/>std::chrono::seconds(60);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>CacheStats<sp/>stats_;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/secondary_index_metadata_cache.h"/>
+  </compounddef>
+</doxygen>

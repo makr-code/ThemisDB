@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::SAGAOrchestratorGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1ad760b7b1150b71f429641e030043f208" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_s_a_g_a_orchestrator" kindref="compound">SAGAOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SAGAOrchestrator&gt; themis::transaction::SAGAOrchestratorGuard::orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="121" column="21" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1ac83223c09587f4e7ad4d2f23f8c24ce6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::transaction::SAGAOrchestratorGuard::lifetime_count_</definition>
+        <argsstring></argsstring>
+        <name>lifetime_count_</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::lifetime_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="122" column="17" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1acb331ab3ebbe12c3a55142193e8ad445" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::SAGAOrchestratorGuard::SAGAOrchestratorGuard</definition>
+        <argsstring>(const SAGAOrchestrator::Config &amp;config={})</argsstring>
+        <name>SAGAOrchestratorGuard</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::SAGAOrchestratorGuard</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" kindref="member">SAGAOrchestrator::Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create orchestrator with given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::bad_alloc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>or any exception from orchestrator initialization </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="42" column="14" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="42" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a1f8ce68a405aa15891da8598cf27134b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::SAGAOrchestratorGuard::~SAGAOrchestratorGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~SAGAOrchestratorGuard</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::~SAGAOrchestratorGuard</qualifiedname>
+        <briefdescription>
+<para>Destructor waits for pending operations and cleans up. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="60" column="5" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="60" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a9e6f612240dbaebcdda30d8f1fbfbc6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::SAGAOrchestratorGuard::SAGAOrchestratorGuard</definition>
+        <argsstring>(const SAGAOrchestratorGuard &amp;)=delete</argsstring>
+        <name>SAGAOrchestratorGuard</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::SAGAOrchestratorGuard</qualifiedname>
+        <param>
+          <type>const SAGAOrchestratorGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1ab80322a5af95577dc0bcc806cabda981" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1acb331ab3ebbe12c3a55142193e8ad445" kindref="member">SAGAOrchestratorGuard</ref> &amp;</type>
+        <definition>SAGAOrchestratorGuard &amp; themis::transaction::SAGAOrchestratorGuard::operator=</definition>
+        <argsstring>(const SAGAOrchestratorGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1acb331ab3ebbe12c3a55142193e8ad445" kindref="member">SAGAOrchestratorGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="76" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a2eba0360ac3fa7941161e98cde1ad38b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::SAGAOrchestratorGuard::SAGAOrchestratorGuard</definition>
+        <argsstring>(SAGAOrchestratorGuard &amp;&amp;)=delete</argsstring>
+        <name>SAGAOrchestratorGuard</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::SAGAOrchestratorGuard</qualifiedname>
+        <param>
+          <type>SAGAOrchestratorGuard &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="79" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a48899432fbbf74006d1f31cbd9a112ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1acb331ab3ebbe12c3a55142193e8ad445" kindref="member">SAGAOrchestratorGuard</ref> &amp;</type>
+        <definition>SAGAOrchestratorGuard &amp; themis::transaction::SAGAOrchestratorGuard::operator=</definition>
+        <argsstring>(SAGAOrchestratorGuard &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1acb331ab3ebbe12c3a55142193e8ad445" kindref="member">SAGAOrchestratorGuard</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="80" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a58bf35490269ac67e32961db023138ba" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_s_a_g_a_orchestrator" kindref="compound">SAGAOrchestrator</ref> *</type>
+        <definition>SAGAOrchestrator * themis::transaction::SAGAOrchestratorGuard::get</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::get</qualifiedname>
+        <briefdescription>
+<para>Get the orchestrator instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to orchestrator, or nullptr if not initialized </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="86" column="22" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a42af7c3409c90e29eaa3ebfe1ef647ec" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1_s_a_g_a_orchestrator" kindref="compound">SAGAOrchestrator</ref> *</type>
+        <definition>const SAGAOrchestrator * themis::transaction::SAGAOrchestratorGuard::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::get</qualifiedname>
+        <briefdescription>
+<para>Get the orchestrator instance (const). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="93" column="28" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a653c984aed1643277964488f1b08ae3c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::SAGAOrchestratorGuard::valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::valid</qualifiedname>
+        <briefdescription>
+<para>Check if orchestrator is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="100" column="10" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1ad619993dfd13230c1e2f5af97afdaf4d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::SAGAOrchestratorGuard::reset</definition>
+        <argsstring>(const SAGAOrchestrator::Config &amp;config={})</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::transaction::SAGAOrchestratorGuard::reset</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_s_a_g_a_orchestrator_1aef545e9d328b6fd96b170e0168953172" kindref="member">SAGAOrchestrator::Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Replace the orchestrator with a new one. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::bad_alloc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>or any exception from orchestrator initialization </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="108" column="10" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="108" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for <ref refid="classthemis_1_1_s_a_g_a_orchestrator" kindref="compound">SAGAOrchestrator</ref> lifecycle management. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Ensures proper creation and cleanup of <ref refid="classthemis_1_1_s_a_g_a_orchestrator" kindref="compound">SAGAOrchestrator</ref> instances, preventing use-after-free and resource leaks on exception. </para>
+    </detaileddescription>
+    <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="36" column="1" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="36" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a58bf35490269ac67e32961db023138ba" prot="public" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>get</name></member>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a42af7c3409c90e29eaa3ebfe1ef647ec" prot="public" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>get</name></member>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1ac83223c09587f4e7ad4d2f23f8c24ce6" prot="private" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>lifetime_count_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1ab80322a5af95577dc0bcc806cabda981" prot="public" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a48899432fbbf74006d1f31cbd9a112ae" prot="public" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1ad760b7b1150b71f429641e030043f208" prot="private" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>orchestrator_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1ad619993dfd13230c1e2f5af97afdaf4d" prot="public" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>reset</name></member>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1acb331ab3ebbe12c3a55142193e8ad445" prot="public" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>SAGAOrchestratorGuard</name></member>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a9e6f612240dbaebcdda30d8f1fbfbc6c" prot="public" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>SAGAOrchestratorGuard</name></member>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a2eba0360ac3fa7941161e98cde1ad38b" prot="public" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>SAGAOrchestratorGuard</name></member>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a653c984aed1643277964488f1b08ae3c" prot="public" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>valid</name></member>
+      <member refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard_1a1f8ce68a405aa15891da8598cf27134b" prot="public" virt="non-virtual"><scope>themis::transaction::SAGAOrchestratorGuard</scope><name>~SAGAOrchestratorGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

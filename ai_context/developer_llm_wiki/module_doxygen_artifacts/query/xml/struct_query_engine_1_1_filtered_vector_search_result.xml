@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_query_engine_1_1_filtered_vector_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>QueryEngine::FilteredVectorSearchResult</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_query_engine_1_1_filtered_vector_search_result_1a72f1ff5c1f0b30d3b9de234158abc54c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryEngine::FilteredVectorSearchResult::pk</definition>
+        <argsstring></argsstring>
+        <name>pk</name>
+        <qualifiedname>QueryEngine::FilteredVectorSearchResult::pk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="615" column="21" bodyfile="include/query/query_engine.h" bodystart="615" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_query_engine_1_1_filtered_vector_search_result_1a062daf31ddd90facceda9aa463da1ca0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::query::QueryEngine::FilteredVectorSearchResult::vector_distance</definition>
+        <argsstring></argsstring>
+        <name>vector_distance</name>
+        <qualifiedname>QueryEngine::FilteredVectorSearchResult::vector_distance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="616" column="15" bodyfile="include/query/query_engine.h" bodystart="616" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_query_engine_1_1_filtered_vector_search_result_1a74b82059f5c7a9c6ba971466a7a6f518" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryEngine::FilteredVectorSearchResult::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>QueryEngine::FilteredVectorSearchResult::entity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="617" column="24" bodyfile="include/query/query_engine.h" bodystart="617" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="614" column="5" bodyfile="include/query/query_engine.h" bodystart="614" bodyend="618"/>
+    <listofallmembers>
+      <member refid="struct_query_engine_1_1_filtered_vector_search_result_1a74b82059f5c7a9c6ba971466a7a6f518" prot="public" virt="non-virtual"><scope>QueryEngine::FilteredVectorSearchResult</scope><name>entity</name></member>
+      <member refid="struct_query_engine_1_1_filtered_vector_search_result_1a72f1ff5c1f0b30d3b9de234158abc54c" prot="public" virt="non-virtual"><scope>QueryEngine::FilteredVectorSearchResult</scope><name>pk</name></member>
+      <member refid="struct_query_engine_1_1_filtered_vector_search_result_1a062daf31ddd90facceda9aa463da1ca0" prot="public" virt="non-virtual"><scope>QueryEngine::FilteredVectorSearchResult</scope><name>vector_distance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

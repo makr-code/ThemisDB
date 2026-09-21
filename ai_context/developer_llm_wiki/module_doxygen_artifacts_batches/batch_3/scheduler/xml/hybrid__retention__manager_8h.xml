@@ -1,0 +1,389 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hybrid__retention__manager_8h" kind="file" language="C++">
+    <compoundname>hybrid_retention_manager.h</compoundname>
+    <includes refid="task__scheduler_8h" local="yes">scheduler/task_scheduler.h</includes>
+    <includes local="yes">timeseries/tsstore.h</includes>
+    <includes local="yes">timeseries/gorilla.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="hybrid__retention__manager_8cpp" local="yes">src/scheduler/hybrid_retention_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/scheduler/hybrid_retention_manager.h</label>
+        <link refid="hybrid__retention__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>scheduler/scheduler_api_contract.h</label>
+        <link refid="scheduler__api__contract_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>scheduler/task_audit_event.h</label>
+        <link refid="task__audit__event_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>scheduler/task_result_store.h</label>
+        <link refid="task__result__store_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>scheduler/task_scheduler.h</label>
+        <link refid="task__scheduler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="18">
+        <label>cdc/changefeed.h</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>condition_variable</label>
+      </node>
+      <node id="20">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="23">
+        <label>observability/alertmanager.h</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>set</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="25">
+        <label>timeseries/gorilla.h</label>
+      </node>
+      <node id="24">
+        <label>timeseries/tsstore.h</label>
+      </node>
+      <node id="16">
+        <label>unordered_set</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/scheduler/hybrid_retention_manager.h</label>
+        <link refid="hybrid__retention__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/scheduler/hybrid_retention_manager.cpp</label>
+        <link refid="hybrid__retention__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_hybrid_retention_config" prot="public">themis::HybridRetentionConfig</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config" prot="public">themis::HybridRetentionConfig::Stage1Config</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config" prot="public">themis::HybridRetentionConfig::Stage2Config</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config" prot="public">themis::HybridRetentionConfig::Stage3Config</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_retention_stats" prot="public">themis::HybridRetentionStats</innerclass>
+    <innerclass refid="classthemis_1_1_hybrid_retention_manager" prot="public">themis::HybridRetentionManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="task__scheduler_8h" kindref="compound">scheduler/task_scheduler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;timeseries/tsstore.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;timeseries/gorilla.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref><sp/>=<sp/>query::QueryEngine;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1_hybrid_retention_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hybrid_retention_config" kindref="compound">HybridRetentionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stage<sp/>1:<sp/>Gorilla<sp/>Compression<sp/>(Hot<sp/>Data)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config" kindref="compound">Stage1Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config_1a7ef7337526f2f45280c22d143d51516b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config_1a7ef7337526f2f45280c22d143d51516b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config_1ae551cd05b11ab103d1ec70dc87a260a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config_1ae551cd05b11ab103d1ec70dc87a260a1" kindref="member">duration</ref>{24<sp/>*<sp/>7};<sp/><sp/></highlight><highlight class="comment">//<sp/>7<sp/>days</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config_1a39e10e56ceb843b359d311db0617f0a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config_1a39e10e56ceb843b359d311db0617f0a2" kindref="member">check_interval</ref>{24};<sp/><sp/></highlight><highlight class="comment">//<sp/>Daily</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config_1a2d3a36d65a094da916e688ad6ec042c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config_1a2d3a36d65a094da916e688ad6ec042c7" kindref="member">metric_pattern</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1_hybrid_retention_config_1a488b31d76765dcca982dc54e99b14fdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1a488b31d76765dcca982dc54e99b14fdc" kindref="member">stage1</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stage<sp/>2:<sp/>Adaptive<sp/>Retention<sp/>(Warm<sp/>Data)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config" kindref="compound">Stage2Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a01d06cc112438aa94f4b7831d8fb71b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a01d06cc112438aa94f4b7831d8fb71b9" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1aff6779405281050a1e96cdfd613a1dad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1aff6779405281050a1e96cdfd613a1dad" kindref="member">min_age</ref>{24<sp/>*<sp/>7};<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>7<sp/>days</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a38ef5ffb4edd1ada375a2dd5725c789e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a38ef5ffb4edd1ada375a2dd5725c789e" kindref="member">max_age</ref>{24<sp/>*<sp/>365};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>year</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a245b904925b8ad855fab0dccf93120b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a245b904925b8ad855fab0dccf93120b4" kindref="member">check_interval</ref>{12};<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>12<sp/>hours</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Variance<sp/>thresholds<sp/>(Coefficient<sp/>of<sp/>Variation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a03cbb9002f86ff94ea0ffd4e193da0fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a03cbb9002f86ff94ea0ffd4e193da0fc" kindref="member">low_cv_threshold</ref><sp/>=<sp/>5.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CV<sp/>&lt;<sp/>5%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a778f5275304e121f7ea01a5d27771b71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a778f5275304e121f7ea01a5d27771b71" kindref="member">medium_cv_threshold</ref><sp/>=<sp/>20.0;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CV<sp/>5-20%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Target<sp/>resolutions<sp/>based<sp/>on<sp/>variance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a8deb3e664c1be20798af43c3d0aa01fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a8deb3e664c1be20798af43c3d0aa01fe" kindref="member">low_cv_resolution</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1h&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a92e8615f3534c6b31088f088d541546c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a92e8615f3534c6b31088f088d541546c" kindref="member">medium_cv_resolution</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;15m&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a962c734b0b73a7403bc1088a23ade20a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1a962c734b0b73a7403bc1088a23ade20a" kindref="member">high_cv_resolution</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1m&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Anomaly<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1aabb4b6c32bf7aee493fb27e9931844bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1aabb4b6c32bf7aee493fb27e9931844bd" kindref="member">detect_anomalies</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1ac8afd6af9feffd36bf1c2074e1c3e1d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config_1ac8afd6af9feffd36bf1c2074e1c3e1d9" kindref="member">anomaly_sigma_threshold</ref><sp/>=<sp/>3.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>3-sigma<sp/>rule</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1_hybrid_retention_config_1ace78f57aa2774826543b26a92675527b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1ace78f57aa2774826543b26a92675527b" kindref="member">stage2</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stage<sp/>3:<sp/>Time-Based<sp/>Retention<sp/>(Cold<sp/>Data)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config" kindref="compound">Stage3Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1a4dedc7db5c54c24f7e0a24b93b6aabcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1a4dedc7db5c54c24f7e0a24b93b6aabcd" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1aa9525e4979746bd4a58b94a233f11677" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1aa9525e4979746bd4a58b94a233f11677" kindref="member">min_age</ref>{24<sp/>*<sp/>365};<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>year</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1ac57a437664d4b993f41ef419fa72df3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1ac57a437664d4b993f41ef419fa72df3a" kindref="member">check_interval</ref>{24};<sp/><sp/></highlight><highlight class="comment">//<sp/>Daily</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1a1eb92bc83016f2fb4fbf285109ff362c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config_1a1eb92bc83016f2fb4fbf285109ff362c" kindref="member">target_resolution</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1d&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Daily<sp/>aggregates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1_hybrid_retention_config_1af74a8d971003fe0c90f04218061f71ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1af74a8d971003fe0c90f04218061f71ff" kindref="member">stage3</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Global<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1_hybrid_retention_config_1a6ff60ac41455555192121e21b2643306" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_config_1a6ff60ac41455555192121e21b2643306" kindref="member">auto_cleanup</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>original<sp/>data<sp/>after<sp/>aggregation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_hybrid_retention_config_1a820fe79e00f4e75617dfd413f7e4b14d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_config_1a820fe79e00f4e75617dfd413f7e4b14d" kindref="member">verify_aggregates</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>aggregates<sp/>exist<sp/>before<sp/>deletion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_hybrid_retention_config_1a097732534206799107d3f3536843425f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1a097732534206799107d3f3536843425f" kindref="member">source_table</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;timeseries&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1_hybrid_retention_config_1ab1c440e37e24cdf899c883ea5598299b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1ab1c440e37e24cdf899c883ea5598299b" kindref="member">adaptive_table</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;timeseries_adaptive&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1_hybrid_retention_config_1a96e7d4dc244d310496a9cef47eef4585" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_retention_config_1a96e7d4dc244d310496a9cef47eef4585" kindref="member">longterm_table</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;timeseries_longterm&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_hybrid_retention_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hybrid_retention_stats" kindref="compound">HybridRetentionStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stage<sp/>1<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1_hybrid_retention_stats_1ad40ff2846d3c2244de5dfe9d970183df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1ad40ff2846d3c2244de5dfe9d970183df" kindref="member">compressions_total</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_hybrid_retention_stats_1af8924b828f564bccff9dbfbe8a3e1458" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1af8924b828f564bccff9dbfbe8a3e1458" kindref="member">compressions_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_hybrid_retention_stats_1a524e00727b4f6ea44740488a325cda28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a524e00727b4f6ea44740488a325cda28" kindref="member">avg_compression_ratio</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_hybrid_retention_stats_1adebd379f6ba30e299dbc9d3b1b0e5a69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1adebd379f6ba30e299dbc9d3b1b0e5a69" kindref="member">last_run</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1_hybrid_retention_stats_1a3ab67d58fc960a11f30d19977c8512a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a3ab67d58fc960a11f30d19977c8512a5" kindref="member">stage1</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stage<sp/>2<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_hybrid_retention_stats_1a2d361fe079d8b35390b15d155b2d2d9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a2d361fe079d8b35390b15d155b2d2d9c" kindref="member">aggregations_total</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_hybrid_retention_stats_1a9504a9e70327b6f0f4f3e55b4a248478" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a9504a9e70327b6f0f4f3e55b4a248478" kindref="member">aggregations_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_hybrid_retention_stats_1a96cf440b6533703dbefa450b4e69c137" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a96cf440b6533703dbefa450b4e69c137" kindref="member">anomalies_preserved</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_hybrid_retention_stats_1a413c9433ad03fa9a32518124c66a2113" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a413c9433ad03fa9a32518124c66a2113" kindref="member">avg_storage_reduction</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1adebd379f6ba30e299dbc9d3b1b0e5a69" kindref="member">last_run</ref>;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1_hybrid_retention_stats_1ac1dbe3ac977a36cdcb3720e115bb0bb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1ac1dbe3ac977a36cdcb3720e115bb0bb9" kindref="member">stage2</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stage<sp/>3<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a2d361fe079d8b35390b15d155b2d2d9c" kindref="member">aggregations_total</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a9504a9e70327b6f0f4f3e55b4a248478" kindref="member">aggregations_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a413c9433ad03fa9a32518124c66a2113" kindref="member">avg_storage_reduction</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1adebd379f6ba30e299dbc9d3b1b0e5a69" kindref="member">last_run</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1_hybrid_retention_stats_1a07dcff6434b63da5533458dae714c9ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a07dcff6434b63da5533458dae714c9ef" kindref="member">stage3</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overall<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1_hybrid_retention_stats_1a43c04c4e71c63773154e1454e71dbe2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a43c04c4e71c63773154e1454e71dbe2d" kindref="member">total_storage_bytes_saved</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1_hybrid_retention_stats_1a60189ef06e8d8326089576084f0b2615" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_stats_1a60189ef06e8d8326089576084f0b2615" kindref="member">overall_storage_reduction_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1_hybrid_retention_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_hybrid_retention_manager_1a5c22131fbb4f4ac4bbfbdc72db2e94cd" kindref="member">HybridRetentionManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1a5c22131fbb4f4ac4bbfbdc72db2e94cd" kindref="member">HybridRetentionManager</ref>(</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref>*<sp/>query_engine,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TSStore*<sp/>tsstore,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref>*<sp/><ref refid="namespacethemis_1_1scheduler" kindref="compound">scheduler</ref>,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_config" kindref="compound">HybridRetentionConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1_hybrid_retention_config" kindref="compound">HybridRetentionConfig</ref>{}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1a2c8022113eb2e1f287e9cf24380384b0" kindref="member">~HybridRetentionManager</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1acc97ae3d22e3c0db8a4cb06e43ff517a" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1a706b41d03c544bc472592812385eb555" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1_hybrid_retention_manager_1ab35e1652f643d9cfca4c8cde17c0868e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1ab35e1652f643d9cfca4c8cde17c0868e" kindref="member">isRunning</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>running_;<sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1a910d19edcac35aa0764dda28bb699a4e" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_retention_config" kindref="compound">HybridRetentionConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_retention_config" kindref="compound">HybridRetentionConfig</ref><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1a15821e6e0fb798699d0c7e1fee8f658f" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manual<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1a628b354a682065566cd4512b937109c3" kindref="member">executeStage1</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>Gorilla<sp/>compression<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1a3a46e5fff780b860d81d1039f8afa636" kindref="member">executeStage2</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>adaptive<sp/>retention<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1a4a98c120d7cc7bbc6d03bf2edbba383a" kindref="member">executeStage3</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>time-based<sp/>retention<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1a2dcdfe4a49c44a42cecb3aa85922b30a" kindref="member">executeAll</ref>();<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>all<sp/>stages<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_retention_stats" kindref="compound">HybridRetentionStats</ref><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1aa785648ae25505afa189bafcaaa10919" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1a4456f9f0d5d4de0ec204b84491660429" kindref="member">resetStats</ref>();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1_hybrid_retention_manager_1adecaed9d9f4bdc5a64cbd2512881ccd4" kindref="member">getStatusReport</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref>*<sp/>query_engine_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>TSStore*<sp/>tsstore_;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref>*<sp/>scheduler_;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_retention_config" kindref="compound">HybridRetentionConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>running_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Task<sp/>IDs<sp/>for<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>stage1_task_id_;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>stage2_task_id_;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>stage3_task_id_;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>cleanup_task_id_;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_retention_stats" kindref="compound">HybridRetentionStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stage<sp/>implementations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setupStage1Tasks();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setupStage2Tasks();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setupStage3Tasks();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setupCleanupTasks();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>compressWithGorilla(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>applyAdaptiveRetention(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>applyTimeBasedRetention(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>cleanupOriginalData(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStats(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>stage,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scheduler/hybrid_retention_manager.h"/>
+  </compounddef>
+</doxygen>

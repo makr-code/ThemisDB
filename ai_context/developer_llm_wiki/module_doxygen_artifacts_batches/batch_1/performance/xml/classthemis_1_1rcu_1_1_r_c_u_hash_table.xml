@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rcu_1_1_r_c_u_hash_table" kind="class" language="C++" prot="public">
+    <compoundname>themis::rcu::RCUHashTable</compoundname>
+    <includes refid="rcu__hash__table_8h" local="no">rcu_hash_table.h</includes>
+    <innerclass refid="structthemis_1_1rcu_1_1_r_c_u_hash_table_1_1_hash_node" prot="private">themis::rcu::RCUHashTable::HashNode</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename Key</type>
+      </param>
+      <param>
+        <type>typename Value</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a845f12677fea90cbe9023efca6cd0439" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; HashNode ** &gt;</type>
+        <definition>std::atomic&lt;HashNode**&gt; themis::rcu::RCUHashTable&lt; Key, Value &gt;::table_</definition>
+        <argsstring></argsstring>
+        <name>table_</name>
+        <qualifiedname>themis::rcu::RCUHashTable::table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="217" column="17" bodyfile="include/performance/rcu_hash_table.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1afdc8578af969bd046bc298ff27b1a650" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rcu::RCUHashTable&lt; Key, Value &gt;::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>themis::rcu::RCUHashTable::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="218" column="12" bodyfile="include/performance/rcu_hash_table.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a5805e92e74f3bed0f4759eeff8f7e10d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::rcu::RCUHashTable&lt; Key, Value &gt;::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::rcu::RCUHashTable::size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="219" column="17" bodyfile="include/performance/rcu_hash_table.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a601b4bfe85bc92494ad2bb7bead56c9f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rcu::RCUHashTable&lt; Key, Value &gt;::writer_mutex_</definition>
+        <argsstring></argsstring>
+        <name>writer_mutex_</name>
+        <qualifiedname>themis::rcu::RCUHashTable::writer_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="220" column="24" bodyfile="include/performance/rcu_hash_table.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a91b5f1e4e0d25a4f76fc8e4f03fc2a57" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rcu::RCUHashTable&lt; Key, Value &gt;::RCUHashTable</definition>
+        <argsstring>(size_t initial_capacity=1024)</argsstring>
+        <name>RCUHashTable</name>
+        <qualifiedname>themis::rcu::RCUHashTable::RCUHashTable</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>initial_capacity</declname>
+          <defval>1024</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="48" column="14" bodyfile="include/performance/rcu_hash_table.h" bodystart="48" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a97161af5f6ccd98018b2fad9c4e35c1b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rcu::RCUHashTable&lt; Key, Value &gt;::~RCUHashTable</definition>
+        <argsstring>()</argsstring>
+        <name>~RCUHashTable</name>
+        <qualifiedname>themis::rcu::RCUHashTable::~RCUHashTable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="58" column="5" bodyfile="include/performance/rcu_hash_table.h" bodystart="58" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a026173345fabf87484d3ef7c67cdb80d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rcu::RCUHashTable&lt; Key, Value &gt;::lookup</definition>
+        <argsstring>(const Key &amp;key, Value &amp;value) const</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::rcu::RCUHashTable::lookup</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>Value &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Look up a value by key (lock-free). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to search for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output parameter for found value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if key was found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="81" column="10" bodyfile="include/performance/rcu_hash_table.h" bodystart="81" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a9840f82e0ec06f2ff81394159e984385" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rcu::RCUHashTable&lt; Key, Value &gt;::insert</definition>
+        <argsstring>(const Key &amp;key, const Value &amp;value)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::rcu::RCUHashTable::insert</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const Value &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Insert or update a key-value pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to insert/update </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to store </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="107" column="10" bodyfile="include/performance/rcu_hash_table.h" bodystart="107" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a4541612210001f46a0c9fce8040015da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rcu::RCUHashTable&lt; Key, Value &gt;::remove</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::rcu::RCUHashTable::remove</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove a key from the table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if key was found and removed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="155" column="10" bodyfile="include/performance/rcu_hash_table.h" bodystart="155" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1ae72be75e5d492ffb29be2ced702bba13" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rcu::RCUHashTable&lt; Key, Value &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::rcu::RCUHashTable::size</qualifiedname>
+        <briefdescription>
+<para>Get the number of elements in the table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="191" column="12" bodyfile="include/performance/rcu_hash_table.h" bodystart="191" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a29ebb6529792398e80866cb1be575518" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rcu::RCUHashTable&lt; Key, Value &gt;::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::rcu::RCUHashTable::empty</qualifiedname>
+        <briefdescription>
+<para>Check if table is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="198" column="10" bodyfile="include/performance/rcu_hash_table.h" bodystart="198" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a6d5cb5263528d8341c716384ebc00e20" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rcu::RCUHashTable&lt; Key, Value &gt;::hash</definition>
+        <argsstring>(const Key &amp;key) const</argsstring>
+        <name>hash</name>
+        <qualifiedname>themis::rcu::RCUHashTable::hash</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu_hash_table.h" line="212" column="12" bodyfile="include/performance/rcu_hash_table.h" bodystart="212" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple RCU-protected hash table for key-value storage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides lock-free reads and safe concurrent updates using RCU. Optimized for read-heavy workloads (90%+ reads).</para>
+<para>Performance characteristics:<itemizedlist>
+<listitem><para>Reads: O(1) lock-free</para>
+</listitem><listitem><para>Writes: O(1) with writer lock</para>
+</listitem><listitem><para>Memory: Slightly higher due to copy-on-write </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/performance/rcu_hash_table.h" line="46" column="1" bodyfile="include/performance/rcu_hash_table.h" bodystart="46" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1afdc8578af969bd046bc298ff27b1a650" prot="private" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>capacity_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a29ebb6529792398e80866cb1be575518" prot="public" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>empty</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a6d5cb5263528d8341c716384ebc00e20" prot="private" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>hash</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a9840f82e0ec06f2ff81394159e984385" prot="public" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>insert</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a026173345fabf87484d3ef7c67cdb80d" prot="public" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a91b5f1e4e0d25a4f76fc8e4f03fc2a57" prot="public" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>RCUHashTable</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a4541612210001f46a0c9fce8040015da" prot="public" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>remove</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1ae72be75e5d492ffb29be2ced702bba13" prot="public" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>size</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a5805e92e74f3bed0f4759eeff8f7e10d" prot="private" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>size_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a845f12677fea90cbe9023efca6cd0439" prot="private" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>table_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a601b4bfe85bc92494ad2bb7bead56c9f" prot="private" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>writer_mutex_</name></member>
+      <member refid="classthemis_1_1rcu_1_1_r_c_u_hash_table_1a97161af5f6ccd98018b2fad9c4e35c1b" prot="public" virt="non-virtual"><scope>themis::rcu::RCUHashTable</scope><name>~RCUHashTable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

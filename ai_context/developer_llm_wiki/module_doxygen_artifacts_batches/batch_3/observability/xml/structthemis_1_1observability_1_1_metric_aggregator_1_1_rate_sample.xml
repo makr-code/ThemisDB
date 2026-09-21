@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metric_aggregator_1_1_rate_sample" kind="struct" language="C++" prot="private">
+    <compoundname>themis::observability::MetricAggregator::RateSample</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_aggregator_1_1_rate_sample_1a15545ee4ce6ac3e53cda4ffadd2a805a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::MetricAggregator::RateSample::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::observability::MetricAggregator::RateSample::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="322" column="17" bodyfile="include/observability/metric_aggregator.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_aggregator_1_1_rate_sample_1a46474b58952c0f8c75b31d33cedc8089" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::observability::MetricAggregator::RateSample::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::MetricAggregator::RateSample::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="323" column="47" bodyfile="include/observability/metric_aggregator.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/metric_aggregator.h" line="321" column="5" bodyfile="include/observability/metric_aggregator.h" bodystart="321" bodyend="324"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metric_aggregator_1_1_rate_sample_1a46474b58952c0f8c75b31d33cedc8089" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator::RateSample</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_aggregator_1_1_rate_sample_1a15545ee4ce6ac3e53cda4ffadd2a805a" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator::RateSample</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

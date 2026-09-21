@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="storage__recovery__fault__handler_8h" kind="file" language="C++">
+    <compoundname>storage_recovery_fault_handler.h</compoundname>
+    <includes refid="storage__api__contract_8h" local="yes">storage/storage_api_contract.h</includes>
+    <includes refid="storage__error__diagnostics_8h" local="yes">storage/storage_error_diagnostics.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="storage__recovery__fault__handler_8cpp" local="yes">src/storage/storage_recovery_fault_handler.cpp</includedby>
+    <includedby refid="test__storage__phase3__error__handling__focused_8cpp" local="yes">tests/storage/test_storage_phase3_error_handling_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>storage/storage_api_contract.h</label>
+        <link refid="storage__api__contract_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>storage/storage_error_diagnostics.h</label>
+        <link refid="storage__error__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/storage_recovery_fault_handler.h</label>
+        <link refid="storage__recovery__fault__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/storage/storage_recovery_fault_handler.h</label>
+        <link refid="storage__recovery__fault__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/storage/storage_recovery_fault_handler.cpp</label>
+        <link refid="storage__recovery__fault__handler_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/storage/test_storage_phase3_error_handling_focused.cpp</label>
+        <link refid="test__storage__phase3__error__handling__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1storage_1_1_recovery_fault_report" prot="public">themis::storage::RecoveryFaultReport</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_recovery_fault_handler" prot="public">themis::storage::RecoveryFaultHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <briefdescription>
+<para>Standardized recovery fault handling and edge case resolution. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header provides mechanisms for:<itemizedlist>
+<listitem><para>Detecting and classifying recovery faults (torn WAL, timeout, checkpoint invalid)</para>
+</listitem><listitem><para>Implementing standardized fail-safe behavior for each fault class</para>
+</listitem><listitem><para>Emitting structured diagnostic events for operator awareness</para>
+</listitem><listitem><para>Suggesting and executing recovery actions</para>
+</listitem></itemizedlist>
+</para>
+<para>Phase 3 Objective: Unify error handling for recovery-phase faults across the storage module persistence and replay layers.</para>
+<para><simplesect kind="see"><para><ref refid="storage__api__contract_8h" kindref="compound">include/storage/storage_api_contract.h</ref> — Recovery contract §3 </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="storage__error__diagnostics_8h" kindref="compound">include/storage/storage_error_diagnostics.h</ref> — Error classification </para>
+</simplesect>
+<simplesect kind="see"><para>src/storage/ROADMAP.md — Phase 3 items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__api__contract_8h" kindref="compound">storage/storage_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__error__diagnostics_8h" kindref="compound">storage/storage_error_diagnostics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Recovery<sp/>Fault<sp/>Types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cf" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cf" kindref="member">RecoveryFaultType</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa0c7156b60e218ffc716456f21a9d28d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa0c7156b60e218ffc716456f21a9d28d4" kindref="member">TORN_WAL_ENTRY</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa85616a55008a70504f6969ceed24e7f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa85616a55008a70504f6969ceed24e7f9" kindref="member">CHECKPOINT_INVALID</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfafd7ff252215c3ea5e5e5b047b3ad9821" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aafd7ff252215c3ea5e5e5b047b3ad9821" kindref="member">RECOVERY_TIMEOUT</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa8c933016a8bf089f088d3ee04723fcc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa8c933016a8bf089f088d3ee04723fcc1" kindref="member">WAL_FILE_CORRUPTED</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfabf0c9e0776e409e943a11f69fa49c508" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfabf0c9e0776e409e943a11f69fa49c508" kindref="member">WAL_READ_ERROR</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa698f129c54613fc22b28b05ec32c3439" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa698f129c54613fc22b28b05ec32c3439" kindref="member">REPLAY_ENTRY_FAILED</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa85c595fb6605e08c22403dec2eac8ca3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa85c595fb6605e08c22403dec2eac8ca3" kindref="member">RECOVERY_RETRY_EXHAUSTED</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Recovery<sp/>Fault<sp/>Report</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1storage_1_1_recovery_fault_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1storage_1_1_recovery_fault_report_1a2a9fadbb111b9db5e530f0c339c96df4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cf" kindref="member">RecoveryFaultType</ref><sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report_1a2a9fadbb111b9db5e530f0c339c96df4" kindref="member">fault_type</ref>{<ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa0c7156b60e218ffc716456f21a9d28d4" kindref="member">RecoveryFaultType::TORN_WAL_ENTRY</ref>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1storage_1_1_recovery_fault_report_1aa3f5ae8e936d95d977886948ae63bbb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report_1aa3f5ae8e936d95d977886948ae63bbb2" kindref="member">error_code</ref>{<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9c95f27f06d45e297578e07af65fdf91" kindref="member">StorageErrorCode::RECOVERY_INCOMPLETE</ref>};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1storage_1_1_recovery_fault_report_1a74bc965a961409dd59f42a65fcf9a68f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report_1a74bc965a961409dd59f42a65fcf9a68f" kindref="member">checkpoint_seq</ref>{0};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1storage_1_1_recovery_fault_report_1af26b5d73f532e1ca022738b7f4774d38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report_1af26b5d73f532e1ca022738b7f4774d38" kindref="member">recovery_start_seq</ref>{0};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1storage_1_1_recovery_fault_report_1a447625804e3043226927bce0937a5ea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report_1a447625804e3043226927bce0937a5ea8" kindref="member">fault_seq</ref>{0};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1storage_1_1_recovery_fault_report_1a7b5f6e3ef80a4fb3e353c64b55bb4fa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report_1a7b5f6e3ef80a4fb3e353c64b55bb4fa3" kindref="member">entries_replayed</ref>{0};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1storage_1_1_recovery_fault_report_1a529ddc8d915bd59f9a316bdbbb52af13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report_1a529ddc8d915bd59f9a316bdbbb52af13" kindref="member">fault_message</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1storage_1_1_recovery_fault_report_1a340ed899c1b22bcb7266fb692c563f02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report_1a340ed899c1b22bcb7266fb692c563f02" kindref="member">recovery_suggestion</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1storage_1_1_recovery_fault_report_1ad5fb1e58237ed5d31fc88ab8f3d6aee8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report_1ad5fb1e58237ed5d31fc88ab8f3d6aee8" kindref="member">detection_time</ref>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now()};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1storage_1_1_recovery_fault_report_1a24fdf01e2fc6900f85d85a93bb451bd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report_1a24fdf01e2fc6900f85d85a93bb451bd7" kindref="member">is_retryable</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1storage_1_1_recovery_fault_report_1a32f483446e250e5d4bbc43ad673923e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report_1a32f483446e250e5d4bbc43ad673923e3" kindref="member">should_stop_recovery</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Recovery<sp/>Fault<sp/>Handler<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1storage_1_1_recovery_fault_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1storage_1_1_recovery_fault_handler_1adbf95d4ba2d5b42b7f5d26e3bc637b13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1adbf95d4ba2d5b42b7f5d26e3bc637b13" kindref="member">RecoveryFaultHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a17e607e724f977c01bfed59669d98244" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a17e607e724f977c01bfed59669d98244" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a59e2cb34d76783451f9a02e5337d80c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a59e2cb34d76783451f9a02e5337d80c3" kindref="member">RecoveryFaultHandler</ref>(<ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a7809c5f58415234e202ae89b3bbf48ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ae67ba2b21a92ef52994c3da5b8668253" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab815ef713837fdd8964652d88091a909" kindref="member">RecoveryFaultHandler</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Fault<sp/>Detection<sp/>and<sp/>Classification<sp/>──────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a6e76c2402366e90d84c4f6841b112ddf" kindref="member">handleTornWalEntry</ref>(</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>wal_path,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>checkpoint_seq,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>fault_seq,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>entries_replayed)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1aadd03a15f79f977515e8e641752f0338" kindref="member">handleInvalidCheckpoint</ref>(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>checkpoint_seq,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>wal_tail_seq,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>recovery_start_seq)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ab5059af9de648043b059c489bb7a2e9b" kindref="member">handleRecoveryTimeout</ref>(</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::chrono::milliseconds<sp/>elapsed_time,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>entries_replayed,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>checkpoint_seq)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a5dab28ab65915510726f3998fbe7d7bb" kindref="member">handleWalFileCorruption</ref>(</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>wal_path,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>corruption_type,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>bytes_verified)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a1bc3a699657d42f7cfd29ff00f697ccc" kindref="member">handleWalReadError</ref>(</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>wal_path,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>io_error_msg,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>retry_count)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ac931576b25f7d65b6ad3392026a6bd98" kindref="member">handleReplayEntryFailure</ref>(</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>fault_seq,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>replay_error,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_critical<sp/>=<sp/>false)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1storage_1_1_recovery_fault_report" kindref="compound">RecoveryFaultReport</ref><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1ae2e6c4cebe76949957eb0bc4da2ce7c8" kindref="member">handleRecoveryRetryExhausted</ref>(</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>checkpoint_seq,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempts,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>last_error)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Configuration<sp/>and<sp/>Policies<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314" refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a277eb19a3b74bf79a3f333c818ec223a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a277eb19a3b74bf79a3f333c818ec223a" kindref="member">setMaxRecoveryRetries</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_retries)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_recovery_retries_<sp/>=<sp/>max_retries;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325" refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a48e5547eb9a98e276e1eb6cd21d45cad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a48e5547eb9a98e276e1eb6cd21d45cad" kindref="member">setRecoveryTimeout</ref>(std::chrono::milliseconds<sp/>timeout)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>recovery_timeout_<sp/>=<sp/>timeout;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337" refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a88d6da6ad3ddb646f6a0c2149b0590d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a88d6da6ad3ddb646f6a0c2149b0590d4" kindref="member">setContinueOnTornWal</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>continue_on_torn)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>continue_on_torn_wal_<sp/>=<sp/>continue_on_torn;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_recovery_retries_{3};</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>recovery_timeout_{<ref refid="namespacethemis_1_1storage_1afe5c1d0395f6c985373d75302e5892cc" kindref="member">kRecoveryHardTimeout</ref>};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>continue_on_torn_wal_{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/storage_recovery_fault_handler.h"/>
+  </compounddef>
+</doxygen>

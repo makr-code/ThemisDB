@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_metrics_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::MetricsEntry</compoundname>
+    <includes refid="lockfree__metrics__buffer_8h" local="no">lockfree_metrics_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_metrics_entry_1a7749e9616f91bd8d49da65acec7059b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::MetricsEntry::operation_name</definition>
+        <argsstring></argsstring>
+        <name>operation_name</name>
+        <qualifiedname>themis::performance::MetricsEntry::operation_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="163" column="17" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_metrics_entry_1abdbd7ab90074359313034b3a11d6ed13" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics" kindref="compound">OperationCycleMetrics</ref></type>
+        <definition>OperationCycleMetrics themis::performance::MetricsEntry::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::performance::MetricsEntry::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="164" column="27" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_metrics_entry_1a86b5cdd6f35e7ca159f5e6b92ce126ea" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::MetricsEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::performance::MetricsEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="165" column="14" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metrics entry for ring buffer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::performance::MetricsEntry</label>
+        <link refid="structthemis_1_1performance_1_1_metrics_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::performance::OperationCycleMetrics</label>
+        <link refid="structthemis_1_1performance_1_1_operation_cycle_metrics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/performance/lockfree_metrics_buffer.h" line="162" column="1" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="162" bodyend="166"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_metrics_entry_1abdbd7ab90074359313034b3a11d6ed13" prot="public" virt="non-virtual"><scope>themis::performance::MetricsEntry</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1performance_1_1_metrics_entry_1a7749e9616f91bd8d49da65acec7059b3" prot="public" virt="non-virtual"><scope>themis::performance::MetricsEntry</scope><name>operation_name</name></member>
+      <member refid="structthemis_1_1performance_1_1_metrics_entry_1a86b5cdd6f35e7ca159f5e6b92ce126ea" prot="public" virt="non-virtual"><scope>themis::performance::MetricsEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

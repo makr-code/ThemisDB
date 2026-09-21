@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::DistillationModelCard</compoundname>
+    <includes refid="federated__distillation__coordinator_8h" local="no">federated_distillation_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1ad73d194ade5f914c734eeeef9367e40d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::DistillationModelCard::coordinator_id</definition>
+        <argsstring></argsstring>
+        <name>coordinator_id</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::coordinator_id</qualifiedname>
+        <briefdescription>
+<para>Coordinator instance identifier (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="87" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a693262fbe168d3551f3025f8f33bfa30" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::DistillationModelCard::teacher_id</definition>
+        <argsstring></argsstring>
+        <name>teacher_id</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::teacher_id</qualifiedname>
+        <briefdescription>
+<para>Last teacher model identifier (or empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="88" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a1fa69ff400e552c7ce802aac3e555b68" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::DistillationModelCard::rounds_completed</definition>
+        <argsstring></argsstring>
+        <name>rounds_completed</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::rounds_completed</qualifiedname>
+        <briefdescription>
+<para>Total rounds broadcast. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="91" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a69ac6a20ae9958877f7bcbb46f348446" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::DistillationModelCard::total_epsilon</definition>
+        <argsstring></argsstring>
+        <name>total_epsilon</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::total_epsilon</qualifiedname>
+        <briefdescription>
+<para>DP budget spent (sum over all rounds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="92" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a09924965ae5e6f21c24ace163bfff226" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::DistillationModelCard::dp_epsilon_per_round</definition>
+        <argsstring></argsstring>
+        <name>dp_epsilon_per_round</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::dp_epsilon_per_round</qualifiedname>
+        <briefdescription>
+<para>Configured ε per round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="93" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a1ab221cae27de444d85d9f48967cb630" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::DistillationModelCard::dp_delta</definition>
+        <argsstring></argsstring>
+        <name>dp_delta</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::dp_delta</qualifiedname>
+        <briefdescription>
+<para>Configured δ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="94" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a96e3c02506e5673219bbdb716b472045" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::DistillationModelCard::dp_applied</definition>
+        <argsstring></argsstring>
+        <name>dp_applied</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::dp_applied</qualifiedname>
+        <briefdescription>
+<para>Whether DP noise was applied in this session. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="95" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1abddd9385965d4f7a587bd396b64e17ae" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::DistillationModelCard::min_utility_reported</definition>
+        <argsstring></argsstring>
+        <name>min_utility_reported</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::min_utility_reported</qualifiedname>
+        <briefdescription>
+<para>Lowest utility reported by any student. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="98" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a49e837ce42c584d0e5327e9753e8e083" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::DistillationModelCard::max_utility_reported</definition>
+        <argsstring></argsstring>
+        <name>max_utility_reported</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::max_utility_reported</qualifiedname>
+        <briefdescription>
+<para>Highest utility reported (1.0 = no reports). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="99" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a351bac91bb451eb8d68178deda593ae0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::DistillationModelCard::rollback_count</definition>
+        <argsstring></argsstring>
+        <name>rollback_count</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::rollback_count</qualifiedname>
+        <briefdescription>
+<para>Number of rollbacks triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="100" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a0aa25a60285a5583bb0d5a9794a20599" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::DistillationModelCard::policy_blocks</definition>
+        <argsstring></argsstring>
+        <name>policy_blocks</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::policy_blocks</qualifiedname>
+        <briefdescription>
+<para>Broadcasts blocked by policy gate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="103" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1ae5031a3ec4a1dcc27c75d92bb0104704" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::DistillationModelCard::registered_students</definition>
+        <argsstring></argsstring>
+        <name>registered_students</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::registered_students</qualifiedname>
+        <briefdescription>
+<para>Number of registered student callbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="104" column="17" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1ae35913c6bdbb1d6bad50b3bcbde99381" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::distributed_knowledge::DistillationModelCard::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationModelCard::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="106" column="21" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="106" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="85" column="1" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="85" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1ad73d194ade5f914c734eeeef9367e40d" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>coordinator_id</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a96e3c02506e5673219bbdb716b472045" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>dp_applied</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a1ab221cae27de444d85d9f48967cb630" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>dp_delta</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a09924965ae5e6f21c24ace163bfff226" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>dp_epsilon_per_round</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a49e837ce42c584d0e5327e9753e8e083" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>max_utility_reported</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1abddd9385965d4f7a587bd396b64e17ae" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>min_utility_reported</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a0aa25a60285a5583bb0d5a9794a20599" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>policy_blocks</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1ae5031a3ec4a1dcc27c75d92bb0104704" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>registered_students</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a351bac91bb451eb8d68178deda593ae0" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>rollback_count</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a1fa69ff400e552c7ce802aac3e555b68" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>rounds_completed</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a693262fbe168d3551f3025f8f33bfa30" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>teacher_id</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1ae35913c6bdbb1d6bad50b3bcbde99381" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_model_card_1a69ac6a20ae9958877f7bcbb46f348446" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationModelCard</scope><name>total_epsilon</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1cli" kind="namespace" language="C++">
+    <compoundname>themis::cli</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1cli_1af36cc3154e897485a3071783b5e5f30b" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cli::is_help_flag</definition>
+        <argsstring>(const std::string_view arg) noexcept</argsstring>
+        <name>is_help_flag</name>
+        <qualifiedname>themis::cli::is_help_flag</qualifiedname>
+        <param>
+          <type>const std::string_view</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+<para>Returns true for <ndash/>help, -h, or /? (Windows-style help alias). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cli_parser_utils.h" line="32" column="17" bodyfile="include/utils/cli_parser_utils.h" bodystart="32" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cli_1a730b26043646b9acf6c885e5b1d7285f" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cli::is_version_flag</definition>
+        <argsstring>(const std::string_view arg) noexcept</argsstring>
+        <name>is_version_flag</name>
+        <qualifiedname>themis::cli::is_version_flag</qualifiedname>
+        <param>
+          <type>const std::string_view</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+<para>Returns true for <ndash/>version or -v. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cli_parser_utils.h" line="37" column="17" bodyfile="include/utils/cli_parser_utils.h" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cli_1acd1435f9c0c45751d08c1252bbeb92e7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cli::consume_next_value</definition>
+        <argsstring>(int argc, char *const *argv, int &amp;index, const std::string_view option, std::string &amp;value, std::string &amp;error_message)</argsstring>
+        <name>consume_next_value</name>
+        <qualifiedname>themis::cli::consume_next_value</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char *const *</type>
+          <declname>argv</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string_view</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Advances <computeroutput>index</computeroutput> by one and stores the next argv token in <computeroutput>value</computeroutput>. If no next token exists, sets <computeroutput>error_message</computeroutput> and returns false. Use with argc/argv-style parsers (main.cpp, main_server.cpp, themis_model_cli.cpp). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cli_parser_utils.h" line="44" column="14" bodyfile="include/utils/cli_parser_utils.h" bodystart="44" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cli_1ac84522164c7d547d78fa265d0f7a4e57" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cli::consume_next_argument</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;args, size_t &amp;index, const std::string_view option, std::string &amp;value, std::string &amp;error_message)</argsstring>
+        <name>consume_next_argument</name>
+        <qualifiedname>themis::cli::consume_next_argument</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string_view</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Advances <computeroutput>index</computeroutput> by one and stores the next element of <computeroutput>args</computeroutput> in <computeroutput>value</computeroutput>. If no next element exists, sets <computeroutput>error_message</computeroutput> and returns false. Use with std::vector&lt;std::string&gt;-style parsers (themisctl.cpp). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cli_parser_utils.h" line="61" column="14" bodyfile="include/utils/cli_parser_utils.h" bodystart="61" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/cli_parser_utils.h" line="29" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,432 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_process_light_retriever" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ProcessLightRetriever</compoundname>
+    <includes refid="process__light__retriever_8h" local="no">process_light_retriever.h</includes>
+    <innerclass refid="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits" prot="public">themis::process::ProcessLightRetriever::ResourceLimits</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_light_retriever_1ae4292c6311616c8a2ae24adca8378415" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">ProcessGraphRag</ref> &amp;</type>
+        <definition>ProcessGraphRag&amp; themis::process::ProcessLightRetriever::graph_rag_</definition>
+        <argsstring></argsstring>
+        <name>graph_rag_</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::graph_rag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="213" column="30" bodyfile="include/process/process_light_retriever.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_light_retriever_1a35c62484a9e122806220fe7140272a05" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_community_detector" kindref="compound">ProcessCommunityDetector</ref> &amp;</type>
+        <definition>ProcessCommunityDetector&amp; themis::process::ProcessLightRetriever::community_detector_</definition>
+        <argsstring></argsstring>
+        <name>community_detector_</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::community_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="214" column="30" bodyfile="include/process/process_light_retriever.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_light_retriever_1ae35dfe872db5bcfa79fd00911c3acfa3" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::process::ProcessLightRetriever::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="215" column="30" bodyfile="include/process/process_light_retriever.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_light_retriever_1abe8451ffc29010755db31ffe7fe73205" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits" kindref="compound">ResourceLimits</ref></type>
+        <definition>ResourceLimits themis::process::ProcessLightRetriever::resource_limits_</definition>
+        <argsstring></argsstring>
+        <name>resource_limits_</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::resource_limits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="218" column="20" bodyfile="include/process/process_light_retriever.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_light_retriever_1a5fa0a60478a6e9fb8fbf0e2c0637adff" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessLightRetriever::ProcessLightRetriever</definition>
+        <argsstring>(RocksDBWrapper &amp;db, ProcessGraphRag &amp;graph_rag, ProcessCommunityDetector &amp;community_detector)</argsstring>
+        <name>ProcessLightRetriever</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::ProcessLightRetriever</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">ProcessGraphRag</ref> &amp;</type>
+          <declname>graph_rag</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_community_detector" kindref="compound">ProcessCommunityDetector</ref> &amp;</type>
+          <declname>community_detector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB instance used to resolve instance→model_id. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph_rag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Existing GraphRAG engine (LOCAL retrieval). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>community_detector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Community detector (GLOBAL retrieval). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="138" column="14" bodyfile="src/process/process_light_retriever.cpp" bodystart="64" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_light_retriever_1a74b2e8377fa724217a381368693acf1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessLightRetriever::setResourceLimits</definition>
+        <argsstring>(const ResourceLimits &amp;limits)</argsstring>
+        <name>setResourceLimits</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::setResourceLimits</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits" kindref="compound">ResourceLimits</ref> &amp;</type>
+          <declname>limits</declname>
+        </param>
+        <briefdescription>
+<para>Set custom resource limits for stress scenario handling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Phase 2: Stress Scenario Hardening Implementation ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resource limits to enforce.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setResourceLimits without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="148" column="10" bodyfile="src/process/process_light_retriever.cpp" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_light_retriever_1ad1c350d5dca9cf84897384d30276ea1b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits" kindref="compound">ResourceLimits</ref> &amp;</type>
+        <definition>const ResourceLimits &amp; themis::process::ProcessLightRetriever::getResourceLimits</definition>
+        <argsstring>() const</argsstring>
+        <name>getResourceLimits</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::getResourceLimits</qualifiedname>
+        <briefdescription>
+<para>Get the current resource limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The active <ref refid="structthemis_1_1process_1_1_process_light_retriever_1_1_resource_limits" kindref="compound">ResourceLimits</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="154" column="27" bodyfile="include/process/process_light_retriever.h" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_light_retriever_1a55b22d24c158d066cd647f2984820888" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_light_retrieval_result" kindref="compound">LightRetrievalResult</ref></type>
+        <definition>LightRetrievalResult themis::process::ProcessLightRetriever::retrieve</definition>
+        <argsstring>(std::string_view query, std::string_view instance_id, RetrievalMode mode=RetrievalMode::AUTO, const ProcessRagConfig &amp;config={}) const</argsstring>
+        <name>retrieve</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::retrieve</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95b" kindref="member">RetrievalMode</ref></type>
+          <declname>mode</declname>
+          <defval><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95bae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">RetrievalMode::AUTO</ref></defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_rag_config" kindref="compound">ProcessRagConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Retrieve LLM context for <computeroutput>query</computeroutput> using the selected mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Free-text query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process instance ID (used for LOCAL retrieval and model_id resolution). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieval mode (default: AUTO). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GraphRAG config forwarded to LOCAL retrieval. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1process_1_1_light_retrieval_result" kindref="compound">LightRetrievalResult</ref></computeroutput> with assembled <computeroutput>llm_context</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="168" column="27" bodyfile="src/process/process_light_retriever.cpp" bodystart="83" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_light_retriever_1a424ce08b8ebefff64b67064f1ec1c46e" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95b" kindref="member">RetrievalMode</ref></type>
+        <definition>RetrievalMode themis::process::ProcessLightRetriever::classifyQuery</definition>
+        <argsstring>(std::string_view query) const</argsstring>
+        <name>classifyQuery</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::classifyQuery</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Classify a query as LOCAL or GLOBAL using keyword heuristics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Comparison is case-insensitive. Returns <computeroutput><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba6eecfba72d12922ee1dead07a0ef3334" kindref="member">RetrievalMode::GLOBAL</ref></computeroutput> when any global keyword is found; <computeroutput><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">RetrievalMode::LOCAL</ref></computeroutput> otherwise. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="182" column="20" bodyfile="src/process/process_light_retriever.cpp" bodystart="73" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_light_retriever_1a9fdf2a7bdbc1cbd8e59e78971006a7ea" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessLightRetriever::isWithinTimeoutBudget</definition>
+        <argsstring>(int64_t start_time_ms) const</argsstring>
+        <name>isWithinTimeoutBudget</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::isWithinTimeoutBudget</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>start_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Check if current time is within the configured timeout window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The time retrieval started. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if within timeout; false if exceeded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="190" column="11" bodyfile="src/process/process_light_retriever.cpp" bodystart="179" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_light_retriever_1a5f368ea53e94fb4835f323db78236ef0" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessLightRetriever::isWithinSizeBudget</definition>
+        <argsstring>(size_t current_size_bytes) const</argsstring>
+        <name>isWithinSizeBudget</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::isWithinSizeBudget</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>current_size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Check if accumulated context size is within limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current accumulated size. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if within limits; false if exceeded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="197" column="11" bodyfile="src/process/process_light_retriever.cpp" bodystart="187" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_light_retriever_1aef4946915036c6a13d421d0c62639c8a" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessLightRetriever::isWithinDepthBudget</definition>
+        <argsstring>(size_t current_depth) const</argsstring>
+        <name>isWithinDepthBudget</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::isWithinDepthBudget</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>current_depth</declname>
+        </param>
+        <briefdescription>
+<para>Check if traversal depth is within limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current traversal depth. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if within limits; false if exceeded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="204" column="11" bodyfile="src/process/process_light_retriever.cpp" bodystart="191" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_light_retriever_1a5d84a296d1adb99da1af17c3f7f0a651" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_light_retrieval_result" kindref="compound">LightRetrievalResult</ref></type>
+        <definition>LightRetrievalResult themis::process::ProcessLightRetriever::createDegradedResult</definition>
+        <argsstring>(std::string_view reason) const</argsstring>
+        <name>createDegradedResult</name>
+        <qualifiedname>themis::process::ProcessLightRetriever::createDegradedResult</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Gracefully degrade retrieval result when resources are exhausted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of why degradation occurred. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1process_1_1_light_retrieval_result" kindref="compound">LightRetrievalResult</ref> marked as degraded with partial context. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="211" column="27" bodyfile="src/process/process_light_retriever.cpp" bodystart="195" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dual-mode retrieval façade implementing the LightRAG pattern. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="par"><title>AUTO routing heuristic (&lt; 5 ms, no LLM required)</title><para>Classifies as GLOBAL if the query contains any of the following terms (case-insensitive): &quot;gesamte&quot;, &quot;überblick&quot;, &quot;alle&quot;, &quot;prozess&quot;, &quot;ablauf&quot;, &quot;workflow&quot;, &quot;beschreibe&quot;, &quot;erklär&quot;, &quot;summary&quot;, &quot;overview&quot; Otherwise classifies as LOCAL.</para>
+</simplesect>
+<simplesect kind="par"><title>GLOBAL fallback</title><para>If no communities are persisted for the model, GLOBAL falls back to LOCAL and logs a WARN so there is no silent failure.</para>
+</simplesect>
+<simplesect kind="par"><title>Thread safety</title><para>All operations are read-only; thread safety is inherited from the underlying <computeroutput><ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">ProcessGraphRag</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1process_1_1_process_community_detector" kindref="compound">ProcessCommunityDetector</ref></computeroutput> instances.</para>
+</simplesect>
+</para>
+<sect1 id="classthemis_1_1process_1_1_process_light_retriever_1phase2_stress_hardening">
+<title>Phase 2: Stress Scenario Hardening</title><para><ref refid="classthemis_1_1process_1_1_process_light_retriever" kindref="compound">ProcessLightRetriever</ref> now gracefully handles resource constraints:</para>
+<para><itemizedlist>
+<listitem><para><bold>Bounded Retrieval Depth</bold>: Maximum traversal depth is enforced; if exceeded, retrieval returns partial context with <computeroutput>degraded=true</computeroutput>.</para>
+</listitem><listitem><para><bold>Context Size Limits</bold>: If accumulated context exceeds <computeroutput>kMaxContextBytes</computeroutput>, retrieval gracefully truncates and signals <computeroutput>resource_exhaustion_reason</computeroutput>.</para>
+</listitem><listitem><para><bold>Timeout Enforcement</bold>: If retrieval exceeds <computeroutput>kMaxRetrievalTimeMs</computeroutput>, returns best-effort partial result.</para>
+</listitem><listitem><para><bold>Element Count Limits</bold>: Parser respects maximum element count; excess elements trigger graceful degradation.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1process_1_1_process_community_detector" kindref="compound">ProcessCommunityDetector</ref>, <ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">ProcessGraphRag</ref> </para>
+</simplesect>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="include/process/process_light_retriever.h" line="116" column="1" bodyfile="include/process/process_light_retriever.h" bodystart="116" bodyend="219"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1a424ce08b8ebefff64b67064f1ec1c46e" prot="private" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>classifyQuery</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1a35c62484a9e122806220fe7140272a05" prot="private" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>community_detector_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1a5d84a296d1adb99da1af17c3f7f0a651" prot="private" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>createDegradedResult</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1ae35dfe872db5bcfa79fd00911c3acfa3" prot="private" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>db_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1ad1c350d5dca9cf84897384d30276ea1b" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>getResourceLimits</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1ae4292c6311616c8a2ae24adca8378415" prot="private" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>graph_rag_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1aef4946915036c6a13d421d0c62639c8a" prot="private" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>isWithinDepthBudget</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1a5f368ea53e94fb4835f323db78236ef0" prot="private" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>isWithinSizeBudget</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1a9fdf2a7bdbc1cbd8e59e78971006a7ea" prot="private" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>isWithinTimeoutBudget</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1a5fa0a60478a6e9fb8fbf0e2c0637adff" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>ProcessLightRetriever</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1abe8451ffc29010755db31ffe7fe73205" prot="private" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>resource_limits_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1a55b22d24c158d066cd647f2984820888" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>retrieve</name></member>
+      <member refid="classthemis_1_1process_1_1_process_light_retriever_1a74b2e8377fa724217a381368693acf1f" prot="public" virt="non-virtual"><scope>themis::process::ProcessLightRetriever</scope><name>setResourceLimits</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_acceptance_gate_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AcceptanceGateMetrics</compoundname>
+    <includes refid="multi__task__lora_8h" local="no">multi_task_lora.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_acceptance_gate_metrics_1a6415ac57660d430df1e229d484070a64" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::AcceptanceGateMetrics::avg_perf_gain</definition>
+        <argsstring></argsstring>
+        <name>avg_perf_gain</name>
+        <qualifiedname>themis::training::AcceptanceGateMetrics::avg_perf_gain</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Avg performance gain ≥ +8% (Wave B gate). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="95" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_acceptance_gate_metrics_1ad2e0c7d3d9d0169415193d74c23f44e0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::AcceptanceGateMetrics::training_time_overhead</definition>
+        <argsstring></argsstring>
+        <name>training_time_overhead</name>
+        <qualifiedname>themis::training::AcceptanceGateMetrics::training_time_overhead</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Training time overhead vs aggregated per-task baselines ≤ 15%. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="96" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_acceptance_gate_metrics_1a3679ef6625823fe79637b501cebdaf64" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::AcceptanceGateMetrics::task_routing_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>task_routing_latency_ms</name>
+        <qualifiedname>themis::training::AcceptanceGateMetrics::task_routing_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Task routing latency ≤ 10ms (Wave B gate). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="97" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_acceptance_gate_metrics_1a89e4796bd1fe314ea0d0c22b4d42b454" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::AcceptanceGateMetrics::convergence_stable</definition>
+        <argsstring></argsstring>
+        <name>convergence_stable</name>
+        <qualifiedname>themis::training::AcceptanceGateMetrics::convergence_stable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Convergence validated across epochs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="98" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_acceptance_gate_metrics_1a9d26471f269ae181a78e8c57d49674df" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AcceptanceGateMetrics::convergence_epochs</definition>
+        <argsstring></argsstring>
+        <name>convergence_epochs</name>
+        <qualifiedname>themis::training::AcceptanceGateMetrics::convergence_epochs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Epochs to reach stable loss. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="99" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave B Acceptance Gate Metrics for Multi-Task LoRA. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks performance gates required for Wave B (Q1-Q2 2027):<itemizedlist>
+<listitem><para>avg_perf_gain: Average task performance gain vs single-task baseline (target: ≥ +8%)</para>
+</listitem><listitem><para>training_time_overhead: Training time increase vs aggregated per-task single-task baselines (target: ≤ 15%)</para>
+</listitem><listitem><para>task_routing_latency_ms: Average task routing latency (target: ≤ 10ms)</para>
+</listitem><listitem><para>convergence_stable: Whether training converged stably across epochs </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/training/multi_task_lora.h" line="94" column="1" bodyfile="include/training/multi_task_lora.h" bodystart="94" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_acceptance_gate_metrics_1a6415ac57660d430df1e229d484070a64" prot="public" virt="non-virtual"><scope>themis::training::AcceptanceGateMetrics</scope><name>avg_perf_gain</name></member>
+      <member refid="structthemis_1_1training_1_1_acceptance_gate_metrics_1a9d26471f269ae181a78e8c57d49674df" prot="public" virt="non-virtual"><scope>themis::training::AcceptanceGateMetrics</scope><name>convergence_epochs</name></member>
+      <member refid="structthemis_1_1training_1_1_acceptance_gate_metrics_1a89e4796bd1fe314ea0d0c22b4d42b454" prot="public" virt="non-virtual"><scope>themis::training::AcceptanceGateMetrics</scope><name>convergence_stable</name></member>
+      <member refid="structthemis_1_1training_1_1_acceptance_gate_metrics_1a3679ef6625823fe79637b501cebdaf64" prot="public" virt="non-virtual"><scope>themis::training::AcceptanceGateMetrics</scope><name>task_routing_latency_ms</name></member>
+      <member refid="structthemis_1_1training_1_1_acceptance_gate_metrics_1ad2e0c7d3d9d0169415193d74c23f44e0" prot="public" virt="non-virtual"><scope>themis::training::AcceptanceGateMetrics</scope><name>training_time_overhead</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

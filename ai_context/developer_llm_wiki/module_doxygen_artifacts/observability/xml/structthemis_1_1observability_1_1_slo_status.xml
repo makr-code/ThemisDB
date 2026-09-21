@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_slo_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::SloStatus</compoundname>
+    <includes refid="slo__reporter_8h" local="no">slo_reporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_status_1a9809378606270fcb355e285f32bab5c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SloStatus::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::observability::SloStatus::name</qualifiedname>
+        <briefdescription>
+<para>SLO name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="121" column="17" bodyfile="include/observability/slo_reporter.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_status_1a2bbb26b67a0453832406139acadfcd77" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SloStatus::objective</definition>
+        <argsstring></argsstring>
+        <name>objective</name>
+        <qualifiedname>themis::observability::SloStatus::objective</qualifiedname>
+        <briefdescription>
+<para>Target (e.g. 0.999). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="122" column="12" bodyfile="include/observability/slo_reporter.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_status_1ac3367574f39f6d3d21487eaf107bbc5d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SloStatus::current_sli</definition>
+        <argsstring></argsstring>
+        <name>current_sli</name>
+        <qualifiedname>themis::observability::SloStatus::current_sli</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+<para>Measured SLI: fraction of good requests in the evaluation window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="125" column="12" bodyfile="include/observability/slo_reporter.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_status_1a66b00b94b83bfa8c0c7e72b27d6cee52" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SloStatus::error_budget_total</definition>
+        <argsstring></argsstring>
+        <name>error_budget_total</name>
+        <qualifiedname>themis::observability::SloStatus::error_budget_total</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Total error budget as a fraction (= 1 − objective). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="128" column="12" bodyfile="include/observability/slo_reporter.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_status_1ac27a3b692c97ee45958592a853aaedc9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SloStatus::error_budget_remaining</definition>
+        <argsstring></argsstring>
+        <name>error_budget_remaining</name>
+        <qualifiedname>themis::observability::SloStatus::error_budget_remaining</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Remaining error budget as a fraction of the total budget. 1.0 = fully intact; 0.0 = exhausted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="132" column="12" bodyfile="include/observability/slo_reporter.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_status_1a7e9942d08a5f7ef0a74c5ab5e3bb0358" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::SloStatus::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::observability::SloStatus::total_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Requests counted in the current window (good + bad). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="135" column="14" bodyfile="include/observability/slo_reporter.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_status_1acb8d318a5c984059bc373e2ca8a464b8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::SloStatus::error_requests</definition>
+        <argsstring></argsstring>
+        <name>error_requests</name>
+        <qualifiedname>themis::observability::SloStatus::error_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of bad (error) requests in the current window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="138" column="14" bodyfile="include/observability/slo_reporter.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_status_1a97f713b02928f98a3d577e57a0d56198" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SloStatus::burn_rate</definition>
+        <argsstring></argsstring>
+        <name>burn_rate</name>
+        <qualifiedname>themis::observability::SloStatus::burn_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Current burn rate: actual_error_rate / target_error_rate. A value of 1.0 means budget is consumed at exactly the SLO-allowed rate. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="142" column="12" bodyfile="include/observability/slo_reporter.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_status_1a744a8f86c5ef84bb116194a1d7b3e92b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::SloStatus::slo_met</definition>
+        <argsstring></argsstring>
+        <name>slo_met</name>
+        <qualifiedname>themis::observability::SloStatus::slo_met</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>True when current_sli &gt;= objective (SLO is being met). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="145" column="10" bodyfile="include/observability/slo_reporter.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slo_status_1aaaf3844ef0f1704929320ad4abce8fa8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_burn_rate_alert" kindref="compound">BurnRateAlert</ref> &gt;</type>
+        <definition>std::vector&lt;BurnRateAlert&gt; themis::observability::SloStatus::active_burn_rate_alerts</definition>
+        <argsstring></argsstring>
+        <name>active_burn_rate_alerts</name>
+        <qualifiedname>themis::observability::SloStatus::active_burn_rate_alerts</qualifiedname>
+        <briefdescription>
+<para>Burn-rate alerts that are currently firing for this SLO. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="148" column="17" bodyfile="include/observability/slo_reporter.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_slo_status_1ad4271b26356cf5cf9440ea84b9651a72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::SloStatus::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::observability::SloStatus::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Serialize to JSON. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/slo_reporter.h" line="151" column="10" bodyfile="src/observability/slo_reporter.cpp" bodystart="29" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Current compliance status snapshot for one SLO. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/slo_reporter.h" line="120" column="1" bodyfile="include/observability/slo_reporter.h" bodystart="120" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_slo_status_1aaaf3844ef0f1704929320ad4abce8fa8" prot="public" virt="non-virtual"><scope>themis::observability::SloStatus</scope><name>active_burn_rate_alerts</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_status_1a97f713b02928f98a3d577e57a0d56198" prot="public" virt="non-virtual"><scope>themis::observability::SloStatus</scope><name>burn_rate</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_status_1ac3367574f39f6d3d21487eaf107bbc5d" prot="public" virt="non-virtual"><scope>themis::observability::SloStatus</scope><name>current_sli</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_status_1ac27a3b692c97ee45958592a853aaedc9" prot="public" virt="non-virtual"><scope>themis::observability::SloStatus</scope><name>error_budget_remaining</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_status_1a66b00b94b83bfa8c0c7e72b27d6cee52" prot="public" virt="non-virtual"><scope>themis::observability::SloStatus</scope><name>error_budget_total</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_status_1acb8d318a5c984059bc373e2ca8a464b8" prot="public" virt="non-virtual"><scope>themis::observability::SloStatus</scope><name>error_requests</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_status_1a9809378606270fcb355e285f32bab5c3" prot="public" virt="non-virtual"><scope>themis::observability::SloStatus</scope><name>name</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_status_1a2bbb26b67a0453832406139acadfcd77" prot="public" virt="non-virtual"><scope>themis::observability::SloStatus</scope><name>objective</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_status_1a744a8f86c5ef84bb116194a1d7b3e92b" prot="public" virt="non-virtual"><scope>themis::observability::SloStatus</scope><name>slo_met</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_status_1ad4271b26356cf5cf9440ea84b9651a72" prot="public" virt="non-virtual"><scope>themis::observability::SloStatus</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1observability_1_1_slo_status_1a7e9942d08a5f7ef0a74c5ab5e3bb0358" prot="public" virt="non-virtual"><scope>themis::observability::SloStatus</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

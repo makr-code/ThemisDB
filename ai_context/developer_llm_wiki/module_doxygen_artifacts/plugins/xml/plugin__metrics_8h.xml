@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="plugin__metrics_8h" kind="file" language="C++">
+    <compoundname>plugin_metrics.h</compoundname>
+    <includes local="yes">core/concerns/i_metrics.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">map</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">numeric</includes>
+    <includedby refid="plugin__manager_8h" local="yes">include/plugins/plugin_manager.h</includedby>
+    <includedby refid="plugin__metrics_8cpp" local="yes">src/plugins/plugin_metrics.cpp</includedby>
+    <includedby refid="test__plugin__metrics_8cpp" local="yes">tests/plugins/test_plugin_metrics.cpp</includedby>
+    <includedby refid="test__plugin__metrics__integration_8cpp" local="yes">tests/plugins/test_plugin_metrics_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/plugins/plugin_metrics.h</label>
+        <link refid="plugin__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>core/concerns/i_metrics.h</label>
+      </node>
+      <node id="4">
+        <label>deque</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>numeric</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/plugins/bench_plugin_hot_plug.cpp</label>
+        <link refid="bench__plugin__hot__plug_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/plugins/bench_plugin_system.cpp</label>
+        <link refid="bench__plugin__system_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/plugins/plugin_manager.h</label>
+        <link refid="plugin__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/plugins/plugin_metrics.h</label>
+        <link refid="plugin__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/plugins/plugin_health_monitor.cpp</label>
+        <link refid="plugin__health__monitor_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/plugins/plugin_hot_plug_monitor.cpp</label>
+        <link refid="plugin__hot__plug__monitor_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/plugins/plugin_manager.cpp</label>
+        <link refid="plugin__manager_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/plugins/plugin_metrics.cpp</label>
+        <link refid="plugin__metrics_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/plugins/wasm_plugin_loader.cpp</label>
+        <link refid="wasm__plugin__loader_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/plugins/test_plugin_capability_escalation.cpp</label>
+        <link refid="test__plugin__capability__escalation_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/plugins/test_plugin_capability_negotiation.cpp</label>
+        <link refid="test__plugin__capability__negotiation_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/plugins/test_plugin_error_handling_phase3.cpp</label>
+        <link refid="test__plugin__error__handling__phase3_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/plugins/test_plugin_hot_plug.cpp</label>
+        <link refid="test__plugin__hot__plug_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/plugins/test_plugin_hot_reload_enhanced.cpp</label>
+        <link refid="test__plugin__hot__reload__enhanced_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/plugins/test_plugin_manager.cpp</label>
+        <link refid="test__plugin__manager_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/plugins/test_plugin_manager_comprehensive.cpp</label>
+        <link refid="test__plugin__manager__comprehensive_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/plugins/test_plugin_manifest_edition_gates_focused.cpp</label>
+        <link refid="test__plugin__manifest__edition__gates__focused_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/plugins/test_plugin_metrics.cpp</label>
+        <link refid="test__plugin__metrics_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/plugins/test_plugin_metrics_integration.cpp</label>
+        <link refid="test__plugin__metrics__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_metrics" prot="public">themis::plugins::PluginMetrics</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats" prot="public">themis::plugins::PluginMetrics::PluginStats</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_plugin_metrics_collector" prot="public">themis::plugins::PluginMetricsCollector</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core/concerns/i_metrics.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1plugins_1_1_plugin_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5b38037143a259fb5160ab36acfce99d" kindref="member">PluginMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats" kindref="compound">PluginStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timing<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1aef13094edd92e913bab13e2519755e1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1aef13094edd92e913bab13e2519755e1b" kindref="member">load_time</ref>{0};</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a513c7fde34c6e7069398cd8e9f680c65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a513c7fde34c6e7069398cd8e9f680c65" kindref="member">last_reload_time</ref>{0};</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a699f209be88990703139f63bae9835fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a699f209be88990703139f63bae9835fb" kindref="member">loaded_at</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Count<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a36e472d24954728077530647abcfe767" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a36e472d24954728077530647abcfe767" kindref="member">reload_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a88d5cbfc2dd367aa5de7e0ec7312ef2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a88d5cbfc2dd367aa5de7e0ec7312ef2a" kindref="member">function_calls</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1ad372f9a6a8597dcd3c33930c8e8b43be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1ad372f9a6a8597dcd3c33930c8e8b43be" kindref="member">errors</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a63b67dd2e5d97beb8694ed7200a4e384" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a63b67dd2e5d97beb8694ed7200a4e384" kindref="member">memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>metrics<sp/>(latency<sp/>in<sp/>milliseconds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a515b98dc32ec6eec3a8777f0958527e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a515b98dc32ec6eec3a8777f0958527e8" kindref="member">avg_call_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1aec22af54ea336fda32b271cccd44667f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1aec22af54ea336fda32b271cccd44667f" kindref="member">p95_call_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a947a1861b8be41671b9be0fe8557b0dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a947a1861b8be41671b9be0fe8557b0dc" kindref="member">p99_call_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1ac9a1b75d233ce3e007c639b57c113ed6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1ac9a1b75d233ce3e007c639b57c113ed6" kindref="member">sum_call_latency_ms</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Actual<sp/>sum<sp/>for<sp/>accurate<sp/>reporting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal:<sp/>latency<sp/>samples<sp/>for<sp/>percentile<sp/>calculation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Uses<sp/>deque<sp/>for<sp/>O(1)<sp/>front<sp/>eviction<sp/>instead<sp/>of<sp/>O(n)<sp/>vector::erase.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a39b357bca94f9770fab3b628469d210c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::deque&lt;double&gt;<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a39b357bca94f9770fab3b628469d210c" kindref="member">latency_samples</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a6ba6282dbf2ef1dc1deb1daf83e48c2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a6ba6282dbf2ef1dc1deb1daf83e48c2e" kindref="member">MAX_SAMPLES</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a903ec7685580ae799eb9c9f5d5c521c0" kindref="member">updatePercentiles</ref>();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5b38037143a259fb5160ab36acfce99d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5b38037143a259fb5160ab36acfce99d" kindref="member">PluginMetrics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1plugins_1_1_plugin_metrics_1a9a4c6769c12440fa0873016fccb4c456" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a9a4c6769c12440fa0873016fccb4c456" kindref="member">~PluginMetrics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1plugins_1_1_plugin_metrics_1a3d1395387173fbc543b3485ad5c31549" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a3d1395387173fbc543b3485ad5c31549" kindref="member">PluginMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5b38037143a259fb5160ab36acfce99d" kindref="member">PluginMetrics</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5a2178c82722303c0ddb2a5f1fad0ccc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5b38037143a259fb5160ab36acfce99d" kindref="member">PluginMetrics</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5a2178c82722303c0ddb2a5f1fad0ccc" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a5b38037143a259fb5160ab36acfce99d" kindref="member">PluginMetrics</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a108985b6db4f41171ba552003ffd5caa" kindref="member">recordLoad</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin,<sp/>std::chrono::milliseconds<sp/>duration);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1ad1cd2c829d8349a18d5666f9ce6d6f5e" kindref="member">recordReload</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin,<sp/>std::chrono::milliseconds<sp/>duration);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a9ad5c0fb258eda8ec8725a4325577899" kindref="member">recordCall</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin,<sp/>std::chrono::microseconds<sp/>latency);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a1b361288a794a786d79ca22f815df9df" kindref="member">recordError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a6e56fe29844a4d4ee397a157916c6a7b" kindref="member">updateMemoryUsage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats" kindref="compound">PluginStats</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1addd705283353ad6ab360522665d6b520" kindref="member">getStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>PluginStats&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a9efdcd80ed9a76b4cb302d54d7a41254" kindref="member">getAllStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a52bf787ef74dabf599d79b8dccd2bf4d" kindref="member">resetStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_1a84edb164f5e49544c6c9b511588c22d7" kindref="member">resetAll</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>PluginStats&gt;<sp/>stats_;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>to<sp/>ensure<sp/>plugin<sp/>stats<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats" kindref="compound">PluginStats</ref>&amp;<sp/>getOrCreateStats(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1plugins_1_1_plugin_metrics_collector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_collector_1a47930c968176288ba194a5b63bf8cc04" kindref="member">PluginMetricsCollector</ref><sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1plugins_1_1_plugin_metrics_collector_1a47930c968176288ba194a5b63bf8cc04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_collector_1a47930c968176288ba194a5b63bf8cc04" kindref="member">PluginMetricsCollector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref>&amp;<sp/>metrics)<sp/>:<sp/>metrics_(metrics)<sp/>{}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics_collector_1a71be442fee50e230a866a122a5215359" kindref="member">collect</ref>(themis::core::concerns::IMetrics&amp;<sp/>sink)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref>&amp;<sp/>metrics_;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/plugin_metrics.h"/>
+  </compounddef>
+</doxygen>

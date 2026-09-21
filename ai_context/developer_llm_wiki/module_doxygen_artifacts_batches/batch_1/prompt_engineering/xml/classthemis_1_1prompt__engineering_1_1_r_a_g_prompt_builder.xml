@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RAGPromptBuilder</compoundname>
+    <includes refid="rag__prompt__builder_8h" local="no">rag_prompt_builder.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1a5170e1262a119e596b56512d651fe1d5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config" kindref="compound">RAGPromptConfig</ref></type>
+        <definition>RAGPromptConfig themis::prompt_engineering::RAGPromptBuilder::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptBuilder::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="171" column="21" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1a52586ad245fc8a2744d8e6b47e347604" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::RAGPromptBuilder::RAGPromptBuilder</definition>
+        <argsstring>(const RAGPromptConfig &amp;config=RAGPromptConfig{})</argsstring>
+        <name>RAGPromptBuilder</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptBuilder::RAGPromptBuilder</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config" kindref="compound">RAGPromptConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config" kindref="compound">RAGPromptConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a builder with the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RAG prompt generation settings. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="90" column="14" bodyfile="src/prompt_engineering/rag_prompt_builder.cpp" bodystart="23" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1adca9a4ad537bae3c7c3c8cb7f94a44ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RAGPromptBuilder::build</definition>
+        <argsstring>(const std::string &amp;base_template, const std::string &amp;query, const std::vector&lt; RetrievedChunk &gt; &amp;chunks) const</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptBuilder::build</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_template</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Build a prompt by injecting context into a template string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Steps performed:<orderedlist>
+<listitem><para>Select chunks that fit within <computeroutput>config_.max_context_length</computeroutput>.</para>
+</listitem><listitem><para>Assemble the context block (header + chunks + footer).</para>
+</listitem><listitem><para>Replace <computeroutput>config_.template_placeholder</computeroutput> in <computeroutput>base_template</computeroutput> with the context block.</para>
+</listitem><listitem><para>Replace <computeroutput>{query}</computeroutput> in the result with <computeroutput>query</computeroutput> (if present).</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>base_template</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Template string; must contain <computeroutput>config_.template_placeholder</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user query (substituted for <computeroutput>{query}</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate retrieved chunks. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The assembled prompt string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="108" column="17" bodyfile="src/prompt_engineering/rag_prompt_builder.cpp" bodystart="137" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1a6c55e414a10d5cdd5013d3da006f8551" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RAGPromptBuilder::buildContextSection</definition>
+        <argsstring>(const std::vector&lt; RetrievedChunk &gt; &amp;chunks) const</argsstring>
+        <name>buildContextSection</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptBuilder::buildContextSection</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Assemble only the context section string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Produces: <computeroutput>&lt;context_header&gt;\n&lt;chunk1&gt;&lt;sep&gt;&lt;chunk2&gt;…\n&lt;context_footer&gt;</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Chunks to include (assumed already budget-filtered). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The context section string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Format Chunk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="120" column="17" bodyfile="src/prompt_engineering/rag_prompt_builder.cpp" bodystart="100" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1afb5cfbe351aed6b4de2b89950bf90020" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RAGPromptBuilder::buildFullPrompt</definition>
+        <argsstring>(const std::string &amp;system_instruction, const std::string &amp;query, const std::vector&lt; RetrievedChunk &gt; &amp;chunks) const</argsstring>
+        <name>buildFullPrompt</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptBuilder::buildFullPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>system_instruction</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Build a complete prompt with system instruction, context, and query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The output format is: <programlisting><codeline><highlight class="normal">&lt;system_instruction&gt;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">&lt;context_header&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;chunk1&gt;</highlight></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">&lt;chunk2&gt;</highlight></codeline>
+<codeline><highlight class="normal">…</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">Question:<sp/>&lt;query&gt;</highlight></codeline>
+<codeline><highlight class="normal">Answer:</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>system_instruction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Role/persona instruction prepended to the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate retrieved chunks. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The fully assembled prompt string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="145" column="17" bodyfile="src/prompt_engineering/rag_prompt_builder.cpp" bodystart="167" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1aed8b3cbf97e6737fe4f8361f3c249bba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievedChunk &gt; themis::prompt_engineering::RAGPromptBuilder::selectChunks</definition>
+        <argsstring>(const std::vector&lt; RetrievedChunk &gt; &amp;candidates, size_t max_total_length) const</argsstring>
+        <name>selectChunks</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptBuilder::selectChunks</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_total_length</declname>
+        </param>
+        <briefdescription>
+<para>Select chunks that fit within a total character budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterates chunks in their supplied order (or relevance order if <computeroutput>config_.rank_by_relevance</computeroutput> is true) and greedily includes each chunk until <computeroutput>max_total_length</computeroutput> would be exceeded.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All candidate chunks. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_total_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Character budget for the context section. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The subset of chunks that fits. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="160" column="17" bodyfile="src/prompt_engineering/rag_prompt_builder.cpp" bodystart="59" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1a29c6319ee5b6b85ae42abb95505534df" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config" kindref="compound">RAGPromptConfig</ref> &amp;</type>
+        <definition>const RAGPromptConfig &amp; themis::prompt_engineering::RAGPromptBuilder::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptBuilder::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return a read-only reference to the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="165" column="27" bodyfile="src/prompt_engineering/rag_prompt_builder.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1adb70bc105a3379f39796efe30dbb77fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::RAGPromptBuilder::setConfig</definition>
+        <argsstring>(const RAGPromptConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptBuilder::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_r_a_g_prompt_config" kindref="compound">RAGPromptConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="168" column="10" bodyfile="src/prompt_engineering/rag_prompt_builder.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1af6a95ae5832cc51bd0d901ab69625f7e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RAGPromptBuilder::formatChunk</definition>
+        <argsstring>(const RetrievedChunk &amp;chunk, size_t index) const</argsstring>
+        <name>formatChunk</name>
+        <qualifiedname>themis::prompt_engineering::RAGPromptBuilder::formatChunk</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Format a single chunk for inclusion in the context section. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="174" column="17" bodyfile="src/prompt_engineering/rag_prompt_builder.cpp" bodystart="43" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Builds RAG prompts by injecting retrieved context into templates. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage – template injection: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1a52586ad245fc8a2744d8e6b47e347604" kindref="member">RAGPromptBuilder</ref><sp/>builder;</highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>prompt<sp/>=<sp/>builder.build(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Answer<sp/>based<sp/>on<sp/>the<sp/>following:\n{context}\n\nQuestion:<sp/>{query}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>user_question,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>retrieved_chunks);</highlight></codeline>
+</programlisting></para>
+<para>Usage – full prompt assembly: <programlisting><codeline><highlight class="normal">std::string<sp/>prompt<sp/>=<sp/>builder.buildFullPrompt(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;You<sp/>are<sp/>a<sp/>helpful<sp/>legal<sp/>assistant.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>user_question,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>retrieved_chunks);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/rag_prompt_builder.h" line="84" column="1" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="84" bodyend="175"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1adca9a4ad537bae3c7c3c8cb7f94a44ec" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1a6c55e414a10d5cdd5013d3da006f8551" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptBuilder</scope><name>buildContextSection</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1afb5cfbe351aed6b4de2b89950bf90020" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptBuilder</scope><name>buildFullPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1a5170e1262a119e596b56512d651fe1d5" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptBuilder</scope><name>config_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1af6a95ae5832cc51bd0d901ab69625f7e" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptBuilder</scope><name>formatChunk</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1a29c6319ee5b6b85ae42abb95505534df" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptBuilder</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1a52586ad245fc8a2744d8e6b47e347604" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptBuilder</scope><name>RAGPromptBuilder</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1aed8b3cbf97e6737fe4f8361f3c249bba" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptBuilder</scope><name>selectChunks</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_r_a_g_prompt_builder_1adb70bc105a3379f39796efe30dbb77fe" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RAGPromptBuilder</scope><name>setConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

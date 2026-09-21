@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_compat_checker" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::CompatChecker</compoundname>
+    <includes refid="api__version_8h" local="no">api_version.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compat_checker_1a31c2b28c05fba8eaa8e20494964198a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::CompatChecker::CompatChecker</definition>
+        <argsstring>()=default</argsstring>
+        <name>CompatChecker</name>
+        <qualifiedname>themis::server::CompatChecker::CompatChecker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="207" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compat_checker_1ac6947f94b27d2eecce6ce98efc358893" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_compat_check_result" kindref="compound">CompatCheckResult</ref></type>
+        <definition>CompatCheckResult themis::server::CompatChecker::validate</definition>
+        <argsstring>(const SchemaFieldDescriptor &amp;old_field, const SchemaFieldDescriptor &amp;updated_field, const CompatPolicy &amp;policy) const noexcept</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::server::CompatChecker::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_schema_field_descriptor" kindref="compound">SchemaFieldDescriptor</ref> &amp;</type>
+          <declname>old_field</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_schema_field_descriptor" kindref="compound">SchemaFieldDescriptor</ref> &amp;</type>
+          <declname>updated_field</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_compat_policy" kindref="compound">CompatPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="209" column="24" bodyfile="src/server/api_version.cpp" bodystart="398" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compat_checker_1af7e37cf1d833bbe77bab704256b73b9e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_compat_check_result" kindref="compound">CompatCheckResult</ref></type>
+        <definition>CompatCheckResult themis::server::CompatChecker::validateRemoval</definition>
+        <argsstring>(const SchemaFieldDescriptor &amp;removed_field, const CompatPolicy &amp;policy) const noexcept</argsstring>
+        <name>validateRemoval</name>
+        <qualifiedname>themis::server::CompatChecker::validateRemoval</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_schema_field_descriptor" kindref="compound">SchemaFieldDescriptor</ref> &amp;</type>
+          <declname>removed_field</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_compat_policy" kindref="compound">CompatPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="214" column="24" bodyfile="src/server/api_version.cpp" bodystart="430" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_compat_checker_1aca3b4dc4b066c0f582afa829f7af591a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_compat_check_result" kindref="compound">CompatCheckResult</ref></type>
+        <definition>CompatCheckResult themis::server::CompatChecker::validateEndpointRename</definition>
+        <argsstring>(const std::string &amp;old_path, const std::string &amp;new_path, const CompatPolicy &amp;policy) const noexcept</argsstring>
+        <name>validateEndpointRename</name>
+        <qualifiedname>themis::server::CompatChecker::validateEndpointRename</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_compat_policy" kindref="compound">CompatPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="218" column="24" bodyfile="src/server/api_version.cpp" bodystart="442" bodyend="454"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_version.h" line="205" column="1" bodyfile="include/server/api_version.h" bodystart="205" bodyend="222"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_compat_checker_1a31c2b28c05fba8eaa8e20494964198a9" prot="public" virt="non-virtual"><scope>themis::server::CompatChecker</scope><name>CompatChecker</name></member>
+      <member refid="classthemis_1_1server_1_1_compat_checker_1ac6947f94b27d2eecce6ce98efc358893" prot="public" virt="non-virtual"><scope>themis::server::CompatChecker</scope><name>validate</name></member>
+      <member refid="classthemis_1_1server_1_1_compat_checker_1aca3b4dc4b066c0f582afa829f7af591a" prot="public" virt="non-virtual"><scope>themis::server::CompatChecker</scope><name>validateEndpointRename</name></member>
+      <member refid="classthemis_1_1server_1_1_compat_checker_1af7e37cf1d833bbe77bab704256b73b9e" prot="public" virt="non-virtual"><scope>themis::server::CompatChecker</scope><name>validateRemoval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,782 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_distributed_gateway" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::DistributedGateway</compoundname>
+    <includes refid="distributed__gateway_8h" local="no">distributed_gateway.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config" prot="public">themis::server::DistributedGateway::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_distributed_gateway_1aa1dc93c5aa07473212f06e2fcef1a6d5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::DistributedGateway::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::DistributedGateway::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="322" column="16" bodyfile="include/server/distributed_gateway.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_distributed_gateway_1ab10fa4e31429ac857ab86abea0a38484" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_a_p_i_gateway" kindref="compound">APIGateway</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;APIGateway&gt; themis::server::DistributedGateway::gateway_</definition>
+        <argsstring></argsstring>
+        <name>gateway_</name>
+        <qualifiedname>themis::server::DistributedGateway::gateway_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="323" column="21" bodyfile="include/server/distributed_gateway.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_distributed_gateway_1ac3f763f039ad61bdadac37f3ea322cc6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themisdb::sharding::RaftConsensus &gt;</type>
+        <definition>std::unique_ptr&lt;themisdb::sharding::RaftConsensus&gt; themis::server::DistributedGateway::raft_</definition>
+        <argsstring></argsstring>
+        <name>raft_</name>
+        <qualifiedname>themis::server::DistributedGateway::raft_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="326" column="21" bodyfile="include/server/distributed_gateway.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_distributed_gateway_1a4e6b11dd2cd9a723a339d2de721d1e5e" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::DistributedGateway::config_mutex_</definition>
+        <argsstring></argsstring>
+        <name>config_mutex_</name>
+        <qualifiedname>themis::server::DistributedGateway::config_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="329" column="31" bodyfile="include/server/distributed_gateway.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_distributed_gateway_1ac324d3dc8e48dc6cce43bea2a6c0ac34" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_cluster_gateway_config" kindref="compound">ClusterGatewayConfig</ref></type>
+        <definition>ClusterGatewayConfig themis::server::DistributedGateway::current_config_</definition>
+        <argsstring></argsstring>
+        <name>current_config_</name>
+        <qualifiedname>themis::server::DistributedGateway::current_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="330" column="31" bodyfile="include/server/distributed_gateway.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_distributed_gateway_1ad5da780de719518eef50d8374c2e87e8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::DistributedGateway::quorum_lost_</definition>
+        <argsstring></argsstring>
+        <name>quorum_lost_</name>
+        <qualifiedname>themis::server::DistributedGateway::quorum_lost_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="331" column="31" bodyfile="include/server/distributed_gateway.h" bodystart="331" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_distributed_gateway_1aeeb908a49471e668378c11a78fa5c37a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref></type>
+        <definition>ConsistentHashRing themis::server::DistributedGateway::hash_ring_</definition>
+        <argsstring></argsstring>
+        <name>hash_ring_</name>
+        <qualifiedname>themis::server::DistributedGateway::hash_ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="334" column="24" bodyfile="include/server/distributed_gateway.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_distributed_gateway_1aa75a40cac25a9df463b730cab54c3752" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::server::DistributedGateway::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::server::DistributedGateway::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="337" column="17" bodyfile="include/server/distributed_gateway.h" bodystart="337" bodyend="337"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1ae5f8f0f965cfd795104ae8c877fbd3c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::DistributedGateway::DistributedGateway</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; APIGateway &gt; gateway)</argsstring>
+        <name>DistributedGateway</name>
+        <qualifiedname>themis::server::DistributedGateway::DistributedGateway</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_a_p_i_gateway" kindref="compound">APIGateway</ref> &gt;</type>
+          <declname>gateway</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="186" column="5" bodyfile="src/server/distributed_gateway.cpp" bodystart="215" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1adec76dea829ac35633f35eca5949581c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::DistributedGateway::~DistributedGateway</definition>
+        <argsstring>()</argsstring>
+        <name>~DistributedGateway</name>
+        <qualifiedname>themis::server::DistributedGateway::~DistributedGateway</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="191" column="5" bodyfile="src/server/distributed_gateway.cpp" bodystart="248" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a9428d88c7f92466021459c5cecb7fc1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::DistributedGateway::DistributedGateway</definition>
+        <argsstring>(const DistributedGateway &amp;)=delete</argsstring>
+        <name>DistributedGateway</name>
+        <qualifiedname>themis::server::DistributedGateway::DistributedGateway</qualifiedname>
+        <param>
+          <type>const DistributedGateway &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="194" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a0b18964becd474f3dfe56312539e41dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_distributed_gateway_1ae5f8f0f965cfd795104ae8c877fbd3c1" kindref="member">DistributedGateway</ref> &amp;</type>
+        <definition>DistributedGateway &amp; themis::server::DistributedGateway::operator=</definition>
+        <argsstring>(const DistributedGateway &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::DistributedGateway::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_distributed_gateway_1ae5f8f0f965cfd795104ae8c877fbd3c1" kindref="member">DistributedGateway</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="195" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a549adc77f41e5bced889a458c4905ff1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::DistributedGateway::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::server::DistributedGateway::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="200" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="260" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a262daeef57bc83668e2e1f8cfd96cb5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::DistributedGateway::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::server::DistributedGateway::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="205" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="272" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1adbcaf2f4dcd792553ea2f265a416ffe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::DistributedGateway::handleRequest</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt; local_handler)</argsstring>
+        <name>handleRequest</name>
+        <qualifiedname>themis::server::DistributedGateway::handleRequest</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt;</type>
+          <declname>local_handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="211" column="20" bodyfile="src/server/distributed_gateway.cpp" bodystart="284" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a4a1f1d0e5da4495d51d384e2cdaac3e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1server_1_1_gateway_node" kindref="compound">GatewayNode</ref> &gt;</type>
+        <definition>std::optional&lt; GatewayNode &gt; themis::server::DistributedGateway::resolveAffinityNode</definition>
+        <argsstring>(const std::string &amp;session_key) const</argsstring>
+        <name>resolveAffinityNode</name>
+        <qualifiedname>themis::server::DistributedGateway::resolveAffinityNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_key</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Affinity Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="222" column="19" bodyfile="src/server/distributed_gateway.cpp" bodystart="388" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1ad77fa88126430b4ee660b25a04c7cc60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::DistributedGateway::proposeConfig</definition>
+        <argsstring>(const ClusterGatewayConfig &amp;new_config)</argsstring>
+        <name>proposeConfig</name>
+        <qualifiedname>themis::server::DistributedGateway::proposeConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_cluster_gateway_config" kindref="compound">ClusterGatewayConfig</ref> &amp;</type>
+          <declname>new_config</declname>
+        </param>
+        <briefdescription>
+<para>Propose <ref refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1_distributed_gateway_1a29284375523f0884f067376eeedd632f" kindref="member">isLeader()</ref>, spdlog::warn(), <ref refid="classthemis_1_1server_1_1_distributed_gateway_1afa48879a6f21c9663b99a13f56ae6442" kindref="member">hasQuorum()</ref>, spdlog::error(), toJson(), dump(), propose(), wait_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="234" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="404" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a813c9546c5b6f9e6cc86d5c1c90bb4dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_cluster_gateway_config" kindref="compound">ClusterGatewayConfig</ref></type>
+        <definition>ClusterGatewayConfig themis::server::DistributedGateway::getCurrentConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentConfig</name>
+        <qualifiedname>themis::server::DistributedGateway::getCurrentConfig</qualifiedname>
+        <briefdescription>
+<para>Get Current <ref refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="240" column="26" bodyfile="src/server/distributed_gateway.cpp" bodystart="431" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a2e127ee55df7c9ee71d59ddc2d7fde29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::DistributedGateway::registerHandler</definition>
+        <argsstring>(const std::string &amp;pattern, std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt; handler)</argsstring>
+        <name>registerHandler</name>
+        <qualifiedname>themis::server::DistributedGateway::registerHandler</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>std::function&lt; http::response&lt; http::string_body &gt;(const http::request&lt; http::string_body &gt; &amp;)&gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="246" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="445" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1ae03a5ebc3820d51083e2b34e4ce063fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::DistributedGateway::registerDeprecation</definition>
+        <argsstring>(const std::string &amp;endpoint, const APIDeprecationInfo &amp;info)</argsstring>
+        <name>registerDeprecation</name>
+        <qualifiedname>themis::server::DistributedGateway::registerDeprecation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info" kindref="compound">APIDeprecationInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Register Deprecation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="257" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="459" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a29284375523f0884f067376eeedd632f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::DistributedGateway::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themis::server::DistributedGateway::isLeader</qualifiedname>
+        <briefdescription>
+<para>Is Leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="270" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="515" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1afa48879a6f21c9663b99a13f56ae6442" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::DistributedGateway::hasQuorum</definition>
+        <argsstring>() const</argsstring>
+        <name>hasQuorum</name>
+        <qualifiedname>themis::server::DistributedGateway::hasQuorum</qualifiedname>
+        <briefdescription>
+<para>Has Quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="276" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="519" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a54cc8b161493a8cb2e9bfa8a5b7d540f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::DistributedGateway::getLeaderId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeaderId</name>
+        <qualifiedname>themis::server::DistributedGateway::getLeaderId</qualifiedname>
+        <briefdescription>
+<para>Get Leader Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="282" column="17" bodyfile="src/server/distributed_gateway.cpp" bodystart="523" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1abceb6e113d876a014722b194b4259211" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::DistributedGateway::getClusterStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getClusterStatus</name>
+        <qualifiedname>themis::server::DistributedGateway::getClusterStatus</qualifiedname>
+        <briefdescription>
+<para>Get Cluster Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="288" column="20" bodyfile="src/server/distributed_gateway.cpp" bodystart="527" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1afffa6281648bf9a425eae96e055c9560" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::DistributedGateway::applyConfigEntry</definition>
+        <argsstring>(const std::string &amp;entry_json)</argsstring>
+        <name>applyConfigEntry</name>
+        <qualifiedname>themis::server::DistributedGateway::applyConfigEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entry_json</declname>
+        </param>
+        <briefdescription>
+<para>Apply <ref refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config" kindref="compound">Config</ref> Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), nlohmann::json::parse(), <ref refid="structthemis_1_1server_1_1_cluster_gateway_config_1a6237a97002e5b82f6657565fb4c1296f" kindref="member">ClusterGatewayConfig::fromJson()</ref>, lock(), std::move(), size(), spdlog::info(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="299" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="473" bodyend="509"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1ae5f47c793ce919cee74848bab74b3918" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::DistributedGateway::isTransientError</definition>
+        <argsstring>(unsigned status) noexcept</argsstring>
+        <name>isTransientError</name>
+        <qualifiedname>themis::server::DistributedGateway::isTransientError</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Is Transient Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="307" column="17" bodyfile="src/server/distributed_gateway.cpp" bodystart="644" bodyend="650"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a5479786b3054eabe1130365e17fe80f7" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::server::DistributedGateway::retryDelay</definition>
+        <argsstring>(uint32_t attempt, uint32_t base_ms, uint32_t max_ms) noexcept</argsstring>
+        <name>retryDelay</name>
+        <qualifiedname>themis::server::DistributedGateway::retryDelay</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>attempt</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>base_ms</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_ms</declname>
+        </param>
+        <briefdescription>
+<para>Retry Delay. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">attempt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="317" column="38" bodyfile="src/server/distributed_gateway.cpp" bodystart="652" bodyend="664"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1aa3e282bd28222d1ec6f71d00afdc8422" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>themisdb::sharding::RaftConsensus::Config</type>
+        <definition>themisdb::sharding::RaftConsensus::Config themis::server::DistributedGateway::buildRaftConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>buildRaftConfig</name>
+        <qualifiedname>themis::server::DistributedGateway::buildRaftConfig</qualifiedname>
+        <briefdescription>
+<para>Build Raft <ref refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="347" column="47" bodyfile="src/server/distributed_gateway.cpp" bodystart="566" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a45d04c835003dbf90a004d23597bb548" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::DistributedGateway::rebuildHashRing</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildHashRing</name>
+        <qualifiedname>themis::server::DistributedGateway::rebuildHashRing</qualifiedname>
+        <briefdescription>
+<para>Rebuild Hash Ring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: addNode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="352" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="592" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a7365806e1ba0ba5d248e5ff8fb748159" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::DistributedGateway::sessionKey</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>sessionKey</name>
+        <qualifiedname>themis::server::DistributedGateway::sessionKey</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Session Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="359" column="17" bodyfile="src/server/distributed_gateway.cpp" bodystart="598" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_distributed_gateway_1a00e602343b269c94648a6f654b58a160" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::DistributedGateway::needsSessionAffinity</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>needsSessionAffinity</name>
+        <qualifiedname>themis::server::DistributedGateway::needsSessionAffinity</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Needs Session Affinity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="366" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="612" bodyend="638"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/distributed_gateway.h" line="147" column="1" bodyfile="include/server/distributed_gateway.h" bodystart="147" bodyend="369"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1afffa6281648bf9a425eae96e055c9560" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>applyConfigEntry</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1aa3e282bd28222d1ec6f71d00afdc8422" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>buildRaftConfig</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1aa1dc93c5aa07473212f06e2fcef1a6d5" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a4e6b11dd2cd9a723a339d2de721d1e5e" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>config_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1ac324d3dc8e48dc6cce43bea2a6c0ac34" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>current_config_</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1ae5f8f0f965cfd795104ae8c877fbd3c1" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>DistributedGateway</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a9428d88c7f92466021459c5cecb7fc1f" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>DistributedGateway</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1ab10fa4e31429ac857ab86abea0a38484" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>gateway_</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1abceb6e113d876a014722b194b4259211" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>getClusterStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a813c9546c5b6f9e6cc86d5c1c90bb4dd" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>getCurrentConfig</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a54cc8b161493a8cb2e9bfa8a5b7d540f" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>getLeaderId</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1adbcaf2f4dcd792553ea2f265a416ffe4" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>handleRequest</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1aeeb908a49471e668378c11a78fa5c37a" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>hash_ring_</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1afa48879a6f21c9663b99a13f56ae6442" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>hasQuorum</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a29284375523f0884f067376eeedd632f" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>isLeader</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1ae5f47c793ce919cee74848bab74b3918" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>isTransientError</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a00e602343b269c94648a6f654b58a160" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>needsSessionAffinity</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a0b18964becd474f3dfe56312539e41dc" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1ad77fa88126430b4ee660b25a04c7cc60" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>proposeConfig</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1ad5da780de719518eef50d8374c2e87e8" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>quorum_lost_</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1ac3f763f039ad61bdadac37f3ea322cc6" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>raft_</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a45d04c835003dbf90a004d23597bb548" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>rebuildHashRing</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1ae03a5ebc3820d51083e2b34e4ce063fd" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>registerDeprecation</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a2e127ee55df7c9ee71d59ddc2d7fde29" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>registerHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a4a1f1d0e5da4495d51d384e2cdaac3e4" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>resolveAffinityNode</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a5479786b3054eabe1130365e17fe80f7" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>retryDelay</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1aa75a40cac25a9df463b730cab54c3752" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>running_</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a7365806e1ba0ba5d248e5ff8fb748159" prot="private" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>sessionKey</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a549adc77f41e5bced889a458c4905ff1" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>start</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1a262daeef57bc83668e2e1f8cfd96cb5c" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>stop</name></member>
+      <member refid="classthemis_1_1server_1_1_distributed_gateway_1adec76dea829ac35633f35eca5949581c" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway</scope><name>~DistributedGateway</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

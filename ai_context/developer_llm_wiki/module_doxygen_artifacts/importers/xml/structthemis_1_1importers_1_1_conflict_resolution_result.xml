@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_conflict_resolution_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::ConflictResolutionResult</compoundname>
+    <includes refid="importer__interfaces_8h" local="no">importer_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_conflict_resolution_result_1a0a628214c1c2fa76790b4dc52851b750" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1aa05996a744938ed8ff0b56ce4d6d0dd4" kindref="member">ConflictResolution</ref></type>
+        <definition>ConflictResolution themis::importers::ConflictResolutionResult::resolution</definition>
+        <argsstring></argsstring>
+        <name>resolution</name>
+        <qualifiedname>themis::importers::ConflictResolutionResult::resolution</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1importers_1aa05996a744938ed8ff0b56ce4d6d0dd4ae3e8204bda1f9453209be5dec08509ae" kindref="member">ConflictResolution::KEEP_EXISTING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="41" column="24" bodyfile="include/importers/importer_interfaces.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_conflict_resolution_result_1ae4df566d7d7f22b9aeddff26b19109d3" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_field_merge_spec" kindref="compound">FieldMergeSpec</ref></type>
+        <definition>FieldMergeSpec themis::importers::ConflictResolutionResult::merge_spec</definition>
+        <argsstring></argsstring>
+        <name>merge_spec</name>
+        <qualifiedname>themis::importers::ConflictResolutionResult::merge_spec</qualifiedname>
+        <briefdescription>
+<para>Used only when resolution == MERGE_FIELDS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="42" column="24" bodyfile="include/importers/importer_interfaces.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::importers::ConflictResolutionResult</label>
+        <link refid="structthemis_1_1importers_1_1_conflict_resolution_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>merge_spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::FieldMergeSpec</label>
+        <link refid="structthemis_1_1importers_1_1_field_merge_spec"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/importer_interfaces.h" line="40" column="1" bodyfile="include/importers/importer_interfaces.h" bodystart="40" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_conflict_resolution_result_1ae4df566d7d7f22b9aeddff26b19109d3" prot="public" virt="non-virtual"><scope>themis::importers::ConflictResolutionResult</scope><name>merge_spec</name></member>
+      <member refid="structthemis_1_1importers_1_1_conflict_resolution_result_1a0a628214c1c2fa76790b4dc52851b750" prot="public" virt="non-virtual"><scope>themis::importers::ConflictResolutionResult</scope><name>resolution</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

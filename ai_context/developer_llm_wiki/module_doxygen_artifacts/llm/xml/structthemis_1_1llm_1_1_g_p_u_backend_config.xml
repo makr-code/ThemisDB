@@ -1,0 +1,564 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_g_p_u_backend_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GPUBackendConfig</compoundname>
+    <includes refid="llama__resource__manager_8h" local="no">llama_resource_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TensorParallelismMode</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::TensorParallelismMode</qualifiedname>
+        <enumvalue id="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002dab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002dafa8209e5d0927f905a0aa86fa12a3061" prot="public">
+          <name>PIPELINE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002dace2f94540fa9914e8fe6f0de9817717b" prot="public">
+          <name>TENSOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002da3bf07fe8ac3883060b1558113ba248d4" prot="public">
+          <name>HYBRID</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="66" column="5" bodyfile="include/llm/llama_resource_manager.h" bodystart="66" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a047f943147dd40dc543bf265cfd43bda" prot="public" static="no" mutable="no">
+        <type>acceleration::BackendType</type>
+        <definition>acceleration::BackendType themis::llm::GPUBackendConfig::preferred_backend</definition>
+        <argsstring></argsstring>
+        <name>preferred_backend</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::preferred_backend</qualifiedname>
+        <initializer>= acceleration::BackendType::VULKAN</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="36" column="31" bodyfile="include/llm/llama_resource_manager.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1afe8df0d55bbf0dc517641c8b4b85c2d7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; acceleration::BackendType &gt;</type>
+        <definition>std::vector&lt;acceleration::BackendType&gt; themis::llm::GPUBackendConfig::fallback_backends</definition>
+        <argsstring></argsstring>
+        <name>fallback_backends</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::fallback_backends</qualifiedname>
+        <initializer>                              = {
+    acceleration::BackendType::VULKAN,
+    acceleration::BackendType::CUDA,
+    acceleration::BackendType::HIP,
+    acceleration::BackendType::METAL,
+    acceleration::BackendType::DIRECTX,
+    acceleration::BackendType::OPENCL
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="37" column="17" bodyfile="include/llm/llama_resource_manager.h" bodystart="37" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1ad8cd463f3862d1315bd42ae8d3394e85" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GPUBackendConfig::primary_gpu_id</definition>
+        <argsstring></argsstring>
+        <name>primary_gpu_id</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::primary_gpu_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="47" column="9" bodyfile="include/llm/llama_resource_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1ae10d1f47908000d2ab7b8003301c8a04" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::GPUBackendConfig::secondary_gpus</definition>
+        <argsstring></argsstring>
+        <name>secondary_gpus</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::secondary_gpus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="48" column="17" bodyfile="include/llm/llama_resource_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a80bca1ce84415034d8247a2a26e789d3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUBackendConfig::use_gpu_memory_manager</definition>
+        <argsstring></argsstring>
+        <name>use_gpu_memory_manager</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::use_gpu_memory_manager</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="51" column="10" bodyfile="include/llm/llama_resource_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6a3d06b903c79cb3ff33a4058f8aa295" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUBackendConfig::max_vram_per_gpu</definition>
+        <argsstring></argsstring>
+        <name>max_vram_per_gpu</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::max_vram_per_gpu</qualifiedname>
+        <initializer>= 24ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="52" column="12" bodyfile="include/llm/llama_resource_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a4e0d0edee24dc5919a2c2d716ef27917" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUBackendConfig::reserved_vram</definition>
+        <argsstring></argsstring>
+        <name>reserved_vram</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::reserved_vram</qualifiedname>
+        <initializer>= 2ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="53" column="12" bodyfile="include/llm/llama_resource_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1af62b8cdc87f58ab5d62bc52aa7e4891f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GPUBackendConfig::n_gpu_layers</definition>
+        <argsstring></argsstring>
+        <name>n_gpu_layers</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::n_gpu_layers</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="56" column="9" bodyfile="include/llm/llama_resource_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a576f0eed92288f859694db7f2e6f333b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUBackendConfig::auto_detect_optimal_layers</definition>
+        <argsstring></argsstring>
+        <name>auto_detect_optimal_layers</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::auto_detect_optimal_layers</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="57" column="10" bodyfile="include/llm/llama_resource_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a7ace3e1cd8978b619acc4db69af485ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUBackendConfig::enable_flash_attention</definition>
+        <argsstring></argsstring>
+        <name>enable_flash_attention</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::enable_flash_attention</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="60" column="10" bodyfile="include/llm/llama_resource_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6f9e06b8e30436c4a72a58d58d90a46b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUBackendConfig::enable_tensor_cores</definition>
+        <argsstring></argsstring>
+        <name>enable_tensor_cores</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::enable_tensor_cores</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="61" column="10" bodyfile="include/llm/llama_resource_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a61de7a96e1f9f26aff36ad869d87ce5e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUBackendConfig::enable_peer_to_peer</definition>
+        <argsstring></argsstring>
+        <name>enable_peer_to_peer</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::enable_peer_to_peer</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="62" column="10" bodyfile="include/llm/llama_resource_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a2bfb06f2322c64dd558e4c4991daf595" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUBackendConfig::enable_unified_memory</definition>
+        <argsstring></argsstring>
+        <name>enable_unified_memory</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::enable_unified_memory</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="63" column="10" bodyfile="include/llm/llama_resource_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a4f72380f23013a73f7cbd2bf5720969d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002d" kindref="member">TensorParallelismMode</ref></type>
+        <definition>TensorParallelismMode themis::llm::GPUBackendConfig::tensor_parallel_mode</definition>
+        <argsstring></argsstring>
+        <name>tensor_parallel_mode</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::tensor_parallel_mode</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002dab50339a10e1de285ac99d4c3990b8693" kindref="member">TensorParallelismMode::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="72" column="27" bodyfile="include/llm/llama_resource_manager.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa92c39e19371972e503e1159a11a2030" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GPUBackendConfig::tensor_split_ratio</definition>
+        <argsstring></argsstring>
+        <name>tensor_split_ratio</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::tensor_split_ratio</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="73" column="11" bodyfile="include/llm/llama_resource_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a38c28303cefa4543a20000d495e2cba6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUBackendConfig::enable_dynamic_load_balancing</definition>
+        <argsstring></argsstring>
+        <name>enable_dynamic_load_balancing</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::enable_dynamic_load_balancing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="76" column="10" bodyfile="include/llm/llama_resource_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a73e6674bef2cfd5d8805c8b693aed131" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GPUBackendConfig::load_balance_threshold</definition>
+        <argsstring></argsstring>
+        <name>load_balance_threshold</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::load_balance_threshold</qualifiedname>
+        <initializer>= 0.8f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="77" column="11" bodyfile="include/llm/llama_resource_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a637f92fa3a40c858363f02fd9a5faf3d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GPUBackendConfig::load_balance_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>load_balance_interval_ms</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::load_balance_interval_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="78" column="9" bodyfile="include/llm/llama_resource_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a948134f40a0401f6eac8e92f71a0ada8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUBackendConfig::enable_jit_eviction</definition>
+        <argsstring></argsstring>
+        <name>enable_jit_eviction</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::enable_jit_eviction</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="81" column="10" bodyfile="include/llm/llama_resource_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6fb10948466f64722fe31054675a26d0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUBackendConfig::adapter_cache_size</definition>
+        <argsstring></argsstring>
+        <name>adapter_cache_size</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::adapter_cache_size</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="82" column="12" bodyfile="include/llm/llama_resource_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a59c9fd11ca5c514d5381ad09b848650d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GPUBackendConfig::eviction_threshold</definition>
+        <argsstring></argsstring>
+        <name>eviction_threshold</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::eviction_threshold</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="83" column="11" bodyfile="include/llm/llama_resource_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a86166ce5d6e034995e3c85aee295e83a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUBackendConfig::enable_health_checks</definition>
+        <argsstring></argsstring>
+        <name>enable_health_checks</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::enable_health_checks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="86" column="10" bodyfile="include/llm/llama_resource_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab5a2dd174755fc76cfe5f1a8d65df65f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GPUBackendConfig::health_check_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval_ms</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::health_check_interval_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="87" column="9" bodyfile="include/llm/llama_resource_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a2713f2f47a4205fcbf4fd10bb1e1c5aa" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GPUBackendConfig::max_gpu_temperature_celsius</definition>
+        <argsstring></argsstring>
+        <name>max_gpu_temperature_celsius</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::max_gpu_temperature_celsius</qualifiedname>
+        <initializer>= 85.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="88" column="11" bodyfile="include/llm/llama_resource_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1ae86674be44b4954f9b5054ee7ff7d718" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GPUBackendConfig::max_gpu_utilization</definition>
+        <argsstring></argsstring>
+        <name>max_gpu_utilization</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::max_gpu_utilization</qualifiedname>
+        <initializer>= 0.95f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="89" column="11" bodyfile="include/llm/llama_resource_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1aff03bfd87d30aaac3a1b0a3c1f27104a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUBackendConfig::auto_failover_on_error</definition>
+        <argsstring></argsstring>
+        <name>auto_failover_on_error</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::auto_failover_on_error</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="90" column="10" bodyfile="include/llm/llama_resource_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab2bdf7115ed8e90db31171bcb664350d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUBackendConfig::enable_persistent_pinning</definition>
+        <argsstring></argsstring>
+        <name>enable_persistent_pinning</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::enable_persistent_pinning</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="93" column="10" bodyfile="include/llm/llama_resource_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1a206d35026598c56599e73a61cee3d568" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::GPUBackendConfig::pinned_model_ids</definition>
+        <argsstring></argsstring>
+        <name>pinned_model_ids</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::pinned_model_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="94" column="17" bodyfile="include/llm/llama_resource_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab40da339d498f5bb3296755302185f09" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::GPUBackendConfig::pinned_adapter_ids</definition>
+        <argsstring></argsstring>
+        <name>pinned_adapter_ids</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::pinned_adapter_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="95" column="17" bodyfile="include/llm/llama_resource_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1ac9d8b7af6264b1b1e96352453b0595b5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GPUBackendConfig::pinned_resource_priority</definition>
+        <argsstring></argsstring>
+        <name>pinned_resource_priority</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::pinned_resource_priority</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="96" column="9" bodyfile="include/llm/llama_resource_manager.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab81b5a425e6316f6730bebccf5f64304" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::GPUBackendConfig::~GPUBackendConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GPUBackendConfig</name>
+        <qualifiedname>themis::llm::GPUBackendConfig::~GPUBackendConfig</qualifiedname>
+        <briefdescription>
+<para>GPUBackend Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="34" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llama_resource_manager.h" line="29" column="1" bodyfile="include/llm/llama_resource_manager.h" bodystart="29" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6fb10948466f64722fe31054675a26d0" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>adapter_cache_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a576f0eed92288f859694db7f2e6f333b" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>auto_detect_optimal_layers</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aff03bfd87d30aaac3a1b0a3c1f27104a" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>auto_failover_on_error</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a38c28303cefa4543a20000d495e2cba6" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>enable_dynamic_load_balancing</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a7ace3e1cd8978b619acc4db69af485ae" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>enable_flash_attention</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a86166ce5d6e034995e3c85aee295e83a" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>enable_health_checks</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a948134f40a0401f6eac8e92f71a0ada8" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>enable_jit_eviction</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a61de7a96e1f9f26aff36ad869d87ce5e" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>enable_peer_to_peer</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab2bdf7115ed8e90db31171bcb664350d" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>enable_persistent_pinning</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6f9e06b8e30436c4a72a58d58d90a46b" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>enable_tensor_cores</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a2bfb06f2322c64dd558e4c4991daf595" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>enable_unified_memory</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a59c9fd11ca5c514d5381ad09b848650d" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>eviction_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1afe8df0d55bbf0dc517641c8b4b85c2d7" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>fallback_backends</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab5a2dd174755fc76cfe5f1a8d65df65f" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>health_check_interval_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a637f92fa3a40c858363f02fd9a5faf3d" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>load_balance_interval_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a73e6674bef2cfd5d8805c8b693aed131" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>load_balance_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a2713f2f47a4205fcbf4fd10bb1e1c5aa" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>max_gpu_temperature_celsius</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ae86674be44b4954f9b5054ee7ff7d718" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>max_gpu_utilization</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a6a3d06b903c79cb3ff33a4058f8aa295" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>max_vram_per_gpu</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1af62b8cdc87f58ab5d62bc52aa7e4891f" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>n_gpu_layers</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab40da339d498f5bb3296755302185f09" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>pinned_adapter_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a206d35026598c56599e73a61cee3d568" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>pinned_model_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ac9d8b7af6264b1b1e96352453b0595b5" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>pinned_resource_priority</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a047f943147dd40dc543bf265cfd43bda" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>preferred_backend</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ad8cd463f3862d1315bd42ae8d3394e85" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>primary_gpu_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a4e0d0edee24dc5919a2c2d716ef27917" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>reserved_vram</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ae10d1f47908000d2ab7b8003301c8a04" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>secondary_gpus</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a4f72380f23013a73f7cbd2bf5720969d" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>tensor_parallel_mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa92c39e19371972e503e1159a11a2030" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>tensor_split_ratio</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1aa143973ce161690e4eeb7aca2c1b002d" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>TensorParallelismMode</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1a80bca1ce84415034d8247a2a26e789d3" prot="public" virt="non-virtual"><scope>themis::llm::GPUBackendConfig</scope><name>use_gpu_memory_manager</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_backend_config_1ab81b5a425e6316f6730bebccf5f64304" prot="public" virt="virtual"><scope>themis::llm::GPUBackendConfig</scope><name>~GPUBackendConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

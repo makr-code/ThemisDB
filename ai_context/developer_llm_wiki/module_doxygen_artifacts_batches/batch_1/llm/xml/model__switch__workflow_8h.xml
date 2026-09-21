@@ -1,0 +1,515 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="model__switch__workflow_8h" kind="file" language="C++">
+    <compoundname>model_switch_workflow.h</compoundname>
+    <includes refid="adapter__registry_8h" local="yes">llm/adapter_registry.h</includes>
+    <includes refid="final__layer__orchestrator_8h" local="yes">llm/final_layer_orchestrator.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="model__switch__workflow_8cpp" local="yes">src/llm/model_switch_workflow.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>llm/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>llm/final_layer_orchestrator.h</label>
+        <link refid="final__layer__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>llm/model_router.h</label>
+        <link refid="model__router_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/model_switch_workflow.h</label>
+        <link refid="model__switch__workflow_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>atomic</label>
+      </node>
+      <node id="18">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="20">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="21">
+        <label>regex</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/model_switch_workflow.h</label>
+        <link refid="model__switch__workflow_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/model_switch_workflow.cpp</label>
+        <link refid="model__switch__workflow_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_sem_ver" prot="public">themis::llm::SemVer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry" prot="public">themis::llm::RatchetCompatibilityEntry</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" prot="public">themis::llm::RatchetCompatibilityMatrix</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_rebuild_policy" prot="public">themis::llm::RebuildPolicy</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_model_switch_request" prot="public">themis::llm::ModelSwitchRequest</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_model_switch_check_result" prot="public">themis::llm::ModelSwitchCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_model_switch_result" prot="public">themis::llm::ModelSwitchResult</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_model_switch_workflow" prot="public">themis::llm::ModelSwitchWorkflow</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Model-switch workflow, ratchet compatibility matrix, and rebuild policy for SOP-compliant LLM base-model transitions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements Phase 6 of EPIC 1.5: safe and auditable base-model switch with explicit versioned compatibility tracking, rebuild-first logic, and end-to-end policy evaluation gates.</para>
+<para>Design goals:<itemizedlist>
+<listitem><para>The compatibility matrix is versionable and serializable to JSON.</para>
+</listitem><listitem><para>Ratchet semantics prevent rollback of the minimum-required model version unless an explicit override is supplied by an operator.</para>
+</listitem><listitem><para>The rebuild policy is data-driven; callers do not embed switch logic.</para>
+</listitem><listitem><para>Every switch attempt produces a fully auditable ModelSwitchResult. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__registry_8h" kindref="compound">llm/adapter_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="final__layer__orchestrator_8h" kindref="compound">llm/final_layer_orchestrator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_model_switch_workflow" kindref="compound">ModelSwitchWorkflow</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Semantic<sp/>version<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_sem_ver" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1_sem_ver_1a2b0a895d26920c609e06716473d94d4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1a2b0a895d26920c609e06716473d94d4b" kindref="member">major</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1_sem_ver_1ae4abefb2014d79ecbd42b5850f889726" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1ae4abefb2014d79ecbd42b5850f889726" kindref="member">minor</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_sem_ver_1a9dcc3d2199f188791b30ddec3817879f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1a9dcc3d2199f188791b30ddec3817879f" kindref="member">patch</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1aacd62018f83723d32c7322e20ae083e2" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1a03ce07eab4a2c6fdd0ad4763757fef22" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1a9836f9106364afc38b234dc6c0714b0b" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1_sem_ver_1ad56a5ee9833b1a25e2de14256c722db5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1ad56a5ee9833b1a25e2de14256c722db5" kindref="member">operator&lt;=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(o<sp/>&lt;<sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1aa02b00831fd1e41dad60b246d22d1c46" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_sem_ver_1a377af5c5f6a1dac162528d3380b235a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1a377af5c5f6a1dac162528d3380b235a0" kindref="member">operator&gt;=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>&lt;<sp/>o);<sp/>}</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_sem_ver_1a96050dfcad4bc4f1039d719554abf2f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1a96050dfcad4bc4f1039d719554abf2f7" kindref="member">operator&gt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>o<sp/>&lt;<sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1ae645187e166021437a66f4059031a1aa" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver_1a0d7daecf187c18472871ebb1e5db4e43" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ratchet<sp/>Compatibility<sp/>Matrix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry" kindref="compound">RatchetCompatibilityEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry_1a7d20d8742fd6f1f1e7fbb273e87f1ada" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry_1a7d20d8742fd6f1f1e7fbb273e87f1ada" kindref="member">adapter_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry_1a9a58fe686e77966060a1ae84dd6d9158" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry_1a9a58fe686e77966060a1ae84dd6d9158" kindref="member">model_family</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry_1a6732d755fca2b18697be91c7962f13c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry_1a6732d755fca2b18697be91c7962f13c3" kindref="member">min_model_version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry_1a0a0dd07e7d737a3c4162a0c382d48cb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry_1a0a0dd07e7d737a3c4162a0c382d48cb8" kindref="member">max_model_version_excl</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry_1a3f33cfd59f9c217843cee615225e6d5c" kindref="member">isSatisfiedBy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref>&amp;<sp/>version)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry_1ac1abdb7412dfa5958ee1ae6b111736fb" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry" kindref="compound">RatchetCompatibilityEntry</ref><sp/><ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry_1a2ea15ed87f4fc03e6bf6fa4bc08c2e7d" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a8e2cfddc3ed88e8d5f2c23de5c55b40b" kindref="member">RatchetCompatibilityMatrix</ref><sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a8e2cfddc3ed88e8d5f2c23de5c55b40b" kindref="member">RatchetCompatibilityMatrix</ref>(std::string<sp/>schema_version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entry<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a8f187b329c2ce4ffebe5ba2ca91cba36" kindref="member">registerEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_family,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref>&amp;<sp/>min_version,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref>&amp;<sp/>max_version_excl<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref>{},</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allow_downgrade<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;RatchetCompatibilityEntry&gt;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a9b9409f48f62d8fe014a8abfab71c44e" kindref="member">findEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_family)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a94f1e2319ef073151780b782f66c4c5a" kindref="member">isCompatible</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_family,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_version)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RatchetCompatibilityEntry&gt;&amp;<sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1aa58a36dc3405174a5424cd2e312e5f93" kindref="member">entries</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1aa1e238997f0e136550543788fdc4500c" kindref="member">schemaVersion</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a16c7f442fab6c2c6460609e729a9c678" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a8e2cfddc3ed88e8d5f2c23de5c55b40b" kindref="member">RatchetCompatibilityMatrix</ref><sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a692e58e18268400958e85ec07893d84a" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>schema_version_;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RatchetCompatibilityEntry&gt;<sp/>entries_;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Rebuild<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092df" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092df" kindref="member">RebuildTrigger</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="123" refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfa69f8884a83b08c21ea703b279ff202e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfa69f8884a83b08c21ea703b279ff202e8" kindref="member">ARCHITECTURE_CHANGE</ref>,</highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfa593acba19c22504f76dab3956c189c89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfa593acba19c22504f76dab3956c189c89" kindref="member">TOKENIZER_CHANGE</ref>,</highlight></codeline>
+<codeline lineno="125" refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfab89d1bcaae7666ac19b6ada10896a919" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfab89d1bcaae7666ac19b6ada10896a919" kindref="member">LAYER_DIMENSION_CHANGE</ref>,</highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfaf484b516400f324a19161ae214b82673" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfaf484b516400f324a19161ae214b82673" kindref="member">VERSION_OUT_OF_RANGE</ref>,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1llm_1_1_rebuild_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1llm_1_1_rebuild_policy_1afad9aff7a4c444b982be15ec1a8014a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RebuildTrigger&gt;<sp/><ref refid="structthemis_1_1llm_1_1_rebuild_policy_1afad9aff7a4c444b982be15ec1a8014a8" kindref="member">triggers</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfa69f8884a83b08c21ea703b279ff202e8" kindref="member">RebuildTrigger::ARCHITECTURE_CHANGE</ref>,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfa593acba19c22504f76dab3956c189c89" kindref="member">RebuildTrigger::TOKENIZER_CHANGE</ref>,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfaf484b516400f324a19161ae214b82673" kindref="member">RebuildTrigger::VERSION_OUT_OF_RANGE</ref>,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1llm_1_1_rebuild_policy_1a64545fc928542f8b4f688e6d475a29de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_rebuild_policy_1a64545fc928542f8b4f688e6d475a29de" kindref="member">fail_closed_on_rebuild</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_rebuild_policy_1afcb87c62c333749fa31d8cdaa2e9ffa9" kindref="member">isTriggerActive</ref>(<ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092df" kindref="member">RebuildTrigger</ref><sp/>trigger)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_rebuild_policy_1ae3dd95eba06c3b074325d25d080c3e54" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref><sp/><ref refid="structthemis_1_1llm_1_1_rebuild_policy_1ae6795bd6b15cb05c552449a22e17a37e" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Model<sp/>switch<sp/>request<sp/>&amp;<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1llm_1_1_model_switch_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_model_switch_request" kindref="compound">ModelSwitchRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1llm_1_1_model_switch_request_1ad38028c7fd0fe757c63c2dae27c66e61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_request_1ad38028c7fd0fe757c63c2dae27c66e61" kindref="member">package_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1llm_1_1_model_switch_request_1a96eddab9a01d8abe2cd4aa446b4acd5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_request_1a96eddab9a01d8abe2cd4aa446b4acd5a" kindref="member">source_model_name</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1llm_1_1_model_switch_request_1a3ba1f6252a23d3a28f1dc50cd1e317ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_request_1a3ba1f6252a23d3a28f1dc50cd1e317ee" kindref="member">source_model_version</ref>;</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1llm_1_1_model_switch_request_1a27f852e823cb31c655fdfcd561d6fdea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_request_1a27f852e823cb31c655fdfcd561d6fdea" kindref="member">target_model_name</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1llm_1_1_model_switch_request_1af79916f13bdd727ca20a47c415a22680" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_request_1af79916f13bdd727ca20a47c415a22680" kindref="member">target_model_version</ref>;</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1llm_1_1_model_switch_request_1a9add69dd18879c062cd341ef11dc998d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_request_1a9add69dd18879c062cd341ef11dc998d" kindref="member">target_model_family</ref>;<sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1llm_1_1_model_switch_request_1ac48b107c00d791449f1468796959d878" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_request_1ac48b107c00d791449f1468796959d878" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1llm_1_1_model_switch_request_1a920cc2706f73d138c17cd83968b56239" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_request_1a920cc2706f73d138c17cd83968b56239" kindref="member">force_revalidation</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1llm_1_1_model_switch_check_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25" kindref="member">CheckKind</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a364f34b96ef7b9954df09f81942f0197" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a364f34b96ef7b9954df09f81942f0197" kindref="member">RATCHET_MATRIX</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a29330223e96b4290e236a247aec153fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a29330223e96b4290e236a247aec153fd" kindref="member">ARCHITECTURE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a6f4fc6fd17d53eb082e66edde1deffea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a6f4fc6fd17d53eb082e66edde1deffea" kindref="member">TOKENIZER</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25aeddefab900830ce7a66826cb8f927f17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25aeddefab900830ce7a66826cb8f927f17" kindref="member">LAYER_DIMENSIONS</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a6053e8ee689ab6bf9f4fdd3fc363f962" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a6053e8ee689ab6bf9f4fdd3fc363f962" kindref="member">QUANTIZATION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a5012d827c86b4ba73e552dd214d557d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25a5012d827c86b4ba73e552dd214d557d0" kindref="member">REBUILD_POLICY</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25abee7e5067f59d1c645f380fedf2a3792" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25abee7e5067f59d1c645f380fedf2a3792" kindref="member">PROMPT_FORMAT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a81b789768ca3478329d4993c916e7bbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a127fba594240c02e10ca0fef2777aa25" kindref="member">CheckKind</ref><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a81b789768ca3478329d4993c916e7bbc" kindref="member">kind</ref>;</highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a1809b47f95aeea1cd4667542d3791950" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a1809b47f95aeea1cd4667542d3791950" kindref="member">passed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a89e0fdd4af9dac1051eb6e970f8d608e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a89e0fdd4af9dac1051eb6e970f8d608e" kindref="member">rebuild_required</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1llm_1_1_model_switch_check_result_1a1e610ff92af8ca61341a3b53acdd2512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result_1a1e610ff92af8ca61341a3b53acdd2512" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011" kindref="member">ModelSwitchOutcome</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="179" refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011acb9beb01da7f065f6ad47e2f3c3e0666" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011acb9beb01da7f065f6ad47e2f3c3e0666" kindref="member">COMPATIBLE</ref>,</highlight></codeline>
+<codeline lineno="180" refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011ae71116f6d5db7463031bf19ffaaeb855" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011ae71116f6d5db7463031bf19ffaaeb855" kindref="member">REBUILD_REQUIRED</ref>,</highlight></codeline>
+<codeline lineno="181" refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011aeecba0068950a2df17c47e851e1eef14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011aeecba0068950a2df17c47e851e1eef14" kindref="member">BLOCKED</ref>,</highlight></codeline>
+<codeline lineno="182" refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011a424d6b8018e601e0f5e1532db1741b91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011a424d6b8018e601e0f5e1532db1741b91" kindref="member">INCOMPATIBLE</ref>,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1llm_1_1_model_switch_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_model_switch_result" kindref="compound">ModelSwitchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1llm_1_1_model_switch_result_1af84496661679c0ce5a107c9797c75756" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011" kindref="member">ModelSwitchOutcome</ref><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1af84496661679c0ce5a107c9797c75756" kindref="member">outcome</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011a424d6b8018e601e0f5e1532db1741b91" kindref="member">ModelSwitchOutcome::INCOMPATIBLE</ref>;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1llm_1_1_model_switch_result_1a09447e8582eaf713891f3b0047e56047" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ModelSwitchCheckResult&gt;<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1a09447e8582eaf713891f3b0047e56047" kindref="member">checks</ref>;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1llm_1_1_model_switch_result_1ab1868e434ca13907dfca253f0624f33a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1ab1868e434ca13907dfca253f0624f33a" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1llm_1_1_model_switch_result_1a88e5d74d3fe05d85ee985d7c33b69a86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1a88e5d74d3fe05d85ee985d7c33b69a86" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1llm_1_1_model_switch_result_1a777c63b5cad1bfd29707bb605c789ce8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RebuildTrigger&gt;<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1a777c63b5cad1bfd29707bb605c789ce8" kindref="member">active_rebuild_triggers</ref>;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1llm_1_1_model_switch_result_1a46ba5dc4f876dd064eae556c2c0765a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1a46ba5dc4f876dd064eae556c2c0765a1" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1llm_1_1_model_switch_result_1a83ddd07628289898ada0791359e46e4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1a83ddd07628289898ada0791359e46e4f" kindref="member">canServe</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1af84496661679c0ce5a107c9797c75756" kindref="member">outcome</ref><sp/>==<sp/><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011acb9beb01da7f065f6ad47e2f3c3e0666" kindref="member">ModelSwitchOutcome::COMPATIBLE</ref>;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1llm_1_1_model_switch_result_1aee4f6f38e50522f723aced73dd1542e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1aee4f6f38e50522f723aced73dd1542e1" kindref="member">needsRebuild</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1af84496661679c0ce5a107c9797c75756" kindref="member">outcome</ref><sp/>==<sp/><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011ae71116f6d5db7463031bf19ffaaeb855" kindref="member">ModelSwitchOutcome::REBUILD_REQUIRED</ref><sp/>||</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1af84496661679c0ce5a107c9797c75756" kindref="member">outcome</ref><sp/>==<sp/><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011aeecba0068950a2df17c47e851e1eef14" kindref="member">ModelSwitchOutcome::BLOCKED</ref>;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result_1aa45df4f02720b06245e66f501df875c9" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ModelSwitchWorkflow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1llm_1_1_model_switch_workflow" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_model_switch_workflow_1afa35ebd4175c14bd4a7f5f17ece462cf" kindref="member">ModelSwitchWorkflow</ref><sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_switch_workflow_1afa35ebd4175c14bd4a7f5f17ece462cf" kindref="member">ModelSwitchWorkflow</ref>(std::shared_ptr&lt;AdapterRegistry&gt;<sp/>registry,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;FinalLayerOrchestrator&gt;<sp/>orchestrator,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" kindref="compound">RatchetCompatibilityMatrix</ref><sp/>matrix<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" kindref="compound">RatchetCompatibilityMatrix</ref>{},</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref><sp/>policy<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref>{});</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_result" kindref="compound">ModelSwitchResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_model_switch_workflow_1a9c60ef982a85f1b019fbe42784d69f88" kindref="member">executeSwitch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_request" kindref="compound">ModelSwitchRequest</ref>&amp;<sp/>request)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_switch_workflow_1af491711e46b31045cb72a5f5e9db82d8" kindref="member">setCompatibilityMatrix</ref>(<ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" kindref="compound">RatchetCompatibilityMatrix</ref><sp/>matrix);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" kindref="compound">RatchetCompatibilityMatrix</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_model_switch_workflow_1a062211ccee81d91cbcf8871e55d63760" kindref="member">compatibilityMatrix</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_switch_workflow_1a7f0163f277961b0a21076b7e9470e6a3" kindref="member">setRebuildPolicy</ref>(<ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref><sp/>policy);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_model_switch_workflow_1a8aa6b7a687ae841d844a7528689a5946" kindref="member">rebuildPolicy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_model_switch_workflow_1ad4557fd8df2bdc1ced7917525223a391" kindref="member">isSwitchRequired</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_switch_request" kindref="compound">ModelSwitchRequest</ref>&amp;<sp/>request)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-check<sp/>helpers<sp/>(each<sp/>returns<sp/>a<sp/>ModelSwitchCheckResult)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref><sp/>checkRatchetMatrix(</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_family,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_version)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref><sp/>checkArchitectureCompatibility(</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_name,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_family,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_version)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref><sp/>checkTokenizerCompatibility(</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_name,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_family)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref><sp/>checkLayerDimensions(</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref><sp/>checkQuantizationCompatibility(</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_name,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_family,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_version)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref><sp/>checkPromptFormat(</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_model_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rebuild<sp/>policy<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011" kindref="member">ModelSwitchOutcome</ref><sp/>evaluateRebuildPolicy(</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ModelSwitchCheckResult&gt;&amp;<sp/>checks,</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref>&amp;<sp/>policy,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;RebuildTrigger&gt;&amp;<sp/>active_triggers);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AdapterRegistry&gt;<sp/>registry_;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;FinalLayerOrchestrator&gt;<sp/>orchestrator_;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" kindref="compound">RatchetCompatibilityMatrix</ref><sp/>matrix_;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref><sp/>policy_;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/model_switch_workflow.h"/>
+  </compounddef>
+</doxygen>

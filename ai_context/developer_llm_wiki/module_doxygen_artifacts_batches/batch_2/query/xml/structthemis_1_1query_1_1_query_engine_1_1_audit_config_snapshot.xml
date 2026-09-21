@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_engine_1_1_audit_config_snapshot" kind="struct" language="C++" prot="private">
+    <compoundname>themis::query::QueryEngine::AuditConfigSnapshot</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_audit_config_snapshot_1ad9976dcd465005d5f2856c055278da0b" prot="public" static="no" mutable="no">
+        <type>::themis::utils::AuditLogger *</type>
+        <definition>::themis::utils::AuditLogger* themis::query::QueryEngine::AuditConfigSnapshot::audit_logger</definition>
+        <argsstring></argsstring>
+        <name>audit_logger</name>
+        <qualifiedname>themis::query::QueryEngine::AuditConfigSnapshot::audit_logger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="689" column="38" bodyfile="include/query/query_engine.h" bodystart="689" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_audit_config_snapshot_1a62497aaaf4d3cd0eac69a130c09fc9c0" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::query::QueryEngine::AuditConfigSnapshot::query_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>query_timeout_ms</name>
+        <qualifiedname>themis::query::QueryEngine::AuditConfigSnapshot::query_timeout_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="690" column="35" bodyfile="include/query/query_engine.h" bodystart="690" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="688" column="5" bodyfile="include/query/query_engine.h" bodystart="688" bodyend="691"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_audit_config_snapshot_1ad9976dcd465005d5f2856c055278da0b" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::AuditConfigSnapshot</scope><name>audit_logger</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_audit_config_snapshot_1a62497aaaf4d3cd0eac69a130c09fc9c0" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::AuditConfigSnapshot</scope><name>query_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

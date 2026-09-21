@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result_1adb64b9daf3f39c0f214c82d204679a2b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult::ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="713" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="713" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result_1a10bf27eae251c622f4e9ed73bcc4132a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult::backend_available</definition>
+        <argsstring></argsstring>
+        <name>backend_available</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult::backend_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="714" column="14" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="714" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result_1a35fa3042503489a8e84dfe1d405100aa" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult::backend</qualifiedname>
+        <initializer>= &quot;WAL/snapshot&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="715" column="20" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="715" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result_1ae22f17fbe25da4b85b7de5d8b4d55be2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult::elapsed_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="716" column="18" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="716" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result_1a770f9deaffee2deb29b7c827c9b3a1c7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_backend_recovery_stats" kindref="compound">BackendRecoveryStats</ref></type>
+        <definition>BackendRecoveryStats themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="717" column="30" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="717" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::sharding::BackendRecoveryStats</label>
+        <link refid="structthemisdb_1_1sharding_1_1_backend_recovery_stats"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>details</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/cross_shard_transaction.h" line="712" column="5" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="712" bodyend="718"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result_1a35fa3042503489a8e84dfe1d405100aa" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult</scope><name>backend</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result_1a10bf27eae251c622f4e9ed73bcc4132a" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult</scope><name>backend_available</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result_1a770f9deaffee2deb29b7c827c9b3a1c7" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult</scope><name>details</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result_1ae22f17fbe25da4b85b7de5d8b4d55be2" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult</scope><name>elapsed_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator_1_1_recovery_run_result_1adb64b9daf3f39c0f214c82d204679a2b" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionCoordinator::RecoveryRunResult</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

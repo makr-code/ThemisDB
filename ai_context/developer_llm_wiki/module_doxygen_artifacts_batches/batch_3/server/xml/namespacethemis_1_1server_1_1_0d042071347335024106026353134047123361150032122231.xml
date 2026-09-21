@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1server_1_1_0d042071347335024106026353134047123361150032122231" kind="namespace" language="C++">
+    <compoundname>themis::server::@042071347335024106026353134047123361150032122231</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/server/distributed_txn_api_handler.cpp" line="27" column="1"/>
+  </compounddef>
+</doxygen>

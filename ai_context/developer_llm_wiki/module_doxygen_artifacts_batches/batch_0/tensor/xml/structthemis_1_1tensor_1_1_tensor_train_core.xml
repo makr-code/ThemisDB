@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_train_core" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorTrainCore</compoundname>
+    <includes refid="tensor__compat_8h" local="no">tensor_compat.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_train_core_1a1b49071984c9dca5f569dea003b9e825" prot="public" static="no" mutable="no">
+        <type>themis::storage::TTTrain</type>
+        <definition>themis::storage::TTTrain themis::tensor::TensorTrainCore::train</definition>
+        <argsstring></argsstring>
+        <name>train</name>
+        <qualifiedname>themis::tensor::TensorTrainCore::train</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compat.h" line="27" column="26" bodyfile="include/tensor/tensor_compat.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_train_core_1a6c9da3dd0bef7f45e6792939047b4b06" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; themis::storage::TTCore &gt; &amp;</type>
+        <definition>std::vector&lt;themis::storage::TTCore&gt;&amp; themis::tensor::TensorTrainCore::cores</definition>
+        <argsstring></argsstring>
+        <name>cores</name>
+        <qualifiedname>themis::tensor::TensorTrainCore::cores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compat.h" line="28" column="13" bodyfile="include/tensor/tensor_compat.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_tensor_train_core_1a5e626d72337218a799a1cef48c6a6bff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorTrainCore::TensorTrainCore</definition>
+        <argsstring>()</argsstring>
+        <name>TensorTrainCore</name>
+        <qualifiedname>themis::tensor::TensorTrainCore::TensorTrainCore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compat.h" line="30" column="1" bodyfile="include/tensor/tensor_compat.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_tensor_train_core_1a1e500a2c62b4cfa6fa3de4826f3dff97" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorTrainCore::operator const themis::storage::TTTrain &amp;</definition>
+        <argsstring>() const</argsstring>
+        <name>operator const themis::storage::TTTrain &amp;</name>
+        <qualifiedname>themis::tensor::TensorTrainCore::TTTrain &amp;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compat.h" line="33" column="1" bodyfile="include/tensor/tensor_compat.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_tensor_train_core_1ae7e6cb3f3aa2f1c4f223e08a08d3e3f0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorTrainCore::operator themis::storage::TTTrain &amp;</definition>
+        <argsstring>()</argsstring>
+        <name>operator themis::storage::TTTrain &amp;</name>
+        <qualifiedname>themis::tensor::TensorTrainCore::TTTrain &amp;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_compat.h" line="34" column="1" bodyfile="include/tensor/tensor_compat.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_compat.h" line="26" column="1" bodyfile="include/tensor/tensor_compat.h" bodystart="26" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_train_core_1a6c9da3dd0bef7f45e6792939047b4b06" prot="public" virt="non-virtual"><scope>themis::tensor::TensorTrainCore</scope><name>cores</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_train_core_1a1e500a2c62b4cfa6fa3de4826f3dff97" prot="public" virt="non-virtual"><scope>themis::tensor::TensorTrainCore</scope><name>operator const themis::storage::TTTrain &amp;</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_train_core_1ae7e6cb3f3aa2f1c4f223e08a08d3e3f0" prot="public" virt="non-virtual"><scope>themis::tensor::TensorTrainCore</scope><name>operator themis::storage::TTTrain &amp;</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_train_core_1a5e626d72337218a799a1cef48c6a6bff" prot="public" virt="non-virtual"><scope>themis::tensor::TensorTrainCore</scope><name>TensorTrainCore</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_train_core_1a1b49071984c9dca5f569dea003b9e825" prot="public" virt="non-virtual"><scope>themis::tensor::TensorTrainCore</scope><name>train</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

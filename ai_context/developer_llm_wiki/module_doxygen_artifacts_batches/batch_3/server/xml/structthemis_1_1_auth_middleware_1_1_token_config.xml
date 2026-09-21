@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_auth_middleware_1_1_token_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AuthMiddleware::TokenConfig</compoundname>
+    <includes refid="auth__middleware_8h" local="no">auth_middleware.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_auth_middleware_1_1_token_config_1ae3d3be8a7fd48c7911e2c8cb6e8ee9c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AuthMiddleware::TokenConfig::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::AuthMiddleware::TokenConfig::token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="66" column="21" bodyfile="include/server/auth_middleware.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_auth_middleware_1_1_token_config_1a6b0b0c9cd5462021396a15e04c195b15" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AuthMiddleware::TokenConfig::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::AuthMiddleware::TokenConfig::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="67" column="21" bodyfile="include/server/auth_middleware.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_auth_middleware_1_1_token_config_1a64f38d2f833122b30cd0fbd184b2d1a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AuthMiddleware::TokenConfig::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::AuthMiddleware::TokenConfig::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="68" column="21" bodyfile="include/server/auth_middleware.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_auth_middleware_1_1_token_config_1a86f2f580b0c0c4d5b834c47a46108823" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::AuthMiddleware::TokenConfig::scopes</definition>
+        <argsstring></argsstring>
+        <name>scopes</name>
+        <qualifiedname>themis::AuthMiddleware::TokenConfig::scopes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="69" column="28" bodyfile="include/server/auth_middleware.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/auth_middleware.h" line="65" column="5" bodyfile="include/server/auth_middleware.h" bodystart="65" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_auth_middleware_1_1_token_config_1a86f2f580b0c0c4d5b834c47a46108823" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware::TokenConfig</scope><name>scopes</name></member>
+      <member refid="structthemis_1_1_auth_middleware_1_1_token_config_1a64f38d2f833122b30cd0fbd184b2d1a9" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware::TokenConfig</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1_auth_middleware_1_1_token_config_1ae3d3be8a7fd48c7911e2c8cb6e8ee9c6" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware::TokenConfig</scope><name>token</name></member>
+      <member refid="structthemis_1_1_auth_middleware_1_1_token_config_1a6b0b0c9cd5462021396a15e04c195b15" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware::TokenConfig</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

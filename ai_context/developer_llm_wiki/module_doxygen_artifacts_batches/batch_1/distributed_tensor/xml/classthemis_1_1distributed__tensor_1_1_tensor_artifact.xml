@@ -1,0 +1,382 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_tensor_artifact" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::TensorArtifact</compoundname>
+    <derivedcompoundref refid="classthemis_1_1distributed__tensor_1_1_derived_tensor_artifact" prot="public" virt="non-virtual">themis::distributed_tensor::DerivedTensorArtifact</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact" prot="public" virt="non-virtual">themis::distributed_tensor::EphemeralTensorArtifact</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1distributed__tensor_1_1_primary_tensor_artifact" prot="public" virt="non-virtual">themis::distributed_tensor::PrimaryTensorArtifact</derivedcompoundref>
+    <includes refid="include_2distributed__tensor_2tensor__artifact__classes_8h" local="no">tensor_artifact_classes.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a417d583478f1ec133644fba8882a5b4b" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_artifact_metadata" kindref="compound">ArtifactMetadata</ref></type>
+        <definition>ArtifactMetadata themis::distributed_tensor::TensorArtifact::metadata_</definition>
+        <argsstring></argsstring>
+        <name>metadata_</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::metadata_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="139" column="20" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ad82ea00484081def06c27d3aac6bd16c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::TensorArtifact::TensorArtifact</definition>
+        <argsstring>(const std::string &amp;artifact_id, ArtifactClass artifact_class, DurabilityLevel durability_level)</argsstring>
+        <name>TensorArtifact</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::TensorArtifact</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3" kindref="member">ArtifactClass</ref></type>
+          <declname>artifact_class</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1abc4d812ededfab3ddf5289d9c16884c5" kindref="member">DurabilityLevel</ref></type>
+          <declname>durability_level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="89" column="3" bodyfile="src/distributed_tensor/tensor_artifact_classes.cc" bodystart="24" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a1f6b6db2bba1cc86e556aab8cd03ce43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::TensorArtifact::TensorArtifact</definition>
+        <argsstring>(const TensorArtifact &amp;)=delete</argsstring>
+        <name>TensorArtifact</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::TensorArtifact</qualifiedname>
+        <param>
+          <type>const TensorArtifact &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="93" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a817bab3190319ba9ebccf6fafd3d15d6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::TensorArtifact::TensorArtifact</definition>
+        <argsstring>(TensorArtifact &amp;&amp;) noexcept=default</argsstring>
+        <name>TensorArtifact</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::TensorArtifact</qualifiedname>
+        <param>
+          <type>TensorArtifact &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="95" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ab96c2fea1c6156514a9f162dc1459fd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ad82ea00484081def06c27d3aac6bd16c" kindref="member">TensorArtifact</ref> &amp;</type>
+        <definition>TensorArtifact &amp; themis::distributed_tensor::TensorArtifact::operator=</definition>
+        <argsstring>(const TensorArtifact &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ad82ea00484081def06c27d3aac6bd16c" kindref="member">TensorArtifact</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="97" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a559f13a25414620eb93ab303db7ac795" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ad82ea00484081def06c27d3aac6bd16c" kindref="member">TensorArtifact</ref> &amp;</type>
+        <definition>TensorArtifact &amp; themis::distributed_tensor::TensorArtifact::operator=</definition>
+        <argsstring>(TensorArtifact &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ad82ea00484081def06c27d3aac6bd16c" kindref="member">TensorArtifact</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="99" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1afc4ae49c1c5eb8e2aca413dcbd34befd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::TensorArtifact::~TensorArtifact</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TensorArtifact</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::~TensorArtifact</qualifiedname>
+        <briefdescription>
+<para>Tensor Artifact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="105" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a98e85fa356dc8efc4dcd10186b5049ff" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_artifact_metadata" kindref="compound">ArtifactMetadata</ref> &amp;</type>
+        <definition>const ArtifactMetadata &amp; themis::distributed_tensor::TensorArtifact::metadata</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="107" column="26" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a756e633f59ccfdbc54ca65401eeaccd1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_artifact_metadata" kindref="compound">ArtifactMetadata</ref> &amp;</type>
+        <definition>ArtifactMetadata &amp; themis::distributed_tensor::TensorArtifact::mutable_metadata</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>mutable_metadata</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::mutable_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="109" column="20" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1adb19539b492b8dd10366265255608fae" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::TensorArtifact::transition_lifecycle_stage</definition>
+        <argsstring>(ArtifactLifecycleStage new_stage) noexcept</argsstring>
+        <name>transition_lifecycle_stage</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::transition_lifecycle_stage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397" kindref="member">ArtifactLifecycleStage</ref></type>
+          <declname>new_stage</declname>
+        </param>
+        <briefdescription>
+<para>Transition lifecycle stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="117" column="8" bodyfile="src/distributed_tensor/tensor_artifact_classes.cc" bodystart="44" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ab5c5e875e52e4cdee967a16a047f3754" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::TensorArtifact::mark_stale</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>mark_stale</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::mark_stale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="119" column="8" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ab1a9e60f8a1a76e110a800f6855f1865" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::TensorArtifact::mark_deprecated</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>mark_deprecated</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::mark_deprecated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="123" column="8" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a8108ca5fb8ab15b11350dc99ae45d716" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::TensorArtifact::is_queryable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_queryable</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::is_queryable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="127" column="8" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a99cf917dc1285d5bb641eb4156fa67a8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::TensorArtifact::is_rebuildable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_rebuildable</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::is_rebuildable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="131" column="8" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a77dbc9754b72b9a8f4445c4eb5123305" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::TensorArtifact::set_rebuild_instruction</definition>
+        <argsstring>(const std::string &amp;rebuild_instruction) noexcept</argsstring>
+        <name>set_rebuild_instruction</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::set_rebuild_instruction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rebuild_instruction</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="133" column="8" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="133" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a2d8428998c7b123f1faa3edda75d14e5" prot="protected" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::TensorArtifact::is_valid_transition</definition>
+        <argsstring>(ArtifactLifecycleStage current_stage, ArtifactLifecycleStage target_stage) noexcept</argsstring>
+        <name>is_valid_transition</name>
+        <qualifiedname>themis::distributed_tensor::TensorArtifact::is_valid_transition</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397" kindref="member">ArtifactLifecycleStage</ref></type>
+          <declname>current_stage</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397" kindref="member">ArtifactLifecycleStage</ref></type>
+          <declname>target_stage</declname>
+        </param>
+        <briefdescription>
+<para>Is valid transition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="148" column="15" bodyfile="src/distributed_tensor/tensor_artifact_classes.cc" bodystart="54" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::distributed_tensor::DerivedTensorArtifact</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_derived_tensor_artifact"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::distributed_tensor::EphemeralTensorArtifact</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::distributed_tensor::PrimaryTensorArtifact</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_primary_tensor_artifact"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::distributed_tensor::TensorArtifact</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::distributed_tensor::ArtifactMetadata</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_artifact_metadata"/>
+      </node>
+      <node id="1">
+        <label>themis::distributed_tensor::TensorArtifact</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metadata_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/distributed_tensor/tensor_artifact_classes.h" line="87" column="1" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="87" bodyend="150"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a8108ca5fb8ab15b11350dc99ae45d716" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>is_queryable</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a99cf917dc1285d5bb641eb4156fa67a8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>is_rebuildable</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a2d8428998c7b123f1faa3edda75d14e5" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>is_valid_transition</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ab1a9e60f8a1a76e110a800f6855f1865" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>mark_deprecated</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ab5c5e875e52e4cdee967a16a047f3754" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>mark_stale</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a98e85fa356dc8efc4dcd10186b5049ff" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>metadata</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a417d583478f1ec133644fba8882a5b4b" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>metadata_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a756e633f59ccfdbc54ca65401eeaccd1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>mutable_metadata</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ab96c2fea1c6156514a9f162dc1459fd0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a559f13a25414620eb93ab303db7ac795" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a77dbc9754b72b9a8f4445c4eb5123305" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>set_rebuild_instruction</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ad82ea00484081def06c27d3aac6bd16c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>TensorArtifact</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a1f6b6db2bba1cc86e556aab8cd03ce43" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>TensorArtifact</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a817bab3190319ba9ebccf6fafd3d15d6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>TensorArtifact</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1adb19539b492b8dd10366265255608fae" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>transition_lifecycle_stage</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1afc4ae49c1c5eb8e2aca413dcbd34befd" prot="public" virt="virtual"><scope>themis::distributed_tensor::TensorArtifact</scope><name>~TensorArtifact</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="federated__rag__merger_8h" kind="file" language="C++">
+    <compoundname>federated_rag_merger.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">governance/gdpr_subject_rights.h</includes>
+    <includedby refid="bench__distributed__knowledge_8cpp" local="yes">benchmarks/distributed_knowledge/bench_distributed_knowledge.cpp</includedby>
+    <includedby refid="bench__distributed__knowledge__or_8cpp" local="yes">benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp</includedby>
+    <includedby refid="federated__rag__merger_8cpp" local="yes">src/distributed_knowledge/federated_rag_merger.cpp</includedby>
+    <includedby refid="test__distributed__knowledge__llm__focused_8cpp" local="yes">tests/distributed_knowledge/test_distributed_knowledge_llm_focused.cpp</includedby>
+    <includedby refid="test__federated__rag__merger__focused_8cpp" local="yes">tests/distributed_knowledge/test_federated_rag_merger_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/distributed_knowledge/federated_rag_merger.h</label>
+        <link refid="federated__rag__merger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>governance/gdpr_subject_rights.h</label>
+      </node>
+      <node id="6">
+        <label>limits</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/distributed_knowledge/bench_distributed_knowledge.cpp</label>
+        <link refid="bench__distributed__knowledge_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp</label>
+        <link refid="bench__distributed__knowledge__or_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/distributed_knowledge/federated_rag_merger.h</label>
+        <link refid="federated__rag__merger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/distributed_knowledge/federated_rag_merger.cpp</label>
+        <link refid="federated__rag__merger_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/distributed_knowledge/test_distributed_knowledge_llm_focused.cpp</label>
+        <link refid="test__distributed__knowledge__llm__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/distributed_knowledge/test_federated_rag_merger_focused.cpp</label>
+        <link refid="test__federated__rag__merger__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" prot="public">themis::distributed_knowledge::RetrievedDocument</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" prot="public">themis::distributed_knowledge::ShardRetrievalResult</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" prot="public">themis::distributed_knowledge::MergedRAGContext</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" prot="public">themis::distributed_knowledge::FederatedRAGMergerConfig</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" prot="public">themis::distributed_knowledge::FederatedRAGMerger</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__knowledge">themis::distributed_knowledge</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;governance/gdpr_subject_rights.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">themis::distributed_knowledge</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MergeStrategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9" kindref="member">MergeStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" kindref="member">RECIPROCAL_RANK_FUSION</ref>,<sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9ab38bfd483014db8397d56f7af575942f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9ab38bfd483014db8397d56f7af575942f" kindref="member">SCORE_WEIGHTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a1ebd8dbf8c34e255f5cbf28f35860b71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">ROUND_ROBIN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RetrievedDocument<sp/>—<sp/>per-shard<sp/>document<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a6c74caf375c09d2fba2bd35188613b5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a6c74caf375c09d2fba2bd35188613b5c" kindref="member">doc_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2bf3e383bb3ab0b604307e40fa05ed58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2bf3e383bb3ab0b604307e40fa05ed58" kindref="member">content</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1ac749dcccd101362f0b2a54ba7dd1143c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1ac749dcccd101362f0b2a54ba7dd1143c" kindref="member">shard_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a8cf0dfb764955e1163970f0945d8ff02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a8cf0dfb764955e1163970f0945d8ff02" kindref="member">relevance_score</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2469d3d8aca456c8f1faf9d44566844f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2469d3d8aca456c8f1faf9d44566844f" kindref="member">rank_in_shard</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a08965b6dec19f9d0249c8087663f3dd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a08965b6dec19f9d0249c8087663f3dd2" kindref="member">metadata</ref>;<sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a1f9322e14894d0424147911fa6ed5dea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a1f9322e14894d0424147911fa6ed5dea" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;doc_id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a6c74caf375c09d2fba2bd35188613b5c" kindref="member">doc_id</ref>},</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2bf3e383bb3ab0b604307e40fa05ed58" kindref="member">content</ref>},</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1ac749dcccd101362f0b2a54ba7dd1143c" kindref="member">shard_id</ref>},</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;relevance_score&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a8cf0dfb764955e1163970f0945d8ff02" kindref="member">relevance_score</ref>},</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;rank_in_shard&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a2469d3d8aca456c8f1faf9d44566844f" kindref="member">rank_in_shard</ref>}};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[k,<sp/>v]<sp/>:<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document_1a08965b6dec19f9d0249c8087663f3dd2" kindref="member">metadata</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;metadata&quot;</highlight><highlight class="normal">][k]<sp/>=<sp/>v;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ShardRetrievalResult<sp/>—<sp/>one<sp/>shard&apos;s<sp/>complete<sp/>retrieval<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kindref="compound">ShardRetrievalResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1ab6974bbe8ab12905731cbb15dc0dddd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1ab6974bbe8ab12905731cbb15dc0dddd3" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afcf1705a753bc7b6e33cc63c394744a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afcf1705a753bc7b6e33cc63c394744a7" kindref="member">documents</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1aefc60359dbb6d940f746c7f59bff0029" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1aefc60359dbb6d940f746c7f59bff0029" kindref="member">adapter_accuracy_delta</ref><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a7a9f20c4153a91ed17c083cdac767d66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a7a9f20c4153a91ed17c083cdac767d66" kindref="member">latency_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a5e6d0935fbb904a360f9bf7bd1cbb18c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a5e6d0935fbb904a360f9bf7bd1cbb18c" kindref="member">ok</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afa5b372339833639f4c8f369862f7aa7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afa5b372339833639f4c8f369862f7aa7" kindref="member">timed_out</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a1fe8f356aa7a3fded473ac6b4f36b3a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a1fe8f356aa7a3fded473ac6b4f36b3a8" kindref="member">error_message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MergedRAGContext<sp/>—<sp/>final<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1ae5d000d4bee1214ec2241e42a621fa1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1ae5d000d4bee1214ec2241e42a621fa1c" kindref="member">documents</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a54533739af6e6f5469acc50208868c3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a54533739af6e6f5469acc50208868c3a" kindref="member">total_candidate_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a5a783e1f2e56837adafa028a2f803fb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a5a783e1f2e56837adafa028a2f803fb7" kindref="member">unique_doc_count</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a27cdea5509a185e30fb65359aa22219c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a27cdea5509a185e30fb65359aa22219c" kindref="member">shards_queried</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a3e4abac4ad320eabe7eecec83937b13f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a3e4abac4ad320eabe7eecec83937b13f" kindref="member">shards_responded</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1adf5a448c8d9269ad24c18775e25d99a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9" kindref="member">MergeStrategy</ref><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1adf5a448c8d9269ad24c18775e25d99a5" kindref="member">strategy_used</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" kindref="member">MergeStrategy::RECIPROCAL_RANK_FUSION</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context_1a7b68005fc39654945de2dba4dae28c42" kindref="member">buildPromptContext</ref>(</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_docs<sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_chars<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FederatedRAGMergerConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a16203e27bc92d751671c4c9a3ffc4bb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9" kindref="member">MergeStrategy</ref><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a16203e27bc92d751671c4c9a3ffc4bb7" kindref="member">strategy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a368bd326dd64b9132c94998235006fe9a8fdd94a3c07ad9e986d786268523affd" kindref="member">MergeStrategy::RECIPROCAL_RANK_FUSION</ref>;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1aaa00195a982d3df94d0e232806656064" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1aaa00195a982d3df94d0e232806656064" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1ab84436b7ab1caa78ba9531d5b3ec4f4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1ab84436b7ab1caa78ba9531d5b3ec4f4b" kindref="member">deduplicate</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a5808a96b59eacfbbda8a67c9a8ac12dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a5808a96b59eacfbbda8a67c9a8ac12dc" kindref="member">rrf_constant</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60.0;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1abc2d153c22a64a9b2d9722fbd7e835bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1abc2d153c22a64a9b2d9722fbd7e835bd" kindref="member">boost_specialised</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a8f25cece98a0de15a7aa71701405f963" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a8f25cece98a0de15a7aa71701405f963" kindref="member">specialisation_boost</ref><sp/>=<sp/>1.2;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a0d7482e1f89555d6fc349ee46b00daa9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a0d7482e1f89555d6fc349ee46b00daa9" kindref="member">shard_timeout_ms</ref><sp/><sp/>=<sp/>std::numeric_limits&lt;size_t&gt;::max();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a6a107edd7879c74ef81e8f706c71e59e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a6a107edd7879c74ef81e8f706c71e59e" kindref="member">isValid</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1aaa00195a982d3df94d0e232806656064" kindref="member">top_k</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a5808a96b59eacfbbda8a67c9a8ac12dc" kindref="member">rrf_constant</ref><sp/>&gt;<sp/>0.0<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config_1a8f25cece98a0de15a7aa71701405f963" kindref="member">specialisation_boost</ref><sp/>&gt;=<sp/>1.0;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FederatedRAGMerger</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288" refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1aa04210e240ecb08d2c0d4dd468b08908" kindref="member">FederatedRAGMerger</ref><sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1aa04210e240ecb08d2c0d4dd468b08908" kindref="member">FederatedRAGMerger</ref>(<ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a7df2b27cc3fdc42689bc90fe63ad5fbe" kindref="member">config</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merged_r_a_g_context" kindref="compound">MergedRAGContext</ref><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4f931158ea80fa6ea9f067f5364d31f2" kindref="member">merge</ref>(</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ShardRetrievalResult&gt;&amp;<sp/>shard_results)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a4c280d106e3f65d5b3cedd597e54d365" kindref="member">mergeAndBuildContext</ref>(</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ShardRetrievalResult&gt;&amp;<sp/>shard_results,</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_docs<sp/><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_chars<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364" refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a7df2b27cc3fdc42689bc90fe63ad5fbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a7df2b27cc3fdc42689bc90fe63ad5fbe" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>DK-OR:<sp/>GDPR<sp/>erase<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::governance::StoreErasureResult<sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a7659cc050765203374168f62645811bf" kindref="member">erase</ref>(</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>subject_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::governance::Regulation<sp/>regulation<sp/>=<sp/>themis::governance::Regulation::GDPR);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377" refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a0f3596e0f80191c19f1a54b65b05cefa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_1a0f3596e0f80191c19f1a54b65b05cefa" kindref="member">eraseCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>erase_count_;<sp/>}</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federated_r_a_g_merger_config" kindref="compound">FederatedRAGMergerConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DK-OR:<sp/>GDPR<sp/>erase<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>erase_count_{0};</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;RetrievedDocument&gt;<sp/>mergeRRF(</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ShardRetrievalResult&gt;&amp;<sp/>results)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;RetrievedDocument&gt;<sp/>mergeScoreWeighted(</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ShardRetrievalResult&gt;&amp;<sp/>results)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;RetrievedDocument&gt;<sp/>mergeRoundRobin(</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ShardRetrievalResult&gt;&amp;<sp/>results)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;RetrievedDocument&gt;<sp/>deduplicate(</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="510"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::distributed_knowledge</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/distributed_knowledge/federated_rag_merger.h"/>
+  </compounddef>
+</doxygen>

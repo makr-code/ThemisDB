@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_i_content_processor_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::content::IContentProcessorPlugin</compoundname>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_audio_processor" prot="public" virt="non-virtual">themis::content::AudioProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_c_a_d_processor" prot="public" virt="non-virtual">themis::content::CADProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_geo_processor" prot="public" virt="non-virtual">themis::content::GeoProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_image_processor" prot="public" virt="non-virtual">themis::content::ImageProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_s_t_t_processor" prot="public" virt="non-virtual">themis::content::STTProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_t_t_s_processor" prot="public" virt="non-virtual">themis::content::TTSProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_video_processor" prot="public" virt="non-virtual">themis::content::VideoProcessor</derivedcompoundref>
+    <includes refid="content__plugin__interface_8h" local="no">content_plugin_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_plugin_1a1dcdabe9bde9b32c70262ec3ec23cd2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::content::IContentProcessorPlugin::~IContentProcessorPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IContentProcessorPlugin</name>
+        <qualifiedname>themis::content::IContentProcessorPlugin::~IContentProcessorPlugin</qualifiedname>
+        <briefdescription>
+<para>IContent Processor Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="221" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_plugin_1a8e52be85b5ae560c3011da03a6c6c8f4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_plugin_info" kindref="compound">PluginInfo</ref></type>
+        <definition>virtual PluginInfo themis::content::IContentProcessorPlugin::getInfo</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::content::IContentProcessorPlugin::getInfo</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_audio_processor_1aecf3a6bf8c6b0d0b708106b758efe53a">getInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_c_a_d_processor_1a73c9aa27a70ef9a44402397c9df99945">getInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_geo_processor_1ab2736273c0983eb254605b699e85c6eb">getInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_image_processor_1a121de393632fc54171adb05a6ee39dee">getInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_s_t_t_processor_1a5b1bbfc5a0392043d0ca4b3b6a6ae295">getInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_t_t_s_processor_1a5e84ebbcb5fc6219a550730e8883105f">getInfo</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_video_processor_1acec208bc290ba1d05a1bad0896a3d311">getInfo</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="223" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_plugin_1aeca4397e7b73a85723905580d527609c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::content::IContentProcessorPlugin::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::content::IContentProcessorPlugin::initialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_audio_processor_1ac8b5a6a1f9a8a646f1237317a4a70426">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_c_a_d_processor_1af285b2732e27c08da5f5ea7dec35a309">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_geo_processor_1a0e75d78ed4030d5a3a03dfaf61abd576">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_image_processor_1a3b92f67133fad06776181f411a710590">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_s_t_t_processor_1a06b993922ea3f3816fd127e2488250b0">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_t_t_s_processor_1a3448d702a971f122b000343a44246597">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_video_processor_1a89f2b719d4f7b3e17fc75e506e1206b4">initialize</reimplementedby>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="225" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_plugin_1ac85694c52ef13fe9cce6962d855e7ecc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::content::IContentProcessorPlugin::shutdown</definition>
+        <argsstring>()=0</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::content::IContentProcessorPlugin::shutdown</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_audio_processor_1a2dcba9cac3335cc9e3658593b9afd44b">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_c_a_d_processor_1a2775805f709d3cb3ad6c06383460436f">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_geo_processor_1a1347098196e42ccb4c54614486eb48c5">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_image_processor_1ab869a12720ebc463611d86b53b43812d">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_s_t_t_processor_1a95ae6f6413bbf07817af0ee06b0954a7">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_t_t_s_processor_1a21f26659330da3630fdd803711e515e0">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_video_processor_1aff3e8bebb8457e4f97712fe8cb4ae055">shutdown</reimplementedby>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="230" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_plugin_1ac907820228242cebb5eefedc0bcc9099" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::content::IContentProcessorPlugin::canProcess</definition>
+        <argsstring>(const std::string &amp;mime_type) const =0</argsstring>
+        <name>canProcess</name>
+        <qualifiedname>themis::content::IContentProcessorPlugin::canProcess</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_audio_processor_1a911c2b0450073ebd9ef7348365ea5616">canProcess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_c_a_d_processor_1afe4227cd6e5b6f2507d65b15d6cb0000">canProcess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_geo_processor_1afcafb553c7057d3bf85904c2d9cd9584">canProcess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_image_processor_1a2476fe2fe68b085ed26875d50cdd2090">canProcess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_s_t_t_processor_1a3429c09e1c650966d3dc7cf828c07147">canProcess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_t_t_s_processor_1a80c6c2fa461f3600ce7128baadd6fb48">canProcess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_video_processor_1ae1878b75c641038b8b5758e69b4d6caf">canProcess</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="232" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_plugin_1ab75f0b659364d0827bb04d25620d026d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref></type>
+        <definition>virtual ContentExtractionResult themis::content::IContentProcessorPlugin::extract</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const std::string &amp;mime_type, const ExtractionOptions &amp;options={})=0</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::IContentProcessorPlugin::extract</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_audio_processor_1a1a3ab7526d58512f61574e69d87bc8bf">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_c_a_d_processor_1a3b532f1c95971df204e8eab6caaabae2">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_geo_processor_1a5eb08b02ec938e5414b2b86ffab4fb3e">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_image_processor_1ab85862c3892a62ab20d9b9a1f3b0355f">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_s_t_t_processor_1a06c06e9813a997547b8285a3b0e84f07">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_t_t_s_processor_1a177d35abe5d88ca238dc9447952d327c">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_video_processor_1adf2c293b343b31b9cfc7530615533d66">extract</reimplementedby>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="234" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_plugin_1ac22b3bce77a0fbafc94e5d1ae959cbde" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_chunk" kindref="compound">ContentChunk</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ContentChunk &gt; themis::content::IContentProcessorPlugin::chunk</definition>
+        <argsstring>(const ContentExtractionResult &amp;result, int max_tokens, int overlap)=0</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::IContentProcessorPlugin::chunk</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_audio_processor_1afd5094af7cf810944ba21c088b4bc3be">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_c_a_d_processor_1abbeaf00ff8d28862273c50abd938e25d">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_geo_processor_1a8209c7ef2e6efb64a12f2aa7e481800b">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_image_processor_1a59b65c175dbb3d0f620ab5c94f38212d">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_s_t_t_processor_1a9c1763a8171fe58d49d3b99570879c14">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_t_t_s_processor_1ab81ade3bb81bd16c5df16bccd5bcb339">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_video_processor_1acac8d7d73538f92b2ef2aa61ea49f977">chunk</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="240" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_plugin_1af5574d3a58ab4c08aab471346728895b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::content::IContentProcessorPlugin::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::IContentProcessorPlugin::generateEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="246" column="26" bodyfile="include/content/content_plugin_interface.h" bodystart="246" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_plugin_1a1bc044108d313feaa4caca2087743529" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::content::IContentProcessorPlugin::healthCheck</definition>
+        <argsstring>() const =0</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::content::IContentProcessorPlugin::healthCheck</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_audio_processor_1ab0a4cdd9b0bb8fe20e6714f0c455426a">healthCheck</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_c_a_d_processor_1a04a9537f5ec49c9ac8c4418485384428">healthCheck</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_geo_processor_1a9d7b12cc71b76c8858d2dbb3675e6c1f">healthCheck</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_image_processor_1a3dce053777a41cb6c846bfabcbc4b54a">healthCheck</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_s_t_t_processor_1a309854cb43914c8862056397f9c19365">healthCheck</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_t_t_s_processor_1a195a744954fa2dc20fdb71134f035e78">healthCheck</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_video_processor_1a5046b3bc9842cd7a1246c6842a4d3f5d">healthCheck</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="250" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_plugin_1a44d5c1d1d89d2c55eb8a59bbb4125d46" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>virtual json themis::content::IContentProcessorPlugin::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::content::IContentProcessorPlugin::getStatistics</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_audio_processor_1a0a7555f9ff6d36dee7c67de6237f164d">getStatistics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_c_a_d_processor_1a81e126b9de1299dded9e045cd1e57abd">getStatistics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_geo_processor_1ad1ada181f67f726b4aaf00bb0cbe6193">getStatistics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_image_processor_1a5be4fbe0de0ec749c159ce0601a124b3">getStatistics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_s_t_t_processor_1a51f77e23575f894d55e18b08db0ca04b">getStatistics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_t_t_s_processor_1afd879bb14658be87599a94621dd39794">getStatistics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_video_processor_1a85a4323f7c732fbebf564ac12640b43f">getStatistics</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="252" column="19" bodyfile="include/content/content_plugin_interface.h" bodystart="252" bodyend="254"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::AudioProcessor</label>
+        <link refid="classthemis_1_1content_1_1_audio_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::content::CADProcessor</label>
+        <link refid="classthemis_1_1content_1_1_c_a_d_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::content::GeoProcessor</label>
+        <link refid="classthemis_1_1content_1_1_geo_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+      <node id="5">
+        <label>themis::content::ImageProcessor</label>
+        <link refid="classthemis_1_1content_1_1_image_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::content::STTProcessor</label>
+        <link refid="classthemis_1_1content_1_1_s_t_t_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::content::TTSProcessor</label>
+        <link refid="classthemis_1_1content_1_1_t_t_s_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::content::VideoProcessor</label>
+        <link refid="classthemis_1_1content_1_1_video_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/content/content_plugin_interface.h" line="215" column="1" bodyfile="include/content/content_plugin_interface.h" bodystart="215" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac907820228242cebb5eefedc0bcc9099" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessorPlugin</scope><name>canProcess</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac22b3bce77a0fbafc94e5d1ae959cbde" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessorPlugin</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ab75f0b659364d0827bb04d25620d026d" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessorPlugin</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1af5574d3a58ab4c08aab471346728895b" prot="public" virt="virtual"><scope>themis::content::IContentProcessorPlugin</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a8e52be85b5ae560c3011da03a6c6c8f4" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessorPlugin</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a44d5c1d1d89d2c55eb8a59bbb4125d46" prot="public" virt="virtual"><scope>themis::content::IContentProcessorPlugin</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1bc044108d313feaa4caca2087743529" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessorPlugin</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1aeca4397e7b73a85723905580d527609c" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessorPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac85694c52ef13fe9cce6962d855e7ecc" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessorPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1dcdabe9bde9b32c70262ec3ec23cd2d" prot="public" virt="virtual"><scope>themis::content::IContentProcessorPlugin</scope><name>~IContentProcessorPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

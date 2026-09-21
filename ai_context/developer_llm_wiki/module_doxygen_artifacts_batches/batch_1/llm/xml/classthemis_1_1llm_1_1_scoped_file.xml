@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_scoped_file" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ScopedFile</compoundname>
+    <includes refid="raii__wrappers_8h" local="no">raii_wrappers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_scoped_file_1afb8b6b40057154fd525ba1477f688235" prot="private" static="no" mutable="no">
+        <type>FILE *</type>
+        <definition>FILE* themis::llm::ScopedFile::fp_</definition>
+        <argsstring></argsstring>
+        <name>fp_</name>
+        <qualifiedname>themis::llm::ScopedFile::fp_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="119" column="10" bodyfile="include/llm/raii_wrappers.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedFile::ScopedFile</definition>
+        <argsstring>(FILE *fp=nullptr) noexcept</argsstring>
+        <name>ScopedFile</name>
+        <qualifiedname>themis::llm::ScopedFile::ScopedFile</qualifiedname>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct from FILE* (takes ownership). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="70" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_file_1a2c19d4ce1d958c40563dfb7f095a2eac" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedFile::~ScopedFile</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ScopedFile</name>
+        <qualifiedname>themis::llm::ScopedFile::~ScopedFile</qualifiedname>
+        <briefdescription>
+<para>Destructor: closes file if open. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="73" column="5" bodyfile="include/llm/raii_wrappers.h" bodystart="73" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_file_1a64e560db4452e3ab9270a070712e26c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedFile::ScopedFile</definition>
+        <argsstring>(const ScopedFile &amp;)=delete</argsstring>
+        <name>ScopedFile</name>
+        <qualifiedname>themis::llm::ScopedFile::ScopedFile</qualifiedname>
+        <param>
+          <type>const ScopedFile &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_file_1a9a9423e3d4aa573cd6e22662de190dbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref> &amp;</type>
+        <definition>ScopedFile &amp; themis::llm::ScopedFile::operator=</definition>
+        <argsstring>(const ScopedFile &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedFile::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="84" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_file_1afaecb55e7366a375ee14c37e27cee264" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedFile::ScopedFile</definition>
+        <argsstring>(ScopedFile &amp;&amp;other) noexcept</argsstring>
+        <name>ScopedFile</name>
+        <qualifiedname>themis::llm::ScopedFile::ScopedFile</qualifiedname>
+        <param>
+          <type>ScopedFile &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move constructor: transfer ownership. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="87" column="5" bodyfile="include/llm/raii_wrappers.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_file_1aaedfc27b2794c63b81fb789b74478fa3" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref> &amp;</type>
+        <definition>ScopedFile &amp; themis::llm::ScopedFile::operator=</definition>
+        <argsstring>(ScopedFile &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedFile::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move assignment: transfer ownership with cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="90" column="16" bodyfile="include/llm/raii_wrappers.h" bodystart="90" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_file_1a5e4b619acb4f501dae02faed7f0b7ad9" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>FILE *</type>
+        <definition>FILE * themis::llm::ScopedFile::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::ScopedFile::get</qualifiedname>
+        <briefdescription>
+<para>Get the underlying FILE* pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="96" column="10" bodyfile="include/llm/raii_wrappers.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_file_1ab5b2a63374bb3aaf9286da960912d654" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedFile::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::llm::ScopedFile::operator bool</qualifiedname>
+        <briefdescription>
+<para>Explicit conversion to bool (valid if file is open). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="99" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_file_1a06960a877eb4061e768ac881662fc8cf" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>FILE *</type>
+        <definition>FILE * themis::llm::ScopedFile::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::llm::ScopedFile::release</qualifiedname>
+        <briefdescription>
+<para>Release ownership without closing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="102" column="10" bodyfile="include/llm/raii_wrappers.h" bodystart="102" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_file_1a596ce003b65ae442c4647c919a9306c9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ScopedFile::reset</definition>
+        <argsstring>(FILE *fp=nullptr) noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::ScopedFile::reset</qualifiedname>
+        <param>
+          <type>FILE *</type>
+          <declname>fp</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Close the file and reset to nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="109" column="10" bodyfile="include/llm/raii_wrappers.h" bodystart="109" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for FILE* handles. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically closes the file on destruction. Supports move semantics to enable use in containers and return values.</para>
+<para>Exception-safe: destructor is noexcept and safely handles null pointers.</para>
+<para>Example: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" kindref="member">ScopedFile</ref><sp/>f(fopen(</highlight><highlight class="stringliteral">&quot;data.bin&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rb&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!f)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>file&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>f.get()<sp/>to<sp/>access<sp/>FILE*</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>fclose()<sp/>automatically<sp/>called<sp/>here</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/llm/raii_wrappers.h" line="67" column="1" bodyfile="include/llm/raii_wrappers.h" bodystart="67" bodyend="120"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_scoped_file_1afb8b6b40057154fd525ba1477f688235" prot="private" virt="non-virtual"><scope>themis::llm::ScopedFile</scope><name>fp_</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_file_1a5e4b619acb4f501dae02faed7f0b7ad9" prot="public" virt="non-virtual"><scope>themis::llm::ScopedFile</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_file_1ab5b2a63374bb3aaf9286da960912d654" prot="public" virt="non-virtual"><scope>themis::llm::ScopedFile</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_file_1a9a9423e3d4aa573cd6e22662de190dbb" prot="public" virt="non-virtual"><scope>themis::llm::ScopedFile</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_file_1aaedfc27b2794c63b81fb789b74478fa3" prot="public" virt="non-virtual"><scope>themis::llm::ScopedFile</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_file_1a06960a877eb4061e768ac881662fc8cf" prot="public" virt="non-virtual"><scope>themis::llm::ScopedFile</scope><name>release</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_file_1a596ce003b65ae442c4647c919a9306c9" prot="public" virt="non-virtual"><scope>themis::llm::ScopedFile</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_file_1afd8a537a4169fe6133fb03bc6b36f6a2" prot="public" virt="non-virtual"><scope>themis::llm::ScopedFile</scope><name>ScopedFile</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_file_1a64e560db4452e3ab9270a070712e26c6" prot="public" virt="non-virtual"><scope>themis::llm::ScopedFile</scope><name>ScopedFile</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_file_1afaecb55e7366a375ee14c37e27cee264" prot="public" virt="non-virtual"><scope>themis::llm::ScopedFile</scope><name>ScopedFile</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_file_1a2c19d4ce1d958c40563dfb7f095a2eac" prot="public" virt="non-virtual"><scope>themis::llm::ScopedFile</scope><name>~ScopedFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

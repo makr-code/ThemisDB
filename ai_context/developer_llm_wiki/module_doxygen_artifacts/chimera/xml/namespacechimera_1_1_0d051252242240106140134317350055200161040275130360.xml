@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacechimera_1_1_0d051252242240106140134317350055200161040275130360" kind="namespace" language="C++">
+    <compoundname>chimera::@051252242240106140134317350055200161040275130360</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/chimera/qdrant_adapter.cpp" line="17" column="1"/>
+  </compounddef>
+</doxygen>

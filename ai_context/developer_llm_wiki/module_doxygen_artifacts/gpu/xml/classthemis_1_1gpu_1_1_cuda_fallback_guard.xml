@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_cuda_fallback_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::CudaFallbackGuard</compoundname>
+    <includes refid="gpu__cuda__error__hardening_8h" local="no">gpu_cuda_error_hardening.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_fallback_guard_1a93e3a4a7ec2669cffbea615975f76294" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref> &amp;</type>
+        <definition>GPUDispatchErrorCode&amp; themis::gpu::CudaFallbackGuard::error_out_</definition>
+        <argsstring></argsstring>
+        <name>error_out_</name>
+        <qualifiedname>themis::gpu::CudaFallbackGuard::error_out_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_cuda_error_hardening.h" line="210" column="26" bodyfile="include/gpu/gpu_cuda_error_hardening.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_fallback_guard_1a355293eac4dbd674c6373fccd0bee152" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::CudaFallbackGuard::device_id_</definition>
+        <argsstring></argsstring>
+        <name>device_id_</name>
+        <qualifiedname>themis::gpu::CudaFallbackGuard::device_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_cuda_error_hardening.h" line="211" column="9" bodyfile="include/gpu/gpu_cuda_error_hardening.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_fallback_guard_1a033b950ae28b84b43367d628951930a5" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaFallbackGuard::caught_error_</definition>
+        <argsstring></argsstring>
+        <name>caught_error_</name>
+        <qualifiedname>themis::gpu::CudaFallbackGuard::caught_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_cuda_error_hardening.h" line="212" column="10" bodyfile="include/gpu/gpu_cuda_error_hardening.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_fallback_guard_1a82894f598a434c3361701983011db05f" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaFallbackGuard::CudaFallbackGuard</definition>
+        <argsstring>(GPUDispatchErrorCode &amp;error_out, int device_id=-1)</argsstring>
+        <name>CudaFallbackGuard</name>
+        <qualifiedname>themis::gpu::CudaFallbackGuard::CudaFallbackGuard</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref> &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_cuda_error_hardening.h" line="194" column="14" bodyfile="include/gpu/gpu_cuda_error_hardening.h" bodystart="194" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_fallback_guard_1a74253bf81e6c43c2802d1133db6d2c80" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaFallbackGuard::~CudaFallbackGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~CudaFallbackGuard</name>
+        <qualifiedname>themis::gpu::CudaFallbackGuard::~CudaFallbackGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_cuda_error_hardening.h" line="197" column="5" bodyfile="include/gpu/gpu_cuda_error_hardening.h" bodystart="197" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_fallback_guard_1ad04786557320519658edf19549c8a4ce" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::CudaFallbackGuard::recordError</definition>
+        <argsstring>(GPUDispatchErrorCode code) noexcept</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::gpu::CudaFallbackGuard::recordError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_cuda_error_hardening.h" line="204" column="10" bodyfile="include/gpu/gpu_cuda_error_hardening.h" bodystart="204" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Map CUDA error code to <ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref> taxonomy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cuda_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CUDA error code </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Corresponding <ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref></para>
+</simplesect>
+Mapping:<itemizedlist>
+<listitem><para>cudaErrorMemoryAllocation → ALLOC_DEVICE_FAILURE</para>
+</listitem><listitem><para>cudaErrorInvalidValue → ALLOC_INVALID_PARAMS</para>
+</listitem><listitem><para>cudaErrorInvalidDevice → BACKEND_NO_DEVICE_AVAILABLE</para>
+</listitem><listitem><para>cudaErrorNotSupported → BACKEND_CAPABILITY_MISMATCH</para>
+</listitem><listitem><para>cudaErrorInsufficientDriver → BACKEND_DEGRADED</para>
+</listitem><listitem><para>cudaErrorInvalidDevicePointer → INTERNAL_ERROR</para>
+</listitem><listitem><para>Other → INTERNAL_ERROR</para>
+</listitem></itemizedlist>
+</para>
+<para>Map HIP error code to <ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref> taxonomy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hip_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HIP error code </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Corresponding <ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref></para>
+</simplesect>
+Check CUDA error, emit diagnostic, and return error code.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cuda_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CUDA error code to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable context (function name, operation description) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GPU device ID (-1 if unknown) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref> (SUCCESS if no error)</para>
+</simplesect>
+Behavior:<itemizedlist>
+<listitem><para>On success: returns SUCCESS (no diagnostic emitted)</para>
+</listitem><listitem><para>On error: maps error, emits diagnostic, returns error code</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: <programlisting><codeline><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref><sp/>err<sp/>=<sp/>checkCudaError(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1a4ecdf944440947b7052c1b8fd828e74f" kindref="member">cudaMalloc</ref>(&amp;ptr,<sp/>size),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;cudaMalloc&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>device_id);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err<sp/>!=<sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">GPUDispatchErrorCode::SUCCESS</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Handle<sp/>error:<sp/>implement<sp/>CPU<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Check HIP error, emit diagnostic, and return error code.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hip_err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HIP error code to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GPU device ID (-1 if unknown) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref> (SUCCESS if no error)</para>
+</simplesect>
+RAII guard for fallback-on-error pattern.</para>
+<para>Usage pattern for CUDA operations with automatic CPU fallback: <programlisting><codeline><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref><sp/>final_error<sp/>=<sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">GPUDispatchErrorCode::SUCCESS</ref>;</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_cuda_fallback_guard_1a82894f598a434c3361701983011db05f" kindref="member">CudaFallbackGuard</ref><sp/>guard(final_error);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>CHECKED_CUDA(<ref refid="gpu__safe__operations_8h_1a4ecdf944440947b7052c1b8fd828e74f" kindref="member">cudaMalloc</ref>(&amp;ptr,<sp/>size));<sp/><sp/></highlight><highlight class="comment">//<sp/>captured<sp/>in<sp/>guard</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>CHECKED_CUDA(cudaMemcpy(...));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>scope<sp/>exit,<sp/>guard&apos;s<sp/>destructor<sp/>checks<sp/>if<sp/>error<sp/>occurred</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(final_error<sp/>!=<sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">GPUDispatchErrorCode::SUCCESS</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execute<sp/>CPU<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/gpu/gpu_cuda_error_hardening.h" line="192" column="1" bodyfile="include/gpu/gpu_cuda_error_hardening.h" bodystart="192" bodyend="213"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_cuda_fallback_guard_1a033b950ae28b84b43367d628951930a5" prot="private" virt="non-virtual"><scope>themis::gpu::CudaFallbackGuard</scope><name>caught_error_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_fallback_guard_1a82894f598a434c3361701983011db05f" prot="public" virt="non-virtual"><scope>themis::gpu::CudaFallbackGuard</scope><name>CudaFallbackGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_fallback_guard_1a355293eac4dbd674c6373fccd0bee152" prot="private" virt="non-virtual"><scope>themis::gpu::CudaFallbackGuard</scope><name>device_id_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_fallback_guard_1a93e3a4a7ec2669cffbea615975f76294" prot="private" virt="non-virtual"><scope>themis::gpu::CudaFallbackGuard</scope><name>error_out_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_fallback_guard_1ad04786557320519658edf19549c8a4ce" prot="public" virt="non-virtual"><scope>themis::gpu::CudaFallbackGuard</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_fallback_guard_1a74253bf81e6c43c2802d1133db6d2c80" prot="public" virt="non-virtual"><scope>themis::gpu::CudaFallbackGuard</scope><name>~CudaFallbackGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rcu" kind="namespace" language="C++">
+    <compoundname>themis::rcu</compoundname>
+    <innerclass refid="classthemis_1_1rcu_1_1_grace_period_manager" prot="public">themis::rcu::GracePeriodManager</innerclass>
+    <innerclass refid="classthemis_1_1rcu_1_1_r_c_u_hash_table" prot="public">themis::rcu::RCUHashTable</innerclass>
+    <innerclass refid="classthemis_1_1rcu_1_1_r_c_u_ptr" prot="public">themis::rcu::RCUPtr</innerclass>
+    <innerclass refid="classthemis_1_1rcu_1_1_read_lock" prot="public">themis::rcu::ReadLock</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1rcu_1a8f085504ac3428d1d665afc37dac5591" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::rcu::RCUCallback = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>RCUCallback</name>
+        <qualifiedname>themis::rcu::RCUCallback</qualifiedname>
+        <briefdescription>
+<para>RCU callback function type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="58" column="1" bodyfile="include/performance/rcu.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1rcu_1a3fb6c4c7a4b0353c0e4b69e41eae7118" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::rcu::g_rcu_reader_count</definition>
+        <argsstring></argsstring>
+        <name>g_rcu_reader_count</name>
+        <qualifiedname>themis::rcu::g_rcu_reader_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="202" column="20" bodyfile="include/performance/rcu.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1rcu_1af3ed78b55d537ba76363e2a3ab52e9f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T *</type>
+        <definition>T * themis::rcu::rcu_assign_pointer</definition>
+        <argsstring>(std::atomic&lt; T * &gt; &amp;ptr, T *new_value)</argsstring>
+        <name>rcu_assign_pointer</name>
+        <qualifiedname>themis::rcu::rcu_assign_pointer</qualifiedname>
+        <param>
+          <type>std::atomic&lt; T * &gt; &amp;</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>T *</type>
+          <declname>new_value</declname>
+        </param>
+        <briefdescription>
+<para>Update an RCU-protected pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe pointer update with automatic old value cleanup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Atomic pointer to update </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New value to set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Old value (caller must defer reclamation via call_rcu) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="164" column="3" bodyfile="include/performance/rcu.h" bodystart="164" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rcu_1acb66e9d70dcdba1dc67d2fb86e19fa2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::rcu::rcu_defer_delete</definition>
+        <argsstring>(T *ptr)</argsstring>
+        <name>rcu_defer_delete</name>
+        <qualifiedname>themis::rcu::rcu_defer_delete</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Defer deletion of an object until after grace period. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Schedules the object for deletion after all current readers complete.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to object to delete </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/rcu.h" line="177" column="6" bodyfile="include/performance/rcu.h" bodystart="177" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/rcu.h" line="35" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_training_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TrainingConfig</compoundname>
+    <includes refid="learnable__rope_8h" local="no">learnable_rope.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_training_config_1a80a399c52e24c5a030c481d7842ecafd" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::TrainingConfig::learning_rate</definition>
+        <argsstring></argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::TrainingConfig::learning_rate</qualifiedname>
+        <initializer>= 1e-4f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="25" column="11" bodyfile="include/index/learnable_rope.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_config_1a2cde6fd5534e90a45209f6e7c7bbda8e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TrainingConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::TrainingConfig::batch_size</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="26" column="12" bodyfile="include/index/learnable_rope.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_config_1a31a5c6778d817d3e4dc249a383e139a4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TrainingConfig::max_epochs</definition>
+        <argsstring></argsstring>
+        <name>max_epochs</name>
+        <qualifiedname>themis::TrainingConfig::max_epochs</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="27" column="12" bodyfile="include/index/learnable_rope.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_config_1aabd1a3e94c6f983745444e36396874cb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::TrainingConfig::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::TrainingConfig::temperature</qualifiedname>
+        <initializer>= 0.07f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="28" column="11" bodyfile="include/index/learnable_rope.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_config_1ade18642e8884d4423d81989922be636a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::TrainingConfig::weight_decay</definition>
+        <argsstring></argsstring>
+        <name>weight_decay</name>
+        <qualifiedname>themis::TrainingConfig::weight_decay</qualifiedname>
+        <initializer>= 1e-5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="29" column="11" bodyfile="include/index/learnable_rope.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_config_1a0ceb623494ec76a8962442c7eab4717c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::TrainingConfig::validation_split</definition>
+        <argsstring></argsstring>
+        <name>validation_split</name>
+        <qualifiedname>themis::TrainingConfig::validation_split</qualifiedname>
+        <initializer>= 0.1f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="30" column="11" bodyfile="include/index/learnable_rope.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_config_1a147699c93bfaf46414b0ec58df601ebc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TrainingConfig::use_adam</definition>
+        <argsstring></argsstring>
+        <name>use_adam</name>
+        <qualifiedname>themis::TrainingConfig::use_adam</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="31" column="10" bodyfile="include/index/learnable_rope.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_config_1a1aa050ae7c7fd4bbf9a011075bdacb33" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::TrainingConfig::early_stop_patience</definition>
+        <argsstring></argsstring>
+        <name>early_stop_patience</name>
+        <qualifiedname>themis::TrainingConfig::early_stop_patience</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="32" column="11" bodyfile="include/index/learnable_rope.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_config_1acdbded34d842b3866ab398cc560dc77f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::TrainingConfig::adam_beta1</definition>
+        <argsstring></argsstring>
+        <name>adam_beta1</name>
+        <qualifiedname>themis::TrainingConfig::adam_beta1</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="35" column="11" bodyfile="include/index/learnable_rope.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_config_1ae57dba6eb47123289fed4308b6505fec" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::TrainingConfig::adam_beta2</definition>
+        <argsstring></argsstring>
+        <name>adam_beta2</name>
+        <qualifiedname>themis::TrainingConfig::adam_beta2</qualifiedname>
+        <initializer>= 0.999f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="36" column="11" bodyfile="include/index/learnable_rope.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_training_config_1a559dee7d803ea250c45950167f385033" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::TrainingConfig::adam_epsilon</definition>
+        <argsstring></argsstring>
+        <name>adam_epsilon</name>
+        <qualifiedname>themis::TrainingConfig::adam_epsilon</qualifiedname>
+        <initializer>= 1e-8f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learnable_rope.h" line="37" column="11" bodyfile="include/index/learnable_rope.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Training configuration for learnable RoPE parameters Defines hyperparameters for the training process </para>
+    </detaileddescription>
+    <location file="include/index/learnable_rope.h" line="24" column="1" bodyfile="include/index/learnable_rope.h" bodystart="24" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_training_config_1acdbded34d842b3866ab398cc560dc77f" prot="public" virt="non-virtual"><scope>themis::TrainingConfig</scope><name>adam_beta1</name></member>
+      <member refid="structthemis_1_1_training_config_1ae57dba6eb47123289fed4308b6505fec" prot="public" virt="non-virtual"><scope>themis::TrainingConfig</scope><name>adam_beta2</name></member>
+      <member refid="structthemis_1_1_training_config_1a559dee7d803ea250c45950167f385033" prot="public" virt="non-virtual"><scope>themis::TrainingConfig</scope><name>adam_epsilon</name></member>
+      <member refid="structthemis_1_1_training_config_1a2cde6fd5534e90a45209f6e7c7bbda8e" prot="public" virt="non-virtual"><scope>themis::TrainingConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1_training_config_1a1aa050ae7c7fd4bbf9a011075bdacb33" prot="public" virt="non-virtual"><scope>themis::TrainingConfig</scope><name>early_stop_patience</name></member>
+      <member refid="structthemis_1_1_training_config_1a80a399c52e24c5a030c481d7842ecafd" prot="public" virt="non-virtual"><scope>themis::TrainingConfig</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1_training_config_1a31a5c6778d817d3e4dc249a383e139a4" prot="public" virt="non-virtual"><scope>themis::TrainingConfig</scope><name>max_epochs</name></member>
+      <member refid="structthemis_1_1_training_config_1aabd1a3e94c6f983745444e36396874cb" prot="public" virt="non-virtual"><scope>themis::TrainingConfig</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1_training_config_1a147699c93bfaf46414b0ec58df601ebc" prot="public" virt="non-virtual"><scope>themis::TrainingConfig</scope><name>use_adam</name></member>
+      <member refid="structthemis_1_1_training_config_1a0ceb623494ec76a8962442c7eab4717c" prot="public" virt="non-virtual"><scope>themis::TrainingConfig</scope><name>validation_split</name></member>
+      <member refid="structthemis_1_1_training_config_1ade18642e8884d4423d81989922be636a" prot="public" virt="non-virtual"><scope>themis::TrainingConfig</scope><name>weight_decay</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

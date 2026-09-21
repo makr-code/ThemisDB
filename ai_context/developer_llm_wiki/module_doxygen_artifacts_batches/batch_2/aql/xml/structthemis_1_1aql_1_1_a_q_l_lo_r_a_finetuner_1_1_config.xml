@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AQLLoRAFinetuner::Config</compoundname>
+    <includes refid="aql__lora__finetuner_8h" local="no">aql_lora_finetuner.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a491a4c62b6ed5c2c75fee1fe9d11a344" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::AQLLoRAFinetuner::Config::kDefaultRank</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRank</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::kDefaultRank</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="177" column="30" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a52fabc528f0a1ec512ae2697d78915d6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::AQLLoRAFinetuner::Config::kDefaultAlpha</definition>
+        <argsstring></argsstring>
+        <name>kDefaultAlpha</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::kDefaultAlpha</qualifiedname>
+        <initializer>= 16.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="178" column="32" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1ae4f52e164f9f43b5086d51a61997ef87" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::AQLLoRAFinetuner::Config::kDefaultDropout</definition>
+        <argsstring></argsstring>
+        <name>kDefaultDropout</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::kDefaultDropout</qualifiedname>
+        <initializer>= 0.05f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="179" column="32" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a83737a31809679436b69d4acefb02e0f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::AQLLoRAFinetuner::Config::kDefaultLearningRate</definition>
+        <argsstring></argsstring>
+        <name>kDefaultLearningRate</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::kDefaultLearningRate</qualifiedname>
+        <initializer>= 3e-4f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="180" column="32" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a775c5029fab8626ad3c73d9394a4fabb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::AQLLoRAFinetuner::Config::kDefaultBatchSize</definition>
+        <argsstring></argsstring>
+        <name>kDefaultBatchSize</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::kDefaultBatchSize</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="181" column="30" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a98361a133bef133e1cf596449a7bf69e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::AQLLoRAFinetuner::Config::kDefaultEpochs</definition>
+        <argsstring></argsstring>
+        <name>kDefaultEpochs</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::kDefaultEpochs</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="182" column="30" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1ae2229712d3b1121dfc5ce9967547075a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::AQLLoRAFinetuner::Config::kDefaultMaxSeqLength</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxSeqLength</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::kDefaultMaxSeqLength</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="183" column="30" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a4eb1fe3eb3db638da274a241a74c7ab9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::AQLLoRAFinetuner::Config::kDefaultWarmupSteps</definition>
+        <argsstring></argsstring>
+        <name>kDefaultWarmupSteps</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::kDefaultWarmupSteps</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="184" column="30" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1ab6e01183cd3ed7817c3812a0a3538f18" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLLoRAFinetuner::Config::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::adapter_id</qualifiedname>
+        <initializer>= &quot;themisdb-<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>-adapter&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="190" column="21" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a5b159df0a41a90669bab12340e52595d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLLoRAFinetuner::Config::base_model</definition>
+        <argsstring></argsstring>
+        <name>base_model</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::base_model</qualifiedname>
+        <initializer>= &quot;mistral-7b&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="192" column="21" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1aa6269aac60f0b165d6e36ae345b8f714" prot="public" static="no" mutable="no">
+        <type>LoRAHyperparameters</type>
+        <definition>LoRAHyperparameters themis::aql::AQLLoRAFinetuner::Config::hyperparameters</definition>
+        <argsstring></argsstring>
+        <name>hyperparameters</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::hyperparameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="194" column="29" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a37c259719712a27d74c448787dbcb221" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLLoRAFinetuner::Config::include_builtin_samples</definition>
+        <argsstring></argsstring>
+        <name>include_builtin_samples</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::include_builtin_samples</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="196" column="14" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a423fa5fba3185904a30b96558eb52114" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLLoRAFinetuner::Config::extra_dataset_path</definition>
+        <argsstring></argsstring>
+        <name>extra_dataset_path</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::extra_dataset_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="198" column="21" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a782d2db690636de22d605bb180c022df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLLoRAFinetuner::Config::output_dir</definition>
+        <argsstring></argsstring>
+        <name>output_dir</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::output_dir</qualifiedname>
+        <initializer>= &quot;data/lora_adapters/aql&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="200" column="21" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1ab43a70d13c6452f265b56a33e4f676d0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::AQLLoRAFinetuner::Config::min_training_samples</definition>
+        <argsstring></argsstring>
+        <name>min_training_samples</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::min_training_samples</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="202" column="21" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1af9666859ef16394476cc6d84d91ee54d" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(int epoch, double loss)&gt;</type>
+        <definition>std::function&lt;void(int epoch, double loss)&gt; themis::aql::AQLLoRAFinetuner::Config::epoch_callback</definition>
+        <argsstring></argsstring>
+        <name>epoch_callback</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::epoch_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="204" column="23" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a591c6577b42e51f3deca6d76c47e65f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLLoRAFinetuner::Config::Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="206" column="9" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="516" bodyend="530"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1aecbcd56a87aaabed83dbeac52a4a7eff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a591c6577b42e51f3deca6d76c47e65f1" kindref="member">Config</ref></type>
+        <definition>AQLLoRAFinetuner::Config themis::aql::AQLLoRAFinetuner::Config::fromOptions</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;options)</argsstring>
+        <name>fromOptions</name>
+        <qualifiedname>themis::aql::AQLLoRAFinetuner::Config::fromOptions</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_lora_finetuner.h" line="208" column="23" bodyfile="src/aql/aql_lora_finetuner.cpp" bodystart="533" bodyend="600"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_lora_finetuner.h" line="172" column="5" bodyfile="include/aql/aql_lora_finetuner.h" bodystart="172" bodyend="211"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1ab6e01183cd3ed7817c3812a0a3538f18" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a5b159df0a41a90669bab12340e52595d" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>base_model</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a591c6577b42e51f3deca6d76c47e65f1" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1af9666859ef16394476cc6d84d91ee54d" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>epoch_callback</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a423fa5fba3185904a30b96558eb52114" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>extra_dataset_path</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1aecbcd56a87aaabed83dbeac52a4a7eff" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>fromOptions</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1aa6269aac60f0b165d6e36ae345b8f714" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>hyperparameters</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a37c259719712a27d74c448787dbcb221" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>include_builtin_samples</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a52fabc528f0a1ec512ae2697d78915d6" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>kDefaultAlpha</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a775c5029fab8626ad3c73d9394a4fabb" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>kDefaultBatchSize</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1ae4f52e164f9f43b5086d51a61997ef87" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>kDefaultDropout</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a98361a133bef133e1cf596449a7bf69e" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>kDefaultEpochs</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a83737a31809679436b69d4acefb02e0f" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>kDefaultLearningRate</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1ae2229712d3b1121dfc5ce9967547075a" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>kDefaultMaxSeqLength</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a491a4c62b6ed5c2c75fee1fe9d11a344" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>kDefaultRank</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a4eb1fe3eb3db638da274a241a74c7ab9" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>kDefaultWarmupSteps</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1ab43a70d13c6452f265b56a33e4f676d0" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>min_training_samples</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_lo_r_a_finetuner_1_1_config_1a782d2db690636de22d605bb180c022df" prot="public" virt="non-virtual"><scope>themis::aql::AQLLoRAFinetuner::Config</scope><name>output_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

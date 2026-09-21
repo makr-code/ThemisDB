@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_calibrator_output" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CalibratorOutput</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibrator_output_1a28b443f7e62018cadb947122436879c3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1training_1a1382c6c1121dc979a2b83a6268069d11" kindref="member">ThresholdMap</ref></type>
+        <definition>ThresholdMap themis::training::CalibratorOutput::updated_thresholds</definition>
+        <argsstring></argsstring>
+        <name>updated_thresholds</name>
+        <qualifiedname>themis::training::CalibratorOutput::updated_thresholds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="145" column="18" bodyfile="include/training/training_interfaces.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibrator_output_1aa2265f60f9ab564a9a8d7b28c00675da" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::CalibratorOutput::calibration_error</definition>
+        <argsstring></argsstring>
+        <name>calibration_error</name>
+        <qualifiedname>themis::training::CalibratorOutput::calibration_error</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean squared error of isotonic fit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="146" column="18" bodyfile="include/training/training_interfaces.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibrator_output_1a5a4636604f1d081e89f3cc34821ad78c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CalibratorOutput::samples_used</definition>
+        <argsstring></argsstring>
+        <name>samples_used</name>
+        <qualifiedname>themis::training::CalibratorOutput::samples_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="147" column="18" bodyfile="include/training/training_interfaces.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibrator_output_1ad0114b1047afbb7cd108c43eadef39df" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::CalibratorOutput::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::CalibratorOutput::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="148" column="18" bodyfile="include/training/training_interfaces.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibrator_output_1a0af2296eb5733e926697434c9334e538" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CalibratorOutput::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::training::CalibratorOutput::summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="149" column="18" bodyfile="include/training/training_interfaces.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_calibrator_output_1ae298262dab78aa8e10cc93590236d313" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::CalibratorOutput::CalibratorOutput</definition>
+        <argsstring>()=default</argsstring>
+        <name>CalibratorOutput</name>
+        <qualifiedname>themis::training::CalibratorOutput::CalibratorOutput</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="151" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <ref refid="classthemis_1_1training_1_1_i_confidence_calibrator_1a7478cd7bf652bb090ba4bdf70b59fddb" kindref="member">IConfidenceCalibrator::calibrate()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="144" column="1" bodyfile="include/training/training_interfaces.h" bodystart="144" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_calibrator_output_1aa2265f60f9ab564a9a8d7b28c00675da" prot="public" virt="non-virtual"><scope>themis::training::CalibratorOutput</scope><name>calibration_error</name></member>
+      <member refid="structthemis_1_1training_1_1_calibrator_output_1ae298262dab78aa8e10cc93590236d313" prot="public" virt="non-virtual"><scope>themis::training::CalibratorOutput</scope><name>CalibratorOutput</name></member>
+      <member refid="structthemis_1_1training_1_1_calibrator_output_1a5a4636604f1d081e89f3cc34821ad78c" prot="public" virt="non-virtual"><scope>themis::training::CalibratorOutput</scope><name>samples_used</name></member>
+      <member refid="structthemis_1_1training_1_1_calibrator_output_1ad0114b1047afbb7cd108c43eadef39df" prot="public" virt="non-virtual"><scope>themis::training::CalibratorOutput</scope><name>success</name></member>
+      <member refid="structthemis_1_1training_1_1_calibrator_output_1a0af2296eb5733e926697434c9334e538" prot="public" virt="non-virtual"><scope>themis::training::CalibratorOutput</scope><name>summary</name></member>
+      <member refid="structthemis_1_1training_1_1_calibrator_output_1a28b443f7e62018cadb947122436879c3" prot="public" virt="non-virtual"><scope>themis::training::CalibratorOutput</scope><name>updated_thresholds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

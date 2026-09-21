@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::CrashRecoveryManager::OperationEntry</compoundname>
+    <includes refid="crash__recovery__manager_8h" local="no">crash_recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry_1a17de65ff38b2473c2bcc2f253a1d847d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CrashRecoveryManager::OperationEntry::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::OperationEntry::op</qualifiedname>
+        <briefdescription>
+<para>&quot;put&quot; | &quot;del&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="46" column="21" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry_1aa0cde9414b051807f17adb8e42fdb4f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CrashRecoveryManager::OperationEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::OperationEntry::key</qualifiedname>
+        <briefdescription>
+<para>Key affected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="47" column="21" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry_1abb71adef5fed5abf147d04575546ad5c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CrashRecoveryManager::OperationEntry::old_value</definition>
+        <argsstring></argsstring>
+        <name>old_value</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::OperationEntry::old_value</qualifiedname>
+        <briefdescription>
+<para>Value before the op (empty if key did not exist). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="48" column="21" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry_1a275314c84d5b52c0293cb8e4b2407ade" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CrashRecoveryManager::OperationEntry::new_value</definition>
+        <argsstring></argsstring>
+        <name>new_value</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::OperationEntry::new_value</qualifiedname>
+        <briefdescription>
+<para>Value after the op (empty for &quot;del&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="49" column="21" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry_1ab26930ef11c1548425b0a79095766ff4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::CrashRecoveryManager::OperationEntry::had_old</definition>
+        <argsstring></argsstring>
+        <name>had_old</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::OperationEntry::had_old</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true → old_value is valid (key existed before op) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="50" column="21" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/crash_recovery_manager.h" line="45" column="5" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="45" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry_1ab26930ef11c1548425b0a79095766ff4" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::OperationEntry</scope><name>had_old</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry_1aa0cde9414b051807f17adb8e42fdb4f9" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::OperationEntry</scope><name>key</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry_1a275314c84d5b52c0293cb8e4b2407ade" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::OperationEntry</scope><name>new_value</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry_1abb71adef5fed5abf147d04575546ad5c" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::OperationEntry</scope><name>old_value</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry_1a17de65ff38b2473c2bcc2f253a1d847d" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::OperationEntry</scope><name>op</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

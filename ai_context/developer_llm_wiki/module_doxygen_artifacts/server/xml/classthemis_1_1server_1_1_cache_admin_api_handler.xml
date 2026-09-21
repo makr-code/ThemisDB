@@ -1,0 +1,820 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_cache_admin_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::CacheAdminApiHandler</compoundname>
+    <includes refid="cache__admin__api__handler_8h" local="no">cache_admin_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a22422c62965a9d2bdf3af9b5c9a8ec77" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; AdaptiveQueryCache &gt;</type>
+        <definition>std::shared_ptr&lt;AdaptiveQueryCache&gt; themis::server::CacheAdminApiHandler::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="140" column="21" bodyfile="include/server/cache_admin_api_handler.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a64c2b215077fb13aa815efdb6bb3bf7b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AuthMiddleware&gt; themis::server::CacheAdminApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="141" column="21" bodyfile="include/server/cache_admin_api_handler.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_cache_admin_api_handler_1abc4698b9d967334f0fe73974d9dd55c0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::CacheAdminApiHandler::slo_monitor_mutex_</definition>
+        <argsstring></argsstring>
+        <name>slo_monitor_mutex_</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::slo_monitor_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="142" column="24" bodyfile="include/server/cache_admin_api_handler.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a00606a447f5f1866489a90f05a065403" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::cache::CacheHitRateSloMonitor &gt;</type>
+        <definition>std::shared_ptr&lt;themis::cache::CacheHitRateSloMonitor&gt; themis::server::CacheAdminApiHandler::slo_monitor_</definition>
+        <argsstring></argsstring>
+        <name>slo_monitor_</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::slo_monitor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="143" column="21" bodyfile="include/server/cache_admin_api_handler.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a2895107a4d53bd3415c26a895f506c97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::CacheAdminApiHandler::CacheAdminApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; AdaptiveQueryCache &gt; cache, std::shared_ptr&lt; AuthMiddleware &gt; auth)</argsstring>
+        <name>CacheAdminApiHandler</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::CacheAdminApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; AdaptiveQueryCache &gt;</type>
+          <declname>cache</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="32" column="5" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="165" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1aa5755fef72791728a29fd353b4d8d974" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handleHealth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleHealth</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handleHealth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> GET /v1/admin/cache/health ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="42" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="249" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1aa888729bc1b4405042c94e4b7bddca00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handleStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStats</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handleStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slo_monitor_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="50" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="280" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a2718feac64757fc4a9746af5fe16bb47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handleEvictKey</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleEvictKey</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handleEvictKey</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Evict Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="58" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="337" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a9abb10a2934234876176fab6eccfc272" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handleEvictTenant</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleEvictTenant</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handleEvictTenant</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Evict Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="66" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="401" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1ab7527a23f183983a259110e2d7e42c7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handleCircuitBreakerReset</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCircuitBreakerReset</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handleCircuitBreakerReset</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Circuit Breaker Reset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="74" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="446" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1adb6a590ca8851e0e6980f01bdd7a4955" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handleCircuitBreakerStatus</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCircuitBreakerStatus</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handleCircuitBreakerStatus</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Circuit Breaker Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="82" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="480" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a8e45756852da5a646603281dc8d33f86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handleWarmup</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleWarmup</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handleWarmup</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Warmup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> POST /v1/admin/cache/warmup ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="90" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="555" bodyend="623"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a8e11ffc8e72c4f7ff68c3a2a71c5b1df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handleSnapshot</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleSnapshot</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handleSnapshot</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> POST /v1/admin/cache/snapshot ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="98" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="631" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1af3b85e2f27eb3a015c3f31b900daef0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handleListTenants</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleListTenants</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handleListTenants</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Tenants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> GET /v1/admin/cache/tenants ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="106" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="691" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a6821e7ad1f15a206208fb110f98ee4da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handleTenantStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleTenantStats</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handleTenantStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Tenant Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> GET /v1/admin/cache/tenant/{tenant_id}/stats ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="114" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="721" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a93cf4f7cd6ef9630c2f70767cc4efae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handleUpdateTenantQuota</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleUpdateTenantQuota</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handleUpdateTenantQuota</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Update Tenant Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> PATCH /v1/admin/cache/tenant/{tenant_id}/quota ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="122" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="779" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a3eca34196dce1d4e1d838d582920b7fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::handlePiiEvict</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handlePiiEvict</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::handlePiiEvict</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Pii Evict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> DELETE /v1/admin/cache/pii/{pii_uuid} ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="130" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="855" bodyend="894"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1aba8158f6445a18ca376804508bb24641" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::CacheAdminApiHandler::setSloMonitor</definition>
+        <argsstring>(std::shared_ptr&lt; themis::cache::CacheHitRateSloMonitor &gt; monitor)</argsstring>
+        <name>setSloMonitor</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::setSloMonitor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::cache::CacheHitRateSloMonitor &gt;</type>
+          <declname>monitor</declname>
+        </param>
+        <briefdescription>
+<para>Set Slo Monitor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">monitor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">monitor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="137" column="10" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="176" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a69bec00bee78afe799de2a677b2cdcfd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::CacheAdminApiHandler::checkAuth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;required_scope, http::response&lt; http::string_body &gt; &amp;out)</argsstring>
+        <name>checkAuth</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::checkAuth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_scope</declname>
+        </param>
+        <param>
+          <type>http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Check Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="152" column="10" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="193" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a2e04fd20f204f972b4bfe19cd823401d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="179" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="515" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a3d5c26e95edb76c812c5cdf5f8e32cdd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheAdminApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="191" column="20" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="536" bodyend="547"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1afbbc7312d6a16acf7abef437ae9ebf0d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::CacheAdminApiHandler::extractPathParam</definition>
+        <argsstring>(std::string_view target, std::string_view prefix)</argsstring>
+        <name>extractPathParam</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::extractPathParam</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Extract Path Param. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rfind(), substr(), size(), find(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="162" column="24" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="147" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_admin_api_handler_1a487a8058b1c0c6de47c6890102075005" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::CacheAdminApiHandler::base64Decode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>base64Decode</name>
+        <qualifiedname>themis::server::CacheAdminApiHandler::base64Decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: T(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_admin_api_handler.h" line="170" column="24" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="111" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/cache_admin_api_handler.h" line="30" column="1" bodyfile="include/server/cache_admin_api_handler.h" bodystart="30" bodyend="195"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a64c2b215077fb13aa815efdb6bb3bf7b" prot="private" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a487a8058b1c0c6de47c6890102075005" prot="private" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>base64Decode</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a22422c62965a9d2bdf3af9b5c9a8ec77" prot="private" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a2895107a4d53bd3415c26a895f506c97" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>CacheAdminApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a69bec00bee78afe799de2a677b2cdcfd" prot="private" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>checkAuth</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1afbbc7312d6a16acf7abef437ae9ebf0d" prot="private" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>extractPathParam</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1ab7527a23f183983a259110e2d7e42c7f" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handleCircuitBreakerReset</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1adb6a590ca8851e0e6980f01bdd7a4955" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handleCircuitBreakerStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a2718feac64757fc4a9746af5fe16bb47" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handleEvictKey</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a9abb10a2934234876176fab6eccfc272" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handleEvictTenant</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1aa5755fef72791728a29fd353b4d8d974" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handleHealth</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1af3b85e2f27eb3a015c3f31b900daef0c" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handleListTenants</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a3eca34196dce1d4e1d838d582920b7fb" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handlePiiEvict</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a8e11ffc8e72c4f7ff68c3a2a71c5b1df" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handleSnapshot</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1aa888729bc1b4405042c94e4b7bddca00" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handleStats</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a6821e7ad1f15a206208fb110f98ee4da" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handleTenantStats</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a93cf4f7cd6ef9630c2f70767cc4efae9" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handleUpdateTenantQuota</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a8e45756852da5a646603281dc8d33f86" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>handleWarmup</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a3d5c26e95edb76c812c5cdf5f8e32cdd" prot="private" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a2e04fd20f204f972b4bfe19cd823401d" prot="private" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1aba8158f6445a18ca376804508bb24641" prot="public" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>setSloMonitor</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1a00606a447f5f1866489a90f05a065403" prot="private" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>slo_monitor_</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_admin_api_handler_1abc4698b9d967334f0fe73974d9dd55c0" prot="private" virt="non-virtual"><scope>themis::server::CacheAdminApiHandler</scope><name>slo_monitor_mutex_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

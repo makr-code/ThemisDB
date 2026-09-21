@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_deontic_obligation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::DeonticObligation</compoundname>
+    <includes refid="deontic__extractor_8h" local="no">deontic_extractor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_deontic_obligation_1ade3bed93cce1eb4fd11070ee91fa79da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DeonticObligation::actor</definition>
+        <argsstring></argsstring>
+        <name>actor</name>
+        <qualifiedname>themis::ingestion::DeonticObligation::actor</qualifiedname>
+        <briefdescription>
+<para>Who is obligated (may be empty if implicit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="129" column="17" bodyfile="include/ingestion/deontic_extractor.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_deontic_obligation_1a07b1583a7293ad0398d398d24c320635" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DeonticObligation::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::ingestion::DeonticObligation::action</qualifiedname>
+        <briefdescription>
+<para>What action is required / forbidden / permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="130" column="17" bodyfile="include/ingestion/deontic_extractor.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_deontic_obligation_1a1ebe040ec18bcf0a7f3ce62f0afbcf08" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DeonticObligation::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>themis::ingestion::DeonticObligation::condition</qualifiedname>
+        <briefdescription>
+<para>Under what circumstances (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="131" column="17" bodyfile="include/ingestion/deontic_extractor.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_deontic_obligation_1ae71f781ecb40f14c0672cd00d80c7778" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::DeonticObligation::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::ingestion::DeonticObligation::confidence</qualifiedname>
+        <briefdescription>
+<para>Extraction confidence in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="132" column="17" bodyfile="include/ingestion/deontic_extractor.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_deontic_obligation_1a6faf3800893fb50d5c52f379de39efc6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DeonticObligation::DeonticObligation</definition>
+        <argsstring>()</argsstring>
+        <name>DeonticObligation</name>
+        <qualifiedname>themis::ingestion::DeonticObligation::DeonticObligation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="134" column="5" bodyfile="include/ingestion/deontic_extractor.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_deontic_obligation_1a03dd7ecfb034cc8603032431d01ee328" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DeonticObligation::DeonticObligation</definition>
+        <argsstring>(std::string actor_, std::string action_, std::string cond, double conf=1.0)</argsstring>
+        <name>DeonticObligation</name>
+        <qualifiedname>themis::ingestion::DeonticObligation::DeonticObligation</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>actor_</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>action_</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>cond</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conf</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="135" column="5" bodyfile="include/ingestion/deontic_extractor.h" bodystart="135" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A structured representation of a legal obligation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures the actor, the required action, and the condition under which the obligation applies.</para>
+<para>Example: &quot;Wer Anlagen betreiben will, bedarf einer Genehmigung.&quot; actor = &quot;Betreiber&quot; action = &quot;Genehmigung einholen&quot; condition = &quot;Betrieb einer Anlage&quot; </para>
+    </detaileddescription>
+    <location file="include/ingestion/deontic_extractor.h" line="128" column="1" bodyfile="include/ingestion/deontic_extractor.h" bodystart="128" bodyend="139"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a07b1583a7293ad0398d398d24c320635" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticObligation</scope><name>action</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_deontic_obligation_1ade3bed93cce1eb4fd11070ee91fa79da" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticObligation</scope><name>actor</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a1ebe040ec18bcf0a7f3ce62f0afbcf08" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticObligation</scope><name>condition</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_deontic_obligation_1ae71f781ecb40f14c0672cd00d80c7778" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticObligation</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a6faf3800893fb50d5c52f379de39efc6" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticObligation</scope><name>DeonticObligation</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a03dd7ecfb034cc8603032431d01ee328" prot="public" virt="non-virtual"><scope>themis::ingestion::DeonticObligation</scope><name>DeonticObligation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

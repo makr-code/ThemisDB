@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_classification_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentClassificationRequest</compoundname>
+    <includes refid="content__classifier_8h" local="no">content_classifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_classification_request_1adba2ecc2c9326eddb29838d1a57f72a1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentClassificationRequest::content_id</definition>
+        <argsstring></argsstring>
+        <name>content_id</name>
+        <qualifiedname>themis::content::ContentClassificationRequest::content_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="36" column="17" bodyfile="include/content/content_classifier.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_classification_request_1a75058cf93800bf097ec584985c84bb77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentClassificationRequest::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::content::ContentClassificationRequest::text</qualifiedname>
+        <briefdescription>
+<para>Plain text to classify. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="37" column="17" bodyfile="include/content/content_classifier.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_classification_request_1af3d5589d08ca358e3df17155662cdda2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentClassificationRequest::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::content::ContentClassificationRequest::language</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+<para>ISO 639-1 language code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="38" column="17" bodyfile="include/content/content_classifier.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_classification_request_1a7a91b2632ba7af6e405dd558f0194858" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::ContentClassificationRequest::taxonomy_filters</definition>
+        <argsstring></argsstring>
+        <name>taxonomy_filters</name>
+        <qualifiedname>themis::content::ContentClassificationRequest::taxonomy_filters</qualifiedname>
+        <briefdescription>
+<para>Restrict output to these taxonomies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="39" column="17" bodyfile="include/content/content_classifier.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_classification_request_1ab0afd2c9228a2298177b4b37b3bd0235" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentClassificationRequest::max_categories</definition>
+        <argsstring></argsstring>
+        <name>max_categories</name>
+        <qualifiedname>themis::content::ContentClassificationRequest::max_categories</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum categories to return. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="40" column="17" bodyfile="include/content/content_classifier.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_classifier.h" line="35" column="1" bodyfile="include/content/content_classifier.h" bodystart="35" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_classification_request_1adba2ecc2c9326eddb29838d1a57f72a1" prot="public" virt="non-virtual"><scope>themis::content::ContentClassificationRequest</scope><name>content_id</name></member>
+      <member refid="structthemis_1_1content_1_1_content_classification_request_1af3d5589d08ca358e3df17155662cdda2" prot="public" virt="non-virtual"><scope>themis::content::ContentClassificationRequest</scope><name>language</name></member>
+      <member refid="structthemis_1_1content_1_1_content_classification_request_1ab0afd2c9228a2298177b4b37b3bd0235" prot="public" virt="non-virtual"><scope>themis::content::ContentClassificationRequest</scope><name>max_categories</name></member>
+      <member refid="structthemis_1_1content_1_1_content_classification_request_1a7a91b2632ba7af6e405dd558f0194858" prot="public" virt="non-virtual"><scope>themis::content::ContentClassificationRequest</scope><name>taxonomy_filters</name></member>
+      <member refid="structthemis_1_1content_1_1_content_classification_request_1a75058cf93800bf097ec584985c84bb77" prot="public" virt="non-virtual"><scope>themis::content::ContentClassificationRequest</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

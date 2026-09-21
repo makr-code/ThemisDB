@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a9f5aea7dfe20444281844dec19893dc4" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI01_SingleParticipantPartitionedPhase1Aborts)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>FI-01 Single participant partitioned during Phase-1 → coordinator aborts. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1af35955a4648af009882088072bbe109a" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI02_AllParticipantsPartitionedPhase1Aborts)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>FI-02 All participants partitioned during Phase-1 → coordinator aborts (no votes).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1ab0b72d20af980d6ca536cea224d155b2" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI03_PartitionAfterPreparedCommitRedriven)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>FI-03 Single participant partitioned after PREPARED (Phase-2 delivery fails) → re-drive delivers COMMIT once partition heals.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1aa355a1c0bdf5e3d3c45870943a22b279" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI04_MajorityPartitionedAbortDecision)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>FI-04 Majority partitioned → abort decision; minority-only txn does not commit.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1ab08d6633b4a1548a21314ec7a4bc68c2" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI05_PartitionHealsCommitRedeliveredIdempotently)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>FI-05 Partition heals → pending COMMIT re-delivered idempotently.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a3a810496558a96307b52e8517a362be3" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI06_PartitionDuring3PCPrecommitAbortsFailClosed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>FI-06 Network partition during 3PC PreCommit phase → fail-closed abort.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a49d32b41929f83be2209a0019d418040" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI07_TransientPartitionHealsBeforeProtocol)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>FI-07 Transient partition (appears + heals within same txn) → COMMIT succeeds. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a382c3716b0a6ef901c5a91c27a276dc5" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI08_CascadingPartitionMidPrepare)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>FI-08 Cascading partition – participants fail one-by-one mid-prepare. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a2d959bcde8691079c5b4eec1b1927ecd" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI09_SplitBrainOnlyOneDecision)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>FI-09 Split-brain: two coordinator instances process the same txn_id → only one unique decision is stored in the WAL. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a4a0edbf751ebf4fc6a2ac241b9c8ad48" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI10_PartitionDuringSAGACompensationRedelivered)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>FI-10 Partition during SAGA compensation step → compensate re-delivered.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a3786ba1c2fe67f29d199492e12568d39" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI11_CoordinatorIsolatedTimesOutAndAborts)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>FI-11 Coordinator isolated from all participants → times out + aborts.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a1070a1c630034327a08b53d03a32446b" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI12_ParticipantIsolatedPostPreparedCoordinatorAbortsOnTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>FI-12 Participant isolated post-PREPARED; coordinator waits, then aborts on timeout.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a5ff3b35746133546fc0f6fea15cf2532" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI13_PercolatorPrimaryLockWriteFailsPartition)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>FI-13 Percolator primary-lock write fails due to partition → txn aborts cleanly.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1ae8528514de4c656d2261ae55dc744a42" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI14_ConcurrentPartitionedTxnsNoStateCrossContamination)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>FI-14 Multiple concurrent partitioned txns – state isolation (no cross-contamination).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1ad7b49e43193e8c8ffcdb424c1c061606" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_network_partition_test" kindref="compound">NetworkPartitionTest</ref>, FI15_RecoveryAfterPartitionHealsWALReplayDrivesInDoubt)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>FI-15 Recovery after partition heals: WAL replay re-drives all in-doubt txns.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1ad7d960bbcf20b8eb8b5af7eb3b1799f0" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref>, FI16_CrashAfterPrepareSentRecoveryDeliversCommit)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>FI-16 Coordinator crash after PREPARE-sent, before COMMIT decision → participants in-doubt; recovery delivers COMMIT.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a36d74c59ac2473a0c550c74cf623b0fe" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref>, FI17_CrashAfterAbortLoggedRecoveryRedeliversAbort)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>FI-17 Coordinator crash after ABORT decision logged but before delivery → recovery re-delivers ABORT.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a0058f059d654ca6e190881aefebdc5fd" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref>, FI18_CoordinatorRestartCleanWALBeginsFresh)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>FI-18 Coordinator restart with clean WAL → begins fresh; prior in-doubt txns recovered. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1ab477c047d366329749dc3e0c1e31ade2" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref>, FI19_NewCoordinatorTakesOverDrivesInDoubtToCompletion)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>FI-19 New coordinator takes over → reads WAL, drives in-doubt txn to completion.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1aaf27598c53be14aa7053d15c71763d1e" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref>, FI20_CoordinatorFailsEachTxnIndependentlyRecoverable)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>FI-20 Coordinator fails on every txn → each independently recoverable.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a695b31b5ab29388d7d15cb487d1cc245" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref>, FI21_CrashMid3PCAfterPrecommitRecoveryCommits)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>FI-21 Coordinator crash mid-3PC (after PreCommit sent, before Commit) → recovery re-drives COMMIT.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a33d000d9871dde9541b200dbbeeaa47b" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref>, FI22_WALPersistsDecisionBeforeCrashExactlyOnceDelivery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>FI-22 WAL persists decision before coordinator crash → exactly-once delivery after recovery.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1af590d4a130ce6a73146fd9f08a60363f" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref>, FI23_CoordinatorCrashDuringSAGACompensatingActionsRedriven)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>FI-23 Coordinator crash during SAGA execution → compensating actions re-driven from WAL.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a0ee498e40b3704c7e48e60db4e07efc4" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref>, FI24_MultipleCoordinatorRestartsIdempotentRecovery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>FI-24 Multiple coordinator restarts on same in-doubt txn → idempotent recovery (same result each time).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a11f083d11aee1fc091f8e545b7ae1e26" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kindref="compound">CoordinatorFailureTest</ref>, FI25_ConcurrentTxnsCoordinatorCrashOneOthersComplete)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>FI-25 Concurrent txns; coordinator crashes during one; others complete normally.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a24d7c68cc453ddde1bf8aed06ba6254e" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI26_TwoParticipantsFailSimultaneouslyCoordinatorAborts)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>FI-26 Two participants fail simultaneously during Phase-1 → coordinator aborts immediately.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a2ce6a6c7fcc71bd1fa580f9fa0dc357b" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI27_CascadeParticipantAFailsAbortPropagatedViaWAL)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>FI-27 Cascade: Participant A fails → coordinator aborts → WAL records ABORT → Participant B receives ABORT via WAL replay.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a0aa2fb58a50d800e22fae404097797d9" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI28_ThreeWayCascadeAtomicAbort)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>FI-28 Three-way cascade: P1 votes yes, P2 partitioned, P3 timeout → atomic abort across all.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1ad9c0c1599d841121eaa380ce0e21c275" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI29_OverlappingRecoveryTwoInDoubtConcurrent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>FI-29 Overlapping recovery: two in-doubt txns recovered simultaneously (concurrently).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1aca575fd7555295f9fd6087ed4d58e7e3" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI30_StaleLockCleanupOrphanLocksReleasedAfterTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>FI-30 Stale lock cleanup: orphan locks held by crashed coordinator released after timeout.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1abe51905fee1c30ee845c66df7a2ac176" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI31_FiveShardTxnTwoFailuresDeterministicAbort)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>FI-31 5-shard txn with 2 failures: deterministic abort regardless of failure order.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a3e21f50a68182309abb70a757941c04f" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI32_SAGAMultiStepStep3FailsCompensateReverseOrder)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000032"/>FI-32 SAGA multi-step: step 3 fails → compensate steps 2 and 1 in reverse order.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a78abfead0973979211934caa62812a8f" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI33_WALGapTxnTreatedAsInDoubtRecoveredViaProbe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000033"/>FI-33 Cascade with WAL gap: one WAL write fails → txn treated as in-doubt, recovers via participant probe. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1ac80522d2909e3a7459c32003c4739a46" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI34_LockOrderingDeadlockFreeViaTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000034"/>FI-34 Lock ordering: concurrent txns contending on same resources; deadlock-free via timeout. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a1c2d06765742fba4efc40935084b3372" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI35_CalvinDeterministicOrderingSecondAfterFirst)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000035"/>FI-35 Calvin deterministic ordering: second txn runs only after first commits.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1af1bc81db760ad8c2f9f7b0a662ba352a" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI36_PercolatorPrimaryLockHolderFailsNewTxnTakesOver)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000036"/>FI-36 Percolator: primary-lock holder fails → new txn takes over via cleanup + re-lock.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1ac138dc02297a283c01795b078c3ecb86" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI37_ReplicationLagStaleReadUntilCatchUp)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000037"/>FI-37 Replication lag simulation: participant commits but replica lags → read sees stale data until catch-up.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1aa328030072657ff94078df191ba69351" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI38_ThunderingHerdRecovery10InDoubtConcurrent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000038"/>FI-38 Thundering herd recovery: 10 in-doubt txns all recovered concurrently.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a449c09861d4d8593fbdd8a0351dfcc94" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI39_DurabilityProofWALSnapshotSurvivesRestart)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000039"/>FI-39 Durability proof: decision logged to WAL survives &quot;restart&quot; (WAL snapshot re-applied).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1aa28d6b2e942fdba4aff74e94db413e8f" kindref="member">themisdb::sharding::fi_test::TEST_F</ref>  (<ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_cascade_multi_failure_test" kindref="compound">CascadeMultiFailureTest</ref>, FI40_EndToEndFaultStressNoTxnBothCommittedAndAborted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000040"/>FI-40 End-to-end fault stress: random fault injection over 20 txns; verify no txn is both committed and aborted (consistency invariant). </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

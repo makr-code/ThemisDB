@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1wire_1_1_v2_stream" kind="struct" language="C++" prot="public">
+    <compoundname>themis::wire::V2Stream</compoundname>
+    <includes refid="wire__protocol__v2_8hpp" local="no">wire_protocol_v2.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_stream_1a18aca77d02e4f58692fed0932459fd28" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2Stream::stream_id</definition>
+        <argsstring></argsstring>
+        <name>stream_id</name>
+        <qualifiedname>themis::wire::V2Stream::stream_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="146" column="19" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_stream_1a6cc1c9a9d90cf9edace0bae7af213c4c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1wire_1ae0614fd67d01b6a5bdb1659ce48a14a8" kindref="member">V2StreamState</ref></type>
+        <definition>V2StreamState themis::wire::V2Stream::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::wire::V2Stream::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1wire_1ae0614fd67d01b6a5bdb1659ce48a14a8aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">V2StreamState::IDLE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="147" column="19" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_stream_1a4a43a0bc2369096cbbe29387201cf89c" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::wire::V2Stream::send_window</definition>
+        <argsstring></argsstring>
+        <name>send_window</name>
+        <qualifiedname>themis::wire::V2Stream::send_window</qualifiedname>
+        <initializer>= static_cast&lt;int32_t&gt;(<ref refid="namespacethemis_1_1wire_1aafbbb9af3441c350520973d6002377df" kindref="member">V2_DEFAULT_WINDOW</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="148" column="19" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_stream_1a545fcb6b6e41e622c8ac3447ed1b5324" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::wire::V2Stream::recv_window</definition>
+        <argsstring></argsstring>
+        <name>recv_window</name>
+        <qualifiedname>themis::wire::V2Stream::recv_window</qualifiedname>
+        <initializer>= static_cast&lt;int32_t&gt;(<ref refid="namespacethemis_1_1wire_1aafbbb9af3441c350520973d6002377df" kindref="member">V2_DEFAULT_WINDOW</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="149" column="19" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_stream_1aaa369999ec118732692713bdd63df422" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::wire::V2Stream::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::wire::V2Stream::priority</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>0 (highest) – 255 (lowest) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="150" column="19" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_stream_1a6e7e63674a0ff32e9879827192a3f458" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2Stream::stream_dependency</definition>
+        <argsstring></argsstring>
+        <name>stream_dependency</name>
+        <qualifiedname>themis::wire::V2Stream::stream_dependency</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>ID of the parent stream (0 = root). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="151" column="19" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_stream_1aa1d48a4449ec530059ce11d9e09f0c05" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::wire::V2Stream::exclusive_dependency</definition>
+        <argsstring></argsstring>
+        <name>exclusive_dependency</name>
+        <qualifiedname>themis::wire::V2Stream::exclusive_dependency</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Exclusive dependency flag (RFC 7540 §5.3). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="152" column="19" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1wire_1_1_v2_stream_1aac29aaa6f9a8a4b0f912f2faf52c436d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::wire::V2Stream::is_open</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_open</name>
+        <qualifiedname>themis::wire::V2Stream::is_open</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="154" column="10" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="154" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/network/wire_protocol_v2.hpp" line="145" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="145" bodyend="158"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1wire_1_1_v2_stream_1aa1d48a4449ec530059ce11d9e09f0c05" prot="public" virt="non-virtual"><scope>themis::wire::V2Stream</scope><name>exclusive_dependency</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_stream_1aac29aaa6f9a8a4b0f912f2faf52c436d" prot="public" virt="non-virtual"><scope>themis::wire::V2Stream</scope><name>is_open</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_stream_1aaa369999ec118732692713bdd63df422" prot="public" virt="non-virtual"><scope>themis::wire::V2Stream</scope><name>priority</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_stream_1a545fcb6b6e41e622c8ac3447ed1b5324" prot="public" virt="non-virtual"><scope>themis::wire::V2Stream</scope><name>recv_window</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_stream_1a4a43a0bc2369096cbbe29387201cf89c" prot="public" virt="non-virtual"><scope>themis::wire::V2Stream</scope><name>send_window</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_stream_1a6cc1c9a9d90cf9edace0bae7af213c4c" prot="public" virt="non-virtual"><scope>themis::wire::V2Stream</scope><name>state</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_stream_1a6e7e63674a0ff32e9879827192a3f458" prot="public" virt="non-virtual"><scope>themis::wire::V2Stream</scope><name>stream_dependency</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_stream_1a18aca77d02e4f58692fed0932459fd28" prot="public" virt="non-virtual"><scope>themis::wire::V2Stream</scope><name>stream_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

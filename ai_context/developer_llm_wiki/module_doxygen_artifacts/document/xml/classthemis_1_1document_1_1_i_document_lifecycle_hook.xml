@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1document_1_1_i_document_lifecycle_hook" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::document::IDocumentLifecycleHook</compoundname>
+    <derivedcompoundref refid="struct_test_hook" prot="public" virt="non-virtual">TestHook</derivedcompoundref>
+    <includes refid="document__lifecycle_8h" local="no">document_lifecycle.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a88736b081ee82d7d90a8ed4bd9052f8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::document::IDocumentLifecycleHook::~IDocumentLifecycleHook</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDocumentLifecycleHook</name>
+        <qualifiedname>themis::document::IDocumentLifecycleHook::~IDocumentLifecycleHook</qualifiedname>
+        <briefdescription>
+<para>IDocument Lifecycle Hook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="68" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a221377863a4e8da14dda902466cae32e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::document::IDocumentLifecycleHook::beforeCreate</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept=0</argsstring>
+        <name>beforeCreate</name>
+        <qualifiedname>themis::document::IDocumentLifecycleHook::beforeCreate</qualifiedname>
+        <reimplementedby refid="struct_test_hook_1ab362f4c156b8f3d8761477229014ed64">beforeCreate</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>Before Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="75" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a8ed069a99ddc2202430077e346c6adcd" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::document::IDocumentLifecycleHook::afterCreate</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept=0</argsstring>
+        <name>afterCreate</name>
+        <qualifiedname>themis::document::IDocumentLifecycleHook::afterCreate</qualifiedname>
+        <reimplementedby refid="struct_test_hook_1a7366e57a501594e90938938e3c8bd1d5">afterCreate</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>After Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="81" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_lifecycle_hook_1ac9bdb6cc49ad9a5fe9637987f063a344" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::document::IDocumentLifecycleHook::beforeUpdate</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept=0</argsstring>
+        <name>beforeUpdate</name>
+        <qualifiedname>themis::document::IDocumentLifecycleHook::beforeUpdate</qualifiedname>
+        <reimplementedby refid="struct_test_hook_1a5958213a709bc8ceeb16c66c7978c2ff">beforeUpdate</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>Before Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="87" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a5fad58a6bcfb16ce28396a8c0e103f87" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::document::IDocumentLifecycleHook::afterUpdate</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept=0</argsstring>
+        <name>afterUpdate</name>
+        <qualifiedname>themis::document::IDocumentLifecycleHook::afterUpdate</qualifiedname>
+        <reimplementedby refid="struct_test_hook_1a60516443db394da208bcf46b88a5c7a7">afterUpdate</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>After Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="93" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a984af5ae4e27cec99427499d0f36fd95" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::document::IDocumentLifecycleHook::beforeDelete</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept=0</argsstring>
+        <name>beforeDelete</name>
+        <qualifiedname>themis::document::IDocumentLifecycleHook::beforeDelete</qualifiedname>
+        <reimplementedby refid="struct_test_hook_1a6e38fb157241acb69a32e7cf59eed41d">beforeDelete</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>Before Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="99" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a1e48928cd00dcba8cbd5be8cfbe86977" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::document::IDocumentLifecycleHook::afterDelete</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept=0</argsstring>
+        <name>afterDelete</name>
+        <qualifiedname>themis::document::IDocumentLifecycleHook::afterDelete</qualifiedname>
+        <reimplementedby refid="struct_test_hook_1ab1fb48c31cf0ae884b0b9956e3ace19a">afterDelete</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>After Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_lifecycle.h" line="105" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>TestHook</label>
+        <link refid="struct_test_hook"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::document::IDocumentLifecycleHook</label>
+        <link refid="classthemis_1_1document_1_1_i_document_lifecycle_hook"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/document/document_lifecycle.h" line="62" column="1" bodyfile="include/document/document_lifecycle.h" bodystart="62" bodyend="106"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a8ed069a99ddc2202430077e346c6adcd" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentLifecycleHook</scope><name>afterCreate</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a1e48928cd00dcba8cbd5be8cfbe86977" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentLifecycleHook</scope><name>afterDelete</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a5fad58a6bcfb16ce28396a8c0e103f87" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentLifecycleHook</scope><name>afterUpdate</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a221377863a4e8da14dda902466cae32e" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentLifecycleHook</scope><name>beforeCreate</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a984af5ae4e27cec99427499d0f36fd95" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentLifecycleHook</scope><name>beforeDelete</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1ac9bdb6cc49ad9a5fe9637987f063a344" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentLifecycleHook</scope><name>beforeUpdate</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a88736b081ee82d7d90a8ed4bd9052f8e" prot="public" virt="virtual"><scope>themis::document::IDocumentLifecycleHook</scope><name>~IDocumentLifecycleHook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

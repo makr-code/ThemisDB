@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_latency_timer" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::LatencyTimer</compoundname>
+    <includes refid="i__metrics_8h" local="no">i_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_latency_timer_1a5bccf0a66997a6a7cd488a5de0bd5a12" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics" kindref="compound">IMetrics</ref> &amp;</type>
+        <definition>IMetrics&amp; themis::core::concerns::LatencyTimer::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::core::concerns::LatencyTimer::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="103" column="14" bodyfile="include/core/concerns/i_metrics.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_latency_timer_1acba75a3b50ed818cacade378fada117f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::LatencyTimer::operation_</definition>
+        <argsstring></argsstring>
+        <name>operation_</name>
+        <qualifiedname>themis::core::concerns::LatencyTimer::operation_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="104" column="17" bodyfile="include/core/concerns/i_metrics.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_latency_timer_1af26d02e4787ed7cbeb2100152ff1e3e8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">IMetrics::Labels</ref></type>
+        <definition>IMetrics::Labels themis::core::concerns::LatencyTimer::labels_</definition>
+        <argsstring></argsstring>
+        <name>labels_</name>
+        <qualifiedname>themis::core::concerns::LatencyTimer::labels_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="105" column="22" bodyfile="include/core/concerns/i_metrics.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_latency_timer_1afc0be1e13841937476412210a2be83e2" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::core::concerns::LatencyTimer::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::core::concerns::LatencyTimer::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="106" column="43" bodyfile="include/core/concerns/i_metrics.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_latency_timer_1a55cf3e860823c3ea5e862aa3d666be44" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::LatencyTimer::LatencyTimer</definition>
+        <argsstring>(IMetrics &amp;metrics, const std::string &amp;operation, const IMetrics::Labels &amp;labels={})</argsstring>
+        <name>LatencyTimer</name>
+        <qualifiedname>themis::core::concerns::LatencyTimer::LatencyTimer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics" kindref="compound">IMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">IMetrics::Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="86" column="5" bodyfile="include/core/concerns/i_metrics.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_latency_timer_1a9299c8ba6fd2268802d4bfaba0e4d709" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::LatencyTimer::~LatencyTimer</definition>
+        <argsstring>()</argsstring>
+        <name>~LatencyTimer</name>
+        <qualifiedname>themis::core::concerns::LatencyTimer::~LatencyTimer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="90" column="5" bodyfile="include/core/concerns/i_metrics.h" bodystart="90" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_latency_timer_1a4dfb25cd084edea7654aec5980edb057" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::core::concerns::LatencyTimer::elapsedMs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>elapsedMs</name>
+        <qualifiedname>themis::core::concerns::LatencyTimer::elapsedMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="96" column="12" bodyfile="include/core/concerns/i_metrics.h" bodystart="96" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/i_metrics.h" line="84" column="1" bodyfile="include/core/concerns/i_metrics.h" bodystart="84" bodyend="107"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_latency_timer_1a4dfb25cd084edea7654aec5980edb057" prot="public" virt="non-virtual"><scope>themis::core::concerns::LatencyTimer</scope><name>elapsedMs</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_latency_timer_1af26d02e4787ed7cbeb2100152ff1e3e8" prot="private" virt="non-virtual"><scope>themis::core::concerns::LatencyTimer</scope><name>labels_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_latency_timer_1a55cf3e860823c3ea5e862aa3d666be44" prot="public" virt="non-virtual"><scope>themis::core::concerns::LatencyTimer</scope><name>LatencyTimer</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_latency_timer_1a5bccf0a66997a6a7cd488a5de0bd5a12" prot="private" virt="non-virtual"><scope>themis::core::concerns::LatencyTimer</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_latency_timer_1acba75a3b50ed818cacade378fada117f" prot="private" virt="non-virtual"><scope>themis::core::concerns::LatencyTimer</scope><name>operation_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_latency_timer_1afc0be1e13841937476412210a2be83e2" prot="private" virt="non-virtual"><scope>themis::core::concerns::LatencyTimer</scope><name>start_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_latency_timer_1a9299c8ba6fd2268802d4bfaba0e4d709" prot="public" virt="non-virtual"><scope>themis::core::concerns::LatencyTimer</scope><name>~LatencyTimer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

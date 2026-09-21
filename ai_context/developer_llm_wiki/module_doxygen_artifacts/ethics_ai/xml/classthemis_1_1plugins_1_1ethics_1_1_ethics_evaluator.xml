@@ -1,0 +1,713 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicsEvaluator</compoundname>
+    <includes refid="ethics__evaluator_8h" local="no">ethics_evaluator.h</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config" prot="public">themis::plugins::ethics::EthicsEvaluator::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a275c0c251bc6a0045109a81ebe2e5fb9" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::plugins::ethics::EthicsEvaluator::decisions_total_</definition>
+        <argsstring></argsstring>
+        <name>decisions_total_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::decisions_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="94" column="25" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1aa095419cdcaf33af9f87c97ccd8b3adf" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::plugins::ethics::EthicsEvaluator::rag_hits_total_</definition>
+        <argsstring></argsstring>
+        <name>rag_hits_total_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::rag_hits_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="95" column="25" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1af42a2294e1b0c5781bc80895d8b64215" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::plugins::ethics::EthicsEvaluator::latency_ms_total_</definition>
+        <argsstring></argsstring>
+        <name>latency_ms_total_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::latency_ms_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="96" column="25" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1add1c9f076b7a2076059be788c26732c8" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::plugins::ethics::EthicsEvaluator::argument_store_size_</definition>
+        <argsstring></argsstring>
+        <name>argument_store_size_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::argument_store_size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="97" column="25" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a61dafd9ba4e13bbb7b74a78728229f43" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::plugins::ethics::EthicsEvaluator::confidence_sum_micro_</definition>
+        <argsstring></argsstring>
+        <name>confidence_sum_micro_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::confidence_sum_micro_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="98" column="25" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1acae3cf89013cf2460de9e1f2cefdbb7a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::plugins::ethics::EthicsEvaluator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::config_</qualifiedname>
+        <briefdescription>
+<para>Active weight configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="156" column="12" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a5d38cd95a17f9203011b8c5d77f10a24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicsEvaluator::EthicsEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>EthicsEvaluator</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::EthicsEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1af1d76c64f83a89e415f76d75f58f7b9a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicsEvaluator::EthicsEvaluator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>EthicsEvaluator</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::EthicsEvaluator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Ethics Evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="43" column="14" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="25" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a7b441880a91531cdba74601d81976736" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicsEvaluator::~EthicsEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EthicsEvaluator</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::~EthicsEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1ac9d0b77a6079ba8a22af545a1e37b896" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result" kindref="compound">EthicsEvaluationResult</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; EthicsEvaluationResult, Status &gt; themis::plugins::ethics::EthicsEvaluator::evaluateDecision</definition>
+        <argsstring>(const EthicalDecision &amp;decision, const std::vector&lt; EthicalArgument &gt; &amp;arguments)</argsstring>
+        <name>evaluateDecision</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::evaluateDecision</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="47" column="18" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="41" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1adc560269ac71871ae52f3d5234b0d7e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::EthicsEvaluator::recordDecision</definition>
+        <argsstring>(double confidence, bool rag_hit, uint64_t latency_ms)</argsstring>
+        <name>recordDecision</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::recordDecision</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>confidence</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>rag_hit</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rag_hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rag_hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordDecision without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="76" column="10" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="312" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1aba58858ae413ca6312a55f3c7c42f4ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::EthicsEvaluator::setArgumentStoreSize</definition>
+        <argsstring>(uint64_t count)</argsstring>
+        <name>setArgumentStoreSize</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::setArgumentStoreSize</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Set Argument Store Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="82" column="10" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="322" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1af73b0120bd788bcf510f93d728d43091" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicsEvaluator::getMetricsText</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetricsText</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::getMetricsText</qualifiedname>
+        <briefdescription>
+<para>Get Metrics Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="88" column="17" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="326" bodyend="363"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a57ad4af81190566e8be3437ddf43a31d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::computeConfidence</definition>
+        <argsstring>(const std::vector&lt; EthicalArgument &gt; &amp;arguments)</argsstring>
+        <name>computeConfidence</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::computeConfidence</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <briefdescription>
+<para>Compute Confidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), strengthToScore(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="57" column="19" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="239" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1adc5ce93841a29f37fcb2a075c235f7fb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::computeConsensus</definition>
+        <argsstring>(const std::vector&lt; EthicalArgument &gt; &amp;arguments)</argsstring>
+        <name>computeConsensus</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::computeConsensus</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <briefdescription>
+<para>Compute Consensus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="64" column="19" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="257" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a4ad69bfa4301cd9c1c6ed4b09cc1d049" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::evaluateDecisionQuality</definition>
+        <argsstring>(const EthicalDecision &amp;decision, const std::vector&lt; EthicalArgument &gt; &amp;arguments)</argsstring>
+        <name>evaluateDecisionQuality</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::evaluateDecisionQuality</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Decision Quality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::min(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="107" column="12" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="77" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a4101ff92340377163c1e1e1f795b83a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::evaluateConsistency</definition>
+        <argsstring>(const EthicalDecision &amp;decision, const std::vector&lt; EthicalArgument &gt; &amp;arguments)</argsstring>
+        <name>evaluateConsistency</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::evaluateConsistency</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="118" column="12" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="103" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a742e031c11aa7502aa3c6155317705b5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::evaluateFairness</definition>
+        <argsstring>(const EthicalDecision &amp;decision, const std::vector&lt; EthicalArgument &gt; &amp;arguments)</argsstring>
+        <name>evaluateFairness</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::evaluateFairness</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Fairness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), empty(), insert(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="129" column="12" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="131" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1ae0c7c83649dce8543e67e9b481438900" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::evaluateAlignment</definition>
+        <argsstring>(const EthicalDecision &amp;decision, const std::vector&lt; EthicalArgument &gt; &amp;arguments)</argsstring>
+        <name>evaluateAlignment</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::evaluateAlignment</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="140" column="12" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="162" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a01b1d1f89db73008973893652b9ea0a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::evaluateTransparency</definition>
+        <argsstring>(const EthicalDecision &amp;decision, const std::vector&lt; EthicalArgument &gt; &amp;arguments)</argsstring>
+        <name>evaluateTransparency</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::evaluateTransparency</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Transparency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="151" column="12" bodyfile="src/ethics_ai/ethics_evaluator.cpp" bodystart="186" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/ethics_evaluator.h" line="26" column="1" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="26" bodyend="157"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1add1c9f076b7a2076059be788c26732c8" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>argument_store_size_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a57ad4af81190566e8be3437ddf43a31d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>computeConfidence</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1adc5ce93841a29f37fcb2a075c235f7fb" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>computeConsensus</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a61dafd9ba4e13bbb7b74a78728229f43" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>confidence_sum_micro_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1acae3cf89013cf2460de9e1f2cefdbb7a" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a275c0c251bc6a0045109a81ebe2e5fb9" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>decisions_total_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a5d38cd95a17f9203011b8c5d77f10a24" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>EthicsEvaluator</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1af1d76c64f83a89e415f76d75f58f7b9a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>EthicsEvaluator</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1ae0c7c83649dce8543e67e9b481438900" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>evaluateAlignment</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a4101ff92340377163c1e1e1f795b83a8" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>evaluateConsistency</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1ac9d0b77a6079ba8a22af545a1e37b896" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>evaluateDecision</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a4ad69bfa4301cd9c1c6ed4b09cc1d049" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>evaluateDecisionQuality</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a742e031c11aa7502aa3c6155317705b5" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>evaluateFairness</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a01b1d1f89db73008973893652b9ea0a8" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>evaluateTransparency</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1af73b0120bd788bcf510f93d728d43091" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>getMetricsText</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1af42a2294e1b0c5781bc80895d8b64215" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>latency_ms_total_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1aa095419cdcaf33af9f87c97ccd8b3adf" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>rag_hits_total_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1adc560269ac71871ae52f3d5234b0d7e4" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>recordDecision</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1aba58858ae413ca6312a55f3c7c42f4ba" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>setArgumentStoreSize</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a7b441880a91531cdba74601d81976736" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator</scope><name>~EthicsEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

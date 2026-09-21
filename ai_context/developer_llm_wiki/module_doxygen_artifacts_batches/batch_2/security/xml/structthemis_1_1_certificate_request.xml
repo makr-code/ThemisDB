@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_certificate_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CertificateRequest</compoundname>
+    <includes refid="vcc__pki__client_8h" local="no">vcc_pki_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_certificate_request_1ae6073e4c0f5e04540555f552b53a05dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CertificateRequest::common_name</definition>
+        <argsstring></argsstring>
+        <name>common_name</name>
+        <qualifiedname>themis::CertificateRequest::common_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vcc_pki_client.h" line="80" column="13" bodyfile="include/security/vcc_pki_client.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_certificate_request_1abd124147fbdfe58f9236bbd4ca08e218" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CertificateRequest::organization</definition>
+        <argsstring></argsstring>
+        <name>organization</name>
+        <qualifiedname>themis::CertificateRequest::organization</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vcc_pki_client.h" line="81" column="13" bodyfile="include/security/vcc_pki_client.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_certificate_request_1ad61d7b25b21c7de37fd2de40617c7bd7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::CertificateRequest::san</definition>
+        <argsstring></argsstring>
+        <name>san</name>
+        <qualifiedname>themis::CertificateRequest::san</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vcc_pki_client.h" line="82" column="13" bodyfile="include/security/vcc_pki_client.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_certificate_request_1ae3e447b028572f203130a4b2b95ec9f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CertificateRequest::key_usage</definition>
+        <argsstring></argsstring>
+        <name>key_usage</name>
+        <qualifiedname>themis::CertificateRequest::key_usage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vcc_pki_client.h" line="83" column="13" bodyfile="include/security/vcc_pki_client.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_certificate_request_1a43390110c017e72bc803f41b0a387e83" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::CertificateRequest::validity_days</definition>
+        <argsstring></argsstring>
+        <name>validity_days</name>
+        <qualifiedname>themis::CertificateRequest::validity_days</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vcc_pki_client.h" line="84" column="5" bodyfile="include/security/vcc_pki_client.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_certificate_request_1a2153c8f3fe5f5461ebd40d0c9af89fac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::CertificateRequest::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::CertificateRequest::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vcc_pki_client.h" line="90" column="16" bodyfile="src/security/vcc_pki_client.cpp" bodystart="257" bodyend="265"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/vcc_pki_client.h" line="79" column="1" bodyfile="include/security/vcc_pki_client.h" bodystart="79" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_certificate_request_1ae6073e4c0f5e04540555f552b53a05dd" prot="public" virt="non-virtual"><scope>themis::CertificateRequest</scope><name>common_name</name></member>
+      <member refid="structthemis_1_1_certificate_request_1ae3e447b028572f203130a4b2b95ec9f7" prot="public" virt="non-virtual"><scope>themis::CertificateRequest</scope><name>key_usage</name></member>
+      <member refid="structthemis_1_1_certificate_request_1abd124147fbdfe58f9236bbd4ca08e218" prot="public" virt="non-virtual"><scope>themis::CertificateRequest</scope><name>organization</name></member>
+      <member refid="structthemis_1_1_certificate_request_1ad61d7b25b21c7de37fd2de40617c7bd7" prot="public" virt="non-virtual"><scope>themis::CertificateRequest</scope><name>san</name></member>
+      <member refid="structthemis_1_1_certificate_request_1a2153c8f3fe5f5461ebd40d0c9af89fac" prot="public" virt="non-virtual"><scope>themis::CertificateRequest</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1_certificate_request_1a43390110c017e72bc803f41b0a387e83" prot="public" virt="non-virtual"><scope>themis::CertificateRequest</scope><name>validity_days</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

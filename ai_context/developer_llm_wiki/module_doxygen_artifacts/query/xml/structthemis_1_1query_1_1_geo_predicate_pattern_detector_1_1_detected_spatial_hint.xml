@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::GeoPredicatePatternDetector::DetectedSpatialHint</compoundname>
+    <includes refid="adaptive__optimizer_8h" local="no">adaptive_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint_1aa728659ed060adba5b55e2f8bb9d01be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::GeoPredicatePatternDetector::DetectedSpatialHint::function_name</definition>
+        <argsstring></argsstring>
+        <name>function_name</name>
+        <qualifiedname>themis::query::GeoPredicatePatternDetector::DetectedSpatialHint::function_name</qualifiedname>
+        <briefdescription>
+<para>Normalized spatial function name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="298" column="21" bodyfile="include/query/adaptive_optimizer.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint_1a469c81ae410b95e724cbb9e543bbf2e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::GeoPredicatePatternDetector::DetectedSpatialHint::field_reference</definition>
+        <argsstring></argsstring>
+        <name>field_reference</name>
+        <qualifiedname>themis::query::GeoPredicatePatternDetector::DetectedSpatialHint::field_reference</qualifiedname>
+        <briefdescription>
+<para>First argument field reference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="299" column="21" bodyfile="include/query/adaptive_optimizer.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/adaptive_optimizer.h" line="297" column="5" bodyfile="include/query/adaptive_optimizer.h" bodystart="297" bodyend="300"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint_1a469c81ae410b95e724cbb9e543bbf2e1" prot="public" virt="non-virtual"><scope>themis::query::GeoPredicatePatternDetector::DetectedSpatialHint</scope><name>field_reference</name></member>
+      <member refid="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint_1aa728659ed060adba5b55e2f8bb9d01be" prot="public" virt="non-virtual"><scope>themis::query::GeoPredicatePatternDetector::DetectedSpatialHint</scope><name>function_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

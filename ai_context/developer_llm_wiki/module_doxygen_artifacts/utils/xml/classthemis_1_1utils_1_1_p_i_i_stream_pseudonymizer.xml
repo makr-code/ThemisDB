@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::PIIStreamPseudonymizer</compoundname>
+    <includes refid="pii__detection__engine_8h" local="no">pii_detection_engine.h</includes>
+    <innerclass refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config" prot="public">themis::utils::PIIStreamPseudonymizer::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1ac7354d84fc88b28582f57c1616efdcb0" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref></type>
+        <definition>PIIStreamScanner themis::utils::PIIStreamPseudonymizer::scanner_</definition>
+        <argsstring></argsstring>
+        <name>scanner_</name>
+        <qualifiedname>themis::utils::PIIStreamPseudonymizer::scanner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="398" column="34" bodyfile="include/utils/pii_detection_engine.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1a2208ad4f64fa445d4460621a5aa41fb6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_l_e_k_manager" kindref="compound">LEKManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LEKManager&gt; themis::utils::PIIStreamPseudonymizer::lek_mgr_</definition>
+        <argsstring></argsstring>
+        <name>lek_mgr_</name>
+        <qualifiedname>themis::utils::PIIStreamPseudonymizer::lek_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="399" column="22" bodyfile="include/utils/pii_detection_engine.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1a90eba50c476086d8bab73eb9eb304538" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::utils::PIIStreamPseudonymizer::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::utils::PIIStreamPseudonymizer::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="400" column="34" bodyfile="include/utils/pii_detection_engine.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1aa4305cbf56aa44251cba4198ea6d4b2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::PIIStreamPseudonymizer::PIIStreamPseudonymizer</definition>
+        <argsstring>(std::shared_ptr&lt; IPIIDetectionEngine &gt; engine, std::shared_ptr&lt; LEKManager &gt; lek_mgr, Config cfg)</argsstring>
+        <name>PIIStreamPseudonymizer</name>
+        <qualifiedname>themis::utils::PIIStreamPseudonymizer::PIIStreamPseudonymizer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine" kindref="compound">IPIIDetectionEngine</ref> &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_l_e_k_manager" kindref="compound">LEKManager</ref> &gt;</type>
+          <declname>lek_mgr</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="384" column="5" bodyfile="src/utils/pii_stream_scanner.cpp" bodystart="178" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1aa4d30f21e7b83c5369d52be8cecf5816" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PIIStreamPseudonymizer::process_chunk</definition>
+        <argsstring>(std::string_view chunk, bool is_last=false)</argsstring>
+        <name>process_chunk</name>
+        <qualifiedname>themis::utils::PIIStreamPseudonymizer::process_chunk</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>chunk</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_last</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Process a chunk: scan + pseudonymize findings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process chunk.</para>
+<para><simplesect kind="return"><para>Text chunk with PII replaced by deterministic 8-hex-char pseudonyms.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_last</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: bytes_processed(), scan_chunk(), getCurrentLEK(), reserve(), size(), substr(), std::min(), append(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="392" column="17" bodyfile="src/utils/pii_stream_scanner.cpp" bodystart="199" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1aa3323b5580904f5a96f6d6d0881195bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::PIIStreamPseudonymizer::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::utils::PIIStreamPseudonymizer::reset</qualifiedname>
+        <briefdescription>
+<para>Reset state for a new document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Implements reset without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="395" column="10" bodyfile="src/utils/pii_stream_scanner.cpp" bodystart="255" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateful streaming PII pseudonymizer companion for <ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Scans each chunk for PII and replaces each detected span with a deterministic HMAC-SHA-256 pseudonym derived from the tenant root key. </para>
+    </detaileddescription>
+    <location file="include/utils/pii_detection_engine.h" line="377" column="1" bodyfile="include/utils/pii_detection_engine.h" bodystart="377" bodyend="401"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1a90eba50c476086d8bab73eb9eb304538" prot="private" virt="non-virtual"><scope>themis::utils::PIIStreamPseudonymizer</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1a2208ad4f64fa445d4460621a5aa41fb6" prot="private" virt="non-virtual"><scope>themis::utils::PIIStreamPseudonymizer</scope><name>lek_mgr_</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1aa4305cbf56aa44251cba4198ea6d4b2c" prot="public" virt="non-virtual"><scope>themis::utils::PIIStreamPseudonymizer</scope><name>PIIStreamPseudonymizer</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1aa4d30f21e7b83c5369d52be8cecf5816" prot="public" virt="non-virtual"><scope>themis::utils::PIIStreamPseudonymizer</scope><name>process_chunk</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1aa3323b5580904f5a96f6d6d0881195bb" prot="public" virt="non-virtual"><scope>themis::utils::PIIStreamPseudonymizer</scope><name>reset</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_stream_pseudonymizer_1ac7354d84fc88b28582f57c1616efdcb0" prot="private" virt="non-virtual"><scope>themis::utils::PIIStreamPseudonymizer</scope><name>scanner_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

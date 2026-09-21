@@ -1,0 +1,451 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::attention::FlashAttentionConfig</compoundname>
+    <includes refid="flash__attention__config_8h" local="no">flash_attention_config.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QuantType</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::QuantType</qualifiedname>
+        <enumvalue id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aa693aa0bef84c25fe81c7e62e72f9313d" prot="public">
+          <name>FP32</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aaa4bf99d6945c25077fd6660d536af8a0" prot="public">
+          <name>FP16</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aaf656bbf613964dcf710b771b0918ab30" prot="public">
+          <name>BF16</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aaee9d73311ff0658494edfff14c3ec1e3" prot="public">
+          <name>INT8</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aa966242192147c8f490bf262b04a7970e" prot="public">
+          <name>Q4</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="67" column="5" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="67" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ade04f906dfd494359dd681aa82835882" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::FlashAttentionConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::batch_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="24" column="9" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a06e3818dcf997e3ccd968e32d54c633b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::FlashAttentionConfig::seq_len</definition>
+        <argsstring></argsstring>
+        <name>seq_len</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::seq_len</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="25" column="9" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a9a19308789cdc592b62667c537c64181" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::FlashAttentionConfig::num_heads</definition>
+        <argsstring></argsstring>
+        <name>num_heads</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::num_heads</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="26" column="9" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a2a64534c9458bed0567b0d81a136b4ec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::FlashAttentionConfig::head_dim</definition>
+        <argsstring></argsstring>
+        <name>head_dim</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::head_dim</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="27" column="9" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ab0d564a7ae974896e47da6e03348400e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::FlashAttentionConfig::num_kv_heads</definition>
+        <argsstring></argsstring>
+        <name>num_kv_heads</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::num_kv_heads</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="35" column="9" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a836f60cd76a377d50ee0bbc6ab3735ac" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::attention::FlashAttentionConfig::dropout_p</definition>
+        <argsstring></argsstring>
+        <name>dropout_p</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::dropout_p</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="38" column="11" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a136d8982204734c0f9d79ded4e278e31" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::FlashAttentionConfig::use_causal_mask</definition>
+        <argsstring></argsstring>
+        <name>use_causal_mask</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::use_causal_mask</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="39" column="10" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1aecd233b2f5784f476713bf114b18ec21" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::attention::FlashAttentionConfig::scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::scale</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="40" column="11" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a0571c09c4dc4621bbfd17f9c62700eba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::FlashAttentionConfig::enable_flash_v2</definition>
+        <argsstring></argsstring>
+        <name>enable_flash_v2</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::enable_flash_v2</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="43" column="10" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a789bc44a28de6b0073a142f3e4524111" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::FlashAttentionConfig::enable_flash_v3</definition>
+        <argsstring></argsstring>
+        <name>enable_flash_v3</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::enable_flash_v3</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="44" column="10" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a274d866d30a7b2c55edc422c88b3b90e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::FlashAttentionConfig::enable_kernel_fusion</definition>
+        <argsstring></argsstring>
+        <name>enable_kernel_fusion</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::enable_kernel_fusion</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="47" column="10" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a3fa11c63ef53c2c6db171850a27cbed9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::FlashAttentionConfig::enable_async_copy</definition>
+        <argsstring></argsstring>
+        <name>enable_async_copy</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::enable_async_copy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="48" column="10" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a33bd9359d68c9a0a4419dd247a93165c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::FlashAttentionConfig::enable_tensor_cores</definition>
+        <argsstring></argsstring>
+        <name>enable_tensor_cores</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::enable_tensor_cores</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="49" column="10" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ae06a1ba5be14d21ead518d70bdbe05a5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::FlashAttentionConfig::enable_warp_specialization</definition>
+        <argsstring></argsstring>
+        <name>enable_warp_specialization</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::enable_warp_specialization</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="50" column="10" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ad21ff57b5bbb999969505205f686c4d3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::FlashAttentionConfig::num_layers</definition>
+        <argsstring></argsstring>
+        <name>num_layers</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::num_layers</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="53" column="9" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a7d485ff2e32f83ca771128ef200d4dea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::FlashAttentionConfig::use_paged_kv_cache</definition>
+        <argsstring></argsstring>
+        <name>use_paged_kv_cache</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::use_paged_kv_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="56" column="10" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a730995a632baa19186b96bd712a4a3da" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::FlashAttentionConfig::kv_block_size</definition>
+        <argsstring></argsstring>
+        <name>kv_block_size</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::kv_block_size</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="57" column="12" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a666de68a1a9c330d5a7a6d9004f8329e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::FlashAttentionConfig::num_kv_blocks</definition>
+        <argsstring></argsstring>
+        <name>num_kv_blocks</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::num_kv_blocks</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="58" column="12" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a8040a6a3c4171f8f05e53a68100f6c86" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::FlashAttentionConfig::enable_prefix_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_prefix_caching</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::enable_prefix_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="59" column="10" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1abd24636a6a916819b9e8ecab0e7061da" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::FlashAttentionConfig::tile_size</definition>
+        <argsstring></argsstring>
+        <name>tile_size</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::tile_size</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="62" column="9" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a8e3e2598aa6dbad8f242fa2f9cceecb7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::FlashAttentionConfig::block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::block_size</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="63" column="9" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ac54d48593836e5b02f146ef6abc70397" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::FlashAttentionConfig::num_warps</definition>
+        <argsstring></argsstring>
+        <name>num_warps</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::num_warps</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="64" column="9" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6647b4ce536b3d832408504987276594" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611a" kindref="member">QuantType</ref></type>
+        <definition>QuantType themis::llm::attention::FlashAttentionConfig::quant_type</definition>
+        <argsstring></argsstring>
+        <name>quant_type</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::quant_type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611aaa4bf99d6945c25077fd6660d536af8a0" kindref="member">QuantType::FP16</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="74" column="15" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ab0c14a33fc45d85dc4c3d00c7b38370d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::FlashAttentionConfig::FlashAttentionConfig</definition>
+        <argsstring>()</argsstring>
+        <name>FlashAttentionConfig</name>
+        <qualifiedname>themis::llm::attention::FlashAttentionConfig::FlashAttentionConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention_config.h" line="77" column="5" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="77" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/flash_attention_config.h" line="22" column="1" bodyfile="include/llm/attention/flash_attention_config.h" bodystart="22" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ade04f906dfd494359dd681aa82835882" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a8e3e2598aa6dbad8f242fa2f9cceecb7" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>block_size</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a836f60cd76a377d50ee0bbc6ab3735ac" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>dropout_p</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a3fa11c63ef53c2c6db171850a27cbed9" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>enable_async_copy</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a0571c09c4dc4621bbfd17f9c62700eba" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>enable_flash_v2</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a789bc44a28de6b0073a142f3e4524111" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>enable_flash_v3</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a274d866d30a7b2c55edc422c88b3b90e" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>enable_kernel_fusion</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a8040a6a3c4171f8f05e53a68100f6c86" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>enable_prefix_caching</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a33bd9359d68c9a0a4419dd247a93165c" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>enable_tensor_cores</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ae06a1ba5be14d21ead518d70bdbe05a5" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>enable_warp_specialization</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ab0c14a33fc45d85dc4c3d00c7b38370d" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>FlashAttentionConfig</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a2a64534c9458bed0567b0d81a136b4ec" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>head_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a730995a632baa19186b96bd712a4a3da" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>kv_block_size</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a9a19308789cdc592b62667c537c64181" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>num_heads</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a666de68a1a9c330d5a7a6d9004f8329e" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>num_kv_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ab0d564a7ae974896e47da6e03348400e" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>num_kv_heads</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ad21ff57b5bbb999969505205f686c4d3" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>num_layers</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1ac54d48593836e5b02f146ef6abc70397" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>num_warps</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6647b4ce536b3d832408504987276594" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>quant_type</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a6378d6fc9206326fc950d911b83c611a" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>QuantType</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1aecd233b2f5784f476713bf114b18ec21" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>scale</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a06e3818dcf997e3ccd968e32d54c633b" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>seq_len</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1abd24636a6a916819b9e8ecab0e7061da" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>tile_size</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a136d8982204734c0f9d79ded4e278e31" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>use_causal_mask</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config_1a7d485ff2e32f83ca771128ef200d4dea" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttentionConfig</scope><name>use_paged_kv_cache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

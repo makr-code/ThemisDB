@@ -1,0 +1,572 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_io_uring_batched_sender" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::IoUringBatchedSender</compoundname>
+    <includes refid="io__uring__batcher_8h" local="no">io_uring_batcher.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_pending_entry" prot="private">themis::network::IoUringBatchedSender::PendingEntry</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_sq_ring" prot="private">themis::network::IoUringBatchedSender::SqRing</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_cq_ring" prot="private">themis::network::IoUringBatchedSender::CqRing</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a697b1f9819a1ada839abd344e516a6dc" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::IoUringBatchedSender::ring_fd_</definition>
+        <argsstring></argsstring>
+        <name>ring_fd_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::ring_fd_</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>io_uring file descriptor (-1 = unavailable) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="118" column="14" bodyfile="include/network/io_uring_batcher.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a7bc15f8bd5818a86fc2b269d0eef9d0c" prot="private" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned themis::network::IoUringBatchedSender::queue_depth_</definition>
+        <argsstring></argsstring>
+        <name>queue_depth_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::queue_depth_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="119" column="14" bodyfile="include/network/io_uring_batcher.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1ac8651033623dc9078f2e24e6a4a76356" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::network::IoUringBatchedSender::sq_ring_</definition>
+        <argsstring></argsstring>
+        <name>sq_ring_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::sq_ring_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="122" column="10" bodyfile="include/network/io_uring_batcher.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1afa35c69dcb7a16705065ac4ee583dfa4" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::network::IoUringBatchedSender::cq_ring_</definition>
+        <argsstring></argsstring>
+        <name>cq_ring_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::cq_ring_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="123" column="10" bodyfile="include/network/io_uring_batcher.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a2bb99498433adc965d8abc68ed08dd37" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::network::IoUringBatchedSender::sqes_mmap_</definition>
+        <argsstring></argsstring>
+        <name>sqes_mmap_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::sqes_mmap_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="124" column="10" bodyfile="include/network/io_uring_batcher.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a9846d6ac2296b3cf7e2a47561e109610" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::IoUringBatchedSender::sq_ring_sz_</definition>
+        <argsstring></argsstring>
+        <name>sq_ring_sz_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::sq_ring_sz_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="127" column="12" bodyfile="include/network/io_uring_batcher.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1af2735eedc678a6d78d310470f95c97c6" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::IoUringBatchedSender::cq_ring_sz_</definition>
+        <argsstring></argsstring>
+        <name>cq_ring_sz_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::cq_ring_sz_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="128" column="12" bodyfile="include/network/io_uring_batcher.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a07004b8f0d7fceeb0f098748c4793064" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::IoUringBatchedSender::sqes_mmap_sz_</definition>
+        <argsstring></argsstring>
+        <name>sqes_mmap_sz_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::sqes_mmap_sz_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="129" column="12" bodyfile="include/network/io_uring_batcher.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1abef45bed454191de1a68f39ccce3fbfe" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; PendingEntry &gt;</type>
+        <definition>std::vector&lt;PendingEntry&gt; themis::network::IoUringBatchedSender::pending_</definition>
+        <argsstring></argsstring>
+        <name>pending_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::pending_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="136" column="17" bodyfile="include/network/io_uring_batcher.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a7e3d770da62da2409016c0ca255dc6ab" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_io_uring_batch_stats" kindref="compound">IoUringBatchStats</ref></type>
+        <definition>IoUringBatchStats themis::network::IoUringBatchedSender::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::stats_</qualifiedname>
+        <briefdescription>
+<para>Last round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="138" column="23" bodyfile="include/network/io_uring_batcher.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a6b0dfce780ccbbc5eadd0bca4563d1f0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_io_uring_batch_stats" kindref="compound">IoUringBatchStats</ref></type>
+        <definition>IoUringBatchStats themis::network::IoUringBatchedSender::total_stats_</definition>
+        <argsstring></argsstring>
+        <name>total_stats_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::total_stats_</qualifiedname>
+        <briefdescription>
+<para>Cumulative. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="139" column="23" bodyfile="include/network/io_uring_batcher.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1ab96f29cc87477199f3dab4413b85222d" prot="private" static="no" mutable="no">
+        <type>struct themis::network::IoUringBatchedSender::SqRing</type>
+        <definition>struct themis::network::IoUringBatchedSender::SqRing themis::network::IoUringBatchedSender::sq_</definition>
+        <argsstring></argsstring>
+        <name>sq_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::sq_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="148" column="9"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a38cfd76ff52ae3a9b32060d5d0e146e8" prot="private" static="no" mutable="no">
+        <type>struct themis::network::IoUringBatchedSender::CqRing</type>
+        <definition>struct themis::network::IoUringBatchedSender::CqRing themis::network::IoUringBatchedSender::cq_</definition>
+        <argsstring></argsstring>
+        <name>cq_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::cq_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="157" column="9"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_io_uring_batched_sender_1acf86416ef40a18f87b3a10597eeb7ce3" prot="private" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* themis::network::IoUringBatchedSender::sqe_base_</definition>
+        <argsstring></argsstring>
+        <name>sqe_base_</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::sqe_base_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="160" column="13" bodyfile="include/network/io_uring_batcher.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1ae8576382db9728d971154e108a871e4a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::IoUringBatchedSender::IoUringBatchedSender</definition>
+        <argsstring>(unsigned queue_depth=256)</argsstring>
+        <name>IoUringBatchedSender</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::IoUringBatchedSender</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>queue_depth</declname>
+          <defval>256</defval>
+        </param>
+        <briefdescription>
+<para>Construct and, if io_uring is available, initialise the ring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>queue_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of SQ/CQ entries to allocate. Must be a power of two; values that are not will be rounded up by the kernel. 128–512 is typical. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="67" column="14" bodyfile="src/network/io_uring_batcher.cpp" bodystart="78" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a0e0f2f5f47c80fec3b376da45ff12291" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::IoUringBatchedSender::~IoUringBatchedSender</definition>
+        <argsstring>()</argsstring>
+        <name>~IoUringBatchedSender</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::~IoUringBatchedSender</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="69" column="5" bodyfile="src/network/io_uring_batcher.cpp" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1af9dfe55185db768d3d0e7c6b5798aa95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::IoUringBatchedSender::IoUringBatchedSender</definition>
+        <argsstring>(const IoUringBatchedSender &amp;)=delete</argsstring>
+        <name>IoUringBatchedSender</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::IoUringBatchedSender</qualifiedname>
+        <param>
+          <type>const IoUringBatchedSender &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="72" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a98c1ad32583bd5890e20b3693c36b26d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_io_uring_batched_sender_1ae8576382db9728d971154e108a871e4a" kindref="member">IoUringBatchedSender</ref> &amp;</type>
+        <definition>IoUringBatchedSender &amp; themis::network::IoUringBatchedSender::operator=</definition>
+        <argsstring>(const IoUringBatchedSender &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_io_uring_batched_sender_1ae8576382db9728d971154e108a871e4a" kindref="member">IoUringBatchedSender</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="73" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1ac55e58cac7cab63c357579015a4d5a9c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::IoUringBatchedSender::isAvailable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Whether io_uring was successfully initialised. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When false, <computeroutput><ref refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a8382401ddeeaca2aaba1b094d9f848f7" kindref="member">enqueue()</ref></computeroutput> falls back to synchronous <computeroutput>writev(2)</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="80" column="10" bodyfile="include/network/io_uring_batcher.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a8382401ddeeaca2aaba1b094d9f848f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::IoUringBatchedSender::enqueue</definition>
+        <argsstring>(WireProtocolBatcher &amp;batcher)</argsstring>
+        <name>enqueue</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::enqueue</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher" kindref="compound">WireProtocolBatcher</ref> &amp;</type>
+          <declname>batcher</declname>
+        </param>
+        <briefdescription>
+<para>Queue all pending iov entries of <computeroutput>batcher</computeroutput> for the next send round. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enqueue.</para>
+<para>If io_uring is unavailable the pending data is written immediately via <computeroutput><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a31f5e18021f06b3c100c57156add0259" kindref="member">WireProtocolBatcher::flush()</ref></computeroutput> and the return value mirrors that call.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>batcher</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A batcher with pending data (<computeroutput>batcher.pending() == true</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if the SQ ring is full or flush failed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batcher</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: pending(), defined(), flush(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="91" column="10" bodyfile="src/network/io_uring_batcher.cpp" bodystart="104" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1ae37a65f295bb4df2e6b8a9670a4ccaa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::IoUringBatchedSender::submitAndWait</definition>
+        <argsstring>()</argsstring>
+        <name>submitAndWait</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::submitAndWait</qualifiedname>
+        <briefdescription>
+<para>Submit all queued SQEs and wait for all CQEs to complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Submit And Wait.</para>
+<para>Blocks until every previously enqueued operation has been acknowledged by the kernel. This is the only syscall issued for the whole batch.</para>
+<para>No-op (returns immediately) when io_uring is unavailable — all sends have already been executed synchronously inside <computeroutput><ref refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a8382401ddeeaca2aaba1b094d9f848f7" kindref="member">enqueue()</ref></computeroutput>.</para>
+<para><simplesect kind="return"><para>Number of bytes successfully written across all operations. Individual operation errors are counted in <computeroutput><ref refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a084d198c16b2eb474868dd1117c32cd8" kindref="member">lastStats()</ref>.errors</computeroutput>.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), empty(), size(), enqueueSqe(), data(), io_uring_enter(), THEMIS_ERROR(), std::strerror(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="105" column="12" bodyfile="src/network/io_uring_batcher.cpp" bodystart="154" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a084d198c16b2eb474868dd1117c32cd8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1network_1_1_io_uring_batch_stats" kindref="compound">IoUringBatchStats</ref> &amp;</type>
+        <definition>const IoUringBatchStats &amp; themis::network::IoUringBatchedSender::lastStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastStats</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::lastStats</qualifiedname>
+        <briefdescription>
+<para>Statistics from the most recent <computeroutput><ref refid="classthemis_1_1network_1_1_io_uring_batched_sender_1ae37a65f295bb4df2e6b8a9670a4ccaa1" kindref="member">submitAndWait()</ref></computeroutput> call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="110" column="29" bodyfile="include/network/io_uring_batcher.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1aa03cb89e0ed62a1aa3213c092cdc9e24" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1network_1_1_io_uring_batch_stats" kindref="compound">IoUringBatchStats</ref> &amp;</type>
+        <definition>const IoUringBatchStats &amp; themis::network::IoUringBatchedSender::totalStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalStats</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::totalStats</qualifiedname>
+        <briefdescription>
+<para>Cumulative statistics since construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="115" column="29" bodyfile="include/network/io_uring_batcher.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1ab252f2f4b3a2e326afbce5a456a69f9c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::IoUringBatchedSender::initRing</definition>
+        <argsstring>(unsigned queue_depth)</argsstring>
+        <name>initRing</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::initRing</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>queue_depth</declname>
+        </param>
+        <briefdescription>
+<para>Init Ring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: defined(), std::memset(), io_uring_setup(), THEMIS_WARN(), std::strerror(), mmap(), close(), munmap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="162" column="10" bodyfile="src/network/io_uring_batcher.cpp" bodystart="338" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a77c2f2753e0db3f74ce991c83458030f" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::IoUringBatchedSender::teardownRing</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>teardownRing</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::teardownRing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="163" column="10" bodyfile="src/network/io_uring_batcher.cpp" bodystart="420" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_io_uring_batched_sender_1a494efef5f18348d31cce0e0b07564e0d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::IoUringBatchedSender::enqueueSqe</definition>
+        <argsstring>(int fd, const ::iovec *iovs, size_t iov_cnt, uint64_t user_data)</argsstring>
+        <name>enqueueSqe</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::enqueueSqe</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>const ::iovec *</type>
+          <declname>iovs</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>iov_cnt</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>user_data</declname>
+        </param>
+        <briefdescription>
+<para>Enqueue Sqe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">iovs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">iov_cnt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: defined(), std::memset(), std::memcpy(), THEMIS_TRACE(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="167" column="10" bodyfile="src/network/io_uring_batcher.cpp" bodystart="246" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Batched sender that amortises syscall overhead across connections. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_io_uring_batched_sender_1ae8576382db9728d971154e108a871e4a" kindref="member">IoUringBatchedSender</ref><sp/>sender(256);<sp/></highlight><highlight class="comment">//<sp/>queue_depth</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!sender.isAvailable())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fall<sp/>back<sp/>to<sp/>individual<sp/>WireProtocolBatcher::flush()<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>batcher<sp/>:<sp/>active_batchers)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>sender.enqueue(batcher);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">sender.submitAndWait();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>one<sp/>io_uring_enter()<sp/>for<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>sender.lastStats();<sp/><sp/></highlight><highlight class="comment">//<sp/>inspect<sp/>results</highlight></codeline>
+</programlisting></para>
+<para>When io_uring is not available <computeroutput><ref refid="classthemis_1_1network_1_1_io_uring_batched_sender_1ac55e58cac7cab63c357579015a4d5a9c" kindref="member">isAvailable()</ref></computeroutput> returns false and <computeroutput><ref refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a8382401ddeeaca2aaba1b094d9f848f7" kindref="member">enqueue()</ref></computeroutput> immediately calls <computeroutput><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a31f5e18021f06b3c100c57156add0259" kindref="member">WireProtocolBatcher::flush()</ref></computeroutput> so the caller&apos;s loop body stays identical in both paths. </para>
+    </detaileddescription>
+    <location file="include/network/io_uring_batcher.h" line="58" column="1" bodyfile="include/network/io_uring_batcher.h" bodystart="58" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a38cfd76ff52ae3a9b32060d5d0e146e8" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>cq_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1afa35c69dcb7a16705065ac4ee583dfa4" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>cq_ring_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1af2735eedc678a6d78d310470f95c97c6" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>cq_ring_sz_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a8382401ddeeaca2aaba1b094d9f848f7" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>enqueue</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a494efef5f18348d31cce0e0b07564e0d" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>enqueueSqe</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1ab252f2f4b3a2e326afbce5a456a69f9c" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>initRing</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1ae8576382db9728d971154e108a871e4a" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>IoUringBatchedSender</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1af9dfe55185db768d3d0e7c6b5798aa95" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>IoUringBatchedSender</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1ac55e58cac7cab63c357579015a4d5a9c" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a084d198c16b2eb474868dd1117c32cd8" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>lastStats</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a98c1ad32583bd5890e20b3693c36b26d" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1abef45bed454191de1a68f39ccce3fbfe" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>pending_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a7bc15f8bd5818a86fc2b269d0eef9d0c" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>queue_depth_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a697b1f9819a1ada839abd344e516a6dc" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>ring_fd_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1ab96f29cc87477199f3dab4413b85222d" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>sq_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1ac8651033623dc9078f2e24e6a4a76356" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>sq_ring_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a9846d6ac2296b3cf7e2a47561e109610" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>sq_ring_sz_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1acf86416ef40a18f87b3a10597eeb7ce3" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>sqe_base_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a2bb99498433adc965d8abc68ed08dd37" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>sqes_mmap_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a07004b8f0d7fceeb0f098748c4793064" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>sqes_mmap_sz_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a7e3d770da62da2409016c0ca255dc6ab" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1ae37a65f295bb4df2e6b8a9670a4ccaa1" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>submitAndWait</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a77c2f2753e0db3f74ce991c83458030f" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>teardownRing</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a6b0dfce780ccbbc5eadd0bca4563d1f0" prot="private" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>total_stats_</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1aa03cb89e0ed62a1aa3213c092cdc9e24" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>totalStats</name></member>
+      <member refid="classthemis_1_1network_1_1_io_uring_batched_sender_1a0e0f2f5f47c80fec3b376da45ff12291" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender</scope><name>~IoUringBatchedSender</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

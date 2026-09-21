@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::CircuitBreaker::Config</compoundname>
+    <includes refid="circuit__breaker_8h" local="no">circuit_breaker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a68ff3d42d9eebd8ad4aff5e94d35637a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CircuitBreaker::Config::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::Config::failure_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="57" column="16" bodyfile="include/sharding/circuit_breaker.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a05db475c0e71993a46fff37c644d56ef" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::CircuitBreaker::Config::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::Config::timeout</qualifiedname>
+        <initializer>= std::chrono::seconds(30)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="60" column="35" bodyfile="include/sharding/circuit_breaker.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a4daaa7d00bb246088f06916cb493cc5f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CircuitBreaker::Config::success_threshold</definition>
+        <argsstring></argsstring>
+        <name>success_threshold</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::Config::success_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="63" column="16" bodyfile="include/sharding/circuit_breaker.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a9704af27ca364865ae56b6041a68d4ff" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::CircuitBreaker::Config::failure_window</definition>
+        <argsstring></argsstring>
+        <name>failure_window</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::Config::failure_window</qualifiedname>
+        <initializer>= std::chrono::seconds(60)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="66" column="30" bodyfile="include/sharding/circuit_breaker.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for circuit breaker </para>
+    </detaileddescription>
+    <location file="include/sharding/circuit_breaker.h" line="55" column="5" bodyfile="include/sharding/circuit_breaker.h" bodystart="55" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a68ff3d42d9eebd8ad4aff5e94d35637a" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker::Config</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a9704af27ca364865ae56b6041a68d4ff" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker::Config</scope><name>failure_window</name></member>
+      <member refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a4daaa7d00bb246088f06916cb493cc5f" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker::Config</scope><name>success_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a05db475c0e71993a46fff37c644d56ef" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker::Config</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

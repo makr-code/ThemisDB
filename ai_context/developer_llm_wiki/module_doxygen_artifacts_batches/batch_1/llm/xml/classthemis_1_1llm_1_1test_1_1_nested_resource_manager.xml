@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_nested_resource_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::NestedResourceManager</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1_1_inner_resource" prot="public">themis::llm::test::NestedResourceManager::InnerResource</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1_1_outer_resource" prot="public">themis::llm::test::NestedResourceManager::OuterResource</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1a4f353aced3987002676a9ebaacc0f497" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1_1_outer_resource" kindref="compound">OuterResource</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;OuterResource&gt; themis::llm::test::NestedResourceManager::outer_</definition>
+        <argsstring></argsstring>
+        <name>outer_</name>
+        <qualifiedname>themis::llm::test::NestedResourceManager::outer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="352" column="19" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="352" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1a2f7ea1c82ccadcff323c6a9cea481e85" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::NestedResourceManager::NestedResourceManager</definition>
+        <argsstring>()</argsstring>
+        <name>NestedResourceManager</name>
+        <qualifiedname>themis::llm::test::NestedResourceManager::NestedResourceManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="345" column="12" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="345" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1ad0672532613c4cb1658c836951d7d0b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::test::NestedResourceManager::getNestedValue</definition>
+        <argsstring>()</argsstring>
+        <name>getNestedValue</name>
+        <qualifiedname>themis::llm::test::NestedResourceManager::getNestedValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="347" column="7" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="347" bodyend="349"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="327" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="327" bodyend="353"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1ad0672532613c4cb1658c836951d7d0b4" prot="public" virt="non-virtual"><scope>themis::llm::test::NestedResourceManager</scope><name>getNestedValue</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1a2f7ea1c82ccadcff323c6a9cea481e85" prot="public" virt="non-virtual"><scope>themis::llm::test::NestedResourceManager</scope><name>NestedResourceManager</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1a4f353aced3987002676a9ebaacc0f497" prot="private" virt="non-virtual"><scope>themis::llm::test::NestedResourceManager</scope><name>outer_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_i_abuse_detector" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::content::IAbuseDetector</compoundname>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector" prot="public" virt="non-virtual">themis::content::PhotoDNAAbuseDetector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_text_abuse_detector" prot="public" virt="non-virtual">themis::content::TextAbuseDetector</derivedcompoundref>
+    <includes refid="abuse__detector_8h" local="no">abuse_detector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_abuse_detector_1a274cb22468d3ece04c97c18ad7edd51a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::content::IAbuseDetector::~IAbuseDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAbuseDetector</name>
+        <qualifiedname>themis::content::IAbuseDetector::~IAbuseDetector</qualifiedname>
+        <briefdescription>
+<para>IAbuse Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="64" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_abuse_detector_1a5835e4f891a19d84015dafa369149f3b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_abuse_detection_result" kindref="compound">AbuseDetectionResult</ref></type>
+        <definition>virtual AbuseDetectionResult themis::content::IAbuseDetector::detect</definition>
+        <argsstring>(const std::string &amp;content_data, const AbuseDetectorMetadata &amp;metadata) const =0</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::content::IAbuseDetector::detect</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1a927aa64083214b81acbc59e111aa2fb9">detect</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_text_abuse_detector_1a23ef96a009214a6bbfb7c1e6c19de04e">detect</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_abuse_detector_metadata" kindref="compound">AbuseDetectorMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="66" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_abuse_detector_1a6518cb07e46f176795dc95c432f7faac" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::content::IAbuseDetector::detectorType</definition>
+        <argsstring>() const =0</argsstring>
+        <name>detectorType</name>
+        <qualifiedname>themis::content::IAbuseDetector::detectorType</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector_1ad30fe9bd297f65896d9f3f0a212a0a5c">detectorType</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_text_abuse_detector_1a043acbd46c3462e2bd673272416b06a4">detectorType</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="71" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::content::IAbuseDetector</label>
+        <link refid="classthemis_1_1content_1_1_i_abuse_detector"/>
+      </node>
+      <node id="2">
+        <label>themis::content::PhotoDNAAbuseDetector</label>
+        <link refid="classthemis_1_1content_1_1_photo_d_n_a_abuse_detector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::content::TextAbuseDetector</label>
+        <link refid="classthemis_1_1content_1_1_text_abuse_detector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/content/abuse_detector.h" line="58" column="1" bodyfile="include/content/abuse_detector.h" bodystart="58" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_i_abuse_detector_1a5835e4f891a19d84015dafa369149f3b" prot="public" virt="pure-virtual"><scope>themis::content::IAbuseDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1content_1_1_i_abuse_detector_1a6518cb07e46f176795dc95c432f7faac" prot="public" virt="pure-virtual"><scope>themis::content::IAbuseDetector</scope><name>detectorType</name></member>
+      <member refid="classthemis_1_1content_1_1_i_abuse_detector_1a274cb22468d3ece04c97c18ad7edd51a" prot="public" virt="virtual"><scope>themis::content::IAbuseDetector</scope><name>~IAbuseDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

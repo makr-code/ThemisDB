@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_aql_mutation_translator" kind="class" language="C++" prot="public">
+    <compoundname>themis::AqlMutationTranslator</compoundname>
+    <includes refid="aql__translator_8h" local="no">aql_translator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_aql_mutation_translator_1aaf514bd267236289c784ee3db6e5b1d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AqlMutationTranslator::AqlMutationTranslator</definition>
+        <argsstring>()=default</argsstring>
+        <name>AqlMutationTranslator</name>
+        <qualifiedname>themis::AqlMutationTranslator::AqlMutationTranslator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="333" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aql_mutation_translator_1a2a4e24333f2e71bdadb683261f3fb652" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AqlMutationTranslator::~AqlMutationTranslator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AqlMutationTranslator</name>
+        <qualifiedname>themis::AqlMutationTranslator::~AqlMutationTranslator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="334" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aql_mutation_translator_1a3c63b778cbb48b25518a6e6a28ae6328" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_execution_plan" kindref="compound">query::MutationExecutionPlan</ref></type>
+        <definition>MutationExecutionPlan themis::AqlMutationTranslator::translate</definition>
+        <argsstring>(const std::shared_ptr&lt; query::MutationNode &gt; &amp;node) const</argsstring>
+        <name>translate</name>
+        <qualifiedname>themis::AqlMutationTranslator::translate</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_mutation_node" kindref="compound">query::MutationNode</ref> &gt; &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="336" column="35" bodyfile="src/query/aql_mutation_translator.cpp" bodystart="135" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_aql_mutation_translator_1a3f2c1de76c56bea01741109dbd2dd8ea" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_execution_plan" kindref="compound">query::MutationExecutionPlan</ref></type>
+        <definition>MutationExecutionPlan themis::AqlMutationTranslator::translateInsert</definition>
+        <argsstring>(const query::InsertNode &amp;n) const</argsstring>
+        <name>translateInsert</name>
+        <qualifiedname>themis::AqlMutationTranslator::translateInsert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_insert_node" kindref="compound">query::InsertNode</ref> &amp;</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="340" column="35" bodyfile="src/query/aql_mutation_translator.cpp" bodystart="173" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aql_mutation_translator_1a52b002f3f2c7f608ff37b1ae0b77606a" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_execution_plan" kindref="compound">query::MutationExecutionPlan</ref></type>
+        <definition>MutationExecutionPlan themis::AqlMutationTranslator::translateUpdate</definition>
+        <argsstring>(const query::UpdateNode &amp;n) const</argsstring>
+        <name>translateUpdate</name>
+        <qualifiedname>themis::AqlMutationTranslator::translateUpdate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_update_node" kindref="compound">query::UpdateNode</ref> &amp;</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="343" column="35" bodyfile="src/query/aql_mutation_translator.cpp" bodystart="195" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aql_mutation_translator_1a08b7b915832f00fa647759f5f619c312" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_execution_plan" kindref="compound">query::MutationExecutionPlan</ref></type>
+        <definition>MutationExecutionPlan themis::AqlMutationTranslator::translateRemove</definition>
+        <argsstring>(const query::RemoveNode &amp;n) const</argsstring>
+        <name>translateRemove</name>
+        <qualifiedname>themis::AqlMutationTranslator::translateRemove</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_remove_node" kindref="compound">query::RemoveNode</ref> &amp;</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="346" column="35" bodyfile="src/query/aql_mutation_translator.cpp" bodystart="225" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aql_mutation_translator_1a394cfca9005c0e36d6d6d6f79e8954f9" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_execution_plan" kindref="compound">query::MutationExecutionPlan</ref></type>
+        <definition>MutationExecutionPlan themis::AqlMutationTranslator::translateReplace</definition>
+        <argsstring>(const query::ReplaceNode &amp;n) const</argsstring>
+        <name>translateReplace</name>
+        <qualifiedname>themis::AqlMutationTranslator::translateReplace</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_replace_node" kindref="compound">query::ReplaceNode</ref> &amp;</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="349" column="35" bodyfile="src/query/aql_mutation_translator.cpp" bodystart="256" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aql_mutation_translator_1a5a3b8713a2725225b9613cd7029db70d" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_execution_plan" kindref="compound">query::MutationExecutionPlan</ref></type>
+        <definition>MutationExecutionPlan themis::AqlMutationTranslator::translateUpsert</definition>
+        <argsstring>(const query::UpsertNode &amp;n) const</argsstring>
+        <name>translateUpsert</name>
+        <qualifiedname>themis::AqlMutationTranslator::translateUpsert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_upsert_node" kindref="compound">query::UpsertNode</ref> &amp;</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="352" column="35" bodyfile="src/query/aql_mutation_translator.cpp" bodystart="277" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_translator.h" line="331" column="1" bodyfile="include/query/aql_translator.h" bodystart="331" bodyend="354"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_aql_mutation_translator_1aaf514bd267236289c784ee3db6e5b1d9" prot="public" virt="non-virtual"><scope>themis::AqlMutationTranslator</scope><name>AqlMutationTranslator</name></member>
+      <member refid="classthemis_1_1_aql_mutation_translator_1a3c63b778cbb48b25518a6e6a28ae6328" prot="public" virt="non-virtual"><scope>themis::AqlMutationTranslator</scope><name>translate</name></member>
+      <member refid="classthemis_1_1_aql_mutation_translator_1a3f2c1de76c56bea01741109dbd2dd8ea" prot="private" virt="non-virtual"><scope>themis::AqlMutationTranslator</scope><name>translateInsert</name></member>
+      <member refid="classthemis_1_1_aql_mutation_translator_1a08b7b915832f00fa647759f5f619c312" prot="private" virt="non-virtual"><scope>themis::AqlMutationTranslator</scope><name>translateRemove</name></member>
+      <member refid="classthemis_1_1_aql_mutation_translator_1a394cfca9005c0e36d6d6d6f79e8954f9" prot="private" virt="non-virtual"><scope>themis::AqlMutationTranslator</scope><name>translateReplace</name></member>
+      <member refid="classthemis_1_1_aql_mutation_translator_1a52b002f3f2c7f608ff37b1ae0b77606a" prot="private" virt="non-virtual"><scope>themis::AqlMutationTranslator</scope><name>translateUpdate</name></member>
+      <member refid="classthemis_1_1_aql_mutation_translator_1a5a3b8713a2725225b9613cd7029db70d" prot="private" virt="non-virtual"><scope>themis::AqlMutationTranslator</scope><name>translateUpsert</name></member>
+      <member refid="classthemis_1_1_aql_mutation_translator_1a2a4e24333f2e71bdadb683261f3fb652" prot="public" virt="non-virtual"><scope>themis::AqlMutationTranslator</scope><name>~AqlMutationTranslator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

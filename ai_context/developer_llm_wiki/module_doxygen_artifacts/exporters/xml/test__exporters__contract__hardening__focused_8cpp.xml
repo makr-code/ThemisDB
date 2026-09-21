@@ -1,0 +1,823 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__exporters__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_exporters_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="exporters__api__contract_8h" local="yes">exporters/exporters_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">random</includes>
+    <includes local="no">set</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>exporters/exporters_api_contract.h</label>
+        <link refid="exporters__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/exporters/test_exporters_contract_hardening_focused.cpp</label>
+        <link refid="test__exporters__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>random</label>
+      </node>
+      <node id="11">
+        <label>set</label>
+      </node>
+      <node id="12">
+        <label>sstream</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH01, NullCellRenderedEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH01</type>
+        </param>
+        <param>
+          <type>NullCellRenderedEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="188" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="188" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1adf83341b6dcccca9da64c328006159a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH02, DelimiterInFieldQuoted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH02</type>
+        </param>
+        <param>
+          <type>DelimiterInFieldQuoted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="200" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="200" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1ab29bbeaa37991d64c614149b2963740d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH03, HeaderAlwaysFirst)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH03</type>
+        </param>
+        <param>
+          <type>HeaderAlwaysFirst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="212" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="212" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1aa432ec0f4dda3d68c76913fc47c8b90b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH04, LineSeparatorContract)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH04</type>
+        </param>
+        <param>
+          <type>LineSeparatorContract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="235" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="235" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1a1b9863f9d5f86264c5ff9a12ce0bac77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH05, ParquetSchemaPreserved)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH05</type>
+        </param>
+        <param>
+          <type>ParquetSchemaPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="253" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="253" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1a8f4c0a793070ed5b640686f6df80164e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH06, ParquetNullBitmapCorrect)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH06</type>
+        </param>
+        <param>
+          <type>ParquetNullBitmapCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="267" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="267" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1ab449c132e2759e529da86a9ec64ae7b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH07, RepeatedExportDeterministic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH07</type>
+        </param>
+        <param>
+          <type>RepeatedExportDeterministic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="282" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="282" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1acd0c02fe56def3bc8f5169cdac193141" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH08, OutputColumnCountMatchesSchema)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH08</type>
+        </param>
+        <param>
+          <type>OutputColumnCountMatchesSchema</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="297" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="297" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1a76516112c239571d7d44c05a6d22095d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH09, ChunksDeliveredInOrder)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH09</type>
+        </param>
+        <param>
+          <type>ChunksDeliveredInOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="314" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="314" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1a1053844a79178752c2f23f7792510279" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH10, PartialExportSurfacesStreamInterrupted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH10</type>
+        </param>
+        <param>
+          <type>PartialExportSurfacesStreamInterrupted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="328" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="328" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1a28933cbd0f48ae1174249da01ca0e576" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH11, ExportResumesFromLastAckedChunk)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH11</type>
+        </param>
+        <param>
+          <type>ExportResumesFromLastAckedChunk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="347" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="347" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1aa458cc4296e53350cbdc115e66d0872c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH12, ChunkSequenceStartsAtZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH12</type>
+        </param>
+        <param>
+          <type>ChunkSequenceStartsAtZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="367" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="367" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1aaa65d5654b0a9da8856c0632c65220d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH13, UnsupportedFormatErrorBeforeOutput)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH13</type>
+        </param>
+        <param>
+          <type>UnsupportedFormatErrorBeforeOutput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="380" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="380" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1aa10671b9e548b4e8de8aa7374fb2238f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH14, WriteFailureSurfacesError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH14</type>
+        </param>
+        <param>
+          <type>WriteFailureSurfacesError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="400" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="400" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1ad78c7c11080efe407373f2bb78a520a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH15, QuotaExceededSurfaced)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH15</type>
+        </param>
+        <param>
+          <type>QuotaExceededSurfaced</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="414" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="414" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="test__exporters__contract__hardening__focused_8cpp_1a15da395c532f2c7e5f761ab3f52a7d4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ExportersContractHardeningEXCH16, ResumabilityContract)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ExportersContractHardeningEXCH16</type>
+        </param>
+        <param>
+          <type>ResumabilityContract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="431" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="431" bodyend="438"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 — Exporters contract hardening focused tests (EXCH-01..EXCH-16). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests are fully self-contained: no network I/O, no filesystem I/O. All external interactions are mocked inline. The canonical PRNG seed is kExportersContractSeed = 42.</para>
+<sect1 id="test__exporters__contract__hardening__focused_8cpp_1autotoc_md5_1s1"><sect2 id="test__exporters__contract__hardening__focused_8cpp_1autotoc_md5">
+<title>Test families</title><para><heading level="3">EXCH-01..04 — CSV export contract</heading>
+</para>
+<para>EXCH-01 Null cell renders as empty (two adjacent delimiters) EXCH-02 Field containing delimiter is properly quoted EXCH-03 Header row is always the first row EXCH-04 Line separator matches declared contract (CRLF vs LF)</para>
+<para><heading level="3">EXCH-05..08 — Parquet export contract</heading>
+</para>
+<para>EXCH-05 Schema column types are preserved in output EXCH-06 Null values produce a clear null-bitmap bit EXCH-07 Repeated export of same data produces identical bytes EXCH-08 Column count in output matches schema column count</para>
+<para><heading level="3">EXCH-09..12 — Streaming contract</heading>
+</para>
+<para>EXCH-09 Chunks are delivered in sequence-number order EXCH-10 Partial export on write error surfaces STREAM_INTERRUPTED EXCH-11 Streaming export resumes from last acked chunk EXCH-12 Chunk sequence number starts at kFirstChunkSequence (0)</para>
+<para><heading level="3">EXCH-13..16 — Error contract</heading>
+</para>
+<para>EXCH-13 Unsupported format → EXPORT_FORMAT_UNSUPPORTED before any output EXCH-14 Write failure → EXPORT_WRITE_FAILED EXCH-15 Quota exceeded → QUOTA_EXCEEDED EXCH-16 STREAM_INTERRUPTED is resumable; EXPORT_FORMAT_UNSUPPORTED is not</para>
+<para><simplesect kind="see"><para><ref refid="exporters__api__contract_8h" kindref="compound">include/exporters/exporters_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/exporters/ROADMAP.md — Phase 4 item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="exporters__api__contract_8h" kindref="compound">exporters/exporters_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1exporters" kindref="compound">themis::exporters</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kExportersContractSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>CSV<sp/>serialiser</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockCsvRow<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::optional&lt;std::string&gt;&gt;<sp/>cells;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>serializeCsvRow(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MockCsvRow&amp;<sp/>row,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>delimiter<sp/>=<sp/><ref refid="namespacethemis_1_1exporters_1a43e2d56a01b38d8d6e2db7c2575eb338" kindref="member">kCsvDefaultDelimiter</ref>,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>line_sep<sp/>=<sp/><ref refid="namespacethemis_1_1exporters_1a5c1fa81d0e4e26c2224213749a937126" kindref="member">kCsvDefaultLineSep</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>ss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>row.cells.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/>delimiter;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!row.cells[i].has_value())<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>null<sp/>→<sp/>empty<sp/>cell</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>v<sp/>=<sp/>*row.cells[i];</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>needs_quote<sp/>=<sp/>v.find(delimiter)<sp/>!=<sp/>std::string::npos</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>v.find(</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">)<sp/><sp/><sp/><sp/><sp/><sp/><sp/>!=<sp/>std::string::npos</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>v.find(<ref refid="namespacethemis_1_1exporters_1a68ea963bd1c87c6c530b10eff0dceafc" kindref="member">kCsvQuoteChar</ref>)<sp/>!=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(needs_quote)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/><ref refid="namespacethemis_1_1exporters_1a68ea963bd1c87c6c530b10eff0dceafc" kindref="member">kCsvQuoteChar</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(c<sp/>==<sp/><ref refid="namespacethemis_1_1exporters_1a68ea963bd1c87c6c530b10eff0dceafc" kindref="member">kCsvQuoteChar</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/><ref refid="namespacethemis_1_1exporters_1a68ea963bd1c87c6c530b10eff0dceafc" kindref="member">kCsvQuoteChar</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/>c;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/><ref refid="namespacethemis_1_1exporters_1a68ea963bd1c87c6c530b10eff0dceafc" kindref="member">kCsvQuoteChar</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/>v;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/>line_sep;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ss.str();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>Parquet<sp/>schema/column</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>ParquetType<sp/>{<sp/><ref refid="namespacethemis_1_1exporters_1a35acbbd7e7a1244b781f17108fb76c96a4e866b275c85fbb439f6484251cfb31c" kindref="member">INT64</ref>,<sp/><ref refid="namespacethemis_1_1exporters_1a35acbbd7e7a1244b781f17108fb76c96afd3e4ece78a7d422280d5ed379482229" kindref="member">DOUBLE</ref>,<sp/><ref refid="namespacethemis_1_1exporters_1a35acbbd7e7a1244b781f17108fb76c96a63b588d5559f64f89a416e656880b949" kindref="member">STRING</ref>,<sp/><ref refid="namespacethemis_1_1exporters_1a35acbbd7e7a1244b781f17108fb76c96ac48d5da12d702e73d6966069f2687376" kindref="member">BOOLEAN</ref><sp/>};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ParquetColumn<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/>name;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>ParquetType<sp/><sp/>type;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockParquetRow<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::optional&lt;std::string&gt;&gt;<sp/>values;<sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockParquetSchema<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ParquetColumn&gt;<sp/>columns;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockParquetOutput<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>MockParquetSchema<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schema;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockParquetRow&gt;<sp/><sp/><sp/><sp/>rows;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;bool&gt;&gt;<sp/>null_bitmap;<sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>addRow(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MockParquetRow&amp;<sp/>row)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rows.push_back(row);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/>row_nulls<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>row.values)</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>row_nulls.push_back(!v.has_value());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>null_bitmap.push_back(std::move(row_nulls));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Serialize<sp/>to<sp/>a<sp/>deterministic<sp/>string<sp/>for<sp/>comparison</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>serializeParquet(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MockParquetOutput&amp;<sp/>out)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>ss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>col<sp/>:<sp/>out.schema.columns)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/>col.name<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(col.type)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;|&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>row<sp/>:<sp/>out.rows)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>row.values)</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/>(v.has_value()<sp/>?<sp/>*v<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;NULL&quot;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ss.str();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>streaming<sp/>exporter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockChunk<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/>seq<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/>data<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockStreamingExporter<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MockChunk&gt;<sp/>chunks;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>next_seq<sp/>=<sp/><ref refid="namespacethemis_1_1exporters_1a20b4dc917afd0c9a07bb476f26b066a0" kindref="member">kFirstChunkSequence</ref>;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fail_on_chunk<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fail_at_seq<sp/><sp/><sp/>=<sp/>UINT64_MAX;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3a" kindref="member">ExporterErrorCode</ref><sp/>sendChunk(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fail_on_chunk<sp/>&amp;&amp;<sp/>next_seq<sp/>&gt;=<sp/>fail_at_seq)</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ExporterErrorCode::STREAM_INTERRUPTED;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks.push_back({next_seq++,<sp/>data});</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ExporterErrorCode::OK;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isSequential()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>chunks.size();<sp/>++i)</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(chunks[i].seq<sp/>!=<sp/>chunks[i-1].seq<sp/>+<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-01<sp/>—<sp/>Null<sp/>cell<sp/>renders<sp/>as<sp/>empty<sp/>(two<sp/>adjacent<sp/>delimiters)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH01,<sp/>NullCellRenderedEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>MockCsvRow<sp/>row;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>row.cells<sp/>=<sp/>{std::string(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">),<sp/>std::nullopt,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>out<sp/>=<sp/>serializeCsvRow(row,<sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expect:<sp/>A,,C\n</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(out,<sp/></highlight><highlight class="stringliteral">&quot;A,,C\n&quot;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Null<sp/>cell<sp/>must<sp/>render<sp/>as<sp/>empty<sp/>(adjacent<sp/>delimiters)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-02<sp/>—<sp/>Field<sp/>containing<sp/>delimiter<sp/>is<sp/>properly<sp/>quoted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH02,<sp/>DelimiterInFieldQuoted)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>MockCsvRow<sp/>row;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>row.cells<sp/>=<sp/>{std::string(</highlight><highlight class="stringliteral">&quot;val,with,comma&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>out<sp/>=<sp/>serializeCsvRow(row,<sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(out,<sp/></highlight><highlight class="stringliteral">&quot;\&quot;val,with,comma\&quot;\n&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Fields<sp/>containing<sp/>the<sp/>delimiter<sp/>must<sp/>be<sp/>double-quoted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-03<sp/>—<sp/>Header<sp/>row<sp/>is<sp/>always<sp/>the<sp/>first<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH03,<sp/>HeaderAlwaysFirst)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate:<sp/>produce<sp/>header<sp/>+<sp/>data<sp/>rows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>header_cells<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>MockCsvRow<sp/>header_row;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>h<sp/>:<sp/>header_cells)</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>header_row.cells.push_back(std::optional&lt;std::string&gt;(h));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>MockCsvRow<sp/>data_row;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>data_row.cells<sp/>=<sp/>{std::string(</highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">),<sp/>std::string(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">),<sp/>std::string(</highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>output<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>output<sp/>+=<sp/>serializeCsvRow(header_row,<sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>output<sp/>+=<sp/>serializeCsvRow(data_row,<sp/><sp/><sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(output.substr(0,<sp/>13),<sp/></highlight><highlight class="stringliteral">&quot;id,name,value&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Header<sp/>must<sp/>be<sp/>the<sp/>first<sp/>row&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1exporters_1a970eadf842ff1cc900387e4469af4a81" kindref="member">kCsvHeaderRequired</ref>);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-04<sp/>—<sp/>Line<sp/>separator<sp/>matches<sp/>contract<sp/>(CRLF<sp/>vs<sp/>LF)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH04,<sp/>LineSeparatorContract)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>MockCsvRow<sp/>row;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>row.cells<sp/>=<sp/>{std::string(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CRLF<sp/>(RFC<sp/>4180<sp/>default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>crlf_out<sp/>=<sp/>serializeCsvRow(row,<sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;\r\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(crlf_out.substr(crlf_out.size()<sp/>-<sp/>2),<sp/></highlight><highlight class="stringliteral">&quot;\r\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LF<sp/>(declared<sp/>alternative)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>lf_out<sp/>=<sp/>serializeCsvRow(row,<sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lf_out.back(),<sp/></highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(lf_out[lf_out.size()-2],<sp/></highlight><highlight class="charliteral">&apos;\r&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-05<sp/>—<sp/>Schema<sp/>column<sp/>types<sp/>preserved<sp/>in<sp/>Parquet<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH05,<sp/>ParquetSchemaPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>MockParquetOutput<sp/>out;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>out.schema.columns<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>ParquetType::INT64},<sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>ParquetType::STRING}};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>out.addRow({{</highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(out.schema.columns.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(out.schema.columns[0].type,<sp/>ParquetType::INT64);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(out.schema.columns[1].type,<sp/>ParquetType::STRING);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-06<sp/>—<sp/>Null<sp/>values<sp/>produce<sp/>a<sp/>set<sp/>null-bitmap<sp/>bit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH06,<sp/>ParquetNullBitmapCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>MockParquetOutput<sp/>out;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>out.schema.columns<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>ParquetType::INT64},<sp/>{</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>ParquetType::STRING}};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>out.addRow({{std::string(</highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">),<sp/>std::nullopt}});<sp/><sp/></highlight><highlight class="comment">//<sp/>b<sp/>is<sp/>null</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(out.null_bitmap.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(out.null_bitmap[0].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(out.null_bitmap[0][0])<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Column<sp/>&apos;a&apos;<sp/>is<sp/>not<sp/>null&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(out.null_bitmap[0][1])<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Column<sp/>&apos;b&apos;<sp/>is<sp/>null<sp/>—<sp/>bit<sp/>must<sp/>be<sp/>set&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-07<sp/>—<sp/>Repeated<sp/>export<sp/>of<sp/>same<sp/>data<sp/>produces<sp/>identical<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH07,<sp/>RepeatedExportDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>MockParquetOutput<sp/>out1,<sp/>out2;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>out<sp/>:<sp/>{&amp;out1,<sp/>&amp;out2})<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out-&gt;schema.columns<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>ParquetType::DOUBLE}};</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out-&gt;addRow({{std::string(</highlight><highlight class="stringliteral">&quot;3.14&quot;</highlight><highlight class="normal">)}});</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out-&gt;addRow({{std::string(</highlight><highlight class="stringliteral">&quot;2.71&quot;</highlight><highlight class="normal">)}});</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(serializeParquet(out1),<sp/>serializeParquet(out2))</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Same<sp/>input<sp/>must<sp/>produce<sp/>byte-identical<sp/>output<sp/>(determinism<sp/>contract)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-08<sp/>—<sp/>Column<sp/>count<sp/>in<sp/>output<sp/>matches<sp/>schema<sp/>column<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH08,<sp/>OutputColumnCountMatchesSchema)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>MockParquetOutput<sp/>out;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>out.schema.columns<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/>ParquetType::INT64},</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;c2&quot;</highlight><highlight class="normal">,<sp/>ParquetType::STRING},</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;c3&quot;</highlight><highlight class="normal">,<sp/>ParquetType::BOOLEAN}};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>MockParquetRow<sp/>row;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>row.values<sp/>=<sp/>{std::string(</highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">),<sp/>std::string(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">),<sp/>std::string(</highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">)};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>out.addRow(row);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(out.schema.columns.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(out.rows[0].values.size(),<sp/>out.schema.columns.size());</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-09<sp/>—<sp/>Chunks<sp/>delivered<sp/>in<sp/>sequence-number<sp/>order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH09,<sp/>ChunksDeliveredInOrder)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>MockStreamingExporter<sp/>exp;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(exp.sendChunk(</highlight><highlight class="stringliteral">&quot;chunk-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)),<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ExporterErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(exp.isSequential())</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>chunks<sp/>must<sp/>have<sp/>strictly<sp/>sequential<sp/>sequence<sp/>numbers&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(exp.chunks.front().seq,<sp/><ref refid="namespacethemis_1_1exporters_1a20b4dc917afd0c9a07bb476f26b066a0" kindref="member">kFirstChunkSequence</ref>);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-10<sp/>—<sp/>Partial<sp/>export<sp/>on<sp/>write<sp/>error<sp/>surfaces<sp/>STREAM_INTERRUPTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH10,<sp/>PartialExportSurfacesStreamInterrupted)<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>MockStreamingExporter<sp/>exp;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>exp.fail_on_chunk<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>exp.fail_at_seq<sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>exp.sendChunk(</highlight><highlight class="stringliteral">&quot;chunk-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&lt;<sp/>3)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(rc,<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ExporterErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(rc,<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaefca99629ce65cbe657a380c887f1152" kindref="member">ExporterErrorCode::STREAM_INTERRUPTED</ref>);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-11<sp/>—<sp/>Streaming<sp/>export<sp/>resumes<sp/>from<sp/>last<sp/>acked<sp/>chunk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH11,<sp/>ExportResumesFromLastAckedChunk)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>MockStreamingExporter<sp/>exp;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Send<sp/>3<sp/>chunks<sp/>successfully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exp.sendChunk(</highlight><highlight class="stringliteral">&quot;chunk-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/>last_acked<sp/>=<sp/>exp.chunks.back().seq;<sp/><sp/></highlight><highlight class="comment">//<sp/>=<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>resume:<sp/>start<sp/>a<sp/>new<sp/>exporter<sp/>from<sp/>last_acked<sp/>+<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>MockStreamingExporter<sp/>resumed;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>resumed.next_seq<sp/>=<sp/>last_acked<sp/>+<sp/>1;<sp/><sp/></highlight><highlight class="comment">//<sp/>=<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resumed.sendChunk(</highlight><highlight class="stringliteral">&quot;chunk-3&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ExporterErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resumed.chunks.front().seq,<sp/>3u)</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Resumed<sp/>stream<sp/>must<sp/>start<sp/>at<sp/>last_acked<sp/>+<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-12<sp/>—<sp/>Chunk<sp/>sequence<sp/>number<sp/>starts<sp/>at<sp/>kFirstChunkSequence<sp/>(0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH12,<sp/>ChunkSequenceStartsAtZero)<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1exporters_1a20b4dc917afd0c9a07bb476f26b066a0" kindref="member">kFirstChunkSequence</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>MockStreamingExporter<sp/>exp;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>exp.sendChunk(</highlight><highlight class="stringliteral">&quot;first&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(exp.chunks.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(exp.chunks[0].seq,<sp/><ref refid="namespacethemis_1_1exporters_1a20b4dc917afd0c9a07bb476f26b066a0" kindref="member">kFirstChunkSequence</ref>);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-13<sp/>—<sp/>Unsupported<sp/>format<sp/>→<sp/>EXPORT_FORMAT_UNSUPPORTED<sp/>before<sp/>any<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH13,<sp/>UnsupportedFormatErrorBeforeOutput)<sp/>{</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>format_supported<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>simulated<sp/>unsupported<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>output;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>bytes<sp/>written</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3a" kindref="member">ExporterErrorCode</ref><sp/>rc<sp/>=<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ExporterErrorCode::OK</ref>;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!format_supported)<sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rc<sp/>=<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa5a34fa8bc7c1f79532fc89e27be0360a" kindref="member">ExporterErrorCode::EXPORT_FORMAT_UNSUPPORTED</ref>;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rc,<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa5a34fa8bc7c1f79532fc89e27be0360a" kindref="member">ExporterErrorCode::EXPORT_FORMAT_UNSUPPORTED</ref>);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(output.empty())</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>output<sp/>bytes<sp/>must<sp/>be<sp/>written<sp/>when<sp/>format<sp/>is<sp/>unsupported&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-14<sp/>—<sp/>Write<sp/>failure<sp/>→<sp/>EXPORT_WRITE_FAILED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH14,<sp/>WriteFailureSurfacesError)<sp/>{</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>write_ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>simulated<sp/>write<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>write_ok</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ExporterErrorCode::OK</ref></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa3ece79b01ab99d4b4898f152d1b030dd" kindref="member">ExporterErrorCode::EXPORT_WRITE_FAILED</ref>;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rc,<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa3ece79b01ab99d4b4898f152d1b030dd" kindref="member">ExporterErrorCode::EXPORT_WRITE_FAILED</ref>);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1exporters_1aeb6fca96f9a0d48ce477cd9715d4a364" kindref="member">isTransientError</ref>(rc));</highlight></codeline>
+<codeline lineno="408"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-15<sp/>—<sp/>Quota<sp/>exceeded<sp/>→<sp/>QUOTA_EXCEEDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH15,<sp/>QuotaExceededSurfaced)<sp/>{</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/>row_quota<sp/>=<sp/>100u;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/>rows_exported<sp/>=<sp/>101u;</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>(rows_exported<sp/>&gt;<sp/>row_quota)</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aabc56602da5a8282afc0f0432435db4c6" kindref="member">ExporterErrorCode::QUOTA_EXCEEDED</ref></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3a" kindref="member">ExporterErrorCode</ref>::<ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref>;</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rc,<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aabc56602da5a8282afc0f0432435db4c6" kindref="member">ExporterErrorCode::QUOTA_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1exporters_1a9cd9357cbf7aab9d67104f490c6eb8e1" kindref="member">isResumableError</ref>(rc))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Quota<sp/>exceeded<sp/>is<sp/>not<sp/>resumable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1exporters_1aeb6fca96f9a0d48ce477cd9715d4a364" kindref="member">isTransientError</ref>(rc))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Quota<sp/>exceeded<sp/>is<sp/>not<sp/>transient&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EXCH-16<sp/>—<sp/>STREAM_INTERRUPTED<sp/>is<sp/>resumable;<sp/>EXPORT_FORMAT_UNSUPPORTED<sp/>is<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><ref refid="test__exporters__contract__hardening__focused_8cpp_1a6920cf6a7ea3bc1e129feff2652624da" kindref="member">TEST</ref>(ExportersContractHardeningEXCH16,<sp/>ResumabilityContract)<sp/>{</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1exporters_1a9cd9357cbf7aab9d67104f490c6eb8e1" kindref="member">isResumableError</ref>(<ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaefca99629ce65cbe657a380c887f1152" kindref="member">ExporterErrorCode::STREAM_INTERRUPTED</ref>))</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;STREAM_INTERRUPTED<sp/>must<sp/>be<sp/>resumable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1exporters_1a9cd9357cbf7aab9d67104f490c6eb8e1" kindref="member">isResumableError</ref>(<ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa5a34fa8bc7c1f79532fc89e27be0360a" kindref="member">ExporterErrorCode::EXPORT_FORMAT_UNSUPPORTED</ref>))</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;EXPORT_FORMAT_UNSUPPORTED<sp/>is<sp/>permanent;<sp/>not<sp/>resumable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1exporters_1a9cd9357cbf7aab9d67104f490c6eb8e1" kindref="member">isResumableError</ref>(<ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aabc56602da5a8282afc0f0432435db4c6" kindref="member">ExporterErrorCode::QUOTA_EXCEEDED</ref>));</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1exporters_1a9cd9357cbf7aab9d67104f490c6eb8e1" kindref="member">isResumableError</ref>(<ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa9dd2006f93ad6581cd4b1d5d93cfa5bd" kindref="member">ExporterErrorCode::SCHEMA_MISMATCH</ref>));</highlight></codeline>
+<codeline lineno="438"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

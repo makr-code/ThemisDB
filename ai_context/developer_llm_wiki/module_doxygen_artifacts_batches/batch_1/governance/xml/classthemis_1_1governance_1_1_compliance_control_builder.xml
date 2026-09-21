@@ -1,0 +1,396 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_compliance_control_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceControlBuilder</compoundname>
+    <includes refid="compliance__mapping_8h" local="no">compliance_mapping.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_control_builder_1ae3f1e6a3d6c271a88446e6b73d288420" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_control" kindref="compound">ComplianceControl</ref></type>
+        <definition>ComplianceControl themis::governance::ComplianceControlBuilder::ctl_</definition>
+        <argsstring></argsstring>
+        <name>ctl_</name>
+        <qualifiedname>themis::governance::ComplianceControlBuilder::ctl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="508" column="23" bodyfile="include/governance/compliance_mapping.h" bodystart="508" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_control_builder_1a9f013e017f99682b0f5e180f4bcc920a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_control_builder" kindref="compound">ComplianceControlBuilder</ref> &amp;</type>
+        <definition>ComplianceControlBuilder &amp; themis::governance::ComplianceControlBuilder::withId</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>withId</name>
+        <qualifiedname>themis::governance::ComplianceControlBuilder::withId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>With Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withId without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="457" column="30" bodyfile="src/governance/compliance_mapping.cpp" bodystart="671" bodyend="675"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_control_builder_1a33c91e868cbfda1b1abf9de6e9cbf04c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_control_builder" kindref="compound">ComplianceControlBuilder</ref> &amp;</type>
+        <definition>ComplianceControlBuilder &amp; themis::governance::ComplianceControlBuilder::withFramework</definition>
+        <argsstring>(ComplianceFramework fw)</argsstring>
+        <name>withFramework</name>
+        <qualifiedname>themis::governance::ComplianceControlBuilder::withFramework</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+          <declname>fw</declname>
+        </param>
+        <briefdescription>
+<para>With Framework. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withFramework without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="463" column="30" bodyfile="src/governance/compliance_mapping.cpp" bodystart="683" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_control_builder_1ac22e46a567dd73a35fb7fe1675af66c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_control_builder" kindref="compound">ComplianceControlBuilder</ref> &amp;</type>
+        <definition>ComplianceControlBuilder &amp; themis::governance::ComplianceControlBuilder::withName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>withName</name>
+        <qualifiedname>themis::governance::ComplianceControlBuilder::withName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>With Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="469" column="30" bodyfile="src/governance/compliance_mapping.cpp" bodystart="695" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_control_builder_1a888d34b30759fab0b07b108e0fc4ac4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_control_builder" kindref="compound">ComplianceControlBuilder</ref> &amp;</type>
+        <definition>ComplianceControlBuilder &amp; themis::governance::ComplianceControlBuilder::withDescription</definition>
+        <argsstring>(const std::string &amp;desc)</argsstring>
+        <name>withDescription</name>
+        <qualifiedname>themis::governance::ComplianceControlBuilder::withDescription</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+<para>With Description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">desc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">desc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withDescription without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="475" column="30" bodyfile="src/governance/compliance_mapping.cpp" bodystart="707" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_control_builder_1abc1d94b743f19158815d1af8a832caf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_control_builder" kindref="compound">ComplianceControlBuilder</ref> &amp;</type>
+        <definition>ComplianceControlBuilder &amp; themis::governance::ComplianceControlBuilder::withImplementation</definition>
+        <argsstring>(const std::string &amp;impl)</argsstring>
+        <name>withImplementation</name>
+        <qualifiedname>themis::governance::ComplianceControlBuilder::withImplementation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>impl</declname>
+        </param>
+        <briefdescription>
+<para>With Implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">impl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">impl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withImplementation without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="481" column="30" bodyfile="src/governance/compliance_mapping.cpp" bodystart="719" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_control_builder_1ad674e3e9e33884fa1c4b108662f4d13a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_control_builder" kindref="compound">ComplianceControlBuilder</ref> &amp;</type>
+        <definition>ComplianceControlBuilder &amp; themis::governance::ComplianceControlBuilder::automated</definition>
+        <argsstring>(bool is_automated)</argsstring>
+        <name>automated</name>
+        <qualifiedname>themis::governance::ComplianceControlBuilder::automated</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>is_automated</declname>
+        </param>
+        <briefdescription>
+<para>Automated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">is_automated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">is_automated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements automated without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="487" column="30" bodyfile="src/governance/compliance_mapping.cpp" bodystart="731" bodyend="735"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_control_builder_1a8e50032f70f370360a52cc9a4a903d3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_control_builder" kindref="compound">ComplianceControlBuilder</ref> &amp;</type>
+        <definition>ComplianceControlBuilder &amp; themis::governance::ComplianceControlBuilder::withPolicyRule</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>withPolicyRule</name>
+        <qualifiedname>themis::governance::ComplianceControlBuilder::withPolicyRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>With Policy Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="493" column="30" bodyfile="src/governance/compliance_mapping.cpp" bodystart="743" bodyend="747"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_control_builder_1acf12e8a772562d2f31b80b24f3564135" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_control_builder" kindref="compound">ComplianceControlBuilder</ref> &amp;</type>
+        <definition>ComplianceControlBuilder &amp; themis::governance::ComplianceControlBuilder::withEvidenceType</definition>
+        <argsstring>(const std::string &amp;type)</argsstring>
+        <name>withEvidenceType</name>
+        <qualifiedname>themis::governance::ComplianceControlBuilder::withEvidenceType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>With Evidence Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="499" column="30" bodyfile="src/governance/compliance_mapping.cpp" bodystart="755" bodyend="759"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_control_builder_1a1a6c5a6375a9cff6741dbed48305f21e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_control" kindref="compound">ComplianceControl</ref></type>
+        <definition>ComplianceControl themis::governance::ComplianceControlBuilder::build</definition>
+        <argsstring>() const</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::governance::ComplianceControlBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="505" column="23" bodyfile="src/governance/compliance_mapping.cpp" bodystart="761" bodyend="766"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="450" column="1" bodyfile="include/governance/compliance_mapping.h" bodystart="450" bodyend="509"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_compliance_control_builder_1ad674e3e9e33884fa1c4b108662f4d13a" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceControlBuilder</scope><name>automated</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_control_builder_1a1a6c5a6375a9cff6741dbed48305f21e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceControlBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_control_builder_1ae3f1e6a3d6c271a88446e6b73d288420" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceControlBuilder</scope><name>ctl_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_control_builder_1a888d34b30759fab0b07b108e0fc4ac4d" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceControlBuilder</scope><name>withDescription</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_control_builder_1acf12e8a772562d2f31b80b24f3564135" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceControlBuilder</scope><name>withEvidenceType</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_control_builder_1a33c91e868cbfda1b1abf9de6e9cbf04c" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceControlBuilder</scope><name>withFramework</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_control_builder_1a9f013e017f99682b0f5e180f4bcc920a" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceControlBuilder</scope><name>withId</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_control_builder_1abc1d94b743f19158815d1af8a832caf1" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceControlBuilder</scope><name>withImplementation</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_control_builder_1ac22e46a567dd73a35fb7fe1675af66c5" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceControlBuilder</scope><name>withName</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_control_builder_1a8e50032f70f370360a52cc9a4a903d3b" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceControlBuilder</scope><name>withPolicyRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

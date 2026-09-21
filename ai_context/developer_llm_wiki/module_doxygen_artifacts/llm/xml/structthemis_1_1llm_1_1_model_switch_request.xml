@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_switch_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModelSwitchRequest</compoundname>
+    <includes refid="model__switch__workflow_8h" local="no">model_switch_workflow.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_request_1ad38028c7fd0fe757c63c2dae27c66e61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSwitchRequest::package_id</definition>
+        <argsstring></argsstring>
+        <name>package_id</name>
+        <qualifiedname>themis::llm::ModelSwitchRequest::package_id</qualifiedname>
+        <briefdescription>
+<para>Package being switched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="149" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_request_1a96eddab9a01d8abe2cd4aa446b4acd5a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSwitchRequest::source_model_name</definition>
+        <argsstring></argsstring>
+        <name>source_model_name</name>
+        <qualifiedname>themis::llm::ModelSwitchRequest::source_model_name</qualifiedname>
+        <briefdescription>
+<para>Current base model name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="150" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_request_1a3ba1f6252a23d3a28f1dc50cd1e317ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSwitchRequest::source_model_version</definition>
+        <argsstring></argsstring>
+        <name>source_model_version</name>
+        <qualifiedname>themis::llm::ModelSwitchRequest::source_model_version</qualifiedname>
+        <briefdescription>
+<para>Current base model version string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="151" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_request_1a27f852e823cb31c655fdfcd561d6fdea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSwitchRequest::target_model_name</definition>
+        <argsstring></argsstring>
+        <name>target_model_name</name>
+        <qualifiedname>themis::llm::ModelSwitchRequest::target_model_name</qualifiedname>
+        <briefdescription>
+<para>Requested target base model name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="152" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_request_1af79916f13bdd727ca20a47c415a22680" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSwitchRequest::target_model_version</definition>
+        <argsstring></argsstring>
+        <name>target_model_version</name>
+        <qualifiedname>themis::llm::ModelSwitchRequest::target_model_version</qualifiedname>
+        <briefdescription>
+<para>Requested target base model version string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="153" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_request_1a9add69dd18879c062cd341ef11dc998d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSwitchRequest::target_model_family</definition>
+        <argsstring></argsstring>
+        <name>target_model_family</name>
+        <qualifiedname>themis::llm::ModelSwitchRequest::target_model_family</qualifiedname>
+        <briefdescription>
+<para>Target model family (e.g. &quot;llama&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="154" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_request_1ac48b107c00d791449f1468796959d878" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSwitchRequest::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::llm::ModelSwitchRequest::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="156" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_request_1a920cc2706f73d138c17cd83968b56239" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelSwitchRequest::force_revalidation</definition>
+        <argsstring></argsstring>
+        <name>force_revalidation</name>
+        <qualifiedname>themis::llm::ModelSwitchRequest::force_revalidation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="158" column="10" bodyfile="include/llm/model_switch_workflow.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_switch_workflow.h" line="148" column="1" bodyfile="include/llm/model_switch_workflow.h" bodystart="148" bodyend="159"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_switch_request_1ac48b107c00d791449f1468796959d878" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchRequest</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_request_1a920cc2706f73d138c17cd83968b56239" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchRequest</scope><name>force_revalidation</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_request_1ad38028c7fd0fe757c63c2dae27c66e61" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchRequest</scope><name>package_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_request_1a96eddab9a01d8abe2cd4aa446b4acd5a" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchRequest</scope><name>source_model_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_request_1a3ba1f6252a23d3a28f1dc50cd1e317ee" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchRequest</scope><name>source_model_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_request_1a9add69dd18879c062cd341ef11dc998d" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchRequest</scope><name>target_model_family</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_request_1a27f852e823cb31c655fdfcd561d6fdea" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchRequest</scope><name>target_model_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_request_1af79916f13bdd727ca20a47c415a22680" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchRequest</scope><name>target_model_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

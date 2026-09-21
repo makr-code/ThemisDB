@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_63711152f0204a70ac9ec47fac67add7" kind="dir">
+    <compoundname>benchmarks/governance</compoundname>
+    <innerfile refid="bench__audit__export__high__volume_8cpp">bench_audit_export_high_volume.cpp</innerfile>
+    <innerfile refid="bench__governance__policy__latency_8cpp">bench_governance_policy_latency.cpp</innerfile>
+    <innerfile refid="bench__governance__release__gates_8cpp">bench_governance_release_gates.cpp</innerfile>
+    <innerfile refid="bench__policy__evaluation_8cpp">bench_policy_evaluation.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/governance/"/>
+  </compounddef>
+</doxygen>

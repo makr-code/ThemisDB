@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_in_memory_session_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::InMemorySessionBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1voice_1_1_i_session_persistence_backend" prot="public" virt="non-virtual">themis::voice::ISessionPersistenceBackend</basecompoundref>
+    <includes refid="voice__session__manager_8h" local="no">voice_session_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_in_memory_session_backend_1a9996cb0f3716c8dc18fa4af38119b685" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::InMemorySessionBackend::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::voice::InMemorySessionBackend::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="189" column="24" bodyfile="include/voice/voice_session_manager.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_in_memory_session_backend_1a1b27095ef57186cbc5ac21edd58f9840" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, VoiceSessionData&gt; themis::voice::InMemorySessionBackend::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::voice::InMemorySessionBackend::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="190" column="24" bodyfile="include/voice/voice_session_manager.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_in_memory_session_backend_1abe6026f74708904e39f7a8d655cd1762" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::InMemorySessionBackend::save</definition>
+        <argsstring>(const VoiceSessionData &amp;session) override</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::voice::InMemorySessionBackend::save</qualifiedname>
+        <reimplements refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1aee5689ccccc70251b018b29429a5c6fd">save</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+<para>Save session to in-memory map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>-<mdash/> <ref refid="classthemis_1_1voice_1_1_in_memory_session_backend" kindref="compound">InMemorySessionBackend</ref> -<mdash/></para>
+<para><simplesect kind="return"><para>true (always succeeds)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="170" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="115" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_in_memory_session_backend_1a7c4ccb724b87dd5e8072771b153fef9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> &gt;</type>
+        <definition>std::optional&lt; VoiceSessionData &gt; themis::voice::InMemorySessionBackend::load</definition>
+        <argsstring>(const std::string &amp;session_id) override</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::voice::InMemorySessionBackend::load</qualifiedname>
+        <reimplements refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1a563047a9527f048127243c4af86934ba">load</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Load session from in-memory map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load.</para>
+<para><simplesect kind="return"><para>Session data if found; nullopt otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="174" column="19" bodyfile="src/voice/voice_session_manager.cpp" bodystart="127" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_in_memory_session_backend_1a711caef3f529e8592180506a4f8ccd04" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::InMemorySessionBackend::remove</definition>
+        <argsstring>(const std::string &amp;session_id) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::voice::InMemorySessionBackend::remove</qualifiedname>
+        <reimplements refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1ab123adc3b6f2e3a2aa7e4ea6f9fc972a">remove</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove session from in-memory map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove.</para>
+<para><simplesect kind="return"><para>true if session existed; false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="178" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="142" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_in_memory_session_backend_1ae4c185a4d9b5ae8d0209fcbdf4fe8696" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::voice::InMemorySessionBackend::listActiveSessions</definition>
+        <argsstring>() override</argsstring>
+        <name>listActiveSessions</name>
+        <qualifiedname>themis::voice::InMemorySessionBackend::listActiveSessions</qualifiedname>
+        <reimplements refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1a3f0c61c07de6e14eccb226010a44856c">listActiveSessions</reimplements>
+        <briefdescription>
+<para>List all sessions in in-memory map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>List Active Sessions.</para>
+<para><simplesect kind="return"><para>Vector of all session IDs currently stored</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="182" column="17" bodyfile="src/voice/voice_session_manager.cpp" bodystart="152" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_in_memory_session_backend_1a2fa90982d2a6782a812f972237f5c3cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::InMemorySessionBackend::count</definition>
+        <argsstring>() const</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::voice::InMemorySessionBackend::count</qualifiedname>
+        <briefdescription>
+<para>Get current session count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of sessions currently in memory </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="186" column="12" bodyfile="src/voice/voice_session_manager.cpp" bodystart="163" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe in-memory session storage (testing/development). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stores all sessions in a std::unordered_map protected by mutex. Sessions are lost on process termination; suitable for testing only. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::voice::ISessionPersistenceBackend</label>
+        <link refid="classthemis_1_1voice_1_1_i_session_persistence_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::InMemorySessionBackend</label>
+        <link refid="classthemis_1_1voice_1_1_in_memory_session_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::voice::ISessionPersistenceBackend</label>
+        <link refid="classthemis_1_1voice_1_1_i_session_persistence_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::InMemorySessionBackend</label>
+        <link refid="classthemis_1_1voice_1_1_in_memory_session_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/voice_session_manager.h" line="166" column="1" bodyfile="include/voice/voice_session_manager.h" bodystart="166" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_in_memory_session_backend_1a2fa90982d2a6782a812f972237f5c3cf" prot="public" virt="non-virtual"><scope>themis::voice::InMemorySessionBackend</scope><name>count</name></member>
+      <member refid="classthemis_1_1voice_1_1_in_memory_session_backend_1ae4c185a4d9b5ae8d0209fcbdf4fe8696" prot="public" virt="virtual"><scope>themis::voice::InMemorySessionBackend</scope><name>listActiveSessions</name></member>
+      <member refid="classthemis_1_1voice_1_1_in_memory_session_backend_1a7c4ccb724b87dd5e8072771b153fef9b" prot="public" virt="virtual"><scope>themis::voice::InMemorySessionBackend</scope><name>load</name></member>
+      <member refid="classthemis_1_1voice_1_1_in_memory_session_backend_1a9996cb0f3716c8dc18fa4af38119b685" prot="private" virt="non-virtual"><scope>themis::voice::InMemorySessionBackend</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_in_memory_session_backend_1a711caef3f529e8592180506a4f8ccd04" prot="public" virt="virtual"><scope>themis::voice::InMemorySessionBackend</scope><name>remove</name></member>
+      <member refid="classthemis_1_1voice_1_1_in_memory_session_backend_1abe6026f74708904e39f7a8d655cd1762" prot="public" virt="virtual"><scope>themis::voice::InMemorySessionBackend</scope><name>save</name></member>
+      <member refid="classthemis_1_1voice_1_1_in_memory_session_backend_1a1b27095ef57186cbc5ac21edd58f9840" prot="private" virt="non-virtual"><scope>themis::voice::InMemorySessionBackend</scope><name>store_</name></member>
+      <member refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1ab3b9396f226618665e3112b5d61bae1c" prot="public" virt="virtual"><scope>themis::voice::InMemorySessionBackend</scope><name>~ISessionPersistenceBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

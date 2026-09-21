@@ -1,0 +1,541 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_load_balancer" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPULoadBalancer</compoundname>
+    <includes refid="load__balancer_8h" local="no">load_balancer.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load" prot="public">themis::gpu::GPULoadBalancer::DeviceLoad</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_entry" prot="private">themis::gpu::GPULoadBalancer::DeviceEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Strategy</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::Strategy</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905a1ebd8dbf8c34e255f5cbf28f35860b71" prot="public">
+          <name>ROUND_ROBIN</name>
+          <briefdescription>
+<para>Cycle through healthy devices. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905a6e5249bcb29f2a8b79c3f1342577f5f3" prot="public">
+          <name>LEAST_LOADED</name>
+          <briefdescription>
+<para>Pick device with most free VRAM. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905ae13a1cf991bb009f2a40b22617bef3bb" prot="public">
+          <name>FIRST_HEALTHY</name>
+          <briefdescription>
+<para>Always pick the first healthy device. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905afe78d2bea2bd8247566a292721a97570" prot="public">
+          <name>TOPOLOGY_AWARE</name>
+          <briefdescription>
+<para>Pick device with highest total NVLink bandwidth (NVLink topology-aware scheduling). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="47" column="5" bodyfile="include/themis/gpu/load_balancer.h" bodystart="47" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af06763ebdac97ce954abbd0bd227748f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" kindref="member">Strategy</ref></type>
+        <definition>Strategy themis::gpu::GPULoadBalancer::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="150" column="14" bodyfile="include/themis/gpu/load_balancer.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a2d6e081e1186fec7d5beba5a0dee19bc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPULoadBalancer::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="151" column="24" bodyfile="include/themis/gpu/load_balancer.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ae6d1544cf67c3e54479b9cefb95f0689" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; DeviceEntry &gt;</type>
+        <definition>std::vector&lt;DeviceEntry&gt; themis::gpu::GPULoadBalancer::devices_</definition>
+        <argsstring></argsstring>
+        <name>devices_</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::devices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="160" column="17" bodyfile="include/themis/gpu/load_balancer.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a612272cf2b3b2f3dccdeb718c555b182" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPULoadBalancer::round_robin_cursor_</definition>
+        <argsstring></argsstring>
+        <name>round_robin_cursor_</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::round_robin_cursor_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="161" column="12" bodyfile="include/themis/gpu/load_balancer.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a161949a1927b9d3eadd27beb83aa02bf" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology" kindref="compound">GPUClusterTopology</ref></type>
+        <definition>GPUClusterTopology themis::gpu::GPULoadBalancer::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="170" column="24" bodyfile="include/themis/gpu/load_balancer.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ae814fc4b9bb227f179bc167b7ccc76ee" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPULoadBalancer::GPULoadBalancer</definition>
+        <argsstring>(Strategy strategy=Strategy::LEAST_LOADED)</argsstring>
+        <name>GPULoadBalancer</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::GPULoadBalancer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" kindref="member">Strategy</ref></type>
+          <declname>strategy</declname>
+          <defval><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905a6e5249bcb29f2a8b79c3f1342577f5f3" kindref="member">Strategy::LEAST_LOADED</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="57" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a316e34d90376a2e3ff8d03c3015b7cf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPULoadBalancer::GPULoadBalancer</definition>
+        <argsstring>(Strategy strategy, const std::vector&lt; DeviceInfo &gt; &amp;devices)</argsstring>
+        <name>GPULoadBalancer</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::GPULoadBalancer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" kindref="member">Strategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+        </param>
+        <briefdescription>
+<para>Construct and initialise device list immediately. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="62" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1aa19f8191ecdcea6b2ab89353456db830" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPULoadBalancer::updateDevices</definition>
+        <argsstring>(const std::vector&lt; DeviceInfo &gt; &amp;devices)</argsstring>
+        <name>updateDevices</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::updateDevices</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+        </param>
+        <briefdescription>
+<para>Replace the device list (e.g. after re-enumeration). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="72" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a6c7b5a07d77b31d4722cf2416f3e4977" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPULoadBalancer::markDeviceFailed</definition>
+        <argsstring>(int device_index, const std::string &amp;reason=&quot;&quot;)</argsstring>
+        <name>markDeviceFailed</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::markDeviceFailed</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Mark a device as failed/unavailable by device index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The device is removed from selection until <ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0abbb286d46ce53a920fbaef21754428" kindref="member">resetDevice()</ref> is called. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="79" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0abbb286d46ce53a920fbaef21754428" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPULoadBalancer::resetDevice</definition>
+        <argsstring>(int device_index)</argsstring>
+        <name>resetDevice</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::resetDevice</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+        </param>
+        <briefdescription>
+<para>Restore a previously failed device to the eligible pool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="84" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a187a2eb8c99377db6f7a863668a90954" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPULoadBalancer::setTopology</definition>
+        <argsstring>(const GPUClusterTopology &amp;topology)</argsstring>
+        <name>setTopology</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::setTopology</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology" kindref="compound">GPUClusterTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <briefdescription>
+<para>Supply a topology snapshot for TOPOLOGY_AWARE scheduling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the TOPOLOGY_AWARE strategy is active the balancer picks the device with the highest sum of outgoing NVLink bandwidths according to the provided topology&apos;s bandwidth_matrix. If the topology has no NVLink links (or no topology has been set) the strategy falls back to LEAST_LOADED behaviour.</para>
+<para>Thread safety: acquires the internal mutex.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Topology snapshot produced by <ref refid="classthemis_1_1gpu_1_1_g_p_u_cluster_topology_1a7f1f3e495373b01d6729f123861d9e63" kindref="member">GPUClusterTopology::detect()</ref> or assembled manually for testing. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="100" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a401f294043eb716698613ffe92211be0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> *</type>
+        <definition>const DeviceInfo * themis::gpu::GPULoadBalancer::selectDevice</definition>
+        <argsstring>(uint64_t required_vram_bytes=0)</argsstring>
+        <name>selectDevice</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::selectDevice</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>required_vram_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Select the best device for the next work item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>required_vram_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum free VRAM needed (0 = any). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to selected <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> (stable reference into the internal list), or nullptr if no eligible device found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="113" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0e2dd8d641d9030f633eb48d8d415a40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPULoadBalancer::recordAllocation</definition>
+        <argsstring>(int device_index, uint64_t bytes)</argsstring>
+        <name>recordAllocation</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::recordAllocation</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Notify the balancer that <computeroutput>bytes</computeroutput> were allocated on <computeroutput>device_index</computeroutput> so it can update internal load tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="119" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0f38cae2f25909c9483f79fa1ec40f1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPULoadBalancer::recordDeallocation</definition>
+        <argsstring>(int device_index, uint64_t bytes)</argsstring>
+        <name>recordDeallocation</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::recordDeallocation</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Notify the balancer that <computeroutput>bytes</computeroutput> were freed from <computeroutput>device_index</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="125" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ae703b512a80d75708de4925d3d9f6eae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPULoadBalancer::totalDevices</definition>
+        <argsstring>() const</argsstring>
+        <name>totalDevices</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::totalDevices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="130" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ac9e98fc9f44e54596310f398f0a6fe94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPULoadBalancer::healthyDevices</definition>
+        <argsstring>() const</argsstring>
+        <name>healthyDevices</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::healthyDevices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="131" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a52c00e00f49469cb9acb488bddf16bc9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" kindref="member">Strategy</ref></type>
+        <definition>Strategy themis::gpu::GPULoadBalancer::strategy</definition>
+        <argsstring>() const</argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="132" column="14" bodyfile="include/themis/gpu/load_balancer.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ada6db2ca1c73087f6c1604d12fb8a351" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_load_balancer_1_1_device_load" kindref="compound">DeviceLoad</ref> &gt;</type>
+        <definition>std::vector&lt; DeviceLoad &gt; themis::gpu::GPULoadBalancer::getDeviceLoads</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeviceLoads</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::getDeviceLoads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="147" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a295b430a1273c900ef5b5825891bb82b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DeviceEntry *</type>
+        <definition>DeviceEntry * themis::gpu::GPULoadBalancer::selectRoundRobin</definition>
+        <argsstring>(uint64_t required_vram)</argsstring>
+        <name>selectRoundRobin</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::selectRoundRobin</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>required_vram</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="164" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a6fed526470e5bd36948a46bc442a9933" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DeviceEntry *</type>
+        <definition>DeviceEntry * themis::gpu::GPULoadBalancer::selectLeastLoaded</definition>
+        <argsstring>(uint64_t required_vram)</argsstring>
+        <name>selectLeastLoaded</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::selectLeastLoaded</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>required_vram</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="165" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a5536943f87fc31e24de1164e82152a69" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DeviceEntry *</type>
+        <definition>DeviceEntry * themis::gpu::GPULoadBalancer::selectFirstHealthy</definition>
+        <argsstring>(uint64_t required_vram)</argsstring>
+        <name>selectFirstHealthy</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::selectFirstHealthy</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>required_vram</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="166" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1aec722fde752aee7f4eb5784c1d4ea264" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DeviceEntry *</type>
+        <definition>DeviceEntry * themis::gpu::GPULoadBalancer::selectTopologyAware</definition>
+        <argsstring>(uint64_t required_vram)</argsstring>
+        <name>selectTopologyAware</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::selectTopologyAware</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>required_vram</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="167" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a28052a7e8fee352bf2179a1f884000f3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPULoadBalancer::isEligible</definition>
+        <argsstring>(const DeviceEntry &amp;e, uint64_t required_vram) const</argsstring>
+        <name>isEligible</name>
+        <qualifiedname>themis::gpu::GPULoadBalancer::isEligible</qualifiedname>
+        <param>
+          <type>const DeviceEntry &amp;</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>required_vram</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/load_balancer.h" line="168" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Multi-GPU work load balancer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Distributes GPU work requests across a list of available devices using configurable strategies. Tracks per-device allocation load and skips unhealthy devices automatically.</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1autotoc_md30_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1autotoc_md30">
+<title>Strategies</title><para><itemizedlist>
+<listitem><para>ROUND_ROBIN — select devices in sequence, skipping unhealthy ones.</para>
+</listitem><listitem><para>LEAST_LOADED — select the device with the most free VRAM.</para>
+</listitem><listitem><para>FIRST_HEALTHY — always select the first healthy device (deterministic, useful for single-GPU environments).</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1autotoc_md31_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1autotoc_md31">
+<title>Integration with DeviceDiscovery</title><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1aa19f8191ecdcea6b2ab89353456db830" kindref="member">updateDevices()</ref></computeroutput> refreshes the device list from the discovery layer. <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a6c7b5a07d77b31d4722cf2416f3e4977" kindref="member">markDeviceFailed()</ref></computeroutput> can be called when a runtime error is detected to remove a device from selection until <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0abbb286d46ce53a920fbaef21754428" kindref="member">resetDevice()</ref></computeroutput> is called.</para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/load_balancer.h" line="45" column="1" bodyfile="include/themis/gpu/load_balancer.h" bodystart="45" bodyend="171"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ae6d1544cf67c3e54479b9cefb95f0689" prot="private" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>devices_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ada6db2ca1c73087f6c1604d12fb8a351" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>getDeviceLoads</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ae814fc4b9bb227f179bc167b7ccc76ee" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>GPULoadBalancer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a316e34d90376a2e3ff8d03c3015b7cf6" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>GPULoadBalancer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ac9e98fc9f44e54596310f398f0a6fe94" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>healthyDevices</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a28052a7e8fee352bf2179a1f884000f3" prot="private" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>isEligible</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a6c7b5a07d77b31d4722cf2416f3e4977" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>markDeviceFailed</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a2d6e081e1186fec7d5beba5a0dee19bc" prot="private" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0e2dd8d641d9030f633eb48d8d415a40" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>recordAllocation</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0f38cae2f25909c9483f79fa1ec40f1d" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>recordDeallocation</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a0abbb286d46ce53a920fbaef21754428" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>resetDevice</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a612272cf2b3b2f3dccdeb718c555b182" prot="private" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>round_robin_cursor_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a401f294043eb716698613ffe92211be0" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>selectDevice</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a5536943f87fc31e24de1164e82152a69" prot="private" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>selectFirstHealthy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a6fed526470e5bd36948a46bc442a9933" prot="private" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>selectLeastLoaded</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a295b430a1273c900ef5b5825891bb82b" prot="private" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>selectRoundRobin</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1aec722fde752aee7f4eb5784c1d4ea264" prot="private" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>selectTopologyAware</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a187a2eb8c99377db6f7a863668a90954" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>setTopology</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af48504f0a7362364fc865634dd456905" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>Strategy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a52c00e00f49469cb9acb488bddf16bc9" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>strategy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1af06763ebdac97ce954abbd0bd227748f" prot="private" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>strategy_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1a161949a1927b9d3eadd27beb83aa02bf" prot="private" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1ae703b512a80d75708de4925d3d9f6eae" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>totalDevices</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer_1aa19f8191ecdcea6b2ab89353456db830" prot="public" virt="non-virtual"><scope>themis::gpu::GPULoadBalancer</scope><name>updateDevices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

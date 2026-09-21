@@ -1,0 +1,504 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_m_d_m_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::MDMEngine</compoundname>
+    <includes refid="mdm__engine_8h" local="no">mdm_engine.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_m_d_m_engine_1a0d56d81197c311f60bc5977d517b3894" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_hybrid_entity_matcher" kindref="compound">HybridEntityMatcher</ref></type>
+        <definition>HybridEntityMatcher themis::importers::MDMEngine::hybrid_matcher_</definition>
+        <argsstring></argsstring>
+        <name>hybrid_matcher_</name>
+        <qualifiedname>themis::importers::MDMEngine::hybrid_matcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="175" column="27" bodyfile="include/importers/mdm_engine.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_m_d_m_engine_1a24fbc6aa025d19563a00241993af73a8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_entity_linker" kindref="compound">EntityLinker</ref></type>
+        <definition>EntityLinker themis::importers::MDMEngine::linker_</definition>
+        <argsstring></argsstring>
+        <name>linker_</name>
+        <qualifiedname>themis::importers::MDMEngine::linker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="176" column="27" bodyfile="include/importers/mdm_engine.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_m_d_m_engine_1aa12ea977cb897ae7547e326db889e417" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_canonical_entity_resolver" kindref="compound">CanonicalEntityResolver</ref></type>
+        <definition>CanonicalEntityResolver themis::importers::MDMEngine::resolver_</definition>
+        <argsstring></argsstring>
+        <name>resolver_</name>
+        <qualifiedname>themis::importers::MDMEngine::resolver_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="177" column="29" bodyfile="include/importers/mdm_engine.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_m_d_m_engine_1a5dfc4bb8ddedf7fa930d0cc16dc51a10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::MDMEngine::MDMEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>MDMEngine</name>
+        <qualifiedname>themis::importers::MDMEngine::MDMEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="108" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_m_d_m_engine_1a23fedd52b1c837dc9fae98bc62798d33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_m_d_m_workflow_result" kindref="compound">MDMWorkflowResult</ref></type>
+        <definition>MDMWorkflowResult themis::importers::MDMEngine::executeMDMWorkflow</definition>
+        <argsstring>(const std::vector&lt; json &gt; &amp;incoming_entities, const std::vector&lt; json &gt; &amp;existing_entities, const std::string &amp;collection_name, const MDMConfig &amp;config, const ImportOptions &amp;options)</argsstring>
+        <name>executeMDMWorkflow</name>
+        <qualifiedname>themis::importers::MDMEngine::executeMDMWorkflow</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>incoming_entities</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>existing_entities</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Execute MDMWorkflow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">incoming_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">existing_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">incoming_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">existing_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateUUID(), size(), clear(), <ref refid="classthemis_1_1importers_1_1_m_d_m_engine_1a841d1c8525333f915b119139dc548c44" kindref="member">executeMatchingPhase()</ref>, empty(), <ref refid="classthemis_1_1importers_1_1_m_d_m_engine_1aab92a81002930c2bc8ed5807a190bda7" kindref="member">executeLinkingPhase()</ref>, <ref refid="classthemis_1_1importers_1_1_m_d_m_engine_1a9d23c432034bf4372d73939e63cf94b7" kindref="member">executeResolutionPhase()</ref>, entityId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="119" column="23" bodyfile="src/importers/mdm_engine.cpp" bodystart="315" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_m_d_m_engine_1a841d1c8525333f915b119139dc548c44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1importers_1_1_hybrid_match_result" kindref="compound">HybridMatchResult</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; HybridMatchResult &gt; &gt; themis::importers::MDMEngine::executeMatchingPhase</definition>
+        <argsstring>(const std::vector&lt; json &gt; &amp;incoming_entities, const std::vector&lt; json &gt; &amp;existing_entities, const MDMConfig &amp;config)</argsstring>
+        <name>executeMatchingPhase</name>
+        <qualifiedname>themis::importers::MDMEngine::executeMatchingPhase</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>incoming_entities</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>existing_entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Execute Matching Phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">incoming_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">existing_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="134" column="17" bodyfile="src/importers/mdm_engine.cpp" bodystart="135" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_m_d_m_engine_1aab92a81002930c2bc8ed5807a190bda7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_entity_link" kindref="compound">EntityLink</ref> &gt;</type>
+        <definition>std::vector&lt; EntityLink &gt; themis::importers::MDMEngine::executeLinkingPhase</definition>
+        <argsstring>(const std::vector&lt; json &gt; &amp;incoming_entities, const std::vector&lt; std::vector&lt; HybridMatchResult &gt; &gt; &amp;match_results, const std::string &amp;collection_name, const MDMConfig &amp;config, const ImportOptions &amp;options)</argsstring>
+        <name>executeLinkingPhase</name>
+        <qualifiedname>themis::importers::MDMEngine::executeLinkingPhase</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>incoming_entities</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1importers_1_1_hybrid_match_result" kindref="compound">HybridMatchResult</ref> &gt; &gt; &amp;</type>
+          <declname>match_results</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Execute Linking Phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">incoming_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">match_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="149" column="17" bodyfile="src/importers/mdm_engine.cpp" bodystart="171" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_m_d_m_engine_1a9d23c432034bf4372d73939e63cf94b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_golden_record" kindref="compound">GoldenRecord</ref> &gt;</type>
+        <definition>std::vector&lt; GoldenRecord &gt; themis::importers::MDMEngine::executeResolutionPhase</definition>
+        <argsstring>(const std::vector&lt; EntityLink &gt; &amp;links, const std::vector&lt; json &gt; &amp;incoming_entities, const std::vector&lt; json &gt; &amp;existing_entities, const std::string &amp;collection_name, const MDMConfig &amp;config)</argsstring>
+        <name>executeResolutionPhase</name>
+        <qualifiedname>themis::importers::MDMEngine::executeResolutionPhase</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_entity_link" kindref="compound">EntityLink</ref> &gt; &amp;</type>
+          <declname>links</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>incoming_entities</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>existing_entities</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_m_d_m_config" kindref="compound">MDMConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Execute Resolution Phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">links</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">incoming_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">existing_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="166" column="17" bodyfile="src/importers/mdm_engine.cpp" bodystart="234" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_m_d_m_engine_1a0e5b05776dc3422ab8d2b54979c68e09" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMEngine::generateUUID</definition>
+        <argsstring>()</argsstring>
+        <name>generateUUID</name>
+        <qualifiedname>themis::importers::MDMEngine::generateUUID</qualifiedname>
+        <briefdescription>
+<para>Generate UUID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dist(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="183" column="24" bodyfile="src/importers/mdm_engine.cpp" bodystart="79" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_m_d_m_engine_1abb590ce200c2efc2c227d14d663b5d5e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMEngine::nowRfc3339</definition>
+        <argsstring>()</argsstring>
+        <name>nowRfc3339</name>
+        <qualifiedname>themis::importers::MDMEngine::nowRfc3339</qualifiedname>
+        <briefdescription>
+<para>Now Rfc3339. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: system_clock::now(), system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="188" column="24" bodyfile="src/importers/mdm_engine.cpp" bodystart="101" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_m_d_m_engine_1a6b45abfc49e0e5ce6d6e45a662449dbe" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMEngine::entityId</definition>
+        <argsstring>(const json &amp;entity)</argsstring>
+        <name>entityId</name>
+        <qualifiedname>themis::importers::MDMEngine::entityId</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Entity Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_null(), is_string(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="194" column="24" bodyfile="src/importers/mdm_engine.cpp" bodystart="122" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/mdm_engine.h" line="106" column="1" bodyfile="include/importers/mdm_engine.h" bodystart="106" bodyend="195"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_engine_1a6b45abfc49e0e5ce6d6e45a662449dbe" prot="private" virt="non-virtual"><scope>themis::importers::MDMEngine</scope><name>entityId</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_engine_1aab92a81002930c2bc8ed5807a190bda7" prot="public" virt="non-virtual"><scope>themis::importers::MDMEngine</scope><name>executeLinkingPhase</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_engine_1a841d1c8525333f915b119139dc548c44" prot="public" virt="non-virtual"><scope>themis::importers::MDMEngine</scope><name>executeMatchingPhase</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_engine_1a23fedd52b1c837dc9fae98bc62798d33" prot="public" virt="non-virtual"><scope>themis::importers::MDMEngine</scope><name>executeMDMWorkflow</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_engine_1a9d23c432034bf4372d73939e63cf94b7" prot="public" virt="non-virtual"><scope>themis::importers::MDMEngine</scope><name>executeResolutionPhase</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_engine_1a0e5b05776dc3422ab8d2b54979c68e09" prot="private" virt="non-virtual"><scope>themis::importers::MDMEngine</scope><name>generateUUID</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_engine_1a0d56d81197c311f60bc5977d517b3894" prot="private" virt="non-virtual"><scope>themis::importers::MDMEngine</scope><name>hybrid_matcher_</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_engine_1a24fbc6aa025d19563a00241993af73a8" prot="private" virt="non-virtual"><scope>themis::importers::MDMEngine</scope><name>linker_</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_engine_1a5dfc4bb8ddedf7fa930d0cc16dc51a10" prot="public" virt="non-virtual"><scope>themis::importers::MDMEngine</scope><name>MDMEngine</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_engine_1abb590ce200c2efc2c227d14d663b5d5e" prot="private" virt="non-virtual"><scope>themis::importers::MDMEngine</scope><name>nowRfc3339</name></member>
+      <member refid="classthemis_1_1importers_1_1_m_d_m_engine_1aa12ea977cb897ae7547e326db889e417" prot="private" virt="non-virtual"><scope>themis::importers::MDMEngine</scope><name>resolver_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

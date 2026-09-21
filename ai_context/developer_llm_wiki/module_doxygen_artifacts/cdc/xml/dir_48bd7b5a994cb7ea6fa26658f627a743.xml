@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_48bd7b5a994cb7ea6fa26658f627a743" kind="dir">
+    <compoundname>tests/cdc</compoundname>
+    <innerfile refid="test__cdc__admin_8cpp">test_cdc_admin.cpp</innerfile>
+    <innerfile refid="test__cdc__backpressure__signal_8cpp">test_cdc_backpressure_signal.cpp</innerfile>
+    <innerfile refid="test__cdc__batch__commit__coordinator_8cpp">test_cdc_batch_commit_coordinator.cpp</innerfile>
+    <innerfile refid="test__cdc__change__stream__compressor_8cpp">test_cdc_change_stream_compressor.cpp</innerfile>
+    <innerfile refid="test__cdc__changefeed__buffer_8cpp">test_cdc_changefeed_buffer.cpp</innerfile>
+    <innerfile refid="test__cdc__changefeed__core_8cpp">test_cdc_changefeed_core.cpp</innerfile>
+    <innerfile refid="test__cdc__changefeed__sequence__counter_8cpp">test_cdc_changefeed_sequence_counter.cpp</innerfile>
+    <innerfile refid="test__cdc__consumer__group_8cpp">test_cdc_consumer_group.cpp</innerfile>
+    <innerfile refid="test__cdc__cross__collection__stream_8cpp">test_cdc_cross_collection_stream.cpp</innerfile>
+    <innerfile refid="test__cdc__dead__letter__queue_8cpp">test_cdc_dead_letter_queue.cpp</innerfile>
+    <innerfile refid="test__cdc__debezium__format_8cpp">test_cdc_debezium_format.cpp</innerfile>
+    <innerfile refid="test__cdc__delivery__guarantee__config_8cpp">test_cdc_delivery_guarantee_config.cpp</innerfile>
+    <innerfile refid="test__cdc__delivery__tracker_8cpp">test_cdc_delivery_tracker.cpp</innerfile>
+    <innerfile refid="test__cdc__diagnostics__hardening_8cpp">test_cdc_diagnostics_hardening.cpp</innerfile>
+    <innerfile refid="test__cdc__error__codes_8cpp">test_cdc_error_codes.cpp</innerfile>
+    <innerfile refid="test__cdc__event__enrichment_8cpp">test_cdc_event_enrichment.cpp</innerfile>
+    <innerfile refid="test__cdc__event__schema_8cpp">test_cdc_event_schema.cpp</innerfile>
+    <innerfile refid="test__cdc__fan__in_8cpp">test_cdc_fan_in.cpp</innerfile>
+    <innerfile refid="test__cdc__filter__pipeline_8cpp">test_cdc_filter_pipeline.cpp</innerfile>
+    <innerfile refid="test__cdc__gdpr__redaction_8cpp">test_cdc_gdpr_redaction.cpp</innerfile>
+    <innerfile refid="test__cdc__highcardinality__stress_8cpp">test_cdc_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__cdc__kafka__producer_8cpp">test_cdc_kafka_producer.cpp</innerfile>
+    <innerfile refid="test__cdc__materialized__view_8cpp">test_cdc_materialized_view.cpp</innerfile>
+    <innerfile refid="test__cdc__metrics_8cpp">test_cdc_metrics.cpp</innerfile>
+    <innerfile refid="test__cdc__operation__filter_8cpp">test_cdc_operation_filter.cpp</innerfile>
+    <innerfile refid="test__cdc__outbox_8cpp">test_cdc_outbox.cpp</innerfile>
+    <innerfile refid="test__cdc__pause__control_8cpp">test_cdc_pause_control.cpp</innerfile>
+    <innerfile refid="test__cdc__production__fixes_8cpp">test_cdc_production_fixes.cpp</innerfile>
+    <innerfile refid="test__cdc__replay__ack__hardening_8cpp">test_cdc_replay_ack_hardening.cpp</innerfile>
+    <innerfile refid="test__cdc__replay__controller_8cpp">test_cdc_replay_controller.cpp</innerfile>
+    <innerfile refid="test__cdc__retention_8cpp">test_cdc_retention.cpp</innerfile>
+    <innerfile refid="test__cdc__schema__registry_8cpp">test_cdc_schema_registry.cpp</innerfile>
+    <innerfile refid="test__cdc__subscription__auth_8cpp">test_cdc_subscription_auth.cpp</innerfile>
+    <innerfile refid="test__cdc__transport__degradation_8cpp">test_cdc_transport_degradation.cpp</innerfile>
+    <innerfile refid="test__cdc__ws__handler_8cpp">test_cdc_ws_handler.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/cdc/"/>
+  </compounddef>
+</doxygen>

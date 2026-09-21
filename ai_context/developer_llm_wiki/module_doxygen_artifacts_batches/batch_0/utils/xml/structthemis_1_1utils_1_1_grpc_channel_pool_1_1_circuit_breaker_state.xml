@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_circuit_breaker_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::utils::GrpcChannelPool::CircuitBreakerState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_circuit_breaker_state_1ac32e1898dba3b1371a1d8f85d0eb1f24" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::utils::GrpcChannelPool::CircuitBreakerState::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::CircuitBreakerState::state</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="282" column="33" bodyfile="include/utils/grpc_channel_pool.h" bodystart="282" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_circuit_breaker_state_1a43e117ccf97bd8b7e898ea725a38f253" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::GrpcChannelPool::CircuitBreakerState::failure_count</definition>
+        <argsstring></argsstring>
+        <name>failure_count</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::CircuitBreakerState::failure_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="283" column="33" bodyfile="include/utils/grpc_channel_pool.h" bodystart="283" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_circuit_breaker_state_1a40252f2f701950ea4ed67b44fef99637" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::GrpcChannelPool::CircuitBreakerState::success_count</definition>
+        <argsstring></argsstring>
+        <name>success_count</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::CircuitBreakerState::success_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="284" column="33" bodyfile="include/utils/grpc_channel_pool.h" bodystart="284" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_circuit_breaker_state_1acc66b00b7d8f77387a33b4993e0bb5f6" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::utils::GrpcChannelPool::CircuitBreakerState::tripped_at</definition>
+        <argsstring></argsstring>
+        <name>tripped_at</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::CircuitBreakerState::tripped_at</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="285" column="47" bodyfile="include/utils/grpc_channel_pool.h" bodystart="285" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/grpc_channel_pool.h" line="281" column="5" bodyfile="include/utils/grpc_channel_pool.h" bodystart="281" bodyend="286"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_circuit_breaker_state_1a43e117ccf97bd8b7e898ea725a38f253" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::CircuitBreakerState</scope><name>failure_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_circuit_breaker_state_1ac32e1898dba3b1371a1d8f85d0eb1f24" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::CircuitBreakerState</scope><name>state</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_circuit_breaker_state_1a40252f2f701950ea4ed67b44fef99637" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::CircuitBreakerState</scope><name>success_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_circuit_breaker_state_1acc66b00b7d8f77387a33b4993e0bb5f6" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::CircuitBreakerState</scope><name>tripped_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

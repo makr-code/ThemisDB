@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_c_d_c_manager_1_1_subscription" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::replication::CDCManager::Subscription</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_c_d_c_manager_1_1_subscription_1a3735e84cf3779828298320f488218a55" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::CDCManager::Subscription::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themisdb::replication::CDCManager::Subscription::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1613" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1613" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_c_d_c_manager_1_1_subscription_1abaf3fe92b622e43499acf780d0a8057e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CDCManager::Subscription::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themisdb::replication::CDCManager::Subscription::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1614" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1614" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_c_d_c_manager_1_1_subscription_1a8fdd32dbe47f466d2c74b41a8c511b98" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1aa4d8facc35d492f3bf02f17d6cbf46ed" kindref="member">CDCCallback</ref></type>
+        <definition>CDCCallback themisdb::replication::CDCManager::Subscription::callback</definition>
+        <argsstring></argsstring>
+        <name>callback</name>
+        <qualifiedname>themisdb::replication::CDCManager::Subscription::callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1615" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1615" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1612" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1612" bodyend="1616"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_c_d_c_manager_1_1_subscription_1a8fdd32dbe47f466d2c74b41a8c511b98" prot="public" virt="non-virtual"><scope>themisdb::replication::CDCManager::Subscription</scope><name>callback</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_c_d_c_manager_1_1_subscription_1abaf3fe92b622e43499acf780d0a8057e" prot="public" virt="non-virtual"><scope>themisdb::replication::CDCManager::Subscription</scope><name>collection</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_c_d_c_manager_1_1_subscription_1a3735e84cf3779828298320f488218a55" prot="public" virt="non-virtual"><scope>themisdb::replication::CDCManager::Subscription</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

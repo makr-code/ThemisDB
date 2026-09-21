@@ -1,0 +1,541 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_version_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::VersionManager</compoundname>
+    <includes refid="version__manager_8h" local="no">version_manager.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_version_manager_1_1_version" prot="public">themis::content::VersionManager::Version</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_version_manager_1a204e731eba49a5a1a41d8acae970c9b9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1content_1_1_version_manager_1_1_version" kindref="compound">Version</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;Version&gt; &gt; themis::content::VersionManager::versions_</definition>
+        <argsstring></argsstring>
+        <name>versions_</name>
+        <qualifiedname>themis::content::VersionManager::versions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/version_manager.h" line="118" column="24" bodyfile="include/content/version_manager.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_version_manager_1a82bcb9df83b014e2f3c4610dcfb39a8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::VersionManager::createVersion</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;content_hash, size_t size_bytes, const std::string &amp;author=&quot;&quot;, const std::string &amp;comment=&quot;&quot;)</argsstring>
+        <name>createVersion</name>
+        <qualifiedname>themis::content::VersionManager::createVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_hash</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>author</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>comment</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create <ref refid="structthemis_1_1content_1_1_version_manager_1_1_version" kindref="compound">Version</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">comment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), <ref refid="classthemis_1_1content_1_1_version_manager_1a38b105a798661eea9e5ebfe6d68cb35c" kindref="member">getLatestVersion()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/version_manager.h" line="36" column="9" bodyfile="src/content/version_manager.cpp" bodystart="125" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::VersionManager::createVersionWithContent</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;content, const std::string &amp;author=&quot;&quot;, const std::string &amp;comment=&quot;&quot;)</argsstring>
+        <name>createVersionWithContent</name>
+        <qualifiedname>themis::content::VersionManager::createVersionWithContent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>author</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>comment</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create <ref refid="structthemis_1_1content_1_1_version_manager_1_1_version" kindref="compound">Version</ref> With Content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">comment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), <ref refid="classthemis_1_1content_1_1_version_manager_1a38b105a798661eea9e5ebfe6d68cb35c" kindref="member">getLatestVersion()</ref>, <ref refid="classthemis_1_1content_1_1_version_manager_1a8e0f4d4abdb0ac372e785fafb2872bb0" kindref="member">computeHash()</ref>, size(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/version_manager.h" line="44" column="9" bodyfile="src/content/version_manager.cpp" bodystart="159" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_version_manager_1a87d245477499307c1280d01720c5c952" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::content::VersionManager::getContent</definition>
+        <argsstring>(const std::string &amp;content_id, int version_number) const</argsstring>
+        <name>getContent</name>
+        <qualifiedname>themis::content::VersionManager::getContent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>version_number</declname>
+        </param>
+        <briefdescription>
+<para>Get Content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/version_manager.h" line="57" column="19" bodyfile="src/content/version_manager.cpp" bodystart="190" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_version_manager_1a4c5c380d74da873b306d8fc41b083fbc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_version_manager_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::vector&lt; VersionManager::Version &gt; themis::content::VersionManager::getVersionHistory</definition>
+        <argsstring>(const std::string &amp;content_id) const</argsstring>
+        <name>getVersionHistory</name>
+        <qualifiedname>themis::content::VersionManager::getVersionHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1content_1_1_version_manager_1_1_version" kindref="compound">Version</ref> History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/version_manager.h" line="67" column="17" bodyfile="src/content/version_manager.cpp" bodystart="201" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_version_manager_1aa90511580f2775ae138059ebea79e836" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_version_manager_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::optional&lt; VersionManager::Version &gt; themis::content::VersionManager::getVersion</definition>
+        <argsstring>(const std::string &amp;content_id, int version_number) const</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::content::VersionManager::getVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>version_number</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1content_1_1_version_manager_1_1_version" kindref="compound">Version</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/version_manager.h" line="75" column="19" bodyfile="src/content/version_manager.cpp" bodystart="211" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_version_manager_1a38b105a798661eea9e5ebfe6d68cb35c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::VersionManager::getLatestVersion</definition>
+        <argsstring>(const std::string &amp;content_id) const</argsstring>
+        <name>getLatestVersion</name>
+        <qualifiedname>themis::content::VersionManager::getLatestVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Latest <ref refid="structthemis_1_1content_1_1_version_manager_1_1_version" kindref="compound">Version</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/version_manager.h" line="82" column="9" bodyfile="src/content/version_manager.cpp" bodystart="229" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_version_manager_1afa06dd1fae005bee1823f6b181d086c7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::VersionManager::hasVersions</definition>
+        <argsstring>(const std::string &amp;content_id) const</argsstring>
+        <name>hasVersions</name>
+        <qualifiedname>themis::content::VersionManager::hasVersions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <briefdescription>
+<para>Has Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/version_manager.h" line="89" column="10" bodyfile="src/content/version_manager.cpp" bodystart="245" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_version_manager_1a9ebf52849e15648e246ad588e0d5135e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::VersionManager::deleteVersion</definition>
+        <argsstring>(const std::string &amp;content_id, int version_number)</argsstring>
+        <name>deleteVersion</name>
+        <qualifiedname>themis::content::VersionManager::deleteVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>version_number</declname>
+        </param>
+        <briefdescription>
+<para>Delete <ref refid="structthemis_1_1content_1_1_version_manager_1_1_version" kindref="compound">Version</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), std::find_if(), begin(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/version_manager.h" line="97" column="10" bodyfile="src/content/version_manager.cpp" bodystart="257" bodyend="275"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_version_manager_1a8e0f4d4abdb0ac372e785fafb2872bb0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::VersionManager::computeHash</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>computeHash</name>
+        <qualifiedname>themis::content::VersionManager::computeHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/version_manager.h" line="105" column="24" bodyfile="src/content/version_manager.cpp" bodystart="33" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_version_manager_1a0d26b411967ac08dc3b17f25e6bab8b6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::VersionManager::computeDelta</definition>
+        <argsstring>(const std::string &amp;old_content, const std::string &amp;new_content)</argsstring>
+        <name>computeDelta</name>
+        <qualifiedname>themis::content::VersionManager::computeDelta</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_content</declname>
+        </param>
+        <briefdescription>
+<para>Compute Delta. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">old_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">old_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ss(), std::getline(), push_back(), split_lines(), size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/version_manager.h" line="113" column="24" bodyfile="src/content/version_manager.cpp" bodystart="52" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/version_manager.h" line="23" column="1" bodyfile="include/content/version_manager.h" bodystart="23" bodyend="119"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_version_manager_1a0d26b411967ac08dc3b17f25e6bab8b6" prot="public" virt="non-virtual"><scope>themis::content::VersionManager</scope><name>computeDelta</name></member>
+      <member refid="classthemis_1_1content_1_1_version_manager_1a8e0f4d4abdb0ac372e785fafb2872bb0" prot="public" virt="non-virtual"><scope>themis::content::VersionManager</scope><name>computeHash</name></member>
+      <member refid="classthemis_1_1content_1_1_version_manager_1a82bcb9df83b014e2f3c4610dcfb39a8d" prot="public" virt="non-virtual"><scope>themis::content::VersionManager</scope><name>createVersion</name></member>
+      <member refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" prot="public" virt="non-virtual"><scope>themis::content::VersionManager</scope><name>createVersionWithContent</name></member>
+      <member refid="classthemis_1_1content_1_1_version_manager_1a9ebf52849e15648e246ad588e0d5135e" prot="public" virt="non-virtual"><scope>themis::content::VersionManager</scope><name>deleteVersion</name></member>
+      <member refid="classthemis_1_1content_1_1_version_manager_1a87d245477499307c1280d01720c5c952" prot="public" virt="non-virtual"><scope>themis::content::VersionManager</scope><name>getContent</name></member>
+      <member refid="classthemis_1_1content_1_1_version_manager_1a38b105a798661eea9e5ebfe6d68cb35c" prot="public" virt="non-virtual"><scope>themis::content::VersionManager</scope><name>getLatestVersion</name></member>
+      <member refid="classthemis_1_1content_1_1_version_manager_1aa90511580f2775ae138059ebea79e836" prot="public" virt="non-virtual"><scope>themis::content::VersionManager</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1content_1_1_version_manager_1a4c5c380d74da873b306d8fc41b083fbc" prot="public" virt="non-virtual"><scope>themis::content::VersionManager</scope><name>getVersionHistory</name></member>
+      <member refid="classthemis_1_1content_1_1_version_manager_1afa06dd1fae005bee1823f6b181d086c7" prot="public" virt="non-virtual"><scope>themis::content::VersionManager</scope><name>hasVersions</name></member>
+      <member refid="classthemis_1_1content_1_1_version_manager_1a204e731eba49a5a1a41d8acae970c9b9" prot="private" virt="non-virtual"><scope>themis::content::VersionManager</scope><name>versions_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

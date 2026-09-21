@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::srv_dg::BenchWasmSandbox</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox_1a2ce37e9a07d47c2e461cc9b870046e6c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::bench::srv_dg::BenchWasmSandbox::calls_</definition>
+        <argsstring></argsstring>
+        <name>calls_</name>
+        <qualifiedname>themis::bench::srv_dg::BenchWasmSandbox::calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="97" column="17" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="97" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox_1a0a3481fa4fa48eb111444b2673176ada" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::srv_dg::BenchWasmSandbox::invoke</definition>
+        <argsstring>(int op_id, const void *, std::size_t)</argsstring>
+        <name>invoke</name>
+        <qualifiedname>themis::bench::srv_dg::BenchWasmSandbox::invoke</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>op_id</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+        </param>
+        <param>
+          <type>std::size_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="89" column="10" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="89" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox_1a5597e7a774c8b57fa8aa3abce87c63b4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::bench::srv_dg::BenchWasmSandbox::calls</definition>
+        <argsstring>() const</argsstring>
+        <name>calls</name>
+        <qualifiedname>themis::bench::srv_dg::BenchWasmSandbox::calls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="95" column="10" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="95" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="88" column="1" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="88" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox_1a5597e7a774c8b57fa8aa3abce87c63b4" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchWasmSandbox</scope><name>calls</name></member>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox_1a2ce37e9a07d47c2e461cc9b870046e6c" prot="private" virt="non-virtual"><scope>themis::bench::srv_dg::BenchWasmSandbox</scope><name>calls_</name></member>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox_1a0a3481fa4fa48eb111444b2673176ada" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchWasmSandbox</scope><name>invoke</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,700 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::MultiGPUVectorIndex::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ac9d8a2764fdeeedb4f39344a6aecd87c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::index::MultiGPUVectorIndex::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="49" column="12" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a99d1d99358b1a8432fa76ef3874a79de" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::MultiGPUVectorIndex::Impl::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::dimension</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="50" column="9" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1af2ffa3dc2ccfb64f313fa43535116ba7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Impl::initialized</definition>
+        <argsstring></argsstring>
+        <name>initialized</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::initialized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="51" column="10" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a1597d0b0eda22b26cb497277bed840bb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;GPUVectorIndex&gt; &gt; themis::index::MultiGPUVectorIndex::Impl::gpuIndices</definition>
+        <argsstring></argsstring>
+        <name>gpuIndices</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::gpuIndices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="54" column="17" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1af8f5f83d621180bd2c6786e6d5070426" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::index::MultiGPUVectorIndex::Impl::activeDeviceIds</definition>
+        <argsstring></argsstring>
+        <name>activeDeviceIds</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::activeDeviceIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="55" column="17" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a6bcb6f0054dd26986105f64a5a9f918d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::index::MultiGPUVectorIndex::Impl::failedDeviceIds</definition>
+        <argsstring></argsstring>
+        <name>failedDeviceIds</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::failedDeviceIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="56" column="17" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a7fa6029c810ae9054478f230e40c73be" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1acf0808bb034c4e59c1a3e27a14b17a76" kindref="member">CommBackend</ref></type>
+        <definition>CommBackend themis::index::MultiGPUVectorIndex::Impl::activeCommBackend</definition>
+        <argsstring></argsstring>
+        <name>activeCommBackend</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::activeCommBackend</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1acf0808bb034c4e59c1a3e27a14b17a76a2b55387dd066c5bac646ac61543d152d" kindref="member">CommBackend::CPU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="65" column="17" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1af75670f587bcafc37b39ddabf2ebf801" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::index::MultiGPUVectorIndex::Impl::vectorToGPU</definition>
+        <argsstring></argsstring>
+        <name>vectorToGPU</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::vectorToGPU</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="68" column="24" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a095d6687c4c8239f933acaf9e2333404" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::index::MultiGPUVectorIndex::Impl::startTime</definition>
+        <argsstring></argsstring>
+        <name>startTime</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::startTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="71" column="43" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ac416a5634aa70c47d689f0b04901ccbd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::MultiGPUVectorIndex::Impl::totalQueries</definition>
+        <argsstring></argsstring>
+        <name>totalQueries</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::totalQueries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="72" column="12" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a5573df6aed985d845db1ed9f753e339e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::MultiGPUVectorIndex::Impl::totalQueryTimeMs</definition>
+        <argsstring></argsstring>
+        <name>totalQueryTimeMs</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::totalQueryTimeMs</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="73" column="12" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1accea6d099c00762ee7a4b15baeef7c77" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themis::index::MultiGPUVectorIndex::Impl::perGpuQueryTimeUs</definition>
+        <argsstring></argsstring>
+        <name>perGpuQueryTimeUs</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::perGpuQueryTimeUs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="76" column="17" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a85dc123b51027c5b8b41ca032fadc662" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::index::MultiGPUVectorIndex::Impl::statsMutex</definition>
+        <argsstring></argsstring>
+        <name>statsMutex</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::statsMutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="77" column="24" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a782008e88eb977ee887e994a7fa8591a" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::index::MultiGPUVectorIndex::Impl::topologyMutex</definition>
+        <argsstring></argsstring>
+        <name>topologyMutex</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::topologyMutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="78" column="24" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1aa15d90d26014113968f09f7c37d2c5b5" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::index::MultiGPUVectorIndex::Impl::toGpuIndex</definition>
+        <argsstring>(size_t value, size_t gpuCount)</argsstring>
+        <name>toGpuIndex</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::toGpuIndex</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>gpuCount</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="38" column="17" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="38" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a473535c33a801ab79bbe5591c1e98fa1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::MultiGPUVectorIndex::Impl::Impl</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="80" column="5" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1aad0709d630b18e8f67eaba8bc25e0613" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::MultiGPUVectorIndex::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="84" column="5" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a7118c3da573187ff7442d56aadf2bb34" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Impl::initialize</definition>
+        <argsstring>(int dim)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::initialize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Topology Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topologyMutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="88" column="10" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="88" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ad85582505ebb8ed85beeebf41a841f83" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Impl::initializeCommBackend</definition>
+        <argsstring>()</argsstring>
+        <name>initializeCommBackend</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::initializeCommBackend</qualifiedname>
+        <briefdescription>
+<para>Initialize Comm Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: acceleration::NCCLVectorBackend::isNCCLAvailable(), acceleration::RCCLVectorBackend::isRCCLAvailable(), size(), <ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a7118c3da573187ff7442d56aadf2bb34" kindref="member">initialize()</ref>, THEMIS_INFO(), acceleration::NCCLVectorBackend::getNCCLVersionString(), acceleration::RCCLVectorBackend::getRCCLVersionString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="144" column="10" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="144" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a7ebe1516639c780328ca33da894fef9c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::MultiGPUVectorIndex::Impl::getCommBackendName</definition>
+        <argsstring>() const</argsstring>
+        <name>getCommBackendName</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::getCommBackendName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="221" column="17" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="221" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ac2824814af9a88b99f7eb180d7211256" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Impl::initializeGPU</definition>
+        <argsstring>(int deviceId)</argsstring>
+        <name>initializeGPU</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::initializeGPU</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>deviceId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="230" column="10" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="230" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a466d6ae3e493cacff7ec2bec779e3dd7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::MultiGPUVectorIndex::Impl::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: topologyLock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="259" column="10" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="259" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a83d167d5d546a6d08d26fbbd3f5a1b65" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::index::MultiGPUVectorIndex::Impl::selectGPUForVector</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>selectGPUForVector</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::selectGPUForVector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Select GPUFor Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), <ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1aa15d90d26014113968f09f7c37d2c5b5" kindref="member">toGpuIndex()</ref>, hasher(), max(), <ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ab1fbcf9fc4fc055e8a94cbf52325489f" kindref="member">getStatistics()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="274" column="9" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="274" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a3414941fd7ab21453ecf1ae1fdcb2a33" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Impl::addVector</definition>
+        <argsstring>(const std::string &amp;id, const std::vector&lt; float &gt; &amp;vector)</argsstring>
+        <name>addVector</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::addVector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Add Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: topologyLock(), THEMIS_WARN(), find(), end(), size(), <ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1a7c90f588c58243ae534315424bf2a415" kindref="member">updateVector()</ref>, <ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a83d167d5d546a6d08d26fbbd3f5a1b65" kindref="member">selectGPUForVector()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="330" column="10" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="330" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ab01dcbfc351bca6fab035ed2594d71ae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Impl::removeVector</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>removeVector</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::removeVector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: topologyLock(), find(), end(), size(), erase(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="386" column="10" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="386" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a5f136b3ffe82f0fc54c9a49f77877f18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_search_result" kindref="compound">MultiGPUVectorIndex::SearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; MultiGPUVectorIndex::SearchResult &gt; themis::index::MultiGPUVectorIndex::Impl::search</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, size_t k)</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: topologyLock(), empty(), THEMIS_WARN(), size(), std::chrono::steady_clock::now(), count(), lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="412" column="17" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="412" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1add5c6d18fa125f249503c1bb2a0b5fc6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_search_result" kindref="compound">MultiGPUVectorIndex::SearchResult</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; MultiGPUVectorIndex::SearchResult &gt; &gt; themis::index::MultiGPUVectorIndex::Impl::searchBatch</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;queries, size_t k)</argsstring>
+        <name>searchBatch</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::searchBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: topologyLock(), empty(), THEMIS_WARN(), size(), reserve(), std::chrono::steady_clock::now(), push_back(), std::async(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="473" column="17" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="473" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a43a5cfc071ed1fc2de89c341a3091376" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::MultiGPUVectorIndex::Impl::updateQueryStats</definition>
+        <argsstring>(const std::chrono::steady_clock::time_point &amp;start, const std::chrono::steady_clock::time_point &amp;end)</argsstring>
+        <name>updateQueryStats</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::updateQueryStats</qualifiedname>
+        <param>
+          <type>const std::chrono::steady_clock::time_point &amp;</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>const std::chrono::steady_clock::time_point &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Update Query Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: count(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="567" column="10" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="567" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ab1fbcf9fc4fc055e8a94cbf52325489f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::index::MultiGPUVectorIndex::Impl::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Snapshot mutable topology and stats under lock <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topologyMutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Stats Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">statsMutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="577" column="16" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="577" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ae8f023c376d681f0d8b769da730bd94d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Impl::rebalance</definition>
+        <argsstring>()</argsstring>
+        <name>rebalance</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Impl::rebalance</qualifiedname>
+        <briefdescription>
+<para>Rebalance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: topologyLock(), size(), THEMIS_INFO(), <ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ab1fbcf9fc4fc055e8a94cbf52325489f" kindref="member">getStatistics()</ref>, push_back(), std::max_element(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/multi_gpu_vector_index.cpp" line="676" column="10" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="676" bodyend="716"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::index::MultiGPUVectorIndex::Config</label>
+        <link refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::index::MultiGPUVectorIndex::Impl</label>
+        <link refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/index/multi_gpu_vector_index.cpp" line="36" column="1" bodyfile="src/index/multi_gpu_vector_index.cpp" bodystart="36" bodyend="717"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a7fa6029c810ae9054478f230e40c73be" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>activeCommBackend</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1af8f5f83d621180bd2c6786e6d5070426" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>activeDeviceIds</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a3414941fd7ab21453ecf1ae1fdcb2a33" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>addVector</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ac9d8a2764fdeeedb4f39344a6aecd87c" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a99d1d99358b1a8432fa76ef3874a79de" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>dimension</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a6bcb6f0054dd26986105f64a5a9f918d" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>failedDeviceIds</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a7ebe1516639c780328ca33da894fef9c" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>getCommBackendName</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ab1fbcf9fc4fc055e8a94cbf52325489f" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a1597d0b0eda22b26cb497277bed840bb" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>gpuIndices</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a473535c33a801ab79bbe5591c1e98fa1" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a7118c3da573187ff7442d56aadf2bb34" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ad85582505ebb8ed85beeebf41a841f83" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>initializeCommBackend</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1af2ffa3dc2ccfb64f313fa43535116ba7" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>initialized</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ac2824814af9a88b99f7eb180d7211256" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>initializeGPU</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1accea6d099c00762ee7a4b15baeef7c77" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>perGpuQueryTimeUs</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ae8f023c376d681f0d8b769da730bd94d" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>rebalance</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ab01dcbfc351bca6fab035ed2594d71ae" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>removeVector</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a5f136b3ffe82f0fc54c9a49f77877f18" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>search</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1add5c6d18fa125f249503c1bb2a0b5fc6" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>searchBatch</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a83d167d5d546a6d08d26fbbd3f5a1b65" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>selectGPUForVector</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a466d6ae3e493cacff7ec2bec779e3dd7" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a095d6687c4c8239f933acaf9e2333404" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>startTime</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a85dc123b51027c5b8b41ca032fadc662" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>statsMutex</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1aa15d90d26014113968f09f7c37d2c5b5" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>toGpuIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a782008e88eb977ee887e994a7fa8591a" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>topologyMutex</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1ac416a5634aa70c47d689f0b04901ccbd" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>totalQueries</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a5573df6aed985d845db1ed9f753e339e" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>totalQueryTimeMs</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1a43a5cfc071ed1fc2de89c341a3091376" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>updateQueryStats</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1af75670f587bcafc37b39ddabf2ebf801" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>vectorToGPU</name></member>
+      <member refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_impl_1aad0709d630b18e8f67eaba8bc25e0613" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

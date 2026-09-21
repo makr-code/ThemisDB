@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_82044864541a2e236f480250696a886f" kind="dir">
+    <compoundname>include/content</compoundname>
+    <innerdir refid="dir_44bf0057b00f0693a3d6d8874569138e">include/content/adapters</innerdir>
+    <innerdir refid="dir_ae15e6a3b9713691232bd9adba47161c">include/content/pipeline</innerdir>
+    <innerfile refid="abuse__detector_8h">abuse_detector.h</innerfile>
+    <innerfile refid="archive__processor_8h">archive_processor.h</innerfile>
+    <innerfile refid="async__ingestion__worker_8h">async_ingestion_worker.h</innerfile>
+    <innerfile refid="audio__processor_8h">audio_processor.h</innerfile>
+    <innerfile refid="cad__processor_8h">cad_processor.h</innerfile>
+    <innerfile refid="content__api__contract_8h">content_api_contract.h</innerfile>
+    <innerfile refid="content__classifier_8h">content_classifier.h</innerfile>
+    <innerfile refid="content__errors_8h">content_errors.h</innerfile>
+    <innerfile refid="content__fs_8h">content_fs.h</innerfile>
+    <innerfile refid="content__logger_8h">content_logger.h</innerfile>
+    <innerfile refid="content__manager_8h">content_manager.h</innerfile>
+    <innerfile refid="content__metrics_8h">content_metrics.h</innerfile>
+    <innerfile refid="content__plugin__interface_8h">content_plugin_interface.h</innerfile>
+    <innerfile refid="content__policy_8h">content_policy.h</innerfile>
+    <innerfile refid="content__processor_8h">content_processor.h</innerfile>
+    <innerfile refid="content__security_8h">content_security.h</innerfile>
+    <innerfile refid="content__type_8h">content_type.h</innerfile>
+    <innerfile refid="content__validator_8h">content_validator.h</innerfile>
+    <innerfile refid="deduplication__checker_8h">deduplication_checker.h</innerfile>
+    <innerfile refid="embedding__pipeline_8h">embedding_pipeline.h</innerfile>
+    <innerfile refid="geo__processor_8h">geo_processor.h</innerfile>
+    <innerfile refid="html__processor_8h">html_processor.h</innerfile>
+    <innerfile refid="image__processor_8h">image_processor.h</innerfile>
+    <innerfile refid="ingestion__plugin_8h">ingestion_plugin.h</innerfile>
+    <innerfile refid="language__detector_8h">language_detector.h</innerfile>
+    <innerfile refid="markdown__processor_8h">markdown_processor.h</innerfile>
+    <innerfile refid="mime__detector_8h">mime_detector.h</innerfile>
+    <innerfile refid="mock__clip__processor_8h">mock_clip_processor.h</innerfile>
+    <innerfile refid="ocr__processor_8h">ocr_processor.h</innerfile>
+    <innerfile refid="office__processor_8h">office_processor.h</innerfile>
+    <innerfile refid="pdf__processor_8h">pdf_processor.h</innerfile>
+    <innerfile refid="pii__redactor_8h">pii_redactor.h</innerfile>
+    <innerfile refid="processor__chain__config_8h">processor_chain_config.h</innerfile>
+    <innerfile refid="stt__processor_8h">stt_processor.h</innerfile>
+    <innerfile refid="tts__processor_8h">tts_processor.h</innerfile>
+    <innerfile refid="version__manager_8h">version_manager.h</innerfile>
+    <innerfile refid="video__processor_8h">video_processor.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/"/>
+  </compounddef>
+</doxygen>

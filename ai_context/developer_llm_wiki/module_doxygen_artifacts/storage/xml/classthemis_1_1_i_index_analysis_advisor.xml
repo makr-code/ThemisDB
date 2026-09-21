@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_index_analysis_advisor" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IIndexAnalysisAdvisor</compoundname>
+    <includes refid="index__analyzer_8h" local="no">index_analyzer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_index_analysis_advisor_1a21ee249efc21274c4f1f6eb6697281b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IIndexAnalysisAdvisor::~IIndexAnalysisAdvisor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IIndexAnalysisAdvisor</name>
+        <qualifiedname>themis::IIndexAnalysisAdvisor::~IIndexAnalysisAdvisor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="204" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_index_analysis_advisor_1a5e840414e2497bdebaa3c93289e3f21f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; std::pair&lt; <ref refid="namespacethemis_1a542b33165945b485e60ef2095f726cda" kindref="member">IndexRecommendation</ref>, std::string &gt; &gt;</type>
+        <definition>virtual std::optional&lt; std::pair&lt; IndexRecommendation, std::string &gt; &gt; themis::IIndexAnalysisAdvisor::advise</definition>
+        <argsstring>(const IndexAnalysisReport &amp;report)=0</argsstring>
+        <name>advise</name>
+        <qualifiedname>themis::IIndexAnalysisAdvisor::advise</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_index_analysis_report" kindref="compound">IndexAnalysisReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Inspect the preliminary analysis report and optionally override. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Read-only preliminary report produced by rule-based logic. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Override recommendation + reason, or nullopt to keep rule-based result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="213" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin interface for AI/ML-driven index maintenance decisions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Register an implementation via <ref refid="classthemis_1_1_index_analyzer_1abb23348d6be913ef4057f16ae8a66fc4" kindref="member">IndexAnalyzer::setAdvisor()</ref>. The advisor receives the preliminary analysis report (with the rule-based recommendation already populated) and may return a different recommendation. Returning std::nullopt leaves the rule-based recommendation unchanged.</para>
+<para>Thread safety: <ref refid="classthemis_1_1_i_index_analysis_advisor_1a5e840414e2497bdebaa3c93289e3f21f" kindref="member">advise()</ref> must be safe to call from multiple threads. </para>
+    </detaileddescription>
+    <location file="include/storage/index_analyzer.h" line="202" column="1" bodyfile="include/storage/index_analyzer.h" bodystart="202" bodyend="214"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_index_analysis_advisor_1a5e840414e2497bdebaa3c93289e3f21f" prot="public" virt="pure-virtual"><scope>themis::IIndexAnalysisAdvisor</scope><name>advise</name></member>
+      <member refid="classthemis_1_1_i_index_analysis_advisor_1a21ee249efc21274c4f1f6eb6697281b1" prot="public" virt="virtual"><scope>themis::IIndexAnalysisAdvisor</scope><name>~IIndexAnalysisAdvisor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

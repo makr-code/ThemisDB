@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_exemplar" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::Exemplar</compoundname>
+    <includes refid="metrics__collector_8h" local="no">metrics_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exemplar_1a5a93280dbdcad3db015ccf45947634b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::Exemplar::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::observability::Exemplar::trace_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>W3C-compatible trace ID string (e.g. 16-hex-char span ID or 32-hex-char trace ID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="46" column="17" bodyfile="include/observability/metrics_collector.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exemplar_1ac5296ff2ac93ba8d4fbe474ae47c8f29" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::Exemplar::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::observability::Exemplar::value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>The observed metric value that this exemplar is associated with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="48" column="12" bodyfile="include/observability/metrics_collector.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exemplar_1a0728e5837cbb4f44b472ed11e84280f6" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::Exemplar::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::Exemplar::timestamp</qualifiedname>
+        <briefdescription>
+<para>Wall-clock timestamp of the observation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="50" column="43" bodyfile="include/observability/metrics_collector.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_exemplar_1a03163caf458775f450399b0f01c200d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::Exemplar::Exemplar</definition>
+        <argsstring>()</argsstring>
+        <name>Exemplar</name>
+        <qualifiedname>themis::observability::Exemplar::Exemplar</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="52" column="5" bodyfile="include/observability/metrics_collector.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_exemplar_1a6677761ee9f1c3612af8b50f4c0eacc5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::Exemplar::Exemplar</definition>
+        <argsstring>(std::string tid, double v)</argsstring>
+        <name>Exemplar</name>
+        <qualifiedname>themis::observability::Exemplar::Exemplar</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>tid</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="53" column="5" bodyfile="include/observability/metrics_collector.h" bodystart="53" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>An exemplar links a specific trace context to a metric observation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Exemplars are stored on histogram metrics and emitted in the Prometheus OpenMetrics text format alongside the histogram summary output:</para>
+<para><programlisting><codeline><highlight class="preprocessor">#<sp/>TYPE<sp/>some_latency_ms<sp/>summary</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">some_latency_ms{quantile=</highlight><highlight class="stringliteral">&quot;0.99&quot;</highlight><highlight class="normal">}<sp/>42.0<sp/>#<sp/>{traceID=</highlight><highlight class="stringliteral">&quot;3e561c74cee40c12&quot;</highlight><highlight class="normal">}<sp/>42.0<sp/>1712000000.000</highlight></codeline>
+</programlisting></para>
+<para>At most one exemplar is retained per metric series (last-write-wins).</para>
+<para><simplesect kind="see"><para>observeHistogramWithExemplar() </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/observability/metrics_collector.h" line="44" column="1" bodyfile="include/observability/metrics_collector.h" bodystart="44" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_exemplar_1a03163caf458775f450399b0f01c200d8" prot="public" virt="non-virtual"><scope>themis::observability::Exemplar</scope><name>Exemplar</name></member>
+      <member refid="structthemis_1_1observability_1_1_exemplar_1a6677761ee9f1c3612af8b50f4c0eacc5" prot="public" virt="non-virtual"><scope>themis::observability::Exemplar</scope><name>Exemplar</name></member>
+      <member refid="structthemis_1_1observability_1_1_exemplar_1a0728e5837cbb4f44b472ed11e84280f6" prot="public" virt="non-virtual"><scope>themis::observability::Exemplar</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_exemplar_1a5a93280dbdcad3db015ccf45947634b1" prot="public" virt="non-virtual"><scope>themis::observability::Exemplar</scope><name>trace_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_exemplar_1ac5296ff2ac93ba8d4fbe474ae47c8f29" prot="public" virt="non-virtual"><scope>themis::observability::Exemplar</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

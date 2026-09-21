@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_kafka_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::KafkaRecord</compoundname>
+    <includes refid="importer__interfaces_8h" local="no">importer_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_kafka_record_1ae915364200c30a416f34a8ad54cbdcc2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaRecord::topic</definition>
+        <argsstring></argsstring>
+        <name>topic</name>
+        <qualifiedname>themis::importers::KafkaRecord::topic</qualifiedname>
+        <briefdescription>
+<para>Kafka topic name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="96" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_kafka_record_1aa5a2d80694534043199382099dcebd63" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::importers::KafkaRecord::partition</definition>
+        <argsstring></argsstring>
+        <name>partition</name>
+        <qualifiedname>themis::importers::KafkaRecord::partition</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Partition index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="97" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_kafka_record_1a2702d13435f234145fe1cd44e06a8abb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::importers::KafkaRecord::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::importers::KafkaRecord::offset</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>Partition offset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="98" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_kafka_record_1af0bff650d49dd9a81ab24dddc544981e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaRecord::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::importers::KafkaRecord::key</qualifiedname>
+        <briefdescription>
+<para>Message key (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="99" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_kafka_record_1a03ad7c7b6dcf98cb087cd4655f95fd94" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaRecord::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::importers::KafkaRecord::value</qualifiedname>
+        <briefdescription>
+<para>Raw message payload bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="100" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_interfaces.h" line="95" column="1" bodyfile="include/importers/importer_interfaces.h" bodystart="95" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_kafka_record_1af0bff650d49dd9a81ab24dddc544981e" prot="public" virt="non-virtual"><scope>themis::importers::KafkaRecord</scope><name>key</name></member>
+      <member refid="structthemis_1_1importers_1_1_kafka_record_1a2702d13435f234145fe1cd44e06a8abb" prot="public" virt="non-virtual"><scope>themis::importers::KafkaRecord</scope><name>offset</name></member>
+      <member refid="structthemis_1_1importers_1_1_kafka_record_1aa5a2d80694534043199382099dcebd63" prot="public" virt="non-virtual"><scope>themis::importers::KafkaRecord</scope><name>partition</name></member>
+      <member refid="structthemis_1_1importers_1_1_kafka_record_1ae915364200c30a416f34a8ad54cbdcc2" prot="public" virt="non-virtual"><scope>themis::importers::KafkaRecord</scope><name>topic</name></member>
+      <member refid="structthemis_1_1importers_1_1_kafka_record_1a03ad7c7b6dcf98cb087cd4655f95fd94" prot="public" virt="non-virtual"><scope>themis::importers::KafkaRecord</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

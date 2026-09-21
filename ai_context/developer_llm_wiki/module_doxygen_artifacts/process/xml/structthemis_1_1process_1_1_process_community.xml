@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_community" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessCommunity</compoundname>
+    <includes refid="process__community__detector_8h" local="no">process_community_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_community_1aecdcb9127a0a2838a34a370dcfa29527" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessCommunity::community_id</definition>
+        <argsstring></argsstring>
+        <name>community_id</name>
+        <qualifiedname>themis::process::ProcessCommunity::community_id</qualifiedname>
+        <briefdescription>
+<para>&quot;community_&lt;N&gt;&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_community_detector.h" line="44" column="17" bodyfile="include/process/process_community_detector.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_community_1aa11edf4723fb9e9cefe0aa34ebdbe580" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ProcessCommunity::node_ids</definition>
+        <argsstring></argsstring>
+        <name>node_ids</name>
+        <qualifiedname>themis::process::ProcessCommunity::node_ids</qualifiedname>
+        <briefdescription>
+<para>IDs of nodes in the community. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_community_detector.h" line="45" column="17" bodyfile="include/process/process_community_detector.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_community_1a1c74212696e9dd730bf6a76ef78f17f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessCommunity::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::process::ProcessCommunity::label</qualifiedname>
+        <briefdescription>
+<para>Short label (first 3 node names joined). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_community_detector.h" line="46" column="17" bodyfile="include/process/process_community_detector.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_community_1aff05c1f02cee6508b0cb8b90ab89d68b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessCommunity::report</definition>
+        <argsstring></argsstring>
+        <name>report</name>
+        <qualifiedname>themis::process::ProcessCommunity::report</qualifiedname>
+        <briefdescription>
+<para>Full report (LLM stub or node descriptions). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_community_detector.h" line="47" column="17" bodyfile="include/process/process_community_detector.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_community_1a7c2db9fea6f4d09acaefadc9ed553299" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::process::ProcessCommunity::modularity_score</definition>
+        <argsstring></argsstring>
+        <name>modularity_score</name>
+        <qualifiedname>themis::process::ProcessCommunity::modularity_score</qualifiedname>
+        <initializer>{0.f}</initializer>
+        <briefdescription>
+<para>Local modularity contribution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_community_detector.h" line="48" column="11" bodyfile="include/process/process_community_detector.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents a detected community of related process nodes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Communities are identified by greedy modularity optimisation (Louvain-style) and can be serialised to RocksDB for later use by the LightRAG retrieval layer. </para>
+    </detaileddescription>
+    <location file="include/process/process_community_detector.h" line="43" column="1" bodyfile="include/process/process_community_detector.h" bodystart="43" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_community_1aecdcb9127a0a2838a34a370dcfa29527" prot="public" virt="non-virtual"><scope>themis::process::ProcessCommunity</scope><name>community_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_community_1a1c74212696e9dd730bf6a76ef78f17f6" prot="public" virt="non-virtual"><scope>themis::process::ProcessCommunity</scope><name>label</name></member>
+      <member refid="structthemis_1_1process_1_1_process_community_1a7c2db9fea6f4d09acaefadc9ed553299" prot="public" virt="non-virtual"><scope>themis::process::ProcessCommunity</scope><name>modularity_score</name></member>
+      <member refid="structthemis_1_1process_1_1_process_community_1aa11edf4723fb9e9cefe0aa34ebdbe580" prot="public" virt="non-virtual"><scope>themis::process::ProcessCommunity</scope><name>node_ids</name></member>
+      <member refid="structthemis_1_1process_1_1_process_community_1aff05c1f02cee6508b0cb8b90ab89d68b" prot="public" virt="non-virtual"><scope>themis::process::ProcessCommunity</scope><name>report</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,787 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_prompt_engineering_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::PromptEngineeringApiHandler</compoundname>
+    <includes refid="prompt__engineering__api__handler_8h" local="no">prompt_engineering_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1afb932b3ab4d6df2650afc7e1bb79c4f4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::PromptEngineeringApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="123" column="21" bodyfile="include/server/prompt_engineering_api_handler.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a0b22ab08a5738e1c51073bd990753e69" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; prompt_engineering::PromptManager &gt;</type>
+        <definition>std::shared_ptr&lt;prompt_engineering::PromptManager&gt; themis::server::PromptEngineeringApiHandler::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="124" column="21" bodyfile="include/server/prompt_engineering_api_handler.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1af3202856663f8e7523ac5bfad90ea545" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; prompt_engineering::PromptOptimizer &gt;</type>
+        <definition>std::shared_ptr&lt;prompt_engineering::PromptOptimizer&gt; themis::server::PromptEngineeringApiHandler::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="125" column="21" bodyfile="include/server/prompt_engineering_api_handler.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1aa436344485924e84cb5d04c5732ad240" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; prompt_engineering::PromptPerformanceTracker &gt;</type>
+        <definition>std::shared_ptr&lt;prompt_engineering::PromptPerformanceTracker&gt; themis::server::PromptEngineeringApiHandler::tracker_</definition>
+        <argsstring></argsstring>
+        <name>tracker_</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="126" column="21" bodyfile="include/server/prompt_engineering_api_handler.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1ad7b141d88d4db5acbaf262380afdd6ae" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; prompt_engineering::SelfImprovementOrchestrator &gt;</type>
+        <definition>std::shared_ptr&lt;prompt_engineering::SelfImprovementOrchestrator&gt; themis::server::PromptEngineeringApiHandler::orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="127" column="21" bodyfile="include/server/prompt_engineering_api_handler.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a6d5d61d2b2fa8f11fd018908a8ba27e7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; prompt_engineering::FeedbackCollector &gt;</type>
+        <definition>std::shared_ptr&lt;prompt_engineering::FeedbackCollector&gt; themis::server::PromptEngineeringApiHandler::feedback_collector_</definition>
+        <argsstring></argsstring>
+        <name>feedback_collector_</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::feedback_collector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="128" column="21" bodyfile="include/server/prompt_engineering_api_handler.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1aefead6596902d071f5d3cbad22a597cb" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; prompt_engineering::PromptVersionControl &gt;</type>
+        <definition>std::shared_ptr&lt;prompt_engineering::PromptVersionControl&gt; themis::server::PromptEngineeringApiHandler::version_control_</definition>
+        <argsstring></argsstring>
+        <name>version_control_</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::version_control_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="129" column="21" bodyfile="include/server/prompt_engineering_api_handler.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a811d2bfbb87d0e248a7edcdc08f0b013" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; prompt_engineering::PromptEngineeringIntegration &gt;</type>
+        <definition>std::shared_ptr&lt;prompt_engineering::PromptEngineeringIntegration&gt; themis::server::PromptEngineeringApiHandler::integration_</definition>
+        <argsstring></argsstring>
+        <name>integration_</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::integration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="130" column="21" bodyfile="include/server/prompt_engineering_api_handler.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a77dc8a85df73ba077b139a1dc39fa2e4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::PromptEngineeringApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="131" column="21" bodyfile="include/server/prompt_engineering_api_handler.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a3f719cc4c2752a4357dce0985534a538" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PromptEngineeringApiHandler::PromptEngineeringApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; prompt_engineering::PromptManager &gt; manager, std::shared_ptr&lt; prompt_engineering::PromptOptimizer &gt; optimizer, std::shared_ptr&lt; prompt_engineering::PromptPerformanceTracker &gt; tracker, std::shared_ptr&lt; prompt_engineering::SelfImprovementOrchestrator &gt; orchestrator, std::shared_ptr&lt; prompt_engineering::FeedbackCollector &gt; feedback_collector, std::shared_ptr&lt; prompt_engineering::PromptVersionControl &gt; version_control, std::shared_ptr&lt; prompt_engineering::PromptEngineeringIntegration &gt; integration, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>PromptEngineeringApiHandler</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::PromptEngineeringApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; prompt_engineering::PromptManager &gt;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; prompt_engineering::PromptOptimizer &gt;</type>
+          <declname>optimizer</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; prompt_engineering::PromptPerformanceTracker &gt;</type>
+          <declname>tracker</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; prompt_engineering::SelfImprovementOrchestrator &gt;</type>
+          <declname>orchestrator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; prompt_engineering::FeedbackCollector &gt;</type>
+          <declname>feedback_collector</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; prompt_engineering::PromptVersionControl &gt;</type>
+          <declname>version_control</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; prompt_engineering::PromptEngineeringIntegration &gt;</type>
+          <declname>integration</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="41" column="5" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="51" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a3dd136ab2e36af26427e2cdb1a327f89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PromptEngineeringApiHandler::handleOptimize</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleOptimize</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::handleOptimize</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Optimize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>POST /api/v1/prompt_engineering/optimize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), empty(), shouldOptimize(), makeResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="59" column="20" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="80" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1aa05229a42523898aec4c84d05ccba9ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PromptEngineeringApiHandler::handleListABTests</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleListABTests</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::handleListABTests</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List ABTests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GET /api/v1/prompt_engineering/ab_tests.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), getActiveABTests(), nlohmann::json::array(), push_back(), toJson(), makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="67" column="20" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="165" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a8e1567ea26aaff9ff6f4bb47ff047542" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PromptEngineeringApiHandler::handleGetABTest</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetABTest</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::handleGetABTest</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get ABTest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GET /api/v1/prompt_engineering/ab_tests/:id.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::string(), target(), extractPathParam(), empty(), makeErrorResponse(), isValidPromptEngineeringIdentifier(), getABTestResults(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="75" column="20" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="201" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1ae923dc8bba1a921633b94ede5242c696" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PromptEngineeringApiHandler::handleSubmitFeedback</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleSubmitFeedback</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::handleSubmitFeedback</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Submit Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>POST /api/v1/prompt_engineering/feedback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), empty(), prompt_engineering::stringToFeedbackType(), recordFeedback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="84" column="20" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="255" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a13b2fd5897c07210c2fef91444992158" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PromptEngineeringApiHandler::handleGetStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetStats</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::handleGetStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GET /api/v1/prompt_engineering/stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), nlohmann::json::object(), getStats(), getSummaryStatistics(), getSummary(), getActiveABTests(), size(), makeResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="93" column="20" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="328" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a4c8fa5fca8e1b7d8b7c3303a2ea31bdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PromptEngineeringApiHandler::handleGetHistory</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetHistory</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::handleGetHistory</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GET /api/v1/prompt_engineering/history/:id.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::string(), target(), extractPathParam(), empty(), makeErrorResponse(), isValidPromptEngineeringIdentifier(), getOptimizationHistory(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="102" column="20" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="378" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a9d3d14ab31ab50537f2999c3b301e8e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PromptEngineeringApiHandler::handleGetVersions</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetVersions</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::handleGetVersions</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GET /api/v1/prompt_engineering/versions/:id.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::string(), target(), extractPathParam(), empty(), makeErrorResponse(), isValidPromptEngineeringIdentifier(), getHistory(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="111" column="20" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="431" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1ae713cf39a4f59b565166375a91fe21e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PromptEngineeringApiHandler::handleRollback</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRollback</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::handleRollback</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>POST /api/v1/prompt_engineering/rollback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), empty(), rollbackPrompt(), makeResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="119" column="20" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="485" bodyend="528"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a61ff13ad08d02ebde019c370f8478016" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::PromptEngineeringApiHandler::extractPathParam</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;prefix)</argsstring>
+        <name>extractPathParam</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::extractPathParam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Extract Path Param. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), substr(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="140" column="17" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="538" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1ac1e176183985dde89c4d10cb5c2b6ccc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PromptEngineeringApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), dump(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="149" column="20" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="562" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_prompt_engineering_api_handler_1aa0939ab43a1eb4cbc78197cac1097010" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::PromptEngineeringApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::PromptEngineeringApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/prompt_engineering_api_handler.h" line="161" column="20" bodyfile="src/server/prompt_engineering_api_handler.cpp" bodystart="588" bodyend="600"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/prompt_engineering_api_handler.h" line="39" column="1" bodyfile="include/server/prompt_engineering_api_handler.h" bodystart="39" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a77dc8a85df73ba077b139a1dc39fa2e4" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a61ff13ad08d02ebde019c370f8478016" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>extractPathParam</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a6d5d61d2b2fa8f11fd018908a8ba27e7" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>feedback_collector_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a8e1567ea26aaff9ff6f4bb47ff047542" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>handleGetABTest</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a4c8fa5fca8e1b7d8b7c3303a2ea31bdb" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>handleGetHistory</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a13b2fd5897c07210c2fef91444992158" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>handleGetStats</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a9d3d14ab31ab50537f2999c3b301e8e9" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>handleGetVersions</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1aa05229a42523898aec4c84d05ccba9ef" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>handleListABTests</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a3dd136ab2e36af26427e2cdb1a327f89" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>handleOptimize</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1ae713cf39a4f59b565166375a91fe21e8" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>handleRollback</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1ae923dc8bba1a921633b94ede5242c696" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>handleSubmitFeedback</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a811d2bfbb87d0e248a7edcdc08f0b013" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>integration_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1ac1e176183985dde89c4d10cb5c2b6ccc" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1aa0939ab43a1eb4cbc78197cac1097010" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a0b22ab08a5738e1c51073bd990753e69" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1af3202856663f8e7523ac5bfad90ea545" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>optimizer_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1ad7b141d88d4db5acbaf262380afdd6ae" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>orchestrator_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1a3f719cc4c2752a4357dce0985534a538" prot="public" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>PromptEngineeringApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1afb932b3ab4d6df2650afc7e1bb79c4f4" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1aa436344485924e84cb5d04c5732ad240" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>tracker_</name></member>
+      <member refid="classthemis_1_1server_1_1_prompt_engineering_api_handler_1aefead6596902d071f5d3cbad22a597cb" prot="private" virt="non-virtual"><scope>themis::server::PromptEngineeringApiHandler</scope><name>version_control_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

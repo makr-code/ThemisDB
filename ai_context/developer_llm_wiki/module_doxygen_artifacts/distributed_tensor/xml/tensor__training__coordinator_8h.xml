@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__training__coordinator_8h" kind="file" language="C++">
+    <compoundname>tensor_training_coordinator.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="tensor__training__coordinator_8cc" local="yes">src/distributed_tensor/tensor_training_coordinator.cc</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/distributed_tensor/tensor_training_coordinator.h</label>
+        <link refid="tensor__training__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>deque</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/distributed_tensor/tensor_training_coordinator.h</label>
+        <link refid="tensor__training__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/distributed_tensor/tensor_training_coordinator.cc</label>
+        <link refid="tensor__training__coordinator_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item" prot="public">themis::distributed_tensor::TensorShardWorkItem</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec" prot="public">themis::distributed_tensor::TensorTrainingJobSpec</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result" prot="public">themis::distributed_tensor::TensorTrainingJobResult</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_i_tensor_training_worker" prot="public">themis::distributed_tensor::ITensorTrainingWorker</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator" prot="public">themis::distributed_tensor::TensorTrainingCoordinator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Coordinator for distributed tensor training runs. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages the lifecycle of a distributed training job: worker registration, gradient aggregation, fault tolerance, and checkpoint synchronization. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">themis::distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38" kindref="member">TrainingJobState</ref><sp/>{</highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38a9df29ce7ca629ff1d47bca1149d9faae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1abe16ade153cb579d13f81d78b6362187a9df29ce7ca629ff1d47bca1149d9faae" kindref="member">QUEUED</ref>,</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38a43491564ebcfd38568918efbd6e840fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1abe16ade153cb579d13f81d78b6362187a43491564ebcfd38568918efbd6e840fd" kindref="member">RUNNING</ref>,</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38ad0749aaba8b833466dfcbb0428e4f89c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SUCCESS</ref>,</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38ac0cc02c3b3d55abb7bfb49ddbb4866c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38ac0cc02c3b3d55abb7bfb49ddbb4866c8" kindref="member">RETRY</ref>,</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38a9f935beb31030ad0d4d26126c0f39bf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1abe16ade153cb579d13f81d78b6362187a9f935beb31030ad0d4d26126c0f39bf2" kindref="member">CANCELLED</ref>,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item" kindref="compound">TensorShardWorkItem</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item_1af65d6e42376c991d001cd23f29795e19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item_1af65d6e42376c991d001cd23f29795e19" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item_1a665da23611d558000423acdc0348d669" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item_1a665da23611d558000423acdc0348d669" kindref="member">tensor_values</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec" kindref="compound">TensorTrainingJobSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1ac0e3657f0eaa281a9deb1c5d1ff85770" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1ac0e3657f0eaa281a9deb1c5d1ff85770" kindref="member">job_id</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1a3bb31957b14ac786c1de6af355006d9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1a3bb31957b14ac786c1de6af355006d9b" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1aca29a22fbdd0074461535920faa727bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1aca29a22fbdd0074461535920faa727bc" kindref="member">domain</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1af488ae9c8c822226d93cc4530a838e83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TensorShardWorkItem&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1af488ae9c8c822226d93cc4530a838e83" kindref="member">shard_work</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1a2f3612e3a7122e35e94ebfd385e1040c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1a2f3612e3a7122e35e94ebfd385e1040c" kindref="member">max_retries</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1ab7f8073b02805f901b99d17691796dd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1ab7f8073b02805f901b99d17691796dd5" kindref="member">max_iterations</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1ab814078ce77c32d1ba52bbddbea7f105" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec_1ab814078ce77c32d1ba52bbddbea7f105" kindref="member">convergence_epsilon</ref><sp/>=<sp/>1e-5;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result" kindref="compound">TensorTrainingJobResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a688d9af95c604747947ed7fdebc20d9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a688d9af95c604747947ed7fdebc20d9c" kindref="member">job_id</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a396385be6543d46242dfadea0cde9366" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38" kindref="member">TrainingJobState</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a396385be6543d46242dfadea0cde9366" kindref="member">state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38a9df29ce7ca629ff1d47bca1149d9faae" kindref="member">TrainingJobState::QUEUED</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a5380fee5a987cecaca3d12d50cf4e5f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a5380fee5a987cecaca3d12d50cf4e5f7" kindref="member">retries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1af65109382b7b23a0e1708ae047f7ad57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1af65109382b7b23a0e1708ae047f7ad57" kindref="member">iterations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1aa600a7bb2641771a523817a99b441ad7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1aa600a7bb2641771a523817a99b441ad7" kindref="member">aggregated_tensor</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1ac3c02fe7b817317db48dcd642ed8180e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1ac3c02fe7b817317db48dcd642ed8180e" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1distributed__tensor_1_1_i_tensor_training_worker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_i_tensor_training_worker" kindref="compound">ITensorTrainingWorker</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1distributed__tensor_1_1_i_tensor_training_worker_1a96861f633fbf27b59583517896d36aa6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_i_tensor_training_worker_1a96861f633fbf27b59583517896d36aa6" kindref="member">~ITensorTrainingWorker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1distributed__tensor_1_1_i_tensor_training_worker_1aed0ed08b9ac161f9ead95af095539637" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;std::vector&lt;float&gt;&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_i_tensor_training_worker_1aed0ed08b9ac161f9ead95af095539637" kindref="member">processShard</ref>(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>job_id,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item" kindref="compound">TensorShardWorkItem</ref>&amp;<sp/>shard,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>error_message)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator" kindref="compound">TensorTrainingCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1af8b70d3f111e33e93098ceef9ad737c8" kindref="member">registerWorker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,<sp/>std::shared_ptr&lt;ITensorTrainingWorker&gt;<sp/>worker);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a411a60f8f31c05dc1acd240e85d97db5" kindref="member">submitJob</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec" kindref="compound">TensorTrainingJobSpec</ref>&amp;<sp/>spec);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a31cf941da35081a4788f36c9ca1825b0" kindref="member">cancelJob</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>job_id);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1ab9f8688dc492a24261038c6894b1dacb" kindref="member">runNextJob</ref>();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;TensorTrainingJobResult&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1ad1b0e8e5be881850d1cd62a16c5e78fc" kindref="member">result</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>job_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;float&gt;&gt;<sp/>runShardWithRetry(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec" kindref="compound">TensorTrainingJobSpec</ref>&amp;<sp/>spec,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item" kindref="compound">TensorShardWorkItem</ref>&amp;<sp/>shard,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result" kindref="compound">TensorTrainingJobResult</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1ad1b0e8e5be881850d1cd62a16c5e78fc" kindref="member">result</ref>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>aggregateShardResults(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/>shard_results);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasConverged(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>prev,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>next,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>epsilon);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;std::string&gt;<sp/>job_queue_;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>TensorTrainingJobSpec&gt;<sp/>jobs_;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>TensorTrainingJobResult&gt;<sp/>results_;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::shared_ptr&lt;ITensorTrainingWorker&gt;&gt;<sp/>workers_;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/distributed_tensor/tensor_training_coordinator.h"/>
+  </compounddef>
+</doxygen>

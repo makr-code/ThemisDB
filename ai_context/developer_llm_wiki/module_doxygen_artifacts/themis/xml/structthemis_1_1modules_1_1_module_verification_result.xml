@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_module_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleVerificationResult</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_verification_result_1ad5dccd3d65e73c4f1da6dee8a81e1a01" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleVerificationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::modules::ModuleVerificationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="303" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_verification_result_1ad745869ef374add73f5be3fa2a6cf238" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783" kindref="member">ModuleErrorCode</ref></type>
+        <definition>ModuleErrorCode themis::modules::ModuleVerificationResult::errorCode</definition>
+        <argsstring></argsstring>
+        <name>errorCode</name>
+        <qualifiedname>themis::modules::ModuleVerificationResult::errorCode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">ModuleErrorCode::SUCCESS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="304" column="21" bodyfile="include/themis/base/module_loader.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_verification_result_1a89c6d39dc84e9a3eb74e2bce85f0e43b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1modules_1ac67f7d9ae6bcf0b03d4763ddfcb75626" kindref="member">ErrorCategory</ref></type>
+        <definition>ErrorCategory themis::modules::ModuleVerificationResult::errorCategory</definition>
+        <argsstring></argsstring>
+        <name>errorCategory</name>
+        <qualifiedname>themis::modules::ModuleVerificationResult::errorCategory</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1modules_1ac67f7d9ae6bcf0b03d4763ddfcb75626ab50339a10e1de285ac99d4c3990b8693" kindref="member">ErrorCategory::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="305" column="19" bodyfile="include/themis/base/module_loader.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_verification_result_1ae807d634f31e620e3ae99c57790dfc6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleVerificationResult::errorMessage</definition>
+        <argsstring></argsstring>
+        <name>errorMessage</name>
+        <qualifiedname>themis::modules::ModuleVerificationResult::errorMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="306" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_verification_result_1ab156baa127670f2bc1b5a702f8211a7f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleVerificationResult::moduleHash</definition>
+        <argsstring></argsstring>
+        <name>moduleHash</name>
+        <qualifiedname>themis::modules::ModuleVerificationResult::moduleHash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="307" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_verification_result_1a603161f958dc3f6e8c6692de4ed82de0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleVerificationResult::modulePath</definition>
+        <argsstring></argsstring>
+        <name>modulePath</name>
+        <qualifiedname>themis::modules::ModuleVerificationResult::modulePath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="308" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_verification_result_1a03d8c720fed4d8b9bbc04b09dd67c7ce" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleVerificationResult::verificationTimestamp</definition>
+        <argsstring></argsstring>
+        <name>verificationTimestamp</name>
+        <qualifiedname>themis::modules::ModuleVerificationResult::verificationTimestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="309" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_verification_result_1acbb3d0d5e08f895390af45356b8768c9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_module_metadata" kindref="compound">ModuleMetadata</ref></type>
+        <definition>ModuleMetadata themis::modules::ModuleVerificationResult::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::modules::ModuleVerificationResult::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="310" column="20" bodyfile="include/themis/base/module_loader.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_verification_result_1aa8d46710fef3a82709ed4a408f3ddcdc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleVerificationResult::authenticodeSigner</definition>
+        <argsstring></argsstring>
+        <name>authenticodeSigner</name>
+        <qualifiedname>themis::modules::ModuleVerificationResult::authenticodeSigner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="313" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_verification_result_1a210c8e7c531c79ccf3d10708b84fc450" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleVerificationResult::hasAuthenticode</definition>
+        <argsstring></argsstring>
+        <name>hasAuthenticode</name>
+        <qualifiedname>themis::modules::ModuleVerificationResult::hasAuthenticode</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="314" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_verification_result_1a103016eb0ba754eb1007e8d450d2073c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::modules::ModuleVerificationResult::zoneId</definition>
+        <argsstring></argsstring>
+        <name>zoneId</name>
+        <qualifiedname>themis::modules::ModuleVerificationResult::zoneId</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="315" column="9" bodyfile="include/themis/base/module_loader.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Module verification result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::modules::ModuleMetadata</label>
+        <link refid="structthemis_1_1modules_1_1_module_metadata"/>
+      </node>
+      <node id="1">
+        <label>themis::modules::ModuleVerificationResult</label>
+        <link refid="structthemis_1_1modules_1_1_module_verification_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metadata</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/base/module_loader.h" line="302" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="302" bodyend="316"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_module_verification_result_1aa8d46710fef3a82709ed4a408f3ddcdc" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVerificationResult</scope><name>authenticodeSigner</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_verification_result_1a89c6d39dc84e9a3eb74e2bce85f0e43b" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVerificationResult</scope><name>errorCategory</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_verification_result_1ad745869ef374add73f5be3fa2a6cf238" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVerificationResult</scope><name>errorCode</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_verification_result_1ae807d634f31e620e3ae99c57790dfc6e" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVerificationResult</scope><name>errorMessage</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_verification_result_1a210c8e7c531c79ccf3d10708b84fc450" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVerificationResult</scope><name>hasAuthenticode</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_verification_result_1acbb3d0d5e08f895390af45356b8768c9" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVerificationResult</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_verification_result_1ab156baa127670f2bc1b5a702f8211a7f" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVerificationResult</scope><name>moduleHash</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_verification_result_1a603161f958dc3f6e8c6692de4ed82de0" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVerificationResult</scope><name>modulePath</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_verification_result_1ad5dccd3d65e73c4f1da6dee8a81e1a01" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVerificationResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_verification_result_1a03d8c720fed4d8b9bbc04b09dd67c7ce" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVerificationResult</scope><name>verificationTimestamp</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_verification_result_1a103016eb0ba754eb1007e8d450d2073c" prot="public" virt="non-virtual"><scope>themis::modules::ModuleVerificationResult</scope><name>zoneId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="classthemis_1_1_adaptive_compaction_scheduler" prot="public">themis::AdaptiveCompactionScheduler</innerclass>
+    <innerclass refid="classthemis_1_1_append_merge_operator" prot="public">themis::AppendMergeOperator</innerclass>
+    <innerclass refid="classthemis_1_1_backup_manager" prot="public">themis::BackupManager</innerclass>
+    <innerclass refid="structthemis_1_1_backup_options" prot="public">themis::BackupOptions</innerclass>
+    <innerclass refid="classthemis_1_1_base_entity" prot="public">themis::BaseEntity</innerclass>
+    <innerclass refid="classthemis_1_1_batch_write_optimizer" prot="public">themis::BatchWriteOptimizer</innerclass>
+    <innerclass refid="classthemis_1_1_compaction_manager" prot="public">themis::CompactionManager</innerclass>
+    <innerclass refid="classthemis_1_1_conflict_manager" prot="public">themis::ConflictManager</innerclass>
+    <innerclass refid="structthemis_1_1_conflict_record" prot="public">themis::ConflictRecord</innerclass>
+    <innerclass refid="structthemis_1_1_conflict_set" prot="public">themis::ConflictSet</innerclass>
+    <innerclass refid="classthemis_1_1_counter_merge_operator" prot="public">themis::CounterMergeOperator</innerclass>
+    <innerclass refid="structthemis_1_1_file_integrity_info" prot="public">themis::FileIntegrityInfo</innerclass>
+    <innerclass refid="structthemis_1_1_fragmentation_metrics" prot="public">themis::FragmentationMetrics</innerclass>
+    <innerclass refid="classthemis_1_1_history_manager" prot="public">themis::HistoryManager</innerclass>
+    <innerclass refid="structthemis_1_1_history_record" prot="public">themis::HistoryRecord</innerclass>
+    <innerclass refid="structthemis_1_1_h_l_c_timestamp" prot="public">themis::HLCTimestamp</innerclass>
+    <innerclass refid="classthemis_1_1_hybrid_logical_clock" prot="public">themis::HybridLogicalClock</innerclass>
+    <innerclass refid="classthemis_1_1_i_index_analysis_advisor" prot="public">themis::IIndexAnalysisAdvisor</innerclass>
+    <innerclass refid="structthemis_1_1_index_analysis_report" prot="public">themis::IndexAnalysisReport</innerclass>
+    <innerclass refid="structthemis_1_1_index_analyze_config" prot="public">themis::IndexAnalyzeConfig</innerclass>
+    <innerclass refid="classthemis_1_1_index_analyzer" prot="public">themis::IndexAnalyzer</innerclass>
+    <innerclass refid="structthemis_1_1_index_entry" prot="public">themis::IndexEntry</innerclass>
+    <innerclass refid="classthemis_1_1_index_maintenance_manager" prot="public">themis::IndexMaintenanceManager</innerclass>
+    <innerclass refid="classthemis_1_1_key_schema" prot="public">themis::KeySchema</innerclass>
+    <innerclass refid="structthemis_1_1_maintenance_job_status" prot="public">themis::MaintenanceJobStatus</innerclass>
+    <innerclass refid="structthemis_1_1_maintenance_policy" prot="public">themis::MaintenancePolicy</innerclass>
+    <innerclass refid="classthemis_1_1_max_merge_operator" prot="public">themis::MaxMergeOperator</innerclass>
+    <innerclass refid="classthemis_1_1_m_v_c_c_chain_pruner" prot="public">themis::MVCCChainPruner</innerclass>
+    <innerclass refid="classthemis_1_1_m_v_c_c_store" prot="public">themis::MVCCStore</innerclass>
+    <innerclass refid="classthemis_1_1_p_i_t_r_manager" prot="public">themis::PITRManager</innerclass>
+    <innerclass refid="structthemis_1_1_p_i_t_r_options" prot="public">themis::PITROptions</innerclass>
+    <innerclass refid="classthemis_1_1_raft_mvcc_bridge" prot="public">themis::RaftMvccBridge</innerclass>
+    <innerclass refid="structthemis_1_1_r_a_i_d_config" prot="public">themis::RAIDConfig</innerclass>
+    <innerclass refid="structthemis_1_1_recovery_stats" prot="public">themis::RecoveryStats</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper" prot="public">themis::RocksDBWrapper</innerclass>
+    <innerclass refid="classthemis_1_1_scoped_file_descriptor" prot="public">themis::ScopedFileDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1_set_merge_operator" prot="public">themis::SetMergeOperator</innerclass>
+    <innerclass refid="structthemis_1_1_shard_info" prot="public">themis::ShardInfo</innerclass>
+    <innerclass refid="classthemis_1_1_storage_audit_logger" prot="public">themis::StorageAuditLogger</innerclass>
+    <innerclass refid="classthemis_1_1_storage_engine" prot="public">themis::StorageEngine</innerclass>
+    <innerclass refid="classthemis_1_1_streaming_ingest_manager" prot="public">themis::StreamingIngestManager</innerclass>
+    <innerclass refid="structthemis_1_1_tier_thresholds" prot="public">themis::TierThresholds</innerclass>
+    <innerclass refid="classthemis_1_1_w_a_l_storage" prot="public">themis::WALStorage</innerclass>
+    <innerclass refid="classthemis_1_1_wom_tree" prot="public">themis::WomTree</innerclass>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1compression">themis::compression</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <innernamespace refid="namespacethemis_1_1test">themis::test</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <sectiondef kind="enum">
+      <member refid="group__storage_1gaa7796885f64c867cdf3f892812672149" kind="enum"><name>RAIDMode</name></member>
+      <member refid="group__storage_1ga735a2b5f31bda6737b967fde9d418947" kind="enum"><name>CompressionType</name></member>
+      <member refid="group__storage_1gaf7e7cc47cbb8962dec1c4013af54c72d" kind="enum"><name>StorageBackend</name></member>
+      <memberdef kind="enum" id="namespacethemis_1a542b33165945b485e60ef2095f726cda" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IndexRecommendation</name>
+        <qualifiedname>themis::IndexRecommendation</qualifiedname>
+        <enumvalue id="namespacethemis_1a542b33165945b485e60ef2095f726cdaab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>Index is healthy – no maintenance needed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a542b33165945b485e60ef2095f726cdaaadfe373c2e50f5f677c7d6d9aaef4230" prot="public">
+          <name>UPDATE_STATS</name>
+          <briefdescription>
+<para>Statistics are stale – refresh without structural change. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a542b33165945b485e60ef2095f726cdaa9131cd22d3343db0396e40b8e860afc6" prot="public">
+          <name>REORGANIZE</name>
+          <briefdescription>
+<para>Light in-place defragmentation (online, minimal locking). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a542b33165945b485e60ef2095f726cdaa7a4e96cb104a670db80c04a2c139eb57" prot="public">
+          <name>PARTIAL_REBUILD</name>
+          <briefdescription>
+<para>Rebuild the most fragmented segments only. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a542b33165945b485e60ef2095f726cdaaeb53875742efdfa97535090442db6799" prot="public">
+          <name>FULL_REBUILD</name>
+          <briefdescription>
+<para>Discard and rebuild the entire index structure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Recommended maintenance action for an index as determined by analyze(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="44" column="1" bodyfile="include/storage/index_analyzer.h" bodystart="44" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FragmentationLevel</name>
+        <qualifiedname>themis::FragmentationLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1ac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Index fragmentation levels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="35" column="1" bodyfile="include/storage/index_maintenance.h" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MaintenanceOperation</name>
+        <qualifiedname>themis::MaintenanceOperation</qualifiedname>
+        <enumvalue id="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda0274b877a6bbb61375021f4342b02df9" prot="public">
+          <name>INDEX_REBUILD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda1efb03cdf266e92822d5cab6ff9cc572" prot="public">
+          <name>INDEX_REORGANIZATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bdaab8db97a0da9954d006b5a3c4ae711c2" prot="public">
+          <name>STATISTICS_UPDATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda4dc2bc29c15e7e103992abb8b42edd6f" prot="public">
+          <name>ORPHAN_ENTRY_CLEANUP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda9c28f82f7589ec786410a6723417d568" prot="public">
+          <name>CONSISTENCY_CHECK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda62eefd41de2a3606487a6ca2e4439f48" prot="public">
+          <name>VECTOR_INCREMENTAL_REINDEX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Maintenance operation types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="44" column="1" bodyfile="include/storage/index_maintenance.h" bodystart="44" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MaintenanceSchedule</name>
+        <qualifiedname>themis::MaintenanceSchedule</qualifiedname>
+        <enumvalue id="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aa055c1a591abb0e8cd86dc969727bcc0b" prot="public">
+          <name>DISABLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aa7b13ca71d545e3fb822b4c90a876bb83" prot="public">
+          <name>TIME_BASED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aaf4b986392ccb1aa87a7f627b843d3cfd" prot="public">
+          <name>EVENT_BASED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aa3bf07fe8ac3883060b1558113ba248d4" prot="public">
+          <name>HYBRID</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Maintenance scheduling types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="56" column="1" bodyfile="include/storage/index_maintenance.h" bodystart="56" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1accce58ed831f36f773c788820ecc97f8" prot="public" static="no">
+        <type>std::variant&lt; std::monostate, bool, int64_t, double, std::string, std::vector&lt; float &gt;, std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>using themis::Value =  std::variant&lt;
+    std::monostate,           
+    bool,                      
+    int64_t,                   
+    double,                    
+    std::string,               
+    std::vector&lt;float&gt;,        
+    std::vector&lt;uint8_t&gt;       
+&gt;</definition>
+        <argsstring></argsstring>
+        <name>Value</name>
+        <qualifiedname>themis::Value</qualifiedname>
+        <briefdescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> type that can represent different data types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/base_entity.h" line="26" column="1" bodyfile="include/storage/base_entity.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a950362f96525fe9b03b9b119136ca3f3" prot="public" static="no">
+        <type>themisdb::sharding::DistributedTimeCoordinator</type>
+        <definition>using themis::DTC = themisdb::sharding::DistributedTimeCoordinator</definition>
+        <argsstring></argsstring>
+        <name>DTC</name>
+        <qualifiedname>themis::DTC</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/raft_mvcc_bridge.cpp" line="21" column="1" bodyfile="src/storage/raft_mvcc_bridge.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/rocksdb_wrapper.cpp" line="80" column="1" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1ad3e05ae0c813f3aee59c36b8ea0a5de8" prot="public" static="no">
+        <type>ssize_t</type>
+        <definition>using themis::themis_ssize_t = ssize_t</definition>
+        <argsstring></argsstring>
+        <name>themis_ssize_t</name>
+        <qualifiedname>themis::themis_ssize_t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_audit_logger.cpp" line="85" column="1" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1ae7f3def107ae8c47215298e3571ea2fa" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::WAL_MAGIC</definition>
+        <argsstring></argsstring>
+        <name>WAL_MAGIC</name>
+        <qualifiedname>themis::WAL_MAGIC</qualifiedname>
+        <initializer>= 0xDBAB1234u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="246" column="27" bodyfile="src/storage/wal_storage.cpp" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1ac1beb0e5c9f1b05bc39b69dbfdcf8439" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HEADER_SIZE</definition>
+        <argsstring></argsstring>
+        <name>HEADER_SIZE</name>
+        <qualifiedname>themis::HEADER_SIZE</qualifiedname>
+        <initializer>= 4 + 8 + 1 + 4 + 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="247" column="27" bodyfile="src/storage/wal_storage.cpp" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1aa8f0ec41bd7988baec726588b4d46ebb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::bytesToHex</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;v)</argsstring>
+        <name>bytesToHex</name>
+        <qualifiedname>themis::bytesToHex</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Hex encode/decode helpers (private to this TU) ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/history_manager.cpp" line="108" column="20" bodyfile="src/storage/history_manager.cpp" bodystart="108" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a66d933f7c4e0936f12862487e6a4e862" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::hexToBytes</definition>
+        <argsstring>(const std::string &amp;hex)</argsstring>
+        <name>hexToBytes</name>
+        <qualifiedname>themis::hexToBytes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hex</declname>
+        </param>
+        <briefdescription>
+<para>Hex To Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), reserve(), push_back(), nibble(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/history_manager.cpp" line="123" column="20" bodyfile="src/storage/history_manager.cpp" bodystart="123" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ac0ef59a1315c402fc4626a05ab5ec1c6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::themis_open_fd</definition>
+        <argsstring>(const char *path, int flags, int mode)</argsstring>
+        <name>themis_open_fd</name>
+        <qualifiedname>themis::themis_open_fd</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>no_timeout scanner alert: these are thin POSIX syscall shims for local audit-log files; block-device I/O does not require network-style timeouts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">flags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: open(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_audit_logger.cpp" line="94" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a86424006f2772e316e1cc1466eb58df3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::themis_close_fd</definition>
+        <argsstring>(int fd)</argsstring>
+        <name>themis_close_fd</name>
+        <qualifiedname>themis::themis_close_fd</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Themis close fd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: close(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_audit_logger.cpp" line="101" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a4aa19a1bd140546675432e66a8d2b214" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::themis_fsync_fd</definition>
+        <argsstring>(int fd)</argsstring>
+        <name>themis_fsync_fd</name>
+        <qualifiedname>themis::themis_fsync_fd</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Themis fsync fd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fsync(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_audit_logger.cpp" line="108" column="12" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1afab558594763c1c08eb09ce67e092671" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1ad3e05ae0c813f3aee59c36b8ea0a5de8" kindref="member">themis_ssize_t</ref></type>
+        <definition>static themis_ssize_t themis::themis_write_fd</definition>
+        <argsstring>(int fd, const void *data, size_t len)</argsstring>
+        <name>themis_write_fd</name>
+        <qualifiedname>themis::themis_write_fd</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Themis write fd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: write(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/storage_audit_logger.cpp" line="117" column="23" bodyfile="src/storage/storage_audit_logger.cpp" bodystart="117" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1aaf5646716a152b21bf7f9d352c49620d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::themis_test_flag_once</definition>
+        <argsstring>(const char *name)</argsstring>
+        <name>themis_test_flag_once</name>
+        <qualifiedname>themis::themis_test_flag_once</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Themis test flag once. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::getenv(), unsetenv(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="94" column="13" bodyfile="src/storage/wal_storage.cpp" bodystart="94" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ac0ef59a1315c402fc4626a05ab5ec1c6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::themis_open_fd</definition>
+        <argsstring>(const char *path, int flags, int mode)</argsstring>
+        <name>themis_open_fd</name>
+        <qualifiedname>themis::themis_open_fd</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>O_CLOEXEC ensures the WAL FD is not inherited by child processes and is automatically closed on exec — prevents FD leaks without explicit action. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">flags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+no_timeout scanner alert: these are thin POSIX syscall shims used for local WAL files; network-style timeouts do not apply to local block-device I/O. Calls: themis_test_flag_once(), open(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="111" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="111" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a86424006f2772e316e1cc1466eb58df3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::themis_close_fd</definition>
+        <argsstring>(int fd)</argsstring>
+        <name>themis_close_fd</name>
+        <qualifiedname>themis::themis_close_fd</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Themis close fd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: close(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="129" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a4aa19a1bd140546675432e66a8d2b214" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::themis_fsync_fd</definition>
+        <argsstring>(int fd)</argsstring>
+        <name>themis_fsync_fd</name>
+        <qualifiedname>themis::themis_fsync_fd</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Themis fsync fd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: themis_test_flag_once(), fsync(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="136" column="12" bodyfile="src/storage/wal_storage.cpp" bodystart="136" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1afab558594763c1c08eb09ce67e092671" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1ad3e05ae0c813f3aee59c36b8ea0a5de8" kindref="member">themis_ssize_t</ref></type>
+        <definition>static themis_ssize_t themis::themis_write_fd</definition>
+        <argsstring>(int fd, const void *data, size_t len)</argsstring>
+        <name>themis_write_fd</name>
+        <qualifiedname>themis::themis_write_fd</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Themis write fd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: themis_test_flag_once(), write(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="159" column="23" bodyfile="src/storage/wal_storage.cpp" bodystart="159" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ab77eee2cc1216998e9d0bb1dcd2e0e7f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::write_all_fd</definition>
+        <argsstring>(int fd, const void *data, size_t len)</argsstring>
+        <name>write_all_fd</name>
+        <qualifiedname>themis::write_all_fd</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Write all fd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: themis_write_fd(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="224" column="13" bodyfile="src/storage/wal_storage.cpp" bodystart="224" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a6eadff5bcea9639735451f3db9e30c42" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::crc32_update</definition>
+        <argsstring>(uint32_t crc, const void *data, size_t len)</argsstring>
+        <name>crc32_update</name>
+        <qualifiedname>themis::crc32_update</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>crc</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>────────────────────────────────────────────────────────────────────────────── CRC32 (simple table-based implementation; no external dependency) ────────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">crc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::call_once(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="258" column="17" bodyfile="src/storage/wal_storage.cpp" bodystart="258" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a2df3901a1d5e73bb89102d6550f5acb4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::encode_u32</definition>
+        <argsstring>(uint8_t *buf, uint32_t v)</argsstring>
+        <name>encode_u32</name>
+        <qualifiedname>themis::encode_u32</qualifiedname>
+        <param>
+          <type>uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="293" column="14" bodyfile="src/storage/wal_storage.cpp" bodystart="293" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1af0434d641ebc934ce3f63d456ccafb89" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::encode_u64</definition>
+        <argsstring>(uint8_t *buf, uint64_t v)</argsstring>
+        <name>encode_u64</name>
+        <qualifiedname>themis::encode_u64</qualifiedname>
+        <param>
+          <type>uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="300" column="14" bodyfile="src/storage/wal_storage.cpp" bodystart="300" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a187a490966a6d5052f1826ebb9348cbf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::decode_u32</definition>
+        <argsstring>(const uint8_t *buf)</argsstring>
+        <name>decode_u32</name>
+        <qualifiedname>themis::decode_u32</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="306" column="18" bodyfile="src/storage/wal_storage.cpp" bodystart="306" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a54343686f356881051211a2a292467a0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::decode_u64</definition>
+        <argsstring>(const uint8_t *buf)</argsstring>
+        <name>decode_u64</name>
+        <qualifiedname>themis::decode_u64</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="313" column="18" bodyfile="src/storage/wal_storage.cpp" bodystart="313" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a4f87645b09e37f76c90fee4fee760fd3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::encode_u32</definition>
+        <argsstring>(uint8_t(&amp;buf)[4], uint32_t v)</argsstring>
+        <name>encode_u32</name>
+        <qualifiedname>themis::encode_u32</qualifiedname>
+        <param>
+          <type>uint8_t(&amp;)</type>
+          <declname>buf</declname>
+          <array>[4]</array>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="322" column="14" bodyfile="src/storage/wal_storage.cpp" bodystart="322" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1abfa1dec4478d3eee13ade45fe51c1f6f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::decode_u32</definition>
+        <argsstring>(const uint8_t(&amp;buf)[4])</argsstring>
+        <name>decode_u32</name>
+        <qualifiedname>themis::decode_u32</qualifiedname>
+        <param>
+          <type>const uint8_t(&amp;)</type>
+          <declname>buf</declname>
+          <array>[4]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="323" column="18" bodyfile="src/storage/wal_storage.cpp" bodystart="323" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a9038cab7f32cf29c354a7385eea0a1d3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::encode_u64</definition>
+        <argsstring>(uint8_t(&amp;buf)[8], uint64_t v)</argsstring>
+        <name>encode_u64</name>
+        <qualifiedname>themis::encode_u64</qualifiedname>
+        <param>
+          <type>uint8_t(&amp;)</type>
+          <declname>buf</declname>
+          <array>[8]</array>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="324" column="14" bodyfile="src/storage/wal_storage.cpp" bodystart="324" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1aab92e86349b11dfea4eaa2de9ad69288" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::decode_u64</definition>
+        <argsstring>(const uint8_t(&amp;buf)[8])</argsstring>
+        <name>decode_u64</name>
+        <qualifiedname>themis::decode_u64</qualifiedname>
+        <param>
+          <type>const uint8_t(&amp;)</type>
+          <declname>buf</declname>
+          <array>[8]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="325" column="18" bodyfile="src/storage/wal_storage.cpp" bodystart="325" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a530615440fc39faff5ca42acd83ab74d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::validateConfig</definition>
+        <argsstring>(const WomTree::Config &amp;cfg)</argsstring>
+        <name>validateConfig</name>
+        <qualifiedname>themis::validateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_wom_tree_1_1_config" kindref="compound">WomTree::Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Validate Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements validateConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="750" column="13" bodyfile="src/storage/wom_tree.cpp" bodystart="750" bodyend="760"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB GPU-Accelerated Compression Implementation</para>
+<para>GPU paths (CUDA/HIP) are compiled only when the corresponding CMake feature flag is enabled:<itemizedlist>
+<listitem><para>THEMIS_ENABLE_CUDA → NVIDIA CUDA + nvCOMP</para>
+</listitem><listitem><para>THEMIS_ENABLE_HIP → AMD HIP / ROCm</para>
+</listitem></itemizedlist>
+</para>
+<para>When neither flag is set (the default) every operation transparently falls through to the CPU implementation so the module compiles and functions correctly on any host.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/storage/adaptive_compaction.h" line="28" column="1"/>
+  </compounddef>
+</doxygen>

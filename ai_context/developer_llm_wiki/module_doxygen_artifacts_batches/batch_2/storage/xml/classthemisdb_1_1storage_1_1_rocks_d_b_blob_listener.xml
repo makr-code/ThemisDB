@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::storage::RocksDBBlobListener</compoundname>
+    <basecompoundref refid="classrocksdb_1_1_event_listener" prot="public" virt="non-virtual">rocksdb::EventListener</basecompoundref>
+    <includes refid="blob__redundancy__manager_8h" local="no">blob_redundancy_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1a06be09db762b5a8d2b8a3e31746e411a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager" kindref="compound">BlobRedundancyManager</ref> &amp;</type>
+        <definition>BlobRedundancyManager&amp; themisdb::storage::RocksDBBlobListener::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themisdb::storage::RocksDBBlobListener::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="545" column="27" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="545" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1a224cc0001f1b849ce435443161b5cb84" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::RocksDBBlobListener::collection_</definition>
+        <argsstring></argsstring>
+        <name>collection_</name>
+        <qualifiedname>themisdb::storage::RocksDBBlobListener::collection_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="546" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1a4eb56dc90558f93703194ac789ea89c8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::storage::RocksDBBlobListener::RocksDBBlobListener</definition>
+        <argsstring>(BlobRedundancyManager &amp;manager, const std::string &amp;collection=&quot;&quot;)</argsstring>
+        <name>RocksDBBlobListener</name>
+        <qualifiedname>themisdb::storage::RocksDBBlobListener::RocksDBBlobListener</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager" kindref="compound">BlobRedundancyManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="524" column="14" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2193" bodyend="2198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1a6ea1a63c75c21dfde8708136079cedce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::RocksDBBlobListener::OnFlushCompleted</definition>
+        <argsstring>(rocksdb::DB *db, const rocksdb::FlushJobInfo &amp;info) override</argsstring>
+        <name>OnFlushCompleted</name>
+        <qualifiedname>themisdb::storage::RocksDBBlobListener::OnFlushCompleted</qualifiedname>
+        <param>
+          <type><ref refid="classrocksdb_1_1_d_b" kindref="compound">rocksdb::DB</ref> *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const rocksdb::FlushJobInfo &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>On Flush Completed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), registerBlob(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="528" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2206" bodyend="2221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1ace1a44dc1518cb50cbf41dce44d3a27c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::RocksDBBlobListener::OnCompactionCompleted</definition>
+        <argsstring>(rocksdb::DB *db, const rocksdb::CompactionJobInfo &amp;info) override</argsstring>
+        <name>OnCompactionCompleted</name>
+        <qualifiedname>themisdb::storage::RocksDBBlobListener::OnCompactionCompleted</qualifiedname>
+        <param>
+          <type><ref refid="classrocksdb_1_1_d_b" kindref="compound">rocksdb::DB</ref> *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const rocksdb::CompactionJobInfo &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>On Compaction Completed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), size(), levelToBlobType(), registerBlob(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="534" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2229" bodyend="2249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1aed14f325aabc18fe33f3d7055294dd4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::RocksDBBlobListener::OnTableFileDeleted</definition>
+        <argsstring>(const rocksdb::TableFileDeletionInfo &amp;info) override</argsstring>
+        <name>OnTableFileDeleted</name>
+        <qualifiedname>themisdb::storage::RocksDBBlobListener::OnTableFileDeleted</qualifiedname>
+        <param>
+          <type>const rocksdb::TableFileDeletionInfo &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>On Table File Deleted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), notifySSTFileDeleted(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="540" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2256" bodyend="2262"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1a035d9f9ace3c81a653ef42b6e6113140" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098b" kindref="member">BlobType</ref></type>
+        <definition>BlobType themisdb::storage::RocksDBBlobListener::levelToBlobType</definition>
+        <argsstring>(int level)</argsstring>
+        <name>levelToBlobType</name>
+        <qualifiedname>themisdb::storage::RocksDBBlobListener::levelToBlobType</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Level To Blob Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements levelToBlobType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="548" column="14" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2270" bodyend="2278"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RocksDB Event Listener for Blob Tracking</para>
+<para>Integrates with RocksDB to automatically track SST file lifecycle </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>rocksdb::EventListener</label>
+        <link refid="classrocksdb_1_1_event_listener"/>
+      </node>
+      <node id="1">
+        <label>themisdb::storage::RocksDBBlobListener</label>
+        <link refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>rocksdb::EventListener</label>
+        <link refid="classrocksdb_1_1_event_listener"/>
+      </node>
+      <node id="1">
+        <label>themisdb::storage::RocksDBBlobListener</label>
+        <link refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/blob_redundancy_manager.h" line="522" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="522" bodyend="549"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1a224cc0001f1b849ce435443161b5cb84" prot="private" virt="non-virtual"><scope>themisdb::storage::RocksDBBlobListener</scope><name>collection_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1a035d9f9ace3c81a653ef42b6e6113140" prot="private" virt="non-virtual"><scope>themisdb::storage::RocksDBBlobListener</scope><name>levelToBlobType</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1a06be09db762b5a8d2b8a3e31746e411a" prot="private" virt="non-virtual"><scope>themisdb::storage::RocksDBBlobListener</scope><name>manager_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1ace1a44dc1518cb50cbf41dce44d3a27c" prot="public" virt="non-virtual"><scope>themisdb::storage::RocksDBBlobListener</scope><name>OnCompactionCompleted</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1a6ea1a63c75c21dfde8708136079cedce" prot="public" virt="non-virtual"><scope>themisdb::storage::RocksDBBlobListener</scope><name>OnFlushCompleted</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1aed14f325aabc18fe33f3d7055294dd4f" prot="public" virt="non-virtual"><scope>themisdb::storage::RocksDBBlobListener</scope><name>OnTableFileDeleted</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener_1a4eb56dc90558f93703194ac789ea89c8" prot="public" virt="non-virtual"><scope>themisdb::storage::RocksDBBlobListener</scope><name>RocksDBBlobListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

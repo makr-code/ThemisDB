@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_otlp_exporter_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::OtlpExporterConfig</compoundname>
+    <includes refid="otlp__exporter_8h" local="no">otlp_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1a2130b040095f3fd0f726d533e328224c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::api::OtlpExporterConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="88" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1abc3749c19a4e030f6d9143e003969819" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::OtlpExporterConfig::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::endpoint</qualifiedname>
+        <initializer>= &quot;http://localhost:4318/v1/traces&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="89" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1afbe4610f84f36caebbc5bc0da73b71be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::OtlpExporterConfig::service_name</definition>
+        <argsstring></argsstring>
+        <name>service_name</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::service_name</qualifiedname>
+        <initializer>= &quot;themisdb&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="90" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1a038722d9a707db652fe6bb7a742996a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::OtlpExporterConfig::service_version</definition>
+        <argsstring></argsstring>
+        <name>service_version</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::service_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="91" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1a969098c4baccbec16b32e4e32c3dc993" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::api::OtlpExporterConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="92" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1aafe189c0f5dc5183579489a72eaf9a9a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::api::OtlpExporterConfig::max_queue_size</definition>
+        <argsstring></argsstring>
+        <name>max_queue_size</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::max_queue_size</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="93" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1a386aedd7d5de47dd8d15890ead3ae444" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::api::OtlpExporterConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::batch_size</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="94" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1a54025853487e6e797f84ed604e50ad98" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::api::OtlpExporterConfig::flush_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>flush_interval_ms</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::flush_interval_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="95" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1aab5bdf6a9e8b6bed7692ccadd9443763" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::OtlpExporterConfig::tls_ca_cert</definition>
+        <argsstring></argsstring>
+        <name>tls_ca_cert</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::tls_ca_cert</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="98" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1a0d1a852153a3abd2d8bd3368bdd7c2de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::OtlpExporterConfig::tls_client_cert</definition>
+        <argsstring></argsstring>
+        <name>tls_client_cert</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::tls_client_cert</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="99" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1a4d4c43161975d47535d15e5a4b653763" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::OtlpExporterConfig::tls_client_key</definition>
+        <argsstring></argsstring>
+        <name>tls_client_key</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::tls_client_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="100" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1a6919985f3960bb5854910932d680feda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::OtlpExporterConfig::auth_header</definition>
+        <argsstring></argsstring>
+        <name>auth_header</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::auth_header</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="103" column="17" bodyfile="include/api/otlp_exporter.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1a56b3df8d20d412bc8bcef21865f8b284" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::api::OtlpExporterConfig::extra_headers</definition>
+        <argsstring></argsstring>
+        <name>extra_headers</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::extra_headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="106" column="24" bodyfile="include/api/otlp_exporter.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1acf38e5a39764655f97470fd4dd00eaec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::api::OtlpExporterConfig::max_export_retries</definition>
+        <argsstring></argsstring>
+        <name>max_export_retries</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::max_export_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Number of retry attempts after initial failure (0 = no retries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="113" column="9" bodyfile="include/api/otlp_exporter.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_otlp_exporter_config_1a4916c7f02ef9779232d9d1cd6dd26993" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::api::OtlpExporterConfig::retry_initial_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_initial_delay_ms</name>
+        <qualifiedname>themis::api::OtlpExporterConfig::retry_initial_delay_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Initial retry back-off delay in milliseconds (&gt;= 1); doubled each attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/otlp_exporter.h" line="114" column="9" bodyfile="include/api/otlp_exporter.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/otlp_exporter.h" line="87" column="1" bodyfile="include/api/otlp_exporter.h" bodystart="87" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a6919985f3960bb5854910932d680feda" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>auth_header</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a386aedd7d5de47dd8d15890ead3ae444" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a2130b040095f3fd0f726d533e328224c" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1abc3749c19a4e030f6d9143e003969819" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a56b3df8d20d412bc8bcef21865f8b284" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>extra_headers</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a54025853487e6e797f84ed604e50ad98" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>flush_interval_ms</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1acf38e5a39764655f97470fd4dd00eaec" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>max_export_retries</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1aafe189c0f5dc5183579489a72eaf9a9a" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>max_queue_size</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a4916c7f02ef9779232d9d1cd6dd26993" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>retry_initial_delay_ms</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1afbe4610f84f36caebbc5bc0da73b71be" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>service_name</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a038722d9a707db652fe6bb7a742996a6" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>service_version</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a969098c4baccbec16b32e4e32c3dc993" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1aab5bdf6a9e8b6bed7692ccadd9443763" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>tls_ca_cert</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a0d1a852153a3abd2d8bd3368bdd7c2de" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>tls_client_cert</name></member>
+      <member refid="structthemis_1_1api_1_1_otlp_exporter_config_1a4d4c43161975d47535d15e5a4b653763" prot="public" virt="non-virtual"><scope>themis::api::OtlpExporterConfig</scope><name>tls_client_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

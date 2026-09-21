@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_signing_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::SigningProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1_key_provider" prot="public" virt="virtual">themis::KeyProvider</basecompoundref>
+    <derivedcompoundref refid="class_test_key_provider" prot="public" virt="non-virtual">TestKeyProvider</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1_vault_key_provider" prot="public" virt="non-virtual">themis::VaultKeyProvider</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1_vault_signing_provider" prot="public" virt="non-virtual">themis::VaultSigningProvider</derivedcompoundref>
+    <includes refid="signing__provider_8h" local="no">signing_provider.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_signing_provider_1a04d029586b2b8c6c53e16dbbad35fc70" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::SigningProvider::~SigningProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SigningProvider</name>
+        <qualifiedname>themis::SigningProvider::~SigningProvider</qualifiedname>
+        <briefdescription>
+<para>Signing Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/signing_provider.h" line="32" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_signing_provider_1ad5d80f31cbeb12c58a736023c8ee7bce" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1_signing_result" kindref="compound">SigningResult</ref></type>
+        <definition>virtual SigningResult themis::SigningProvider::sign</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;data)=0</argsstring>
+        <name>sign</name>
+        <qualifiedname>themis::SigningProvider::sign</qualifiedname>
+        <reimplementedby refid="class_test_key_provider_1aa0c367346dd6001c49b64aa1029596ba">sign</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_key_provider_1a0ec2ca98f351774c5da4e2cd1f1d57cd">sign</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_vault_signing_provider_1a0a316e42bf661a612b1439134ad76f6f">sign</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/signing_provider.h" line="36" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Optional interface for <ref refid="classthemis_1_1_key_provider" kindref="compound">KeyProvider</ref> implementations that can perform signing operations on behalf of the caller (e.g., HSM, KMS).</para>
+<para>Implementations should avoid exporting raw private key material and instead return a <computeroutput><ref refid="structthemis_1_1_signing_result" kindref="compound">SigningResult</ref></computeroutput> for the provided data. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="4">
+        <label>TestKeyProvider</label>
+        <link refid="class_test_key_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::SigningProvider</label>
+        <link refid="classthemis_1_1_signing_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::VaultKeyProvider</label>
+        <link refid="classthemis_1_1_vault_key_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::VaultSigningProvider</label>
+        <link refid="classthemis_1_1_vault_signing_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::SigningProvider</label>
+        <link refid="classthemis_1_1_signing_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/signing_provider.h" line="26" column="1" bodyfile="include/security/signing_provider.h" bodystart="26" bodyend="37"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_key_provider_1adb7353f54d3975fcf60572403a25c243" prot="public" virt="pure-virtual"><scope>themis::SigningProvider</scope><name>createKeyFromBytes</name></member>
+      <member refid="classthemis_1_1_key_provider_1ab1381dbbc3f8af4308678d2324b51b99" prot="public" virt="pure-virtual"><scope>themis::SigningProvider</scope><name>deleteKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a9017c934ab52d6cc42fa7225d3add21e" prot="public" virt="non-virtual"><scope>themis::SigningProvider</scope><name>get_key</name></member>
+      <member refid="classthemis_1_1_key_provider_1aa9815c2d74023ab0fbd4a911b55b42f4" prot="public" virt="virtual"><scope>themis::SigningProvider</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1_key_provider_1add63db6d99568ab764123f07893cc7d1" prot="public" virt="pure-virtual"><scope>themis::SigningProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1ac16b28cd3ba6e684a92e7f4383e5ea58" prot="public" virt="pure-virtual"><scope>themis::SigningProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a74f1a932e3aa36781382fb35f2e7c2e3" prot="public" virt="pure-virtual"><scope>themis::SigningProvider</scope><name>getKeyMetadata</name></member>
+      <member refid="classthemis_1_1_key_provider_1a24990fabb3111c177d5ea5be78446824" prot="public" virt="pure-virtual"><scope>themis::SigningProvider</scope><name>hasKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" prot="public" virt="non-virtual"><scope>themis::SigningProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1a0489069eb96edc05fbef315bb529904f" prot="public" virt="non-virtual"><scope>themis::SigningProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1ad05f0c6aca228e305cbae15f1095ea9d" prot="public" virt="non-virtual"><scope>themis::SigningProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1ab4d31df1258d4f7583fee68f77813810" prot="public" virt="pure-virtual"><scope>themis::SigningProvider</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1_key_provider_1a2b066e3e2b46a13e8a196f4f497a9fc7" prot="public" virt="non-virtual"><scope>themis::SigningProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_key_provider_1a11404d5e39ec25310eb458e032f8aaf2" prot="public" virt="non-virtual"><scope>themis::SigningProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_key_provider_1adfb0562381565d524992c9128baa0464" prot="public" virt="non-virtual"><scope>themis::SigningProvider</scope><name>rotate_key</name></member>
+      <member refid="classthemis_1_1_key_provider_1a21794661f33eafc159d0948ee3e204ae" prot="public" virt="pure-virtual"><scope>themis::SigningProvider</scope><name>rotateKey</name></member>
+      <member refid="classthemis_1_1_signing_provider_1ad5d80f31cbeb12c58a736023c8ee7bce" prot="public" virt="pure-virtual"><scope>themis::SigningProvider</scope><name>sign</name></member>
+      <member refid="classthemis_1_1_key_provider_1a4a1126cba8c95254bcdefe5fe77d1fa5" prot="public" virt="non-virtual"><scope>themis::SigningProvider</scope><name>~KeyProvider</name></member>
+      <member refid="classthemis_1_1_signing_provider_1a04d029586b2b8c6c53e16dbbad35fc70" prot="public" virt="virtual"><scope>themis::SigningProvider</scope><name>~SigningProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_device_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::DeviceInfo</compoundname>
+    <includes refid="device__discovery_8h" local="no">device_discovery.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1af716c9edace01b28b36edbe1c1db11e1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::DeviceInfo::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themis::gpu::DeviceInfo::index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Driver-assigned device index (0-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="31" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1a3d15eca7816d38f14a75f7fa2cdae06f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::DeviceInfo::device_index</definition>
+        <argsstring></argsstring>
+        <name>device_index</name>
+        <qualifiedname>themis::gpu::DeviceInfo::device_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Backward-compatible alias for index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="32" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1aca00f9d53b4a520d9cfed73f549361f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::DeviceInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::gpu::DeviceInfo::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable device name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="33" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1a363e59963f521c548d2d4671b1dbff69" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::DeviceInfo::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::gpu::DeviceInfo::backend</qualifiedname>
+        <briefdescription>
+<para>&quot;CUDA&quot;, &quot;ROCm&quot;, &quot;Vulkan&quot;, &quot;CPU_FALLBACK&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="34" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1aa3237c4251f80714bf4670b08c6c4587" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::DeviceInfo::total_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_vram_bytes</name>
+        <qualifiedname>themis::gpu::DeviceInfo::total_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total VRAM reported by driver. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="35" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1a73e8eb0440d701057f7e8f253abd6d8a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::DeviceInfo::free_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>free_vram_bytes</name>
+        <qualifiedname>themis::gpu::DeviceInfo::free_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Available VRAM at discovery time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="36" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1aea94d0657da37cdb27cf7958fa1cd4e0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::DeviceInfo::compute_major</definition>
+        <argsstring></argsstring>
+        <name>compute_major</name>
+        <qualifiedname>themis::gpu::DeviceInfo::compute_major</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Compute capability major (CUDA) / wave size (ROCm). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="37" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1a628b06ae0cafdded070e5e4bcbee87c8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::DeviceInfo::compute_minor</definition>
+        <argsstring></argsstring>
+        <name>compute_minor</name>
+        <qualifiedname>themis::gpu::DeviceInfo::compute_minor</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Compute capability minor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="38" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1aea195d289820d52e476b9b0ce5125f6a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::DeviceInfo::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::gpu::DeviceInfo::is_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>false if the device reported an error </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="39" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1a9a9ee3d5af124d67512e7f337917a39d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::DeviceInfo::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::gpu::DeviceInfo::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty when is_healthy == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="40" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1a3d7282d90e2aa6473b925b0e16d9b118" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::DeviceInfo::mig_enabled</definition>
+        <argsstring></argsstring>
+        <name>mig_enabled</name>
+        <qualifiedname>themis::gpu::DeviceInfo::mig_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when MIG mode is active on this device </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="43" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_device_info_1ac58356e7142efb39695141cb6b5ee972" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::DeviceInfo::mig_max_instances</definition>
+        <argsstring></argsstring>
+        <name>mig_max_instances</name>
+        <qualifiedname>themis::gpu::DeviceInfo::mig_max_instances</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum MIG instances supported (0 = MIG not supported). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="44" column="17" bodyfile="include/themis/gpu/device_discovery.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Capabilities and identity of a single GPU device. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Populated by <ref refid="classthemis_1_1gpu_1_1_device_discovery_1a18428cb9bab04204c46760636d336c56" kindref="member">DeviceDiscovery::Enumerate()</ref>. On systems without a real CUDA/ROCm runtime the fields reflect the compile-time edition limits so that the rest of the code can always query device information without conditional compilation. </para>
+    </detaileddescription>
+    <location file="include/themis/gpu/device_discovery.h" line="30" column="1" bodyfile="include/themis/gpu/device_discovery.h" bodystart="30" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1a363e59963f521c548d2d4671b1dbff69" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>backend</name></member>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1aea94d0657da37cdb27cf7958fa1cd4e0" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>compute_major</name></member>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1a628b06ae0cafdded070e5e4bcbee87c8" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>compute_minor</name></member>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1a3d15eca7816d38f14a75f7fa2cdae06f" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>device_index</name></member>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1a9a9ee3d5af124d67512e7f337917a39d" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1a73e8eb0440d701057f7e8f253abd6d8a" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>free_vram_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1af716c9edace01b28b36edbe1c1db11e1" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>index</name></member>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1aea195d289820d52e476b9b0ce5125f6a" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1a3d7282d90e2aa6473b925b0e16d9b118" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>mig_enabled</name></member>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1ac58356e7142efb39695141cb6b5ee972" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>mig_max_instances</name></member>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1aca00f9d53b4a520d9cfed73f549361f7" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>name</name></member>
+      <member refid="structthemis_1_1gpu_1_1_device_info_1aa3237c4251f80714bf4670b08c6c4587" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceInfo</scope><name>total_vram_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

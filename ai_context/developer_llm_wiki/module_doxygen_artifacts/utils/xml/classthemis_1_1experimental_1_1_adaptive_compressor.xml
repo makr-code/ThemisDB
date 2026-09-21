@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1experimental_1_1_adaptive_compressor" kind="class" language="C++" prot="public">
+    <compoundname>themis::experimental::AdaptiveCompressor</compoundname>
+    <includes refid="lossless__vector__compression_8h" local="no">lossless_vector_compression.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1experimental_1_1_adaptive_compressor_1a43fb7b17ee2dbed563ae1f8f19031b84" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1experimental_1af9dcd5a0ae580875fa659cab0178bb41" kindref="member">LosslessCompressionMethod</ref></type>
+        <definition>static LosslessCompressionMethod themis::experimental::AdaptiveCompressor::selectMethod</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vec, float sparse_threshold=0.95f)</argsstring>
+        <name>selectMethod</name>
+        <qualifiedname>themis::experimental::AdaptiveCompressor::selectMethod</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sparse_threshold</declname>
+          <defval>0.95f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="336" column="38" bodyfile="include/utils/lossless_vector_compression.h" bodystart="336" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1experimental_1_1_adaptive_compressor_1a8c65a8239ce9977a37e785ac6b9efed8" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::experimental::AdaptiveCompressor::method_name</definition>
+        <argsstring>(LosslessCompressionMethod method)</argsstring>
+        <name>method_name</name>
+        <qualifiedname>themis::experimental::AdaptiveCompressor::method_name</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1experimental_1af9dcd5a0ae580875fa659cab0178bb41" kindref="member">LosslessCompressionMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="367" column="24" bodyfile="include/utils/lossless_vector_compression.h" bodystart="367" bodyend="374"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adaptive compressor component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/lossless_vector_compression.h" line="333" column="1" bodyfile="include/utils/lossless_vector_compression.h" bodystart="333" bodyend="375"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1experimental_1_1_adaptive_compressor_1a8c65a8239ce9977a37e785ac6b9efed8" prot="public" virt="non-virtual"><scope>themis::experimental::AdaptiveCompressor</scope><name>method_name</name></member>
+      <member refid="classthemis_1_1experimental_1_1_adaptive_compressor_1a43fb7b17ee2dbed563ae1f8f19031b84" prot="public" virt="non-virtual"><scope>themis::experimental::AdaptiveCompressor</scope><name>selectMethod</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

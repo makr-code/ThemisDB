@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wiki_index_store_phase3" kind="class" language="C++" prot="public">
+    <compoundname>WikiIndexStorePhase3</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_wiki_index_store_phase3_1a255ee577e6909a3580f93df97513be91" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string WikiIndexStorePhase3::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>WikiIndexStorePhase3::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="127" column="17" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wiki_index_store_phase3_1afed855b273c99eeb985a4c47b1ccaad7" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; WikiIndexStorePhase3::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>WikiIndexStorePhase3::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="128" column="28" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wiki_index_store_phase3_1a058a000879ba7a8b30bc0c7a8eefb5e3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; WikiIndexStorePhase3::sim_</definition>
+        <argsstring></argsstring>
+        <name>sim_</name>
+        <qualifiedname>WikiIndexStorePhase3::sim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="129" column="21" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wiki_index_store_phase3_1a6227b1b388530aff522ca9971e43db1b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; WikiIndexStorePhase3::vim_</definition>
+        <argsstring></argsstring>
+        <name>vim_</name>
+        <qualifiedname>WikiIndexStorePhase3::vim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="130" column="24" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wiki_index_store_phase3_1a961e4ee8b046b80dd31726f0eb243aa5" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_embedded_l_l_m" kindref="compound">EmbeddedLLM</ref></type>
+        <definition>EmbeddedLLM WikiIndexStorePhase3::llm_</definition>
+        <argsstring></argsstring>
+        <name>llm_</name>
+        <qualifiedname>WikiIndexStorePhase3::llm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="131" column="44" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wiki_index_store_phase3_1a7c0bbdaacdf6a8c7227f5151c01f5070" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; WikiIndexStorePhase3::embed_calls_</definition>
+        <argsstring></argsstring>
+        <name>embed_calls_</name>
+        <qualifiedname>WikiIndexStorePhase3::embed_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="132" column="39" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wiki_index_store_phase3_1abbed1d979fa21aad48114ee7cc657de9" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; WikiIndexStorePhase3::embed_dim_</definition>
+        <argsstring></argsstring>
+        <name>embed_dim_</name>
+        <qualifiedname>WikiIndexStorePhase3::embed_dim_</qualifiedname>
+        <initializer>{4}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="133" column="39" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="133" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_wiki_index_store_phase3_1a5349997635d9bdc9b844d5b8e3ac3dd7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WikiIndexStorePhase3::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>WikiIndexStorePhase3::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="72" column="10" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="72" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wiki_index_store_phase3_1aeb8a004f6b5e44474dbcf4f81fefd582" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WikiIndexStorePhase3::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>WikiIndexStorePhase3::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="91" column="10" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="91" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wiki_index_store_phase3_1a2abecbbf18588c779868bd6573174912" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WikiIndexStorePhase3::setDefaultEmbedFn</definition>
+        <argsstring>(int dim)</argsstring>
+        <name>setDefaultEmbedFn</name>
+        <qualifiedname>WikiIndexStorePhase3::setDefaultEmbedFn</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Install a deterministic N-dimensional embed function. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="99" column="10" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="99" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wiki_index_store_phase3_1a0126b805fd5a186fd55df15e1ffdb37a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; WikiIndexStore &gt; WikiIndexStorePhase3::makeStore</definition>
+        <argsstring>(WikiIndexConfig cfg)</argsstring>
+        <name>makeStore</name>
+        <qualifiedname>WikiIndexStorePhase3::makeStore</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_wiki_index_config" kindref="compound">WikiIndexConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Convenience: build a <ref refid="classthemis_1_1llm_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref> with the given config overrides. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="115" column="21" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="115" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_wiki_index_store_phase3_1a9fd072153ada41e2013a385583478cdb" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref></type>
+        <definition>static WikiChunk WikiIndexStorePhase3::makeChunk</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;text)</argsstring>
+        <name>makeChunk</name>
+        <qualifiedname>WikiIndexStorePhase3::makeChunk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="119" column="22" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="119" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for <ref refid="classthemis_1_1llm_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref> Phase 3 feature tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Opens a per-test RocksDB instance and configures a deterministic 4-dim embed function with a call counter. Tests skip if RocksDB is unavailable. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WikiIndexStorePhase3</label>
+        <link refid="class_wiki_index_store_phase3"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WikiIndexStorePhase3</label>
+        <link refid="class_wiki_index_store_phase3"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>llm_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::EmbeddedLLM</label>
+        <link refid="classthemis_1_1llm_1_1_embedded_l_l_m"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_wiki_phase3_features_focused.cpp" line="70" column="1" bodyfile="tests/llm/test_llm_wiki_phase3_features_focused.cpp" bodystart="70" bodyend="134"/>
+    <listofallmembers>
+      <member refid="class_wiki_index_store_phase3_1afed855b273c99eeb985a4c47b1ccaad7" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>db_</name></member>
+      <member refid="class_wiki_index_store_phase3_1a255ee577e6909a3580f93df97513be91" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>db_path_</name></member>
+      <member refid="class_wiki_index_store_phase3_1a7c0bbdaacdf6a8c7227f5151c01f5070" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>embed_calls_</name></member>
+      <member refid="class_wiki_index_store_phase3_1abbed1d979fa21aad48114ee7cc657de9" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>embed_dim_</name></member>
+      <member refid="class_wiki_index_store_phase3_1a961e4ee8b046b80dd31726f0eb243aa5" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>llm_</name></member>
+      <member refid="class_wiki_index_store_phase3_1a9fd072153ada41e2013a385583478cdb" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>makeChunk</name></member>
+      <member refid="class_wiki_index_store_phase3_1a0126b805fd5a186fd55df15e1ffdb37a" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>makeStore</name></member>
+      <member refid="class_wiki_index_store_phase3_1a2abecbbf18588c779868bd6573174912" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>setDefaultEmbedFn</name></member>
+      <member refid="class_wiki_index_store_phase3_1a5349997635d9bdc9b844d5b8e3ac3dd7" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>SetUp</name></member>
+      <member refid="class_wiki_index_store_phase3_1a058a000879ba7a8b30bc0c7a8eefb5e3" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>sim_</name></member>
+      <member refid="class_wiki_index_store_phase3_1aeb8a004f6b5e44474dbcf4f81fefd582" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>TearDown</name></member>
+      <member refid="class_wiki_index_store_phase3_1a6227b1b388530aff522ca9971e43db1b" prot="protected" virt="non-virtual"><scope>WikiIndexStorePhase3</scope><name>vim_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

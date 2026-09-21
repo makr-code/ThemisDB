@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1compression_1_1_compression_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::compression::CompressionConfig</compoundname>
+    <includes refid="compression__strategy_8h" local="no">compression_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_config_1a6f150ba0acd692f88a92b7409bd496f1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7" kindref="member">CompressionMethod</ref></type>
+        <definition>CompressionMethod themis::compression::CompressionConfig::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::compression::CompressionConfig::method</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7a90cff4f81e21a20801df4abe9cbf0cbe" kindref="member">CompressionMethod::ADAPTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="66" column="23" bodyfile="include/storage/compression_strategy.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_config_1a189fa2c68a172c2b774c8e52df60387c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5" kindref="member">DataType</ref></type>
+        <definition>DataType themis::compression::CompressionConfig::data_type</definition>
+        <argsstring></argsstring>
+        <name>data_type</name>
+        <qualifiedname>themis::compression::CompressionConfig::data_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5ac942dc2a9f958acddc67e11472d3ca0b" kindref="member">DataType::GENERIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="67" column="14" bodyfile="include/storage/compression_strategy.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_config_1a6f4eacbd67d9c85d9e4ff0c57ef7e21e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::compression::CompressionConfig::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::compression::CompressionConfig::level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="68" column="9" bodyfile="include/storage/compression_strategy.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_config_1a3ed178e642334abc5311975c76b1bca3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::compression::CompressionConfig::min_size</definition>
+        <argsstring></argsstring>
+        <name>min_size</name>
+        <qualifiedname>themis::compression::CompressionConfig::min_size</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="69" column="12" bodyfile="include/storage/compression_strategy.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_config_1aed1a4e779061c49a1c308738f0fecc7d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::compression::CompressionConfig::sparse_threshold</definition>
+        <argsstring></argsstring>
+        <name>sparse_threshold</name>
+        <qualifiedname>themis::compression::CompressionConfig::sparse_threshold</qualifiedname>
+        <initializer>= 0.95f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="70" column="11" bodyfile="include/storage/compression_strategy.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_config_1a7cb50f0bbb9a09ba7178050be5df70fd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::compression::CompressionConfig::enable_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_metrics</name>
+        <qualifiedname>themis::compression::CompressionConfig::enable_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="71" column="10" bodyfile="include/storage/compression_strategy.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_config_1a42f003cbecb6c919ebd4846296cae107" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::compression::CompressionConfig::adaptive_ratio_threshold</definition>
+        <argsstring></argsstring>
+        <name>adaptive_ratio_threshold</name>
+        <qualifiedname>themis::compression::CompressionConfig::adaptive_ratio_threshold</qualifiedname>
+        <initializer>= 1.2f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="74" column="11" bodyfile="include/storage/compression_strategy.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_config_1a8bb191778c13b39cae1710b2dae0681c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::compression::CompressionConfig::adaptive_sample_size</definition>
+        <argsstring></argsstring>
+        <name>adaptive_sample_size</name>
+        <qualifiedname>themis::compression::CompressionConfig::adaptive_sample_size</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="75" column="12" bodyfile="include/storage/compression_strategy.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1compression_1_1_compression_config_1a7117fd37f879c2d2b42b95eeb4b60fe2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_gpu_compression_config" kindref="compound">themis::storage::GpuCompressionConfig</ref></type>
+        <definition>themis::storage::GpuCompressionConfig themis::compression::CompressionConfig::gpu_config</definition>
+        <argsstring></argsstring>
+        <name>gpu_config</name>
+        <qualifiedname>themis::compression::CompressionConfig::gpu_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="78" column="43" bodyfile="include/storage/compression_strategy.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compression configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::compression::CompressionConfig</label>
+        <link refid="structthemis_1_1compression_1_1_compression_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>gpu_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::storage::GpuCompressionConfig</label>
+        <link refid="structthemis_1_1storage_1_1_gpu_compression_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/compression_strategy.h" line="65" column="1" bodyfile="include/storage/compression_strategy.h" bodystart="65" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1compression_1_1_compression_config_1a42f003cbecb6c919ebd4846296cae107" prot="public" virt="non-virtual"><scope>themis::compression::CompressionConfig</scope><name>adaptive_ratio_threshold</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_config_1a8bb191778c13b39cae1710b2dae0681c" prot="public" virt="non-virtual"><scope>themis::compression::CompressionConfig</scope><name>adaptive_sample_size</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_config_1a189fa2c68a172c2b774c8e52df60387c" prot="public" virt="non-virtual"><scope>themis::compression::CompressionConfig</scope><name>data_type</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_config_1a7cb50f0bbb9a09ba7178050be5df70fd" prot="public" virt="non-virtual"><scope>themis::compression::CompressionConfig</scope><name>enable_metrics</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_config_1a7117fd37f879c2d2b42b95eeb4b60fe2" prot="public" virt="non-virtual"><scope>themis::compression::CompressionConfig</scope><name>gpu_config</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_config_1a6f4eacbd67d9c85d9e4ff0c57ef7e21e" prot="public" virt="non-virtual"><scope>themis::compression::CompressionConfig</scope><name>level</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_config_1a6f150ba0acd692f88a92b7409bd496f1" prot="public" virt="non-virtual"><scope>themis::compression::CompressionConfig</scope><name>method</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_config_1a3ed178e642334abc5311975c76b1bca3" prot="public" virt="non-virtual"><scope>themis::compression::CompressionConfig</scope><name>min_size</name></member>
+      <member refid="structthemis_1_1compression_1_1_compression_config_1aed1a4e779061c49a1c308738f0fecc7d" prot="public" virt="non-virtual"><scope>themis::compression::CompressionConfig</scope><name>sparse_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

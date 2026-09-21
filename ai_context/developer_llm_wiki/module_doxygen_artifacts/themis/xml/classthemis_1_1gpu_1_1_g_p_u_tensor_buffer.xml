@@ -1,0 +1,595 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUTensorBuffer</compoundname>
+    <includes refid="tensor__buffer_8h" local="no">tensor_buffer.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape" prot="public">themis::gpu::GPUTensorBuffer::Shape</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view" prot="public">themis::gpu::GPUTensorBuffer::View</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats" prot="public">themis::gpu::GPUTensorBuffer::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ac15c267d50f8ef1f34b0a23756860804" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUTensorBuffer::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="191" column="26" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a4236f9b826948d4bbd4689adb3124369" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape" kindref="compound">Shape</ref></type>
+        <definition>Shape themis::gpu::GPUTensorBuffer::shape_</definition>
+        <argsstring></argsstring>
+        <name>shape_</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::shape_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="192" column="26" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ad121b4bcbbc71fae22481c4f526439c8" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1gpu_1ad01dd2a248e87e7ae6439fa7f5e81395" kindref="member">DType</ref></type>
+        <definition>DType themis::gpu::GPUTensorBuffer::dtype_</definition>
+        <argsstring></argsstring>
+        <name>dtype_</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::dtype_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="193" column="26" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae56bd8c9d5b63f579cecd21eecc0cc1e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::gpu::GPUTensorBuffer::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::data_</qualifiedname>
+        <briefdescription>
+<para>host-side backing store </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="194" column="17" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a3fe23f630e023e3fd3f83fe238edf7fe" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUTensorBuffer::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="195" column="26" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a1ca5a9cfe9dcd7519aa04c142caff9d9" prot="private" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUTensorBuffer::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="197" column="23" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a975717b66e6e19bfa4fc47e7a19ded53" prot="private" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPUTensorBuffer::global_stats_</definition>
+        <argsstring></argsstring>
+        <name>global_stats_</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::global_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="198" column="23" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae1e6bf02a657e66d620201a3b42b1128" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUTensorBuffer::GPUTensorBuffer</definition>
+        <argsstring>(std::string name, const Shape &amp;shape, DType dtype)</argsstring>
+        <name>GPUTensorBuffer</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::GPUTensorBuffer</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape" kindref="compound">Shape</ref> &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1ad01dd2a248e87e7ae6439fa7f5e81395" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable label (used in diagnostics and serialise). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tensor shape. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dtype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element data type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="105" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a6a988567a59fcdd3023396e051b09c16" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUTensorBuffer::GPUTensorBuffer</definition>
+        <argsstring>(GPUTensorBuffer &amp;&amp;) noexcept</argsstring>
+        <name>GPUTensorBuffer</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::GPUTensorBuffer</qualifiedname>
+        <param>
+          <type>GPUTensorBuffer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="106" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae658b2b1da3a1cffe756bbeb77781e7d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae1e6bf02a657e66d620201a3b42b1128" kindref="member">GPUTensorBuffer</ref> &amp;</type>
+        <definition>GPUTensorBuffer &amp; themis::gpu::GPUTensorBuffer::operator=</definition>
+        <argsstring>(GPUTensorBuffer &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae1e6bf02a657e66d620201a3b42b1128" kindref="member">GPUTensorBuffer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="107" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1afd5343fe5b9df7b82c7ad49c8022e166" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUTensorBuffer::~GPUTensorBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUTensorBuffer</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::~GPUTensorBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="108" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a53c070f4b546724e7a0c199154e280ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUTensorBuffer::GPUTensorBuffer</definition>
+        <argsstring>(const GPUTensorBuffer &amp;)=delete</argsstring>
+        <name>GPUTensorBuffer</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::GPUTensorBuffer</qualifiedname>
+        <param>
+          <type>const GPUTensorBuffer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="111" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a87a13a08648b1ed20add078cf27b03c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae1e6bf02a657e66d620201a3b42b1128" kindref="member">GPUTensorBuffer</ref> &amp;</type>
+        <definition>GPUTensorBuffer &amp; themis::gpu::GPUTensorBuffer::operator=</definition>
+        <argsstring>(const GPUTensorBuffer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae1e6bf02a657e66d620201a3b42b1128" kindref="member">GPUTensorBuffer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="112" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a24fd4c8c0d65c61b332b00539e17d36b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUTensorBuffer::fill</definition>
+        <argsstring>(double value)</argsstring>
+        <name>fill</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::fill</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Fill the entire buffer with a constant scalar. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The double <computeroutput>value</computeroutput> is cast to the buffer&apos;s <ref refid="namespacethemis_1_1gpu_1ad01dd2a248e87e7ae6439fa7f5e81395" kindref="member">DType</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="123" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1afaa8f9d66e04d7c409df6d8a25695b15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUTensorBuffer::copyFromHost</definition>
+        <argsstring>(const void *src, size_t bytes)</argsstring>
+        <name>copyFromHost</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::copyFromHost</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Copy <computeroutput>bytes</computeroutput> bytes from <computeroutput>src</computeroutput> into the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="pre"><para>bytes &lt;= <ref refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1aa28c5d1d7fbd0487be881811cdb41d2a" kindref="member">totalBytes()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="130" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ad3583f38012f51ed4fdf357f3aebe4d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUTensorBuffer::copyToHost</definition>
+        <argsstring>(void *dst, size_t bytes) const</argsstring>
+        <name>copyToHost</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::copyToHost</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Copy <computeroutput>bytes</computeroutput> bytes from the buffer into <computeroutput>dst</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="pre"><para>bytes &lt;= <ref refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1aa28c5d1d7fbd0487be881811cdb41d2a" kindref="member">totalBytes()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="137" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ac6ab9d571594dc680aab9f2f0bec847f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view" kindref="compound">View</ref></type>
+        <definition>View themis::gpu::GPUTensorBuffer::createView</definition>
+        <argsstring>(const std::string &amp;view_name, size_t offset_elements, const Shape &amp;view_shape) const</argsstring>
+        <name>createView</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::createView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>view_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset_elements</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape" kindref="compound">Shape</ref> &amp;</type>
+          <declname>view_shape</declname>
+        </param>
+        <briefdescription>
+<para>Create a named logical view over a slice of this buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>view_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Label for the view. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset_elements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element offset from the start of this buffer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>view_shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape" kindref="compound">Shape</ref> of the sub-tensor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view" kindref="compound">View</ref> descriptor. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="151" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae3a85e31b29fa955b3a50eb20ab590fc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::gpu::GPUTensorBuffer::name</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="158" column="23" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a969e3df947d25160f58c69d271d1c549" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape" kindref="compound">Shape</ref> &amp;</type>
+        <definition>const Shape &amp; themis::gpu::GPUTensorBuffer::shape</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>shape</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::shape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="159" column="23" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a80214ac8d74ec7bcf9dd2d878a33ad57" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1gpu_1ad01dd2a248e87e7ae6439fa7f5e81395" kindref="member">DType</ref></type>
+        <definition>DType themis::gpu::GPUTensorBuffer::dtype</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>dtype</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::dtype</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="160" column="24" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1aa28c5d1d7fbd0487be881811cdb41d2a" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTensorBuffer::totalBytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalBytes</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::totalBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="161" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1aae108882d83f954f1e3238788b2db319" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTensorBuffer::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="162" column="24" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a40e7d327fc5a4b8321bc130a12c80363" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const uint8_t *</type>
+        <definition>const uint8_t * themis::gpu::GPUTensorBuffer::rawData</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>rawData</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::rawData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="165" column="19" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a7fbd234dde38aa341d14fc25fb3977c3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTensorBuffer::rawBytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>rawBytes</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::rawBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="166" column="20" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a2a4b73a5e7044ee01e4247f95fbc5110" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::gpu::GPUTensorBuffer::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialise the buffer (header + raw bytes) for checkpointing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="175" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a29ed0fb222d59c2c1b3029ba246acde6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae1e6bf02a657e66d620201a3b42b1128" kindref="member">GPUTensorBuffer</ref></type>
+        <definition>static GPUTensorBuffer themis::gpu::GPUTensorBuffer::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Reconstruct a <ref refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer" kindref="compound">GPUTensorBuffer</ref> from serialised bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on corrupt data. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="182" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a9300f2738b9c42c2a599464b77125d3a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>static Stats themis::gpu::GPUTensorBuffer::getGlobalStats</definition>
+        <argsstring>()</argsstring>
+        <name>getGlobalStats</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::getGlobalStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="187" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a03efd8244b42ad1c4d452e5e67e6052e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::GPUTensorBuffer::resetGlobalStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetGlobalStats</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::resetGlobalStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="188" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Multi-dimensional typed tensor backed by host-side storage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer" kindref="compound">GPUTensorBuffer</ref></computeroutput> provides a safe, self-describing container for tensor data that can be passed to GPU operations without exposing raw pointers.</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1autotoc_md48_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1autotoc_md48">
+<title>Design notes</title><para><itemizedlist>
+<listitem><para>Storage is host-side (<computeroutput>std::vector&lt;uint8_t&gt;</computeroutput>) so the buffer is always usable without real GPU hardware. A real implementation would add a <computeroutput>device_ptr_</computeroutput> member populated by <computeroutput>cudaMalloc</computeroutput> / <computeroutput>hipMalloc</computeroutput> and synchronised via <computeroutput>uploadToDevice()</computeroutput> / <computeroutput>downloadFromDevice()</computeroutput>.</para>
+</listitem><listitem><para>Named views describe logical sub-tensors (slices, heads, layers) without copying data.</para>
+</listitem><listitem><para>Serialisation / deserialisation supports checkpoint/restore workflows.</para>
+</listitem><listitem><para>Global statistics are tracked for memory-pressure monitoring.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: all instance methods except constructors are protected by an internal per-instance mutex. Global stats use a separate mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/tensor_buffer.h" line="54" column="1" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="54" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1afaa8f9d66e04d7c409df6d8a25695b15" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>copyFromHost</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ad3583f38012f51ed4fdf357f3aebe4d7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>copyToHost</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ac6ab9d571594dc680aab9f2f0bec847f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>createView</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae56bd8c9d5b63f579cecd21eecc0cc1e" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>data_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a29ed0fb222d59c2c1b3029ba246acde6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>deserialize</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a80214ac8d74ec7bcf9dd2d878a33ad57" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>dtype</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ad121b4bcbbc71fae22481c4f526439c8" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>dtype_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a24fd4c8c0d65c61b332b00539e17d36b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>fill</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a9300f2738b9c42c2a599464b77125d3a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>getGlobalStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a975717b66e6e19bfa4fc47e7a19ded53" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>global_stats_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae1e6bf02a657e66d620201a3b42b1128" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>GPUTensorBuffer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a6a988567a59fcdd3023396e051b09c16" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>GPUTensorBuffer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a53c070f4b546724e7a0c199154e280ec" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>GPUTensorBuffer</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1aae108882d83f954f1e3238788b2db319" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a3fe23f630e023e3fd3f83fe238edf7fe" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae3a85e31b29fa955b3a50eb20ab590fc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>name</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ac15c267d50f8ef1f34b0a23756860804" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>name_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1ae658b2b1da3a1cffe756bbeb77781e7d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a87a13a08648b1ed20add078cf27b03c0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a7fbd234dde38aa341d14fc25fb3977c3" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>rawBytes</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a40e7d327fc5a4b8321bc130a12c80363" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>rawData</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a03efd8244b42ad1c4d452e5e67e6052e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>resetGlobalStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a2a4b73a5e7044ee01e4247f95fbc5110" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a969e3df947d25160f58c69d271d1c549" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>shape</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a4236f9b826948d4bbd4689adb3124369" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>shape_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1a1ca5a9cfe9dcd7519aa04c142caff9d9" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1aa28c5d1d7fbd0487be881811cdb41d2a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>totalBytes</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1afd5343fe5b9df7b82c7ad49c8022e166" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer</scope><name>~GPUTensorBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

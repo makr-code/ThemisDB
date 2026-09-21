@@ -1,0 +1,527 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_memory_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMemoryPool</compoundname>
+    <includes refid="gpu__memory__pool__safety_8h" local="no">gpu_memory_pool_safety.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_config" prot="public">themis::gpu::GPUMemoryPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_statistics" prot="public">themis::gpu::GPUMemoryPool::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_block" prot="private">themis::gpu::GPUMemoryPool::Block</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a42cbbae9bfca9f31f90811213609a9c5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::gpu::GPUMemoryPool::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="110" column="12" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a69cd40d6598d905fd63498a5ef577b66" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUMemoryPool::pool_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pool_mutex_</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::pool_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="111" column="24" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a07446fefebbfb31a635a6e55ce8031a6" prot="private" static="no" mutable="no">
+        <type>Block *</type>
+        <definition>Block* themis::gpu::GPUMemoryPool::head_</definition>
+        <argsstring></argsstring>
+        <name>head_</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::head_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="112" column="11" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a0288b63d77cb73cda7ff7ed53fe4932b" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::total_allocated_</definition>
+        <argsstring></argsstring>
+        <name>total_allocated_</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::total_allocated_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="113" column="12" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1af56f139d36a4d7d2a010707a00228465" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::total_freed_</definition>
+        <argsstring></argsstring>
+        <name>total_freed_</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::total_freed_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="114" column="12" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1aba602f9b696b11086cdb14f65060166a" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::gpu::GPUMemoryPool::next_allocation_id_</definition>
+        <argsstring></argsstring>
+        <name>next_allocation_id_</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::next_allocation_id_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="115" column="13" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1aff6b87f7aa740e754f6e66127738a2a7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryPool::GPUMemoryPool</definition>
+        <argsstring>(const Config &amp;config={})</argsstring>
+        <name>GPUMemoryPool</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::GPUMemoryPool</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="45" column="14" bodyfile="src/gpu/gpu_memory_pool_safety.cpp" bodystart="14" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1abf9786d3f6884140adf70eb3ac9524d1" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryPool::~GPUMemoryPool</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~GPUMemoryPool</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::~GPUMemoryPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="47" column="5" bodyfile="src/gpu/gpu_memory_pool_safety.cpp" bodystart="37" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a1297ea0205c2110367ecf2dfa2e4bd3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryPool::GPUMemoryPool</definition>
+        <argsstring>(const GPUMemoryPool &amp;)=delete</argsstring>
+        <name>GPUMemoryPool</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::GPUMemoryPool</qualifiedname>
+        <param>
+          <type>const GPUMemoryPool &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a2cb717b0e335fe262620ee138c2b5ecd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1aff6b87f7aa740e754f6e66127738a2a7" kindref="member">GPUMemoryPool</ref> &amp;</type>
+        <definition>GPUMemoryPool &amp; themis::gpu::GPUMemoryPool::operator=</definition>
+        <argsstring>(const GPUMemoryPool &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1aff6b87f7aa740e754f6e66127738a2a7" kindref="member">GPUMemoryPool</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="50" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1ad1f6167899bedaaf49789579d38627d7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryPool::GPUMemoryPool</definition>
+        <argsstring>(GPUMemoryPool &amp;&amp;) noexcept=default</argsstring>
+        <name>GPUMemoryPool</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::GPUMemoryPool</qualifiedname>
+        <param>
+          <type>GPUMemoryPool &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a987c1fe4c58ec1860a743eddff33e3c3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1aff6b87f7aa740e754f6e66127738a2a7" kindref="member">GPUMemoryPool</ref> &amp;</type>
+        <definition>GPUMemoryPool &amp; themis::gpu::GPUMemoryPool::operator=</definition>
+        <argsstring>(GPUMemoryPool &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1aff6b87f7aa740e754f6e66127738a2a7" kindref="member">GPUMemoryPool</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="53" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a4684b7811bb2014773d894e59dd5c7a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::GPUMemoryPool::allocate</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Allocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a177564788e1f461297705ad140c9b5cd" kindref="member">getFragmentationRatio()</ref>, coalesceAdjacentBlocks(), <ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK()</ref>, <ref refid="gpu__safe__operations_8h_1a4ecdf944440947b7052c1b8fd828e74f" kindref="member">cudaMalloc()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="60" column="10" bodyfile="src/gpu/gpu_memory_pool_safety.cpp" bodystart="63" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a8fe622cd8586c9ffe3c7f8934b1993b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryPool::deallocate</definition>
+        <argsstring>(void *ptr)</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::deallocate</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), findBlock(), coalesceAdjacentBlocks(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="67" column="10" bodyfile="src/gpu/gpu_memory_pool_safety.cpp" bodystart="126" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a177564788e1f461297705ad140c9b5cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::gpu::GPUMemoryPool::getFragmentationRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>getFragmentationRatio</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::getFragmentationRatio</qualifiedname>
+        <briefdescription>
+<para>Get Fragmentation Ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="73" column="12" bodyfile="src/gpu/gpu_memory_pool_safety.cpp" bodystart="147" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a323f73b1357383e7874a2fd2c5bfb779" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>GPUMemoryPool::DefragResult themis::gpu::GPUMemoryPool::defragment</definition>
+        <argsstring>()</argsstring>
+        <name>defragment</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::defragment</qualifiedname>
+        <briefdescription>
+<para>Defragment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), coalesceAdjacentBlocks().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::stable_partition(), begin(), end(), spdlog::get(), error(), cudaMemcpy(), checkCudaError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="79" column="12" bodyfile="src/gpu/gpu_memory_pool_safety.cpp" bodystart="167" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a586fffec285dd14f0eee388272a4a393" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>GPUMemoryPool::Statistics themis::gpu::GPUMemoryPool::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="93" column="16" bodyfile="src/gpu/gpu_memory_pool_safety.cpp" bodystart="189" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a24cd59e7b979547aa1890db1b8daf5c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::checkForLeaks</definition>
+        <argsstring>() const</argsstring>
+        <name>checkForLeaks</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::checkForLeaks</qualifiedname>
+        <briefdescription>
+<para>Check For Leaks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="99" column="12" bodyfile="src/gpu/gpu_memory_pool_safety.cpp" bodystart="215" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a5d196f21e98592be97d6e4ae12a29fcd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Block *</type>
+        <definition>GPUMemoryPool::Block * themis::gpu::GPUMemoryPool::findBlock</definition>
+        <argsstring>(void *ptr)</argsstring>
+        <name>findBlock</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::findBlock</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Find Block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements findBlock without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="122" column="11" bodyfile="src/gpu/gpu_memory_pool_safety.cpp" bodystart="240" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a109786f9519c043aad16c6a8b25ceb5b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryPool::coalesceAdjacentBlocks</definition>
+        <argsstring>()</argsstring>
+        <name>coalesceAdjacentBlocks</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::coalesceAdjacentBlocks</qualifiedname>
+        <briefdescription>
+<para>Coalesce Adjacent Blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements coalesceAdjacentBlocks without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="126" column="10" bodyfile="src/gpu/gpu_memory_pool_safety.cpp" bodystart="255" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a1b1faf28d2d4552ccddc3a1deedbc4f4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::computeFragmentedSize</definition>
+        <argsstring>() const</argsstring>
+        <name>computeFragmentedSize</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::computeFragmentedSize</qualifiedname>
+        <briefdescription>
+<para>Compute Fragmented Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="131" column="12" bodyfile="src/gpu/gpu_memory_pool_safety.cpp" bodystart="279" bodyend="298"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_memory_pool_safety.h" line="37" column="1" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="37" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a4684b7811bb2014773d894e59dd5c7a9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a24cd59e7b979547aa1890db1b8daf5c9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>checkForLeaks</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a109786f9519c043aad16c6a8b25ceb5b" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>coalesceAdjacentBlocks</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a1b1faf28d2d4552ccddc3a1deedbc4f4" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>computeFragmentedSize</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a42cbbae9bfca9f31f90811213609a9c5" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>config_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a8fe622cd8586c9ffe3c7f8934b1993b8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a323f73b1357383e7874a2fd2c5bfb779" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>defragment</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a5d196f21e98592be97d6e4ae12a29fcd" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>findBlock</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a177564788e1f461297705ad140c9b5cd" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>getFragmentationRatio</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a586fffec285dd14f0eee388272a4a393" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1aff6b87f7aa740e754f6e66127738a2a7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>GPUMemoryPool</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a1297ea0205c2110367ecf2dfa2e4bd3f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>GPUMemoryPool</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1ad1f6167899bedaaf49789579d38627d7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>GPUMemoryPool</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a07446fefebbfb31a635a6e55ce8031a6" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>head_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1aba602f9b696b11086cdb14f65060166a" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>next_allocation_id_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a2cb717b0e335fe262620ee138c2b5ecd" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a987c1fe4c58ec1860a743eddff33e3c3" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a69cd40d6598d905fd63498a5ef577b66" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>pool_mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a0288b63d77cb73cda7ff7ed53fe4932b" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>total_allocated_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1af56f139d36a4d7d2a010707a00228465" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>total_freed_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1abf9786d3f6884140adf70eb3ac9524d1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool</scope><name>~GPUMemoryPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

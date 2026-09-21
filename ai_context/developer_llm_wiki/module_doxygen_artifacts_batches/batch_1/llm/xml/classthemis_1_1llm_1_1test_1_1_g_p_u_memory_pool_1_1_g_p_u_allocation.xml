@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::GPUMemoryPool::GPUAllocation</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1ab314e8767a4547c6ac212aa5c700369d" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::test::GPUMemoryPool::GPUAllocation::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::llm::test::GPUMemoryPool::GPUAllocation::size_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="74" column="12" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1a56284d02ea78a6bf0fa13fe69d885039" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool" kindref="compound">GPUMemoryPool</ref> *</type>
+        <definition>GPUMemoryPool* themis::llm::test::GPUMemoryPool::GPUAllocation::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::llm::test::GPUMemoryPool::GPUAllocation::pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="75" column="19" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1a9b785264ed6f54c6fceb52a112c85b68" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::test::GPUMemoryPool::GPUAllocation::is_freed_</definition>
+        <argsstring></argsstring>
+        <name>is_freed_</name>
+        <qualifiedname>themis::llm::test::GPUMemoryPool::GPUAllocation::is_freed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="76" column="17" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1aa85f224745546471edfb6bce923845f8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::GPUMemoryPool::GPUAllocation::GPUAllocation</definition>
+        <argsstring>(size_t size, GPUMemoryPool *pool)</argsstring>
+        <name>GPUAllocation</name>
+        <qualifiedname>themis::llm::test::GPUMemoryPool::GPUAllocation::GPUAllocation</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool" kindref="compound">GPUMemoryPool</ref> *</type>
+          <declname>pool</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="58" column="5" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="58" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1a13eddf1967989ce7298c69eaf9ddc8db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::GPUMemoryPool::GPUAllocation::~GPUAllocation</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUAllocation</name>
+        <qualifiedname>themis::llm::test::GPUMemoryPool::GPUAllocation::~GPUAllocation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="61" column="5" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="61" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1aa5a48b178100b06d8525572ac0563b79" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::test::GPUMemoryPool::GPUAllocation::getSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getSize</name>
+        <qualifiedname>themis::llm::test::GPUMemoryPool::GPUAllocation::getSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="71" column="12" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="56" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="56" bodyend="77"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1aa5a48b178100b06d8525572ac0563b79" prot="public" virt="non-virtual"><scope>themis::llm::test::GPUMemoryPool::GPUAllocation</scope><name>getSize</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1aa85f224745546471edfb6bce923845f8" prot="public" virt="non-virtual"><scope>themis::llm::test::GPUMemoryPool::GPUAllocation</scope><name>GPUAllocation</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1a9b785264ed6f54c6fceb52a112c85b68" prot="private" virt="non-virtual"><scope>themis::llm::test::GPUMemoryPool::GPUAllocation</scope><name>is_freed_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1a56284d02ea78a6bf0fa13fe69d885039" prot="private" virt="non-virtual"><scope>themis::llm::test::GPUMemoryPool::GPUAllocation</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1ab314e8767a4547c6ac212aa5c700369d" prot="private" virt="non-virtual"><scope>themis::llm::test::GPUMemoryPool::GPUAllocation</scope><name>size_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation_1a13eddf1967989ce7298c69eaf9ddc8db" prot="public" virt="non-virtual"><scope>themis::llm::test::GPUMemoryPool::GPUAllocation</scope><name>~GPUAllocation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

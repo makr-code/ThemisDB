@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_optimizer_regression_tests" kind="class" language="C++" prot="public">
+    <compoundname>QueryOptimizerRegressionTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_optimizer_regression_tests_1ade68af7abd41d26faf2eff1b4ab46068" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_optimizer_cost_model" kindref="compound">OptimizerCostModel</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;OptimizerCostModel&gt; QueryOptimizerRegressionTests::cost_model_</definition>
+        <argsstring></argsstring>
+        <name>cost_model_</name>
+        <qualifiedname>QueryOptimizerRegressionTests::cost_model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_regression.cpp" line="62" column="21" bodyfile="tests/query/test_query_optimizer_regression.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_optimizer_regression_tests_1a30ecfc6722a96d013d9c7f8c36897ca8" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_plan_cache" kindref="compound">PlanCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PlanCache&gt; QueryOptimizerRegressionTests::plan_cache_</definition>
+        <argsstring></argsstring>
+        <name>plan_cache_</name>
+        <qualifiedname>QueryOptimizerRegressionTests::plan_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_regression.cpp" line="63" column="21" bodyfile="tests/query/test_query_optimizer_regression.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_query_optimizer_regression_tests_1a735d3178c9b6aaab591db4927988fb50" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryOptimizerRegressionTests::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>QueryOptimizerRegressionTests::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_regression.cpp" line="33" column="10" bodyfile="tests/query/test_query_optimizer_regression.cpp" bodystart="33" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_query_optimizer_regression_tests_1ab926c674cd6070612625e4c6961f25c1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryOptimizerRegressionTests::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>QueryOptimizerRegressionTests::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_regression.cpp" line="57" column="10" bodyfile="tests/query/test_query_optimizer_regression.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryOptimizerRegressionTests</label>
+        <link refid="class_query_optimizer_regression_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryOptimizerRegressionTests</label>
+        <link refid="class_query_optimizer_regression_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_optimizer_regression.cpp" line="31" column="1" bodyfile="tests/query/test_query_optimizer_regression.cpp" bodystart="31" bodyend="64"/>
+    <listofallmembers>
+      <member refid="class_query_optimizer_regression_tests_1ade68af7abd41d26faf2eff1b4ab46068" prot="protected" virt="non-virtual"><scope>QueryOptimizerRegressionTests</scope><name>cost_model_</name></member>
+      <member refid="class_query_optimizer_regression_tests_1a30ecfc6722a96d013d9c7f8c36897ca8" prot="protected" virt="non-virtual"><scope>QueryOptimizerRegressionTests</scope><name>plan_cache_</name></member>
+      <member refid="class_query_optimizer_regression_tests_1a735d3178c9b6aaab591db4927988fb50" prot="protected" virt="non-virtual"><scope>QueryOptimizerRegressionTests</scope><name>SetUp</name></member>
+      <member refid="class_query_optimizer_regression_tests_1ab926c674cd6070612625e4c6961f25c1" prot="protected" virt="non-virtual"><scope>QueryOptimizerRegressionTests</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

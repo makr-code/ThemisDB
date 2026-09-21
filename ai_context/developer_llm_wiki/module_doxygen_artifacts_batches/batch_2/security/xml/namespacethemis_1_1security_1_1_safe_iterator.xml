@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1security_1_1_safe_iterator" kind="namespace" language="C++">
+    <compoundname>themis::security::SafeIterator</compoundname>
+    <innerclass refid="classthemis_1_1security_1_1_safe_iterator_1_1_invalidation_detector" prot="public">themis::security::SafeIterator::InvalidationDetector</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_safe_iterator_1_1_advance_safe" prot="public">themis::security::SafeIterator::AdvanceSafe</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator" prot="public">themis::security::SafeIterator::RangeValidator</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_safe_iterator_1_1_bounds_checker" prot="public">themis::security::SafeIterator::BoundsChecker</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/safe_iterator.h" line="40" column="1"/>
+  </compounddef>
+</doxygen>

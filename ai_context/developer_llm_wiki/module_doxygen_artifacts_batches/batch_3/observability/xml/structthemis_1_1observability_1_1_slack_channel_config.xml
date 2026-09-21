@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_slack_channel_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::SlackChannelConfig</compoundname>
+    <includes refid="alerting__engine_8h" local="no">alerting_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slack_channel_config_1a7f393eb95c72a3b22f80ec5f0adc6300" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SlackChannelConfig::webhook_url</definition>
+        <argsstring></argsstring>
+        <name>webhook_url</name>
+        <qualifiedname>themis::observability::SlackChannelConfig::webhook_url</qualifiedname>
+        <briefdescription>
+<para>Slack Incoming Webhook URL (<ulink url="https://hooks.slack.com/services/..">https://hooks.slack.com/services/..</ulink>.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="148" column="17" bodyfile="include/observability/alerting_engine.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slack_channel_config_1a65743e87e8559b6eded3edede61f9893" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SlackChannelConfig::channel</definition>
+        <argsstring></argsstring>
+        <name>channel</name>
+        <qualifiedname>themis::observability::SlackChannelConfig::channel</qualifiedname>
+        <briefdescription>
+<para>Optional channel override (e.g., &quot;#themis-alerts&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="151" column="17" bodyfile="include/observability/alerting_engine.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slack_channel_config_1aac8257974621fde163298edade46d836" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SlackChannelConfig::username</definition>
+        <argsstring></argsstring>
+        <name>username</name>
+        <qualifiedname>themis::observability::SlackChannelConfig::username</qualifiedname>
+        <initializer>= &quot;ThemisDB Alerting&quot;</initializer>
+        <briefdescription>
+<para>Bot display name override. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="154" column="17" bodyfile="include/observability/alerting_engine.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_slack_channel_config_1adcfa5b8bcb47fd4ad5e826f38ba13df5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::observability::SlackChannelConfig::timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>timeout_seconds</name>
+        <qualifiedname>themis::observability::SlackChannelConfig::timeout_seconds</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Connection / request timeout in seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="157" column="9" bodyfile="include/observability/alerting_engine.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_slack_channel_config_1a8627d079de89f091fd77fc8e1b3921dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::SlackChannelConfig::SlackChannelConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>SlackChannelConfig</name>
+        <qualifiedname>themis::observability::SlackChannelConfig::SlackChannelConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="159" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for a Slack incoming-webhook notification channel. </para>
+    </detaileddescription>
+    <location file="include/observability/alerting_engine.h" line="146" column="1" bodyfile="include/observability/alerting_engine.h" bodystart="146" bodyend="160"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_slack_channel_config_1a65743e87e8559b6eded3edede61f9893" prot="public" virt="non-virtual"><scope>themis::observability::SlackChannelConfig</scope><name>channel</name></member>
+      <member refid="structthemis_1_1observability_1_1_slack_channel_config_1a8627d079de89f091fd77fc8e1b3921dc" prot="public" virt="non-virtual"><scope>themis::observability::SlackChannelConfig</scope><name>SlackChannelConfig</name></member>
+      <member refid="structthemis_1_1observability_1_1_slack_channel_config_1adcfa5b8bcb47fd4ad5e826f38ba13df5" prot="public" virt="non-virtual"><scope>themis::observability::SlackChannelConfig</scope><name>timeout_seconds</name></member>
+      <member refid="structthemis_1_1observability_1_1_slack_channel_config_1aac8257974621fde163298edade46d836" prot="public" virt="non-virtual"><scope>themis::observability::SlackChannelConfig</scope><name>username</name></member>
+      <member refid="structthemis_1_1observability_1_1_slack_channel_config_1a7f393eb95c72a3b22f80ec5f0adc6300" prot="public" virt="non-virtual"><scope>themis::observability::SlackChannelConfig</scope><name>webhook_url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

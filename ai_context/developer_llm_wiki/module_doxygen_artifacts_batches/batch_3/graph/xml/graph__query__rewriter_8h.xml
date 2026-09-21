@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="graph__query__rewriter_8h" kind="file" language="C++">
+    <compoundname>graph_query_rewriter.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">set</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="graph__query__rewriter_8cpp" local="yes">src/graph/graph_query_rewriter.cpp</includedby>
+    <includedby refid="test__graph__query__rewriter_8cpp" local="yes">tests/graph/test_graph_query_rewriter.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/graph/graph_query_rewriter.h</label>
+        <link refid="graph__query__rewriter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>set</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/graph/graph_query_rewriter.h</label>
+        <link refid="graph__query__rewriter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/graph/graph_query_rewriter.cpp</label>
+        <link refid="graph__query__rewriter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/graph/test_graph_query_rewriter.cpp</label>
+        <link refid="test__graph__query__rewriter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_rewrite_stats" prot="public">themis::graph::GraphRewriteStats</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_query_rewriter" prot="public">themis::graph::GraphQueryRewriter</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config" prot="public">themis::graph::GraphQueryRewriter::RewriteConfig</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result" prot="public">themis::graph::GraphQueryRewriter::RewriteResult</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_custom_rule" prot="private">themis::graph::GraphQueryRewriter::CustomRule</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.9 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1graph_1_1_graph_rewrite_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_graph_rewrite_stats" kindref="compound">GraphRewriteStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1graph_1_1_graph_rewrite_stats_1aae879f862511f2cfa5688c6f1c9cb115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_rewrite_stats_1aae879f862511f2cfa5688c6f1c9cb115" kindref="member">rules_applied</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1graph_1_1_graph_rewrite_stats_1a4785115b70a0de3f3191bc632ed77513" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_graph_rewrite_stats_1a4785115b70a0de3f3191bc632ed77513" kindref="member">applied_rule_names</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1graph_1_1_graph_rewrite_stats_1a851dcc8a25aa14f79ca7200cafdd99d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_rewrite_stats_1a851dcc8a25aa14f79ca7200cafdd99d8" kindref="member">total_transformations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1graph_1_1_graph_query_rewriter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ae8140d54b07b0db409070daa04493f39" kindref="member">GraphQueryRewriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Rewrite<sp/>rule<sp/>enumeration<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3" kindref="member">RewriteRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a7f5d8b261c0efdb2e93c13a1e349228a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a7f5d8b261c0efdb2e93c13a1e349228a" kindref="member">PREDICATE_PUSHDOWN</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3aea6fab85f3f02af360c3221eb41304c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3aea6fab85f3f02af360c3221eb41304c6" kindref="member">COMMON_SUBEXPRESSION</ref>,<sp/></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3aaffeabe3ed6f0f87227b1b6700768e1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3aaffeabe3ed6f0f87227b1b6700768e1f" kindref="member">JOIN_REORDERING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a5fa4f3c209717575fff77c3e0564eeb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a5fa4f3c209717575fff77c3e0564eeb4" kindref="member">MATERIALIZED_VIEW</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a3626225bf22d76472b3b9a306fd4890a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a3626225bf22d76472b3b9a306fd4890a" kindref="member">QUERY_DECOMPOSITION</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a94293659b7a7e27a034f60e07a5caf79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3a94293659b7a7e27a034f60e07a5caf79" kindref="member">PRUNE_EARLY</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Configuration<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config" kindref="compound">RewriteConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1aa2f8e874091448ffabea3061f43a9ac7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::set&lt;RewriteRule&gt;<sp/><ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1aa2f8e874091448ffabea3061f43a9ac7" kindref="member">enabled_rules</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1ab531a912273cdb3f5603b784c4722157" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1ab531a912273cdb3f5603b784c4722157" kindref="member">aggressive_optimization</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1ab10dfea479ff5bb6839420f6c6b14380" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1ab10dfea479ff5bb6839420f6c6b14380" kindref="member">rewrite_time_limit_ms</ref><sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Result<sp/>type<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result" kindref="compound">RewriteResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result_1af094f866ed2d17fef55b954862359c5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result_1af094f866ed2d17fef55b954862359c5c" kindref="member">plan</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result_1a04abf6505dab018af21801f9bff0e921" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_rewrite_stats" kindref="compound">GraphRewriteStats</ref><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result_1a04abf6505dab018af21801f9bff0e921" kindref="member">stats</ref>;<sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Construction<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ae8140d54b07b0db409070daa04493f39" kindref="member">GraphQueryRewriter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;RewriteConfig&gt;&amp;<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a2858c8822309e0f3d0a3552cb0eea568" kindref="member">config</ref><sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_result" kindref="compound">RewriteResult</ref><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a8e6f44382fc79e6d4451adf15bc8b2a3" kindref="member">rewrite</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a2a8823e2a1b2a9e19e0a878e5178cd0d" kindref="member">explainRewrites</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>original,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>rewritten)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ad7dbddac330722c68fe31a0cb227ddaa" kindref="member">estimateSpeedup</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>original,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>rewritten)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1aad9a1110f9790c4e6038307fb7741cfd" kindref="member">addCustomRule</ref>(std::string_view<sp/>name,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(nlohmann::json&amp;)&gt;<sp/>rule);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a1314b2755accbcc4a57fced13fcb9103" kindref="member">clearCustomRules</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a2858c8822309e0f3d0a3552cb0eea568" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config" kindref="compound">RewriteConfig</ref>&amp;<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a2858c8822309e0f3d0a3552cb0eea568" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Static<sp/>helpers<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ae25f0f88930456c5c92fc45e844dcb39" kindref="member">makeTraversalPlan</ref>(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>graph_id,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>start_vertex,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>direction<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;OUTBOUND&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>min_depth<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_depth<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>vertex_filters<sp/>=<sp/>nlohmann::json::array());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ac07decbb74ffc75b46729006fae165c8" kindref="member">makeFilterScanPlan</ref>(nlohmann::json<sp/>filter,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>child);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1ab04bb96e5e4b785ed9f431eea034ad0f" kindref="member">makeJoinPlan</ref>(nlohmann::json<sp/>left,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>right,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>join_key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vertex_id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a4e48c78599b4461e3f6c91797ed8c8ef" kindref="member">makeMultiTraversalPlan</ref>(</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>graph_id,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>start_vertices,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>direction<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;OUTBOUND&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_depth<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>vertex_filters<sp/>=<sp/>nlohmann::json::array());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a7c022f46f15a0e43f00430de6b277aca" kindref="member">estimateCardinality</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>node);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>RewriteConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">CustomRule<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;size_t(nlohmann::json&amp;)&gt;<sp/>fn;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CustomRule&gt;<sp/>custom_rules_;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>fixed-point<sp/>iterations<sp/>to<sp/>avoid<sp/>infinite<sp/>loops.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxIterations<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>applyPredicatePushdown(nlohmann::json&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>applyCommonSubexpressionElimination(nlohmann::json&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>applyJoinReordering(nlohmann::json&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>applyMaterializedView(nlohmann::json&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>aggressive);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>applyQueryDecomposition(nlohmann::json&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a1c0352f3d8ebf3175a3dc6397db17602" kindref="member">plan</ref>);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isEnabled(<ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3" kindref="member">RewriteRule</ref><sp/>rule)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/graph/graph_query_rewriter.h"/>
+  </compounddef>
+</doxygen>

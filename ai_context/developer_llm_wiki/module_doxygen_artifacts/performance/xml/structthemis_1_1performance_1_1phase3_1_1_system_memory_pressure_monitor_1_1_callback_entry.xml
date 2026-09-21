@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_callback_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::phase3::SystemMemoryPressureMonitor::CallbackEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_callback_entry_1aa33cb6459dfaddefa82168783782d162" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::SystemMemoryPressureMonitor::CallbackEntry::handle</definition>
+        <argsstring></argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::CallbackEntry::handle</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="246" column="16" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_callback_entry_1a328efe3bf4caaae210fafd4142a108f3" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952" kindref="member">PressureLevel</ref></type>
+        <definition>PressureLevel themis::performance::phase3::SystemMemoryPressureMonitor::CallbackEntry::trigger_level</definition>
+        <argsstring></argsstring>
+        <name>trigger_level</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::CallbackEntry::trigger_level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="247" column="23" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_callback_entry_1afcafcf41cd3dcca959183bd1e2ea8fe0" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aebdf53af56818df63f2dc5bc90a6a7b2" kindref="member">EvictionCallback</ref></type>
+        <definition>EvictionCallback themis::performance::phase3::SystemMemoryPressureMonitor::CallbackEntry::callback</definition>
+        <argsstring></argsstring>
+        <name>callback</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::CallbackEntry::callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="248" column="26" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/memory_pressure.h" line="245" column="5" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="245" bodyend="249"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_callback_entry_1afcafcf41cd3dcca959183bd1e2ea8fe0" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor::CallbackEntry</scope><name>callback</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_callback_entry_1aa33cb6459dfaddefa82168783782d162" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor::CallbackEntry</scope><name>handle</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_callback_entry_1a328efe3bf4caaae210fafd4142a108f3" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor::CallbackEntry</scope><name>trigger_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

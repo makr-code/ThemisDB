@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_base_hot_paths_reload_fixture" kind="class" language="C++" prot="public">
+    <compoundname>BaseHotPathsReloadFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_base_hot_paths_reload_fixture_1a006232eabca2ed36010f15635e85f914" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; HotReloadManager &gt;</type>
+        <definition>std::unique_ptr&lt;HotReloadManager&gt; BaseHotPathsReloadFixture::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>BaseHotPathsReloadFixture::mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_base_hot_paths.cpp" line="135" column="21" bodyfile="benchmarks/base/bench_base_hot_paths.cpp" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_base_hot_paths_reload_fixture_1a0b077ad7427c47e388cd6c498707ee3a" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ModuleLoader &gt;</type>
+        <definition>std::unique_ptr&lt;ModuleLoader&gt; BaseHotPathsReloadFixture::loader</definition>
+        <argsstring></argsstring>
+        <name>loader</name>
+        <qualifiedname>BaseHotPathsReloadFixture::loader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_base_hot_paths.cpp" line="136" column="25" bodyfile="benchmarks/base/bench_base_hot_paths.cpp" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_base_hot_paths_reload_fixture_1a7d05932f44bea45f70b87c174727236e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BaseHotPathsReloadFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BaseHotPathsReloadFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_base_hot_paths.cpp" line="124" column="10" bodyfile="benchmarks/base/bench_base_hot_paths.cpp" bodystart="124" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="class_base_hot_paths_reload_fixture_1a5f56bb5cafebb30e15204f654cd0caa8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BaseHotPathsReloadFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>BaseHotPathsReloadFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_base_hot_paths.cpp" line="130" column="10" bodyfile="benchmarks/base/bench_base_hot_paths.cpp" bodystart="130" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BaseHotPathsReloadFixture</label>
+        <link refid="class_base_hot_paths_reload_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BaseHotPathsReloadFixture</label>
+        <link refid="class_base_hot_paths_reload_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_base_hot_paths.cpp" line="122" column="1" bodyfile="benchmarks/base/bench_base_hot_paths.cpp" bodystart="122" bodyend="137"/>
+    <listofallmembers>
+      <member refid="class_base_hot_paths_reload_fixture_1a0b077ad7427c47e388cd6c498707ee3a" prot="public" virt="non-virtual"><scope>BaseHotPathsReloadFixture</scope><name>loader</name></member>
+      <member refid="class_base_hot_paths_reload_fixture_1a006232eabca2ed36010f15635e85f914" prot="public" virt="non-virtual"><scope>BaseHotPathsReloadFixture</scope><name>mgr</name></member>
+      <member refid="class_base_hot_paths_reload_fixture_1a7d05932f44bea45f70b87c174727236e" prot="public" virt="non-virtual"><scope>BaseHotPathsReloadFixture</scope><name>SetUp</name></member>
+      <member refid="class_base_hot_paths_reload_fixture_1a5f56bb5cafebb30e15204f654cd0caa8" prot="public" virt="non-virtual"><scope>BaseHotPathsReloadFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

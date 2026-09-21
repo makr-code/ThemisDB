@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__temporal__aggregation__property_8cpp" kind="file" language="C++">
+    <compoundname>test_temporal_aggregation_property.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="no">filesystem</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/temporal/test_temporal_aggregation_property.cpp</label>
+        <link refid="test__temporal__aggregation__property_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="5">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="4">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_temporal_aggregation_property_test" prot="public">TemporalAggregationPropertyTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__temporal__aggregation__property_8cpp_1a9d2c93932f0c0a69a827077f7259e571" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalAggregationPropertyTest, SumAvgMinMaxNoType)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_aggregation_property_test" kindref="compound">TemporalAggregationPropertyTest</ref></type>
+        </param>
+        <param>
+          <type>SumAvgMinMaxNoType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_aggregation_property.cpp" line="98" column="1" bodyfile="tests/temporal/test_temporal_aggregation_property.cpp" bodystart="98" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__aggregation__property_8cpp_1a332c21e17c7952f914372f3fad1ebce8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalAggregationPropertyTest, CountAllEdges)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_aggregation_property_test" kindref="compound">TemporalAggregationPropertyTest</ref></type>
+        </param>
+        <param>
+          <type>CountAllEdges</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_aggregation_property.cpp" line="121" column="1" bodyfile="tests/temporal/test_temporal_aggregation_property.cpp" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__aggregation__property_8cpp_1a63a29ae3612b1963e94f17e49306fc93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalAggregationPropertyTest, TypeFilterSum)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_aggregation_property_test" kindref="compound">TemporalAggregationPropertyTest</ref></type>
+        </param>
+        <param>
+          <type>TypeFilterSum</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_aggregation_property.cpp" line="127" column="1" bodyfile="tests/temporal/test_temporal_aggregation_property.cpp" bodystart="127" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__aggregation__property_8cpp_1a6a443f0ad6e91a4f9db81bb2cee56557" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalAggregationPropertyTest, NonexistentProperty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_aggregation_property_test" kindref="compound">TemporalAggregationPropertyTest</ref></type>
+        </param>
+        <param>
+          <type>NonexistentProperty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_aggregation_property.cpp" line="134" column="1" bodyfile="tests/temporal/test_temporal_aggregation_property.cpp" bodystart="134" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="class_temporal_aggregation_property_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_temporal_aggregation_property_test" kindref="compound">TemporalAggregationPropertyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_temporal_aggregation_property_test_1af9a78def51ec8e5e114f555d846ba2e5" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1a8360aa25d1ccf34cdbf68c5430500077" kindref="member">testDbPath_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_temporal_aggregation_prop_db&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_temporal_aggregation_property_test_1a8360aa25d1ccf34cdbf68c5430500077" kindref="member">testDbPath_</ref>);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>config;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.db_path<sp/>=<sp/><ref refid="class_temporal_aggregation_property_test_1a8360aa25d1ccf34cdbf68c5430500077" kindref="member">testDbPath_</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.memtable_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.block_cache_size_mb<sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1a305c87191128bfc34365b5af252cefda" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(config);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_temporal_aggregation_property_test_1a305c87191128bfc34365b5af252cefda" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1acae80b5056637dd0b3582cb19c137087" kindref="member">graphIdx_</ref><sp/>=<sp/>std::make_unique&lt;GraphIndexManager&gt;(*<ref refid="class_temporal_aggregation_property_test_1a305c87191128bfc34365b5af252cefda" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1a35258314e7a148bf28617ddaf3f164c8" kindref="member">createTemporalTestGraph</ref>();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_temporal_aggregation_property_test_1a8f3ca2da518c0a69a3870a1c23273d2e" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1acae80b5056637dd0b3582cb19c137087" kindref="member">graphIdx_</ref>.reset();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1a305c87191128bfc34365b5af252cefda" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1a305c87191128bfc34365b5af252cefda" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_temporal_aggregation_property_test_1a8360aa25d1ccf34cdbf68c5430500077" kindref="member">testDbPath_</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_temporal_aggregation_property_test_1a35258314e7a148bf28617ddaf3f164c8" kindref="member">createTemporalTestGraph</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>n1(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">);<sp/>n1.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">));<sp/><ref refid="class_temporal_aggregation_property_test_1a305c87191128bfc34365b5af252cefda" kindref="member">db_</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;entity:n1&quot;</highlight><highlight class="normal">,<sp/>n1.serialize());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>n2(</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">);<sp/>n2.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">));<sp/><ref refid="class_temporal_aggregation_property_test_1a305c87191128bfc34365b5af252cefda" kindref="member">db_</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;entity:n2&quot;</highlight><highlight class="normal">,<sp/>n2.serialize());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e1:<sp/>1000-2000<sp/>cost=10<sp/>type=A</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>e1(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e1.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e1.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e1.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e1.setField(</highlight><highlight class="stringliteral">&quot;valid_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1000));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e1.setField(</highlight><highlight class="stringliteral">&quot;valid_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(2000));</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e1.setField(</highlight><highlight class="stringliteral">&quot;cost&quot;</highlight><highlight class="normal">,<sp/>10.0);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e1.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1acae80b5056637dd0b3582cb19c137087" kindref="member">graphIdx_</ref>-&gt;addEdge(e1);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e2:<sp/>1500-3000<sp/>cost=20<sp/>type=B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>e2(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e2.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e2.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e2.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e2.setField(</highlight><highlight class="stringliteral">&quot;valid_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1500));</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e2.setField(</highlight><highlight class="stringliteral">&quot;valid_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(3000));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e2.setField(</highlight><highlight class="stringliteral">&quot;cost&quot;</highlight><highlight class="normal">,<sp/>20.0);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e2.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1acae80b5056637dd0b3582cb19c137087" kindref="member">graphIdx_</ref>-&gt;addEdge(e2);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e3:<sp/>1200-1800<sp/>cost=30<sp/>type=A</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>e3(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e3.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e3.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e3.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e3.setField(</highlight><highlight class="stringliteral">&quot;valid_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1200));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e3.setField(</highlight><highlight class="stringliteral">&quot;valid_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1800));</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e3.setField(</highlight><highlight class="stringliteral">&quot;cost&quot;</highlight><highlight class="normal">,<sp/>30.0);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e3.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1acae80b5056637dd0b3582cb19c137087" kindref="member">graphIdx_</ref>-&gt;addEdge(e3);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e4:<sp/>1100-1150<sp/>no<sp/>cost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>e4(</highlight><highlight class="stringliteral">&quot;e4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e4.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;e4&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e4.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e4.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e4.setField(</highlight><highlight class="stringliteral">&quot;valid_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1100));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e4.setField(</highlight><highlight class="stringliteral">&quot;valid_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1150));</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e4.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1acae80b5056637dd0b3582cb19c137087" kindref="member">graphIdx_</ref>-&gt;addEdge(e4);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e5:<sp/>unbounded<sp/>cost=40<sp/>type=A</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>e5(</highlight><highlight class="stringliteral">&quot;e5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e5.setField(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;e5&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e5.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e5.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e5.setField(</highlight><highlight class="stringliteral">&quot;cost&quot;</highlight><highlight class="normal">,<sp/>40.0);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e5.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_aggregation_property_test_1acae80b5056637dd0b3582cb19c137087" kindref="member">graphIdx_</ref>-&gt;addEdge(e5);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_temporal_aggregation_property_test_1a8360aa25d1ccf34cdbf68c5430500077" kindref="member">testDbPath_</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_temporal_aggregation_property_test_1a305c87191128bfc34365b5af252cefda" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GraphIndexManager&gt;<sp/><ref refid="class_temporal_aggregation_property_test_1acae80b5056637dd0b3582cb19c137087" kindref="member">graphIdx_</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__temporal__aggregation__property_8cpp_1a9d2c93932f0c0a69a827077f7259e571" kindref="member">TEST_F</ref>(<ref refid="class_temporal_aggregation_property_test" kindref="compound">TemporalAggregationPropertyTest</ref>,<sp/>SumAvgMinMaxNoType)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>range<sp/>[1000,2000]<sp/>overlaps<sp/>e1,e2,e3,e4,e5<sp/>(e4<sp/>has<sp/>no<sp/>cost)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status_sum,<sp/>res]<sp/>=<sp/>graphIdx_-&gt;aggregateEdgePropertyInTimeRange(</highlight><highlight class="stringliteral">&quot;cost&quot;</highlight><highlight class="normal">,<sp/>GraphIndexManager::Aggregation::SUM,<sp/>1000,<sp/>2000,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status_sum.ok)<sp/>&lt;&lt;<sp/>status_sum.message;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.count,<sp/>4u);<sp/></highlight><highlight class="comment">//<sp/>four<sp/>edges<sp/>with<sp/>numeric<sp/>cost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(res.value,<sp/>100.0);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status_avg,<sp/>res2]<sp/>=<sp/>graphIdx_-&gt;aggregateEdgePropertyInTimeRange(</highlight><highlight class="stringliteral">&quot;cost&quot;</highlight><highlight class="normal">,<sp/>GraphIndexManager::Aggregation::AVG,<sp/>1000,<sp/>2000,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status_avg.ok)<sp/>&lt;&lt;<sp/>status_avg.message;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res2.count,<sp/>4u);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(res2.value,<sp/>25.0);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status_min,<sp/>rmin]<sp/>=<sp/>graphIdx_-&gt;aggregateEdgePropertyInTimeRange(</highlight><highlight class="stringliteral">&quot;cost&quot;</highlight><highlight class="normal">,<sp/>GraphIndexManager::Aggregation::MIN,<sp/>1000,<sp/>2000,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status_min.ok)<sp/>&lt;&lt;<sp/>status_min.message;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rmin.count,<sp/>4u);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(rmin.value,<sp/>10.0);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status_max,<sp/>rmax]<sp/>=<sp/>graphIdx_-&gt;aggregateEdgePropertyInTimeRange(</highlight><highlight class="stringliteral">&quot;cost&quot;</highlight><highlight class="normal">,<sp/>GraphIndexManager::Aggregation::MAX,<sp/>1000,<sp/>2000,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status_max.ok)<sp/>&lt;&lt;<sp/>status_max.message;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rmax.count,<sp/>4u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(rmax.value,<sp/>40.0);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__temporal__aggregation__property_8cpp_1a9d2c93932f0c0a69a827077f7259e571" kindref="member">TEST_F</ref>(<ref refid="class_temporal_aggregation_property_test" kindref="compound">TemporalAggregationPropertyTest</ref>,<sp/>CountAllEdges)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status_count,<sp/>res]<sp/>=<sp/>graphIdx_-&gt;aggregateEdgePropertyInTimeRange(</highlight><highlight class="stringliteral">&quot;ignored&quot;</highlight><highlight class="normal">,<sp/>GraphIndexManager::Aggregation::COUNT,<sp/>1000,<sp/>2000,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status_count.ok)<sp/>&lt;&lt;<sp/>status_count.message;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.count,<sp/>5u);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__temporal__aggregation__property_8cpp_1a9d2c93932f0c0a69a827077f7259e571" kindref="member">TEST_F</ref>(<ref refid="class_temporal_aggregation_property_test" kindref="compound">TemporalAggregationPropertyTest</ref>,<sp/>TypeFilterSum)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status_sum_type,<sp/>res]<sp/>=<sp/>graphIdx_-&gt;aggregateEdgePropertyInTimeRange(</highlight><highlight class="stringliteral">&quot;cost&quot;</highlight><highlight class="normal">,<sp/>GraphIndexManager::Aggregation::SUM,<sp/>1000,<sp/>2000,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::optional&lt;std::string_view&gt;(std::string_view(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status_sum_type.ok)<sp/>&lt;&lt;<sp/>status_sum_type.message;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.count,<sp/>3u);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(res.value,<sp/>80.0);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__temporal__aggregation__property_8cpp_1a9d2c93932f0c0a69a827077f7259e571" kindref="member">TEST_F</ref>(<ref refid="class_temporal_aggregation_property_test" kindref="compound">TemporalAggregationPropertyTest</ref>,<sp/>NonexistentProperty)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status_missing,<sp/>res]<sp/>=<sp/>graphIdx_-&gt;aggregateEdgePropertyInTimeRange(</highlight><highlight class="stringliteral">&quot;no_such&quot;</highlight><highlight class="normal">,<sp/>GraphIndexManager::Aggregation::SUM,<sp/>1000,<sp/>2000,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(status_missing.ok)<sp/>&lt;&lt;<sp/>status_missing.message;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.count,<sp/>0u);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(res.value,<sp/>0.0);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/temporal/test_temporal_aggregation_property.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,570 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_geo_replication_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::GeoReplicationManager</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config" prot="public">themisdb::replication::GeoReplicationManager::GeoConfig</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1aa211688decae35011b472840d24c21be" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config" kindref="compound">GeoConfig</ref></type>
+        <definition>GeoConfig themisdb::replication::GeoReplicationManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2608" column="15" bodyfile="include/replication/replication_manager.h" bodystart="2608" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a97a7d1fb97ade56a4c648c2e00d85004" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::replication::GeoReplicationManager::staleness_mutex_</definition>
+        <argsstring></argsstring>
+        <name>staleness_mutex_</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::staleness_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2611" column="43" bodyfile="include/replication/replication_manager.h" bodystart="2611" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a4a21c55dc5a5cf2f58b721fa68fe0c80" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1replication_1_1_region_staleness_info" kindref="compound">RegionStalenessInfo</ref> &gt;</type>
+        <definition>std::map&lt;std::string, RegionStalenessInfo&gt; themisdb::replication::GeoReplicationManager::region_staleness_</definition>
+        <argsstring></argsstring>
+        <name>region_staleness_</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::region_staleness_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2612" column="14" bodyfile="include/replication/replication_manager.h" bodystart="2612" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a760a815b78345bcfb60ef0afc81125d1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::GeoReplicationManager::local_sequence_</definition>
+        <argsstring></argsstring>
+        <name>local_sequence_</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::local_sequence_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2615" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2615" bodyend="2615"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1ad2c3ea521b153f1459e3bd037015316e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::GeoReplicationManager::writes_total_</definition>
+        <argsstring></argsstring>
+        <name>writes_total_</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::writes_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2618" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2618" bodyend="2618"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a80ca569ef0684fe6b1c081ff3a6641e6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::GeoReplicationManager::reads_total_</definition>
+        <argsstring></argsstring>
+        <name>reads_total_</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::reads_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2619" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2619" bodyend="2619"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1aeb368416f7e2e4c4d38bb7ebf1e5ca43" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::GeoReplicationManager::reads_rejected_</definition>
+        <argsstring></argsstring>
+        <name>reads_rejected_</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::reads_rejected_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2620" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2620" bodyend="2620"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a03dc9328e5fe3b3281e85713aa493e54" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::GeoReplicationManager::strong_reads_</definition>
+        <argsstring></argsstring>
+        <name>strong_reads_</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::strong_reads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2621" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2621" bodyend="2621"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a2eb7f81b0878adba9fd69eae64612fe5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::GeoReplicationManager::bounded_staleness_reads_</definition>
+        <argsstring></argsstring>
+        <name>bounded_staleness_reads_</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::bounded_staleness_reads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2622" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2622" bodyend="2622"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a73dfbf501955e3681095d5294b28798c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::GeoReplicationManager::session_reads_</definition>
+        <argsstring></argsstring>
+        <name>session_reads_</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::session_reads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2623" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2623" bodyend="2623"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a200632ba66df1f6f295223bc981f8018" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::GeoReplicationManager::eventual_reads_</definition>
+        <argsstring></argsstring>
+        <name>eventual_reads_</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::eventual_reads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2624" column="17" bodyfile="include/replication/replication_manager.h" bodystart="2624" bodyend="2624"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a42dc1289bdeaf1c5629eae2ae325bff4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::GeoReplicationManager::GeoReplicationManager</definition>
+        <argsstring>(const GeoConfig &amp;config)</argsstring>
+        <name>GeoReplicationManager</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::GeoReplicationManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config" kindref="compound">GeoConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2534" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="8195" bodyend="8223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a2ed17e5a085d64a66db7bd6610a5f986" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::GeoReplicationManager::write</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value, ConsistencyLevel consistency=ConsistencyLevel::SESSION)</argsstring>
+        <name>write</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::write</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cad" kindref="member">ConsistencyLevel</ref></type>
+          <declname>consistency</declname>
+          <defval><ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cada8e32a82fa7897baa1c7f2bbf920b0ff1" kindref="member">ConsistencyLevel::SESSION</ref></defval>
+        </param>
+        <briefdescription>
+<para>── Write ───────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Write a key/value pair with the specified consistency level.</para>
+<para>Returns false only when consistency == STRONG and the local replica is not fully caught up (staleness &gt; 0). All other levels always succeed locally. The returned session_token encodes the new sequence number for subsequent SESSION reads.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">consistency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">staleness_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2544" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="8395" bodyend="8434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1ad325e919d149abce03c1b4ec186ea1da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themisdb::replication::GeoReplicationManager::read</definition>
+        <argsstring>(const std::string &amp;key, ConsistencyLevel consistency=ConsistencyLevel::SESSION, const std::string &amp;session_token=&quot;&quot;)</argsstring>
+        <name>read</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::read</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cad" kindref="member">ConsistencyLevel</ref></type>
+          <declname>consistency</declname>
+          <defval><ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cada8e32a82fa7897baa1c7f2bbf920b0ff1" kindref="member">ConsistencyLevel::SESSION</ref></defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_token</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>── Read ────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Read a value with the specified consistency level.</para>
+<para>Automatic routing rules: STRONG – served only if local staleness == 0. BOUNDED_STALENESS – served only if local staleness &lt;= max_staleness_ms. SESSION – served only if local sequence &gt;= token sequence. EVENTUAL – always served.</para>
+<para>Returns std::nullopt when the consistency constraint cannot be satisfied by the local region (caller should retry or relax the level).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">consistency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2562" column="19" bodyfile="src/replication/replication_manager.cpp" bodystart="8444" bodyend="8482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a5751c9767093d8049c4ccc2c4b7e1507" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::GeoReplicationManager::getSessionToken</definition>
+        <argsstring>() const</argsstring>
+        <name>getSessionToken</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::getSessionToken</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a fresh session token embedding the current local sequence. Pass this token to subsequent <ref refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1ad325e919d149abce03c1b4ec186ea1da" kindref="member">read()</ref> calls to obtain read-your-writes (SESSION consistency). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2573" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="8271" bodyend="8274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1acbb0fabeab2222cf94ab0ae1493bc846" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::replication::GeoReplicationManager::getStaleness</definition>
+        <argsstring>(const std::string &amp;region) const</argsstring>
+        <name>getStaleness</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::getStaleness</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the estimated replication lag for a given region. Returns chrono::milliseconds::max() for unknown regions. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">staleness_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2579" column="31" bodyfile="src/replication/replication_manager.cpp" bodystart="8301" bodyend="8315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1ae0a733060cfe586c7f6a4354c44d8bc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::GeoReplicationManager::updateRegionStaleness</definition>
+        <argsstring>(const std::string &amp;region, int64_t staleness_ms, uint64_t last_applied_sequence=0)</argsstring>
+        <name>updateRegionStaleness</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::updateRegionStaleness</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>staleness_ms</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>last_applied_sequence</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>── Staleness management ────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Feed new staleness information from the replication layer. Called on every WAL acknowledgement or heartbeat from a remote region.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">region</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">staleness_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last_applied_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">staleness_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2585" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="8283" bodyend="8299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a936b947b49686af9d184de359b25dcea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::GeoReplicationManager::selectReadRegion</definition>
+        <argsstring>(ConsistencyLevel consistency, const std::string &amp;session_token=&quot;&quot;) const</argsstring>
+        <name>selectReadRegion</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::selectReadRegion</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cad" kindref="member">ConsistencyLevel</ref></type>
+          <declname>consistency</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_token</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select the best read region for the given consistency level and optional session token. Returns an empty string when no eligible region exists. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">staleness_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2593" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="8319" bodyend="8385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a45a7779dfd892fd9e8eed183190859a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::GeoReplicationManager::parseSessionToken</definition>
+        <argsstring>(const std::string &amp;token) const</argsstring>
+        <name>parseSessionToken</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::parseSessionToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate a session token and return the sequence it encodes. Returns 0 for malformed or expired tokens. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2602" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="8237" bodyend="8269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1aa6fe07791b78c3b9e6907a181c62d756" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::GeoReplicationManager::exportPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::exportPrometheusMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Prometheus-format metrics snapshot. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">staleness_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2605" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="8486" bodyend="8545"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replication_manager_1a9c4e1f2c8e41710950b831c17197e5df" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::GeoReplicationManager::generateSessionToken</definition>
+        <argsstring>(uint64_t sequence) const</argsstring>
+        <name>generateSessionToken</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::generateSessionToken</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2626" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="8227" bodyend="8235"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_geo_replication_manager" kindref="compound">GeoReplicationManager</ref></para>
+<para>Provides a simple key/value API for geo-distributed deployments with per-request consistency level control. Applications can choose between four consistency levels depending on their trade-off between correctness and availability:</para>
+<para>STRONG – Linearizable reads; only served from a region with zero replication lag. BOUNDED_STALENESS – Reads permitted when lag &lt;= max_staleness_ms; the freshest eligible region is preferred. SESSION – Read-your-writes within a session token; the local region must have applied at least the sequence embedded in the token. EVENTUAL – Always served from the local region regardless of lag; maximum throughput, no freshness guarantee.</para>
+<para>The manager tracks per-region staleness and selects the appropriate region automatically (automatic routing). In a real deployment, staleness is updated via <ref refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1ae0a733060cfe586c7f6a4354c44d8bc5" kindref="member">updateRegionStaleness()</ref> whenever a WAL acknowledgement or heartbeat arrives from a remote region.</para>
+<para>Thread safety: all public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="2518" column="1" bodyfile="include/replication/replication_manager.h" bodystart="2518" bodyend="2627"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a2eb7f81b0878adba9fd69eae64612fe5" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>bounded_staleness_reads_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1aa211688decae35011b472840d24c21be" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a200632ba66df1f6f295223bc981f8018" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>eventual_reads_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1aa6fe07791b78c3b9e6907a181c62d756" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a9c4e1f2c8e41710950b831c17197e5df" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>generateSessionToken</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a42dc1289bdeaf1c5629eae2ae325bff4" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>GeoReplicationManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a5751c9767093d8049c4ccc2c4b7e1507" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>getSessionToken</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1acbb0fabeab2222cf94ab0ae1493bc846" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>getStaleness</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a760a815b78345bcfb60ef0afc81125d1" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>local_sequence_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a45a7779dfd892fd9e8eed183190859a9" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>parseSessionToken</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1ad325e919d149abce03c1b4ec186ea1da" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>read</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1aeb368416f7e2e4c4d38bb7ebf1e5ca43" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>reads_rejected_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a80ca569ef0684fe6b1c081ff3a6641e6" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>reads_total_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a4a21c55dc5a5cf2f58b721fa68fe0c80" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>region_staleness_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a936b947b49686af9d184de359b25dcea" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>selectReadRegion</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a73dfbf501955e3681095d5294b28798c" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>session_reads_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a97a7d1fb97ade56a4c648c2e00d85004" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>staleness_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a03dc9328e5fe3b3281e85713aa493e54" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>strong_reads_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1ae0a733060cfe586c7f6a4354c44d8bc5" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>updateRegionStaleness</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1a2ed17e5a085d64a66db7bd6610a5f986" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>write</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replication_manager_1ad2c3ea521b153f1459e3bd037015316e" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager</scope><name>writes_total_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

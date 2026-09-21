@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::PostgreSQLCDC::LogicalDecoder</compoundname>
+    <includes refid="postgres__cdc_8h" local="no">postgres_cdc.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a553a150f6441144a78097505102df2ed" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLCDC::LogicalDecoder::connection_string_</definition>
+        <argsstring></argsstring>
+        <name>connection_string_</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::LogicalDecoder::connection_string_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="97" column="21" bodyfile="include/importers/postgres_cdc.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a856c358e14e7282185adb239643a0037" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLCDC::LogicalDecoder::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::LogicalDecoder::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="98" column="14" bodyfile="include/importers/postgres_cdc.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a0e6457a9587d223bcd6ea4ef9d08b693" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::PostgreSQLCDC::LogicalDecoder::last_confirmed_lsn_</definition>
+        <argsstring></argsstring>
+        <name>last_confirmed_lsn_</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::LogicalDecoder::last_confirmed_lsn_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="99" column="18" bodyfile="include/importers/postgres_cdc.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1aa09d2395cbd0107a365bc69d4242d489" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::PostgreSQLCDC::LogicalDecoder::LogicalDecoder</definition>
+        <argsstring>(const std::string &amp;connection_string)</argsstring>
+        <name>LogicalDecoder</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::LogicalDecoder::LogicalDecoder</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connection_string</declname>
+        </param>
+        <briefdescription>
+<para>Logical Decoder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="62" column="18" bodyfile="src/importers/postgres_cdc.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a74537346734eb1e25610d5f6e6519002" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::PostgreSQLCDC::LogicalDecoder::~LogicalDecoder</definition>
+        <argsstring>()</argsstring>
+        <name>~LogicalDecoder</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::LogicalDecoder::~LogicalDecoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="63" column="9" bodyfile="src/importers/postgres_cdc.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a5f21877beab00569c49188257fb3d428" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLCDC::LogicalDecoder::createPublication</definition>
+        <argsstring>(const std::string &amp;publication_name, const std::vector&lt; std::string &gt; &amp;tables={})</argsstring>
+        <name>createPublication</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::LogicalDecoder::createPublication</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>publication_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>tables</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create Publication. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="65" column="14" bodyfile="src/importers/postgres_cdc.cpp" bodystart="39" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a04c2277d4a8a1769ec3c263b418f8260" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLCDC::LogicalDecoder::createReplicationSlot</definition>
+        <argsstring>(const std::string &amp;slot_name, bool temporary=false)</argsstring>
+        <name>createReplicationSlot</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::LogicalDecoder::createReplicationSlot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>temporary</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Create Replication Slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="70" column="14" bodyfile="src/importers/postgres_cdc.cpp" bodystart="58" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1ac45eb67d3c4c5bc7cca92109a5129cff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLCDC::LogicalDecoder::subscribeToChanges</definition>
+        <argsstring>(const std::string &amp;slot_name, const ChangeCallback &amp;on_change)</argsstring>
+        <name>subscribeToChanges</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::LogicalDecoder::subscribeToChanges</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1aa4a1927034fff082368518d0a5016f2a" kindref="member">ChangeCallback</ref> &amp;</type>
+          <declname>on_change</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe To Changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">on_change</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">on_change</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="80" column="14" bodyfile="src/importers/postgres_cdc.cpp" bodystart="72" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1af2348c57c8548a275162d580bbcbcca8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLCDC::LogicalDecoder::confirmLSN</definition>
+        <argsstring>(uint64_t lsn)</argsstring>
+        <name>confirmLSN</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::LogicalDecoder::confirmLSN</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>lsn</declname>
+        </param>
+        <briefdescription>
+<para>Confirm LSN. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements confirmLSN without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="89" column="14" bodyfile="src/importers/postgres_cdc.cpp" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1ae0fb319d31c41664f444533fbbb9e640" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLCDC::LogicalDecoder::cancel</definition>
+        <argsstring>()</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::LogicalDecoder::cancel</qualifiedname>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements cancel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="94" column="14" bodyfile="src/importers/postgres_cdc.cpp" bodystart="105" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/postgres_cdc.h" line="55" column="5" bodyfile="include/importers/postgres_cdc.h" bodystart="55" bodyend="100"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1ae0fb319d31c41664f444533fbbb9e640" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::LogicalDecoder</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a856c358e14e7282185adb239643a0037" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::LogicalDecoder</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1af2348c57c8548a275162d580bbcbcca8" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::LogicalDecoder</scope><name>confirmLSN</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a553a150f6441144a78097505102df2ed" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::LogicalDecoder</scope><name>connection_string_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a5f21877beab00569c49188257fb3d428" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::LogicalDecoder</scope><name>createPublication</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a04c2277d4a8a1769ec3c263b418f8260" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::LogicalDecoder</scope><name>createReplicationSlot</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a0e6457a9587d223bcd6ea4ef9d08b693" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::LogicalDecoder</scope><name>last_confirmed_lsn_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1aa09d2395cbd0107a365bc69d4242d489" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::LogicalDecoder</scope><name>LogicalDecoder</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1ac45eb67d3c4c5bc7cca92109a5129cff" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::LogicalDecoder</scope><name>subscribeToChanges</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_logical_decoder_1a74537346734eb1e25610d5f6e6519002" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::LogicalDecoder</scope><name>~LogicalDecoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

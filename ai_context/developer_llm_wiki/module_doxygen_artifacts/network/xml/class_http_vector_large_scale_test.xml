@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_vector_large_scale_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpVectorLargeScaleTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_vector_large_scale_test_1ad1cd5580cd84a541c0d0bd44162075e6" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpVectorLargeScaleTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpVectorLargeScaleTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="114" column="21" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_large_scale_test_1a1ac1034b2508fd83d8f901961dce406b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpVectorLargeScaleTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpVectorLargeScaleTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="115" column="21" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_large_scale_test_1a976f7cd7ae45d173837d699d8c608bfe" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpVectorLargeScaleTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpVectorLargeScaleTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="116" column="21" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_large_scale_test_1aa1a4a8d2d6772d3e9aa99dfefe7a3015" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpVectorLargeScaleTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpVectorLargeScaleTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="117" column="21" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_large_scale_test_1a5e6a1f5abaa41ab51ff6cdcf95ff6ce1" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpVectorLargeScaleTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpVectorLargeScaleTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="118" column="21" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_large_scale_test_1a7cbc568487807a36caa827749b3287b6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpVectorLargeScaleTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpVectorLargeScaleTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="119" column="21" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_vector_large_scale_test_1a2b1c26b96ba27f530f62b41bd0da50e8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpVectorLargeScaleTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpVectorLargeScaleTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="25" column="10" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="25" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_vector_large_scale_test_1a15076c2580eeba552615e484504b6644" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpVectorLargeScaleTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpVectorLargeScaleTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="57" column="10" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="57" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_vector_large_scale_test_1a06fa1d59db7c72cac0d790fe8270c8e6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpVectorLargeScaleTest::httpPost</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>HttpVectorLargeScaleTest::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="65" column="10" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="65" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_vector_large_scale_test_1af3f1a8e4bd60b6fec6d34f9e850d2a2e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpVectorLargeScaleTest::httpGet</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>HttpVectorLargeScaleTest::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector_largescale.cpp" line="91" column="10" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="91" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpVectorLargeScaleTest</label>
+        <link refid="class_http_vector_large_scale_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpVectorLargeScaleTest</label>
+        <link refid="class_http_vector_large_scale_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_vector_largescale.cpp" line="23" column="1" bodyfile="tests/network/test_http_vector_largescale.cpp" bodystart="23" bodyend="120"/>
+    <listofallmembers>
+      <member refid="class_http_vector_large_scale_test_1a976f7cd7ae45d173837d699d8c608bfe" prot="protected" virt="non-virtual"><scope>HttpVectorLargeScaleTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_vector_large_scale_test_1af3f1a8e4bd60b6fec6d34f9e850d2a2e" prot="protected" virt="non-virtual"><scope>HttpVectorLargeScaleTest</scope><name>httpGet</name></member>
+      <member refid="class_http_vector_large_scale_test_1a06fa1d59db7c72cac0d790fe8270c8e6" prot="protected" virt="non-virtual"><scope>HttpVectorLargeScaleTest</scope><name>httpPost</name></member>
+      <member refid="class_http_vector_large_scale_test_1a1ac1034b2508fd83d8f901961dce406b" prot="protected" virt="non-virtual"><scope>HttpVectorLargeScaleTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_vector_large_scale_test_1a7cbc568487807a36caa827749b3287b6" prot="protected" virt="non-virtual"><scope>HttpVectorLargeScaleTest</scope><name>server_</name></member>
+      <member refid="class_http_vector_large_scale_test_1a2b1c26b96ba27f530f62b41bd0da50e8" prot="protected" virt="non-virtual"><scope>HttpVectorLargeScaleTest</scope><name>SetUp</name></member>
+      <member refid="class_http_vector_large_scale_test_1ad1cd5580cd84a541c0d0bd44162075e6" prot="protected" virt="non-virtual"><scope>HttpVectorLargeScaleTest</scope><name>storage_</name></member>
+      <member refid="class_http_vector_large_scale_test_1a15076c2580eeba552615e484504b6644" prot="protected" virt="non-virtual"><scope>HttpVectorLargeScaleTest</scope><name>TearDown</name></member>
+      <member refid="class_http_vector_large_scale_test_1a5e6a1f5abaa41ab51ff6cdcf95ff6ce1" prot="protected" virt="non-virtual"><scope>HttpVectorLargeScaleTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_vector_large_scale_test_1aa1a4a8d2d6772d3e9aa99dfefe7a3015" prot="protected" virt="non-virtual"><scope>HttpVectorLargeScaleTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

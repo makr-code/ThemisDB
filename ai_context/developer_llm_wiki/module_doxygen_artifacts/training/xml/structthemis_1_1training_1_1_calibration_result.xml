@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_calibration_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CalibrationResult</compoundname>
+    <includes refid="training__pipeline_8h" local="no">training_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibration_result_1a58437ee9b12eb26cbdb82173eb257111" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_calibrated_threshold" kindref="compound">CalibratedThreshold</ref> &gt;</type>
+        <definition>std::vector&lt;CalibratedThreshold&gt; themis::training::CalibrationResult::thresholds</definition>
+        <argsstring></argsstring>
+        <name>thresholds</name>
+        <qualifiedname>themis::training::CalibrationResult::thresholds</qualifiedname>
+        <briefdescription>
+<para>Per-category calibrated thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="118" column="17" bodyfile="include/training/training_pipeline.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibration_result_1a4572a60d7fae519e66b62b5b89caff33" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::CalibrationResult::elapsed_seconds</definition>
+        <argsstring></argsstring>
+        <name>elapsed_seconds</name>
+        <qualifiedname>themis::training::CalibrationResult::elapsed_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Calibration wall-clock time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="119" column="12" bodyfile="include/training/training_pipeline.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibration_result_1ad57c74d4b0ff81bbb3695b6f696c21b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::CalibrationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::CalibrationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="120" column="12" bodyfile="include/training/training_pipeline.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibration_result_1abd07ecff221de4c8202b39bf4c9bdbfa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CalibrationResult::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::training::CalibrationResult::summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="121" column="17" bodyfile="include/training/training_pipeline.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_calibration_result_1a93863dcc705737579853465f31766856" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::CalibrationResult::CalibrationResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>CalibrationResult</name>
+        <qualifiedname>themis::training::CalibrationResult::CalibrationResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="123" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a confidence calibration run. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_pipeline.h" line="117" column="1" bodyfile="include/training/training_pipeline.h" bodystart="117" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_calibration_result_1a93863dcc705737579853465f31766856" prot="public" virt="non-virtual"><scope>themis::training::CalibrationResult</scope><name>CalibrationResult</name></member>
+      <member refid="structthemis_1_1training_1_1_calibration_result_1a4572a60d7fae519e66b62b5b89caff33" prot="public" virt="non-virtual"><scope>themis::training::CalibrationResult</scope><name>elapsed_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_calibration_result_1ad57c74d4b0ff81bbb3695b6f696c21b1" prot="public" virt="non-virtual"><scope>themis::training::CalibrationResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1training_1_1_calibration_result_1abd07ecff221de4c8202b39bf4c9bdbfa" prot="public" virt="non-virtual"><scope>themis::training::CalibrationResult</scope><name>summary</name></member>
+      <member refid="structthemis_1_1training_1_1_calibration_result_1a58437ee9b12eb26cbdb82173eb257111" prot="public" virt="non-virtual"><scope>themis::training::CalibrationResult</scope><name>thresholds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

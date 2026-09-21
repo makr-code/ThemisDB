@@ -1,0 +1,736 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_vectorized_execution_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::VectorizedExecutionEngine</compoundname>
+    <includes refid="vectorized__execution_8h" local="no">vectorized_execution.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config" prot="public">themis::query::VectorizedExecutionEngine::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats" prot="public">themis::query::VectorizedExecutionEngine::ExecStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_vectorized_execution_engine_1afda823ce1b9b02c221456e47e17dd31a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::query::VectorizedExecutionEngine::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="302" column="15" bodyfile="include/query/vectorized_execution.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_vectorized_execution_engine_1abc4a85311eed1f253d78245ea0e2e672" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats" kindref="compound">ExecStats</ref></type>
+        <definition>ExecStats themis::query::VectorizedExecutionEngine::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="303" column="15" bodyfile="include/query/vectorized_execution.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1ab61e05330d250b24295ae8a429b07b44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::VectorizedExecutionEngine::VectorizedExecutionEngine</definition>
+        <argsstring>()</argsstring>
+        <name>VectorizedExecutionEngine</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::VectorizedExecutionEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="226" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1a8e55246066c057f60481351d8fcbfdf8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::VectorizedExecutionEngine::VectorizedExecutionEngine</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>VectorizedExecutionEngine</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::VectorizedExecutionEngine</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Vectorized Execution Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="232" column="14" bodyfile="src/query/vectorized_execution.cpp" bodystart="213" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1ab634cf34a930ec6d02ae9ca405dcdb12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::VectorizedExecutionEngine::~VectorizedExecutionEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VectorizedExecutionEngine</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::~VectorizedExecutionEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="233" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1a9a41262aaf15340597d51771fa15a682" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; nlohmann::json &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; nlohmann::json &gt; &gt; themis::query::VectorizedExecutionEngine::execute</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;rows, const VectorizedQueryPlan &amp;plan)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::execute</qualifiedname>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_vectorized_query_plan" kindref="compound">VectorizedQueryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::chrono::steady_clock::now(), buildPipeline(), analytics_engine(), size(), reserve(), std::min(), jsonToColumnBatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="241" column="12" bodyfile="src/query/vectorized_execution.cpp" bodystart="228" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1a86c7b9134c5fe87e86acf2bcbe47196d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; nlohmann::json &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; nlohmann::json &gt; &gt; themis::query::VectorizedExecutionEngine::filter</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;rows, std::vector&lt; VectorizedPredicate &gt; predicates)</argsstring>
+        <name>filter</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::filter</qualifiedname>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref> &gt;</type>
+          <declname>predicates</declname>
+        </param>
+        <briefdescription>
+<para>Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: addFilter(), std::move(), <ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a9a41262aaf15340597d51771fa15a682" kindref="member">execute()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="251" column="12" bodyfile="src/query/vectorized_execution.cpp" bodystart="301" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1a9699c8710a9f399c38fc089c4b172b0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; nlohmann::json &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; nlohmann::json &gt; &gt; themis::query::VectorizedExecutionEngine::aggregate</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;rows, std::vector&lt; VectorizedAggregation &gt; aggregations)</argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::aggregate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_vectorized_aggregation" kindref="compound">VectorizedAggregation</ref> &gt;</type>
+          <declname>aggregations</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">aggregations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">aggregations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: addAggregate(), std::move(), <ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a9a41262aaf15340597d51771fa15a682" kindref="member">execute()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="261" column="12" bodyfile="src/query/vectorized_execution.cpp" bodystart="317" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1a2c1a93f3fe5cfad42893394f865fc189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; nlohmann::json &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; nlohmann::json &gt; &gt; themis::query::VectorizedExecutionEngine::project</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;rows, std::vector&lt; std::string &gt; fields)</argsstring>
+        <name>project</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::project</qualifiedname>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+<para>Project. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: addProject(), std::move(), <ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a9a41262aaf15340597d51771fa15a682" kindref="member">execute()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="271" column="12" bodyfile="src/query/vectorized_execution.cpp" bodystart="333" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1a053cfe11179655cd1d6b8ede3c652b3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; nlohmann::json &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; nlohmann::json &gt; &gt; themis::query::VectorizedExecutionEngine::sort</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;rows, std::vector&lt; VectorizedSortKey &gt; keys)</argsstring>
+        <name>sort</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::sort</qualifiedname>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_vectorized_sort_key" kindref="compound">VectorizedSortKey</ref> &gt;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Sort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: addSort(), std::move(), <ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a9a41262aaf15340597d51771fa15a682" kindref="member">execute()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="281" column="12" bodyfile="src/query/vectorized_execution.cpp" bodystart="349" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1a4b132fdbe453e0585d4d20fd99c816a4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats" kindref="compound">ExecStats</ref> &amp;</type>
+        <definition>const ExecStats &amp; themis::query::VectorizedExecutionEngine::lastStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastStats</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::lastStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="292" column="21" bodyfile="include/query/vectorized_execution.h" bodystart="292" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1a7760c0b927558a7446a7db481496dfee" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::VectorizedExecutionEngine::resetStats</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="297" column="22" bodyfile="src/query/vectorized_execution.cpp" bodystart="216" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1aada0927e703db6489b8a4fbb370466ba" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::query::VectorizedExecutionEngine::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="299" column="18" bodyfile="include/query/vectorized_execution.h" bodystart="299" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1a3fa6abb3c190ce3939ab0189f50c2ea2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themisdb::analytics::ColumnBatch</type>
+        <definition>ColumnBatch themis::query::VectorizedExecutionEngine::jsonToColumnBatch</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;rows, size_t offset, size_t count)</argsstring>
+        <name>jsonToColumnBatch</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::jsonToColumnBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>── JSON ↔ ColumnBatch conversion ────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Json To Column Batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), items(), emplace(), size(), push_back(), col_types(), contains(), is_null(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="313" column="45" bodyfile="src/query/vectorized_execution.cpp" bodystart="367" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1a8f22b5f03fae1cba843317d6a7bfd065" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt; nlohmann::json &gt; themis::query::VectorizedExecutionEngine::columnBatchToJson</definition>
+        <argsstring>(const themisdb::analytics::ColumnBatch &amp;batch)</argsstring>
+        <name>columnBatchToJson</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::columnBatchToJson</qualifiedname>
+        <param>
+          <type>const themisdb::analytics::ColumnBatch &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Column Batch To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hasSelection(), materialize(), rowCount(), columnCount(), reserve(), nlohmann::json::object(), getColumnAt(), name(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="323" column="24" bodyfile="src/query/vectorized_execution.cpp" bodystart="486" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1aa689baa7fc4ec8cd82f7d453fb78d702" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themisdb::analytics::VectorizedPipeline</type>
+        <definition>VectorizedPipeline themis::query::VectorizedExecutionEngine::buildPipeline</definition>
+        <argsstring>(const VectorizedQueryPlan &amp;plan)</argsstring>
+        <name>buildPipeline</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::buildPipeline</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_vectorized_query_plan" kindref="compound">VectorizedQueryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>── Plan translation ─────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Pipeline.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: stages(), reserve(), size(), push_back(), translatePredicate(), addFilter(), std::move(), addProject(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="332" column="52" bodyfile="src/query/vectorized_execution.cpp" bodystart="586" bodyend="650"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1a8caa5667836cb5e3fa55134b49bea091" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themisdb::analytics::Predicate</type>
+        <definition>Predicate themis::query::VectorizedExecutionEngine::translatePredicate</definition>
+        <argsstring>(const VectorizedPredicate &amp;pred)</argsstring>
+        <name>translatePredicate</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::translatePredicate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref> &amp;</type>
+          <declname>pred</declname>
+          <defname>vp</defname>
+        </param>
+        <briefdescription>
+<para>Translate Predicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Predicate::eq(), jsonToColumnValue(), Predicate::ne(), Predicate::lt(), Predicate::le(), Predicate::gt(), Predicate::ge(), Predicate::isNull(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="340" column="43" bodyfile="src/query/vectorized_execution.cpp" bodystart="564" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_vectorized_execution_engine_1ab55e945af111f3469ca33f25abed5b7e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themisdb::analytics::ColumnValue</type>
+        <definition>ColumnValue themis::query::VectorizedExecutionEngine::jsonToColumnValue</definition>
+        <argsstring>(const nlohmann::json &amp;val)</argsstring>
+        <name>jsonToColumnValue</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::jsonToColumnValue</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Json To Column Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_null(), is_boolean(), is_number_integer(), is_number_float(), is_string(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="348" column="45" bodyfile="src/query/vectorized_execution.cpp" bodystart="537" bodyend="556"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/vectorized_execution.h" line="218" column="1" bodyfile="include/query/vectorized_execution.h" bodystart="218" bodyend="350"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a9699c8710a9f399c38fc089c4b172b0f" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>aggregate</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1aa689baa7fc4ec8cd82f7d453fb78d702" prot="private" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>buildPipeline</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a8f22b5f03fae1cba843317d6a7bfd065" prot="private" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>columnBatchToJson</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1aada0927e703db6489b8a4fbb370466ba" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>config</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1afda823ce1b9b02c221456e47e17dd31a" prot="private" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>config_</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a9a41262aaf15340597d51771fa15a682" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a86c7b9134c5fe87e86acf2bcbe47196d" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>filter</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a3fa6abb3c190ce3939ab0189f50c2ea2" prot="private" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>jsonToColumnBatch</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1ab55e945af111f3469ca33f25abed5b7e" prot="private" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>jsonToColumnValue</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a4b132fdbe453e0585d4d20fd99c816a4" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>lastStats</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a2c1a93f3fe5cfad42893394f865fc189" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>project</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a7760c0b927558a7446a7db481496dfee" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a053cfe11179655cd1d6b8ede3c652b3b" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>sort</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1abc4a85311eed1f253d78245ea0e2e672" prot="private" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a8caa5667836cb5e3fa55134b49bea091" prot="private" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>translatePredicate</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1ab61e05330d250b24295ae8a429b07b44" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>VectorizedExecutionEngine</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a8e55246066c057f60481351d8fcbfdf8" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>VectorizedExecutionEngine</name></member>
+      <member refid="classthemis_1_1query_1_1_vectorized_execution_engine_1ab634cf34a930ec6d02ae9ca405dcdb12" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine</scope><name>~VectorizedExecutionEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

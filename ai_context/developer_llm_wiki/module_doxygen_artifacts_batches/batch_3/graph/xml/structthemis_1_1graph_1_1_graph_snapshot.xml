@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphSnapshot</compoundname>
+    <includes refid="graph__watermark_8h" local="no">graph_watermark.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_snapshot_1a2e3ece057d33a374256eddf267d94209" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GraphSnapshot::node_ids</definition>
+        <argsstring></argsstring>
+        <name>node_ids</name>
+        <qualifiedname>themis::graph::GraphSnapshot::node_ids</qualifiedname>
+        <briefdescription>
+<para>All node IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="24" column="37" bodyfile="include/graph/graph_watermark.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_snapshot_1ae896f69d9f26c461fe390fb69e061b4c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string,std::string&gt; &gt; themis::graph::GraphSnapshot::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::graph::GraphSnapshot::edges</qualifiedname>
+        <briefdescription>
+<para>(from, to) pairs </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="25" column="17" bodyfile="include/graph/graph_watermark.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_snapshot_1ad42ff2ffc8557197bd59848a1ef17520" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string,std::string&gt; themis::graph::GraphSnapshot::node_metadata</definition>
+        <argsstring></argsstring>
+        <name>node_metadata</name>
+        <qualifiedname>themis::graph::GraphSnapshot::node_metadata</qualifiedname>
+        <briefdescription>
+<para>Per-node metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="26" column="25" bodyfile="include/graph/graph_watermark.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_watermark.h" line="23" column="1" bodyfile="include/graph/graph_watermark.h" bodystart="23" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_snapshot_1ae896f69d9f26c461fe390fb69e061b4c" prot="public" virt="non-virtual"><scope>themis::graph::GraphSnapshot</scope><name>edges</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_snapshot_1a2e3ece057d33a374256eddf267d94209" prot="public" virt="non-virtual"><scope>themis::graph::GraphSnapshot</scope><name>node_ids</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_snapshot_1ad42ff2ffc8557197bd59848a1ef17520" prot="public" virt="non-virtual"><scope>themis::graph::GraphSnapshot</scope><name>node_metadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

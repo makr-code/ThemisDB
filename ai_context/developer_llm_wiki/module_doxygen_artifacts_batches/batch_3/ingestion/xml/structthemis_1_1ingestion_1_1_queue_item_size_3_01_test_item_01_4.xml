@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_queue_item_size_3_01_test_item_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::QueueItemSize&lt; TestItem &gt;</compoundname>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_queue_item_size_3_01_test_item_01_4_1adc202a21d80344112fa5a3b6b11599ae" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::ingestion::QueueItemSize&lt; TestItem &gt;::getSize</definition>
+        <argsstring>(const TestItem &amp;item)</argsstring>
+        <name>getSize</name>
+        <qualifiedname>themis::ingestion::QueueItemSize&lt; TestItem &gt;::getSize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_test_item" kindref="compound">TestItem</ref> &amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" line="64" column="24" bodyfile="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" bodystart="64" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" line="63" column="1" bodyfile="tests/ingestion/test_ingestion_queue_saturation_stress.cpp" bodystart="63" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_queue_item_size_3_01_test_item_01_4_1adc202a21d80344112fa5a3b6b11599ae" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueItemSize&lt; TestItem &gt;</scope><name>getSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::CascadeRoutingDecision</compoundname>
+    <includes refid="llm__cascade__router_8h" local="no">llm_cascade_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1a949873b45733fbf5ef1d7089aca43229" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::CascadeRoutingDecision::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::plugins::ethics::CascadeRoutingDecision::model_id</qualifiedname>
+        <briefdescription>
+<para>Model alias (e.g. &quot;llama-3-8b-instruct&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="67" column="23" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1a4b02dd1f813897cba1c71cdfbc48d068" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18" kindref="member">CascadeModelTier</ref></type>
+        <definition>CascadeModelTier themis::plugins::ethics::CascadeRoutingDecision::tier</definition>
+        <argsstring></argsstring>
+        <name>tier</name>
+        <qualifiedname>themis::plugins::ethics::CascadeRoutingDecision::tier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="68" column="23" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1ae00922be856773a3ceca77d3f8b44f9c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_model_token_budget" kindref="compound">ModelTokenBudget</ref></type>
+        <definition>ModelTokenBudget themis::plugins::ethics::CascadeRoutingDecision::budget</definition>
+        <argsstring></argsstring>
+        <name>budget</name>
+        <qualifiedname>themis::plugins::ethics::CascadeRoutingDecision::budget</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="69" column="23" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1a4e03eb0be67830b9aa7d9fc89a64b6aa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::CascadeRoutingDecision::was_escalated</definition>
+        <argsstring></argsstring>
+        <name>was_escalated</name>
+        <qualifiedname>themis::plugins::ethics::CascadeRoutingDecision::was_escalated</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true if fallback escalation occurred </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/llm_cascade_router.h" line="70" column="23" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::ethics::CascadeRoutingDecision</label>
+        <link refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>budget</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::ethics::ModelTokenBudget</label>
+        <link refid="structthemis_1_1plugins_1_1ethics_1_1_model_token_budget"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ethics_ai/llm_cascade_router.h" line="66" column="1" bodyfile="include/ethics_ai/llm_cascade_router.h" bodystart="66" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1ae00922be856773a3ceca77d3f8b44f9c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CascadeRoutingDecision</scope><name>budget</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1a949873b45733fbf5ef1d7089aca43229" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CascadeRoutingDecision</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1a4b02dd1f813897cba1c71cdfbc48d068" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CascadeRoutingDecision</scope><name>tier</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1a4e03eb0be67830b9aa7d9fc89a64b6aa" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CascadeRoutingDecision</scope><name>was_escalated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

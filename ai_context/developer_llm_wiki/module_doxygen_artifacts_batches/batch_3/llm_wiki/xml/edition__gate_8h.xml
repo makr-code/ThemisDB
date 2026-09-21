@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="edition__gate_8h" kind="file" language="C++">
+    <compoundname>edition_gate.h</compoundname>
+    <includes refid="llm__wiki__plugin__interface_8h" local="yes">llm_wiki/llm_wiki_plugin_interface.h</includes>
+    <includedby refid="edition__gate_8cpp" local="yes">src/llm_wiki/edition_gate.cpp</includedby>
+    <includedby refid="test__llm__wiki__llm__integration__focused_8cpp" local="yes">tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>llm_wiki/llm_wiki_plugin_interface.h</label>
+        <link refid="llm__wiki__plugin__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>llm_wiki/llm_wiki_status.h</label>
+        <link refid="llm__wiki__status_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/llm_wiki/edition_gate.h</label>
+        <link refid="edition__gate_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>llm/wiki_index_store.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>src/llm_wiki/edition_gate.cpp</label>
+        <link refid="edition__gate_8cpp"/>
+      </node>
+      <node id="1">
+        <label>src/llm_wiki/edition_gate.h</label>
+        <link refid="edition__gate_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp</label>
+        <link refid="test__llm__wiki__llm__integration__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm__wiki">themis::llm_wiki</innernamespace>
+    <briefdescription>
+<para>Edition-aware access control for LLM Wiki plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enforces that the LLM Wiki plugin and certain features are only available in enterprise, hyperscaler, and military editions. Community and minimal builds return <computeroutput>PermissionDenied</computeroutput> for plugin operations.</para>
+<sect1 id="edition__gate_8h_1autotoc_md6_1s1"><sect2 id="edition__gate_8h_1autotoc_md6">
+<title>Compile-time gating</title><para>Define <computeroutput>THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED</computeroutput> when building enterprise+ editions:</para>
+<para><programlisting><codeline><highlight class="normal">cmake<sp/>-DTHEMISDB_LLM_WIKI_ENTERPRISE_ENABLED=ON<sp/>&lt;build_dir&gt;</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="edition__gate_8h_1autotoc_md7_1s1"><sect2 id="edition__gate_8h_1autotoc_md7">
+<title>Feature-level gating</title><para>Sub-features like <computeroutput>"llm_wiki_wikipedia"</computeroutput> (Wikipedia dump ingestion) require explicit license keys in addition to edition checks.</para>
+</sect2></sect1>
+<sect1 id="edition__gate_8h_1autotoc_md8_1s1"><sect2 id="edition__gate_8h_1autotoc_md8">
+<title>Runtime behavior</title><para><itemizedlist>
+<listitem><para>Community/minimal: All plugin calls return <computeroutput>Status::PermissionDenied()</computeroutput></para>
+</listitem><listitem><para>Enterprise/hyperscaler/military: Full plugin functionality</para>
+</listitem><listitem><para>Wikipedia sub-feature: Additional license key check</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="version"><para>1.0.0 (Phase 3 hardening) </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__wiki__plugin__interface_8h" kindref="compound">llm_wiki/llm_wiki_plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm__wiki" kindref="compound">llm_wiki</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1llm__wiki_1a3125d162c4ec0a67de0f1889b3aa2576" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm__wiki_1a3125d162c4ec0a67de0f1889b3aa2576" kindref="member">PluginStatus</ref><sp/>=<sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kindref="compound">themis::plugins::llm_wiki::Status</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edition<sp/>enumeration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64d" kindref="member">Edition</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da7d61983c34edc2a8cabbea71c4732f62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da7d61983c34edc2a8cabbea71c4732f62" kindref="member">Community</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da30fc6bbba82125243ecf4ddb27fee645" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da30fc6bbba82125243ecf4ddb27fee645" kindref="member">Minimal</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64daa0f27638260642afb474516cc918407e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64daa0f27638260642afb474516cc918407e" kindref="member">Enterprise</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64dac1b47471a575ac0bf20392ca17ecd880" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64dac1b47471a575ac0bf20392ca17ecd880" kindref="member">Hyperscaler</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da7d2957dfd3b888fc4087f60c3c650953" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da7d2957dfd3b888fc4087f60c3c650953" kindref="member">Military</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edition<sp/>detection<sp/>and<sp/>gating</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">[[nodiscard]]<sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64d" kindref="member">Edition</ref><sp/><ref refid="namespacethemis_1_1llm__wiki_1a84b93b352b5764a01ad2a1d37b5e5b83" kindref="member">getCurrentEdition</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm__wiki_1a1d17818ab76f202de7ad5a7378fe0673" kindref="member">isLLMWikiEnabled</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm__wiki_1a126ba246a3641f59aa5b75679239598e" kindref="member">isLLMWikiFeatureEnabled</ref>(const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>feature_name)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">[[nodiscard]]<sp/><ref refid="namespacethemis_1_1llm__wiki_1a3125d162c4ec0a67de0f1889b3aa2576" kindref="member">PluginStatus</ref><sp/><ref refid="namespacethemis_1_1llm__wiki_1aaddee830161f5670ca4230f9f9e83cf9" kindref="member">enforcePluginGate</ref>(const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>operation_name)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">[[nodiscard]]<sp/><ref refid="namespacethemis_1_1llm__wiki_1a3125d162c4ec0a67de0f1889b3aa2576" kindref="member">PluginStatus</ref><sp/><ref refid="namespacethemis_1_1llm__wiki_1a7a236b00e5231cb39111ee7d71bd12e7" kindref="member">enforceFeatureGate</ref>(const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>feature_name)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inline<sp/>implementation<sp/>for<sp/>compile-time<sp/>gating</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm__wiki_1a55f56e5bf2ad4e95c85e1c896839860b" kindref="member">kLLMWikiCompileTimeEnabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="namespacethemis_1_1llm__wiki_1a55f56e5bf2ad4e95c85e1c896839860b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm__wiki_1a55f56e5bf2ad4e95c85e1c896839860b" kindref="member">kLLMWikiCompileTimeEnabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm__wiki_1a4caa2dcae58c1590947e13082b1f0070" kindref="member">kLLMWikiWikipediaCompileTimeEnabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="namespacethemis_1_1llm__wiki_1a4caa2dcae58c1590947e13082b1f0070" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm__wiki_1a4caa2dcae58c1590947e13082b1f0070" kindref="member">kLLMWikiWikipediaCompileTimeEnabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm_wiki</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/llm_wiki/edition_gate.h"/>
+  </compounddef>
+</doxygen>

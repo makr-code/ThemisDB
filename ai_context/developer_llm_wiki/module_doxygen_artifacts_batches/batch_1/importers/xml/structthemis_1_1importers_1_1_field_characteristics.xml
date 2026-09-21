@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_field_characteristics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::FieldCharacteristics</compoundname>
+    <includes refid="entity__matcher_8h" local="no">entity_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_field_characteristics_1a96e38ed07cc6e9df71c453d18a3197fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::FieldCharacteristics::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::importers::FieldCharacteristics::name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="275" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="275" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_field_characteristics_1a259ba6487ba354f33627841cedf8a224" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::FieldCharacteristics::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::importers::FieldCharacteristics::type</qualifiedname>
+        <briefdescription>
+<para>&quot;email&quot;, &quot;phone&quot;, &quot;name&quot;, &quot;numeric&quot;, &quot;text&quot;, &quot;id&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="276" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_field_characteristics_1ac3aee51e188455b9888ded8fe92b2277" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::FieldCharacteristics::uniqueness_ratio</definition>
+        <argsstring></argsstring>
+        <name>uniqueness_ratio</name>
+        <qualifiedname>themis::importers::FieldCharacteristics::uniqueness_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0.0–1.0: fraction of distinct values in collection </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="277" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_field_characteristics_1abd92729ed7a662121d0d16cf95b40fb4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::FieldCharacteristics::is_primary_key</definition>
+        <argsstring></argsstring>
+        <name>is_primary_key</name>
+        <qualifiedname>themis::importers::FieldCharacteristics::is_primary_key</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="278" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_field_characteristics_1a9b13ef4e139f7bba672cde746842bf99" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::FieldCharacteristics::is_unique</definition>
+        <argsstring></argsstring>
+        <name>is_unique</name>
+        <qualifiedname>themis::importers::FieldCharacteristics::is_unique</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="279" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/entity_matcher.h" line="274" column="1" bodyfile="include/importers/entity_matcher.h" bodystart="274" bodyend="280"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_field_characteristics_1abd92729ed7a662121d0d16cf95b40fb4" prot="public" virt="non-virtual"><scope>themis::importers::FieldCharacteristics</scope><name>is_primary_key</name></member>
+      <member refid="structthemis_1_1importers_1_1_field_characteristics_1a9b13ef4e139f7bba672cde746842bf99" prot="public" virt="non-virtual"><scope>themis::importers::FieldCharacteristics</scope><name>is_unique</name></member>
+      <member refid="structthemis_1_1importers_1_1_field_characteristics_1a96e38ed07cc6e9df71c453d18a3197fb" prot="public" virt="non-virtual"><scope>themis::importers::FieldCharacteristics</scope><name>name</name></member>
+      <member refid="structthemis_1_1importers_1_1_field_characteristics_1a259ba6487ba354f33627841cedf8a224" prot="public" virt="non-virtual"><scope>themis::importers::FieldCharacteristics</scope><name>type</name></member>
+      <member refid="structthemis_1_1importers_1_1_field_characteristics_1ac3aee51e188455b9888ded8fe92b2277" prot="public" virt="non-virtual"><scope>themis::importers::FieldCharacteristics</scope><name>uniqueness_ratio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

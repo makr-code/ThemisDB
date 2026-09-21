@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAEnhancedModel::Config</compoundname>
+    <includes refid="base__model__adapter_8h" local="no">base_model_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config_1a6fe432e6a5734498eeb0bdf6992d02aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAEnhancedModel::Config::base_model_path</definition>
+        <argsstring></argsstring>
+        <name>base_model_path</name>
+        <qualifiedname>themis::llm::lora::LoRAEnhancedModel::Config::base_model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="210" column="21" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config_1a33ef205a1d97ca044a46785ffac8a88e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref></type>
+        <definition>LoRAHyperparameters themis::llm::lora::LoRAEnhancedModel::Config::lora_config</definition>
+        <argsstring></argsstring>
+        <name>lora_config</name>
+        <qualifiedname>themis::llm::lora::LoRAEnhancedModel::Config::lora_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="211" column="29" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config_1a9edb89922bafa37322c73afd34d3f07a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::LoRAEnhancedModel::Config::target_modules</definition>
+        <argsstring></argsstring>
+        <name>target_modules</name>
+        <qualifiedname>themis::llm::lora::LoRAEnhancedModel::Config::target_modules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="212" column="21" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config_1a9cf8e2f2c8fa9951a4dd36bec13a661b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAEnhancedModel::Config::freeze_base_model</definition>
+        <argsstring></argsstring>
+        <name>freeze_base_model</name>
+        <qualifiedname>themis::llm::lora::LoRAEnhancedModel::Config::freeze_base_model</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="213" column="14" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config_1afe1e5c1853d7dd8a07b0e57ae5862cf8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAEnhancedModel::Config::use_gradient_checkpointing</definition>
+        <argsstring></argsstring>
+        <name>use_gradient_checkpointing</name>
+        <qualifiedname>themis::llm::lora::LoRAEnhancedModel::Config::use_gradient_checkpointing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="214" column="14" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::lora::LoRAEnhancedModel::Config</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lora_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::LoRAHyperparameters</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/base_model_adapter.h" line="209" column="5" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="209" bodyend="215"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config_1a6fe432e6a5734498eeb0bdf6992d02aa" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAEnhancedModel::Config</scope><name>base_model_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config_1a9cf8e2f2c8fa9951a4dd36bec13a661b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAEnhancedModel::Config</scope><name>freeze_base_model</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config_1a33ef205a1d97ca044a46785ffac8a88e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAEnhancedModel::Config</scope><name>lora_config</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config_1a9edb89922bafa37322c73afd34d3f07a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAEnhancedModel::Config</scope><name>target_modules</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_enhanced_model_1_1_config_1afe1e5c1853d7dd8a07b0e57ae5862cf8" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAEnhancedModel::Config</scope><name>use_gradient_checkpointing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

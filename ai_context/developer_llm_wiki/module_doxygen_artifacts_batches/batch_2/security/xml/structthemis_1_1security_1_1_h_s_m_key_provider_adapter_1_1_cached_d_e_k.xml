@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_cached_d_e_k" kind="struct" language="C++" prot="private">
+    <compoundname>themis::security::HSMKeyProviderAdapter::CachedDEK</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_cached_d_e_k_1a042aaf5bf8e082f22ae96e40609c9498" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::HSMKeyProviderAdapter::CachedDEK::dek</definition>
+        <argsstring></argsstring>
+        <name>dek</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::CachedDEK::dek</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="270" column="21" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_cached_d_e_k_1a16d23143f33a35c8c7281f6b4108aebf" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::HSMKeyProviderAdapter::CachedDEK::expires_at_ms</definition>
+        <argsstring></argsstring>
+        <name>expires_at_ms</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::CachedDEK::expires_at_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="271" column="17" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_cached_d_e_k_1a956d09f11cb91a4d0d847ddcd1d625b2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::HSMKeyProviderAdapter::CachedDEK::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::CachedDEK::access_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="272" column="18" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_cached_d_e_k_1a68464281f8b0a0871fbdc45de96a96df" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::HSMKeyProviderAdapter::CachedDEK::isExpired</definition>
+        <argsstring>() const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::security::HSMKeyProviderAdapter::CachedDEK::isExpired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_key_provider_adapter.h" line="274" column="14" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="274" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/hsm_key_provider_adapter.h" line="269" column="5" bodyfile="include/security/hsm_key_provider_adapter.h" bodystart="269" bodyend="280"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_cached_d_e_k_1a956d09f11cb91a4d0d847ddcd1d625b2" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter::CachedDEK</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_cached_d_e_k_1a042aaf5bf8e082f22ae96e40609c9498" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter::CachedDEK</scope><name>dek</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_cached_d_e_k_1a16d23143f33a35c8c7281f6b4108aebf" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter::CachedDEK</scope><name>expires_at_ms</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_provider_adapter_1_1_cached_d_e_k_1a68464281f8b0a0871fbdc45de96a96df" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyProviderAdapter::CachedDEK</scope><name>isExpired</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_version_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::VersionInfo</compoundname>
+    <includes refid="process__conflict__resolver_8h" local="no">process_conflict_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_version_info_1aa155b73244f63677dbe0d36e9007c1dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::VersionInfo::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::VersionInfo::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="46" column="15" bodyfile="include/process/process_conflict_resolver.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_version_info_1afad4290b23726cd21b1b2a18f1697769" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::VersionInfo::version_id</definition>
+        <argsstring></argsstring>
+        <name>version_id</name>
+        <qualifiedname>themis::process::VersionInfo::version_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolver.h" line="47" column="15" bodyfile="include/process/process_conflict_resolver.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Version information for conflict detection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_conflict_resolver.h" line="45" column="1" bodyfile="include/process/process_conflict_resolver.h" bodystart="45" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_version_info_1aa155b73244f63677dbe0d36e9007c1dd" prot="public" virt="non-virtual"><scope>themis::process::VersionInfo</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_version_info_1afad4290b23726cd21b1b2a18f1697769" prot="public" virt="non-virtual"><scope>themis::process::VersionInfo</scope><name>version_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

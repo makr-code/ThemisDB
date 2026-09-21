@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__toolbox__contract__hardening__focused_8cpp_1aaef1d2c056aafdc6ec4ae9affcf97c4c" kindref="member">TEST_F</ref>  (<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>, IT13_BuilderMixedContentTextOnly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>IT-13: Builder mixed-content scenario — text-only validation </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__toolbox__contract__hardening__focused_8cpp_1afa43db057990be7c7c0ffb0cd6594bae" kindref="member">TEST_F</ref>  (<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>, IT14_BuilderReusePrevention)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>IT-14: Builder reuse error handling </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__toolbox__contract__hardening__focused_8cpp_1a9b88556a13e68c3275186a32f1e01282" kindref="member">TEST_F</ref>  (<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>, IT15_RegistryDoubleInitialization)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>IT-15: Registry double-initialization behavior </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__toolbox__contract__hardening__focused_8cpp_1a85084e648e8c307c2142835a8deec28c" kindref="member">TEST_F</ref>  (<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>, IT16_BridgeNullOptionalWriters)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>IT-16: Bridge with null optional writers </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__toolbox__contract__hardening__focused_8cpp_1a70c3fd68fbd0b77773c28441f61e965b" kindref="member">TEST_F</ref>  (<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>, IT17_BridgeEmptyExtractionHandling)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>IT-17: Bridge empty content extraction handling </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__toolbox__contract__hardening__focused_8cpp_1aaf3ed2f84e2a31ea683f0732aecb2ba9" kindref="member">TEST_F</ref>  (<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>, IT18_StreamingBoundaryConditions)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>IT-18: Streaming boundary conditions </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__toolbox__contract__hardening__focused_8cpp_1addc1d7f76b5153806d033da4e9942d4a" kindref="member">TEST_F</ref>  (<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>, IT19_CompositeRoutingFallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>IT-19: Composite routing fallback behavior </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__toolbox__contract__hardening__focused_8cpp_1a4cc6f0bf1e5b856b7033d775fe9ec05d" kindref="member">TEST_F</ref>  (<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>, IT20_EmptyInputEdgeCases)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>IT-20: Empty input edge cases</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

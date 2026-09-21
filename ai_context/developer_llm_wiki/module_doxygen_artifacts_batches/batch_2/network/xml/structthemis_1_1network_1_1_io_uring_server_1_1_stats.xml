@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_io_uring_server_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::IoUringServer::Stats</compoundname>
+    <includes refid="kernel__bypass_8h" local="no">kernel_bypass.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a15ccdc3e93b45c16a85ecd77493d545d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::IoUringServer::Stats::accept_completions</definition>
+        <argsstring></argsstring>
+        <name>accept_completions</name>
+        <qualifiedname>themis::network::IoUringServer::Stats::accept_completions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Accepted connections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="450" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a0d50064d132909b9caa70fc586bdbb2f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::IoUringServer::Stats::recv_completions</definition>
+        <argsstring></argsstring>
+        <name>recv_completions</name>
+        <qualifiedname>themis::network::IoUringServer::Stats::recv_completions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Completed recv operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="451" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1aab2c2431f0161baee5ca93736605f3f8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::IoUringServer::Stats::send_completions</definition>
+        <argsstring></argsstring>
+        <name>send_completions</name>
+        <qualifiedname>themis::network::IoUringServer::Stats::send_completions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Completed send operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="452" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1acb32d220a0e8eeb426f5c79eb1bd0f37" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::IoUringServer::Stats::recv_bytes</definition>
+        <argsstring></argsstring>
+        <name>recv_bytes</name>
+        <qualifiedname>themis::network::IoUringServer::Stats::recv_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes received. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="453" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1aac4be623e8a32e24efc5ff2e5ea8d689" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::IoUringServer::Stats::send_bytes</definition>
+        <argsstring></argsstring>
+        <name>send_bytes</name>
+        <qualifiedname>themis::network::IoUringServer::Stats::send_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes sent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="454" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a8076375ef99e7bc00fb297eb6515b92c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::IoUringServer::Stats::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::network::IoUringServer::Stats::errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CQE errors (res &lt; 0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="455" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a1e34ed1ace3f73890ebb7ab35b7db9b1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::IoUringServer::Stats::connections</definition>
+        <argsstring></argsstring>
+        <name>connections</name>
+        <qualifiedname>themis::network::IoUringServer::Stats::connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current active connections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="456" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="456" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a43a5e39b3c24eafff43036eb257b798e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::IoUringServer::Stats::requests</definition>
+        <argsstring></argsstring>
+        <name>requests</name>
+        <qualifiedname>themis::network::IoUringServer::Stats::requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>ThemisDB requests processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="457" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="457" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a9a8522cfca16f350385f22499892b3b4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::IoUringServer::Stats::sq_poll_wakeups</definition>
+        <argsstring></argsstring>
+        <name>sq_poll_wakeups</name>
+        <qualifiedname>themis::network::IoUringServer::Stats::sq_poll_wakeups</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times the SQ polling thread woke. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="458" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="458" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1ad89970791439b00db9475b57b0e6c1b3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::IoUringServer::Stats::zero_copy_sends</definition>
+        <argsstring></argsstring>
+        <name>zero_copy_sends</name>
+        <qualifiedname>themis::network::IoUringServer::Stats::zero_copy_sends</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sends using fixed buffers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="459" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="459" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/kernel_bypass.h" line="449" column="5" bodyfile="include/network/kernel_bypass.h" bodystart="449" bodyend="460"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a15ccdc3e93b45c16a85ecd77493d545d" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Stats</scope><name>accept_completions</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a1e34ed1ace3f73890ebb7ab35b7db9b1" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Stats</scope><name>connections</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a8076375ef99e7bc00fb297eb6515b92c" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Stats</scope><name>errors</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1acb32d220a0e8eeb426f5c79eb1bd0f37" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Stats</scope><name>recv_bytes</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a0d50064d132909b9caa70fc586bdbb2f" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Stats</scope><name>recv_completions</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a43a5e39b3c24eafff43036eb257b798e" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Stats</scope><name>requests</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1aac4be623e8a32e24efc5ff2e5ea8d689" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Stats</scope><name>send_bytes</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1aab2c2431f0161baee5ca93736605f3f8" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Stats</scope><name>send_completions</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1a9a8522cfca16f350385f22499892b3b4" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Stats</scope><name>sq_poll_wakeups</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_server_1_1_stats_1ad89970791439b00db9475b57b0e6c1b3" prot="public" virt="non-virtual"><scope>themis::network::IoUringServer::Stats</scope><name>zero_copy_sends</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

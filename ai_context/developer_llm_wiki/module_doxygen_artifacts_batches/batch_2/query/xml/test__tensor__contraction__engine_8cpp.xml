@@ -1,0 +1,1104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__tensor__contraction__engine_8cpp" kind="file" language="C++">
+    <compoundname>test_tensor_contraction_engine.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="tensor__contraction__engine_8h" local="yes">query/tensor_contraction_engine.h</includes>
+    <includes refid="tensor__functions_8h" local="yes">query/functions/tensor_functions.h</includes>
+    <includes refid="function__registry_8h" local="yes">query/functions/function_registry.h</includes>
+    <includes local="yes">storage/tensor_train_decomposer.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="10">
+        <label>query/functions/function_registry.h</label>
+        <link refid="function__registry_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>query/functions/tensor_functions.h</label>
+        <link refid="tensor__functions_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>query/tensor_contraction_engine.h</label>
+        <link refid="tensor__contraction__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_tensor_contraction_engine.cpp</label>
+        <link refid="test__tensor__contraction__engine_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>random</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>storage/tensor_train_decomposer.h</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_tensor_contraction_engine_test" prot="public">TensorContractionEngineTest</innerclass>
+    <innerclass refid="class_tensor_a_q_l_function_test" prot="public">TensorAQLFunctionTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a19892985515a96351dadfff190fce198" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; makeRandF</definition>
+        <argsstring>(std::size_t n, float scale=1.0f, unsigned seed=42)</argsstring>
+        <name>makeRandF</name>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+          <defval>1.0f</defval>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>seed</declname>
+          <defval>42</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="52" column="20" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="52" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1ae4613c1f54530da519194835c4179e1a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TTTrain</type>
+        <definition>static TTTrain makeTrain</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;shape, double eps=0.01)</argsstring>
+        <name>makeTrain</name>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>eps</declname>
+          <defval>0.01</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="62" column="16" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="62" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1ad110930b9ce364f60cf9cd4a5b510763" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double denseNorm</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;v)</argsstring>
+        <name>denseNorm</name>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="71" column="15" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="71" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a209fb52be744b17e82e7d1c60ae44753" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE01_InnerProductSelfEqualsNormSq)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE01_InnerProductSelfEqualsNormSq</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="94" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="94" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1af6828efb4fe97770a5ddb27334b00d21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE02_CosineSimilarityIdentical)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE02_CosineSimilarityIdentical</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="101" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="101" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1aa3128341d8ff7ba72f6a7d46d95aa36e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE03_CosineSimilarityOrthogonal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE03_CosineSimilarityOrthogonal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="107" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="107" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a78a20ce784186551f258846b3fe99f7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE04_FrobeniusNormMatchesDense)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE04_FrobeniusNormMatchesDense</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="116" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="116" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1aec4b74d7b1bd2699b0cae681d7aecc91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE05_SliceReducesOrder)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE05_SliceReducesOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="124" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="124" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1ad99a123dc7452bdcfc81d331b453df1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE06_SliceCorrectValues)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE06_SliceCorrectValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="130" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="130" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a1de913b36fe819e33de508569739715c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE07_HadamardProductCompatible)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE07_HadamardProductCompatible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="139" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="139" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a9651e6a1b61ffd5b93b9d01f94e4b9f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE08_RecompressReducesRank)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE08_RecompressReducesRank</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="149" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="149" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a7d1941d103971457987bc0157c9fb756" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE09_IsCompatibleFalseForDifferentShape)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE09_IsCompatibleFalseForDifferentShape</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="156" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="156" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a2f53f6a8c17c9bf0acfc645ec8a8d44b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE10_InnerProductThrowsIncompatible)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE10_InnerProductThrowsIncompatible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="162" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="162" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1aeb1c892c340bd850e8501616c7524c93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE11_SliceThrowsOobDim)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE11_SliceThrowsOobDim</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="169" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="169" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a15eec1cd775a3a0955ce1bae0a667b9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE12_SliceThrowsOobIdx)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE12_SliceThrowsOobIdx</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="175" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="175" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1aab622412d14d98b06a0f41f6ebeb5e92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE13_RecompressTightEpsHigherRatio)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE13_RecompressTightEpsHigherRatio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="181" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="181" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a4c4ffde2dd263501fa8d707b8e6eced5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorContractionEngineTest, TCE14_NormNonNegative)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref></type>
+        </param>
+        <param>
+          <type>TCE14_NormNonNegative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="188" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1af912e0bf754e8b61c70327e3504cd553" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TCE15_TensorSimilarityInRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TCE15_TensorSimilarityInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="211" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="211" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a77bbacaa6c6ea396b3d85f21c5a26017" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TCE16_TensorNormPositive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TCE16_TensorNormPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="222" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="222" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1abfdbef0f352156a881e24495152f3859" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TCE17_TensorSliceReducesShape)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TCE17_TensorSliceReducesShape</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="231" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="231" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1ad5e2b4d7f46b458f7df92c8dac11b5ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TCE18_TensorCompressReturnsObject)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TCE18_TensorCompressReturnsObject</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="242" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="242" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a1206a7b0adc36997948da245d3e5d762" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TCE19_TensorInfoReturnsMetadata)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TCE19_TensorInfoReturnsMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="253" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="253" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a433c8c654195f58136137edc5e059f13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TCE20_TensorSimilarityMissingArgThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TCE20_TensorSimilarityMissingArgThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="265" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="265" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a4f5f89d1a31a2c38899998e32f84b9ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TCE21_TensorFunctionsResolveFieldPathsFromContext)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TCE21_TensorFunctionsResolveFieldPathsFromContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="273" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="273" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1ae25b22f274f3eb4bfd9569ddba022a3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TCE22_TensorFunctionsRejectUnknownFieldPath)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TCE22_TensorFunctionsRejectUnknownFieldPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="303" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="303" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1adccefac04dad4671ebd1e4a9142e871b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TensorContractionEngineOverflow, HadamardProductThrowsOnCoreOverflow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TensorContractionEngineOverflow</type>
+        </param>
+        <param>
+          <type>HadamardProductThrowsOnCoreOverflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="317" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="317" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a71f5a423bee3ed55748803f72108ce6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TC16a_TensorSliceNegativeDimThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TC16a_TensorSliceNegativeDimThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="357" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="357" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a752a798273d1827152e74660108415cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TC16b_TensorSliceNegativeIdxThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TC16b_TensorSliceNegativeIdxThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="367" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="367" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a88172ccdba6345f0ba82917c38dd8664" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TC17_TensorProjectNegativeModeThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TC17_TensorProjectNegativeModeThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="376" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="376" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1a1b80a7cbf92663042494fde9985d5f03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TC18_TensorCompressNegativeMaxRankThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TC18_TensorCompressNegativeMaxRankThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="385" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="385" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="test__tensor__contraction__engine_8cpp_1ab4bf795373cbc6b0000d8a0b50f348ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TensorAQLFunctionTest, TC19_TensorDecomposeNegativeMaxRankThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>TC19_TensorDecomposeNegativeMaxRankThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_tensor_contraction_engine.cpp" line="394" column="1" bodyfile="tests/query/test_tensor_contraction_engine.cpp" bodystart="394" bodyend="403"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1query_1_1_tensor_contraction_engine" kindref="compound">TensorContractionEngine</ref> and tensor AQL functions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: TCE-01 innerProduct(T, T) ≈ ‖T‖² TCE-02 cosineSimilarity of identical tensors = 1.0 TCE-03 cosineSimilarity of orthogonal tensors ≈ 0 TCE-04 frobeniusNorm matches dense sqrt(sum_sq) TCE-05 slice reduces order by 1 TCE-06 slice result correct values vs. dense TCE-07 hadamardProduct produces compatible train TCE-08 recompress reduces max_rank TCE-09 isCompatible returns false for different mode_sizes TCE-10 innerProduct throws on incompatible mode_sizes TCE-11 slice throws on out-of-range dim TCE-12 slice throws on out-of-range idx TCE-13 recompress with eps=0.5 produces higher ratio than eps=0.0 TCE-14 Nested contractions produce correct norms (associativity check) TCE-15 AQL TENSOR_SIMILARITY returns float in [-1, 1] TCE-16 AQL TENSOR_NORM matches direct frobeniusNorm TCE-17 AQL TENSOR_SLICE reduces shape TCE-18 AQL TENSOR_COMPRESS returns {data, shape, compression_ratio} TCE-19 AQL TENSOR_INFO returns metadata fields TCE-20 AQL TENSOR_SIMILARITY with missing args throws TCE-21 AQL tensor functions resolve tensor field paths from <ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref> TCE-22 AQL tensor functions reject unknown tensor field paths</para>
+<para>SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__contraction__engine_8h" kindref="compound">query/tensor_contraction_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__functions_8h" kindref="compound">query/functions/tensor_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="function__registry_8h" kindref="compound">query/functions/function_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/tensor_train_decomposer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::storage;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1functions" kindref="compound">themis::query::functions</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>makeRandF(std::size_t<sp/>n,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scale<sp/>=<sp/>1.0f,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>seed<sp/>=<sp/>42)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(seed);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::normal_distribution&lt;float&gt;<sp/>dist(0.0f,<sp/>scale);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v(n);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>TTTrain<sp/>makeTrain(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::size_t&gt;&amp;<sp/>shape,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>eps<sp/>=<sp/>0.01)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>TensorTrainDecomposer<sp/>dec;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>TensorTrainConfig<sp/>cfg;<sp/>cfg.eps<sp/>=<sp/>eps;<sp/>cfg.max_rank<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[t,<sp/>_]<sp/>=<sp/>dec.decompose(data,<sp/>shape,<sp/>cfg);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::move(t);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>denseNorm(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>s<sp/>+=<sp/>(double)x<sp/>*<sp/>x;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::sqrt(s);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorContractionEngine<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="class_tensor_contraction_engine_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_tensor_contraction_engine_test_1a1664797cc88c26e61bb0de99d8c873ef" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_tensor_contraction_engine_test_1ad21a15c2a1b581a45bb0315f2262a09a" kindref="member">data_</ref><sp/>=<sp/>makeRandF(2*3*4,<sp/>1.0f,<sp/>11);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_tensor_contraction_engine_test_1a1af06fae8fd3380b94c52fc0be80d918" kindref="member">train_</ref><sp/>=<sp/>makeTrain(<ref refid="class_tensor_contraction_engine_test_1ad21a15c2a1b581a45bb0315f2262a09a" kindref="member">data_</ref>,<sp/>{2,<sp/>3,<sp/>4});</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="class_tensor_contraction_engine_test_1ad21a15c2a1b581a45bb0315f2262a09a" kindref="member">data_</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>TTTrain<sp/><ref refid="class_tensor_contraction_engine_test_1a1af06fae8fd3380b94c52fc0be80d918" kindref="member">train_</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-01</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE01_InnerProductSelfEqualsNormSq)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ip<sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1ad5e855bc597797255cb3504f190b584f" kindref="member">TensorContractionEngine::innerProduct</ref>(train_,<sp/>train_);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>norm<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1aaad80656c1fb08b1af88401c274d20a0" kindref="member">TensorContractionEngine::frobeniusNorm</ref>(train_);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(ip,<sp/>norm<sp/>*<sp/>norm,<sp/>0.05<sp/>*<sp/>ip<sp/>+<sp/>1e-6);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-02</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE02_CosineSimilarityIdentical)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cs<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1aa1c45de04440002a4d754b513dab61e9" kindref="member">TensorContractionEngine::cosineSimilarity</ref>(train_,<sp/>train_);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(cs,<sp/>1.0,<sp/>0.02);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-03</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE03_CosineSimilarityOrthogonal)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>random<sp/>trains<sp/>from<sp/>different<sp/>seeds<sp/>should<sp/>have<sp/>low<sp/>similarity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d2<sp/>=<sp/>makeRandF(2*3*4,<sp/>1.0f,<sp/>999);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>TTTrain<sp/>t2<sp/>=<sp/>makeTrain(d2,<sp/>{2,<sp/>3,<sp/>4});</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cs<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1aa1c45de04440002a4d754b513dab61e9" kindref="member">TensorContractionEngine::cosineSimilarity</ref>(train_,<sp/>t2);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(std::abs(cs),<sp/>0.99);<sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>identical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-04</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE04_FrobeniusNormMatchesDense)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tt_norm<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1aaad80656c1fb08b1af88401c274d20a0" kindref="member">TensorContractionEngine::frobeniusNorm</ref>(train_);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recon<sp/>=<sp/>train_.reconstruct();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dense_norm<sp/>=<sp/>denseNorm(recon);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(tt_norm,<sp/>dense_norm,<sp/>0.10<sp/>*<sp/>dense_norm<sp/>+<sp/>1e-4);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-05</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE05_SliceReducesOrder)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>TTTrain<sp/>sliced<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1a1c2705bb908b98b66c4c33d03c98367d" kindref="member">TensorContractionEngine::slice</ref>(train_,<sp/>1,<sp/>0);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sliced.order(),<sp/>2u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-06</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE06_SliceCorrectValues)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>data_<sp/>is<sp/>shape<sp/>{2,<sp/>3,<sp/>4};<sp/>slice<sp/>dim=0,<sp/>idx=0<sp/>should<sp/>give<sp/>first<sp/>12<sp/>values<sp/>(approx)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>TTTrain<sp/>sliced<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1a1c2705bb908b98b66c4c33d03c98367d" kindref="member">TensorContractionEngine::slice</ref>(train_,<sp/>0,<sp/>0);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(sliced.order(),<sp/>0u);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recon<sp/>=<sp/>sliced.reconstruct();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(recon.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-07</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE07_HadamardProductCompatible)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d2<sp/>=<sp/>makeRandF(2*3*4,<sp/>1.0f,<sp/>55);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>TTTrain<sp/>t2<sp/>=<sp/>makeTrain(d2,<sp/>{2,<sp/>3,<sp/>4});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TTTrain<sp/>hp<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1a166874f7b7f5b8dbd4ee5fc7eb0d8810" kindref="member">TensorContractionEngine::hadamardProduct</ref>(train_,<sp/>t2,<sp/>8,<sp/>0.01);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(hp.mode_sizes,<sp/>train_.mode_sizes);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-08</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE08_RecompressReducesRank)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>big<sp/>=<sp/>makeTrain(makeRandF(4*4*4*4,<sp/>1.0f,<sp/>77),<sp/>{4,<sp/>4,<sp/>4,<sp/>4},<sp/>0.001);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>TTTrain<sp/>tight<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1a44eb076101ed418ad4db56f860ee5cd2" kindref="member">TensorContractionEngine::recompress</ref>(big,<sp/>0.3,<sp/>2);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(tight.maxRank(),<sp/>2u);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-09</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE09_IsCompatibleFalseForDifferentShape)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>TTTrain<sp/>t2<sp/>=<sp/>makeTrain(makeRandF(2*4),<sp/>{2,<sp/>4});</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1a48a46471e4d946bee12d412fc1249a8e" kindref="member">TensorContractionEngine::isCompatible</ref>(train_,<sp/>t2));</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-10</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE10_InnerProductThrowsIncompatible)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>TTTrain<sp/>t2<sp/>=<sp/>makeTrain(makeRandF(2*4),<sp/>{2,<sp/>4});</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1ad5e855bc597797255cb3504f190b584f" kindref="member">TensorContractionEngine::innerProduct</ref>(train_,<sp/>t2),</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-11</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE11_SliceThrowsOobDim)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1a1c2705bb908b98b66c4c33d03c98367d" kindref="member">TensorContractionEngine::slice</ref>(train_,<sp/>5,<sp/>0),</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-12</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE12_SliceThrowsOobIdx)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1a1c2705bb908b98b66c4c33d03c98367d" kindref="member">TensorContractionEngine::slice</ref>(train_,<sp/>1,<sp/>100),</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-13</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE13_RecompressTightEpsHigherRatio)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>train_loose<sp/>=<sp/>makeTrain(makeRandF(3*3*3*3,<sp/>1.0f,<sp/>33),<sp/>{3,<sp/>3,<sp/>3,<sp/>3},<sp/>0.01);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>TTTrain<sp/>tight<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1a44eb076101ed418ad4db56f860ee5cd2" kindref="member">TensorContractionEngine::recompress</ref>(train_loose,<sp/>0.5,<sp/>0);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(tight.compressionRatio(),<sp/>train_loose.compressionRatio()<sp/>-<sp/>1.0);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-14</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_contraction_engine_test" kindref="compound">TensorContractionEngineTest</ref>,<sp/>TCE14_NormNonNegative)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(<ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1aaad80656c1fb08b1af88401c274d20a0" kindref="member">TensorContractionEngine::frobeniusNorm</ref>(train_),<sp/>0.0);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQL<sp/>tensor<sp/>function<sp/>tests<sp/>(TCE-15..TCE-20)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="class_tensor_a_q_l_function_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_tensor_a_q_l_function_test_1a98d19bcdbec103a2f13959f78decbda6" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a3e09f2c1eb657a99cd7b3257a5f72479" kindref="member">registerTensorFunctions</ref>(<ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>sample<sp/>tensor<sp/>JSON<sp/>argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandF(2*3,<sp/>1.0f,<sp/>42);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_tensor_a_q_l_function_test_1aa0931d897abb62a6650fb30b908ce81b" kindref="member">sample_arg_</ref>[</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/>data;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_tensor_a_q_l_function_test_1aa0931d897abb62a6650fb30b908ce81b" kindref="member">sample_arg_</ref>[</highlight><highlight class="stringliteral">&quot;shape&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::vector&lt;int&gt;{2,<sp/>3};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_tensor_a_q_l_function_test_1aa0931d897abb62a6650fb30b908ce81b" kindref="member">sample_arg_</ref>[</highlight><highlight class="stringliteral">&quot;eps&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/><ref refid="class_tensor_a_q_l_function_test_1aa0931d897abb62a6650fb30b908ce81b" kindref="member">sample_arg_</ref>;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-15</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TCE15_TensorSimilarityInRange)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>result<sp/>=<sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_SIMILARITY&quot;</highlight><highlight class="normal">,<sp/>{sample_arg_,<sp/>sample_arg_},<sp/>ctx);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.is_number());</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/>result.get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(sim,<sp/>-1.0);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(sim,<sp/><sp/>1.0);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TCE16_TensorNormPositive)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>result<sp/>=<sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_NORM&quot;</highlight><highlight class="normal">,<sp/>{sample_arg_},<sp/>ctx);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.is_number());</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-17</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TCE17_TensorSliceReducesShape)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>result<sp/>=<sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_SLICE&quot;</highlight><highlight class="normal">,<sp/>{sample_arg_,<sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(0),<sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(0)},<sp/>ctx);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.is_object());</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;shape&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>orig_order<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result[</highlight><highlight class="stringliteral">&quot;shape&quot;</highlight><highlight class="normal">].size(),<sp/>orig_order);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-18</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TCE18_TensorCompressReturnsObject)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>result<sp/>=<sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_COMPRESS&quot;</highlight><highlight class="normal">,<sp/>{sample_arg_,<sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(0.1),<sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(2)},<sp/>ctx);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.is_object());</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;shape&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;compression_ratio&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-19</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TCE19_TensorInfoReturnsMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>result<sp/>=<sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_INFO&quot;</highlight><highlight class="normal">,<sp/>{sample_arg_},<sp/>ctx);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.is_object());</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;order&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;max_rank&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;total_params&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;compression_ratio&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-20:<sp/>missing<sp/>arg<sp/>triggers<sp/>registry<sp/>validation<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TCE20_TensorSimilarityMissingArgThrows)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>registry<sp/>validates<sp/>required<sp/>arg<sp/>count<sp/>and<sp/>throws<sp/>std::runtime_error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_SIMILARITY&quot;</highlight><highlight class="normal">,<sp/>{sample_arg_},<sp/>ctx),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCE-21</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TCE21_TensorFunctionsResolveFieldPathsFromContext)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a50cbfd274b8335355ef12519b38babe8" kindref="member">setCurrentDocument</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lhs&quot;</highlight><highlight class="normal">,<sp/>sample_arg_},</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;rhs&quot;</highlight><highlight class="normal">,<sp/>sample_arg_}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1aaeae2735f0c4bea6b9bf0f0ac8bd95ec" kindref="member">setVariable</ref>(</highlight><highlight class="stringliteral">&quot;var_tensor&quot;</highlight><highlight class="normal">,<sp/>sample_arg_);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_SIMILARITY&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;doc.lhs&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;doc.rhs&quot;</highlight><highlight class="normal">)},</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>norm<sp/>=<sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_NORM&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;var_tensor&quot;</highlight><highlight class="normal">)},</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pointer_norm<sp/>=<sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_NORM&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;/doc/lhs&quot;</highlight><highlight class="normal">)},</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sim.is_number());</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(norm.is_number());</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(pointer_norm.is_number());</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(sim.get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;(),<sp/>-1.0);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(sim.get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;(),<sp/>1.0);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(norm.get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(pointer_norm.get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TCE22_TensorFunctionsRejectUnknownFieldPath)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="classthemis_1_1query_1_1functions_1_1_function_context_1a50cbfd274b8335355ef12519b38babe8" kindref="member">setCurrentDocument</ref>(<ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>{{</highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref>{{</highlight><highlight class="stringliteral">&quot;lhs&quot;</highlight><highlight class="normal">,<sp/>sample_arg_}}}});</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_NORM&quot;</highlight><highlight class="normal">,<sp/>{json(</highlight><highlight class="stringliteral">&quot;doc.missing_tensor&quot;</highlight><highlight class="normal">)},<sp/>ctx),</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>REL-04/REL-05:<sp/>TT-core<sp/>size<sp/>overflow<sp/>guards<sp/>(issue<sp/>#5177)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="test__tensor__contraction__engine_8cpp_1adccefac04dad4671ebd1e4a9142e871b" kindref="member">TEST</ref>(TensorContractionEngineOverflow,<sp/>HadamardProductThrowsOnCoreOverflow)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::storage;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construct<sp/>two<sp/>single-mode<sp/>TTTrains<sp/>where<sp/>the<sp/>resulting<sp/>Kronecker<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>would<sp/>be<sp/>of<sp/>size<sp/>rl*n*rr<sp/>that<sp/>overflows<sp/>size_t:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>ca.r_left<sp/>=<sp/>hugeDim,<sp/>cb.r_left<sp/>=<sp/>1<sp/><sp/>→<sp/>rl<sp/>=<sp/>hugeDim<sp/>(no<sp/>intermediate<sp/>overflow)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>ca.r_right<sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/>cb.r_right<sp/>=<sp/>1<sp/>→<sp/>rr<sp/>=<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>n<sp/>=<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>Guard:<sp/>hugeDim<sp/>&gt;<sp/>SIZE_MAX<sp/>/<sp/>3<sp/>/<sp/>1<sp/>→<sp/>throws<sp/>before<sp/>resize.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>hugeDim<sp/>=<sp/>std::numeric_limits&lt;std::size_t&gt;::max()<sp/>/<sp/>2<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>TTTrain<sp/>a,<sp/>b;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>a.mode_sizes<sp/>=<sp/>{3};</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>a.cores.resize(1);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>a.cores[0].r_left<sp/><sp/>=<sp/>hugeDim;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>a.cores[0].n<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>a.cores[0].r_right<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata-only<sp/>construction<sp/>for<sp/>the<sp/>overflow<sp/>test;<sp/>data<sp/>size<sp/>is<sp/>irrelevant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>because<sp/>the<sp/>guard<sp/>throws<sp/>before<sp/>any<sp/>data<sp/>indexing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>a.cores[0].data.assign(3,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>b.mode_sizes<sp/>=<sp/>{3};</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>b.cores.resize(1);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>b.cores[0].r_left<sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>b.cores[0].n<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>b.cores[0].r_right<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>b.cores[0].data.assign(3,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>hadamardProduct<sp/>computes<sp/>rl<sp/>=<sp/>hugeDim<sp/>*<sp/>1<sp/>=<sp/>hugeDim;<sp/>n<sp/>=<sp/>3;<sp/>rr<sp/>=<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rl<sp/>*<sp/>n<sp/>*<sp/>rr<sp/>=<sp/>hugeDim<sp/>*<sp/>3<sp/>overflows<sp/>size_t<sp/>—<sp/>guard<sp/>must<sp/>throw.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_tensor_contraction_engine_1a166874f7b7f5b8dbd4ee5fc7eb0d8810" kindref="member">TensorContractionEngine::hadamardProduct</ref>(a,<sp/>b),</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::overflow_error);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TC-16..19:<sp/>Negative-int<sp/>→<sp/>size_t<sp/>UB<sp/>guards<sp/>in<sp/>tensor<sp/>AQL<sp/>functions<sp/>(#5177)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TC-16a:<sp/>TENSOR_SLICE<sp/>with<sp/>negative<sp/>dim<sp/>throws<sp/>std::invalid_argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TC16a_TensorSliceNegativeDimThrows)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>dim<sp/>=<sp/>-1<sp/>must<sp/>not<sp/>wrap<sp/>to<sp/>a<sp/>huge<sp/>size_t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_SLICE&quot;</highlight><highlight class="normal">,<sp/>{sample_arg_,<sp/>json(-1),<sp/>json(0)},<sp/>ctx),</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TC-16b:<sp/>TENSOR_SLICE<sp/>with<sp/>negative<sp/>idx<sp/>throws<sp/>std::invalid_argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TC16b_TensorSliceNegativeIdxThrows)<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_SLICE&quot;</highlight><highlight class="normal">,<sp/>{sample_arg_,<sp/>json(0),<sp/>json(-1)},<sp/>ctx),</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TC-17:<sp/>TENSOR_PROJECT<sp/>with<sp/>negative<sp/>mode<sp/>throws<sp/>std::invalid_argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TC17_TensorProjectNegativeModeThrows)<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_PROJECT&quot;</highlight><highlight class="normal">,<sp/>{sample_arg_,<sp/>json(-1)},<sp/>ctx),</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TC-18:<sp/>TENSOR_COMPRESS<sp/>with<sp/>negative<sp/>max_rank<sp/>throws<sp/>std::invalid_argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TC18_TensorCompressNegativeMaxRankThrows)<sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_COMPRESS&quot;</highlight><highlight class="normal">,<sp/>{sample_arg_,<sp/>json(0.01),<sp/>json(-1)},<sp/>ctx),</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TC-19:<sp/>TENSOR_DECOMPOSE<sp/>with<sp/>negative<sp/>max_rank<sp/>throws<sp/>std::invalid_argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_tensor_a_q_l_function_test" kindref="compound">TensorAQLFunctionTest</ref>,<sp/>TC19_TensorDecomposeNegativeMaxRankThrows)<sp/>{</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>minimal<sp/>flat<sp/>data<sp/>array<sp/>+<sp/>shape<sp/>suitable<sp/>for<sp/>TENSOR_DECOMPOSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>flat_data<sp/>=<sp/>json::array({1.0f,<sp/>2.0f,<sp/>3.0f,<sp/>4.0f});</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>shape<sp/><sp/><sp/><sp/><sp/>=<sp/>json::array({2,<sp/>2});</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.call(</highlight><highlight class="stringliteral">&quot;TENSOR_DECOMPOSE&quot;</highlight><highlight class="normal">,<sp/>{flat_data,<sp/>shape,<sp/>json(-1)},<sp/>ctx),</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_tensor_contraction_engine.cpp"/>
+  </compounddef>
+</doxygen>

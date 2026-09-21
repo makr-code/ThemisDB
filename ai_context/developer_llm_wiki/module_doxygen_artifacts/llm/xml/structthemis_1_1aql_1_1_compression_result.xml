@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_compression_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::CompressionResult</compoundname>
+    <includes refid="i__history__compressor_8h" local="no">i_history_compressor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_compression_result_1a2962fd9d5496210892de55eb620318f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CompressionResult::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::aql::CompressionResult::summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_history_compressor.h" line="22" column="17" bodyfile="include/llm/i_history_compressor.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_compression_result_1a37b94a3bf604db5ea79151be877cf4e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CompressionResult::episode_id</definition>
+        <argsstring></argsstring>
+        <name>episode_id</name>
+        <qualifiedname>themis::aql::CompressionResult::episode_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_history_compressor.h" line="23" column="17" bodyfile="include/llm/i_history_compressor.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_compression_result_1ac203fa11053c13364de1b16d83274ece" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::aql::CompressionResult::original_token_count</definition>
+        <argsstring></argsstring>
+        <name>original_token_count</name>
+        <qualifiedname>themis::aql::CompressionResult::original_token_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_history_compressor.h" line="24" column="13" bodyfile="include/llm/i_history_compressor.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_compression_result_1ac7aca2efc5e4e1137965d18e7a13074d" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::aql::CompressionResult::compressed_token_count</definition>
+        <argsstring></argsstring>
+        <name>compressed_token_count</name>
+        <qualifiedname>themis::aql::CompressionResult::compressed_token_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_history_compressor.h" line="25" column="13" bodyfile="include/llm/i_history_compressor.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_compression_result_1a4c5f10812217b3073817bea65c284b53" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::CompressionResult::semantic_similarity</definition>
+        <argsstring></argsstring>
+        <name>semantic_similarity</name>
+        <qualifiedname>themis::aql::CompressionResult::semantic_similarity</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_history_compressor.h" line="26" column="11" bodyfile="include/llm/i_history_compressor.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_compression_result_1add5efd9293e9129a0a468bf6c581213a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::aql::CompressionResult::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::aql::CompressionResult::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_history_compressor.h" line="27" column="13" bodyfile="include/llm/i_history_compressor.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_compression_result_1ab0e3e06a8d5e68841fc4835d3229dc8c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt;int32_t&gt; themis::aql::CompressionResult::selected_indices</definition>
+        <argsstring></argsstring>
+        <name>selected_indices</name>
+        <qualifiedname>themis::aql::CompressionResult::selected_indices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_history_compressor.h" line="28" column="17" bodyfile="include/llm/i_history_compressor.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/i_history_compressor.h" line="21" column="1" bodyfile="include/llm/i_history_compressor.h" bodystart="21" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_compression_result_1ac7aca2efc5e4e1137965d18e7a13074d" prot="public" virt="non-virtual"><scope>themis::aql::CompressionResult</scope><name>compressed_token_count</name></member>
+      <member refid="structthemis_1_1aql_1_1_compression_result_1a37b94a3bf604db5ea79151be877cf4e7" prot="public" virt="non-virtual"><scope>themis::aql::CompressionResult</scope><name>episode_id</name></member>
+      <member refid="structthemis_1_1aql_1_1_compression_result_1ac203fa11053c13364de1b16d83274ece" prot="public" virt="non-virtual"><scope>themis::aql::CompressionResult</scope><name>original_token_count</name></member>
+      <member refid="structthemis_1_1aql_1_1_compression_result_1ab0e3e06a8d5e68841fc4835d3229dc8c" prot="public" virt="non-virtual"><scope>themis::aql::CompressionResult</scope><name>selected_indices</name></member>
+      <member refid="structthemis_1_1aql_1_1_compression_result_1a4c5f10812217b3073817bea65c284b53" prot="public" virt="non-virtual"><scope>themis::aql::CompressionResult</scope><name>semantic_similarity</name></member>
+      <member refid="structthemis_1_1aql_1_1_compression_result_1a2962fd9d5496210892de55eb620318f1" prot="public" virt="non-virtual"><scope>themis::aql::CompressionResult</scope><name>summary</name></member>
+      <member refid="structthemis_1_1aql_1_1_compression_result_1add5efd9293e9129a0a468bf6c581213a" prot="public" virt="non-virtual"><scope>themis::aql::CompressionResult</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

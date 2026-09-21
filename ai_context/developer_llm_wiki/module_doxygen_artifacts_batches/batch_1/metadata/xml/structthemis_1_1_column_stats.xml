@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_column_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ColumnStats</compoundname>
+    <includes refid="statistics__collector_8h" local="no">statistics_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_column_stats_1ae5be7fc5168aa79f972563f9c5fcfcaa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ColumnStats::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::ColumnStats::column_name</qualifiedname>
+        <briefdescription>
+<para>Column/property name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="57" column="17" bodyfile="include/metadata/statistics_collector.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_stats_1a23d1e54045b589427abfab28a9e8e7a8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ColumnStats::distinct_count</definition>
+        <argsstring></argsstring>
+        <name>distinct_count</name>
+        <qualifiedname>themis::ColumnStats::distinct_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of distinct values (cardinality). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="58" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_stats_1ac079d10a803da86434492839f6e575f2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ColumnStats::null_count</definition>
+        <argsstring></argsstring>
+        <name>null_count</name>
+        <qualifiedname>themis::ColumnStats::null_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of NULL values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="59" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_stats_1a983ddb1f7f9ed8829cfb83cae6de05e2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ColumnStats::total_count</definition>
+        <argsstring></argsstring>
+        <name>total_count</name>
+        <qualifiedname>themis::ColumnStats::total_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of rows sampled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="60" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_stats_1aa3ff90441eb7f2061a7c499f6602c99b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ColumnStats::selectivity</definition>
+        <argsstring></argsstring>
+        <name>selectivity</name>
+        <qualifiedname>themis::ColumnStats::selectivity</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Fraction of rows returned by equality predicate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="61" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_stats_1a788f0752b86b2bfff375e5cb503faf2b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ColumnStats::null_fraction</definition>
+        <argsstring></argsstring>
+        <name>null_fraction</name>
+        <qualifiedname>themis::ColumnStats::null_fraction</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of NULL values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="62" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_stats_1a6b3f1e27b0f5b89a0f904beeb69ab62f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; <ref refid="structthemis_1_1_histogram_bucket" kindref="compound">HistogramBucket</ref> &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;HistogramBucket&gt; &gt; themis::ColumnStats::histogram</definition>
+        <argsstring></argsstring>
+        <name>histogram</name>
+        <qualifiedname>themis::ColumnStats::histogram</qualifiedname>
+        <briefdescription>
+<para>Value distribution histogram. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="63" column="19" bodyfile="include/metadata/statistics_collector.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_stats_1a24e300d67053ec32019c80901796e467" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ColumnStats::most_common_value</definition>
+        <argsstring></argsstring>
+        <name>most_common_value</name>
+        <qualifiedname>themis::ColumnStats::most_common_value</qualifiedname>
+        <briefdescription>
+<para>Most frequently occurring value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="64" column="19" bodyfile="include/metadata/statistics_collector.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_stats_1a66ec98fc9c8319b18dcc5176a6e5c241" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::ColumnStats::min_value</definition>
+        <argsstring></argsstring>
+        <name>min_value</name>
+        <qualifiedname>themis::ColumnStats::min_value</qualifiedname>
+        <briefdescription>
+<para>Minimum numeric value (if numeric). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="65" column="19" bodyfile="include/metadata/statistics_collector.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_column_stats_1a9cb69d47bff53e2018ec5070769c61b9" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::ColumnStats::max_value</definition>
+        <argsstring></argsstring>
+        <name>max_value</name>
+        <qualifiedname>themis::ColumnStats::max_value</qualifiedname>
+        <briefdescription>
+<para>Maximum numeric value (if numeric). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="66" column="19" bodyfile="include/metadata/statistics_collector.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_column_stats_1af99458298ad978922d4588b919d06e0c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::ColumnStats::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::ColumnStats::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="68" column="10" bodyfile="src/metadata/statistics_collector.cpp" bodystart="70" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_column_stats_1a8f5b52021e20f17370587e1d4c2c4e80" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ColumnStats::estimateRangeSelectivity</definition>
+        <argsstring>(double low, double high) const</argsstring>
+        <name>estimateRangeSelectivity</name>
+        <qualifiedname>themis::ColumnStats::estimateRangeSelectivity</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>low</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>high</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Estimate selectivity for a range predicate [low, high] using the histogram. Returns fraction of rows in [low, high]; falls back to uniform distribution when no histogram is available. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="73" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="73" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-column statistics for query optimization. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/statistics_collector.h" line="56" column="1" bodyfile="include/metadata/statistics_collector.h" bodystart="56" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_column_stats_1ae5be7fc5168aa79f972563f9c5fcfcaa" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1_column_stats_1a23d1e54045b589427abfab28a9e8e7a8" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>distinct_count</name></member>
+      <member refid="structthemis_1_1_column_stats_1a8f5b52021e20f17370587e1d4c2c4e80" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>estimateRangeSelectivity</name></member>
+      <member refid="structthemis_1_1_column_stats_1a6b3f1e27b0f5b89a0f904beeb69ab62f" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>histogram</name></member>
+      <member refid="structthemis_1_1_column_stats_1a9cb69d47bff53e2018ec5070769c61b9" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>max_value</name></member>
+      <member refid="structthemis_1_1_column_stats_1a66ec98fc9c8319b18dcc5176a6e5c241" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>min_value</name></member>
+      <member refid="structthemis_1_1_column_stats_1a24e300d67053ec32019c80901796e467" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>most_common_value</name></member>
+      <member refid="structthemis_1_1_column_stats_1ac079d10a803da86434492839f6e575f2" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>null_count</name></member>
+      <member refid="structthemis_1_1_column_stats_1a788f0752b86b2bfff375e5cb503faf2b" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>null_fraction</name></member>
+      <member refid="structthemis_1_1_column_stats_1aa3ff90441eb7f2061a7c499f6602c99b" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>selectivity</name></member>
+      <member refid="structthemis_1_1_column_stats_1af99458298ad978922d4588b919d06e0c" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1_column_stats_1a983ddb1f7f9ed8829cfb83cae6de05e2" prot="public" virt="non-virtual"><scope>themis::ColumnStats</scope><name>total_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

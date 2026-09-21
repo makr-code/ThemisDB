@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_a_b_variant_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::ABVariantMetrics</compoundname>
+    <includes refid="ab__test__manager_8h" local="no">ab_test_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_variant_metrics_1ad48b4cf302ad378555eeee5926c7761a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::ABVariantMetrics::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::modules::ABVariantMetrics::sample_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total requests dispatched to this variant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="111" column="12" bodyfile="include/themis/base/ab_test_manager.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_variant_metrics_1a08f11bfb426c334a5ed2f741ae9e7db7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::ABVariantMetrics::success_count</definition>
+        <argsstring></argsstring>
+        <name>success_count</name>
+        <qualifiedname>themis::modules::ABVariantMetrics::success_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests that returned a successful outcome. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="112" column="12" bodyfile="include/themis/base/ab_test_manager.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_variant_metrics_1a78b813838cbfc9f65a9585075ee1a3a7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABVariantMetrics::success_rate</definition>
+        <argsstring></argsstring>
+        <name>success_rate</name>
+        <qualifiedname>themis::modules::ABVariantMetrics::success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>success_count / sample_count </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="113" column="12" bodyfile="include/themis/base/ab_test_manager.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_variant_metrics_1a21c5fba8298d1d270f8856265178f4c9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABVariantMetrics::mean_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>mean_latency_ms</name>
+        <qualifiedname>themis::modules::ABVariantMetrics::mean_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Running mean of observed latencies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="114" column="12" bodyfile="include/themis/base/ab_test_manager.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_variant_metrics_1aa7b3c5b5099f647498e179c0a6988902" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABVariantMetrics::std_dev_latency</definition>
+        <argsstring></argsstring>
+        <name>std_dev_latency</name>
+        <qualifiedname>themis::modules::ABVariantMetrics::std_dev_latency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Sample standard deviation of latencies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="115" column="12" bodyfile="include/themis/base/ab_test_manager.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated metrics for one variant (control or treatment). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/ab_test_manager.h" line="110" column="1" bodyfile="include/themis/base/ab_test_manager.h" bodystart="110" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_a_b_variant_metrics_1a21c5fba8298d1d270f8856265178f4c9" prot="public" virt="non-virtual"><scope>themis::modules::ABVariantMetrics</scope><name>mean_latency_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_variant_metrics_1ad48b4cf302ad378555eeee5926c7761a" prot="public" virt="non-virtual"><scope>themis::modules::ABVariantMetrics</scope><name>sample_count</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_variant_metrics_1aa7b3c5b5099f647498e179c0a6988902" prot="public" virt="non-virtual"><scope>themis::modules::ABVariantMetrics</scope><name>std_dev_latency</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_variant_metrics_1a08f11bfb426c334a5ed2f741ae9e7db7" prot="public" virt="non-virtual"><scope>themis::modules::ABVariantMetrics</scope><name>success_count</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_variant_metrics_1a78b813838cbfc9f65a9585075ee1a3a7" prot="public" virt="non-virtual"><scope>themis::modules::ABVariantMetrics</scope><name>success_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

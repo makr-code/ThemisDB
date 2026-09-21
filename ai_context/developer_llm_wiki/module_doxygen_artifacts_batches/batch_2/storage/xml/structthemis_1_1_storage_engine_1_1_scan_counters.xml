@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_storage_engine_1_1_scan_counters" kind="struct" language="C++" prot="public">
+    <compoundname>themis::StorageEngine::ScanCounters</compoundname>
+    <includes refid="storage__engine_8h" local="no">storage_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_scan_counters_1ad86c3043664265247070d782452059d8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::ScanCounters::scan_calls</definition>
+        <argsstring></argsstring>
+        <name>scan_calls</name>
+        <qualifiedname>themis::StorageEngine::ScanCounters::scan_calls</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total calls to scanRange / scanPrefix / scanPredicate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="53" column="18" bodyfile="include/storage/storage_engine.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_scan_counters_1a33a77867467cdd2c2c5b84f3c741efa1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::ScanCounters::keys_examined</definition>
+        <argsstring></argsstring>
+        <name>keys_examined</name>
+        <qualifiedname>themis::StorageEngine::ScanCounters::keys_examined</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total keys visited by all scans. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="54" column="18" bodyfile="include/storage/storage_engine.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_scan_counters_1a1c365dd9678cfe9f8e5965d2a8281892" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::ScanCounters::keys_returned</definition>
+        <argsstring></argsstring>
+        <name>keys_returned</name>
+        <qualifiedname>themis::StorageEngine::ScanCounters::keys_returned</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Keys actually delivered to callers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="55" column="18" bodyfile="include/storage/storage_engine.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_scan_counters_1a59fecdb12236e5e1d61a895068ddb897" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::ScanCounters::early_stops</definition>
+        <argsstring></argsstring>
+        <name>early_stops</name>
+        <qualifiedname>themis::StorageEngine::ScanCounters::early_stops</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Scans stopped early by a false callback return. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="56" column="18" bodyfile="include/storage/storage_engine.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_storage_engine_1_1_scan_counters_1a41075bde734505574bddd4d23f5f5df9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::StorageEngine::ScanCounters::selectivity</definition>
+        <argsstring>() const</argsstring>
+        <name>selectivity</name>
+        <qualifiedname>themis::StorageEngine::ScanCounters::selectivity</qualifiedname>
+        <briefdescription>
+<para>Return the ratio of returned keys to examined keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Filter selectivity in the range [0.0, 1.0], or 1.0 when no keys were examined. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="62" column="16" bodyfile="include/storage/storage_engine.h" bodystart="62" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cumulative scan performance counters. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields are monotonically increasing since the engine was opened. </para>
+    </detaileddescription>
+    <location file="include/storage/storage_engine.h" line="52" column="5" bodyfile="include/storage/storage_engine.h" bodystart="52" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a59fecdb12236e5e1d61a895068ddb897" prot="public" virt="non-virtual"><scope>themis::StorageEngine::ScanCounters</scope><name>early_stops</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a33a77867467cdd2c2c5b84f3c741efa1" prot="public" virt="non-virtual"><scope>themis::StorageEngine::ScanCounters</scope><name>keys_examined</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a1c365dd9678cfe9f8e5965d2a8281892" prot="public" virt="non-virtual"><scope>themis::StorageEngine::ScanCounters</scope><name>keys_returned</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_scan_counters_1ad86c3043664265247070d782452059d8" prot="public" virt="non-virtual"><scope>themis::StorageEngine::ScanCounters</scope><name>scan_calls</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a41075bde734505574bddd4d23f5f5df9" prot="public" virt="non-virtual"><scope>themis::StorageEngine::ScanCounters</scope><name>selectivity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

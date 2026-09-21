@@ -1,0 +1,412 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="incremental__view_8h" kind="file" language="C++">
+    <compoundname>incremental_view.h</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">set</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="incremental__view_8cpp" local="yes">src/analytics/incremental_view.cpp</includedby>
+    <includedby refid="test__incremental__view_8cpp" local="yes">tests/analytics/test_incremental_view.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/analytics/incremental_view.h</label>
+        <link refid="incremental__view_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>set</label>
+      </node>
+      <node id="11">
+        <label>shared_mutex</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>variant</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/analytics/incremental_view.h</label>
+        <link refid="incremental__view_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/analytics/incremental_view.cpp</label>
+        <link refid="incremental__view_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/analytics/test_incremental_view.cpp</label>
+        <link refid="test__incremental__view_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_change_record" prot="public">themisdb::analytics::ChangeRecord</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_view_agg_spec" prot="public">themisdb::analytics::ViewAggSpec</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_view_filter" prot="public">themisdb::analytics::ViewFilter</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_view_definition" prot="public">themisdb::analytics::ViewDefinition</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_view_row" prot="public">themisdb::analytics::ViewRow</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_view_query_result" prot="public">themisdb::analytics::ViewQueryResult</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_incremental_view" prot="public">themisdb::analytics::IncrementalView</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_incremental_view_1_1_agg_state" prot="private">themisdb::analytics::IncrementalView::AggState</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_incremental_view_manager" prot="public">themisdb::analytics::IncrementalViewManager</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1analytics">themisdb::analytics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.32 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Value<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref><sp/>=<sp/>std::variant&lt;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::nullptr_t,<sp/><sp/></highlight><highlight class="comment">//<sp/>null</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>bool,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>double,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">&gt;;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Aggregation<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825" kindref="member">ViewAggFunc</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a4905ac9d6a22bdfc1ae096094ce6248d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba4905ac9d6a22bdfc1ae096094ce6248d" kindref="member">COUNT</ref>,</highlight></codeline>
+<codeline lineno="72" refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a6970bdc2201030b9c03fbdcf3973858a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da6970bdc2201030b9c03fbdcf3973858a" kindref="member">SUM</ref>,</highlight></codeline>
+<codeline lineno="73" refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825afcefd647d6a866603c627b11347c707a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dafcefd647d6a866603c627b11347c707a" kindref="member">AVG</ref>,</highlight></codeline>
+<codeline lineno="74" refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825ace31e2a082d17e038fcc6e3006166653" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dace31e2a082d17e038fcc6e3006166653" kindref="member">MIN</ref>,</highlight></codeline>
+<codeline lineno="75" refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a26a4b44a837bf97b972628509912b4a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da26a4b44a837bf97b972628509912b4a5" kindref="member">MAX</ref>,</highlight></codeline>
+<codeline lineno="76" refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825ae920619bf0e106c10e5d5a787670a059" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dae920619bf0e106c10e5d5a787670a059" kindref="member">STDDEV</ref>,</highlight></codeline>
+<codeline lineno="77" refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825ace18bb9a2b22515d0cd36bca6b998bde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dace18bb9a2b22515d0cd36bca6b998bde" kindref="member">VARIANCE</ref>,</highlight></codeline>
+<codeline lineno="78" refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a45b14c32ffb0d2822ad079cd8b60bc1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a45b14c32ffb0d2822ad079cd8b60bc1f" kindref="member">COUNT_DISTINCT</ref>,</highlight></codeline>
+<codeline lineno="79" refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a2c2624a5059934a947d6e25fe8332ade" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da2c2624a5059934a947d6e25fe8332ade" kindref="member">FIRST</ref>,</highlight></codeline>
+<codeline lineno="80" refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825af447f5c03508de4d88e340390ba7c78f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7daf447f5c03508de4d88e340390ba7c78f" kindref="member">LAST</ref></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Change<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309" kindref="member">ChangeType</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309a61ee777e7f71dc466c3b2c685d8d313b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309a61ee777e7f71dc466c3b2c685d8d313b" kindref="member">INSERT</ref>,</highlight></codeline>
+<codeline lineno="89" refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309a15a8022d0ed9cd9c2a2e756822703eb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309a15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">UPDATE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309a32f68a60cef40faedbc6af20298c1a1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309a32f68a60cef40faedbc6af20298c1a1e" kindref="member">DELETE</ref></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemisdb_1_1analytics_1_1_change_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_change_record" kindref="compound">ChangeRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1analytics_1_1_change_record_1a46cd7cc52b972089621c810b52077077" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_change_record_1a46cd7cc52b972089621c810b52077077" kindref="member">Row</ref><sp/>=<sp/>std::unordered_map&lt;std::string,<sp/>FieldValue&gt;;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemisdb_1_1analytics_1_1_change_record_1a146c70c49a2cb2d86ba261735eff39c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309" kindref="member">ChangeType</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record_1a146c70c49a2cb2d86ba261735eff39c4" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d1171e7f8f8b4e2a39ed8d416aed309a61ee777e7f71dc466c3b2c685d8d313b" kindref="member">ChangeType::INSERT</ref>;</highlight></codeline>
+<codeline lineno="97" refid="structthemisdb_1_1analytics_1_1_change_record_1a680a5de9f20f5250d89e6f5ff5d68512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record_1a680a5de9f20f5250d89e6f5ff5d68512" kindref="member">collection</ref>;</highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1analytics_1_1_change_record_1af43a2ef5a2b1f04bc96c60ac5a22d8ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record_1a46cd7cc52b972089621c810b52077077" kindref="member">Row</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record_1af43a2ef5a2b1f04bc96c60ac5a22d8ae" kindref="member">before_row</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemisdb_1_1analytics_1_1_change_record_1a890b6010af29b33dd862c3b378c7b091" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record_1a46cd7cc52b972089621c810b52077077" kindref="member">Row</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record_1a890b6010af29b33dd862c3b378c7b091" kindref="member">after_row</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemisdb_1_1analytics_1_1_change_record_1aeb36f11cdb3034b74fdbaee278cbbce7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record_1aeb36f11cdb3034b74fdbaee278cbbce7" kindref="member">change_time</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>View<sp/>definition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemisdb_1_1analytics_1_1_view_agg_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_view_agg_spec" kindref="compound">ViewAggSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="108" refid="structthemisdb_1_1analytics_1_1_view_agg_spec_1a9401849a73ffb5283c1d8dd9e6f49f59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_agg_spec_1a9401849a73ffb5283c1d8dd9e6f49f59" kindref="member">output_name</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="structthemisdb_1_1analytics_1_1_view_agg_spec_1a1fb09a4d2c84ac2af65e253fa4323441" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825" kindref="member">ViewAggFunc</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_agg_spec_1a1fb09a4d2c84ac2af65e253fa4323441" kindref="member">func</ref>;</highlight></codeline>
+<codeline lineno="110" refid="structthemisdb_1_1analytics_1_1_view_agg_spec_1a4230a76d7ffe30d99b94e955238d46f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_agg_spec_1a4230a76d7ffe30d99b94e955238d46f1" kindref="member">source_field</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemisdb_1_1analytics_1_1_view_filter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_view_filter" kindref="compound">ViewFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0ca2dcbad7477fd40561e8b8198f173bd47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0c" kindref="member">Op</ref><sp/>{<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0ca2dcbad7477fd40561e8b8198f173bd47" kindref="member">EQ</ref>,<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0cadc33066c3993e0d50896e533fd692ce0" kindref="member">NE</ref>,<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0cac562607189d77eb9dfb707464c1e7b0b" kindref="member">LT</ref>,<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0cacfe6055d2e0503be378bb63449ec7ba6" kindref="member">LE</ref>,<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0cacd6a9bd2a175104eed40f0d33a8b4020" kindref="member">GT</ref>,<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0caf803729628adf4199f224c2a225038e9" kindref="member">GE</ref>,<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0cadbd9c38e0339e6c34bd48cafc59be388" kindref="member">IS_NULL</ref>,<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0ca05dd132ba23ff57c0ca5ec4100c31fdc" kindref="member">IS_NOT_NULL</ref><sp/>};</highlight></codeline>
+<codeline lineno="115" refid="structthemisdb_1_1analytics_1_1_view_filter_1a076cd6964d6375c73dad2aa6328f26ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1a076cd6964d6375c73dad2aa6328f26ce" kindref="member">field</ref>;</highlight></codeline>
+<codeline lineno="116" refid="structthemisdb_1_1analytics_1_1_view_filter_1ac1a8de6e2bb85daf577aa4be778d32bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0c" kindref="member">Op</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ac1a8de6e2bb85daf577aa4be778d32bb" kindref="member">op</ref><sp/>=<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0ca2dcbad7477fd40561e8b8198f173bd47" kindref="member">Op::EQ</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemisdb_1_1analytics_1_1_view_filter_1af4690f16970432af045ab351dcf138e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1af4690f16970432af045ab351dcf138e9" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemisdb_1_1analytics_1_1_view_definition" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_view_definition" kindref="compound">ViewDefinition</ref><sp/>{</highlight></codeline>
+<codeline lineno="121" refid="structthemisdb_1_1analytics_1_1_view_definition_1a5afe444b87974daf56892de590355397" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_definition_1a5afe444b87974daf56892de590355397" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="122" refid="structthemisdb_1_1analytics_1_1_view_definition_1a94cd286c7141eef8f2b4dde20de8dbd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_definition_1a94cd286c7141eef8f2b4dde20de8dbd6" kindref="member">source_collection</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemisdb_1_1analytics_1_1_view_definition_1ad313e0a4f01da3115702cc46089b7919" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_definition_1ad313e0a4f01da3115702cc46089b7919" kindref="member">dimensions</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemisdb_1_1analytics_1_1_view_definition_1aed34aba9bbf85f26664d4efab66a76ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ViewAggSpec&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_definition_1aed34aba9bbf85f26664d4efab66a76ca" kindref="member">aggregations</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemisdb_1_1analytics_1_1_view_definition_1a2bc3517a6bb62828672f102da6cf1122" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ViewFilter&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_definition_1a2bc3517a6bb62828672f102da6cf1122" kindref="member">base_filters</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemisdb_1_1analytics_1_1_view_definition_1a735bfacc4c0fb2736a9ec4d61325b8eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_definition_1a735bfacc4c0fb2736a9ec4d61325b8eb" kindref="member">staleness_seconds</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>View<sp/>result<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemisdb_1_1analytics_1_1_view_row" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_view_row" kindref="compound">ViewRow</ref><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="structthemisdb_1_1analytics_1_1_view_row_1aada2e1fea3a2b6aa41eead0cbf9a24eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_row_1aada2e1fea3a2b6aa41eead0cbf9a24eb" kindref="member">group_key</ref>;</highlight></codeline>
+<codeline lineno="139" refid="structthemisdb_1_1analytics_1_1_view_row_1ac05201712a856f546507348f1f80f9c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>FieldValue&gt;<sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_row_1ac05201712a856f546507348f1f80f9c3" kindref="member">values</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemisdb_1_1analytics_1_1_view_query_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_view_query_result" kindref="compound">ViewQueryResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="143" refid="structthemisdb_1_1analytics_1_1_view_query_result_1a53b608dd7614bc61ccad65a6e1c0fc0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ViewRow&gt;<sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_query_result_1a53b608dd7614bc61ccad65a6e1c0fc0a" kindref="member">rows</ref>;</highlight></codeline>
+<codeline lineno="144" refid="structthemisdb_1_1analytics_1_1_view_query_result_1a880b6eb0ecd48635127df5394b01abb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_query_result_1a880b6eb0ecd48635127df5394b01abb9" kindref="member">total_rows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="145" refid="structthemisdb_1_1analytics_1_1_view_query_result_1a6e5b40ecb90665f8013b2c35bd6cb9b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_query_result_1a6e5b40ecb90665f8013b2c35bd6cb9b8" kindref="member">is_stale</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146" refid="structthemisdb_1_1analytics_1_1_view_query_result_1a21703c0b54ea1318509405913e94cc3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1analytics_1_1_view_query_result_1a21703c0b54ea1318509405913e94cc3e" kindref="member">last_update</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IncrementalView</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemisdb_1_1analytics_1_1_incremental_view" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a3a33856996e5f12e41329f46ba42c579" kindref="member">IncrementalView</ref><sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a3a33856996e5f12e41329f46ba42c579" kindref="member">IncrementalView</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_definition" kindref="compound">ViewDefinition</ref>&amp;<sp/>def);</highlight></codeline>
+<codeline lineno="161" refid="classthemisdb_1_1analytics_1_1_incremental_view_1a19910b5dc9adc214151c3d86a9eed0dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a19910b5dc9adc214151c3d86a9eed0dd" kindref="member">~IncrementalView</ref>();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemisdb_1_1analytics_1_1_incremental_view_1aadb80c665bce086aa9b03ffefe887118" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1aadb80c665bce086aa9b03ffefe887118" kindref="member">IncrementalView</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a3a33856996e5f12e41329f46ba42c579" kindref="member">IncrementalView</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165" refid="classthemisdb_1_1analytics_1_1_incremental_view_1a54e8ed50787cf7f5bc3d4ff73c20264a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a3a33856996e5f12e41329f46ba42c579" kindref="member">IncrementalView</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a54e8ed50787cf7f5bc3d4ff73c20264a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a3a33856996e5f12e41329f46ba42c579" kindref="member">IncrementalView</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1aa747981c207be7cb9666013a6bd3695f" kindref="member">applyChange</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record" kindref="compound">ChangeRecord</ref>&amp;<sp/>change);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a255666143f9963bc99bc361ac4347db9" kindref="member">applyChanges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ChangeRecord&gt;&amp;<sp/>changes);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_query_result" kindref="compound">ViewQueryResult</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a118df7b4acb9bbaeb09c0b334d9ccc3d" kindref="member">query</ref>(</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ViewFilter&gt;&amp;<sp/>filters<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>limit<sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>offset<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="classthemisdb_1_1analytics_1_1_incremental_view_1abe8a74e6b4c6c7c72f1cbbabc92c4a43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_definition" kindref="compound">ViewDefinition</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1abe8a74e6b4c6c7c72f1cbbabc92c4a43" kindref="member">definition</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>def_;<sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a690dd3b326a59f6bedbc1114c5ce03a3" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a0eb7869344d72ef6518f406d9f163829" kindref="member">groupCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="classthemisdb_1_1analytics_1_1_incremental_view_1a04e49f8876d004de56dccf1c328a67f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a04e49f8876d004de56dccf1c328a67f4" kindref="member">isDirty</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dirty_.load();<sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a448279ea9c850346f4a772b1bb54aa43" kindref="member">isStale</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="classthemisdb_1_1analytics_1_1_incremental_view_1ae2abf27839b6411569e7f4fc74c5325a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1ae2abf27839b6411569e7f4fc74c5325a" kindref="member">changeCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>change_count_.load();<sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_1a83034c54173f2bd5cd3f48968083b13b" kindref="member">lastUpdateTime</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_definition" kindref="compound">ViewDefinition</ref><sp/>def_;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-group<sp/>aggregate<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">AggState<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>COUNT<sp/>/<sp/>SUM<sp/>/<sp/>AVG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/>sum<sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MIN<sp/>/<sp/>MAX<sp/>(sorted<sp/>multiset<sp/>for<sp/>correct<sp/>removal<sp/>semantics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::multiset&lt;double&gt;<sp/>min_max_values;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>STDDEV<sp/>/<sp/>VARIANCE<sp/>via<sp/>Welford&apos;s<sp/>online<sp/>algorithm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>welford_mean<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>welford_m2<sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>COUNT_DISTINCT<sp/>—<sp/>reference-counted<sp/>to<sp/>handle<sp/>duplicate<sp/>field<sp/>values<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int&gt;<sp/>distinct_ref_counts;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FIRST<sp/>/<sp/>LAST<sp/>(stored<sp/>as<sp/>string<sp/>representation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref><sp/>first_val{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref><sp/>last_val{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>has_first<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>add(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref>&amp;<sp/>v,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sign);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref><sp/>result(<ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825" kindref="member">ViewAggFunc</ref><sp/>func)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>group_key_string<sp/>→<sp/>{agg_output_name<sp/>→<sp/>AggState}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">GroupKey<sp/>=<sp/>std::string;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;GroupKey,<sp/>std::unordered_map&lt;std::string,<sp/>AggState&gt;&gt;<sp/>groups_;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>rw_mutex_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/>dirty_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>change_count_{0};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/><sp/>last_update_us_{0};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>GroupKey<sp/>makeGroupKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record_1a46cd7cc52b972089621c810b52077077" kindref="member">ChangeRecord::Row</ref>&amp;<sp/>row)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>parseGroupKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GroupKey&amp;<sp/>gk)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>passesBaseFilters(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record_1a46cd7cc52b972089621c810b52077077" kindref="member">ChangeRecord::Row</ref>&amp;<sp/>row)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>passesRuntimeFilters(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>gk,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ViewFilter&gt;&amp;<sp/>filters)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>applyRow(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record_1a46cd7cc52b972089621c810b52077077" kindref="member">ChangeRecord::Row</ref>&amp;<sp/>row,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sign);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pruneEmptyGroup(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GroupKey&amp;<sp/>gk);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IncrementalViewManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297" refid="classthemisdb_1_1analytics_1_1_incremental_view_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a4070dd6487410c893a830a978727b105" kindref="member">IncrementalViewManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="299" refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a4070dd6487410c893a830a978727b105" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a4070dd6487410c893a830a978727b105" kindref="member">IncrementalViewManager</ref>();</highlight></codeline>
+<codeline lineno="300" refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1aad747097c4bf4b474947da4087c78ce2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1aad747097c4bf4b474947da4087c78ce2" kindref="member">~IncrementalViewManager</ref>();</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a460a6b3a91d1ae84b0b2f48bee0fc74e" kindref="member">createView</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_definition" kindref="compound">ViewDefinition</ref>&amp;<sp/>def);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a0df106762f20b98840d2c21da1bc7499" kindref="member">dropView</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1ad91382cc3256f65b63371b1a707a9ca6" kindref="member">hasView</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IncrementalView&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1acccc4ed480cd2d9f27c2d095de88f2e9" kindref="member">getView</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a73ee44fb33a6356ff0838926babb1d3d" kindref="member">listViews</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a8bf6e88459caef7ca77ca69b7fb90467" kindref="member">applyChange</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_change_record" kindref="compound">ChangeRecord</ref>&amp;<sp/>change);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1a2e2ea79e2bdecbcbdde447ac17eb8669" kindref="member">applyChanges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ChangeRecord&gt;&amp;<sp/>changes);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_view_query_result" kindref="compound">ViewQueryResult</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1aac2e06172430ab9cc93ea6cecda62988" kindref="member">query</ref>(</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>view_name,</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ViewFilter&gt;&amp;<sp/>filters<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>limit<sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>offset<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355" refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1ae0214f0936905aad239a50ed60b418f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1analytics_1_1_incremental_view_manager_1ae0214f0936905aad239a50ed60b418f4" kindref="member">totalChanges</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_changes_.load();<sp/>}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>views_mutex_;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::shared_ptr&lt;IncrementalView&gt;&gt;<sp/>views_;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_changes_{0};</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Utility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal">std::string<sp/><ref refid="namespacethemisdb_1_1analytics_1a1c5033bb7c25a61ffe5f149201505795" kindref="member">fieldValueToStr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref>&amp;<sp/>v);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380" refid="namespacethemisdb_1_1analytics_1a3576f72f59ed68bd02fef9176f98a6bb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemisdb_1_1analytics_1a3576f72f59ed68bd02fef9176f98a6bb" kindref="member">viewAggFuncToString</ref>(<ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825" kindref="member">ViewAggFunc</ref><sp/>f)<sp/>{</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(f)<sp/>{</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a4905ac9d6a22bdfc1ae096094ce6248d" kindref="member">ViewAggFunc::COUNT</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;COUNT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a6970bdc2201030b9c03fbdcf3973858a" kindref="member">ViewAggFunc::SUM</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;SUM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825afcefd647d6a866603c627b11347c707a" kindref="member">ViewAggFunc::AVG</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;AVG&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825ace31e2a082d17e038fcc6e3006166653" kindref="member">ViewAggFunc::MIN</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MIN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a26a4b44a837bf97b972628509912b4a5" kindref="member">ViewAggFunc::MAX</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MAX&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825ae920619bf0e106c10e5d5a787670a059" kindref="member">ViewAggFunc::STDDEV</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;STDDEV&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825ace18bb9a2b22515d0cd36bca6b998bde" kindref="member">ViewAggFunc::VARIANCE</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;VARIANCE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a45b14c32ffb0d2822ad079cd8b60bc1f" kindref="member">ViewAggFunc::COUNT_DISTINCT</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;COUNT_DISTINCT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825a2c2624a5059934a947d6e25fe8332ade" kindref="member">ViewAggFunc::FIRST</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;FIRST&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825af447f5c03508de4d88e340390ba7c78f" kindref="member">ViewAggFunc::LAST</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LAST&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/incremental_view.h"/>
+  </compounddef>
+</doxygen>

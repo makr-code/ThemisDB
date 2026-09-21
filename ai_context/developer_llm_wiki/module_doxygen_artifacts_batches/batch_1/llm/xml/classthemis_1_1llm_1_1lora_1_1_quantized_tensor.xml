@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::QuantizedTensor</compoundname>
+    <includes refid="quantization_8h" local="no">quantization.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a5f9121eee51254acd3702d67905c5b3d" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843" kindref="member">QuantizationType</ref></type>
+        <definition>QuantizationType themis::llm::lora::QuantizedTensor::type_</definition>
+        <argsstring></argsstring>
+        <name>type_</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="123" column="22" bodyfile="include/llm/lora_framework/quantization.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a5a0083112def078483f6efcb90caffa9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::llm::lora::QuantizedTensor::shape_</definition>
+        <argsstring></argsstring>
+        <name>shape_</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::shape_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="124" column="17" bodyfile="include/llm/lora_framework/quantization.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a67afa2a95902d877087c08e90a1f32f2" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::QuantizedTensor::block_size_</definition>
+        <argsstring></argsstring>
+        <name>block_size_</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::block_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="125" column="12" bodyfile="include/llm/lora_framework/quantization.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a3bb9b1d722bcb43f9a20e8116b3fdcf6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::llm::lora::QuantizedTensor::quantized_data_</definition>
+        <argsstring></argsstring>
+        <name>quantized_data_</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::quantized_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="130" column="17" bodyfile="include/llm/lora_framework/quantization.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a2d798f048fe0028aa67fd3b3dafc5fd3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_quantization_block" kindref="compound">QuantizationBlock</ref> &gt;</type>
+        <definition>std::vector&lt;QuantizationBlock&gt; themis::llm::lora::QuantizedTensor::blocks_</definition>
+        <argsstring></argsstring>
+        <name>blocks_</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::blocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="133" column="17" bodyfile="include/llm/lora_framework/quantization.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a8214a981d24e0030566a753e2aec1f66" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::QuantizedTensor::~QuantizedTensor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~QuantizedTensor</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::~QuantizedTensor</qualifiedname>
+        <briefdescription>
+<para>Quantized <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="79" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1aba4cd84b2e7515568be15560537e6afa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::QuantizedTensor::QuantizedTensor</definition>
+        <argsstring>()=default</argsstring>
+        <name>QuantizedTensor</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::QuantizedTensor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1aeca1cbbc86d132d065dcfc6b6fecead7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::QuantizedTensor::QuantizedTensor</definition>
+        <argsstring>(QuantizationType type, const std::vector&lt; size_t &gt; &amp;shape, size_t block_size=64)</argsstring>
+        <name>QuantizedTensor</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::QuantizedTensor</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843" kindref="member">QuantizationType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>block_size</declname>
+          <defval>64</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="82" column="5" bodyfile="src/llm/lora_framework/quantization.cpp" bodystart="57" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a2636ef60ccc22c0905ae029d1c29725a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843" kindref="member">QuantizationType</ref></type>
+        <definition>QuantizationType themis::llm::lora::QuantizedTensor::type</definition>
+        <argsstring>() const</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="87" column="22" bodyfile="include/llm/lora_framework/quantization.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a194cef4231aaf8fd7d56bfec8e37a48c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; size_t &gt; &amp;</type>
+        <definition>const std::vector&lt; size_t &gt; &amp; themis::llm::lora::QuantizedTensor::shape</definition>
+        <argsstring>() const</argsstring>
+        <name>shape</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::shape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="88" column="23" bodyfile="include/llm/lora_framework/quantization.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a97715d62f7538eec3e38eb2068e4ae5b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::QuantizedTensor::block_size</definition>
+        <argsstring>() const</argsstring>
+        <name>block_size</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::block_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="89" column="12" bodyfile="include/llm/lora_framework/quantization.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1af2d29d9fccf65a2b3e188d7b00b3467a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::QuantizedTensor::num_blocks</definition>
+        <argsstring>() const</argsstring>
+        <name>num_blocks</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::num_blocks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="90" column="12" bodyfile="include/llm/lora_framework/quantization.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a02d230b92953f1df5ed2988d903fe12b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::QuantizedTensor::total_elements</definition>
+        <argsstring>() const</argsstring>
+        <name>total_elements</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::total_elements</qualifiedname>
+        <briefdescription>
+<para>Total elements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="95" column="12" bodyfile="src/llm/lora_framework/quantization.cpp" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a835755ec0c737fbc7d2d1a8667264876" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        <definition>const std::vector&lt; uint8_t &gt; &amp; themis::llm::lora::QuantizedTensor::data</definition>
+        <argsstring>() const</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="98" column="23" bodyfile="include/llm/lora_framework/quantization.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a9fe8e6819d107c7605b8e3321e1fac81" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt; &amp;</type>
+        <definition>std::vector&lt; uint8_t &gt; &amp; themis::llm::lora::QuantizedTensor::data</definition>
+        <argsstring>()</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::data</qualifiedname>
+        <briefdescription>
+<para>Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements data without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="104" column="17" bodyfile="include/llm/lora_framework/quantization.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1aa8011ea957b58c6dda52cb4c07aeaf0b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_quantization_block" kindref="compound">QuantizationBlock</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; QuantizationBlock &gt; &amp; themis::llm::lora::QuantizedTensor::blocks</definition>
+        <argsstring>() const</argsstring>
+        <name>blocks</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::blocks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="107" column="23" bodyfile="include/llm/lora_framework/quantization.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1aa309f73e3d583b02957a5ca72f75c082" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_quantization_block" kindref="compound">QuantizationBlock</ref> &gt; &amp;</type>
+        <definition>std::vector&lt; QuantizationBlock &gt; &amp; themis::llm::lora::QuantizedTensor::blocks</definition>
+        <argsstring>()</argsstring>
+        <name>blocks</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::blocks</qualifiedname>
+        <briefdescription>
+<para>Blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements blocks without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="113" column="17" bodyfile="include/llm/lora_framework/quantization.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1aa3f90a5de463984f0d007963264c5d64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::QuantizedTensor::memory_bytes</definition>
+        <argsstring>() const</argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::llm::lora::QuantizedTensor::memory_bytes</qualifiedname>
+        <briefdescription>
+<para>Memory bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="120" column="12" bodyfile="src/llm/lora_framework/quantization.cpp" bodystart="84" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/quantization.h" line="73" column="1" bodyfile="include/llm/lora_framework/quantization.h" bodystart="73" bodyend="134"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a97715d62f7538eec3e38eb2068e4ae5b" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>block_size</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a67afa2a95902d877087c08e90a1f32f2" prot="private" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>block_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1aa8011ea957b58c6dda52cb4c07aeaf0b" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>blocks</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1aa309f73e3d583b02957a5ca72f75c082" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>blocks</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a2d798f048fe0028aa67fd3b3dafc5fd3" prot="private" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>blocks_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a835755ec0c737fbc7d2d1a8667264876" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>data</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a9fe8e6819d107c7605b8e3321e1fac81" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>data</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1aa3f90a5de463984f0d007963264c5d64" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>memory_bytes</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1af2d29d9fccf65a2b3e188d7b00b3467a" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>num_blocks</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a3bb9b1d722bcb43f9a20e8116b3fdcf6" prot="private" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>quantized_data_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1aba4cd84b2e7515568be15560537e6afa" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>QuantizedTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1aeca1cbbc86d132d065dcfc6b6fecead7" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>QuantizedTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a194cef4231aaf8fd7d56bfec8e37a48c" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>shape</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a5a0083112def078483f6efcb90caffa9" prot="private" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>shape_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a02d230b92953f1df5ed2988d903fe12b" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>total_elements</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a2636ef60ccc22c0905ae029d1c29725a" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>type</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a5f9121eee51254acd3702d67905c5b3d" prot="private" virt="non-virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>type_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor_1a8214a981d24e0030566a753e2aec1f66" prot="public" virt="virtual"><scope>themis::llm::lora::QuantizedTensor</scope><name>~QuantizedTensor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,385 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="trace__instrumentation_8h" kind="file" language="C++">
+    <compoundname>trace_instrumentation.h</compoundname>
+    <includes refid="distributed__trace__span_8h" local="yes">observability/distributed_trace_span.h</includes>
+    <includes refid="distributed__tracing__sdk_8h" local="yes">observability/distributed_tracing_sdk.h</includes>
+    <includes local="no">initializer_list</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includedby refid="trace__instrumentation_8cpp" local="yes">src/observability/trace_instrumentation.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>observability/distributed_trace_span.h</label>
+        <link refid="distributed__trace__span_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>observability/distributed_tracing_sdk.h</label>
+        <link refid="distributed__tracing__sdk_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/observability/trace_instrumentation.h</label>
+        <link refid="trace__instrumentation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>initializer_list</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/trace_instrumentation.h</label>
+        <link refid="trace__instrumentation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/observability/trace_instrumentation.cpp</label>
+        <link refid="trace__instrumentation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1observability_1_1_trace_context_guard" prot="public">themis::observability::TraceContextGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="trace__instrumentation_8h_1ace76fb05f4b4a66645405ada9aa8617c" prot="public" static="no">
+        <name>THEMIS_TRACE_INSTRUMENTATION_MACROS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/trace_instrumentation.h" line="127" column="9" bodyfile="include/observability/trace_instrumentation.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="trace__instrumentation_8h_1ab47d424d58d0a7e1aca33e4deab7d923" prot="public" static="no">
+        <name>TRACE_SCOPE_COORDINATOR</name>
+        <param><defname>operation_name</defname></param>
+        <param><defname>parent_context</defname></param>
+        <initializer>do { } while (false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/trace_instrumentation.h" line="354" column="9" bodyfile="include/observability/trace_instrumentation.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="trace__instrumentation_8h_1a829cccb72b837e6bfe66a074e06c8434" prot="public" static="no">
+        <name>TRACE_SCOPE_SHARD_ROUTER</name>
+        <param><defname>operation_name</defname></param>
+        <initializer>do { } while (false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/trace_instrumentation.h" line="355" column="9" bodyfile="include/observability/trace_instrumentation.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="trace__instrumentation_8h_1a96ce104c19d59cbc20d1d623eac26762" prot="public" static="no">
+        <name>TRACE_SCOPE_WAL_SHIPPER</name>
+        <param><defname>operation_name</defname></param>
+        <initializer>do { } while (false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/trace_instrumentation.h" line="356" column="9" bodyfile="include/observability/trace_instrumentation.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="trace__instrumentation_8h_1a2a532f5bffe19c492f8d77b60d69fa48" prot="public" static="no">
+        <name>TRACE_EVENT</name>
+        <param><defname>event_name</defname></param>
+        <param><defname>...</defname></param>
+        <initializer>do { } while (false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/trace_instrumentation.h" line="357" column="9" bodyfile="include/observability/trace_instrumentation.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="trace__instrumentation_8h_1abea043aa4cd92c0ab63a58f14523da6d" prot="public" static="no">
+        <name>TRACE_BAGGAGE</name>
+        <param><defname>key</defname></param>
+        <param><defname>value</defname></param>
+        <initializer>do { } while (false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/trace_instrumentation.h" line="358" column="9" bodyfile="include/observability/trace_instrumentation.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="trace__instrumentation_8h_1a454b1fd1bd3c3348b7482f178851ffca" prot="public" static="no">
+        <name>TRACE_SET_STATUS</name>
+        <param><defname>status</defname></param>
+        <param><defname>...</defname></param>
+        <initializer>do { } while (false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/trace_instrumentation.h" line="359" column="9" bodyfile="include/observability/trace_instrumentation.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="trace__instrumentation_8h_1a57ac1f21f86262309d90d6e6ce4edc1f" prot="public" static="no">
+        <name>TRACE_SCOPE_AI</name>
+        <param><defname>operation_name</defname></param>
+        <initializer>do { } while (false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/trace_instrumentation.h" line="360" column="9" bodyfile="include/observability/trace_instrumentation.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave D Phase 2A+D2: Trace instrumentation macros for key components. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.5.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-09-16</para>
+</simplesect>
+Provides RAII-based trace instrumentation macros for:<itemizedlist>
+<listitem><para>Coordinator (distributed consensus operations)</para>
+</listitem><listitem><para>ShardRouter (cross-shard routing decisions)</para>
+</listitem><listitem><para>WALShipper (write-ahead log replication)</para>
+</listitem><listitem><para>AIPluginGenerator (AI plugin generation pipeline) — Wave D D2</para>
+</listitem><listitem><para>LLMAQLHandler inference and RAG paths — Wave D D2</para>
+</listitem></itemizedlist>
+</para>
+<para>Designed for minimal overhead (&lt; 100 ns per span creation).</para>
+<para>Wave D Phase 2A Gate: W4A-TRACE-01 (overhead ≤ 2%) </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__trace__span_8h" kindref="compound">observability/distributed_trace_span.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__tracing__sdk_8h" kindref="compound">observability/distributed_tracing_sdk.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;initializer_list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k" kindref="compound">DistributedTracingSDK</ref>&amp;<sp/><ref refid="namespacethemis_1_1observability_1af0c4e118867d5aa83f47b23fe02fcfae" kindref="member">getGlobalTracingSDK</ref>();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">std::shared_ptr&lt;DistributedTraceContext&gt;<sp/><ref refid="namespacethemis_1_1observability_1ac3a9b725728eb69003db78da022a1bb0" kindref="member">getCurrentTraceContext</ref>();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a4e0d5a7a8dad6bc7795affdcf2b9258e" kindref="member">setCurrentTraceContext</ref>(std::shared_ptr&lt;DistributedTraceContext&gt;<sp/>ctx);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_distributed_trace_span" kindref="compound">DistributedTraceSpan</ref>*<sp/><ref refid="namespacethemis_1_1observability_1ad019ed63da1b499f134b43515241358c" kindref="member">getCurrentSpan</ref>();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1ad0b8d0fc12b761bb888955902b2b6091" kindref="member">setCurrentSpan</ref>(<ref refid="classthemis_1_1observability_1_1_distributed_trace_span" kindref="compound">DistributedTraceSpan</ref>*<sp/>span);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1observability_1_1_trace_context_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_trace_context_guard_1a27fef218d2b5c0704c51727d067c5763" kindref="member">TraceContextGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1observability_1_1_trace_context_guard_1a27fef218d2b5c0704c51727d067c5763" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_trace_context_guard_1a27fef218d2b5c0704c51727d067c5763" kindref="member">TraceContextGuard</ref>(<ref refid="classthemis_1_1observability_1_1_distributed_trace_span" kindref="compound">DistributedTraceSpan</ref>*<sp/>span,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;<sp/>child_ctx)</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>prev_ctx_(<ref refid="namespacethemis_1_1observability_1ac3a9b725728eb69003db78da022a1bb0" kindref="member">getCurrentTraceContext</ref>())</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>prev_span_(<ref refid="namespacethemis_1_1observability_1ad019ed63da1b499f134b43515241358c" kindref="member">getCurrentSpan</ref>())</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a4e0d5a7a8dad6bc7795affdcf2b9258e" kindref="member">setCurrentTraceContext</ref>(std::move(child_ctx));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ad0b8d0fc12b761bb888955902b2b6091" kindref="member">setCurrentSpan</ref>(span);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1observability_1_1_trace_context_guard_1af53afdefbb6aa0c97b2da8308e4e619d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_trace_context_guard_1af53afdefbb6aa0c97b2da8308e4e619d" kindref="member">~TraceContextGuard</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ad0b8d0fc12b761bb888955902b2b6091" kindref="member">setCurrentSpan</ref>(prev_span_);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a4e0d5a7a8dad6bc7795affdcf2b9258e" kindref="member">setCurrentTraceContext</ref>(std::move(prev_ctx_));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1observability_1_1_trace_context_guard_1aff032069460c4935f2dff33c312c3c6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_trace_context_guard_1aff032069460c4935f2dff33c312c3c6d" kindref="member">TraceContextGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_trace_context_guard_1a27fef218d2b5c0704c51727d067c5763" kindref="member">TraceContextGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1observability_1_1_trace_context_guard_1aa58d57877142d2e73ab47f2f41d7f881" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_trace_context_guard_1a27fef218d2b5c0704c51727d067c5763" kindref="member">TraceContextGuard</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_trace_context_guard_1aa58d57877142d2e73ab47f2f41d7f881" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_trace_context_guard_1a27fef218d2b5c0704c51727d067c5763" kindref="member">TraceContextGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;<sp/>prev_ctx_;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_span" kindref="compound">DistributedTraceSpan</ref>*<sp/>prev_span_;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Trace<sp/>Instrumentation<sp/>Macros</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_TRACE_INSTRUMENTATION_MACROS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="trace__instrumentation_8h_1ace76fb05f4b4a66645405ada9aa8617c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_TRACE_INSTRUMENTATION_MACROS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_ENABLE_TRACING)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_SCOPE_COORDINATOR(operation_name,<sp/>parent_context)<sp/>\</highlight></codeline>
+<codeline lineno="156"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>auto<sp/>_trace_span_##__LINE__<sp/>=<sp/>std::make_shared&lt;themis::observability::DistributedTraceSpan&gt;(<sp/>\</highlight></codeline>
+<codeline lineno="157"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>operation_name,<sp/>parent_context);<sp/>\</highlight></codeline>
+<codeline lineno="158"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>themis::observability::TraceContextGuard<sp/>_trace_guard_##__LINE__(<sp/>\</highlight></codeline>
+<codeline lineno="159"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_trace_span_##__LINE__.get(),<sp/>\</highlight></codeline>
+<codeline lineno="160"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_trace_span_##__LINE__-&gt;childContext(operation_name));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_SCOPE_SHARD_ROUTER(operation_name)<sp/>\</highlight></codeline>
+<codeline lineno="180"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>auto<sp/>_trace_span_##__LINE__<sp/>=<sp/>std::make_shared&lt;themis::observability::DistributedTraceSpan&gt;(<sp/>\</highlight></codeline>
+<codeline lineno="181"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>operation_name,<sp/>themis::observability::getCurrentTraceContext());<sp/>\</highlight></codeline>
+<codeline lineno="182"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>themis::observability::TraceContextGuard<sp/>_trace_guard_##__LINE__(<sp/>\</highlight></codeline>
+<codeline lineno="183"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_trace_span_##__LINE__.get(),<sp/>\</highlight></codeline>
+<codeline lineno="184"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_trace_span_##__LINE__-&gt;childContext(operation_name));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_SCOPE_WAL_SHIPPER(operation_name)<sp/>\</highlight></codeline>
+<codeline lineno="204"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>auto<sp/>_trace_span_##__LINE__<sp/>=<sp/>std::make_shared&lt;themis::observability::DistributedTraceSpan&gt;(<sp/>\</highlight></codeline>
+<codeline lineno="205"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>operation_name,<sp/>themis::observability::getCurrentTraceContext());<sp/>\</highlight></codeline>
+<codeline lineno="206"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>themis::observability::TraceContextGuard<sp/>_trace_guard_##__LINE__(<sp/>\</highlight></codeline>
+<codeline lineno="207"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_trace_span_##__LINE__.get(),<sp/>\</highlight></codeline>
+<codeline lineno="208"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_trace_span_##__LINE__-&gt;childContext(operation_name));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a3bff324cd7df76777ef77c7300455f04" kindref="member">recordTraceEvent</ref>(std::string_view<sp/>event_name,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::initializer_list&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/>attrs<sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>span<sp/>=<sp/><ref refid="namespacethemis_1_1observability_1ad019ed63da1b499f134b43515241358c" kindref="member">getCurrentSpan</ref>();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(span)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>attributes;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[key,<sp/>value]<sp/>:<sp/>attrs)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attributes.emplace(key,<sp/>value);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span-&gt;addEvent(std::string(event_name),<sp/>attributes);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_EVENT(event_name,<sp/>...)<sp/>\</highlight></codeline>
+<codeline lineno="242"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>do<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="243"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto*<sp/>_span<sp/>=<sp/>themis::observability::getCurrentSpan();<sp/>\</highlight></codeline>
+<codeline lineno="244"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(_span)<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="245"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_span-&gt;addEvent((event_name)<sp/>__VA_OPT__(,)<sp/>__VA_ARGS__);<sp/>\</highlight></codeline>
+<codeline lineno="246"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>\</highlight></codeline>
+<codeline lineno="247"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>}<sp/>while<sp/>(0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_BAGGAGE(key,<sp/>value)<sp/>\</highlight></codeline>
+<codeline lineno="270"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>do<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="271"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto*<sp/>_span<sp/>=<sp/>themis::observability::getCurrentSpan();<sp/>\</highlight></codeline>
+<codeline lineno="272"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(_span)<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="273"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_span-&gt;addBaggage((key),<sp/>(value));<sp/>\</highlight></codeline>
+<codeline lineno="274"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>\</highlight></codeline>
+<codeline lineno="275"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>}<sp/>while<sp/>(0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_SET_STATUS(status,<sp/>...)<sp/>\</highlight></codeline>
+<codeline lineno="297"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>do<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="298"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto*<sp/>_span<sp/>=<sp/>themis::observability::getCurrentSpan();<sp/>\</highlight></codeline>
+<codeline lineno="299"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(_span)<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="300"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_span-&gt;setStatus((status),<sp/>##__VA_ARGS__);<sp/>\</highlight></codeline>
+<codeline lineno="301"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>\</highlight></codeline>
+<codeline lineno="302"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>}<sp/>while<sp/>(0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AI<sp/>Module<sp/>Trace<sp/>Instrumentation<sp/>—<sp/>Wave<sp/>D<sp/>D2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_SCOPE_AI(operation_name)<sp/>\</highlight></codeline>
+<codeline lineno="343"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>auto<sp/>_trace_span_##__LINE__<sp/>=<sp/>std::make_shared&lt;themis::observability::DistributedTraceSpan&gt;(<sp/>\</highlight></codeline>
+<codeline lineno="344"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>operation_name,<sp/>themis::observability::getCurrentTraceContext());<sp/>\</highlight></codeline>
+<codeline lineno="345"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>themis::observability::TraceContextGuard<sp/>_trace_guard_##__LINE__(<sp/>\</highlight></codeline>
+<codeline lineno="346"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_trace_span_##__LINE__.get(),<sp/>\</highlight></codeline>
+<codeline lineno="347"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_trace_span_##__LINE__-&gt;childContext(operation_name));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351" refid="namespacethemis_1_1observability_1a3bff324cd7df76777ef77c7300455f04" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a3bff324cd7df76777ef77c7300455f04" kindref="member">recordTraceEvent</ref>(std::string_view,</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::initializer_list&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/>=<sp/>{})<sp/>{}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354" refid="trace__instrumentation_8h_1ab47d424d58d0a7e1aca33e4deab7d923" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_SCOPE_COORDINATOR(operation_name,<sp/>parent_context)<sp/>do<sp/>{<sp/>}<sp/>while<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355" refid="trace__instrumentation_8h_1a829cccb72b837e6bfe66a074e06c8434" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_SCOPE_SHARD_ROUTER(operation_name)<sp/>do<sp/>{<sp/>}<sp/>while<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356" refid="trace__instrumentation_8h_1a96ce104c19d59cbc20d1d623eac26762" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_SCOPE_WAL_SHIPPER(operation_name)<sp/>do<sp/>{<sp/>}<sp/>while<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357" refid="trace__instrumentation_8h_1a2a532f5bffe19c492f8d77b60d69fa48" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_EVENT(event_name,<sp/>...)<sp/>do<sp/>{<sp/>}<sp/>while<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358" refid="trace__instrumentation_8h_1abea043aa4cd92c0ab63a58f14523da6d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_BAGGAGE(key,<sp/>value)<sp/>do<sp/>{<sp/>}<sp/>while<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359" refid="trace__instrumentation_8h_1a454b1fd1bd3c3348b7482f178851ffca" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_SET_STATUS(status,<sp/>...)<sp/>do<sp/>{<sp/>}<sp/>while<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360" refid="trace__instrumentation_8h_1a57ac1f21f86262309d90d6e6ce4edc1f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRACE_SCOPE_AI(operation_name)<sp/>do<sp/>{<sp/>}<sp/>while<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_TRACE_INSTRUMENTATION_MACROS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/trace_instrumentation.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_quantized_train" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::QuantizedTrain</compoundname>
+    <includes refid="tt__quantizer_8h" local="no">tt_quantizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_train_1aebf6ba9f4a44b997563b67695e7d5f8f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::storage::QuantizedTrain::mode_sizes</definition>
+        <argsstring></argsstring>
+        <name>mode_sizes</name>
+        <qualifiedname>themis::storage::QuantizedTrain::mode_sizes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="81" column="17" bodyfile="include/storage/tt_quantizer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_train_1a8735cf618b3c9aac474ade6435e58249" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1storage_1_1_quantized_core" kindref="compound">QuantizedCore</ref> &gt;</type>
+        <definition>std::vector&lt;QuantizedCore&gt; themis::storage::QuantizedTrain::cores</definition>
+        <argsstring></argsstring>
+        <name>cores</name>
+        <qualifiedname>themis::storage::QuantizedTrain::cores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="82" column="17" bodyfile="include/storage/tt_quantizer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_train_1aee669ef2ba99ab076a457cffe2141d01" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref></type>
+        <definition>QuantizationType themis::storage::QuantizedTrain::quant_type</definition>
+        <argsstring></argsstring>
+        <name>quant_type</name>
+        <qualifiedname>themis::storage::QuantizedTrain::quant_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbab50339a10e1de285ac99d4c3990b8693" kindref="member">QuantizationType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="83" column="22" bodyfile="include/storage/tt_quantizer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_train_1aa5702251927b59e8f380527d45ea826a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::QuantizedTrain::original_norm</definition>
+        <argsstring></argsstring>
+        <name>original_norm</name>
+        <qualifiedname>themis::storage::QuantizedTrain::original_norm</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="84" column="12" bodyfile="include/storage/tt_quantizer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_quantized_train_1af45e4a458c6feb52c6bd9d1a7c85db68" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::QuantizedTrain::achieved_eps</definition>
+        <argsstring></argsstring>
+        <name>achieved_eps</name>
+        <qualifiedname>themis::storage::QuantizedTrain::achieved_eps</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="85" column="12" bodyfile="include/storage/tt_quantizer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_quantized_train_1a6ea669213ad49f8e5e13865c388ed3c0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::QuantizedTrain::order</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>order</name>
+        <qualifiedname>themis::storage::QuantizedTrain::order</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="87" column="17" bodyfile="include/storage/tt_quantizer.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_quantized_train_1aa2d933372c9e79eb216d58cc14e40e19" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::QuantizedTrain::totalBytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalBytes</name>
+        <qualifiedname>themis::storage::QuantizedTrain::totalBytes</qualifiedname>
+        <briefdescription>
+<para>Total compressed bytes across all cores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="90" column="17" bodyfile="src/storage/tt_quantizer.cpp" bodystart="106" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_quantized_train_1aadf450a10debd2b1ab69003771ccc8fc" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::storage::QuantizedTrain::compressionRatio</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>compressionRatio</name>
+        <qualifiedname>themis::storage::QuantizedTrain::compressionRatio</qualifiedname>
+        <briefdescription>
+<para>Compression ratio: (dense float32 elements × 4) / <ref refid="structthemis_1_1storage_1_1_quantized_train_1aa2d933372c9e79eb216d58cc14e40e19" kindref="member">totalBytes()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="93" column="12" bodyfile="src/storage/tt_quantizer.cpp" bodystart="114" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_quantized_train_1a69cdc23c803756721957eac356ba8077" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::storage::QuantizedTrain::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::storage::QuantizedTrain::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialise to bytes for RocksDB storage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="96" column="17" bodyfile="src/storage/tt_quantizer.cpp" bodystart="126" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_quantized_train_1a46d2720ad29f2c03fe8cc862ae58d8fc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref> &gt;</type>
+        <definition>std::optional&lt; QuantizedTrain &gt; themis::storage::QuantizedTrain::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::storage::QuantizedTrain::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise from bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::memcpy(), readU64(), resize(), readF64(), cb(), begin(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tt_quantizer.h" line="99" column="26" bodyfile="src/storage/tt_quantizer.cpp" bodystart="162" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A full TT-train after core-wise quantisation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/tt_quantizer.h" line="80" column="1" bodyfile="include/storage/tt_quantizer.h" bodystart="80" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_quantized_train_1af45e4a458c6feb52c6bd9d1a7c85db68" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedTrain</scope><name>achieved_eps</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_train_1aadf450a10debd2b1ab69003771ccc8fc" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedTrain</scope><name>compressionRatio</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_train_1a8735cf618b3c9aac474ade6435e58249" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedTrain</scope><name>cores</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_train_1a46d2720ad29f2c03fe8cc862ae58d8fc" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedTrain</scope><name>deserialize</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_train_1aebf6ba9f4a44b997563b67695e7d5f8f" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedTrain</scope><name>mode_sizes</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_train_1a6ea669213ad49f8e5e13865c388ed3c0" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedTrain</scope><name>order</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_train_1aa5702251927b59e8f380527d45ea826a" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedTrain</scope><name>original_norm</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_train_1aee669ef2ba99ab076a457cffe2141d01" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedTrain</scope><name>quant_type</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_train_1a69cdc23c803756721957eac356ba8077" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedTrain</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1storage_1_1_quantized_train_1aa2d933372c9e79eb216d58cc14e40e19" prot="public" virt="non-virtual"><scope>themis::storage::QuantizedTrain</scope><name>totalBytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

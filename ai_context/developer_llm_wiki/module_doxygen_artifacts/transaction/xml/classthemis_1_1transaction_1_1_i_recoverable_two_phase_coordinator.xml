@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::transaction::IRecoverableTwoPhaseCoordinator</compoundname>
+    <basecompoundref refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator" prot="public" virt="non-virtual">themis::transaction::IInDoubtRecoveryCoordinator</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager" prot="public" virt="non-virtual">themis::transaction::DistributedTransactionManager</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1transaction_1_1_global_transaction_manager" prot="public" virt="non-virtual">themis::transaction::GlobalTransactionManager</derivedcompoundref>
+    <includes refid="recoverable__two__phase__coordinator_8h" local="no">recoverable_two_phase_coordinator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a7ce953ae55f220fd6ed76521d7a829c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::IRecoverableTwoPhaseCoordinator::~IRecoverableTwoPhaseCoordinator</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~IRecoverableTwoPhaseCoordinator</name>
+        <qualifiedname>themis::transaction::IRecoverableTwoPhaseCoordinator::~IRecoverableTwoPhaseCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="93" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a6aaf8efa06e194acfa2590ada2449700" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::transaction::IRecoverableTwoPhaseCoordinator::recoveryCoordinatorName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>recoveryCoordinatorName</name>
+        <qualifiedname>themis::transaction::IRecoverableTwoPhaseCoordinator::recoveryCoordinatorName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a5883a826a7a3b2869220c47d535c7e7b">recoveryCoordinatorName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a61bfb28c0e3584ac459972a1e96edeee">recoveryCoordinatorName</reimplementedby>
+        <briefdescription>
+<para>Return a stable coordinator identifier for recovery reports. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable coordinator type name (e.g. &quot;TwoPhaseCommitCoordinator&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="99" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a2d4aedbbba89842774501e3b4f15ad50" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::transaction::IRecoverableTwoPhaseCoordinator::recoveryBackendName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>recoveryBackendName</name>
+        <qualifiedname>themis::transaction::IRecoverableTwoPhaseCoordinator::recoveryBackendName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a70001a754da311f46d82616ee231fee8">recoveryBackendName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1transaction_1_1_global_transaction_manager_1af7086970f9643f9a73a902f97b1337a3">recoveryBackendName</reimplementedby>
+        <briefdescription>
+<para>Return the durable backend used by this coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Backend name such as &quot;WAL&quot;, &quot;WAL/snapshot&quot;, or &quot;disabled&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="105" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a9a0c50bc7f8da31d51b9f44f1c7e7cb1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction" kindref="compound">RecoverableTwoPhaseTransaction</ref> &gt;</type>
+        <definition>virtual std::vector&lt; RecoverableTwoPhaseTransaction &gt; themis::transaction::IRecoverableTwoPhaseCoordinator::getRecoverableTransactions</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getRecoverableTransactions</name>
+        <qualifiedname>themis::transaction::IRecoverableTwoPhaseCoordinator::getRecoverableTransactions</qualifiedname>
+        <reimplementedby refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ac30f96ede5750f41c60f38283ed2b662">getRecoverableTransactions</reimplementedby>
+        <reimplementedby refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a5717bb4312d20054813cd8f84530e5ea">getRecoverableTransactions</reimplementedby>
+        <briefdescription>
+<para>Return the currently known recoverable/non-final transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned snapshot reflects the coordinator&apos;s view at the time of the call. Non-final means any state except COMPLETED.</para>
+<para><simplesect kind="return"><para>Canonical recovery snapshot for global orchestration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="116" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extended recovery interface for globally orchestrated 2PC recovery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coordinators implementing this contract can participate in a single recovery pass that reports normalized pre/post in-doubt counts while still using their native WAL or snapshot backend internally.</para>
+<para>All three ThemisDB 2PC coordinator types must implement this interface:<itemizedlist>
+<listitem><para>TwoPhaseCommitCoordinator</para>
+</listitem><listitem><para><ref refid="classthemis_1_1transaction_1_1_global_transaction_manager" kindref="compound">GlobalTransactionManager</ref></para>
+</listitem><listitem><para><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager" kindref="compound">DistributedTransactionManager</ref> </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::transaction::DistributedTransactionManager</label>
+        <link refid="classthemis_1_1transaction_1_1_distributed_transaction_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::transaction::GlobalTransactionManager</label>
+        <link refid="classthemis_1_1transaction_1_1_global_transaction_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IInDoubtRecoveryCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator"/>
+      </node>
+      <node id="1">
+        <label>themis::transaction::IRecoverableTwoPhaseCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::transaction::IInDoubtRecoveryCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator"/>
+      </node>
+      <node id="1">
+        <label>themis::transaction::IRecoverableTwoPhaseCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/transaction/recoverable_two_phase_coordinator.h" line="91" column="1" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="91" bodyend="117"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a9a0c50bc7f8da31d51b9f44f1c7e7cb1" prot="public" virt="pure-virtual"><scope>themis::transaction::IRecoverableTwoPhaseCoordinator</scope><name>getRecoverableTransactions</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a1508f43768f357c83c88521a440a8194" prot="public" virt="pure-virtual"><scope>themis::transaction::IRecoverableTwoPhaseCoordinator</scope><name>recoverInDoubtTransactions</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a2d4aedbbba89842774501e3b4f15ad50" prot="public" virt="pure-virtual"><scope>themis::transaction::IRecoverableTwoPhaseCoordinator</scope><name>recoveryBackendName</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a6aaf8efa06e194acfa2590ada2449700" prot="public" virt="pure-virtual"><scope>themis::transaction::IRecoverableTwoPhaseCoordinator</scope><name>recoveryCoordinatorName</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a2bf59187a7b469b2af380a9b45244e1b" prot="public" virt="virtual"><scope>themis::transaction::IRecoverableTwoPhaseCoordinator</scope><name>~IInDoubtRecoveryCoordinator</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a7ce953ae55f220fd6ed76521d7a829c6" prot="public" virt="non-virtual"><scope>themis::transaction::IRecoverableTwoPhaseCoordinator</scope><name>~IRecoverableTwoPhaseCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

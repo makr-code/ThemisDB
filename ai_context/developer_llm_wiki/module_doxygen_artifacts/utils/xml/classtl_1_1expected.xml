@@ -1,0 +1,504 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classtl_1_1expected" kind="class" language="C++" prot="public">
+    <compoundname>tl::expected</compoundname>
+    <includes refid="expected_8h" local="no">expected.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+      <param>
+        <type>typename E</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classtl_1_1expected_1a11667e04c39f3deb42cf3b81532123a6" prot="public" static="no">
+        <type>T</type>
+        <definition>using tl::expected&lt; T, E &gt;::value_type = T</definition>
+        <argsstring></argsstring>
+        <name>value_type</name>
+        <qualifiedname>tl::expected::value_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="61" column="5" bodyfile="include/utils/expected.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classtl_1_1expected_1a142cdb484d4528bc7c34de341962afe4" prot="public" static="no">
+        <type>E</type>
+        <definition>using tl::expected&lt; T, E &gt;::error_type = E</definition>
+        <argsstring></argsstring>
+        <name>error_type</name>
+        <qualifiedname>tl::expected::error_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="62" column="5" bodyfile="include/utils/expected.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtl_1_1expected_1a8ad0432a217a0d613c5daad3034df66d" prot="private" static="no" mutable="no">
+        <type>std::variant&lt; T, E &gt;</type>
+        <definition>std::variant&lt;T, E&gt; tl::expected&lt; T, E &gt;::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>tl::expected::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="161" column="18" bodyfile="include/utils/expected.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtl_1_1expected_1aa85551c4a3dbbfd3bb531447422b743a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>tl::expected&lt; T, E &gt;::expected</definition>
+        <argsstring>(const T &amp;value)</argsstring>
+        <name>expected</name>
+        <qualifiedname>tl::expected::expected</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="64" column="5" bodyfile="include/utils/expected.h" bodystart="64" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1ab50e68651b54496357351d8813f1dfd2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>tl::expected&lt; T, E &gt;::expected</definition>
+        <argsstring>(T &amp;&amp;value)</argsstring>
+        <name>expected</name>
+        <qualifiedname>tl::expected::expected</qualifiedname>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="67" column="5" bodyfile="include/utils/expected.h" bodystart="67" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a57082928a2453d1e0f52ef01de2d0d5c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>tl::expected&lt; T, E &gt;::expected</definition>
+        <argsstring>(const unexpected&lt; E &gt; &amp;unexp)</argsstring>
+        <name>expected</name>
+        <qualifiedname>tl::expected::expected</qualifiedname>
+        <param>
+          <type>const <ref refid="classtl_1_1unexpected" kindref="compound">unexpected</ref>&lt; E &gt; &amp;</type>
+          <declname>unexp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="70" column="5" bodyfile="include/utils/expected.h" bodystart="70" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a27c1e43fae7c28409e069255ee4918c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>tl::expected&lt; T, E &gt;::expected</definition>
+        <argsstring>(unexpected&lt; E &gt; &amp;&amp;unexp)</argsstring>
+        <name>expected</name>
+        <qualifiedname>tl::expected::expected</qualifiedname>
+        <param>
+          <type><ref refid="classtl_1_1unexpected" kindref="compound">unexpected</ref>&lt; E &gt; &amp;&amp;</type>
+          <declname>unexp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="73" column="5" bodyfile="include/utils/expected.h" bodystart="73" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1aee1fcf3308dece14eed3b5d4e60e16c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>tl::expected&lt; T, E &gt;::expected</definition>
+        <argsstring>(const expected &amp;)=default</argsstring>
+        <name>expected</name>
+        <qualifiedname>tl::expected::expected</qualifiedname>
+        <param>
+          <type>const expected &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="76" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a8235416e13a04b8738ed55e7f94683e1" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" noexceptexpression="std::is_nothrow_move_constructible_v&lt; std::variant&lt; T, E &gt; &gt;" virt="non-virtual">
+        <type></type>
+        <definition>tl::expected&lt; T, E &gt;::expected</definition>
+        <argsstring>(expected &amp;&amp;) =default</argsstring>
+        <name>expected</name>
+        <qualifiedname>tl::expected::expected</qualifiedname>
+        <param>
+          <type>expected &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a27bbc3893ef905cc163a3ab959b3c6f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classtl_1_1expected_1aa85551c4a3dbbfd3bb531447422b743a" kindref="member">expected</ref> &amp;</type>
+        <definition>expected &amp; tl::expected&lt; T, E &gt;::operator=</definition>
+        <argsstring>(const expected &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>tl::expected::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classtl_1_1expected_1aa85551c4a3dbbfd3bb531447422b743a" kindref="member">expected</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="78" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1aad490dccd33b64af7e8eb0682c3dd642" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" noexceptexpression="std::is_nothrow_move_assignable_v&lt; std::variant&lt; T, E &gt; &gt;" virt="non-virtual">
+        <type><ref refid="classtl_1_1expected_1aa85551c4a3dbbfd3bb531447422b743a" kindref="member">expected</ref> &amp;</type>
+        <definition>expected &amp; tl::expected&lt; T, E &gt;::operator=</definition>
+        <argsstring>(expected &amp;&amp;) =default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>tl::expected::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classtl_1_1expected_1aa85551c4a3dbbfd3bb531447422b743a" kindref="member">expected</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="79" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a45eeffafde22ebdf02849742d4099654" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool tl::expected&lt; T, E &gt;::has_value</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>has_value</name>
+        <qualifiedname>tl::expected::has_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="81" column="11" bodyfile="include/utils/expected.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a4b1ee72edc7d6baa5be6a47fe5485288" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>tl::expected&lt; T, E &gt;::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>tl::expected::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="82" column="14" bodyfile="include/utils/expected.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a746934788443e0d404c914b2d10dc99a" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="lvalue" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; tl::expected&lt; T, E &gt;::value</definition>
+        <argsstring>() &amp;</argsstring>
+        <name>value</name>
+        <qualifiedname>tl::expected::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="84" column="7" bodyfile="include/utils/expected.h" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1abfefc7570471b72cca7afca337028fc2" prot="public" static="no" const="yes" explicit="no" inline="yes" refqual="lvalue" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; tl::expected&lt; T, E &gt;::value</definition>
+        <argsstring>() const &amp;</argsstring>
+        <name>value</name>
+        <qualifiedname>tl::expected::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="91" column="13" bodyfile="include/utils/expected.h" bodystart="91" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1ae814be1720143ba7789c87ad39c291f8" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="rvalue" virt="non-virtual">
+        <type>T &amp;&amp;</type>
+        <definition>T &amp;&amp; tl::expected&lt; T, E &gt;::value</definition>
+        <argsstring>() &amp;&amp;</argsstring>
+        <name>value</name>
+        <qualifiedname>tl::expected::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="98" column="7" bodyfile="include/utils/expected.h" bodystart="98" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1af5cd23002a0e15da2916af30880a97c0" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="lvalue" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; tl::expected&lt; T, E &gt;::operator*</definition>
+        <argsstring>() &amp;</argsstring>
+        <name>operator*</name>
+        <qualifiedname>tl::expected::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="105" column="7" bodyfile="include/utils/expected.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a21936078ec19fafb19b1a3caca34aed3" prot="public" static="no" const="yes" explicit="no" inline="yes" refqual="lvalue" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; tl::expected&lt; T, E &gt;::operator*</definition>
+        <argsstring>() const &amp;</argsstring>
+        <name>operator*</name>
+        <qualifiedname>tl::expected::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="106" column="13" bodyfile="include/utils/expected.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a81d4731b4b5a55702f839a39e4d3020c" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="rvalue" virt="non-virtual">
+        <type>T &amp;&amp;</type>
+        <definition>T &amp;&amp; tl::expected&lt; T, E &gt;::operator*</definition>
+        <argsstring>() &amp;&amp;</argsstring>
+        <name>operator*</name>
+        <qualifiedname>tl::expected::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="107" column="7" bodyfile="include/utils/expected.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1ae7c3e98de2a1b7a94509e468c30f679b" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="lvalue" noexcept="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * tl::expected&lt; T, E &gt;::operator-&gt;</definition>
+        <argsstring>() &amp;noexcept</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>tl::expected::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="109" column="7" bodyfile="include/utils/expected.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a6a57bad5a933038a93d88d3142b5b6b4" prot="public" static="no" const="yes" explicit="no" inline="yes" refqual="lvalue" noexcept="yes" virt="non-virtual">
+        <type>const T *</type>
+        <definition>const T * tl::expected&lt; T, E &gt;::operator-&gt;</definition>
+        <argsstring>() const &amp;noexcept</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>tl::expected::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="110" column="13" bodyfile="include/utils/expected.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a7020cc44ca459ca8211753f33627616d" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="rvalue" noexcept="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * tl::expected&lt; T, E &gt;::operator-&gt;</definition>
+        <argsstring>() &amp;&amp;noexcept</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>tl::expected::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="111" column="7" bodyfile="include/utils/expected.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a573efdeeb1654f5d9ac01fe65c85d348" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="lvalue" virt="non-virtual">
+        <type>E &amp;</type>
+        <definition>E &amp; tl::expected&lt; T, E &gt;::error</definition>
+        <argsstring>() &amp;</argsstring>
+        <name>error</name>
+        <qualifiedname>tl::expected::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="113" column="7" bodyfile="include/utils/expected.h" bodystart="113" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a70deee22facc318eeb533dbe99b737dd" prot="public" static="no" const="yes" explicit="no" inline="yes" refqual="lvalue" virt="non-virtual">
+        <type>const E &amp;</type>
+        <definition>const E &amp; tl::expected&lt; T, E &gt;::error</definition>
+        <argsstring>() const &amp;</argsstring>
+        <name>error</name>
+        <qualifiedname>tl::expected::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="120" column="13" bodyfile="include/utils/expected.h" bodystart="120" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1acc404619080ea7380be3a3aa2c42dad6" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="rvalue" virt="non-virtual">
+        <type>E &amp;&amp;</type>
+        <definition>E &amp;&amp; tl::expected&lt; T, E &gt;::error</definition>
+        <argsstring>() &amp;&amp;</argsstring>
+        <name>error</name>
+        <qualifiedname>tl::expected::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="127" column="7" bodyfile="include/utils/expected.h" bodystart="127" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1a13e2f06f2876846bb095c09953c2ee26" prot="public" static="no" const="yes" explicit="no" inline="yes" refqual="lvalue" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename U</type>
+          </param>
+        </templateparamlist>
+        <type>T</type>
+        <definition>T tl::expected&lt; T, E &gt;::value_or</definition>
+        <argsstring>(U &amp;&amp;default_value) const &amp;</argsstring>
+        <name>value_or</name>
+        <qualifiedname>tl::expected::value_or</qualifiedname>
+        <param>
+          <type>U &amp;&amp;</type>
+          <declname>default_value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="135" column="7" bodyfile="include/utils/expected.h" bodystart="135" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1ac7b34fd301c3a414599bdc53352de95a" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="lvalue" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename F</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto tl::expected&lt; T, E &gt;::and_then</definition>
+        <argsstring>(F &amp;&amp;f) &amp;</argsstring>
+        <name>and_then</name>
+        <qualifiedname>tl::expected::and_then</qualifiedname>
+        <param>
+          <type>F &amp;&amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="143" column="10" bodyfile="include/utils/expected.h" bodystart="143" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1expected_1aa56345ebbd31e755e578c8f6c1b963ee" prot="public" static="no" const="yes" explicit="no" inline="yes" refqual="lvalue" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename F</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto tl::expected&lt; T, E &gt;::and_then</definition>
+        <argsstring>(F &amp;&amp;f) const &amp;</argsstring>
+        <name>and_then</name>
+        <qualifiedname>tl::expected::and_then</qualifiedname>
+        <param>
+          <type>F &amp;&amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="152" column="10" bodyfile="include/utils/expected.h" bodystart="152" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Expected. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/expected.h" line="59" column="1" bodyfile="include/utils/expected.h" bodystart="59" bodyend="162"/>
+    <listofallmembers>
+      <member refid="classtl_1_1expected_1ac7b34fd301c3a414599bdc53352de95a" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>and_then</name></member>
+      <member refid="classtl_1_1expected_1aa56345ebbd31e755e578c8f6c1b963ee" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>and_then</name></member>
+      <member refid="classtl_1_1expected_1a573efdeeb1654f5d9ac01fe65c85d348" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>error</name></member>
+      <member refid="classtl_1_1expected_1a70deee22facc318eeb533dbe99b737dd" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>error</name></member>
+      <member refid="classtl_1_1expected_1acc404619080ea7380be3a3aa2c42dad6" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>error</name></member>
+      <member refid="classtl_1_1expected_1a142cdb484d4528bc7c34de341962afe4" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>error_type</name></member>
+      <member refid="classtl_1_1expected_1aa85551c4a3dbbfd3bb531447422b743a" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>expected</name></member>
+      <member refid="classtl_1_1expected_1ab50e68651b54496357351d8813f1dfd2" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>expected</name></member>
+      <member refid="classtl_1_1expected_1a57082928a2453d1e0f52ef01de2d0d5c" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>expected</name></member>
+      <member refid="classtl_1_1expected_1a27c1e43fae7c28409e069255ee4918c3" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>expected</name></member>
+      <member refid="classtl_1_1expected_1aee1fcf3308dece14eed3b5d4e60e16c3" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>expected</name></member>
+      <member refid="classtl_1_1expected_1a8235416e13a04b8738ed55e7f94683e1" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>expected</name></member>
+      <member refid="classtl_1_1expected_1a45eeffafde22ebdf02849742d4099654" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>has_value</name></member>
+      <member refid="classtl_1_1expected_1a4b1ee72edc7d6baa5be6a47fe5485288" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>operator bool</name></member>
+      <member refid="classtl_1_1expected_1af5cd23002a0e15da2916af30880a97c0" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>operator*</name></member>
+      <member refid="classtl_1_1expected_1a21936078ec19fafb19b1a3caca34aed3" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>operator*</name></member>
+      <member refid="classtl_1_1expected_1a81d4731b4b5a55702f839a39e4d3020c" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>operator*</name></member>
+      <member refid="classtl_1_1expected_1ae7c3e98de2a1b7a94509e468c30f679b" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>operator-&gt;</name></member>
+      <member refid="classtl_1_1expected_1a6a57bad5a933038a93d88d3142b5b6b4" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>operator-&gt;</name></member>
+      <member refid="classtl_1_1expected_1a7020cc44ca459ca8211753f33627616d" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>operator-&gt;</name></member>
+      <member refid="classtl_1_1expected_1a27bbc3893ef905cc163a3ab959b3c6f1" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>operator=</name></member>
+      <member refid="classtl_1_1expected_1aad490dccd33b64af7e8eb0682c3dd642" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>operator=</name></member>
+      <member refid="classtl_1_1expected_1a8ad0432a217a0d613c5daad3034df66d" prot="private" virt="non-virtual"><scope>tl::expected</scope><name>storage_</name></member>
+      <member refid="classtl_1_1expected_1a746934788443e0d404c914b2d10dc99a" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>value</name></member>
+      <member refid="classtl_1_1expected_1abfefc7570471b72cca7afca337028fc2" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>value</name></member>
+      <member refid="classtl_1_1expected_1ae814be1720143ba7789c87ad39c291f8" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>value</name></member>
+      <member refid="classtl_1_1expected_1a13e2f06f2876846bb095c09953c2ee26" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>value_or</name></member>
+      <member refid="classtl_1_1expected_1a11667e04c39f3deb42cf3b81532123a6" prot="public" virt="non-virtual"><scope>tl::expected</scope><name>value_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

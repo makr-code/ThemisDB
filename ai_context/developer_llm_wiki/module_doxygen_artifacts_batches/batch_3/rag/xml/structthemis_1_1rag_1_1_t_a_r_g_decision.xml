@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_t_a_r_g_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::TARGDecision</compoundname>
+    <includes refid="targ__retrieval_8h" local="no">targ_retrieval.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_decision_1ac313153b81fc9478f7d3587fd4087dbb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::TARGDecision::should_retrieve</definition>
+        <argsstring></argsstring>
+        <name>should_retrieve</name>
+        <qualifiedname>themis::rag::TARGDecision::should_retrieve</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True → trigger retrieval now. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="91" column="12" bodyfile="include/rag/targ_retrieval.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_decision_1ac9d0f6b15e651158dd190da021352222" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TARGDecision::logit_gap</definition>
+        <argsstring></argsstring>
+        <name>logit_gap</name>
+        <qualifiedname>themis::rag::TARGDecision::logit_gap</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>top-1 minus top-2 logit </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="92" column="12" bodyfile="include/rag/targ_retrieval.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_decision_1a94c4358750bc04334dee011f3628c5b0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TARGDecision::entropy</definition>
+        <argsstring></argsstring>
+        <name>entropy</name>
+        <qualifiedname>themis::rag::TARGDecision::entropy</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>entropy of top-K mass (0 if not computed) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="93" column="12" bodyfile="include/rag/targ_retrieval.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_decision_1a6c09a3e7ca644b670cb08bfeaec19193" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::TARGDecision::in_cooldown</definition>
+        <argsstring></argsstring>
+        <name>in_cooldown</name>
+        <qualifiedname>themis::rag::TARGDecision::in_cooldown</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True → suppressed by cooldown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="94" column="12" bodyfile="include/rag/targ_retrieval.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_decision_1af8cc622c70d2532485959326261d4e0e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TARGDecision::consecutive_uncertain</definition>
+        <argsstring></argsstring>
+        <name>consecutive_uncertain</name>
+        <qualifiedname>themis::rag::TARGDecision::consecutive_uncertain</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Running uncertain-token count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="95" column="17" bodyfile="include/rag/targ_retrieval.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Output of <computeroutput><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a789a70b877638fb64029bec37b58c6db" kindref="member">TARGRetrieval::gate()</ref></computeroutput>, describing the gating decision. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/targ_retrieval.h" line="90" column="1" bodyfile="include/rag/targ_retrieval.h" bodystart="90" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1af8cc622c70d2532485959326261d4e0e" prot="public" virt="non-virtual"><scope>themis::rag::TARGDecision</scope><name>consecutive_uncertain</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1a94c4358750bc04334dee011f3628c5b0" prot="public" virt="non-virtual"><scope>themis::rag::TARGDecision</scope><name>entropy</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1a6c09a3e7ca644b670cb08bfeaec19193" prot="public" virt="non-virtual"><scope>themis::rag::TARGDecision</scope><name>in_cooldown</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1ac9d0f6b15e651158dd190da021352222" prot="public" virt="non-virtual"><scope>themis::rag::TARGDecision</scope><name>logit_gap</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_decision_1ac313153b81fc9478f7d3587fd4087dbb" prot="public" virt="non-virtual"><scope>themis::rag::TARGDecision</scope><name>should_retrieve</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_bench_storage" kind="struct" language="C++" prot="public">
+    <compoundname>BenchStorage</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MutationExecutor::StorageContext</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_bench_storage_1a00dc9647299fd79975aa521a96d47db9" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; BenchStorage::store</definition>
+        <argsstring></argsstring>
+        <name>store</name>
+        <qualifiedname>BenchStorage::store</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_mutations.cpp" line="38" column="14" bodyfile="benchmarks/aql/bench_aql_mutations.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bench_storage_1a124da12a419184094552aa4e425a48e2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; BenchStorage::key_ctr</definition>
+        <argsstring></argsstring>
+        <name>key_ctr</name>
+        <qualifiedname>BenchStorage::key_ctr</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_mutations.cpp" line="39" column="35" bodyfile="benchmarks/aql/bench_aql_mutations.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_bench_storage_1a0c346712d0ce6da40d4cac906e3853c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BenchStorage::put</definition>
+        <argsstring>(std::string_view, std::string_view key, std::string_view val) override</argsstring>
+        <name>put</name>
+        <qualifiedname>BenchStorage::put</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_mutations.cpp" line="41" column="10" bodyfile="benchmarks/aql/bench_aql_mutations.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_bench_storage_1aac88badb1b66a57e85d8fc8820a583e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BenchStorage::remove</definition>
+        <argsstring>(std::string_view, std::string_view key) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>BenchStorage::remove</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_mutations.cpp" line="45" column="10" bodyfile="benchmarks/aql/bench_aql_mutations.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_bench_storage_1a103178cfd7a40dbed9112d2c03d21d19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BenchStorage::exists</definition>
+        <argsstring>(std::string_view, std::string_view key) override</argsstring>
+        <name>exists</name>
+        <qualifiedname>BenchStorage::exists</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_mutations.cpp" line="49" column="10" bodyfile="benchmarks/aql/bench_aql_mutations.cpp" bodystart="49" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_bench_storage_1a4e40bacc562c1e18cd7ef9e5df72d24e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string BenchStorage::generateKey</definition>
+        <argsstring>(std::string_view col) override</argsstring>
+        <name>generateKey</name>
+        <qualifiedname>BenchStorage::generateKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_mutations.cpp" line="52" column="17" bodyfile="benchmarks/aql/bench_aql_mutations.cpp" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_bench_storage_1ad0479e5ebeff9726047252c7a22c080d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BenchStorage::writeWAL</definition>
+        <argsstring>(std::string_view, const nlohmann::json &amp;) override</argsstring>
+        <name>writeWAL</name>
+        <qualifiedname>BenchStorage::writeWAL</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_mutations.cpp" line="55" column="10" bodyfile="benchmarks/aql/bench_aql_mutations.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_bench_storage_1a99f421954f6b19275800498894912a85" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; BenchStorage::get</definition>
+        <argsstring>(std::string_view, std::string_view key) override</argsstring>
+        <name>get</name>
+        <qualifiedname>BenchStorage::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_mutations.cpp" line="58" column="19" bodyfile="benchmarks/aql/bench_aql_mutations.cpp" bodystart="58" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BenchStorage</label>
+        <link refid="struct_bench_storage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MutationExecutor::StorageContext</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BenchStorage</label>
+        <link refid="struct_bench_storage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MutationExecutor::StorageContext</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/aql/bench_aql_mutations.cpp" line="37" column="1" bodyfile="benchmarks/aql/bench_aql_mutations.cpp" bodystart="37" bodyend="65"/>
+    <listofallmembers>
+      <member refid="struct_bench_storage_1a103178cfd7a40dbed9112d2c03d21d19" prot="public" virt="non-virtual"><scope>BenchStorage</scope><name>exists</name></member>
+      <member refid="struct_bench_storage_1a4e40bacc562c1e18cd7ef9e5df72d24e" prot="public" virt="non-virtual"><scope>BenchStorage</scope><name>generateKey</name></member>
+      <member refid="struct_bench_storage_1a99f421954f6b19275800498894912a85" prot="public" virt="non-virtual"><scope>BenchStorage</scope><name>get</name></member>
+      <member refid="struct_bench_storage_1a124da12a419184094552aa4e425a48e2" prot="public" virt="non-virtual"><scope>BenchStorage</scope><name>key_ctr</name></member>
+      <member refid="struct_bench_storage_1a0c346712d0ce6da40d4cac906e3853c8" prot="public" virt="non-virtual"><scope>BenchStorage</scope><name>put</name></member>
+      <member refid="struct_bench_storage_1aac88badb1b66a57e85d8fc8820a583e1" prot="public" virt="non-virtual"><scope>BenchStorage</scope><name>remove</name></member>
+      <member refid="struct_bench_storage_1a00dc9647299fd79975aa521a96d47db9" prot="public" virt="non-virtual"><scope>BenchStorage</scope><name>store</name></member>
+      <member refid="struct_bench_storage_1ad0479e5ebeff9726047252c7a22c080d" prot="public" virt="non-virtual"><scope>BenchStorage</scope><name>writeWAL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_version_diff" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::VersionDiff</compoundname>
+    <includes refid="policy__version__history_8h" local="no">policy_version_history.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_version_diff_1a4a4486b406171df33f738f0792e3aea8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::VersionDiff::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::VersionDiff::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="72" column="17" bodyfile="include/governance/policy_version_history.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_version_diff_1af9c3278312fa24f34ff155ae3f36191f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::VersionDiff::version1</definition>
+        <argsstring></argsstring>
+        <name>version1</name>
+        <qualifiedname>themis::governance::VersionDiff::version1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="73" column="17" bodyfile="include/governance/policy_version_history.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_version_diff_1a34e56d419f453eca539c9ad3937aab23" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::VersionDiff::version2</definition>
+        <argsstring></argsstring>
+        <name>version2</name>
+        <qualifiedname>themis::governance::VersionDiff::version2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="74" column="17" bodyfile="include/governance/policy_version_history.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_version_diff_1af33c92d64069bc05e291ec93e1b16401" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::VersionDiff::changes</definition>
+        <argsstring></argsstring>
+        <name>changes</name>
+        <qualifiedname>themis::governance::VersionDiff::changes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="75" column="17" bodyfile="include/governance/policy_version_history.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_version_diff_1ae04d399840c5918df7b5f1e94d046fef" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::VersionDiff::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::governance::VersionDiff::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="76" column="20" bodyfile="include/governance/policy_version_history.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_version_diff_1a4df55614a7e50e173bb24be7510d2e82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::VersionDiff::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::VersionDiff::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="82" column="20" bodyfile="src/governance/policy_version_history.cpp" bodystart="121" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_version_history.h" line="71" column="1" bodyfile="include/governance/policy_version_history.h" bodystart="71" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_version_diff_1af33c92d64069bc05e291ec93e1b16401" prot="public" virt="non-virtual"><scope>themis::governance::VersionDiff</scope><name>changes</name></member>
+      <member refid="structthemis_1_1governance_1_1_version_diff_1ae04d399840c5918df7b5f1e94d046fef" prot="public" virt="non-virtual"><scope>themis::governance::VersionDiff</scope><name>details</name></member>
+      <member refid="structthemis_1_1governance_1_1_version_diff_1a4a4486b406171df33f738f0792e3aea8" prot="public" virt="non-virtual"><scope>themis::governance::VersionDiff</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_version_diff_1a4df55614a7e50e173bb24be7510d2e82" prot="public" virt="non-virtual"><scope>themis::governance::VersionDiff</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_version_diff_1af9c3278312fa24f34ff155ae3f36191f" prot="public" virt="non-virtual"><scope>themis::governance::VersionDiff</scope><name>version1</name></member>
+      <member refid="structthemis_1_1governance_1_1_version_diff_1a34e56d419f453eca539c9ad3937aab23" prot="public" virt="non-virtual"><scope>themis::governance::VersionDiff</scope><name>version2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

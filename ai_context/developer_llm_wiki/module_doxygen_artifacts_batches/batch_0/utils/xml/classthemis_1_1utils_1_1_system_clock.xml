@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_system_clock" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::SystemClock</compoundname>
+    <basecompoundref refid="classthemis_1_1utils_1_1_clock" prot="public" virt="non-virtual">themis::utils::Clock</basecompoundref>
+    <includes refid="clock_8h" local="no">clock.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_system_clock_1a910d0d4ab23a9ce8d5f36c1f142f9c82" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::SystemClock::now</definition>
+        <argsstring>() const override</argsstring>
+        <name>now</name>
+        <qualifiedname>themis::utils::SystemClock::now</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_clock_1ae49f27527af18805d97b6da9427718ca">now</reimplements>
+        <briefdescription>
+<para>Get current time point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current time as system_clock::time_point </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/clock.h" line="58" column="43" bodyfile="include/utils/clock.h" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_system_clock_1a2ec08a496e3575822e4f5bc9b9d9e37d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::utils::SystemClock::sleep_for</definition>
+        <argsstring>(std::chrono::milliseconds duration) override</argsstring>
+        <name>sleep_for</name>
+        <qualifiedname>themis::utils::SystemClock::sleep_for</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_clock_1a0cbab3c279e81ffda7f9259fd4e69829">sleep_for</reimplements>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Sleep for specified duration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Duration to sleep </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/clock.h" line="62" column="10" bodyfile="include/utils/clock.h" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_system_clock_1a40433b1e412a8999b3e56a0168f67b94" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::utils::SystemClock::sleep_until</definition>
+        <argsstring>(std::chrono::system_clock::time_point time_point) override</argsstring>
+        <name>sleep_until</name>
+        <qualifiedname>themis::utils::SystemClock::sleep_until</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_clock_1af7baf1717b2156231789cea62e722698">sleep_until</reimplements>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>time_point</declname>
+        </param>
+        <briefdescription>
+<para>Sleep until specified time point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>time_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time to sleep until </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/clock.h" line="66" column="10" bodyfile="include/utils/clock.h" bodystart="66" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>System clock implementation using real time. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Production implementation that delegates to std::chrono </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::utils::Clock</label>
+        <link refid="classthemis_1_1utils_1_1_clock"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::SystemClock</label>
+        <link refid="classthemis_1_1utils_1_1_system_clock"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::utils::Clock</label>
+        <link refid="classthemis_1_1utils_1_1_clock"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::SystemClock</label>
+        <link refid="classthemis_1_1utils_1_1_system_clock"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/clock.h" line="56" column="1" bodyfile="include/utils/clock.h" bodystart="56" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_system_clock_1a910d0d4ab23a9ce8d5f36c1f142f9c82" prot="public" virt="virtual"><scope>themis::utils::SystemClock</scope><name>now</name></member>
+      <member refid="classthemis_1_1utils_1_1_system_clock_1a2ec08a496e3575822e4f5bc9b9d9e37d" prot="public" virt="virtual"><scope>themis::utils::SystemClock</scope><name>sleep_for</name></member>
+      <member refid="classthemis_1_1utils_1_1_system_clock_1a40433b1e412a8999b3e56a0168f67b94" prot="public" virt="virtual"><scope>themis::utils::SystemClock</scope><name>sleep_until</name></member>
+      <member refid="classthemis_1_1utils_1_1_clock_1a82a5f50e193ab2ad416eb70fb05b2139" prot="public" virt="virtual"><scope>themis::utils::SystemClock</scope><name>~Clock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

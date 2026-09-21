@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_g_p_u_memory_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::GPUMemoryManager</compoundname>
+    <derivedcompoundref refid="classthemis_1_1_g_p_u_memory_manager_stub" prot="public" virt="non-virtual">themis::GPUMemoryManagerStub</derivedcompoundref>
+    <innerclass refid="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block" prot="public">themis::GPUMemoryManager::MemoryBlock</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_1abc520c42ac1c5edeaf551bc94f52c09a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::GPUMemoryManager::~GPUMemoryManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GPUMemoryManager</name>
+        <qualifiedname>themis::GPUMemoryManager::~GPUMemoryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="27" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_1a53cc94ba08b9559e4d6fd65bb7f93e0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::GPUMemoryManager::initialize</definition>
+        <argsstring>(int device_id=0)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::GPUMemoryManager::initialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1_g_p_u_memory_manager_stub_1a0ec94964fd231ebc45697ad8ac9d7a95">initialize</reimplementedby>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="29" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_1a69e96e1369f8d9e7c7a22fa5a48f7d04" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block" kindref="compound">MemoryBlock</ref></type>
+        <definition>virtual MemoryBlock themis::GPUMemoryManager::allocate</definition>
+        <argsstring>(size_t size)=0</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::GPUMemoryManager::allocate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1_g_p_u_memory_manager_stub_1a6d81c2c6536d4832de1527c0c05562a0">allocate</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="30" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_1ad6c19200a09e64e50edcbeca31210a67" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::GPUMemoryManager::deallocate</definition>
+        <argsstring>(const MemoryBlock &amp;block)=0</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::GPUMemoryManager::deallocate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1_g_p_u_memory_manager_stub_1a0cd290dd4b58f62c272cd2747e8d2472">deallocate</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block" kindref="compound">MemoryBlock</ref> &amp;</type>
+          <declname>block</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="31" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_1aa12193394a1e6ca757558693eee21f07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::GPUMemoryManager::getAvailableMemory</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getAvailableMemory</name>
+        <qualifiedname>themis::GPUMemoryManager::getAvailableMemory</qualifiedname>
+        <reimplementedby refid="classthemis_1_1_g_p_u_memory_manager_stub_1abd58ace01672fe2439f2f4801da806e2">getAvailableMemory</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="32" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_1acdc1db98e511d77ca64faa868159d73f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::GPUMemoryManager::getTotalMemory</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getTotalMemory</name>
+        <qualifiedname>themis::GPUMemoryManager::getTotalMemory</qualifiedname>
+        <reimplementedby refid="classthemis_1_1_g_p_u_memory_manager_stub_1a260d98cdbcf430bea76ade28137eb946">getTotalMemory</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="33" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_1a720484e9a9393769770ba9d1e9076784" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::GPUMemoryManager::isInitialized</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::GPUMemoryManager::isInitialized</qualifiedname>
+        <reimplementedby refid="classthemis_1_1_g_p_u_memory_manager_stub_1aa81d48b46138b3279c5e5fc4ed2abe49">isInitialized</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="34" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::GPUMemoryManager</label>
+        <link refid="classthemis_1_1_g_p_u_memory_manager"/>
+      </node>
+      <node id="2">
+        <label>themis::GPUMemoryManagerStub</label>
+        <link refid="classthemis_1_1_g_p_u_memory_manager_stub"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="19" column="1" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="19" bodyend="35"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_1a69e96e1369f8d9e7c7a22fa5a48f7d04" prot="public" virt="pure-virtual"><scope>themis::GPUMemoryManager</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_1ad6c19200a09e64e50edcbeca31210a67" prot="public" virt="pure-virtual"><scope>themis::GPUMemoryManager</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_1aa12193394a1e6ca757558693eee21f07" prot="public" virt="pure-virtual"><scope>themis::GPUMemoryManager</scope><name>getAvailableMemory</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_1acdc1db98e511d77ca64faa868159d73f" prot="public" virt="pure-virtual"><scope>themis::GPUMemoryManager</scope><name>getTotalMemory</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_1a53cc94ba08b9559e4d6fd65bb7f93e0f" prot="public" virt="pure-virtual"><scope>themis::GPUMemoryManager</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_1a720484e9a9393769770ba9d1e9076784" prot="public" virt="pure-virtual"><scope>themis::GPUMemoryManager</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_1abc520c42ac1c5edeaf551bc94f52c09a" prot="public" virt="virtual"><scope>themis::GPUMemoryManager</scope><name>~GPUMemoryManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

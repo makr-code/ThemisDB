@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geo_sidecar" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeoSidecar</compoundname>
+    <includes refid="ewkb_8h" local="no">ewkb.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_sidecar_1ab84424ebc31a6af32876c9a76d15f268" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1geo_1_1_m_b_r" kindref="compound">MBR</ref></type>
+        <definition>MBR themis::geo::GeoSidecar::mbr</definition>
+        <argsstring></argsstring>
+        <name>mbr</name>
+        <qualifiedname>themis::geo::GeoSidecar::mbr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="99" column="9" bodyfile="include/utils/geo/ewkb.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_sidecar_1a344d38706624918e394bf0dedb7d6538" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1geo_1_1_coordinate" kindref="compound">Coordinate</ref></type>
+        <definition>Coordinate themis::geo::GeoSidecar::centroid</definition>
+        <argsstring></argsstring>
+        <name>centroid</name>
+        <qualifiedname>themis::geo::GeoSidecar::centroid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="100" column="16" bodyfile="include/utils/geo/ewkb.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_sidecar_1adcd30170b8fcbedbc1a4a4ed44b99cd3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::GeoSidecar::z_min</definition>
+        <argsstring></argsstring>
+        <name>z_min</name>
+        <qualifiedname>themis::geo::GeoSidecar::z_min</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="101" column="12" bodyfile="include/utils/geo/ewkb.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_sidecar_1a06b9ca72576f39bd73c055e59177087f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::GeoSidecar::z_max</definition>
+        <argsstring></argsstring>
+        <name>z_max</name>
+        <qualifiedname>themis::geo::GeoSidecar::z_max</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="102" column="12" bodyfile="include/utils/geo/ewkb.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_sidecar_1a458ae485180283cf581d68aadb8534ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoSidecar::GeoSidecar</definition>
+        <argsstring>()=default</argsstring>
+        <name>GeoSidecar</name>
+        <qualifiedname>themis::geo::GeoSidecar::GeoSidecar</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="104" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_sidecar_1a2bd7177875716cc8796473e99c3acc50" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoSidecar::GeoSidecar</definition>
+        <argsstring>(const MBR &amp;mbr_)</argsstring>
+        <name>GeoSidecar</name>
+        <qualifiedname>themis::geo::GeoSidecar::GeoSidecar</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_m_b_r" kindref="compound">MBR</ref> &amp;</type>
+          <declname>mbr_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="105" column="14" bodyfile="include/utils/geo/ewkb.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::geo::Coordinate</label>
+        <link refid="structthemis_1_1geo_1_1_coordinate"/>
+      </node>
+      <node id="1">
+        <label>themis::geo::GeoSidecar</label>
+        <link refid="structthemis_1_1geo_1_1_geo_sidecar"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>mbr</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>centroid</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::MBR</label>
+        <link refid="structthemis_1_1geo_1_1_m_b_r"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/geo/ewkb.h" line="98" column="1" bodyfile="include/utils/geo/ewkb.h" bodystart="98" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geo_sidecar_1a344d38706624918e394bf0dedb7d6538" prot="public" virt="non-virtual"><scope>themis::geo::GeoSidecar</scope><name>centroid</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_sidecar_1a458ae485180283cf581d68aadb8534ee" prot="public" virt="non-virtual"><scope>themis::geo::GeoSidecar</scope><name>GeoSidecar</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_sidecar_1a2bd7177875716cc8796473e99c3acc50" prot="public" virt="non-virtual"><scope>themis::geo::GeoSidecar</scope><name>GeoSidecar</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_sidecar_1ab84424ebc31a6af32876c9a76d15f268" prot="public" virt="non-virtual"><scope>themis::geo::GeoSidecar</scope><name>mbr</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_sidecar_1a06b9ca72576f39bd73c055e59177087f" prot="public" virt="non-virtual"><scope>themis::geo::GeoSidecar</scope><name>z_max</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_sidecar_1adcd30170b8fcbedbc1a4a4ed44b99cd3" prot="public" virt="non-virtual"><scope>themis::geo::GeoSidecar</scope><name>z_min</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_large_context_size_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::LargeContextSizeStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_large_context_size_stress_1a45becdbcd4da59ac988e563d229a5e82" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::LargeContextSizeStress::context_size_limit</definition>
+        <argsstring></argsstring>
+        <name>context_size_limit</name>
+        <qualifiedname>themis::process::LargeContextSizeStress::context_size_limit</qualifiedname>
+        <initializer>= 1000000</initializer>
+        <briefdescription>
+<para>Context size threshold (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="362" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_large_context_size_stress_1a89e0b55b780bafa6e00a1d3da54c0732" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::LargeContextSizeStress::generateTestInput</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInput</name>
+        <qualifiedname>themis::process::LargeContextSizeStress::generateTestInput</qualifiedname>
+        <briefdescription>
+<para>Generate a test input with large graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="365" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_large_context_size_stress_1aac5c49ba0f948fad9ca4abc8de360bd5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::LargeContextSizeStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::LargeContextSizeStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success (truncated gracefully). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="368" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_large_context_size_stress_1aeb5a4105f893cbb402757485fbc072d9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::LargeContextSizeStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::LargeContextSizeStress::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="370" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="370" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Large context size scenario for process retriever. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> Graph traversal yields &gt;1 MB context <linebreak/>
+ <bold>Expected Behavior:</bold> Truncate context and log warning <linebreak/>
+ <bold>Trigger:</bold> <computeroutput>PROC_MAX_CONTEXT_EXCEEDED</computeroutput> with truncation marker <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>Query completes (no OOM crash)</para>
+</listitem><listitem><para>Context is truncated cleanly</para>
+</listitem><listitem><para>Truncation marker in result</para>
+</listitem><listitem><para>Latency &lt;500 ms (P95) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="360" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="360" bodyend="373"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_large_context_size_stress_1a45becdbcd4da59ac988e563d229a5e82" prot="public" virt="non-virtual"><scope>themis::process::LargeContextSizeStress</scope><name>context_size_limit</name></member>
+      <member refid="structthemis_1_1process_1_1_large_context_size_stress_1aeb5a4105f893cbb402757485fbc072d9" prot="public" virt="non-virtual"><scope>themis::process::LargeContextSizeStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_large_context_size_stress_1a89e0b55b780bafa6e00a1d3da54c0732" prot="public" virt="non-virtual"><scope>themis::process::LargeContextSizeStress</scope><name>generateTestInput</name></member>
+      <member refid="structthemis_1_1process_1_1_large_context_size_stress_1aac5c49ba0f948fad9ca4abc8de360bd5" prot="public" virt="non-virtual"><scope>themis::process::LargeContextSizeStress</scope><name>isSuccess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

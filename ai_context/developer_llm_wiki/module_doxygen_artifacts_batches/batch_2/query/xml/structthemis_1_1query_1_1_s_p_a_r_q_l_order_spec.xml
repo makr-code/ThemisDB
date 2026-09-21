@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SPARQLOrderSpec</compoundname>
+    <includes refid="sparql__parser_8h" local="no">sparql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec_1a12b74c47c57b8b57774f1d6455abaae9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SPARQLOrderSpec::variable</definition>
+        <argsstring></argsstring>
+        <name>variable</name>
+        <qualifiedname>themis::query::SPARQLOrderSpec::variable</qualifiedname>
+        <briefdescription>
+<para>variable name without ?/$ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="124" column="17" bodyfile="include/query/sparql_parser.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec_1a2fc32c2a5db4f0f47629a73ad3e82d29" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::SPARQLOrderSpec::ascending</definition>
+        <argsstring></argsstring>
+        <name>ascending</name>
+        <qualifiedname>themis::query::SPARQLOrderSpec::ascending</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="125" column="17" bodyfile="include/query/sparql_parser.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sparql_parser.h" line="123" column="1" bodyfile="include/query/sparql_parser.h" bodystart="123" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec_1a2fc32c2a5db4f0f47629a73ad3e82d29" prot="public" virt="non-virtual"><scope>themis::query::SPARQLOrderSpec</scope><name>ascending</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec_1a12b74c47c57b8b57774f1d6455abaae9" prot="public" virt="non-virtual"><scope>themis::query::SPARQLOrderSpec</scope><name>variable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

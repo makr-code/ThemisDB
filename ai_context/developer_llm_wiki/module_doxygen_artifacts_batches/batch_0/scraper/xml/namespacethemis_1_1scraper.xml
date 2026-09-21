@@ -1,0 +1,781 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1scraper" kind="namespace" language="C++">
+    <compoundname>themis::scraper</compoundname>
+    <innerclass refid="structthemis_1_1scraper_1_1_api_endpoint_config" prot="public">themis::scraper::ApiEndpointConfig</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_api_options" prot="public">themis::scraper::ApiOptions</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_api_result" prot="public">themis::scraper::ApiResult</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_burst_crawl_controller" prot="public">themis::scraper::BurstCrawlController</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_crawl_options" prot="public">themis::scraper::CrawlOptions</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_evaluation_result" prot="public">themis::scraper::EvaluationResult</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_gap_context" prot="public">themis::scraper::GapContext</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_gov_data_source" prot="public">themis::scraper::GovDataSource</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_gov_source_catalog" prot="public">themis::scraper::GovSourceCatalog</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_gov_sources_options" prot="public">themis::scraper::GovSourcesOptions</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_html_search_engine" prot="public">themis::scraper::HtmlSearchEngine</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_http_scraper_api_client" prot="public">themis::scraper::HttpScraperApiClient</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer" prot="public">themis::scraper::InMemoryJSRenderer</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator" prot="public">themis::scraper::InMemoryLLMEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client" prot="public">themis::scraper::InMemoryScraperApiClient</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer" prot="public">themis::scraper::InMemoryScraperMetadataWriter</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_in_memory_search_engine" prot="public">themis::scraper::InMemorySearchEngine</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_i_scraper_api_client" prot="public">themis::scraper::IScraperApiClient</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink" prot="public">themis::scraper::IScraperDiagnosticSink</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" prot="public">themis::scraper::IScraperJSRenderer</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator" prot="public">themis::scraper::IScraperLLMEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer" prot="public">themis::scraper::IScraperMetadataWriter</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_i_scraper_plugin" prot="public">themis::scraper::IScraperPlugin</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_i_scraper_search_engine" prot="public">themis::scraper::IScraperSearchEngine</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_js_render_contract_result" prot="public">themis::scraper::JsRenderContractResult</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_js_render_request" prot="public">themis::scraper::JsRenderRequest</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_js_render_result" prot="public">themis::scraper::JsRenderResult</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink" prot="public">themis::scraper::ListeningScraperDiagnosticSink</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_llm_options" prot="public">themis::scraper::LlmOptions</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink" prot="public">themis::scraper::NullScraperDiagnosticSink</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_robots_txt_cache" prot="public">themis::scraper::RobotsTxtCache</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_robots_txt_rules" prot="public">themis::scraper::RobotsTxtRules</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraped_document" prot="public">themis::scraper::ScrapedDocument</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_config" prot="public">themis::scraper::ScraperConfig</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" prot="public">themis::scraper::ScraperDiagnosticEvent</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scrape_request" prot="public">themis::scraper::ScrapeRequest</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scrape_result" prot="public">themis::scraper::ScrapeResult</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_graph_edge" prot="public">themis::scraper::ScraperGraphEdge</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_graph_node" prot="public">themis::scraper::ScraperGraphNode</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_scraper_l_l_m_evaluator" prot="public">themis::scraper::ScraperLLMEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_scraper_plugin" prot="public">themis::scraper::ScraperPlugin</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_record_builder" prot="public">themis::scraper::ScraperRecordBuilder</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_relational_record" prot="public">themis::scraper::ScraperRelationalRecord</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_run_stats" prot="public">themis::scraper::ScraperRunStats</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_run_summary" prot="public">themis::scraper::ScraperRunSummary</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_scraper_run_summary_collector" prot="public">themis::scraper::ScraperRunSummaryCollector</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scraper_vector_record" prot="public">themis::scraper::ScraperVectorRecord</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_search_form" prot="public">themis::scraper::SearchForm</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_search_options" prot="public">themis::scraper::SearchOptions</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_search_result_item" prot="public">themis::scraper::SearchResultItem</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_search_result_page" prot="public">themis::scraper::SearchResultPage</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_sitemap_crawler" prot="public">themis::scraper::SitemapCrawler</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer" prot="public">themis::scraper::SubprocessJSRenderer</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_url_policy" prot="public">themis::scraper::UrlPolicy</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_write_result" prot="public">themis::scraper::WriteResult</innerclass>
+    <innernamespace refid="namespacethemis_1_1scraper_1_1detail">themis::scraper::detail</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper_1_1test">themis::scraper::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GovSourceType</name>
+        <qualifiedname>themis::scraper::GovSourceType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13ac60e6316aa881493c62b053a250e6236" prot="public">
+          <name>BUND</name>
+          <briefdescription>
+<para>German Federal. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13ae5e8bdc8fc29210ce4576de4bfa78229" prot="public">
+          <name>BUNDESLAND</name>
+          <briefdescription>
+<para>One of the 16 German states. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13af2e6e3b9bff59f293f0e9019a1ecabc5" prot="public">
+          <name>EU</name>
+          <briefdescription>
+<para>European Union. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13a03570470bad94692ce93e32700d2e1cb" prot="public">
+          <name>OTHER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="28" column="1" bodyfile="include/scraper/gov_source_catalog.h" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GovSearchStyle</name>
+        <qualifiedname>themis::scraper::GovSearchStyle</qualifiedname>
+        <enumvalue id="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aab60114f9e3077485884e742824ee1131" prot="public">
+          <name>HTML_FORM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aaf767fc59557ceab5af7b19d58f1c7fae" prot="public">
+          <name>REST_JSON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aa721fdf49f8f28dc2fbc87b9dc6b1854e" prot="public">
+          <name>EURLEX_API</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aaed3a568b3ce9a82f32b167f49b3dbc66" prot="public">
+          <name>LISTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0aaff10b6230cad81f15021736f34406c7d" prot="public">
+          <name>SITEMAP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>How a source is queried. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>HTML_FORM – standard HTML search form (POST/GET) REST_JSON – REST API returning JSON (e.g. Bundesanzeiger API) EURLEX_API – EUR-Lex CELLAR SPARQL or REST web-service LISTING – hierarchical index pages (e.g. gesetze-im-internet.de lists) SITEMAP – XML sitemap driven crawl </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="44" column="1" bodyfile="include/scraper/gov_source_catalog.h" bodystart="44" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ScraperError</name>
+        <qualifiedname>themis::scraper::ScraperError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" prot="public">
+          <name>kSuccess</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" prot="public">
+          <name>kFetchFailed</name>
+          <initializer>= 8500</initializer>
+          <briefdescription>
+<para>HTTP/network fetch operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0ad2b7c2251055442adfae3bd6a56e4ed2" prot="public">
+          <name>kRenderTimeout</name>
+          <initializer>= 8501</initializer>
+          <briefdescription>
+<para>JS render exceeded time budget. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" prot="public">
+          <name>kParseError</name>
+          <initializer>= 8502</initializer>
+          <briefdescription>
+<para>Content parse returned structural error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a9c05b595915e5d8ea83f6a21980113b1" prot="public">
+          <name>kEvaluationFailed</name>
+          <initializer>= 8503</initializer>
+          <briefdescription>
+<para>LLM quality evaluator returned failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a2b475da7a0f2961fefc3008a675188c3" prot="public">
+          <name>kMetadataWriteFailed</name>
+          <initializer>= 8504</initializer>
+          <briefdescription>
+<para>Provenance/metadata write failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a953073a2ddd96a5fe29bba1006c6e995" prot="public">
+          <name>kSourceNotFound</name>
+          <initializer>= 8505</initializer>
+          <briefdescription>
+<para>Source URL not in catalog. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0aae8d786bb215f060cb2f4ac194cc6090" prot="public">
+          <name>kPaginationLimit</name>
+          <initializer>= 8506</initializer>
+          <briefdescription>
+<para>Crawl hit pagination depth limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0afcd417a134c251034b0d61b07c826394" prot="public">
+          <name>kInternalError</name>
+          <initializer>= 8507</initializer>
+          <briefdescription>
+<para>Unclassified internal error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical error codes for the scraper module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All scraper pipeline operations return or throw with one of these codes. Values are in the reserved range [8500, 8599]. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="75" column="1" bodyfile="include/scraper/scraper_api_contract.h" bodystart="75" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ScraperRenderMode</name>
+        <qualifiedname>themis::scraper::ScraperRenderMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6afe6f99ef1ec99efbdc19a9786cf1facc" prot="public">
+          <name>STATIC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6a1f09782813b43b53782275933cf8c326" prot="public">
+          <name>JS_RENDERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6a893ec1ce7cb11e65d2a44335a04c110c" prot="public">
+          <name>API_JSON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a4d9ae5997781c1ea739e0c762ed173c6a66cd50e7f48446e90f686fdb77dbd600" prot="public">
+          <name>API_GRAPHQL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Controls how page content is fetched. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>STATIC – plain HTTP GET + HTML parsing (libcurl, default) JS_RENDERED – headless browser renders the page before extracting text (React / Vue SPAs, webpack-dev-server, Next.js, etc.) API_JSON – seed URL is a JSON REST endpoint; pages are fetched as JSON API_GRAPHQL – seed URL is a GraphQL endpoint; queries are sent as POST </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="35" column="1" bodyfile="include/scraper/scraper_config.h" bodystart="35" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ScraperFaultClass</name>
+        <qualifiedname>themis::scraper::ScraperFaultClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a6a2a38efde5abfd327630a9f1127b2f1" prot="public">
+          <name>kFetchPath</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>HTTP fetch / DNS / TLS errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293af95a9f60e23d9fda6802b5e60a0af0d6" prot="public">
+          <name>kRenderPath</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>JS renderer timeout / crash. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293aa9ab18555f5f5118629f2fa803076b4f" prot="public">
+          <name>kParsePath</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>HTML/DOM parse structural errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a822e3b9ac65ce73538ee1d1d656c01a6" prot="public">
+          <name>kEvaluatorPath</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>LLM evaluator failures or below-threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a3cb8c1bf2dc5c7050fce3f868e0844c9" prot="public">
+          <name>kWritePath</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Metadata / relational / graph / vector write. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293ae4f62e857e1430e81bfbc1268257e649" prot="public">
+          <name>kCrawlControl</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Pagination limit, burst throttle, source catalog. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a96509148247c627a753b021d6dbea774" prot="public">
+          <name>kInternal</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>Unclassified internal errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Pipeline stage that produced the diagnostic event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used for operator triage: each class maps to a distinct log channel and metric counter prefix. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="68" column="1" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="68" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ScraperFaultSeverity</name>
+        <qualifiedname>themis::scraper::ScraperFaultSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213a176a473e63c17ccdac91640c67f149bf" prot="public">
+          <name>kInfo</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Informational; no operator action required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213aec0da41f4e48b52c362303eb27ed5dee" prot="public">
+          <name>kWarning</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Degraded path taken; operator may want to inspect. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" prot="public">
+          <name>kError</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Operation failed; run may continue with other sources. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae66f945a3c2423ef09406cf09fa9de26" prot="public">
+          <name>kFatal</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Hard failure; scrape run must be aborted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Operational severity for a diagnostic event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="81" column="1" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="81" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1scraper_1a4992904a8ccbde4b4d6d4dee8c26fa6c" prot="public" static="no">
+        <type>std::function&lt; std::string( const std::string &amp;url, const std::string &amp;method, const std::map&lt; std::string, std::string &gt; &amp;headers, const std::string &amp;body)&gt;</type>
+        <definition>using themis::scraper::HttpFetchFn = std::function&lt;std::string(
+   const std::string&amp; url,
+   const std::string&amp; method,
+   const std::map&lt;std::string, std::string&gt;&amp; headers,
+   const std::string&amp; body)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HttpFetchFn</name>
+        <qualifiedname>themis::scraper::HttpFetchFn</qualifiedname>
+        <briefdescription>
+<para>Injectable HTTP GET/POST function. Signature: (url, method, headers, body) -&gt; response_body Throws std::runtime_error on network error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="87" column="1" bodyfile="include/scraper/scraper_api_client.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1scraper_1a4c583e1df2ac6632775802e9fc3a7d4c" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::scraper::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::scraper::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scraper/scraper_api_client.cpp" line="27" column="1" bodyfile="src/scraper/scraper_api_client.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1scraper_1ab1084c2896e368f89d1c265419cb44b9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::scraper::kDefaultRenderTimeout</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRenderTimeout</name>
+        <qualifiedname>themis::scraper::kDefaultRenderTimeout</qualifiedname>
+        <initializer>{30&apos;000}</initializer>
+        <briefdescription>
+<para>Default JS render timeout in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="92" column="44" bodyfile="include/scraper/scraper_api_contract.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1scraper_1ab956988a1a9a606c3bcdcb74423499d8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::scraper::kMaxRenderTimeout</definition>
+        <argsstring></argsstring>
+        <name>kMaxRenderTimeout</name>
+        <qualifiedname>themis::scraper::kMaxRenderTimeout</qualifiedname>
+        <initializer>{120&apos;000}</initializer>
+        <briefdescription>
+<para>Maximum allowed JS render timeout (operator-configurable upper bound). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="95" column="44" bodyfile="include/scraper/scraper_api_contract.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1scraper_1ac7f2ada8d8ddeb37a85e9827d9dbb638" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::kDefaultMaxPaginationDepth</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxPaginationDepth</name>
+        <qualifiedname>themis::scraper::kDefaultMaxPaginationDepth</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Default maximum pagination depth per crawl run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="98" column="27" bodyfile="include/scraper/scraper_api_contract.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1scraper_1a7905161268e0e86e807183904d0864ac" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::scraper::kMaxUrlBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxUrlBytes</name>
+        <qualifiedname>themis::scraper::kMaxUrlBytes</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+<para>Maximum URL length in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="101" column="30" bodyfile="include/scraper/scraper_api_contract.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1scraper_1a8edffd94917fd1c8713464108a02f851" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::scraper::kMaxPageContentBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxPageContentBytes</name>
+        <qualifiedname>themis::scraper::kMaxPageContentBytes</qualifiedname>
+        <initializer>= 10u * 1024u * 1024u</initializer>
+        <briefdescription>
+<para>Maximum content size the scraper will process per page (10 MiB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="104" column="30" bodyfile="include/scraper/scraper_api_contract.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1af72a7ff23356ab6c4de583284071ac7f" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::isScraperFailClosed</definition>
+        <argsstring>(ScraperError e) noexcept</argsstring>
+        <name>isScraperFailClosed</name>
+        <qualifiedname>themis::scraper::isScraperFailClosed</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the given error mandates fail-closed denial of write. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="138" column="24" bodyfile="include/scraper/scraper_api_contract.h" bodystart="138" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1a003242be0e7a0273c8572adde0019f57" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293" kindref="member">ScraperFaultClass</ref></type>
+        <definition>ScraperFaultClass themis::scraper::faultClassOf</definition>
+        <argsstring>(ScraperError e) noexcept</argsstring>
+        <name>faultClassOf</name>
+        <qualifiedname>themis::scraper::faultClassOf</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Returns the <ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293" kindref="member">ScraperFaultClass</ref> for the given <ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to route diagnostic events to the correct pipeline-stage counter without requiring callers to maintain their own mapping table. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="229" column="37" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="229" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1a3a4cb9deeeb25ce0d9c5f063b2c56315" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213" kindref="member">ScraperFaultSeverity</ref></type>
+        <definition>ScraperFaultSeverity themis::scraper::defaultSeverityOf</definition>
+        <argsstring>(ScraperError e) noexcept</argsstring>
+        <name>defaultSeverityOf</name>
+        <qualifiedname>themis::scraper::defaultSeverityOf</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Returns the default <ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213" kindref="member">ScraperFaultSeverity</ref> for the given error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>Fatal errors (<ref refid="namespacethemis_1_1scraper_1af72a7ff23356ab6c4de583284071ac7f" kindref="member">isScraperFailClosed</ref>) map to kFatal.</para>
+</listitem><listitem><para>kSuccess maps to kInfo.</para>
+</listitem><listitem><para>All others map to kError. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="252" column="40" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="252" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1a324386596488dc03a1bf45e86a1a114c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref></type>
+        <definition>ScraperDiagnosticEvent themis::scraper::makeDiagnosticEvent</definition>
+        <argsstring>(ScraperError e, const std::string &amp;url, const std::string &amp;message)</argsstring>
+        <name>makeDiagnosticEvent</name>
+        <qualifiedname>themis::scraper::makeDiagnosticEvent</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref></type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Build a minimal well-formed <ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref> from an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code that triggered the diagnostic. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source URL (may be empty for catalog-level faults). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable description. Must be non-empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A fully-populated <ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref> ready for emit. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="271" column="32" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="271" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1a457e0766cc84f472f5387fb66eb88481" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_js_render_contract_result" kindref="compound">JsRenderContractResult</ref></type>
+        <definition>JsRenderContractResult themis::scraper::enforceRenderTimeout</definition>
+        <argsstring>(const JsRenderResult &amp;raw, int timeout_ms=static_cast&lt; int &gt;(kDefaultRenderTimeout.count())) noexcept</argsstring>
+        <name>enforceRenderTimeout</name>
+        <qualifiedname>themis::scraper::enforceRenderTimeout</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref> &amp;</type>
+          <declname>raw</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+          <defval>static_cast&lt; int &gt;(kDefaultRenderTimeout.count())</defval>
+        </param>
+        <briefdescription>
+<para>Maps a raw <computeroutput><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref></computeroutput> onto a <computeroutput><ref refid="structthemis_1_1scraper_1_1_js_render_contract_result" kindref="compound">JsRenderContractResult</ref></computeroutput> with an authoritative <computeroutput><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref></computeroutput> code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decision table:<itemizedlist>
+<listitem><para><computeroutput>raw.success == true</computeroutput> → <computeroutput>error = kSuccess</computeroutput>, <computeroutput>timed_out = false</computeroutput>, html preserved.</para>
+</listitem><listitem><para><computeroutput>raw.success == false</computeroutput> <bold>AND</bold> (<computeroutput>raw.elapsed_ms &gt;= timeout_ms</computeroutput> <bold>OR</bold> <computeroutput>raw.error</computeroutput> contains &quot;timeout&quot; case-insensitively): → <computeroutput>error = kRenderTimeout</computeroutput>, <computeroutput>timed_out = true</computeroutput>, html cleared.</para>
+</listitem><listitem><para><computeroutput>raw.success == false</computeroutput> (other failure): → <computeroutput>error = kFetchFailed</computeroutput>, <computeroutput>timed_out = false</computeroutput>, html cleared.</para>
+</listitem></itemizedlist>
+</para>
+<para>The default <computeroutput>timeout_ms</computeroutput> value matches <computeroutput><ref refid="namespacethemis_1_1scraper_1ab1084c2896e368f89d1c265419cb44b9" kindref="member">kDefaultRenderTimeout</ref></computeroutput> (30 000 ms).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>raw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw result returned by <computeroutput><ref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1a2a07e25df7d60cfc155637404a794d8d" kindref="member">IScraperJSRenderer::render()</ref></computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time budget in milliseconds used to classify elapsed time. Defaults to <computeroutput>kDefaultRenderTimeout.count()</computeroutput> (30 000). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <computeroutput><ref refid="structthemis_1_1scraper_1_1_js_render_contract_result" kindref="compound">JsRenderContractResult</ref></computeroutput> with html cleared on any failure.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is <computeroutput>noexcept</computeroutput> and safe to call from any pipeline stage. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_render_contract.h" line="128" column="32" bodyfile="include/scraper/scraper_render_contract.h" bodystart="128" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1a4594bfab157afae43e1c410897cfc3d8" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::isPaginationLimitReached</definition>
+        <argsstring>(uint32_t current_page, uint32_t max_depth) noexcept</argsstring>
+        <name>isPaginationLimitReached</name>
+        <qualifiedname>themis::scraper::isPaginationLimitReached</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>current_page</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_depth</declname>
+        </param>
+        <briefdescription>
+<para>Returns <computeroutput>true</computeroutput> when the crawl has reached or exceeded the configured maximum pagination depth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This enforces the contract from <computeroutput><ref refid="scraper__api__contract_8h" kindref="compound">scraper_api_contract.h</ref></computeroutput>: <blockquote><para>Crawl hits configured pagination depth limit → <computeroutput>kPaginationLimit</computeroutput>. </para>
+</blockquote></para>
+<para>The caller is responsible for emitting <computeroutput><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0aae8d786bb215f060cb2f4ac194cc6090" kindref="member">ScraperError::kPaginationLimit</ref></computeroutput> once this returns <computeroutput>true</computeroutput>. The default depth limit is <computeroutput><ref refid="namespacethemis_1_1scraper_1ac7f2ada8d8ddeb37a85e9827d9dbb638" kindref="member">kDefaultMaxPaginationDepth</ref></computeroutput> (50).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_page</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero- or one-based page index (consistent with caller). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of pages allowed (inclusive boundary). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> if <computeroutput>current_page &gt;= max_depth</computeroutput>.</para>
+</simplesect>
+<simplesect kind="note"><para>Pure predicate: no side-effects, always <computeroutput>noexcept</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_render_contract.h" line="180" column="24" bodyfile="include/scraper/scraper_render_contract.h" bodystart="180" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1a8ee1c8be17660670a5caf5d0594b0ac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::extractScheme</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>extractScheme</name>
+        <qualifiedname>themis::scraper::extractScheme</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scraper/scraper_robots.cpp" line="89" column="14" bodyfile="src/scraper/scraper_robots.cpp" bodystart="89" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/gov_source_catalog.h" line="22" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__http__buffer__api_8cpp" kind="file" language="C++">
+    <compoundname>test_http_buffer_api.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/network/test_http_buffer_api.cpp</label>
+        <link refid="test__http__buffer__api_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__http__buffer__api_8cpp_1a7cdb5aa50efbe974e988bf6834931040" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpBufferApiDisabled, DISABLED_Skipped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpBufferApiDisabled</type>
+        </param>
+        <param>
+          <type>DISABLED_Skipped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_buffer_api.cpp" line="3" column="1" bodyfile="tests/network/test_http_buffer_api.cpp" bodystart="3" bodyend="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><ref refid="test__http__buffer__api_8cpp_1a7cdb5aa50efbe974e988bf6834931040" kindref="member">TEST</ref>(HttpBufferApiDisabled,<sp/>DISABLED_Skipped)<sp/>{</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;test_http_buffer_api.cpp<sp/>temporarily<sp/>disabled<sp/>for<sp/>build<sp/>stability&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="5"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_http_buffer_api.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,408 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::PhilosophyLoader</compoundname>
+    <includes refid="philosophy__loader_8h" local="no">philosophy_loader.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1af70f71e32c77c6c41157b09b3495f6fb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::ethics::PhilosophyLoader::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="73" column="24" bodyfile="src/ethics_ai/philosophy_loader.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1abd148bac99e6911248c8143b8bc3739f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref> &gt;</type>
+        <definition>std::map&lt;std::string, PhilosophyProfile&gt; themis::plugins::ethics::PhilosophyLoader::profiles_</definition>
+        <argsstring></argsstring>
+        <name>profiles_</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::profiles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="74" column="14" bodyfile="src/ethics_ai/philosophy_loader.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a8f109a2236eb0c904470b3d0fc02bbf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::PhilosophyLoader::PhilosophyLoader</definition>
+        <argsstring>()=default</argsstring>
+        <name>PhilosophyLoader</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::PhilosophyLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="27" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a4ab2420f6cee698bc4f0691722cb1a4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::PhilosophyLoader::~PhilosophyLoader</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PhilosophyLoader</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::~PhilosophyLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="28" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1aa548c849fde25c03b03fca4d817f7cca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; size_t, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; size_t, Status &gt; themis::plugins::ethics::PhilosophyLoader::loadFromDirectory</definition>
+        <argsstring>(const std::string &amp;directory)</argsstring>
+        <name>loadFromDirectory</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::loadFromDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="30" column="18" bodyfile="src/ethics_ai/philosophy_loader.cpp" bodystart="27" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a4044b3753034e40aade1c97b7800015d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::PhilosophyLoader::loadFromFile</definition>
+        <argsstring>(const std::string &amp;filepath)</argsstring>
+        <name>loadFromFile</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::loadFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Load From File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: YAML::LoadFile(), empty(), fs::path(), stem(), string(), IsScalar(), IsMap(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="37" column="12" bodyfile="src/ethics_ai/philosophy_loader.cpp" bodystart="64" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1ad82881582f305b2d39a39c6fa25ec928" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; PhilosophyProfile, Status &gt; themis::plugins::ethics::PhilosophyLoader::getProfile</definition>
+        <argsstring>(const std::string &amp;school_id) const</argsstring>
+        <name>getProfile</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::getProfile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="39" column="18" bodyfile="src/ethics_ai/philosophy_loader.cpp" bodystart="318" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a88e981b1a968c8fe3fe3010776742f33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::PhilosophyLoader::hasProfile</definition>
+        <argsstring>(const std::string &amp;school_id) const</argsstring>
+        <name>hasProfile</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::hasProfile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <briefdescription>
+<para>Has Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">school_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the school. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="46" column="10" bodyfile="src/ethics_ai/philosophy_loader.cpp" bodystart="327" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a32b384990b54571cad0faf768b8a90c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::plugins::ethics::PhilosophyLoader::getSchoolIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getSchoolIds</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::getSchoolIds</qualifiedname>
+        <briefdescription>
+<para>Get School Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="52" column="17" bodyfile="src/ethics_ai/philosophy_loader.cpp" bodystart="337" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1ace071fc7ae4c354b5956a0047d0ad694" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::PhilosophyLoader::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="57" column="10" bodyfile="src/ethics_ai/philosophy_loader.cpp" bodystart="359" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a03645fa5305cfe6028ae2b113d122307" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; size_t, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; size_t, Status &gt; themis::plugins::ethics::PhilosophyLoader::reloadProfiles</definition>
+        <argsstring>(const std::string &amp;directory)</argsstring>
+        <name>reloadProfiles</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::reloadProfiles</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Atomic swap under the lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="60" column="18" bodyfile="src/ethics_ai/philosophy_loader.cpp" bodystart="384" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a03171c8bb8cc7a52fda27e27f34a6fbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::PhilosophyLoader::addProfile</definition>
+        <argsstring>(const PhilosophyProfile &amp;profile)</argsstring>
+        <name>addProfile</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::addProfile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Add Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="66" column="10" bodyfile="src/ethics_ai/philosophy_loader.cpp" bodystart="369" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1ab5ec2a9f78db23b395055d807cca2ec5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::PhilosophyLoader::count</definition>
+        <argsstring>() const</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="68" column="12" bodyfile="src/ethics_ai/philosophy_loader.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a28d86a8af3a7b96d115a4d3658bf771b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref> &gt;</type>
+        <definition>std::map&lt; std::string, PhilosophyProfile &gt; themis::plugins::ethics::PhilosophyLoader::getAllProfiles</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllProfiles</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::getAllProfiles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="70" column="14" bodyfile="src/ethics_ai/philosophy_loader.cpp" bodystart="374" bodyend="382"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1aa5c9396723089659f3be7744908d62a6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::PhilosophyLoader::parseYAML</definition>
+        <argsstring>(const std::string &amp;content, PhilosophyProfile &amp;profile)</argsstring>
+        <name>parseYAML</name>
+        <qualifiedname>themis::plugins::ethics::PhilosophyLoader::parseYAML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Helper to parse YAML content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/philosophy_loader.h" line="82" column="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/philosophy_loader.h" line="25" column="1" bodyfile="src/ethics_ai/philosophy_loader.h" bodystart="25" bodyend="83"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a03171c8bb8cc7a52fda27e27f34a6fbc" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>addProfile</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1ace071fc7ae4c354b5956a0047d0ad694" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>clear</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1ab5ec2a9f78db23b395055d807cca2ec5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>count</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a28d86a8af3a7b96d115a4d3658bf771b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>getAllProfiles</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1ad82881582f305b2d39a39c6fa25ec928" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>getProfile</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a32b384990b54571cad0faf768b8a90c5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>getSchoolIds</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a88e981b1a968c8fe3fe3010776742f33" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>hasProfile</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1aa548c849fde25c03b03fca4d817f7cca" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>loadFromDirectory</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a4044b3753034e40aade1c97b7800015d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>loadFromFile</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1af70f71e32c77c6c41157b09b3495f6fb" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1aa5c9396723089659f3be7744908d62a6" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>parseYAML</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a8f109a2236eb0c904470b3d0fc02bbf5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>PhilosophyLoader</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1abd148bac99e6911248c8143b8bc3739f" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>profiles_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a03645fa5305cfe6028ae2b113d122307" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>reloadProfiles</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a4ab2420f6cee698bc4f0691722cb1a4a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PhilosophyLoader</scope><name>~PhilosophyLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

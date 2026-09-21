@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_scraper_graph_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ScraperGraphNode</compoundname>
+    <includes refid="scraper__metadata__writer_8h" local="no">scraper_metadata_writer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_graph_node_1a12f594d8fbfdff2a363744926ecbc447" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperGraphNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::scraper::ScraperGraphNode::node_id</qualifiedname>
+        <briefdescription>
+<para>Same as <ref refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a9f740e54a29ccc53ca65aa80ad0d3368" kindref="member">ScraperRelationalRecord::doc_id</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="68" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_graph_node_1a7e57c677280c336e114d2869e9b6c560" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperGraphNode::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::scraper::ScraperGraphNode::label</qualifiedname>
+        <briefdescription>
+<para>&quot;ScrapedDocument&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="69" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_graph_node_1ae9e19413afcb4443f7943b94e32ff768" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::scraper::ScraperGraphNode::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::scraper::ScraperGraphNode::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="70" column="14" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Graph node/edge records for the property graph layer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/scraper_metadata_writer.h" line="67" column="1" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="67" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_scraper_graph_node_1a7e57c677280c336e114d2869e9b6c560" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperGraphNode</scope><name>label</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_graph_node_1a12f594d8fbfdff2a363744926ecbc447" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperGraphNode</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_graph_node_1ae9e19413afcb4443f7943b94e32ff768" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperGraphNode</scope><name>properties</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

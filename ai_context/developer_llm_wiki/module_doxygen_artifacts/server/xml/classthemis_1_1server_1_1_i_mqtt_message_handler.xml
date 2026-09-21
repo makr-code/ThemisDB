@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_i_mqtt_message_handler" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::server::IMqttMessageHandler</compoundname>
+    <includes refid="mqtt__client__service_8h" local="no">mqtt_client_service.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_i_mqtt_message_handler_1a2bcb973f73ffaca86441f72d21a3e746" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::server::IMqttMessageHandler::~IMqttMessageHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IMqttMessageHandler</name>
+        <qualifiedname>themis::server::IMqttMessageHandler::~IMqttMessageHandler</qualifiedname>
+        <briefdescription>
+<para>IMqtt Message Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="415" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_i_mqtt_message_handler_1aebe179fcf3199640f48919dff6e8cb48" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::server::IMqttMessageHandler::onMessage</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;, uint8_t) noexcept=0</argsstring>
+        <name>onMessage</name>
+        <qualifiedname>themis::server::IMqttMessageHandler::onMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>uint8_t</type>
+        </param>
+        <briefdescription>
+<para>On Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">uint8_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="423" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_i_mqtt_message_handler_1ad437ad62568ccafcaa7eeee71e9b1d3e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::server::IMqttMessageHandler::onConnected</definition>
+        <argsstring>(const std::string &amp;) noexcept</argsstring>
+        <name>onConnected</name>
+        <qualifiedname>themis::server::IMqttMessageHandler::onConnected</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="424" column="18" bodyfile="include/server/mqtt_client_service.h" bodystart="424" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_i_mqtt_message_handler_1af0582b871b9f27e72d721af2bba0a5b5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::server::IMqttMessageHandler::onDisconnected</definition>
+        <argsstring>(const std::string &amp;) noexcept</argsstring>
+        <name>onDisconnected</name>
+        <qualifiedname>themis::server::IMqttMessageHandler::onDisconnected</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="425" column="18" bodyfile="include/server/mqtt_client_service.h" bodystart="425" bodyend="425"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/mqtt_client_service.h" line="409" column="1" bodyfile="include/server/mqtt_client_service.h" bodystart="409" bodyend="426"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_i_mqtt_message_handler_1ad437ad62568ccafcaa7eeee71e9b1d3e" prot="public" virt="virtual"><scope>themis::server::IMqttMessageHandler</scope><name>onConnected</name></member>
+      <member refid="classthemis_1_1server_1_1_i_mqtt_message_handler_1af0582b871b9f27e72d721af2bba0a5b5" prot="public" virt="virtual"><scope>themis::server::IMqttMessageHandler</scope><name>onDisconnected</name></member>
+      <member refid="classthemis_1_1server_1_1_i_mqtt_message_handler_1aebe179fcf3199640f48919dff6e8cb48" prot="public" virt="pure-virtual"><scope>themis::server::IMqttMessageHandler</scope><name>onMessage</name></member>
+      <member refid="classthemis_1_1server_1_1_i_mqtt_message_handler_1a2bcb973f73ffaca86441f72d21a3e746" prot="public" virt="virtual"><scope>themis::server::IMqttMessageHandler</scope><name>~IMqttMessageHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

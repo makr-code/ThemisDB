@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::RecoveredTwoPhaseCommitTransaction</compoundname>
+    <includes refid="two__phase__commit__wal__recovery_8h" local="no">two_phase_commit_wal_recovery.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1ab074c30958efdb543742d0fccf0e74c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::RecoveredTwoPhaseCommitTransaction::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::transaction::RecoveredTwoPhaseCommitTransaction::transaction_id</qualifiedname>
+        <briefdescription>
+<para>Transaction identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/two_phase_commit_wal_recovery.h" line="44" column="30" bodyfile="include/transaction/two_phase_commit_wal_recovery.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1a629806d13ef3b9abad758729053b508a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::RecoveredTwoPhaseCommitTransaction::completed</definition>
+        <argsstring></argsstring>
+        <name>completed</name>
+        <qualifiedname>themis::transaction::RecoveredTwoPhaseCommitTransaction::completed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when a &quot;complete&quot; entry was seen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/two_phase_commit_wal_recovery.h" line="45" column="30" bodyfile="include/transaction/two_phase_commit_wal_recovery.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1aa254a4eb73a9679d8efc4ea3288234db" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::RecoveredTwoPhaseCommitTransaction::has_decision</definition>
+        <argsstring></argsstring>
+        <name>has_decision</name>
+        <qualifiedname>themis::transaction::RecoveredTwoPhaseCommitTransaction::has_decision</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when a durable COMMIT/ABORT decision was recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/two_phase_commit_wal_recovery.h" line="46" column="30" bodyfile="include/transaction/two_phase_commit_wal_recovery.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1a375af9f9db14c3f366f08738895d0c56" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::RecoveredTwoPhaseCommitTransaction::decision_commit</definition>
+        <argsstring></argsstring>
+        <name>decision_commit</name>
+        <qualifiedname>themis::transaction::RecoveredTwoPhaseCommitTransaction::decision_commit</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Valid when has_decision is true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/two_phase_commit_wal_recovery.h" line="47" column="30" bodyfile="include/transaction/two_phase_commit_wal_recovery.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1a5ee390d39219f53cee07009cbbf1b9a7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::transaction::RecoveredTwoPhaseCommitTransaction::participants</definition>
+        <argsstring></argsstring>
+        <name>participants</name>
+        <qualifiedname>themis::transaction::RecoveredTwoPhaseCommitTransaction::participants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/two_phase_commit_wal_recovery.h" line="49" column="17" bodyfile="include/transaction/two_phase_commit_wal_recovery.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1a6c89a2d594cba4e9eb510457e8c37928" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::RecoveredTwoPhaseCommitTransaction::coordinator_id</definition>
+        <argsstring></argsstring>
+        <name>coordinator_id</name>
+        <qualifiedname>themis::transaction::RecoveredTwoPhaseCommitTransaction::coordinator_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/two_phase_commit_wal_recovery.h" line="51" column="17" bodyfile="include/transaction/two_phase_commit_wal_recovery.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1a4791f629b671f69b3a90ff337d81bcff" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::transaction::RecoveredTwoPhaseCommitTransaction::commit_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>commit_timestamp_ns</name>
+        <qualifiedname>themis::transaction::RecoveredTwoPhaseCommitTransaction::commit_timestamp_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/two_phase_commit_wal_recovery.h" line="53" column="21" bodyfile="include/transaction/two_phase_commit_wal_recovery.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/two_phase_commit_wal_recovery.h" line="43" column="1" bodyfile="include/transaction/two_phase_commit_wal_recovery.h" bodystart="43" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1a4791f629b671f69b3a90ff337d81bcff" prot="public" virt="non-virtual"><scope>themis::transaction::RecoveredTwoPhaseCommitTransaction</scope><name>commit_timestamp_ns</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1a629806d13ef3b9abad758729053b508a" prot="public" virt="non-virtual"><scope>themis::transaction::RecoveredTwoPhaseCommitTransaction</scope><name>completed</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1a6c89a2d594cba4e9eb510457e8c37928" prot="public" virt="non-virtual"><scope>themis::transaction::RecoveredTwoPhaseCommitTransaction</scope><name>coordinator_id</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1a375af9f9db14c3f366f08738895d0c56" prot="public" virt="non-virtual"><scope>themis::transaction::RecoveredTwoPhaseCommitTransaction</scope><name>decision_commit</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1aa254a4eb73a9679d8efc4ea3288234db" prot="public" virt="non-virtual"><scope>themis::transaction::RecoveredTwoPhaseCommitTransaction</scope><name>has_decision</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1a5ee390d39219f53cee07009cbbf1b9a7" prot="public" virt="non-virtual"><scope>themis::transaction::RecoveredTwoPhaseCommitTransaction</scope><name>participants</name></member>
+      <member refid="structthemis_1_1transaction_1_1_recovered_two_phase_commit_transaction_1ab074c30958efdb543742d0fccf0e74c5" prot="public" virt="non-virtual"><scope>themis::transaction::RecoveredTwoPhaseCommitTransaction</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

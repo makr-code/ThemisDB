@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_columnar_store_1_1_impl_1_1_column" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::ColumnarStore::Impl::Column</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_columnar_store_1_1_impl_1_1_column_1a8679898dd8e98522fe485bd418f7b656" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::ColumnarStore::Impl::Column::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::analytics::ColumnarStore::Impl::Column::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1382" column="21" bodyfile="src/analytics/olap.cpp" bodystart="1382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_columnar_store_1_1_impl_1_1_column_1a4454ef89f109bb4bdf2e63d2dd8cba43" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::ColumnarStore::Impl::Column::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::analytics::ColumnarStore::Impl::Column::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1383" column="21" bodyfile="src/analytics/olap.cpp" bodystart="1383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_columnar_store_1_1_impl_1_1_column_1a65abf32b990895584ddfcb749604b0ce" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::variant&lt;std::nullptr_t, bool, int64_t, double, std::string&gt; &gt; themis::analytics::ColumnarStore::Impl::Column::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::analytics::ColumnarStore::Impl::Column::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1384" column="21" bodyfile="src/analytics/olap.cpp" bodystart="1384" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/olap.cpp" line="1381" column="5" bodyfile="src/analytics/olap.cpp" bodystart="1381" bodyend="1385"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_columnar_store_1_1_impl_1_1_column_1a65abf32b990895584ddfcb749604b0ce" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::Impl::Column</scope><name>data</name></member>
+      <member refid="structthemis_1_1analytics_1_1_columnar_store_1_1_impl_1_1_column_1a8679898dd8e98522fe485bd418f7b656" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::Impl::Column</scope><name>name</name></member>
+      <member refid="structthemis_1_1analytics_1_1_columnar_store_1_1_impl_1_1_column_1a4454ef89f109bb4bdf2e63d2dd8cba43" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::Impl::Column</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_parser_service" kind="class" language="C++" prot="public">
+    <compoundname>MockParserService</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">AQLParserService</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_parser_service_1a7ac20398b43540b212dd79c16dc166e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ParseResult</type>
+        <definition>ParseResult MockParserService::parse</definition>
+        <argsstring>(const std::string &amp;aql_query) override</argsstring>
+        <name>parse</name>
+        <qualifiedname>MockParserService::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="115" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="115" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_parser_service_1ab43d5b24148efb84e5f7730cb53f140f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockParserService::version</definition>
+        <argsstring>() const override</argsstring>
+        <name>version</name>
+        <qualifiedname>MockParserService::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="122" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_parser_service_1aadb234fb8c38da40dae0350b1623bb2f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockParserService::supportsFeature</definition>
+        <argsstring>(const std::string &amp;feature) const override</argsstring>
+        <name>supportsFeature</name>
+        <qualifiedname>MockParserService::supportsFeature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feature</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="124" column="10" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="124" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AQLParserService</label>
+      </node>
+      <node id="1">
+        <label>MockParserService</label>
+        <link refid="class_mock_parser_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AQLParserService</label>
+      </node>
+      <node id="1">
+        <label>MockParserService</label>
+        <link refid="class_mock_parser_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" line="113" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline_phase04.cpp" bodystart="113" bodyend="127"/>
+    <listofallmembers>
+      <member refid="class_mock_parser_service_1a7ac20398b43540b212dd79c16dc166e3" prot="public" virt="non-virtual"><scope>MockParserService</scope><name>parse</name></member>
+      <member refid="class_mock_parser_service_1aadb234fb8c38da40dae0350b1623bb2f" prot="public" virt="non-virtual"><scope>MockParserService</scope><name>supportsFeature</name></member>
+      <member refid="class_mock_parser_service_1ab43d5b24148efb84e5f7730cb53f140f" prot="public" virt="non-virtual"><scope>MockParserService</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

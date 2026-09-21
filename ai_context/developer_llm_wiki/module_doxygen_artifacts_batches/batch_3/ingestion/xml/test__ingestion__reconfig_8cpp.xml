@@ -1,0 +1,719 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ingestion__reconfig_8cpp" kind="file" language="C++">
+    <compoundname>test_ingestion_reconfig.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ingestion__manager_8h" local="yes">ingestion/ingestion_manager.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="21">
+        <label>ingestion/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>ingestion/deontic_extractor.h</label>
+        <link refid="deontic__extractor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>ingestion/extraction_context.h</label>
+        <link refid="extraction__context_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>ingestion/file_format.h</label>
+        <link refid="file__format_8h"/>
+      </node>
+      <node id="18">
+        <label>ingestion/file_manifest.h</label>
+        <link refid="file__manifest_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ingestion/ingestion_manager.h</label>
+        <link refid="ingestion__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>ingestion/ingestion_quality_judge.h</label>
+        <link refid="ingestion__quality__judge_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>ingestion/ingestion_step.h</label>
+        <link refid="ingestion__step_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>ingestion/semantic_validator.h</label>
+        <link refid="semantic__validator_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>ingestion/workflow_engine.h</label>
+        <link refid="workflow__engine_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ingestion/test_ingestion_reconfig.cpp</label>
+        <link refid="test__ingestion__reconfig_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="20">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="26">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="23">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="28">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>utility</label>
+      </node>
+      <node id="25">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="24">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ingestion__reconfig_8cpp_1a6a506e747f2581e72e70b5f13a441207" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ReconfigureSourceTest, ReturnsFalseForUnknownSource)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ReconfigureSourceTest</type>
+        </param>
+        <param>
+          <type>ReturnsFalseForUnknownSource</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_reconfig.cpp" line="20" column="1" bodyfile="tests/ingestion/test_ingestion_reconfig.cpp" bodystart="20" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__reconfig_8cpp_1aabb9f7f15946c9972b501235e4a6082c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ReconfigureSourceTest, UpdatesExistingSource)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ReconfigureSourceTest</type>
+        </param>
+        <param>
+          <type>UpdatesExistingSource</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_reconfig.cpp" line="32" column="1" bodyfile="tests/ingestion/test_ingestion_reconfig.cpp" bodystart="32" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__reconfig_8cpp_1ab99e603a7af766371790b23ef4bc2c9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ReconfigureSourceTest, SourceIdPreservedRegardlessOfNewConfigId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ReconfigureSourceTest</type>
+        </param>
+        <param>
+          <type>SourceIdPreservedRegardlessOfNewConfigId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_reconfig.cpp" line="58" column="1" bodyfile="tests/ingestion/test_ingestion_reconfig.cpp" bodystart="58" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__reconfig_8cpp_1a568e3174310c1ceef8be2651e7d77030" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ReconfigureSourceTest, CanToggleEnabledFlag)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ReconfigureSourceTest</type>
+        </param>
+        <param>
+          <type>CanToggleEnabledFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_reconfig.cpp" line="82" column="1" bodyfile="tests/ingestion/test_ingestion_reconfig.cpp" bodystart="82" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__reconfig_8cpp_1a4f9d5cfbad5fefd08a6a290269ded05e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ReconfigureSourceTest, DoesNotAffectOtherSources)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ReconfigureSourceTest</type>
+        </param>
+        <param>
+          <type>DoesNotAffectOtherSources</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_reconfig.cpp" line="105" column="1" bodyfile="tests/ingestion/test_ingestion_reconfig.cpp" bodystart="105" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__reconfig_8cpp_1aa0e93a1ec54c7d93440a4f377b1fb74f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ReconfigureSourceTest, ThreadSafeConcurrentReconfigure)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ReconfigureSourceTest</type>
+        </param>
+        <param>
+          <type>ThreadSafeConcurrentReconfigure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_reconfig.cpp" line="146" column="1" bodyfile="tests/ingestion/test_ingestion_reconfig.cpp" bodystart="146" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__reconfig_8cpp_1a72fa9f98a33939aedf21f4fb2a179d32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ReconfigureSourceTest, ConcurrentReconfigureAndGetRegisteredSources)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ReconfigureSourceTest</type>
+        </param>
+        <param>
+          <type>ConcurrentReconfigureAndGetRegisteredSources</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_reconfig.cpp" line="186" column="1" bodyfile="tests/ingestion/test_ingestion_reconfig.cpp" bodystart="186" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__reconfig_8cpp_1a01a6db3415a18d3d9382a6e1f7121e45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdminApiReconfigureSourceTest, DelegatesToManager)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdminApiReconfigureSourceTest</type>
+        </param>
+        <param>
+          <type>DelegatesToManager</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_reconfig.cpp" line="251" column="1" bodyfile="tests/ingestion/test_ingestion_reconfig.cpp" bodystart="251" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__reconfig_8cpp_1a87a98da0243be34054198d8bd2570886" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdminApiReconfigureSourceTest, ReturnsFalseForUnknownSource)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdminApiReconfigureSourceTest</type>
+        </param>
+        <param>
+          <type>ReturnsFalseForUnknownSource</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_reconfig.cpp" line="275" column="1" bodyfile="tests/ingestion/test_ingestion_reconfig.cpp" bodystart="275" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for dynamic source reconfiguration without restart (<ref refid="classthemis_1_1ingestion_1_1_ingestion_manager_1acbc2751384ca9f4b1179c05dd2e0c55f" kindref="member">IngestionManager::reconfigureSource</ref> and <ref refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aa394957c7af221e2fc6de0f5ea21af7d" kindref="member">IngestionAdminApi::reconfigureSource</ref>). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__manager_8h" kindref="compound">ingestion/ingestion_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">themis::ingestion</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IngestionManager::reconfigureSource<sp/>–<sp/>core<sp/>behaviour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ReconfigureSourceTest,<sp/>ReturnsFalseForUnknownSource)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ghost&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/nowhere&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.reconfigureSource(</highlight><highlight class="stringliteral">&quot;ghost&quot;</highlight><highlight class="normal">,<sp/>cfg));</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ReconfigureSourceTest,<sp/>UpdatesExistingSource)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>original;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;src1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/original&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" kindref="member">priority</ref><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.registerSource(original));</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>updated<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/updated&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" kindref="member">priority</ref><sp/><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1ac8e92308a83924d0cfa5df19281909e0" kindref="member">options</ref>[</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.reconfigureSource(</highlight><highlight class="stringliteral">&quot;src1&quot;</highlight><highlight class="normal">,<sp/>updated));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sources<sp/>=<sp/>mgr.getRegisteredSources();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sources.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sources[0].source_id,<sp/></highlight><highlight class="stringliteral">&quot;src1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sources[0].location,<sp/><sp/></highlight><highlight class="stringliteral">&quot;/tmp/updated&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sources[0].priority,<sp/><sp/>7);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sources[0].options.at(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ReconfigureSourceTest,<sp/>SourceIdPreservedRegardlessOfNewConfigId)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>original;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;canonical_id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.registerSource(original));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Supply<sp/>a<sp/>new_config<sp/>whose<sp/>source_id<sp/>field<sp/>differs<sp/>from<sp/>the<sp/>lookup<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg_with_wrong_id<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_with_wrong_id.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;wrong_id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_with_wrong_id.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.reconfigureSource(</highlight><highlight class="stringliteral">&quot;canonical_id&quot;</highlight><highlight class="normal">,<sp/>cfg_with_wrong_id));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sources<sp/>=<sp/>mgr.getRegisteredSources();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sources.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>source_id<sp/>must<sp/>stay<sp/>&quot;canonical_id&quot;,<sp/>not<sp/>&quot;wrong_id&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sources[0].source_id,<sp/></highlight><highlight class="stringliteral">&quot;canonical_id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sources[0].location,<sp/><sp/></highlight><highlight class="stringliteral">&quot;/tmp/b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ReconfigureSourceTest,<sp/>CanToggleEnabledFlag)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;toggle_src&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/toggle&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.registerSource(cfg));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.reconfigureSource(</highlight><highlight class="stringliteral">&quot;toggle_src&quot;</highlight><highlight class="normal">,<sp/>cfg));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sources<sp/>=<sp/>mgr.getRegisteredSources();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sources.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sources[0].enabled);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.reconfigureSource(</highlight><highlight class="stringliteral">&quot;toggle_src&quot;</highlight><highlight class="normal">,<sp/>cfg));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>sources<sp/>=<sp/>mgr.getRegisteredSources();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sources[0].enabled);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ReconfigureSourceTest,<sp/>DoesNotAffectOtherSources)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>a;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;src_a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" kindref="member">priority</ref><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.registerSource(a));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>b;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;src_b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" kindref="member">priority</ref><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.registerSource(b));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>new_a<sp/>=<sp/>a;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>new_a.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/a_new&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.reconfigureSource(</highlight><highlight class="stringliteral">&quot;src_a&quot;</highlight><highlight class="normal">,<sp/>new_a));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sources<sp/>=<sp/>mgr.getRegisteredSources();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sources.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_a<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>found_b<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>sources)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.source_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;src_a&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(s.location,<sp/></highlight><highlight class="stringliteral">&quot;/tmp/a_new&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_a<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.source_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;src_b&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(s.location,<sp/></highlight><highlight class="stringliteral">&quot;/tmp/b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_b<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_a);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_b);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ReconfigureSourceTest,<sp/>ThreadSafeConcurrentReconfigure)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;concurrent_src&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/v0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" kindref="member">priority</ref><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.registerSource(cfg));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>success_count{0};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kThreads;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;mgr,<sp/>&amp;success_count,<sp/>i]()<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>updated;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;concurrent_src&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/v&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" kindref="member">priority</ref><sp/><sp/>=<sp/>i<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mgr.reconfigureSource(</highlight><highlight class="stringliteral">&quot;concurrent_src&quot;</highlight><highlight class="normal">,<sp/>updated))<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(success_count.load(),<sp/>kThreads);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sources<sp/>=<sp/>mgr.getRegisteredSources();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sources.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sources[0].source_id,<sp/></highlight><highlight class="stringliteral">&quot;concurrent_src&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ReconfigureSourceTest,<sp/>ConcurrentReconfigureAndGetRegisteredSources)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shared_src&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/initial&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" kindref="member">priority</ref><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.registerSource(cfg));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kWriters<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kReaders<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kIter<sp/><sp/><sp/><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>stop{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reader<sp/>threads:<sp/>continuously<sp/>call<sp/>getRegisteredSources()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kReaders;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;mgr,<sp/>&amp;stop]()<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!stop.load(std::memory_order_relaxed))<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sources<sp/>=<sp/>mgr.getRegisteredSources();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>source_id<sp/>must<sp/>always<sp/>remain<sp/>&quot;shared_src&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>sources)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)s.location;<sp/></highlight><highlight class="comment">//<sp/>just<sp/>ensure<sp/>no<sp/>crash<sp/>/<sp/>data<sp/>race</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Writer<sp/>threads:<sp/>reconfigure<sp/>the<sp/>source<sp/>repeatedly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWriters;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;mgr,<sp/>i]()<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>kIter;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>updated;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shared_src&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/w&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(j);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" kindref="member">priority</ref><sp/><sp/>=<sp/>(i<sp/>*<sp/>kIter<sp/>+<sp/>j)<sp/>%<sp/>10<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>updated.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/>(j<sp/>%<sp/>2<sp/>==<sp/>0);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.reconfigureSource(</highlight><highlight class="stringliteral">&quot;shared_src&quot;</highlight><highlight class="normal">,<sp/>updated);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>writers<sp/>to<sp/>finish,<sp/>then<sp/>stop<sp/>readers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>kReaders;<sp/>i<sp/>&lt;<sp/>kReaders<sp/>+<sp/>kWriters;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads[i].join();</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>stop.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kReaders;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads[i].join();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>all<sp/>writes,<sp/>source<sp/>must<sp/>still<sp/>be<sp/>present<sp/>and<sp/>have<sp/>a<sp/>valid<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sources<sp/>=<sp/>mgr.getRegisteredSources();</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sources.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sources[0].source_id,<sp/></highlight><highlight class="stringliteral">&quot;shared_src&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IngestionAdminApi::reconfigureSource<sp/>–<sp/>delegation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(AdminApiReconfigureSourceTest,<sp/>DelegatesToManager)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_admin_api" kindref="compound">IngestionAdminApi</ref><sp/>admin(mgr);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;admin_src&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/admin_original&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" kindref="member">priority</ref><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.registerSource(cfg));</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>new_cfg<sp/>=<sp/>cfg;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>new_cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/admin_updated&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>new_cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1abc549ccb97df98213cd70ca744443c3a" kindref="member">priority</ref><sp/>=<sp/>9;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(admin.reconfigureSource(</highlight><highlight class="stringliteral">&quot;admin_src&quot;</highlight><highlight class="normal">,<sp/>new_cfg));</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sources<sp/>=<sp/>mgr.getRegisteredSources();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sources.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sources[0].location,<sp/></highlight><highlight class="stringliteral">&quot;/tmp/admin_updated&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sources[0].priority,<sp/>9);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(AdminApiReconfigureSourceTest,<sp/>ReturnsFalseForUnknownSource)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_admin_api" kindref="compound">IngestionAdminApi</ref><sp/>admin(mgr);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;nobody&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/x&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(admin.reconfigureSource(</highlight><highlight class="stringliteral">&quot;nobody&quot;</highlight><highlight class="normal">,<sp/>cfg));</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ingestion/test_ingestion_reconfig.cpp"/>
+  </compounddef>
+</doxygen>

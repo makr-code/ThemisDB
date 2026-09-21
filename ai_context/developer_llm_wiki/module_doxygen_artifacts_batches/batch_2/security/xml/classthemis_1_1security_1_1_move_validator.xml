@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_move_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::MoveValidator</compoundname>
+    <includes refid="safe__move_8h" local="no">safe_move.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_validator_1a7d9d524c85efd4e5032bfe51f524cecf" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::MoveValidator&lt; T &gt;::validatePreMove</definition>
+        <argsstring>(const T &amp;obj)</argsstring>
+        <name>validatePreMove</name>
+        <qualifiedname>themis::security::MoveValidator::validatePreMove</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+<para>Validates object is safe to move from. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>MoveViolationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if validation fails </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: constexpr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="95" column="15" bodyfile="include/security/safe_move.h" bodystart="95" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_validator_1ae30024a1891dfc58da05e27a6d8ffd72" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::MoveValidator&lt; T &gt;::validatePostMove</definition>
+        <argsstring>(const T &amp;obj)</argsstring>
+        <name>validatePostMove</name>
+        <qualifiedname>themis::security::MoveValidator::validatePostMove</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+<para>Validates object state after being moved from. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>MoveSourceNotCleared</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if validation fails </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: constexpr(), requires(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="108" column="15" bodyfile="include/security/safe_move.h" bodystart="108" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_validator_1a07761935bd4681f1784167d712602efa" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::MoveValidator&lt; T &gt;::validateMoveDestination</definition>
+        <argsstring>(const T &amp;dest)</argsstring>
+        <name>validateMoveDestination</name>
+        <qualifiedname>themis::security::MoveValidator::validateMoveDestination</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>dest</declname>
+        </param>
+        <briefdescription>
+<para>Validates move destination received valid moved data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination object after move assignment </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>MoveViolationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if validation fails </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements validateMoveDestination without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="121" column="15" bodyfile="include/security/safe_move.h" bodystart="121" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validates pre/post-move object state. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides compile-time and runtime checks for move operations.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type being validated</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Example: <programlisting><codeline><highlight class="normal">MyClass<sp/>obj<sp/>=<sp/>createObject();</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1security_1_1_move_validator_1a7d9d524c85efd4e5032bfe51f524cecf" kindref="member">MoveValidator&lt;MyClass&gt;::validatePreMove</ref>(obj);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>moved<sp/>=<sp/>std::move(obj);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1security_1_1_move_validator_1ae30024a1891dfc58da05e27a6d8ffd72" kindref="member">MoveValidator&lt;MyClass&gt;::validatePostMove</ref>(obj);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/security/safe_move.h" line="88" column="1" bodyfile="include/security/safe_move.h" bodystart="88" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_move_validator_1a07761935bd4681f1784167d712602efa" prot="public" virt="non-virtual"><scope>themis::security::MoveValidator</scope><name>validateMoveDestination</name></member>
+      <member refid="classthemis_1_1security_1_1_move_validator_1ae30024a1891dfc58da05e27a6d8ffd72" prot="public" virt="non-virtual"><scope>themis::security::MoveValidator</scope><name>validatePostMove</name></member>
+      <member refid="classthemis_1_1security_1_1_move_validator_1a7d9d524c85efd4e5032bfe51f524cecf" prot="public" virt="non-virtual"><scope>themis::security::MoveValidator</scope><name>validatePreMove</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

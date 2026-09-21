@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_self_r_a_g_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::SelfRAGConfig</compoundname>
+    <includes refid="self__rag_8h" local="no">self_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_config_1a75f7786838be67ebfc900a052caa39fa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::SelfRAGConfig::max_rounds</definition>
+        <argsstring></argsstring>
+        <name>max_rounds</name>
+        <qualifiedname>themis::rag::SelfRAGConfig::max_rounds</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum refinement rounds (paper default: 3). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="85" column="12" bodyfile="include/rag/self_rag.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_config_1ae3506360a09f1c98b97296ba4bd98059" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::SelfRAGConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::rag::SelfRAGConfig::top_k</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of documents to retrieve per round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="88" column="12" bodyfile="include/rag/self_rag.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_config_1a3a4532847940bcf7badb505592fcd2b5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::SelfRAGConfig::relevant_threshold</definition>
+        <argsstring></argsstring>
+        <name>relevant_threshold</name>
+        <qualifiedname>themis::rag::SelfRAGConfig::relevant_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Minimum critic score to rate a passage as [Relevant]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="91" column="12" bodyfile="include/rag/self_rag.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_config_1a1ab180c8d48331ef9459ab141f42146f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::SelfRAGConfig::partial_threshold</definition>
+        <argsstring></argsstring>
+        <name>partial_threshold</name>
+        <qualifiedname>themis::rag::SelfRAGConfig::partial_threshold</qualifiedname>
+        <initializer>= 0.4</initializer>
+        <briefdescription>
+<para>Minimum critic score to rate a passage as [Partial] (below = [Irrelevant]). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="94" column="12" bodyfile="include/rag/self_rag.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_config_1ac9b308b5371ce454fe57784be0df99ce" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::SelfRAGConfig::target_relevant_docs</definition>
+        <argsstring></argsstring>
+        <name>target_relevant_docs</name>
+        <qualifiedname>themis::rag::SelfRAGConfig::target_relevant_docs</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Stop refinement early once at least this many [Relevant] docs are assembled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="97" column="12" bodyfile="include/rag/self_rag.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_config_1ac63285b90c0ed96321263134a83b5c80" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::SelfRAGConfig::retrieval_confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>retrieval_confidence_threshold</name>
+        <qualifiedname>themis::rag::SelfRAGConfig::retrieval_confidence_threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieval confidence threshold: query scores below this trigger retrieval. Used by shouldRetrieve() heuristic when no retrieval model is injected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="101" column="12" bodyfile="include/rag/self_rag.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the Self-RAG controller. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/self_rag.h" line="83" column="1" bodyfile="include/rag/self_rag.h" bodystart="83" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_config_1a75f7786838be67ebfc900a052caa39fa" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGConfig</scope><name>max_rounds</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_config_1a1ab180c8d48331ef9459ab141f42146f" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGConfig</scope><name>partial_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_config_1a3a4532847940bcf7badb505592fcd2b5" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGConfig</scope><name>relevant_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_config_1ac63285b90c0ed96321263134a83b5c80" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGConfig</scope><name>retrieval_confidence_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_config_1ac9b308b5371ce454fe57784be0df99ce" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGConfig</scope><name>target_relevant_docs</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_config_1ae3506360a09f1c98b97296ba4bd98059" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGConfig</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

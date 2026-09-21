@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1user__storage_1_1_0d251005120243005021261315251066020231010226102177" kind="namespace" language="C++">
+    <compoundname>themis::plugins::user_storage::@251005120243005021261315251066020231010226102177</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/user_storage_encrypted/gocryptfs_backend.cpp" line="40" column="1"/>
+  </compounddef>
+</doxygen>

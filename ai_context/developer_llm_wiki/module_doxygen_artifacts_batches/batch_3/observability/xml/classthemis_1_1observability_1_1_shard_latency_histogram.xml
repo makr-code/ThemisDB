@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_shard_latency_histogram" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::ShardLatencyHistogram</compoundname>
+    <includes refid="wave__d__high__cardinality__metrics_8h" local="no">wave_d_high_cardinality_metrics.h</includes>
+    <innerclass refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles" prot="public">themis::observability::ShardLatencyHistogram::LatencyQuantiles</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_shard_latency_histogram_1ace29715c59d1f121a04841f6d4b78f47" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::ShardLatencyHistogram::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::ShardLatencyHistogram::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="94" column="31" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_shard_latency_histogram_1ae1414fa38633a832f79a59e45e474f77" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, std::vector&lt; double &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, std::vector&lt;double&gt; &gt; &gt; themis::observability::ShardLatencyHistogram::shard_latencies_</definition>
+        <argsstring></argsstring>
+        <name>shard_latencies_</name>
+        <qualifiedname>themis::observability::ShardLatencyHistogram::shard_latencies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="97" column="14" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_shard_latency_histogram_1a0848adad753e0014ecc8eaa4ce61de97" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::ShardLatencyHistogram::kMaxShardCardinality</definition>
+        <argsstring></argsstring>
+        <name>kMaxShardCardinality</name>
+        <qualifiedname>themis::observability::ShardLatencyHistogram::kMaxShardCardinality</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="100" column="29" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_shard_latency_histogram_1a6942439ad2066ce4e99377a9f15b4577" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ShardLatencyHistogram::recordLatency</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;operation_type, double latency_ms)</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::observability::ShardLatencyHistogram::recordLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record a latency observation for a shard operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Latency.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier (e.g., &quot;shard_001&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of operation (e.g., &quot;write&quot;, &quot;read&quot;, &quot;scan&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed latency in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe; multiple threads may record observations concurrently. </para>
+</simplesect>
+<simplesect kind="note"><para>Shard cardinality is enforced: max 1024 unique shard IDs. </para>
+</simplesect>
+<simplesect kind="note"><para>Silent drop if cardinality limit exceeded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), size(), find(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="58" column="10" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="24" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_shard_latency_histogram_1a1d05f26d4e8ae18e7cc73a9a8a24a056" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_shard_latency_histogram_1_1_latency_quantiles" kindref="compound">LatencyQuantiles</ref></type>
+        <definition>ShardLatencyHistogram::LatencyQuantiles themis::observability::ShardLatencyHistogram::getQuantiles</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;operation_type) const</argsstring>
+        <name>getQuantiles</name>
+        <qualifiedname>themis::observability::ShardLatencyHistogram::getQuantiles</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="78" column="22" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="44" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_shard_latency_histogram_1a41b187d793b10737256ec1f95c39f508" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::ShardLatencyHistogram::getCardinality</definition>
+        <argsstring>() const</argsstring>
+        <name>getCardinality</name>
+        <qualifiedname>themis::observability::ShardLatencyHistogram::getCardinality</qualifiedname>
+        <briefdescription>
+<para>Get the cardinality (unique shard IDs observed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of unique shards in the histogram. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="86" column="12" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="91" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_shard_latency_histogram_1a390e5757e6fe5c0875835b29de41505f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ShardLatencyHistogram::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::ShardLatencyHistogram::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all collected histogram data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="91" column="10" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="105" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Shard-level latency histogram with bounded cardinality. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Records per-shard operation latencies (e.g., write latency, query latency). Cardinality is bounded by the number of shards in the cluster. </para>
+    </detaileddescription>
+    <location file="include/observability/wave_d_high_cardinality_metrics.h" line="45" column="1" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="45" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_shard_latency_histogram_1a41b187d793b10737256ec1f95c39f508" prot="public" virt="non-virtual"><scope>themis::observability::ShardLatencyHistogram</scope><name>getCardinality</name></member>
+      <member refid="classthemis_1_1observability_1_1_shard_latency_histogram_1a1d05f26d4e8ae18e7cc73a9a8a24a056" prot="public" virt="non-virtual"><scope>themis::observability::ShardLatencyHistogram</scope><name>getQuantiles</name></member>
+      <member refid="classthemis_1_1observability_1_1_shard_latency_histogram_1a0848adad753e0014ecc8eaa4ce61de97" prot="private" virt="non-virtual"><scope>themis::observability::ShardLatencyHistogram</scope><name>kMaxShardCardinality</name></member>
+      <member refid="classthemis_1_1observability_1_1_shard_latency_histogram_1ace29715c59d1f121a04841f6d4b78f47" prot="private" virt="non-virtual"><scope>themis::observability::ShardLatencyHistogram</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_shard_latency_histogram_1a6942439ad2066ce4e99377a9f15b4577" prot="public" virt="non-virtual"><scope>themis::observability::ShardLatencyHistogram</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1observability_1_1_shard_latency_histogram_1a390e5757e6fe5c0875835b29de41505f" prot="public" virt="non-virtual"><scope>themis::observability::ShardLatencyHistogram</scope><name>reset</name></member>
+      <member refid="classthemis_1_1observability_1_1_shard_latency_histogram_1ae1414fa38633a832f79a59e45e474f77" prot="private" virt="non-virtual"><scope>themis::observability::ShardLatencyHistogram</scope><name>shard_latencies_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,874 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__api__routing_8cpp" kind="file" language="C++">
+    <compoundname>test_api_routing.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">server/api_version.h</includes>
+    <includes local="yes">server/api_version_config.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/api/test_api_routing.cpp</label>
+        <link refid="test__api__routing_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>server/api_version.h</label>
+      </node>
+      <node id="4">
+        <label>server/api_version_config.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_p_i_version_parsing_test" prot="public">APIVersionParsingTest</innerclass>
+    <innerclass refid="class_a_p_i_version_comparison_test" prot="public">APIVersionComparisonTest</innerclass>
+    <innerclass refid="class_a_p_i_version_manager_routing_test" prot="public">APIVersionManagerRoutingTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionParsingTest, ParseV1)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref></type>
+        </param>
+        <param>
+          <type>ParseV1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="23" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="23" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1aec4ab254462cb826f95682db477be181" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionParsingTest, ParseV1Dot0)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref></type>
+        </param>
+        <param>
+          <type>ParseV1Dot0</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="31" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a96373b02429f74110d6a3e9105ce7c66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionParsingTest, ParseV1Dot0Dot0)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref></type>
+        </param>
+        <param>
+          <type>ParseV1Dot0Dot0</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="38" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="38" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a206a3dce821ed924e48348227c4ea396" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionParsingTest, ParseWithoutVPrefix)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref></type>
+        </param>
+        <param>
+          <type>ParseWithoutVPrefix</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="46" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="46" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a568c40241338e084d952676829b51085" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionParsingTest, ParseLatestKeyword)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref></type>
+        </param>
+        <param>
+          <type>ParseLatestKeyword</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="54" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a31c8248d62825b3fef892a36d4974c81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionParsingTest, LatestKeywordIsCaseSensitive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref></type>
+        </param>
+        <param>
+          <type>LatestKeywordIsCaseSensitive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="60" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1ab21e67d8437e7ec062808c516623ba36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionParsingTest, ParseInvalidString)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref></type>
+        </param>
+        <param>
+          <type>ParseInvalidString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="67" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="67" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1ace2e1235bd65f2be520d1c8ca29bb89d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionComparisonTest, EqualVersionsAreEqual)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_comparison_test" kindref="compound">APIVersionComparisonTest</ref></type>
+        </param>
+        <param>
+          <type>EqualVersionsAreEqual</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="79" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a82097bff6889b21b1912f7860a561a64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionComparisonTest, LowerMajorIsLess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_comparison_test" kindref="compound">APIVersionComparisonTest</ref></type>
+        </param>
+        <param>
+          <type>LowerMajorIsLess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="85" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a11472a3b1156ea3bcd268733992d1932" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionComparisonTest, LowerMinorIsLess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_comparison_test" kindref="compound">APIVersionComparisonTest</ref></type>
+        </param>
+        <param>
+          <type>LowerMinorIsLess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="91" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a29dd8f12c550bc2342af25e7fce9132c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionComparisonTest, LowerPatchIsLess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_comparison_test" kindref="compound">APIVersionComparisonTest</ref></type>
+        </param>
+        <param>
+          <type>LowerPatchIsLess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="96" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="96" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a1c6d89f2bc385d7457531096bcd0721e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionComparisonTest, LessOrEqualSameVersion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_comparison_test" kindref="compound">APIVersionComparisonTest</ref></type>
+        </param>
+        <param>
+          <type>LessOrEqualSameVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="101" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="101" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(APIVersionStringTest, ToStringIncludesVPrefix)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>APIVersionStringTest</type>
+        </param>
+        <param>
+          <type>ToStringIncludesVPrefix</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="111" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1aa66478e564c12863d670686bc363910e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(APIVersionStringTest, ToStringFormat)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>APIVersionStringTest</type>
+        </param>
+        <param>
+          <type>ToStringFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="117" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="117" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a03331b8bae7cb1ab17a8d1d771e08027" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(APIVersionStringTest, ToStringZeroVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>APIVersionStringTest</type>
+        </param>
+        <param>
+          <type>ToStringZeroVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="122" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="122" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1afa4be2516596407e0e50bb16a2d61a63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionManagerRoutingTest, HasCurrentVersion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref></type>
+        </param>
+        <param>
+          <type>HasCurrentVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="136" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="136" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a7a721acdf6ef89d94eeb7282ebe9937b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionManagerRoutingTest, HasMinimumVersion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref></type>
+        </param>
+        <param>
+          <type>HasMinimumVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="141" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="141" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a17d13c27d46b29738818a54173ebb13a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionManagerRoutingTest, CurrentVersionIsSupported)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref></type>
+        </param>
+        <param>
+          <type>CurrentVersionIsSupported</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="147" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1adec42d6a34fb85bc996cfe94af81c54f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionManagerRoutingTest, ReturnsCurrentVersionForLatestKeyword)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref></type>
+        </param>
+        <param>
+          <type>ReturnsCurrentVersionForLatestKeyword</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="151" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="151" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a068e0f06f61bc97c090492ece9a1ad6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionManagerRoutingTest, SupportedVersionsListNotEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref></type>
+        </param>
+        <param>
+          <type>SupportedVersionsListNotEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="156" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="156" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a5d569a78a5c216bbfd6640fc421b108c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionManagerRoutingTest, ReturnsCurrentVersionForEmptyHeader)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref></type>
+        </param>
+        <param>
+          <type>ReturnsCurrentVersionForEmptyHeader</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="161" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="161" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1abfd0f4978c231b4352b46964db92f52e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(APIVersionManagerRoutingTest, ReturnsCurrentVersionForInvalidHeader)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref></type>
+        </param>
+        <param>
+          <type>ReturnsCurrentVersionForInvalidHeader</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="166" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="166" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a6a2073f87c1827cf14ede46a1038efe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(APIRoutingConventions, VersionedPathPrefixUsesV1)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>APIRoutingConventions</type>
+        </param>
+        <param>
+          <type>VersionedPathPrefixUsesV1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="175" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="175" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a5803b16049c12f49bd2e975de4e41ade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(APIRoutingConventions, HealthEndpointsAreNotVersioned)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>APIRoutingConventions</type>
+        </param>
+        <param>
+          <type>HealthEndpointsAreNotVersioned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="180" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="180" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1aa84348c025f50f5c98413effc229d2e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(APIDeprecationTest, CanRegisterAndRetrieveDeprecation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>APIDeprecationTest</type>
+        </param>
+        <param>
+          <type>CanRegisterAndRetrieveDeprecation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="194" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="194" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a72ab1a65c60af9ad2d8cf8e8298afc9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(APIDeprecationTest, NoDeprecationInfoForUnregisteredEndpoint)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>APIDeprecationTest</type>
+        </param>
+        <param>
+          <type>NoDeprecationInfoForUnregisteredEndpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="209" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="209" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a86c098fcaeb7571701d465549ebfb156" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(APIDeprecationTest, NoDeprecationInfoAfterRemoval)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>APIDeprecationTest</type>
+        </param>
+        <param>
+          <type>NoDeprecationInfoAfterRemoval</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="215" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="215" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1ae1e5da01d2e7627dd5252df5917e81bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(APIDeprecationTest, DeprecationInfoReturnedBeforeRemoval)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>APIDeprecationTest</type>
+        </param>
+        <param>
+          <type>DeprecationInfoReturnedBeforeRemoval</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="229" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="229" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a359ceebbe34d5027cb918093fb3d85b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionedRoutingConventions, V1PathStartsWithSlashV1Slash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VersionedRoutingConventions</type>
+        </param>
+        <param>
+          <type>V1PathStartsWithSlashV1Slash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="248" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="248" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__routing_8cpp_1a599a4a70171c439c0c39422899d80b49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionedRoutingConventions, V2PathStartsWithSlashV2Slash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VersionedRoutingConventions</type>
+        </param>
+        <param>
+          <type>V2PathStartsWithSlashV2Slash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_routing.cpp" line="254" column="1" bodyfile="tests/api/test_api_routing.cpp" bodystart="254" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/api_version.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/api_version_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::server;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APIVersion<sp/>Parsing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="class_a_p_i_version_parsing_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref>,<sp/>ParseV1)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>APIVersion::parse(</highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v.has_value());</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;major,<sp/>1u);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;minor,<sp/>0u);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;patch,<sp/>0u);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref>,<sp/>ParseV1Dot0)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>APIVersion::parse(</highlight><highlight class="stringliteral">&quot;v1.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v.has_value());</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;major,<sp/>1u);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;minor,<sp/>0u);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref>,<sp/>ParseV1Dot0Dot0)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>APIVersion::parse(</highlight><highlight class="stringliteral">&quot;v1.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v.has_value());</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;major,<sp/>1u);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;minor,<sp/>0u);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;patch,<sp/>0u);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref>,<sp/>ParseWithoutVPrefix)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>APIVersion::parse(</highlight><highlight class="stringliteral">&quot;1.2.3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v.has_value());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;major,<sp/>1u);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;minor,<sp/>2u);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;patch,<sp/>3u);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref>,<sp/>ParseLatestKeyword)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>APIVersion::parse(</highlight><highlight class="stringliteral">&quot;latest&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v.has_value());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;major,<sp/>APIVersionConfig::CURRENT_MAJOR);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref>,<sp/>LatestKeywordIsCaseSensitive)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;latest&quot;<sp/>is<sp/>the<sp/>canonical<sp/>form;<sp/>&quot;LATEST&quot;<sp/>and<sp/>&quot;Latest&quot;<sp/>are<sp/>not<sp/>recognized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(documents<sp/>the<sp/>case-sensitive<sp/>behaviour<sp/>of<sp/>the<sp/>version<sp/>parser)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(APIVersion::parse(</highlight><highlight class="stringliteral">&quot;LATEST&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(APIVersion::parse(</highlight><highlight class="stringliteral">&quot;Latest&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_parsing_test" kindref="compound">APIVersionParsingTest</ref>,<sp/>ParseInvalidString)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(APIVersion::parse(</highlight><highlight class="stringliteral">&quot;invalid&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(APIVersion::parse(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(APIVersion::parse(</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APIVersion<sp/>Comparison</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="class_a_p_i_version_comparison_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_p_i_version_comparison_test" kindref="compound">APIVersionComparisonTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_comparison_test" kindref="compound">APIVersionComparisonTest</ref>,<sp/>EqualVersionsAreEqual)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersion<sp/>v1{1,<sp/>0,<sp/>0},<sp/>v2{1,<sp/>0,<sp/>0};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(v1<sp/>!=<sp/>v2);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_comparison_test" kindref="compound">APIVersionComparisonTest</ref>,<sp/>LowerMajorIsLess)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersion<sp/>v1{1,<sp/>0,<sp/>0},<sp/>v2{2,<sp/>0,<sp/>0};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(v2,<sp/>v1);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_comparison_test" kindref="compound">APIVersionComparisonTest</ref>,<sp/>LowerMinorIsLess)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersion<sp/>v1{1,<sp/>0,<sp/>0},<sp/>v2{1,<sp/>1,<sp/>0};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_comparison_test" kindref="compound">APIVersionComparisonTest</ref>,<sp/>LowerPatchIsLess)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersion<sp/>v1{1,<sp/>0,<sp/>0},<sp/>v2{1,<sp/>0,<sp/>1};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_comparison_test" kindref="compound">APIVersionComparisonTest</ref>,<sp/>LessOrEqualSameVersion)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersion<sp/>v{1,<sp/>2,<sp/>3};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(v,<sp/>v);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>v);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APIVersion<sp/>String<sp/>Conversion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kindref="member">TEST</ref>(APIVersionStringTest,<sp/>ToStringIncludesVPrefix)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersion<sp/>v{1,<sp/>2,<sp/>3};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>v.toString();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s[0],<sp/></highlight><highlight class="charliteral">&apos;v&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kindref="member">TEST</ref>(APIVersionStringTest,<sp/>ToStringFormat)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersion<sp/>v{1,<sp/>2,<sp/>3};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.toString(),<sp/></highlight><highlight class="stringliteral">&quot;v1.2.3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kindref="member">TEST</ref>(APIVersionStringTest,<sp/>ToStringZeroVersion)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersion<sp/>v{0,<sp/>0,<sp/>0};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.toString(),<sp/></highlight><highlight class="stringliteral">&quot;v0.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APIVersionManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="class_a_p_i_version_manager_routing_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersionManager<sp/><ref refid="class_a_p_i_version_manager_routing_test_1addb3247cae12a5160df59b92b80c7790" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref>,<sp/>HasCurrentVersion)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>mgr_.getCurrentVersion();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(v.major<sp/>+<sp/>v.minor<sp/>+<sp/>v.patch,<sp/>0u);<sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>all-zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref>,<sp/>HasMinimumVersion)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>min_v<sp/>=<sp/>mgr_.getMinimumVersion();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cur_v<sp/>=<sp/>mgr_.getCurrentVersion();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(min_v,<sp/>cur_v);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref>,<sp/>CurrentVersionIsSupported)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr_.isVersionSupported(mgr_.getCurrentVersion()));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref>,<sp/>ReturnsCurrentVersionForLatestKeyword)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolved<sp/>=<sp/>mgr_.resolveVersion(</highlight><highlight class="stringliteral">&quot;latest&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resolved,<sp/>mgr_.getCurrentVersion());</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref>,<sp/>SupportedVersionsListNotEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>versions<sp/>=<sp/>mgr_.getSupportedVersions();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(versions.empty());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref>,<sp/>ReturnsCurrentVersionForEmptyHeader)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolved<sp/>=<sp/>mgr_.resolveVersion(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resolved,<sp/>mgr_.getCurrentVersion());</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a2cdda4288a03caa4beebadd1e73c1131" kindref="member">TEST_F</ref>(<ref refid="class_a_p_i_version_manager_routing_test" kindref="compound">APIVersionManagerRoutingTest</ref>,<sp/>ReturnsCurrentVersionForInvalidHeader)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolved<sp/>=<sp/>mgr_.resolveVersion(</highlight><highlight class="stringliteral">&quot;garbage&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resolved,<sp/>mgr_.getCurrentVersion());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>API<sp/>Route<sp/>Path<sp/>Conventions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kindref="member">TEST</ref>(APIRoutingConventions,<sp/>VersionedPathPrefixUsesV1)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>versioned_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/snapshots/stats&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(versioned_path.find(</highlight><highlight class="stringliteral">&quot;/api/v1/&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kindref="member">TEST</ref>(APIRoutingConventions,<sp/>HealthEndpointsAreNotVersioned)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>health_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/health&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>live_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/health/live&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>ready_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/health/ready&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(health_path.find(</highlight><highlight class="stringliteral">&quot;/api/v&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(live_path.find(</highlight><highlight class="stringliteral">&quot;/api/v&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ready_path.find(</highlight><highlight class="stringliteral">&quot;/api/v&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Deprecation<sp/>Registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kindref="member">TEST</ref>(APIDeprecationTest,<sp/>CanRegisterAndRetrieveDeprecation)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersionManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>APIDeprecationInfo<sp/>info;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>info.deprecated_in<sp/>=<sp/>{1,<sp/>0,<sp/>0};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>info.removed_in<sp/>=<sp/>{2,<sp/>0,<sp/>0};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>info.reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Replaced<sp/>by<sp/>/api/v2/entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>info.alternative<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v2/entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.registerDeprecation(</highlight><highlight class="stringliteral">&quot;/entities&quot;</highlight><highlight class="normal">,<sp/>info);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.getDeprecationInfo(</highlight><highlight class="stringliteral">&quot;/entities&quot;</highlight><highlight class="normal">,<sp/>{1,<sp/>0,<sp/>0});</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;alternative,<sp/></highlight><highlight class="stringliteral">&quot;/api/v2/entities&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kindref="member">TEST</ref>(APIDeprecationTest,<sp/>NoDeprecationInfoForUnregisteredEndpoint)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersionManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.getDeprecationInfo(</highlight><highlight class="stringliteral">&quot;/not/deprecated&quot;</highlight><highlight class="normal">,<sp/>{1,<sp/>0,<sp/>0});</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kindref="member">TEST</ref>(APIDeprecationTest,<sp/>NoDeprecationInfoAfterRemoval)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersionManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>APIDeprecationInfo<sp/>info;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>info.deprecated_in<sp/>=<sp/>{1,<sp/>0,<sp/>0};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>info.removed_in<sp/>=<sp/>{2,<sp/>0,<sp/>0};</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>info.reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Removed<sp/>in<sp/>v2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>info.alternative<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v2/endpoint&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.registerDeprecation(</highlight><highlight class="stringliteral">&quot;/old/endpoint&quot;</highlight><highlight class="normal">,<sp/>info);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>2.0.0<sp/>is<sp/>at/past<sp/>removal<sp/>-<sp/>no<sp/>deprecation<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.getDeprecationInfo(</highlight><highlight class="stringliteral">&quot;/old/endpoint&quot;</highlight><highlight class="normal">,<sp/>{2,<sp/>0,<sp/>0});</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kindref="member">TEST</ref>(APIDeprecationTest,<sp/>DeprecationInfoReturnedBeforeRemoval)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>APIVersionManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>APIDeprecationInfo<sp/>info;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>info.deprecated_in<sp/>=<sp/>{1,<sp/>2,<sp/>0};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>info.removed_in<sp/>=<sp/>{2,<sp/>0,<sp/>0};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>info.alternative<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v2/endpoint&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.registerDeprecation(</highlight><highlight class="stringliteral">&quot;/old/endpoint2&quot;</highlight><highlight class="normal">,<sp/>info);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>1.3.0<sp/>is<sp/>between<sp/>deprecated_in<sp/>and<sp/>removed_in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.getDeprecationInfo(</highlight><highlight class="stringliteral">&quot;/old/endpoint2&quot;</highlight><highlight class="normal">,<sp/>{1,<sp/>3,<sp/>0});</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;alternative,<sp/></highlight><highlight class="stringliteral">&quot;/api/v2/endpoint&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>URL<sp/>Path-Based<sp/>Versioned<sp/>Routing<sp/>Conventions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>tests<sp/>validate<sp/>the<sp/>path<sp/>format<sp/>expectations<sp/>for<sp/>/v1/<sp/>and<sp/>/v2/<sp/>routing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kindref="member">TEST</ref>(VersionedRoutingConventions,<sp/>V1PathStartsWithSlashV1Slash)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1<sp/>versioned<sp/>paths<sp/>follow<sp/>the<sp/>/v1/&lt;resource&gt;<sp/>convention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>v1_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/v1/entities/123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v1_path.substr(0,<sp/>4),<sp/></highlight><highlight class="stringliteral">&quot;/v1/&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__api__routing_8cpp_1a6736fb7b3a2dd966e873878d84efd43c" kindref="member">TEST</ref>(VersionedRoutingConventions,<sp/>V2PathStartsWithSlashV2Slash)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v2<sp/>versioned<sp/>paths<sp/>follow<sp/>the<sp/>/v2/&lt;resource&gt;<sp/>convention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>v2_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/v2/entities/123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v2_path.substr(0,<sp/>4),<sp/></highlight><highlight class="stringliteral">&quot;/v2/&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/api/test_api_routing.cpp"/>
+  </compounddef>
+</doxygen>

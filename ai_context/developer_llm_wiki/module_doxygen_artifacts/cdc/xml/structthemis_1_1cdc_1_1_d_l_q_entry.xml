@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_d_l_q_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::DLQEntry</compoundname>
+    <includes refid="dead__letter__queue_8h" local="no">dead_letter_queue.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_d_l_q_entry_1a8a3c826cd00dd42f5149d8d80b6c3379" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::DLQEntry::dlq_sequence</definition>
+        <argsstring></argsstring>
+        <name>dlq_sequence</name>
+        <qualifiedname>themis::cdc::DLQEntry::dlq_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>DLQ-internal sequence (unique within DLQ). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="46" column="17" bodyfile="include/cdc/dead_letter_queue.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_d_l_q_entry_1a5f34c5859aa5149b4f6a43518895cec1" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent themis::cdc::DLQEntry::event</definition>
+        <argsstring></argsstring>
+        <name>event</name>
+        <qualifiedname>themis::cdc::DLQEntry::event</qualifiedname>
+        <briefdescription>
+<para>Original change event that failed delivery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="47" column="29" bodyfile="include/cdc/dead_letter_queue.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_d_l_q_entry_1ad43d735586bcad6b9c02220d47de8e23" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::DLQEntry::failure_reason</definition>
+        <argsstring></argsstring>
+        <name>failure_reason</name>
+        <qualifiedname>themis::cdc::DLQEntry::failure_reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable reason (last error message). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="48" column="17" bodyfile="include/cdc/dead_letter_queue.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_d_l_q_entry_1a2d1bd8585964bdb4ae3faf80eaa81480" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cdc::DLQEntry::attempt_count</definition>
+        <argsstring></argsstring>
+        <name>attempt_count</name>
+        <qualifiedname>themis::cdc::DLQEntry::attempt_count</qualifiedname>
+        <briefdescription>
+<para>Number of delivery attempts that were made. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="49" column="17" bodyfile="include/cdc/dead_letter_queue.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_d_l_q_entry_1afc8c3c03dd520815901b765f86c55bd9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cdc::DLQEntry::enqueued_at_ms</definition>
+        <argsstring></argsstring>
+        <name>enqueued_at_ms</name>
+        <qualifiedname>themis::cdc::DLQEntry::enqueued_at_ms</qualifiedname>
+        <briefdescription>
+<para>Wall-clock timestamp when enqueued (ms since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="50" column="17" bodyfile="include/cdc/dead_letter_queue.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_d_l_q_entry_1a0853f4a6712bc7ef531e277fe16f787c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::DLQEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::DLQEntry::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="56" column="20" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="25" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_d_l_q_entry_1a4b009be207c706a27ca52710f0bf1b38" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_d_l_q_entry" kindref="compound">DLQEntry</ref></type>
+        <definition>DLQEntry themis::cdc::DLQEntry::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::cdc::DLQEntry::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), uint64_t(), int64_t(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/dead_letter_queue.h" line="62" column="21" bodyfile="src/cdc/dead_letter_queue.cpp" bodystart="41" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::Changefeed::ChangeEvent</label>
+        <link refid="structthemis_1_1_changefeed_1_1_change_event"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::DLQEntry</label>
+        <link refid="structthemis_1_1cdc_1_1_d_l_q_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>event</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/dead_letter_queue.h" line="45" column="1" bodyfile="include/cdc/dead_letter_queue.h" bodystart="45" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a2d1bd8585964bdb4ae3faf80eaa81480" prot="public" virt="non-virtual"><scope>themis::cdc::DLQEntry</scope><name>attempt_count</name></member>
+      <member refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a8a3c826cd00dd42f5149d8d80b6c3379" prot="public" virt="non-virtual"><scope>themis::cdc::DLQEntry</scope><name>dlq_sequence</name></member>
+      <member refid="structthemis_1_1cdc_1_1_d_l_q_entry_1afc8c3c03dd520815901b765f86c55bd9" prot="public" virt="non-virtual"><scope>themis::cdc::DLQEntry</scope><name>enqueued_at_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a5f34c5859aa5149b4f6a43518895cec1" prot="public" virt="non-virtual"><scope>themis::cdc::DLQEntry</scope><name>event</name></member>
+      <member refid="structthemis_1_1cdc_1_1_d_l_q_entry_1ad43d735586bcad6b9c02220d47de8e23" prot="public" virt="non-virtual"><scope>themis::cdc::DLQEntry</scope><name>failure_reason</name></member>
+      <member refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a4b009be207c706a27ca52710f0bf1b38" prot="public" virt="non-virtual"><scope>themis::cdc::DLQEntry</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a0853f4a6712bc7ef531e277fe16f787c" prot="public" virt="non-virtual"><scope>themis::cdc::DLQEntry</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

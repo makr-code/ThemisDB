@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4166b9b5ef066b3a88619bbc1a7ebd3b" kind="dir">
+    <compoundname>tests/network</compoundname>
+    <innerfile refid="test__cdn__cache__middleware_8cpp">test_cdn_cache_middleware.cpp</innerfile>
+    <innerfile refid="test__http2__protocol_8cpp">test_http2_protocol.cpp</innerfile>
+    <innerfile refid="test__http2__server__push_8cpp">test_http2_server_push.cpp</innerfile>
+    <innerfile refid="test__http3__datagram_8cpp">test_http3_datagram.cpp</innerfile>
+    <innerfile refid="test__http3__production__readiness_8cpp">test_http3_production_readiness.cpp</innerfile>
+    <innerfile refid="test__http3__protocol_8cpp">test_http3_protocol.cpp</innerfile>
+    <innerfile refid="test__http__adaptive__index_8cpp">test_http_adaptive_index.cpp</innerfile>
+    <innerfile refid="test__http__aql_8cpp">test_http_aql.cpp</innerfile>
+    <innerfile refid="test__http__aql__collect_8cpp">test_http_aql_collect.cpp</innerfile>
+    <innerfile refid="test__http__aql__fulltext__or_8cpp">test_http_aql_fulltext_or.cpp</innerfile>
+    <innerfile refid="test__http__aql__fulltext__score_8cpp">test_http_aql_fulltext_score.cpp</innerfile>
+    <innerfile refid="test__http__aql__graph_8cpp">test_http_aql_graph.cpp</innerfile>
+    <innerfile refid="test__http__aql__join_8cpp">test_http_aql_join.cpp</innerfile>
+    <innerfile refid="test__http__aql__let_8cpp">test_http_aql_let.cpp</innerfile>
+    <innerfile refid="test__http__audit_8cpp">test_http_audit.cpp</innerfile>
+    <innerfile refid="test__http__buffer__api_8cpp">test_http_buffer_api.cpp</innerfile>
+    <innerfile refid="test__http__changefeed_8cpp">test_http_changefeed.cpp</innerfile>
+    <innerfile refid="test__http__changefeed__governance_8cpp">test_http_changefeed_governance.cpp</innerfile>
+    <innerfile refid="test__http__changefeed__sse_8cpp">test_http_changefeed_sse.cpp</innerfile>
+    <innerfile refid="test__http__changefeed__sse__extended_8cpp">test_http_changefeed_sse_extended.cpp</innerfile>
+    <innerfile refid="test__http__client__pool_8cpp">test_http_client_pool.cpp</innerfile>
+    <innerfile refid="test__http__config_8cpp">test_http_config.cpp</innerfile>
+    <innerfile refid="test__http__content_8cpp">test_http_content.cpp</innerfile>
+    <innerfile refid="test__http__error__api_8cpp">test_http_error_api.cpp</innerfile>
+    <innerfile refid="test__http__fusion__search_8cpp">test_http_fusion_search.cpp</innerfile>
+    <innerfile refid="test__http__governance_8cpp">test_http_governance.cpp</innerfile>
+    <innerfile refid="test__http__hybrid__search_8cpp">test_http_hybrid_search.cpp</innerfile>
+    <innerfile refid="test__http__index__endpoints_8cpp">test_http_index_endpoints.cpp</innerfile>
+    <innerfile refid="test__http__invalid__utf8_8cpp">test_http_invalid_utf8.cpp</innerfile>
+    <innerfile refid="test__http__pii__lazy__init_8cpp">test_http_pii_lazy_init.cpp</innerfile>
+    <innerfile refid="test__http__pii__manager_8cpp">test_http_pii_manager.cpp</innerfile>
+    <innerfile refid="test__http__pii__manager__new_8cpp">test_http_pii_manager_new.cpp</innerfile>
+    <innerfile refid="test__http__policies__export_8cpp">test_http_policies_export.cpp</innerfile>
+    <innerfile refid="test__http__query__range_8cpp">test_http_query_range.cpp</innerfile>
+    <innerfile refid="test__http__range__index_8cpp">test_http_range_index.cpp</innerfile>
+    <innerfile refid="test__http__retention__api_8cpp">test_http_retention_api.cpp</innerfile>
+    <innerfile refid="test__http__rope_8cpp">test_http_rope.cpp</innerfile>
+    <innerfile refid="test__http__server__network_8cpp">test_http_server_network.cpp</innerfile>
+    <innerfile refid="test__http__sharding__admin_8cpp">test_http_sharding_admin.cpp</innerfile>
+    <innerfile refid="test__http__timeout__patterns_8cpp">test_http_timeout_patterns.cpp</innerfile>
+    <innerfile refid="test__http__timeseries_8cpp">test_http_timeseries.cpp</innerfile>
+    <innerfile refid="test__http__vector_8cpp">test_http_vector.cpp</innerfile>
+    <innerfile refid="test__http__vector__largescale_8cpp">test_http_vector_largescale.cpp</innerfile>
+    <innerfile refid="test__network__cb__per__error__class__focused_8cpp">test_network_cb_per_error_class_focused.cpp</innerfile>
+    <innerfile refid="test__network__circuit__breaker_8cpp">test_network_circuit_breaker.cpp</innerfile>
+    <innerfile refid="test__network__contract__hardening__focused_8cpp">test_network_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__network__hardening__phase2__focused_8cpp">test_network_hardening_phase2_focused.cpp</innerfile>
+    <innerfile refid="test__network__highcardinality__stress_8cpp">test_network_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__network__lifecycle__guardrails__focused_8cpp">test_network_lifecycle_guardrails_focused.cpp</innerfile>
+    <innerfile refid="test__network__protocol__chaos_8cpp">test_network_protocol_chaos.cpp</innerfile>
+    <innerfile refid="test__network__routing__hardening__focused_8cpp">test_network_routing_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__network__timeout_8cpp">test_network_timeout.cpp</innerfile>
+    <innerfile refid="test__network__transport__resilience__focused_8cpp">test_network_transport_resilience_focused.cpp</innerfile>
+    <innerfile refid="test__quic__server_8cpp">test_quic_server.cpp</innerfile>
+    <innerfile refid="test__quic__transport_8cpp">test_quic_transport.cpp</innerfile>
+    <innerfile refid="test__socket__timeout_8cpp">test_socket_timeout.cpp</innerfile>
+    <innerfile refid="test__transport__security__checker_8cpp">test_transport_security_checker.cpp</innerfile>
+    <innerfile refid="test__udp__fast__path_8cpp">test_udp_fast_path.cpp</innerfile>
+    <innerfile refid="test__udp__server_8cpp">test_udp_server.cpp</innerfile>
+    <innerfile refid="test__wave3d__network__safety_8cpp">test_wave3d_network_safety.cpp</innerfile>
+    <innerfile refid="test__websocket__cdc_8cpp">test_websocket_cdc.cpp</innerfile>
+    <innerfile refid="test__wire__protocol__backpressure_8cpp">test_wire_protocol_backpressure.cpp</innerfile>
+    <innerfile refid="test__wire__protocol__connection__pool_8cpp">test_wire_protocol_connection_pool.cpp</innerfile>
+    <innerfile refid="test__wire__protocol__dataflow_8cpp">test_wire_protocol_dataflow.cpp</innerfile>
+    <innerfile refid="test__wire__protocol__integration_8cpp">test_wire_protocol_integration.cpp</innerfile>
+    <innerfile refid="test__wire__protocol__ipv6_8cpp">test_wire_protocol_ipv6.cpp</innerfile>
+    <innerfile refid="test__wire__protocol__optimizations_8cpp">test_wire_protocol_optimizations.cpp</innerfile>
+    <innerfile refid="test__wire__protocol__performance_8cpp">test_wire_protocol_performance.cpp</innerfile>
+    <innerfile refid="test__wire__protocol__retry_8cpp">test_wire_protocol_retry.cpp</innerfile>
+    <innerfile refid="test__wire__protocol__v1__handlers_8cpp">test_wire_protocol_v1_handlers.cpp</innerfile>
+    <innerfile refid="test__wire__protocol__v2_8cpp">test_wire_protocol_v2.cpp</innerfile>
+    <innerfile refid="test__wire__protocol__websocket_8cpp">test_wire_protocol_websocket.cpp</innerfile>
+    <innerfile refid="test__ws__handler_8cpp">test_ws_handler.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/"/>
+  </compounddef>
+</doxygen>

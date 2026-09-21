@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_manifest_schema_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ManifestSchemaValidator</compoundname>
+    <includes refid="plugin__interface_8h" local="no">plugin_interface.h</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1_manifest_schema_validator_1_1_validation_result" prot="public">themis::plugins::ManifestSchemaValidator::ValidationResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1_manifest_schema_validator_1a8fb63750cc02d7fbc28d12f162df22d9" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::plugins::ManifestSchemaValidator::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::plugins::ManifestSchemaValidator::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="648" column="5" bodyfile="include/plugins/plugin_interface.h" bodystart="648" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_manifest_schema_validator_1a0e2401e8f26cedc08c9c717aa4751f98" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_manifest_schema_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>static ValidationResult themis::plugins::ManifestSchemaValidator::validate</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::plugins::ManifestSchemaValidator::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1_manifest_schema_validator_1a8fb63750cc02d7fbc28d12f162df22d9" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Validate a parsed JSON object against the marketplace manifest schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks required fields, type constraints, value ranges, and pattern rules as defined in manifest_schema_v2.json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parsed JSON object representing the plugin manifest. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1plugins_1_1_manifest_schema_validator_1_1_validation_result" kindref="compound">ValidationResult</ref> with valid=true on success, or a list of errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="664" column="29" bodyfile="include/plugins/plugin_interface.h" bodystart="664" bodyend="870"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_manifest_schema_validator_1abe18616013463048cfafcf5140d8df78" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1plugins_1_1_marketplace_manifest" kindref="compound">MarketplaceManifest</ref> &gt;</type>
+        <definition>static std::optional&lt; MarketplaceManifest &gt; themis::plugins::ManifestSchemaValidator::parseMarketplaceManifest</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>parseMarketplaceManifest</name>
+        <qualifiedname>themis::plugins::ManifestSchemaValidator::parseMarketplaceManifest</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1_manifest_schema_validator_1a8fb63750cc02d7fbc28d12f162df22d9" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Parse a JSON object into a <ref refid="structthemis_1_1plugins_1_1_marketplace_manifest" kindref="compound">MarketplaceManifest</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Assumes the JSON has already been validated; returns std::nullopt if a required field is missing or has the wrong type.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parsed JSON object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1plugins_1_1_marketplace_manifest" kindref="compound">MarketplaceManifest</ref>, or std::nullopt on parse failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="881" column="26" bodyfile="include/plugins/plugin_interface.h" bodystart="881" bodyend="981"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_manifest_schema_validator_1a51bcb1a3773c714bf3ef64b3a96ad31b" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::plugins::ManifestSchemaValidator::checkRequiredString</definition>
+        <argsstring>(const json &amp;j, const std::string &amp;field, std::size_t min_len, std::size_t max_len, ValidationResult &amp;out)</argsstring>
+        <name>checkRequiredString</name>
+        <qualifiedname>themis::plugins::ManifestSchemaValidator::checkRequiredString</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1_manifest_schema_validator_1a8fb63750cc02d7fbc28d12f162df22d9" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>min_len</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_len</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1_manifest_schema_validator_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="984" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="984" bodyend="999"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_manifest_schema_validator_1a16e1d3da53193002bd8191b7a017a874" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::plugins::ManifestSchemaValidator::checkOptionalString</definition>
+        <argsstring>(const json &amp;j, const std::string &amp;field, std::size_t, std::size_t max_len, ValidationResult &amp;out)</argsstring>
+        <name>checkOptionalString</name>
+        <qualifiedname>themis::plugins::ManifestSchemaValidator::checkOptionalString</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1_manifest_schema_validator_1a8fb63750cc02d7fbc28d12f162df22d9" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_len</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1_manifest_schema_validator_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="1001" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="1001" bodyend="1015"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validates plugin manifests against the ThemisDB marketplace schema v2. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides structural and semantic validation of plugin.json content without requiring a third-party JSON Schema library. Validation rules correspond 1:1 to the constraints in <computeroutput>include/plugins/manifest_schema_v2.json</computeroutput>.</para>
+<para>Performance target: &lt; 2 ms per manifest on modern hardware.</para>
+<para>Thread-Safety: All methods are stateless and thread-safe.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal">nlohmann::json<sp/>j<sp/>=<sp/>nlohmann::json::parse(file);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1_manifest_schema_validator_1a0e2401e8f26cedc08c9c717aa4751f98" kindref="member">ManifestSchemaValidator::validate</ref>(j);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.valid)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>err<sp/>:<sp/>result.errors)<sp/>{<sp/>log(err);<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>manifest<sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1_manifest_schema_validator_1abe18616013463048cfafcf5140d8df78" kindref="member">ManifestSchemaValidator::parseMarketplaceManifest</ref>(j);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_interface.h" line="646" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="646" bodyend="1016"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_manifest_schema_validator_1a16e1d3da53193002bd8191b7a017a874" prot="private" virt="non-virtual"><scope>themis::plugins::ManifestSchemaValidator</scope><name>checkOptionalString</name></member>
+      <member refid="classthemis_1_1plugins_1_1_manifest_schema_validator_1a51bcb1a3773c714bf3ef64b3a96ad31b" prot="private" virt="non-virtual"><scope>themis::plugins::ManifestSchemaValidator</scope><name>checkRequiredString</name></member>
+      <member refid="classthemis_1_1plugins_1_1_manifest_schema_validator_1a8fb63750cc02d7fbc28d12f162df22d9" prot="public" virt="non-virtual"><scope>themis::plugins::ManifestSchemaValidator</scope><name>json</name></member>
+      <member refid="classthemis_1_1plugins_1_1_manifest_schema_validator_1abe18616013463048cfafcf5140d8df78" prot="public" virt="non-virtual"><scope>themis::plugins::ManifestSchemaValidator</scope><name>parseMarketplaceManifest</name></member>
+      <member refid="classthemis_1_1plugins_1_1_manifest_schema_validator_1a0e2401e8f26cedc08c9c717aa4751f98" prot="public" virt="non-virtual"><scope>themis::plugins::ManifestSchemaValidator</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

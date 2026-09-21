@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_x509_c_r_l_deleter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::X509CRLDeleter</compoundname>
+    <includes refid="openssl__deleter_8h" local="no">openssl_deleter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_x509_c_r_l_deleter_1ada008b75498a79161b552bf4f2c65458" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::X509CRLDeleter::operator()</definition>
+        <argsstring>(X509_CRL *crl) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::utils::X509CRLDeleter::operator()</qualifiedname>
+        <param>
+          <type>X509_CRL *</type>
+          <declname>crl</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/openssl_deleter.h" line="74" column="10" bodyfile="include/utils/openssl_deleter.h" bodystart="74" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deleter for X509_CRL. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/openssl_deleter.h" line="73" column="1" bodyfile="include/utils/openssl_deleter.h" bodystart="73" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_x509_c_r_l_deleter_1ada008b75498a79161b552bf4f2c65458" prot="public" virt="non-virtual"><scope>themis::utils::X509CRLDeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_execution_metrics" kind="struct" language="C++" prot="private">
+    <compoundname>themis::query::fts::FtsExecutor::ExecutionMetrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_execution_metrics_1a3222a6a3171e6dcf217983c2f94636f5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::fts::FtsExecutor::ExecutionMetrics::total_queries</definition>
+        <argsstring></argsstring>
+        <name>total_queries</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::ExecutionMetrics::total_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="154" column="17" bodyfile="include/query/fts_executor.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_execution_metrics_1a994124806b1d89a890125d5683b2e8bf" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::fts::FtsExecutor::ExecutionMetrics::total_timeout_queries</definition>
+        <argsstring></argsstring>
+        <name>total_timeout_queries</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::ExecutionMetrics::total_timeout_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="155" column="17" bodyfile="include/query/fts_executor.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_execution_metrics_1a192735891859fd26c260f7321db0f6c6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::fts::FtsExecutor::ExecutionMetrics::total_result_count</definition>
+        <argsstring></argsstring>
+        <name>total_result_count</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::ExecutionMetrics::total_result_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="156" column="17" bodyfile="include/query/fts_executor.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/fts_executor.h" line="153" column="3" bodyfile="include/query/fts_executor.h" bodystart="153" bodyend="157"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_execution_metrics_1a3222a6a3171e6dcf217983c2f94636f5" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor::ExecutionMetrics</scope><name>total_queries</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_execution_metrics_1a192735891859fd26c260f7321db0f6c6" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor::ExecutionMetrics</scope><name>total_result_count</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_execution_metrics_1a994124806b1d89a890125d5683b2e8bf" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor::ExecutionMetrics</scope><name>total_timeout_queries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1maintenance_1_1_replica_validation_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::maintenance::ReplicaValidationHandler</compoundname>
+    <basecompoundref refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler" prot="public" virt="non-virtual">themis::maintenance::IMaintenanceTaskHandler</basecompoundref>
+    <includes refid="maintenance__task__handler__impls_8h" local="no">maintenance_task_handler_impls.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1maintenance_1_1_replica_validation_handler_1ae88c57da9724cc1cdb3da493a940bca6" prot="public" static="no">
+        <type>std::function&lt; Result&lt; std::string &gt;()&gt;</type>
+        <definition>using themis::maintenance::ReplicaValidationHandler::CheckFn = std::function&lt;Result&lt;std::string&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>CheckFn</name>
+        <qualifiedname>themis::maintenance::ReplicaValidationHandler::CheckFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="91" column="5" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_replica_validation_handler_1a32c9abfa0123e1a923f0d6eba6cf9df4" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1ae88c57da9724cc1cdb3da493a940bca6" kindref="member">CheckFn</ref></type>
+        <definition>CheckFn themis::maintenance::ReplicaValidationHandler::check_fn_</definition>
+        <argsstring></argsstring>
+        <name>check_fn_</name>
+        <qualifiedname>themis::maintenance::ReplicaValidationHandler::check_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="110" column="13" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_replica_validation_handler_1a4912bbf1e32665495d76f3c9d3bd988f" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::ReplicaValidationHandler::ReplicaValidationHandler</definition>
+        <argsstring>(CheckFn check_fn)</argsstring>
+        <name>ReplicaValidationHandler</name>
+        <qualifiedname>themis::maintenance::ReplicaValidationHandler::ReplicaValidationHandler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1ae88c57da9724cc1cdb3da493a940bca6" kindref="member">CheckFn</ref></type>
+          <declname>check_fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="93" column="14" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="93" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_replica_validation_handler_1ac846e954e1c6e7d23ba2b027ca2f149a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::maintenance::ReplicaValidationHandler::execute</definition>
+        <argsstring>(const std::string &amp;, MaintenanceTaskType) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::maintenance::ReplicaValidationHandler::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a0c02379595c393103648c8cf3191b259">execute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref></type>
+          <declname>task_type</declname>
+        </param>
+        <briefdescription>
+<para>Execute the maintenance task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orchestrator job identifier (for logging/tracing). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>task_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The task type being executed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ok with a human-readable result summary string on success, or an Error on failure (the orchestrator will propagate the error message to the job&apos;s error_message field). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="96" column="12" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="96" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_replica_validation_handler_1aac84162b127496650e53d15c87ec4133" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::ReplicaValidationHandler::handlerName</definition>
+        <argsstring>() const override</argsstring>
+        <name>handlerName</name>
+        <qualifiedname>themis::maintenance::ReplicaValidationHandler::handlerName</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a944d9bb4ec535eb3b5003129b43157f9">handlerName</reimplements>
+        <briefdescription>
+<para>Human-readable handler name for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returned by GET /api/v1/maintenance/task-handlers. Should be unique and stable across restarts (e.g. &quot;StorageCompactionHandler&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="105" column="17" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="105" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Handles REPLICA_VALIDATION by invoking the sharding consistency checker. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Accepts a callable that performs the actual consistency check, allowing the sharding module to wire in its own checker without introducing a compile-time dependency on sharding types from the maintenance module.</para>
+<para>Registered by the sharding module at startup: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>checker<sp/>=<sp/>[replica_mgr]()<sp/>-&gt;<sp/>Result&lt;std::string&gt;<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>issues<sp/>=<sp/>replica_mgr-&gt;runConsistencyCheck();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Replica<sp/>validation:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(issues)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>issue(s)<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">orchestrator.registerTaskHandler(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a7713156cac2432ef10558065aa5a5457" kindref="member">MaintenanceTaskType::REPLICA_VALIDATION</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::make_shared&lt;ReplicaValidationHandler&gt;(checker));</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::maintenance::IMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler"/>
+      </node>
+      <node id="1">
+        <label>themis::maintenance::ReplicaValidationHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_replica_validation_handler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::maintenance::IMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler"/>
+      </node>
+      <node id="1">
+        <label>themis::maintenance::ReplicaValidationHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_replica_validation_handler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/maintenance/maintenance_task_handler_impls.h" line="89" column="1" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="89" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1a32c9abfa0123e1a923f0d6eba6cf9df4" prot="private" virt="non-virtual"><scope>themis::maintenance::ReplicaValidationHandler</scope><name>check_fn_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1ae88c57da9724cc1cdb3da493a940bca6" prot="public" virt="non-virtual"><scope>themis::maintenance::ReplicaValidationHandler</scope><name>CheckFn</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1ac846e954e1c6e7d23ba2b027ca2f149a" prot="public" virt="virtual"><scope>themis::maintenance::ReplicaValidationHandler</scope><name>execute</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1aac84162b127496650e53d15c87ec4133" prot="public" virt="virtual"><scope>themis::maintenance::ReplicaValidationHandler</scope><name>handlerName</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_replica_validation_handler_1a4912bbf1e32665495d76f3c9d3bd988f" prot="public" virt="non-virtual"><scope>themis::maintenance::ReplicaValidationHandler</scope><name>ReplicaValidationHandler</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a02df22c7fc7ff41510208a7fa0673de9" prot="public" virt="virtual"><scope>themis::maintenance::ReplicaValidationHandler</scope><name>~IMaintenanceTaskHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::TraceCompletenessPartitionScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario_1a1ad0ebdd555b8c15525ba84b89b7009c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::TraceCompletenessPartitionScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::TraceCompletenessPartitionScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="325" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="325" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario_1af3b3e9b43ab703e08333f4b2edd90ab3" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::TraceCompletenessPartitionScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::TraceCompletenessPartitionScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="326" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="326" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Distributed Tracing Scenario 8: Trace Completeness Under Partition. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests trace collection under network partition (some spans may be delayed).</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>5-node cluster</para>
+</listitem><listitem><para>Write operation that spans majority and minority partitions</para>
+</listitem><listitem><para>Partition introduces for 5 seconds</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>Initiate write that would normally span all 5 nodes</para>
+</listitem><listitem><para>After 2 seconds: introduce partition</para>
+</listitem><listitem><para>Continue operation (traces emitted from both partitions)</para>
+</listitem><listitem><para>Recover partition; collect all traces</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>Traces from majority partition complete immediately</para>
+</listitem><listitem><para>Traces from minority partition delayed by partition duration</para>
+</listitem><listitem><para>All traces have same correlation ID</para>
+</listitem><listitem><para>Root span has complete child span list</para>
+</listitem><listitem><para>No trace duplication or corruption</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected P95:</bold> &lt;100ms for majority; &lt;5s for minority after healing </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="323" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="323" bodyend="329"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario_1af3b3e9b43ab703e08333f4b2edd90ab3" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::TraceCompletenessPartitionScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario_1a1ad0ebdd555b8c15525ba84b89b7009c" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::TraceCompletenessPartitionScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

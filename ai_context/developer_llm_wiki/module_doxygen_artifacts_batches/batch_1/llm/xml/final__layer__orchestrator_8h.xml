@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="final__layer__orchestrator_8h" kind="file" language="C++">
+    <compoundname>final_layer_orchestrator.h</compoundname>
+    <includes refid="adapter__registry_8h" local="yes">llm/adapter_registry.h</includes>
+    <includes refid="model__router_8h" local="yes">llm/model_router.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="model__switch__workflow_8h" local="yes">include/llm/model_switch_workflow.h</includedby>
+    <includedby refid="final__layer__orchestrator_8cpp" local="yes">src/llm/final_layer_orchestrator.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>llm/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/final_layer_orchestrator.h</label>
+        <link refid="final__layer__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>llm/model_router.h</label>
+        <link refid="model__router_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="17">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="19">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="20">
+        <label>regex</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="21">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/final_layer_orchestrator.h</label>
+        <link refid="final__layer__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/model_switch_workflow.h</label>
+        <link refid="model__switch__workflow_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/llm/final_layer_orchestrator.cpp</label>
+        <link refid="final__layer__orchestrator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/model_switch_workflow.cpp</label>
+        <link refid="model__switch__workflow_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_final_layer_transition_policy" prot="public">themis::llm::FinalLayerTransitionPolicy</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_final_layer_package" prot="public">themis::llm::FinalLayerPackage</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_final_layer_request" prot="public">themis::llm::FinalLayerRequest</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_final_layer_compatibility_row" prot="public">themis::llm::FinalLayerCompatibilityRow</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_final_layer_resolution" prot="public">themis::llm::FinalLayerResolution</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_final_layer_orchestrator" prot="public">themis::llm::FinalLayerOrchestrator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Orchestrates final-layer package deployment, staging, and resolution with compatibility gating. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__registry_8h" kindref="compound">llm/adapter_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="model__router_8h" kindref="compound">llm/model_router.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57af" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57af" kindref="member">FinalLayerPackageStatus</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57afa18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57afa18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57afaf0d9e10417deacee308b91a46ddc1746" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57afaf0d9e10417deacee308b91a46ddc1746" kindref="member">DEPRECATED</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57afa055c1a591abb0e8cd86dc969727bcc0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57afa055c1a591abb0e8cd86dc969727bcc0b" kindref="member">DISABLED</ref>,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2" kindref="member">FinalLayerDeploymentStage</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2a521019040a0f4f7773357aa6bc22180b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a9f604bf28b2d7f38ea021637b73ee781a521019040a0f4f7773357aa6bc22180b" kindref="member">DRAFT</ref>,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2ab8a1431064f351dbef92871d02bab8cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2ab8a1431064f351dbef92871d02bab8cf" kindref="member">STAGING</ref>,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2af2c4e699f59a7f216dc68fbda1e0eabc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2af2c4e699f59a7f216dc68fbda1e0eabc" kindref="member">CANARY</ref>,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2a86601675138015edb458866e7d879118" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2a86601675138015edb458866e7d879118" kindref="member">PRODUCTION</ref>,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2a8a9b1250730449d802089e3359cbeff4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2a8a9b1250730449d802089e3359cbeff4" kindref="member">PREVIOUS_KNOWN_GOOD</ref>,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_final_layer_transition_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_final_layer_transition_policy" kindref="compound">FinalLayerTransitionPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_final_layer_transition_policy_1a5215cbf682f35845d3336076830431e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_final_layer_transition_policy_1a5215cbf682f35845d3336076830431e5" kindref="member">require_compatibility_gate</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_final_layer_transition_policy_1aa6ad85c2a729d73d367424a08ed31906" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_final_layer_transition_policy_1aa6ad85c2a729d73d367424a08ed31906" kindref="member">allow_direct_draft_to_production</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_final_layer_package" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_final_layer_package" kindref="compound">FinalLayerPackage</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1_final_layer_package_1a04dc22d2a6ff2bfa71d6bb5e1155c8a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package_1a04dc22d2a6ff2bfa71d6bb5e1155c8a6" kindref="member">package_id</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1_final_layer_package_1ab7c161579dec169430a75daa314094d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package_1ab7c161579dec169430a75daa314094d0" kindref="member">target_model_id</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1_final_layer_package_1a5753fed37ef1794d9a71855ec5509219" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package_1a5753fed37ef1794d9a71855ec5509219" kindref="member">model_family</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_final_layer_package_1a0d2791ad619e7988dab95ca206152f18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package_1a0d2791ad619e7988dab95ca206152f18" kindref="member">base_model_version</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_final_layer_package_1a772c9a765b9712350cc7526c0ef91529" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package_1a772c9a765b9712350cc7526c0ef91529" kindref="member">primary_adapter_id</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_final_layer_package_1ac50964159fcbf1597c2f6162e54edfe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package_1ac50964159fcbf1597c2f6162e54edfe5" kindref="member">draft_adapter_id</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1_final_layer_package_1ad544266c8e8d18d9650bb9a4daaa87ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package_1ad544266c8e8d18d9650bb9a4daaa87ad" kindref="member">domain</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1_final_layer_package_1aa7154701b885730e75a3c58d9c297c0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package_1aa7154701b885730e75a3c58d9c297c0d" kindref="member">task_type</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_final_layer_package_1a389683f6760f96fee1c657bb721b2b81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57af" kindref="member">FinalLayerPackageStatus</ref><sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package_1a389683f6760f96fee1c657bb721b2b81" kindref="member">status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57afa18ff74f43da410c5529f7d6fca84f115" kindref="member">FinalLayerPackageStatus::ACTIVE</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_final_layer_package_1ab1eb72b99bc39efa2b374b7a385b48f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2" kindref="member">FinalLayerDeploymentStage</ref><sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package_1ab1eb72b99bc39efa2b374b7a385b48f0" kindref="member">deployment_stage</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2a86601675138015edb458866e7d879118" kindref="member">FinalLayerDeploymentStage::PRODUCTION</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1_final_layer_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_final_layer_request" kindref="compound">FinalLayerRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_final_layer_request_1a87929b230547b3a93ab125e77fa05230" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_request_1a87929b230547b3a93ab125e77fa05230" kindref="member">prompt</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1_final_layer_request_1a4f80ee6097313edd1e566b5be59f94c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_request_1a4f80ee6097313edd1e566b5be59f94c7" kindref="member">metadata</ref><sp/>=<sp/>nlohmann::json::object();</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_final_layer_request_1afdd5259eff48ceba1b8545051cc3c7ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_request_1afdd5259eff48ceba1b8545051cc3c7ca" kindref="member">requested_package_id</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1_final_layer_request_1a30c4f6dd30c1a3db9fd6c68a908016db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_request_1a30c4f6dd30c1a3db9fd6c68a908016db" kindref="member">base_model_name</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1_final_layer_request_1a74b3845ba11b090124efea2013c082a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_request_1a74b3845ba11b090124efea2013c082a3" kindref="member">base_model_version</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1_final_layer_request_1ac85c02e57b65466d81de22313cf51a59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_request_1ac85c02e57b65466d81de22313cf51a59" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1_final_layer_request_1a8ccfbf37541c121bac5ed56d275a7206" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_request_1a8ccfbf37541c121bac5ed56d275a7206" kindref="member">confidence_policy_version</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_final_layer_request_1aace118613f7e423b364cdf123db18e12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_request_1aace118613f7e423b364cdf123db18e12" kindref="member">confidence_threshold_key</ref>;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_final_layer_request_1aa29fe5b8ce16b8752f8f032606b621c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_request_1aa29fe5b8ce16b8752f8f032606b621c0" kindref="member">upstream_routing_reason_code</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1_final_layer_request_1a53a4d214ef270b7d13df28493a8644dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_request_1a53a4d214ef270b7d13df28493a8644dc" kindref="member">escalation_source_layer</ref>;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_final_layer_request_1a019d07ff156f3a80400d8788eff9e3af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_final_layer_request_1a019d07ff156f3a80400d8788eff9e3af" kindref="member">allow_draft_adapter</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1_final_layer_compatibility_row" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_final_layer_compatibility_row" kindref="compound">FinalLayerCompatibilityRow</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1a2546b0a1d5ae419230c9af9f45bcede2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1a2546b0a1d5ae419230c9af9f45bcede2" kindref="member">adapter_id</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1abe5ce172ed7128585217cc9da3ba696a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1abe5ce172ed7128585217cc9da3ba696a" kindref="member">target_model_id</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1aa3d90795031c4e6933efc46ccdf060f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1aa3d90795031c4e6933efc46ccdf060f6" kindref="member">compatible</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1ad0625331c56a0a60d57d0a27d518df78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1ad0625331c56a0a60d57d0a27d518df78" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1aaace8dfd78ef670c46f4210ef2920e9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_compatibility_row_1aaace8dfd78ef670c46f4210ef2920e9d" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1llm_1_1_final_layer_resolution" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_final_layer_resolution" kindref="compound">FinalLayerResolution</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1_final_layer_resolution_1a72ba9c300413ff91669dba0daae141b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1a72ba9c300413ff91669dba0daae141b1" kindref="member">resolved</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab27ecdba4894d5ece442c3784e52e5f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab27ecdba4894d5ece442c3784e52e5f7" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1_final_layer_resolution_1adb654b5b3333401625f6e64abab8b110" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1adb654b5b3333401625f6e64abab8b110" kindref="member">package_id</ref>;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1llm_1_1_final_layer_resolution_1a0f4d6aa8f9560d59e439b52e0624d4c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1a0f4d6aa8f9560d59e439b52e0624d4c8" kindref="member">primary_adapter_id</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_final_layer_resolution_1a3e302cade2418c4c256185c938fd47ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1a3e302cade2418c4c256185c938fd47ad" kindref="member">draft_adapter_id</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab35e66f5026dcc9e54f0cd32548f1222" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab35e66f5026dcc9e54f0cd32548f1222" kindref="member">routing_reason</ref>;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1_final_layer_resolution_1aba001c3c5fa4f23757e5ddd10bb959b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1aba001c3c5fa4f23757e5ddd10bb959b3" kindref="member">routing_reason_code</ref>;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab7df0805310ab3ab393e75b63010c882" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab7df0805310ab3ab393e75b63010c882" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1llm_1_1_final_layer_resolution_1a9cb214cef6e363ce00b3f33bd953dbdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1a9cb214cef6e363ce00b3f33bd953dbdb" kindref="member">confidence_policy_version</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1llm_1_1_final_layer_resolution_1aa7f828ac08755817ff3f5471772cac53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1aa7f828ac08755817ff3f5471772cac53" kindref="member">confidence_threshold_key</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab06a3c3cc9fb5752feb6913d1b69fef0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1ab06a3c3cc9fb5752feb6913d1b69fef0" kindref="member">fallback_mode</ref>;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1llm_1_1_final_layer_resolution_1a51241f567902d963a366390af300aa50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1a51241f567902d963a366390af300aa50" kindref="member">fallback_reason_code</ref>;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1_final_layer_resolution_1a9b028ff88171c20c29f4e7c0f2961c81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1a9b028ff88171c20c29f4e7c0f2961c81" kindref="member">escalation_source_layer</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1llm_1_1_final_layer_resolution_1a58bd0590bba745cd6efa88b1fb3bc176" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1a58bd0590bba745cd6efa88b1fb3bc176" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1llm_1_1_final_layer_resolution_1a5cf1af5de4bc96879b8fda21cc8163be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_resolution_1a5cf1af5de4bc96879b8fda21cc8163be" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1llm_1_1_final_layer_orchestrator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a71a87c91750d9f4a381504e0aa44d2b5" kindref="member">FinalLayerOrchestrator</ref><sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a71a87c91750d9f4a381504e0aa44d2b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a71a87c91750d9f4a381504e0aa44d2b5" kindref="member">FinalLayerOrchestrator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1acb5b254111e81af3cae8fbac207fa93c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1acb5b254111e81af3cae8fbac207fa93c" kindref="member">~FinalLayerOrchestrator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a9bf1b82961685357ef28d7f5f9d1938b" kindref="member">setAdapterRegistry</ref>(std::shared_ptr&lt;AdapterRegistry&gt;<sp/>registry);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a78b31b10b7bc76c9e2da214d58982d11" kindref="member">setModelRouter</ref>(std::shared_ptr&lt;ModelRouter&gt;<sp/>router);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1adc25b9dbfac96f731541c18020a2a0be" kindref="member">setTransitionPolicy</ref>(<ref refid="structthemis_1_1llm_1_1_final_layer_transition_policy" kindref="compound">FinalLayerTransitionPolicy</ref><sp/>policy);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_final_layer_transition_policy" kindref="compound">FinalLayerTransitionPolicy</ref><sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a4d1c9de85ff56858f2a098f292167b5c" kindref="member">transitionPolicy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a1332c479f2c278b6dc73621394ac1301" kindref="member">registerPackage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package" kindref="compound">FinalLayerPackage</ref>&amp;<sp/>package);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a3c7ecc6a31136c3ae51aab24cca46768" kindref="member">updatePackage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_final_layer_package" kindref="compound">FinalLayerPackage</ref>&amp;<sp/>package);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a561eddb90ff0637723c942f3c651301b" kindref="member">setPackageStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>package_id,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57af" kindref="member">FinalLayerPackageStatus</ref><sp/>new_status);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;FinalLayerPackage&gt;<sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a472e783ee2413633d2f1c99c826da13d" kindref="member">listPackages</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a045391386e4d625a7ca93c4cd07d5815" kindref="member">promotePackage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>package_id,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2" kindref="member">FinalLayerDeploymentStage</ref><sp/>target_stage,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_name<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_version<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1ae081fa7783680c81360f4d3e177356ef" kindref="member">rollbackToPackage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_package_id,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rollback_target_id,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_name<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_version<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>FinalLayerResolution<sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a0a32dcac64f6881bdb8f854dfa7ebe25" kindref="member">resolve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FinalLayerRequest&amp;<sp/>request)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;FinalLayerCompatibilityRow&gt;<sp/><ref refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a52909e6bd052799b23dad842ccae59b6" kindref="member">buildCompatibilityMatrix</ref>(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>package_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FinalLayerPackage*<sp/>findPackageById(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>package_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FinalLayerPackage*<sp/>findActivePackageForModel(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AdapterRegistry&gt;<sp/>adapter_registry_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ModelRouter&gt;<sp/>model_router_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>FinalLayerPackage&gt;<sp/>packages_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>FinalLayerTransitionPolicy<sp/>transition_policy_{};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/final_layer_orchestrator.h"/>
+  </compounddef>
+</doxygen>

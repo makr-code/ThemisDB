@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_last_write_wins_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::LastWriteWinsResolver</compoundname>
+    <basecompoundref refid="classthemisdb_1_1replication_1_1_conflict_resolver" prot="public" virt="non-virtual">themisdb::replication::ConflictResolver</basecompoundref>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_last_write_wins_resolver_1a000a57cda06b403a1a926d401938a95f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref></type>
+        <definition>MMWriteEntry themisdb::replication::LastWriteWinsResolver::resolve</definition>
+        <argsstring>(const std::string &amp;document_id, const std::vector&lt; MMWriteEntry &gt; &amp;conflicting_writes) override</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themisdb::replication::LastWriteWinsResolver::resolve</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_conflict_resolver_1afa9ae0d1b4f80b1cd7ce78e59cd0f84e">resolve</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> &gt; &amp;</type>
+          <declname>conflicting_writes</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Multi-master <ref refid="classthemisdb_1_1replication_1_1_conflict_resolver" kindref="compound">ConflictResolver</ref> implementations (<ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref> variants) ============================================================================ NOTE: All conflict resolution operations implement proper causal ordering through: - Vector clocks for happened-before relationships - Hybrid logical clocks (HLC) for total ordering of concurrent writes - Explicit dependency tracking for write-before constraints - LWW (Last-Write-Wins) semantics based on HLC timestamp These mechanisms ensure strong eventual consistency in multi-master scenarios. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflicting_writes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="252" column="18" bodyfile="src/replication/replication_manager.cpp" bodystart="2978" bodyend="3073"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_last_write_wins_resolver_1a46027a2e7b6b45937b0d160b6e45f2aa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LastWriteWinsResolver::strategyName</definition>
+        <argsstring>() const override</argsstring>
+        <name>strategyName</name>
+        <qualifiedname>themisdb::replication::LastWriteWinsResolver::strategyName</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_conflict_resolver_1a03c7947a2aeabdbe0ad0f62437ec2ed7">strategyName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="257" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Last-Write-Wins Resolver Uses HLC timestamps to determine winner </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::replication::ConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_conflict_resolver"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::LastWriteWinsResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::replication::ConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_conflict_resolver"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::LastWriteWinsResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/multi_master_replication.h" line="250" column="1" bodyfile="include/replication/multi_master_replication.h" bodystart="250" bodyend="258"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver_1a000a57cda06b403a1a926d401938a95f" prot="public" virt="virtual"><scope>themisdb::replication::LastWriteWinsResolver</scope><name>resolve</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver_1a46027a2e7b6b45937b0d160b6e45f2aa" prot="public" virt="virtual"><scope>themisdb::replication::LastWriteWinsResolver</scope><name>strategyName</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_conflict_resolver_1af763af2577df622c4341e9684d189c2e" prot="public" virt="virtual"><scope>themisdb::replication::LastWriteWinsResolver</scope><name>~ConflictResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

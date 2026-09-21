@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_wake_word_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::WakeWordConfig</compoundname>
+    <includes refid="wake__word__detector_8h" local="no">wake_word_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_config_1ae77de216d1862fe9fae7d5e889ffc3f4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::WakeWordConfig::sensitivity</definition>
+        <argsstring></argsstring>
+        <name>sensitivity</name>
+        <qualifiedname>themis::voice::WakeWordConfig::sensitivity</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+<para>Detection threshold [0=permissive .. 1=strict]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="46" column="11" bodyfile="include/voice/wake_word_detector.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_config_1aaed7496285d07427cbd2518cfd7f9db0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::WakeWordConfig::buffer_length_ms</definition>
+        <argsstring></argsstring>
+        <name>buffer_length_ms</name>
+        <qualifiedname>themis::voice::WakeWordConfig::buffer_length_ms</qualifiedname>
+        <initializer>= 1500</initializer>
+        <briefdescription>
+<para>Rolling audio buffer size in ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="47" column="11" bodyfile="include/voice/wake_word_detector.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_config_1af89f234b3a20c62e5f8ccd4f7c75dd9a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::WakeWordConfig::continuous_listen</definition>
+        <argsstring></argsstring>
+        <name>continuous_listen</name>
+        <qualifiedname>themis::voice::WakeWordConfig::continuous_listen</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Keep listening after a detection event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="48" column="11" bodyfile="include/voice/wake_word_detector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_config_1a73eb5508ff37b78199eb0e73af152a06" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::WakeWordConfig::cooldown_ms</definition>
+        <argsstring></argsstring>
+        <name>cooldown_ms</name>
+        <qualifiedname>themis::voice::WakeWordConfig::cooldown_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Minimum ms between successive detections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="49" column="11" bodyfile="include/voice/wake_word_detector.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_config_1a89863f51c7331a55c442274fe3c87944" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::WakeWordConfig::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::voice::WakeWordConfig::sample_rate</qualifiedname>
+        <initializer>= 16000</initializer>
+        <briefdescription>
+<para>Expected PCM sample rate (Hz). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="50" column="11" bodyfile="include/voice/wake_word_detector.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_config_1af364c499369373f48078991129dbd948" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::WakeWordConfig::vad_min_energy</definition>
+        <argsstring></argsstring>
+        <name>vad_min_energy</name>
+        <qualifiedname>themis::voice::WakeWordConfig::vad_min_energy</qualifiedname>
+        <initializer>= 0.005f</initializer>
+        <briefdescription>
+<para>Minimum RMS energy for VAD gate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="51" column="11" bodyfile="include/voice/wake_word_detector.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_config_1aae0f14ab5b314acec1f08ae8842ca0e7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::WakeWordConfig::confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold</name>
+        <qualifiedname>themis::voice::WakeWordConfig::confidence_threshold</qualifiedname>
+        <initializer>= 0.6f</initializer>
+        <briefdescription>
+<para>Minimum confidence to accept detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="54" column="11" bodyfile="include/voice/wake_word_detector.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_config_1a2da559a89564bbe0bb6a912ce582af3e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::WakeWordConfig::reject_low_confidence</definition>
+        <argsstring></argsstring>
+        <name>reject_low_confidence</name>
+        <qualifiedname>themis::voice::WakeWordConfig::reject_low_confidence</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Reject detections below threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="55" column="11" bodyfile="include/voice/wake_word_detector.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_config_1a6a009675e4794feffaa802cd2bed7b63" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::WakeWordConfig::use_timeout_protection</definition>
+        <argsstring></argsstring>
+        <name>use_timeout_protection</name>
+        <qualifiedname>themis::voice::WakeWordConfig::use_timeout_protection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enforce timeout with safe defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="56" column="11" bodyfile="include/voice/wake_word_detector.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_wake_word_config_1ab33faf012094a298c2fccf3c291b60fd" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::WakeWordConfig::detection_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>detection_timeout_ms</name>
+        <qualifiedname>themis::voice::WakeWordConfig::detection_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Max time for detection (5 seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/wake_word_detector.h" line="57" column="13" bodyfile="include/voice/wake_word_detector.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a detection session. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/wake_word_detector.h" line="45" column="1" bodyfile="include/voice/wake_word_detector.h" bodystart="45" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_wake_word_config_1aaed7496285d07427cbd2518cfd7f9db0" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordConfig</scope><name>buffer_length_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_config_1aae0f14ab5b314acec1f08ae8842ca0e7" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordConfig</scope><name>confidence_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_config_1af89f234b3a20c62e5f8ccd4f7c75dd9a" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordConfig</scope><name>continuous_listen</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_config_1a73eb5508ff37b78199eb0e73af152a06" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordConfig</scope><name>cooldown_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_config_1ab33faf012094a298c2fccf3c291b60fd" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordConfig</scope><name>detection_timeout_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_config_1a2da559a89564bbe0bb6a912ce582af3e" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordConfig</scope><name>reject_low_confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_config_1a89863f51c7331a55c442274fe3c87944" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordConfig</scope><name>sample_rate</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_config_1ae77de216d1862fe9fae7d5e889ffc3f4" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordConfig</scope><name>sensitivity</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_config_1a6a009675e4794feffaa802cd2bed7b63" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordConfig</scope><name>use_timeout_protection</name></member>
+      <member refid="structthemis_1_1voice_1_1_wake_word_config_1af364c499369373f48078991129dbd948" prot="public" virt="non-virtual"><scope>themis::voice::WakeWordConfig</scope><name>vad_min_energy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

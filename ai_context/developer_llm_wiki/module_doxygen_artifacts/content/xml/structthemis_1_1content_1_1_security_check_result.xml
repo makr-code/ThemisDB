@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_security_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::SecurityCheckResult</compoundname>
+    <includes refid="content__security_8h" local="no">content_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1afc665a1fcc68b5943dc61fbe873ae40b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref></type>
+        <definition>ContentError themis::content::SecurityCheckResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::content::SecurityCheckResult::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="68" column="18" bodyfile="include/content/content_security.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1a9a4137c54fb6b6fe716ad32dfb27304b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::SecurityCheckResult::malware_checked</definition>
+        <argsstring></argsstring>
+        <name>malware_checked</name>
+        <qualifiedname>themis::content::SecurityCheckResult::malware_checked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="71" column="10" bodyfile="include/content/content_security.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1a40efbbfa51b48315599ff984c5fd3244" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::SecurityCheckResult::malware_clean</definition>
+        <argsstring></argsstring>
+        <name>malware_clean</name>
+        <qualifiedname>themis::content::SecurityCheckResult::malware_clean</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="72" column="10" bodyfile="include/content/content_security.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1a739fc10f08eb358fa3641bba4fe84041" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::SecurityCheckResult::malware_threat</definition>
+        <argsstring></argsstring>
+        <name>malware_threat</name>
+        <qualifiedname>themis::content::SecurityCheckResult::malware_threat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="73" column="17" bodyfile="include/content/content_security.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1afc76b037f1031bdd285259f587272799" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::SecurityCheckResult::pii_checked</definition>
+        <argsstring></argsstring>
+        <name>pii_checked</name>
+        <qualifiedname>themis::content::SecurityCheckResult::pii_checked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="75" column="10" bodyfile="include/content/content_security.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1aac9653c26469152f367cdc005e05b233" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::SecurityCheckResult::pii_found</definition>
+        <argsstring></argsstring>
+        <name>pii_found</name>
+        <qualifiedname>themis::content::SecurityCheckResult::pii_found</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="76" column="10" bodyfile="include/content/content_security.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1aa87b5d6f8ba319e79cd9c2fa95acdb97" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::SecurityCheckResult::pii_types</definition>
+        <argsstring></argsstring>
+        <name>pii_types</name>
+        <qualifiedname>themis::content::SecurityCheckResult::pii_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="77" column="17" bodyfile="include/content/content_security.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1a7ab8fbb4d03e43520dbb84cb7d078400" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::SecurityCheckResult::abuse_checked</definition>
+        <argsstring></argsstring>
+        <name>abuse_checked</name>
+        <qualifiedname>themis::content::SecurityCheckResult::abuse_checked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="79" column="10" bodyfile="include/content/content_security.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1a66dcd66428aa40683ec2a7fd255cc24d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::SecurityCheckResult::abuse_detected</definition>
+        <argsstring></argsstring>
+        <name>abuse_detected</name>
+        <qualifiedname>themis::content::SecurityCheckResult::abuse_detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="80" column="10" bodyfile="include/content/content_security.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1abd5ab7598597c55e6f776bc810f96d19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::SecurityCheckResult::abuse_action</definition>
+        <argsstring></argsstring>
+        <name>abuse_action</name>
+        <qualifiedname>themis::content::SecurityCheckResult::abuse_action</qualifiedname>
+        <briefdescription>
+<para>&quot;ALLOW&quot;, &quot;FLAG&quot;, or &quot;BLOCK&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="81" column="17" bodyfile="include/content/content_security.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1ab2be6c34644f2bd4b97a94acb29a7cac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::SecurityCheckResult::abuse_detector_type</definition>
+        <argsstring></argsstring>
+        <name>abuse_detector_type</name>
+        <qualifiedname>themis::content::SecurityCheckResult::abuse_detector_type</qualifiedname>
+        <briefdescription>
+<para>which detector matched (e.g. &quot;PhotoDNA&quot;, &quot;Text&quot;) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="82" column="17" bodyfile="include/content/content_security.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1aa4faa74e39c4b5712e172fd05de9f327" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::SecurityCheckResult::abuse_pattern_name</definition>
+        <argsstring></argsstring>
+        <name>abuse_pattern_name</name>
+        <qualifiedname>themis::content::SecurityCheckResult::abuse_pattern_name</qualifiedname>
+        <briefdescription>
+<para>name of the matched pattern/hash (empty if ALLOW) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="83" column="17" bodyfile="include/content/content_security.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1ad7c84ec616a4d71ff7576be2faf12c9e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::SecurityCheckResult::zip_bomb_checked</definition>
+        <argsstring></argsstring>
+        <name>zip_bomb_checked</name>
+        <qualifiedname>themis::content::SecurityCheckResult::zip_bomb_checked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="85" column="10" bodyfile="include/content/content_security.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_security_check_result_1aeddcf05dc843c8586c80bb045956bc14" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::SecurityCheckResult::zip_bomb_detected</definition>
+        <argsstring></argsstring>
+        <name>zip_bomb_detected</name>
+        <qualifiedname>themis::content::SecurityCheckResult::zip_bomb_detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="86" column="10" bodyfile="include/content/content_security.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_security_check_result_1a100979032682fa748ba6592694d33023" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::SecurityCheckResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::content::SecurityCheckResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_security.h" line="92" column="10" bodyfile="src/content/content_security.cpp" bodystart="128" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::ContentError</label>
+        <link refid="structthemis_1_1content_1_1_content_error"/>
+      </node>
+      <node id="1">
+        <label>themis::content::SecurityCheckResult</label>
+        <link refid="structthemis_1_1content_1_1_security_check_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>error</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/content_security.h" line="67" column="1" bodyfile="include/content/content_security.h" bodystart="67" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1abd5ab7598597c55e6f776bc810f96d19" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>abuse_action</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1a7ab8fbb4d03e43520dbb84cb7d078400" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>abuse_checked</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1a66dcd66428aa40683ec2a7fd255cc24d" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>abuse_detected</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1ab2be6c34644f2bd4b97a94acb29a7cac" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>abuse_detector_type</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1aa4faa74e39c4b5712e172fd05de9f327" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>abuse_pattern_name</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1afc665a1fcc68b5943dc61fbe873ae40b" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1a9a4137c54fb6b6fe716ad32dfb27304b" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>malware_checked</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1a40efbbfa51b48315599ff984c5fd3244" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>malware_clean</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1a739fc10f08eb358fa3641bba4fe84041" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>malware_threat</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1afc76b037f1031bdd285259f587272799" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>pii_checked</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1aac9653c26469152f367cdc005e05b233" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>pii_found</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1aa87b5d6f8ba319e79cd9c2fa95acdb97" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>pii_types</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1a100979032682fa748ba6592694d33023" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1ad7c84ec616a4d71ff7576be2faf12c9e" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>zip_bomb_checked</name></member>
+      <member refid="structthemis_1_1content_1_1_security_check_result_1aeddcf05dc843c8586c80bb045956bc14" prot="public" virt="non-virtual"><scope>themis::content::SecurityCheckResult</scope><name>zip_bomb_detected</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

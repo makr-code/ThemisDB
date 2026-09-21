@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionResourceMonitor::RateLimiterStats</compoundname>
+    <includes refid="vision__resource__monitor_8h" local="no">vision_resource_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1a0b3be1c2ee636e3b740ad27e5177e471" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceMonitor::RateLimiterStats::available_tokens</definition>
+        <argsstring></argsstring>
+        <name>available_tokens</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::RateLimiterStats::available_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="256" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1adfbda76c0ed90b770b78b16a499b457e" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::VisionResourceMonitor::RateLimiterStats::time_until_next_token</definition>
+        <argsstring></argsstring>
+        <name>time_until_next_token</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::RateLimiterStats::time_until_next_token</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="257" column="35" bodyfile="include/llm/vision_resource_monitor.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1ac65da384c84f7e42c5b653e26d07ece6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::VisionResourceMonitor::RateLimiterStats::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::RateLimiterStats::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="258" column="18" bodyfile="include/llm/vision_resource_monitor.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1aa7d542f3d435d09be630d3139e9569a4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::VisionResourceMonitor::RateLimiterStats::rejected_requests</definition>
+        <argsstring></argsstring>
+        <name>rejected_requests</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::RateLimiterStats::rejected_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="259" column="18" bodyfile="include/llm/vision_resource_monitor.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_resource_monitor.h" line="255" column="5" bodyfile="include/llm/vision_resource_monitor.h" bodystart="255" bodyend="260"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1a0b3be1c2ee636e3b740ad27e5177e471" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::RateLimiterStats</scope><name>available_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1aa7d542f3d435d09be630d3139e9569a4" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::RateLimiterStats</scope><name>rejected_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1adfbda76c0ed90b770b78b16a499b457e" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::RateLimiterStats</scope><name>time_until_next_token</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1ac65da384c84f7e42c5b653e26d07ece6" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::RateLimiterStats</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

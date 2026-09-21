@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_training_core_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::TrainingCoreResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_training_core_result_1a9a0e5f0420c4181498036040edd307c1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref></type>
+        <definition>AutoMLTask themisdb::analytics::TrainingCoreResult::task</definition>
+        <argsstring></argsstring>
+        <name>task</name>
+        <qualifiedname>themisdb::analytics::TrainingCoreResult::task</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="2385" column="16" bodyfile="src/analytics/automl.cpp" bodystart="2385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_training_core_result_1ad27e668ba781768d6647bbb12f6740af" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref></type>
+        <definition>ModelAlgorithm themisdb::analytics::TrainingCoreResult::algo</definition>
+        <argsstring></argsstring>
+        <name>algo</name>
+        <qualifiedname>themisdb::analytics::TrainingCoreResult::algo</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a50951d8269614400bb32419b705bc3ca" kindref="member">ModelAlgorithm::DECISION_TREE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="2386" column="20" bodyfile="src/analytics/automl.cpp" bodystart="2386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_training_core_result_1acf04b38b47c06fd8cfb7da39f70eeaac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::TrainingCoreResult::name_str</definition>
+        <argsstring></argsstring>
+        <name>name_str</name>
+        <qualifiedname>themisdb::analytics::TrainingCoreResult::name_str</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="2387" column="17" bodyfile="src/analytics/automl.cpp" bodystart="2387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_training_core_result_1a090b6d81ae18f22b29a540c21812f744" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics" kindref="compound">EvalMetrics</ref></type>
+        <definition>EvalMetrics themisdb::analytics::TrainingCoreResult::metrics_val</definition>
+        <argsstring></argsstring>
+        <name>metrics_val</name>
+        <qualifiedname>themisdb::analytics::TrainingCoreResult::metrics_val</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="2388" column="17" bodyfile="src/analytics/automl.cpp" bodystart="2388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_training_core_result_1a84d92488f525a8998019c9dbdf6c9d57" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ModelBase &gt;</type>
+        <definition>std::unique_ptr&lt;ModelBase&gt; themisdb::analytics::TrainingCoreResult::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <qualifiedname>themisdb::analytics::TrainingCoreResult::model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="2389" column="21" bodyfile="src/analytics/automl.cpp" bodystart="2389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_training_core_result_1afdee3c052c33661da57dc99d64ef85de" prot="public" static="no" mutable="no">
+        <type>Scaler</type>
+        <definition>Scaler themisdb::analytics::TrainingCoreResult::scaler</definition>
+        <argsstring></argsstring>
+        <name>scaler</name>
+        <qualifiedname>themisdb::analytics::TrainingCoreResult::scaler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="2390" column="12" bodyfile="src/analytics/automl.cpp" bodystart="2390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_training_core_result_1a1764c9e2b710093f0d7a515e351fbc5e" prot="public" static="no" mutable="no">
+        <type>LabelEncoder</type>
+        <definition>LabelEncoder themisdb::analytics::TrainingCoreResult::label_enc</definition>
+        <argsstring></argsstring>
+        <name>label_enc</name>
+        <qualifiedname>themisdb::analytics::TrainingCoreResult::label_enc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="2391" column="18" bodyfile="src/analytics/automl.cpp" bodystart="2391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_training_core_result_1a382574c157899e34df26b7d8b82ae3b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::TrainingCoreResult::use_poly</definition>
+        <argsstring></argsstring>
+        <name>use_poly</name>
+        <qualifiedname>themisdb::analytics::TrainingCoreResult::use_poly</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="2392" column="10" bodyfile="src/analytics/automl.cpp" bodystart="2392" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_training_core_result_1ad7c3e9ef95b4af38ff0e492cda95aaa9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::TrainingCoreResult::feat_names</definition>
+        <argsstring></argsstring>
+        <name>feat_names</name>
+        <qualifiedname>themisdb::analytics::TrainingCoreResult::feat_names</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="2393" column="17" bodyfile="src/analytics/automl.cpp" bodystart="2393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_training_core_result_1a3dc2d766bc1465bc56670a41f5227893" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_candidate_model_info" kindref="compound">CandidateModelInfo</ref> &gt;</type>
+        <definition>std::vector&lt;CandidateModelInfo&gt; themisdb::analytics::TrainingCoreResult::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>themisdb::analytics::TrainingCoreResult::candidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="2394" column="17" bodyfile="src/analytics/automl.cpp" bodystart="2394" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>anonymous:label_enc</label>
+      </node>
+      <node id="3">
+        <label>anonymous:scaler</label>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::EvalMetrics</label>
+        <link refid="structthemisdb_1_1analytics_1_1_eval_metrics"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::TrainingCoreResult</label>
+        <link refid="structthemisdb_1_1analytics_1_1_training_core_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics_val</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>scaler</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>label_enc</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/automl.cpp" line="2384" column="1" bodyfile="src/analytics/automl.cpp" bodystart="2384" bodyend="2395"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_training_core_result_1ad27e668ba781768d6647bbb12f6740af" prot="public" virt="non-virtual"><scope>themisdb::analytics::TrainingCoreResult</scope><name>algo</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_training_core_result_1a3dc2d766bc1465bc56670a41f5227893" prot="public" virt="non-virtual"><scope>themisdb::analytics::TrainingCoreResult</scope><name>candidates</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_training_core_result_1ad7c3e9ef95b4af38ff0e492cda95aaa9" prot="public" virt="non-virtual"><scope>themisdb::analytics::TrainingCoreResult</scope><name>feat_names</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_training_core_result_1a1764c9e2b710093f0d7a515e351fbc5e" prot="public" virt="non-virtual"><scope>themisdb::analytics::TrainingCoreResult</scope><name>label_enc</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_training_core_result_1a090b6d81ae18f22b29a540c21812f744" prot="public" virt="non-virtual"><scope>themisdb::analytics::TrainingCoreResult</scope><name>metrics_val</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_training_core_result_1a84d92488f525a8998019c9dbdf6c9d57" prot="public" virt="non-virtual"><scope>themisdb::analytics::TrainingCoreResult</scope><name>model</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_training_core_result_1acf04b38b47c06fd8cfb7da39f70eeaac" prot="public" virt="non-virtual"><scope>themisdb::analytics::TrainingCoreResult</scope><name>name_str</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_training_core_result_1afdee3c052c33661da57dc99d64ef85de" prot="public" virt="non-virtual"><scope>themisdb::analytics::TrainingCoreResult</scope><name>scaler</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_training_core_result_1a9a0e5f0420c4181498036040edd307c1" prot="public" virt="non-virtual"><scope>themisdb::analytics::TrainingCoreResult</scope><name>task</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_training_core_result_1a382574c157899e34df26b7d8b82ae3b3" prot="public" virt="non-virtual"><scope>themisdb::analytics::TrainingCoreResult</scope><name>use_poly</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

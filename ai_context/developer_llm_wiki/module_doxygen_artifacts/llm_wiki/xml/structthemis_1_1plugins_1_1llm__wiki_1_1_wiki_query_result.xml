@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::WikiQueryResult</compoundname>
+    <includes refid="llm__wiki__plugin__interface_8h" local="no">llm_wiki_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1a794aefca6c1ab4c8eccd70cbd8d6713d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; themis::llm::WikiChunk &gt;</type>
+        <definition>std::vector&lt;themis::llm::WikiChunk&gt; themis::plugins::llm_wiki::WikiQueryResult::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiQueryResult::candidates</qualifiedname>
+        <briefdescription>
+<para>Retrieved and scored chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="144" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1ac075dd596ae5d121796926daaf37f59a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::WikiQueryResult::query_flagged_for_prompt_injection</definition>
+        <argsstring></argsstring>
+        <name>query_flagged_for_prompt_injection</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiQueryResult::query_flagged_for_prompt_injection</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if the query matched a guardrail pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="145" column="13" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1ab608bfcbbec72a1a3563ff5b6bf98388" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::WikiQueryResult::filtered_unsafe_chunks</definition>
+        <argsstring></argsstring>
+        <name>filtered_unsafe_chunks</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiQueryResult::filtered_unsafe_chunks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Chunks excluded by content guardrails. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="146" column="13" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1aa32865bdfe14e8e8921b8b26821838a8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::WikiQueryResult::saved_page_path</definition>
+        <argsstring></argsstring>
+        <name>saved_page_path</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiQueryResult::saved_page_path</qualifiedname>
+        <briefdescription>
+<para>Non-empty when save_as_page=true and page was persisted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="147" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1a551737a00d9396d256cbf4043189848b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::plugins::llm_wiki::WikiQueryResult::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiQueryResult::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Wall-clock query time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="148" column="31" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a67f46949ca4179d0b67b216312a7aa3c" kindref="member">ILLMWikiPlugin::query()</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="143" column="1" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="143" bodyend="149"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1a794aefca6c1ab4c8eccd70cbd8d6713d" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiQueryResult</scope><name>candidates</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1a551737a00d9396d256cbf4043189848b" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiQueryResult</scope><name>duration</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1ab608bfcbbec72a1a3563ff5b6bf98388" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiQueryResult</scope><name>filtered_unsafe_chunks</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1ac075dd596ae5d121796926daaf37f59a" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiQueryResult</scope><name>query_flagged_for_prompt_injection</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_query_result_1aa32865bdfe14e8e8921b8b26821838a8" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiQueryResult</scope><name>saved_page_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

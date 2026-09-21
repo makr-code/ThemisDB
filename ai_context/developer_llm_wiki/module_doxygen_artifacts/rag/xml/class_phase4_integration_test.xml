@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_phase4_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>Phase4IntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_phase4_integration_test_1a60eaf0bf18589fc70d1c7c466ad49b68" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; Phase4IntegrationTest::docs</definition>
+        <argsstring></argsstring>
+        <name>docs</name>
+        <qualifiedname>Phase4IntegrationTest::docs</qualifiedname>
+        <initializer>                 = {
+    {&quot;doc1&quot;, &quot;Paris is the capital and largest city of France.&quot;},
+    {&quot;doc2&quot;, &quot;Paris has a population of over 2 million people.&quot;}
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="252" column="17" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="252" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Phase4IntegrationTest</label>
+        <link refid="class_phase4_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Phase4IntegrationTest</label>
+        <link refid="class_phase4_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_judge_phase4.cpp" line="250" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="250" bodyend="256"/>
+    <listofallmembers>
+      <member refid="class_phase4_integration_test_1a60eaf0bf18589fc70d1c7c466ad49b68" prot="protected" virt="non-virtual"><scope>Phase4IntegrationTest</scope><name>docs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

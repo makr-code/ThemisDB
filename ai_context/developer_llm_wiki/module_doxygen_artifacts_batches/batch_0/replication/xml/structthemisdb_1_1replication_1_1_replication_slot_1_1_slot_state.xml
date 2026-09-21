@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationSlot::SlotState</compoundname>
+    <includes refid="replication__slot_8h" local="no">replication_slot.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1a05a63775479b9431386cdf47bacc1e2b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationSlot::SlotState::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::SlotState::name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="104" column="22" bodyfile="include/replication/replication_slot.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1af299aa43f52405699f1ba2750f1f3dfb" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_slot_1a23d93a5a379564e459993035e6722a97" kindref="member">SlotStatus</ref></type>
+        <definition>SlotStatus themisdb::replication::ReplicationSlot::SlotState::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::SlotState::status</qualifiedname>
+        <initializer>= <ref refid="classthemisdb_1_1replication_1_1_replication_slot_1a23d93a5a379564e459993035e6722a97a18ff74f43da410c5529f7d6fca84f115" kindref="member">SlotStatus::ACTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="105" column="22" bodyfile="include/replication/replication_slot.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1a2bab4217c1930d3b6a06691a699cbd26" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ReplicationSlot::SlotState::confirmed_lsn</definition>
+        <argsstring></argsstring>
+        <name>confirmed_lsn</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::SlotState::confirmed_lsn</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Last WAL LSN acked by the consumer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="106" column="22" bodyfile="include/replication/replication_slot.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1aad8843722c7da093347acff9352259f5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ReplicationSlot::SlotState::restart_lsn</definition>
+        <argsstring></argsstring>
+        <name>restart_lsn</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::SlotState::restart_lsn</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Oldest LSN the consumer may need on restart. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="107" column="22" bodyfile="include/replication/replication_slot.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1a3b603cf6a1969f64c2a756a679c91348" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationSlot::SlotState::plugin_name</definition>
+        <argsstring></argsstring>
+        <name>plugin_name</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::SlotState::plugin_name</qualifiedname>
+        <briefdescription>
+<para>Output plugin (e.g., &quot;physical&quot;, &quot;json&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="108" column="22" bodyfile="include/replication/replication_slot.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1a150fb40249db67eb0697f0e5e45fef97" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationSlot::SlotState::downstream_node_id</definition>
+        <argsstring></argsstring>
+        <name>downstream_node_id</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::SlotState::downstream_node_id</qualifiedname>
+        <briefdescription>
+<para>Node ID of the downstream consumer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="109" column="22" bodyfile="include/replication/replication_slot.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1afa98e946f4b78c0176267d0ffc8f2c59" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::ReplicationSlot::SlotState::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::SlotState::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="110" column="47" bodyfile="include/replication/replication_slot.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1aeee3de0812e110031a3589a05534eba6" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::ReplicationSlot::SlotState::last_activity</definition>
+        <argsstring></argsstring>
+        <name>last_activity</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::SlotState::last_activity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="111" column="47" bodyfile="include/replication/replication_slot.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_slot.h" line="103" column="5" bodyfile="include/replication/replication_slot.h" bodystart="103" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1a2bab4217c1930d3b6a06691a699cbd26" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot::SlotState</scope><name>confirmed_lsn</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1afa98e946f4b78c0176267d0ffc8f2c59" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot::SlotState</scope><name>created_at</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1a150fb40249db67eb0697f0e5e45fef97" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot::SlotState</scope><name>downstream_node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1aeee3de0812e110031a3589a05534eba6" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot::SlotState</scope><name>last_activity</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1a05a63775479b9431386cdf47bacc1e2b" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot::SlotState</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1a3b603cf6a1969f64c2a756a679c91348" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot::SlotState</scope><name>plugin_name</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1aad8843722c7da093347acff9352259f5" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot::SlotState</scope><name>restart_lsn</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state_1af299aa43f52405699f1ba2750f1f3dfb" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot::SlotState</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

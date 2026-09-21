@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_routing_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::RoutingGuard</compoundname>
+    <includes refid="tensor__error__handling_8h" local="no">tensor_error_handling.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_routing_guard_1a63f35a166629cee549951a3066865ea9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_routing_strategy" kindref="compound">IRoutingStrategy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IRoutingStrategy&gt; themis::tensor::RoutingGuard::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themis::tensor::RoutingGuard::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="302" column="21" bodyfile="include/tensor/tensor_error_handling.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_routing_guard_1aca1e7292f545154d45b459a598ec8453" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_error_handler" kindref="compound">TensorErrorHandler</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorErrorHandler&gt; themis::tensor::RoutingGuard::error_handler_</definition>
+        <argsstring></argsstring>
+        <name>error_handler_</name>
+        <qualifiedname>themis::tensor::RoutingGuard::error_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="303" column="21" bodyfile="include/tensor/tensor_error_handling.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_routing_guard_1ae6239f0fdf7eeae7fd823003323d8986" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>RoutingDecision themis::tensor::RoutingGuard::result_</definition>
+        <argsstring></argsstring>
+        <name>result_</name>
+        <qualifiedname>themis::tensor::RoutingGuard::result_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="304" column="21" bodyfile="include/tensor/tensor_error_handling.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_routing_guard_1ad4cd01f7a55ff668b1fded6e1ff8b451" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::RoutingGuard::RoutingGuard</definition>
+        <argsstring>(std::shared_ptr&lt; IRoutingStrategy &gt; strategy, std::shared_ptr&lt; TensorErrorHandler &gt; error_handler)</argsstring>
+        <name>RoutingGuard</name>
+        <qualifiedname>themis::tensor::RoutingGuard::RoutingGuard</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_routing_strategy" kindref="compound">IRoutingStrategy</ref> &gt;</type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_error_handler" kindref="compound">TensorErrorHandler</ref> &gt;</type>
+          <declname>error_handler</declname>
+        </param>
+        <briefdescription>
+<para>Construct a routing guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Routing strategy to use. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error handler for failures. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="266" column="5" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="241" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_routing_guard_1aa5e70d0c67b6cbffa281183f98add573" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::RoutingGuard::~RoutingGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~RoutingGuard</name>
+        <qualifiedname>themis::tensor::RoutingGuard::~RoutingGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="270" column="5" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="251" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_routing_guard_1a1b5a3d6e76a39819d121d08b9107d383" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>RoutingDecision themis::tensor::RoutingGuard::execute</definition>
+        <argsstring>(const std::vector&lt; BaseTensorSummary &gt; &amp;summaries, std::size_t candidate_count, float compression_ratio, const index::AnnQueryContext &amp;query_context) noexcept</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::tensor::RoutingGuard::execute</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>candidate_count</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>compression_ratio</declname>
+        </param>
+        <param>
+          <type>const index::AnnQueryContext &amp;</type>
+          <declname>query_context</declname>
+        </param>
+        <briefdescription>
+<para>Safely execute routing decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tensor summaries. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total candidates. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compression_ratio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression ratio. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ANN query context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Routing decision with error handling. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="281" column="22" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="260" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_routing_guard_1a831a115f8cef95c95e0aba1a135ad380" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>RoutingDecision themis::tensor::RoutingGuard::getResultOrDefault</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getResultOrDefault</name>
+        <qualifiedname>themis::tensor::RoutingGuard::getResultOrDefault</qualifiedname>
+        <briefdescription>
+<para>Get the result or a safe default. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Result or default routing decision. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="292" column="22" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="300" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_routing_guard_1a0647333cb10a2818b94bae4894ece34f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::RoutingGuard::succeeded</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themis::tensor::RoutingGuard::succeeded</qualifiedname>
+        <briefdescription>
+<para>Check if routing succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if routing succeeded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="299" column="11" bodyfile="include/tensor/tensor_error_handling.h" bodystart="299" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for safe routing operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically handles cleanup and error recovery on scope exit. </para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_error_handling.h" line="258" column="1" bodyfile="include/tensor/tensor_error_handling.h" bodystart="258" bodyend="305"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_routing_guard_1aca1e7292f545154d45b459a598ec8453" prot="private" virt="non-virtual"><scope>themis::tensor::RoutingGuard</scope><name>error_handler_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_routing_guard_1a1b5a3d6e76a39819d121d08b9107d383" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingGuard</scope><name>execute</name></member>
+      <member refid="classthemis_1_1tensor_1_1_routing_guard_1a831a115f8cef95c95e0aba1a135ad380" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingGuard</scope><name>getResultOrDefault</name></member>
+      <member refid="classthemis_1_1tensor_1_1_routing_guard_1ae6239f0fdf7eeae7fd823003323d8986" prot="private" virt="non-virtual"><scope>themis::tensor::RoutingGuard</scope><name>result_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_routing_guard_1ad4cd01f7a55ff668b1fded6e1ff8b451" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingGuard</scope><name>RoutingGuard</name></member>
+      <member refid="classthemis_1_1tensor_1_1_routing_guard_1a63f35a166629cee549951a3066865ea9" prot="private" virt="non-virtual"><scope>themis::tensor::RoutingGuard</scope><name>strategy_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_routing_guard_1a0647333cb10a2818b94bae4894ece34f" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingGuard</scope><name>succeeded</name></member>
+      <member refid="classthemis_1_1tensor_1_1_routing_guard_1aa5e70d0c67b6cbffa281183f98add573" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingGuard</scope><name>~RoutingGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

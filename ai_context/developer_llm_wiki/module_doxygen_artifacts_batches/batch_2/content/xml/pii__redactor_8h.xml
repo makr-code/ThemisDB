@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="pii__redactor_8h" kind="file" language="C++">
+    <compoundname>pii_redactor.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/content/pii_redactor.h</label>
+        <link refid="pii__redactor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1content_1_1_p_i_i_match" prot="public">themis::content::PIIMatch</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_p_i_i_redaction_config" prot="public">themis::content::PIIRedactionConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_p_i_i_redaction_result" prot="public">themis::content::PIIRedactionResult</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_i_p_i_i_redactor" prot="public">themis::content::IPIIRedactor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PIIType<sp/>—<sp/>enumeration<sp/>of<sp/>detectable<sp/>PII<sp/>entity<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aad" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aad" kindref="member">PIIType</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada61a649a33f2869e5e35fbb7aff3a80d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada61a649a33f2869e5e35fbb7aff3a80d9" kindref="member">EMAIL</ref>,</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadaf9dd946cc89c1f3b41a0edbe0f36931d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadaf9dd946cc89c1f3b41a0edbe0f36931d" kindref="member">PHONE</ref>,</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada8fe59663630697bb628e4de0d1592cdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada8fe59663630697bb628e4de0d1592cdc" kindref="member">SSN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada23a27a41c4dad3ef8c54f896b77f9056" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada23a27a41c4dad3ef8c54f896b77f9056" kindref="member">CREDIT_CARD</ref>,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadab3e03bb42ca194c075e80b94ec97b484" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadab3e03bb42ca194c075e80b94ec97b484" kindref="member">IP_ADDRESS</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadaef932ad40153d770661681c0976d16ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadaef932ad40153d770661681c0976d16ac" kindref="member">PERSON_NAME</ref>,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada2664f03ac6b8bb9eee4287720e407db3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada2664f03ac6b8bb9eee4287720e407db3" kindref="member">ADDRESS</ref>,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadab790572f205f96c001ef492e2807c518" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadab790572f205f96c001ef492e2807c518" kindref="member">DATE_OF_BIRTH</ref>,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada9fad2ddefe754d604779f7bb8264c80f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada9fad2ddefe754d604779f7bb8264c80f" kindref="member">PASSPORT</ref>,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada28d03c69f04f912fc27771e923bfe2c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada28d03c69f04f912fc27771e923bfe2c2" kindref="member">DRIVER_LICENSE</ref>,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada350e17d65ded375d643259e7eed26e2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada350e17d65ded375d643259e7eed26e2a" kindref="member">IBAN</ref>,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadae04c1dd6b8f3650faaef43032b5d4f40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aadae04c1dd6b8f3650faaef43032b5d4f40" kindref="member">SWIFT_CODE</ref>,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada7274044408790a07fa0a3c0a7b7bc577" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada7274044408790a07fa0a3c0a7b7bc577" kindref="member">MEDICAL_RECORD</ref>,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada72baef04098f035e8a320b03ad197818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aada72baef04098f035e8a320b03ad197818" kindref="member">CUSTOM</ref>,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PIIMatch<sp/>—<sp/>a<sp/>detected<sp/>PII<sp/>span<sp/>in<sp/>the<sp/>source<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1content_1_1_p_i_i_match" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_p_i_i_match" kindref="compound">PIIMatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1content_1_1_p_i_i_match_1aca588ae86fa3a728125d7b24cc209f55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aad" kindref="member">PIIType</ref><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_match_1aca588ae86fa3a728125d7b24cc209f55" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1content_1_1_p_i_i_match_1a1eb9d189d22db94fc373f9548fc5e37e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_match_1a1eb9d189d22db94fc373f9548fc5e37e" kindref="member">start_offset</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1content_1_1_p_i_i_match_1a39c8fb9bdbd53b13c7b552008462c1f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_match_1a39c8fb9bdbd53b13c7b552008462c1f9" kindref="member">end_offset</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1content_1_1_p_i_i_match_1a4dac929f5d0565885cadc0d10f560f2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_p_i_i_match_1a4dac929f5d0565885cadc0d10f560f2c" kindref="member">original_value</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1content_1_1_p_i_i_match_1a0993881565bc2a4278d67c1727f7769a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_match_1a0993881565bc2a4278d67c1727f7769a" kindref="member">confidence</ref><sp/><sp/><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RedactionMode<sp/>—<sp/>strategy<sp/>for<sp/>replacing<sp/>detected<sp/>PII</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767" kindref="member">RedactionMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a0a9501840acacfc8efe7522f5340000c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a0a9501840acacfc8efe7522f5340000c" kindref="member">MASK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a560a2dd6f6744646473b3b19e1fe96d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a560a2dd6f6744646473b3b19e1fe96d7" kindref="member">REPLACE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a50b7748612b28db487d115f220bb77ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a50b7748612b28db487d115f220bb77ab" kindref="member">HASH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a0552a7280fd804c1fcd306ed05680d4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a0552a7280fd804c1fcd306ed05680d4c" kindref="member">TOKENIZE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a6d0a4b1ea95557a81aa1d452367b47a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a6d0a4b1ea95557a81aa1d452367b47a8" kindref="member">ENCRYPT</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PIIRedactionConfig<sp/>—<sp/>configuration<sp/>for<sp/>a<sp/>redact()<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1content_1_1_p_i_i_redaction_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_p_i_i_redaction_config" kindref="compound">PIIRedactionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1a1722692c94de1efed0c799aa0c449fbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767" kindref="member">RedactionMode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1a1722692c94de1efed0c799aa0c449fbb" kindref="member">mode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a560a2dd6f6744646473b3b19e1fe96d7" kindref="member">RedactionMode::REPLACE</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1a2b69ba1c866419993250eaba87fd4ae9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PIIType&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1a2b69ba1c866419993250eaba87fd4ae9" kindref="member">types_to_redact</ref>;<sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1adc827ba8a97183c1f42a4a7bf2a84787" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1adc827ba8a97183c1f42a4a7bf2a84787" kindref="member">min_confidence</ref><sp/><sp/><sp/>=<sp/>0.75f;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1a168adbae18eca8ed43b036517f9e7985" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1a168adbae18eca8ed43b036517f9e7985" kindref="member">preserve_format</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PIIRedactionResult<sp/>—<sp/>output<sp/>from<sp/>a<sp/>redact()<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1content_1_1_p_i_i_redaction_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_p_i_i_redaction_result" kindref="compound">PIIRedactionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1content_1_1_p_i_i_redaction_result_1a3a0141bcd66682e9f02a7428e2e87d14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_redaction_result_1a3a0141bcd66682e9f02a7428e2e87d14" kindref="member">redacted_text</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1content_1_1_p_i_i_redaction_result_1a76212ffd9e7199c520fe025c058cf801" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PIIMatch&gt;<sp/><ref refid="structthemis_1_1content_1_1_p_i_i_redaction_result_1a76212ffd9e7199c520fe025c058cf801" kindref="member">detected</ref>;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1content_1_1_p_i_i_redaction_result_1a8e28ffc8888d2b7fa648f819092afb01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_redaction_result_1a8e28ffc8888d2b7fa648f819092afb01" kindref="member">redaction_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IPIIRedactor<sp/>—<sp/>PII<sp/>detection<sp/>and<sp/>redaction<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1content_1_1_i_p_i_i_redactor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_i_p_i_i_redactor" kindref="compound">IPIIRedactor</ref><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1content_1_1_i_p_i_i_redactor_1a71f26bdefa58cf117d4b013780d9ff8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_i_p_i_i_redactor_1a71f26bdefa58cf117d4b013780d9ff8a" kindref="member">~IPIIRedactor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1content_1_1_i_p_i_i_redactor_1aa0943de4cbcd723b2e0c0c1feb4af518" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_redaction_result" kindref="compound">PIIRedactionResult</ref><sp/><ref refid="classthemis_1_1content_1_1_i_p_i_i_redactor_1aa0943de4cbcd723b2e0c0c1feb4af518" kindref="member">redact</ref>(</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/>text,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_p_i_i_redaction_config" kindref="compound">PIIRedactionConfig</ref>&amp;<sp/>config<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1content_1_1_i_p_i_i_redactor_1ac16dcc02ce545eeb324400bd30c53e7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;PIIMatch&gt;<sp/><ref refid="classthemis_1_1content_1_1_i_p_i_i_redactor_1ac16dcc02ce545eeb324400bd30c53e7f" kindref="member">detect</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1content_1_1_i_p_i_i_redactor_1a67aa7ee3906373f64c5f6d02a62af1ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_i_p_i_i_redactor_1a67aa7ee3906373f64c5f6d02a62af1ab" kindref="member">train</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>custom_model_path)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1content_1_1_i_p_i_i_redactor_1ae3e0dc35af0322798e4620b64fb63084" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;PIIType&gt;<sp/><ref refid="classthemis_1_1content_1_1_i_p_i_i_redactor_1ae3e0dc35af0322798e4620b64fb63084" kindref="member">supportedTypes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/pii_redactor.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_q_c_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::QCResult</compoundname>
+    <includes refid="continuous__learning__client_8h" local="no">continuous_learning_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a4d20cad2a057a61cc6533f11770cb825" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QCResult::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::rag::judge::QCResult::overall_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="36" column="12" bodyfile="include/rag/continuous_learning_client.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a2d35aa58e2ad610cf8f9ea2c46d685ef" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QCResult::faithfulness_score</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_score</name>
+        <qualifiedname>themis::rag::judge::QCResult::faithfulness_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="37" column="12" bodyfile="include/rag/continuous_learning_client.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a41e9d147238900f06ab7ac2402fae563" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QCResult::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::rag::judge::QCResult::relevance_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="38" column="12" bodyfile="include/rag/continuous_learning_client.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a1d8672fd9faf6dc62ac3d9b15142eeb7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QCResult::completeness_score</definition>
+        <argsstring></argsstring>
+        <name>completeness_score</name>
+        <qualifiedname>themis::rag::judge::QCResult::completeness_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="39" column="12" bodyfile="include/rag/continuous_learning_client.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a3bab1df4c034a86538274c9cd4a4efce" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QCResult::coherence_score</definition>
+        <argsstring></argsstring>
+        <name>coherence_score</name>
+        <qualifiedname>themis::rag::judge::QCResult::coherence_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="40" column="12" bodyfile="include/rag/continuous_learning_client.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a3de0ca6c5650880577afd5b9eae8cbfb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a38d96f528aaf65e0a83834b4af7a77fa" kindref="member">QCDecision</ref></type>
+        <definition>QCDecision themis::rag::judge::QCResult::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::rag::judge::QCResult::decision</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1judge_1a38d96f528aaf65e0a83834b4af7a77faa32bd8a1db2275458673903bdb84cb277" kindref="member">QCDecision::WARN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="41" column="16" bodyfile="include/rag/continuous_learning_client.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_q_c_result_1ac546a67797cbc4512dc9470402edc1dc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7" kindref="member">QCMode</ref></type>
+        <definition>QCMode themis::rag::judge::QCResult::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::rag::judge::QCResult::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7a0cb4635d100151dcaac6f91db856c402" kindref="member">QCMode::BALANCED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="42" column="12" bodyfile="include/rag/continuous_learning_client.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a06bf9e2a54b39e63e91ffd0a43b33209" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::QCResult::latency</definition>
+        <argsstring></argsstring>
+        <name>latency</name>
+        <qualifiedname>themis::rag::judge::QCResult::latency</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="43" column="31" bodyfile="include/rag/continuous_learning_client.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a359efd9a80fcb068be16d9463213d303" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QCResult::passed_threshold</definition>
+        <argsstring></argsstring>
+        <name>passed_threshold</name>
+        <qualifiedname>themis::rag::judge::QCResult::passed_threshold</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="44" column="10" bodyfile="include/rag/continuous_learning_client.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/continuous_learning_client.h" line="35" column="1" bodyfile="include/rag/continuous_learning_client.h" bodystart="35" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a3bab1df4c034a86538274c9cd4a4efce" prot="public" virt="non-virtual"><scope>themis::rag::judge::QCResult</scope><name>coherence_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a1d8672fd9faf6dc62ac3d9b15142eeb7" prot="public" virt="non-virtual"><scope>themis::rag::judge::QCResult</scope><name>completeness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a3de0ca6c5650880577afd5b9eae8cbfb" prot="public" virt="non-virtual"><scope>themis::rag::judge::QCResult</scope><name>decision</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a2d35aa58e2ad610cf8f9ea2c46d685ef" prot="public" virt="non-virtual"><scope>themis::rag::judge::QCResult</scope><name>faithfulness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a06bf9e2a54b39e63e91ffd0a43b33209" prot="public" virt="non-virtual"><scope>themis::rag::judge::QCResult</scope><name>latency</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_q_c_result_1ac546a67797cbc4512dc9470402edc1dc" prot="public" virt="non-virtual"><scope>themis::rag::judge::QCResult</scope><name>mode</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a4d20cad2a057a61cc6533f11770cb825" prot="public" virt="non-virtual"><scope>themis::rag::judge::QCResult</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a359efd9a80fcb068be16d9463213d303" prot="public" virt="non-virtual"><scope>themis::rag::judge::QCResult</scope><name>passed_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_q_c_result_1a41e9d147238900f06ab7ac2402fae563" prot="public" virt="non-virtual"><scope>themis::rag::judge::QCResult</scope><name>relevance_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

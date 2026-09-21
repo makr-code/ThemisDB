@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_ingestion_job" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::IngestionJob</compoundname>
+    <includes refid="async__ingestion__worker_8h" local="no">async_ingestion_worker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1ab92864f0d4868ad91c3413030b6711dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::IngestionJob::job_id</definition>
+        <argsstring></argsstring>
+        <name>job_id</name>
+        <qualifiedname>themis::content::IngestionJob::job_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="58" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a6b32f50ba76b289c4e36a88018c602d0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912b" kindref="member">IngestionJobType</ref></type>
+        <definition>IngestionJobType themis::content::IngestionJob::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::content::IngestionJob::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="59" column="22" bodyfile="include/content/async_ingestion_worker.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a71785117ef67f5bb1cca32301cac305e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a4d3b344a1f3a8127cd34378ec93778c8" kindref="member">IngestionJobStatus</ref></type>
+        <definition>IngestionJobStatus themis::content::IngestionJob::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::content::IngestionJob::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="60" column="24" bodyfile="include/content/async_ingestion_worker.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a820076f82e7d837f8dea8b61fe75ec6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::IngestionJob::filename</definition>
+        <argsstring></argsstring>
+        <name>filename</name>
+        <qualifiedname>themis::content::IngestionJob::filename</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="61" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a0ef9d5e2c98eabc291ed22144090fb09" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::IngestionJob::blob</definition>
+        <argsstring></argsstring>
+        <name>blob</name>
+        <qualifiedname>themis::content::IngestionJob::blob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="62" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a417d7f2fe81a9412c184650886d83c47" prot="public" static="no" mutable="no">
+        <type>std::istream *</type>
+        <definition>std::istream* themis::content::IngestionJob::stream</definition>
+        <argsstring></argsstring>
+        <name>stream</name>
+        <qualifiedname>themis::content::IngestionJob::stream</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="63" column="18" bodyfile="include/content/async_ingestion_worker.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a2a840f247e6d611b60eddd81f0bd1c3d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::IngestionJob::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::content::IngestionJob::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="64" column="10" bodyfile="include/content/async_ingestion_worker.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a04b210a6c16431eb0c239d43bd8f73cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::IngestionJob::user_context</definition>
+        <argsstring></argsstring>
+        <name>user_context</name>
+        <qualifiedname>themis::content::IngestionJob::user_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="65" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1aa99ab2cae5845fce1d85b8d3f0095fee" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::IngestionJob::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::content::IngestionJob::created_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix-ms timestamp when the job was enqueued. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="69" column="13" bodyfile="include/content/async_ingestion_worker.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a02516204c2590fd8e2a065781cac17b2" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::IngestionJob::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::content::IngestionJob::started_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix-ms timestamp when a worker picked up the job (0 = not started). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="70" column="13" bodyfile="include/content/async_ingestion_worker.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a019afde61737646ee7f140edbebafeb7" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::IngestionJob::completed_at</definition>
+        <argsstring></argsstring>
+        <name>completed_at</name>
+        <qualifiedname>themis::content::IngestionJob::completed_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix-ms timestamp when the job finished (0 = not completed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="71" column="13" bodyfile="include/content/async_ingestion_worker.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1ace8a0ad18d2c9f3348e660ae4abd226a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::IngestionJob::total_items</definition>
+        <argsstring></argsstring>
+        <name>total_items</name>
+        <qualifiedname>themis::content::IngestionJob::total_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total files to process (−1 = unknown until extracted). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="72" column="9" bodyfile="include/content/async_ingestion_worker.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a5cd12eee06b7c0f817b9a3c8d40e7199" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::IngestionJob::processed_items</definition>
+        <argsstring></argsstring>
+        <name>processed_items</name>
+        <qualifiedname>themis::content::IngestionJob::processed_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Files processed so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="73" column="9" bodyfile="include/content/async_ingestion_worker.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1ad49124b2a2933ac66da28bef510bd66e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::content::IngestionJob::progress</definition>
+        <argsstring></argsstring>
+        <name>progress</name>
+        <qualifiedname>themis::content::IngestionJob::progress</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Normalised progress in [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="74" column="11" bodyfile="include/content/async_ingestion_worker.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a2257a31d90dd71ba892d11ee1ea40a18" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::IngestionJob::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::content::IngestionJob::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="77" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a17dee20756c0347837598fd6932ae427" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::IngestionJob::content_ids</definition>
+        <argsstring></argsstring>
+        <name>content_ids</name>
+        <qualifiedname>themis::content::IngestionJob::content_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="78" column="17" bodyfile="include/content/async_ingestion_worker.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a6308599b6342eda698dff2c01b975711" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::IngestionJob::result_metadata</definition>
+        <argsstring></argsstring>
+        <name>result_metadata</name>
+        <qualifiedname>themis::content::IngestionJob::result_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="79" column="10" bodyfile="include/content/async_ingestion_worker.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1a263db3ebb6fc0910beba1cef7c9a3e0e" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1content_1_1_ingestion_job" kindref="compound">IngestionJob</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const IngestionJob&amp;)&gt; themis::content::IngestionJob::on_complete</definition>
+        <argsstring></argsstring>
+        <name>on_complete</name>
+        <qualifiedname>themis::content::IngestionJob::on_complete</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="82" column="19" bodyfile="include/content/async_ingestion_worker.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_job_1aa6515ab06387e9b9632ace413eb2c396" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::promise&lt; std::string &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::promise&lt;std::string&gt; &gt; themis::content::IngestionJob::completion_promise</definition>
+        <argsstring></argsstring>
+        <name>completion_promise</name>
+        <qualifiedname>themis::content::IngestionJob::completion_promise</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/async_ingestion_worker.h" line="85" column="21" bodyfile="include/content/async_ingestion_worker.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/async_ingestion_worker.h" line="57" column="1" bodyfile="include/content/async_ingestion_worker.h" bodystart="57" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a0ef9d5e2c98eabc291ed22144090fb09" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>blob</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a019afde61737646ee7f140edbebafeb7" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>completed_at</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1aa6515ab06387e9b9632ace413eb2c396" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>completion_promise</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a2a840f247e6d611b60eddd81f0bd1c3d" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>config</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a17dee20756c0347837598fd6932ae427" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>content_ids</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1aa99ab2cae5845fce1d85b8d3f0095fee" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a2257a31d90dd71ba892d11ee1ea40a18" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a820076f82e7d837f8dea8b61fe75ec6b" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>filename</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1ab92864f0d4868ad91c3413030b6711dd" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>job_id</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a263db3ebb6fc0910beba1cef7c9a3e0e" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>on_complete</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a5cd12eee06b7c0f817b9a3c8d40e7199" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>processed_items</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1ad49124b2a2933ac66da28bef510bd66e" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>progress</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a6308599b6342eda698dff2c01b975711" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>result_metadata</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a02516204c2590fd8e2a065781cac17b2" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a71785117ef67f5bb1cca32301cac305e" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>status</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a417d7f2fe81a9412c184650886d83c47" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>stream</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1ace8a0ad18d2c9f3348e660ae4abd226a" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>total_items</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a6b32f50ba76b289c4e36a88018c602d0" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>type</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_job_1a04b210a6c16431eb0c239d43bd8f73cc" prot="public" virt="non-virtual"><scope>themis::content::IngestionJob</scope><name>user_context</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_embedding_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::EmbeddingCache</compoundname>
+    <includes refid="embedding__cache_8h" local="no">embedding_cache.h</includes>
+    <innerclass refid="structthemis_1_1_embedding_cache_1_1_config" prot="public">themis::EmbeddingCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1_embedding_cache_1_1_cache_entry" prot="public">themis::EmbeddingCache::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1_embedding_cache_1_1_cache_stats" prot="public">themis::EmbeddingCache::CacheStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_embedding_cache_1a5f11f42f7e6cac399586003abbcb5061" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_embedding_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::EmbeddingCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::EmbeddingCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="95" column="12" bodyfile="include/cache/embedding_cache.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_embedding_cache_1aec31629a6b5ab29278388ab3db63cb64" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1_embedding_cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>CacheStats themis::EmbeddingCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::EmbeddingCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="96" column="24" bodyfile="include/cache/embedding_cache.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_embedding_cache_1a60b9f21d19f04aa0538dcaa114992193" prot="private" static="no" mutable="yes">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1_embedding_cache_impl" kindref="compound">EmbeddingCacheImpl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;EmbeddingCacheImpl&gt; themis::EmbeddingCache::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::EmbeddingCache::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="97" column="29" bodyfile="include/cache/embedding_cache.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::EmbeddingCache::EmbeddingCache</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>EmbeddingCache</name>
+        <qualifiedname>themis::EmbeddingCache::EmbeddingCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_embedding_cache_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Embedding Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="62" column="14" bodyfile="src/cache/embedding_cache.cpp" bodystart="54" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1a14e214cef49d3dc2d770e6bc65c55bc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::EmbeddingCache::~EmbeddingCache</definition>
+        <argsstring>()</argsstring>
+        <name>~EmbeddingCache</name>
+        <qualifiedname>themis::EmbeddingCache::~EmbeddingCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1a18d6f74c0941e38304b65a17524657ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::EmbeddingCache::EmbeddingCache</definition>
+        <argsstring>(const EmbeddingCache &amp;)=delete</argsstring>
+        <name>EmbeddingCache</name>
+        <qualifiedname>themis::EmbeddingCache::EmbeddingCache</qualifiedname>
+        <param>
+          <type>const EmbeddingCache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1ac5b822898313d9be1877f13fe005023b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref> &amp;</type>
+        <definition>EmbeddingCache &amp; themis::EmbeddingCache::operator=</definition>
+        <argsstring>(const EmbeddingCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::EmbeddingCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="66" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1a11cb29e5c77fe1c8a6f2521cb82e2fe8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::EmbeddingCache::EmbeddingCache</definition>
+        <argsstring>(EmbeddingCache &amp;&amp;) noexcept=default</argsstring>
+        <name>EmbeddingCache</name>
+        <qualifiedname>themis::EmbeddingCache::EmbeddingCache</qualifiedname>
+        <param>
+          <type>EmbeddingCache &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="67" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1a9d97d4dfae7cf95d0f10cc117f83e82e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref> &amp;</type>
+        <definition>EmbeddingCache &amp; themis::EmbeddingCache::operator=</definition>
+        <argsstring>(EmbeddingCache &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::EmbeddingCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" kindref="member">EmbeddingCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="68" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1a6cd3a160a8d7d1496b0c0765411c8cd2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_embedding_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::optional&lt; EmbeddingCache::CacheEntry &gt; themis::EmbeddingCache::query</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_embedding) const</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::EmbeddingCache::query</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <briefdescription>
+<para>Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="75" column="19" bodyfile="src/cache/embedding_cache.cpp" bodystart="98" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1ae30a1ab628696ec41be3b7d463559b10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EmbeddingCache::store</definition>
+        <argsstring>(const std::string &amp;query_text, const std::vector&lt; float &gt; &amp;embedding, const std::string &amp;metadata=&quot;&quot;)</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::EmbeddingCache::store</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metadata</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), THEMIS_ERROR(), lock(), empty(), end(), max(), begin(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="77" column="10" bodyfile="src/cache/embedding_cache.cpp" bodystart="236" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1a276e614a11c4336ec55df4c7d99ee651" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_embedding_cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>CacheStats themis::EmbeddingCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::EmbeddingCache::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="81" column="16" bodyfile="include/cache/embedding_cache.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1adff17f90299d48e29c6547fb43400f78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::EmbeddingCache::clearExpired</definition>
+        <argsstring>()</argsstring>
+        <name>clearExpired</name>
+        <qualifiedname>themis::EmbeddingCache::clearExpired</qualifiedname>
+        <briefdescription>
+<para>Clear Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), begin(), end(), isExpired(), removeByPk(), erase(), size(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="87" column="14" bodyfile="src/cache/embedding_cache.cpp" bodystart="337" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1a97ade80c3760b46566cfa54fdb7ba3ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EmbeddingCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::EmbeddingCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), shutdown(), init(), THEMIS_WARN(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="92" column="10" bodyfile="src/cache/embedding_cache.cpp" bodystart="367" bodyend="386"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1a601a4e023a8779a0c3e87f7c8ef85029" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EmbeddingCache::isExpired</definition>
+        <argsstring>(const CacheEntry &amp;entry) const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::EmbeddingCache::isExpired</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_embedding_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Is Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="104" column="10" bodyfile="src/cache/embedding_cache.cpp" bodystart="388" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_embedding_cache_1a16f3a4eb6cf5f81f6a284c8c41614d20" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::EmbeddingCache::getCurrentTimestampMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimestampMs</name>
+        <qualifiedname>themis::EmbeddingCache::getCurrentTimestampMs</qualifiedname>
+        <briefdescription>
+<para>Get Current Timestamp Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/embedding_cache.h" line="110" column="13" bodyfile="src/cache/embedding_cache.cpp" bodystart="394" bodyend="397"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/embedding_cache.h" line="26" column="1" bodyfile="include/cache/embedding_cache.h" bodystart="26" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_embedding_cache_1a97ade80c3760b46566cfa54fdb7ba3ab" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1adff17f90299d48e29c6547fb43400f78" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>clearExpired</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1a5f11f42f7e6cac399586003abbcb5061" prot="private" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1a84af56087aa64d47ebc01818984d1357" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>EmbeddingCache</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1a18d6f74c0941e38304b65a17524657ca" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>EmbeddingCache</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1a11cb29e5c77fe1c8a6f2521cb82e2fe8" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>EmbeddingCache</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1a16f3a4eb6cf5f81f6a284c8c41614d20" prot="private" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>getCurrentTimestampMs</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1a276e614a11c4336ec55df4c7d99ee651" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1a60b9f21d19f04aa0538dcaa114992193" prot="private" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1a601a4e023a8779a0c3e87f7c8ef85029" prot="private" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>isExpired</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1ac5b822898313d9be1877f13fe005023b" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1a9d97d4dfae7cf95d0f10cc117f83e82e" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1a6cd3a160a8d7d1496b0c0765411c8cd2" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>query</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1aec31629a6b5ab29278388ab3db63cb64" prot="private" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1ae30a1ab628696ec41be3b7d463559b10" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>store</name></member>
+      <member refid="classthemis_1_1_embedding_cache_1a14e214cef49d3dc2d770e6bc65c55bc9" prot="public" virt="non-virtual"><scope>themis::EmbeddingCache</scope><name>~EmbeddingCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

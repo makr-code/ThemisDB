@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_extracted_entity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::ExtractedEntity</compoundname>
+    <includes refid="deontic__extractor_8h" local="no">deontic_extractor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extracted_entity_1a25ec18f403af1ee114abe54affdda5e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ExtractedEntity::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::ingestion::ExtractedEntity::type</qualifiedname>
+        <briefdescription>
+<para>law_reference | person_role | organization | temporal | threshold_value </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="101" column="17" bodyfile="include/ingestion/deontic_extractor.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extracted_entity_1ad76509d2f0636e67fa08384bd66a88cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ExtractedEntity::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::ingestion::ExtractedEntity::value</qualifiedname>
+        <briefdescription>
+<para>Canonical value (e.g. &quot;BImSchG&quot;, &quot;Betreiber&quot;, &quot;14 Tage&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="102" column="17" bodyfile="include/ingestion/deontic_extractor.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extracted_entity_1a7290b558226c8fad348bf619c1c2a966" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ExtractedEntity::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::ingestion::ExtractedEntity::text</qualifiedname>
+        <briefdescription>
+<para>Raw matched text from the document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="103" column="17" bodyfile="include/ingestion/deontic_extractor.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_extracted_entity_1a8db1fa89c54edf7f0995bf7d5fd2577f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::ExtractedEntity::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::ingestion::ExtractedEntity::confidence</qualifiedname>
+        <briefdescription>
+<para>Extraction confidence in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="104" column="17" bodyfile="include/ingestion/deontic_extractor.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_extracted_entity_1ab35c8898d61f4a34366b37ec13b8121d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ExtractedEntity::ExtractedEntity</definition>
+        <argsstring>()</argsstring>
+        <name>ExtractedEntity</name>
+        <qualifiedname>themis::ingestion::ExtractedEntity::ExtractedEntity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="106" column="5" bodyfile="include/ingestion/deontic_extractor.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_extracted_entity_1a8cfa7463d75c739082d04b059cba427f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ExtractedEntity::ExtractedEntity</definition>
+        <argsstring>(std::string type_, std::string value_, std::string text_, double conf=1.0)</argsstring>
+        <name>ExtractedEntity</name>
+        <qualifiedname>themis::ingestion::ExtractedEntity::ExtractedEntity</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>type_</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>value_</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>text_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conf</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/deontic_extractor.h" line="107" column="5" bodyfile="include/ingestion/deontic_extractor.h" bodystart="107" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single entity recognized in a legal text. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Entities are typed spans extracted from the document content. In Phase 1, extraction is regex-based; Phase 2 will use a SpaCy NER model. </para>
+    </detaileddescription>
+    <location file="include/ingestion/deontic_extractor.h" line="100" column="1" bodyfile="include/ingestion/deontic_extractor.h" bodystart="100" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_extracted_entity_1a8db1fa89c54edf7f0995bf7d5fd2577f" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractedEntity</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extracted_entity_1ab35c8898d61f4a34366b37ec13b8121d" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractedEntity</scope><name>ExtractedEntity</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extracted_entity_1a8cfa7463d75c739082d04b059cba427f" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractedEntity</scope><name>ExtractedEntity</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extracted_entity_1a7290b558226c8fad348bf619c1c2a966" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractedEntity</scope><name>text</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extracted_entity_1a25ec18f403af1ee114abe54affdda5e5" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractedEntity</scope><name>type</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_extracted_entity_1ad76509d2f0636e67fa08384bd66a88cb" prot="public" virt="non-virtual"><scope>themis::ingestion::ExtractedEntity</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

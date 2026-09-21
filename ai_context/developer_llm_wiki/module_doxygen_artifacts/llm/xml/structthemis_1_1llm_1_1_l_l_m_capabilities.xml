@@ -1,0 +1,367 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_capabilities" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMCapabilities</compoundname>
+    <includes refid="llm__plugin__interface_8h" local="no">llm_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1abef1bbb2feb4d44e8f54460d70cb36b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_instruct</definition>
+        <argsstring></argsstring>
+        <name>supports_instruct</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_instruct</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="37" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1a91ca409fee4864dde68ddf241aa69dfe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_chat</definition>
+        <argsstring></argsstring>
+        <name>supports_chat</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_chat</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="38" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1aa223e8fd369d21e2736923a2c4180df4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_completion</definition>
+        <argsstring></argsstring>
+        <name>supports_completion</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_completion</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="39" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1ab98c38d5d92254d95bd2f4fa66daf15d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_lora</definition>
+        <argsstring></argsstring>
+        <name>supports_lora</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_lora</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="42" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1ad9e0e103685c07773362e351ac5be3e7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_quantization</definition>
+        <argsstring></argsstring>
+        <name>supports_quantization</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_quantization</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="43" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1a18c316e9061f3c99e4ec95b9e6f53c22" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_streaming</definition>
+        <argsstring></argsstring>
+        <name>supports_streaming</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_streaming</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="44" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1a7910c4c6fc1bedafc286205d8f74e5ba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_batching</definition>
+        <argsstring></argsstring>
+        <name>supports_batching</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_batching</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="45" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1af7b9c64188282a5c38b49acd89816955" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::gpu_accelerated</definition>
+        <argsstring></argsstring>
+        <name>gpu_accelerated</name>
+        <qualifiedname>themis::llm::LLMCapabilities::gpu_accelerated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="48" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1ab0a4f86d0d2c289542e3d30790575fe3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_cuda</definition>
+        <argsstring></argsstring>
+        <name>supports_cuda</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_cuda</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="49" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1a7988bd10ace2924358d2be93aa8cf32d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_rocm</definition>
+        <argsstring></argsstring>
+        <name>supports_rocm</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_rocm</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="50" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1a1a78796f7dd5beed3eafe16348ca10c0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_metal</definition>
+        <argsstring></argsstring>
+        <name>supports_metal</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_metal</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="51" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1aa44fd71cd8a9b568ddefdc74193dbc31" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_vulkan</definition>
+        <argsstring></argsstring>
+        <name>supports_vulkan</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_vulkan</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="52" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1a671c80e71d1882295f43fdb7eb7d203b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_unified_memory</definition>
+        <argsstring></argsstring>
+        <name>supports_unified_memory</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_unified_memory</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="55" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1a0e6b2d55dcb163a1a6e7a2044907e202" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_zero_copy</definition>
+        <argsstring></argsstring>
+        <name>supports_zero_copy</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_zero_copy</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="56" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1afe2521e6e5f59ceae4b683d65485f1d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_model_sharding</definition>
+        <argsstring></argsstring>
+        <name>supports_model_sharding</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_model_sharding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="59" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1a33bc28f9f1ba957961060c26288151e8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_pipeline_parallel</definition>
+        <argsstring></argsstring>
+        <name>supports_pipeline_parallel</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_pipeline_parallel</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="60" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1a96a5f9c2cf8d32fd77e78c9c2dd7fcb7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_tensor_parallel</definition>
+        <argsstring></argsstring>
+        <name>supports_tensor_parallel</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_tensor_parallel</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="61" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1ad0e95745d356a2055362a52c6a5d3d1a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_multimodal</definition>
+        <argsstring></argsstring>
+        <name>supports_multimodal</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_multimodal</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="64" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1a8de4d72e4478adc5efd4309e545f3406" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_embeddings</definition>
+        <argsstring></argsstring>
+        <name>supports_embeddings</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_embeddings</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="67" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1ad88d917808ea9f99ab5e2ef50970d3ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_rag</definition>
+        <argsstring></argsstring>
+        <name>supports_rag</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_rag</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="68" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1ab3f266d42377142951c7216431367860" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMCapabilities::supports_function_call</definition>
+        <argsstring></argsstring>
+        <name>supports_function_call</name>
+        <qualifiedname>themis::llm::LLMCapabilities::supports_function_call</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="69" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_capabilities_1a91627190dcd4f6ce54cb42b56a7e8be1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMCapabilities::plugin_version</definition>
+        <argsstring></argsstring>
+        <name>plugin_version</name>
+        <qualifiedname>themis::llm::LLMCapabilities::plugin_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="72" column="17" bodyfile="include/llm/llm_plugin_interface.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_plugin_interface.h" line="35" column="1" bodyfile="include/llm/llm_plugin_interface.h" bodystart="35" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1af7b9c64188282a5c38b49acd89816955" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>gpu_accelerated</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a91627190dcd4f6ce54cb42b56a7e8be1" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>plugin_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a7910c4c6fc1bedafc286205d8f74e5ba" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_batching</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a91ca409fee4864dde68ddf241aa69dfe" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_chat</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1aa223e8fd369d21e2736923a2c4180df4" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_completion</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1ab0a4f86d0d2c289542e3d30790575fe3" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_cuda</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a8de4d72e4478adc5efd4309e545f3406" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_embeddings</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1ab3f266d42377142951c7216431367860" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_function_call</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1abef1bbb2feb4d44e8f54460d70cb36b8" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_instruct</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1ab98c38d5d92254d95bd2f4fa66daf15d" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_lora</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a1a78796f7dd5beed3eafe16348ca10c0" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_metal</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1afe2521e6e5f59ceae4b683d65485f1d2" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_model_sharding</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1ad0e95745d356a2055362a52c6a5d3d1a" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_multimodal</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a33bc28f9f1ba957961060c26288151e8" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_pipeline_parallel</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1ad9e0e103685c07773362e351ac5be3e7" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_quantization</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1ad88d917808ea9f99ab5e2ef50970d3ae" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_rag</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a7988bd10ace2924358d2be93aa8cf32d" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_rocm</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a18c316e9061f3c99e4ec95b9e6f53c22" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_streaming</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a96a5f9c2cf8d32fd77e78c9c2dd7fcb7" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_tensor_parallel</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a671c80e71d1882295f43fdb7eb7d203b" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_unified_memory</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1aa44fd71cd8a9b568ddefdc74193dbc31" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_vulkan</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a0e6b2d55dcb163a1a6e7a2044907e202" prot="public" virt="non-virtual"><scope>themis::llm::LLMCapabilities</scope><name>supports_zero_copy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

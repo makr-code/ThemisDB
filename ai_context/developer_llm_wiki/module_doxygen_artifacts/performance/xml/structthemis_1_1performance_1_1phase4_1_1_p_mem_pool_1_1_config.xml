@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::PMemPool::Config</compoundname>
+    <includes refid="pmem__storage_8h" local="no">pmem_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1ae85cb5d7d40315b6450acbb226b30b37" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::phase4::PMemPool::Config::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Config::path</qualifiedname>
+        <briefdescription>
+<para>Backing file path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="155" column="21" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1ad9b24a28af71ae0a4153adfcc2dfc026" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::PMemPool::Config::pool_size</definition>
+        <argsstring></argsstring>
+        <name>pool_size</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Config::pool_size</qualifiedname>
+        <initializer>{kDefaultPMemPoolSize}</initializer>
+        <briefdescription>
+<para>Desired size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="156" column="21" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1a9551126450d83165f28807bdd8de981b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::PMemPool::Config::alignment</definition>
+        <argsstring></argsstring>
+        <name>alignment</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Config::alignment</qualifiedname>
+        <initializer>{kPMemCacheLineSize}</initializer>
+        <briefdescription>
+<para>Minimum alloc alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="157" column="21" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1a72b7b59d92aed3f60b4cf2fbbfc50d8a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemPool::Config::create_if_missing</definition>
+        <argsstring></argsstring>
+        <name>create_if_missing</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Config::create_if_missing</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Create file if absent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="158" column="21" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1a1d78220ff87bb71fe8391ce893b749f7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemPool::Config::use_dax</definition>
+        <argsstring></argsstring>
+        <name>use_dax</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Config::use_dax</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Request DAX mmap when available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="159" column="21" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1a1a76109f4a3ff7bd7d3b6ecf96179a8c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemPool::Config::recover_on_open</definition>
+        <argsstring></argsstring>
+        <name>recover_on_open</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::Config::recover_on_open</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Scan header on open and recover. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="160" column="21" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for pool creation / open. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmem_storage.h" line="154" column="5" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="154" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1a9551126450d83165f28807bdd8de981b" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Config</scope><name>alignment</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1a72b7b59d92aed3f60b4cf2fbbfc50d8a" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Config</scope><name>create_if_missing</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1ae85cb5d7d40315b6450acbb226b30b37" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Config</scope><name>path</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1ad9b24a28af71ae0a4153adfcc2dfc026" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Config</scope><name>pool_size</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1a1a76109f4a3ff7bd7d3b6ecf96179a8c" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Config</scope><name>recover_on_open</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1a1d78220ff87bb71fe8391ce893b749f7" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool::Config</scope><name>use_dax</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

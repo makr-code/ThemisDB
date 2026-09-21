@@ -1,0 +1,497 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_gradient_utils" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GradientUtils</compoundname>
+    <includes refid="gradient__utils_8h" local="no">gradient_utils.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ad755e9510899e485648f8f172b080924" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GradientUtils::compute_global_norm</definition>
+        <argsstring>(const std::vector&lt; Tensor * &gt; &amp;gradients)</argsstring>
+        <name>compute_global_norm</name>
+        <qualifiedname>themis::llm::lora::GradientUtils::compute_global_norm</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <briefdescription>
+<para>Compute global norm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: data(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="131" column="18" bodyfile="src/llm/lora_framework/gradient_utils.cpp" bodystart="33" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a6c392e0cede2dfebb3c95f36b609ee8d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GradientUtils::clip_by_norm</definition>
+        <argsstring>(std::vector&lt; Tensor * &gt; &amp;gradients, float max_norm)</argsstring>
+        <name>clip_by_norm</name>
+        <qualifiedname>themis::llm::lora::GradientUtils::clip_by_norm</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>max_norm</declname>
+        </param>
+        <briefdescription>
+<para>Clip by norm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_norm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_norm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ad755e9510899e485648f8f172b080924" kindref="member">compute_global_norm()</ref>, size(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="139" column="17" bodyfile="src/llm/lora_framework/gradient_utils.cpp" bodystart="57" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a8d5514fdcda27295c10ad5c0fb90a905" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GradientUtils::clip_by_value</definition>
+        <argsstring>(std::vector&lt; Tensor * &gt; &amp;gradients, float clip_value)</argsstring>
+        <name>clip_by_value</name>
+        <qualifiedname>themis::llm::lora::GradientUtils::clip_by_value</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>clip_value</declname>
+        </param>
+        <briefdescription>
+<para>Clip by value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">clip_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">clip_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), std::abs(), std::copysign(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="147" column="17" bodyfile="src/llm/lora_framework/gradient_utils.cpp" bodystart="88" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ab5f5ed9b55e82f571fb0adf956e372a9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats" kindref="compound">GradientStats</ref></type>
+        <definition>GradientStats themis::llm::lora::GradientUtils::apply_clipping</definition>
+        <argsstring>(std::vector&lt; Tensor * &gt; &amp;gradients, const GradientClippingConfig &amp;config)</argsstring>
+        <name>apply_clipping</name>
+        <qualifiedname>themis::llm::lora::GradientUtils::apply_clipping</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config" kindref="compound">GradientClippingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Apply clipping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ae48c951c6bff29be38fa7c9423ce628f" kindref="member">compute_stats()</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a6c392e0cede2dfebb3c95f36b609ee8d" kindref="member">clip_by_norm()</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a8d5514fdcda27295c10ad5c0fb90a905" kindref="member">clip_by_value()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="155" column="26" bodyfile="src/llm/lora_framework/gradient_utils.cpp" bodystart="119" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a9f73dcf8c78365b4bc89ffb50fc04435" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GradientUtils::accumulate_gradients</definition>
+        <argsstring>(std::vector&lt; Tensor &gt; &amp;accumulated, const std::vector&lt; Tensor * &gt; &amp;new_gradients)</argsstring>
+        <name>accumulate_gradients</name>
+        <qualifiedname>themis::llm::lora::GradientUtils::accumulate_gradients</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &gt; &amp;</type>
+          <declname>accumulated</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>new_gradients</declname>
+        </param>
+        <briefdescription>
+<para>Accumulate gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">accumulated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">accumulated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), push_back(), clone(), Tensor(), std::min(), size(), data(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="165" column="17" bodyfile="src/llm/lora_framework/gradient_utils.cpp" bodystart="157" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ad0e45ba74c635c9f2ff8d2524ada84de" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GradientUtils::normalize_gradients</definition>
+        <argsstring>(std::vector&lt; Tensor &gt; &amp;accumulated, int num_steps)</argsstring>
+        <name>normalize_gradients</name>
+        <qualifiedname>themis::llm::lora::GradientUtils::normalize_gradients</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &gt; &amp;</type>
+          <declname>accumulated</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_steps</declname>
+        </param>
+        <briefdescription>
+<para>Normalize gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">accumulated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">accumulated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="175" column="17" bodyfile="src/llm/lora_framework/gradient_utils.cpp" bodystart="201" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ae48c951c6bff29be38fa7c9423ce628f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats" kindref="compound">GradientStats</ref></type>
+        <definition>GradientStats themis::llm::lora::GradientUtils::compute_stats</definition>
+        <argsstring>(const std::vector&lt; Tensor * &gt; &amp;gradients)</argsstring>
+        <name>compute_stats</name>
+        <qualifiedname>themis::llm::lora::GradientUtils::compute_stats</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <briefdescription>
+<para>Compute stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ad755e9510899e485648f8f172b080924" kindref="member">compute_global_norm()</ref>, infinity(), data(), std::max(), std::abs(), std::min(), <ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a12db55b3e54a30a66d2d09db4e9bca7f" kindref="member">has_invalid_gradients()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="185" column="26" bodyfile="src/llm/lora_framework/gradient_utils.cpp" bodystart="225" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a12db55b3e54a30a66d2d09db4e9bca7f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GradientUtils::has_invalid_gradients</definition>
+        <argsstring>(const std::vector&lt; Tensor * &gt; &amp;gradients)</argsstring>
+        <name>has_invalid_gradients</name>
+        <qualifiedname>themis::llm::lora::GradientUtils::has_invalid_gradients</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <briefdescription>
+<para>Has invalid gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: data(), std::isnan(), std::isinf(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="192" column="17" bodyfile="src/llm/lora_framework/gradient_utils.cpp" bodystart="273" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1aab16dd0446c3d680591bb03bbbcf164b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GradientUtils::zero_gradients</definition>
+        <argsstring>(std::vector&lt; Tensor * &gt; &amp;gradients)</argsstring>
+        <name>zero_gradients</name>
+        <qualifiedname>themis::llm::lora::GradientUtils::zero_gradients</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <briefdescription>
+<para>Zero gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: zero(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="198" column="17" bodyfile="src/llm/lora_framework/gradient_utils.cpp" bodystart="294" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gradient_utils.h" line="124" column="1" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="124" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a9f73dcf8c78365b4bc89ffb50fc04435" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientUtils</scope><name>accumulate_gradients</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ab5f5ed9b55e82f571fb0adf956e372a9" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientUtils</scope><name>apply_clipping</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a6c392e0cede2dfebb3c95f36b609ee8d" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientUtils</scope><name>clip_by_norm</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a8d5514fdcda27295c10ad5c0fb90a905" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientUtils</scope><name>clip_by_value</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ad755e9510899e485648f8f172b080924" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientUtils</scope><name>compute_global_norm</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ae48c951c6bff29be38fa7c9423ce628f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientUtils</scope><name>compute_stats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a12db55b3e54a30a66d2d09db4e9bca7f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientUtils</scope><name>has_invalid_gradients</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ad0e45ba74c635c9f2ff8d2524ada84de" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientUtils</scope><name>normalize_gradients</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1aab16dd0446c3d680591bb03bbbcf164b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientUtils</scope><name>zero_gradients</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

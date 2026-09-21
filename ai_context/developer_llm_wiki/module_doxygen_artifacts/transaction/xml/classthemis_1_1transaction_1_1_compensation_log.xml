@@ -1,0 +1,438 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_compensation_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::CompensationLog</compoundname>
+    <includes refid="compensation__log_8h" local="no">compensation_log.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_compensation_log_1afbd22c37de254d749274dc36b5698168" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CompensationLog::saga_id_</definition>
+        <argsstring></argsstring>
+        <name>saga_id_</name>
+        <qualifiedname>themis::transaction::CompensationLog::saga_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="99" column="17" bodyfile="include/transaction/compensation_log.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_compensation_log_1abde665d041deb0581f987271c586335e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::transaction::CompensationLog::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::transaction::CompensationLog::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="100" column="24" bodyfile="include/transaction/compensation_log.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_compensation_log_1a2ccddf13ca34634e179ec232a89873e8" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_compensation_log_entry" kindref="compound">CompensationLogEntry</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;CompensationLogEntry&gt; &gt; themis::transaction::CompensationLog::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::transaction::CompensationLog::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="101" column="24" bodyfile="include/transaction/compensation_log.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_compensation_log_1a152d43ed70b4d6db9db52fdc3c3f9b93" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::CompensationLog::CompensationLog</definition>
+        <argsstring>(const std::string &amp;saga_id)</argsstring>
+        <name>CompensationLog</name>
+        <qualifiedname>themis::transaction::CompensationLog::CompensationLog</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saga_id</declname>
+        </param>
+        <briefdescription>
+<para>Compensation Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saga_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the saga. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="43" column="14" bodyfile="src/transaction/compensation_log.cpp" bodystart="10" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_compensation_log_1ac1d2c85970e603b0a243ef343557c0bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::CompensationLog::~CompensationLog</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CompensationLog</name>
+        <qualifiedname>themis::transaction::CompensationLog::~CompensationLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_compensation_log_1a1cd7fb1dc16df5cc6e46d3a494744e5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::CompensationLog::CompensationLog</definition>
+        <argsstring>(const CompensationLog &amp;)=delete</argsstring>
+        <name>CompensationLog</name>
+        <qualifiedname>themis::transaction::CompensationLog::CompensationLog</qualifiedname>
+        <param>
+          <type>const CompensationLog &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_compensation_log_1a9f8229a72fae90b1df091611d7b6f3b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_compensation_log_1a152d43ed70b4d6db9db52fdc3c3f9b93" kindref="member">CompensationLog</ref> &amp;</type>
+        <definition>CompensationLog &amp; themis::transaction::CompensationLog::operator=</definition>
+        <argsstring>(const CompensationLog &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::CompensationLog::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_compensation_log_1a152d43ed70b4d6db9db52fdc3c3f9b93" kindref="member">CompensationLog</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="49" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_compensation_log_1af478335b44f5a4a064be92cb19bf67fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::transaction::CompensationLog::recordCompensationAttempt</definition>
+        <argsstring>(const std::string &amp;step_name)</argsstring>
+        <name>recordCompensationAttempt</name>
+        <qualifiedname>themis::transaction::CompensationLog::recordCompensationAttempt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_name</declname>
+        </param>
+        <briefdescription>
+<para>Record Compensation Attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), size(), std::chrono::system_clock::now(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="56" column="14" bodyfile="src/transaction/compensation_log.cpp" bodystart="20" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_compensation_log_1a705be9589d7bdf8f8d2c0c704593192d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::CompensationLog::recordCompensationSuccess</definition>
+        <argsstring>(const std::string &amp;step_name, uint32_t sequence_number)</argsstring>
+        <name>recordCompensationSuccess</name>
+        <qualifiedname>themis::transaction::CompensationLog::recordCompensationSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>sequence_number</declname>
+        </param>
+        <briefdescription>
+<para>Record Compensation Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="63" column="10" bodyfile="src/transaction/compensation_log.cpp" bodystart="43" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_compensation_log_1adaa2d738b81fccba3a5262d7c6cf6a39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::CompensationLog::recordCompensationFailure</definition>
+        <argsstring>(const std::string &amp;step_name, uint32_t sequence_number, const std::string &amp;error_detail={})</argsstring>
+        <name>recordCompensationFailure</name>
+        <qualifiedname>themis::transaction::CompensationLog::recordCompensationFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>sequence_number</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_detail</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Record Compensation Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="67" column="10" bodyfile="src/transaction/compensation_log.cpp" bodystart="61" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_compensation_log_1aa997ee9898470ef046a31481513d7137" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::CompensationLog::hasSucceeded</definition>
+        <argsstring>(const std::string &amp;step_name) const</argsstring>
+        <name>hasSucceeded</name>
+        <qualifiedname>themis::transaction::CompensationLog::hasSucceeded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_name</declname>
+        </param>
+        <briefdescription>
+<para>Has Succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="77" column="10" bodyfile="src/transaction/compensation_log.cpp" bodystart="74" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_compensation_log_1a2909ac46219d3fd1597d52c55e9c5581" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_compensation_log_entry" kindref="compound">CompensationLogEntry</ref> &gt;</type>
+        <definition>std::vector&lt; CompensationLogEntry &gt; themis::transaction::CompensationLog::getEntries</definition>
+        <argsstring>() const</argsstring>
+        <name>getEntries</name>
+        <qualifiedname>themis::transaction::CompensationLog::getEntries</qualifiedname>
+        <briefdescription>
+<para>Get Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="83" column="17" bodyfile="src/transaction/compensation_log.cpp" bodystart="95" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_compensation_log_1a4e5ab867b664ad6c9f201daf834f4845" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_compensation_log_entry" kindref="compound">CompensationLogEntry</ref> &gt;</type>
+        <definition>std::vector&lt; CompensationLogEntry &gt; themis::transaction::CompensationLog::getEntriesForStep</definition>
+        <argsstring>(const std::string &amp;step_name) const</argsstring>
+        <name>getEntriesForStep</name>
+        <qualifiedname>themis::transaction::CompensationLog::getEntriesForStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Entries For Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="90" column="17" bodyfile="src/transaction/compensation_log.cpp" bodystart="113" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_compensation_log_1aa8d49f462cb3b64de5eb742104ba0250" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::CompensationLog::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::transaction::CompensationLog::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/compensation_log.h" line="96" column="10" bodyfile="src/transaction/compensation_log.cpp" bodystart="131" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/compensation_log.h" line="36" column="1" bodyfile="include/transaction/compensation_log.h" bodystart="36" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1aa8d49f462cb3b64de5eb742104ba0250" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>clear</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1a152d43ed70b4d6db9db52fdc3c3f9b93" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>CompensationLog</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1a1cd7fb1dc16df5cc6e46d3a494744e5a" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>CompensationLog</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1a2ccddf13ca34634e179ec232a89873e8" prot="private" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1a2909ac46219d3fd1597d52c55e9c5581" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>getEntries</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1a4e5ab867b664ad6c9f201daf834f4845" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>getEntriesForStep</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1aa997ee9898470ef046a31481513d7137" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>hasSucceeded</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1abde665d041deb0581f987271c586335e" prot="private" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1a9f8229a72fae90b1df091611d7b6f3b8" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1af478335b44f5a4a064be92cb19bf67fd" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>recordCompensationAttempt</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1adaa2d738b81fccba3a5262d7c6cf6a39" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>recordCompensationFailure</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1a705be9589d7bdf8f8d2c0c704593192d" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>recordCompensationSuccess</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1afbd22c37de254d749274dc36b5698168" prot="private" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>saga_id_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_compensation_log_1ac1d2c85970e603b0a243ef343557c0bc" prot="public" virt="non-virtual"><scope>themis::transaction::CompensationLog</scope><name>~CompensationLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

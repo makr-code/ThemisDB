@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1kg_1_1_entity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::kg::Entity</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="no">knowledge_graph_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_1a8cb1d3b2b1b4c14422d9453cb10002de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::kg::Entity::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::rag::kg::Entity::text</qualifiedname>
+        <briefdescription>
+<para>Surface form as it appears in the text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="66" column="18" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_1a8cc4dda98f7d106d32cfdd3065af492a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142d" kindref="member">EntityType</ref></type>
+        <definition>EntityType themis::rag::kg::Entity::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::rag::kg::Entity::type</qualifiedname>
+        <briefdescription>
+<para>Coarse semantic category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="67" column="18" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_1af1d2148a28d20e401a982dc21b8e47e0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::Entity::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::kg::Entity::confidence</qualifiedname>
+        <briefdescription>
+<para>Extraction confidence in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="68" column="18" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_1a0400972bb328dcc44db3f4963aad1a09" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::kg::Entity::start_offset</definition>
+        <argsstring></argsstring>
+        <name>start_offset</name>
+        <qualifiedname>themis::rag::kg::Entity::start_offset</qualifiedname>
+        <briefdescription>
+<para>Byte offset of first character in source text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="69" column="18" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_1a68c0a980b9fadfcc3ff9d304ff3c5c9d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::kg::Entity::end_offset</definition>
+        <argsstring></argsstring>
+        <name>end_offset</name>
+        <qualifiedname>themis::rag::kg::Entity::end_offset</qualifiedname>
+        <briefdescription>
+<para>Byte offset one past the last character. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="70" column="18" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A named entity extracted from text. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_graph_retriever.h" line="65" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="65" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_1af1d2148a28d20e401a982dc21b8e47e0" prot="public" virt="non-virtual"><scope>themis::rag::kg::Entity</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_1a68c0a980b9fadfcc3ff9d304ff3c5c9d" prot="public" virt="non-virtual"><scope>themis::rag::kg::Entity</scope><name>end_offset</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_1a0400972bb328dcc44db3f4963aad1a09" prot="public" virt="non-virtual"><scope>themis::rag::kg::Entity</scope><name>start_offset</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_1a8cb1d3b2b1b4c14422d9453cb10002de" prot="public" virt="non-virtual"><scope>themis::rag::kg::Entity</scope><name>text</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_1a8cc4dda98f7d106d32cfdd3065af492a" prot="public" virt="non-virtual"><scope>themis::rag::kg::Entity</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

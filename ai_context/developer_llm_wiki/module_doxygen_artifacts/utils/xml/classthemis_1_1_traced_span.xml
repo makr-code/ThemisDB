@@ -1,0 +1,359 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_traced_span" kind="class" language="C++" prot="public">
+    <compoundname>themis::TracedSpan</compoundname>
+    <includes refid="tracing_8h" local="no">tracing.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_traced_span_1ae1bb102a26101c1bcd6e781d3852f561" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Tracer::Span</ref></type>
+        <definition>Tracer::Span themis::TracedSpan::span_</definition>
+        <argsstring></argsstring>
+        <name>span_</name>
+        <qualifiedname>themis::TracedSpan::span_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="571" column="18" bodyfile="include/utils/tracing.h" bodystart="571" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_traced_span_1ae3fa339b6f37b91d643430cf0535fb62" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TracedSpan::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::TracedSpan::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="572" column="17" bodyfile="include/utils/tracing.h" bodystart="572" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_traced_span_1aff7a5f3bce68f4a68ac3d7502c7177ea" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::TracedSpan::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::TracedSpan::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="573" column="43" bodyfile="include/utils/tracing.h" bodystart="573" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_traced_span_1a5ec64b99c195ab11c648408bccdd8beb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TracedSpan::TracedSpan</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>TracedSpan</name>
+        <qualifiedname>themis::TracedSpan::TracedSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="559" column="14" bodyfile="src/utils/tracing.cpp" bodystart="1013" bodyend="1017"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_traced_span_1a82f9de8736336c60292f800939c8d6ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TracedSpan::~TracedSpan</definition>
+        <argsstring>()</argsstring>
+        <name>~TracedSpan</name>
+        <qualifiedname>themis::TracedSpan::~TracedSpan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="560" column="5" bodyfile="src/utils/tracing.cpp" bodystart="1019" bodyend="1029"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_traced_span_1a97a1f08b8476193d892b6de4b8f6ee0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TracedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::TracedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAttribute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="562" column="10" bodyfile="src/utils/tracing.cpp" bodystart="1037" bodyend="1039"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_traced_span_1a97fbf5b2612e5e81ea6d09c46592938f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TracedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, int64_t value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::TracedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAttribute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="563" column="10" bodyfile="src/utils/tracing.cpp" bodystart="1047" bodyend="1049"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_traced_span_1a56550e17c2d2cb229810e69ad71e52be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TracedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, double value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::TracedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAttribute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="564" column="10" bodyfile="src/utils/tracing.cpp" bodystart="1057" bodyend="1059"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_traced_span_1ad08319925fe0d3b5e92c4bc47c073e47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TracedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, bool value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::TracedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAttribute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="565" column="10" bodyfile="src/utils/tracing.cpp" bodystart="1067" bodyend="1069"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_traced_span_1ae2173f725421623048b2017b380c29ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TracedSpan::recordError</definition>
+        <argsstring>(const std::string &amp;errorMessage)</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::TracedSpan::recordError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>errorMessage</declname>
+        </param>
+        <briefdescription>
+<para>Record <ref refid="classthemis_1_1_error" kindref="compound">Error</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">errorMessage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="566" column="10" bodyfile="src/utils/tracing.cpp" bodystart="1076" bodyend="1078"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_traced_span_1a85dca836e92f203288cb73dfe80853e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TracedSpan::setStatus</definition>
+        <argsstring>(bool ok, const std::string &amp;description=&quot;&quot;)</argsstring>
+        <name>setStatus</name>
+        <qualifiedname>themis::TracedSpan::setStatus</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>ok</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Set Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ok</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setStatus without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="567" column="10" bodyfile="src/utils/tracing.cpp" bodystart="1086" bodyend="1088"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_traced_span_1a408f2c9dab9a92529f2800a25e1c892e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_tracer_1_1_span" kindref="compound">Tracer::Span</ref> &amp;</type>
+        <definition>Tracer::Span &amp; themis::TracedSpan::span</definition>
+        <argsstring>()</argsstring>
+        <name>span</name>
+        <qualifiedname>themis::TracedSpan::span</qualifiedname>
+        <briefdescription>
+<para>Span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements span without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="568" column="18" bodyfile="src/utils/tracing.cpp" bodystart="1095" bodyend="1097"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RAII helper for scoped spans with automatic metrics recording</para>
+<para>Usage: void myFunction() { <ref refid="classthemis_1_1_traced_span" kindref="compound">TracedSpan</ref> span(&quot;myFunction&quot;); span.setAttribute(&quot;param&quot;, value); // ... work ... } // span ends and duration is automatically recorded to Prometheus </para>
+    </detaileddescription>
+    <location file="include/utils/tracing.h" line="557" column="1" bodyfile="include/utils/tracing.h" bodystart="557" bodyend="574"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_traced_span_1ae3fa339b6f37b91d643430cf0535fb62" prot="private" virt="non-virtual"><scope>themis::TracedSpan</scope><name>name_</name></member>
+      <member refid="classthemis_1_1_traced_span_1ae2173f725421623048b2017b380c29ca" prot="public" virt="non-virtual"><scope>themis::TracedSpan</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1_traced_span_1a97a1f08b8476193d892b6de4b8f6ee0b" prot="public" virt="non-virtual"><scope>themis::TracedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1_traced_span_1a97fbf5b2612e5e81ea6d09c46592938f" prot="public" virt="non-virtual"><scope>themis::TracedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1_traced_span_1a56550e17c2d2cb229810e69ad71e52be" prot="public" virt="non-virtual"><scope>themis::TracedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1_traced_span_1ad08319925fe0d3b5e92c4bc47c073e47" prot="public" virt="non-virtual"><scope>themis::TracedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1_traced_span_1a85dca836e92f203288cb73dfe80853e4" prot="public" virt="non-virtual"><scope>themis::TracedSpan</scope><name>setStatus</name></member>
+      <member refid="classthemis_1_1_traced_span_1a408f2c9dab9a92529f2800a25e1c892e" prot="public" virt="non-virtual"><scope>themis::TracedSpan</scope><name>span</name></member>
+      <member refid="classthemis_1_1_traced_span_1ae1bb102a26101c1bcd6e781d3852f561" prot="private" virt="non-virtual"><scope>themis::TracedSpan</scope><name>span_</name></member>
+      <member refid="classthemis_1_1_traced_span_1aff7a5f3bce68f4a68ac3d7502c7177ea" prot="private" virt="non-virtual"><scope>themis::TracedSpan</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1_traced_span_1a5ec64b99c195ab11c648408bccdd8beb" prot="public" virt="non-virtual"><scope>themis::TracedSpan</scope><name>TracedSpan</name></member>
+      <member refid="classthemis_1_1_traced_span_1a82f9de8736336c60292f800939c8d6ad" prot="public" virt="non-virtual"><scope>themis::TracedSpan</scope><name>~TracedSpan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

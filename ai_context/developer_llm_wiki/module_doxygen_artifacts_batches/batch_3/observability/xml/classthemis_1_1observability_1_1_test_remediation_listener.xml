@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_test_remediation_listener" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::TestRemediationListener</compoundname>
+    <basecompoundref refid="classthemis_1_1observability_1_1_i_remediation_hint_listener" prot="public" virt="non-virtual">themis::observability::IRemediationHintListener</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_test_remediation_listener_1ac12cf423ecbde3cb302c5c554c1a63f7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::TestRemediationListener::new_hints</definition>
+        <argsstring></argsstring>
+        <name>new_hints</name>
+        <qualifiedname>themis::observability::TestRemediationListener::new_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_operator_remediation_engine.cpp" line="50" column="17" bodyfile="tests/observability/test_operator_remediation_engine.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_test_remediation_listener_1ab79f8a39c7369738aea56aed84ed826e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::TestRemediationListener::resolved_hints</definition>
+        <argsstring></argsstring>
+        <name>resolved_hints</name>
+        <qualifiedname>themis::observability::TestRemediationListener::resolved_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_operator_remediation_engine.cpp" line="51" column="17" bodyfile="tests/observability/test_operator_remediation_engine.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_test_remediation_listener_1aeb47994c7dd5a2bb4b95f2ffdbce8ea8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::observability::TestRemediationListener::onNewHint</definition>
+        <argsstring>(const std::shared_ptr&lt; RemediationHint &gt; &amp;hint) override</argsstring>
+        <name>onNewHint</name>
+        <qualifiedname>themis::observability::TestRemediationListener::onNewHint</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a1e7664dfc660d09faee35862099a9cbe">onNewHint</reimplements>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> &gt; &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+<para>Called when a new remediation hint is generated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The generated hint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_operator_remediation_engine.cpp" line="42" column="10" bodyfile="tests/observability/test_operator_remediation_engine.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_test_remediation_listener_1afd0e3ac22d998afe0205b7fd338ff634" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::observability::TestRemediationListener::onHintResolved</definition>
+        <argsstring>(const std::string &amp;hint_id) override</argsstring>
+        <name>onHintResolved</name>
+        <qualifiedname>themis::observability::TestRemediationListener::onHintResolved</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a9544f536f3992d9d20835af017e49ffd">onHintResolved</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hint_id</declname>
+        </param>
+        <briefdescription>
+<para>Called when a previously-issued hint is resolved. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ID of the resolved hint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_operator_remediation_engine.cpp" line="46" column="10" bodyfile="tests/observability/test_operator_remediation_engine.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::observability::IRemediationHintListener</label>
+        <link refid="classthemis_1_1observability_1_1_i_remediation_hint_listener"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::TestRemediationListener</label>
+        <link refid="classthemis_1_1observability_1_1_test_remediation_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::IRemediationHintListener</label>
+        <link refid="classthemis_1_1observability_1_1_i_remediation_hint_listener"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::TestRemediationListener</label>
+        <link refid="classthemis_1_1observability_1_1_test_remediation_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_operator_remediation_engine.cpp" line="40" column="1" bodyfile="tests/observability/test_operator_remediation_engine.cpp" bodystart="40" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_test_remediation_listener_1ac12cf423ecbde3cb302c5c554c1a63f7" prot="public" virt="non-virtual"><scope>themis::observability::TestRemediationListener</scope><name>new_hints</name></member>
+      <member refid="classthemis_1_1observability_1_1_test_remediation_listener_1afd0e3ac22d998afe0205b7fd338ff634" prot="public" virt="virtual"><scope>themis::observability::TestRemediationListener</scope><name>onHintResolved</name></member>
+      <member refid="classthemis_1_1observability_1_1_test_remediation_listener_1aeb47994c7dd5a2bb4b95f2ffdbce8ea8" prot="public" virt="virtual"><scope>themis::observability::TestRemediationListener</scope><name>onNewHint</name></member>
+      <member refid="classthemis_1_1observability_1_1_test_remediation_listener_1ab79f8a39c7369738aea56aed84ed826e" prot="public" virt="non-virtual"><scope>themis::observability::TestRemediationListener</scope><name>resolved_hints</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a335101d74a632de770f83cef9bf15130" prot="public" virt="virtual"><scope>themis::observability::TestRemediationListener</scope><name>~IRemediationHintListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

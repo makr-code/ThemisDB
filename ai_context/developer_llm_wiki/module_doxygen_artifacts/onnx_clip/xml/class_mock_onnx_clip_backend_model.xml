@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_onnx_clip_backend_model" kind="class" language="C++" prot="public">
+    <compoundname>MockOnnxClipBackendModel</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Backend</name>
+        <qualifiedname>MockOnnxClipBackendModel::Backend</qualifiedname>
+        <enumvalue id="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6aa2ce310327f474afc9f6774faa2f57903" prot="public">
+          <name>kCPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6aa15cfe9387f9c286cd8244d15c8cfa6c7" prot="public">
+          <name>kCUDA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6aa8a1714a85ad21a1c4814b260d2cd24dd" prot="public">
+          <name>kUnavailable</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="85" column="5" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_onnx_clip_backend_model_1addc3e429c84cbedccf9511689ee88a6a" prot="private" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themis::bench::onnx_clip::MockOnnxClipBackendModel::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>MockOnnxClipBackendModel::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="191" column="18" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_onnx_clip_backend_model_1aea567cf4615123102a15db9a000cc32c" prot="private" static="no" mutable="no">
+        <type>std::uniform_real_distribution&lt; float &gt;</type>
+        <definition>std::uniform_real_distribution&lt;float&gt; themis::bench::onnx_clip::MockOnnxClipBackendModel::dis_</definition>
+        <argsstring></argsstring>
+        <name>dis_</name>
+        <qualifiedname>MockOnnxClipBackendModel::dis_</qualifiedname>
+        <initializer>{-1.0f, 1.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="192" column="36" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_onnx_clip_backend_model_1a878be2a8cfbcc30d897c3b00372f2435" prot="private" static="no" mutable="no">
+        <type><ref refid="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6a" kindref="member">Backend</ref></type>
+        <definition>Backend themis::bench::onnx_clip::MockOnnxClipBackendModel::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>MockOnnxClipBackendModel::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="193" column="13" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_onnx_clip_backend_model_1a87a3eca0beb28e3d796c05f76196d876" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::onnx_clip::MockOnnxClipBackendModel::cuda_available_</definition>
+        <argsstring></argsstring>
+        <name>cuda_available_</name>
+        <qualifiedname>MockOnnxClipBackendModel::cuda_available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="194" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_onnx_clip_backend_model_1abc78b7ee9f23d7e83f020ee0ba8db804" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::onnx_clip::MockOnnxClipBackendModel::MockOnnxClipBackendModel</definition>
+        <argsstring>()</argsstring>
+        <name>MockOnnxClipBackendModel</name>
+        <qualifiedname>MockOnnxClipBackendModel::MockOnnxClipBackendModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="91" column="5" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="91" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_onnx_clip_backend_model_1acb75aeb4ad02c4a7456ca1dee1189e7a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::bench::onnx_clip::MockOnnxClipBackendModel::encodeSingleImage</definition>
+        <argsstring>(Backend backend)</argsstring>
+        <name>encodeSingleImage</name>
+        <qualifiedname>MockOnnxClipBackendModel::encodeSingleImage</qualifiedname>
+        <param>
+          <type><ref refid="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6a" kindref="member">Backend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Encode single image on specified backend. Baseline for throughput comparison. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="101" column="17" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="101" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_onnx_clip_backend_model_1a3036515502f794ff360657bd1da3a834" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::bench::onnx_clip::MockOnnxClipBackendModel::encodeBatch</definition>
+        <argsstring>(Backend backend, int batch_size, double &amp;elapsed_sec)</argsstring>
+        <name>encodeBatch</name>
+        <qualifiedname>MockOnnxClipBackendModel::encodeBatch</qualifiedname>
+        <param>
+          <type><ref refid="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6a" kindref="member">Backend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>elapsed_sec</declname>
+        </param>
+        <briefdescription>
+<para>Encode batch of images on specified backend. Returns throughput (ops/sec, computed from elapsed time). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="116" column="9" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="116" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_onnx_clip_backend_model_1afa6639e55a4f9d364f0312e21ce5fc25" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::onnx_clip::MockOnnxClipBackendModel::loadModelAndMeasureMemory</definition>
+        <argsstring>()</argsstring>
+        <name>loadModelAndMeasureMemory</name>
+        <qualifiedname>MockOnnxClipBackendModel::loadModelAndMeasureMemory</qualifiedname>
+        <briefdescription>
+<para>Load model and return peak RSS (memory footprint). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="134" column="14" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="134" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_onnx_clip_backend_model_1a4712edcb889758653256ef1d01317984" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::onnx_clip::MockOnnxClipBackendModel::measureRuntimeMemory</definition>
+        <argsstring>(int batch_size)</argsstring>
+        <name>measureRuntimeMemory</name>
+        <qualifiedname>MockOnnxClipBackendModel::measureRuntimeMemory</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+<para>Measure memory during batch inference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="150" column="14" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="150" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_onnx_clip_backend_model_1a599e92cd7540a1335830f2bd8e5fb934" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::bench::onnx_clip::MockOnnxClipBackendModel::measureBatchSplittingOverhead</definition>
+        <argsstring>(int total_batch_size, int split_factor)</argsstring>
+        <name>measureBatchSplittingOverhead</name>
+        <qualifiedname>MockOnnxClipBackendModel::measureBatchSplittingOverhead</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>total_batch_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>split_factor</declname>
+        </param>
+        <briefdescription>
+<para>Measure overhead of batch-splitting strategy. Simulates splitting large batch into N smaller batches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="173" column="12" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="173" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_onnx_clip_backend_model_1a5bc6250cf8b2c406c9fbc90f23672139" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6a" kindref="member">Backend</ref></type>
+        <definition>Backend themis::bench::onnx_clip::MockOnnxClipBackendModel::backend</definition>
+        <argsstring>() const</argsstring>
+        <name>backend</name>
+        <qualifiedname>MockOnnxClipBackendModel::backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="187" column="13" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_onnx_clip_backend_model_1a643cd3d196041f935cf0ffbc03d83715" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::onnx_clip::MockOnnxClipBackendModel::cudaAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>cudaAvailable</name>
+        <qualifiedname>MockOnnxClipBackendModel::cudaAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="188" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="188" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock ONNX CLIP model with backend selection (CPU/CUDA). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Simulates:<itemizedlist>
+<listitem><para>Single-image inference (CPU baseline)</para>
+</listitem><listitem><para>Batch inference (CPU or CUDA)</para>
+</listitem><listitem><para>Memory footprint tracking </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="83" column="1" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="83" bodyend="195"/>
+    <listofallmembers>
+      <member refid="class_mock_onnx_clip_backend_model_1aaf6e517449a920fcdcb586b2d9f9ad6a" prot="public" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>Backend</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1a5bc6250cf8b2c406c9fbc90f23672139" prot="public" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>backend</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1a878be2a8cfbcc30d897c3b00372f2435" prot="private" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>backend_</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1a87a3eca0beb28e3d796c05f76196d876" prot="private" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>cuda_available_</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1a643cd3d196041f935cf0ffbc03d83715" prot="public" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>cudaAvailable</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1aea567cf4615123102a15db9a000cc32c" prot="private" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>dis_</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1a3036515502f794ff360657bd1da3a834" prot="public" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>encodeBatch</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1acb75aeb4ad02c4a7456ca1dee1189e7a" prot="public" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>encodeSingleImage</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1afa6639e55a4f9d364f0312e21ce5fc25" prot="public" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>loadModelAndMeasureMemory</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1a599e92cd7540a1335830f2bd8e5fb934" prot="public" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>measureBatchSplittingOverhead</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1a4712edcb889758653256ef1d01317984" prot="public" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>measureRuntimeMemory</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1abc78b7ee9f23d7e83f020ee0ba8db804" prot="public" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>MockOnnxClipBackendModel</name></member>
+      <member refid="class_mock_onnx_clip_backend_model_1addc3e429c84cbedccf9511689ee88a6a" prot="private" virt="non-virtual"><scope>MockOnnxClipBackendModel</scope><name>rng_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

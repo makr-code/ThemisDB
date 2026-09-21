@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::distributed_tensor::IFragmentFetcher</compoundname>
+    <includes refid="include_2distributed__tensor_2distributed__planner_8h" local="no">distributed_planner.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a253509ad65667aec783cda27b3fe17c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::IFragmentFetcher::~IFragmentFetcher</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IFragmentFetcher</name>
+        <qualifiedname>themis::distributed_tensor::IFragmentFetcher::~IFragmentFetcher</qualifiedname>
+        <briefdescription>
+<para>IFragment Fetcher. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="182" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1adec68f6dfd3369a1f7fe1bcccdb2c0fd" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result" kindref="compound">FragmentLoadResult</ref></type>
+        <definition>virtual FragmentLoadResult themis::distributed_tensor::IFragmentFetcher::fetchFragment</definition>
+        <argsstring>(const FragmentLoadRequest &amp;request, const std::string &amp;correlation_id={}) const noexcept=0</argsstring>
+        <name>fetchFragment</name>
+        <qualifiedname>themis::distributed_tensor::IFragmentFetcher::fetchFragment</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" kindref="compound">FragmentLoadRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="183" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a45eacf749aedc9338fae576250fd0eda" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result" kindref="compound">FragmentLoadResult</ref> &gt;</type>
+        <definition>virtual std::vector&lt; FragmentLoadResult &gt; themis::distributed_tensor::IFragmentFetcher::fetchFragments</definition>
+        <argsstring>(const std::vector&lt; FragmentLoadRequest &gt; &amp;requests, const std::string &amp;correlation_id={}) const noexcept=0</argsstring>
+        <name>fetchFragments</name>
+        <qualifiedname>themis::distributed_tensor::IFragmentFetcher::fetchFragments</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" kindref="compound">FragmentLoadRequest</ref> &gt; &amp;</type>
+          <declname>requests</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="184" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a253509ad65667aec783cda27b3fe17c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::IFragmentFetcher::~IFragmentFetcher</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IFragmentFetcher</name>
+        <qualifiedname>themis::distributed_tensor::IFragmentFetcher::~IFragmentFetcher</qualifiedname>
+        <briefdescription>
+<para>IFragment Fetcher. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="231" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1adec68f6dfd3369a1f7fe1bcccdb2c0fd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result" kindref="compound">FragmentLoadResult</ref></type>
+        <definition>virtual FragmentLoadResult themis::distributed_tensor::IFragmentFetcher::fetchFragment</definition>
+        <argsstring>(const FragmentLoadRequest &amp;request, const std::string &amp;correlation_id={}) const noexcept=0</argsstring>
+        <name>fetchFragment</name>
+        <qualifiedname>themis::distributed_tensor::IFragmentFetcher::fetchFragment</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" kindref="compound">FragmentLoadRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="233" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a45eacf749aedc9338fae576250fd0eda" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result" kindref="compound">FragmentLoadResult</ref> &gt;</type>
+        <definition>virtual std::vector&lt; FragmentLoadResult &gt; themis::distributed_tensor::IFragmentFetcher::fetchFragments</definition>
+        <argsstring>(const std::vector&lt; FragmentLoadRequest &gt; &amp;requests, const std::string &amp;correlation_id={}) const noexcept=0</argsstring>
+        <name>fetchFragments</name>
+        <qualifiedname>themis::distributed_tensor::IFragmentFetcher::fetchFragments</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" kindref="compound">FragmentLoadRequest</ref> &gt; &amp;</type>
+          <declname>requests</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_planner.h" line="237" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/distributed_planner.h" line="176" column="1" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="176" bodyend="185"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1adec68f6dfd3369a1f7fe1bcccdb2c0fd" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::IFragmentFetcher</scope><name>fetchFragment</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1adec68f6dfd3369a1f7fe1bcccdb2c0fd" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::IFragmentFetcher</scope><name>fetchFragment</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a45eacf749aedc9338fae576250fd0eda" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::IFragmentFetcher</scope><name>fetchFragments</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a45eacf749aedc9338fae576250fd0eda" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::IFragmentFetcher</scope><name>fetchFragments</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a253509ad65667aec783cda27b3fe17c3" prot="public" virt="virtual"><scope>themis::distributed_tensor::IFragmentFetcher</scope><name>~IFragmentFetcher</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a253509ad65667aec783cda27b3fe17c3" prot="public" virt="virtual"><scope>themis::distributed_tensor::IFragmentFetcher</scope><name>~IFragmentFetcher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

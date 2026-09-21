@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_epoch_fencing_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::EpochFencingConfig</compoundname>
+    <includes refid="epoch__fencing_8h" local="no">epoch_fencing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_fencing_config_1a6ab6411fbd4c080dde7fccc8be31f875" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::EpochFencingConfig::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::EpochFencingConfig::shard_id</qualifiedname>
+        <initializer>{&quot;default&quot;}</initializer>
+        <briefdescription>
+<para>Shard scope this manager guards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="238" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="238" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_fencing_config_1a365603b3dfa62b5e8998b6e99ab1353d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref></type>
+        <definition>NodeId themis::sharding::EpochFencingConfig::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::sharding::EpochFencingConfig::node_id</qualifiedname>
+        <briefdescription>
+<para>Local node identity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="241" column="12" bodyfile="include/sharding/epoch_fencing.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_fencing_config_1a715d4aa4fc87740d6c1c8f9808f49732" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::EpochFencingConfig::auto_stonith</definition>
+        <argsstring></argsstring>
+        <name>auto_stonith</name>
+        <qualifiedname>themis::sharding::EpochFencingConfig::auto_stonith</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>If true, automatically issue STONITH when a stale write is detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="244" column="10" bodyfile="include/sharding/epoch_fencing.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_fencing_config_1ac56a6d2deb154c5a7e44d9be1d1e2857" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::EpochFencingConfig::stonith_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>stonith_timeout_ms</name>
+        <qualifiedname>themis::sharding::EpochFencingConfig::stonith_timeout_ms</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Maximum time allowed for a STONITH operation to complete. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="247" column="31" bodyfile="include/sharding/epoch_fencing.h" bodystart="247" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_fencing_config_1ad22d3774be4b51f4b2ff802ace509245" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::EpochFencingConfig::log_warn_epoch_delta</definition>
+        <argsstring></argsstring>
+        <name>log_warn_epoch_delta</name>
+        <qualifiedname>themis::sharding::EpochFencingConfig::log_warn_epoch_delta</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Minimum epoch delta before a stale-epoch log warning is emitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="250" column="14" bodyfile="include/sharding/epoch_fencing.h" bodystart="250" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_epoch_fencing_config_1afb68f0233c5b020171d451fee96b19a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::EpochFencingConfig::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::sharding::EpochFencingConfig::validate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="252" column="10" bodyfile="src/sharding/epoch_fencing.cpp" bodystart="83" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/epoch_fencing.h" line="236" column="1" bodyfile="include/sharding/epoch_fencing.h" bodystart="236" bodyend="253"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_epoch_fencing_config_1a715d4aa4fc87740d6c1c8f9808f49732" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingConfig</scope><name>auto_stonith</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_fencing_config_1ad22d3774be4b51f4b2ff802ace509245" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingConfig</scope><name>log_warn_epoch_delta</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_fencing_config_1a365603b3dfa62b5e8998b6e99ab1353d" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingConfig</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_fencing_config_1a6ab6411fbd4c080dde7fccc8be31f875" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingConfig</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_fencing_config_1ac56a6d2deb154c5a7e44d9be1d1e2857" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingConfig</scope><name>stonith_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_fencing_config_1afb68f0233c5b020171d451fee96b19a2" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingConfig</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

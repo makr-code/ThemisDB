@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rpc__grpc" kind="namespace" language="C++">
+    <compoundname>themis::rpc_grpc</compoundname>
+    <innerclass refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor" prot="public">themis::rpc_grpc::RpcServiceDescriptor</innerclass>
+    <innernamespace refid="namespacethemis_1_1rpc__grpc_1_1test">themis::rpc_grpc::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>RpcGrpcError</name>
+        <qualifiedname>themis::rpc_grpc::RpcGrpcError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7a8c632159fa131f09d04f94e3cbcd8782" prot="public">
+          <name>kSuccess</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7a02eb6ba78dea555b7bbf430f6e1644a4" prot="public">
+          <name>kServerNotRunning</name>
+          <initializer>= 8300</initializer>
+          <briefdescription>
+<para>Server is not in Active state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7aa2044cdc44fa2dfeb4f55da1187020fb" prot="public">
+          <name>kServiceRegistration</name>
+          <initializer>= 8301</initializer>
+          <briefdescription>
+<para>Service registration conflict or failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7ae075bdc8d1d07b0fddae4fae3691bbc2" prot="public">
+          <name>kCredentialLoadFailed</name>
+          <initializer>= 8302</initializer>
+          <briefdescription>
+<para>TLS/mTLS certificate or key load failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7ac1697e5aa7b390c96a51a1662e0ec3a5" prot="public">
+          <name>kStreamAborted</name>
+          <initializer>= 8303</initializer>
+          <briefdescription>
+<para>gRPC stream aborted by transport or peer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7aa0fcc6e288e7806a406405f780cdaf0f" prot="public">
+          <name>kMethodNotFound</name>
+          <initializer>= 8304</initializer>
+          <briefdescription>
+<para>Requested RPC method is not registered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7adbe4fbec4b2cb2c2709a455206fed67f" prot="public">
+          <name>kTransportError</name>
+          <initializer>= 8305</initializer>
+          <briefdescription>
+<para>Underlying network or transport error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7afcd417a134c251034b0d61b07c826394" prot="public">
+          <name>kInternalError</name>
+          <initializer>= 8306</initializer>
+          <briefdescription>
+<para>Unclassified internal error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical error codes for the <ref refid="namespacethemis_1_1rpc__grpc" kindref="compound">rpc_grpc</ref> module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All gRPC server/plugin operations return or throw with one of these codes. Values are in the reserved range [8300, 8399]. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="77" column="1" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="77" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>RpcServerState</name>
+        <qualifiedname>themis::rpc_grpc::RpcServerState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177ac23e2b09ebe6bf4cb5e2a9abe85c0be2" prot="public">
+          <name>Stopped</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Server is not running and not accepting connections. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177ac2efe4bbd13e6cb0db293e72884273c0" prot="public">
+          <name>Starting</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Server start in progress (transient). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177a4d3d769b812b6faa6b76e1a8abaece2d" prot="public">
+          <name>Active</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Server running and accepting requests. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc__grpc_1a68ab76b0d0c9daf9b7525a59166c7177a7b7ecb39b9e110c2a31409a1672bad23" prot="public">
+          <name>Stopping</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Server shutdown in progress (transient). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>gRPC server lifecycle states. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Valid forward transitions: Stopped → Starting → Active → Stopping → Stopped. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="97" column="1" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="97" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1rpc__grpc_1a2bcf5a5e6698fd52bfd02e2ab5ecf940" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::rpc_grpc::kDefaultKeepaliveTime</definition>
+        <argsstring></argsstring>
+        <name>kDefaultKeepaliveTime</name>
+        <qualifiedname>themis::rpc_grpc::kDefaultKeepaliveTime</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Default gRPC keepalive time (ping interval when idle). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="109" column="39" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1rpc__grpc_1a78a90ccd64e8ef4d5bccd1e88f052117" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rpc_grpc::kDefaultMaxReceiveMessageBytes</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxReceiveMessageBytes</name>
+        <qualifiedname>themis::rpc_grpc::kDefaultMaxReceiveMessageBytes</qualifiedname>
+        <initializer>= 4u * 1024u * 1024u</initializer>
+        <briefdescription>
+<para>Default maximum receive message size in bytes (4 MiB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="112" column="30" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1rpc__grpc_1a7f279e7fdf758d2d425107995435c72a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rpc_grpc::kMaxServiceNameBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxServiceNameBytes</name>
+        <qualifiedname>themis::rpc_grpc::kMaxServiceNameBytes</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum service name length in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="115" column="30" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1rpc__grpc_1ae8c715d4b4ba470fb30a2840048721ce" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rpc_grpc::kMaxMethodNameBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxMethodNameBytes</name>
+        <qualifiedname>themis::rpc_grpc::kMaxMethodNameBytes</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Maximum RPC method name length in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="118" column="30" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1aa7ccf3625f2291445b80bd628ea2b649" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rpc_grpc::isRpcGrpcFailClosed</definition>
+        <argsstring>(RpcGrpcError e) noexcept</argsstring>
+        <name>isRpcGrpcFailClosed</name>
+        <qualifiedname>themis::rpc_grpc::isRpcGrpcFailClosed</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rpc__grpc_1a9d60fc7ffbc597e5e27b0e3ddbb43ef7" kindref="member">RpcGrpcError</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the given error mandates fail-closed denial. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="141" column="24" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="141" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="65" column="1"/>
+  </compounddef>
+</doxygen>

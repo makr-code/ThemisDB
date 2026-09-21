@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_hopping_window_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::HoppingWindowConfig</compoundname>
+    <includes refid="streaming__window_8h" local="no">streaming_window.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_hopping_window_config_1a32966cebe80b7ae6ad12eecab13599e8" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::HoppingWindowConfig::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themisdb::analytics::HoppingWindowConfig::size</qualifiedname>
+        <initializer>{60000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="215" column="31" bodyfile="include/analytics/streaming_window.h" bodystart="215" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_hopping_window_config_1a1312531feb17a715f228e898b936fd76" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::HoppingWindowConfig::hop</definition>
+        <argsstring></argsstring>
+        <name>hop</name>
+        <qualifiedname>themisdb::analytics::HoppingWindowConfig::hop</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="216" column="31" bodyfile="include/analytics/streaming_window.h" bodystart="216" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_hopping_window_config_1a9b97965c3cee2dcf99cebeb0242db5ee" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_watermark_config" kindref="compound">WatermarkConfig</ref></type>
+        <definition>WatermarkConfig themisdb::analytics::HoppingWindowConfig::watermark</definition>
+        <argsstring></argsstring>
+        <name>watermark</name>
+        <qualifiedname>themisdb::analytics::HoppingWindowConfig::watermark</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="217" column="21" bodyfile="include/analytics/streaming_window.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_hopping_window_config_1ac32caa56f0aad63ff39ee50f6688b46d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::HoppingWindowConfig::max_open_windows</definition>
+        <argsstring></argsstring>
+        <name>max_open_windows</name>
+        <qualifiedname>themisdb::analytics::HoppingWindowConfig::max_open_windows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="218" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_hopping_window_config_1adf2a949c790b27b176b525ddbabbcdd3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::HoppingWindowConfig::max_records_per_window</definition>
+        <argsstring></argsstring>
+        <name>max_records_per_window</name>
+        <qualifiedname>themisdb::analytics::HoppingWindowConfig::max_records_per_window</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="219" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_hopping_window_config_1aa2128c68115c2ab7d4de6e8e62c50d48" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::HoppingWindowConfig::max_distinct_partition_keys</definition>
+        <argsstring></argsstring>
+        <name>max_distinct_partition_keys</name>
+        <qualifiedname>themisdb::analytics::HoppingWindowConfig::max_distinct_partition_keys</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="220" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::analytics::HoppingWindowConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_hopping_window_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>watermark</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::WatermarkConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_watermark_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/streaming_window.h" line="214" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="214" bodyend="221"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1a1312531feb17a715f228e898b936fd76" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindowConfig</scope><name>hop</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1aa2128c68115c2ab7d4de6e8e62c50d48" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindowConfig</scope><name>max_distinct_partition_keys</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1ac32caa56f0aad63ff39ee50f6688b46d" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindowConfig</scope><name>max_open_windows</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1adf2a949c790b27b176b525ddbabbcdd3" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindowConfig</scope><name>max_records_per_window</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1a32966cebe80b7ae6ad12eecab13599e8" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindowConfig</scope><name>size</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1a9b97965c3cee2dcf99cebeb0242db5ee" prot="public" virt="non-virtual"><scope>themisdb::analytics::HoppingWindowConfig</scope><name>watermark</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

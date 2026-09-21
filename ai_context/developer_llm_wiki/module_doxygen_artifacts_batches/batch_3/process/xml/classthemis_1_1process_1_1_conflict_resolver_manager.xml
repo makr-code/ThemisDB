@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_conflict_resolver_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::process::ConflictResolverManager</compoundname>
+    <includes refid="process__conflict__resolution__callback_8h" local="no">process_conflict_resolution_callback.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolver_manager_1ab6f7dc171cafd66e00471f56e9273812" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::process::ConflictResolverManager::RegisterResolver</definition>
+        <argsstring>(std::shared_ptr&lt; ProcessConflictResolverCallback &gt; resolver)=0</argsstring>
+        <name>RegisterResolver</name>
+        <qualifiedname>themis::process::ConflictResolverManager::RegisterResolver</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_conflict_resolver_callback" kindref="compound">ProcessConflictResolverCallback</ref> &gt;</type>
+          <declname>resolver</declname>
+        </param>
+        <briefdescription>
+<para>Register application-provided conflict resolver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Resolver implementation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Only one resolver active at a time; new registration replaces old </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="188" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolver_manager_1aa4ae7768aa719ff23c46d80e7a241a09" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::process::ConflictResolverManager::ResolveConflict</definition>
+        <argsstring>(const ConflictMetadata &amp;metadata)=0</argsstring>
+        <name>ResolveConflict</name>
+        <qualifiedname>themis::process::ConflictResolverManager::ResolveConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_conflict_metadata" kindref="compound">ConflictMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Resolve conflict using registered resolver or LWW fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conflict metadata </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>ID of winning version</para>
+</simplesect>
+<simplesect kind="note"><para>If no resolver registered, uses LWW fallback </para>
+</simplesect>
+<simplesect kind="note"><para>If resolver throws exception, uses LWW fallback (incident emitted) </para>
+</simplesect>
+<simplesect kind="note"><para>If resolver timeout (5s), uses LWW fallback (incident emitted) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="201" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolver_manager_1a8a771bd63f8cf729c593977c85934529" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22" kindref="member">ConflictResolutionStrategy</ref></type>
+        <definition>virtual ConflictResolutionStrategy themis::process::ConflictResolverManager::GetCurrentStrategy</definition>
+        <argsstring>() const =0</argsstring>
+        <name>GetCurrentStrategy</name>
+        <qualifiedname>themis::process::ConflictResolverManager::GetCurrentStrategy</qualifiedname>
+        <briefdescription>
+<para>Get current resolution strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Active strategy (LWW, FWW, ApplicationCallback, Unconfigured) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="207" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolver_manager_1a72cafd1e5fc6e6f54db3ef44b8a4c803" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::process::ConflictResolverManager::UnregisterResolver</definition>
+        <argsstring>()=0</argsstring>
+        <name>UnregisterResolver</name>
+        <qualifiedname>themis::process::ConflictResolverManager::UnregisterResolver</qualifiedname>
+        <briefdescription>
+<para>Unregister resolver; fall back to LWW. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="212" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_conflict_resolver_manager_1adbdde7a5b34cade20156414d62619fbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::process::ConflictResolverManager::~ConflictResolverManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ConflictResolverManager</name>
+        <qualifiedname>themis::process::ConflictResolverManager::~ConflictResolverManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_conflict_resolution_callback.h" line="214" column="11"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Conflict resolution callback manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages resolver registration, invocation, error handling, and fallback.</para>
+<para><simplesect kind="note"><para>Actual implementation in <ref refid="process__conflict__resolver_8cpp" kindref="compound">src/process/process_conflict_resolver.cpp</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_conflict_resolution_callback.h" line="180" column="1" bodyfile="include/process/process_conflict_resolution_callback.h" bodystart="180" bodyend="215"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_conflict_resolver_manager_1a8a771bd63f8cf729c593977c85934529" prot="public" virt="pure-virtual"><scope>themis::process::ConflictResolverManager</scope><name>GetCurrentStrategy</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolver_manager_1ab6f7dc171cafd66e00471f56e9273812" prot="public" virt="pure-virtual"><scope>themis::process::ConflictResolverManager</scope><name>RegisterResolver</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolver_manager_1aa4ae7768aa719ff23c46d80e7a241a09" prot="public" virt="pure-virtual"><scope>themis::process::ConflictResolverManager</scope><name>ResolveConflict</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolver_manager_1a72cafd1e5fc6e6f54db3ef44b8a4c803" prot="public" virt="pure-virtual"><scope>themis::process::ConflictResolverManager</scope><name>UnregisterResolver</name></member>
+      <member refid="classthemis_1_1process_1_1_conflict_resolver_manager_1adbdde7a5b34cade20156414d62619fbd" prot="public" virt="virtual"><scope>themis::process::ConflictResolverManager</scope><name>~ConflictResolverManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

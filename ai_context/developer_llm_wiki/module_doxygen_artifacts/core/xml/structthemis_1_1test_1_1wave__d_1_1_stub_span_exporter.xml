@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::StubSpanExporter</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1a6cdd4919e94812b8202d4935cde912f8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::wave_d::StubSpanExporter::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::test::wave_d::StubSpanExporter::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="111" column="24" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1aa3d0abc847c35d08a24fe57a570f0bad" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, std::string &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, std::string&gt; themis::test::wave_d::StubSpanExporter::spans_</definition>
+        <argsstring></argsstring>
+        <name>spans_</name>
+        <qualifiedname>themis::test::wave_d::StubSpanExporter::spans_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="112" column="24" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1af55c2171d9f5deab68d7d4ff6d0cc3fc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubSpanExporter::exports_</definition>
+        <argsstring></argsstring>
+        <name>exports_</name>
+        <qualifiedname>themis::test::wave_d::StubSpanExporter::exports_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="113" column="17" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1a8897fadb68c799eca4db63edb1982ac7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubSpanExporter::lag_</definition>
+        <argsstring></argsstring>
+        <name>lag_</name>
+        <qualifiedname>themis::test::wave_d::StubSpanExporter::lag_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="114" column="17" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1a2e4051af36b0374ae44bc5a653181175" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubSpanExporter::exportSpan</definition>
+        <argsstring>(uint64_t span_id, const std::string &amp;name)</argsstring>
+        <name>exportSpan</name>
+        <qualifiedname>themis::test::wave_d::StubSpanExporter::exportSpan</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>span_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="100" column="10" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="100" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1aa3bc47d71f77fd20cbdecab7f3b5232e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubSpanExporter::exports</definition>
+        <argsstring>() const</argsstring>
+        <name>exports</name>
+        <qualifiedname>themis::test::wave_d::StubSpanExporter::exports</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="107" column="10" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1a446330ccf8d680022901219fff93aefd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubSpanExporter::lag</definition>
+        <argsstring>() const</argsstring>
+        <name>lag</name>
+        <qualifiedname>themis::test::wave_d::StubSpanExporter::lag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="108" column="10" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/core/test_core_highcardinality_stress.cpp" line="99" column="1" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="99" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1aa3bc47d71f77fd20cbdecab7f3b5232e" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubSpanExporter</scope><name>exports</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1af55c2171d9f5deab68d7d4ff6d0cc3fc" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubSpanExporter</scope><name>exports_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1a2e4051af36b0374ae44bc5a653181175" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubSpanExporter</scope><name>exportSpan</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1a446330ccf8d680022901219fff93aefd" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubSpanExporter</scope><name>lag</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1a8897fadb68c799eca4db63edb1982ac7" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubSpanExporter</scope><name>lag_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1a6cdd4919e94812b8202d4935cde912f8" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubSpanExporter</scope><name>mu_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_span_exporter_1aa3d0abc847c35d08a24fe57a570f0bad" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubSpanExporter</scope><name>spans_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

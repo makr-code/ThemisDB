@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::QuotaTracker::UserQuota</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota_1a265e7c9311a5b2b7b78a94b207ec17db" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaTracker::UserQuota::daily_requests_used</definition>
+        <argsstring></argsstring>
+        <name>daily_requests_used</name>
+        <qualifiedname>themis::llm::QuotaTracker::UserQuota::daily_requests_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="157" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota_1ae95ce44168196ccf47707727d3372ec4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaTracker::UserQuota::monthly_requests_used</definition>
+        <argsstring></argsstring>
+        <name>monthly_requests_used</name>
+        <qualifiedname>themis::llm::QuotaTracker::UserQuota::monthly_requests_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="158" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota_1aacbbf77491ea9c85446478426670f5bf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaTracker::UserQuota::inference_minutes_used</definition>
+        <argsstring></argsstring>
+        <name>inference_minutes_used</name>
+        <qualifiedname>themis::llm::QuotaTracker::UserQuota::inference_minutes_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="159" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota_1aa1de888e31c564669b6bf680eb6eea04" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaTracker::UserQuota::vram_hours_used</definition>
+        <argsstring></argsstring>
+        <name>vram_hours_used</name>
+        <qualifiedname>themis::llm::QuotaTracker::UserQuota::vram_hours_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="160" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota_1ad5fdf707f767091722038dd0b43ca56e" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::QuotaTracker::UserQuota::last_reset</definition>
+        <argsstring></argsstring>
+        <name>last_reset</name>
+        <qualifiedname>themis::llm::QuotaTracker::UserQuota::last_reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="161" column="47" bodyfile="include/llm/vision_resource_monitor.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_resource_monitor.h" line="156" column="5" bodyfile="include/llm/vision_resource_monitor.h" bodystart="156" bodyend="162"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota_1a265e7c9311a5b2b7b78a94b207ec17db" prot="public" virt="non-virtual"><scope>themis::llm::QuotaTracker::UserQuota</scope><name>daily_requests_used</name></member>
+      <member refid="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota_1aacbbf77491ea9c85446478426670f5bf" prot="public" virt="non-virtual"><scope>themis::llm::QuotaTracker::UserQuota</scope><name>inference_minutes_used</name></member>
+      <member refid="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota_1ad5fdf707f767091722038dd0b43ca56e" prot="public" virt="non-virtual"><scope>themis::llm::QuotaTracker::UserQuota</scope><name>last_reset</name></member>
+      <member refid="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota_1ae95ce44168196ccf47707727d3372ec4" prot="public" virt="non-virtual"><scope>themis::llm::QuotaTracker::UserQuota</scope><name>monthly_requests_used</name></member>
+      <member refid="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota_1aa1de888e31c564669b6bf680eb6eea04" prot="public" virt="non-virtual"><scope>themis::llm::QuotaTracker::UserQuota</scope><name>vram_hours_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

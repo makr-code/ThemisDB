@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_flight_put_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::FlightPutResult</compoundname>
+    <includes refid="arrow__flight_8h" local="no">arrow_flight.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_flight_put_result_1af5794bf3b1af0c07147dddc5972d5acc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::FlightPutResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::analytics::FlightPutResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="115" column="10" bodyfile="include/analytics/arrow_flight.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_flight_put_result_1a6d8d938a7f45c42d6794999634099ef4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::FlightPutResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themisdb::analytics::FlightPutResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="116" column="17" bodyfile="include/analytics/arrow_flight.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_flight_put_result_1aedf823230f076874905cbf92fc56fcd2" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::FlightPutResult::rows_accepted</definition>
+        <argsstring></argsstring>
+        <name>rows_accepted</name>
+        <qualifiedname>themisdb::analytics::FlightPutResult::rows_accepted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="117" column="13" bodyfile="include/analytics/arrow_flight.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_flight_put_result_1a46b5ab8481c72d4f976dfa7f43f80d7a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::FlightPutResult::bytes_transferred</definition>
+        <argsstring></argsstring>
+        <name>bytes_transferred</name>
+        <qualifiedname>themisdb::analytics::FlightPutResult::bytes_transferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="118" column="13" bodyfile="include/analytics/arrow_flight.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/arrow_flight.h" line="114" column="1" bodyfile="include/analytics/arrow_flight.h" bodystart="114" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_put_result_1a46b5ab8481c72d4f976dfa7f43f80d7a" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightPutResult</scope><name>bytes_transferred</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_put_result_1a6d8d938a7f45c42d6794999634099ef4" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightPutResult</scope><name>message</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_put_result_1aedf823230f076874905cbf92fc56fcd2" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightPutResult</scope><name>rows_accepted</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_put_result_1af5794bf3b1af0c07147dddc5972d5acc" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightPutResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

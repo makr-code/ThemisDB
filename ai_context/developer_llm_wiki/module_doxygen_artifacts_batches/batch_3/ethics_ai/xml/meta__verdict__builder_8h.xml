@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="meta__verdict__builder_8h" kind="file" language="C++">
+    <compoundname>meta_verdict_builder.h</compoundname>
+    <includes refid="ethics__ai__types_8h" local="yes">ethics_ai/ethics_ai_types.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__ldm_8cpp" local="yes">benchmarks/ethics_ai/bench_ldm.cpp</includedby>
+    <includedby refid="meta__verdict__builder_8cpp" local="yes">src/ethics_ai/meta_verdict_builder.cpp</includedby>
+    <includedby refid="test__ethics__ai__community__separability_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_community_separability.cpp</includedby>
+    <includedby refid="test__ethics__ai__eu__artifact__norms__focused_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_eu_artifact_norms_focused.cpp</includedby>
+    <includedby refid="test__ethics__ai__eu__compliance_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_eu_compliance.cpp</includedby>
+    <includedby refid="test__ethics__ai__euai__compliance__focused_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_euai_compliance_focused.cpp</includedby>
+    <includedby refid="test__ethics__ai__ldm__contract__focused_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_ldm_contract_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>ethics_ai/ethics_ai_types.h</label>
+        <link refid="ethics__ai__types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ethics_ai/meta_verdict_builder.h</label>
+        <link refid="meta__verdict__builder_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/ethics_ai/bench_ldm.cpp</label>
+        <link refid="bench__ldm_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/ethics_ai/meta_verdict_builder.h</label>
+        <link refid="meta__verdict__builder_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/ethics_ai/meta_verdict_builder.cpp</label>
+        <link refid="meta__verdict__builder_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/ethics_ai/test_ethics_ai_community_separability.cpp</label>
+        <link refid="test__ethics__ai__community__separability_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/ethics_ai/test_ethics_ai_eu_artifact_norms_focused.cpp</label>
+        <link refid="test__ethics__ai__eu__artifact__norms__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/ethics_ai/test_ethics_ai_eu_compliance.cpp</label>
+        <link refid="test__ethics__ai__eu__compliance_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/ethics_ai/test_ethics_ai_euai_compliance_focused.cpp</label>
+        <link refid="test__ethics__ai__euai__compliance__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/ethics_ai/test_ethics_ai_ldm_contract_focused.cpp</label>
+        <link refid="test__ethics__ai__ldm__contract__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder" prot="public">themis::plugins::ethics::MetaVerdictBuilder</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1ethics">themis::plugins::ethics</innernamespace>
+    <briefdescription>
+<para>Ebene-3 convergence-counting MetaVerdict assembler for the LDM. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>MetaVerdictBuilder combines Ebene-1 school verdicts, Ebene-2 cluster positions, legal-DB grounding, and mirror-school minority-dissent output into a single <computeroutput>MetaVerdict</computeroutput> that is EU AI Act Art. 13 compliant.</para>
+<para>Convergence formula: <programlisting><codeline><highlight class="normal">convergence_score(v)<sp/>=<sp/>|{schools:<sp/>Ebene-1<sp/>verdict<sp/>==<sp/>v}|<sp/>/<sp/>N_active</highlight></codeline>
+</programlisting> where N_active = number of non-ABSTAIN schools in Ebene-1.</para>
+<para>Edge cases:<itemizedlist>
+<listitem><para>N_active == 0 (all ABSTAIN) → DISSENT MetaVerdict; EthicsErrorCode::LDM_ALL_ABSTAINED.</para>
+</listitem><listitem><para>Legal-DB unavailable → <computeroutput>legal_grounding.grounding_available = false</computeroutput>; no exception.</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="meta__verdict__builder_8h_1autotoc_md1_1s1"><sect2 id="meta__verdict__builder_8h_1autotoc_md1">
+<title>Thread safety</title><para><computeroutput>buildMetaVerdict()</computeroutput> is stateless (all inputs are const references); it is safe to call from multiple threads simultaneously. <computeroutput>setLegalGrounding()</computeroutput> must be called before the first <computeroutput>buildMetaVerdict()</computeroutput> call (not thread-safe).</para>
+<para><simplesect kind="since"><para>LDM-4 (Target: Q2 2027) </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__ai__types_8h" kindref="compound">ethics_ai/ethics_ai_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1ethics" kindref="compound">ethics</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref>()<sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a193345faa237fccb745717b78d90f04f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a193345faa237fccb745717b78d90f04f" kindref="member">~MetaVerdictBuilder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>move-constructible.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a5266bdc6cfee8390d040c4d9cda1fe6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a5266bdc6cfee8390d040c4d9cda1fe6e" kindref="member">MetaVerdictBuilder</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1adf46e6939cd80abc663748a7a77a5846" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1adf46e6939cd80abc663748a7a77a5846" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1aee6dc78560065f475fcc36872727c262" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1aee6dc78560065f475fcc36872727c262" kindref="member">MetaVerdictBuilder</ref>(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1aee759e3d6e7a74d0034e3257b5c98f68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kindref="member">MetaVerdictBuilder</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a4f734c3c82fd8a5b0ac60d3f472e12d2" kindref="member">setLegalGrounding</ref>(<ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" kindref="compound">LegalGrounding</ref><sp/>grounding)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict" kindref="compound">MetaVerdict</ref><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1ad83b4e01134da9bbe29788e50d351d36" kindref="member">buildMetaVerdict</ref>(</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref>&gt;&amp;<sp/>ebene1_results,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position" kindref="compound">ClusterPosition</ref>&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/>cluster_positions,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" kindref="compound">LegalGrounding</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>legal_grounding,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1" kindref="member">DiscourseMode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mode,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref>&gt;&amp;<sp/>mirror_dissent)<sp/>const;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" kindref="compound">LegalGrounding</ref><sp/>grounding_;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>culturalRegion(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>school_id)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ethics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ethics_ai/meta_verdict_builder.h"/>
+  </compounddef>
+</doxygen>

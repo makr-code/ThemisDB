@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_federation_replica_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::FederationReplicaConfig</compoundname>
+    <includes refid="federation__replica__manager_8h" local="no">federation_replica_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_federation_replica_config_1a312d3b30a1d53d7b71dac8cb10fb3b63" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationReplicaConfig::snapshot_interval_entries</definition>
+        <argsstring></argsstring>
+        <name>snapshot_interval_entries</name>
+        <qualifiedname>themis::process::FederationReplicaConfig::snapshot_interval_entries</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="26" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_federation_replica_config_1ac9e0a1fee1cb93bca7a8419e7e3c37db" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::FederationReplicaConfig::batch_apply_size</definition>
+        <argsstring></argsstring>
+        <name>batch_apply_size</name>
+        <qualifiedname>themis::process::FederationReplicaConfig::batch_apply_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_replica_manager.h" line="27" column="12" bodyfile="include/process/federation_replica_manager.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for replica manager. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/federation_replica_manager.h" line="25" column="1" bodyfile="include/process/federation_replica_manager.h" bodystart="25" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_federation_replica_config_1ac9e0a1fee1cb93bca7a8419e7e3c37db" prot="public" virt="non-virtual"><scope>themis::process::FederationReplicaConfig</scope><name>batch_apply_size</name></member>
+      <member refid="structthemis_1_1process_1_1_federation_replica_config_1a312d3b30a1d53d7b71dac8cb10fb3b63" prot="public" virt="non-virtual"><scope>themis::process::FederationReplicaConfig</scope><name>snapshot_interval_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

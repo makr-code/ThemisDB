@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_safety_controls_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::SafetyControlsIntegrationTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_safety_controls_integration_test_1a7eeb37de1d3f743c6010a21332bd050e" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DistributedAnalyticsSharding&gt; themisdb::analytics::SafetyControlsIntegrationTest::coordinator</definition>
+        <argsstring></argsstring>
+        <name>coordinator</name>
+        <qualifiedname>themisdb::analytics::SafetyControlsIntegrationTest::coordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="509" column="21" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="509" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_safety_controls_integration_test_1a8e54ad0fefab852e6996d16d5642ff2a" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_mock_shard_executor" kindref="compound">MockShardExecutor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockShardExecutor&gt; themisdb::analytics::SafetyControlsIntegrationTest::executor</definition>
+        <argsstring></argsstring>
+        <name>executor</name>
+        <qualifiedname>themisdb::analytics::SafetyControlsIntegrationTest::executor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="510" column="21" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="510" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_safety_controls_integration_test_1a0c63ccca28e522147719ffbab0a6b20a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::SafetyControlsIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themisdb::analytics::SafetyControlsIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="494" column="10" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="494" bodyend="507"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::SafetyControlsIntegrationTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_safety_controls_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::SafetyControlsIntegrationTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_safety_controls_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="492" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="492" bodyend="511"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_safety_controls_integration_test_1a7eeb37de1d3f743c6010a21332bd050e" prot="protected" virt="non-virtual"><scope>themisdb::analytics::SafetyControlsIntegrationTest</scope><name>coordinator</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_safety_controls_integration_test_1a8e54ad0fefab852e6996d16d5642ff2a" prot="protected" virt="non-virtual"><scope>themisdb::analytics::SafetyControlsIntegrationTest</scope><name>executor</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_safety_controls_integration_test_1a0c63ccca28e522147719ffbab0a6b20a" prot="protected" virt="non-virtual"><scope>themisdb::analytics::SafetyControlsIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>themisdb::analytics::SafetyControlsIntegrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

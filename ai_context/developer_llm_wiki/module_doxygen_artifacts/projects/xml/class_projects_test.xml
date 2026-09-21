@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_projects_test" kind="class" language="C++" prot="public">
+    <compoundname>ProjectsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_projects_test_1a3a71edcc7db38841a9535e7a493a88f7" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* ProjectsTest::kDbPath</definition>
+        <argsstring></argsstring>
+        <name>kDbPath</name>
+        <qualifiedname>ProjectsTest::kDbPath</qualifiedname>
+        <initializer>= &quot;./data/test_projects_db&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects.cpp" line="73" column="33" bodyfile="tests/projects/test_projects.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_projects_test_1a20116393e9642b71d309b360f12d5b06" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; ProjectsTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>ProjectsTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects.cpp" line="91" column="21" bodyfile="tests/projects/test_projects.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_projects_test_1a0f77a525aa30a0f97319a84906f1bf11" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProjectsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ProjectsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects.cpp" line="75" column="10" bodyfile="tests/projects/test_projects.cpp" bodystart="75" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_projects_test_1aa126ca2e2234671fc96959f70f5ac028" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProjectsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ProjectsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/projects/test_projects.cpp" line="85" column="10" bodyfile="tests/projects/test_projects.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ProjectsTest</label>
+        <link refid="class_projects_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ProjectsTest</label>
+        <link refid="class_projects_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/projects/test_projects.cpp" line="71" column="1" bodyfile="tests/projects/test_projects.cpp" bodystart="71" bodyend="92"/>
+    <listofallmembers>
+      <member refid="class_projects_test_1a3a71edcc7db38841a9535e7a493a88f7" prot="protected" virt="non-virtual"><scope>ProjectsTest</scope><name>kDbPath</name></member>
+      <member refid="class_projects_test_1a0f77a525aa30a0f97319a84906f1bf11" prot="protected" virt="non-virtual"><scope>ProjectsTest</scope><name>SetUp</name></member>
+      <member refid="class_projects_test_1a20116393e9642b71d309b360f12d5b06" prot="protected" virt="non-virtual"><scope>ProjectsTest</scope><name>storage_</name></member>
+      <member refid="class_projects_test_1aa126ca2e2234671fc96959f70f5ac028" prot="protected" virt="non-virtual"><scope>ProjectsTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

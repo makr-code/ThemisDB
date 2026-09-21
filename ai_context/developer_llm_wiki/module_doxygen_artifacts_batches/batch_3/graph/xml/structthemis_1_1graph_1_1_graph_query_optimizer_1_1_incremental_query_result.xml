@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer::IncrementalQueryResult</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result_1a9ac5215c0c2a0a734385cd247e0ff76a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GraphQueryOptimizer::IncrementalQueryResult::added</definition>
+        <argsstring></argsstring>
+        <name>added</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryResult::added</qualifiedname>
+        <briefdescription>
+<para>Vertices newly reachable after the change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="339" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result_1a5ee5ff4ecf0c11cfa69d36b5c3fe32dd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GraphQueryOptimizer::IncrementalQueryResult::removed</definition>
+        <argsstring></argsstring>
+        <name>removed</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryResult::removed</qualifiedname>
+        <briefdescription>
+<para>Vertices no longer reachable after the change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="340" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result_1aec032887a671fe0b4dc779b472524b86" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GraphQueryOptimizer::IncrementalQueryResult::current</definition>
+        <argsstring></argsstring>
+        <name>current</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryResult::current</qualifiedname>
+        <briefdescription>
+<para>Complete current result set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="341" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result_1a255729b43c7dea177c19f4db26d1b423" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::IncrementalQueryResult::reexecuted</definition>
+        <argsstring></argsstring>
+        <name>reexecuted</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryResult::reexecuted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if the query was actually re-executed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="342" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result_1a714ec4fbbde096901a29fb0c2cb262c2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats" kindref="compound">ExecutionStats</ref></type>
+        <definition>ExecutionStats themis::graph::GraphQueryOptimizer::IncrementalQueryResult::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::IncrementalQueryResult::stats</qualifiedname>
+        <briefdescription>
+<para>Execution statistics of the re-execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="343" column="24" bodyfile="include/graph/graph_query_optimizer.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::graph::GraphQueryOptimizer::ExecutionStats</label>
+        <link refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_execution_stats"/>
+      </node>
+      <node id="1">
+        <label>themis::graph::GraphQueryOptimizer::IncrementalQueryResult</label>
+        <link refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/graph/graph_query_optimizer.h" line="338" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="338" bodyend="344"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result_1a9ac5215c0c2a0a734385cd247e0ff76a" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::IncrementalQueryResult</scope><name>added</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result_1aec032887a671fe0b4dc779b472524b86" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::IncrementalQueryResult</scope><name>current</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result_1a255729b43c7dea177c19f4db26d1b423" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::IncrementalQueryResult</scope><name>reexecuted</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result_1a5ee5ff4ecf0c11cfa69d36b5c3fe32dd" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::IncrementalQueryResult</scope><name>removed</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_incremental_query_result_1a714ec4fbbde096901a29fb0c2cb262c2" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::IncrementalQueryResult</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

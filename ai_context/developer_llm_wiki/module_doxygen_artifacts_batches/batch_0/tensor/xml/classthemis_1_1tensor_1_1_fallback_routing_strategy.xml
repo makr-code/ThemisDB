@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_fallback_routing_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::FallbackRoutingStrategy</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_routing_strategy" prot="public" virt="non-virtual">themis::tensor::IRoutingStrategy</basecompoundref>
+    <includes refid="tensor__error__handling_8h" local="no">tensor_error_handling.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_fallback_routing_strategy_1a1301d71e79ad82dae8f43657309d1da1" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::FallbackRoutingStrategy::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::FallbackRoutingStrategy::name</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ae07d5ac8344484ea0e4d85d77c4a4480">name</reimplements>
+        <briefdescription>
+<para>Get the name of this routing strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="360" column="17" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="405" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_fallback_routing_strategy_1af66f09d611fb57e4be10a991388a4bdc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>RoutingDecision themis::tensor::FallbackRoutingStrategy::route</definition>
+        <argsstring>(const std::vector&lt; BaseTensorSummary &gt; &amp;summaries, std::size_t candidate_count, float compression_ratio, const index::AnnQueryContext &amp;query_context) const override</argsstring>
+        <name>route</name>
+        <qualifiedname>themis::tensor::FallbackRoutingStrategy::route</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a4acfd3d094925721f69dfb41f0b2669e">route</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>candidate_count</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>compression_ratio</declname>
+        </param>
+        <param>
+          <type>const index::AnnQueryContext &amp;</type>
+          <declname>query_context</declname>
+        </param>
+        <briefdescription>
+<para>Make a routing decision for tensor-layer results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tensor summaries produced by compression. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total candidates before compression. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compression_ratio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Achieved compression ratio. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original ANN query context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Routing decision specifying where to forward results. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="362" column="21" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="409" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_fallback_routing_strategy_1a29ed058fd6100195efba9f9d92e23911" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::FallbackRoutingStrategy::shouldRetryOnFailure</definition>
+        <argsstring>(const std::string &amp;reason, int attempt_count, int max_attempts) const noexcept override</argsstring>
+        <name>shouldRetryOnFailure</name>
+        <qualifiedname>themis::tensor::FallbackRoutingStrategy::shouldRetryOnFailure</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ab7c3f15ff0659c25544328688ec3c671">shouldRetryOnFailure</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>attempt_count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_attempts</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate whether to retry on routing failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Failure reason from primary path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attempt_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of retry attempts so far. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_attempts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum allowed retry attempts. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if should retry with fallback strategy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="368" column="10" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="423" bodyend="431"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_fallback_routing_strategy_1a9cb38598e4837150519d5c26678e4f67" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>RoutingDecision themis::tensor::FallbackRoutingStrategy::createSafeDefault</definition>
+        <argsstring>(const std::vector&lt; BaseTensorSummary &gt; &amp;summaries) const noexcept</argsstring>
+        <name>createSafeDefault</name>
+        <qualifiedname>themis::tensor::FallbackRoutingStrategy::createSafeDefault</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <briefdescription>
+<para>Create a conservative default routing decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="375" column="22" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="433" bodyend="448"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fallback routing strategy that never fails. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides safe default routing decisions even under stress conditions. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::tensor::FallbackRoutingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_fallback_routing_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IRoutingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_routing_strategy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::tensor::FallbackRoutingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_fallback_routing_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IRoutingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_routing_strategy"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_error_handling.h" line="358" column="1" bodyfile="include/tensor/tensor_error_handling.h" bodystart="358" bodyend="377"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_fallback_routing_strategy_1a9cb38598e4837150519d5c26678e4f67" prot="private" virt="non-virtual"><scope>themis::tensor::FallbackRoutingStrategy</scope><name>createSafeDefault</name></member>
+      <member refid="classthemis_1_1tensor_1_1_fallback_routing_strategy_1a1301d71e79ad82dae8f43657309d1da1" prot="public" virt="virtual"><scope>themis::tensor::FallbackRoutingStrategy</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_fallback_routing_strategy_1af66f09d611fb57e4be10a991388a4bdc" prot="public" virt="virtual"><scope>themis::tensor::FallbackRoutingStrategy</scope><name>route</name></member>
+      <member refid="classthemis_1_1tensor_1_1_fallback_routing_strategy_1a29ed058fd6100195efba9f9d92e23911" prot="public" virt="virtual"><scope>themis::tensor::FallbackRoutingStrategy</scope><name>shouldRetryOnFailure</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a9b1482d4c6307d526debca572c637a5c" prot="public" virt="virtual"><scope>themis::tensor::FallbackRoutingStrategy</scope><name>~IRoutingStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

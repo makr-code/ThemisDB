@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_latency_record" kind="struct" language="C++" prot="private">
+    <compoundname>themis::sharding::LocalityAwareRouter::LatencyRecord</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_latency_record_1a4d4ceee40c43f45ba2438e6851fda0e1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LocalityAwareRouter::LatencyRecord::rtt_ms</definition>
+        <argsstring></argsstring>
+        <name>rtt_ms</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::LatencyRecord::rtt_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="193" column="18" bodyfile="include/sharding/locality_aware_router.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_latency_record_1a948663fbd64ddb3f357d5e6c6838338c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::LocalityAwareRouter::LatencyRecord::last_update</definition>
+        <argsstring></argsstring>
+        <name>last_update</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::LatencyRecord::last_update</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="194" column="47" bodyfile="include/sharding/locality_aware_router.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/locality_aware_router.h" line="192" column="5" bodyfile="include/sharding/locality_aware_router.h" bodystart="192" bodyend="195"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_latency_record_1a948663fbd64ddb3f357d5e6c6838338c" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::LatencyRecord</scope><name>last_update</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_latency_record_1a4d4ceee40c43f45ba2438e6851fda0e1" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::LatencyRecord</scope><name>rtt_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

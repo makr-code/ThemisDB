@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="themis__api__contract_8h" kind="file" language="C++">
+    <compoundname>themis_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__themis__release__gates_8cpp" local="yes">benchmarks/themis/bench_themis_release_gates.cpp</includedby>
+    <includedby refid="test__themis__contract__hardening__focused_8cpp" local="yes">tests/themis/test_themis_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/themis_api_contract.h</label>
+        <link refid="themis__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/themis/bench_themis_release_gates.cpp</label>
+        <link refid="bench__themis__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/themis/themis_api_contract.h</label>
+        <link refid="themis__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/themis/test_themis_contract_hardening_focused.cpp</label>
+        <link refid="test__themis__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1engine">themis::engine</innernamespace>
+    <briefdescription>
+<para>Frozen API contract for the ThemisDB themis (engine core) module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="themis__api__contract_8h_1purpose">
+<title>Purpose</title><para>The themis module exposes the engine&apos;s build metadata, edition identifiers, and capability discovery. It is the authoritative source of version and edition information at runtime.</para>
+</sect1>
+<sect1 id="themis__api__contract_8h_1contracts">
+<title>API Contracts</title><para><heading level="3">BuildInfo</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>version()</computeroutput> returns a non-empty semver string.</para>
+</listitem><listitem><para><computeroutput>commitHash()</computeroutput> returns a non-empty 40-char SHA-1 or &quot;unknown&quot; in development builds.</para>
+</listitem><listitem><para><computeroutput>buildTimestamp()</computeroutput> is in ISO 8601 format.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Edition</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>current()</computeroutput> returns the compiled edition; it CANNOT be changed at runtime.</para>
+</listitem><listitem><para><computeroutput>isFeatureEnabled()</computeroutput> is deterministic for a given edition + feature key.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="themis__api__contract_8h_1error_taxonomy">
+<title>Error Taxonomy</title><para><table rows="3" cols="2"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>THEMIS_EDITION_MISMATCH  </para>
+</entry><entry thead="no"><para>Runtime edition differs from compiled  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>THEMIS_FEATURE_UNKNOWN  </para>
+</entry><entry thead="no"><para>Feature key not registered  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="themis__api__contract_8h_1threading">
+<title>Threading Guarantees</title><para><itemizedlist>
+<listitem><para>All methods are const/stateless; fully thread-safe.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="themis__api__contract_8h_1contract_freeze">
+<title>Contract Freeze</title><para>Frozen for ThemisDB v2.x. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1engine" kindref="compound">themis::engine</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2b" kindref="member">ThemisError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba4c5751fc04ccb88a2c947fde6f379e15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba4c5751fc04ccb88a2c947fde6f379e15" kindref="member">kEditionMismatch</ref><sp/>=<sp/>7800,</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba146d42c893284d42f9a45c946b20662c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba146d42c893284d42f9a45c946b20662c" kindref="member">kFeatureUnknown</ref><sp/><sp/>=<sp/>7801,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759b" kindref="member">Edition</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba8b1164c65f88adb0ab22378f0fde15af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba8b1164c65f88adb0ab22378f0fde15af" kindref="member">kMinimal</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba1340469a0e6e43f921f39d93cc07e7c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba1340469a0e6e43f921f39d93cc07e7c6" kindref="member">kCommunity</ref><sp/><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba77d728aed98d968f1d0ea34605b29658" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba77d728aed98d968f1d0ea34605b29658" kindref="member">kEnterprise</ref><sp/><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba4e1143da893ab3a7eb2deb79e17eb7aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba4e1143da893ab3a7eb2deb79e17eb7aa" kindref="member">kHyperscaler</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759bab3241d1b28aff893dc96bfe66f7edb27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759bab3241d1b28aff893dc96bfe66f7edb27" kindref="member">kMilitary</ref><sp/><sp/><sp/><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::engine</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/themis_api_contract.h"/>
+  </compounddef>
+</doxygen>

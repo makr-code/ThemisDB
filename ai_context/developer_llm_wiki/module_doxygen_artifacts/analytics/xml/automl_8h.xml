@@ -1,0 +1,488 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="automl_8h" kind="file" language="C++">
+    <compoundname>automl.h</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="anomaly__detection_8h" local="yes">analytics/anomaly_detection.h</includes>
+    <includedby refid="model__serving_8h" local="yes">include/analytics/model_serving.h</includedby>
+    <includedby refid="automl_8cpp" local="yes">src/analytics/automl.cpp</includedby>
+    <includedby refid="test__analytics__gap__closure_8cpp" local="yes">tests/analytics/test_analytics_gap_closure.cpp</includedby>
+    <includedby refid="test__automl_8cpp" local="yes">tests/analytics/test_automl.cpp</includedby>
+    <includedby refid="test__automl__onnx_8cpp" local="yes">tests/analytics/test_automl_onnx.cpp</includedby>
+    <incdepgraph>
+      <node id="10">
+        <label>analytics/anomaly_detection.h</label>
+        <link refid="anomaly__detection_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/analytics/automl.h</label>
+        <link refid="automl_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>deque</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>future</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>variant</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/analytics/automl.h</label>
+        <link refid="automl_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/analytics/expert_system_engine.h</label>
+        <link refid="expert__system__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/analytics/model_serving.h</label>
+        <link refid="model__serving_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>src/analytics/automl.cpp</label>
+        <link refid="automl_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/analytics/expert_system_engine.cpp</label>
+        <link refid="expert__system__engine_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/analytics/model_serving.cpp</label>
+        <link refid="model__serving_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/analytics/test_analytics_gap_closure.cpp</label>
+        <link refid="test__analytics__gap__closure_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/analytics/test_analytics_serving_export_integration.cpp</label>
+        <link refid="test__analytics__serving__export__integration_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/analytics/test_automl.cpp</label>
+        <link refid="test__automl_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/analytics/test_automl_onnx.cpp</label>
+        <link refid="test__automl__onnx_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/analytics/test_expert_system_engine.cpp</label>
+        <link refid="test__expert__system__engine_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/analytics/test_model_serving.cpp</label>
+        <link refid="test__model__serving_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_auto_m_l_config" prot="public">themisdb::analytics::AutoMLConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_eval_metrics" prot="public">themisdb::analytics::EvalMetrics</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_model_explanation" prot="public">themisdb::analytics::ModelExplanation</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_candidate_model_info" prot="public">themisdb::analytics::CandidateModelInfo</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_auto_m_l_model" prot="public">themisdb::analytics::AutoMLModel</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_auto_m_l" prot="public">themisdb::analytics::AutoML</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1analytics">themisdb::analytics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Re-use<sp/>DataPoint<sp/>from<sp/>the<sp/>anomaly-detection<sp/>module<sp/>for<sp/>consistency.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="anomaly__detection_8h" kindref="compound">analytics/anomaly_detection.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model" kindref="compound">AutoMLModel</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l" kindref="compound">AutoML</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enumerations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a7a249cdff24e60e2ee42699a02026a89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a7a249cdff24e60e2ee42699a02026a89" kindref="member">CLASSIFICATION</ref>,<sp/></highlight></codeline>
+<codeline lineno="86" refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a3fb097abda02709442bb2857e258a251" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a3fb097abda02709442bb2857e258a251" kindref="member">REGRESSION</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a4c9f068dcdf794de5fa83607857f4845" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a4c9f068dcdf794de5fa83607857f4845" kindref="member">LOGISTIC_REGRESSION</ref>,<sp/></highlight></codeline>
+<codeline lineno="91" refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a8fdbe96b7ca9c61d8b8231ee046e0c64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a8fdbe96b7ca9c61d8b8231ee046e0c64" kindref="member">LINEAR_REGRESSION</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a50951d8269614400bb32419b705bc3ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a50951d8269614400bb32419b705bc3ca" kindref="member">DECISION_TREE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a950e55e15b7d0cca1ea7e8c925a5b2cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a950e55e15b7d0cca1ea7e8c925a5b2cb" kindref="member">RANDOM_FOREST</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a1d9e49121ee701b5e22ef562a1e4fb5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a1d9e49121ee701b5e22ef562a1e4fb5e" kindref="member">GRADIENT_BOOSTING</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177ab602e23c0ec2466f3aa6cade0cd5ce05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177ab602e23c0ec2466f3aa6cade0cd5ce05" kindref="member">KNN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a6ed80ac51c01c67befa758cf79ff1c99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea6ed80ac51c01c67befa758cf79ff1c99" kindref="member">ENSEMBLE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfe" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfe" kindref="member">AutoMLMetric</ref><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea14639a70e23fda5b8580984795e92051" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea14639a70e23fda5b8580984795e92051" kindref="member">ACCURACY</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeae1dffc8709f31a4987c8a88334107e89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeae1dffc8709f31a4987c8a88334107e89" kindref="member">F1</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea6bec3fae1608a879905a85babf957cf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea6bec3fae1608a879905a85babf957cf3" kindref="member">PRECISION</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea7b2babc680386704751b68a62720db20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea7b2babc680386704751b68a62720db20" kindref="member">RECALL</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeab1606bb0126125acacabfdb973c445c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeab1606bb0126125acacabfdb973c445c0" kindref="member">AUC_ROC</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Regression</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea8c6d22ff6f63fc6711cfa315cb80b314" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea8c6d22ff6f63fc6711cfa315cb80b314" kindref="member">R2</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeaa5f59af2c07e44f88bf1556a41dfc5d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeaa5f59af2c07e44f88bf1556a41dfc5d8" kindref="member">RMSE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfead7bfc720460d75c28ce69ce26d239f9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfead7bfc720460d75c28ce69ce26d239f9f" kindref="member">MAE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfead348e66e8a4fcdd6570e7c0977571c46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfead348e66e8a4fcdd6570e7c0977571c46" kindref="member">MAPE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config" kindref="compound">AutoMLConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1af7a58f2a198e4aba08ef5bf6a703dd01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1af7a58f2a198e4aba08ef5bf6a703dd01" kindref="member">target</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1aec050694f21aead6bb123bc876b70296" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1aec050694f21aead6bb123bc876b70296" kindref="member">task</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a7a249cdff24e60e2ee42699a02026a89" kindref="member">AutoMLTask::CLASSIFICATION</ref>;</highlight></codeline>
+<codeline lineno="120" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a0234833976583259c9d51692ac419316" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfe" kindref="member">AutoMLMetric</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a0234833976583259c9d51692ac419316" kindref="member">metric</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeae1dffc8709f31a4987c8a88334107e89" kindref="member">AutoMLMetric::F1</ref>;</highlight></codeline>
+<codeline lineno="121" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a016050d16e26081245ec8c145f88ff42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a016050d16e26081245ec8c145f88ff42" kindref="member">max_time_minutes</ref><sp/><sp/>=<sp/>5;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1aae6a65df181704939d2f8d0a7864ec13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1aae6a65df181704939d2f8d0a7864ec13" kindref="member">max_trials</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a3140d003a78ece551a8b62ee064fc694" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a3140d003a78ece551a8b62ee064fc694" kindref="member">cv_folds</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a6c3de5fd418fcf92dbe2bd8c3bb6872d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a6c3de5fd418fcf92dbe2bd8c3bb6872d" kindref="member">feature_engineering</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a2c3e4aa504a8746426e37de4fa3a22a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a2c3e4aa504a8746426e37de4fa3a22a9" kindref="member">ensemble</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a186e5cd7d7964e35cf16559cfa0abc84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a186e5cd7d7964e35cf16559cfa0abc84" kindref="member">ensemble_top_k</ref><sp/><sp/><sp/><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a0472a4f90b7a321a7abfc0660c83ff85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1a0472a4f90b7a321a7abfc0660c83ff85" kindref="member">random_seed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="128" refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1ae43be9be7749ea023f3238ea578a059a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ModelAlgorithm&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config_1ae43be9be7749ea023f3238ea578a059a" kindref="member">algorithms</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Evaluation<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemisdb_1_1analytics_1_1_eval_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics" kindref="compound">EvalMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="136" refid="structthemisdb_1_1analytics_1_1_eval_metrics_1aa8c21ccbd7dc42608f008dd424fba282" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics_1aa8c21ccbd7dc42608f008dd424fba282" kindref="member">accuracy</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="137" refid="structthemisdb_1_1analytics_1_1_eval_metrics_1ac87dccd985cf8cc6d6e2257ca5eac6b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics_1ac87dccd985cf8cc6d6e2257ca5eac6b0" kindref="member">f1</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="138" refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a1cc3a3f2dae753be97d7351300138945" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a1cc3a3f2dae753be97d7351300138945" kindref="member">precision</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="139" refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a55f3067d17797b6653b02f40add8ec90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a55f3067d17797b6653b02f40add8ec90" kindref="member">recall</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="140" refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a0c122edfcb660dc3dfad5bc88962d135" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a0c122edfcb660dc3dfad5bc88962d135" kindref="member">auc_roc</ref><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="141" refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a541f3da58e7d319a7389d61973bcb0c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a541f3da58e7d319a7389d61973bcb0c9" kindref="member">r2</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="142" refid="structthemisdb_1_1analytics_1_1_eval_metrics_1af88c8396fc69e0e70bd3de12385cdcf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics_1af88c8396fc69e0e70bd3de12385cdcf0" kindref="member">rmse</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="143" refid="structthemisdb_1_1analytics_1_1_eval_metrics_1ad715dee4ce35aa6438d0affffee4403d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics_1ad715dee4ce35aa6438d0affffee4403d" kindref="member">mae</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="144" refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a9902f3d856864588d3642960d07205d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a9902f3d856864588d3642960d07205d8" kindref="member">mape</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a315649d28e36efdc32c253c2c7f07116" kindref="member">primary</ref>(<ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfe" kindref="member">AutoMLMetric</ref><sp/>m)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Model<sp/>explanation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structthemisdb_1_1analytics_1_1_model_explanation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_model_explanation" kindref="compound">ModelExplanation</ref><sp/>{</highlight></codeline>
+<codeline lineno="160" refid="structthemisdb_1_1analytics_1_1_model_explanation_1aedfd186ea3e738126966f0837191ce5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_model_explanation_1aedfd186ea3e738126966f0837191ce5f" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161" refid="structthemisdb_1_1analytics_1_1_model_explanation_1ac9b538011a8e2764cd9dbef9893ca8bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_model_explanation_1ac9b538011a8e2764cd9dbef9893ca8bf" kindref="member">predicted_value</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="structthemisdb_1_1analytics_1_1_model_explanation_1aa86a7e1f88e8a407d3ffa3591dd1208e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_model_explanation_1aa86a7e1f88e8a407d3ffa3591dd1208e" kindref="member">predicted_label</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163" refid="structthemisdb_1_1analytics_1_1_model_explanation_1a17d08006b185ed909c9c3ce1c7019afc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_model_explanation_1a17d08006b185ed909c9c3ce1c7019afc" kindref="member">confidence</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164" refid="structthemisdb_1_1analytics_1_1_model_explanation_1a4b5d5d78b3b580fafde837315be6bf85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>double&gt;&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_model_explanation_1a4b5d5d78b3b580fafde837315be6bf85" kindref="member">feature_contributions</ref>;</highlight></codeline>
+<codeline lineno="165" refid="structthemisdb_1_1analytics_1_1_model_explanation_1a29c5edbe823ab74ddaa6fea258467cf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_model_explanation_1a29c5edbe823ab74ddaa6fea258467cf6" kindref="member">top_features</ref>;</highlight></codeline>
+<codeline lineno="166" refid="structthemisdb_1_1analytics_1_1_model_explanation_1ad9dc2c433f28ff9d5e54ae384ca9ae6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_model_explanation_1ad9dc2c433f28ff9d5e54ae384ca9ae6d" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Trained<sp/>model<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structthemisdb_1_1analytics_1_1_candidate_model_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_candidate_model_info" kindref="compound">CandidateModelInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="174" refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1af38dd43c03ecde3610d68032226b5e3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1af38dd43c03ecde3610d68032226b5e3b" kindref="member">algorithm</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a50951d8269614400bb32419b705bc3ca" kindref="member">ModelAlgorithm::DECISION_TREE</ref>;</highlight></codeline>
+<codeline lineno="175" refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a9437c3a26568ab10b00debcabc18f1fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a9437c3a26568ab10b00debcabc18f1fb" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176" refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a26b81c7b5e7420f30a7eb3c5e066eb5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics" kindref="compound">EvalMetrics</ref><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a26b81c7b5e7420f30a7eb3c5e066eb5f" kindref="member">cv_metrics</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177" refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a0ee117ac355d47d189594f604aba83a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a0ee117ac355d47d189594f604aba83a2" kindref="member">cv_score</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="178" refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a78e511be6bfb7ac65d8d101df6b2d4e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a78e511be6bfb7ac65d8d101df6b2d4e0" kindref="member">train_time_ms</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="179" refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1ae47cdc6dbdc6e533a52a40f04ee87827" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1ae47cdc6dbdc6e533a52a40f04ee87827" kindref="member">hyperparameters</ref>;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AutoMLModel<sp/><sp/>(trained,<sp/>predict-ready<sp/>model)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="classthemisdb_1_1analytics_1_1_auto_m_l_model" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a0035ca2488bb3c18648e4ee019c54bf1" kindref="member">AutoMLModel</ref><sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Construction<sp/>(only<sp/>AutoML<sp/>creates<sp/>these)<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a0035ca2488bb3c18648e4ee019c54bf1" kindref="member">AutoMLModel</ref>();</highlight></codeline>
+<codeline lineno="190" refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a5b448fd5fcee8d10b57daa3fb449a521" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a5b448fd5fcee8d10b57daa3fb449a521" kindref="member">~AutoMLModel</ref>();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a98bcc118b4a4faccf5284703aeeef18e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a98bcc118b4a4faccf5284703aeeef18e" kindref="member">AutoMLModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a0035ca2488bb3c18648e4ee019c54bf1" kindref="member">AutoMLModel</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193" refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a63fea60953964a394c3d92f03b7d7b39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a0035ca2488bb3c18648e4ee019c54bf1" kindref="member">AutoMLModel</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a63fea60953964a394c3d92f03b7d7b39" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a0035ca2488bb3c18648e4ee019c54bf1" kindref="member">AutoMLModel</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194" refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1ab5a2266edd56ae8875022c5cb74fd674" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1ab5a2266edd56ae8875022c5cb74fd674" kindref="member">AutoMLModel</ref>(<ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a0035ca2488bb3c18648e4ee019c54bf1" kindref="member">AutoMLModel</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept;</highlight></codeline>
+<codeline lineno="195" refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1aea79f338fc9f63679b4d4c5ea44a4761" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a0035ca2488bb3c18648e4ee019c54bf1" kindref="member">AutoMLModel</ref>&amp;<sp/>operator=(<ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a0035ca2488bb3c18648e4ee019c54bf1" kindref="member">AutoMLModel</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a3500eaf4b77f31b05f4945b4bbbe9dbb" kindref="member">predict</ref>(const<sp/>std::vector&lt;<ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&gt;&amp;<sp/>data)<sp/>const;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1aeb2229c0d378715231245ffa75b7bd28" kindref="member">predictOne</ref>(const<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&amp;<sp/>point)<sp/>const;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;&gt;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a1c97c107697cb405125676eab2db0985" kindref="member">predictProba</ref>(const<sp/>std::vector&lt;<ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&gt;&amp;<sp/>data)<sp/>const;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemisdb_1_1analytics_1_1_model_explanation" kindref="compound">ModelExplanation</ref>&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a0aa6de8cacbc0ba222973a3365c8b45f" kindref="member">explain</ref>(const<sp/>std::vector&lt;<ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&gt;&amp;<sp/>data)<sp/>const;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_model_explanation" kindref="compound">ModelExplanation</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a9df617c5c43fe22f69d8317ca7c11c8b" kindref="member">explainOne</ref>(const<sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref>&amp;<sp/>point)<sp/>const;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1afe7a12519604d79b7ed02647e9637c71" kindref="member">task</ref>()<sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1ac50dd18cb437ed77cc76eb5dfc049037" kindref="member">algorithm</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a1b45bdfba0459b8ab90c9aabf9eb0c1d" kindref="member">name</ref>()<sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics" kindref="compound">EvalMetrics</ref><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a34513c67659cf47cefd5d723e2ac8760" kindref="member">metrics</ref>()<sp/><sp/><sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemisdb_1_1analytics_1_1_candidate_model_info" kindref="compound">CandidateModelInfo</ref>&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a0b1d4e13eb897287e2adda1bdcd312b9" kindref="member">candidateModels</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a9478abd207e77fa73a9ef6b253a2cfbf" kindref="member">featureImportance</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1af054bdef62df72916f5ae98dec0ec016" kindref="member">serialize</ref>()<sp/><sp/><sp/>const;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a0035ca2488bb3c18648e4ee019c54bf1" kindref="member">AutoMLModel</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a7e98fcf6dc5c940257ea13ef8d667782" kindref="member">deserialize</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a70008be147f64210977a87ffc79b8d37" kindref="member">exportONNX</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>path)<sp/>const;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287" refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a3b74e4d7efd4225f731a40a42b894a76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>friend<sp/>class<sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a3b74e4d7efd4225f731a40a42b894a76" kindref="member">AutoML</ref>;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AutoML<sp/><sp/>(training<sp/>façade)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294" refid="classthemisdb_1_1analytics_1_1_auto_m_l" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1a88208ae1e86ee7e4455ee51b89928b03" kindref="member">AutoML</ref><sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1a3b74e4d7efd4225f731a40a42b894a76" kindref="member">AutoML</ref>();</highlight></codeline>
+<codeline lineno="297" refid="classthemisdb_1_1analytics_1_1_auto_m_l_1a201c44b09c8e78fced0f5d309f429666" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1a201c44b09c8e78fced0f5d309f429666" kindref="member">~AutoML</ref>();</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299" refid="classthemisdb_1_1analytics_1_1_auto_m_l_1ac2a3958c91db21126d9e1e6c8bc1b3a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1ac2a3958c91db21126d9e1e6c8bc1b3a3" kindref="member">AutoML</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1a88208ae1e86ee7e4455ee51b89928b03" kindref="member">AutoML</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300" refid="classthemisdb_1_1analytics_1_1_auto_m_l_1a6622982c7971f0ab484fc57e89a257a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1a88208ae1e86ee7e4455ee51b89928b03" kindref="member">AutoML</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1a6622982c7971f0ab484fc57e89a257a0" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1a88208ae1e86ee7e4455ee51b89928b03" kindref="member">AutoML</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Classification<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model" kindref="compound">AutoMLModel</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1a3ac287dcf653ebdd1ac1af6f01e64bb3" kindref="member">trainClassifier</ref>(</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DataPoint&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config" kindref="compound">AutoMLConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">)&gt;<sp/>progress<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Regression<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model" kindref="compound">AutoMLModel</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1aa64216d3e20f2566e7f7d9b46d0fc4e0" kindref="member">trainRegressor</ref>(</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DataPoint&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config" kindref="compound">AutoMLConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">)&gt;<sp/>progress<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Cross-validation<sp/>helper<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics" kindref="compound">EvalMetrics</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1a36488cf550f270001575bb0500bf4521" kindref="member">crossValidate</ref>(</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DataPoint&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config" kindref="compound">AutoMLConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1ac50dd18cb437ed77cc76eb5dfc049037" kindref="member">algorithm</ref>,</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>double&gt;&amp;<sp/>hyperparameters)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Helper<sp/>functions<sp/>(Phase<sp/>2B)<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;bool,<sp/>std::string&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1ac033f2075aaa4b4e9953390016ab4492" kindref="member">validateTrainingData</ref>(</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;double&gt;&gt;&amp;<sp/>features,</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1afe7a12519604d79b7ed02647e9637c71" kindref="member">task</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a7a249cdff24e60e2ee42699a02026a89" kindref="member">AutoMLTask::CLASSIFICATION</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1afcfe2228928ce1441c160b1c97d5dec1" kindref="member">selectMetalearner</ref>(</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;double&gt;&gt;&amp;<sp/>features,</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ModelAlgorithm&gt;&amp;<sp/>candidates,</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model_1afe7a12519604d79b7ed02647e9637c71" kindref="member">task</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a7a249cdff24e60e2ee42699a02026a89" kindref="member">AutoMLTask::CLASSIFICATION</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_1a454856c69b09ed80c98bc29484b0677f" kindref="member">selectEnsembleMethod</ref>(</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EvalMetrics&gt;&amp;<sp/>candidate_metrics)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Free<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355" refid="namespacethemisdb_1_1analytics_1af3e7a278f9bf7b453c81158d119f23e5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemisdb_1_1analytics_1af3e7a278f9bf7b453c81158d119f23e5" kindref="member">automlTaskName</ref>(<ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref><sp/>t)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(t)<sp/>{</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a7a249cdff24e60e2ee42699a02026a89" kindref="member">AutoMLTask::CLASSIFICATION</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CLASSIFICATION&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a3fb097abda02709442bb2857e258a251" kindref="member">AutoMLTask::REGRESSION</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;REGRESSION&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363" refid="namespacethemisdb_1_1analytics_1a3bdb25384b5e26eb991a202f9add85e5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemisdb_1_1analytics_1a3bdb25384b5e26eb991a202f9add85e5" kindref="member">modelAlgorithmName</ref>(<ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref><sp/>a)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(a)<sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a4c9f068dcdf794de5fa83607857f4845" kindref="member">ModelAlgorithm::LOGISTIC_REGRESSION</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LOGISTIC_REGRESSION&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a8fdbe96b7ca9c61d8b8231ee046e0c64" kindref="member">ModelAlgorithm::LINEAR_REGRESSION</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LINEAR_REGRESSION&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a50951d8269614400bb32419b705bc3ca" kindref="member">ModelAlgorithm::DECISION_TREE</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DECISION_TREE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a950e55e15b7d0cca1ea7e8c925a5b2cb" kindref="member">ModelAlgorithm::RANDOM_FOREST</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;RANDOM_FOREST&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a1d9e49121ee701b5e22ef562a1e4fb5e" kindref="member">ModelAlgorithm::GRADIENT_BOOSTING</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;GRADIENT_BOOSTING&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177ab602e23c0ec2466f3aa6cade0cd5ce05" kindref="member">ModelAlgorithm::KNN</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;KNN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a6ed80ac51c01c67befa758cf79ff1c99" kindref="member">ModelAlgorithm::ENSEMBLE</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ENSEMBLE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376" refid="namespacethemisdb_1_1analytics_1a1360cedbe9d53175aa2ed03cbb5f1025" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemisdb_1_1analytics_1a1360cedbe9d53175aa2ed03cbb5f1025" kindref="member">automlMetricName</ref>(<ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfe" kindref="member">AutoMLMetric</ref><sp/>m)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(m)<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea14639a70e23fda5b8580984795e92051" kindref="member">AutoMLMetric::ACCURACY</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ACCURACY&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeae1dffc8709f31a4987c8a88334107e89" kindref="member">AutoMLMetric::F1</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;F1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea6bec3fae1608a879905a85babf957cf3" kindref="member">AutoMLMetric::PRECISION</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;PRECISION&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea7b2babc680386704751b68a62720db20" kindref="member">AutoMLMetric::RECALL</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;RECALL&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeab1606bb0126125acacabfdb973c445c0" kindref="member">AutoMLMetric::AUC_ROC</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;AUC_ROC&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfea8c6d22ff6f63fc6711cfa315cb80b314" kindref="member">AutoMLMetric::R2</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;R2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfeaa5f59af2c07e44f88bf1556a41dfc5d8" kindref="member">AutoMLMetric::RMSE</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;RMSE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfead7bfc720460d75c28ce69ce26d239f9f" kindref="member">AutoMLMetric::MAE</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MAE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfead348e66e8a4fcdd6570e7c0977571c46" kindref="member">AutoMLMetric::MAPE</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MAPE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="389"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/automl.h"/>
+  </compounddef>
+</doxygen>

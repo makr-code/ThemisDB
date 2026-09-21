@@ -1,0 +1,979 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_memory_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMemoryManager</compoundname>
+    <basecompoundref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" prot="public" virt="non-virtual">themis::gpu::IVRAMPolicy</basecompoundref>
+    <includes refid="memory__manager_8h" local="no">memory_manager.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_allocation_record" prot="public">themis::gpu::GPUMemoryManager::AllocationRecord</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_stats" prot="public">themis::gpu::GPUMemoryManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_tenant_stats" prot="public">themis::gpu::GPUMemoryManager::TenantStats</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_hint_handle" prot="public">themis::gpu::GPUMemoryManager::HintHandle</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_hint_record" prot="private">themis::gpu::GPUMemoryManager::HintRecord</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_tenant_state" prot="private">themis::gpu::GPUMemoryManager::TenantState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1addf363c19cd9f260735634233a6fe8a5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUMemoryManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="310" column="24" bodyfile="include/themis/gpu/memory_manager.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a04a1189d06ddff7136db09fd17f43c8c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::gpu_memory_allocated_</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_allocated_</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::gpu_memory_allocated_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="311" column="14" bodyfile="include/themis/gpu/memory_manager.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a95dfa128079d3b1051ab46a168361789" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::peak_bytes_</definition>
+        <argsstring></argsstring>
+        <name>peak_bytes_</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::peak_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="312" column="14" bodyfile="include/themis/gpu/memory_manager.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6fbeb3c784989f0a3b9b5d5e3d2c2acf" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::allocation_count_</definition>
+        <argsstring></argsstring>
+        <name>allocation_count_</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::allocation_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="313" column="14" bodyfile="include/themis/gpu/memory_manager.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a3b624e7df9cabd3f6f8e1acd4aeef4cc" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::deallocation_count_</definition>
+        <argsstring></argsstring>
+        <name>deallocation_count_</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::deallocation_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="314" column="14" bodyfile="include/themis/gpu/memory_manager.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a04bcac002dba8c89052910b812f33f37" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_allocation_record" kindref="compound">AllocationRecord</ref> &gt;</type>
+        <definition>std::vector&lt;AllocationRecord&gt; themis::gpu::GPUMemoryManager::active_allocations_</definition>
+        <argsstring></argsstring>
+        <name>active_allocations_</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::active_allocations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="320" column="17" bodyfile="include/themis/gpu/memory_manager.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a4ad9b2ac26ee9d917f50b88a43283c6f" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::hint_reserved_bytes_</definition>
+        <argsstring></argsstring>
+        <name>hint_reserved_bytes_</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::hint_reserved_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="329" column="26" bodyfile="include/themis/gpu/memory_manager.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac8bab895e5ae857690c4dc12318d906f" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::next_hint_id_</definition>
+        <argsstring></argsstring>
+        <name>next_hint_id_</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::next_hint_id_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="330" column="26" bodyfile="include/themis/gpu/memory_manager.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ae76ddab8d4674b4541a5b13fb03a376b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; HintRecord &gt;</type>
+        <definition>std::vector&lt;HintRecord&gt; themis::gpu::GPUMemoryManager::active_hints_</definition>
+        <argsstring></argsstring>
+        <name>active_hints_</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::active_hints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="331" column="17" bodyfile="include/themis/gpu/memory_manager.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac8c2bc9b7002188bade6eadf8bde4644" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, TenantState &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TenantState&gt; themis::gpu::GPUMemoryManager::tenant_states_</definition>
+        <argsstring></argsstring>
+        <name>tenant_states_</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::tenant_states_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="339" column="24" bodyfile="include/themis/gpu/memory_manager.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a0ad09761c059bd85394930ffe903b0ae" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class AllocationGuard</definition>
+        <argsstring></argsstring>
+        <name>AllocationGuard</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::AllocationGuard</qualifiedname>
+        <param>
+          <type>AllocationGuard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="348" column="18" bodyfile="include/themis/gpu/memory_manager.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aeae61f75dfe07c1e7b44e74e7ea60d97" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GPUMemoryManager &amp;</type>
+        <definition>static GPUMemoryManager &amp; themis::gpu::GPUMemoryManager::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="82" column="29" bodyfile="include/themis/gpu/memory_manager.h" bodystart="82" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a79f431b0230b52132fee3383342a001e" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static constexpr int themis::gpu::GPUMemoryManager::GetMaxGPUVRAMGB</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>GetMaxGPUVRAMGB</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetMaxGPUVRAMGB</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="90" column="26" bodyfile="include/themis/gpu/memory_manager.h" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6ce8ff549481d7f5adb7d7e9129148bd" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static constexpr uint64_t themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>GetMaxGPUVRAMBytes</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="94" column="31" bodyfile="include/themis/gpu/memory_manager.h" bodystart="94" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac97172fed78dd71a96f845fe2256b7b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryManager::SetTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id, uint64_t quota_bytes)</argsstring>
+        <name>SetTenantQuota</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::SetTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>quota_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Register or update a per-tenant VRAM quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Opaque tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>quota_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum VRAM this tenant may use concurrently. Pass 0 to remove the per-tenant cap (global limit applies). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="109" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a79a0f63367ab2936ebc3d765c561430b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryManager::RemoveTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>RemoveTenantQuota</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::RemoveTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove the per-tenant VRAM cap (sets quota to 0 / unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The tenant entry is kept in the internal map so that usage tracking continues until all its allocations have been freed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="117" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6a8c6904758037d6fd19bd2e583c87d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryManager::TryAllocateGPU</definition>
+        <argsstring>(uint64_t size_bytes, const std::string &amp;tag=&quot;Unknown&quot;)</argsstring>
+        <name>TryAllocateGPU</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::TryAllocateGPU</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+          <defval>&quot;Unknown&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Request VRAM of <computeroutput>size_bytes</computeroutput> tagged with <computeroutput>tag</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true and records the allocation if the request fits within the edition limit. Returns false (without throwing) if it would exceed the limit. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="130" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a5460f56baf16a34a4843853c11e5ed2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryManager::TryAllocateGPU</definition>
+        <argsstring>(uint64_t size_bytes, const std::string &amp;tag, const std::string &amp;tenant_id)</argsstring>
+        <name>TryAllocateGPU</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::TryAllocateGPU</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Tenant-aware variant of <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6a8c6904758037d6fd19bd2e583c87d2" kindref="member">TryAllocateGPU()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks both the global edition VRAM limit and the per-tenant quota (if one has been set with <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac97172fed78dd71a96f845fe2256b7b2" kindref="member">SetTenantQuota()</ref>).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes to reserve. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Owner / reason label. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier; empty string = no tenant check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if allocation was granted, false if either limit was exceeded (without modifying state). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="144" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aef4a9969e2a693ac8efbe4614a9c710c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryManager::DeallocateGPU</definition>
+        <argsstring>(uint64_t size_bytes)</argsstring>
+        <name>DeallocateGPU</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::DeallocateGPU</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Release <computeroutput>size_bytes</computeroutput> of previously allocated VRAM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Silently clamps to zero if <computeroutput>size_bytes</computeroutput> exceeds the tracked total to guard against double-free or mis-matched sizes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="154" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aa1480632391953f3388423a2212e8c8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryManager::DeallocateGPU</definition>
+        <argsstring>(uint64_t size_bytes, const std::string &amp;tenant_id)</argsstring>
+        <name>DeallocateGPU</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::DeallocateGPU</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Tenant-aware deallocation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decrements both the global counter and the per-tenant counter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="161" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a2a23b817c57aed9e3bed7f6a330d21a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryManager::ValidateAllocation</definition>
+        <argsstring>(uint64_t size_bytes)</argsstring>
+        <name>ValidateAllocation</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::ValidateAllocation</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Validate a proposed allocation; throws std::runtime_error on rejection instead of returning false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="167" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a5e1a4bf4b7ba5f76b713c849fdf76bea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_hint_handle" kindref="compound">HintHandle</ref></type>
+        <definition>HintHandle themis::gpu::GPUMemoryManager::ReserveHint</definition>
+        <argsstring>(uint64_t bytes, const std::string &amp;tag=&quot;hint&quot;, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>ReserveHint</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::ReserveHint</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+          <defval>&quot;hint&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Reserve <computeroutput>bytes</computeroutput> of VRAM headroom for a future allocation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The reserved bytes count against the edition limit and against the tenant quota (if set) so that other callers cannot consume the capacity before the reservation is consumed or cancelled.</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_hint_handle" kindref="compound">HintHandle</ref> with id &gt; 0 on success, id == 0 if the reservation cannot be honoured (limit already exceeded). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="194" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a738dc2c0c43938ad0f2b7d104613ac9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryManager::CancelHint</definition>
+        <argsstring>(uint64_t hint_id)</argsstring>
+        <name>CancelHint</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::CancelHint</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>hint_id</declname>
+        </param>
+        <briefdescription>
+<para>Release a previously reserved hint without allocating. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Safe to call with an invalid (id == 0) handle. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="203" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ae3586b0aebea7c66cb8a6a0d93320106" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryManager::ConsumeHint</definition>
+        <argsstring>(uint64_t hint_id)</argsstring>
+        <name>ConsumeHint</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::ConsumeHint</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>hint_id</declname>
+        </param>
+        <briefdescription>
+<para>Convert a hint into a real allocation (atomic swap). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The reserved bytes remain occupied in the VRAM budget; only their classification changes from &quot;hint&quot; to &quot;active allocation&quot;.</para>
+<para><simplesect kind="return"><para>true if the hint was found and converted; false if the hint_id was not found (already consumed or cancelled). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="214" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a38c5302fa4b8cee1e8847d0e34732862" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::GetHintReservedBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>GetHintReservedBytes</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetHintReservedBytes</qualifiedname>
+        <briefdescription>
+<para>Total bytes currently held by outstanding hints. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="217" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a195a37030af6df88ad3c5b6fac99d2e3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryManager::canAllocate</definition>
+        <argsstring>(uint64_t size_bytes, const std::string &amp;tenant_id=&quot;&quot;) const override</argsstring>
+        <name>canAllocate</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::canAllocate</qualifiedname>
+        <reimplements refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ae2d3a5e4c46e996e5d5f1a6f2adfcdca">canAllocate</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Check if <computeroutput>size_bytes</computeroutput> can be allocated (<ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" kindref="compound">IVRAMPolicy</ref> contract). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Equivalent to a non-committing <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6a8c6904758037d6fd19bd2e583c87d2" kindref="member">TryAllocateGPU()</ref> probe: checks the global edition VRAM limit and the per-tenant quota (when tenant_id is non-empty) without modifying any state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="230" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aa5fc6ed68594bb88c6469ea8e9c5c1ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryManager::onAllocate</definition>
+        <argsstring>(uint64_t size_bytes, const std::string &amp;tag, const std::string &amp;tenant_id=&quot;&quot;) override</argsstring>
+        <name>onAllocate</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::onAllocate</qualifiedname>
+        <reimplements refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1abc4e54f092c0670fac8b2f2a28f267c3">onAllocate</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record a successful allocation (<ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" kindref="compound">IVRAMPolicy</ref> contract). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates the global and per-tenant accounting as if <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6a8c6904758037d6fd19bd2e583c87d2" kindref="member">TryAllocateGPU()</ref> had been called. Use this when physical memory is allocated outside the manager but its VRAM footprint must be tracked here. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="240" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a1da2bd96141424137e7af5c79f1dcc91" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryManager::onDeallocate</definition>
+        <argsstring>(uint64_t size_bytes, const std::string &amp;tenant_id=&quot;&quot;) override</argsstring>
+        <name>onDeallocate</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::onDeallocate</qualifiedname>
+        <reimplements refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aa014161f784d1960dd9927ecc83b5dbe">onDeallocate</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record a deallocation (<ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" kindref="compound">IVRAMPolicy</ref> contract). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decrements global and per-tenant accounting. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="249" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a108a4e515969aebc3869b05b687ac406" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::usedBytes</definition>
+        <argsstring>() const override</argsstring>
+        <name>usedBytes</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::usedBytes</qualifiedname>
+        <reimplements refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a8840bb8686ced152c532de2538f541d3">usedBytes</reimplements>
+        <briefdescription>
+<para>Return currently tracked VRAM usage (<ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" kindref="compound">IVRAMPolicy</ref> contract). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="255" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aababc7f5847f0fb615c055acea04b122" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryManager::isGPUEnabled</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isGPUEnabled</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::isGPUEnabled</qualifiedname>
+        <reimplements refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aaea645e29a8d45274f9097c66866529a">isGPUEnabled</reimplements>
+        <briefdescription>
+<para>Return true when the current edition allows GPU acceleration (<ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" kindref="compound">IVRAMPolicy</ref> contract). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="261" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aff70bd292f4ce59b9ca3e9775c648d57" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::GetGPUMemoryUsed</definition>
+        <argsstring>() const</argsstring>
+        <name>GetGPUMemoryUsed</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetGPUMemoryUsed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="266" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a5ab09c6c680e2417341a6cf90b63c495" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::gpu::GPUMemoryManager::GetGPUMemoryUsagePercent</definition>
+        <argsstring>() const</argsstring>
+        <name>GetGPUMemoryUsagePercent</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetGPUMemoryUsagePercent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="267" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a838bea814e8f0e952cfd18479031c833" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryManager::IsGPUAccelerationEnabled</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>IsGPUAccelerationEnabled</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::IsGPUAccelerationEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="268" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ad213d4ea3c06220ba59baebd853c8d54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPUMemoryManager::GetStats</definition>
+        <argsstring>() const</argsstring>
+        <name>GetStats</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="269" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a03e2e1b87466e566f0e9f4bd2da86172" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUMemoryManager::GetEditionInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>GetEditionInfo</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetEditionInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="271" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac65d9b026358d35b0b1d210e7d1eb3e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_allocation_record" kindref="compound">AllocationRecord</ref> &gt;</type>
+        <definition>std::vector&lt; AllocationRecord &gt; themis::gpu::GPUMemoryManager::GetActiveAllocations</definition>
+        <argsstring>() const</argsstring>
+        <name>GetActiveAllocations</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetActiveAllocations</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of all currently live allocation records. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for debugging and leak detection: callers can inspect which tags still hold VRAM after their workload completes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="279" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a4c8b37ecc382970d3595a9753342b832" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_tenant_stats" kindref="compound">TenantStats</ref></type>
+        <definition>TenantStats themis::gpu::GPUMemoryManager::GetTenantStats</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>GetTenantStats</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetTenantStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return stats for a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a zero-filled <ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_tenant_stats" kindref="compound">TenantStats</ref> if the tenant has never allocated or had a quota set. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="287" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac8f3f32a899cda21f24c3f6bb3bdae9a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_manager_1_1_tenant_stats" kindref="compound">TenantStats</ref> &gt;</type>
+        <definition>std::vector&lt; TenantStats &gt; themis::gpu::GPUMemoryManager::GetAllTenantStats</definition>
+        <argsstring>() const</argsstring>
+        <name>GetAllTenantStats</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetAllTenantStats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of stats for all tenants that have a quota or at least one live allocation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="293" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a22b8939fd27674f6347766002c4b0442" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryManager::GetTenantHeadroom</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>GetTenantHeadroom</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GetTenantHeadroom</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return how many bytes the tenant may still allocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the lesser of (global_remaining) and (tenant_quota - tenant_used). If the tenant has no quota registered, only the global limit is considered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="301" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a8e4ca44a996b17f316d8c2a5f9911db6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryManager::GPUMemoryManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUMemoryManager</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GPUMemoryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="304" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a3bca7f837ab2e10b8d174d38d9bd86df" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryManager::~GPUMemoryManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GPUMemoryManager</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::~GPUMemoryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="305" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ab20fdbd11ecd35a323f708dfad338c90" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryManager::GPUMemoryManager</definition>
+        <argsstring>(const GPUMemoryManager &amp;)=delete</argsstring>
+        <name>GPUMemoryManager</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::GPUMemoryManager</qualifiedname>
+        <param>
+          <type>const GPUMemoryManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="307" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a8849d2e75532f97de438cf8f55ae62ad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GPUMemoryManager &amp;</type>
+        <definition>GPUMemoryManager &amp; themis::gpu::GPUMemoryManager::operator=</definition>
+        <argsstring>(const GPUMemoryManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::operator=</qualifiedname>
+        <param>
+          <type>const GPUMemoryManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="308" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6f29c186f3f0e1d85da2f3d5eb228103" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryManager::TryAllocateUnderLock</definition>
+        <argsstring>(uint64_t size_bytes, const std::string &amp;tag, const std::string &amp;tenant_id)</argsstring>
+        <name>TryAllocateUnderLock</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::TryAllocateUnderLock</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="342" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a949a06db8e40022f74b73af72774115f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryManager::RollbackAllocationUnderLock</definition>
+        <argsstring>(const std::string &amp;tenant_id, uint64_t size_bytes)</argsstring>
+        <name>RollbackAllocationUnderLock</name>
+        <qualifiedname>themis::gpu::GPUMemoryManager::RollbackAllocationUnderLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_manager.h" line="349" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Edition-aware GPU VRAM memory manager — canonical <computeroutput><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" kindref="compound">IVRAMPolicy</ref></computeroutput> implementation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enforces per-edition VRAM limits at runtime. All limits are set at compile-time via CMakeLists.txt (-DTHEMIS_EDITION). The manager tracks individual allocations by tag so that callers can obtain aggregate stats, peak usage, and per-tag breakdowns.</para>
+<para>Tenant isolation: callers may register per-tenant VRAM quotas via <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac97172fed78dd71a96f845fe2256b7b2" kindref="member">SetTenantQuota()</ref>. Allocations carrying a tenant_id are checked against both the global edition limit and the per-tenant quota.</para>
+<para>Thread safety: all public methods are protected by an internal mutex.</para>
+<para><heading level="3">Unified hierarchy role</heading>
+</para>
+<para>This class is the <bold>canonical</bold> <computeroutput><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" kindref="compound">IVRAMPolicy</ref></computeroutput> implementation for the ThemisDB GPU memory hierarchy. Subsystem managers (e.g., <computeroutput>themis::llm::GPUMemoryManager</computeroutput>, <computeroutput>themis::llm::lora::GPUMemoryManager</computeroutput>) delegate their allocation accounting to the singleton instance so that global VRAM budgets and per-tenant quotas are enforced at a single point. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::gpu::GPUMemoryManager</label>
+        <link refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::gpu::IVRAMPolicy</label>
+        <link refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::gpu::GPUMemoryManager</label>
+        <link refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::gpu::IVRAMPolicy</label>
+        <link refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/gpu/memory_manager.h" line="48" column="1" bodyfile="include/themis/gpu/memory_manager.h" bodystart="48" bodyend="350"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a04bcac002dba8c89052910b812f33f37" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>active_allocations_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ae76ddab8d4674b4541a5b13fb03a376b" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>active_hints_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6fbeb3c784989f0a3b9b5d5e3d2c2acf" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>allocation_count_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a0ad09761c059bd85394930ffe903b0ae" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>AllocationGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a195a37030af6df88ad3c5b6fac99d2e3" prot="public" virt="virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>canAllocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a738dc2c0c43938ad0f2b7d104613ac9f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>CancelHint</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ae3586b0aebea7c66cb8a6a0d93320106" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>ConsumeHint</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aef4a9969e2a693ac8efbe4614a9c710c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>DeallocateGPU</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aa1480632391953f3388423a2212e8c8b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>DeallocateGPU</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a3b624e7df9cabd3f6f8e1acd4aeef4cc" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>deallocation_count_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac65d9b026358d35b0b1d210e7d1eb3e3" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetActiveAllocations</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac8f3f32a899cda21f24c3f6bb3bdae9a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetAllTenantStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a03e2e1b87466e566f0e9f4bd2da86172" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetEditionInfo</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a5ab09c6c680e2417341a6cf90b63c495" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetGPUMemoryUsagePercent</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aff70bd292f4ce59b9ca3e9775c648d57" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetGPUMemoryUsed</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a38c5302fa4b8cee1e8847d0e34732862" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetHintReservedBytes</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aeae61f75dfe07c1e7b44e74e7ea60d97" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6ce8ff549481d7f5adb7d7e9129148bd" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetMaxGPUVRAMBytes</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a79f431b0230b52132fee3383342a001e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetMaxGPUVRAMGB</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ad213d4ea3c06220ba59baebd853c8d54" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a22b8939fd27674f6347766002c4b0442" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetTenantHeadroom</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a4c8b37ecc382970d3595a9753342b832" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GetTenantStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a04a1189d06ddff7136db09fd17f43c8c" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>gpu_memory_allocated_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a8e4ca44a996b17f316d8c2a5f9911db6" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GPUMemoryManager</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ab20fdbd11ecd35a323f708dfad338c90" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>GPUMemoryManager</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a4ad9b2ac26ee9d917f50b88a43283c6f" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>hint_reserved_bytes_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a838bea814e8f0e952cfd18479031c833" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>IsGPUAccelerationEnabled</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aababc7f5847f0fb615c055acea04b122" prot="public" virt="virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>isGPUEnabled</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>IVRAMPolicy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a9111541e3d02e25160f2faf6d5652a5f" prot="protected" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>IVRAMPolicy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab3325a94dec088840c98052c8ae52475" prot="protected" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>IVRAMPolicy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1addf363c19cd9f260735634233a6fe8a5" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac8bab895e5ae857690c4dc12318d906f" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>next_hint_id_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1aa5fc6ed68594bb88c6469ea8e9c5c1ff" prot="public" virt="virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>onAllocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a1da2bd96141424137e7af5c79f1dcc91" prot="public" virt="virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>onDeallocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a8849d2e75532f97de438cf8f55ae62ad" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a56a731a29c8a63f25c4b82e168aa064b" prot="public" virt="non-virtual" ambiguityscope="themis::gpu::IVRAMPolicy::"><scope>themis::gpu::GPUMemoryManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aaa084e3524cc4d27336a02b069eb4d6d" prot="protected" virt="non-virtual" ambiguityscope="themis::gpu::IVRAMPolicy::"><scope>themis::gpu::GPUMemoryManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a95dfa128079d3b1051ab46a168361789" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>peak_bytes_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a79a0f63367ab2936ebc3d765c561430b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>RemoveTenantQuota</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a5e1a4bf4b7ba5f76b713c849fdf76bea" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>ReserveHint</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a949a06db8e40022f74b73af72774115f" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>RollbackAllocationUnderLock</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac97172fed78dd71a96f845fe2256b7b2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>SetTenantQuota</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1ac8c2bc9b7002188bade6eadf8bde4644" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>tenant_states_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6a8c6904758037d6fd19bd2e583c87d2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>TryAllocateGPU</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a5460f56baf16a34a4843853c11e5ed2a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>TryAllocateGPU</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a6f29c186f3f0e1d85da2f3d5eb228103" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>TryAllocateUnderLock</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a108a4e515969aebc3869b05b687ac406" prot="public" virt="virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>usedBytes</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a2a23b817c57aed9e3bed7f6a330d21a1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>ValidateAllocation</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager_1a3bca7f837ab2e10b8d174d38d9bd86df" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>~GPUMemoryManager</name></member>
+      <member refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a0c05157d9f612ab1f98df2a68cb8200f" prot="public" virt="virtual"><scope>themis::gpu::GPUMemoryManager</scope><name>~IVRAMPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

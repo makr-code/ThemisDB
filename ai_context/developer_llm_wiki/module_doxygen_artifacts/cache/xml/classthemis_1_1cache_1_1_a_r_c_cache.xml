@@ -1,0 +1,741 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_a_r_c_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::ARCCache</compoundname>
+    <includes refid="arc__cache_8h" local="no">arc_cache.h</includes>
+    <innerclass refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats" prot="public">themis::cache::ARCCache::Stats</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_entry" prot="private">themis::cache::ARCCache::Entry</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1cache_1_1_a_r_c_cache_1a3e1d756be7077c1c82b58f6423203ac9" prot="private" static="no">
+        <type>std::list&lt; Entry &gt;</type>
+        <definition>using themis::cache::ARCCache&lt; K, V &gt;::List = std::list&lt;Entry&gt;</definition>
+        <argsstring></argsstring>
+        <name>List</name>
+        <qualifiedname>themis::cache::ARCCache::List</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="305" column="5" bodyfile="include/cache/arc_cache.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1cache_1_1_a_r_c_cache_1a5bb29beefce77e494d7017bd2f37d8be" prot="private" static="no">
+        <type>typename List::iterator</type>
+        <definition>using themis::cache::ARCCache&lt; K, V &gt;::ListIt = typename List::iterator</definition>
+        <argsstring></argsstring>
+        <name>ListIt</name>
+        <qualifiedname>themis::cache::ARCCache::ListIt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="306" column="5" bodyfile="include/cache/arc_cache.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1cache_1_1_a_r_c_cache_1a055dd0b1907a8ca9039432e74043c00f" prot="private" static="no">
+        <type>std::unordered_map&lt; K, ListIt &gt;</type>
+        <definition>using themis::cache::ARCCache&lt; K, V &gt;::LiveMap = std::unordered_map&lt;K, ListIt&gt;</definition>
+        <argsstring></argsstring>
+        <name>LiveMap</name>
+        <qualifiedname>themis::cache::ARCCache::LiveMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="307" column="5" bodyfile="include/cache/arc_cache.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1cache_1_1_a_r_c_cache_1abdaf2e3e33a5def0eb5bea632b7379d5" prot="private" static="no">
+        <type>std::unordered_map&lt; K, bool &gt;</type>
+        <definition>using themis::cache::ARCCache&lt; K, V &gt;::GhostSet = std::unordered_map&lt;K, bool&gt;</definition>
+        <argsstring></argsstring>
+        <name>GhostSet</name>
+        <qualifiedname>themis::cache::ARCCache::GhostSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="309" column="5" bodyfile="include/cache/arc_cache.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_cache_1a42c19c9515861db94ef9423d4dbfcda6" prot="private" static="no" mutable="no">
+        <type>const size_t</type>
+        <definition>const size_t themis::cache::ARCCache&lt; K, V &gt;::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>themis::cache::ARCCache::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="349" column="18" bodyfile="include/cache/arc_cache.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_cache_1a5060f8abc798d8ea4a66e709679672e5" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::ARCCache&lt; K, V &gt;::p_</definition>
+        <argsstring></argsstring>
+        <name>p_</name>
+        <qualifiedname>themis::cache::ARCCache::p_</qualifiedname>
+        <briefdescription>
+<para>Target size of T1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="350" column="18" bodyfile="include/cache/arc_cache.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_cache_1a272cc89efd31297efd4de7c3ac3b13ca" prot="private" static="no" mutable="no">
+        <type>List</type>
+        <definition>List themis::cache::ARCCache&lt; K, V &gt;::t1_list_</definition>
+        <argsstring></argsstring>
+        <name>t1_list_</name>
+        <qualifiedname>themis::cache::ARCCache::t1_list_</qualifiedname>
+        <briefdescription>
+<para>Recently-seen (MRU at front). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="353" column="13" bodyfile="include/cache/arc_cache.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_cache_1af95621c09f7372ec76a8d16ddeb1ab0d" prot="private" static="no" mutable="no">
+        <type>LiveMap</type>
+        <definition>LiveMap themis::cache::ARCCache&lt; K, V &gt;::t1_map_</definition>
+        <argsstring></argsstring>
+        <name>t1_map_</name>
+        <qualifiedname>themis::cache::ARCCache::t1_map_</qualifiedname>
+        <briefdescription>
+<para>Fast lookup into T1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="354" column="13" bodyfile="include/cache/arc_cache.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_cache_1a229f29fef474098635b21617960dabaf" prot="private" static="no" mutable="no">
+        <type>List</type>
+        <definition>List themis::cache::ARCCache&lt; K, V &gt;::t2_list_</definition>
+        <argsstring></argsstring>
+        <name>t2_list_</name>
+        <qualifiedname>themis::cache::ARCCache::t2_list_</qualifiedname>
+        <briefdescription>
+<para>Frequently-seen (MRU at front). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="355" column="13" bodyfile="include/cache/arc_cache.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_cache_1a481c2bfc623ff8f26838e32460e6254a" prot="private" static="no" mutable="no">
+        <type>LiveMap</type>
+        <definition>LiveMap themis::cache::ARCCache&lt; K, V &gt;::t2_map_</definition>
+        <argsstring></argsstring>
+        <name>t2_map_</name>
+        <qualifiedname>themis::cache::ARCCache::t2_map_</qualifiedname>
+        <briefdescription>
+<para>Fast lookup into T2. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="356" column="13" bodyfile="include/cache/arc_cache.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_cache_1a660b91c61a8916d76350fcafc7598a9d" prot="private" static="no" mutable="no">
+        <type>GhostSet</type>
+        <definition>GhostSet themis::cache::ARCCache&lt; K, V &gt;::b1_set_</definition>
+        <argsstring></argsstring>
+        <name>b1_set_</name>
+        <qualifiedname>themis::cache::ARCCache::b1_set_</qualifiedname>
+        <briefdescription>
+<para>Keys evicted from T1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="359" column="14" bodyfile="include/cache/arc_cache.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_cache_1a817492b1e3c4fd851c01d3754929eb67" prot="private" static="no" mutable="no">
+        <type>GhostSet</type>
+        <definition>GhostSet themis::cache::ARCCache&lt; K, V &gt;::b2_set_</definition>
+        <argsstring></argsstring>
+        <name>b2_set_</name>
+        <qualifiedname>themis::cache::ARCCache::b2_set_</qualifiedname>
+        <briefdescription>
+<para>Keys evicted from T2. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="360" column="14" bodyfile="include/cache/arc_cache.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_cache_1a3e63e882d2dfd03d926f4093aa7d4b60" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; K &gt;</type>
+        <definition>std::unordered_set&lt;K&gt; themis::cache::ARCCache&lt; K, V &gt;::pinned_</definition>
+        <argsstring></argsstring>
+        <name>pinned_</name>
+        <qualifiedname>themis::cache::ARCCache::pinned_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="363" column="24" bodyfile="include/cache/arc_cache.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_cache_1ad2646238f8093fb28903f1a403c207c7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::ARCCache&lt; K, V &gt;::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cache::ARCCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="365" column="24" bodyfile="include/cache/arc_cache.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_a_r_c_cache_1a9ba6386b6d6a43f23cc08785a55d5915" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::cache::ARCCache&lt; K, V &gt;::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::cache::ARCCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="366" column="11" bodyfile="include/cache/arc_cache.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a789451f2e095876af9922c12f9320850" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::ARCCache&lt; K, V &gt;::ARCCache</definition>
+        <argsstring>(size_t capacity)</argsstring>
+        <name>ARCCache</name>
+        <qualifiedname>themis::cache::ARCCache::ARCCache</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+<para>── Construction / destruction ─────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="54" column="14" bodyfile="include/cache/arc_cache.h" bodystart="54" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a53d4eba278edd9507fb0d5e4be97204d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::ARCCache&lt; K, V &gt;::~ARCCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ARCCache</name>
+        <qualifiedname>themis::cache::ARCCache::~ARCCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="57" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a51ed869648b8dacc523cecfbe991062b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::ARCCache&lt; K, V &gt;::ARCCache</definition>
+        <argsstring>(const ARCCache &amp;)=delete</argsstring>
+        <name>ARCCache</name>
+        <qualifiedname>themis::cache::ARCCache::ARCCache</qualifiedname>
+        <param>
+          <type>const ARCCache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a0664954df1b128f7bee2462ce0f4c9e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_a_r_c_cache_1a789451f2e095876af9922c12f9320850" kindref="member">ARCCache</ref> &amp;</type>
+        <definition>ARCCache &amp; themis::cache::ARCCache&lt; K, V &gt;::operator=</definition>
+        <argsstring>(const ARCCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::ARCCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cache_1_1_a_r_c_cache_1a789451f2e095876af9922c12f9320850" kindref="member">ARCCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="60" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a75ed603ef2bb0f33dfe6d7feb30b6d79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::ARCCache&lt; K, V &gt;::ARCCache</definition>
+        <argsstring>(ARCCache &amp;&amp;)=delete</argsstring>
+        <name>ARCCache</name>
+        <qualifiedname>themis::cache::ARCCache::ARCCache</qualifiedname>
+        <param>
+          <type>ARCCache &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="61" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a53b3ec8d09529de13379188dc6b26fa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_a_r_c_cache_1a789451f2e095876af9922c12f9320850" kindref="member">ARCCache</ref> &amp;</type>
+        <definition>ARCCache &amp; themis::cache::ARCCache&lt; K, V &gt;::operator=</definition>
+        <argsstring>(ARCCache &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::ARCCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_a_r_c_cache_1a789451f2e095876af9922c12f9320850" kindref="member">ARCCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="62" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a4f3d663bccd3e656843d8862167a0c0c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; V &gt;</type>
+        <definition>std::optional&lt; V &gt; themis::cache::ARCCache&lt; K, V &gt;::get</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::cache::ARCCache::get</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>── Core operations ────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), push_front(), begin(), erase(), front(), splice(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="71" column="19" bodyfile="include/cache/arc_cache.h" bodystart="71" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1affeb58a807502e1e310da8824d731fef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::ARCCache&lt; K, V &gt;::put</definition>
+        <argsstring>(const K &amp;key, V value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::cache::ARCCache::put</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>V</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::move(), push_front(), begin(), erase(), splice(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="106" column="10" bodyfile="include/cache/arc_cache.h" bodystart="106" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a39214c6eeb0f3537bc8ca00b4be076d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::ARCCache&lt; K, V &gt;::remove</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::cache::ARCCache::remove</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="189" column="10" bodyfile="include/cache/arc_cache.h" bodystart="189" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1ac47554a28501d78ece54aa32d814bec0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::ARCCache&lt; K, V &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::cache::ARCCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="211" column="10" bodyfile="include/cache/arc_cache.h" bodystart="211" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1acafd5c762a0b857ad9459885f44229d8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cache::ARCCache&lt; K, V &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::cache::ARCCache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="224" column="12" bodyfile="include/cache/arc_cache.h" bodystart="224" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a661ef6627daa42b103dbe7d760e7c770" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cache::ARCCache&lt; K, V &gt;::capacity</definition>
+        <argsstring>() const</argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::cache::ARCCache::capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="234" column="12" bodyfile="include/cache/arc_cache.h" bodystart="234" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1ad05589564a63488fcf3fcb5822c395f3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cache::ARCCache&lt; K, V &gt;::targetT1</definition>
+        <argsstring>() const</argsstring>
+        <name>targetT1</name>
+        <qualifiedname>themis::cache::ARCCache::targetT1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="236" column="12" bodyfile="include/cache/arc_cache.h" bodystart="236" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1ae00a9ebeeddaf5fcb6c2ae51b063bb98" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::cache::ARCCache&lt; K, V &gt;::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::cache::ARCCache::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="246" column="11" bodyfile="include/cache/arc_cache.h" bodystart="246" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1af15d5a2e8d064cbee85c50cbb20aab03" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::ARCCache&lt; K, V &gt;::contains</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::cache::ARCCache::contains</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="256" column="10" bodyfile="include/cache/arc_cache.h" bodystart="256" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1adb6c4130c9776a31554b2af90349bb05" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::ARCCache&lt; K, V &gt;::pin</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>pin</name>
+        <qualifiedname>themis::cache::ARCCache::pin</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>── Hot-page pinning ───────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="272" column="10" bodyfile="include/cache/arc_cache.h" bodystart="272" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a0a624d1497b9ce398cce92ba4f4ae6c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::ARCCache&lt; K, V &gt;::unpin</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>unpin</name>
+        <qualifiedname>themis::cache::ARCCache::unpin</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Unpin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="282" column="10" bodyfile="include/cache/arc_cache.h" bodystart="282" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a2bea680ac518610d7446333d091c3c77" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::ARCCache&lt; K, V &gt;::isPinned</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>isPinned</name>
+        <qualifiedname>themis::cache::ARCCache::isPinned</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="287" column="10" bodyfile="include/cache/arc_cache.h" bodystart="287" bodyend="295"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_a_r_c_cache_1a880cb9e1b40bb9054cc5fa88d04c60cc" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::ARCCache&lt; K, V &gt;::evict</definition>
+        <argsstring>()</argsstring>
+        <name>evict</name>
+        <qualifiedname>themis::cache::ARCCache::evict</qualifiedname>
+        <briefdescription>
+<para>── Eviction ───────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), <ref refid="classthemis_1_1cache_1_1_a_r_c_cache_1acafd5c762a0b857ad9459885f44229d8" kindref="member">size()</ref>, rbegin(), rend(), count(), erase(), std::next(), base(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="316" column="10" bodyfile="include/cache/arc_cache.h" bodystart="316" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/arc_cache.h" line="29" column="1" bodyfile="include/cache/arc_cache.h" bodystart="29" bodyend="367"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a789451f2e095876af9922c12f9320850" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>ARCCache</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a51ed869648b8dacc523cecfbe991062b" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>ARCCache</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a75ed603ef2bb0f33dfe6d7feb30b6d79" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>ARCCache</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a660b91c61a8916d76350fcafc7598a9d" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>b1_set_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a817492b1e3c4fd851c01d3754929eb67" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>b2_set_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a661ef6627daa42b103dbe7d760e7c770" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>capacity</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a42c19c9515861db94ef9423d4dbfcda6" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>capacity_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1ac47554a28501d78ece54aa32d814bec0" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1af15d5a2e8d064cbee85c50cbb20aab03" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>contains</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a880cb9e1b40bb9054cc5fa88d04c60cc" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>evict</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a4f3d663bccd3e656843d8862167a0c0c" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1abdaf2e3e33a5def0eb5bea632b7379d5" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>GhostSet</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a2bea680ac518610d7446333d091c3c77" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>isPinned</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a3e1d756be7077c1c82b58f6423203ac9" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>List</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a5bb29beefce77e494d7017bd2f37d8be" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>ListIt</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a055dd0b1907a8ca9039432e74043c00f" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>LiveMap</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1ad2646238f8093fb28903f1a403c207c7" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a0664954df1b128f7bee2462ce0f4c9e4" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a53b3ec8d09529de13379188dc6b26fa8" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a5060f8abc798d8ea4a66e709679672e5" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>p_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1adb6c4130c9776a31554b2af90349bb05" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>pin</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a3e63e882d2dfd03d926f4093aa7d4b60" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>pinned_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1affeb58a807502e1e310da8824d731fef" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a39214c6eeb0f3537bc8ca00b4be076d6" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>remove</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1acafd5c762a0b857ad9459885f44229d8" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1ae00a9ebeeddaf5fcb6c2ae51b063bb98" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>stats</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a9ba6386b6d6a43f23cc08785a55d5915" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a272cc89efd31297efd4de7c3ac3b13ca" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>t1_list_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1af95621c09f7372ec76a8d16ddeb1ab0d" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>t1_map_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a229f29fef474098635b21617960dabaf" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>t2_list_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a481c2bfc623ff8f26838e32460e6254a" prot="private" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>t2_map_</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1ad05589564a63488fcf3fcb5822c395f3" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>targetT1</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a0a624d1497b9ce398cce92ba4f4ae6c2" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>unpin</name></member>
+      <member refid="classthemis_1_1cache_1_1_a_r_c_cache_1a53d4eba278edd9507fb0d5e4be97204d" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache</scope><name>~ARCCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

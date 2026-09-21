@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CompletenessEvaluator::Config</compoundname>
+    <includes refid="completeness__evaluator_8h" local="no">completeness_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config_1a9f59bd193d6ed94ae8bbf7d758f38485" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CompletenessEvaluator::Config::required_aspect_weight</definition>
+        <argsstring></argsstring>
+        <name>required_aspect_weight</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Config::required_aspect_weight</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="68" column="16" bodyfile="include/rag/completeness_evaluator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config_1a8d41ab3319911011834e26d0a18c60ed" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CompletenessEvaluator::Config::optional_aspect_weight</definition>
+        <argsstring></argsstring>
+        <name>optional_aspect_weight</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Config::optional_aspect_weight</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="69" column="16" bodyfile="include/rag/completeness_evaluator.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config_1ad1ee0abc8e4775504c2ea5a893eb93db" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CompletenessEvaluator::Config::enable_depth_assessment</definition>
+        <argsstring></argsstring>
+        <name>enable_depth_assessment</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Config::enable_depth_assessment</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="70" column="14" bodyfile="include/rag/completeness_evaluator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config_1adfaa90d0b2f607e96dd8b8eccd5da5de" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CompletenessEvaluator::Config::enable_gap_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_gap_detection</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Config::enable_gap_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="71" column="14" bodyfile="include/rag/completeness_evaluator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for completeness evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/completeness_evaluator.h" line="67" column="5" bodyfile="include/rag/completeness_evaluator.h" bodystart="67" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config_1ad1ee0abc8e4775504c2ea5a893eb93db" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Config</scope><name>enable_depth_assessment</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config_1adfaa90d0b2f607e96dd8b8eccd5da5de" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Config</scope><name>enable_gap_detection</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config_1a8d41ab3319911011834e26d0a18c60ed" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Config</scope><name>optional_aspect_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config_1a9f59bd193d6ed94ae8bbf7d758f38485" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Config</scope><name>required_aspect_weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

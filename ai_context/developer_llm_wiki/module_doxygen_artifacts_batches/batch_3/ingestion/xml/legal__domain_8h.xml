@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="legal__domain_8h" kind="file" language="C++">
+    <compoundname>legal_domain.h</compoundname>
+    <includes refid="base__entity_8h" local="yes">ingestion/base_entity.h</includes>
+    <includes refid="extraction__context_8h" local="yes">ingestion/extraction_context.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="yes">utils/error_registry.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="legal__domain_8cpp" local="yes">src/ingestion/legal_domain.cpp</includedby>
+    <includedby refid="test__ingestion__legal__domain_8cpp" local="yes">tests/ingestion/test_ingestion_legal_domain.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>ingestion/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>ingestion/extraction_context.h</label>
+        <link refid="extraction__context_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>ingestion/file_format.h</label>
+        <link refid="file__format_8h"/>
+      </node>
+      <node id="9">
+        <label>ingestion/file_manifest.h</label>
+        <link refid="file__manifest_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ingestion/legal_domain.h</label>
+        <link refid="legal__domain_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="17">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="14">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/ingestion/legal_domain.h</label>
+        <link refid="legal__domain_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/ingestion/legal_domain.cpp</label>
+        <link refid="legal__domain_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/ingestion/test_ingestion_legal_domain.cpp</label>
+        <link refid="test__ingestion__legal__domain_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1ingestion_1_1_gesetz_node" prot="public">themis::ingestion::GesetzNode</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy" prot="public">themis::ingestion::GesetzHierarchy</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_gesetz_parser" prot="public">themis::ingestion::GesetzParser</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_temporal_validity" prot="public">themis::ingestion::TemporalValidity</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_temporal_extractor" prot="public">themis::ingestion::TemporalExtractor</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_behoerden_mapper" prot="public">themis::ingestion::BehoerdenMapper</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_bescheid_entity" prot="public">themis::ingestion::BescheidEntity</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_bescheid_extractor" prot="public">themis::ingestion::BescheidExtractor</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_cross_document_linker" prot="public">themis::ingestion::CrossDocumentLinker</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_legal_entity_export" prot="public">themis::ingestion::LegalEntityExport</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.2 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="base__entity_8h" kindref="compound">ingestion/base_entity.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="extraction__context_8h" kindref="compound">ingestion/extraction_context.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/error_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GesetzParser<sp/>—<sp/>Phase<sp/>6.1:<sp/>Teil<sp/>→<sp/>Abschnitt<sp/>→<sp/>§<sp/>recursive<sp/>hierarchy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644b" kindref="member">GesetzNodeType</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644ba9d0870ccd5ed03091e682bd219fc3ee5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644ba9d0870ccd5ed03091e682bd219fc3ee5" kindref="member">GESETZ</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644bad6dc21baaaa5263e442a5f5613d172e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644bad6dc21baaaa5263e442a5f5613d172e0" kindref="member">TEIL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644bada2d931b1d1023e9a92484ffabd47647" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644bada2d931b1d1023e9a92484ffabd47647" kindref="member">ABSCHNITT</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644ba2043613b40978710bda1c46662af3f3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644ba2043613b40978710bda1c46662af3f3c" kindref="member">PARAGRAPH</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644ba5fbae2f20cc1a364cc1f01c4c50ebc5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644ba5fbae2f20cc1a364cc1f01c4c50ebc5d" kindref="member">ABSATZ</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1ingestion_1_1_gesetz_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_gesetz_node" kindref="compound">GesetzNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1ingestion_1_1_gesetz_node_1ad3ece2c7013951a5223309ec47ea539e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644b" kindref="member">GesetzNodeType</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_node_1ad3ece2c7013951a5223309ec47ea539e" kindref="member">type</ref>{<ref refid="namespacethemis_1_1ingestion_1a1903c40f6188371fb1fa3e80ba11644ba9d0870ccd5ed03091e682bd219fc3ee5" kindref="member">GesetzNodeType::GESETZ</ref>};</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1ingestion_1_1_gesetz_node_1a11eff142e53d37e220c80b3d7296ffb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_node_1a11eff142e53d37e220c80b3d7296ffb1" kindref="member">number</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1ingestion_1_1_gesetz_node_1a2261fda0a8e5f1bb7189c4d0a9a65ca1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_node_1a2261fda0a8e5f1bb7189c4d0a9a65ca1" kindref="member">heading</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1ingestion_1_1_gesetz_node_1a303cbbc57e6133dc4f1cf5d616a1cc99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_node_1a303cbbc57e6133dc4f1cf5d616a1cc99" kindref="member">text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1ingestion_1_1_gesetz_node_1a4231de46e22940f2a62cabf28d858c99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GesetzNode&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_node_1a4231de46e22940f2a62cabf28d858c99" kindref="member">children</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_node_1aa007c84e5777a9847686e381f21f888a" kindref="member">traverse</ref>(std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_node" kindref="compound">GesetzNode</ref>&amp;,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>depth)&gt;<sp/>fn,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>depth<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy" kindref="compound">GesetzHierarchy</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a6f37036ea25475f4d2d3bb323d7b8824" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a6f37036ea25475f4d2d3bb323d7b8824" kindref="member">norm_abbreviation</ref>;<sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a9092faccc8750435656da75dc0aebac9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a9092faccc8750435656da75dc0aebac9" kindref="member">full_title</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a4be068c86ec79c9299769d73c32046ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_node" kindref="compound">GesetzNode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a4be068c86ec79c9299769d73c32046ec" kindref="member">root</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a9fc2a8e63d5e0d97057a17531a55900c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy_1a9fc2a8e63d5e0d97057a17531a55900c" kindref="member">warnings</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1ingestion_1_1_gesetz_parser" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_gesetz_parser_1a525597be7dedae66b2115fd8779fbb8d" kindref="member">GesetzParser</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1ingestion_1_1_gesetz_parser_1a525597be7dedae66b2115fd8779fbb8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_gesetz_parser_1a525597be7dedae66b2115fd8779fbb8d" kindref="member">GesetzParser</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;GesetzHierarchy&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_gesetz_parser_1a890fc8c51c564ae4fc8adfdb0ab3d90f" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>norm_abbreviation<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GesetzNode&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_gesetz_parser_1a2fe14a2e32616f9d350881e3151789f9" kindref="member">extractParagraphs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BaseEntity&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_gesetz_parser_1a7d3ceacd6d12f052c81c672538e05b25" kindref="member">toEntities</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy" kindref="compound">GesetzHierarchy</ref>&amp;<sp/>hierarchy)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::size_t,<sp/>GesetzNode&gt;&gt;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extractParagraphsWithOffsets(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TemporalExtractor<sp/>—<sp/>Phase<sp/>6.2:<sp/>effective_from<sp/>/<sp/>effective_to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1ingestion_1_1_temporal_validity" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_temporal_validity" kindref="compound">TemporalValidity</ref><sp/>{</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1ingestion_1_1_temporal_validity_1ad0335c0a6aa428933076d2eb348d0b9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_temporal_validity_1ad0335c0a6aa428933076d2eb348d0b9c" kindref="member">effective_from</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1ingestion_1_1_temporal_validity_1a93542ce07187e6f3a6030eb5807d4bc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_temporal_validity_1a93542ce07187e6f3a6030eb5807d4bc1" kindref="member">effective_to</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1ingestion_1_1_temporal_validity_1af1f692bad8ea38aeabf5451be258b923" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_temporal_validity_1af1f692bad8ea38aeabf5451be258b923" kindref="member">source_hint</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1ingestion_1_1_temporal_extractor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_temporal_extractor_1abfcf9049c27155eb7a9c73bb82d974a4" kindref="member">TemporalExtractor</ref><sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1ingestion_1_1_temporal_extractor_1abfcf9049c27155eb7a9c73bb82d974a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_temporal_extractor_1abfcf9049c27155eb7a9c73bb82d974a4" kindref="member">TemporalExtractor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_temporal_validity" kindref="compound">TemporalValidity</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_temporal_extractor_1abc8124d6f533da9945a3d086f747ecb2" kindref="member">extract</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_temporal_validity" kindref="compound">TemporalValidity</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_temporal_extractor_1a64cb46b696244126f28b8935ca712d6f" kindref="member">merge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_temporal_validity" kindref="compound">TemporalValidity</ref>&amp;<sp/>text_validity,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/><sp/><sp/><sp/>metadata)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_temporal_extractor_1a83d4be43dc0dc757d4cdd2444c034fb0" kindref="member">normaliseDate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>raw);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BehoerdenMapper<sp/>—<sp/>Phase<sp/>6.3:<sp/>norm<sp/>reference<sp/>→<sp/>responsible<sp/>authority</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1ingestion_1_1_behoerden_mapper" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1a5d67c19993dbc0aec3240af75a47f468" kindref="member">BehoerdenMapper</ref><sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1a5d67c19993dbc0aec3240af75a47f468" kindref="member">BehoerdenMapper</ref>();<sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1a1b15c8512f6641e790c97161debf6fb4" kindref="member">lookupAuthority</ref>(</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>norm_abbreviation)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1ab0d058c03dd3b9496ad74a3ff6a485ef" kindref="member">addMapping</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>norm,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>authority);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1a42fafe2c30a7fc2af22d79f7834cf31f" kindref="member">setFallback</ref>(std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>fn);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1a5319a2717126268a26c3f4b1844c781d" kindref="member">mappingCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>builtin_;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>custom_;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/><sp/><sp/><sp/><sp/><sp/>fallback_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BescheidExtractor<sp/>—<sp/>Phase<sp/>6.4:<sp/>Aktenzeichen,<sp/>Antragsteller,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="structthemis_1_1ingestion_1_1_bescheid_entity" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity" kindref="compound">BescheidEntity</ref><sp/>{</highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a8542d88651c274b58a831a22f3e20e28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a8542d88651c274b58a831a22f3e20e28" kindref="member">aktenzeichen</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225" refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a2998bdf4bdd09471ae219691c4a8e9bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a2998bdf4bdd09471ae219691c4a8e9bc" kindref="member">antragsteller</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a03f768b86e8368daf17f9399a59b085a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a03f768b86e8368daf17f9399a59b085a" kindref="member">bescheid_datum</ref>;<sp/></highlight></codeline>
+<codeline lineno="227" refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a8e5f57978d4d399637306a6839bed8c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a8e5f57978d4d399637306a6839bed8c1" kindref="member">behoerde</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a8a2c1703d61f6d6af4cd72670de0f480" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a8a2c1703d61f6d6af4cd72670de0f480" kindref="member">auflagen</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229" refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a5b7807892ab511507745b4f0fb1808a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a5b7807892ab511507745b4f0fb1808a6" kindref="member">nebenbestimmungen</ref>;<sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a988c3f0ba4220cd2f179695bcdd153ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a988c3f0ba4220cd2f179695bcdd153ec" kindref="member">empty</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a8542d88651c274b58a831a22f3e20e28" kindref="member">aktenzeichen</ref>.empty()<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a2998bdf4bdd09471ae219691c4a8e9bc" kindref="member">antragsteller</ref>.empty()</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a03f768b86e8368daf17f9399a59b085a" kindref="member">bescheid_datum</ref>.empty()<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity_1a8a2c1703d61f6d6af4cd72670de0f480" kindref="member">auflagen</ref>.empty();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="classthemis_1_1ingestion_1_1_bescheid_extractor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_bescheid_extractor_1a63fb914a3e59e07dd41cc7ebf36d6040" kindref="member">BescheidExtractor</ref><sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="249" refid="classthemis_1_1ingestion_1_1_bescheid_extractor_1a63fb914a3e59e07dd41cc7ebf36d6040" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_bescheid_extractor_1a63fb914a3e59e07dd41cc7ebf36d6040" kindref="member">BescheidExtractor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity" kindref="compound">BescheidEntity</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_bescheid_extractor_1ac2be06300d850814ea3984e2cf31eb39" kindref="member">extract</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_bescheid_extractor_1aa8eb9f0f7cf486a6b44fcbd0f8244dc0" kindref="member">toEntity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_bescheid_entity" kindref="compound">BescheidEntity</ref>&amp;<sp/>bescheid,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/>source_doc)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CrossDocumentLinker<sp/>—<sp/>Phase<sp/>6.5:<sp/>cross-file<sp/>§<sp/>references</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286" refid="classthemis_1_1ingestion_1_1_cross_document_linker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_cross_document_linker_1ac96e54c35b8d8f5b5a0fa7addc66ba38" kindref="member">CrossDocumentLinker</ref><sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="288" refid="classthemis_1_1ingestion_1_1_cross_document_linker_1ac96e54c35b8d8f5b5a0fa7addc66ba38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_cross_document_linker_1ac96e54c35b8d8f5b5a0fa7addc66ba38" kindref="member">CrossDocumentLinker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EntityRelation&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_cross_document_linker_1a9b5af7653f181dc7ad38a6eefb5cd9a2" kindref="member">linkDocuments</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref>&amp;<sp/>ctx1,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref>&amp;<sp/>ctx2)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EntityRelation&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_cross_document_linker_1a386435735b3aa8102c9bab8e260355ab" kindref="member">linkDocumentBatch</ref>(</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source,</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ExtractionContext&gt;&amp;<sp/>targets)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LegalEntityExport<sp/>—<sp/>Phase<sp/>6.6:<sp/>JSON-LD<sp/>+<sp/>RDF<sp/>Turtle/N-Triples</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317" refid="namespacethemis_1_1ingestion_1a094da698f7e9ea4e0e8ea5a735588e7f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a094da698f7e9ea4e0e8ea5a735588e7f" kindref="member">RdfFormat</ref><sp/>{</highlight></codeline>
+<codeline lineno="318" refid="namespacethemis_1_1ingestion_1a094da698f7e9ea4e0e8ea5a735588e7fab80b09da7c3fc971c45286531c450ece" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a094da698f7e9ea4e0e8ea5a735588e7fab80b09da7c3fc971c45286531c450ece" kindref="member">TURTLE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="319" refid="namespacethemis_1_1ingestion_1a094da698f7e9ea4e0e8ea5a735588e7fae628212e373a8431c17828c03aeef27a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a094da698f7e9ea4e0e8ea5a735588e7fae628212e373a8431c17828c03aeef27a" kindref="member">N_TRIPLES</ref><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336" refid="classthemis_1_1ingestion_1_1_legal_entity_export" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_legal_entity_export_1a27dddb64773422dca1198d0ed1dff0de" kindref="member">LegalEntityExport</ref><sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="338" refid="classthemis_1_1ingestion_1_1_legal_entity_export_1a27dddb64773422dca1198d0ed1dff0de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_entity_export_1a27dddb64773422dca1198d0ed1dff0de" kindref="member">LegalEntityExport</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1ingestion_1_1_legal_entity_export_1a50fa82de0068a2c73203b774d177bd3a" kindref="member">exportJsonLd</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref>&amp;<sp/>entity_set,</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/>base_iri</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://themisdb.io/legal/&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_legal_entity_export_1a46ba9cf9dcd597d2c674a9ec13cacc90" kindref="member">exportRdf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref>&amp;<sp/>entity_set,</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a094da698f7e9ea4e0e8ea5a735588e7f" kindref="member">RdfFormat</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>format<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a094da698f7e9ea4e0e8ea5a735588e7fab80b09da7c3fc971c45286531c450ece" kindref="member">RdfFormat::TURTLE</ref>,</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/>base_iri</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://themisdb.io/legal/&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>escapeIriComponent(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>escapeTurtleLiteral(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildTurtle(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref>&amp;<sp/>es,</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/>base)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildNTriples(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref>&amp;<sp/>es,</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/>base)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/legal_domain.h"/>
+  </compounddef>
+</doxygen>

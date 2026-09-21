@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::DistributedCoordinator::LeaderInfo</compoundname>
+    <includes refid="distributed__coordinator_8h" local="no">distributed_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a4a0c39ac8af92e395e0cc698d94f308e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedCoordinator::LeaderInfo::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::LeaderInfo::shard_id</qualifiedname>
+        <briefdescription>
+<para>Current leader shard ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="73" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1ad1242496bc97ad6a0661c7487fcb55a2" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262b" kindref="member">CoordinatorRole</ref></type>
+        <definition>CoordinatorRole themis::sharding::DistributedCoordinator::LeaderInfo::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::LeaderInfo::role</qualifiedname>
+        <briefdescription>
+<para>Local role at time of snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="74" column="25" bodyfile="include/sharding/distributed_coordinator.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a3b1940a578ae0756017011ebc8cbc5f1" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::DistributedCoordinator::LeaderInfo::lease_expires_at</definition>
+        <argsstring></argsstring>
+        <name>lease_expires_at</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::LeaderInfo::lease_expires_at</qualifiedname>
+        <briefdescription>
+<para>Leader lease expiry time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="75" column="47" bodyfile="include/sharding/distributed_coordinator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1af18689d8403eaac5fca47f042b4d7cc1" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::DistributedCoordinator::LeaderInfo::last_heartbeat</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::LeaderInfo::last_heartbeat</qualifiedname>
+        <briefdescription>
+<para>Timestamp of last leader heartbeat. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="76" column="47" bodyfile="include/sharding/distributed_coordinator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a49d28b76725bf7f401ffddd7f54ced67" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::DistributedCoordinator::LeaderInfo::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::LeaderInfo::term</qualifiedname>
+        <briefdescription>
+<para>Raft-inspired coordination term. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="77" column="18" bodyfile="include/sharding/distributed_coordinator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a7ea5b6888cecdb0ae5e57eb266cd7cee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::DistributedCoordinator::LeaderInfo::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::LeaderInfo::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize leader info into JSON payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="80" column="24" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="80" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of current coordinator leader status. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/distributed_coordinator.h" line="72" column="5" bodyfile="include/sharding/distributed_coordinator.h" bodystart="72" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1af18689d8403eaac5fca47f042b4d7cc1" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::LeaderInfo</scope><name>last_heartbeat</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a3b1940a578ae0756017011ebc8cbc5f1" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::LeaderInfo</scope><name>lease_expires_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1ad1242496bc97ad6a0661c7487fcb55a2" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::LeaderInfo</scope><name>role</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a4a0c39ac8af92e395e0cc698d94f308e" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::LeaderInfo</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a49d28b76725bf7f401ffddd7f54ced67" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::LeaderInfo</scope><name>term</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info_1a7ea5b6888cecdb0ae5e57eb266cd7cee" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::LeaderInfo</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

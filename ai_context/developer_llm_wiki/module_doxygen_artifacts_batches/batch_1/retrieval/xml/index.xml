@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="structthemis_1_1retrieval_1_1_adapter_usage_policy" kind="struct"><name>themis::retrieval::AdapterUsagePolicy</name>
+    <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1a88bbb78a667de939d83eb151f17a74fc" kind="variable"><name>license</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1afb843bc09446fe30f89d1cd2304ea4f7" kind="variable"><name>restrictions</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1a2d1129014e284ec9be04e298d9085005" kind="variable"><name>allowed_base_models</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1aaef41dd320abd0effa450c801fc85330" kind="variable"><name>max_concurrent_deployments</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1ada696ca3b5167d8f4e719f1930c5bb53" kind="variable"><name>expiry_date</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1af291f07ec5444c61aca1cb955f5feb8d" kind="function"><name>to_json</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_adapter_usage_policy_1a34eb6a9348603ca7ee8c1052638684db" kind="function"><name>from_json</name></member>
+  </compound>
+  <compound refid="structthemis_1_1retrieval_1_1_artifact_integrity" kind="struct"><name>themis::retrieval::ArtifactIntegrity</name>
+    <member refid="structthemis_1_1retrieval_1_1_artifact_integrity_1a384dc8a384125d2ac70a51b9e5610979" kind="variable"><name>weights_hash</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_artifact_integrity_1ae0126d0cabd227ec2190fa02dbf70f79" kind="variable"><name>manifest_hash</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_artifact_integrity_1a0d81cbb92e35724fdecc6afc382f1d21" kind="variable"><name>signature</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_artifact_integrity_1af27e72f45eaca86fea48ef4c7034ad76" kind="variable"><name>signature_algorithm</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_artifact_integrity_1a2cb8d000b54eb59cd30d6e4c7d3922a9" kind="variable"><name>signer_id</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_artifact_integrity_1a385451bee0707c173fbdc604ef39f570" kind="variable"><name>signed_at</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_artifact_integrity_1a5cc5baacf98a9e1423f4917952184b63" kind="variable"><name>signature_verified</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_artifact_integrity_1a0aba05591862a54e0b10a3a7b4ac4511" kind="function"><name>to_json</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_artifact_integrity_1a4e6bcd94d9ae844dd802d9f5aab922b4" kind="function"><name>from_json</name></member>
+  </compound>
+  <compound refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine" kind="class"><name>themis::retrieval::testing::HybridRetrieverEngine</name>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5" kind="enum"><name>RetrievalMode</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5ae367f803355b31810e62453987cdf6c2" kind="enumvalue"><name>EXACT_FIRST</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5ab180bf9f1fdbc8f7334af968e1987382" kind="enumvalue"><name>ADVISORY_ANN</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a71fa57aec9764c24f9518589859984c5af8fdcdeccc470b32cbc71985e7c76c8c" kind="enumvalue"><name>EXACT_ONLY</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1acc8cbeef808f4d68eaeea4a979e35b1f" kind="variable"><name>exact_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a9c3d563e7a382fb22e8888e25e5e3a4a" kind="variable"><name>ann_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a48e4b613d64a1208aa1b42e45f5eed47" kind="variable"><name>mode_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1aba68517269967ae652bb6aa6e1b00005" kind="variable"><name>exact_threshold_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a5e32e0e5c1b71d55adf249fb56ad2bdf" kind="variable"><name>fallback_to_ann_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a2ba6efa2d4cbc6d8dbfd63d6e3ecd797" kind="function"><name>HybridRetrieverEngine</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a0eb4e03dd04dbf19ca179cf54ec65b65" kind="function"><name>retrieve</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a0f6c23a3afab43e3b3b16ec940b4480b" kind="function"><name>setMode</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a4e091895bac63a1c3c1c9f95c6868531" kind="function"><name>getMode</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a70612f6d15ac04cc80dc536a5852b712" kind="function"><name>addDocument</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1a35824dc045d9c5f4050691ceafef61df" kind="function"><name>clearData</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine_1abc2ab6c29121998935da3533c74d3ddd" kind="function"><name>getDocumentCount</name></member>
+  </compound>
+  <compound refid="class_hybrid_retriever_parity" kind="class"><name>HybridRetrieverParity</name>
+  </compound>
+  <compound refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_contract_test" kind="class"><name>themis::retrieval::testing::HybridRetrieverParityContractTest</name>
+  </compound>
+  <compound refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test" kind="class"><name>themis::retrieval::testing::HybridRetrieverParityTest</name>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test_1acbd1eb783483482662d45d7a9476e9e4" kind="variable"><name>engine_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test_1a3af4c988030f8563a28b0b83bd2a7384" kind="function"><name>HybridRetrieverParityTest</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test_1a1cfb8b4fe19d24cf7eaadfc08d048fe7" kind="function"><name>computeSpearmanCorrelation</name></member>
+  </compound>
+  <compound refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store" kind="class"><name>themis::retrieval::LoRAManifestStore</name>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a8df5ca606f8cb3dd53d98c5dd88d9aa6" kind="typedef"><name>SignatureVerifier</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a64f176a316cd9b29e3ea7d35ccb3feb4" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1aba9630eeb55a2cd3434633cf461519ea" kind="variable"><name>packages_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2836414306700dea46fe2d86d598e7dc" kind="variable"><name>products_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a9925825b3830e9c41d59441023c43c7a" kind="variable"><name>signature_verifier_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2d7779306075a7ffcd32b39a1d605f83" kind="function"><name>LoRAManifestStore</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1abfff9aa355483a09c50382c706a8e09e" kind="function"><name>~LoRAManifestStore</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a747a014173604d2fea7b6e4a392402b8" kind="function"><name>LoRAManifestStore</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a011ca8122be25c88921695ba5f982531" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a531b065b0e3e1ad9faefd377d32a06bb" kind="function"><name>LoRAManifestStore</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a27bcb866bd97139037f47f4a6ceae732" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ae0fa7eb26e7b9a51e7cd7dc7ab51bce8" kind="function"><name>setSignatureVerifier</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a84c00b47da19b21fa87edac2b5e4a777" kind="function"><name>storePackage</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ab26932fd4f83d5e769e9e156260c6cbe" kind="function"><name>loadPackage</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a57d41d876962ea776cb735bc707239f4" kind="function"><name>deletePackage</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ad307805c60c32ebf640aae3c843b4009" kind="function"><name>listPackageIds</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1adbc387d896fb94b940606accc0c07f1d" kind="function"><name>listPackagesByStatus</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1acf508f18f40133a3f428907aabb08a87" kind="function"><name>storeProduct</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a6fb96a10ba32f2e3688003dd71a51d8c" kind="function"><name>loadProduct</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a6b5f0e2ec1a07e9275b44524a3bcb203" kind="function"><name>deleteProduct</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a0e333d926bfb9fc3dac32f4c2ea97335" kind="function"><name>listProductIds</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a369a511821a29d1308f51129e33a85fb" kind="function"><name>listProductsByPackage</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a1a7fc425c089c5e90f5d7a76406b58ab" kind="function"><name>listProductsByStatus</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ad701f033ef218692dc1f5f7e455a7b2c" kind="function"><name>verifyPackageIntegrity</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ae3b644f7b1a99fe139109247c6ba3255" kind="function"><name>verifyProductIntegrity</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a6a0bcee089b39148e621e22e8cdff9ee" kind="function"><name>exportPackages</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ad30d747e13e7c5873b2fbd370f55d911" kind="function"><name>importPackages</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a5f4037f30a7d7878039bf6b980164eaf" kind="function"><name>exportProducts</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2a77c7a9995ef90074e5ba7e2dc3d3f4" kind="function"><name>importProducts</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a540d8b354023460a1c4a01e1908796c7" kind="function"><name>packageCount</name></member>
+    <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ab5faa74a45e2dceee09b28e9b52fc9c5" kind="function"><name>productCount</name></member>
+  </compound>
+  <compound refid="structthemis_1_1retrieval_1_1_lo_r_a_package" kind="struct"><name>themis::retrieval::LoRAPackage</name>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a83ef7827dd9f2a41167071e2ae0614b2" kind="variable"><name>package_id</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a55586fa616ab38c6a86b2f747c89ee8a" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1aae1c6787a065c7bf6066390251c2796b" kind="variable"><name>version</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a3087f9a6910735a7d7caf5448e648020" kind="variable"><name>description</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1ac6aa8835ed9c4200d3eddd5035ebb34d" kind="variable"><name>supported_architectures</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a1722bb7ea3f5abb155d314331afea865" kind="variable"><name>lora_rank</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a438dc76b080873d3a8ad6eec1401544d" kind="variable"><name>lora_alpha</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1add5b815a3b33e4a90371092dd3ab1163" kind="variable"><name>target_modules</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1adc6edd5b07b96982953ff9ee27494748" kind="variable"><name>parent_package_id</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a1ae03d501b60474efc5434211a5c3467" kind="variable"><name>provenance</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1afe264427eeb9e771476b62f4c014e003" kind="variable"><name>policy</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a28d90c15cc57664a32b5800e5296999e" kind="variable"><name>weights_path</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a1f2ee70da68931f094de0158dba9c61e" kind="variable"><name>integrity</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a2ba9d32b772485bccb46a7cb3b907101" kind="variable"><name>status</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a1aa48af3b7a02eaca1b0fcf4480eda9f" kind="variable"><name>created_at</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1aad2d620e83c860732c4cda19066deb73" kind="variable"><name>updated_at</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a806bcae1913683417b7226faedd6443d" kind="function"><name>to_json</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a13b7a1ad04a765bc1e2cf19646e32c4d" kind="function"><name>computeManifestHash</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a1cc3adeaa4991fb09b731065ac528389" kind="function"><name>supportsArchitecture</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a91d43e700c322b8a0d94856d55bc1640" kind="function"><name>statusToString</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a7cd1e571bebec286b747b24a4c5aebdf" kind="function"><name>from_json</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a7d04dc2d486a0c298aed2cfc07fb1220" kind="function"><name>statusFromString</name></member>
+  </compound>
+  <compound refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance" kind="struct"><name>themis::retrieval::LoRAPackageProvenance</name>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1acaf8724d20c5be041d4b2f93fd67a892" kind="variable"><name>trainer_id</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1af636b96cc60cd6a971ea6c54b23a4b00" kind="variable"><name>training_framework</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1aea2789812755ea4824690f81bf6f5c71" kind="variable"><name>dataset_id</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1a28982470782ddcebf84e4f06a388bb36" kind="variable"><name>dataset_hash</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1aab5f8ef7134d3f2aa9a4406a31591e14" kind="variable"><name>base_model_id</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1a0e37e5a682bc2acdbafba815fa870984" kind="variable"><name>base_model_hash</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1a9eeb1d95f05fa71acde64ca43c2f6439" kind="variable"><name>hyperparameter_hash</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1ac34977b662ef31115ee324a447136d8f" kind="variable"><name>training_duration_secs</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1a42fa4db0f31b0425765bf5fb69f315ba" kind="variable"><name>created_at</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1ac5aa70251ca2b2c5c6f2f39226db7557" kind="variable"><name>hardware_info</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1a8328958a881f445fc13a4a2542b42200" kind="variable"><name>custom_metadata</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1a66bb5903c8f5ee23308a59e8b86fc9a4" kind="function"><name>to_json</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_lo_r_a_package_provenance_1aa36d85bee27714030a7a177120ffe597" kind="function"><name>from_json</name></member>
+  </compound>
+  <compound refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever" kind="class"><name>themis::retrieval::testing::MockANNRetriever</name>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a8b8c63f1431b8a277a0cf2c4592dd3f6" kind="variable"><name>vectors_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1adbda8bc12a9e047b35c0671e163a8757" kind="variable"><name>ann_search_time_us_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a65173bf8c58b9e17cc7d19d051c37625" kind="function"><name>MockANNRetriever</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1aadbc3f113bf1cf10a71ac92a993abdb8" kind="function"><name>retrieveANN</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a20e0eae7fcf3251538cb564ddfebef67" kind="function"><name>addVector</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a097d32e38d9ea454dad55b57a2d8767c" kind="function"><name>clearVectors</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a4fca56109fab1ecb8bd633f8c1e4a600" kind="function"><name>vectorCount</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a9878496a6030052b12633179c546992e" kind="function"><name>computeDistance</name></member>
+  </compound>
+  <compound refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever" kind="class"><name>themis::retrieval::testing::MockExactRetriever</name>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a1d5574ec76bcb06c929909fa24107662" kind="variable"><name>documents_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a0b23ed525ced19ad88bcdbb5e969fc8c" kind="variable"><name>max_results_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a99b95b0111040db57ef29491ebff6a0a" kind="variable"><name>exact_search_time_us_</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a3e37798f195ca2990dd0f45c27779264" kind="function"><name>MockExactRetriever</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a1da299d652fbbc4ca7f05f7416832ff5" kind="function"><name>retrieveExact</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1ab169f4532d67f09a4054ca6f893f2c10" kind="function"><name>addDocument</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1af78e76001e8c68e3b0391794a10965b6" kind="function"><name>clearDocuments</name></member>
+    <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1ae525035c3045f7386d4794af385ab11a" kind="function"><name>documentCount</name></member>
+  </compound>
+  <compound refid="structthemis_1_1retrieval_1_1_portable_adapter_product" kind="struct"><name>themis::retrieval::PortableAdapterProduct</name>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1ad649185a7578e99f81cdc85e170cd2fb" kind="variable"><name>product_id</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1ace93a418fd8f5ada3184949675fdd514" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a65c793874a842716398bc430c8801182" kind="variable"><name>version</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a8d5bdfc7593e33ee5b8da1004e9cba46" kind="variable"><name>source_package_id</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a0d4615a0f1be6c03dc9db9c184de1b47" kind="variable"><name>target_base_model_id</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a3318903a700f520db19ff6d23c439ce8" kind="variable"><name>target_model_architecture</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a79ca7187db0c23b49bd98f7ee67bf9c3" kind="variable"><name>quantization</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1aafb4579868918f79f179c99a37e63c63" kind="variable"><name>format</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a890171a1bfb057485c3e71c5c9f05961" kind="variable"><name>file_path</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1ae683a7fd61b7a23ec9897be5c70f8b71" kind="variable"><name>file_size_bytes</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a9d43cad95856186a710da27fe350bdec" kind="variable"><name>max_context_length</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a89a01f3c00c4c923e88470ac4653392d" kind="variable"><name>memory_requirement_mb</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a8b12d44fd70eb5ae06baa755a9ee6830" kind="variable"><name>compatible_model_versions</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a182d2e3e75b4806781fa3af749e906a7" kind="variable"><name>integrity</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a078434f92f73d90d0d5206b7cf50e2ad" kind="variable"><name>status</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a48f3ddb9b79b10cbb14a438accbbb162" kind="variable"><name>created_at</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a329410f24a26d32c99bd66a403e3b08d" kind="variable"><name>updated_at</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a9fa087d3ba8d66d552cffc36209b54ca" kind="variable"><name>deployed_at</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a1e5d5ff1c4bd6b366369c1a51fb43920" kind="function"><name>to_json</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a98e04207e4cdf35f13c7e7aa50b89262" kind="function"><name>computeManifestHash</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1ada68f64932ea3cdee86b32bdbddee2bd" kind="function"><name>statusToString</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a581549733386729baf6d9c63b2bb4716" kind="function"><name>from_json</name></member>
+    <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a8627cc5a1c60e13ca562de1103ed85c5" kind="function"><name>statusFromString</name></member>
+  </compound>
+  <compound refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result" kind="struct"><name>themis::retrieval::testing::RetrievalResult</name>
+    <member refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a6039d9e214b0f7e96bca52a149bcee08" kind="variable"><name>id</name></member>
+    <member refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a59cca066fc55eca626160b82b0cadb11" kind="variable"><name>score</name></member>
+    <member refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a99b3740dcc414d7a2bebb225c57f9584" kind="variable"><name>content</name></member>
+    <member refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a06525f0775318ded3fb5f2b47e0b8646" kind="function"><name>operator==</name></member>
+  </compound>
+  <compound refid="class_stub_routing_table" kind="class"><name>StubRoutingTable</name>
+    <member refid="class_stub_routing_table_1ac3362f9c2c6fae0ea47b579d71e6d9fe" kind="variable"><name>num_shards_</name></member>
+    <member refid="class_stub_routing_table_1a227386fd236d2082e6641be052bf38a4" kind="variable"><name>mu_</name></member>
+    <member refid="class_stub_routing_table_1a91eecfe2498be00d5c64f51d3a000c1b" kind="variable"><name>overrides_</name></member>
+    <member refid="class_stub_routing_table_1a9e75c3006030e8c606f725e76a58d771" kind="function"><name>StubRoutingTable</name></member>
+    <member refid="class_stub_routing_table_1a790eec44d8469ca219d6d554f2cf0e49" kind="function"><name>route</name></member>
+    <member refid="class_stub_routing_table_1a2e6669ec10357709cbebba37be694cc8" kind="function"><name>corrupt</name></member>
+    <member refid="class_stub_routing_table_1aaeff008764447fb86f6ec8f028d53f14" kind="function"><name>heal</name></member>
+    <member refid="class_stub_routing_table_1a8305097cbe72c7c76ab5ccea257ec420" kind="function"><name>routeWithOverride</name></member>
+    <member refid="class_stub_routing_table_1a967fe3f46ae8fdffe97d12063448e0cc" kind="function"><name>numShards</name></member>
+  </compound>
+  <compound refid="class_stub_shard" kind="class"><name>StubShard</name>
+    <member refid="class_stub_shard_1aa584b60de91aac5d0704fb81e0d42c3c" kind="variable"><name>mu_</name></member>
+    <member refid="class_stub_shard_1a67645578e046345cba603573291c47bb" kind="variable"><name>data_</name></member>
+    <member refid="class_stub_shard_1acd5d499a9f00377df59e779046626b49" kind="function"><name>insert</name></member>
+    <member refid="class_stub_shard_1a0c5c8d663f0ad88edbb1cd2cfcb8883b" kind="function"><name>contains</name></member>
+    <member refid="class_stub_shard_1a63841a108b6ac4846b9a02d41e2df894" kind="function"><name>size</name></member>
+  </compound>
+  <compound refid="namespace_0d101144354060153315320173045250372172213366376103" kind="namespace"><name>@101144354060153315320173045250372172213366376103</name>
+  </compound>
+  <compound refid="namespacestd_1_1chrono__literals" kind="namespace"><name>std::chrono_literals</name>
+  </compound>
+  <compound refid="namespacetesting" kind="namespace"><name>testing</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1retrieval" kind="namespace"><name>themis::retrieval</name>
+    <member refid="namespacethemis_1_1retrieval_1ae7f13c6fb213f64c1effed8985a469fd" kind="enum"><name>LoRAPackageStatus</name></member>
+    <member refid="namespacethemis_1_1retrieval_1ae7f13c6fb213f64c1effed8985a469fda521019040a0f4f7773357aa6bc22180b" kind="enumvalue"><name>DRAFT</name></member>
+    <member refid="namespacethemis_1_1retrieval_1ae7f13c6fb213f64c1effed8985a469fda4d6154fe02ac9bf42fd2aacfa49310b0" kind="enumvalue"><name>VALIDATED</name></member>
+    <member refid="namespacethemis_1_1retrieval_1ae7f13c6fb213f64c1effed8985a469fdaf0d9e10417deacee308b91a46ddc1746" kind="enumvalue"><name>DEPRECATED</name></member>
+    <member refid="namespacethemis_1_1retrieval_1ae7f13c6fb213f64c1effed8985a469fda727e10d767d9a626c3d8a6a921447323" kind="enumvalue"><name>REVOKED</name></member>
+    <member refid="namespacethemis_1_1retrieval_1a0fcfe20fbe790dca6f0174f05b7ba551" kind="enum"><name>AdapterProductStatus</name></member>
+    <member refid="namespacethemis_1_1retrieval_1a0fcfe20fbe790dca6f0174f05b7ba551a71a6834884666147c0334f0c40bc7295" kind="enumvalue"><name>BUILDING</name></member>
+    <member refid="namespacethemis_1_1retrieval_1a0fcfe20fbe790dca6f0174f05b7ba551a2baa69eafc7204f3bd8648eba580c489" kind="enumvalue"><name>READY</name></member>
+    <member refid="namespacethemis_1_1retrieval_1a0fcfe20fbe790dca6f0174f05b7ba551a90ed2d7a17a0f9a3f787aac3f7c39608" kind="enumvalue"><name>DEPLOYED</name></member>
+    <member refid="namespacethemis_1_1retrieval_1a0fcfe20fbe790dca6f0174f05b7ba551af509be1cc64421d5b60cb6458f99c352" kind="enumvalue"><name>RETIRED</name></member>
+    <member refid="namespacethemis_1_1retrieval_1a0fcfe20fbe790dca6f0174f05b7ba551ab9e14d9b2886bcff408b85aefa780419" kind="enumvalue"><name>FAILED</name></member>
+    <member refid="namespacethemis_1_1retrieval_1a767e8c8e3db26f14bd28a768739b00a3" kind="typedef"><name>json</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1retrieval_1_1_0d172047165322366117002102055362132114162376037037" kind="namespace"><name>themis::retrieval::@172047165322366117002102055362132114162376037037</name>
+  </compound>
+  <compound refid="namespacethemis_1_1retrieval_1_1_integrity_helper" kind="namespace"><name>themis::retrieval::IntegrityHelper</name>
+    <member refid="namespacethemis_1_1retrieval_1_1_integrity_helper_1aaa08298db90e694094f11a1e6534ae3c" kind="function"><name>sha256Hex</name></member>
+    <member refid="namespacethemis_1_1retrieval_1_1_integrity_helper_1ad0a9978098d04702955c421ba0cd98a5" kind="function"><name>sha256Hex</name></member>
+    <member refid="namespacethemis_1_1retrieval_1_1_integrity_helper_1a6e11b8d1736bc5e61f0497ca439dd447" kind="function"><name>verifyHash</name></member>
+    <member refid="namespacethemis_1_1retrieval_1_1_integrity_helper_1a370f68292be8327b11aa168e4258a16f" kind="function"><name>verifyHash</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1retrieval_1_1testing" kind="namespace"><name>themis::retrieval::testing</name>
+    <member refid="namespacethemis_1_1retrieval_1_1testing_1aae0c67b82fb3220b79c10a6de95f963e" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1retrieval_1_1testing_1a4cf31404a11868f8178e4e141bb2a331" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1retrieval_1_1testing_1a3a3f8c416138e46fdd5ea6e3f2b5ecae" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1retrieval_1_1testing_1afbe712ee09ffe47a684237f04248f496" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1retrieval_1_1testing_1a09c79639690328fb71489520b59474a1" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1retrieval_1_1testing_1a3a73ce1db8cfff0632340b6a3756503b" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1retrieval_1_1testing_1a3c699841539d50707bb76ecb589a6800" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1retrieval_1_1testing_1a452aac7213b574e9a496b0107d84bd51" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1retrieval_1_1testing_1aa5bf9b57dbac3260c0fdc87c3a594450" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="bench__retrieval__dedicated__gates_8cpp" kind="file"><name>bench_retrieval_dedicated_gates.cpp</name>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1afc80b4c2aebaa16d2123f6dd76c961b9" kind="function"><name>routeKey</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1af6e2cc898671f261639254b4bbbfa1a8" kind="function"><name>BM_RT_BM_01_SingleShardRouting</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1ad734860121f3c69e2a2991d6af36b885" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1a3decb0966476bae4af9fab2352e0e743" kind="function"><name>BM_RT_BM_02_MultiShardRouting</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1aaa763d6c558e1cd287d5802422b3c172" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1a6166e1f8d1d2093191eccfae33842ea2" kind="function"><name>stubGpuQuery</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1a732e865925cc4f9f1dc34c4cd558b862" kind="function"><name>stubCpuQuery</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1a7ab8f7ec00e6f8370c16423855c306b9" kind="function"><name>BM_RT_BM_03_GpuAdvisoryThroughput</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1a6ccb51ff9ff6a0b71a620971dd6f0722" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1a9b90ba61e1ba4779f26000609d1f6086" kind="function"><name>BM_RT_BM_03_CpuBaseline</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1a3a3e3559f76bc6a108ddcc90e65c61a5" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1a78f29151ba4e35db6fadcdfc1fa68a99" kind="function"><name>BM_RT_BM_04_HighCardinalityRouting</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1a8610fd00384410d8bebb0684b18e40b1" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__retrieval__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="retrieval_8h" kind="file"><name>retrieval.h</name>
+  </compound>
+  <compound refid="lora__package_8h" kind="file"><name>lora_package.h</name>
+  </compound>
+  <compound refid="lora__package_8cc" kind="file"><name>lora_package.cc</name>
+  </compound>
+  <compound refid="test__retrieval__highcardinality__stress_8cpp" kind="file"><name>test_retrieval_highcardinality_stress.cpp</name>
+    <member refid="test__retrieval__highcardinality__stress_8cpp_1a0db8834b489ba22aa0530994ebba1358" kind="function"><name>TEST</name></member>
+    <member refid="test__retrieval__highcardinality__stress_8cpp_1a2dd22bc68ee1b6004e0f8e4d1d4f2d8f" kind="function"><name>TEST</name></member>
+    <member refid="test__retrieval__highcardinality__stress_8cpp_1a71a6ac139d263a3059c6a9a75bf44226" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__retrieval__hybrid__parity__focused_8cpp" kind="file"><name>test_retrieval_hybrid_parity_focused.cpp</name>
+  </compound>
+  <compound refid="test__retrieval__llm__reranking__focused_8cpp" kind="file"><name>test_retrieval_llm_reranking_focused.cpp</name>
+    <member refid="test__retrieval__llm__reranking__focused_8cpp_1af9cc9bae3499e6351a711ad300f8f994" kind="function"><name>TEST</name></member>
+    <member refid="test__retrieval__llm__reranking__focused_8cpp_1a329e79dccdc149b2ded9d34f1f10f00c" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__retrieval__lora__trust__boundary__focused_8cpp" kind="file"><name>test_retrieval_lora_trust_boundary_focused.cpp</name>
+    <member refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" kind="function"><name>TEST</name></member>
+    <member refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a981781801af5837cca568f7589886cab" kind="function"><name>TEST</name></member>
+    <member refid="test__retrieval__lora__trust__boundary__focused_8cpp_1ac67d975d40013bda2e3146cfd7e7fe5d" kind="function"><name>TEST</name></member>
+    <member refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a6d23395f8c7618851d10ea19753d3304" kind="function"><name>TEST</name></member>
+    <member refid="test__retrieval__lora__trust__boundary__focused_8cpp_1adac1480ad54e5438bf61499e86d35d44" kind="function"><name>TEST</name></member>
+    <member refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a9521fd898fbde1b5fdaf3df7a669a431" kind="function"><name>TEST</name></member>
+    <member refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a035282442e525894c07660270dd2e969" kind="function"><name>TEST</name></member>
+    <member refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a933f934e98d4124fca91ce83eb11a1c2" kind="function"><name>TEST</name></member>
+    <member refid="test__retrieval__lora__trust__boundary__focused_8cpp_1aa24683c2f47dce5a0db117129a5022fd" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test" kind="page"><name>test</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_52c577f026e9891e9e7b039c5f656aa3" kind="dir"><name>src/retrieval/include</name>
+  </compound>
+  <compound refid="dir_06883ca3633cb8daa7e4dc49360bee3a" kind="dir"><name>benchmarks/retrieval</name>
+  </compound>
+  <compound refid="dir_7c03000017bc6855195f2842116e529c" kind="dir"><name>include/retrieval</name>
+  </compound>
+  <compound refid="dir_25f9ae10c0e79d11aa1f3f4290fae1d9" kind="dir"><name>src/retrieval</name>
+  </compound>
+  <compound refid="dir_8a3bd1c742a3fb0bb5f713a112039a59" kind="dir"><name>tests/retrieval</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_ccbaf4a1e15893884f875a4ee8e92f92" kind="dir"><name>src/retrieval/src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

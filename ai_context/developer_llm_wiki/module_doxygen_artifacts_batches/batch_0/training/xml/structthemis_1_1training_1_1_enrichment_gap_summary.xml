@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_enrichment_gap_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::EnrichmentGapSummary</compoundname>
+    <includes refid="training__failsafe_8h" local="no">training_failsafe.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_summary_1a0c0fbaaa51cfd811df0a4e7449e8741b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentGapSummary::total_items</definition>
+        <argsstring></argsstring>
+        <name>total_items</name>
+        <qualifiedname>themis::training::EnrichmentGapSummary::total_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total items submitted for enrichment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="252" column="12" bodyfile="include/training/training_failsafe.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_summary_1abc653abe2e730ba5d7bd6424b7a75d79" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentGapSummary::enriched_items</definition>
+        <argsstring></argsstring>
+        <name>enriched_items</name>
+        <qualifiedname>themis::training::EnrichmentGapSummary::enriched_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Items successfully enriched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="253" column="12" bodyfile="include/training/training_failsafe.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_summary_1a9835d2ebb13efc1e126d4f741614327a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentGapSummary::gap_items</definition>
+        <argsstring></argsstring>
+        <name>gap_items</name>
+        <qualifiedname>themis::training::EnrichmentGapSummary::gap_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Items that could not be enriched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="254" column="12" bodyfile="include/training/training_failsafe.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_summary_1aa5a80c5165145943a78fa6562933ea2d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::EnrichmentGapSummary::coverage_ratio</definition>
+        <argsstring></argsstring>
+        <name>coverage_ratio</name>
+        <qualifiedname>themis::training::EnrichmentGapSummary::coverage_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>enriched_items / total_items (0.0–1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="255" column="12" bodyfile="include/training/training_failsafe.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_summary_1a08bb3808d8cdaa50fa030b352161d755" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::EnrichmentGapSummary::meets_threshold</definition>
+        <argsstring></argsstring>
+        <name>meets_threshold</name>
+        <qualifiedname>themis::training::EnrichmentGapSummary::meets_threshold</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when coverage_ratio &gt;= minimum_coverage_threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="258" column="12" bodyfile="include/training/training_failsafe.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_summary_1a4c1ce3d601da9d24c2c3febcbe808dc3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::EnrichmentGapSummary::gap_reason</definition>
+        <argsstring></argsstring>
+        <name>gap_reason</name>
+        <qualifiedname>themis::training::EnrichmentGapSummary::gap_reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the gap source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="260" column="17" bodyfile="include/training/training_failsafe.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_summary_1a8cdb164fd4eb2e82de21751d9a1b4091" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::EnrichmentGapSummary::incident_emitted</definition>
+        <argsstring></argsstring>
+        <name>incident_emitted</name>
+        <qualifiedname>themis::training::EnrichmentGapSummary::incident_emitted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="261" column="17" bodyfile="include/training/training_failsafe.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Summary of enrichment gap coverage returned by <ref refid="classthemis_1_1training_1_1_enrichment_gap_handler" kindref="compound">EnrichmentGapHandler</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_failsafe.h" line="251" column="1" bodyfile="include/training/training_failsafe.h" bodystart="251" bodyend="262"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_summary_1aa5a80c5165145943a78fa6562933ea2d" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapSummary</scope><name>coverage_ratio</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_summary_1abc653abe2e730ba5d7bd6424b7a75d79" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapSummary</scope><name>enriched_items</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_summary_1a9835d2ebb13efc1e126d4f741614327a" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapSummary</scope><name>gap_items</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_summary_1a4c1ce3d601da9d24c2c3febcbe808dc3" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapSummary</scope><name>gap_reason</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_summary_1a8cdb164fd4eb2e82de21751d9a1b4091" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapSummary</scope><name>incident_emitted</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_summary_1a08bb3808d8cdaa50fa030b352161d755" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapSummary</scope><name>meets_threshold</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_summary_1a0c0fbaaa51cfd811df0a4e7449e8741b" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapSummary</scope><name>total_items</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

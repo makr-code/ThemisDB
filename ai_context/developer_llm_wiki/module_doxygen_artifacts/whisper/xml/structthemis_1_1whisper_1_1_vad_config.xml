@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1whisper_1_1_vad_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::whisper::VadConfig</compoundname>
+    <includes refid="voice__activity__detector_8h" local="no">voice_activity_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_vad_config_1a5808466a6b7a701234738134bee546c6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::whisper::VadConfig::rms_threshold</definition>
+        <argsstring></argsstring>
+        <name>rms_threshold</name>
+        <qualifiedname>themis::whisper::VadConfig::rms_threshold</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/voice_activity_detector.h" line="48" column="12" bodyfile="include/whisper/voice_activity_detector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_vad_config_1affff38e953df857267a6500da44cc638" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::whisper::VadConfig::energy_threshold</definition>
+        <argsstring></argsstring>
+        <name>energy_threshold</name>
+        <qualifiedname>themis::whisper::VadConfig::energy_threshold</qualifiedname>
+        <initializer>= 0.01f</initializer>
+        <briefdescription>
+<para>Minimum normalized energy required to consider a segment for VAD processing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/voice_activity_detector.h" line="51" column="11" bodyfile="include/whisper/voice_activity_detector.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_vad_config_1ac2e4c6e1fd75c8bdba5d777356d526b5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::whisper::VadConfig::min_speech_ms</definition>
+        <argsstring></argsstring>
+        <name>min_speech_ms</name>
+        <qualifiedname>themis::whisper::VadConfig::min_speech_ms</qualifiedname>
+        <initializer>= 50.0f</initializer>
+        <briefdescription>
+<para>Filters out segments that are too short to be meaningful speech. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/voice_activity_detector.h" line="53" column="11" bodyfile="include/whisper/voice_activity_detector.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1whisper_1_1_vad_config_1aac03c630a899cd440af6a2ea92889f40" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::whisper::VadConfig::frame_ms</definition>
+        <argsstring></argsstring>
+        <name>frame_ms</name>
+        <qualifiedname>themis::whisper::VadConfig::frame_ms</qualifiedname>
+        <initializer>= 20.0f</initializer>
+        <briefdescription>
+<para>The fixed frame size used for calculating features like energy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/voice_activity_detector.h" line="55" column="11" bodyfile="include/whisper/voice_activity_detector.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration parameters used by the Voice Activity Detector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This holds necessary thresholds and structural limits required to perform reliable pre-detection analysis. Proper configuration is crucial for achieving low false-positive rates in noisy environments. </para>
+    </detaileddescription>
+    <location file="include/whisper/voice_activity_detector.h" line="46" column="1" bodyfile="include/whisper/voice_activity_detector.h" bodystart="46" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1whisper_1_1_vad_config_1affff38e953df857267a6500da44cc638" prot="public" virt="non-virtual"><scope>themis::whisper::VadConfig</scope><name>energy_threshold</name></member>
+      <member refid="structthemis_1_1whisper_1_1_vad_config_1aac03c630a899cd440af6a2ea92889f40" prot="public" virt="non-virtual"><scope>themis::whisper::VadConfig</scope><name>frame_ms</name></member>
+      <member refid="structthemis_1_1whisper_1_1_vad_config_1ac2e4c6e1fd75c8bdba5d777356d526b5" prot="public" virt="non-virtual"><scope>themis::whisper::VadConfig</scope><name>min_speech_ms</name></member>
+      <member refid="structthemis_1_1whisper_1_1_vad_config_1a5808466a6b7a701234738134bee546c6" prot="public" virt="non-virtual"><scope>themis::whisper::VadConfig</scope><name>rms_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_document_splitter" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::DocumentSplitter</compoundname>
+    <includes refid="document__splitter_8h" local="no">document_splitter.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1_document_splitter_1_1_impl" prot="public">themis::rag::DocumentSplitter::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_document_splitter_1a63becfd24968b844392faf8617945aa6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1_document_splitter_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::DocumentSplitter::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::DocumentSplitter::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="177" column="21" bodyfile="include/rag/document_splitter.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_1a827d27519bf8a098ba553c789fadd61c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DocumentSplitter::DocumentSplitter</definition>
+        <argsstring>()</argsstring>
+        <name>DocumentSplitter</name>
+        <qualifiedname>themis::rag::DocumentSplitter::DocumentSplitter</qualifiedname>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="117" column="5" bodyfile="src/rag/document_splitter.cpp" bodystart="360" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_1a966873c8fd60a1e8f49086dce7e76456" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DocumentSplitter::DocumentSplitter</definition>
+        <argsstring>(const DocumentSplitterConfig &amp;config)</argsstring>
+        <name>DocumentSplitter</name>
+        <qualifiedname>themis::rag::DocumentSplitter::DocumentSplitter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_document_splitter_config" kindref="compound">DocumentSplitterConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Splitting configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>config.overlap</computeroutput> &gt;= <computeroutput>config.chunk_size</computeroutput> or <computeroutput>config.chunk_size</computeroutput> == 0 or <computeroutput>config.chars_per_token</computeroutput> &lt;= 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="125" column="14" bodyfile="src/rag/document_splitter.cpp" bodystart="369" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_1a42895076922a387a212d31ed919c428c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DocumentSplitter::~DocumentSplitter</definition>
+        <argsstring>()</argsstring>
+        <name>~DocumentSplitter</name>
+        <qualifiedname>themis::rag::DocumentSplitter::~DocumentSplitter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="127" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_1a8c525b6ce5d9bc042aca54fd1fc7abc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DocumentSplitter::DocumentSplitter</definition>
+        <argsstring>(const DocumentSplitter &amp;)=delete</argsstring>
+        <name>DocumentSplitter</name>
+        <qualifiedname>themis::rag::DocumentSplitter::DocumentSplitter</qualifiedname>
+        <param>
+          <type>const DocumentSplitter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="130" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_1a3e6d968fea0f58cacce7289d73f10436" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_document_splitter_1a827d27519bf8a098ba553c789fadd61c" kindref="member">DocumentSplitter</ref> &amp;</type>
+        <definition>DocumentSplitter &amp; themis::rag::DocumentSplitter::operator=</definition>
+        <argsstring>(const DocumentSplitter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::DocumentSplitter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1_document_splitter_1a827d27519bf8a098ba553c789fadd61c" kindref="member">DocumentSplitter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="131" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_1a325562d1a78c02210e4c48a165756389" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DocumentSplitter::DocumentSplitter</definition>
+        <argsstring>(DocumentSplitter &amp;&amp;) noexcept=default</argsstring>
+        <name>DocumentSplitter</name>
+        <qualifiedname>themis::rag::DocumentSplitter::DocumentSplitter</qualifiedname>
+        <param>
+          <type>DocumentSplitter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_1a393333ed80ecdcaa03d086b956996394" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_document_splitter_1a827d27519bf8a098ba553c789fadd61c" kindref="member">DocumentSplitter</ref> &amp;</type>
+        <definition>DocumentSplitter &amp; themis::rag::DocumentSplitter::operator=</definition>
+        <argsstring>(DocumentSplitter &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::DocumentSplitter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_document_splitter_1a827d27519bf8a098ba553c789fadd61c" kindref="member">DocumentSplitter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="133" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_1ae0f064911592d2b9179fe20b89360f8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_document_chunk" kindref="compound">DocumentChunk</ref> &gt;</type>
+        <definition>std::vector&lt; DocumentChunk &gt; themis::rag::DocumentSplitter::split</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;document_id=&quot;&quot;) const</argsstring>
+        <name>split</name>
+        <qualifiedname>themis::rag::DocumentSplitter::split</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Split <computeroutput>text</computeroutput> into chunks according to the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw document text to split. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier embedded in every produced chunk. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered vector of chunks (empty when <computeroutput>text</computeroutput> is empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="146" column="17" bodyfile="src/rag/document_splitter.cpp" bodystart="382" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_1adb0b50cb15f5ac4a76c8e346bda72399" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DocumentSplitter::estimateTokens</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>estimateTokens</name>
+        <qualifiedname>themis::rag::DocumentSplitter::estimateTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Estimate the token count for an arbitrary string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Estimated number of tokens. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="158" column="12" bodyfile="src/rag/document_splitter.cpp" bodystart="398" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_1a96ad9784815e3036afafc8d450180642" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_document_splitter_config" kindref="compound">DocumentSplitterConfig</ref> &amp;</type>
+        <definition>const DocumentSplitterConfig &amp; themis::rag::DocumentSplitter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::DocumentSplitter::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="167" column="34" bodyfile="src/rag/document_splitter.cpp" bodystart="402" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_1a7852d9921a4dd62be83d123c6f7f2a56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::DocumentSplitter::setConfig</definition>
+        <argsstring>(const DocumentSplitterConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::DocumentSplitter::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_document_splitter_config" kindref="compound">DocumentSplitterConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid parameters (same as constructor).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: validateConfig(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="173" column="10" bodyfile="src/rag/document_splitter.cpp" bodystart="411" bodyend="414"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Splits a document into overlapping text chunks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Performance targets (1 MB / ~250 k-token document, Intel Core i7):<itemizedlist>
+<listitem><para>Fixed strategy: &lt; 5 ms</para>
+</listitem><listitem><para>Sliding strategy: &lt; 5 ms</para>
+</listitem><listitem><para>Sentence strategy: &lt; 20 ms (sentence detection adds minor overhead) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/document_splitter.h" line="112" column="1" bodyfile="include/rag/document_splitter.h" bodystart="112" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1a827d27519bf8a098ba553c789fadd61c" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>DocumentSplitter</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1a966873c8fd60a1e8f49086dce7e76456" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>DocumentSplitter</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1a8c525b6ce5d9bc042aca54fd1fc7abc9" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>DocumentSplitter</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1a325562d1a78c02210e4c48a165756389" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>DocumentSplitter</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1adb0b50cb15f5ac4a76c8e346bda72399" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>estimateTokens</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1a96ad9784815e3036afafc8d450180642" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1a63becfd24968b844392faf8617945aa6" prot="private" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1a3e6d968fea0f58cacce7289d73f10436" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1a393333ed80ecdcaa03d086b956996394" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1a7852d9921a4dd62be83d123c6f7f2a56" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1ae0f064911592d2b9179fe20b89360f8c" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>split</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_1a42895076922a387a212d31ed919c428c" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter</scope><name>~DocumentSplitter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

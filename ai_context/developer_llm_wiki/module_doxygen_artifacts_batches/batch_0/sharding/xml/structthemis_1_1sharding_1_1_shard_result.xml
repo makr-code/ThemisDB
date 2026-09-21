@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardResult</compoundname>
+    <includes refid="shard__router_8h" local="no">shard_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_result_1a8fcb5d207ad9065cf5c2cb84acef6303" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardResult::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::ShardResult::shard_id</qualifiedname>
+        <briefdescription>
+<para>Owning shard that processed or rejected the request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="49" column="17" bodyfile="include/sharding/shard_router.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_result_1a80bb327ead46644cc6a289886f6f9532" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ShardResult::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::sharding::ShardResult::data</qualifiedname>
+        <briefdescription>
+<para>JSON payload returned by the shard on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="50" column="20" bodyfile="include/sharding/shard_router.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_result_1ac9fae1d154405390efb9d8819cacac0f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::ShardResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the operation completed successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="51" column="10" bodyfile="include/sharding/shard_router.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_result_1a266bbbb4db0911cede98a665f4d66449" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardResult::error_msg</definition>
+        <argsstring></argsstring>
+        <name>error_msg</name>
+        <qualifiedname>themis::sharding::ShardResult::error_msg</qualifiedname>
+        <briefdescription>
+<para>Diagnostic message when <ref refid="structthemis_1_1sharding_1_1_shard_result_1ac9fae1d154405390efb9d8819cacac0f" kindref="member">success</ref> is false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="52" column="17" bodyfile="include/sharding/shard_router.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_result_1ac172045dd2573603aee9a173fa65ec57" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardResult::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::sharding::ShardResult::execution_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Observed execution latency in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="53" column="14" bodyfile="include/sharding/shard_router.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_result_1a36f4260f0c20d876ae35fe5e5dea1ce7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardResult::version_token</definition>
+        <argsstring></argsstring>
+        <name>version_token</name>
+        <qualifiedname>themis::sharding::ShardResult::version_token</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Monotonic merge/version metadata for stale-read detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="54" column="14" bodyfile="include/sharding/shard_router.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result envelope returned for one shard invocation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A result may represent a successful local/remote execution or a transport, timeout, or routing failure. Callers should inspect <ref refid="structthemis_1_1sharding_1_1_shard_result_1ac9fae1d154405390efb9d8819cacac0f" kindref="member">success</ref> before consuming <ref refid="structthemis_1_1sharding_1_1_shard_result_1a80bb327ead46644cc6a289886f6f9532" kindref="member">data</ref>. </para>
+    </detaileddescription>
+    <location file="include/sharding/shard_router.h" line="48" column="1" bodyfile="include/sharding/shard_router.h" bodystart="48" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_result_1a80bb327ead46644cc6a289886f6f9532" prot="public" virt="non-virtual"><scope>themis::sharding::ShardResult</scope><name>data</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_result_1a266bbbb4db0911cede98a665f4d66449" prot="public" virt="non-virtual"><scope>themis::sharding::ShardResult</scope><name>error_msg</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_result_1ac172045dd2573603aee9a173fa65ec57" prot="public" virt="non-virtual"><scope>themis::sharding::ShardResult</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_result_1a8fcb5d207ad9065cf5c2cb84acef6303" prot="public" virt="non-virtual"><scope>themis::sharding::ShardResult</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_result_1ac9fae1d154405390efb9d8819cacac0f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_result_1a36f4260f0c20d876ae35fe5e5dea1ce7" prot="public" virt="non-virtual"><scope>themis::sharding::ShardResult</scope><name>version_token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_cross_lingual_search_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CrossLingualSearch::Result</compoundname>
+    <includes refid="cross__lingual__search_8h" local="no">cross_lingual_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_result_1a27348e4c332b4aa532ceab7412265b16" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CrossLingualSearch::Result::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::CrossLingualSearch::Result::document_id</qualifiedname>
+        <briefdescription>
+<para>Primary key of the matching document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="120" column="21" bodyfile="include/search/cross_lingual_search.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_result_1a9d11b30da7e1a4e8583cd58cf9538d98" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::CrossLingualSearch::Result::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::CrossLingualSearch::Result::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Relevance score (language boosts applied). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="121" column="16" bodyfile="include/search/cross_lingual_search.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_result_1aaa2c02e3b9dab6201a2067ccecf0419c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CrossLingualSearch::Result::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::CrossLingualSearch::Result::language</qualifiedname>
+        <briefdescription>
+<para>ISO 639-1 code from language map (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="122" column="21" bodyfile="include/search/cross_lingual_search.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single cross-lingual search result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/cross_lingual_search.h" line="119" column="5" bodyfile="include/search/cross_lingual_search.h" bodystart="119" bodyend="123"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_result_1a27348e4c332b4aa532ceab7412265b16" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::Result</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_result_1aaa2c02e3b9dab6201a2067ccecf0419c" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::Result</scope><name>language</name></member>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_result_1a9d11b30da7e1a4e8583cd58cf9538d98" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::Result</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

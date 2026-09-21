@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ReconstructionInstruction</compoundname>
+    <includes refid="include_2distributed__tensor_2artifact__manifest_8h" local="no">artifact_manifest.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a31dd90144b7cfd1f5319b58fa08a46d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ReconstructionInstruction::reconstruction_type</definition>
+        <argsstring></argsstring>
+        <name>reconstruction_type</name>
+        <qualifiedname>themis::distributed_tensor::ReconstructionInstruction::reconstruction_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="46" column="15" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a0f204cc8503994c8eb5e554ff1bf7b4c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::distributed_tensor::ReconstructionInstruction::parent_artifact_ids</definition>
+        <argsstring></argsstring>
+        <name>parent_artifact_ids</name>
+        <qualifiedname>themis::distributed_tensor::ReconstructionInstruction::parent_artifact_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="48" column="15" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1abcfac186ffa0d988bf8bff5f30c51865" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::distributed_tensor::ReconstructionInstruction::required_shard_ids</definition>
+        <argsstring></argsstring>
+        <name>required_shard_ids</name>
+        <qualifiedname>themis::distributed_tensor::ReconstructionInstruction::required_shard_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="50" column="15" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a29bb8cda067f7d7a1e5a6616396a86df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ReconstructionInstruction::reconstruction_parameters</definition>
+        <argsstring></argsstring>
+        <name>reconstruction_parameters</name>
+        <qualifiedname>themis::distributed_tensor::ReconstructionInstruction::reconstruction_parameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="52" column="15" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a0cd9bfa490a399d8d6d7604a5570d8d4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ReconstructionInstruction::estimated_reconstruction_time_ms</definition>
+        <argsstring></argsstring>
+        <name>estimated_reconstruction_time_ms</name>
+        <qualifiedname>themis::distributed_tensor::ReconstructionInstruction::estimated_reconstruction_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="54" column="12" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/artifact_manifest.h" line="45" column="1" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="45" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a0cd9bfa490a399d8d6d7604a5570d8d4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReconstructionInstruction</scope><name>estimated_reconstruction_time_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a0f204cc8503994c8eb5e554ff1bf7b4c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReconstructionInstruction</scope><name>parent_artifact_ids</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a29bb8cda067f7d7a1e5a6616396a86df" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReconstructionInstruction</scope><name>reconstruction_parameters</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1a31dd90144b7cfd1f5319b58fa08a46d8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReconstructionInstruction</scope><name>reconstruction_type</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction_1abcfac186ffa0d988bf8bff5f30c51865" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReconstructionInstruction</scope><name>required_shard_ids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

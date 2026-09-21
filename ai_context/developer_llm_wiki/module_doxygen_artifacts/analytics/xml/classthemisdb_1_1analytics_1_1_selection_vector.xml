@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_selection_vector" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::SelectionVector</compoundname>
+    <includes refid="columnar__execution_8h" local="no">columnar_execution.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_selection_vector_1a9cc4a91df99780f8d97a7993dc46fd1a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themisdb::analytics::SelectionVector::indices_</definition>
+        <argsstring></argsstring>
+        <name>indices_</name>
+        <qualifiedname>themisdb::analytics::SelectionVector::indices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="113" column="17" bodyfile="include/analytics/columnar_execution.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_selection_vector_1a15d947e97f503c68c886fc86a02e094c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::SelectionVector::SelectionVector</definition>
+        <argsstring>()=default</argsstring>
+        <name>SelectionVector</name>
+        <qualifiedname>themisdb::analytics::SelectionVector::SelectionVector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="66" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_selection_vector_1a49e0815e8d12e2b205455739d1f97141" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::SelectionVector::SelectionVector</definition>
+        <argsstring>(size_t capacity)</argsstring>
+        <name>SelectionVector</name>
+        <qualifiedname>themisdb::analytics::SelectionVector::SelectionVector</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+<para>Selection Vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="72" column="14" bodyfile="src/analytics/columnar_execution.cpp" bodystart="95" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_selection_vector_1a285716ebba2eac2129183da58897aba5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::SelectionVector::reset</definition>
+        <argsstring>(size_t total_rows)</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::analytics::SelectionVector::reset</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>total_rows</declname>
+        </param>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">total_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: resize(), std::iota(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="78" column="10" bodyfile="src/analytics/columnar_execution.cpp" bodystart="104" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_selection_vector_1ac53597fb893e66bd4536dfab7d18f9a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::SelectionVector::push_back</definition>
+        <argsstring>(uint32_t idx)</argsstring>
+        <name>push_back</name>
+        <qualifiedname>themisdb::analytics::SelectionVector::push_back</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Push back. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements push_back without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="84" column="13" bodyfile="src/analytics/columnar_execution.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_selection_vector_1abf0f4ff82fc3dc51c248b1fcc2050db3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::SelectionVector::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themisdb::analytics::SelectionVector::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="90" column="13" bodyfile="src/analytics/columnar_execution.cpp" bodystart="118" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_selection_vector_1a1a2028b64a412355562b814bbd82b4d9" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::SelectionVector::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themisdb::analytics::SelectionVector::empty</qualifiedname>
+        <briefdescription>
+<para>Empty. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="96" column="13" bodyfile="src/analytics/columnar_execution.cpp" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_selection_vector_1a57aea4ba98a4ded4da32367256963757" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::SelectionVector::operator[]</definition>
+        <argsstring>(size_t pos) const</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>themisdb::analytics::SelectionVector::operator[]</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="97" column="14" bodyfile="src/analytics/columnar_execution.cpp" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_selection_vector_1a9c8044929fd545180d9dfdce456041f7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+        <definition>const std::vector&lt; uint32_t &gt; &amp; themisdb::analytics::SelectionVector::indices</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>indices</name>
+        <qualifiedname>themisdb::analytics::SelectionVector::indices</qualifiedname>
+        <briefdescription>
+<para>Indices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="103" column="23" bodyfile="src/analytics/columnar_execution.cpp" bodystart="130" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_selection_vector_1ab3c4f21211866a682cf8e6b522a91328" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_selection_vector_1a15d947e97f503c68c886fc86a02e094c" kindref="member">SelectionVector</ref></type>
+        <definition>SelectionVector themisdb::analytics::SelectionVector::all</definition>
+        <argsstring>(size_t n)</argsstring>
+        <name>all</name>
+        <qualifiedname>themisdb::analytics::SelectionVector::all</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: sv(), <ref refid="classthemisdb_1_1analytics_1_1_selection_vector_1a285716ebba2eac2129183da58897aba5" kindref="member">reset()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="110" column="28" bodyfile="src/analytics/columnar_execution.cpp" bodystart="140" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/columnar_execution.h" line="64" column="1" bodyfile="include/analytics/columnar_execution.h" bodystart="64" bodyend="114"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_selection_vector_1ab3c4f21211866a682cf8e6b522a91328" prot="public" virt="non-virtual"><scope>themisdb::analytics::SelectionVector</scope><name>all</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_selection_vector_1a1a2028b64a412355562b814bbd82b4d9" prot="public" virt="non-virtual"><scope>themisdb::analytics::SelectionVector</scope><name>empty</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_selection_vector_1a9c8044929fd545180d9dfdce456041f7" prot="public" virt="non-virtual"><scope>themisdb::analytics::SelectionVector</scope><name>indices</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_selection_vector_1a9cc4a91df99780f8d97a7993dc46fd1a" prot="private" virt="non-virtual"><scope>themisdb::analytics::SelectionVector</scope><name>indices_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_selection_vector_1a57aea4ba98a4ded4da32367256963757" prot="public" virt="non-virtual"><scope>themisdb::analytics::SelectionVector</scope><name>operator[]</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_selection_vector_1ac53597fb893e66bd4536dfab7d18f9a8" prot="public" virt="non-virtual"><scope>themisdb::analytics::SelectionVector</scope><name>push_back</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_selection_vector_1a285716ebba2eac2129183da58897aba5" prot="public" virt="non-virtual"><scope>themisdb::analytics::SelectionVector</scope><name>reset</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_selection_vector_1a15d947e97f503c68c886fc86a02e094c" prot="public" virt="non-virtual"><scope>themisdb::analytics::SelectionVector</scope><name>SelectionVector</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_selection_vector_1a49e0815e8d12e2b205455739d1f97141" prot="public" virt="non-virtual"><scope>themisdb::analytics::SelectionVector</scope><name>SelectionVector</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_selection_vector_1abf0f4ff82fc3dc51c248b1fcc2050db3" prot="public" virt="non-virtual"><scope>themisdb::analytics::SelectionVector</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionRequest</compoundname>
+    <includes refid="vision__encoder_8h" local="no">vision_encoder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_request_1a4a2da77c4be87d8c76f587c4fb21e8f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionRequest::text_prompt</definition>
+        <argsstring></argsstring>
+        <name>text_prompt</name>
+        <qualifiedname>themis::llm::VisionRequest::text_prompt</qualifiedname>
+        <briefdescription>
+<para>Text prompt/question. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="172" column="17" bodyfile="include/llm/vision_encoder.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_request_1af5046edae0c94186c4243a4af8aec891" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionRequest::image_path</definition>
+        <argsstring></argsstring>
+        <name>image_path</name>
+        <qualifiedname>themis::llm::VisionRequest::image_path</qualifiedname>
+        <briefdescription>
+<para>Path to single image. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="173" column="17" bodyfile="include/llm/vision_encoder.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_request_1ad18d7b468569a3163aa374855cec61b1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::VisionRequest::image_paths</definition>
+        <argsstring></argsstring>
+        <name>image_paths</name>
+        <qualifiedname>themis::llm::VisionRequest::image_paths</qualifiedname>
+        <briefdescription>
+<para>Paths to multiple images. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="174" column="17" bodyfile="include/llm/vision_encoder.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_request_1afbded3ed7acd7adfba0894ad81b2a1b8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::VisionRequest::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::llm::VisionRequest::max_tokens</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum tokens to generate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="177" column="9" bodyfile="include/llm/vision_encoder.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_request_1ac490bda383293fed3ca1081a412c5333" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::VisionRequest::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::llm::VisionRequest::temperature</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+<para>Sampling temperature. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="178" column="11" bodyfile="include/llm/vision_encoder.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_request_1a20a0e8b8242256004e6fff13d28970b2" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::VisionRequest::top_p</definition>
+        <argsstring></argsstring>
+        <name>top_p</name>
+        <qualifiedname>themis::llm::VisionRequest::top_p</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+<para>Nucleus sampling parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="179" column="11" bodyfile="include/llm/vision_encoder.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_request_1a52b2603f0fcd0f643f51033bb9dfa855" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::VisionRequest::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::llm::VisionRequest::top_k</qualifiedname>
+        <initializer>= 40</initializer>
+        <briefdescription>
+<para>Top-k sampling parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="180" column="9" bodyfile="include/llm/vision_encoder.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_request_1a27fc38c1e2274bdec5015468958d89a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionRequest::use_image_start_end</definition>
+        <argsstring></argsstring>
+        <name>use_image_start_end</name>
+        <qualifiedname>themis::llm::VisionRequest::use_image_start_end</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Add &lt;image&gt; tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="183" column="10" bodyfile="include/llm/vision_encoder.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_request_1a151ab308430ea4bc12d424776882d0b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionRequest::image_token</definition>
+        <argsstring></argsstring>
+        <name>image_token</name>
+        <qualifiedname>themis::llm::VisionRequest::image_token</qualifiedname>
+        <initializer>= &quot;&lt;image&gt;&quot;</initializer>
+        <briefdescription>
+<para>Special image token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="184" column="17" bodyfile="include/llm/vision_encoder.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_encoder.h" line="171" column="1" bodyfile="include/llm/vision_encoder.h" bodystart="171" bodyend="185"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_request_1af5046edae0c94186c4243a4af8aec891" prot="public" virt="non-virtual"><scope>themis::llm::VisionRequest</scope><name>image_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_request_1ad18d7b468569a3163aa374855cec61b1" prot="public" virt="non-virtual"><scope>themis::llm::VisionRequest</scope><name>image_paths</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_request_1a151ab308430ea4bc12d424776882d0b2" prot="public" virt="non-virtual"><scope>themis::llm::VisionRequest</scope><name>image_token</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_request_1afbded3ed7acd7adfba0894ad81b2a1b8" prot="public" virt="non-virtual"><scope>themis::llm::VisionRequest</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_request_1ac490bda383293fed3ca1081a412c5333" prot="public" virt="non-virtual"><scope>themis::llm::VisionRequest</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_request_1a4a2da77c4be87d8c76f587c4fb21e8f6" prot="public" virt="non-virtual"><scope>themis::llm::VisionRequest</scope><name>text_prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_request_1a52b2603f0fcd0f643f51033bb9dfa855" prot="public" virt="non-virtual"><scope>themis::llm::VisionRequest</scope><name>top_k</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_request_1a20a0e8b8242256004e6fff13d28970b2" prot="public" virt="non-virtual"><scope>themis::llm::VisionRequest</scope><name>top_p</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_request_1a27fc38c1e2274bdec5015468958d89a8" prot="public" virt="non-virtual"><scope>themis::llm::VisionRequest</scope><name>use_image_start_end</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

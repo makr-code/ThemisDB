@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_fb65d423fef994d9a8ec195802b73022" kind="dir">
+    <compoundname>include/voice</compoundname>
+    <innerfile refid="audio__preprocessing_8h">audio_preprocessing.h</innerfile>
+    <innerfile refid="emotion__analyzer_8h">emotion_analyzer.h</innerfile>
+    <innerfile refid="voice__accessibility_8h">voice_accessibility.h</innerfile>
+    <innerfile refid="voice__anti__spoof__engine_8h">voice_anti_spoof_engine.h</innerfile>
+    <innerfile refid="voice__assistant_8h">voice_assistant.h</innerfile>
+    <innerfile refid="voice__audio__storage_8h">voice_audio_storage.h</innerfile>
+    <innerfile refid="voice__audit__logger_8h">voice_audit_logger.h</innerfile>
+    <innerfile refid="voice__auth_8h">voice_auth.h</innerfile>
+    <innerfile refid="voice__batch__processor_8h">voice_batch_processor.h</innerfile>
+    <innerfile refid="voice__browser__streaming_8h">voice_browser_streaming.h</innerfile>
+    <innerfile refid="voice__error__handler_8h">voice_error_handler.h</innerfile>
+    <innerfile refid="voice__intent__detector_8h">voice_intent_detector.h</innerfile>
+    <innerfile refid="voice__liveness__checker_8h">voice_liveness_checker.h</innerfile>
+    <innerfile refid="voice__liveness__detector_8h">voice_liveness_detector.h</innerfile>
+    <innerfile refid="voice__macro_8h">voice_macro.h</innerfile>
+    <innerfile refid="voice__meeting__support_8h">voice_meeting_support.h</innerfile>
+    <innerfile refid="voice__model__cache_8h">voice_model_cache.h</innerfile>
+    <innerfile refid="voice__security_8h">voice_security.h</innerfile>
+    <innerfile refid="voice__session__manager_8h">voice_session_manager.h</innerfile>
+    <innerfile refid="voice__stream__validator_8h">voice_stream_validator.h</innerfile>
+    <innerfile refid="voice__telephony_8h">voice_telephony.h</innerfile>
+    <innerfile refid="voice__tts__customizer_8h">voice_tts_customizer.h</innerfile>
+    <innerfile refid="wake__word__detector_8h">wake_word_detector.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/"/>
+  </compounddef>
+</doxygen>

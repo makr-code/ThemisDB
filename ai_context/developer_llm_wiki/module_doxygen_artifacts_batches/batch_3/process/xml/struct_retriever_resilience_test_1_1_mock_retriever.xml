@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_retriever_resilience_test_1_1_mock_retriever" kind="struct" language="C++" prot="protected">
+    <compoundname>RetrieverResilienceTest::MockRetriever</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_retriever_resilience_test_1_1_mock_retriever_1af0d400e28562f84233c8516195b2e26e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; RetrieverResilienceTest::MockRetriever::memory_used_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_used_bytes</name>
+        <qualifiedname>RetrieverResilienceTest::MockRetriever::memory_used_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="61" column="21" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retriever_resilience_test_1_1_mock_retriever_1a8973e4e031b27b26aa6f423bd7b4fe80" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; RetrieverResilienceTest::MockRetriever::requests_processed</definition>
+        <argsstring></argsstring>
+        <name>requests_processed</name>
+        <qualifiedname>RetrieverResilienceTest::MockRetriever::requests_processed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="62" column="21" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retriever_resilience_test_1_1_mock_retriever_1a345efc000149c9529cd4d9e413155536" prot="public" static="no" mutable="no">
+        <type><ref refid="class_retriever_resilience_test_1_1_bounded_cache" kindref="compound">BoundedCache</ref>&lt; std::string, std::string &gt;</type>
+        <definition>BoundedCache&lt;std::string, std::string&gt; RetrieverResilienceTest::MockRetriever::context_cache</definition>
+        <argsstring></argsstring>
+        <name>context_cache</name>
+        <qualifiedname>RetrieverResilienceTest::MockRetriever::context_cache</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="63" column="22" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retriever_resilience_test_1_1_mock_retriever_1af91a0ea45a130b48283bceb67d93ead6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t RetrieverResilienceTest::MockRetriever::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>RetrieverResilienceTest::MockRetriever::max_memory_bytes</qualifiedname>
+        <initializer>{1024 * 1024}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="64" column="17" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_retriever_resilience_test_1_1_mock_retriever_1a3293bcab53503ea01762891498d47a00" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool RetrieverResilienceTest::MockRetriever::retrieve_with_resource_check</definition>
+        <argsstring>(const std::string &amp;instance_id, const std::string &amp;query, std::string &amp;out_context)</argsstring>
+        <name>retrieve_with_resource_check</name>
+        <qualifiedname>RetrieverResilienceTest::MockRetriever::retrieve_with_resource_check</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out_context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="66" column="14" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="66" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>RetrieverResilienceTest::BoundedCache&lt; std::string, std::string &gt;</label>
+        <link refid="class_retriever_resilience_test_1_1_bounded_cache"/>
+      </node>
+      <node id="1">
+        <label>RetrieverResilienceTest::MockRetriever</label>
+        <link refid="struct_retriever_resilience_test_1_1_mock_retriever"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>context_cache</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="60" column="5" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="60" bodyend="89"/>
+    <listofallmembers>
+      <member refid="struct_retriever_resilience_test_1_1_mock_retriever_1a345efc000149c9529cd4d9e413155536" prot="public" virt="non-virtual"><scope>RetrieverResilienceTest::MockRetriever</scope><name>context_cache</name></member>
+      <member refid="struct_retriever_resilience_test_1_1_mock_retriever_1af91a0ea45a130b48283bceb67d93ead6" prot="public" virt="non-virtual"><scope>RetrieverResilienceTest::MockRetriever</scope><name>max_memory_bytes</name></member>
+      <member refid="struct_retriever_resilience_test_1_1_mock_retriever_1af0d400e28562f84233c8516195b2e26e" prot="public" virt="non-virtual"><scope>RetrieverResilienceTest::MockRetriever</scope><name>memory_used_bytes</name></member>
+      <member refid="struct_retriever_resilience_test_1_1_mock_retriever_1a8973e4e031b27b26aa6f423bd7b4fe80" prot="public" virt="non-virtual"><scope>RetrieverResilienceTest::MockRetriever</scope><name>requests_processed</name></member>
+      <member refid="struct_retriever_resilience_test_1_1_mock_retriever_1a3293bcab53503ea01762891498d47a00" prot="public" virt="non-virtual"><scope>RetrieverResilienceTest::MockRetriever</scope><name>retrieve_with_resource_check</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

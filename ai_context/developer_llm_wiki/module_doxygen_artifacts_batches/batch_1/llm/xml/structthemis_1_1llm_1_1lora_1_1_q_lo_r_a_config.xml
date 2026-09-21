@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::QLoRAConfig</compoundname>
+    <includes refid="lora__config_8h" local="no">lora_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a39c4c98cb91ad579e0284161e92eec52" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::QLoRAConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::lora::QLoRAConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="146" column="10" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a89e89afd188edeea2b29901d4bc3d3b5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::QLoRAConfig::quantization_type</definition>
+        <argsstring></argsstring>
+        <name>quantization_type</name>
+        <qualifiedname>themis::llm::lora::QLoRAConfig::quantization_type</qualifiedname>
+        <initializer>= &quot;nf4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="147" column="17" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a6e4e97ed17ffd4a071ed673c0519e119" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::QLoRAConfig::block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <qualifiedname>themis::llm::lora::QLoRAConfig::block_size</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="148" column="12" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1aeeb16ebfa35f9cdda43c45c6bec8e528" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::QLoRAConfig::use_double_quantization</definition>
+        <argsstring></argsstring>
+        <name>use_double_quantization</name>
+        <qualifiedname>themis::llm::lora::QLoRAConfig::use_double_quantization</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="149" column="10" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1aba84ecd25675d948b4b0772233787350" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::QLoRAConfig::layer_by_layer</definition>
+        <argsstring></argsstring>
+        <name>layer_by_layer</name>
+        <qualifiedname>themis::llm::lora::QLoRAConfig::layer_by_layer</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="150" column="10" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a5a908041dbf2e5ac7776364e53497e65" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::QLoRAConfig::use_paged_optimizer</definition>
+        <argsstring></argsstring>
+        <name>use_paged_optimizer</name>
+        <qualifiedname>themis::llm::lora::QLoRAConfig::use_paged_optimizer</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="153" column="10" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a7b82ad3d22d3847b172b48c0e7649c31" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::QLoRAConfig::optimizer_offload</definition>
+        <argsstring></argsstring>
+        <name>optimizer_offload</name>
+        <qualifiedname>themis::llm::lora::QLoRAConfig::optimizer_offload</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="154" column="17" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1af555ddd65bad98416b16c695740a2a4a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::QLoRAConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::QLoRAConfig::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="156" column="10" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="156" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a04999e5ce9f22cc9a117d8ec7001bb20" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config" kindref="compound">QLoRAConfig</ref></type>
+        <definition>static QLoRAConfig themis::llm::lora::QLoRAConfig::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::QLoRAConfig::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="174" column="24" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="174" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_config.h" line="145" column="1" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="145" bodyend="199"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a6e4e97ed17ffd4a071ed673c0519e119" prot="public" virt="non-virtual"><scope>themis::llm::lora::QLoRAConfig</scope><name>block_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a39c4c98cb91ad579e0284161e92eec52" prot="public" virt="non-virtual"><scope>themis::llm::lora::QLoRAConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a04999e5ce9f22cc9a117d8ec7001bb20" prot="public" virt="non-virtual"><scope>themis::llm::lora::QLoRAConfig</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1aba84ecd25675d948b4b0772233787350" prot="public" virt="non-virtual"><scope>themis::llm::lora::QLoRAConfig</scope><name>layer_by_layer</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a7b82ad3d22d3847b172b48c0e7649c31" prot="public" virt="non-virtual"><scope>themis::llm::lora::QLoRAConfig</scope><name>optimizer_offload</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a89e89afd188edeea2b29901d4bc3d3b5" prot="public" virt="non-virtual"><scope>themis::llm::lora::QLoRAConfig</scope><name>quantization_type</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1af555ddd65bad98416b16c695740a2a4a" prot="public" virt="non-virtual"><scope>themis::llm::lora::QLoRAConfig</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1aeeb16ebfa35f9cdda43c45c6bec8e528" prot="public" virt="non-virtual"><scope>themis::llm::lora::QLoRAConfig</scope><name>use_double_quantization</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config_1a5a908041dbf2e5ac7776364e53497e65" prot="public" virt="non-virtual"><scope>themis::llm::lora::QLoRAConfig</scope><name>use_paged_optimizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::ChangeStreamCompressor::Stats</compoundname>
+    <includes refid="change__stream__compressor_8h" local="no">change_stream_compressor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1aba0a8c94da63c477f9868bed19dd6d2d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ChangeStreamCompressor::Stats::batches_compressed</definition>
+        <argsstring></argsstring>
+        <name>batches_compressed</name>
+        <qualifiedname>themis::cdc::ChangeStreamCompressor::Stats::batches_compressed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total <ref refid="classthemis_1_1cdc_1_1_change_stream_compressor_1a815db5db8f950e9bdd05c51e0d77516b" kindref="member">compress()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="157" column="18" bodyfile="include/cdc/change_stream_compressor.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1ab424ece9dc87a919ce2de18e3e6b721d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ChangeStreamCompressor::Stats::batches_skipped</definition>
+        <argsstring></argsstring>
+        <name>batches_skipped</name>
+        <qualifiedname>themis::cdc::ChangeStreamCompressor::Stats::batches_skipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Batches stored uncompressed (below threshold). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="158" column="18" bodyfile="include/cdc/change_stream_compressor.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1ae2fd24a0eb02f2c28f2c0506f1de1e68" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ChangeStreamCompressor::Stats::events_compressed</definition>
+        <argsstring></argsstring>
+        <name>events_compressed</name>
+        <qualifiedname>themis::cdc::ChangeStreamCompressor::Stats::events_compressed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total events processed by <ref refid="classthemis_1_1cdc_1_1_change_stream_compressor_1a815db5db8f950e9bdd05c51e0d77516b" kindref="member">compress()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="159" column="18" bodyfile="include/cdc/change_stream_compressor.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1a0e59d5851e1882fb2ffeeddf663e3276" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ChangeStreamCompressor::Stats::bytes_in</definition>
+        <argsstring></argsstring>
+        <name>bytes_in</name>
+        <qualifiedname>themis::cdc::ChangeStreamCompressor::Stats::bytes_in</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total uncompressed JSON bytes submitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="160" column="18" bodyfile="include/cdc/change_stream_compressor.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1a79dd2df6ab686b7f8c95db8eb7918b43" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ChangeStreamCompressor::Stats::bytes_out</definition>
+        <argsstring></argsstring>
+        <name>bytes_out</name>
+        <qualifiedname>themis::cdc::ChangeStreamCompressor::Stats::bytes_out</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total compressed payload bytes produced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="161" column="18" bodyfile="include/cdc/change_stream_compressor.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1ab5e82b8237230c1c71b31735f2420105" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ChangeStreamCompressor::Stats::batches_decompressed</definition>
+        <argsstring></argsstring>
+        <name>batches_decompressed</name>
+        <qualifiedname>themis::cdc::ChangeStreamCompressor::Stats::batches_decompressed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total <ref refid="classthemis_1_1cdc_1_1_change_stream_compressor_1ab1b6b9825bed605c940169b41ce88e54" kindref="member">decompress()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="162" column="18" bodyfile="include/cdc/change_stream_compressor.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1ab4dfc9dbef1476f53d2148cad6e427e4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ChangeStreamCompressor::Stats::decompress_errors</definition>
+        <argsstring></argsstring>
+        <name>decompress_errors</name>
+        <qualifiedname>themis::cdc::ChangeStreamCompressor::Stats::decompress_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Failed <ref refid="classthemis_1_1cdc_1_1_change_stream_compressor_1ab1b6b9825bed605c940169b41ce88e54" kindref="member">decompress()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="163" column="18" bodyfile="include/cdc/change_stream_compressor.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1a4a1a62a36ad9012362352298cb7991e0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::cdc::ChangeStreamCompressor::Stats::compression_ratio</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::cdc::ChangeStreamCompressor::Stats::compression_ratio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="165" column="16" bodyfile="include/cdc/change_stream_compressor.h" bodystart="165" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/change_stream_compressor.h" line="156" column="5" bodyfile="include/cdc/change_stream_compressor.h" bodystart="156" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1aba0a8c94da63c477f9868bed19dd6d2d" prot="public" virt="non-virtual"><scope>themis::cdc::ChangeStreamCompressor::Stats</scope><name>batches_compressed</name></member>
+      <member refid="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1ab5e82b8237230c1c71b31735f2420105" prot="public" virt="non-virtual"><scope>themis::cdc::ChangeStreamCompressor::Stats</scope><name>batches_decompressed</name></member>
+      <member refid="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1ab424ece9dc87a919ce2de18e3e6b721d" prot="public" virt="non-virtual"><scope>themis::cdc::ChangeStreamCompressor::Stats</scope><name>batches_skipped</name></member>
+      <member refid="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1a0e59d5851e1882fb2ffeeddf663e3276" prot="public" virt="non-virtual"><scope>themis::cdc::ChangeStreamCompressor::Stats</scope><name>bytes_in</name></member>
+      <member refid="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1a79dd2df6ab686b7f8c95db8eb7918b43" prot="public" virt="non-virtual"><scope>themis::cdc::ChangeStreamCompressor::Stats</scope><name>bytes_out</name></member>
+      <member refid="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1a4a1a62a36ad9012362352298cb7991e0" prot="public" virt="non-virtual"><scope>themis::cdc::ChangeStreamCompressor::Stats</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1ab4dfc9dbef1476f53d2148cad6e427e4" prot="public" virt="non-virtual"><scope>themis::cdc::ChangeStreamCompressor::Stats</scope><name>decompress_errors</name></member>
+      <member refid="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_stats_1ae2fd24a0eb02f2c28f2c0506f1de1e68" prot="public" virt="non-virtual"><scope>themis::cdc::ChangeStreamCompressor::Stats</scope><name>events_compressed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

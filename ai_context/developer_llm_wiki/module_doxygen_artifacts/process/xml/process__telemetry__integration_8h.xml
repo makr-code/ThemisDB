@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__telemetry__integration_8h" kind="file" language="C++">
+    <compoundname>process_telemetry_integration.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">map</includes>
+    <includedby refid="process__telemetry__integration_8cpp" local="yes">src/process/process_telemetry_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/process_telemetry_integration.h</label>
+        <link refid="process__telemetry__integration_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/process/process_telemetry_integration.h</label>
+        <link refid="process__telemetry__integration_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/process/process_telemetry_integration.cpp</label>
+        <link refid="process__telemetry__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_telemetry_config" prot="public">themis::process::TelemetryConfig</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_trace_context" prot="public">themis::process::TraceContext</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_telemetry_stats" prot="public">themis::process::TelemetryStats</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_telemetry_integration" prot="public">themis::process::ProcessTelemetryIntegration</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>OpenTelemetry integration for federated consensus tracing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.1.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-06 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_TELEMETRY_INTEGRATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_TELEMETRY_INTEGRATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">process</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_impl" kindref="compound">ProcessTelemetryIntegrationImpl</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_distributed_span" kindref="compound">DistributedSpan</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1process_1_1_telemetry_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_telemetry_config" kindref="compound">TelemetryConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1process_1_1_telemetry_config_1a8100ad307717dc051f6273681183da25" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_telemetry_config_1a8100ad307717dc051f6273681183da25" kindref="member">otel_exporter_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost:4317&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1process_1_1_telemetry_config_1a3c62bbbc828f191b235639cecab06b6d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_telemetry_config_1a3c62bbbc828f191b235639cecab06b6d" kindref="member">sampling_rate</ref><sp/>=<sp/>1.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>0.0<sp/>-<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1process_1_1_telemetry_config_1a865bf2adc09aa4181b5176151573a3ff" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_telemetry_config_1a865bf2adc09aa4181b5176151573a3ff" kindref="member">batch_size</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1process_1_1_telemetry_config_1a491e959ca3361cb3c99de60edde8b54a" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_telemetry_config_1a491e959ca3361cb3c99de60edde8b54a" kindref="member">export_interval_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1a6a34f447c0a5633fd5c088e37bbc2a37" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1ae95dd399c594d125b97de2b24c09d095" kindref="member">span_id</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1process_1_1_trace_context_1a1fd8c462be0f4510a644be095650238c" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1a1fd8c462be0f4510a644be095650238c" kindref="member">parent_span_id</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="structthemis_1_1process_1_1_trace_context_1a21e4f9cc4a1c30c9813412d0ffd7c33d" kindref="member">trace_flags</ref><sp/>=<sp/>0x01;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1process_1_1_telemetry_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_telemetry_stats" kindref="compound">TelemetryStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1process_1_1_telemetry_stats_1aaec89ebabaf2d6221ece3845ee912d61" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_telemetry_stats_1aaec89ebabaf2d6221ece3845ee912d61" kindref="member">spans_created</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1process_1_1_telemetry_stats_1aa4319ceaa26779e7115d83bf30cb0c9a" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_telemetry_stats_1aa4319ceaa26779e7115d83bf30cb0c9a" kindref="member">spans_exported</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1process_1_1_telemetry_stats_1a39f44fb0fdb1b920b92f3d496bb9bb64" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_telemetry_stats_1a39f44fb0fdb1b920b92f3d496bb9bb64" kindref="member">avg_overhead_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1process_1_1_telemetry_stats_1ae9a9b9e53694caf1a4bacc21ab4e5613" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_telemetry_stats_1ae9a9b9e53694caf1a4bacc21ab4e5613" kindref="member">max_overhead_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1process_1_1_telemetry_stats_1a593b183a41ddac4be392b6ebdb304225" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_telemetry_stats_1a593b183a41ddac4be392b6ebdb304225" kindref="member">budget_violations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1process_1_1_process_telemetry_integration" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1aafcd80c8d99302a4d3d66d5fd8a43951" kindref="member">ProcessTelemetryIntegration</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ProcessTelemetryIntegration&gt;<sp/><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1a5d209c718364c16bf606714a6a652478" kindref="member">Create</ref>(</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_telemetry_config" kindref="compound">TelemetryConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1aafcd80c8d99302a4d3d66d5fd8a43951" kindref="member">ProcessTelemetryIntegration</ref>(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ProcessTelemetryIntegrationImpl&gt;<sp/>impl);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1process_1_1_process_telemetry_integration_1a923dacce530be7ca1a7b6e0ec1c56b66" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1a923dacce530be7ca1a7b6e0ec1c56b66" kindref="member">~ProcessTelemetryIntegration</ref>();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;DistributedSpan&gt;<sp/><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1a279d88ec7e9653bf08c5ea39ec671edf" kindref="member">CreateSpan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_name);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1a560e39f3f09d98fa8ab18d31bac8cb0e" kindref="member">SetCurrentTraceContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref>&amp;<sp/>context);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref><sp/><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1ad63c71bd5d7a46450f9ee4b15a1f8164" kindref="member">GetCurrentTraceContext</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1ad51b9d36d283f89798851bbcdc663f9a" kindref="member">RecordSpan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;DistributedSpan&gt;&amp;<sp/>span);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1ab8a57861e033d1b5534f1c3cdd2deb78" kindref="member">ValidateOverheadBudget</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_name,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>operation_latency_ms,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>tracing_overhead_ms);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1process_1_1_telemetry_stats" kindref="compound">TelemetryStats</ref><sp/><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1ae58da2f8689a86fcbaab0221ae690d74" kindref="member">GetStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_telemetry_integration_1a6be70ae6a4a62d883bbc5ca36b3eb728" kindref="member">ExportSpans</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;ProcessTelemetryIntegrationImpl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_TELEMETRY_INTEGRATION_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/process_telemetry_integration.h"/>
+  </compounddef>
+</doxygen>

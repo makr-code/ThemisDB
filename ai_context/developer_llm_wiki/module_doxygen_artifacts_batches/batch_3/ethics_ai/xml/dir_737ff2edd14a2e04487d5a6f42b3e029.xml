@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_737ff2edd14a2e04487d5a6f42b3e029" kind="dir">
+    <compoundname>tests/ethics_ai</compoundname>
+    <innerfile refid="test__ethics__ai__community__separability_8cpp">test_ethics_ai_community_separability.cpp</innerfile>
+    <innerfile refid="test__ethics__ai__discourse__hardening__focused_8cpp">test_ethics_ai_discourse_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__ethics__ai__eu__artifact__norms__focused_8cpp">test_ethics_ai_eu_artifact_norms_focused.cpp</innerfile>
+    <innerfile refid="test__ethics__ai__eu__compliance_8cpp">test_ethics_ai_eu_compliance.cpp</innerfile>
+    <innerfile refid="test__ethics__ai__euai__compliance__focused_8cpp">test_ethics_ai_euai_compliance_focused.cpp</innerfile>
+    <innerfile refid="test__ethics__ai__ldm6__clustering__focused_8cpp">test_ethics_ai_ldm6_clustering_focused.cpp</innerfile>
+    <innerfile refid="test__ethics__ai__ldm7__focused_8cpp">test_ethics_ai_ldm7_focused.cpp</innerfile>
+    <innerfile refid="test__ethics__ai__ldm8__focused_8cpp">test_ethics_ai_ldm8_focused.cpp</innerfile>
+    <innerfile refid="test__ethics__ai__ldm__contract__focused_8cpp">test_ethics_ai_ldm_contract_focused.cpp</innerfile>
+    <innerfile refid="test__ethics__ai__profile__reload__focused_8cpp">test_ethics_ai_profile_reload_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/ethics_ai/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_hipaa_rule_eval_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::HipaaRuleEvalResult</compoundname>
+    <includes refid="hipaa__rules_8h" local="no">hipaa_rules.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1a79d81fa11f9fe78eeab87752c0b9413c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaRuleEvalResult::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::HipaaRuleEvalResult::rule_id</qualifiedname>
+        <briefdescription>
+<para>ID of the evaluated <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="29" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1a06875305deb850db9e179270c44ab7a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaRuleEvalResult::hipaa_check_id</definition>
+        <argsstring></argsstring>
+        <name>hipaa_check_id</name>
+        <qualifiedname>themis::governance::HipaaRuleEvalResult::hipaa_check_id</qualifiedname>
+        <briefdescription>
+<para>ID of the HIPAA rule that was evaluated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="30" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1a9e8aa63cab832b37474ae8c0b9bc6a90" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaRuleEvalResult::requirement</definition>
+        <argsstring></argsstring>
+        <name>requirement</name>
+        <qualifiedname>themis::governance::HipaaRuleEvalResult::requirement</qualifiedname>
+        <briefdescription>
+<para>HIPAA requirement reference (e.g., &quot;§164.312(a)(1)&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="31" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1a45d030cf4e936fdd1f20965a340086ff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::HipaaRuleEvalResult::compliant</definition>
+        <argsstring></argsstring>
+        <name>compliant</name>
+        <qualifiedname>themis::governance::HipaaRuleEvalResult::compliant</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the rule is HIPAA compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="32" column="10" bodyfile="include/governance/hipaa_rules.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1a49193f5356fdc1f08ce843308a270767" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaRuleEvalResult::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::HipaaRuleEvalResult::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable result description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="33" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1ac99550716850a056956b8a5cbcedf767" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaRuleEvalResult::recommendation</definition>
+        <argsstring></argsstring>
+        <name>recommendation</name>
+        <qualifiedname>themis::governance::HipaaRuleEvalResult::recommendation</qualifiedname>
+        <briefdescription>
+<para>Remediation recommendation if not compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="34" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1ac1b0d7611f047972b1e59ba6044d8384" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::HipaaRuleEvalResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::HipaaRuleEvalResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="40" column="20" bodyfile="src/governance/hipaa_rules.cpp" bodystart="26" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/hipaa_rules.h" line="28" column="1" bodyfile="include/governance/hipaa_rules.h" bodystart="28" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1a45d030cf4e936fdd1f20965a340086ff" prot="public" virt="non-virtual"><scope>themis::governance::HipaaRuleEvalResult</scope><name>compliant</name></member>
+      <member refid="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1a49193f5356fdc1f08ce843308a270767" prot="public" virt="non-virtual"><scope>themis::governance::HipaaRuleEvalResult</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1a06875305deb850db9e179270c44ab7a3" prot="public" virt="non-virtual"><scope>themis::governance::HipaaRuleEvalResult</scope><name>hipaa_check_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1ac99550716850a056956b8a5cbcedf767" prot="public" virt="non-virtual"><scope>themis::governance::HipaaRuleEvalResult</scope><name>recommendation</name></member>
+      <member refid="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1a9e8aa63cab832b37474ae8c0b9bc6a90" prot="public" virt="non-virtual"><scope>themis::governance::HipaaRuleEvalResult</scope><name>requirement</name></member>
+      <member refid="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1a79d81fa11f9fe78eeab87752c0b9413c" prot="public" virt="non-virtual"><scope>themis::governance::HipaaRuleEvalResult</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_hipaa_rule_eval_result_1ac1b0d7611f047972b1e59ba6044d8384" prot="public" virt="non-virtual"><scope>themis::governance::HipaaRuleEvalResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

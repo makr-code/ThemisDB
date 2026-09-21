@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1safety" kind="namespace" language="C++">
+    <compoundname>themis::llm::safety</compoundname>
+    <innerclass refid="structthemis_1_1llm_1_1safety_1_1_guard_decision" prot="public">themis::llm::safety::GuardDecision</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1safety_1_1_prompt_guardian" prot="public">themis::llm::safety::PromptGuardian</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1safety_1_1_safety_classification" prot="public">themis::llm::safety::SafetyClassification</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier" prot="public">themis::llm::safety::SafetyClassifier</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot" prot="public">themis::llm::safety::SafetyCountersSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1safety_1_1_safety_event" prot="public">themis::llm::safety::SafetyEvent</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring" prot="public">themis::llm::safety::SafetyMonitoring</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2fe" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SafetyLabel</name>
+        <qualifiedname>themis::llm::safety::SafetyLabel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2feab18288babd4636cff34b15e0d1340fc2" prot="public">
+          <name>SAFE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2fea50e13ee63f086c2fe84229348bc91b5b" prot="public">
+          <name>REVIEW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2fea4d34f53389ed7f28ca91fc31ea360a66" prot="public">
+          <name>BLOCK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="23" column="1" bodyfile="include/llm/safety/classifier.h" bodystart="23" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SafetyEventType</name>
+        <qualifiedname>themis::llm::safety::SafetyEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5a9725825c796122ef40f01b2d8794f902" prot="public">
+          <name>ALLOWED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5a50e13ee63f086c2fe84229348bc91b5b" prot="public">
+          <name>REVIEW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5aeecba0068950a2df17c47e851e1eef14" prot="public">
+          <name>BLOCKED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/monitoring.h" line="23" column="1" bodyfile="include/llm/safety/monitoring.h" bodystart="23" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/safety/classifier.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

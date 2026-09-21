@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_i_correlation_i_d_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::api::ICorrelationIDProvider</compoundname>
+    <includes refid="correlation__id_8h" local="no">correlation_id.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_i_correlation_i_d_provider_1a1d02adea0d27c9ec2c89f93915db3a73" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::api::ICorrelationIDProvider::kHeaderName</definition>
+        <argsstring></argsstring>
+        <name>kHeaderName</name>
+        <qualifiedname>themis::api::ICorrelationIDProvider::kHeaderName</qualifiedname>
+        <initializer>= &quot;X-Correlation-ID&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="225" column="39" bodyfile="include/api/correlation_id.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_correlation_i_d_provider_1ac014fc3d0593f99eb22de1d562834155" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::api::ICorrelationIDProvider::~ICorrelationIDProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICorrelationIDProvider</name>
+        <qualifiedname>themis::api::ICorrelationIDProvider::~ICorrelationIDProvider</qualifiedname>
+        <briefdescription>
+<para>ICorrelation IDProvider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="223" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_correlation_i_d_provider_1a06ea5294f8952938d0098ba9d2deeb4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1api_1_1_correlation_id" kindref="compound">CorrelationId</ref></type>
+        <definition>virtual CorrelationId themis::api::ICorrelationIDProvider::generate</definition>
+        <argsstring>() const =0</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::api::ICorrelationIDProvider::generate</qualifiedname>
+        <briefdescription>
+<para>Generate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="231" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_correlation_i_d_provider_1a64a63e2da43ee7e683d6385f8c3a4f6d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1api_1_1_correlation_id" kindref="compound">CorrelationId</ref></type>
+        <definition>virtual CorrelationId themis::api::ICorrelationIDProvider::extract</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;headers) const =0</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::api::ICorrelationIDProvider::extract</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="233" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_correlation_i_d_provider_1aef9d5354128c869fe194541f1882f3d8" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::api::ICorrelationIDProvider::serialize</definition>
+        <argsstring>(const CorrelationId &amp;id)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::api::ICorrelationIDProvider::serialize</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1api_1_1_correlation_id" kindref="compound">CorrelationId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Serialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: toString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="241" column="24" bodyfile="include/api/correlation_id.h" bodystart="241" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/correlation_id.h" line="217" column="1" bodyfile="include/api/correlation_id.h" bodystart="217" bodyend="242"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_i_correlation_i_d_provider_1a64a63e2da43ee7e683d6385f8c3a4f6d" prot="public" virt="pure-virtual"><scope>themis::api::ICorrelationIDProvider</scope><name>extract</name></member>
+      <member refid="classthemis_1_1api_1_1_i_correlation_i_d_provider_1a06ea5294f8952938d0098ba9d2deeb4d" prot="public" virt="pure-virtual"><scope>themis::api::ICorrelationIDProvider</scope><name>generate</name></member>
+      <member refid="classthemis_1_1api_1_1_i_correlation_i_d_provider_1a1d02adea0d27c9ec2c89f93915db3a73" prot="public" virt="non-virtual"><scope>themis::api::ICorrelationIDProvider</scope><name>kHeaderName</name></member>
+      <member refid="classthemis_1_1api_1_1_i_correlation_i_d_provider_1aef9d5354128c869fe194541f1882f3d8" prot="public" virt="non-virtual"><scope>themis::api::ICorrelationIDProvider</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1api_1_1_i_correlation_i_d_provider_1ac014fc3d0593f99eb22de1d562834155" prot="public" virt="virtual"><scope>themis::api::ICorrelationIDProvider</scope><name>~ICorrelationIDProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

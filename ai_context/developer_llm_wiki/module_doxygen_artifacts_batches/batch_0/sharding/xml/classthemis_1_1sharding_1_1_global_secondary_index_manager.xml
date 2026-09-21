@@ -1,0 +1,400 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_global_secondary_index_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::GlobalSecondaryIndexManager</compoundname>
+    <includes refid="global__secondary__index_8h" local="no">global_secondary_index.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry" prot="public">themis::sharding::GlobalSecondaryIndexManager::IndexEntry</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_config" prot="public">themis::sharding::GlobalSecondaryIndexManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_definition" prot="private">themis::sharding::GlobalSecondaryIndexManager::IndexDefinition</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1ad7a9ec63dca4d96b3b85a745674ae6de" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::GlobalSecondaryIndexManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="53" column="12" bodyfile="include/sharding/global_secondary_index.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a8b5f0efa2c139df92154cc417217482b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, IndexDefinition &gt;</type>
+        <definition>std::map&lt;std::string, IndexDefinition&gt; themis::sharding::GlobalSecondaryIndexManager::indexes_</definition>
+        <argsstring></argsstring>
+        <name>indexes_</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::indexes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="54" column="14" bodyfile="include/sharding/global_secondary_index.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a47fccdf54de492444517e4d13237b333" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry" kindref="compound">IndexEntry</ref> &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, std::vector&lt;IndexEntry&gt; &gt; &gt; themis::sharding::GlobalSecondaryIndexManager::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="55" column="14" bodyfile="include/sharding/global_secondary_index.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a3dc9a43e5e41ccd73a42a756af9fb147" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::GlobalSecondaryIndexManager::GlobalSecondaryIndexManager</definition>
+        <argsstring>()</argsstring>
+        <name>GlobalSecondaryIndexManager</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::GlobalSecondaryIndexManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="28" column="5" bodyfile="src/sharding/global_secondary_index.cpp" bodystart="21" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1ab53c44eb79b6735a949d1a8bad0396e2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::GlobalSecondaryIndexManager::GlobalSecondaryIndexManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>GlobalSecondaryIndexManager</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::GlobalSecondaryIndexManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="29" column="14" bodyfile="src/sharding/global_secondary_index.cpp" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1ab00f64bd2f43df9b779ab7c06f3c7555" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GlobalSecondaryIndexManager::createIndex</definition>
+        <argsstring>(const std::string &amp;index_name, const std::string &amp;field_name)</argsstring>
+        <name>createIndex</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::createIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Create Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="31" column="10" bodyfile="src/sharding/global_secondary_index.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a3e5f0dc0119c5d9947023e6da64cf0ff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::GlobalSecondaryIndexManager::hasIndex</definition>
+        <argsstring>(const std::string &amp;index_name) const</argsstring>
+        <name>hasIndex</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::hasIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="32" column="10" bodyfile="src/sharding/global_secondary_index.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a87600eb7432406b3bfec5447bbf07f13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GlobalSecondaryIndexManager::upsert</definition>
+        <argsstring>(const std::string &amp;index_name, const std::string &amp;field_name, const std::string &amp;shard_id, const std::string &amp;primary_key, const std::string &amp;value)</argsstring>
+        <name>upsert</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::upsert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>primary_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Upsert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), <ref refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a3e5f0dc0119c5d9947023e6da64cf0ff" kindref="member">hasIndex()</ref>, <ref refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1ab00f64bd2f43df9b779ab7c06f3c7555" kindref="member">createIndex()</ref>, std::chrono::system_clock::now(), std::find_if(), begin(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="34" column="10" bodyfile="src/sharding/global_secondary_index.cpp" bodystart="51" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a752d43cc2364f34a53cec0bd54784b7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GlobalSecondaryIndexManager::erase</definition>
+        <argsstring>(const std::string &amp;index_name, const std::string &amp;shard_id, const std::string &amp;primary_key)</argsstring>
+        <name>erase</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::erase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>primary_key</declname>
+        </param>
+        <briefdescription>
+<para>Erase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), begin(), std::remove_if(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="37" column="10" bodyfile="src/sharding/global_secondary_index.cpp" bodystart="85" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a5ca986847822511f95feb759f60ea8f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GlobalSecondaryIndexManager::eraseShard</definition>
+        <argsstring>(const std::string &amp;index_name, const std::string &amp;shard_id)</argsstring>
+        <name>eraseShard</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::eraseShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Erase Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), begin(), <ref refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1ac524e14f644f991dc8e3c40a88c9b626" kindref="member">size()</ref>, <ref refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a752d43cc2364f34a53cec0bd54784b7a" kindref="member">erase()</ref>, std::remove_if(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="38" column="10" bodyfile="src/sharding/global_secondary_index.cpp" bodystart="110" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1abffcbf33e4f216baaba72b55b16badb0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry" kindref="compound">IndexEntry</ref> &gt;</type>
+        <definition>std::vector&lt; GlobalSecondaryIndexManager::IndexEntry &gt; themis::sharding::GlobalSecondaryIndexManager::queryEquals</definition>
+        <argsstring>(const std::string &amp;index_name, const std::string &amp;value) const</argsstring>
+        <name>queryEquals</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::queryEquals</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="40" column="17" bodyfile="src/sharding/global_secondary_index.cpp" bodystart="131" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1aae58bd8ec3753040e2c1d5e0c342c174" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_global_secondary_index_manager_1_1_index_entry" kindref="compound">IndexEntry</ref> &gt;</type>
+        <definition>std::vector&lt; GlobalSecondaryIndexManager::IndexEntry &gt; themis::sharding::GlobalSecondaryIndexManager::queryRange</definition>
+        <argsstring>(const std::string &amp;index_name, const std::string &amp;lower_bound, const std::string &amp;upper_bound) const</argsstring>
+        <name>queryRange</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::queryRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lower_bound</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>upper_bound</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="41" column="17" bodyfile="src/sharding/global_secondary_index.cpp" bodystart="150" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_global_secondary_index_manager_1ac524e14f644f991dc8e3c40a88c9b626" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::GlobalSecondaryIndexManager::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::sharding::GlobalSecondaryIndexManager::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/global_secondary_index.h" line="45" column="12" bodyfile="src/sharding/global_secondary_index.cpp" bodystart="176" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/global_secondary_index.h" line="11" column="1" bodyfile="include/sharding/global_secondary_index.h" bodystart="11" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1ad7a9ec63dca4d96b3b85a745674ae6de" prot="private" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1ab00f64bd2f43df9b779ab7c06f3c7555" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>createIndex</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a47fccdf54de492444517e4d13237b333" prot="private" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a752d43cc2364f34a53cec0bd54784b7a" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>erase</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a5ca986847822511f95feb759f60ea8f4" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>eraseShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a3dc9a43e5e41ccd73a42a756af9fb147" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>GlobalSecondaryIndexManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1ab53c44eb79b6735a949d1a8bad0396e2" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>GlobalSecondaryIndexManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a3e5f0dc0119c5d9947023e6da64cf0ff" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>hasIndex</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a8b5f0efa2c139df92154cc417217482b" prot="private" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>indexes_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1abffcbf33e4f216baaba72b55b16badb0" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>queryEquals</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1aae58bd8ec3753040e2c1d5e0c342c174" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>queryRange</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1ac524e14f644f991dc8e3c40a88c9b626" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>size</name></member>
+      <member refid="classthemis_1_1sharding_1_1_global_secondary_index_manager_1a87600eb7432406b3bfec5447bbf07f13" prot="public" virt="non-virtual"><scope>themis::sharding::GlobalSecondaryIndexManager</scope><name>upsert</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

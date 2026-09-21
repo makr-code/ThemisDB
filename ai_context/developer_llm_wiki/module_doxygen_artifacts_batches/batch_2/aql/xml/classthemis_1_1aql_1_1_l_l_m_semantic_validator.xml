@@ -1,0 +1,479 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_l_l_m_semantic_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::LLMSemanticValidator</compoundname>
+    <includes refid="llm__semantic__validator_8h" local="no">llm_semantic_validator.h</includes>
+    <innerclass refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" prot="public">themis::aql::LLMSemanticValidator::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1ac890af6d76697717a500c1f75e9a9444" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1aql_1_1_semantic_schema_context" kindref="compound">SemanticSchemaContext</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SemanticSchemaContext&gt; themis::aql::LLMSemanticValidator::schema_context_</definition>
+        <argsstring></argsstring>
+        <name>schema_context_</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::schema_context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="152" column="21" bodyfile="include/aql/llm_semantic_validator.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a67821386723b9d3ab11742ecea450863" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::aql::LLMSemanticValidator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="153" column="12" bodyfile="include/aql/llm_semantic_validator.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a81b80d9efb7515feef0070102d73a4dd" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; spdlog::logger &gt;</type>
+        <definition>std::shared_ptr&lt;spdlog::logger&gt; themis::aql::LLMSemanticValidator::logger_</definition>
+        <argsstring></argsstring>
+        <name>logger_</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="154" column="21" bodyfile="include/aql/llm_semantic_validator.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a1ba5a16c06702768ad1aaf82f292a701" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::LLMSemanticValidator::LLMSemanticValidator</definition>
+        <argsstring>(std::shared_ptr&lt; SemanticSchemaContext &gt; schema_context, const Config &amp;config=Config())</argsstring>
+        <name>LLMSemanticValidator</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::LLMSemanticValidator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1aql_1_1_semantic_schema_context" kindref="compound">SemanticSchemaContext</ref> &gt;</type>
+          <declname>schema_context</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="122" column="14" bodyfile="src/aql/llm_semantic_validator.cpp" bodystart="207" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a1b1c9fb9ca1a5a2d9f15f08be4ed8b4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::aql::LLMSemanticValidator::~LLMSemanticValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LLMSemanticValidator</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::~LLMSemanticValidator</qualifiedname>
+        <briefdescription>
+<para>LLMSemantic Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="130" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a50ad9306bb8be37aa18cb7101be4015b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref></type>
+        <definition>SemanticValidationResult themis::aql::LLMSemanticValidator::validate</definition>
+        <argsstring>(const query::ASTNode *ast)</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::validate</qualifiedname>
+        <param>
+          <type>const query::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), checkAttributeTypes(), validateJoins(), estimateCardinality(), validateFunctionSignatures(), computeConfidenceScore(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="137" column="30" bodyfile="src/aql/llm_semantic_validator.cpp" bodystart="223" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a10484d7a44293150030fc0261568564b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMSemanticValidator::configure</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>configure</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::configure</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements configure without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="143" column="10" bodyfile="src/aql/llm_semantic_validator.cpp" bodystart="264" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a394b8d3b771d0cda86ee312e2436474f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const LLMSemanticValidator::Config &amp; themis::aql::LLMSemanticValidator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="149" column="18" bodyfile="src/aql/llm_semantic_validator.cpp" bodystart="268" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1af1b448a2bea103f8bb8217716ee4d319" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMSemanticValidator::checkAttributeTypes</definition>
+        <argsstring>(const query::ASTNode *ast, SemanticValidationResult &amp;result)</argsstring>
+        <name>checkAttributeTypes</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::checkAttributeTypes</qualifiedname>
+        <param>
+          <type>const query::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check Attribute Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: markHardFailure(), extractVariableBindings(), void(), getType(), count(), at(), getAttributeType(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="161" column="10" bodyfile="src/aql/llm_semantic_validator.cpp" bodystart="278" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a20a7b3a1b3efcae4ef8541b30bd2ab79" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMSemanticValidator::estimateCardinality</definition>
+        <argsstring>(const query::ASTNode *ast, SemanticValidationResult &amp;result)</argsstring>
+        <name>estimateCardinality</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::estimateCardinality</qualifiedname>
+        <param>
+          <type>const query::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Cardinality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: extractVariableBindings(), empty(), getCollectionCardinality(), has_value(), max(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="168" column="10" bodyfile="src/aql/llm_semantic_validator.cpp" bodystart="399" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a4372e96ff42d56f6520ee31f75dcd6dd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMSemanticValidator::validateJoins</definition>
+        <argsstring>(const query::ASTNode *ast, SemanticValidationResult &amp;result)</argsstring>
+        <name>validateJoins</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::validateJoins</qualifiedname>
+        <param>
+          <type>const query::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Validate Joins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: extractVariableBindings(), size(), getCollectionCardinality(), has_value(), push_back(), collectReferencedVariables(), markHardFailure(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="175" column="10" bodyfile="src/aql/llm_semantic_validator.cpp" bodystart="449" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a75eb9c5a09dfa89fcf3bd6fd9b7a5e7c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMSemanticValidator::validateFunctionSignatures</definition>
+        <argsstring>(const query::ASTNode *ast, SemanticValidationResult &amp;result)</argsstring>
+        <name>validateFunctionSignatures</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::validateFunctionSignatures</qualifiedname>
+        <param>
+          <type>const query::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Validate Function Signatures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: toUpperAscii(), isFunctionDefined(), markHardFailure(), size(), void(), getType(), validateCall(), walk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="182" column="10" bodyfile="src/aql/llm_semantic_validator.cpp" bodystart="501" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1affa49b6398918f74c1ae8f855344e956" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMSemanticValidator::computeConfidenceScore</definition>
+        <argsstring>(SemanticValidationResult &amp;result)</argsstring>
+        <name>computeConfidenceScore</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::computeConfidenceScore</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Compute Confidence Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), has_value(), value(), std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="188" column="10" bodyfile="src/aql/llm_semantic_validator.cpp" bodystart="623" bodyend="638"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_semantic_validator.h" line="104" column="1" bodyfile="include/aql/llm_semantic_validator.h" bodystart="104" bodyend="189"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1af1b448a2bea103f8bb8217716ee4d319" prot="private" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>checkAttributeTypes</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1affa49b6398918f74c1ae8f855344e956" prot="private" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>computeConfidenceScore</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a67821386723b9d3ab11742ecea450863" prot="private" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a10484d7a44293150030fc0261568564b" prot="public" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>configure</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a20a7b3a1b3efcae4ef8541b30bd2ab79" prot="private" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>estimateCardinality</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a394b8d3b771d0cda86ee312e2436474f" prot="public" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a1ba5a16c06702768ad1aaf82f292a701" prot="public" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>LLMSemanticValidator</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a81b80d9efb7515feef0070102d73a4dd" prot="private" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>logger_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1ac890af6d76697717a500c1f75e9a9444" prot="private" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>schema_context_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a50ad9306bb8be37aa18cb7101be4015b" prot="public" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a75eb9c5a09dfa89fcf3bd6fd9b7a5e7c" prot="private" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>validateFunctionSignatures</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a4372e96ff42d56f6520ee31f75dcd6dd" prot="private" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>validateJoins</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a1b1c9fb9ca1a5a2d9f15f08be4ed8b4e" prot="public" virt="virtual"><scope>themis::aql::LLMSemanticValidator</scope><name>~LLMSemanticValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

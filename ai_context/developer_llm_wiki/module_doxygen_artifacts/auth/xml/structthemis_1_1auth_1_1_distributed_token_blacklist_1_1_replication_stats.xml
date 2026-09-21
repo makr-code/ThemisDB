@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::DistributedTokenBlacklist::ReplicationStats</compoundname>
+    <includes refid="distributed__token__blacklist_8h" local="no">distributed_token_blacklist.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1a3e7fd06793292f17a4dc15592ce9913a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::DistributedTokenBlacklist::ReplicationStats::total_syncs</definition>
+        <argsstring></argsstring>
+        <name>total_syncs</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::ReplicationStats::total_syncs</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="58" column="18" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1aac9b59724b432671b7dedf175cc09209" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::DistributedTokenBlacklist::ReplicationStats::successful_syncs</definition>
+        <argsstring></argsstring>
+        <name>successful_syncs</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::ReplicationStats::successful_syncs</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="59" column="18" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1aa2d3c39134b41f2210f9389f9cee9fa3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::DistributedTokenBlacklist::ReplicationStats::failed_syncs</definition>
+        <argsstring></argsstring>
+        <name>failed_syncs</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::ReplicationStats::failed_syncs</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="60" column="18" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1a6b0abd4494b7c56a21c318c07a05dd45" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::DistributedTokenBlacklist::ReplicationStats::entries_pushed</definition>
+        <argsstring></argsstring>
+        <name>entries_pushed</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::ReplicationStats::entries_pushed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="61" column="18" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1a8e780ec92c8dd3592d3021c5184bf6d4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::DistributedTokenBlacklist::ReplicationStats::entries_pulled</definition>
+        <argsstring></argsstring>
+        <name>entries_pulled</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::ReplicationStats::entries_pulled</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="62" column="18" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1aed3d6a597dd0010aae1bd563ab54560a" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::DistributedTokenBlacklist::ReplicationStats::last_sync_time</definition>
+        <argsstring></argsstring>
+        <name>last_sync_time</name>
+        <qualifiedname>themis::auth::DistributedTokenBlacklist::ReplicationStats::last_sync_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="63" column="47" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/distributed_token_blacklist.h" line="57" column="5" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="57" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1a8e780ec92c8dd3592d3021c5184bf6d4" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist::ReplicationStats</scope><name>entries_pulled</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1a6b0abd4494b7c56a21c318c07a05dd45" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist::ReplicationStats</scope><name>entries_pushed</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1aa2d3c39134b41f2210f9389f9cee9fa3" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist::ReplicationStats</scope><name>failed_syncs</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1aed3d6a597dd0010aae1bd563ab54560a" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist::ReplicationStats</scope><name>last_sync_time</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1aac9b59724b432671b7dedf175cc09209" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist::ReplicationStats</scope><name>successful_syncs</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_token_blacklist_1_1_replication_stats_1a3e7fd06793292f17a4dc15592ce9913a" prot="public" virt="non-virtual"><scope>themis::auth::DistributedTokenBlacklist::ReplicationStats</scope><name>total_syncs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

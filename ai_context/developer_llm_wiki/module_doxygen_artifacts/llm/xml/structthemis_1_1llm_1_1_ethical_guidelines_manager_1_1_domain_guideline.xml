@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::EthicalGuidelinesManager::DomainGuideline</compoundname>
+    <includes refid="ethical__guidelines__manager_8h" local="no">ethical_guidelines_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline_1a2ba412175ee5a7b2e9344df269bddad9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalGuidelinesManager::DomainGuideline::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::DomainGuideline::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="41" column="21" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline_1a6f80a378128e588948c951ff9a12197e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicalGuidelinesManager::DomainGuideline::applies_to</definition>
+        <argsstring></argsstring>
+        <name>applies_to</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::DomainGuideline::applies_to</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="42" column="21" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline_1a6dd4515d8ed5b1d84657886ede696913" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalGuidelinesManager::DomainGuideline::augmentation</definition>
+        <argsstring></argsstring>
+        <name>augmentation</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::DomainGuideline::augmentation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="43" column="21" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline_1a5051b23f9933a2b9ed06e264271a6363" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicalGuidelinesManager::DomainGuideline::additional_notes</definition>
+        <argsstring></argsstring>
+        <name>additional_notes</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::DomainGuideline::additional_notes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="44" column="21" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ethical_guidelines_manager.h" line="40" column="5" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="40" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline_1a5051b23f9933a2b9ed06e264271a6363" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::DomainGuideline</scope><name>additional_notes</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline_1a6f80a378128e588948c951ff9a12197e" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::DomainGuideline</scope><name>applies_to</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline_1a6dd4515d8ed5b1d84657886ede696913" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::DomainGuideline</scope><name>augmentation</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_domain_guideline_1a2ba412175ee5a7b2e9344df269bddad9" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::DomainGuideline</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

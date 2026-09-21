@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::HighCardinalityMetricsManager</compoundname>
+    <includes refid="wave__d__high__cardinality__metrics_8h" local="no">wave_d_high_cardinality_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a0a8965030ca36aa132a7837e7ac4eb16" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1observability_1_1_shard_latency_histogram" kindref="compound">ShardLatencyHistogram</ref></type>
+        <definition>ShardLatencyHistogram themis::observability::HighCardinalityMetricsManager::shard_latencies_</definition>
+        <argsstring></argsstring>
+        <name>shard_latencies_</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::shard_latencies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="293" column="27" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1abe9007ebfc4015087818d9d26bb8d0c0" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1observability_1_1_replica_lag_tracker" kindref="compound">ReplicaLagTracker</ref></type>
+        <definition>ReplicaLagTracker themis::observability::HighCardinalityMetricsManager::replica_lag_</definition>
+        <argsstring></argsstring>
+        <name>replica_lag_</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::replica_lag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="294" column="23" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a11a7234bb6dce73f4edfbdc1c9312054" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1observability_1_1_retry_counter" kindref="compound">RetryCounter</ref></type>
+        <definition>RetryCounter themis::observability::HighCardinalityMetricsManager::retry_counter_</definition>
+        <argsstring></argsstring>
+        <name>retry_counter_</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::retry_counter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="295" column="18" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ad4baf319b3174b69c93108bbe21701c0" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::HighCardinalityMetricsManager::kTotalCardinalityLimit</definition>
+        <argsstring></argsstring>
+        <name>kTotalCardinalityLimit</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::kTotalCardinalityLimit</qualifiedname>
+        <initializer>= 50000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="298" column="29" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a089f24682ed55aac12424f65dd486fa0" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::HighCardinalityMetricsManager::kMemoryBudgetBytes</definition>
+        <argsstring></argsstring>
+        <name>kMemoryBudgetBytes</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::kMemoryBudgetBytes</qualifiedname>
+        <initializer>= 512 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="301" column="31" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" kindref="member">HighCardinalityMetricsManager</ref> &amp;</type>
+        <definition>HighCardinalityMetricsManager &amp; themis::observability::HighCardinalityMetricsManager::getInstance</definition>
+        <argsstring>()</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::getInstance</qualifiedname>
+        <briefdescription>
+<para>Get the singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Instance.</para>
+<para><simplesect kind="return"><para>Reference to the high-cardinality metrics manager.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getInstance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="235" column="42" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="277" bodyend="280"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::HighCardinalityMetricsManager::HighCardinalityMetricsManager</definition>
+        <argsstring>(const HighCardinalityMetricsManager &amp;)=delete</argsstring>
+        <name>HighCardinalityMetricsManager</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::HighCardinalityMetricsManager</qualifiedname>
+        <param>
+          <type>const HighCardinalityMetricsManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="238" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a659b6977d379207f9dc210987c7789e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" kindref="member">HighCardinalityMetricsManager</ref> &amp;</type>
+        <definition>HighCardinalityMetricsManager &amp; themis::observability::HighCardinalityMetricsManager::operator=</definition>
+        <argsstring>(const HighCardinalityMetricsManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" kindref="member">HighCardinalityMetricsManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="239" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1af9c11df2f3414d8bd3a85d75474f8a54" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_shard_latency_histogram" kindref="compound">ShardLatencyHistogram</ref> &amp;</type>
+        <definition>ShardLatencyHistogram &amp; themis::observability::HighCardinalityMetricsManager::shardLatencies</definition>
+        <argsstring>()</argsstring>
+        <name>shardLatencies</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::shardLatencies</qualifiedname>
+        <briefdescription>
+<para>Get the shard latency histogram. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to the <ref refid="classthemis_1_1observability_1_1_shard_latency_histogram" kindref="compound">ShardLatencyHistogram</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="245" column="27" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="245" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a0355ad94c2c808d38a36546ed1f50823" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_replica_lag_tracker" kindref="compound">ReplicaLagTracker</ref> &amp;</type>
+        <definition>ReplicaLagTracker &amp; themis::observability::HighCardinalityMetricsManager::replicaLag</definition>
+        <argsstring>()</argsstring>
+        <name>replicaLag</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::replicaLag</qualifiedname>
+        <briefdescription>
+<para>Get the replica lag tracker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to the <ref refid="classthemis_1_1observability_1_1_replica_lag_tracker" kindref="compound">ReplicaLagTracker</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="251" column="23" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1aa46a07b9ef4ffa3ecb3c9b27cc419e01" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_retry_counter" kindref="compound">RetryCounter</ref> &amp;</type>
+        <definition>RetryCounter &amp; themis::observability::HighCardinalityMetricsManager::retryCounter</definition>
+        <argsstring>()</argsstring>
+        <name>retryCounter</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::retryCounter</qualifiedname>
+        <briefdescription>
+<para>Get the retry counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to the <ref refid="classthemis_1_1observability_1_1_retry_counter" kindref="compound">RetryCounter</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="257" column="18" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a0646a9f4ba2dbfbac4adbf90439b8af1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::HighCardinalityMetricsManager::getTotalCardinality</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalCardinality</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::getTotalCardinality</qualifiedname>
+        <briefdescription>
+<para>Get the total cardinality (sum of all unique label combinations). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Total cardinality across all high-cardinality metrics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="263" column="12" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="282" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a86a4eb7c5d480962e3921a1ec74fb926" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::HighCardinalityMetricsManager::getEstimatedMemoryBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>getEstimatedMemoryBytes</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::getEstimatedMemoryBytes</qualifiedname>
+        <briefdescription>
+<para>Get estimated memory usage (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rough estimate based on number of observations and cardinality. Useful for detecting memory growth patterns.</para>
+<para><simplesect kind="return"><para>Estimated memory usage in bytes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="273" column="14" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="288" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1aaf6c3abc21c39b313c85ef233daa19" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::HighCardinalityMetricsManager::isCardinalitySafe</definition>
+        <argsstring>() const</argsstring>
+        <name>isCardinalitySafe</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::isCardinalitySafe</qualifiedname>
+        <briefdescription>
+<para>Check if cardinality is within safe bounds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true if total cardinality &lt; 50k (no OOM risk).</para>
+<para><simplesect kind="return"><para>true if cardinality is safe, false if near/at limit. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="282" column="10" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="299" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ad97f8f4ffd15ef8ddd83b0b19696dbe6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::HighCardinalityMetricsManager::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all high-cardinality metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Implements reset without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="287" column="10" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="307" bodyend="311"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a3a82e8a19402c656bdecd4ff1ce695c1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::HighCardinalityMetricsManager::HighCardinalityMetricsManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>HighCardinalityMetricsManager</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::HighCardinalityMetricsManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="290" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a11c1d62c7dc683ed166238267a120cf2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::HighCardinalityMetricsManager::~HighCardinalityMetricsManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~HighCardinalityMetricsManager</name>
+        <qualifiedname>themis::observability::HighCardinalityMetricsManager::~HighCardinalityMetricsManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="291" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>High-cardinality metrics manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Aggregates shard latencies, replica lag, and retry counters with bounded memory and cardinality enforcement.</para>
+<para>Wave D Phase 2B: Provides metrics collection for observability gates W4A-METRICS-01 (50k cardinality, 512 MB memory bound). </para>
+    </detaileddescription>
+    <location file="include/observability/wave_d_high_cardinality_metrics.h" line="229" column="1" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="229" bodyend="302"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a86a4eb7c5d480962e3921a1ec74fb926" prot="public" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>getEstimatedMemoryBytes</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" prot="public" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a0646a9f4ba2dbfbac4adbf90439b8af1" prot="public" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>getTotalCardinality</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1dfde97baa443cb5bca960f0631f8fdc" prot="public" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>HighCardinalityMetricsManager</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a3a82e8a19402c656bdecd4ff1ce695c1" prot="private" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>HighCardinalityMetricsManager</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a1aaf6c3abc21c39b313c85ef233daa19" prot="public" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>isCardinalitySafe</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a089f24682ed55aac12424f65dd486fa0" prot="private" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>kMemoryBudgetBytes</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ad4baf319b3174b69c93108bbe21701c0" prot="private" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>kTotalCardinalityLimit</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a659b6977d379207f9dc210987c7789e7" prot="public" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1abe9007ebfc4015087818d9d26bb8d0c0" prot="private" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>replica_lag_</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a0355ad94c2c808d38a36546ed1f50823" prot="public" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>replicaLag</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ad97f8f4ffd15ef8ddd83b0b19696dbe6" prot="public" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>reset</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a11a7234bb6dce73f4edfbdc1c9312054" prot="private" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>retry_counter_</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1aa46a07b9ef4ffa3ecb3c9b27cc419e01" prot="public" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>retryCounter</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a0a8965030ca36aa132a7837e7ac4eb16" prot="private" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>shard_latencies_</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1af9c11df2f3414d8bd3a85d75474f8a54" prot="public" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>shardLatencies</name></member>
+      <member refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1a11c1d62c7dc683ed166238267a120cf2" prot="private" virt="non-virtual"><scope>themis::observability::HighCardinalityMetricsManager</scope><name>~HighCardinalityMetricsManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

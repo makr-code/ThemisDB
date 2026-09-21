@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationPolicy::Policy</compoundname>
+    <includes refid="policy_8h" local="no">policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a0684b4a078eab398b2bd1ab39297bddf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationPolicy::Policy::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="80" column="21" bodyfile="include/replication/policy.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6060eb06346d0dd72292407387980e8c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationPolicy::Policy::min_replicas</definition>
+        <argsstring></argsstring>
+        <name>min_replicas</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::min_replicas</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="83" column="18" bodyfile="include/replication/policy.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aa79f0339ddf7b6ab964428ecd4c4ffff" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationPolicy::Policy::desired_replicas</definition>
+        <argsstring></argsstring>
+        <name>desired_replicas</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::desired_replicas</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="84" column="18" bodyfile="include/replication/policy.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1ad8a0bb864b74343d03222258e292c56a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationPolicy::Policy::max_replicas</definition>
+        <argsstring></argsstring>
+        <name>max_replicas</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::max_replicas</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="85" column="18" bodyfile="include/replication/policy.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a1ce01a6038fecf22ae96771ea38d70ab" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::ReplicationPolicy::Policy::required_datacenters</definition>
+        <argsstring></argsstring>
+        <name>required_datacenters</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::required_datacenters</qualifiedname>
+        <briefdescription>
+<para>Must have replicas here. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="88" column="21" bodyfile="include/replication/policy.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aef799e7aed620e7c7c05a713f6fe4777" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::ReplicationPolicy::Policy::preferred_datacenters</definition>
+        <argsstring></argsstring>
+        <name>preferred_datacenters</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::preferred_datacenters</qualifiedname>
+        <briefdescription>
+<para>Prefer replicas here. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="89" column="21" bodyfile="include/replication/policy.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a8e2189e192da6fd2c22dea6839311762" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationPolicy::Policy::min_datacenters</definition>
+        <argsstring></argsstring>
+        <name>min_datacenters</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::min_datacenters</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Minimum distinct DCs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="90" column="18" bodyfile="include/replication/policy.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6c1493fcb362e192f578692efde73cf7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bc" kindref="member">ReplicationMode</ref></type>
+        <definition>ReplicationMode themisdb::replication::ReplicationPolicy::Policy::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bca767c2b6654e7bd7ac3dae9cbaa2c390b" kindref="member">ReplicationMode::SEMI_SYNC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="93" column="25" bodyfile="include/replication/policy.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1afeac3c43158496cea8e910eba4672ab3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationPolicy::Policy::write_quorum</definition>
+        <argsstring></argsstring>
+        <name>write_quorum</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::write_quorum</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="94" column="18" bodyfile="include/replication/policy.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aa2725fbdcb56369b8767cbf66ca7939a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationPolicy::Policy::read_quorum</definition>
+        <argsstring></argsstring>
+        <name>read_quorum</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::read_quorum</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="95" column="18" bodyfile="include/replication/policy.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a539f44cd816a2184fac6f9b9d4c2f8ed" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicationPolicy::Policy::max_replication_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>max_replication_lag_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::max_replication_lag_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="98" column="18" bodyfile="include/replication/policy.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a939985c1d8f7a35594368ec97beac51d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationPolicy::Policy::enable_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_compression</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::enable_compression</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="99" column="18" bodyfile="include/replication/policy.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6b16259051e6bb3528e962388b33ca64" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationPolicy::Policy::enable_encryption</definition>
+        <argsstring></argsstring>
+        <name>enable_encryption</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::enable_encryption</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="100" column="18" bodyfile="include/replication/policy.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a78ef069bdb07a61758b340dfcc0194ac" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themisdb::replication::ReplicationPolicy::Policy::wal_retention</definition>
+        <argsstring></argsstring>
+        <name>wal_retention</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::wal_retention</qualifiedname>
+        <initializer>= std::chrono::hours(168)</initializer>
+        <briefdescription>
+<para>7 days </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="103" column="28" bodyfile="include/replication/policy.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a4e44d755aec2f070214915be54bcd6e2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationPolicy::Policy::enable_pitr</definition>
+        <argsstring></argsstring>
+        <name>enable_pitr</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::Policy::enable_pitr</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="104" column="14" bodyfile="include/replication/policy.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/policy.h" line="79" column="5" bodyfile="include/replication/policy.h" bodystart="79" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aa79f0339ddf7b6ab964428ecd4c4ffff" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>desired_replicas</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a939985c1d8f7a35594368ec97beac51d" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>enable_compression</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6b16259051e6bb3528e962388b33ca64" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>enable_encryption</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a4e44d755aec2f070214915be54bcd6e2" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>enable_pitr</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1ad8a0bb864b74343d03222258e292c56a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>max_replicas</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a539f44cd816a2184fac6f9b9d4c2f8ed" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>max_replication_lag_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a8e2189e192da6fd2c22dea6839311762" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>min_datacenters</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6060eb06346d0dd72292407387980e8c" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>min_replicas</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a6c1493fcb362e192f578692efde73cf7" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>mode</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a0684b4a078eab398b2bd1ab39297bddf" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aef799e7aed620e7c7c05a713f6fe4777" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>preferred_datacenters</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1aa2725fbdcb56369b8767cbf66ca7939a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>read_quorum</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a1ce01a6038fecf22ae96771ea38d70ab" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>required_datacenters</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1a78ef069bdb07a61758b340dfcc0194ac" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>wal_retention</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy_1afeac3c43158496cea8e910eba4672ab3" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy::Policy</scope><name>write_quorum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

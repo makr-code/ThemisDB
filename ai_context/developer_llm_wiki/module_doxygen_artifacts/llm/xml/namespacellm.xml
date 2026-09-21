@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacellm" kind="namespace" language="C++">
+    <compoundname>llm</compoundname>
+    <innerclass refid="structllm_1_1_adapter_placement" prot="public">llm::AdapterPlacement</innerclass>
+    <innerclass refid="structllm_1_1_deployment_config" prot="public">llm::DeploymentConfig</innerclass>
+    <innerclass refid="structllm_1_1_deployment_result" prot="public">llm::DeploymentResult</innerclass>
+    <innerclass refid="structllm_1_1_shard_affinity_metrics" prot="public">llm::ShardAffinityMetrics</innerclass>
+    <innerclass refid="structllm_1_1_deployment_plan" prot="public">llm::DeploymentPlan</innerclass>
+    <innerclass refid="structllm_1_1_rollback_state" prot="public">llm::RollbackState</innerclass>
+    <innerclass refid="classllm_1_1_adapter_deployment_manager" prot="public">llm::AdapterDeploymentManager</innerclass>
+    <innerclass refid="classllm_1_1_adapter_deployment_manager_factory" prot="public">llm::AdapterDeploymentManagerFactory</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacellm_1ad8ca0df4b5395bd8ff0df69c92798395" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DeploymentStrategy</name>
+        <qualifiedname>llm::DeploymentStrategy</qualifiedname>
+        <enumvalue id="namespacellm_1ad8ca0df4b5395bd8ff0df69c92798395a501b457307b8108e6387c993be25ec58" prot="public">
+          <name>CO_LOCATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacellm_1ad8ca0df4b5395bd8ff0df69c92798395a12f97b6f65fe09d962ed8326a18ac613" prot="public">
+          <name>REPLICATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacellm_1ad8ca0df4b5395bd8ff0df69c92798395afa1f893e7c717f69a8cdba55e5efd7d2" prot="public">
+          <name>LOAD_BALANCED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacellm_1ad8ca0df4b5395bd8ff0df69c92798395a48c3492eb0a5122692872010f0e94b8f" prot="public">
+          <name>AFFINITY_BASED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacellm_1ad8ca0df4b5395bd8ff0df69c92798395a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="30" column="1" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="30" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_deployment_manager.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

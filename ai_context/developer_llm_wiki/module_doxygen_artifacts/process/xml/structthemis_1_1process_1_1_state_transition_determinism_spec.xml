@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_state_transition_determinism_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::StateTransitionDeterminismSpec</compoundname>
+    <includes refid="process__determinism__spec_8h" local="no">process_determinism_spec.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_state_transition_determinism_spec_1a6d9cd975454f27a7e9d65715d82344a5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref></type>
+        <definition>DeterminismClass themis::process::StateTransitionDeterminismSpec::determinism</definition>
+        <argsstring></argsstring>
+        <name>determinism</name>
+        <qualifiedname>themis::process::StateTransitionDeterminismSpec::determinism</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445a9ac2170a3d5d65991c224289038b75d5" kindref="member">DeterminismClass::CONFLICT_RESOLVED_DETERMINISTIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="189" column="39" bodyfile="include/process/process_determinism_spec.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_state_transition_determinism_spec_1add736e498474128705f09cb65fbdccc9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref></type>
+        <definition>ConflictScope themis::process::StateTransitionDeterminismSpec::conflict_scope</definition>
+        <argsstring></argsstring>
+        <name>conflict_scope</name>
+        <qualifiedname>themis::process::StateTransitionDeterminismSpec::conflict_scope</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bba934fc420d3d028a136f8b01e891fc17d" kindref="member">ConflictScope::SINGLE_MODEL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="190" column="36" bodyfile="include/process/process_determinism_spec.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_state_transition_determinism_spec_1ad3ff4de0b327ef32138edf0cc6643fa2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::StateTransitionDeterminismSpec::describe</definition>
+        <argsstring>()</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::StateTransitionDeterminismSpec::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_determinism_spec.h" line="192" column="29" bodyfile="include/process/process_determinism_spec.h" bodystart="192" bodyend="196"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Guarantees for process instance state transitions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Determinism:</bold> CONFLICT_RESOLVED_DETERMINISTIC <linebreak/>
+ <bold>Condition:</bold> Single instance state machine; no cross-instance state changes <linebreak/>
+ <bold>Ordering:</bold> Deterministic within a single instance; no races on state fields</para>
+<para><simplesect kind="invariant"><para>State transitions follow BPMN 2.0 token semantics </para>
+</simplesect>
+<simplesect kind="invariant"><para>Valid transitions are deterministic </para>
+</simplesect>
+<simplesect kind="invariant"><para>Invalid transitions always produce same error </para>
+</simplesect>
+<simplesect kind="invariant"><para>Subprocess invocation order is non-deterministic (see NOTE below)</para>
+</simplesect>
+<simplesect kind="note"><para><bold>Non-deterministic aspect:</bold> Subprocess execution order may vary under concurrent execution due to thread scheduling. However, final state is still valid per BPMN 2.0 (may represent different execution path orders). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_determinism_spec.h" line="188" column="1" bodyfile="include/process/process_determinism_spec.h" bodystart="188" bodyend="197"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_state_transition_determinism_spec_1add736e498474128705f09cb65fbdccc9" prot="public" virt="non-virtual"><scope>themis::process::StateTransitionDeterminismSpec</scope><name>conflict_scope</name></member>
+      <member refid="structthemis_1_1process_1_1_state_transition_determinism_spec_1ad3ff4de0b327ef32138edf0cc6643fa2" prot="public" virt="non-virtual"><scope>themis::process::StateTransitionDeterminismSpec</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_state_transition_determinism_spec_1a6d9cd975454f27a7e9d65715d82344a5" prot="public" virt="non-virtual"><scope>themis::process::StateTransitionDeterminismSpec</scope><name>determinism</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

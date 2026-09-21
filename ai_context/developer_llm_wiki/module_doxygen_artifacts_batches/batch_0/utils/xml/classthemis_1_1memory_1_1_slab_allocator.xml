@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1memory_1_1_slab_allocator" kind="class" language="C++" prot="public">
+    <compoundname>themis::memory::SlabAllocator</compoundname>
+    <basecompoundref refid="classthemis_1_1memory_1_1_i_allocator" prot="public" virt="non-virtual">themis::memory::IAllocator</basecompoundref>
+    <includes refid="pool__allocator_8h" local="no">pool_allocator.h</includes>
+    <innerclass refid="structthemis_1_1memory_1_1_slab_allocator_1_1_slab" prot="public">themis::memory::SlabAllocator::Slab</innerclass>
+    <innerclass refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl" prot="public">themis::memory::SlabAllocator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1memory_1_1_slab_allocator_1a85e3b06d31b9f0a41c9b5e26189ac7d5" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1memory_1_1_slab_allocator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::memory::SlabAllocator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::memory::SlabAllocator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="243" column="21" bodyfile="include/utils/memory/pool_allocator.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1memory_1_1_slab_allocator_1af5dd8ac24fcd4e1c74889b5dd943cf28" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref></type>
+        <definition>AllocationStats themis::memory::SlabAllocator::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::memory::SlabAllocator::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="244" column="21" bodyfile="include/utils/memory/pool_allocator.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_slab_allocator_1a55d334ad3dc960387c4d783ee6450538" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::SlabAllocator::SlabAllocator</definition>
+        <argsstring>(size_t object_size, size_t objects_per_slab=64, size_t max_slabs=0)</argsstring>
+        <name>SlabAllocator</name>
+        <qualifiedname>themis::memory::SlabAllocator::SlabAllocator</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>object_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>objects_per_slab</declname>
+          <defval>64</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_slabs</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Construct slab allocator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>object_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of each object </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>objects_per_slab</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of objects per slab </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_slabs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of slabs (0 = unlimited) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="215" column="14" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="554" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_slab_allocator_1aff915e1631e9207c9450bc4b6a9ad81f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::SlabAllocator::~SlabAllocator</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>~SlabAllocator</name>
+        <qualifiedname>themis::memory::SlabAllocator::~SlabAllocator</qualifiedname>
+        <briefdescription>
+<para>Release all slabs owned by the allocator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup is RAII-backed and guaranteed not to throw during shutdown. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="222" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_slab_allocator_1a2b90d6166b8f0a895d133d00f37c111c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void * &gt;</type>
+        <definition>Result&lt; void * &gt; themis::memory::SlabAllocator::allocate</definition>
+        <argsstring>(size_t size, AllocationHint hint=AllocationHint::NONE) override</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::memory::SlabAllocator::allocate</qualifiedname>
+        <reimplements refid="classthemis_1_1memory_1_1_i_allocator_1a586207145a8de22db97f4f68dc09d346">allocate</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" kindref="member">AllocationHint</ref></type>
+          <declname>hint</declname>
+          <defval><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dab50339a10e1de285ac99d4c3990b8693" kindref="member">AllocationHint::NONE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Allocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">AllocationHint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), fetch_add(), getCurrentUsage(), load(), compare_exchange_weak(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="224" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="568" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_slab_allocator_1ac1ed008cf0162c7450740f416b314531" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::memory::SlabAllocator::deallocate</definition>
+        <argsstring>(void *ptr) override</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::memory::SlabAllocator::deallocate</qualifiedname>
+        <reimplements refid="classthemis_1_1memory_1_1_i_allocator_1a739b771f3225eac41cbcc380292db03e">deallocate</reimplements>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1ab996532e6dd43674f9065849a5b0e4dc" kindref="member">OkVoid()</ref>, lock(), <ref refid="namespacethemis_1a9dfe4a621661bf7b1f585b7fef613b26" kindref="member">ErrVoid()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="225" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="609" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_slab_allocator_1aaeb7d65e91f247e14cd1b5656b521503" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const <ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref> &amp;</type>
+        <definition>const AllocationStats &amp; themis::memory::SlabAllocator::getStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::memory::SlabAllocator::getStats</qualifiedname>
+        <reimplements refid="classthemis_1_1memory_1_1_i_allocator_1ad5efb1a9f351063579ea9333b317381b">getStats</reimplements>
+        <briefdescription>
+<para>Get allocator statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="226" column="27" bodyfile="include/utils/memory/pool_allocator.h" bodystart="226" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_slab_allocator_1ad473437448ad6bda70e87b7630407ceb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::memory::SlabAllocator::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::memory::SlabAllocator::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1memory_1_1_i_allocator_1a347423882a86bf16b43ede995dd22c1f">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None.</para>
+</simplesect>
+Calls: lock(), <ref refid="namespacethemis_1ab996532e6dd43674f9065849a5b0e4dc" kindref="member">OkVoid()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="227" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="632" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_slab_allocator_1a0bbb7a08f007dbdbf15d5fbcf2eedca7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::memory::SlabAllocator::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::memory::SlabAllocator::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1memory_1_1_i_allocator_1ab00329da6b51d75fdafb232614452870">getName</reimplements>
+        <briefdescription>
+<para>Get allocator name for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="228" column="16" bodyfile="include/utils/memory/pool_allocator.h" bodystart="228" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_slab_allocator_1a986412c8b16492d5cd37beae3525ff60" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::memory::SlabAllocator::getSlabCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getSlabCount</name>
+        <qualifiedname>themis::memory::SlabAllocator::getSlabCount</qualifiedname>
+        <briefdescription>
+<para>Get number of active slabs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="233" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="643" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_slab_allocator_1a0e725ca87f2ec3755606bede00da8a82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::memory::SlabAllocator::getUtilization</definition>
+        <argsstring>() const</argsstring>
+        <name>getUtilization</name>
+        <qualifiedname>themis::memory::SlabAllocator::getUtilization</qualifiedname>
+        <briefdescription>
+<para>Get utilization ratio (0.0 = empty, 1.0 = full). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="238" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="648" bodyend="665"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1memory_1_1_slab_allocator_1_1_slab" kindref="compound">Slab</ref> Allocator - Fixed-size object allocation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Features:<itemizedlist>
+<listitem><para>Allocation: O(1)</para>
+</listitem><listitem><para>Deallocation: O(1)</para>
+</listitem><listitem><para>Minimal fragmentation</para>
+</listitem><listitem><para>Best for: Object pools (strings, query contexts, etc.) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::memory::IAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_i_allocator"/>
+      </node>
+      <node id="1">
+        <label>themis::memory::SlabAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_slab_allocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::memory::IAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_i_allocator"/>
+      </node>
+      <node id="1">
+        <label>themis::memory::SlabAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_slab_allocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/memory/pool_allocator.h" line="207" column="1" bodyfile="include/utils/memory/pool_allocator.h" bodystart="207" bodyend="245"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1memory_1_1_slab_allocator_1a2b90d6166b8f0a895d133d00f37c111c" prot="public" virt="virtual"><scope>themis::memory::SlabAllocator</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1memory_1_1_slab_allocator_1ac1ed008cf0162c7450740f416b314531" prot="public" virt="virtual"><scope>themis::memory::SlabAllocator</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1memory_1_1_slab_allocator_1a0bbb7a08f007dbdbf15d5fbcf2eedca7" prot="public" virt="virtual"><scope>themis::memory::SlabAllocator</scope><name>getName</name></member>
+      <member refid="classthemis_1_1memory_1_1_slab_allocator_1a986412c8b16492d5cd37beae3525ff60" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator</scope><name>getSlabCount</name></member>
+      <member refid="classthemis_1_1memory_1_1_slab_allocator_1aaeb7d65e91f247e14cd1b5656b521503" prot="public" virt="virtual"><scope>themis::memory::SlabAllocator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1memory_1_1_slab_allocator_1a0e725ca87f2ec3755606bede00da8a82" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator</scope><name>getUtilization</name></member>
+      <member refid="classthemis_1_1memory_1_1_slab_allocator_1a85e3b06d31b9f0a41c9b5e26189ac7d5" prot="private" virt="non-virtual"><scope>themis::memory::SlabAllocator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1memory_1_1_slab_allocator_1ad473437448ad6bda70e87b7630407ceb" prot="public" virt="virtual"><scope>themis::memory::SlabAllocator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1memory_1_1_slab_allocator_1a55d334ad3dc960387c4d783ee6450538" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator</scope><name>SlabAllocator</name></member>
+      <member refid="classthemis_1_1memory_1_1_slab_allocator_1af5dd8ac24fcd4e1c74889b5dd943cf28" prot="private" virt="non-virtual"><scope>themis::memory::SlabAllocator</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1memory_1_1_i_allocator_1a50e403c4abbfde7c52a9cb92f453469b" prot="public" virt="virtual"><scope>themis::memory::SlabAllocator</scope><name>~IAllocator</name></member>
+      <member refid="classthemis_1_1memory_1_1_slab_allocator_1aff915e1631e9207c9450bc4b6a9ad81f" prot="public" virt="non-virtual"><scope>themis::memory::SlabAllocator</scope><name>~SlabAllocator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

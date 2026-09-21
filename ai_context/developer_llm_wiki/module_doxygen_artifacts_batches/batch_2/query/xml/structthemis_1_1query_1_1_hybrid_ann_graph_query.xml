@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_hybrid_ann_graph_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::HybridAnnGraphQuery</compoundname>
+    <includes refid="tensor__aware__query__optimizer_8h" local="no">tensor_aware_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a6ed96d796840806c79e32111e277cc21" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::query::HybridAnnGraphQuery::query_vector</definition>
+        <argsstring></argsstring>
+        <name>query_vector</name>
+        <qualifiedname>themis::query::HybridAnnGraphQuery::query_vector</qualifiedname>
+        <briefdescription>
+<para>Dense query vector (required). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="160" column="17" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_ann_graph_query_1aca71d5f6971011b032ec4abceefeabf5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::HybridAnnGraphQuery::ann_k</definition>
+        <argsstring></argsstring>
+        <name>ann_k</name>
+        <qualifiedname>themis::query::HybridAnnGraphQuery::ann_k</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>ANN candidate count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="161" column="24" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a5b5ea8ada381fe2c2d899a44d077b101" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::HybridAnnGraphQuery::graph_max_depth</definition>
+        <argsstring></argsstring>
+        <name>graph_max_depth</name>
+        <qualifiedname>themis::query::HybridAnnGraphQuery::graph_max_depth</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>BFS depth for graph expansion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="162" column="24" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_ann_graph_query_1abdb973dea400d845c3de4e48f7a36bec" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::HybridAnnGraphQuery::graph_max_nodes</definition>
+        <argsstring></argsstring>
+        <name>graph_max_nodes</name>
+        <qualifiedname>themis::query::HybridAnnGraphQuery::graph_max_nodes</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Max graph nodes per ANN hit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="163" column="24" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a2f578c63f72efb9db73ae68fa06b59f2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::HybridAnnGraphQuery::graph_min_edge_weight</definition>
+        <argsstring></argsstring>
+        <name>graph_min_edge_weight</name>
+        <qualifiedname>themis::query::HybridAnnGraphQuery::graph_min_edge_weight</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="164" column="24" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a3ec130897cfc7a44dfecc157fd6b33c6" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::HybridAnnGraphQuery::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::query::HybridAnnGraphQuery::top_k</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Final result count after fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="165" column="24" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_ann_graph_query_1af3896e1492e5d827bac690a7f8305353" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::HybridAnnGraphQuery::rrf_k</definition>
+        <argsstring></argsstring>
+        <name>rrf_k</name>
+        <qualifiedname>themis::query::HybridAnnGraphQuery::rrf_k</qualifiedname>
+        <initializer>= 60.0</initializer>
+        <briefdescription>
+<para>RRF constant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="166" column="24" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a7baaf3bfc99bbe1c966487f249ed22f3" prot="public" static="no" mutable="no">
+        <type>index::AnnQueryContext</type>
+        <definition>index::AnnQueryContext themis::query::HybridAnnGraphQuery::ann_context</definition>
+        <argsstring></argsstring>
+        <name>ann_context</name>
+        <qualifiedname>themis::query::HybridAnnGraphQuery::ann_context</qualifiedname>
+        <briefdescription>
+<para>Routing hints for AnnFrontdoor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="167" column="28" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_hybrid_ann_graph_query_1ad84902b593f009289f2f7249e87c1268" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::query::HybridAnnGraphQuery::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::query::HybridAnnGraphQuery::timeout_ms</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>Hard wall-clock timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="168" column="31" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/tensor_aware_query_optimizer.h" line="159" column="1" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="159" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a7baaf3bfc99bbe1c966487f249ed22f3" prot="public" virt="non-virtual"><scope>themis::query::HybridAnnGraphQuery</scope><name>ann_context</name></member>
+      <member refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1aca71d5f6971011b032ec4abceefeabf5" prot="public" virt="non-virtual"><scope>themis::query::HybridAnnGraphQuery</scope><name>ann_k</name></member>
+      <member refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a5b5ea8ada381fe2c2d899a44d077b101" prot="public" virt="non-virtual"><scope>themis::query::HybridAnnGraphQuery</scope><name>graph_max_depth</name></member>
+      <member refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1abdb973dea400d845c3de4e48f7a36bec" prot="public" virt="non-virtual"><scope>themis::query::HybridAnnGraphQuery</scope><name>graph_max_nodes</name></member>
+      <member refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a2f578c63f72efb9db73ae68fa06b59f2" prot="public" virt="non-virtual"><scope>themis::query::HybridAnnGraphQuery</scope><name>graph_min_edge_weight</name></member>
+      <member refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a6ed96d796840806c79e32111e277cc21" prot="public" virt="non-virtual"><scope>themis::query::HybridAnnGraphQuery</scope><name>query_vector</name></member>
+      <member refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1af3896e1492e5d827bac690a7f8305353" prot="public" virt="non-virtual"><scope>themis::query::HybridAnnGraphQuery</scope><name>rrf_k</name></member>
+      <member refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1ad84902b593f009289f2f7249e87c1268" prot="public" virt="non-virtual"><scope>themis::query::HybridAnnGraphQuery</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a3ec130897cfc7a44dfecc157fd6b33c6" prot="public" virt="non-virtual"><scope>themis::query::HybridAnnGraphQuery</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

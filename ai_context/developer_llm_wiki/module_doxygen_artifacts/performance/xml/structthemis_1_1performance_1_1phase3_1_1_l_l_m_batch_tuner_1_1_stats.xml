@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::LLMBatchTuner::Stats</compoundname>
+    <includes refid="adaptive__batch__tuner_8h" local="no">adaptive_batch_tuner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a0ad0b9eb389f857427327b7d04d99ea5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::LLMBatchTuner::Stats::current_batch_size</definition>
+        <argsstring></argsstring>
+        <name>current_batch_size</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::Stats::current_batch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="121" column="17" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1aea9ee2537c40b53c3db65c77970e1b31" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::LLMBatchTuner::Stats::ema_throughput</definition>
+        <argsstring></argsstring>
+        <name>ema_throughput</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::Stats::ema_throughput</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>EMA tokens/s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="122" column="17" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a91db16682e4b1425f834616b25ecdcfd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::LLMBatchTuner::Stats::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::Stats::avg_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean latency over recorded window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="123" column="17" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a30b02ecb7bb4b9e8ddcac2471b5e3260" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::LLMBatchTuner::Stats::p99_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_latency_ms</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::Stats::p99_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>P99 latency over recorded window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="124" column="17" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1aaedc1162416ac4c230d2c3be126e152c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::LLMBatchTuner::Stats::total_batches</definition>
+        <argsstring></argsstring>
+        <name>total_batches</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::Stats::total_batches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Batches recorded since construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="125" column="17" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1ac5862ae81b17c699c1af5e040633d3d8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::LLMBatchTuner::Stats::tuning_events</definition>
+        <argsstring></argsstring>
+        <name>tuning_events</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::Stats::tuning_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of batch-size adjustments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="126" column="17" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/adaptive_batch_tuner.h" line="120" column="5" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="120" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a91db16682e4b1425f834616b25ecdcfd" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner::Stats</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a0ad0b9eb389f857427327b7d04d99ea5" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner::Stats</scope><name>current_batch_size</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1aea9ee2537c40b53c3db65c77970e1b31" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner::Stats</scope><name>ema_throughput</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1a30b02ecb7bb4b9e8ddcac2471b5e3260" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner::Stats</scope><name>p99_latency_ms</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1aaedc1162416ac4c230d2c3be126e152c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner::Stats</scope><name>total_batches</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1ac5862ae81b17c699c1af5e040633d3d8" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner::Stats</scope><name>tuning_events</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

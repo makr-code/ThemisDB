@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::WALShipperStats</compoundname>
+    <includes refid="wal__shipper_8h" local="no">wal_shipper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a18942a21e8d754d59e864d5723a8efc6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperStats::total_entries_shipped</definition>
+        <argsstring></argsstring>
+        <name>total_entries_shipped</name>
+        <qualifiedname>themis::sharding::WALShipperStats::total_entries_shipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Gesamtzahl versendeter WAL-Eintraege. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="86" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a74af90a5ea03095e7a56f6cd6f84a2f4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperStats::total_bytes_shipped</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_shipped</name>
+        <qualifiedname>themis::sharding::WALShipperStats::total_bytes_shipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Gesamtzahl gesendeter WAL-Bytes (logisch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="87" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1aa97369af0317bc5ba34d8e30bd4b3b22" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperStats::total_bytes_uncompressed</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_uncompressed</name>
+        <qualifiedname>themis::sharding::WALShipperStats::total_bytes_uncompressed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Gesamtzahl unkomprimierter Payload-Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="88" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1ad521b29d6db666f819a65c64a3f72f2d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperStats::total_batches</definition>
+        <argsstring></argsstring>
+        <name>total_batches</name>
+        <qualifiedname>themis::sharding::WALShipperStats::total_batches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Anzahl gesendeter Batches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="89" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a9212801a2f387000d596f0d573702193" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperStats::failed_ships</definition>
+        <argsstring></argsstring>
+        <name>failed_ships</name>
+        <qualifiedname>themis::sharding::WALShipperStats::failed_ships</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Anzahl fehlgeschlagener Ship-Vorgaenge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="90" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a0a6f2e47070f4262fd79fafb0faea123" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperStats::retries</definition>
+        <argsstring></argsstring>
+        <name>retries</name>
+        <qualifiedname>themis::sharding::WALShipperStats::retries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Anzahl ausgefuehrter Retry-Versuche. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="91" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a9c015686eec31415ac40dada2b551dc4" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::WALShipperStats::avg_ship_time</definition>
+        <argsstring></argsstring>
+        <name>avg_ship_time</name>
+        <qualifiedname>themis::sharding::WALShipperStats::avg_ship_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Gleitender Mittelwert der Loop-Dauer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="92" column="31" bodyfile="include/sharding/wal_shipper.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1ac5ea2f8d9719a3f73ea69eb7026f7fc9" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::WALShipperStats::max_lag</definition>
+        <argsstring></argsstring>
+        <name>max_lag</name>
+        <qualifiedname>themis::sharding::WALShipperStats::max_lag</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Beobachteter maximaler Lag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="93" column="31" bodyfile="include/sharding/wal_shipper.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1ad6269bfbe23848b87e78ee12f5747cc5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::WALShipperStats::avg_compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>avg_compression_ratio</name>
+        <qualifiedname>themis::sharding::WALShipperStats::avg_compression_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Mittelwert unkomprimiert/komprimiert. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="94" column="12" bodyfile="include/sharding/wal_shipper.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a67594f3f366cf96644c53701ff13f623" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperStats::total_snapshot_chunks_sent</definition>
+        <argsstring></argsstring>
+        <name>total_snapshot_chunks_sent</name>
+        <qualifiedname>themis::sharding::WALShipperStats::total_snapshot_chunks_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Versendete Snapshot-Chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="95" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1ad2c8fe279d30d8d43ef920610564f5b8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALShipperStats::total_snapshot_bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>total_snapshot_bytes_sent</name>
+        <qualifiedname>themis::sharding::WALShipperStats::total_snapshot_bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Versendete Snapshot-Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="96" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated counters and lag/throughput statistics for WAL shipping. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/wal_shipper.h" line="85" column="1" bodyfile="include/sharding/wal_shipper.h" bodystart="85" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1ad6269bfbe23848b87e78ee12f5747cc5" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperStats</scope><name>avg_compression_ratio</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a9c015686eec31415ac40dada2b551dc4" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperStats</scope><name>avg_ship_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a9212801a2f387000d596f0d573702193" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperStats</scope><name>failed_ships</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1ac5ea2f8d9719a3f73ea69eb7026f7fc9" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperStats</scope><name>max_lag</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a0a6f2e47070f4262fd79fafb0faea123" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperStats</scope><name>retries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1ad521b29d6db666f819a65c64a3f72f2d" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperStats</scope><name>total_batches</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a74af90a5ea03095e7a56f6cd6f84a2f4" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperStats</scope><name>total_bytes_shipped</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1aa97369af0317bc5ba34d8e30bd4b3b22" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperStats</scope><name>total_bytes_uncompressed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a18942a21e8d754d59e864d5723a8efc6" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperStats</scope><name>total_entries_shipped</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1ad2c8fe279d30d8d43ef920610564f5b8" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperStats</scope><name>total_snapshot_bytes_sent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_shipper_stats_1a67594f3f366cf96644c53701ff13f623" prot="public" virt="non-virtual"><scope>themis::sharding::WALShipperStats</scope><name>total_snapshot_chunks_sent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::ColumnarStore::ColumnStats</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1acc5792b94d2a6d6ca64db3f04bfcc9ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::ColumnarStore::ColumnStats::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::analytics::ColumnarStore::ColumnStats::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="416" column="21" bodyfile="include/analytics/olap.h" bodystart="416" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1aa40ef75ca6e55b9524968032f6bef337" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::ColumnarStore::ColumnStats::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::analytics::ColumnarStore::ColumnStats::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="417" column="21" bodyfile="include/analytics/olap.h" bodystart="417" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1afaefcc957ee4fb7abb0b7544c79aa7c5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::analytics::ColumnarStore::ColumnStats::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::analytics::ColumnarStore::ColumnStats::row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="418" column="17" bodyfile="include/analytics/olap.h" bodystart="418" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1ab1902472d151b9845c64f26c35264d26" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::analytics::ColumnarStore::ColumnStats::null_count</definition>
+        <argsstring></argsstring>
+        <name>null_count</name>
+        <qualifiedname>themis::analytics::ColumnarStore::ColumnStats::null_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="419" column="17" bodyfile="include/analytics/olap.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1a50f9ac4c4ec97198c205f8e92539e96e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::analytics::ColumnarStore::ColumnStats::distinct_count</definition>
+        <argsstring></argsstring>
+        <name>distinct_count</name>
+        <qualifiedname>themis::analytics::ColumnarStore::ColumnStats::distinct_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="420" column="17" bodyfile="include/analytics/olap.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1af12c32eb7a34a5e163eecc715b0cc185" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::analytics::ColumnarStore::ColumnStats::min_value</definition>
+        <argsstring></argsstring>
+        <name>min_value</name>
+        <qualifiedname>themis::analytics::ColumnarStore::ColumnStats::min_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="421" column="23" bodyfile="include/analytics/olap.h" bodystart="421" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1ac583422264f2c5f02b56ee29bca99b82" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::analytics::ColumnarStore::ColumnStats::max_value</definition>
+        <argsstring></argsstring>
+        <name>max_value</name>
+        <qualifiedname>themis::analytics::ColumnarStore::ColumnStats::max_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="422" column="23" bodyfile="include/analytics/olap.h" bodystart="422" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1afe21cc401c4f6552c96499ba089728be" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::ColumnarStore::ColumnStats::avg_value</definition>
+        <argsstring></argsstring>
+        <name>avg_value</name>
+        <qualifiedname>themis::analytics::ColumnarStore::ColumnStats::avg_value</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="423" column="16" bodyfile="include/analytics/olap.h" bodystart="423" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="415" column="5" bodyfile="include/analytics/olap.h" bodystart="415" bodyend="424"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1afe21cc401c4f6552c96499ba089728be" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::ColumnStats</scope><name>avg_value</name></member>
+      <member refid="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1a50f9ac4c4ec97198c205f8e92539e96e" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::ColumnStats</scope><name>distinct_count</name></member>
+      <member refid="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1ac583422264f2c5f02b56ee29bca99b82" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::ColumnStats</scope><name>max_value</name></member>
+      <member refid="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1af12c32eb7a34a5e163eecc715b0cc185" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::ColumnStats</scope><name>min_value</name></member>
+      <member refid="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1acc5792b94d2a6d6ca64db3f04bfcc9ff" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::ColumnStats</scope><name>name</name></member>
+      <member refid="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1ab1902472d151b9845c64f26c35264d26" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::ColumnStats</scope><name>null_count</name></member>
+      <member refid="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1afaefcc957ee4fb7abb0b7544c79aa7c5" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::ColumnStats</scope><name>row_count</name></member>
+      <member refid="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats_1aa40ef75ca6e55b9524968032f6bef337" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::ColumnStats</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

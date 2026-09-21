@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_provenance_step_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ProvenanceStepRecord</compoundname>
+    <includes refid="provenance__store_8h" local="no">provenance_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1ac78a9e760e4f0323ee7fb8eaee4b49e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ProvenanceStepRecord::query_id</definition>
+        <argsstring></argsstring>
+        <name>query_id</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::query_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="30" column="17" bodyfile="include/observability/provenance_store.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1a01f3ef76c201e014239a2a1656df2f25" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::observability::ProvenanceStepRecord::step_number</definition>
+        <argsstring></argsstring>
+        <name>step_number</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::step_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="31" column="17" bodyfile="include/observability/provenance_store.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1a1dd6247f8fadf3a64468c2641898453b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ProvenanceStepRecord::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="32" column="17" bodyfile="include/observability/provenance_store.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1af2b826c6b236cd8c8f6df95c6ba9374b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::ProvenanceStepRecord::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="33" column="17" bodyfile="include/observability/provenance_store.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1ae89c5168b4fcc85df1e88c337601e5bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ProvenanceStepRecord::layer_name</definition>
+        <argsstring></argsstring>
+        <name>layer_name</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::layer_name</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;AnnFrontdoor&quot;, &quot;TensorMidLayer&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="36" column="17" bodyfile="include/observability/provenance_store.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1aa9285eae2bcd14dd74c93c4d7334e7d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ProvenanceStepRecord::source_layer</definition>
+        <argsstring></argsstring>
+        <name>source_layer</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::source_layer</qualifiedname>
+        <briefdescription>
+<para>Upstream layer (if part of a chain). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="37" column="17" bodyfile="include/observability/provenance_store.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1a9d832bd5e4b0e2e15c92beed9f1ac30d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::ProvenanceStepRecord::num_candidates</definition>
+        <argsstring></argsstring>
+        <name>num_candidates</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::num_candidates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="40" column="14" bodyfile="include/observability/provenance_store.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1af5319c83811df8ce2e0df80b1f77a086" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::ProvenanceStepRecord::num_selected</definition>
+        <argsstring></argsstring>
+        <name>num_selected</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::num_selected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="41" column="14" bodyfile="include/observability/provenance_store.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1a7d3e8ce736933b87094f2472bdf73f31" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ProvenanceStepRecord::input_vector_hash</definition>
+        <argsstring></argsstring>
+        <name>input_vector_hash</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::input_vector_hash</qualifiedname>
+        <briefdescription>
+<para>Hash of input query vector/embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="42" column="17" bodyfile="include/observability/provenance_store.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1a60621007e4a6f0baaf717ab1e10f889e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ProvenanceStepRecord::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::shard_id</qualifiedname>
+        <briefdescription>
+<para>If applicable (for distributed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="43" column="17" bodyfile="include/observability/provenance_store.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1adc961d3edd219bb7f1b17334c5cabc25" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ProvenanceStepRecord::backend_name</definition>
+        <argsstring></argsstring>
+        <name>backend_name</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::backend_name</qualifiedname>
+        <briefdescription>
+<para>Backend used (e.g. &quot;VectorIndexManager&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="44" column="17" bodyfile="include/observability/provenance_store.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1abc640dd1c5b88ec84700bf27af804b61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ProvenanceStepRecord::routing_reason_code</definition>
+        <argsstring></argsstring>
+        <name>routing_reason_code</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::routing_reason_code</qualifiedname>
+        <briefdescription>
+<para>Decision code (e.g. kDistributedFanout). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="47" column="17" bodyfile="include/observability/provenance_store.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1a6c1e2c45cd5f4b3d70dec01bf3f2fa06" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ProvenanceStepRecord::fallback_mode</definition>
+        <argsstring></argsstring>
+        <name>fallback_mode</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::fallback_mode</qualifiedname>
+        <briefdescription>
+<para>&quot;CONTINUE_DEGRADED&quot;, &quot;FAIL_CLOSED&quot;, &quot;NONE&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="48" column="17" bodyfile="include/observability/provenance_store.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1ac7c0ed7f73d655b19d5b7b3f80e6c618" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ProvenanceStepRecord::confidence_policy_version</definition>
+        <argsstring></argsstring>
+        <name>confidence_policy_version</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::confidence_policy_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="49" column="17" bodyfile="include/observability/provenance_store.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_provenance_step_record_1ad6f0c6afa37c4b7ad69eb0024be961c8" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::ProvenanceStepRecord::decision_duration_us</definition>
+        <argsstring></argsstring>
+        <name>decision_duration_us</name>
+        <qualifiedname>themis::observability::ProvenanceStepRecord::decision_duration_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Step duration in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="52" column="13" bodyfile="include/observability/provenance_store.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Generalized provenance record for one retrieval step. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stores query execution lineage independent of end-to-end TensorRAG flow. Useful for auditing, debugging, and SLO validation across distributed retrieval layers. </para>
+    </detaileddescription>
+    <location file="include/observability/provenance_store.h" line="28" column="1" bodyfile="include/observability/provenance_store.h" bodystart="28" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1adc961d3edd219bb7f1b17334c5cabc25" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>backend_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1ac7c0ed7f73d655b19d5b7b3f80e6c618" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>confidence_policy_version</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1a1dd6247f8fadf3a64468c2641898453b" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1ad6f0c6afa37c4b7ad69eb0024be961c8" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>decision_duration_us</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1a6c1e2c45cd5f4b3d70dec01bf3f2fa06" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>fallback_mode</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1a7d3e8ce736933b87094f2472bdf73f31" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>input_vector_hash</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1ae89c5168b4fcc85df1e88c337601e5bf" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>layer_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1a9d832bd5e4b0e2e15c92beed9f1ac30d" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>num_candidates</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1af5319c83811df8ce2e0df80b1f77a086" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>num_selected</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1ac78a9e760e4f0323ee7fb8eaee4b49e7" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>query_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1abc640dd1c5b88ec84700bf27af804b61" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>routing_reason_code</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1a60621007e4a6f0baaf717ab1e10f889e" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1aa9285eae2bcd14dd74c93c4d7334e7d6" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>source_layer</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1a01f3ef76c201e014239a2a1656df2f25" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>step_number</name></member>
+      <member refid="structthemis_1_1observability_1_1_provenance_step_record_1af2b826c6b236cd8c8f6df95c6ba9374b" prot="public" virt="non-virtual"><scope>themis::observability::ProvenanceStepRecord</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

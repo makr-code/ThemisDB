@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_tenant_context_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::TenantContextGuard</compoundname>
+    <includes refid="tenant__manager_8h" local="no">tenant_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_tenant_context_guard_1a4327da118e5b06add3b5d58638208e5d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_tenant_context" kindref="compound">TenantContext</ref></type>
+        <definition>TenantContext themis::TenantContextGuard::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>themis::TenantContextGuard::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="493" column="19" bodyfile="include/server/tenant_manager.h" bodystart="493" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_tenant_context_guard_1ac5186f7dc25e446dfe770f633ebd7058" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantContextGuard::connection_acquired_</definition>
+        <argsstring></argsstring>
+        <name>connection_acquired_</name>
+        <qualifiedname>themis::TenantContextGuard::connection_acquired_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="494" column="10" bodyfile="include/server/tenant_manager.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_tenant_context_guard_1ac221d966a66a8c6e1b2f8959b63f6810" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantContextGuard::query_slot_acquired_</definition>
+        <argsstring></argsstring>
+        <name>query_slot_acquired_</name>
+        <qualifiedname>themis::TenantContextGuard::query_slot_acquired_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="495" column="10" bodyfile="include/server/tenant_manager.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_tenant_context_guard_1aefe4bab2497ee678ba213896838bd046" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::TenantContextGuard::TenantContextGuard</definition>
+        <argsstring>(const TenantContext &amp;ctx)</argsstring>
+        <name>TenantContextGuard</name>
+        <qualifiedname>themis::TenantContextGuard::TenantContextGuard</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_tenant_context" kindref="compound">TenantContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Tenant Context Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="451" column="14" bodyfile="include/server/tenant_manager.h" bodystart="451" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_context_guard_1ab956bcab4d0e80fe30251313796ea5e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::TenantContextGuard::~TenantContextGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~TenantContextGuard</name>
+        <qualifiedname>themis::TenantContextGuard::~TenantContextGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="460" column="5" bodyfile="include/server/tenant_manager.h" bodystart="460" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_context_guard_1a0b3c14d350d3a14b278737b78f670076" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TenantContextGuard::acquireQuerySlot</definition>
+        <argsstring>()</argsstring>
+        <name>acquireQuerySlot</name>
+        <qualifiedname>themis::TenantContextGuard::acquireQuerySlot</qualifiedname>
+        <briefdescription>
+<para>Acquire Query Slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1ac43d79a0b37fcacde45f5212a93509bf" kindref="member">TenantManager::instance()</ref>, recordQuery(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="475" column="10" bodyfile="include/server/tenant_manager.h" bodystart="475" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_context_guard_1a7b8c601f7c122be94c18fdce157a2808" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_tenant_context" kindref="compound">TenantContext</ref> &amp;</type>
+        <definition>const TenantContext &amp; themis::TenantContextGuard::context</definition>
+        <argsstring>() const</argsstring>
+        <name>context</name>
+        <qualifiedname>themis::TenantContextGuard::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="486" column="25" bodyfile="include/server/tenant_manager.h" bodystart="486" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_context_guard_1a00caaae17afcd4a604e3c55ca071aaae" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TenantContextGuard::hasConnection</definition>
+        <argsstring>() const</argsstring>
+        <name>hasConnection</name>
+        <qualifiedname>themis::TenantContextGuard::hasConnection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="488" column="10" bodyfile="include/server/tenant_manager.h" bodystart="488" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_context_guard_1a1d0220cace8c46b2d9c2c8e1722a453e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TenantContextGuard::hasQuerySlot</definition>
+        <argsstring>() const</argsstring>
+        <name>hasQuerySlot</name>
+        <qualifiedname>themis::TenantContextGuard::hasQuerySlot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="490" column="10" bodyfile="include/server/tenant_manager.h" bodystart="490" bodyend="490"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/tenant_manager.h" line="444" column="1" bodyfile="include/server/tenant_manager.h" bodystart="444" bodyend="496"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_tenant_context_guard_1a0b3c14d350d3a14b278737b78f670076" prot="public" virt="non-virtual"><scope>themis::TenantContextGuard</scope><name>acquireQuerySlot</name></member>
+      <member refid="classthemis_1_1_tenant_context_guard_1ac5186f7dc25e446dfe770f633ebd7058" prot="private" virt="non-virtual"><scope>themis::TenantContextGuard</scope><name>connection_acquired_</name></member>
+      <member refid="classthemis_1_1_tenant_context_guard_1a7b8c601f7c122be94c18fdce157a2808" prot="public" virt="non-virtual"><scope>themis::TenantContextGuard</scope><name>context</name></member>
+      <member refid="classthemis_1_1_tenant_context_guard_1a4327da118e5b06add3b5d58638208e5d" prot="private" virt="non-virtual"><scope>themis::TenantContextGuard</scope><name>ctx_</name></member>
+      <member refid="classthemis_1_1_tenant_context_guard_1a00caaae17afcd4a604e3c55ca071aaae" prot="public" virt="non-virtual"><scope>themis::TenantContextGuard</scope><name>hasConnection</name></member>
+      <member refid="classthemis_1_1_tenant_context_guard_1a1d0220cace8c46b2d9c2c8e1722a453e" prot="public" virt="non-virtual"><scope>themis::TenantContextGuard</scope><name>hasQuerySlot</name></member>
+      <member refid="classthemis_1_1_tenant_context_guard_1ac221d966a66a8c6e1b2f8959b63f6810" prot="private" virt="non-virtual"><scope>themis::TenantContextGuard</scope><name>query_slot_acquired_</name></member>
+      <member refid="classthemis_1_1_tenant_context_guard_1aefe4bab2497ee678ba213896838bd046" prot="public" virt="non-virtual"><scope>themis::TenantContextGuard</scope><name>TenantContextGuard</name></member>
+      <member refid="classthemis_1_1_tenant_context_guard_1ab956bcab4d0e80fe30251313796ea5e3" prot="public" virt="non-virtual"><scope>themis::TenantContextGuard</scope><name>~TenantContextGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

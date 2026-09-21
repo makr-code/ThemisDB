@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::GrpcRemoteCachePeer::Config</compoundname>
+    <includes refid="grpc__remote__cache__peer_8h" local="no">grpc_remote_cache_peer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1a4bbdf28ab71010d32618cf216f6ad743" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::GrpcRemoteCachePeer::Config::address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <qualifiedname>themis::cache::GrpcRemoteCachePeer::Config::address</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/grpc_remote_cache_peer.h" line="145" column="21" bodyfile="include/cache/grpc_remote_cache_peer.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1ae523b6a9f2fac6064769717a2a93c929" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cache::GrpcRemoteCachePeer::Config::rpc_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>rpc_timeout_ms</name>
+        <qualifiedname>themis::cache::GrpcRemoteCachePeer::Config::rpc_timeout_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/grpc_remote_cache_peer.h" line="146" column="13" bodyfile="include/cache/grpc_remote_cache_peer.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1a8269e57caa480307d8f07b4b31a841b0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::GrpcRemoteCachePeer::Config::tls_enabled</definition>
+        <argsstring></argsstring>
+        <name>tls_enabled</name>
+        <qualifiedname>themis::cache::GrpcRemoteCachePeer::Config::tls_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/grpc_remote_cache_peer.h" line="147" column="21" bodyfile="include/cache/grpc_remote_cache_peer.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1ad1c8649183cc70cf2a76ff4861f0c398" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::GrpcRemoteCachePeer::Config::allow_insecure</definition>
+        <argsstring></argsstring>
+        <name>allow_insecure</name>
+        <qualifiedname>themis::cache::GrpcRemoteCachePeer::Config::allow_insecure</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/grpc_remote_cache_peer.h" line="148" column="21" bodyfile="include/cache/grpc_remote_cache_peer.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1a49c9a3e309432daaf088fa36513119c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::GrpcRemoteCachePeer::Config::tls_ca_cert</definition>
+        <argsstring></argsstring>
+        <name>tls_ca_cert</name>
+        <qualifiedname>themis::cache::GrpcRemoteCachePeer::Config::tls_ca_cert</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/grpc_remote_cache_peer.h" line="149" column="21" bodyfile="include/cache/grpc_remote_cache_peer.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1a632e8ce130a800c3b81ea6d98bd64518" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::GrpcRemoteCachePeer::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::cache::GrpcRemoteCachePeer::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/grpc_remote_cache_peer.h" line="151" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1a992f89ba1dae9c8f06a0038162852125" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::GrpcRemoteCachePeer::Config::Config</definition>
+        <argsstring>(std::string addr)</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::cache::GrpcRemoteCachePeer::Config::Config</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/grpc_remote_cache_peer.h" line="152" column="18" bodyfile="include/cache/grpc_remote_cache_peer.h" bodystart="152" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/grpc_remote_cache_peer.h" line="144" column="5" bodyfile="include/cache/grpc_remote_cache_peer.h" bodystart="144" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1a4bbdf28ab71010d32618cf216f6ad743" prot="public" virt="non-virtual"><scope>themis::cache::GrpcRemoteCachePeer::Config</scope><name>address</name></member>
+      <member refid="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1ad1c8649183cc70cf2a76ff4861f0c398" prot="public" virt="non-virtual"><scope>themis::cache::GrpcRemoteCachePeer::Config</scope><name>allow_insecure</name></member>
+      <member refid="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1a632e8ce130a800c3b81ea6d98bd64518" prot="public" virt="non-virtual"><scope>themis::cache::GrpcRemoteCachePeer::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1a992f89ba1dae9c8f06a0038162852125" prot="public" virt="non-virtual"><scope>themis::cache::GrpcRemoteCachePeer::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1ae523b6a9f2fac6064769717a2a93c929" prot="public" virt="non-virtual"><scope>themis::cache::GrpcRemoteCachePeer::Config</scope><name>rpc_timeout_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1a49c9a3e309432daaf088fa36513119c3" prot="public" virt="non-virtual"><scope>themis::cache::GrpcRemoteCachePeer::Config</scope><name>tls_ca_cert</name></member>
+      <member refid="structthemis_1_1cache_1_1_grpc_remote_cache_peer_1_1_config_1a8269e57caa480307d8f07b4b31a841b0" prot="public" virt="non-virtual"><scope>themis::cache::GrpcRemoteCachePeer::Config</scope><name>tls_enabled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

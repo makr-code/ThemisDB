@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="content__errors_8h" kind="file" language="C++">
+    <compoundname>content_errors.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="content__security_8h" local="yes">include/content/content_security.h</includedby>
+    <includedby refid="content__validator_8h" local="yes">include/content/content_validator.h</includedby>
+    <includedby refid="content__errors_8cpp" local="yes">src/content/content_errors.cpp</includedby>
+    <includedby refid="test__content__errors_8cpp" local="yes">tests/content/test_content_errors.cpp</includedby>
+    <includedby refid="test__content__security_8cpp" local="yes">tests/content/test_content_security.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/content/content_errors.h</label>
+        <link refid="content__errors_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>include/content/archive_processor.h</label>
+        <link refid="archive__processor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/content/content_errors.h</label>
+        <link refid="content__errors_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/content/content_security.h</label>
+        <link refid="content__security_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/content/content_validator.h</label>
+        <link refid="content__validator_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/content/adapters/archive_extractor_adapter.cpp</label>
+        <link refid="archive__extractor__adapter_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/content/archive_processor.cpp</label>
+        <link refid="archive__processor_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/content/archive_processor_enhancements.cpp</label>
+        <link refid="archive__processor__enhancements_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/content/content_errors.cpp</label>
+        <link refid="content__errors_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/content/content_manager.cpp</label>
+        <link refid="content__manager_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/content/content_security.cpp</label>
+        <link refid="content__security_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/content/content_validator.cpp</label>
+        <link refid="content__validator_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/content/test_archive_processor_validation.cpp</label>
+        <link refid="test__archive__processor__validation_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/content/test_content_errors.cpp</label>
+        <link refid="test__content__errors_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/content/test_content_security.cpp</label>
+        <link refid="test__content__security_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/content/test_content_streaming_ingestion.cpp</label>
+        <link refid="test__content__streaming__ingestion_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1content_1_1_content_error" prot="public">themis::content::ContentError</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Input<sp/>Validation<sp/>Errors<sp/>(1000-1099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a84864ed59066e3479a279920161bf8d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a84864ed59066e3479a279920161bf8d0" kindref="member">CONTENT_INVALID_INPUT</ref><sp/>=<sp/>1000,</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9d7b1f964b467eb620b34b8d77b88bfd" kindref="member">CONTENT_SIZE_EXCEEDED</ref><sp/>=<sp/>1001,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a06ec63cdd1c2148aad4a879471c3e1bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a06ec63cdd1c2148aad4a879471c3e1bb" kindref="member">CONTENT_FORMAT_UNSUPPORTED</ref><sp/>=<sp/>1002,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a6044327440d3f269cccc3ed715db9579" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a6044327440d3f269cccc3ed715db9579" kindref="member">CONTENT_MIME_TYPE_INVALID</ref><sp/>=<sp/>1003,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a4325973450f1d10a1f3775637bf51ceb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a4325973450f1d10a1f3775637bf51ceb" kindref="member">CONTENT_MIME_TYPE_DENIED</ref><sp/>=<sp/>1004,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0abbd3d39b6cb834f344ed6f84ae72ae66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0abbd3d39b6cb834f344ed6f84ae72ae66" kindref="member">CONTENT_EMPTY</ref><sp/>=<sp/>1005,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a45501585db9fc46a4a0f486b59f40748" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a45501585db9fc46a4a0f486b59f40748" kindref="member">CONTENT_CORRUPT</ref><sp/>=<sp/>1006,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a58bbffa64e26487ab5e7ac0aeacb3592" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a58bbffa64e26487ab5e7ac0aeacb3592" kindref="member">CONTENT_SCHEMA_INVALID</ref><sp/>=<sp/>1007,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Processing<sp/>Errors<sp/>(1100-1199)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a80150ec00bec6cbae78b04048d14f5a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a80150ec00bec6cbae78b04048d14f5a6" kindref="member">CONTENT_PROCESSING_FAILED</ref><sp/>=<sp/>1100,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad7503833b03298f71399f0c189cb2d90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad7503833b03298f71399f0c189cb2d90" kindref="member">CONTENT_EXTRACTION_FAILED</ref><sp/>=<sp/>1101,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a5cc4f209f913ce693bd378f0effc2fba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a5cc4f209f913ce693bd378f0effc2fba" kindref="member">CONTENT_TIMEOUT</ref><sp/>=<sp/>1102,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ab5fe7c35cfb945ff06f615e79bf8935c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ab5fe7c35cfb945ff06f615e79bf8935c" kindref="member">CONTENT_PROCESSOR_UNAVAILABLE</ref><sp/>=<sp/>1103,</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a63739bc5f50dbeb1472f62a7b11b4191" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a63739bc5f50dbeb1472f62a7b11b4191" kindref="member">CONTENT_CHUNKING_FAILED</ref><sp/>=<sp/>1104,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a0606b88804fd38ea9fb5c4a24c1a97b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a0606b88804fd38ea9fb5c4a24c1a97b0" kindref="member">CONTENT_EMBEDDING_FAILED</ref><sp/>=<sp/>1105,</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a17830fd751173a483e51370eff4a35ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a17830fd751173a483e51370eff4a35ff" kindref="member">CONTENT_INDEXING_FAILED</ref><sp/>=<sp/>1106,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Security<sp/>Errors<sp/>(1200-1299)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a1704bce3b7266a6798747bfe07971f33" kindref="member">CONTENT_MALWARE_DETECTED</ref><sp/>=<sp/>1200,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a679415cb41feb6ae0499b0cb608a03bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a679415cb41feb6ae0499b0cb608a03bb" kindref="member">CONTENT_PII_DETECTED</ref><sp/>=<sp/>1201,</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a25f00f2cb887fe03dbdbb4ae1a464ebd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a25f00f2cb887fe03dbdbb4ae1a464ebd" kindref="member">CONTENT_ABUSE_DETECTED</ref><sp/>=<sp/>1202,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a955e318eab781ad436ac9b0a900ab229" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a955e318eab781ad436ac9b0a900ab229" kindref="member">CONTENT_UNAUTHORIZED</ref><sp/>=<sp/>1203,</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ac572453a1338a2a9dcac2af73c5eaf8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ac572453a1338a2a9dcac2af73c5eaf8c" kindref="member">CONTENT_SIGNATURE_INVALID</ref><sp/>=<sp/>1204,</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a174aad531d53b0d426181468ffbce461" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a174aad531d53b0d426181468ffbce461" kindref="member">CONTENT_ENCRYPTION_FAILED</ref><sp/>=<sp/>1205,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Storage<sp/>Errors<sp/>(1300-1399)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ace4f16236d6582fd612bed577fbdaae2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ace4f16236d6582fd612bed577fbdaae2" kindref="member">CONTENT_NOT_FOUND</ref><sp/>=<sp/>1300,</highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad7d502e67e9313a487b5468b44f7c398" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad7d502e67e9313a487b5468b44f7c398" kindref="member">CONTENT_STORAGE_FAILED</ref><sp/>=<sp/>1301,</highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a800699413046f66366545f0d109fdb6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a800699413046f66366545f0d109fdb6b" kindref="member">CONTENT_DEDUPLICATION_FAILED</ref><sp/>=<sp/>1302,</highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9cc02089c58f436c19003e04b67dc1fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a9cc02089c58f436c19003e04b67dc1fb" kindref="member">CONTENT_COMPRESSION_FAILED</ref><sp/>=<sp/>1303,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>Limiting<sp/>Errors<sp/>(1400-1499)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a021d96de0a7f2486d4095e6f382ce1b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a021d96de0a7f2486d4095e6f382ce1b3" kindref="member">CONTENT_RATE_LIMIT_EXCEEDED</ref><sp/>=<sp/>1400,</highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a0e35ea09f58915b7f3ed80a0b780b6d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a0e35ea09f58915b7f3ed80a0b780b6d5" kindref="member">CONTENT_QUEUE_FULL</ref><sp/>=<sp/>1401,</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad597fdfe51bfde0b0b08ed70d740db34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ad597fdfe51bfde0b0b08ed70d740db34" kindref="member">CONTENT_BACKPRESSURE</ref><sp/>=<sp/>1402,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>Errors<sp/>(1500-1599)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a219dd2064e1432a63c8f797e1282503f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a219dd2064e1432a63c8f797e1282503f" kindref="member">CONTENT_MEMORY_LIMIT</ref><sp/>=<sp/>1500,</highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0aed69b1793572c7d7efa432fbb09380c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0aed69b1793572c7d7efa432fbb09380c2" kindref="member">CONTENT_CPU_LIMIT</ref><sp/>=<sp/>1501,</highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a387b370985159618eb3967c2c0920741" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a387b370985159618eb3967c2c0920741" kindref="member">CONTENT_WORKER_UNAVAILABLE</ref><sp/>=<sp/>1502,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>Errors<sp/>(1900-1999)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a679adbc9a216d14b99d7761415b29d8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a679adbc9a216d14b99d7761415b29d8f" kindref="member">CONTENT_INTERNAL_ERROR</ref><sp/>=<sp/>1900,</highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a842a7e1a21f5d4fb2f91999abf8cda29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a842a7e1a21f5d4fb2f91999abf8cda29" kindref="member">CONTENT_CONFIGURATION_ERROR</ref><sp/>=<sp/>1901,</highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a6ae4eaf03a3909d964ebc41c2839a105" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0a6ae4eaf03a3909d964ebc41c2839a105" kindref="member">CONTENT_DEPENDENCY_ERROR</ref><sp/>=<sp/>1902</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1content_1_1_content_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1content_1_1_content_error_1a1756983714f02a44f142d8115e1840bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a1756983714f02a44f142d8115e1840bf" kindref="member">code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ContentErrorCode::OK</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" kindref="member">message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Human-readable<sp/>error<sp/>message<sp/>(sanitized<sp/>for<sp/>external<sp/>use)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1content_1_1_content_error_1aa84b8414df5be01130cd60cedf08a10b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_error_1aa84b8414df5be01130cd60cedf08a10b" kindref="member">details</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Technical<sp/>details<sp/>(for<sp/>internal<sp/>debugging/logs)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1content_1_1_content_error_1ae239d916229c4cdeea715ce283598810" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_error_1ae239d916229c4cdeea715ce283598810" kindref="member">correlation_id</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Correlation<sp/>ID<sp/>for<sp/>request<sp/>tracing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1content_1_1_content_error_1a6c17975be4a14cbba69e67a15aa9dab2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_error_1a6c17975be4a14cbba69e67a15aa9dab2" kindref="member">content_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Content<sp/>ID<sp/>if<sp/>applicable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1content_1_1_content_error_1a765912fb3d23ec07c7914a01e288d97c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a765912fb3d23ec07c7914a01e288d97c" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>context<sp/>(sanitized)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1content_1_1_content_error_1a2a1519a02fa6f4c172b27f30b42a61c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a2a1519a02fa6f4c172b27f30b42a61c7" kindref="member">isOk</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a1756983714f02a44f142d8115e1840bf" kindref="member">code</ref><sp/>==<sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ContentErrorCode::OK</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1content_1_1_content_error_1af1a30cb33d1f4c7ed5275e5f086d4ebc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error_1af1a30cb33d1f4c7ed5275e5f086d4ebc" kindref="member">failed</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a1756983714f02a44f142d8115e1840bf" kindref="member">code</ref><sp/>!=<sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ContentErrorCode::OK</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1content_1_1_content_error_1a20bcc27b70eb2efa64700bf8666d80d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a20bcc27b70eb2efa64700bf8666d80d5" kindref="member">isRetryable</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1content_1_1_content_error_1a278a5c8e2b77eacc5ab918c6181f2a0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a278a5c8e2b77eacc5ab918c6181f2a0a" kindref="member">isClientError</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1content_1_1_content_error_1a434e425ca925787b0566a6e8c463a14e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a434e425ca925787b0566a6e8c463a14e" kindref="member">isServerError</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1content_1_1_content_error_1a64293af54beecd5c469903c3e4fc6554" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a64293af54beecd5c469903c3e4fc6554" kindref="member">getHttpStatus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1content_1_1_content_error_1a2e30f9d74521b18ed5252bdf9d69e5da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a2e30f9d74521b18ed5252bdf9d69e5da" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1content_1_1_content_error_1a320818659f94c245f28159f5476c2005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a320818659f94c245f28159f5476c2005" kindref="member">toJsonVerbose</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1content_1_1_content_error_1aca928fa4db3c77b252b6aadecf47cd9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="structthemis_1_1content_1_1_content_error_1aca928fa4db3c77b252b6aadecf47cd9b" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1content_1_1_content_error_1a489648f751b029da3090f117b11600c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a489648f751b029da3090f117b11600c6" kindref="member">ok</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1content_1_1_content_error_1aad18ccb6e9ce8dc623a0e3db1a5faa73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="structthemis_1_1content_1_1_content_error_1aad18ccb6e9ce8dc623a0e3db1a5faa73" kindref="member">error</ref>(</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref><sp/><ref refid="structthemis_1_1content_1_1_content_error_1a1756983714f02a44f142d8115e1840bf" kindref="member">code</ref>,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="structthemis_1_1content_1_1_content_error_1aa662508db3eabcc5562070c98d7f6e71" kindref="member">message</ref>,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="structthemis_1_1content_1_1_content_error_1aa84b8414df5be01130cd60cedf08a10b" kindref="member">details</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1content_1af0a5a4d3d30ce37af0d1dfce5ba5a30a" kindref="member">errorCodeToString</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref><sp/>code);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1content_1a089d3ab164242be42216c4d250d13020" kindref="member">errorCodeCategory</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref><sp/>code);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1content_1adced1aa3d7645b28e084381d3a76f069" kindref="member">getDefaultErrorMessage</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref><sp/>code);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a8bf9af13e1f9c130dc6722f091770d21" kindref="member">isSecurityError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref><sp/>code);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a982563aaa1d2886c68b8514e9c69c4f6" kindref="member">isValidationError</ref>(<ref refid="namespacethemis_1_1content_1abeb0b7bf87555a9df62be11a20f911e0" kindref="member">ContentErrorCode</ref><sp/>code);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/content_errors.h"/>
+  </compounddef>
+</doxygen>

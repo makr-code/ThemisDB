@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GpuBatchBackend::Config</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_config_1a49ceed68ee3d5c22e4237c003cec4737" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::GpuBatchBackend::Config::gpu_batch_threshold</definition>
+        <argsstring></argsstring>
+        <name>gpu_batch_threshold</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::Config::gpu_batch_threshold</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="775" column="21" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="775" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_config_1acc836245e443e122db28fc7d03ff17b4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::geo::GpuBatchBackend::Config::vram_threshold_fraction</definition>
+        <argsstring></argsstring>
+        <name>vram_threshold_fraction</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::Config::vram_threshold_fraction</qualifiedname>
+        <initializer>= 0.90f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="776" column="15" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="776" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_config_1a6cec96839de4614ba19f6bbf4986fc5c" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::geo::GpuBatchBackend::Config::fallback_budget_ms</definition>
+        <argsstring></argsstring>
+        <name>fallback_budget_ms</name>
+        <qualifiedname>themis::geo::GpuBatchBackend::Config::fallback_budget_ms</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_stub.cpp" line="777" column="17" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="777" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/geo/gpu_backend_stub.cpp" line="774" column="5" bodyfile="src/geo/gpu_backend_stub.cpp" bodystart="774" bodyend="778"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_config_1a6cec96839de4614ba19f6bbf4986fc5c" prot="public" virt="non-virtual"><scope>themis::geo::GpuBatchBackend::Config</scope><name>fallback_budget_ms</name></member>
+      <member refid="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_config_1a49ceed68ee3d5c22e4237c003cec4737" prot="public" virt="non-virtual"><scope>themis::geo::GpuBatchBackend::Config</scope><name>gpu_batch_threshold</name></member>
+      <member refid="structthemis_1_1geo_1_1_gpu_batch_backend_1_1_config_1acc836245e443e122db28fc7d03ff17b4" prot="public" virt="non-virtual"><scope>themis::geo::GpuBatchBackend::Config</scope><name>vram_threshold_fraction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

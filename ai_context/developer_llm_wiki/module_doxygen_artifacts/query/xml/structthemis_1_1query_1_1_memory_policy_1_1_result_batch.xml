@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_memory_policy_1_1_result_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MemoryPolicy::ResultBatch</compoundname>
+    <includes refid="query__federation__memory_8h" local="no">query_federation_memory.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_memory_policy_1_1_result_batch_1a268a57075da20e4eda82d5d2ab053fb7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::MemoryPolicy::ResultBatch::batch_number</definition>
+        <argsstring></argsstring>
+        <name>batch_number</name>
+        <qualifiedname>themis::query::MemoryPolicy::ResultBatch::batch_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="55" column="16" bodyfile="include/query/query_federation_memory.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_memory_policy_1_1_result_batch_1a1988a3d0739881807bd0d2cac7047f0b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MemoryPolicy::ResultBatch::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::query::MemoryPolicy::ResultBatch::size_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="56" column="18" bodyfile="include/query/query_federation_memory.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_memory_policy_1_1_result_batch_1ae13782eb5afc02bb275a17fee269c216" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MemoryPolicy::ResultBatch::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::query::MemoryPolicy::ResultBatch::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="57" column="21" bodyfile="include/query/query_federation_memory.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_memory_policy_1_1_result_batch_1a5568557867b5caa77d9e2f8d09607a8f" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::query::MemoryPolicy::ResultBatch::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::query::MemoryPolicy::ResultBatch::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="58" column="47" bodyfile="include/query/query_federation_memory.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_memory_policy_1_1_result_batch_1a91f5ab35af593c5765dae51722f296ed" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::MemoryPolicy::ResultBatch::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::query::MemoryPolicy::ResultBatch::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="59" column="24" bodyfile="include/query/query_federation_memory.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_federation_memory.h" line="54" column="5" bodyfile="include/query/query_federation_memory.h" bodystart="54" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_memory_policy_1_1_result_batch_1a268a57075da20e4eda82d5d2ab053fb7" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy::ResultBatch</scope><name>batch_number</name></member>
+      <member refid="structthemis_1_1query_1_1_memory_policy_1_1_result_batch_1a91f5ab35af593c5765dae51722f296ed" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy::ResultBatch</scope><name>data</name></member>
+      <member refid="structthemis_1_1query_1_1_memory_policy_1_1_result_batch_1ae13782eb5afc02bb275a17fee269c216" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy::ResultBatch</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1query_1_1_memory_policy_1_1_result_batch_1a1988a3d0739881807bd0d2cac7047f0b" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy::ResultBatch</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_memory_policy_1_1_result_batch_1a5568557867b5caa77d9e2f8d09607a8f" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy::ResultBatch</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

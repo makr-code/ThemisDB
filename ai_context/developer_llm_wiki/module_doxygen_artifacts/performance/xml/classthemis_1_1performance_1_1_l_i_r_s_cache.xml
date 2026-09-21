@@ -1,0 +1,553 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_l_i_r_s_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::LIRSCache</compoundname>
+    <includes refid="lirs__cache_8h" local="no">lirs_cache.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1_l_i_r_s_cache_1_1_entry" prot="private">themis::performance::LIRSCache::Entry</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename Key</type>
+      </param>
+      <param>
+        <type>typename Value</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a0b0782c309a109057d049df41eff26e9" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::LIRSCache&lt; Key, Value &gt;::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>themis::performance::LIRSCache::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="367" column="12" bodyfile="include/performance/lirs_cache.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a464e13021b2f991fc65a814b27865fad" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::LIRSCache&lt; Key, Value &gt;::lir_size_</definition>
+        <argsstring></argsstring>
+        <name>lir_size_</name>
+        <qualifiedname>themis::performance::LIRSCache::lir_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="368" column="12" bodyfile="include/performance/lirs_cache.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a06ee94809f40693ad07cb5e87fb24c00" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::LIRSCache&lt; Key, Value &gt;::hir_size_</definition>
+        <argsstring></argsstring>
+        <name>hir_size_</name>
+        <qualifiedname>themis::performance::LIRSCache::hir_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="369" column="12" bodyfile="include/performance/lirs_cache.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a81511f435c90b54d7eb47e7b2aaab830" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::LIRSCache&lt; Key, Value &gt;::lir_count_</definition>
+        <argsstring></argsstring>
+        <name>lir_count_</name>
+        <qualifiedname>themis::performance::LIRSCache::lir_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="370" column="12" bodyfile="include/performance/lirs_cache.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a5fef7fc642a63f9951670f17f1ea52bb" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; Key, Entry &gt;</type>
+        <definition>std::unordered_map&lt;Key, Entry&gt; themis::performance::LIRSCache&lt; Key, Value &gt;::map_</definition>
+        <argsstring></argsstring>
+        <name>map_</name>
+        <qualifiedname>themis::performance::LIRSCache::map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="372" column="24" bodyfile="include/performance/lirs_cache.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1ab5b4329946c9cae33d64a779b2fbd033" prot="private" static="no" mutable="no">
+        <type>std::list&lt; Key &gt;</type>
+        <definition>std::list&lt;Key&gt; themis::performance::LIRSCache&lt; Key, Value &gt;::stack_</definition>
+        <argsstring></argsstring>
+        <name>stack_</name>
+        <qualifiedname>themis::performance::LIRSCache::stack_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="373" column="15" bodyfile="include/performance/lirs_cache.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a53fa432d229db18c911cf0500a226010" prot="private" static="no" mutable="no">
+        <type>std::list&lt; Key &gt;</type>
+        <definition>std::list&lt;Key&gt; themis::performance::LIRSCache&lt; Key, Value &gt;::hir_list_</definition>
+        <argsstring></argsstring>
+        <name>hir_list_</name>
+        <qualifiedname>themis::performance::LIRSCache::hir_list_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="374" column="15" bodyfile="include/performance/lirs_cache.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a01da1a8ce601fe95b67ed70a32f277c8" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::performance::LIRSCache&lt; Key, Value &gt;::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::performance::LIRSCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="376" column="31" bodyfile="include/performance/lirs_cache.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a81f3b3f0ba8c97c44114966b1ec14de2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::performance::LIRSCache&lt; Key, Value &gt;::hits_</definition>
+        <argsstring></argsstring>
+        <name>hits_</name>
+        <qualifiedname>themis::performance::LIRSCache::hits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="377" column="17" bodyfile="include/performance/lirs_cache.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a70f5276c70e25fd5139380ae4828e15c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::performance::LIRSCache&lt; Key, Value &gt;::misses_</definition>
+        <argsstring></argsstring>
+        <name>misses_</name>
+        <qualifiedname>themis::performance::LIRSCache::misses_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="378" column="17" bodyfile="include/performance/lirs_cache.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a37769e402d58782ea469adc45fdc5c19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::LIRSCache&lt; Key, Value &gt;::LIRSCache</definition>
+        <argsstring>(size_t capacity, double lir_ratio=0.9)</argsstring>
+        <name>LIRSCache</name>
+        <qualifiedname>themis::performance::LIRSCache::LIRSCache</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lir_ratio</declname>
+          <defval>0.9</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total cache capacity </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lir_ratio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ratio of LIR entries (typically 0.9 for 90% LIR) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="52" column="5" bodyfile="include/performance/lirs_cache.h" bodystart="52" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a64baeadba1a22736cc177b6ab79051c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::LIRSCache&lt; Key, Value &gt;::get</definition>
+        <argsstring>(const Key &amp;key, Value &amp;value)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::performance::LIRSCache::get</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>Value &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get value from cache <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to lookup </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output parameter for value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if found (hit), false if not found (miss) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="73" column="10" bodyfile="include/performance/lirs_cache.h" bodystart="73" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1ad400a8f9f4116dc119fa5bc637e205f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::LIRSCache&lt; Key, Value &gt;::put</definition>
+        <argsstring>(const Key &amp;key, const Value &amp;value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::performance::LIRSCache::put</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const Value &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Put key-value pair into cache <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="105" column="10" bodyfile="include/performance/lirs_cache.h" bodystart="105" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a5d1a5aa30aa8ce3348e2cb9fe5437f71" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::LIRSCache&lt; Key, Value &gt;::contains</definition>
+        <argsstring>(const Key &amp;key) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::performance::LIRSCache::contains</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if key exists in cache </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="146" column="10" bodyfile="include/performance/lirs_cache.h" bodystart="146" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a6874d1c7dad3a80c68de6cbcbb770ae4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::LIRSCache&lt; Key, Value &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::performance::LIRSCache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current cache size </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="154" column="12" bodyfile="include/performance/lirs_cache.h" bodystart="154" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1ab0b272a5fee901a6c574a92c5619b7a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::LIRSCache&lt; Key, Value &gt;::capacity</definition>
+        <argsstring>() const</argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::performance::LIRSCache::capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get cache capacity </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="162" column="12" bodyfile="include/performance/lirs_cache.h" bodystart="162" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a8c1b94f8dfd1398f3f2841ea44bc737a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::LIRSCache&lt; Key, Value &gt;::get_hits</definition>
+        <argsstring>() const</argsstring>
+        <name>get_hits</name>
+        <qualifiedname>themis::performance::LIRSCache::get_hits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get hit count </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="169" column="12" bodyfile="include/performance/lirs_cache.h" bodystart="169" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a4026c67cd5399bb1d9af807bd7fbffd0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::LIRSCache&lt; Key, Value &gt;::get_misses</definition>
+        <argsstring>() const</argsstring>
+        <name>get_misses</name>
+        <qualifiedname>themis::performance::LIRSCache::get_misses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get miss count </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="176" column="12" bodyfile="include/performance/lirs_cache.h" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1ace256a428a56c31ef87bb5c40677509f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::performance::LIRSCache&lt; Key, Value &gt;::get_hit_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>get_hit_rate</name>
+        <qualifiedname>themis::performance::LIRSCache::get_hit_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get hit rate (0.0 to 1.0) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="183" column="12" bodyfile="include/performance/lirs_cache.h" bodystart="183" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1aeac026c119efc65abcbe2112991af468" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::LIRSCache&lt; Key, Value &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::performance::LIRSCache::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear cache and reset statistics </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="194" column="10" bodyfile="include/performance/lirs_cache.h" bodystart="194" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1aff73532d4ff8ac263df01926442be78a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::LIRSCache&lt; Key, Value &gt;::get_lir_count</definition>
+        <argsstring>() const</argsstring>
+        <name>get_lir_count</name>
+        <qualifiedname>themis::performance::LIRSCache::get_lir_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get LIR count </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="207" column="12" bodyfile="include/performance/lirs_cache.h" bodystart="207" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a326774a7cf82ff7ef0b88ccd03963d85" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::LIRSCache&lt; Key, Value &gt;::get_hir_count</definition>
+        <argsstring>() const</argsstring>
+        <name>get_hir_count</name>
+        <qualifiedname>themis::performance::LIRSCache::get_hir_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get HIR count </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="215" column="12" bodyfile="include/performance/lirs_cache.h" bodystart="215" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1ab99ebc9c13824694b04aea02b2c43ff4" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::LIRSCache&lt; Key, Value &gt;::access</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>access</name>
+        <qualifiedname>themis::performance::LIRSCache::access</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle access to existing entry </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="232" column="10" bodyfile="include/performance/lirs_cache.h" bodystart="232" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a0c1f005d56383bcd035427293976a18d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::LIRSCache&lt; Key, Value &gt;::promote_to_lir</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>promote_to_lir</name>
+        <qualifiedname>themis::performance::LIRSCache::promote_to_lir</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Promote HIR entry to LIR </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="268" column="10" bodyfile="include/performance/lirs_cache.h" bodystart="268" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1ab616caa9bc0bba4cf2a8e0d36412c103" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::LIRSCache&lt; Key, Value &gt;::demote_lir_to_hir</definition>
+        <argsstring>()</argsstring>
+        <name>demote_lir_to_hir</name>
+        <qualifiedname>themis::performance::LIRSCache::demote_lir_to_hir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Demote LIR entry to HIR (when LIR set is full) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="301" column="10" bodyfile="include/performance/lirs_cache.h" bodystart="301" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1a43ba9fd820535bfee7a70ea66459bfc1" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::LIRSCache&lt; Key, Value &gt;::prune_stack</definition>
+        <argsstring>()</argsstring>
+        <name>prune_stack</name>
+        <qualifiedname>themis::performance::LIRSCache::prune_stack</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Prune stack: Remove HIR entries from stack bottom </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="328" column="10" bodyfile="include/performance/lirs_cache.h" bodystart="328" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_l_i_r_s_cache_1ae92011c09d915e71b56ea700d39137e3" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::LIRSCache&lt; Key, Value &gt;::evict</definition>
+        <argsstring>()</argsstring>
+        <name>evict</name>
+        <qualifiedname>themis::performance::LIRSCache::evict</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evict entry when cache is full </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lirs_cache.h" line="347" column="10" bodyfile="include/performance/lirs_cache.h" bodystart="347" bodyend="365"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>LIRS (Low Inter-reference Recency Set) Cache Implementation</para>
+<para>Based on: &quot;LIRS: An Efficient Low Inter-reference Recency Set 
+Replacement Policy to Improve Buffer Cache Performance&quot; (SIGMETRICS&apos;02)</para>
+<para>LIRS tracks inter-reference recency (IRR) instead of just recency, maintaining separate LIR (low IRR, hot) and HIR (high IRR, cold) sets.</para>
+<para>Key advantages over LRU:<itemizedlist>
+<listitem><para>Scan resistant: One-time sequential access doesn&apos;t evict hot data</para>
+</listitem><listitem><para>Better hit rates: +30-40% improvement for database workloads</para>
+</listitem><listitem><para>Low overhead: O(1) operations with efficient stack management</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: <ref refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a37769e402d58782ea469adc45fdc5c19" kindref="member">LIRSCache&lt;int, std::string&gt;</ref> cache(1000, 0.9); cache.put(key, value); std::string value; if (cache.get(key, value)) { ... } </para>
+    </detaileddescription>
+    <location file="include/performance/lirs_cache.h" line="45" column="1" bodyfile="include/performance/lirs_cache.h" bodystart="45" bodyend="379"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1ab99ebc9c13824694b04aea02b2c43ff4" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>access</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1ab0b272a5fee901a6c574a92c5619b7a7" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>capacity</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a0b0782c309a109057d049df41eff26e9" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>capacity_</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1aeac026c119efc65abcbe2112991af468" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a5d1a5aa30aa8ce3348e2cb9fe5437f71" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>contains</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1ab616caa9bc0bba4cf2a8e0d36412c103" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>demote_lir_to_hir</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1ae92011c09d915e71b56ea700d39137e3" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>evict</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a64baeadba1a22736cc177b6ab79051c8" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a326774a7cf82ff7ef0b88ccd03963d85" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>get_hir_count</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1ace256a428a56c31ef87bb5c40677509f" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>get_hit_rate</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a8c1b94f8dfd1398f3f2841ea44bc737a" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>get_hits</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1aff73532d4ff8ac263df01926442be78a" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>get_lir_count</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a4026c67cd5399bb1d9af807bd7fbffd0" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>get_misses</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a53fa432d229db18c911cf0500a226010" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>hir_list_</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a06ee94809f40693ad07cb5e87fb24c00" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>hir_size_</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a81f3b3f0ba8c97c44114966b1ec14de2" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>hits_</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a81511f435c90b54d7eb47e7b2aaab830" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>lir_count_</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a464e13021b2f991fc65a814b27865fad" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>lir_size_</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a37769e402d58782ea469adc45fdc5c19" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>LIRSCache</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a5fef7fc642a63f9951670f17f1ea52bb" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>map_</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a70f5276c70e25fd5139380ae4828e15c" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>misses_</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a01da1a8ce601fe95b67ed70a32f277c8" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a0c1f005d56383bcd035427293976a18d" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>promote_to_lir</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a43ba9fd820535bfee7a70ea66459bfc1" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>prune_stack</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1ad400a8f9f4116dc119fa5bc637e205f7" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1a6874d1c7dad3a80c68de6cbcbb770ae4" prot="public" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1performance_1_1_l_i_r_s_cache_1ab5b4329946c9cae33d64a779b2fbd033" prot="private" virt="non-virtual"><scope>themis::performance::LIRSCache</scope><name>stack_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

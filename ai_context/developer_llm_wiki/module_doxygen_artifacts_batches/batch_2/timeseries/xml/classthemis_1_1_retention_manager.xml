@@ -1,0 +1,685 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_retention_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::RetentionManager</compoundname>
+    <includes refid="retention_8h" local="no">retention.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1a1af2771579b1792dfa1b9dd354050a9e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+        <definition>TSStore* themis::RetentionManager::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::RetentionManager::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="192" column="13" bodyfile="include/timeseries/retention.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1a2381765ef28c373b5a741053d5cb712c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_retention_policy" kindref="compound">RetentionPolicy</ref></type>
+        <definition>RetentionPolicy themis::RetentionManager::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>themis::RetentionManager::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="193" column="21" bodyfile="include/timeseries/retention.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1a650ab6d23302603197ea4c1b0a826b70" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::RetentionManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::RetentionManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="194" column="24" bodyfile="include/timeseries/retention.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1a480e115c41d652c63ffd339d7c404e32" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_staged_deletion_policy" kindref="compound">StagedDeletionPolicy</ref></type>
+        <definition>StagedDeletionPolicy themis::RetentionManager::staged_policy_</definition>
+        <argsstring></argsstring>
+        <name>staged_policy_</name>
+        <qualifiedname>themis::RetentionManager::staged_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="197" column="26" bodyfile="include/timeseries/retention.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1aa1aa4dcd5341798d0169a23ae249bd4c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RetentionManager::use_staged_deletion_</definition>
+        <argsstring></argsstring>
+        <name>use_staged_deletion_</name>
+        <qualifiedname>themis::RetentionManager::use_staged_deletion_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="198" column="10" bodyfile="include/timeseries/retention.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1adc587a9177393c6b7527c950ada77ed6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::RetentionManager::audit_mutex_</definition>
+        <argsstring></argsstring>
+        <name>audit_mutex_</name>
+        <qualifiedname>themis::RetentionManager::audit_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="201" column="24" bodyfile="include/timeseries/retention.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1a6e4b08876fb5a5367e7719a72c741780" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_retention_audit_entry" kindref="compound">RetentionAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt;RetentionAuditEntry&gt; themis::RetentionManager::audit_log_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_</name>
+        <qualifiedname>themis::RetentionManager::audit_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="202" column="17" bodyfile="include/timeseries/retention.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1a191c0aab82d7b394bc0fa56f833553f7" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1_retention_audit_entry" kindref="compound">RetentionAuditEntry</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const RetentionAuditEntry&amp;)&gt; themis::RetentionManager::audit_callback_</definition>
+        <argsstring></argsstring>
+        <name>audit_callback_</name>
+        <qualifiedname>themis::RetentionManager::audit_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="203" column="19" bodyfile="include/timeseries/retention.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1a93958f52305e90935f1cf60cafbcd97d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::RetentionManager::async_running_</definition>
+        <argsstring></argsstring>
+        <name>async_running_</name>
+        <qualifiedname>themis::RetentionManager::async_running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="207" column="17" bodyfile="include/timeseries/retention.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1a1e1980040fa955965769cd9db71f98ad" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::RetentionManager::async_thread_</definition>
+        <argsstring></argsstring>
+        <name>async_thread_</name>
+        <qualifiedname>themis::RetentionManager::async_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="208" column="17" bodyfile="include/timeseries/retention.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1ad4a1477320faf01ea4559e61f864efab" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::RetentionManager::async_cv_</definition>
+        <argsstring></argsstring>
+        <name>async_cv_</name>
+        <qualifiedname>themis::RetentionManager::async_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="209" column="29" bodyfile="include/timeseries/retention.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1a48b562550a4e93c2eae1e447e7bdccb6" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::RetentionManager::async_mutex_</definition>
+        <argsstring></argsstring>
+        <name>async_mutex_</name>
+        <qualifiedname>themis::RetentionManager::async_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="210" column="16" bodyfile="include/timeseries/retention.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1aa4340ec26c1c0bdb74235ddfc6d1bed4" prot="private" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::RetentionManager::async_interval_</definition>
+        <argsstring></argsstring>
+        <name>async_interval_</name>
+        <qualifiedname>themis::RetentionManager::async_interval_</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="211" column="26" bodyfile="include/timeseries/retention.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1aa97ad510d308d499d18b94aedfc7e29b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_retention_stats" kindref="compound">RetentionStats</ref></type>
+        <definition>RetentionStats themis::RetentionManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::RetentionManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="213" column="20" bodyfile="include/timeseries/retention.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_retention_manager_1aec9cfc74ec62dab0d702c947ff104916" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RetentionManager::MAX_AUDIT_LOG_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_AUDIT_LOG_SIZE</name>
+        <qualifiedname>themis::RetentionManager::MAX_AUDIT_LOG_SIZE</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="204" column="29" bodyfile="include/timeseries/retention.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1ad9bf868bfbee71862a391f24755aa6b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RetentionManager::RetentionManager</definition>
+        <argsstring>(TSStore *store, RetentionPolicy policy)</argsstring>
+        <name>RetentionManager</name>
+        <qualifiedname>themis::RetentionManager::RetentionManager</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_retention_policy" kindref="compound">RetentionPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="83" column="5" bodyfile="include/timeseries/retention.h" bodystart="83" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1a9b9a9a16c681dcd4432b33c81d8a631d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RetentionManager::~RetentionManager</definition>
+        <argsstring>()</argsstring>
+        <name>~RetentionManager</name>
+        <qualifiedname>themis::RetentionManager::~RetentionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="86" column="5" bodyfile="include/timeseries/retention.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1ad01c636963bfac7c9090f212852bd55e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RetentionManager::RetentionManager</definition>
+        <argsstring>(const RetentionManager &amp;)=delete</argsstring>
+        <name>RetentionManager</name>
+        <qualifiedname>themis::RetentionManager::RetentionManager</qualifiedname>
+        <param>
+          <type>const RetentionManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="89" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1ae8a6f480ac501c6e3ba4984b1f4f4fcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_retention_manager_1ad9bf868bfbee71862a391f24755aa6b7" kindref="member">RetentionManager</ref> &amp;</type>
+        <definition>RetentionManager &amp; themis::RetentionManager::operator=</definition>
+        <argsstring>(const RetentionManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::RetentionManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_retention_manager_1ad9bf868bfbee71862a391f24755aa6b7" kindref="member">RetentionManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="90" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1acb97a16824f5f94105e9f9227920e219" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::RetentionManager::apply</definition>
+        <argsstring>()</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::RetentionManager::apply</qualifiedname>
+        <briefdescription>
+<para>Apply retention synchronously via the current retention policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nowMs(), lock(), count(), deleteOldDataForMetric(), fetch_add(), std::to_string(), logAudit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="96" column="12" bodyfile="src/timeseries/retention.cpp" bodystart="54" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1aa7d3a646ccfd91288f68610be8c6b2eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RetentionManager::startAsync</definition>
+        <argsstring>(std::chrono::seconds interval=std::chrono::hours(1))</argsstring>
+        <name>startAsync</name>
+        <qualifiedname>themis::RetentionManager::startAsync</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>interval</declname>
+          <defval>std::chrono::hours(1)</defval>
+        </param>
+        <briefdescription>
+<para>Start Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start background async retention cleanup. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How often to run cleanup</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: exchange(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="102" column="10" bodyfile="src/timeseries/retention.cpp" bodystart="101" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1a2ec5b99398d10b4af62bdc4e516467aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RetentionManager::stopAsync</definition>
+        <argsstring>()</argsstring>
+        <name>stopAsync</name>
+        <qualifiedname>themis::RetentionManager::stopAsync</qualifiedname>
+        <briefdescription>
+<para>Stop Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop background async retention cleanup.</para>
+<para>Calls: exchange(), notify_all(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="108" column="10" bodyfile="src/timeseries/retention.cpp" bodystart="113" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1ae69eb7a2c31e76a920241632a8a5f79b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RetentionManager::isAsyncRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isAsyncRunning</name>
+        <qualifiedname>themis::RetentionManager::isAsyncRunning</qualifiedname>
+        <briefdescription>
+<para>True if background cleanup is running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="111" column="10" bodyfile="include/timeseries/retention.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1ace3182dec8d1177883d502629af9c72c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_retention_stats" kindref="compound">RetentionStats</ref></type>
+        <definition>RetentionStats themis::RetentionManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::RetentionManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get retention statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="114" column="20" bodyfile="include/timeseries/retention.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1a60d756c0509ef3d82afbbc8a95524704" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RetentionManager::setPolicy</definition>
+        <argsstring>(RetentionPolicy policy)</argsstring>
+        <name>setPolicy</name>
+        <qualifiedname>themis::RetentionManager::setPolicy</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_retention_policy" kindref="compound">RetentionPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Update policy (takes effect on next <ref refid="classthemis_1_1_retention_manager_1acb97a16824f5f94105e9f9227920e219" kindref="member">apply()</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="117" column="10" bodyfile="include/timeseries/retention.h" bodystart="117" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1acb03cc941c929812e219c2e67d961f4d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_retention_policy" kindref="compound">RetentionPolicy</ref> &amp;</type>
+        <definition>const RetentionPolicy &amp; themis::RetentionManager::getPolicy</definition>
+        <argsstring>() const</argsstring>
+        <name>getPolicy</name>
+        <qualifiedname>themis::RetentionManager::getPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="127" column="27" bodyfile="include/timeseries/retention.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1a8f261789bfd29a8d51bdad58264b9591" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RetentionManager::setStagedDeletion</definition>
+        <argsstring>(const StagedDeletionPolicy &amp;staged)</argsstring>
+        <name>setStagedDeletion</name>
+        <qualifiedname>themis::RetentionManager::setStagedDeletion</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_staged_deletion_policy" kindref="compound">StagedDeletionPolicy</ref> &amp;</type>
+          <declname>staged</declname>
+        </param>
+        <briefdescription>
+<para>Set Staged Deletion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set staged deletion policy. When set, <ref refid="classthemis_1_1_retention_manager_1acb97a16824f5f94105e9f9227920e219" kindref="member">apply()</ref> performs graduated deletion. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">staged</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="137" column="10" bodyfile="include/timeseries/retention.h" bodystart="137" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1aef96168aefa0f559a47d51bb6b556740" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RetentionManager::hasStagedDeletion</definition>
+        <argsstring>() const</argsstring>
+        <name>hasStagedDeletion</name>
+        <qualifiedname>themis::RetentionManager::hasStagedDeletion</qualifiedname>
+        <briefdescription>
+<para>Returns true if staged deletion is configured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="149" column="10" bodyfile="include/timeseries/retention.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1ae02b2bf5ecfb76d59e38737a29e01c32" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RetentionManager::setAuditCallback</definition>
+        <argsstring>(std::function&lt; void(const RetentionAuditEntry &amp;)&gt; cb)</argsstring>
+        <name>setAuditCallback</name>
+        <qualifiedname>themis::RetentionManager::setAuditCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1_retention_audit_entry" kindref="compound">RetentionAuditEntry</ref> &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Register a compliance audit callback. Called synchronously after each retention action. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="157" column="10" bodyfile="include/timeseries/retention.h" bodystart="157" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1a5ba2e4e0409adf921be281c503fb1cbd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_retention_audit_entry" kindref="compound">RetentionAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; RetentionAuditEntry &gt; themis::RetentionManager::getAuditLog</definition>
+        <argsstring>() const</argsstring>
+        <name>getAuditLog</name>
+        <qualifiedname>themis::RetentionManager::getAuditLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the compliance audit log (last N entries kept in memory). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="170" column="17" bodyfile="include/timeseries/retention.h" bodystart="170" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1a0e8bf6177a5594c1b3e5b0f22a3b9b30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RetentionManager::clearAuditLog</definition>
+        <argsstring>()</argsstring>
+        <name>clearAuditLog</name>
+        <qualifiedname>themis::RetentionManager::clearAuditLog</qualifiedname>
+        <briefdescription>
+<para>Clear the in-memory audit log. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="181" column="10" bodyfile="include/timeseries/retention.h" bodystart="181" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1a2f7c7fcd2b0ce1f71f04f3e1e7c61586" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RetentionManager::asyncLoop</definition>
+        <argsstring>()</argsstring>
+        <name>asyncLoop</name>
+        <qualifiedname>themis::RetentionManager::asyncLoop</qualifiedname>
+        <briefdescription>
+<para>Async Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), wait_for(), <ref refid="classthemis_1_1_retention_manager_1acb97a16824f5f94105e9f9227920e219" kindref="member">apply()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="218" column="10" bodyfile="src/timeseries/retention.cpp" bodystart="127" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_retention_manager_1ab792aa7f97bd81b047f3b2b80fe81f97" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RetentionManager::logAudit</definition>
+        <argsstring>(const RetentionAuditEntry &amp;entry)</argsstring>
+        <name>logAudit</name>
+        <qualifiedname>themis::RetentionManager::logAudit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_retention_audit_entry" kindref="compound">RetentionAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Log Audit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), erase(), begin(), push_back(), audit_callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="223" column="10" bodyfile="src/timeseries/retention.cpp" bodystart="35" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retention manager component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/retention.h" line="81" column="1" bodyfile="include/timeseries/retention.h" bodystart="81" bodyend="224"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_retention_manager_1acb97a16824f5f94105e9f9227920e219" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>apply</name></member>
+      <member refid="classthemis_1_1_retention_manager_1ad4a1477320faf01ea4559e61f864efab" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>async_cv_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1aa4340ec26c1c0bdb74235ddfc6d1bed4" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>async_interval_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a48b562550a4e93c2eae1e447e7bdccb6" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>async_mutex_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a93958f52305e90935f1cf60cafbcd97d" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>async_running_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a1e1980040fa955965769cd9db71f98ad" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>async_thread_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a2f7c7fcd2b0ce1f71f04f3e1e7c61586" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>asyncLoop</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a191c0aab82d7b394bc0fa56f833553f7" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>audit_callback_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a6e4b08876fb5a5367e7719a72c741780" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>audit_log_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1adc587a9177393c6b7527c950ada77ed6" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>audit_mutex_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a0e8bf6177a5594c1b3e5b0f22a3b9b30" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>clearAuditLog</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a5ba2e4e0409adf921be281c503fb1cbd" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>getAuditLog</name></member>
+      <member refid="classthemis_1_1_retention_manager_1acb03cc941c929812e219c2e67d961f4d" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>getPolicy</name></member>
+      <member refid="classthemis_1_1_retention_manager_1ace3182dec8d1177883d502629af9c72c" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_retention_manager_1aef96168aefa0f559a47d51bb6b556740" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>hasStagedDeletion</name></member>
+      <member refid="classthemis_1_1_retention_manager_1ae69eb7a2c31e76a920241632a8a5f79b" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>isAsyncRunning</name></member>
+      <member refid="classthemis_1_1_retention_manager_1ab792aa7f97bd81b047f3b2b80fe81f97" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>logAudit</name></member>
+      <member refid="classthemis_1_1_retention_manager_1aec9cfc74ec62dab0d702c947ff104916" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>MAX_AUDIT_LOG_SIZE</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a650ab6d23302603197ea4c1b0a826b70" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1ae8a6f480ac501c6e3ba4984b1f4f4fcd" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a2381765ef28c373b5a741053d5cb712c" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>policy_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1ad9bf868bfbee71862a391f24755aa6b7" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>RetentionManager</name></member>
+      <member refid="classthemis_1_1_retention_manager_1ad01c636963bfac7c9090f212852bd55e" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>RetentionManager</name></member>
+      <member refid="classthemis_1_1_retention_manager_1ae02b2bf5ecfb76d59e38737a29e01c32" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>setAuditCallback</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a60d756c0509ef3d82afbbc8a95524704" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>setPolicy</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a8f261789bfd29a8d51bdad58264b9591" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>setStagedDeletion</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a480e115c41d652c63ffd339d7c404e32" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>staged_policy_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1aa7d3a646ccfd91288f68610be8c6b2eb" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>startAsync</name></member>
+      <member refid="classthemis_1_1_retention_manager_1aa97ad510d308d499d18b94aedfc7e29b" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a2ec5b99398d10b4af62bdc4e516467aa" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>stopAsync</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a1af2771579b1792dfa1b9dd354050a9e" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>store_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1aa1aa4dcd5341798d0169a23ae249bd4c" prot="private" virt="non-virtual"><scope>themis::RetentionManager</scope><name>use_staged_deletion_</name></member>
+      <member refid="classthemis_1_1_retention_manager_1a9b9a9a16c681dcd4432b33c81d8a631d" prot="public" virt="non-virtual"><scope>themis::RetentionManager</scope><name>~RetentionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

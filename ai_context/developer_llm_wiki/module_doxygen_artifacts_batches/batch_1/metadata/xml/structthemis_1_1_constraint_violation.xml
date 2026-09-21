@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_constraint_violation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ConstraintViolation</compoundname>
+    <includes refid="schema__constraints_8h" local="no">schema_constraints.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_constraint_violation_1a080855d70708effe97ad8c9266302e43" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConstraintViolation::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::ConstraintViolation::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="34" column="17" bodyfile="include/metadata/schema_constraints.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_constraint_violation_1ac97806ce059c013c743b91e13db99335" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConstraintViolation::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::ConstraintViolation::column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="35" column="17" bodyfile="include/metadata/schema_constraints.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_constraint_violation_1ad9dc68fe7b00cdb6d7739fd72e3ee284" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConstraintViolation::constraint_name</definition>
+        <argsstring></argsstring>
+        <name>constraint_name</name>
+        <qualifiedname>themis::ConstraintViolation::constraint_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="36" column="17" bodyfile="include/metadata/schema_constraints.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_constraint_violation_1ae4bf97be347319cc3e9d7ae26ab22085" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConstraintViolation::constraint_type</definition>
+        <argsstring></argsstring>
+        <name>constraint_type</name>
+        <qualifiedname>themis::ConstraintViolation::constraint_type</qualifiedname>
+        <briefdescription>
+<para>&quot;NOT_NULL&quot;, &quot;UNIQUE&quot;, &quot;CHECK&quot;, &quot;DEFAULT&quot;, &quot;FOREIGN_KEY&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="37" column="17" bodyfile="include/metadata/schema_constraints.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_constraint_violation_1abe4a02566002275f87ffd4b4e7bf1b2d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConstraintViolation::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::ConstraintViolation::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="38" column="17" bodyfile="include/metadata/schema_constraints.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_constraint_violation_1affa5787df35c41959247f538d6bbc4f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::ConstraintViolation::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::ConstraintViolation::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_constraints.h" line="40" column="10" bodyfile="src/metadata/schema_constraints.cpp" bodystart="26" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Constraint violation error details returned by enforcement methods. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/schema_constraints.h" line="33" column="1" bodyfile="include/metadata/schema_constraints.h" bodystart="33" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_constraint_violation_1ac97806ce059c013c743b91e13db99335" prot="public" virt="non-virtual"><scope>themis::ConstraintViolation</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1_constraint_violation_1ad9dc68fe7b00cdb6d7739fd72e3ee284" prot="public" virt="non-virtual"><scope>themis::ConstraintViolation</scope><name>constraint_name</name></member>
+      <member refid="structthemis_1_1_constraint_violation_1ae4bf97be347319cc3e9d7ae26ab22085" prot="public" virt="non-virtual"><scope>themis::ConstraintViolation</scope><name>constraint_type</name></member>
+      <member refid="structthemis_1_1_constraint_violation_1abe4a02566002275f87ffd4b4e7bf1b2d" prot="public" virt="non-virtual"><scope>themis::ConstraintViolation</scope><name>message</name></member>
+      <member refid="structthemis_1_1_constraint_violation_1a080855d70708effe97ad8c9266302e43" prot="public" virt="non-virtual"><scope>themis::ConstraintViolation</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1_constraint_violation_1affa5787df35c41959247f538d6bbc4f1" prot="public" virt="non-virtual"><scope>themis::ConstraintViolation</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

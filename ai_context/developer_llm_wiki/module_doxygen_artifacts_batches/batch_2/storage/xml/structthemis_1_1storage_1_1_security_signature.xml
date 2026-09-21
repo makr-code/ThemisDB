@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_security_signature" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::SecuritySignature</compoundname>
+    <includes refid="security__signature_8h" local="no">security_signature.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_1a4ef8adcccfd2cba41f98aa95a83cbb77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SecuritySignature::resource_id</definition>
+        <argsstring></argsstring>
+        <name>resource_id</name>
+        <qualifiedname>themis::storage::SecuritySignature::resource_id</qualifiedname>
+        <briefdescription>
+<para>Normalized resource identifier (e.g., &quot;config/mime_types.yaml&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature.h" line="25" column="17" bodyfile="include/storage/security_signature.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_1ac0ad87476e8adb9679a1406bf416f3bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SecuritySignature::hash</definition>
+        <argsstring></argsstring>
+        <name>hash</name>
+        <qualifiedname>themis::storage::SecuritySignature::hash</qualifiedname>
+        <briefdescription>
+<para>SHA256 hash (64 hex chars). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature.h" line="26" column="17" bodyfile="include/storage/security_signature.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_1ae34149d10001a52b20e4dc2fef00706d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SecuritySignature::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::storage::SecuritySignature::algorithm</qualifiedname>
+        <briefdescription>
+<para>Hash algorithm (currently &quot;sha256&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature.h" line="27" column="17" bodyfile="include/storage/security_signature.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_1ab797d0f924b95246a31dc8d62b1146aa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::SecuritySignature::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::storage::SecuritySignature::created_at</qualifiedname>
+        <briefdescription>
+<para>Unix timestamp (seconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature.h" line="28" column="14" bodyfile="include/storage/security_signature.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_1a852f5f18eb28b891b07890ef20dba69b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SecuritySignature::created_by</definition>
+        <argsstring></argsstring>
+        <name>created_by</name>
+        <qualifiedname>themis::storage::SecuritySignature::created_by</qualifiedname>
+        <briefdescription>
+<para>User or system identifier (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature.h" line="29" column="17" bodyfile="include/storage/security_signature.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_1aba1c33e1f072d9dd279a7b74803411fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SecuritySignature::comment</definition>
+        <argsstring></argsstring>
+        <name>comment</name>
+        <qualifiedname>themis::storage::SecuritySignature::comment</qualifiedname>
+        <briefdescription>
+<para>Human-readable description (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature.h" line="30" column="17" bodyfile="include/storage/security_signature.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_security_signature_1a13cfb7106d17193cef79092c2751fd47" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::storage::SecuritySignature::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::storage::SecuritySignature::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature.h" line="33" column="20" bodyfile="src/storage/security_signature.cpp" bodystart="66" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_security_signature_1a43b59a17a3a5459cbd9d29e669af8e56" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SecuritySignature::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::storage::SecuritySignature::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize to binary (for RocksDB storage). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature.h" line="39" column="17" bodyfile="src/storage/security_signature.cpp" bodystart="123" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_security_signature_1adb72c78ed390d3ec86583573b0a1f331" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1storage_1_1_security_signature" kindref="compound">SecuritySignature</ref> &gt;</type>
+        <definition>std::optional&lt; SecuritySignature &gt; themis::storage::SecuritySignature::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::storage::SecuritySignature::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(), isValidResourceId(), isHexLowerString(), isSupportedAlgorithm(), contains(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature.h" line="36" column="26" bodyfile="src/storage/security_signature.cpp" bodystart="87" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_security_signature_1a9e34000a03acd8565f82a4ffe9738b95" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1storage_1_1_security_signature" kindref="compound">SecuritySignature</ref> &gt;</type>
+        <definition>std::optional&lt; SecuritySignature &gt; themis::storage::SecuritySignature::deserialize</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::storage::SecuritySignature::deserialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize from binary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), <ref refid="structthemis_1_1storage_1_1_security_signature_1adb72c78ed390d3ec86583573b0a1f331" kindref="member">fromJson()</ref>, THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature.h" line="42" column="26" bodyfile="src/storage/security_signature.cpp" bodystart="133" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Security signature for critical resources (config files, schemas, etc.) Stored externally in RocksDB to avoid self-reference paradox </para>
+    </detaileddescription>
+    <location file="include/storage/security_signature.h" line="24" column="1" bodyfile="include/storage/security_signature.h" bodystart="24" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_security_signature_1ae34149d10001a52b20e4dc2fef00706d" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignature</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_1aba1c33e1f072d9dd279a7b74803411fd" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignature</scope><name>comment</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_1ab797d0f924b95246a31dc8d62b1146aa" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignature</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_1a852f5f18eb28b891b07890ef20dba69b" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignature</scope><name>created_by</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_1a9e34000a03acd8565f82a4ffe9738b95" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignature</scope><name>deserialize</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_1adb72c78ed390d3ec86583573b0a1f331" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignature</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_1ac0ad87476e8adb9679a1406bf416f3bf" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignature</scope><name>hash</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_1a4ef8adcccfd2cba41f98aa95a83cbb77" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignature</scope><name>resource_id</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_1a43b59a17a3a5459cbd9d29e669af8e56" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignature</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1storage_1_1_security_signature_1a13cfb7106d17193cef79092c2751fd47" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignature</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

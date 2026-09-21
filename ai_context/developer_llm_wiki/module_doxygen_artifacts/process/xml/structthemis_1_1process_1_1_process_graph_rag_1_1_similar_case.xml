@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessGraphRag::SimilarCase</compoundname>
+    <includes refid="process__graph__rag_8h" local="no">process_graph_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1aa53f0d1eea51dc1f1ecd7baf8e63c793" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessGraphRag::SimilarCase::instance_id</definition>
+        <argsstring></argsstring>
+        <name>instance_id</name>
+        <qualifiedname>themis::process::ProcessGraphRag::SimilarCase::instance_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="335" column="21" bodyfile="include/process/process_graph_rag.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1a7b9aff1ab45792d67ebcf8d866ce66bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessGraphRag::SimilarCase::process_definition_id</definition>
+        <argsstring></argsstring>
+        <name>process_definition_id</name>
+        <qualifiedname>themis::process::ProcessGraphRag::SimilarCase::process_definition_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="336" column="21" bodyfile="include/process/process_graph_rag.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1a8eebdd13b6e011439e287cb83d7fc5b5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessGraphRag::SimilarCase::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::process::ProcessGraphRag::SimilarCase::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="337" column="21" bodyfile="include/process/process_graph_rag.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1a618a55c2404b08f69fd9332e68c71cfb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::process::ProcessGraphRag::SimilarCase::similarity</definition>
+        <argsstring></argsstring>
+        <name>similarity</name>
+        <qualifiedname>themis::process::ProcessGraphRag::SimilarCase::similarity</qualifiedname>
+        <initializer>{0.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="338" column="21" bodyfile="include/process/process_graph_rag.h" bodystart="338" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1a7fea8aa14abf1c274cf7b0bd07c7d7bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessGraphRag::SimilarCase::outcome</definition>
+        <argsstring></argsstring>
+        <name>outcome</name>
+        <qualifiedname>themis::process::ProcessGraphRag::SimilarCase::outcome</qualifiedname>
+        <briefdescription>
+<para>&quot;COMPLETED&quot;, &quot;FAILED&quot;, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="339" column="21" bodyfile="include/process/process_graph_rag.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1a50daca6cf483caaaafc26761ba7310df" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::ProcessGraphRag::SimilarCase::key_variables</definition>
+        <argsstring></argsstring>
+        <name>key_variables</name>
+        <qualifiedname>themis::process::ProcessGraphRag::SimilarCase::key_variables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="340" column="24" bodyfile="include/process/process_graph_rag.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Find similar past Verwaltungsvorgänge (for precedent / reference). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses cosine similarity over stored instance embeddings (key prefix <computeroutput>proc:inst_emb:</computeroutput> &lt;id&gt;) if available, and falls back to variable-based Jaccard similarity otherwise. </para>
+    </detaileddescription>
+    <location file="include/process/process_graph_rag.h" line="334" column="5" bodyfile="include/process/process_graph_rag.h" bodystart="334" bodyend="341"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1aa53f0d1eea51dc1f1ecd7baf8e63c793" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::SimilarCase</scope><name>instance_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1a50daca6cf483caaaafc26761ba7310df" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::SimilarCase</scope><name>key_variables</name></member>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1a8eebdd13b6e011439e287cb83d7fc5b5" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::SimilarCase</scope><name>name</name></member>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1a7fea8aa14abf1c274cf7b0bd07c7d7bf" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::SimilarCase</scope><name>outcome</name></member>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1a7b9aff1ab45792d67ebcf8d866ce66bb" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::SimilarCase</scope><name>process_definition_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_similar_case_1a618a55c2404b08f69fd9332e68c71cfb" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::SimilarCase</scope><name>similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

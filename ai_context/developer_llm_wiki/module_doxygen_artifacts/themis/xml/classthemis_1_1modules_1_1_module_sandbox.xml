@@ -1,0 +1,602 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_module_sandbox" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleSandbox</compoundname>
+    <includes refid="module__sandbox_8h" local="no">module_sandbox.h</includes>
+    <innerclass refid="structthemis_1_1modules_1_1_module_sandbox_1_1_config" prot="public">themis::modules::ModuleSandbox::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1modules_1_1_module_sandbox_1ac218556d8b979117536f93f56ebffbe0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FilesystemAccess</name>
+        <qualifiedname>themis::modules::ModuleSandbox::FilesystemAccess</qualifiedname>
+        <enumvalue id="classthemis_1_1modules_1_1_module_sandbox_1ac218556d8b979117536f93f56ebffbe0ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No file-system access at all. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1modules_1_1_module_sandbox_1ac218556d8b979117536f93f56ebffbe0a47c7e7cb36a953a8c47e02000036bb44" prot="public">
+          <name>READ_ONLY</name>
+          <briefdescription>
+<para>Read-only access to the module&apos;s own directory. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1modules_1_1_module_sandbox_1ac218556d8b979117536f93f56ebffbe0aa7b843fb734e3b3fea8e5f902d3f4144" prot="public">
+          <name>READ_WRITE</name>
+          <briefdescription>
+<para>Read-write access to a dedicated work directory. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1modules_1_1_module_sandbox_1ac218556d8b979117536f93f56ebffbe0aba7de5bc6888294e5884b024a4c894f1" prot="public">
+          <name>FULL</name>
+          <briefdescription>
+<para>Unrestricted (sandbox disabled for filesystem). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="238" column="5" bodyfile="include/themis/base/module_sandbox.h" bodystart="238" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_sandbox_1a6c416aa05d259f4c8f221e47a130227b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_module_sandbox_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::modules::ModuleSandbox::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::modules::ModuleSandbox::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="379" column="30" bodyfile="include/themis/base/module_sandbox.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_sandbox_1a98e046f30ece85aa71ee5610083e9628" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleSandbox::module_name_</definition>
+        <argsstring></argsstring>
+        <name>module_name_</name>
+        <qualifiedname>themis::modules::ModuleSandbox::module_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="380" column="30" bodyfile="include/themis/base/module_sandbox.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_sandbox_1a0907d618da86224f64fcc67d4371adce" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::active_</definition>
+        <argsstring></argsstring>
+        <name>active_</name>
+        <qualifiedname>themis::modules::ModuleSandbox::active_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="381" column="30" bodyfile="include/themis/base/module_sandbox.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_sandbox_1afeece4a705227d678a6837680a53919d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::modules::ModuleSandbox::launch_warnings_</definition>
+        <argsstring></argsstring>
+        <name>launch_warnings_</name>
+        <qualifiedname>themis::modules::ModuleSandbox::launch_warnings_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="382" column="17" bodyfile="include/themis/base/module_sandbox.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_sandbox_1aef419731bc8e1e00a446859bfae1f085" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleSandbox::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::modules::ModuleSandbox::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="383" column="30" bodyfile="include/themis/base/module_sandbox.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_sandbox_1a2fd55186e76e07cf12078983349fdb9e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; PlatformHandle &gt;</type>
+        <definition>std::unique_ptr&lt;PlatformHandle&gt; themis::modules::ModuleSandbox::platform_</definition>
+        <argsstring></argsstring>
+        <name>platform_</name>
+        <qualifiedname>themis::modules::ModuleSandbox::platform_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="387" column="21" bodyfile="include/themis/base/module_sandbox.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_sandbox_1a3cd9989d18c5449af301a54b85872b7a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox" kindref="compound">WasmPluginSandbox</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WasmPluginSandbox&gt; themis::modules::ModuleSandbox::wasm_sandbox_</definition>
+        <argsstring></argsstring>
+        <name>wasm_sandbox_</name>
+        <qualifiedname>themis::modules::ModuleSandbox::wasm_sandbox_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="390" column="21" bodyfile="include/themis/base/module_sandbox.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_sandbox_1ae4100f27ff8cfebd052d49b3c12c828a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::wasm_isolation_active_</definition>
+        <argsstring></argsstring>
+        <name>wasm_isolation_active_</name>
+        <qualifiedname>themis::modules::ModuleSandbox::wasm_isolation_active_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="391" column="40" bodyfile="include/themis/base/module_sandbox.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a7cd210503337fa77d2a9ed5453687742" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ModuleSandbox::ModuleSandbox</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>ModuleSandbox</name>
+        <qualifiedname>themis::modules::ModuleSandbox::ModuleSandbox</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_module_sandbox_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1modules_1_1_module_sandbox_1_1_config_1a40c76c77e01e021d77235c8010c884e7" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="287" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a8e437c72933e1e141fe0396cc17f9b51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ModuleSandbox::~ModuleSandbox</definition>
+        <argsstring>()</argsstring>
+        <name>~ModuleSandbox</name>
+        <qualifiedname>themis::modules::ModuleSandbox::~ModuleSandbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="288" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1ad63aaa7aab29b5ae846e499e93d7df40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ModuleSandbox::ModuleSandbox</definition>
+        <argsstring>(const ModuleSandbox &amp;)=delete</argsstring>
+        <name>ModuleSandbox</name>
+        <qualifiedname>themis::modules::ModuleSandbox::ModuleSandbox</qualifiedname>
+        <param>
+          <type>const ModuleSandbox &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="291" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a0473e3d0b343896e5be687b422af800a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1modules_1_1_module_sandbox_1a7cd210503337fa77d2a9ed5453687742" kindref="member">ModuleSandbox</ref> &amp;</type>
+        <definition>ModuleSandbox &amp; themis::modules::ModuleSandbox::operator=</definition>
+        <argsstring>(const ModuleSandbox &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::modules::ModuleSandbox::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1modules_1_1_module_sandbox_1a7cd210503337fa77d2a9ed5453687742" kindref="member">ModuleSandbox</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="292" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1ac66d7bb3835c0aeb20c2dfc7bb16b88b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::launch</definition>
+        <argsstring>(const std::string &amp;module_name)</argsstring>
+        <name>launch</name>
+        <qualifiedname>themis::modules::ModuleSandbox::launch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+<para>Apply sandbox constraints to the current process/thread context and associate the sandbox with <computeroutput>module_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Linux this configures cgroups and sets up seccomp-bpf. On Windows this creates and assigns a Job Object.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable name for logging/stats. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success (constraints applied); false on fatal error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="306" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1ab03d0ad7e0e418fb57f1fcd4e33fd4a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleSandbox::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::modules::ModuleSandbox::shutdown</qualifiedname>
+        <briefdescription>
+<para>Remove all sandbox constraints and release OS resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must be called before the module is unloaded. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="313" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1ae681f7c62528cf6e1b6c5a66043ed40c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::isActive</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isActive</name>
+        <qualifiedname>themis::modules::ModuleSandbox::isActive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="315" column="10" bodyfile="include/themis/base/module_sandbox.h" bodystart="315" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1ad28378617a74431789d93168f92036e5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; themis::modules::ModuleSandbox::launchWarnings</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>launchWarnings</name>
+        <qualifiedname>themis::modules::ModuleSandbox::launchWarnings</qualifiedname>
+        <briefdescription>
+<para>Warnings produced during <computeroutput><ref refid="classthemis_1_1modules_1_1_module_sandbox_1ac66d7bb3835c0aeb20c2dfc7bb16b88b" kindref="member">launch()</ref></computeroutput> for unsupported mechanisms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to the list of warning strings accumulated by <ref refid="classthemis_1_1modules_1_1_module_sandbox_1ac66d7bb3835c0aeb20c2dfc7bb16b88b" kindref="member">launch()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="324" column="23" bodyfile="include/themis/base/module_sandbox.h" bodystart="324" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a7cbf68e9f8d04255c2476e0bb9ab4edc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::modules::ModuleSandbox::lastError</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastError</name>
+        <qualifiedname>themis::modules::ModuleSandbox::lastError</qualifiedname>
+        <briefdescription>
+<para>Last error message produced during <ref refid="classthemis_1_1modules_1_1_module_sandbox_1ac66d7bb3835c0aeb20c2dfc7bb16b88b" kindref="member">launch()</ref> or <ref refid="classthemis_1_1modules_1_1_module_sandbox_1ab03d0ad7e0e418fb57f1fcd4e33fd4a1" kindref="member">shutdown()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable error string; empty if no error has occurred. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="333" column="23" bodyfile="include/themis/base/module_sandbox.h" bodystart="333" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1adc4e910904d7f11e77f9eb428a98dafa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_sandbox_stats" kindref="compound">SandboxStats</ref></type>
+        <definition>SandboxStats themis::modules::ModuleSandbox::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::modules::ModuleSandbox::stats</qualifiedname>
+        <briefdescription>
+<para>Sample current resource usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Linux reads <computeroutput>/sys/fs/cgroup/…/memory.current</computeroutput> and <computeroutput>cpuacct.usage</computeroutput>. On Windows queries the Job Object.</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1modules_1_1_sandbox_stats" kindref="compound">SandboxStats</ref> snapshot of current memory and CPU utilisation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="345" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a3f285f5d2215ea6bd75cdf5109a657aa" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::isWasmIsolationActive</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isWasmIsolationActive</name>
+        <qualifiedname>themis::modules::ModuleSandbox::isWasmIsolationActive</qualifiedname>
+        <briefdescription>
+<para>True if WASM isolation is active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>WASM isolation is active when <ref refid="structthemis_1_1modules_1_1_module_sandbox_1_1_config_1a33eb488372e7fb1de239ebae9aa6535a" kindref="member">Config::enable_wasm_isolation</ref> was true <emphasis>and</emphasis> a <ref refid="classthemis_1_1modules_1_1_wasm_runtime" kindref="compound">WasmRuntime</ref> was successfully injected during <ref refid="classthemis_1_1modules_1_1_module_sandbox_1ac66d7bb3835c0aeb20c2dfc7bb16b88b" kindref="member">launch()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="355" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a27de983038149ca27c81cd51dea1f418" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox" kindref="compound">WasmPluginSandbox</ref> *</type>
+        <definition>WasmPluginSandbox * themis::modules::ModuleSandbox::wasmSandbox</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>wasmSandbox</name>
+        <qualifiedname>themis::modules::ModuleSandbox::wasmSandbox</qualifiedname>
+        <briefdescription>
+<para>Return the inner <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox" kindref="compound">WasmPluginSandbox</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Non-null only when <ref refid="classthemis_1_1modules_1_1_module_sandbox_1a3f285f5d2215ea6bd75cdf5109a657aa" kindref="member">isWasmIsolationActive()</ref> is true. Use this to load .wasm plugin binaries and call their exports.</para>
+<para><simplesect kind="return"><para>Pointer to the inner <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox" kindref="compound">WasmPluginSandbox</ref>, or nullptr if WASM isolation is not active. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="366" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a09ce3f2e1949ae805303bd438b9ea504" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox" kindref="compound">WasmPluginSandbox</ref> *</type>
+        <definition>const WasmPluginSandbox * themis::modules::ModuleSandbox::wasmSandbox</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>wasmSandbox</name>
+        <qualifiedname>themis::modules::ModuleSandbox::wasmSandbox</qualifiedname>
+        <briefdescription>
+<para>Returns a read-only pointer to the inner <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox" kindref="compound">WasmPluginSandbox</ref> (const overload). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Non-null only when <ref refid="classthemis_1_1modules_1_1_module_sandbox_1a3f285f5d2215ea6bd75cdf5109a657aa" kindref="member">isWasmIsolationActive()</ref> is true. Use this to inspect .wasm plugin binaries and their exports without modification.</para>
+<para><simplesect kind="return"><para>Const pointer to the inner <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox" kindref="compound">WasmPluginSandbox</ref>, or nullptr if WASM isolation is not active. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="376" column="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a3c4168aec8c09d2c4b00f10ed34fd64e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::applyMemoryLimit</definition>
+        <argsstring>()</argsstring>
+        <name>applyMemoryLimit</name>
+        <qualifiedname>themis::modules::ModuleSandbox::applyMemoryLimit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="393" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1af66a5bdbbcf38a23252dca5797ee2168" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::applyCpuLimit</definition>
+        <argsstring>()</argsstring>
+        <name>applyCpuLimit</name>
+        <qualifiedname>themis::modules::ModuleSandbox::applyCpuLimit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="394" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a88f770119bc7c38de65344978b5f15cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::applyNetworkIsolation</definition>
+        <argsstring>()</argsstring>
+        <name>applyNetworkIsolation</name>
+        <qualifiedname>themis::modules::ModuleSandbox::applyNetworkIsolation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="395" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a5392aedc4465380d4c525021a64ec08b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::applyFilesystemRestrictions</definition>
+        <argsstring>()</argsstring>
+        <name>applyFilesystemRestrictions</name>
+        <qualifiedname>themis::modules::ModuleSandbox::applyFilesystemRestrictions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="396" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a1040a06e3b215aa8dc3b0a3aa82bd938" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::applySyscallFilter</definition>
+        <argsstring>()</argsstring>
+        <name>applySyscallFilter</name>
+        <qualifiedname>themis::modules::ModuleSandbox::applySyscallFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="397" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a359ead4849a0b85a3145696929392452" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::setupCgroupV2</definition>
+        <argsstring>()</argsstring>
+        <name>setupCgroupV2</name>
+        <qualifiedname>themis::modules::ModuleSandbox::setupCgroupV2</qualifiedname>
+        <briefdescription>
+<para>Set up a cgroup v2 sub-hierarchy for this sandbox instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates <computeroutput>/sys/fs/cgroup/themis/&lt;sandbox_id&gt;/</computeroutput>, enables the memory and cpu controllers in <computeroutput>cgroup.subtree_control</computeroutput>, writes <computeroutput>memory.max</computeroutput>, then moves the current process into the new cgroup. If CPU limiting is enabled, <computeroutput>cpu.max</computeroutput> is written later by applyCpuLimit() when active. Returns true on success; on failure emits spdlog::warn and the caller falls back to RLIMIT_* enforcement. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="407" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_sandbox_1a97df1817771b1a9698a20668dcfdfebc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleSandbox::teardownCgroupV2</definition>
+        <argsstring>()</argsstring>
+        <name>teardownCgroupV2</name>
+        <qualifiedname>themis::modules::ModuleSandbox::teardownCgroupV2</qualifiedname>
+        <briefdescription>
+<para>Remove the cgroup v2 directory created by setupCgroupV2(). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Migrates the current process back to the root cgroup before issuing rmdir(2) on the sandbox-specific sub-directory. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="413" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Isolates a loaded module inside a resource-constrained OS jail. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The sandbox applies whichever isolation mechanisms are available on the current platform:</para>
+<para><table rows="6" cols="3"><row>
+<entry thead="yes"><para>Mechanism  </para>
+</entry><entry thead="yes"><para>Linux  </para>
+</entry><entry thead="yes"><para>Windows  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Memory limit  </para>
+</entry><entry thead="no"><para>cgroups memory.max  </para>
+</entry><entry thead="no"><para>Job Object  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CPU limit  </para>
+</entry><entry thead="no"><para>cgroups cpu.max  </para>
+</entry><entry thead="no"><para>Job Object CPU rate  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Network isolation  </para>
+</entry><entry thead="no"><para>network namespace  </para>
+</entry><entry thead="no"><para>Not supported  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Syscall filtering  </para>
+</entry><entry thead="no"><para>seccomp-bpf  </para>
+</entry><entry thead="no"><para>Not supported  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>File-system access  </para>
+</entry><entry thead="no"><para>bind mounts / chroot  </para>
+</entry><entry thead="no"><para>Not supported  </para>
+</entry></row>
+</table>
+</para>
+<para>When a platform does not support a mechanism, it degrades gracefully: the <computeroutput>launched()</computeroutput> flag is set, but the missing constraints are skipped and noted in <computeroutput><ref refid="classthemis_1_1modules_1_1_module_sandbox_1ad28378617a74431789d93168f92036e5" kindref="member">launchWarnings()</ref></computeroutput>.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">ModuleSandbox::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_memory_mb<sp/><sp/><sp/>=<sp/>256;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_cpu_percent<sp/>=<sp/>25;</highlight></codeline>
+<codeline><highlight class="normal">cfg.allow_network<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1modules_1_1_module_sandbox_1a7cd210503337fa77d2a9ed5453687742" kindref="member">ModuleSandbox</ref><sp/>sandbox(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>sandbox.launch(</highlight><highlight class="stringliteral">&quot;themis_analytics&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ok)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;Sandbox<sp/>launch<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>sandbox.lastError());</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>…<sp/>module<sp/>runs<sp/>inside<sp/>sandbox<sp/>…</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">sandbox.shutdown();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1modules_1_1_module_sandbox_1adc4e910904d7f11e77f9eb428a98dafa" kindref="member">stats</ref><sp/>=<sp/>sandbox.stats();</highlight></codeline>
+<codeline><highlight class="normal">LOG_INFO(</highlight><highlight class="stringliteral">&quot;Peak<sp/>memory:<sp/>{}<sp/>MB&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1modules_1_1_module_sandbox_1adc4e910904d7f11e77f9eb428a98dafa" kindref="member">stats</ref>.peak_memory_bytes<sp/>/<sp/>(1024*1024));</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/base/module_sandbox.h" line="235" column="1" bodyfile="include/themis/base/module_sandbox.h" bodystart="235" bodyend="414"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a0907d618da86224f64fcc67d4371adce" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>active_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1af66a5bdbbcf38a23252dca5797ee2168" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>applyCpuLimit</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a5392aedc4465380d4c525021a64ec08b" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>applyFilesystemRestrictions</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a3c4168aec8c09d2c4b00f10ed34fd64e" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>applyMemoryLimit</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a88f770119bc7c38de65344978b5f15cf" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>applyNetworkIsolation</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a1040a06e3b215aa8dc3b0a3aa82bd938" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>applySyscallFilter</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a6c416aa05d259f4c8f221e47a130227b" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>config_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1ac218556d8b979117536f93f56ebffbe0" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>FilesystemAccess</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1ae681f7c62528cf6e1b6c5a66043ed40c" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>isActive</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a3f285f5d2215ea6bd75cdf5109a657aa" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>isWasmIsolationActive</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1aef419731bc8e1e00a446859bfae1f085" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a7cbf68e9f8d04255c2476e0bb9ab4edc" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>lastError</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1ac66d7bb3835c0aeb20c2dfc7bb16b88b" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>launch</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1afeece4a705227d678a6837680a53919d" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>launch_warnings_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1ad28378617a74431789d93168f92036e5" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>launchWarnings</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a98e046f30ece85aa71ee5610083e9628" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>module_name_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a7cd210503337fa77d2a9ed5453687742" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>ModuleSandbox</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1ad63aaa7aab29b5ae846e499e93d7df40" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>ModuleSandbox</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a0473e3d0b343896e5be687b422af800a" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a2fd55186e76e07cf12078983349fdb9e" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>platform_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a359ead4849a0b85a3145696929392452" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>setupCgroupV2</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1ab03d0ad7e0e418fb57f1fcd4e33fd4a1" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1adc4e910904d7f11e77f9eb428a98dafa" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>stats</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a97df1817771b1a9698a20668dcfdfebc" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>teardownCgroupV2</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1ae4100f27ff8cfebd052d49b3c12c828a" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>wasm_isolation_active_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a3cd9989d18c5449af301a54b85872b7a" prot="private" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>wasm_sandbox_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a27de983038149ca27c81cd51dea1f418" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>wasmSandbox</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a09ce3f2e1949ae805303bd438b9ea504" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>wasmSandbox</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_sandbox_1a8e437c72933e1e141fe0396cc17f9b51" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox</scope><name>~ModuleSandbox</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_device_discovery" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::DeviceDiscovery</compoundname>
+    <includes refid="device__discovery_8h" local="no">device_discovery.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_discovery_1a18428cb9bab04204c46760636d336c56" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt;</type>
+        <definition>static std::vector&lt; DeviceInfo &gt; themis::gpu::DeviceDiscovery::Enumerate</definition>
+        <argsstring>()</argsstring>
+        <name>Enumerate</name>
+        <qualifiedname>themis::gpu::DeviceDiscovery::Enumerate</qualifiedname>
+        <briefdescription>
+<para>Enumerate all available GPU devices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>List of discovered devices. Empty only when the edition has disabled GPU and no CPU-fallback sentinel is appropriate. On CI / no-GPU machines returns a single CPU_FALLBACK entry. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="74" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_discovery_1a143a7e81c4dde6aed8c54a1d88476e24" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref></type>
+        <definition>static DeviceInfo themis::gpu::DeviceDiscovery::GetBestDevice</definition>
+        <argsstring>(const std::vector&lt; DeviceInfo &gt; &amp;devices)</argsstring>
+        <name>GetBestDevice</name>
+        <qualifiedname>themis::gpu::DeviceDiscovery::GetBestDevice</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+        </param>
+        <briefdescription>
+<para>Return the device best suited for a new allocation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Currently returns the device with the most free VRAM. Returns the CPU-fallback sentinel when no GPU is available.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>devices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List produced by <ref refid="classthemis_1_1gpu_1_1_device_discovery_1a18428cb9bab04204c46760636d336c56" kindref="member">Enumerate()</ref> (avoids re-enumeration). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="84" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_discovery_1accc9448f57dddbd5a53ddd4d2a1e4d77" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref></type>
+        <definition>static DeviceInfo themis::gpu::DeviceDiscovery::GetBestDevice</definition>
+        <argsstring>()</argsstring>
+        <name>GetBestDevice</name>
+        <qualifiedname>themis::gpu::DeviceDiscovery::GetBestDevice</qualifiedname>
+        <briefdescription>
+<para>Convenience overload: enumerate then pick best. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="89" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_discovery_1a470b194ad3e733d1a4e156aa3eac788b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt;</type>
+        <definition>static std::vector&lt; DeviceInfo &gt; themis::gpu::DeviceDiscovery::GetHealthyDevices</definition>
+        <argsstring>(const std::vector&lt; DeviceInfo &gt; &amp;devices)</argsstring>
+        <name>GetHealthyDevices</name>
+        <qualifiedname>themis::gpu::DeviceDiscovery::GetHealthyDevices</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+        </param>
+        <briefdescription>
+<para>Return every device that reported is_healthy == true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="94" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_discovery_1a5b14ca9b791319cf54eccd06548b4233" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::gpu::DeviceDiscovery::HasGPU</definition>
+        <argsstring>(const std::vector&lt; DeviceInfo &gt; &amp;devices)</argsstring>
+        <name>HasGPU</name>
+        <qualifiedname>themis::gpu::DeviceDiscovery::HasGPU</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devices</declname>
+        </param>
+        <briefdescription>
+<para>True when at least one real (non-CPU-fallback) device is present and healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="101" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_discovery_1aa2aaeb9e35db13e4603a041fd67c8ac1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::gpu::DeviceDiscovery::HasGPU</definition>
+        <argsstring>()</argsstring>
+        <name>HasGPU</name>
+        <qualifiedname>themis::gpu::DeviceDiscovery::HasGPU</qualifiedname>
+        <briefdescription>
+<para>Convenience overload: enumerate then check. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/device_discovery.h" line="106" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>GPU device discovery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enumerates physical GPU devices available to the process. When no real GPU runtime is present (or when the edition forbids GPU use) an empty list or a single CPU-fallback sentinel is returned so that callers never have to null-check.</para>
+<sect1 id="classthemis_1_1gpu_1_1_device_discovery_1autotoc_md8_1s1"><sect2 id="classthemis_1_1gpu_1_1_device_discovery_1autotoc_md8">
+<title>Design notes</title><para><itemizedlist>
+<listitem><para>All methods are static; there is no device handle or runtime state kept inside this class.</para>
+</listitem><listitem><para>Real CUDA/ROCm integration is a future TODO guarded by THEMIS_ENABLE_CUDA / THEMIS_ENABLE_HIP compile-time defines.</para>
+</listitem><listitem><para>Currently returns a CPU-fallback sentinel device when no GPU runtime is present, which lets the memory manager and safe-fail logic operate without hardware. </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/device_discovery.h" line="65" column="1" bodyfile="include/themis/gpu/device_discovery.h" bodystart="65" bodyend="107"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_device_discovery_1a18428cb9bab04204c46760636d336c56" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceDiscovery</scope><name>Enumerate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_discovery_1a143a7e81c4dde6aed8c54a1d88476e24" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceDiscovery</scope><name>GetBestDevice</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_discovery_1accc9448f57dddbd5a53ddd4d2a1e4d77" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceDiscovery</scope><name>GetBestDevice</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_discovery_1a470b194ad3e733d1a4e156aa3eac788b" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceDiscovery</scope><name>GetHealthyDevices</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_discovery_1a5b14ca9b791319cf54eccd06548b4233" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceDiscovery</scope><name>HasGPU</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_discovery_1aa2aaeb9e35db13e4603a041fd67c8ac1" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceDiscovery</scope><name>HasGPU</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

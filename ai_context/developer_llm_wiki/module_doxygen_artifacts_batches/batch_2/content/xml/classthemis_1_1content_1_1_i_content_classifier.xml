@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_i_content_classifier" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::content::IContentClassifier</compoundname>
+    <includes refid="content__classifier_8h" local="no">content_classifier.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_classifier_1abe47cf2c83660c675716590e94fec9aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::content::IContentClassifier::~IContentClassifier</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IContentClassifier</name>
+        <qualifiedname>themis::content::IContentClassifier::~IContentClassifier</qualifiedname>
+        <briefdescription>
+<para>IContent Classifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="65" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_classifier_1ad723d8de67ba3dc392a06288cdde67f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_classification_result" kindref="compound">ContentClassificationResult</ref></type>
+        <definition>virtual ContentClassificationResult themis::content::IContentClassifier::classify</definition>
+        <argsstring>(const ContentClassificationRequest &amp;req)=0</argsstring>
+        <name>classify</name>
+        <qualifiedname>themis::content::IContentClassifier::classify</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_classification_request" kindref="compound">ContentClassificationRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Classify the semantic intent of a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="72" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_classifier_1ac605775496460d4e53e1fd9440d9366c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_classification_result" kindref="compound">ContentClassificationResult</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ContentClassificationResult &gt; themis::content::IContentClassifier::classifyBatch</definition>
+        <argsstring>(const std::vector&lt; ContentClassificationRequest &gt; &amp;requests)=0</argsstring>
+        <name>classifyBatch</name>
+        <qualifiedname>themis::content::IContentClassifier::classifyBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_classification_request" kindref="compound">ContentClassificationRequest</ref> &gt; &amp;</type>
+          <declname>requests</declname>
+        </param>
+        <briefdescription>
+<para>Classify Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requests</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="81" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_classifier_1a4cd72106d263645abc11451daa629b48" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::content::IContentClassifier::supportedTaxonomies</definition>
+        <argsstring>() const =0</argsstring>
+        <name>supportedTaxonomies</name>
+        <qualifiedname>themis::content::IContentClassifier::supportedTaxonomies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="85" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_classifier_1a9cfbd0b59cb62e0077ceecacbc44ef10" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::content::IContentClassifier::supportedLanguages</definition>
+        <argsstring>() const =0</argsstring>
+        <name>supportedLanguages</name>
+        <qualifiedname>themis::content::IContentClassifier::supportedLanguages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="87" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_classifier_1a572737bf327420581de70dbc421b8d4a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::content::IContentClassifier::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::content::IContentClassifier::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_classifier.h" line="89" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_classifier.h" line="59" column="1" bodyfile="include/content/content_classifier.h" bodystart="59" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_i_content_classifier_1ad723d8de67ba3dc392a06288cdde67f3" prot="public" virt="pure-virtual"><scope>themis::content::IContentClassifier</scope><name>classify</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_classifier_1ac605775496460d4e53e1fd9440d9366c" prot="public" virt="pure-virtual"><scope>themis::content::IContentClassifier</scope><name>classifyBatch</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_classifier_1a572737bf327420581de70dbc421b8d4a" prot="public" virt="pure-virtual"><scope>themis::content::IContentClassifier</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_classifier_1a9cfbd0b59cb62e0077ceecacbc44ef10" prot="public" virt="pure-virtual"><scope>themis::content::IContentClassifier</scope><name>supportedLanguages</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_classifier_1a4cd72106d263645abc11451daa629b48" prot="public" virt="pure-virtual"><scope>themis::content::IContentClassifier</scope><name>supportedTaxonomies</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_classifier_1abe47cf2c83660c675716590e94fec9aa" prot="public" virt="virtual"><scope>themis::content::IContentClassifier</scope><name>~IContentClassifier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__kernel__manager_8h" kind="file" language="C++">
+    <compoundname>gpu_kernel_manager.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">stdexcept</includes>
+    <includedby refid="gpu__kernel__manager_8cpp" local="yes">src/gpu/gpu_kernel_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/gpu/gpu_kernel_manager.h</label>
+        <link refid="gpu__kernel__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/gpu/gpu_kernel_manager.h</label>
+        <link refid="gpu__kernel__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/gpu/gpu_kernel_manager.cpp</label>
+        <link refid="gpu__kernel__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager" prot="public">themis::gpu::GPUKernelManager</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config" prot="public">themis::gpu::GPUKernelManager::Config</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_kernel_argument_buffer" prot="public">themis::gpu::KernelArgumentBuffer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>GPU kernel execution manager with move semantics support. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA </para>
+</simplesect>
+<simplesect kind="note"><para>Gap Categories: CWE-457 (uninitialized variable), CWE-415 (double-free), CWE-672 (use-after-free)</para>
+</simplesect>
+Provides:<itemizedlist>
+<listitem><para>RAII-based GPU kernel resource management</para>
+</listitem><listitem><para>Move constructors/assignment operators with noexcept guarantees</para>
+</listitem><listitem><para>Proper moved-from state validation</para>
+</listitem><listitem><para>GPU resource cleanup via std::unique_ptr</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>ThemisDB Remediation Roadmap: Sprint 8 Phase 1C </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_cuda_kernel_handle" kindref="compound">CudaKernelHandle</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a2b50d9a2b19851a83c821b5408e84aed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a2b50d9a2b19851a83c821b5408e84aed" kindref="member">block_size_x</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1ab2f912ba4b9a965ebfb1c6dc391c43cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1ab2f912ba4b9a965ebfb1c6dc391c43cd" kindref="member">block_size_y</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1af9460fa0afb4fe28abb0b6970f6ed000" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1af9460fa0afb4fe28abb0b6970f6ed000" kindref="member">block_size_z</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a5659031854261229713a8d8e77a1c7e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a5659031854261229713a8d8e77a1c7e5" kindref="member">grid_size_x</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1abced4989b07e5d425500c8bf550807df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1abced4989b07e5d425500c8bf550807df" kindref="member">grid_size_y</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1ada911fedb2638b471e3d2412827f0c21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1ada911fedb2638b471e3d2412827f0c21" kindref="member">grid_size_z</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a6f564165742f88ab2170a5a18a5d20a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1a6f564165742f88ab2170a5a18a5d20a2" kindref="member">shared_memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1af1afeffd128e65b930386735c70acc3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config_1af1afeffd128e65b930386735c70acc3d" kindref="member">priority</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref>()<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1adea3365ee01aba174f725ece04d29555" kindref="member">kernel_name</ref>,<sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ae407d93eb5e4f3e735abbeba8083ef95" kindref="member">device_id</ref>,<sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Move<sp/>semantics<sp/>(enabled)<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref>&amp;&amp;<sp/>other)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref>&amp;&amp;<sp/>other)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Copy<sp/>semantics<sp/>(deleted)<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1a6719faba036e182b9d3f78091b01b5f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref>(const<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1a28ebf26d54b63626b5a659aae54a1a7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ad4b29f9fc78923481b34191c486dc6ed" kindref="member">GPUKernelManager</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1a37372657afa489a6ce374b5eb64e3043" kindref="member">launch</ref>(const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>args)<sp/>const;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1a6b9a66acb99e0edb85343312f6a052e3" kindref="member">wait</ref>(uint32_t<sp/>timeout_ms<sp/>=<sp/>0)<sp/>const;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1a9a466adbc7895cd4562851eab969b972" kindref="member">is_running</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1a064486b239ffc54c6672781875050289" kindref="member">is_moved_from</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1a4df2117e5743359f6f714d0682f0bd3f" kindref="member">is_valid</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ae407d93eb5e4f3e735abbeba8083ef95" kindref="member">device_id</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1adea3365ee01aba174f725ece04d29555" kindref="member">kernel_name</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanup()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1gpu_1_1_cuda_kernel_handle" kindref="compound">CudaKernelHandle</ref>&gt;<sp/>handle_;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_kernel_manager_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_id_;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>kernel_name_;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_moved_from_;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1gpu_1_1_kernel_argument_buffer" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1aa9def33f13f12da8115864c18bda45c5" kindref="member">size</ref>,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1ae407d93eb5e4f3e735abbeba8083ef95" kindref="member">device_id</ref>);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">~KernelArgumentBuffer</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Move<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref>(<ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager_1adfb877d88c4aa2f74846f5c8ad6d6434" kindref="member">operator=</ref>(<ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1abb0c4629c745fe203e396cc2ce938577" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1abb0c4629c745fe203e396cc2ce938577" kindref="member">KernelArgumentBuffer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1aa51232036858bf01a5ed66b09634894e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1aa51232036858bf01a5ed66b09634894e" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a68f37a12393b18eb4ccb155b30fcc2bd" kindref="member">KernelArgumentBuffer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1ad5f301d92ccd61cd5d9915ebf9beffee" kindref="member">device_ptr</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1ad5f301d92ccd61cd5d9915ebf9beffee" kindref="member">device_ptr</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a7c9d2c87fd19b130391865f8501568ed" kindref="member">host_ptr</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a834645eab60b7bc7d352a308021c8553" kindref="member">upload</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a3c5d03731b3af43b3248cfe2f071d7cc" kindref="member">download</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1aa9def33f13f12da8115864c18bda45c5" kindref="member">size</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_argument_buffer_1a28b3358ee0ed86056f4a9433f9b4bd6c" kindref="member">is_valid</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanup()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>device_ptr_;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>host_ptr_;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_id_;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_moved_from_;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/gpu/gpu_kernel_manager.h"/>
+  </compounddef>
+</doxygen>

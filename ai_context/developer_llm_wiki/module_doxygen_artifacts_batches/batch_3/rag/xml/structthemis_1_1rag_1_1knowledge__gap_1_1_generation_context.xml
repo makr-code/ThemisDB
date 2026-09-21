@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::knowledge_gap::GenerationContext</compoundname>
+    <includes refid="knowledge__gap__detector_8h" local="no">knowledge_gap_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context_1a970a4ae6f14facbb67a2c7d9e44e0067" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::GenerationContext::token_probability_avg</definition>
+        <argsstring></argsstring>
+        <name>token_probability_avg</name>
+        <qualifiedname>themis::rag::knowledge_gap::GenerationContext::token_probability_avg</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Average token probability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="70" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context_1a81b3e697ab9746aead08364cf80b6c87" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::GenerationContext::perplexity</definition>
+        <argsstring></argsstring>
+        <name>perplexity</name>
+        <qualifiedname>themis::rag::knowledge_gap::GenerationContext::perplexity</qualifiedname>
+        <briefdescription>
+<para>Generation perplexity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="71" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context_1a84a522320d7edb0014fe52fc042d9ec1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::rag::knowledge_gap::GenerationContext::token_probs</definition>
+        <argsstring></argsstring>
+        <name>token_probs</name>
+        <qualifiedname>themis::rag::knowledge_gap::GenerationContext::token_probs</qualifiedname>
+        <briefdescription>
+<para>Per-token probabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="72" column="17" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context_1a92bcfbfd1f64d7970e6311764137d99c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::GenerationContext::generation_started</definition>
+        <argsstring></argsstring>
+        <name>generation_started</name>
+        <qualifiedname>themis::rag::knowledge_gap::GenerationContext::generation_started</qualifiedname>
+        <briefdescription>
+<para>Whether generation has begun. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="73" column="10" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Context for generation and gap detection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_gap_detector.h" line="69" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="69" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context_1a92bcfbfd1f64d7970e6311764137d99c" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::GenerationContext</scope><name>generation_started</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context_1a81b3e697ab9746aead08364cf80b6c87" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::GenerationContext</scope><name>perplexity</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context_1a970a4ae6f14facbb67a2c7d9e44e0067" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::GenerationContext</scope><name>token_probability_avg</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_generation_context_1a84a522320d7edb0014fe52fc042d9ec1" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::GenerationContext</scope><name>token_probs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

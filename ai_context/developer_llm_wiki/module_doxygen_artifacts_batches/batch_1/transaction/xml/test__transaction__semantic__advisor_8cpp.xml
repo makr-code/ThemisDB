@@ -1,0 +1,482 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__transaction__semantic__advisor_8cpp" kind="file" language="C++">
+    <compoundname>test_transaction_semantic_advisor.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="transaction__semantic__advisor_8h" local="yes">transaction/transaction_semantic_advisor.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>transaction/transaction_semantic_advisor.h</label>
+        <link refid="transaction__semantic__advisor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/transaction/test_transaction_semantic_advisor.cpp</label>
+        <link refid="test__transaction__semantic__advisor_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>llm/decision_record_yaml_processor.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="test__transaction__semantic__advisor_8cpp_1a573973aed65cc1649c70543b47d7026f" prot="public" static="no">
+        <type><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93b" kindref="member">TransactionContext::OperationType</ref></type>
+        <definition>using Op = TransactionContext::OperationType</definition>
+        <argsstring></argsstring>
+        <name>Op</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor.cpp" line="22" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__transaction__semantic__advisor_8cpp_1a71f662fa2f49dfbd8bfe6491c4d204ed" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref></type>
+        <definition>static TransactionContext makeTx</definition>
+        <argsstring>(const std::string &amp;id, std::map&lt; std::string, std::string &gt; entities, Op op=Op::WRITE)</argsstring>
+        <name>makeTx</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93b" kindref="member">Op</ref></type>
+          <declname>op</declname>
+          <defval>Op::WRITE</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor.cpp" line="27" column="27" bodyfile="tests/transaction/test_transaction_semantic_advisor.cpp" bodystart="27" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor_8cpp_1a53fc0312837aa3e3020fe8ce84d8cd37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorTest, DisjointEntitiesNoHints)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorTest</type>
+        </param>
+        <param>
+          <type>DisjointEntitiesNoHints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor.cpp" line="42" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor.cpp" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor_8cpp_1a816aba8262ead3b258417f227f2fcea8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorTest, SameEntityGrouped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorTest</type>
+        </param>
+        <param>
+          <type>SameEntityGrouped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor.cpp" line="59" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor.cpp" bodystart="59" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor_8cpp_1a5812300adf3c699b3104003b8475feff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorTest, DisjointConflictProbabilityLow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorTest</type>
+        </param>
+        <param>
+          <type>DisjointConflictProbabilityLow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor.cpp" line="78" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor.cpp" bodystart="78" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor_8cpp_1a0b2aedccde8d2abc2382074c0111ea77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorTest, CompetingWritesHighConflict)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorTest</type>
+        </param>
+        <param>
+          <type>CompetingWritesHighConflict</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor.cpp" line="98" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor.cpp" bodystart="98" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor_8cpp_1a764891c81b2bac4e046bc77a0fa86e99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorTest, MixedBatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorTest</type>
+        </param>
+        <param>
+          <type>MixedBatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor.cpp" line="116" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor.cpp" bodystart="116" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor_8cpp_1a52241cc5711fceb6a3fd143a71b30268" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorTest, SuggestDeferralNoConflict)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorTest</type>
+        </param>
+        <param>
+          <type>SuggestDeferralNoConflict</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor.cpp" line="159" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor.cpp" bodystart="159" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor_8cpp_1afeb4fe4b41fd261129d1b7fbd8e5e3b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorTest, SuggestDeferralWithConflict)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorTest</type>
+        </param>
+        <param>
+          <type>SuggestDeferralWithConflict</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor.cpp" line="173" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor.cpp" bodystart="173" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__semantic__advisor_8cpp_1a4a01938995843b85724631639d42f413" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TransactionSemanticAdvisorTest, AnalyzeBatchNonBlocking)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TransactionSemanticAdvisorTest</type>
+        </param>
+        <param>
+          <type>AnalyzeBatchNonBlocking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_semantic_advisor.cpp" line="187" column="1" bodyfile="tests/transaction/test_transaction_semantic_advisor.cpp" bodystart="187" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB<sp/>—<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMPL-B5<sp/>/<sp/>S-6:<sp/>TransactionSemanticAdvisor<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TSA-01<sp/><sp/>analyzeBatch()<sp/>returns<sp/>empty<sp/>hints<sp/>for<sp/>fully<sp/>disjoint<sp/>entities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TSA-02<sp/><sp/>analyzeBatch()<sp/>groups<sp/>transactions<sp/>with<sp/>identical<sp/>entity<sp/>keys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TSA-03<sp/><sp/>conflict_probability<sp/>&lt;<sp/>0.1<sp/>for<sp/>disjoint<sp/>entities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TSA-04<sp/><sp/>conflict_probability<sp/>&gt;<sp/>0.7<sp/>for<sp/>same<sp/>entity<sp/>+<sp/>competing<sp/>WRITEs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TSA-05<sp/><sp/>analyzeBatch()<sp/>handles<sp/>a<sp/>mixed<sp/>batch<sp/>(affine<sp/>+<sp/>disjoint)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TSA-06<sp/><sp/>suggestDeferral()<sp/>returns<sp/>0<sp/>ms<sp/>when<sp/>no<sp/>write<sp/>conflict<sp/>exists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TSA-07<sp/><sp/>suggestDeferral()<sp/>returns<sp/>non-zero<sp/>deferral<sp/>when<sp/>write<sp/>conflict<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TSA-08<sp/><sp/>advisory<sp/>is<sp/>non-blocking:<sp/>analyzeBatch(100<sp/>txs)<sp/>completes<sp/>within<sp/>10<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="transaction__semantic__advisor_8h" kindref="compound">transaction/transaction_semantic_advisor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">themis::transaction</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__transaction__semantic__advisor_8cpp_1a573973aed65cc1649c70543b47d7026f" kindref="member">Op</ref><sp/>=<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93b" kindref="member">TransactionContext::OperationType</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>makeTx(</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>entities,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__transaction__semantic__advisor_8cpp_1a573973aed65cc1649c70543b47d7026f" kindref="member">Op</ref><sp/>op<sp/>=<sp/>Op::WRITE)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>tx;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" kindref="member">tx_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" kindref="member">entity_map</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::move(entities);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" kindref="member">operation_type</ref><sp/>=<sp/>op;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tx;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TSA-01<sp/><sp/>Disjoint<sp/>entities<sp/>→<sp/>no<sp/>hints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__transaction__semantic__advisor_8cpp_1a53fc0312837aa3e3020fe8ce84d8cd37" kindref="member">TEST</ref>(TransactionSemanticAdvisorTest,<sp/>DisjointEntitiesNoHints)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TransactionContext&gt;<sp/>txs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-A&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-B&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;inventory&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;7&quot;</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-C&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;order&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;99&quot;</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hints<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>(txs);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hints.empty());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TSA-02<sp/><sp/>Same<sp/>entity<sp/>keys<sp/>→<sp/>grouped<sp/>into<sp/>a<sp/>hint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__transaction__semantic__advisor_8cpp_1a53fc0312837aa3e3020fe8ce84d8cd37" kindref="member">TEST</ref>(TransactionSemanticAdvisorTest,<sp/>SameEntityGrouped)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TransactionContext&gt;<sp/>txs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-A&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-B&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hints<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>(txs);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(hints.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hints[0].primary_tx_id,<sp/></highlight><highlight class="stringliteral">&quot;tx-A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(hints[0].affine_tx_ids.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hints[0].affine_tx_ids[0],<sp/></highlight><highlight class="stringliteral">&quot;tx-B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TSA-03<sp/><sp/>Disjoint<sp/>entity<sp/>maps<sp/>→<sp/>conflict_probability<sp/>&lt;<sp/>0.1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__transaction__semantic__advisor_8cpp_1a53fc0312837aa3e3020fe8ce84d8cd37" kindref="member">TEST</ref>(TransactionSemanticAdvisorTest,<sp/>DisjointConflictProbabilityLow)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>transactions<sp/>that<sp/>share<sp/>no<sp/>entities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TransactionContext&gt;<sp/>txs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-X&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-Y&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;inventory&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2&quot;</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hints<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>(txs);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>affinity<sp/>→<sp/>no<sp/>hints<sp/>→<sp/>implicitly<sp/>conflict_probability<sp/>==<sp/>0<sp/>for<sp/>all<sp/>pairs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>h<sp/>:<sp/>hints)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(h.conflict_probability,<sp/>0.1);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TSA-04<sp/><sp/>Same<sp/>entity<sp/>+<sp/>competing<sp/>WRITEs<sp/>→<sp/>conflict_probability<sp/>&gt;<sp/>0.7</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__transaction__semantic__advisor_8cpp_1a53fc0312837aa3e3020fe8ce84d8cd37" kindref="member">TEST</ref>(TransactionSemanticAdvisorTest,<sp/>CompetingWritesHighConflict)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TransactionContext&gt;<sp/>txs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-W1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;inventory&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;7&quot;</highlight><highlight class="normal">}},<sp/>Op::WRITE),</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-W2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;inventory&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;7&quot;</highlight><highlight class="normal">}},<sp/>Op::WRITE),</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hints<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>(txs);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(hints.empty());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(hints[0].conflict_probability,<sp/>0.7);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hints[0].reason,<sp/></highlight><highlight class="stringliteral">&quot;same_entity_competing_writes&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TSA-05<sp/><sp/>Mixed<sp/>batch:<sp/>some<sp/>affine,<sp/>some<sp/>disjoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__transaction__semantic__advisor_8cpp_1a53fc0312837aa3e3020fe8ce84d8cd37" kindref="member">TEST</ref>(TransactionSemanticAdvisorTest,<sp/>MixedBatch)</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tx-A<sp/>and<sp/>tx-B<sp/>share<sp/>&quot;user:42&quot;;<sp/>tx-C<sp/>is<sp/>fully<sp/>disjoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TransactionContext&gt;<sp/>txs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-A&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}},<sp/>Op::READ),</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-B&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}},<sp/>Op::READ),</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-C&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;product&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;99&quot;</highlight><highlight class="normal">}},<sp/>Op::WRITE),</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hints<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>(txs);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tx-C<sp/>should<sp/>not<sp/>appear<sp/>in<sp/>any<sp/>hint<sp/>because<sp/>it<sp/>shares<sp/>no<sp/>entity<sp/>with<sp/>A<sp/>or<sp/>B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>c_in_hint<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>h<sp/>:<sp/>hints)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(h.primary_tx_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;tx-C&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c_in_hint<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>:<sp/>h.affine_tx_ids)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;tx-C&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c_in_hint<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c_in_hint);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tx-A<sp/>and<sp/>tx-B<sp/>should<sp/>appear<sp/>together</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ab_grouped<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>h<sp/>:<sp/>hints)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(h.primary_tx_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;tx-A&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>:<sp/>h.affine_tx_ids)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;tx-B&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ab_grouped<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ab_grouped);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TSA-06<sp/><sp/>suggestDeferral()<sp/>→<sp/>0<sp/>ms<sp/>when<sp/>no<sp/>write<sp/>conflict</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__transaction__semantic__advisor_8cpp_1a53fc0312837aa3e3020fe8ce84d8cd37" kindref="member">TEST</ref>(TransactionSemanticAdvisorTest,<sp/>SuggestDeferralNoConflict)</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>tx<sp/><sp/>=<sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-me&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">}},<sp/>Op::WRITE);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>other<sp/>=<sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-other&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2&quot;</highlight><highlight class="normal">}},<sp/>Op::WRITE);<sp/></highlight><highlight class="comment">//<sp/>diff<sp/>entity<sp/>id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deferral<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ac43204391456a9965df19e8ece532ffb" kindref="member">suggestDeferral</ref>(tx,<sp/>{other});</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(deferral.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TSA-07<sp/><sp/>suggestDeferral()<sp/>→<sp/>non-zero<sp/>when<sp/>write<sp/>conflict<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__transaction__semantic__advisor_8cpp_1a53fc0312837aa3e3020fe8ce84d8cd37" kindref="member">TEST</ref>(TransactionSemanticAdvisorTest,<sp/>SuggestDeferralWithConflict)</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>tx<sp/><sp/><sp/><sp/>=<sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-me&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;inventory&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;7&quot;</highlight><highlight class="normal">}},<sp/>Op::WRITE);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>other<sp/>=<sp/>makeTx(</highlight><highlight class="stringliteral">&quot;tx-other&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;inventory&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;7&quot;</highlight><highlight class="normal">}},<sp/>Op::WRITE);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deferral<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ac43204391456a9965df19e8ece532ffb" kindref="member">suggestDeferral</ref>(tx,<sp/>{other});</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(deferral.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TSA-08<sp/><sp/>Non-blocking:<sp/>analyzeBatch(100<sp/>txs)<sp/>≤<sp/>10<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__transaction__semantic__advisor_8cpp_1a53fc0312837aa3e3020fe8ce84d8cd37" kindref="member">TEST</ref>(TransactionSemanticAdvisorTest,<sp/>AnalyzeBatchNonBlocking)</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" kindref="compound">TransactionSemanticAdvisor</ref><sp/>advisor;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>100<sp/>transactions<sp/>with<sp/>diverse<sp/>entities<sp/>to<sp/>avoid<sp/>trivial<sp/>fast-exit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TransactionContext&gt;<sp/>txs;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>txs.reserve(100);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Half<sp/>share<sp/>entity<sp/>&quot;user:42&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>txs.push_back(makeTx(</highlight><highlight class="stringliteral">&quot;tx-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}},<sp/>Op::WRITE));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>50;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>txs.push_back(makeTx(</highlight><highlight class="stringliteral">&quot;tx-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;product&quot;</highlight><highlight class="normal">,<sp/>std::to_string(i)}},<sp/>Op::READ));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hints<sp/>=<sp/>advisor.<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>(txs);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now()<sp/>-<sp/>t0).count();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)hints;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(elapsed,<sp/>10)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;analyzeBatch<sp/>took<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>elapsed<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms<sp/>(limit:<sp/>10<sp/>ms)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/transaction/test_transaction_semantic_advisor.cpp"/>
+  </compounddef>
+</doxygen>

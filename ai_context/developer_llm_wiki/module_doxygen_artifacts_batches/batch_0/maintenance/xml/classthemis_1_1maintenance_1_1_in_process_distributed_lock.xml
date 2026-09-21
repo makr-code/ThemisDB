@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1maintenance_1_1_in_process_distributed_lock" kind="class" language="C++" prot="public">
+    <compoundname>themis::maintenance::InProcessDistributedLock</compoundname>
+    <basecompoundref refid="classthemis_1_1maintenance_1_1_i_distributed_lock" prot="public" virt="non-virtual">themis::maintenance::IDistributedLock</basecompoundref>
+    <includes refid="i__distributed__lock_8h" local="no">i_distributed_lock.h</includes>
+    <innerclass refid="structthemis_1_1maintenance_1_1_in_process_distributed_lock_1_1_lock_entry" prot="private">themis::maintenance::InProcessDistributedLock::LockEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1acbac34bbe5661447f37dfa3e6baf972d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::InProcessDistributedLock::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themis::maintenance::InProcessDistributedLock::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_distributed_lock.h" line="139" column="17" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a3ef01c66ad965671b930eb88c6ad6358" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::maintenance::InProcessDistributedLock::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::maintenance::InProcessDistributedLock::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_distributed_lock.h" line="140" column="24" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1ac102af5dc5466ecaa2fbaa7a88d854ae" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, LockEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LockEntry&gt; themis::maintenance::InProcessDistributedLock::locks_</definition>
+        <argsstring></argsstring>
+        <name>locks_</name>
+        <qualifiedname>themis::maintenance::InProcessDistributedLock::locks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_distributed_lock.h" line="141" column="24" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a960029ea3fecbc42b778be1e29989097" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::InProcessDistributedLock::InProcessDistributedLock</definition>
+        <argsstring>(std::string node_id=&quot;local-node&quot;)</argsstring>
+        <name>InProcessDistributedLock</name>
+        <qualifiedname>themis::maintenance::InProcessDistributedLock::InProcessDistributedLock</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>node_id</declname>
+          <defval>&quot;local-node&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_distributed_lock.h" line="90" column="14" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="90" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a4ecb88a3612a2c307ade797518724b7a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::maintenance::InProcessDistributedLock::tryAcquire</definition>
+        <argsstring>(const std::string &amp;key, int64_t ttl_ms) override</argsstring>
+        <name>tryAcquire</name>
+        <qualifiedname>themis::maintenance::InProcessDistributedLock::tryAcquire</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_distributed_lock_1a3190862489e8902b70f6b02a49fd73e4">tryAcquire</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ttl_ms</declname>
+        </param>
+        <briefdescription>
+<para>Try to acquire the lock for <computeroutput>key</computeroutput> with the given TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Non-blocking: returns immediately with <computeroutput>true</computeroutput> (acquired) or <computeroutput>false</computeroutput> (held by another node or a prior acquisition by this node has not yet expired).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lock key; typically the schedule ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ttl_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time-to-live in milliseconds. The lock is automatically released after this duration even if <computeroutput><ref refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a737423a79df5fde1d083017e7d0a7d8f" kindref="member">release()</ref></computeroutput> is never called — prevents orphaned locks when a node crashes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if this node successfully acquired the lock. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_distributed_lock.h" line="93" column="10" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="93" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a737423a79df5fde1d083017e7d0a7d8f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::InProcessDistributedLock::release</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::maintenance::InProcessDistributedLock::release</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_distributed_lock_1a11c4fefd85cf92aae8a9e023726686f8">release</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Release the lock for <computeroutput>key</computeroutput> previously acquired by this node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A no-op when this node does not currently hold the lock.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lock key to release. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_distributed_lock.h" line="114" column="10" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="114" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1acd63d140de523de31290b5b40f5014e1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::InProcessDistributedLock::getHolderNodeId</definition>
+        <argsstring>(const std::string &amp;key) const override</argsstring>
+        <name>getHolderNodeId</name>
+        <qualifiedname>themis::maintenance::InProcessDistributedLock::getHolderNodeId</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_distributed_lock_1a769eba22848aabf9c9faea706c617799">getHolderNodeId</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Return the node ID currently holding the lock for <computeroutput>key</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used only for logging (&quot;schedule {id} skipped — lock held by peer {node_id}&quot;).</para>
+<para><simplesect kind="return"><para>Node ID string, or empty string if the lock is not currently held (e.g. expired or never acquired). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_distributed_lock.h" line="122" column="17" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="122" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1ae120b4f4591814bc307a4559b2ee2edd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::InProcessDistributedLock::nodeId</definition>
+        <argsstring>() const override</argsstring>
+        <name>nodeId</name>
+        <qualifiedname>themis::maintenance::InProcessDistributedLock::nodeId</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_distributed_lock_1a16400a9d809cf05906d5558eff9c7e52">nodeId</reimplements>
+        <briefdescription>
+<para>Return the identifier of this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/i_distributed_lock.h" line="131" column="17" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single-process implementation of <ref refid="classthemis_1_1maintenance_1_1_i_distributed_lock" kindref="compound">IDistributedLock</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Suitable for unit tests and single-node deployments where true distributed coordination is not required. Lock state is stored in an in-process map protected by a std::mutex; TTL expiry is checked on each <computeroutput><ref refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a4ecb88a3612a2c307ade797518724b7a" kindref="member">tryAcquire</ref></computeroutput> call.</para>
+<para>Thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::maintenance::IDistributedLock</label>
+        <link refid="classthemis_1_1maintenance_1_1_i_distributed_lock"/>
+      </node>
+      <node id="1">
+        <label>themis::maintenance::InProcessDistributedLock</label>
+        <link refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::maintenance::IDistributedLock</label>
+        <link refid="classthemis_1_1maintenance_1_1_i_distributed_lock"/>
+      </node>
+      <node id="1">
+        <label>themis::maintenance::InProcessDistributedLock</label>
+        <link refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/maintenance/i_distributed_lock.h" line="88" column="1" bodyfile="include/maintenance/i_distributed_lock.h" bodystart="88" bodyend="142"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1acd63d140de523de31290b5b40f5014e1" prot="public" virt="virtual"><scope>themis::maintenance::InProcessDistributedLock</scope><name>getHolderNodeId</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a960029ea3fecbc42b778be1e29989097" prot="public" virt="non-virtual"><scope>themis::maintenance::InProcessDistributedLock</scope><name>InProcessDistributedLock</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1ac102af5dc5466ecaa2fbaa7a88d854ae" prot="private" virt="non-virtual"><scope>themis::maintenance::InProcessDistributedLock</scope><name>locks_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a3ef01c66ad965671b930eb88c6ad6358" prot="private" virt="non-virtual"><scope>themis::maintenance::InProcessDistributedLock</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1acbac34bbe5661447f37dfa3e6baf972d" prot="private" virt="non-virtual"><scope>themis::maintenance::InProcessDistributedLock</scope><name>node_id_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1ae120b4f4591814bc307a4559b2ee2edd" prot="public" virt="virtual"><scope>themis::maintenance::InProcessDistributedLock</scope><name>nodeId</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a737423a79df5fde1d083017e7d0a7d8f" prot="public" virt="virtual"><scope>themis::maintenance::InProcessDistributedLock</scope><name>release</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_in_process_distributed_lock_1a4ecb88a3612a2c307ade797518724b7a" prot="public" virt="virtual"><scope>themis::maintenance::InProcessDistributedLock</scope><name>tryAcquire</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_i_distributed_lock_1aacaa5999673ef23c015ea3cd29b1d550" prot="public" virt="virtual"><scope>themis::maintenance::InProcessDistributedLock</scope><name>~IDistributedLock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

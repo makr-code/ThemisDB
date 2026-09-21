@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_result_cache" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::ResultCache</compoundname>
+    <includes refid="result__cache_8h" local="no">result_cache.h</includes>
+    <innerclass refid="structthemis_1_1cache_1_1_result_cache_1_1_key" prot="public">themis::cache::ResultCache::Key</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_result_cache_1_1_entry" prot="public">themis::cache::ResultCache::Entry</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_result_cache_1a1b5a2e5d5844918c3e18d41d78f87530" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::ResultCache::~ResultCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ResultCache</name>
+        <qualifiedname>themis::cache::ResultCache::~ResultCache</qualifiedname>
+        <briefdescription>
+<para>Result Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/result_cache.h" line="28" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_result_cache_1a0e56f1722abe5dd136b98cd4ee3307c9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1cache_1_1_result_cache_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+        <definition>virtual std::optional&lt; Entry &gt; themis::cache::ResultCache::Get</definition>
+        <argsstring>(const Key &amp;k) const =0</argsstring>
+        <name>Get</name>
+        <qualifiedname>themis::cache::ResultCache::Get</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_result_cache_1_1_key" kindref="compound">Key</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/result_cache.h" line="44" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_result_cache_1a79411be5cb797b8d6e61152c77952db3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::ResultCache::Put</definition>
+        <argsstring>(const Key &amp;k, const Entry &amp;e)=0</argsstring>
+        <name>Put</name>
+        <qualifiedname>themis::cache::ResultCache::Put</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_result_cache_1_1_key" kindref="compound">Key</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_result_cache_1_1_entry" kindref="compound">Entry</ref> &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/result_cache.h" line="50" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_result_cache_1aa0c018ed4368af3b8b16e3dafaa8a8cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::ResultCache::InvalidatePlan</definition>
+        <argsstring>(const std::string &amp;plan_hash)=0</argsstring>
+        <name>InvalidatePlan</name>
+        <qualifiedname>themis::cache::ResultCache::InvalidatePlan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plan_hash</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/result_cache.h" line="55" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/result_cache.h" line="22" column="1" bodyfile="include/cache/result_cache.h" bodystart="22" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_result_cache_1a0e56f1722abe5dd136b98cd4ee3307c9" prot="public" virt="pure-virtual"><scope>themis::cache::ResultCache</scope><name>Get</name></member>
+      <member refid="classthemis_1_1cache_1_1_result_cache_1aa0c018ed4368af3b8b16e3dafaa8a8cd" prot="public" virt="pure-virtual"><scope>themis::cache::ResultCache</scope><name>InvalidatePlan</name></member>
+      <member refid="classthemis_1_1cache_1_1_result_cache_1a79411be5cb797b8d6e61152c77952db3" prot="public" virt="pure-virtual"><scope>themis::cache::ResultCache</scope><name>Put</name></member>
+      <member refid="classthemis_1_1cache_1_1_result_cache_1a1b5a2e5d5844918c3e18d41d78f87530" prot="public" virt="virtual"><scope>themis::cache::ResultCache</scope><name>~ResultCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,423 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__security_8h" kind="file" language="C++">
+    <compoundname>voice_security.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="voice__assistant_8h" local="yes">include/voice/voice_assistant.h</includedby>
+    <includedby refid="voice__security_8cpp" local="yes">src/voice/voice_security.cpp</includedby>
+    <includedby refid="test__phase3__error__handling_8cpp" local="yes">tests/voice/test_phase3_error_handling.cpp</includedby>
+    <includedby refid="test__voice__assistant__verify_identify__qw38_8cpp" local="yes">tests/voice/test_voice_assistant_verifyIdentify_qw38.cpp</includedby>
+    <includedby refid="test__voice__coverage_8cpp" local="yes">tests/voice/test_voice_coverage.cpp</includedby>
+    <includedby refid="test__voice__production_8cpp" local="yes">tests/voice/test_voice_production.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_security.h</label>
+        <link refid="voice__security_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/voice/bench_voice_assistant.cpp</label>
+        <link refid="bench__voice__assistant_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/voice/voice_assistant.h</label>
+        <link refid="voice__assistant_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/voice/voice_security.h</label>
+        <link refid="voice__security_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/voice/voice_assistant.cpp</label>
+        <link refid="voice__assistant_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/voice/voice_assistant_llm.cpp</label>
+        <link refid="voice__assistant__llm_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/voice/voice_security.cpp</label>
+        <link refid="voice__security_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/voice/test_phase3_error_handling.cpp</label>
+        <link refid="test__phase3__error__handling_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/voice/test_voice_api_handler.cpp</label>
+        <link refid="test__voice__api__handler_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/voice/test_voice_assistant.cpp</label>
+        <link refid="test__voice__assistant_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp</label>
+        <link refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/voice/test_voice_assistant_verifyIdentify_qw38.cpp</label>
+        <link refid="test__voice__assistant__verify_identify__qw38_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/voice/test_voice_coverage.cpp</label>
+        <link refid="test__voice__coverage_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/voice/test_voice_production.cpp</label>
+        <link refid="test__voice__production_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_redaction_result" prot="public">themis::voice::RedactionResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_consent_record" prot="public">themis::voice::ConsentRecord</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_audit_entry" prot="public">themis::voice::VoiceAuditEntry</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_data_deletion_request" prot="public">themis::voice::DataDeletionRequest</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_data_deletion_result" prot="public">themis::voice::DataDeletionResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_rate_limiter_config" prot="public">themis::voice::RateLimiterConfig</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_security_denial_entry" prot="public">themis::voice::SecurityDenialEntry</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_security_config" prot="public">themis::voice::VoiceSecurityConfig</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_security_manager" prot="public">themis::voice::VoiceSecurityManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Voice Security &amp; Privacy — Frozen API Contract for Phase 1. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>v1.0 frozen as of 2026-08-08</para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Design/API Contract Frozen (Phase 1)</para>
+</simplesect>
+</para>
+<sect1 id="voice__security_8h_1autotoc_md24_1s1"><sect2 id="voice__security_8h_1autotoc_md24">
+<title>Security Guarantees (Frozen)</title><para><bold>PII Detection &amp; Redaction (Frozen Types):</bold><itemizedlist>
+<listitem><para>PHONE_NUMBER: Pattern-based detection + masking</para>
+</listitem><listitem><para>EMAIL_ADDRESS: RFC 5322 patterns + masking</para>
+</listitem><listitem><para>CREDIT_CARD: Luhn validation + masking</para>
+</listitem><listitem><para>SSN: 9-digit patterns + masking</para>
+</listitem><listitem><para>IP_ADDRESS: IPv4/IPv6 + masking</para>
+</listitem><listitem><para>PERSON_NAME: NER-based detection</para>
+</listitem><listitem><para>MEDICAL_INFO: Regex patterns</para>
+</listitem><listitem><para>CUSTOM: User-defined patterns</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Consent Tracking (Frozen Consent Types):</bold><itemizedlist>
+<listitem><para>recording_consent: May record audio</para>
+</listitem><listitem><para>transcription_consent: May transcribe</para>
+</listitem><listitem><para>data_retention_consent: May retain beyond session</para>
+</listitem><listitem><para>analytics_consent: May use for analytics/training</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Audit Logging Contract (Frozen Event Types):</bold> Every access, modification, or deletion is logged with:<itemizedlist>
+<listitem><para>event_type: (e.g., &quot;session_created&quot;, &quot;transcription_generated&quot;)</para>
+</listitem><listitem><para>user_id: Actor performing action</para>
+</listitem><listitem><para>action: (create, read, update, delete)</para>
+</listitem><listitem><para>resource: (session_id, profile_id, recording_id)</para>
+</listitem><listitem><para>success: true/false</para>
+</listitem><listitem><para>timestamp_ms: Wall-clock milliseconds</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Data Deletion (GDPR/CCPA) — Frozen Semantics:</bold> deleteUserData() triggers:<orderedlist>
+<listitem><para>Recording files deleted</para>
+</listitem><listitem><para>Transcripts redacted/deleted</para>
+</listitem><listitem><para>Sessions terminated</para>
+</listitem><listitem><para>Analytics records cleared (optional) Deletion is irreversible.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="voice__security_8h_1autotoc_md25_1s1"><sect2 id="voice__security_8h_1autotoc_md25">
+<title>Error Codes (Voice Module — Security)</title><para><itemizedlist>
+<listitem><para>7010: PII detection/redaction error</para>
+</listitem><listitem><para>7011: Consent record not found</para>
+</listitem><listitem><para>7012: Consent revoked</para>
+</listitem><listitem><para>7013: Audit logging failed</para>
+</listitem><listitem><para>7014: Data deletion failed</para>
+</listitem><listitem><para>7015: Privacy policy violation</para>
+</listitem><listitem><para>7016-7099: Reserved for privacy-related errors</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="voice__security_8h_1autotoc_md26_1s1"><sect2 id="voice__security_8h_1autotoc_md26">
+<title>Thread Safety</title><para>VoiceSecurityManager is thread-safe (internal mutex). Consent records and audit logs are protected. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Security,<sp/>privacy,<sp/>and<sp/>compliance<sp/>for<sp/>Phase<sp/>7<sp/>production<sp/>readiness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PHASE<sp/>1<sp/>CONTRACT<sp/>FREEZE:<sp/>This<sp/>file<sp/>documents<sp/>immutable<sp/>security<sp/>&amp;<sp/>privacy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contracts<sp/>including<sp/>PII<sp/>detection,<sp/>consent<sp/>management,<sp/>audit<sp/>logging,<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GDPR/CCPA-compliant<sp/>data<sp/>deletion.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PII<sp/>types<sp/>for<sp/>redaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827" kindref="member">PIIType</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a837697b230ef5a34d756f4ea8f3810bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a837697b230ef5a34d756f4ea8f3810bc" kindref="member">PHONE_NUMBER</ref>,</highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827afb49ca06e9d31da1c2c1eeb7ae47a0d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827afb49ca06e9d31da1c2c1eeb7ae47a0d7" kindref="member">EMAIL_ADDRESS</ref>,</highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a23a27a41c4dad3ef8c54f896b77f9056" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a23a27a41c4dad3ef8c54f896b77f9056" kindref="member">CREDIT_CARD</ref>,</highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a8fe59663630697bb628e4de0d1592cdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a8fe59663630697bb628e4de0d1592cdc" kindref="member">SSN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Social<sp/>Security<sp/>Number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827ab3e03bb42ca194c075e80b94ec97b484" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827ab3e03bb42ca194c075e80b94ec97b484" kindref="member">IP_ADDRESS</ref>,</highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827aef932ad40153d770661681c0976d16ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827aef932ad40153d770661681c0976d16ac" kindref="member">PERSON_NAME</ref>,</highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827aabafb36f39f87d29e490d551059b9ace" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827aabafb36f39f87d29e490d551059b9ace" kindref="member">MEDICAL_INFO</ref>,</highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a72baef04098f035e8a320b03ad197818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a72baef04098f035e8a320b03ad197818" kindref="member">CUSTOM</ref></highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1voice_1a141c0b266e2db8c50bd78f315c594063" kindref="member">piiTypeToString</ref>(<ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827" kindref="member">PIIType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redaction<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1voice_1_1_redaction_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_redaction_result" kindref="compound">RedactionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1voice_1_1_redaction_result_1a06d4d11fdc343077e194db6833560f06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_redaction_result_1a06d4d11fdc343077e194db6833560f06" kindref="member">redacted_text</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1voice_1_1_redaction_result_1ad014234d893a840310c0e25b3858d265" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;PIIType,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemis_1_1voice_1_1_redaction_result_1ad014234d893a840310c0e25b3858d265" kindref="member">found_pii</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>type<sp/>+<sp/>original<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1voice_1_1_redaction_result_1a1d7f76e91ddb85cbbf7f63be1dbce159" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_redaction_result_1a1d7f76e91ddb85cbbf7f63be1dbce159" kindref="member">redaction_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1voice_1_1_redaction_result_1a3bf71599332f7883da604a482fb7d1c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_redaction_result_1a3bf71599332f7883da604a482fb7d1c8" kindref="member">has_pii</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Consent<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1voice_1_1_consent_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_consent_record" kindref="compound">ConsentRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1voice_1_1_consent_record_1a1a4619c09bab7c1d99f7a3676faebbde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_consent_record_1a1a4619c09bab7c1d99f7a3676faebbde" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1voice_1_1_consent_record_1a23ef9b246631765e28e603d586718e8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_consent_record_1a23ef9b246631765e28e603d586718e8b" kindref="member">session_id</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1voice_1_1_consent_record_1a9e9d2f5db68adfb6348e628088728386" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_consent_record_1a9e9d2f5db68adfb6348e628088728386" kindref="member">recording_consent</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1voice_1_1_consent_record_1ad23d6ff1a831f24e2cff0ce79c4df626" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_consent_record_1ad23d6ff1a831f24e2cff0ce79c4df626" kindref="member">transcription_consent</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1voice_1_1_consent_record_1ac772fed07331937afade847df0e138b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_consent_record_1ac772fed07331937afade847df0e138b6" kindref="member">data_retention_consent</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1voice_1_1_consent_record_1ab60bc0cb246fd9a9abcb20739f3dc722" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_consent_record_1ab60bc0cb246fd9a9abcb20739f3dc722" kindref="member">analytics_consent</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1voice_1_1_consent_record_1ad29512c8e4506a564c976735a5e3d479" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_consent_record_1ad29512c8e4506a564c976735a5e3d479" kindref="member">consent_timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1voice_1_1_consent_record_1a9566f0a0178d505545e5ccab59c9941b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_consent_record_1a9566f0a0178d505545e5ccab59c9941b" kindref="member">consent_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1voice_1_1_consent_record_1a5b6a20979691a9683f57316b74891b31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_consent_record_1a5b6a20979691a9683f57316b74891b31" kindref="member">custom_consents</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audit<sp/>log<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1voice_1_1_voice_audit_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_audit_entry" kindref="compound">VoiceAuditEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1voice_1_1_voice_audit_entry_1a58cdd5d54a945d727f4be81434f3faa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_audit_entry_1a58cdd5d54a945d727f4be81434f3faa2" kindref="member">event_type</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1voice_1_1_voice_audit_entry_1abad8fe9cbc91a24e03da1356615b523a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_audit_entry_1abad8fe9cbc91a24e03da1356615b523a" kindref="member">session_id</ref>;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1voice_1_1_voice_audit_entry_1a28410d4cb54f25e1f6296e1730b29999" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_audit_entry_1a28410d4cb54f25e1f6296e1730b29999" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1voice_1_1_voice_audit_entry_1a572a45758168ce23a0d6e718ddeab69e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_audit_entry_1a572a45758168ce23a0d6e718ddeab69e" kindref="member">action</ref>;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1voice_1_1_voice_audit_entry_1afe06671f6f3b1416e582685386792c27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_audit_entry_1afe06671f6f3b1416e582685386792c27" kindref="member">resource</ref>;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1voice_1_1_voice_audit_entry_1a3505da6d76d8b68aec092bb64e994039" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_voice_audit_entry_1a3505da6d76d8b68aec092bb64e994039" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1voice_1_1_voice_audit_entry_1ad6dd4016d1d98cb010237ceca387c530" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_audit_entry_1ad6dd4016d1d98cb010237ceca387c530" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1voice_1_1_voice_audit_entry_1ab6024c830b50e8643643de9b74373bfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_audit_entry_1ab6024c830b50e8643643de9b74373bfe" kindref="member">details</ref>;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1voice_1_1_voice_audit_entry_1a86beee703e1cc80a0ca3ff4104a618ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_voice_audit_entry_1a86beee703e1cc80a0ca3ff4104a618ef" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>deletion<sp/>request<sp/>(GDPR/CCPA)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1voice_1_1_data_deletion_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_data_deletion_request" kindref="compound">DataDeletionRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1voice_1_1_data_deletion_request_1a54792762d46c222ca8ff69fbd064d876" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_request_1a54792762d46c222ca8ff69fbd064d876" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1voice_1_1_data_deletion_request_1a06715e6c63b4ba8087eae0307a2b35d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_request_1a06715e6c63b4ba8087eae0307a2b35d9" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1voice_1_1_data_deletion_request_1a284d347d1bdf191ef95c811a8cc3e251" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_request_1a284d347d1bdf191ef95c811a8cc3e251" kindref="member">delete_recordings</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1voice_1_1_data_deletion_request_1a158711cc6f69487d54f2cfff88a27a6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_request_1a158711cc6f69487d54f2cfff88a27a6d" kindref="member">delete_transcripts</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1voice_1_1_data_deletion_request_1ac6c838ec5567001368e579345af0d317" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_request_1ac6c838ec5567001368e579345af0d317" kindref="member">delete_sessions</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1voice_1_1_data_deletion_request_1a539313868e1e9f120e866bc3b23bd34b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_request_1a539313868e1e9f120e866bc3b23bd34b" kindref="member">delete_analytics</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1voice_1_1_data_deletion_request_1a533bd8a32f0046ddd78e7be59b29698b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_request_1a533bd8a32f0046ddd78e7be59b29698b" kindref="member">request_timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>deletion<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1voice_1_1_data_deletion_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_data_deletion_result" kindref="compound">DataDeletionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1voice_1_1_data_deletion_result_1a841ed4adc810c4900cc32c8a2d0d8a5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_result_1a841ed4adc810c4900cc32c8a2d0d8a5b" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1voice_1_1_data_deletion_result_1a2a79d933190acb4f16db2d27d1cb5631" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_result_1a2a79d933190acb4f16db2d27d1cb5631" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1voice_1_1_data_deletion_result_1a31b2b58cf8b3502aeb9d302272edd3f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_result_1a31b2b58cf8b3502aeb9d302272edd3f1" kindref="member">recordings_deleted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1voice_1_1_data_deletion_result_1a1414ec925dd32600b5e5913a9aec05b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_result_1a1414ec925dd32600b5e5913a9aec05b5" kindref="member">sessions_deleted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1voice_1_1_data_deletion_result_1a440406e070d7da419036c091a7ed7b43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_result_1a440406e070d7da419036c091a7ed7b43" kindref="member">transcripts_deleted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1voice_1_1_data_deletion_result_1afe3ca458fa2011505fe83c56f8819424" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_result_1afe3ca458fa2011505fe83c56f8819424" kindref="member">completion_timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Rate<sp/>limiting<sp/>for<sp/>authentication<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1voice_1_1_rate_limiter_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_rate_limiter_config" kindref="compound">RateLimiterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1voice_1_1_rate_limiter_config_1a8dac38d408fa87540d5a5a2ea7e48235" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_rate_limiter_config_1a8dac38d408fa87540d5a5a2ea7e48235" kindref="member">max_failures</ref><sp/>=<sp/>5;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>failed<sp/>attempts<sp/>before<sp/>lockout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1voice_1_1_rate_limiter_config_1ab087ee087aa6bb8cf1a3c2f6d2aa0f38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_rate_limiter_config_1ab087ee087aa6bb8cf1a3c2f6d2aa0f38" kindref="member">lockout_duration_ms</ref><sp/>=<sp/>60000;<sp/></highlight><highlight class="comment">//<sp/>60<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1voice_1_1_rate_limiter_config_1ad278d23e6187efa534c7a09260d5ff3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_rate_limiter_config_1ad278d23e6187efa534c7a09260d5ff3c" kindref="member">failure_window_ms</ref><sp/>=<sp/>600000;<sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>minutes<sp/>(reset<sp/>counter<sp/>after)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Security<sp/>denial<sp/>tracking<sp/>for<sp/>audit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1voice_1_1_security_denial_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_security_denial_entry" kindref="compound">SecurityDenialEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1voice_1_1_security_denial_entry_1a592106215d087e181acd87c2596f9701" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_security_denial_entry_1a592106215d087e181acd87c2596f9701" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1voice_1_1_security_denial_entry_1a2d672d64984d5116bb78f5f2b6639b53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_security_denial_entry_1a2d672d64984d5116bb78f5f2b6639b53" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1voice_1_1_security_denial_entry_1a70d3d1cb5f5e9b087783b1f01e91187b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_security_denial_entry_1a70d3d1cb5f5e9b087783b1f01e91187b" kindref="member">session_id</ref>;</highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1voice_1_1_security_denial_entry_1aa789d45d9190f5a6483d487b3083b4e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_security_denial_entry_1aa789d45d9190f5a6483d487b3083b4e1" kindref="member">action</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1voice_1_1_security_denial_entry_1a5bacdaad331f80ce5961c63c1d6e9eff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_security_denial_entry_1a5bacdaad331f80ce5961c63c1d6e9eff" kindref="member">resource</ref>;</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1voice_1_1_security_denial_entry_1ad56f08e00b4679b14cc197f1c38f3204" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_security_denial_entry_1ad56f08e00b4679b14cc197f1c38f3204" kindref="member">denial_reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;auth_failed&quot;,<sp/>&quot;access_denied&quot;,<sp/>&quot;privilege_escalation&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1voice_1_1_security_denial_entry_1a749316938e58365c1f4340115ef75cf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_security_denial_entry_1a749316938e58365c1f4340115ef75cf9" kindref="member">denial_code</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;SECURITY_VIOLATION&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Security<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1voice_1_1_voice_security_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_security_config" kindref="compound">VoiceSecurityConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1voice_1_1_voice_security_config_1afc44ce5e1c580840cc21217663017ac5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config_1afc44ce5e1c580840cc21217663017ac5" kindref="member">enable_pii_redaction</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1voice_1_1_voice_security_config_1afee6a77ac9342a2d06fd999e3e3fd09d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config_1afee6a77ac9342a2d06fd999e3e3fd09d" kindref="member">enable_consent_tracking</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1voice_1_1_voice_security_config_1a32c628ab476b017f5cc1707deaef477d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config_1a32c628ab476b017f5cc1707deaef477d" kindref="member">enable_audit_logging</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1voice_1_1_voice_security_config_1a9c5c3be9ac43b83c65d2a3c819ef1c48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config_1a9c5c3be9ac43b83c65d2a3c819ef1c48" kindref="member">enable_auto_deletion</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1voice_1_1_voice_security_config_1a44b25fbb2db733a3586e43c8835e61c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config_1a44b25fbb2db733a3586e43c8835e61c1" kindref="member">enable_rate_limiting</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1voice_1_1_voice_security_config_1a5ea8145991660461bbe763d298cce206" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config_1a5ea8145991660461bbe763d298cce206" kindref="member">data_retention_days</ref><sp/>=<sp/>90;</highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1voice_1_1_voice_security_config_1a448d68ec7688d456d9b9ee81c9b1fb6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PIIType&gt;<sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config_1a448d68ec7688d456d9b9ee81c9b1fb6c" kindref="member">pii_types_to_redact</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a837697b230ef5a34d756f4ea8f3810bc" kindref="member">PIIType::PHONE_NUMBER</ref>,<sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827afb49ca06e9d31da1c2c1eeb7ae47a0d7" kindref="member">PIIType::EMAIL_ADDRESS</ref>,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a23a27a41c4dad3ef8c54f896b77f9056" kindref="member">PIIType::CREDIT_CARD</ref>,<sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a8fe59663630697bb628e4de0d1592cdc" kindref="member">PIIType::SSN</ref></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1voice_1_1_voice_security_config_1a30aefeb17fdc8c15c180662a1d7ccd3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config_1a30aefeb17fdc8c15c180662a1d7ccd3f" kindref="member">redact_in_transcripts</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1voice_1_1_voice_security_config_1ad839d07c6d8008a020ff1d33613366c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config_1ad839d07c6d8008a020ff1d33613366c6" kindref="member">redact_in_summaries</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1voice_1_1_voice_security_config_1abc907d9d854092b5e0a085052704e89e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_rate_limiter_config" kindref="compound">RateLimiterConfig</ref><sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config_1abc907d9d854092b5e0a085052704e89e" kindref="member">rate_limiter</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VoiceSecurityManager:<sp/>Phase<sp/>7<sp/>production<sp/>component<sp/>(Phase<sp/>3<sp/>enhancements)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1voice_1_1_voice_security_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a2fecc599cf007ba0917ea4320b488d15" kindref="member">VoiceSecurityManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a2fecc599cf007ba0917ea4320b488d15" kindref="member">VoiceSecurityManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config" kindref="compound">VoiceSecurityConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1voice_1_1_voice_security_manager_1a9bb09584b555d5db0d4c0a7127620ace" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a9bb09584b555d5db0d4c0a7127620ace" kindref="member">~VoiceSecurityManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PII<sp/>Redaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_redaction_result" kindref="compound">RedactionResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a7a127fa717a4e83114dcf106d6aa7a52" kindref="member">redactPII</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_redaction_result" kindref="compound">RedactionResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a02cdf37dcee5b60d6e5f64faf1f32fe4" kindref="member">redactPIITypes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PIIType&gt;&amp;<sp/>types);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a1d5db6a52c45266aeabc4e52bebd4184" kindref="member">containsPII</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Consent<sp/>Management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a69f473f813b5be65f4e3fce2ca69bbd5" kindref="member">recordConsent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_consent_record" kindref="compound">ConsentRecord</ref>&amp;<sp/>record);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ConsentRecord&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a6d0a650d48795eb9a584e0d2581782fa" kindref="member">getConsent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1add547c8a147c3d9b79110738b657bf1e" kindref="member">hasRecordingConsent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1aaad42be5970687e12a5bcc44d421a91c" kindref="member">hasTranscriptionConsent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a827278e69f4f85d33db91907e8219628" kindref="member">revokeConsent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audit<sp/>Logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1aff36cc4bcc7582f0b384736740b49955" kindref="member">logEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_audit_entry" kindref="compound">VoiceAuditEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1af9d65d6d2ad5d559ff73b7cc18162fac" kindref="member">logAccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resource);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a3187ec3208bd040604e9d9a0a3db56eb" kindref="member">logError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;VoiceAuditEntry&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a2bd99527e4539bc881b15f98bc9ebbea" kindref="member">getAuditLog</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>100)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GDPR/CCPA<sp/>Data<sp/>Deletion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_result" kindref="compound">DataDeletionResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1afb9966a79a50eef1493cf3ffff59900d" kindref="member">deleteUserData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_data_deletion_request" kindref="compound">DataDeletionRequest</ref>&amp;<sp/>request);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1af1aaef13ee48d19a1f28bfdd72000749" kindref="member">scheduleAutoDelete</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/>int64_t<sp/>delete_after_ms);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>export<sp/>(GDPR<sp/>right<sp/>to<sp/>access)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1abab782a43d97091df0ee5c4987122d4f" kindref="member">exportUserData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Security<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1acd8804e5957265f1a99a35c73a452402" kindref="member">getSecurityStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Rate<sp/>Limiting<sp/>for<sp/>Auth<sp/>Failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1aafad00ab9926bc3d613b04608544dd43" kindref="member">recordAuthFailure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a576471824fe5e46c789289d7d108a522" kindref="member">isRateLimited</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a38f37b3c3dcf101064886410a462fbf2" kindref="member">resetRateLimiter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Security<sp/>Denial<sp/>Audit<sp/>Trail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a3daa24622d159ef2b9fb23b2d4088bb3" kindref="member">logSecurityDenial</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_security_denial_entry" kindref="compound">SecurityDenialEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SecurityDenialEntry&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a466ddc57c5aba436992306f50ee17870" kindref="member">getSecurityDenials</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>100)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a3734d3f6d219a4c4485de82db7b37822" kindref="member">denyOperationWithAudit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resource,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_security_config" kindref="compound">VoiceSecurityConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ConsentRecord&gt;<sp/>consents_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;VoiceAuditEntry&gt;<sp/>audit_log_;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int64_t&gt;<sp/>auto_delete_schedule_;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int&gt;<sp/>failure_counts_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>user_id<sp/>-&gt;<sp/>failure<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int64_t&gt;<sp/>last_failure_times_;<sp/></highlight><highlight class="comment">//<sp/>user_id<sp/>-&gt;<sp/>last<sp/>failure<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int64_t&gt;<sp/>lockout_until_ms_;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>user_id<sp/>-&gt;<sp/>lockout<sp/>expiry<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Security<sp/>denial<sp/>trail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SecurityDenialEntry&gt;<sp/>denial_trail_;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_redaction_result" kindref="compound">RedactionResult</ref><sp/>applyPattern(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827" kindref="member">PIIType</ref><sp/>type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>maskValue(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value,<sp/><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827" kindref="member">PIIType</ref><sp/>type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Rate<sp/>limiting<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>nowMs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupExpiredLockouts();</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::voice</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_security.h"/>
+  </compounddef>
+</doxygen>

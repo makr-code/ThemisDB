@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_query_cache_test" kind="class" language="C++" prot="public">
+    <compoundname>GraphQueryCacheTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_query_cache_test_1ab65061fa94dd1a1351d59b290ac655c3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_graph_query_cache" kindref="compound">GraphQueryCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GraphQueryCache&gt; GraphQueryCacheTest::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>GraphQueryCacheTest::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_cache.cpp" line="38" column="21" bodyfile="tests/graph/test_graph_query_cache.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_graph_query_cache_test_1a11fe8d8bc1c83567099068eed609570d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphQueryCacheTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphQueryCacheTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_cache.cpp" line="17" column="10" bodyfile="tests/graph/test_graph_query_cache.cpp" bodystart="17" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_test_1a46a03505b4470e0c3cfce819c15b9660" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphQueryCacheTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphQueryCacheTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_cache.cpp" line="26" column="10" bodyfile="tests/graph/test_graph_query_cache.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_test_1a769222626bbe245613860c4c9076c60f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_query_cache_1ac50b1dcb593847550513f3faa8e80fe7" kindref="member">GraphQueryCache::ResultSet</ref></type>
+        <definition>GraphQueryCache::ResultSet GraphQueryCacheTest::makeResult</definition>
+        <argsstring>(const std::string &amp;prefix, int count)</argsstring>
+        <name>makeResult</name>
+        <qualifiedname>GraphQueryCacheTest::makeResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_cache.cpp" line="30" column="32" bodyfile="tests/graph/test_graph_query_cache.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphQueryCacheTest</label>
+        <link refid="class_graph_query_cache_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphQueryCacheTest</label>
+        <link refid="class_graph_query_cache_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_query_cache.cpp" line="15" column="1" bodyfile="tests/graph/test_graph_query_cache.cpp" bodystart="15" bodyend="39"/>
+    <listofallmembers>
+      <member refid="class_graph_query_cache_test_1ab65061fa94dd1a1351d59b290ac655c3" prot="protected" virt="non-virtual"><scope>GraphQueryCacheTest</scope><name>cache_</name></member>
+      <member refid="class_graph_query_cache_test_1a769222626bbe245613860c4c9076c60f" prot="protected" virt="non-virtual"><scope>GraphQueryCacheTest</scope><name>makeResult</name></member>
+      <member refid="class_graph_query_cache_test_1a11fe8d8bc1c83567099068eed609570d" prot="protected" virt="non-virtual"><scope>GraphQueryCacheTest</scope><name>SetUp</name></member>
+      <member refid="class_graph_query_cache_test_1a46a03505b4470e0c3cfce819c15b9660" prot="protected" virt="non-virtual"><scope>GraphQueryCacheTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

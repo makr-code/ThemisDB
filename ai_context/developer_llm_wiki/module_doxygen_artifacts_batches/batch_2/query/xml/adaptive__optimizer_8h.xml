@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adaptive__optimizer_8h" kind="file" language="C++">
+    <compoundname>adaptive_optimizer.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="query__optimizer_8h" local="yes">include/query/query_optimizer.h</includedby>
+    <includedby refid="runtime__reoptimizer_8h" local="yes">include/query/runtime_reoptimizer.h</includedby>
+    <includedby refid="adaptive__optimizer_8cpp" local="yes">src/query/adaptive_optimizer.cpp</includedby>
+    <includedby refid="query__optimizer_8cpp" local="yes">src/query/query_optimizer.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/adaptive_optimizer.h</label>
+        <link refid="adaptive__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/adaptive_optimizer.h</label>
+        <link refid="adaptive__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/query/plan_cache.h</label>
+        <link refid="plan__cache_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/query/query_federation.h</label>
+        <link refid="query__federation_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/query/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/query/query_plan_visualizer.h</label>
+        <link refid="query__plan__visualizer_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/query/runtime_reoptimizer.h</label>
+        <link refid="runtime__reoptimizer_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/query/tensor_aware_query_optimizer.h</label>
+        <link refid="tensor__aware__query__optimizer_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>src/query/adaptive_optimizer.cpp</label>
+        <link refid="adaptive__optimizer_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/query/aql_runner.cpp</label>
+        <link refid="aql__runner_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/query/plan_cache.cpp</label>
+        <link refid="plan__cache_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/query/query_engine.cpp</label>
+        <link refid="query__engine_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/query/query_federation.cpp</label>
+        <link refid="query__federation_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/query/query_optimizer.cpp</label>
+        <link refid="query__optimizer_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/query/query_plan_visualizer.cpp</label>
+        <link refid="query__plan__visualizer_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/query/runtime_reoptimizer.cpp</label>
+        <link refid="runtime__reoptimizer_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/query/tensor_aware_query_optimizer.cpp</label>
+        <link refid="tensor__aware__query__optimizer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_query_cross_feature_matrix.cpp</label>
+        <link refid="test__query__cross__feature__matrix_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/query/test_query_engine.cpp</label>
+        <link refid="test__query__engine_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/query/test_query_federation.cpp</label>
+        <link refid="test__query__federation_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/query/test_query_federation_routing.cpp</label>
+        <link refid="test__query__federation__routing_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/query/test_query_federation_scope_safety.cpp</label>
+        <link refid="test__query__federation__scope__safety_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/query/test_query_optimizer_regression.cpp</label>
+        <link refid="test__query__optimizer__regression_8cpp"/>
+      </node>
+      <node id="27">
+        <label>tests/query/test_query_optimizer_scope_bounds.cpp</label>
+        <link refid="test__query__optimizer__scope__bounds_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/query/test_query_optimizer_statistics.cpp</label>
+        <link refid="test__query__optimizer__statistics_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/query/test_query_optimizer_thread_safety.cpp</label>
+        <link refid="test__query__optimizer__thread__safety_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/query/test_query_optimizer_vector_geo.cpp</label>
+        <link refid="test__query__optimizer__vector__geo_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/query/test_query_phase_a_gap_fixes.cpp</label>
+        <link refid="test__query__phase__a__gap__fixes_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/query/test_query_plan_caching.cpp</label>
+        <link refid="test__query__plan__caching_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/query/test_query_plan_visualizer.cpp</label>
+        <link refid="test__query__plan__visualizer_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/query/test_query_planner_fallback.cpp</label>
+        <link refid="test__query__planner__fallback_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/query/test_query_safety_fixes.cpp</label>
+        <link refid="test__query__safety__fixes_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/query/test_wave1_critical_gap_fixes.cpp</label>
+        <link refid="test__wave1__critical__gap__fixes_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/query/test_wave9_block3_fixes.cpp</label>
+        <link refid="test__wave9__block3__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1query_1_1_adaptive_query_stats" prot="public">themis::query::AdaptiveQueryStats</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution" prot="public">themis::query::AdaptiveQueryStats::QueryExecution</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1_1_operator_stats" prot="public">themis::query::AdaptiveQueryStats::QueryExecution::OperatorStats</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_adaptive_plan_selector" prot="public">themis::query::AdaptivePlanSelector</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice" prot="public">themis::query::AdaptivePlanSelector::PlanChoice</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_distributed_query_cost_model" prot="public">themis::query::DistributedQueryCostModel</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" prot="public">themis::query::DistributedQueryCostModel::ShardInfo</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost" prot="public">themis::query::DistributedQueryCostModel::CrossShardJoinCost</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_multi_index_optimizer" prot="public">themis::query::MultiIndexOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate" prot="public">themis::query::MultiIndexOptimizer::IndexCandidate</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan" prot="public">themis::query::MultiIndexOptimizer::IntersectionPlan</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_numa_aware_optimizer" prot="public">themis::query::NumaAwareOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node" prot="public">themis::query::NumaAwareOptimizer::NumaNode</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_placement" prot="public">themis::query::NumaAwareOptimizer::NumaPlacement</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_geo_predicate_pattern_detector" prot="public">themis::query::GeoPredicatePatternDetector</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint" prot="public">themis::query::GeoPredicatePatternDetector::DetectedSpatialHint</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1query_1_1_adaptive_query_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_adaptive_query_stats" kindref="compound">AdaptiveQueryStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution" kindref="compound">QueryExecution</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1ac987df7aacad47e96d86c3a0ca527088" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1ac987df7aacad47e96d86c3a0ca527088" kindref="member">query_hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hash<sp/>of<sp/>query<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1ab912ab16e993430e41a612f4aaaaedab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1ab912ab16e993430e41a612f4aaaaedab" kindref="member">estimated_rows</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optimizer&apos;s<sp/>cardinality<sp/>estimate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1af52984ffb1ddde8b6042c67470d903e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1af52984ffb1ddde8b6042c67470d903e1" kindref="member">actual_rows</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Actual<sp/>rows<sp/>returned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1af54609db4ab27a979172d64c722b8f9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1af54609db4ab27a979172d64c722b8f9f" kindref="member">execution_time_ms</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>execution<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1a0a18b8b6bbf0c6a5aaf0222380dcf9e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1a0a18b8b6bbf0c6a5aaf0222380dcf9e1" kindref="member">selectivity</ref><sp/>=<sp/>1.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>actual_rows<sp/>/<sp/>estimated_rows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1ac5c0627d645bea027e923e49495aa249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1ac5c0627d645bea027e923e49495aa249" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-operator<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1_1_operator_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1_1_operator_stats" kindref="compound">OperatorStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1_1_operator_stats_1a0fe783f0187148186dc661af5207a466" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1_1_operator_stats_1a0fe783f0187148186dc661af5207a466" kindref="member">operator_type</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;scan&quot;,<sp/>&quot;join&quot;,<sp/>&quot;filter&quot;,<sp/>&quot;sort&quot;,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1_1_operator_stats_1a7721468def5acfce0476a5d913504107" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1_1_operator_stats_1a7721468def5acfce0476a5d913504107" kindref="member">estimated_rows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1_1_operator_stats_1af0f9c86f0ec4eb28692a8720ecbf527d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1_1_operator_stats_1af0f9c86f0ec4eb28692a8720ecbf527d" kindref="member">actual_rows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1_1_operator_stats_1ac6aaa53c81272da7bb67482844c2aae8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1_1_operator_stats_1ac6aaa53c81272da7bb67482844c2aae8" kindref="member">time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1a946174acea262ce242248640bf32cd05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OperatorStats&gt;<sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution_1a946174acea262ce242248640bf32cd05" kindref="member">operators</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_adaptive_query_stats_1aa0033e0e4c0e6bbf005c14d6edcb3036" kindref="member">recordExecution</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_adaptive_query_stats_1_1_query_execution" kindref="compound">QueryExecution</ref>&amp;<sp/>exec);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryExecution&gt;<sp/><ref refid="classthemis_1_1query_1_1_adaptive_query_stats_1a1cb53b517274ba37b7277288018e01e5" kindref="member">getHistory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_hash,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>10)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_adaptive_query_stats_1af15a32f1c46a2675b62bb33d0465dd9f" kindref="member">getAverageSelectivity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_hash)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_adaptive_query_stats_1a3aae0e6b6ffcc3c80122bbafecb1b0c6" kindref="member">hasCardinalityMisestimation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_hash,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold<sp/>=<sp/>2.0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_adaptive_query_stats_1a2f87050fc2314f281e414f29facc4cce" kindref="member">getAverageActualRows</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_hash)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_adaptive_query_stats_1a38412b07faa357e57112552b2dc612d8" kindref="member">getAdaptiveAdjustmentFactor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_hash)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_adaptive_query_stats_1abed30ee369e5fa697b3e373522a89f99" kindref="member">pruneOldStats</ref>(std::chrono::hours<sp/>retention<sp/>=<sp/>std::chrono::hours(24));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1query_1_1_adaptive_query_stats_1a5f6d5e59161dbf2e2f6ad103d6126b58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_adaptive_query_stats_1a5f6d5e59161dbf2e2f6ad103d6126b58" kindref="member">getTotalQueries</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_queries_.load();<sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;QueryExecution&gt;&gt;<sp/>executions_;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_queries_{0};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_HISTORY_PER_QUERY<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1query_1_1_adaptive_plan_selector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_adaptive_plan_selector" kindref="compound">AdaptivePlanSelector</ref><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice" kindref="compound">PlanChoice</ref><sp/>{</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642e" kindref="member">Strategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eafd6e2b3ea2d9a9fba7e559ba2da7ba20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eafd6e2b3ea2d9a9fba7e559ba2da7ba20" kindref="member">INDEX_SCAN</ref>,</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eabfcac11bd9eb85fdadad132dc077cbe1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eabfcac11bd9eb85fdadad132dc077cbe1" kindref="member">TABLE_SCAN</ref>,</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642ea2e0fc921614e47e1e6ee456f454c73a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642ea2e0fc921614e47e1e6ee456f454c73a1" kindref="member">HASH_JOIN</ref>,</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaa5cd63a172745792164407cb0b9e8da5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaa5cd63a172745792164407cb0b9e8da5" kindref="member">MERGE_JOIN</ref>,</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaf78ea30cb360ede78316ce967243f9e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaf78ea30cb360ede78316ce967243f9e4" kindref="member">NESTED_LOOP_JOIN</ref>,</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eac0046367ad82b94f7244596c63634e26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eac0046367ad82b94f7244596c63634e26" kindref="member">INDEX_INTERSECTION</ref>,</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaa683ce7ad439510dc8a0fa100d8e090f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaa683ce7ad439510dc8a0fa100d8e090f" kindref="member">PARALLEL_SCAN</ref>,</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaa0e3c8e3855c7878d1762e697033c21a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eaa0e3c8e3855c7878d1762e697033c21a" kindref="member">BINARY_BATCH_CPU</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642ea983bf504c162ff3d8f276fe040e7f0d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642ea983bf504c162ff3d8f276fe040e7f0d5" kindref="member">ARROW_GPU_VRAM</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eae537ca6c6d7982bf16f971aa23f69c50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642eae537ca6c6d7982bf16f971aa23f69c50" kindref="member">ARROW_CPU_PARALLEL</ref>,<sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a6a7630d2906685067ef84ad036db975b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a80e1fb309bc4791cba20d20b7b30642e" kindref="member">Strategy</ref><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1a6a7630d2906685067ef84ad036db975b" kindref="member">strategy</ref>;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1aeff8b73b1425557fbca18a3eebc9d9ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1aeff8b73b1425557fbca18a3eebc9d9ec" kindref="member">estimated_cost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1abc78374ff53625791c2ef4ceb740fd38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice_1abc78374ff53625791c2ef4ceb740fd38" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice" kindref="compound">PlanChoice</ref><sp/><ref refid="classthemis_1_1query_1_1_adaptive_plan_selector_1a025f986b250056dd9e75f1dc42f9f4ce" kindref="member">selectPlan</ref>(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PlanChoice&gt;&amp;<sp/>alternatives,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_hash,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_adaptive_query_stats" kindref="compound">AdaptiveQueryStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_adaptive_plan_selector_1a660dc98b28da7d849e2e5da9f4311e06" kindref="member">shouldSwitchPlan</ref>(</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rows_so_far,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimated_total,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>progress,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>misestimation_threshold<sp/>=<sp/>5.0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice" kindref="compound">PlanChoice</ref><sp/><ref refid="classthemis_1_1query_1_1_adaptive_plan_selector_1a67eae36ead9da88177ffe0a5d324b28f" kindref="member">getAlternativePlan</ref>(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_adaptive_plan_selector_1_1_plan_choice" kindref="compound">PlanChoice</ref>&amp;<sp/>current_plan,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>actual_rows,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimated_rows)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1query_1_1_distributed_query_cost_model" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_distributed_query_cost_model" kindref="compound">DistributedQueryCostModel</ref><sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" kindref="compound">ShardInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1ab636a349587df2c6974bb726ffdaf2f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1ab636a349587df2c6974bb726ffdaf2f2" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1aa5e0467ba924fa1c0c701def94212b6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1aa5e0467ba924fa1c0c701def94212b6a" kindref="member">estimated_rows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1a102de6cd5ca2437a1a6ecbf06fdacc01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1a102de6cd5ca2437a1a6ecbf06fdacc01" kindref="member">network_latency_ms</ref><sp/>=<sp/>1.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Estimated<sp/>network<sp/>latency<sp/>to<sp/>this<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1a9dcd383679e0602b5b6e76ca8c091c45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info_1a9dcd383679e0602b5b6e76ca8c091c45" kindref="member">is_local</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Is<sp/>this<sp/>shard<sp/>local<sp/>to<sp/>the<sp/>coordinator?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost" kindref="compound">CrossShardJoinCost</ref><sp/>{</highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1ab441992daa265e985f66ad3b66680a61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1ab441992daa265e985f66ad3b66680a61" kindref="member">total_cost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1a052b0cf714460f576bd84d1c70b4b40e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1a052b0cf714460f576bd84d1c70b4b40e" kindref="member">network_cost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1a2d102a8ab63446863da7211de12d56e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1a2d102a8ab63446863da7211de12d56e1" kindref="member">compute_cost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1adb4a8efd3aaf77de62e0e5afebc17f33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1adb4a8efd3aaf77de62e0e5afebc17f33" kindref="member">recommended_strategy</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;broadcast&quot;,<sp/>&quot;repartition&quot;,<sp/>&quot;semi_join&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_distributed_query_cost_model_1a281b83774910bb1a0e9f23f80c01f0dd" kindref="member">estimateDistributedQueryCost</ref>(</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ShardInfo&gt;&amp;<sp/>involved_shards,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimated_result_rows)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost" kindref="compound">CrossShardJoinCost</ref><sp/><ref refid="classthemis_1_1query_1_1_distributed_query_cost_model_1ad8698c90e66b0edb2205b86c3ce397ac" kindref="member">estimateCrossShardJoinCost</ref>(</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" kindref="compound">ShardInfo</ref>&amp;<sp/>left_shard,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" kindref="compound">ShardInfo</ref>&amp;<sp/>right_shard,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>left_rows,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>right_rows)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_distributed_query_cost_model_1a069acac498fdfcd60c4618d7022376c3" kindref="member">shouldPrunePartition</ref>(</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" kindref="compound">ShardInfo</ref>&amp;<sp/>shard,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_shards,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>selectivity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_distributed_query_cost_model_1a4d3d7a414a5cf483d27163a508d2d177" kindref="member">getOptimalParallelism</ref>(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ShardInfo&gt;&amp;<sp/>shards,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>available_threads)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cost<sp/>constants<sp/>(tunable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>NETWORK_TRANSFER_COST_PER_ROW<sp/>=<sp/>0.01;<sp/><sp/></highlight><highlight class="comment">//<sp/>ms<sp/>per<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>CROSS_SHARD_JOIN_OVERHEAD<sp/>=<sp/>10.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ms<sp/>base<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>LOCAL_ROW_PROCESSING_COST<sp/>=<sp/>0.001;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ms<sp/>per<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1query_1_1_multi_index_optimizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_multi_index_optimizer" kindref="compound">MultiIndexOptimizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate" kindref="compound">IndexCandidate</ref><sp/>{</highlight></codeline>
+<codeline lineno="213" refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a0a3e8331cb70a283d8ddbdc5ab8e12aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a0a3e8331cb70a283d8ddbdc5ab8e12aa" kindref="member">index_name</ref>;</highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1ac1e545c7b9fe7b73ad1066cb5a9f623a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1ac1e545c7b9fe7b73ad1066cb5a9f623a" kindref="member">column</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="215" refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a82271cdd1edd8b2d6e41be808ab50169" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a82271cdd1edd8b2d6e41be808ab50169" kindref="member">estimated_selectivity</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>rows<sp/>passing<sp/>this<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a6c85001834d8635a8241ea91314c8735" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a6c85001834d8635a8241ea91314c8735" kindref="member">access_cost</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cost<sp/>to<sp/>access<sp/>this<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1ae7d733d885b1fd923c4e0487b31f951b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1ae7d733d885b1fd923c4e0487b31f951b" kindref="member">is_covering</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Does<sp/>index<sp/>cover<sp/>all<sp/>required<sp/>columns?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220" refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan" kindref="compound">IntersectionPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="221" refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan_1a701d53a1fff3fc42f6416a29f3d131de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan_1a701d53a1fff3fc42f6416a29f3d131de" kindref="member">indexes_to_use</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Ordered<sp/>by<sp/>selectivity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan_1a9a83df2fd2b9bbee487200bee2f727b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan_1a9a83df2fd2b9bbee487200bee2f727b6" kindref="member">estimated_cost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="223" refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan_1aac0c6c343d9daa8380f3e77a3bfcf367" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan_1aac0c6c343d9daa8380f3e77a3bfcf367" kindref="member">estimated_result_rows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan_1ac6820f1bcce43eab2debab08547d933c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan_1ac6820f1bcce43eab2debab08547d933c" kindref="member">use_bitmap_intersection</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>bitmap<sp/>for<sp/>intersection?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan" kindref="compound">IntersectionPlan</ref><sp/><ref refid="classthemis_1_1query_1_1_multi_index_optimizer_1ad96a203543954c7a612019b5f3e9c9a1" kindref="member">optimizeMultiIndexAccess</ref>(</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;IndexCandidate&gt;&amp;<sp/>available_indexes,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>table_size)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_multi_index_optimizer_1a0c1a72c2c06c457f4bc87e34d887f339" kindref="member">shouldUseIndexIntersection</ref>(</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;IndexCandidate&gt;&amp;<sp/>candidates,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>table_size)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247" refid="classthemis_1_1query_1_1_multi_index_optimizer_1a241eb3e7c7ac18ca2c8853a659813aaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_multi_index_optimizer_1a241eb3e7c7ac18ca2c8853a659813aaf" kindref="member">getBitmapIntersectionThreshold</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.1;<sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="classthemis_1_1query_1_1_numa_aware_optimizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_numa_aware_optimizer" kindref="compound">NumaAwareOptimizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="252" refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node" kindref="compound">NumaNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="253" refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a9df63a322684532005f5d01ffe2cc7e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a9df63a322684532005f5d01ffe2cc7e9" kindref="member">node_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="254" refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a03a1d3728e393c0c7d324702f485ea7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a03a1d3728e393c0c7d324702f485ea7b" kindref="member">available_cores</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="255" refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a56be05ee26a8709e86556243ee0e6001" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a56be05ee26a8709e86556243ee0e6001" kindref="member">memory_gb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="256" refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a03a7249cebf92159d33190d4b192c8ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_node_1a03a7249cebf92159d33190d4b192c8ab" kindref="member">cpu_ids</ref>;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259" refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_placement" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_placement" kindref="compound">NumaPlacement</ref><sp/>{</highlight></codeline>
+<codeline lineno="260" refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_placement_1aea16c7596a79612659a0e6a7bfadcbea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_placement_1aea16c7596a79612659a0e6a7bfadcbea" kindref="member">preferred_numa_node</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="261" refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_placement_1aa053dfb565eec3d0d4650c99b7833c43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_placement_1aa053dfb565eec3d0d4650c99b7833c43" kindref="member">cpu_affinity</ref>;</highlight></codeline>
+<codeline lineno="262" refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_placement_1a111f33f7c1433a9a1ba43479a5b4188a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_placement_1a111f33f7c1433a9a1ba43479a5b4188a" kindref="member">use_local_memory</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_numa_aware_optimizer_1_1_numa_placement" kindref="compound">NumaPlacement</ref><sp/><ref refid="classthemis_1_1query_1_1_numa_aware_optimizer_1aaf6b4458d90bbf316f217e4bf664a9a1" kindref="member">getOptimalPlacement</ref>(</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_size_bytes,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>parallelism)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_numa_aware_optimizer_1a325f535947e70e1a8bb65caf45228eae" kindref="member">isNumaAvailable</ref>();</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_numa_aware_optimizer_1a277ac21bf34c612a6ed930a636e5ff51" kindref="member">getNumaNodeCount</ref>();</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_numa_aware_optimizer_1a076844c342987f2320eba9288a0d410c" kindref="member">pinThreadToCpu</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cpu_id);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="classthemis_1_1query_1_1_geo_predicate_pattern_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_geo_predicate_pattern_detector" kindref="compound">GeoPredicatePatternDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="297" refid="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint" kindref="compound">DetectedSpatialHint</ref><sp/>{</highlight></codeline>
+<codeline lineno="298" refid="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint_1aa728659ed060adba5b55e2f8bb9d01be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint_1aa728659ed060adba5b55e2f8bb9d01be" kindref="member">function_name</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299" refid="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint_1a469c81ae410b95e724cbb9e543bbf2e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_geo_predicate_pattern_detector_1_1_detected_spatial_hint_1a469c81ae410b95e724cbb9e543bbf2e1" kindref="member">field_reference</ref>;<sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;DetectedSpatialHint&gt;<sp/><ref refid="classthemis_1_1query_1_1_geo_predicate_pattern_detector_1a7795fbf924890aa902d2952b244ab4c7" kindref="member">detect</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_text);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_geo_predicate_pattern_detector_1aca59b6ac12904d21b1b112fdefcb8a44" kindref="member">injectSpatialIndexHints</ref>(</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_text,</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>hints,</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;&amp;<sp/>suggested_indexes);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/adaptive_optimizer.h"/>
+  </compounddef>
+</doxygen>

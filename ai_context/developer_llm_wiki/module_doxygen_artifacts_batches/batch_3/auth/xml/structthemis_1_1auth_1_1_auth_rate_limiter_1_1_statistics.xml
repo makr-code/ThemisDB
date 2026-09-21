@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::AuthRateLimiter::Statistics</compoundname>
+    <includes refid="auth__rate__limiter_8h" local="no">auth_rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a5e51672b1076a09c1648a51438d20506" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimiter::Statistics::total_auth_attempts</definition>
+        <argsstring></argsstring>
+        <name>total_auth_attempts</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::Statistics::total_auth_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="320" column="16" bodyfile="include/auth/auth_rate_limiter.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a1692bc317476cd51c2fbf88b9896d997" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimiter::Statistics::allowed_attempts</definition>
+        <argsstring></argsstring>
+        <name>allowed_attempts</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::Statistics::allowed_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="321" column="16" bodyfile="include/auth/auth_rate_limiter.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a199ac86ffbc40cc846e198f3c1b48e5c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimiter::Statistics::rate_limited_attempts</definition>
+        <argsstring></argsstring>
+        <name>rate_limited_attempts</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::Statistics::rate_limited_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="322" column="16" bodyfile="include/auth/auth_rate_limiter.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a20e868e49d7647c10e253b286e973eeb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimiter::Statistics::lockout_blocked_attempts</definition>
+        <argsstring></argsstring>
+        <name>lockout_blocked_attempts</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::Statistics::lockout_blocked_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="323" column="16" bodyfile="include/auth/auth_rate_limiter.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a3b561b3fa258be8e52524830cb56e0d7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimiter::Statistics::successful_auths</definition>
+        <argsstring></argsstring>
+        <name>successful_auths</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::Statistics::successful_auths</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="324" column="16" bodyfile="include/auth/auth_rate_limiter.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1aef607857b70af8c2ea943f48f5a1c8f9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimiter::Statistics::failed_auths</definition>
+        <argsstring></argsstring>
+        <name>failed_auths</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::Statistics::failed_auths</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="325" column="16" bodyfile="include/auth/auth_rate_limiter.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1af909466470c9e86cf53142e88eba3cc7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthRateLimiter::Statistics::currently_locked_accounts</definition>
+        <argsstring></argsstring>
+        <name>currently_locked_accounts</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::Statistics::currently_locked_accounts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="326" column="16" bodyfile="include/auth/auth_rate_limiter.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_rate_limiter.h" line="319" column="5" bodyfile="include/auth/auth_rate_limiter.h" bodystart="319" bodyend="327"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a1692bc317476cd51c2fbf88b9896d997" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter::Statistics</scope><name>allowed_attempts</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1af909466470c9e86cf53142e88eba3cc7" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter::Statistics</scope><name>currently_locked_accounts</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1aef607857b70af8c2ea943f48f5a1c8f9" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter::Statistics</scope><name>failed_auths</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a20e868e49d7647c10e253b286e973eeb" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter::Statistics</scope><name>lockout_blocked_attempts</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a199ac86ffbc40cc846e198f3c1b48e5c" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter::Statistics</scope><name>rate_limited_attempts</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a3b561b3fa258be8e52524830cb56e0d7" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter::Statistics</scope><name>successful_auths</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics_1a5e51672b1076a09c1648a51438d20506" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter::Statistics</scope><name>total_auth_attempts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

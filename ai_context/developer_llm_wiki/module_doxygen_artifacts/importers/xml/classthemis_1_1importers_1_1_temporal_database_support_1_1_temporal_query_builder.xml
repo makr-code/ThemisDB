@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_query_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::TemporalDatabaseSupport::TemporalQueryBuilder</compoundname>
+    <includes refid="temporal__support_8h" local="no">temporal_support.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_query_builder_1aa1a1e4037f3c4fb0dc5ccd9f23b5dcd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::TemporalDatabaseSupport::TemporalQueryBuilder::buildPointInTimeQuery</definition>
+        <argsstring>(const TemporalSchema &amp;temporal, const std::string &amp;timestamp)</argsstring>
+        <name>buildPointInTimeQuery</name>
+        <qualifiedname>themis::importers::TemporalDatabaseSupport::TemporalQueryBuilder::buildPointInTimeQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema" kindref="compound">TemporalSchema</ref> &amp;</type>
+          <declname>temporal</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Build Point In Time Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">temporal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/temporal_support.h" line="70" column="21" bodyfile="src/importers/temporal_support.cpp" bodystart="130" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_query_builder_1a1a4a74eb67b14b9ee5c85d0dec07395e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::TemporalDatabaseSupport::TemporalQueryBuilder::buildSystemTimeQuery</definition>
+        <argsstring>(const TemporalSchema &amp;temporal, const std::string &amp;timestamp)</argsstring>
+        <name>buildSystemTimeQuery</name>
+        <qualifiedname>themis::importers::TemporalDatabaseSupport::TemporalQueryBuilder::buildSystemTimeQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema" kindref="compound">TemporalSchema</ref> &amp;</type>
+          <declname>temporal</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Build System Time Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">temporal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/temporal_support.h" line="81" column="21" bodyfile="src/importers/temporal_support.cpp" bodystart="176" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/temporal_support.h" line="62" column="5" bodyfile="include/importers/temporal_support.h" bodystart="62" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_query_builder_1aa1a1e4037f3c4fb0dc5ccd9f23b5dcd6" prot="public" virt="non-virtual"><scope>themis::importers::TemporalDatabaseSupport::TemporalQueryBuilder</scope><name>buildPointInTimeQuery</name></member>
+      <member refid="classthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_query_builder_1a1a4a74eb67b14b9ee5c85d0dec07395e" prot="public" virt="non-virtual"><scope>themis::importers::TemporalDatabaseSupport::TemporalQueryBuilder</scope><name>buildSystemTimeQuery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="unified__memory__coordinator_8h" kind="file" language="C++">
+    <compoundname>unified_memory_coordinator.h</compoundname>
+    <includes refid="gpu__safe__raii_8h" local="yes">gpu_safe_raii.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="unified__memory__coordinator_8cpp" local="yes">src/gpu/unified_memory_coordinator.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>gpu_safe_raii.h</label>
+        <link refid="gpu__safe__raii_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/gpu/unified_memory_coordinator.h</label>
+        <link refid="unified__memory__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/gpu/unified_memory_coordinator.h</label>
+        <link refid="unified__memory__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/gpu/unified_memory_coordinator.cpp</label>
+        <link refid="unified__memory__coordinator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_unified_memory_buffer" prot="public">themis::gpu::UnifiedMemoryBuffer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Unified Memory CPU/GPU Coordination — Ownership Tracking and Synchronization. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>v1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA </para>
+</simplesect>
+<simplesect kind="note"><para><ref refid="test__gpu__mig__manager_8cpp_1a5e8744a934d85de25cb1e8122abb16d7" kindref="member">Status</ref>: Wave A <ref refid="test__gpu__training__loop_8cpp_1af47983e44c7b4c07e44229aedf03c895" kindref="member">Batch</ref> A-8 Implementation</para>
+</simplesect>
+Manages CUDA unified memory with explicit CPU/GPU ownership tracking to prevent:<itemizedlist>
+<listitem><para>Concurrent CPU/GPU access (data corruption)</para>
+</listitem><listitem><para>Page thrashing (performance degradation)</para>
+</listitem><listitem><para>Use-after-free (ownership validation)</para>
+</listitem><listitem><para>Synchronization violations (missing cudaDeviceSynchronize)</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="unified__memory__coordinator_8h_1autotoc_md4_1s1"><sect2 id="unified__memory__coordinator_8h_1autotoc_md4">
+<title>Ownership Model</title><para><programlisting><codeline><highlight class="normal">UNOWNED</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacesim_1a83a7d1e04cc90419e113695137e2302aa2b55387dd066c5bac646ac61543d152d" kindref="member">CPU</ref><sp/>(exclusive<sp/>access<sp/>from<sp/>CPU)</highlight></codeline>
+<codeline><highlight class="normal">GPU<sp/>(exclusive<sp/>access<sp/>from<sp/>GPU<sp/>kernel)</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">Transitions:</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacesim_1a83a7d1e04cc90419e113695137e2302aa2b55387dd066c5bac646ac61543d152d" kindref="member">CPU</ref><sp/>→<sp/>GPU:<sp/><ref refid="namespacesim_1a83a7d1e04cc90419e113695137e2302aa2b55387dd066c5bac646ac61543d152d" kindref="member">CPU</ref><sp/>releases,<sp/>GPU<sp/>acquires<sp/>(no<sp/>sync<sp/>needed<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>unified<sp/>memory)</highlight></codeline>
+<codeline><highlight class="normal">GPU<sp/>→<sp/><ref refid="namespacesim_1a83a7d1e04cc90419e113695137e2302aa2b55387dd066c5bac646ac61543d152d" kindref="member">CPU</ref>:<sp/>GPU<sp/>completes,<sp/><ref refid="namespacesim_1a83a7d1e04cc90419e113695137e2302aa2b55387dd066c5bac646ac61543d152d" kindref="member">CPU</ref><sp/>acquires<sp/>(cudaDeviceSynchronize<sp/>required)</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="unified__memory__coordinator_8h_1autotoc_md5_1s1"><sect2 id="unified__memory__coordinator_8h_1autotoc_md5">
+<title>Usage Example</title><para><programlisting filename=".cpp"><codeline><highlight class="normal">UnifiedMemoryBuffer<sp/>buffer(1024<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>CPU<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>access<sp/>=<sp/>buffer.acquireForCPU();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(buffer.get(),<sp/>host_data,<sp/>1024<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>access<sp/>released</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPU<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>access<sp/>=<sp/>buffer.acquireForGPU();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>kernel&lt;&lt;&lt;blocks,<sp/>threads&gt;&gt;&gt;(buffer.get());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="gpu__safe__operations_8h_1aeaf2b8792be9f99ad11147059ef5079d" kindref="member">CUDA_CHECK</ref>(cudaDeviceSynchronize());</highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>access<sp/>released</highlight></codeline>
+</programlisting></para>
+<para>@error 7600: Unified memory allocation failed @error 7601: Buffer ownership conflict (concurrent access attempted) @error 7602: Synchronization failed </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__safe__raii_8h" kindref="compound">gpu_safe_raii.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1gpu_1_1_unified_memory_buffer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2" kindref="member">Owner</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2a768aa5562ec40e7c92d5595c48c80e62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2a768aa5562ec40e7c92d5595c48c80e62" kindref="member">UNOWNED</ref><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2a2b55387dd066c5bac646ac61543d152d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2a2b55387dd066c5bac646ac61543d152d" kindref="member">CPU</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2a52f9ec21735243ad9917cda3ca077d32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2a52f9ec21735243ad9917cda3ca077d32" kindref="member">GPU</ref><sp/>=<sp/>2<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a089483f556731f2ce2e9108688b0bb01" kindref="member">size</ref>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1abe55ffea3a27050cdd7505b9966c7dcd" kindref="member">~UnifiedMemoryBuffer</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a845a7cfaa3a3e566302603f16e1aecaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref>(const<sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1ad68e8687dc6989aa2ca5863206d93630" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>move<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a1cf1811b5df62aff3553d3f750db3806" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref>(<ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a0b00c0b41cecce9850a265f3f99b44d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa6f894fd5fbd2fa0b50017bcedb297d1" kindref="member">UnifiedMemoryBuffer</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a830cf0f2f1365f473734f330b3dfe352" kindref="member">acquireForCPU</ref>();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a962522a39664105a766d33b1319cc204" kindref="member">acquireForGPU</ref>();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1ab3207327b2bdec59d7d1bb364abe577e" kindref="member">releaseOwnership</ref>();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a542be1b58979ea6f5b19474a556c73f2" kindref="member">Owner</ref><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1aa01a837734e844d9fc7228d71f77493c" kindref="member">getCurrentOwner</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1ac41a0d5208b4731186f3087eb488d5b6" kindref="member">get</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1ac41a0d5208b4731186f3087eb488d5b6" kindref="member">get</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a089483f556731f2ce2e9108688b0bb01" kindref="member">size</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a1e255d3079e22a988af051c3adf6b24c" kindref="member">isValid</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a0be1a1f247038fb18f81a13d03d3222e" kindref="member">synchronize</ref>();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a8b1676af0996bde721bc73c15f8f5b6f" kindref="member">hadConflict</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;Owner&gt;<sp/>owner_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>conflict_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Track<sp/>if<sp/>conflict<sp/>occurred</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>allocateUnifiedMemory(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_unified_memory_buffer_1a089483f556731f2ce2e9108688b0bb01" kindref="member">size</ref>);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>freeUnifiedMemory(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::gpu</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/gpu/unified_memory_coordinator.h"/>
+  </compounddef>
+</doxygen>

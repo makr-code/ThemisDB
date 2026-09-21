@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_migration_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::MigrationPlan</compoundname>
+    <includes refid="temporal__migrator_8h" local="no">temporal_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_plan_1a9a9675f4df2587a9fecad8849d83ca22" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::MigrationPlan::source_table_name</definition>
+        <argsstring></argsstring>
+        <name>source_table_name</name>
+        <qualifiedname>themisdb::temporal::MigrationPlan::source_table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Name of the source (non-versioned) table / collection. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="113" column="17" bodyfile="include/temporal/temporal_migrator.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_plan_1aaec17032c4b8b8b549d8877fe780f1ae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::MigrationPlan::source_row_count</definition>
+        <argsstring></argsstring>
+        <name>source_row_count</name>
+        <qualifiedname>themisdb::temporal::MigrationPlan::source_row_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of key/document pairs in the source collection. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="116" column="12" bodyfile="include/temporal/temporal_migrator.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_plan_1a705df4205e79eb6663580722142cbebf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_column_info" kindref="compound">ColumnInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ColumnInfo&gt; themisdb::temporal::MigrationPlan::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themisdb::temporal::MigrationPlan::columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Inferred schema of the source documents (one entry per distinct field). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="119" column="17" bodyfile="include/temporal/temporal_migrator.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_plan_1a947acae3a3880819c6bc32bdb4a75b3e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">SystemVersionedTable::Config</ref></type>
+        <definition>SystemVersionedTable::Config themisdb::temporal::MigrationPlan::versioned_config</definition>
+        <argsstring></argsstring>
+        <name>versioned_config</name>
+        <qualifiedname>themisdb::temporal::MigrationPlan::versioned_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configuration for the resulting <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>. Defaults are usually sufficient; callers may override before passing the plan to migrateToTemporal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="128" column="34" bodyfile="include/temporal/temporal_migrator.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_plan_1a3ead62adc7b93c704113e7b956abec6b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::MigrationPlan::baseline_timestamp</definition>
+        <argsstring></argsstring>
+        <name>baseline_timestamp</name>
+        <qualifiedname>themisdb::temporal::MigrationPlan::baseline_timestamp</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Baseline timestamp to assign as <computeroutput>sys_start</computeroutput> for current rows that have no known creation time. Defaults to <ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now()</ref> at the time analyzeMigration() was called. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="135" column="15" bodyfile="include/temporal/temporal_migrator.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_plan_1a893875fb37a901083563f2c098607320" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::MigrationPlan::has_history_to_backfill</definition>
+        <argsstring></argsstring>
+        <name>has_history_to_backfill</name>
+        <qualifiedname>themisdb::temporal::MigrationPlan::has_history_to_backfill</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, migrateToTemporal() expects a subsequent backfillHistory() call with historical audit-log entries. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="141" column="10" bodyfile="include/temporal/temporal_migrator.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_plan_1a4c2bbc6befff3261ec07842509d94b2e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::MigrationPlan::keys_are_unique</definition>
+        <argsstring></argsstring>
+        <name>keys_are_unique</name>
+        <qualifiedname>themisdb::temporal::MigrationPlan::keys_are_unique</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Whether all source keys are unique (detected during analysis). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="146" column="10" bodyfile="include/temporal/temporal_migrator.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_plan_1a8ab4152d5b908f0bf4fce8e66ecb119a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::MigrationPlan::has_empty_documents</definition>
+        <argsstring></argsstring>
+        <name>has_empty_documents</name>
+        <qualifiedname>themisdb::temporal::MigrationPlan::has_empty_documents</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Whether any source document was found to be empty ({}). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="149" column="10" bodyfile="include/temporal/temporal_migrator.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_migration_plan_1afd7e7dc51396bbdd3641365191778a2f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::MigrationPlan::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::MigrationPlan::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="151" column="20" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="131" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A migration plan produced by <ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab8c5c282dfd858ad9b26c038d7a4a048" kindref="member">TemporalMigrator::analyzeMigration()</ref>.</para>
+<para>The plan is a value type: it can be inspected, adjusted, and then passed to migrateToTemporal() for execution. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::temporal::MigrationPlan</label>
+        <link refid="structthemisdb_1_1temporal_1_1_migration_plan"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>versioned_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::temporal::SystemVersionedTable::Config</label>
+        <link refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/temporal_migrator.h" line="109" column="1" bodyfile="include/temporal/temporal_migrator.h" bodystart="109" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_plan_1a3ead62adc7b93c704113e7b956abec6b" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationPlan</scope><name>baseline_timestamp</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_plan_1a705df4205e79eb6663580722142cbebf" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationPlan</scope><name>columns</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_plan_1a8ab4152d5b908f0bf4fce8e66ecb119a" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationPlan</scope><name>has_empty_documents</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_plan_1a893875fb37a901083563f2c098607320" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationPlan</scope><name>has_history_to_backfill</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_plan_1a4c2bbc6befff3261ec07842509d94b2e" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationPlan</scope><name>keys_are_unique</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_plan_1aaec17032c4b8b8b549d8877fe780f1ae" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationPlan</scope><name>source_row_count</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_plan_1a9a9675f4df2587a9fecad8849d83ca22" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationPlan</scope><name>source_table_name</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_plan_1afd7e7dc51396bbdd3641365191778a2f" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationPlan</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_plan_1a947acae3a3880819c6bc32bdb4a75b3e" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationPlan</scope><name>versioned_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

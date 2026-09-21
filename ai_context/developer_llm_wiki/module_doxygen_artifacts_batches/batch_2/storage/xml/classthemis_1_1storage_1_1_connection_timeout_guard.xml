@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_connection_timeout_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::ConnectionTimeoutGuard</compoundname>
+    <includes refid="database__connection__manager_8h" local="no">database_connection_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_timeout_guard_1adf7997f374e0eeed62e03c34b04695c0" prot="private" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::storage::ConnectionTimeoutGuard::timeout_</definition>
+        <argsstring></argsstring>
+        <name>timeout_</name>
+        <qualifiedname>themis::storage::ConnectionTimeoutGuard::timeout_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="359" column="26" bodyfile="include/storage/database_connection_manager.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_timeout_guard_1ad6b72deccf0c1ef1b578658397735c34" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ConnectionTimeoutGuard::operation_name_</definition>
+        <argsstring></argsstring>
+        <name>operation_name_</name>
+        <qualifiedname>themis::storage::ConnectionTimeoutGuard::operation_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="360" column="17" bodyfile="include/storage/database_connection_manager.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_timeout_guard_1ad1dbbd88fc2eadef5094a4bfb1b557ce" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::storage::ConnectionTimeoutGuard::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::storage::ConnectionTimeoutGuard::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="361" column="43" bodyfile="include/storage/database_connection_manager.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_timeout_guard_1a79d0ea9021277d9cc6f5434506330003" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::storage::ConnectionTimeoutGuard::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::storage::ConnectionTimeoutGuard::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="362" column="17" bodyfile="include/storage/database_connection_manager.h" bodystart="362" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_timeout_guard_1ac772a9f5ddc3827c943382a04405ad6e" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::storage::ConnectionTimeoutGuard::timed_out_</definition>
+        <argsstring></argsstring>
+        <name>timed_out_</name>
+        <qualifiedname>themis::storage::ConnectionTimeoutGuard::timed_out_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="363" column="25" bodyfile="include/storage/database_connection_manager.h" bodystart="363" bodyend="363"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_timeout_guard_1ae6cc6e3b6c0b2d9d8cf5d5e77d825983" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ConnectionTimeoutGuard::ConnectionTimeoutGuard</definition>
+        <argsstring>(std::chrono::seconds timeout, const std::string &amp;operation_name)</argsstring>
+        <name>ConnectionTimeoutGuard</name>
+        <qualifiedname>themis::storage::ConnectionTimeoutGuard::ConnectionTimeoutGuard</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>timeout</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="336" column="5" bodyfile="src/storage/database_connection_manager.cpp" bodystart="688" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_timeout_guard_1accc4aa2384194bcd692382bb85b4a6f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ConnectionTimeoutGuard::~ConnectionTimeoutGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~ConnectionTimeoutGuard</name>
+        <qualifiedname>themis::storage::ConnectionTimeoutGuard::~ConnectionTimeoutGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="341" column="5" bodyfile="src/storage/database_connection_manager.cpp" bodystart="697" bodyend="701"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_timeout_guard_1ac112a3dbf00be78eb59a6f93464287e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ConnectionTimeoutGuard::hasTimedOut</definition>
+        <argsstring>() const</argsstring>
+        <name>hasTimedOut</name>
+        <qualifiedname>themis::storage::ConnectionTimeoutGuard::hasTimedOut</qualifiedname>
+        <briefdescription>
+<para>Check if operation has timed out. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="346" column="10" bodyfile="src/storage/database_connection_manager.cpp" bodystart="703" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_timeout_guard_1a32ce62f965c42134c8b08b51412b2973" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ConnectionTimeoutGuard::cancel</definition>
+        <argsstring>()</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::storage::ConnectionTimeoutGuard::cancel</qualifiedname>
+        <briefdescription>
+<para>Cancel timeout (call when operation completes). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel.</para>
+<para>Implements cancel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="351" column="10" bodyfile="src/storage/database_connection_manager.cpp" bodystart="723" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_timeout_guard_1aa0804a96fb6dd2643e95992e8d2eedff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::storage::ConnectionTimeoutGuard::getElapsedTime</definition>
+        <argsstring>() const</argsstring>
+        <name>getElapsedTime</name>
+        <qualifiedname>themis::storage::ConnectionTimeoutGuard::getElapsedTime</qualifiedname>
+        <briefdescription>
+<para>Get elapsed time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="356" column="31" bodyfile="src/storage/database_connection_manager.cpp" bodystart="727" bodyend="730"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Connection Timeout Guard. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>RAII-style timeout enforcement for database operations </para>
+    </detaileddescription>
+    <location file="include/storage/database_connection_manager.h" line="334" column="1" bodyfile="include/storage/database_connection_manager.h" bodystart="334" bodyend="364"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_connection_timeout_guard_1a32ce62f965c42134c8b08b51412b2973" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionTimeoutGuard</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_timeout_guard_1a79d0ea9021277d9cc6f5434506330003" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionTimeoutGuard</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_timeout_guard_1ae6cc6e3b6c0b2d9d8cf5d5e77d825983" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionTimeoutGuard</scope><name>ConnectionTimeoutGuard</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_timeout_guard_1aa0804a96fb6dd2643e95992e8d2eedff" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionTimeoutGuard</scope><name>getElapsedTime</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_timeout_guard_1ac112a3dbf00be78eb59a6f93464287e3" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionTimeoutGuard</scope><name>hasTimedOut</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_timeout_guard_1ad6b72deccf0c1ef1b578658397735c34" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionTimeoutGuard</scope><name>operation_name_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_timeout_guard_1ad1dbbd88fc2eadef5094a4bfb1b557ce" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionTimeoutGuard</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_timeout_guard_1ac772a9f5ddc3827c943382a04405ad6e" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionTimeoutGuard</scope><name>timed_out_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_timeout_guard_1adf7997f374e0eeed62e03c34b04695c0" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionTimeoutGuard</scope><name>timeout_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_timeout_guard_1accc4aa2384194bcd692382bb85b4a6f4" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionTimeoutGuard</scope><name>~ConnectionTimeoutGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

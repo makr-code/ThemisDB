@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1compression_1_1_delta_codec" kind="class" language="C++" prot="public">
+    <compoundname>themis::compression::DeltaCodec</compoundname>
+    <includes refid="compression__strategy_8h" local="no">compression_strategy.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_delta_codec_1a841ea76cd8980658074cbc57d088b839" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::DeltaCodec::compress</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::compression::DeltaCodec::compress</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Compress using delta encoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress.</para>
+<para>Stores first value, then differences between consecutive values. Efficient for monotonic or slowly-changing sequences.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), reserve(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="266" column="24" bodyfile="src/storage/compression_strategy.cpp" bodystart="752" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_delta_codec_1a477a8f9ad8518246a9e3e1db34201848" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::DeltaCodec::decompress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::compression::DeltaCodec::decompress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress delta-encoded data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_DEBUG(), reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="271" column="24" bodyfile="src/storage/compression_strategy.cpp" bodystart="779" bodyend="800"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Delta encoding utilities. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/compression_strategy.h" line="258" column="1" bodyfile="include/storage/compression_strategy.h" bodystart="258" bodyend="272"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1compression_1_1_delta_codec_1a841ea76cd8980658074cbc57d088b839" prot="public" virt="non-virtual"><scope>themis::compression::DeltaCodec</scope><name>compress</name></member>
+      <member refid="classthemis_1_1compression_1_1_delta_codec_1a477a8f9ad8518246a9e3e1db34201848" prot="public" virt="non-virtual"><scope>themis::compression::DeltaCodec</scope><name>decompress</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

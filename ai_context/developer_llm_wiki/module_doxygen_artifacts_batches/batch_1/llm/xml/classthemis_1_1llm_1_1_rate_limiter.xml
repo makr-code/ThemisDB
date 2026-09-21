@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_rate_limiter" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::RateLimiter</compoundname>
+    <includes refid="vision__resource__monitor_8h" local="no">vision_resource_monitor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_rate_limiter_1a64c371a7bcff90ef9bdf1ab29a83e896" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::RateLimiter::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>themis::llm::RateLimiter::capacity_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bucket capacity (burst size). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="109" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_rate_limiter_1a6b9b56716382aae3059a771711035970" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::RateLimiter::refill_rate_</definition>
+        <argsstring></argsstring>
+        <name>refill_rate_</name>
+        <qualifiedname>themis::llm::RateLimiter::refill_rate_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Tokens per minute. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="110" column="12" bodyfile="include/llm/vision_resource_monitor.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_rate_limiter_1ac977fad09012e2d946aacbc9f91407f6" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::RateLimiter::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>themis::llm::RateLimiter::tokens_</qualifiedname>
+        <briefdescription>
+<para>Available tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="111" column="25" bodyfile="include/llm/vision_resource_monitor.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_rate_limiter_1a7905feac85316f0ba84ef5db255218f4" prot="private" static="no" mutable="yes">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::RateLimiter::last_refill_</definition>
+        <argsstring></argsstring>
+        <name>last_refill_</name>
+        <qualifiedname>themis::llm::RateLimiter::last_refill_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="112" column="51" bodyfile="include/llm/vision_resource_monitor.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_rate_limiter_1adbebe592998b5301abb1f25d33c8748f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::RateLimiter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::RateLimiter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="113" column="24" bodyfile="include/llm/vision_resource_monitor.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_rate_limiter_1a679aed81b1d00d3f1d7dda43a89d4a93" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::RateLimiter::~RateLimiter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RateLimiter</name>
+        <qualifiedname>themis::llm::RateLimiter::~RateLimiter</qualifiedname>
+        <briefdescription>
+<para>Rate Limiter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="77" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_rate_limiter_1a736e7865b731d7cd537fe141046d16c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::RateLimiter::RateLimiter</definition>
+        <argsstring>(size_t rate_per_minute, size_t burst_size)</argsstring>
+        <name>RateLimiter</name>
+        <qualifiedname>themis::llm::RateLimiter::RateLimiter</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>rate_per_minute</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>burst_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="78" column="5" bodyfile="src/llm/vision_resource_monitor.cpp" bodystart="51" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_rate_limiter_1a9253933918a7124fc1687c4c96aa62d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::RateLimiter::tryAcquire</definition>
+        <argsstring>()</argsstring>
+        <name>tryAcquire</name>
+        <qualifiedname>themis::llm::RateLimiter::tryAcquire</qualifiedname>
+        <briefdescription>
+<para>Try Acquire. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), refillTokens(), load(), fetch_sub(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="84" column="10" bodyfile="src/llm/vision_resource_monitor.cpp" bodystart="64" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_rate_limiter_1ae6f7de9d7200ca1eac8c36a91ad8b071" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::RateLimiter::availableTokens</definition>
+        <argsstring>() const</argsstring>
+        <name>availableTokens</name>
+        <qualifiedname>themis::llm::RateLimiter::availableTokens</qualifiedname>
+        <briefdescription>
+<para>Available Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="90" column="12" bodyfile="src/llm/vision_resource_monitor.cpp" bodystart="77" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_rate_limiter_1ae195b9e662ef839e23c1f66c143da1b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::RateLimiter::timeUntilNextToken</definition>
+        <argsstring>() const</argsstring>
+        <name>timeUntilNextToken</name>
+        <qualifiedname>themis::llm::RateLimiter::timeUntilNextToken</qualifiedname>
+        <briefdescription>
+<para>Time Until Next Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="96" column="31" bodyfile="src/llm/vision_resource_monitor.cpp" bodystart="99" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_rate_limiter_1ab4c9fc28a29bcd75127f2ce5017dcd60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::RateLimiter::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::RateLimiter::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="101" column="10" bodyfile="src/llm/vision_resource_monitor.cpp" bodystart="125" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_rate_limiter_1abe05bf6d25ad2c98d9d3fc61ea776499" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::RateLimiter::refillTokens</definition>
+        <argsstring>()</argsstring>
+        <name>refillTokens</name>
+        <qualifiedname>themis::llm::RateLimiter::refillTokens</qualifiedname>
+        <briefdescription>
+<para>Refill Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(), count(), load(), std::min(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="107" column="10" bodyfile="src/llm/vision_resource_monitor.cpp" bodystart="135" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_resource_monitor.h" line="71" column="1" bodyfile="include/llm/vision_resource_monitor.h" bodystart="71" bodyend="114"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1ae6f7de9d7200ca1eac8c36a91ad8b071" prot="public" virt="non-virtual"><scope>themis::llm::RateLimiter</scope><name>availableTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1a64c371a7bcff90ef9bdf1ab29a83e896" prot="private" virt="non-virtual"><scope>themis::llm::RateLimiter</scope><name>capacity_</name></member>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1a7905feac85316f0ba84ef5db255218f4" prot="private" virt="non-virtual"><scope>themis::llm::RateLimiter</scope><name>last_refill_</name></member>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1adbebe592998b5301abb1f25d33c8748f" prot="private" virt="non-virtual"><scope>themis::llm::RateLimiter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1a736e7865b731d7cd537fe141046d16c1" prot="public" virt="non-virtual"><scope>themis::llm::RateLimiter</scope><name>RateLimiter</name></member>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1a6b9b56716382aae3059a771711035970" prot="private" virt="non-virtual"><scope>themis::llm::RateLimiter</scope><name>refill_rate_</name></member>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1abe05bf6d25ad2c98d9d3fc61ea776499" prot="private" virt="non-virtual"><scope>themis::llm::RateLimiter</scope><name>refillTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1ab4c9fc28a29bcd75127f2ce5017dcd60" prot="public" virt="non-virtual"><scope>themis::llm::RateLimiter</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1ae195b9e662ef839e23c1f66c143da1b8" prot="public" virt="non-virtual"><scope>themis::llm::RateLimiter</scope><name>timeUntilNextToken</name></member>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1ac977fad09012e2d946aacbc9f91407f6" prot="private" virt="non-virtual"><scope>themis::llm::RateLimiter</scope><name>tokens_</name></member>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1a9253933918a7124fc1687c4c96aa62d7" prot="public" virt="non-virtual"><scope>themis::llm::RateLimiter</scope><name>tryAcquire</name></member>
+      <member refid="classthemis_1_1llm_1_1_rate_limiter_1a679aed81b1d00d3f1d7dda43a89d4a93" prot="public" virt="virtual"><scope>themis::llm::RateLimiter</scope><name>~RateLimiter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

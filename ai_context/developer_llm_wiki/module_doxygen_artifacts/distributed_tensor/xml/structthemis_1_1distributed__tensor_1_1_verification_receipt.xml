@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_verification_receipt" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::VerificationReceipt</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2integrity__verification_8h" local="no">integrity_verification.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1acd02ffdb2a80569e0f1e6fedac91525d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::VerificationReceipt::receipt_id</definition>
+        <argsstring></argsstring>
+        <name>receipt_id</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::receipt_id</qualifiedname>
+        <briefdescription>
+<para>Unique receipt identifier (UUID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="101" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a075f2a71cd6c33f12267298bddfbd058" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::VerificationReceipt::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::artifact_id</qualifiedname>
+        <briefdescription>
+<para>Artifact this receipt certifies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="102" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a69ea64b4142fc42f49b6b3a0eb9c8899" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::VerificationReceipt::content_hash</definition>
+        <argsstring></argsstring>
+        <name>content_hash</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::content_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of artifact content at receipt time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="103" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a5d17ebad1cfa58d553635e305acc9954" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::VerificationReceipt::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::timestamp</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 UTC timestamp of receipt creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="104" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1ac026bfe2d6985ef0f3f256408a89f48a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::VerificationReceipt::parent_receipt_hash</definition>
+        <argsstring></argsstring>
+        <name>parent_receipt_hash</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::parent_receipt_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of previous receipt in chain (empty for genesis). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="105" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a4ee86ec3a247860dfaabb7af91e5dc22" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::VerificationReceipt::receipt_hash</definition>
+        <argsstring></argsstring>
+        <name>receipt_hash</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::receipt_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of this receipt&apos;s canonical form. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="106" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1aa2736cdc31792384eab7d6f6f3d75362" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::VerificationReceipt::package_lineage_hash</definition>
+        <argsstring></argsstring>
+        <name>package_lineage_hash</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::package_lineage_hash</qualifiedname>
+        <briefdescription>
+<para>Hash linking to package rebuild source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="109" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a9e0fcae6d1bea9e3ff797112c2467b75" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::VerificationReceipt::shard_placement_id</definition>
+        <argsstring></argsstring>
+        <name>shard_placement_id</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::shard_placement_id</qualifiedname>
+        <briefdescription>
+<para>Placement strategy used at receipt time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="110" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a8f4b7e823127807707414fe7e5415e2f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a8eadada81999a0abd98d5379955e1533" kindref="member">json</ref></type>
+        <definition>json themis::distributed_tensor::VerificationReceipt::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional certification metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="111" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1ab201b2337edb1204236da882907e4d78" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::VerificationReceipt::computeContentHash</definition>
+        <argsstring>() const</argsstring>
+        <name>computeContentHash</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::computeContentHash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="113" column="18" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="247" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1aa08d23f93a941d6cf570a8ecb0fad7e4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::VerificationReceipt::verifyIntegrity</definition>
+        <argsstring>() const</argsstring>
+        <name>verifyIntegrity</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::verifyIntegrity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="115" column="11" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="261" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1acf65d17872ac13a25ebef7defa7e8af6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a8eadada81999a0abd98d5379955e1533" kindref="member">json</ref></type>
+        <definition>json themis::distributed_tensor::VerificationReceipt::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="117" column="11" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="265" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a10f0141665e8c1ac1bc7d49d44452b3a" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_verification_receipt" kindref="compound">VerificationReceipt</ref> &gt;</type>
+        <definition>std::optional&lt; VerificationReceipt &gt; themis::distributed_tensor::VerificationReceipt::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::distributed_tensor::VerificationReceipt::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1distributed__tensor_1a8eadada81999a0abd98d5379955e1533" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), getRequiredString(), find(), has_value(), end(), empty(), isLikelyArtifactIdentifier(), <ref refid="namespacethemis_1_1distributed__tensor_1a48d6370a209596666332ed4cc01d3b98" kindref="member">isValidSHA256Hex()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="119" column="27" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="285" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/integrity_verification.h" line="100" column="1" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="100" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a075f2a71cd6c33f12267298bddfbd058" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1ab201b2337edb1204236da882907e4d78" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>computeContentHash</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a69ea64b4142fc42f49b6b3a0eb9c8899" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>content_hash</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a10f0141665e8c1ac1bc7d49d44452b3a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a8f4b7e823127807707414fe7e5415e2f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1aa2736cdc31792384eab7d6f6f3d75362" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>package_lineage_hash</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1ac026bfe2d6985ef0f3f256408a89f48a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>parent_receipt_hash</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a4ee86ec3a247860dfaabb7af91e5dc22" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>receipt_hash</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1acd02ffdb2a80569e0f1e6fedac91525d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>receipt_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a9e0fcae6d1bea9e3ff797112c2467b75" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>shard_placement_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1a5d17ebad1cfa58d553635e305acc9954" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1acf65d17872ac13a25ebef7defa7e8af6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_verification_receipt_1aa08d23f93a941d6cf570a8ecb0fad7e4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::VerificationReceipt</scope><name>verifyIntegrity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

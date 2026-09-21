@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_object_centric_tracer" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ObjectCentricTracer</compoundname>
+    <includes refid="object__centric__tracer_8h" local="no">object_centric_tracer.h</includes>
+    <innerclass refid="structthemis_1_1process_1_1_object_centric_tracer_1_1_convergence_divergence_result" prot="public">themis::process::ObjectCentricTracer::ConvergenceDivergenceResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_object_centric_tracer_1a1629512fe8126105d6fc54c868f49b04" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">ProcessLinker</ref> &amp;</type>
+        <definition>ProcessLinker&amp; themis::process::ObjectCentricTracer::linker_</definition>
+        <argsstring></argsstring>
+        <name>linker_</name>
+        <qualifiedname>themis::process::ObjectCentricTracer::linker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="161" column="25" bodyfile="include/process/object_centric_tracer.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_object_centric_tracer_1aae0de31be492484edba441ce61c3d849" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> &amp;</type>
+        <definition>ProcessModelManager&amp; themis::process::ObjectCentricTracer::model_manager_</definition>
+        <argsstring></argsstring>
+        <name>model_manager_</name>
+        <qualifiedname>themis::process::ObjectCentricTracer::model_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="162" column="25" bodyfile="include/process/object_centric_tracer.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_object_centric_tracer_1a189ce6a3d0b33d46c7eabebf746853f4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ObjectCentricTracer::ObjectCentricTracer</definition>
+        <argsstring>(ProcessLinker &amp;linker, ProcessModelManager &amp;model_manager)</argsstring>
+        <name>ObjectCentricTracer</name>
+        <qualifiedname>themis::process::ObjectCentricTracer::ObjectCentricTracer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">ProcessLinker</ref> &amp;</type>
+          <declname>linker</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> &amp;</type>
+          <declname>model_manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>linker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">ProcessLinker</ref> to retrieve attachments. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>model_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> to load model definitions. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="82" column="14" bodyfile="src/process/object_centric_tracer.cpp" bodystart="38" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_object_centric_tracer_1a07f7d1fee741e8348b7e908f0c179b56" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::ObjectCentricTracer::buildOcelLog</definition>
+        <argsstring>(std::string_view instance_id) const</argsstring>
+        <name>buildOcelLog</name>
+        <qualifiedname>themis::process::ObjectCentricTracer::buildOcelLog</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Build an OCEL 2.0 compatible JSON log for a process instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Format: <programlisting filename=".json"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;ocel:global-log&quot;:<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;ocel:attribute-names&quot;:<sp/>[],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;ocel:object-types&quot;:<sp/>[&quot;documents&quot;,<sp/>&quot;metadata&quot;,<sp/>...]</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;ocel:events&quot;:<sp/>[</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;ocel:id&quot;:<sp/>&quot;...&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;ocel:activity&quot;:<sp/>&quot;HAS_DOCUMENT&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;ocel:timestamp&quot;:<sp/>1234567890,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;ocel:omap&quot;:<sp/>{&quot;documents&quot;:<sp/>[&quot;doc-1&quot;]},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;ocel:vmap&quot;:<sp/>{}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;ocel:objects&quot;:<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;doc-1&quot;:<sp/>{&quot;ocel:type&quot;:<sp/>&quot;documents&quot;},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process instance identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>OCEL 2.0 JSON object. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="116" column="21" bodyfile="src/process/object_centric_tracer.cpp" bodystart="49" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_object_centric_tracer_1a498751c438a84e2ca441914066e28919" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::ObjectCentricTracer::computeDfmg</definition>
+        <argsstring>(std::string_view model_id, std::string_view object_type) const</argsstring>
+        <name>computeDfmg</name>
+        <qualifiedname>themis::process::ObjectCentricTracer::computeDfmg</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>object_type</declname>
+        </param>
+        <briefdescription>
+<para>Compute the Directly-Follows Multigraph (DFMG) for a given object type within a process model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Loads the process model, iterates all edges, and accumulates arcs with their frequency. Runs in O(n) over the edge list.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process model identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>object_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object type (collection name) to trace. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON: <programlisting filename=".json"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;object_type&quot;:<sp/>&quot;documents&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;nodes&quot;:<sp/>[&quot;node-A&quot;,<sp/>&quot;node-B&quot;,<sp/>...],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;arcs&quot;:<sp/>[{&quot;from&quot;:<sp/>&quot;node-A&quot;,<sp/>&quot;to&quot;:<sp/>&quot;node-B&quot;,<sp/>&quot;frequency&quot;:<sp/>3},<sp/>...]</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Obj type str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">object_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="136" column="21" bodyfile="src/process/object_centric_tracer.cpp" bodystart="109" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_object_centric_tracer_1a328f437de3e26ed5099fe8a4132c1f05" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_object_centric_tracer_1_1_convergence_divergence_result" kindref="compound">ConvergenceDivergenceResult</ref></type>
+        <definition>ObjectCentricTracer::ConvergenceDivergenceResult themis::process::ObjectCentricTracer::analyze</definition>
+        <argsstring>(std::string_view model_id) const</argsstring>
+        <name>analyze</name>
+        <qualifiedname>themis::process::ObjectCentricTracer::analyze</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Analyse a process model for convergence / divergence patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process model identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1process_1_1_object_centric_tracer_1_1_convergence_divergence_result" kindref="compound">ConvergenceDivergenceResult</ref></computeroutput> with classified nodes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="158" column="34" bodyfile="src/process/object_centric_tracer.cpp" bodystart="208" bodyend="274"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Object-Centric Process Mining façade. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides three core capabilities:</para>
+<para><orderedlist>
+<listitem><para><bold><ref refid="classthemis_1_1process_1_1_object_centric_tracer_1a07f7d1fee741e8348b7e908f0c179b56" kindref="member">buildOcelLog()</ref></bold> — Convert process instance attachments into an OCEL 2.0 compatible JSON event log.</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1process_1_1_object_centric_tracer_1a498751c438a84e2ca441914066e28919" kindref="member">computeDfmg()</ref></bold> — Build the Directly-Follows Multigraph (DFMG) for a given object type across a process model.</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1process_1_1_object_centric_tracer_1a328f437de3e26ed5099fe8a4132c1f05" kindref="member">analyze()</ref></bold> — Identify convergence (many→one) and divergence (one→many) nodes by object type.</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="par"><title>Performance</title><para><computeroutput><ref refid="classthemis_1_1process_1_1_object_centric_tracer_1a498751c438a84e2ca441914066e28919" kindref="member">computeDfmg()</ref></computeroutput> must handle 10,000 events in &lt; 5 s (O(n) frequency map).</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">ProcessLinker</ref>, <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/object_centric_tracer.h" line="76" column="1" bodyfile="include/process/object_centric_tracer.h" bodystart="76" bodyend="163"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_object_centric_tracer_1a328f437de3e26ed5099fe8a4132c1f05" prot="public" virt="non-virtual"><scope>themis::process::ObjectCentricTracer</scope><name>analyze</name></member>
+      <member refid="classthemis_1_1process_1_1_object_centric_tracer_1a07f7d1fee741e8348b7e908f0c179b56" prot="public" virt="non-virtual"><scope>themis::process::ObjectCentricTracer</scope><name>buildOcelLog</name></member>
+      <member refid="classthemis_1_1process_1_1_object_centric_tracer_1a498751c438a84e2ca441914066e28919" prot="public" virt="non-virtual"><scope>themis::process::ObjectCentricTracer</scope><name>computeDfmg</name></member>
+      <member refid="classthemis_1_1process_1_1_object_centric_tracer_1a1629512fe8126105d6fc54c868f49b04" prot="private" virt="non-virtual"><scope>themis::process::ObjectCentricTracer</scope><name>linker_</name></member>
+      <member refid="classthemis_1_1process_1_1_object_centric_tracer_1aae0de31be492484edba441ce61c3d849" prot="private" virt="non-virtual"><scope>themis::process::ObjectCentricTracer</scope><name>model_manager_</name></member>
+      <member refid="classthemis_1_1process_1_1_object_centric_tracer_1a189ce6a3d0b33d46c7eabebf746853f4" prot="public" virt="non-virtual"><scope>themis::process::ObjectCentricTracer</scope><name>ObjectCentricTracer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

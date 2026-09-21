@@ -1,0 +1,648 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="auth__error_8h" kind="file" language="C++">
+    <compoundname>auth_error.h</compoundname>
+    <includes local="yes">utils/error_registry.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="api__key__authenticator_8h" local="yes">include/auth/api_key_authenticator.h</includedby>
+    <includedby refid="federated__identity__manager_8h" local="yes">include/auth/federated_identity_manager.h</includedby>
+    <includedby refid="http__auth__async_8h" local="yes">include/auth/http_auth_async.h</includedby>
+    <includedby refid="ldap__authenticator_8h" local="yes">include/auth/ldap_authenticator.h</includedby>
+    <includedby refid="mtls__authenticator_8h" local="yes">include/auth/mtls_authenticator.h</includedby>
+    <includedby refid="oauth__device__flow_8h" local="yes">include/auth/oauth_device_flow.h</includedby>
+    <includedby refid="oauth__pkce__flow_8h" local="yes">include/auth/oauth_pkce_flow.h</includedby>
+    <includedby refid="oidc__provider_8h" local="yes">include/auth/oidc_provider.h</includedby>
+    <includedby refid="webauthn__authenticator_8h" local="yes">include/auth/webauthn_authenticator.h</includedby>
+    <includedby refid="auth__error_8cpp" local="yes">src/auth/auth_error.cpp</includedby>
+    <includedby refid="distributed__token__blacklist_8cpp" local="yes">src/auth/distributed_token_blacklist.cpp</includedby>
+    <includedby refid="ldap__connection__pool_8cpp" local="yes">src/auth/ldap_connection_pool.cpp</includedby>
+    <includedby refid="saml__authenticator_8cpp" local="yes">src/auth/saml_authenticator.cpp</includedby>
+    <includedby refid="test__auth__error_8cpp" local="yes">tests/auth/test_auth_error.cpp</includedby>
+    <includedby refid="test__auth__hardening__revocation__federation_8cpp" local="yes">tests/auth/test_auth_hardening_revocation_federation.cpp</includedby>
+    <includedby refid="test__auth__protocol__matrix__regression_8cpp" local="yes">tests/auth/test_auth_protocol_matrix_regression.cpp</includedby>
+    <includedby refid="test__auth__wavec__authentication__methods_8cpp" local="yes">tests/auth/test_auth_wavec_authentication_methods.cpp</includedby>
+    <includedby refid="test__auth__wavec__federation__providers_8cpp" local="yes">tests/auth/test_auth_wavec_federation_providers.cpp</includedby>
+    <includedby refid="test__auth__wavec__rate__limiting_8cpp" local="yes">tests/auth/test_auth_wavec_rate_limiting.cpp</includedby>
+    <includedby refid="test__auth__wavec__token__lifecycle_8cpp" local="yes">tests/auth/test_auth_wavec_token_lifecycle.cpp</includedby>
+    <includedby refid="test__jwt__validator__focused_8cpp" local="yes">tests/auth/test_jwt_validator_focused.cpp</includedby>
+    <includedby refid="test__saml__authenticator__focused_8cpp" local="yes">tests/auth/test_saml_authenticator_focused.cpp</includedby>
+    <includedby refid="test__wave4b__auth__hardening_8cpp" local="yes">tests/auth/test_wave4b_auth_hardening.cpp</includedby>
+    <includedby refid="test__wave4b__auth__hardening2_8cpp" local="yes">tests/auth/test_wave4b_auth_hardening2.cpp</includedby>
+    <includedby refid="test__wave7__auth__ldap__federated_8cpp" local="yes">tests/auth/test_wave7_auth_ldap_federated.cpp</includedby>
+    <includedby refid="test__webauthn__authenticator__focused_8cpp" local="yes">tests/auth/test_webauthn_authenticator_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/auth/auth_error.h</label>
+        <link refid="auth__error_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>utils/error_registry.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="7">
+        <label>benchmarks/auth/bench_auth_hotpaths.cpp</label>
+        <link refid="bench__auth__hotpaths_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/auth/api_key_authenticator.h</label>
+        <link refid="api__key__authenticator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/auth/auth_error.h</label>
+        <link refid="auth__error_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/auth/federated_identity_manager.h</label>
+        <link refid="federated__identity__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/auth/http_auth_async.h</label>
+        <link refid="http__auth__async_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/auth/ldap_authenticator.h</label>
+        <link refid="ldap__authenticator_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/auth/mtls_authenticator.h</label>
+        <link refid="mtls__authenticator_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/auth/oauth_device_flow.h</label>
+        <link refid="oauth__device__flow_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/auth/oauth_pkce_flow.h</label>
+        <link refid="oauth__pkce__flow_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/auth/oidc_provider.h</label>
+        <link refid="oidc__provider_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/auth/webauthn_authenticator.h</label>
+        <link refid="webauthn__authenticator_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/auth/api_key_authenticator.cpp</label>
+        <link refid="api__key__authenticator_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/auth/auth_error.cpp</label>
+        <link refid="auth__error_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/auth/distributed_token_blacklist.cpp</label>
+        <link refid="distributed__token__blacklist_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/auth/federated_identity_manager.cpp</label>
+        <link refid="federated__identity__manager_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/auth/http_auth_async.cpp</label>
+        <link refid="http__auth__async_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/auth/ldap_authenticator.cpp</label>
+        <link refid="ldap__authenticator_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/auth/ldap_connection_pool.cpp</label>
+        <link refid="ldap__connection__pool_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/auth/mtls_authenticator.cpp</label>
+        <link refid="mtls__authenticator_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/auth/oauth_device_flow.cpp</label>
+        <link refid="oauth__device__flow_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/auth/oauth_pkce_flow.cpp</label>
+        <link refid="oauth__pkce__flow_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/auth/oidc_provider.cpp</label>
+        <link refid="oidc__provider_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/auth/saml_authenticator.cpp</label>
+        <link refid="saml__authenticator_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/auth/webauthn_authenticator.cpp</label>
+        <link refid="webauthn__authenticator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/auth/test_auth_audit_logger.cpp</label>
+        <link refid="test__auth__audit__logger_8cpp"/>
+      </node>
+      <node id="37">
+        <label>tests/auth/test_auth_error.cpp</label>
+        <link refid="test__auth__error_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/auth/test_auth_hardening_revocation_federation.cpp</label>
+        <link refid="test__auth__hardening__revocation__federation_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/auth/test_auth_middleware.cpp</label>
+        <link refid="test__auth__middleware_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/auth/test_auth_protocol_matrix_regression.cpp</label>
+        <link refid="test__auth__protocol__matrix__regression_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/auth/test_auth_soak.cpp</label>
+        <link refid="test__auth__soak_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/auth/test_auth_wavec_authentication_methods.cpp</label>
+        <link refid="test__auth__wavec__authentication__methods_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/auth/test_auth_wavec_federation_providers.cpp</label>
+        <link refid="test__auth__wavec__federation__providers_8cpp"/>
+      </node>
+      <node id="38">
+        <label>tests/auth/test_auth_wavec_rate_limiting.cpp</label>
+        <link refid="test__auth__wavec__rate__limiting_8cpp"/>
+      </node>
+      <node id="39">
+        <label>tests/auth/test_auth_wavec_token_lifecycle.cpp</label>
+        <link refid="test__auth__wavec__token__lifecycle_8cpp"/>
+      </node>
+      <node id="40">
+        <label>tests/auth/test_jwt_validator_focused.cpp</label>
+        <link refid="test__jwt__validator__focused_8cpp"/>
+      </node>
+      <node id="41">
+        <label>tests/auth/test_saml_authenticator_focused.cpp</label>
+        <link refid="test__saml__authenticator__focused_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/auth/test_wave4b_auth_hardening.cpp</label>
+        <link refid="test__wave4b__auth__hardening_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/auth/test_wave4b_auth_hardening2.cpp</label>
+        <link refid="test__wave4b__auth__hardening2_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/auth/test_wave7_auth_ldap_federated.cpp</label>
+        <link refid="test__wave7__auth__ldap__federated_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/auth/test_wave8_auth_hardening.cpp</label>
+        <link refid="test__wave8__auth__hardening_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/auth/test_webauthn_authenticator_focused.cpp</label>
+        <link refid="test__webauthn__authenticator__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1auth_1_1_auth_error" prot="public">themis::auth::AuthError</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_auth_exception" prot="public">themis::auth::AuthException</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="auth__error_8h_1a2c87d1257c36492df56e6da77cf1d085" prot="public" static="no">
+        <name>THROW_AUTH_ERROR</name>
+        <param><defname>code</defname></param>
+        <param><defname>public_msg</defname></param>
+        <param><defname>internal_msg</defname></param>
+        <initializer>throw <ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">themis::auth::AuthException</ref>( \
+    <ref refid="classthemis_1_1auth_1_1_auth_error" kindref="compound">themis::auth::AuthError</ref>( \
+        code, \
+        public_msg, \
+        internal_msg \
+    ) \
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="280" column="9" bodyfile="include/auth/auth_error.h" bodystart="280" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="define" id="auth__error_8h_1aae20bb4d721728f53651deb6e6882a43" prot="public" static="no">
+        <name>THROW_AUTH_ERROR_WITH_ID</name>
+        <param><defname>code</defname></param>
+        <param><defname>public_msg</defname></param>
+        <param><defname>internal_msg</defname></param>
+        <param><defname>req_id</defname></param>
+        <initializer>throw <ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">themis::auth::AuthException</ref>( \
+    <ref refid="classthemis_1_1auth_1_1_auth_error" kindref="compound">themis::auth::AuthError</ref>( \
+        code, \
+        public_msg, \
+        internal_msg, \
+        req_id \
+    ) \
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="289" column="9" bodyfile="include/auth/auth_error.h" bodystart="289" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/error_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" kindref="member">AuthErrorCode</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>General<sp/>auth<sp/>errors<sp/>(9300-9309)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9ab633ea43ca0fdbdeb5a834564e3dc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9ab633ea43ca0fdbdeb5a834564e3dc4" kindref="member">AUTH_GENERAL_FAILURE</ref><sp/>=<sp/>9300,</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a81df923a75d4a7c657d5efcffab57a24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a81df923a75d4a7c657d5efcffab57a24" kindref="member">AUTH_INVALID_CREDENTIALS</ref><sp/>=<sp/>9301,</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a215eae9aef2e9be836736b0280d8c116" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a215eae9aef2e9be836736b0280d8c116" kindref="member">AUTH_TOKEN_INVALID</ref><sp/>=<sp/>9302,</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9f169f017ccb41f5e097b0eb9a4b698f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9f169f017ccb41f5e097b0eb9a4b698f" kindref="member">AUTH_TOKEN_EXPIRED</ref><sp/>=<sp/>9303,</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a80e49bf2408f0a3e4d78dcdf8b495da4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a80e49bf2408f0a3e4d78dcdf8b495da4" kindref="member">AUTH_TOKEN_NOT_YET_VALID</ref><sp/>=<sp/>9304,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af2ac4d16358569e231ad9b51b41e8063" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af2ac4d16358569e231ad9b51b41e8063" kindref="member">AUTH_INSUFFICIENT_PERMISSIONS</ref><sp/>=<sp/>9305,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JWT<sp/>errors<sp/>(9310-9329)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a91eeb8641c503cfad8b4ba642246e1cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a91eeb8641c503cfad8b4ba642246e1cd" kindref="member">JWT_INVALID_FORMAT</ref><sp/>=<sp/>9310,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a4995e3e18706374b61c569bc05bd8829" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a4995e3e18706374b61c569bc05bd8829" kindref="member">JWT_INVALID_SIGNATURE</ref><sp/>=<sp/>9311,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a960598a1df21b57f89fb741363be125e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a960598a1df21b57f89fb741363be125e" kindref="member">JWT_ISSUER_MISMATCH</ref><sp/>=<sp/>9312,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a30aa516f9ec98caacfc3f636fa058a53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a30aa516f9ec98caacfc3f636fa058a53" kindref="member">JWT_AUDIENCE_MISMATCH</ref><sp/>=<sp/>9313,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ad18829f939633bf58308521e1ceb805d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ad18829f939633bf58308521e1ceb805d" kindref="member">JWT_TOKEN_TOO_LARGE</ref><sp/>=<sp/>9314,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abf0034c3a5a2b730ccdedeb85bed536a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abf0034c3a5a2b730ccdedeb85bed536a" kindref="member">JWT_PRINCIPAL_TOO_LONG</ref><sp/>=<sp/>9315,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae8cac713b233c65073bc802daf0b3e24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae8cac713b233c65073bc802daf0b3e24" kindref="member">JWT_JWKS_FETCH_FAILED</ref><sp/>=<sp/>9316,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a91b0c6c4acf4d673e7cbecf4957cf25b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a91b0c6c4acf4d673e7cbecf4957cf25b" kindref="member">JWT_JWKS_INVALID</ref><sp/>=<sp/>9317,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a2354af9662bc0b5a3b159783e094bc74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a2354af9662bc0b5a3b159783e094bc74" kindref="member">JWT_KID_REVOKED</ref><sp/>=<sp/>9318,</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae804c19d233b58a799769bd9a035c921" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae804c19d233b58a799769bd9a035c921" kindref="member">JWT_UNSUPPORTED_ALGORITHM</ref><sp/>=<sp/>9319,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9be319a12f99f66a4dfaa09dae0d595b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9be319a12f99f66a4dfaa09dae0d595b" kindref="member">JWT_MISSING_REQUIRED_CLAIM</ref><sp/>=<sp/>9320,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GSSAPI/Kerberos<sp/>errors<sp/>(9330-9349)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a79835a6c424a505ff1461efb5391da03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a79835a6c424a505ff1461efb5391da03" kindref="member">GSSAPI_INITIALIZATION_FAILED</ref><sp/>=<sp/>9330,</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae4a60e9f7ac1a162840aca510730bc62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae4a60e9f7ac1a162840aca510730bc62" kindref="member">GSSAPI_TOKEN_INVALID</ref><sp/>=<sp/>9331,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a0331c27cc60843ffd9d45a681028c2a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a0331c27cc60843ffd9d45a681028c2a3" kindref="member">GSSAPI_TOKEN_TOO_LARGE</ref><sp/>=<sp/>9332,</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abb57ea89b69948d076072e92a0ecf82a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abb57ea89b69948d076072e92a0ecf82a" kindref="member">GSSAPI_PRINCIPAL_TOO_LONG</ref><sp/>=<sp/>9333,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a3435e3efe9f032b96b19291264035a0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a3435e3efe9f032b96b19291264035a0e" kindref="member">GSSAPI_SERVICE_PRINCIPAL_INVALID</ref><sp/>=<sp/>9334,</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a6f3601c2935b7942b24230fc3c07173b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a6f3601c2935b7942b24230fc3c07173b" kindref="member">GSSAPI_KEYTAB_NOT_FOUND</ref><sp/>=<sp/>9335,</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a656c44d0bc7ddb33f1497ac15343a984" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a656c44d0bc7ddb33f1497ac15343a984" kindref="member">GSSAPI_KEYTAB_INVALID</ref><sp/>=<sp/>9336,</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ac1f231c8f6fd956383038773e7458083" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ac1f231c8f6fd956383038773e7458083" kindref="member">GSSAPI_CONTEXT_EXPIRED</ref><sp/>=<sp/>9337,</highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a57d2afa2ee8d3190a837913a0a7412d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a57d2afa2ee8d3190a837913a0a7412d8" kindref="member">GSSAPI_KDC_UNREACHABLE</ref><sp/>=<sp/>9338,</highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a0bbe06062419c4ee457e2966030905a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a0bbe06062419c4ee457e2966030905a3" kindref="member">GSSAPI_CLOCK_SKEW</ref><sp/>=<sp/>9339,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MFA<sp/>errors<sp/>(9350-9369)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9869d9823b26d6ad0b4e39e4a250dfcc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9869d9823b26d6ad0b4e39e4a250dfcc" kindref="member">MFA_CODE_INVALID</ref><sp/>=<sp/>9350,</highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a113f2852726cda578a53729bfcd1ad70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a113f2852726cda578a53729bfcd1ad70" kindref="member">MFA_CODE_EXPIRED</ref><sp/>=<sp/>9351,</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ad94deaa4b9db3c0daa4f73ba71247cc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ad94deaa4b9db3c0daa4f73ba71247cc1" kindref="member">MFA_SECRET_INVALID</ref><sp/>=<sp/>9352,</highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1612698daf4c120cc09ffe6310e0b036" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1612698daf4c120cc09ffe6310e0b036" kindref="member">MFA_NOT_ENROLLED</ref><sp/>=<sp/>9353,</highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a5aef7a6173c9c68d3553953f87ef005f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a5aef7a6173c9c68d3553953f87ef005f" kindref="member">MFA_ALREADY_ENROLLED</ref><sp/>=<sp/>9354,</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a546add2338f981d4590b321650c0ee48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a546add2338f981d4590b321650c0ee48" kindref="member">MFA_RECOVERY_CODE_INVALID</ref><sp/>=<sp/>9355,</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a5b6bc59dedeaaa6e443b6d60544c6d90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a5b6bc59dedeaaa6e443b6d60544c6d90" kindref="member">MFA_RECOVERY_CODE_EXHAUSTED</ref><sp/>=<sp/>9356,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limiting<sp/>errors<sp/>(9370-9379)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae4cb8fdc67aff1c7243a190a2e02f708" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae4cb8fdc67aff1c7243a190a2e02f708" kindref="member">AUTH_RATE_LIMIT_EXCEEDED</ref><sp/>=<sp/>9370,</highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aea92e5ae0d0cc7ef48cd6982abf13de8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aea92e5ae0d0cc7ef48cd6982abf13de8" kindref="member">AUTH_ACCOUNT_LOCKED</ref><sp/>=<sp/>9371,</highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae83a2eb5c632ce653ccaabac7801be4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae83a2eb5c632ce653ccaabac7801be4e" kindref="member">AUTH_IP_BLOCKED</ref><sp/>=<sp/>9372,</highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1075aa559e402038b6ed11918efa0cca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1075aa559e402038b6ed11918efa0cca" kindref="member">AUTH_TOO_MANY_FAILURES</ref><sp/>=<sp/>9373,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>errors<sp/>(9380-9389)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab7460b141feee0480ca16d210d79ac91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab7460b141feee0480ca16d210d79ac91" kindref="member">AUTH_CONFIG_INVALID</ref><sp/>=<sp/>9380,</highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aec40dcdfb0dd1cf7599ba7b8a23f6a38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aec40dcdfb0dd1cf7599ba7b8a23f6a38" kindref="member">AUTH_CONFIG_MISSING</ref><sp/>=<sp/>9381,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SAML<sp/>2.0<sp/>errors<sp/>(9382-9389)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a4fea38c4b5d47b723c970f8b78357cdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a4fea38c4b5d47b723c970f8b78357cdf" kindref="member">SAML_INVALID_RESPONSE</ref><sp/>=<sp/>9382,</highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a885c3501837065cf824ee4c7ba7e5621" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a885c3501837065cf824ee4c7ba7e5621" kindref="member">SAML_INVALID_SIGNATURE</ref><sp/>=<sp/>9383,</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9707d67fe99a0342d7ef8f6d98b8a9c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9707d67fe99a0342d7ef8f6d98b8a9c5" kindref="member">SAML_CONDITIONS_FAILED</ref><sp/>=<sp/>9384,</highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aff93985c0393cbb938428bf2a0ed5828" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aff93985c0393cbb938428bf2a0ed5828" kindref="member">SAML_MISSING_ASSERTION</ref><sp/>=<sp/>9385,</highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a08a383d4708232c1b9688464aec8e79e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a08a383d4708232c1b9688464aec8e79e" kindref="member">SAML_REPLAY_DETECTED</ref><sp/>=<sp/>9386,</highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a6688ec2b26863940d41064ca1b7b1dda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a6688ec2b26863940d41064ca1b7b1dda" kindref="member">SAML_DESTINATION_MISMATCH</ref><sp/>=<sp/>9387,</highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa4bf1e6af7c66ffc7d1fbcef274d22fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa4bf1e6af7c66ffc7d1fbcef274d22fe" kindref="member">SAML_STATUS_FAILURE</ref><sp/>=<sp/>9388,</highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae360969fa399b7f45bc2ed829076b736" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae360969fa399b7f45bc2ed829076b736" kindref="member">SAML_ISSUER_MISMATCH</ref><sp/>=<sp/>9389,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>errors<sp/>(9390-9391)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ac564a7084712396772f42a483cada8f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ac564a7084712396772f42a483cada8f8" kindref="member">AUTH_INTERNAL_ERROR</ref><sp/>=<sp/>9390,</highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aff4619b4da8f6998d6e7ca29d288d755" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aff4619b4da8f6998d6e7ca29d288d755" kindref="member">AUTH_NOT_IMPLEMENTED</ref><sp/>=<sp/>9391,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>API<sp/>key<sp/>errors<sp/>(9392-9396)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abfa32d8a27b9fe83fbe18ce42ccab2a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abfa32d8a27b9fe83fbe18ce42ccab2a2" kindref="member">API_KEY_INVALID</ref><sp/>=<sp/>9392,</highlight></codeline>
+<codeline lineno="92" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae33c8735a3313784364175d8ca82e0dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae33c8735a3313784364175d8ca82e0dd" kindref="member">API_KEY_SECRET_MISMATCH</ref><sp/>=<sp/>9393,</highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af1386cd76bf9aab0a9acc80a1e612876" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af1386cd76bf9aab0a9acc80a1e612876" kindref="member">API_KEY_EXPIRED</ref><sp/>=<sp/>9394,</highlight></codeline>
+<codeline lineno="94" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae27190cc58d96b3c9fc94af60372c815" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae27190cc58d96b3c9fc94af60372c815" kindref="member">API_KEY_INACTIVE</ref><sp/>=<sp/>9395,</highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa0f462f69ee194a489e5f05cebebe608" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa0f462f69ee194a489e5f05cebebe608" kindref="member">API_KEY_SCOPE_DENIED</ref><sp/>=<sp/>9396,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mTLS<sp/>/<sp/>certificate<sp/>errors<sp/>(9397-9399)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa646ff961228ba4ad56e585ae74a60c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa646ff961228ba4ad56e585ae74a60c0" kindref="member">MTLS_CERT_INVALID</ref><sp/>=<sp/>9397,</highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a83cdb01a411b2b2c9a0ee1dbdd96b6f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a83cdb01a411b2b2c9a0ee1dbdd96b6f8" kindref="member">MTLS_CERT_EXPIRED</ref><sp/>=<sp/>9398,</highlight></codeline>
+<codeline lineno="100" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae175196f571e03399096911d8b5f0558" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae175196f571e03399096911d8b5f0558" kindref="member">MTLS_CERT_REVOKED</ref><sp/>=<sp/>9399,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LDAP<sp/>/<sp/>Active<sp/>Directory<sp/>errors<sp/>(9400-9409)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab1bb0edbdf8a93d85b4c0988799a92ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab1bb0edbdf8a93d85b4c0988799a92ae" kindref="member">LDAP_CONNECTION_FAILED</ref><sp/>=<sp/>9400,</highlight></codeline>
+<codeline lineno="104" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab0dea57cce0cb5dce0339cf304852bcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab0dea57cce0cb5dce0339cf304852bcf" kindref="member">LDAP_BIND_FAILED</ref><sp/>=<sp/>9401,</highlight></codeline>
+<codeline lineno="105" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae3f15dedcbb8504a46cbbdca16e10c6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae3f15dedcbb8504a46cbbdca16e10c6f" kindref="member">LDAP_INVALID_CREDENTIALS</ref><sp/>=<sp/>9402,</highlight></codeline>
+<codeline lineno="106" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9e40cece94bca3c106a928006b2c5d9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9e40cece94bca3c106a928006b2c5d9c" kindref="member">LDAP_SERVER_UNREACHABLE</ref><sp/>=<sp/>9403,</highlight></codeline>
+<codeline lineno="107" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1483030419f1e851bd743ac7299e379a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1483030419f1e851bd743ac7299e379a" kindref="member">LDAP_SEARCH_FAILED</ref><sp/>=<sp/>9404,</highlight></codeline>
+<codeline lineno="108" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a7cec0ee03a9351e9fe8cc29939b7fadc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a7cec0ee03a9351e9fe8cc29939b7fadc" kindref="member">LDAP_USER_NOT_FOUND</ref><sp/>=<sp/>9405,</highlight></codeline>
+<codeline lineno="109" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ac88cf82cf7e46ad946a179abe99ebcdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ac88cf82cf7e46ad946a179abe99ebcdf" kindref="member">LDAP_TLS_FAILED</ref><sp/>=<sp/>9406,</highlight></codeline>
+<codeline lineno="110" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a591ac9c10233a151216f7cbc8c8de63c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a591ac9c10233a151216f7cbc8c8de63c" kindref="member">LDAP_NOT_INITIALIZED</ref><sp/>=<sp/>9407,</highlight></codeline>
+<codeline lineno="111" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab1320b1d0b0827153b2d1c387b23b6b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab1320b1d0b0827153b2d1c387b23b6b8" kindref="member">LDAP_OPERATION_TIMEOUT</ref><sp/>=<sp/>9408,</highlight></codeline>
+<codeline lineno="112" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abcbb55b415a9e6261a484d4f240e8e76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abcbb55b415a9e6261a484d4f240e8e76" kindref="member">LDAP_INVALID_DN</ref><sp/>=<sp/>9409,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Password<sp/>policy<sp/>errors<sp/>(9410-9419)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa839aff0400d6c882debb139ee9cdfe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa839aff0400d6c882debb139ee9cdfe5" kindref="member">PASSWORD_POLICY_VIOLATION</ref><sp/>=<sp/>9410,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SAML<sp/>assertion<sp/>decryption<sp/>errors<sp/>(9411)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a24d6691176d043999171476ce71f7154" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a24d6691176d043999171476ce71f7154" kindref="member">SAML_DECRYPTION_FAILED</ref><sp/>=<sp/>9411,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Provider<sp/>/<sp/>federation<sp/>availability<sp/>errors<sp/>(9420-9429)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a860afb063abeaf83480d95e656778eaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a860afb063abeaf83480d95e656778eaa" kindref="member">PROVIDER_DEGRADED</ref><sp/>=<sp/>9420,</highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a91e4da82c27048643c5f946fa2fe6cda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a91e4da82c27048643c5f946fa2fe6cda" kindref="member">PROVIDER_CAPABILITY_MISMATCH</ref><sp/>=<sp/>9421,</highlight></codeline>
+<codeline lineno="123" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1684ddd7767a84ef65eee5a5422259f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1684ddd7767a84ef65eee5a5422259f4" kindref="member">FEDERATION_REALM_UNAVAILABLE</ref><sp/>=<sp/>9422,</highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa37b236ed70a972921b55401bb8c2ca6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa37b236ed70a972921b55401bb8c2ca6" kindref="member">FEDERATION_UNKNOWN_REALM</ref><sp/>=<sp/>9423,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Revocation<sp/>backend<sp/>errors<sp/>(9430-9439)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a5730414dd6e6a3a0a3d885384c2e11fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a5730414dd6e6a3a0a3d885384c2e11fb" kindref="member">REVOCATION_BACKEND_UNAVAILABLE</ref><sp/>=<sp/>9430,</highlight></codeline>
+<codeline lineno="128" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1626f546cd308ab699a5744695c7d944" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1626f546cd308ab699a5744695c7d944" kindref="member">REVOCATION_ENTRY_INVALID</ref><sp/>=<sp/>9431,</highlight></codeline>
+<codeline lineno="129" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a60ce4ce63cb7917799a5cf30b029f9ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a60ce4ce63cb7917799a5cf30b029f9ba" kindref="member">REVOCATION_CLUSTER_SYNC_FAILED</ref><sp/>=<sp/>9432,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Policy<sp/>/<sp/>authorization<sp/>edge<sp/>errors<sp/>(9440-9449)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af25ef2f4a5a66cd822cd29472262f614" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af25ef2f4a5a66cd822cd29472262f614" kindref="member">POLICY_EDGE_UNDEFINED</ref><sp/>=<sp/>9440,</highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af833cabf10e77270c4840f68f748b3be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af833cabf10e77270c4840f68f748b3be" kindref="member">POLICY_MISSING_REQUIRED_CLAIM</ref><sp/>=<sp/>9441,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Async<sp/>provider<sp/>/<sp/>timeout<sp/>errors<sp/>(9450-9459)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a69d69d296e0e1b075c60a1a5bc138047" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a69d69d296e0e1b075c60a1a5bc138047" kindref="member">ASYNC_PROVIDER_TIMEOUT</ref><sp/>=<sp/>9450,</highlight></codeline>
+<codeline lineno="137" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a0cc233b3716b75f81f5012cc056b6ee8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a0cc233b3716b75f81f5012cc056b6ee8" kindref="member">ASYNC_POOL_EXHAUSTED</ref><sp/>=<sp/>9451,</highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abbf0208ef095e2bd53e9092b96c6d922" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abbf0208ef095e2bd53e9092b96c6d922" kindref="member">ASYNC_PROVIDER_EXCEPTION</ref><sp/>=<sp/>9452</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1auth_1a4c9e9c91a88a518ef1f4c60536d1e37c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>errors::ErrorCode<sp/><ref refid="namespacethemis_1_1auth_1a4c9e9c91a88a518ef1f4c60536d1e37c" kindref="member">toErrorCode</ref>(<ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" kindref="member">AuthErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">errors::ErrorCode</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1auth_1_1_auth_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_auth_error_1a80aa85a2bdb83eaa0cad181ed20e7a1e" kindref="member">AuthError</ref><sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1a80aa85a2bdb83eaa0cad181ed20e7a1e" kindref="member">AuthError</ref>(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" kindref="member">AuthErrorCode</ref><sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>public_message,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>internal_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>request_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" kindref="member">AuthErrorCode</ref><sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code_;<sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1auth_1_1_auth_error_1a6fdcebc03c68e669d0a98abfe53ab46d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1a6fdcebc03c68e669d0a98abfe53ab46d" kindref="member">publicMessage</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>public_message_;<sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1auth_1_1_auth_error_1afaa895ef395f72dea8c9840421c5bbc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1afaa895ef395f72dea8c9840421c5bbc5" kindref="member">internalMessage</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>internal_message_;<sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1auth_1_1_auth_error_1a56f56e92b78f790d5fab54f1028f9bb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1a56f56e92b78f790d5fab54f1028f9bb4" kindref="member">requestId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>request_id_;<sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1auth_1_1_auth_error_1a3688acb99a9b6859c62bec93e9a1d039" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1a3688acb99a9b6859c62bec93e9a1d039" kindref="member">timestamp</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>timestamp_;<sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1auth_1_1_auth_error_1a43950857cd1d6baac7b1a79adfc99d93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1a43950857cd1d6baac7b1a79adfc99d93" kindref="member">setRetryAfter</ref>(std::chrono::seconds<sp/>duration)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>retry_after_<sp/>=<sp/>duration;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1auth_1_1_auth_error_1adeae7fc9de5ddc7c982a67b8926bdc23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::seconds&gt;<sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1adeae7fc9de5ddc7c982a67b8926bdc23" kindref="member">retryAfter</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>retry_after_;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1a6adadbe51e0166c107fbac5f7d9d085b" kindref="member">toPublicJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1ae05b76ec61d267ccf06e712f6861f371" kindref="member">toInternalJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1adc816f79fb74eadcd959422e3c000d1c" kindref="member">logError</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_error" kindref="compound">AuthError</ref><sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1a50eb3993ee06e578bee825deea43b0e0" kindref="member">fromException</ref>(</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>request_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1auth_1_1_auth_error_1a9244a2de5b8f85a80cafc15bf150504d" kindref="member">maskSensitiveData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" kindref="member">AuthErrorCode</ref><sp/>code_;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>public_message_;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>internal_message_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>request_id_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>timestamp_;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::seconds&gt;<sp/>retry_after_;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>generateRequestId();</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>maskEmail(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>email);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>maskPrincipal(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>maskFilePath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>maskIPAddress(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>maskToken(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1auth_1_1_auth_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_auth_exception_1a0cead3385378222e181b25121926c714" kindref="member">AuthException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="264" refid="classthemis_1_1auth_1_1_auth_exception_1a0cead3385378222e181b25121926c714" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception_1a0cead3385378222e181b25121926c714" kindref="member">AuthException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_error" kindref="compound">AuthError</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>)</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>.publicMessage())</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>error_(<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>)</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269" refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_error" kindref="compound">AuthError</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error_;<sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_error" kindref="compound">AuthError</ref><sp/>error_;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1aa860719f6d7a813c864005df68f892b7" kindref="member">registerAuthErrors</ref>();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280" refid="auth__error_8h_1a2c87d1257c36492df56e6da77cf1d085" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THROW_AUTH_ERROR(code,<sp/>public_msg,<sp/>internal_msg)<sp/>\</highlight></codeline>
+<codeline lineno="281"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>throw<sp/>themis::auth::AuthException(<sp/>\</highlight></codeline>
+<codeline lineno="282"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::auth::AuthError(<sp/>\</highlight></codeline>
+<codeline lineno="283"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>code,<sp/>\</highlight></codeline>
+<codeline lineno="284"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>public_msg,<sp/>\</highlight></codeline>
+<codeline lineno="285"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>internal_msg<sp/>\</highlight></codeline>
+<codeline lineno="286"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)<sp/>\</highlight></codeline>
+<codeline lineno="287"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289" refid="auth__error_8h_1aae20bb4d721728f53651deb6e6882a43" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THROW_AUTH_ERROR_WITH_ID(code,<sp/>public_msg,<sp/>internal_msg,<sp/>req_id)<sp/>\</highlight></codeline>
+<codeline lineno="290"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>throw<sp/>themis::auth::AuthException(<sp/>\</highlight></codeline>
+<codeline lineno="291"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::auth::AuthError(<sp/>\</highlight></codeline>
+<codeline lineno="292"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>code,<sp/>\</highlight></codeline>
+<codeline lineno="293"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>public_msg,<sp/>\</highlight></codeline>
+<codeline lineno="294"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>internal_msg,<sp/>\</highlight></codeline>
+<codeline lineno="295"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req_id<sp/>\</highlight></codeline>
+<codeline lineno="296"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)<sp/>\</highlight></codeline>
+<codeline lineno="297"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/auth_error.h"/>
+  </compounddef>
+</doxygen>

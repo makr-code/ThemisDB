@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_continuous_query_planner" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::ContinuousQueryPlanner</compoundname>
+    <includes refid="continuous__query__planner_8h" local="no">continuous_query_planner.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_continuous_query_planner_1abdcb3cddf6ef12edbee225c7a58f94c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ContinuousQueryPlanner::ContinuousQueryPlanner</definition>
+        <argsstring>()=default</argsstring>
+        <name>ContinuousQueryPlanner</name>
+        <qualifiedname>themis::query::ContinuousQueryPlanner::ContinuousQueryPlanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_planner.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_continuous_query_planner_1a25e7a345530f02f3f79799f53957d94d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1query_1_1_continuous_plan" kindref="compound">ContinuousPlan</ref> &gt;</type>
+        <definition>Result&lt; ContinuousPlan &gt; themis::query::ContinuousQueryPlanner::compile</definition>
+        <argsstring>(const ContinuousQuerySpec &amp;spec) const</argsstring>
+        <name>compile</name>
+        <qualifiedname>themis::query::ContinuousQueryPlanner::compile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_planner.h" line="53" column="13" bodyfile="src/query/continuous_query_planner.cpp" bodystart="84" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/continuous_query_planner.h" line="49" column="1" bodyfile="include/query/continuous_query_planner.h" bodystart="49" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_continuous_query_planner_1a25e7a345530f02f3f79799f53957d94d" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryPlanner</scope><name>compile</name></member>
+      <member refid="classthemis_1_1query_1_1_continuous_query_planner_1abdcb3cddf6ef12edbee225c7a58f94c0" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryPlanner</scope><name>ContinuousQueryPlanner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

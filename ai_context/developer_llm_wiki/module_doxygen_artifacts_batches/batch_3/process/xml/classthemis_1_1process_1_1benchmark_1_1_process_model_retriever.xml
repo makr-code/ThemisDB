@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::ProcessModelRetriever</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a8277002abe4664fd8bd878d092e60782" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &gt;</type>
+        <definition>std::vector&lt;ProcessModelRecord&gt; themis::process::benchmark::ProcessModelRetriever::models_</definition>
+        <argsstring></argsstring>
+        <name>models_</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="55" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a66881f22c6a9a953a8f8a2e12c09ab14" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::ProcessModelRetriever::last_modified_ms_</definition>
+        <argsstring></argsstring>
+        <name>last_modified_ms_</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::last_modified_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="56" column="13" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1aca62638e4fa3b84fdf19556c881b7f2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::ProcessModelRetriever::ProcessModelRetriever</definition>
+        <argsstring>()=default</argsstring>
+        <name>ProcessModelRetriever</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::ProcessModelRetriever</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a25487f34e2a872b1363ae9d961b1ff63" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::benchmark::ProcessModelRetriever::addModel</definition>
+        <argsstring>(const ProcessModelRecord &amp;model)</argsstring>
+        <name>addModel</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::addModel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+<para>Add a process model to the store. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="64" column="10" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1acff16b7134ab8454837ef16342fec120" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult themis::process::benchmark::ProcessModelRetriever::simpleQuery</definition>
+        <argsstring>(const std::string &amp;state_filter, int limit=10)</argsstring>
+        <name>simpleQuery</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::simpleQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state_filter</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Simple query by name/state filter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="72" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="72" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1ac9c852d5c3eda1a809df0619ed6cd4cf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult themis::process::benchmark::ProcessModelRetriever::complexQuery</definition>
+        <argsstring>(const std::string &amp;state, const std::string &amp;name_pattern, int min_revision, int limit=10)</argsstring>
+        <name>complexQuery</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::complexQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name_pattern</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min_revision</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Complex query with multiple filters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="91" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="91" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a0b323fe91b33fc222737430da5e69aa4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult themis::process::benchmark::ProcessModelRetriever::fullTextSearch</definition>
+        <argsstring>(const std::string &amp;query_term, int limit=10)</argsstring>
+        <name>fullTextSearch</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::fullTextSearch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_term</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Full-text search on description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="115" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="115" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a62ea4bd1a1da3694c8bc3eef7fbaf029" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult themis::process::benchmark::ProcessModelRetriever::embeddingSimilaritySearch</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_embedding, float min_similarity=0.7f, int limit=10)</argsstring>
+        <name>embeddingSimilaritySearch</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::embeddingSimilaritySearch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_similarity</declname>
+          <defval>0.7f</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Embedding similarity search (cosine distance). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="134" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="134" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1aa64902c4390ca27acc5c7bb137d5ab2e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult themis::process::benchmark::ProcessModelRetriever::paginatedQuery</definition>
+        <argsstring>(const std::string &amp;state, int page, int page_size=20)</argsstring>
+        <name>paginatedQuery</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::paginatedQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>page</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>page_size</declname>
+          <defval>20</defval>
+        </param>
+        <briefdescription>
+<para>Paginated query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="164" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="164" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a8f7f946b1d4ea0f806e6d0b9ca95ff92" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult themis::process::benchmark::ProcessModelRetriever::rankAndSort</definition>
+        <argsstring>(const std::vector&lt; ProcessModelRecord &gt; &amp;candidates, int limit=10)</argsstring>
+        <name>rankAndSort</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::rankAndSort</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Retrieve and rank models by relevance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="192" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="192" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a8e1c9bf163ca5107cb49ff8f8bc8d051" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::process::benchmark::ProcessModelRetriever::modelCount</definition>
+        <argsstring>() const</argsstring>
+        <name>modelCount</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::modelCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="210" column="12" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a8cacf7babe42814d5713ec1be6a90936" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::ProcessModelRetriever::lastModifiedMs</definition>
+        <argsstring>() const</argsstring>
+        <name>lastModifiedMs</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::lastModifiedMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="211" column="13" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="211" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a38058f2cb1892efad786ad5c7b641067" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::process::benchmark::ProcessModelRetriever::cosineSimilarity</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>cosineSimilarity</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRetriever::cosineSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Calculate cosine similarity between two embedding vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="217" column="18" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="217" bodyend="240"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory process model store with retrieval capabilities. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="53" column="1" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="53" bodyend="241"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a25487f34e2a872b1363ae9d961b1ff63" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>addModel</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1ac9c852d5c3eda1a809df0619ed6cd4cf" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>complexQuery</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a38058f2cb1892efad786ad5c7b641067" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>cosineSimilarity</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a62ea4bd1a1da3694c8bc3eef7fbaf029" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>embeddingSimilaritySearch</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a0b323fe91b33fc222737430da5e69aa4" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>fullTextSearch</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a66881f22c6a9a953a8f8a2e12c09ab14" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>last_modified_ms_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a8cacf7babe42814d5713ec1be6a90936" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>lastModifiedMs</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a8e1c9bf163ca5107cb49ff8f8bc8d051" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>modelCount</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a8277002abe4664fd8bd878d092e60782" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>models_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1aa64902c4390ca27acc5c7bb137d5ab2e" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>paginatedQuery</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1aca62638e4fa3b84fdf19556c881b7f2b" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>ProcessModelRetriever</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1a8f7f946b1d4ea0f806e6d0b9ca95ff92" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>rankAndSort</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_model_retriever_1acff16b7134ab8454837ef16342fec120" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRetriever</scope><name>simpleQuery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

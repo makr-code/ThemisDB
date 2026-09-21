@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::scraper::NullScraperDiagnosticSink</compoundname>
+    <basecompoundref refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink" prot="public" virt="non-virtual">themis::scraper::IScraperDiagnosticSink</basecompoundref>
+    <includes refid="scraper__diagnostics_8h" local="no">scraper_diagnostics.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink_1a4ab7998a8c78c34a71ab53a3583c212d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::scraper::NullScraperDiagnosticSink::emit</definition>
+        <argsstring>(const ScraperDiagnosticEvent &amp;) noexcept override</argsstring>
+        <name>emit</name>
+        <qualifiedname>themis::scraper::NullScraperDiagnosticSink::emit</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1ac5b62cc62388f5f68eb8ca453215b3a5">emit</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Emit a diagnostic event to the sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The structured event. <computeroutput>event.message</computeroutput> must be non-empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implementations MUST NOT throw. Any internal error during emit should be swallowed and counted (not propagated to the scraper pipeline). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="152" column="10" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="152" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>No-op diagnostic sink for unit tests and default construction. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::scraper::IScraperDiagnosticSink</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::NullScraperDiagnosticSink</label>
+        <link refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::scraper::IScraperDiagnosticSink</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::NullScraperDiagnosticSink</label>
+        <link refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/scraper/scraper_diagnostics.h" line="150" column="1" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="150" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_null_scraper_diagnostic_sink_1a4ab7998a8c78c34a71ab53a3583c212d" prot="public" virt="virtual"><scope>themis::scraper::NullScraperDiagnosticSink</scope><name>emit</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1af3d4cd9f02b6a62838a5f3e3f2dbec3e" prot="public" virt="virtual"><scope>themis::scraper::NullScraperDiagnosticSink</scope><name>~IScraperDiagnosticSink</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

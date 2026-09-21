@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_serializer_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::SerializerValidationResult</compoundname>
+    <includes refid="serializer__hardening_8h" local="no">serializer_hardening.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_serializer_validation_result_1a36658f9d0272cb6e004c8c0c0eb16e16" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::SerializerValidationResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::process::SerializerValidationResult::ok</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="28" column="10" bodyfile="include/process/serializer_hardening.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_serializer_validation_result_1a4db52f67d184399bb28d73ddf08abec5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::SerializerValidationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::process::SerializerValidationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="29" column="17" bodyfile="include/process/serializer_hardening.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_serializer_validation_result_1ae3ddc8b0ecbd86f7030012230c6f4222" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref></type>
+        <definition>DiagnosticIncidentType themis::process::SerializerValidationResult::incident_type</definition>
+        <argsstring></argsstring>
+        <name>incident_type</name>
+        <qualifiedname>themis::process::SerializerValidationResult::incident_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da957d9268f98bcb2629609988916d362d" kindref="member">DiagnosticIncidentType::MALFORMED_INPUT_INCIDENT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="30" column="28" bodyfile="include/process/serializer_hardening.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_serializer_validation_result_1af17e113bce7b7ebada7dd731bb75bb57" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref></type>
+        <definition>static SerializerValidationResult themis::process::SerializerValidationResult::success</definition>
+        <argsstring>()</argsstring>
+        <name>success</name>
+        <qualifiedname>themis::process::SerializerValidationResult::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="32" column="39" bodyfile="include/process/serializer_hardening.h" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_serializer_validation_result_1a2263a5322eabf351a3f50047daf63da0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref></type>
+        <definition>static SerializerValidationResult themis::process::SerializerValidationResult::failure</definition>
+        <argsstring>(std::string_view msg, DiagnosticIncidentType incident=DiagnosticIncidentType::MALFORMED_INPUT_INCIDENT)</argsstring>
+        <name>failure</name>
+        <qualifiedname>themis::process::SerializerValidationResult::failure</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref></type>
+          <declname>incident</declname>
+          <defval><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da957d9268f98bcb2629609988916d362d" kindref="member">DiagnosticIncidentType::MALFORMED_INPUT_INCIDENT</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="38" column="39" bodyfile="include/process/serializer_hardening.h" bodystart="38" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validation result for serializer input pre-checks. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/serializer_hardening.h" line="27" column="1" bodyfile="include/process/serializer_hardening.h" bodystart="27" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_serializer_validation_result_1a4db52f67d184399bb28d73ddf08abec5" prot="public" virt="non-virtual"><scope>themis::process::SerializerValidationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1process_1_1_serializer_validation_result_1a2263a5322eabf351a3f50047daf63da0" prot="public" virt="non-virtual"><scope>themis::process::SerializerValidationResult</scope><name>failure</name></member>
+      <member refid="structthemis_1_1process_1_1_serializer_validation_result_1ae3ddc8b0ecbd86f7030012230c6f4222" prot="public" virt="non-virtual"><scope>themis::process::SerializerValidationResult</scope><name>incident_type</name></member>
+      <member refid="structthemis_1_1process_1_1_serializer_validation_result_1a36658f9d0272cb6e004c8c0c0eb16e16" prot="public" virt="non-virtual"><scope>themis::process::SerializerValidationResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1process_1_1_serializer_validation_result_1af17e113bce7b7ebada7dd731bb75bb57" prot="public" virt="non-virtual"><scope>themis::process::SerializerValidationResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

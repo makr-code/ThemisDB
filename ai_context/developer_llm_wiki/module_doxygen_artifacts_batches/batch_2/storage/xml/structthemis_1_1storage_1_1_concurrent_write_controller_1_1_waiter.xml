@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_concurrent_write_controller_1_1_waiter" kind="struct" language="C++" prot="private">
+    <compoundname>themis::storage::ConcurrentWriteController::Waiter</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_concurrent_write_controller_1_1_waiter_1a112154fe0f900e4d2f13d9a45db69c40" prot="public" static="no" mutable="no">
+        <type>std::promise&lt; void &gt;</type>
+        <definition>std::promise&lt;void&gt; themis::storage::ConcurrentWriteController::Waiter::promise</definition>
+        <argsstring></argsstring>
+        <name>promise</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::Waiter::promise</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="184" column="22" bodyfile="include/storage/concurrent_write_controller.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/concurrent_write_controller.h" line="183" column="5" bodyfile="include/storage/concurrent_write_controller.h" bodystart="183" bodyend="185"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_concurrent_write_controller_1_1_waiter_1a112154fe0f900e4d2f13d9a45db69c40" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController::Waiter</scope><name>promise</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

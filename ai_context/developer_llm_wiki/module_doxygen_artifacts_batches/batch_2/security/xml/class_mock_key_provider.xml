@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_key_provider" kind="class" language="C++" prot="public">
+    <compoundname>MockKeyProvider</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IKeyProvider</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_key_provider_1a66108bcb6859f36e2f57a060e57f2ef3" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="struct_mock_key_entry" kindref="compound">MockKeyEntry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, MockKeyEntry&gt; MockKeyProvider::keys_</definition>
+        <argsstring></argsstring>
+        <name>keys_</name>
+        <qualifiedname>MockKeyProvider::keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="75" column="24" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_key_provider_1a2edb13dbf6a45ee5ff7bc547c6fb42e8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; MockKeyProvider::access_count_</definition>
+        <argsstring></argsstring>
+        <name>access_count_</name>
+        <qualifiedname>MockKeyProvider::access_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="76" column="17" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_key_provider_1ade1eff9cab9196b23b98438278f27293" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; MockKeyProvider::rotation_count_</definition>
+        <argsstring></argsstring>
+        <name>rotation_count_</name>
+        <qualifiedname>MockKeyProvider::rotation_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="77" column="17" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_key_provider_1a58887ae2ebb5df6c93465392e70334d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MockKeyProvider::MOCK_METHOD</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt;, get_key,(const std::string &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>MockKeyProvider::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt;</type>
+        </param>
+        <param>
+          <type>get_key</type>
+        </param>
+        <param>
+          <type>(const std::string &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_di.cpp" line="18" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_key_provider_1ab6295d3a185ced5d4cdf72c8e872b7ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MockKeyProvider::MOCK_METHOD</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt;, rotate_key,(const std::string &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>MockKeyProvider::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt;</type>
+        </param>
+        <param>
+          <type>rotate_key</type>
+        </param>
+        <param>
+          <type>(const std::string &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_di.cpp" line="19" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_key_provider_1ad59e141657be2c094e12326f5007f49e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MockKeyProvider::MockKeyProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>MockKeyProvider</name>
+        <qualifiedname>MockKeyProvider::MockKeyProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="42" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_key_provider_1a6d32e8c1723a602a2a13c51b8274beee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockKeyProvider::addKey</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;material)</argsstring>
+        <name>addKey</name>
+        <qualifiedname>MockKeyProvider::addKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>material</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="44" column="10" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_key_provider_1ae21ca7e0dc502e3891fb69ee075ac95f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockKeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id)</argsstring>
+        <name>getKey</name>
+        <qualifiedname>MockKeyProvider::getKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="48" column="17" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="48" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_key_provider_1a518d3700bad1c24b8858b645d4777552" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockKeyProvider::rotateKey</definition>
+        <argsstring>(const std::string &amp;old_id, const std::string &amp;new_id, const std::vector&lt; uint8_t &gt; &amp;new_material)</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>MockKeyProvider::rotateKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>new_material</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="57" column="10" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="57" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_key_provider_1ada5d11e263cb74b60381f2a51a2ee624" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t MockKeyProvider::accessCount</definition>
+        <argsstring>() const</argsstring>
+        <name>accessCount</name>
+        <qualifiedname>MockKeyProvider::accessCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="71" column="14" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_key_provider_1a79bfb41924c8a61fc2a35c616ba46a7e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t MockKeyProvider::rotationCount</definition>
+        <argsstring>() const</argsstring>
+        <name>rotationCount</name>
+        <qualifiedname>MockKeyProvider::rotationCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="72" column="14" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock Key Provider for testing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="1">
+        <label>MockKeyProvider</label>
+        <link refid="class_mock_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="1">
+        <label>MockKeyProvider</label>
+        <link refid="class_mock_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_security_di.cpp" line="16" column="1" bodyfile="tests/security/test_security_di.cpp" bodystart="16" bodyend="20"/>
+    <listofallmembers>
+      <member refid="class_mock_key_provider_1a2edb13dbf6a45ee5ff7bc547c6fb42e8" prot="private" virt="non-virtual"><scope>MockKeyProvider</scope><name>access_count_</name></member>
+      <member refid="class_mock_key_provider_1ada5d11e263cb74b60381f2a51a2ee624" prot="public" virt="non-virtual"><scope>MockKeyProvider</scope><name>accessCount</name></member>
+      <member refid="class_mock_key_provider_1a6d32e8c1723a602a2a13c51b8274beee" prot="public" virt="non-virtual"><scope>MockKeyProvider</scope><name>addKey</name></member>
+      <member refid="class_mock_key_provider_1ae21ca7e0dc502e3891fb69ee075ac95f" prot="public" virt="non-virtual"><scope>MockKeyProvider</scope><name>getKey</name></member>
+      <member refid="class_mock_key_provider_1a66108bcb6859f36e2f57a060e57f2ef3" prot="private" virt="non-virtual"><scope>MockKeyProvider</scope><name>keys_</name></member>
+      <member refid="class_mock_key_provider_1a58887ae2ebb5df6c93465392e70334d7" prot="public" virt="non-virtual"><scope>MockKeyProvider</scope><name>MOCK_METHOD</name></member>
+      <member refid="class_mock_key_provider_1ab6295d3a185ced5d4cdf72c8e872b7ad" prot="public" virt="non-virtual"><scope>MockKeyProvider</scope><name>MOCK_METHOD</name></member>
+      <member refid="class_mock_key_provider_1ad59e141657be2c094e12326f5007f49e" prot="public" virt="non-virtual"><scope>MockKeyProvider</scope><name>MockKeyProvider</name></member>
+      <member refid="class_mock_key_provider_1a518d3700bad1c24b8858b645d4777552" prot="public" virt="non-virtual"><scope>MockKeyProvider</scope><name>rotateKey</name></member>
+      <member refid="class_mock_key_provider_1ade1eff9cab9196b23b98438278f27293" prot="private" virt="non-virtual"><scope>MockKeyProvider</scope><name>rotation_count_</name></member>
+      <member refid="class_mock_key_provider_1a79bfb41924c8a61fc2a35c616ba46a7e" prot="public" virt="non-virtual"><scope>MockKeyProvider</scope><name>rotationCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

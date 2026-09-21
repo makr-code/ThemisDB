@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_27cf901766db54d09e23d7f301bf64e8" kind="dir">
+    <compoundname>src/llm/lora_framework</compoundname>
+    <innerdir refid="dir_1102ce7b355411d3bc77789360544c66">src/llm/lora_framework/kernels</innerdir>
+    <innerfile refid="adapter__consistency__checker_8cpp">adapter_consistency_checker.cpp</innerfile>
+    <innerfile refid="adapter__sync__manager_8cpp">adapter_sync_manager.cpp</innerfile>
+    <innerfile refid="adaptive__batcher_8cpp">adaptive_batcher.cpp</innerfile>
+    <innerfile refid="base__model__adapter_8cpp">base_model_adapter.cpp</innerfile>
+    <innerfile refid="custom__allreduce_8cpp">custom_allreduce.cpp</innerfile>
+    <innerfile refid="data__loader_8cpp">data_loader.cpp</innerfile>
+    <innerfile refid="directx__buffer_8cpp">directx_buffer.cpp</innerfile>
+    <innerfile refid="directx__context_8cpp">directx_context.cpp</innerfile>
+    <innerfile refid="directx__descriptors_8cpp">directx_descriptors.cpp</innerfile>
+    <innerfile refid="directx__pipeline_8cpp">directx_pipeline.cpp</innerfile>
+    <innerfile refid="directx__shader_8cpp">directx_shader.cpp</innerfile>
+    <innerfile refid="distributed__dataloader_8cpp">distributed_dataloader.cpp</innerfile>
+    <innerfile refid="distributed__trainer_8cpp">distributed_trainer.cpp</innerfile>
+    <innerfile refid="embedding__provider_8cpp">embedding_provider.cpp</innerfile>
+    <innerfile refid="feedback__plugin_8cpp">feedback_plugin.cpp</innerfile>
+    <innerfile refid="flash__lora_8cpp">flash_lora.cpp</innerfile>
+    <innerfile refid="gguf__converter_8cpp">gguf_converter.cpp</innerfile>
+    <innerfile refid="gpu__data__loader_8cpp">gpu_data_loader.cpp</innerfile>
+    <innerfile refid="gpu__embedding__layer_8cpp">gpu_embedding_layer.cpp</innerfile>
+    <innerfile refid="gpu__lora__layers_8cpp">gpu_lora_layers.cpp</innerfile>
+    <innerfile refid="gpu__memory_8cpp">gpu_memory.cpp</innerfile>
+    <innerfile refid="gpu__tensor_8cpp">gpu_tensor.cpp</innerfile>
+    <innerfile refid="gpu__training__loop_8cpp">gpu_training_loop.cpp</innerfile>
+    <innerfile refid="gpu__utilization__monitor_8cpp">gpu_utilization_monitor.cpp</innerfile>
+    <innerfile refid="gradient__checkpointing_8cpp">gradient_checkpointing.cpp</innerfile>
+    <innerfile refid="gradient__utils_8cpp">gradient_utils.cpp</innerfile>
+    <innerfile refid="llama__tokenizer_8cpp">llama_tokenizer.cpp</innerfile>
+    <innerfile refid="lora__audit__logger_8cpp">lora_audit_logger.cpp</innerfile>
+    <innerfile refid="lora__checkpoint__manager_8cpp">lora_checkpoint_manager.cpp</innerfile>
+    <innerfile refid="lora__feedback__storage_8cpp">lora_feedback_storage.cpp</innerfile>
+    <innerfile refid="lora__layers_8cpp">lora_layers.cpp</innerfile>
+    <innerfile refid="lora__orchestrator_8cpp">lora_orchestrator.cpp</innerfile>
+    <innerfile refid="lora__package__provenance_8cpp">lora_package_provenance.cpp</innerfile>
+    <innerfile refid="lora__provenance_8cpp">lora_provenance.cpp</innerfile>
+    <innerfile refid="lora__storage__service_8cpp">lora_storage_service.cpp</innerfile>
+    <innerfile refid="lora__storage__service__themisdb_8cpp">lora_storage_service_themisdb.cpp</innerfile>
+    <innerfile refid="lora__training__config_8cpp">lora_training_config.cpp</innerfile>
+    <innerfile refid="lora__training__service_8cpp">lora_training_service.cpp</innerfile>
+    <innerfile refid="lr__scheduler_8cpp">lr_scheduler.cpp</innerfile>
+    <innerfile refid="mixed__precision_8cpp">mixed_precision.cpp</innerfile>
+    <innerfile refid="model__compatibility_8cpp">model_compatibility.cpp</innerfile>
+    <innerfile refid="multi__gpu_8cpp">multi_gpu.cpp</innerfile>
+    <innerfile refid="multi__gpu__lora__layer_8cpp">multi_gpu_lora_layer.cpp</innerfile>
+    <innerfile refid="multi__gpu__trainer_8cpp">multi_gpu_trainer.cpp</innerfile>
+    <innerfile refid="nccl__backend_8cpp">nccl_backend.cpp</innerfile>
+    <innerfile refid="paged__memory__manager_8cpp">paged_memory_manager.cpp</innerfile>
+    <innerfile refid="paged__optimizer_8cpp">paged_optimizer.cpp</innerfile>
+    <innerfile refid="quantization_8cpp">quantization.cpp</innerfile>
+    <innerfile refid="quantized__model_8cpp">quantized_model.cpp</innerfile>
+    <innerfile refid="rccl__backend_8cpp">rccl_backend.cpp</innerfile>
+    <innerfile refid="resource__profiler_8cpp">resource_profiler.cpp</innerfile>
+    <innerfile refid="sequence__packer_8cpp">sequence_packer.cpp</innerfile>
+    <innerfile refid="training__service__registry_8cpp">training_service_registry.cpp</innerfile>
+    <innerfile refid="vram__allocator_8cpp">vram_allocator.cpp</innerfile>
+    <innerfile refid="vulkan__buffer_8cpp">vulkan_buffer.cpp</innerfile>
+    <innerfile refid="vulkan__context_8cpp">vulkan_context.cpp</innerfile>
+    <innerfile refid="vulkan__pipeline_8cpp">vulkan_pipeline.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/lora_framework/"/>
+  </compounddef>
+</doxygen>

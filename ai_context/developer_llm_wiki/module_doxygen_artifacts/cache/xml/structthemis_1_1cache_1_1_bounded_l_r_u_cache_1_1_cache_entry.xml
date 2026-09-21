@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_cache_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cache::BoundedLRUCache::CacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_cache_entry_1a964e12edb4b03790163f13f15769cd95" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cache::BoundedLRUCache::CacheEntry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::CacheEntry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="91" column="24" bodyfile="include/cache/bounded_lru_cache.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_cache_entry_1aec69cc49e91580050f0c6fa6b46e37d9" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cache::BoundedLRUCache::CacheEntry::expiry</definition>
+        <argsstring></argsstring>
+        <name>expiry</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::CacheEntry::expiry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="92" column="47" bodyfile="include/cache/bounded_lru_cache.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_cache_entry_1a47cb72bf2fcd15d0dbcd7f9f14733f68" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cache::BoundedLRUCache::CacheEntry::last_access</definition>
+        <argsstring></argsstring>
+        <name>last_access</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::CacheEntry::last_access</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="93" column="47" bodyfile="include/cache/bounded_lru_cache.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/bounded_lru_cache.h" line="90" column="5" bodyfile="include/cache/bounded_lru_cache.h" bodystart="90" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_cache_entry_1aec69cc49e91580050f0c6fa6b46e37d9" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::CacheEntry</scope><name>expiry</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_cache_entry_1a47cb72bf2fcd15d0dbcd7f9f14733f68" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::CacheEntry</scope><name>last_access</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_cache_entry_1a964e12edb4b03790163f13f15769cd95" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::CacheEntry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

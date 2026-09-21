@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_i_g_r_p_c_bridge" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::api::IGRPCBridge</compoundname>
+    <includes refid="grpc__bridge_8h" local="no">grpc_bridge.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1a230cc370bb2a9ab79ecde9be8e2447ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::api::IGRPCBridge::~IGRPCBridge</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGRPCBridge</name>
+        <qualifiedname>themis::api::IGRPCBridge::~IGRPCBridge</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1api_1_1_i_g_r_p_c_bridge" kindref="compound">IGRPCBridge</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="83" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1ae27c7f2878a2cb7f1d75c9784589efeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::api::IGRPCBridge::registerService</definition>
+        <argsstring>(ServiceDescriptor service, IHttpHandler &amp;handler)=0</argsstring>
+        <name>registerService</name>
+        <qualifiedname>themis::api::IGRPCBridge::registerService</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1api_1_1_service_descriptor" kindref="compound">ServiceDescriptor</ref></type>
+          <declname>service</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref> &amp;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Register Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="90" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1a4ce0f69d56f1d745ce9c8d3e8aaac8eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>themis::Result&lt; <ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref> &gt;</type>
+        <definition>virtual themis::Result&lt; HttpResponse &gt; themis::api::IGRPCBridge::dispatch</definition>
+        <argsstring>(const GRPCRequest &amp;request)=0</argsstring>
+        <name>dispatch</name>
+        <qualifiedname>themis::api::IGRPCBridge::dispatch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1api_1_1_g_r_p_c_request" kindref="compound">GRPCRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="97" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1a3255f151e6615bb8d80686108f789f9c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1api_1_1_service_descriptor" kindref="compound">ServiceDescriptor</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ServiceDescriptor &gt; themis::api::IGRPCBridge::registeredServices</definition>
+        <argsstring>() const =0</argsstring>
+        <name>registeredServices</name>
+        <qualifiedname>themis::api::IGRPCBridge::registeredServices</qualifiedname>
+        <briefdescription>
+<para>Registered Services. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="103" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/grpc_bridge.h" line="77" column="1" bodyfile="include/api/grpc_bridge.h" bodystart="77" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1a4ce0f69d56f1d745ce9c8d3e8aaac8eb" prot="public" virt="pure-virtual"><scope>themis::api::IGRPCBridge</scope><name>dispatch</name></member>
+      <member refid="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1a3255f151e6615bb8d80686108f789f9c" prot="public" virt="pure-virtual"><scope>themis::api::IGRPCBridge</scope><name>registeredServices</name></member>
+      <member refid="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1ae27c7f2878a2cb7f1d75c9784589efeb" prot="public" virt="pure-virtual"><scope>themis::api::IGRPCBridge</scope><name>registerService</name></member>
+      <member refid="classthemis_1_1api_1_1_i_g_r_p_c_bridge_1a230cc370bb2a9ab79ecde9be8e2447ba" prot="public" virt="virtual"><scope>themis::api::IGRPCBridge</scope><name>~IGRPCBridge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

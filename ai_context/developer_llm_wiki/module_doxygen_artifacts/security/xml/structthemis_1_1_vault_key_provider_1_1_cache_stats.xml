@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vault_key_provider_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VaultKeyProvider::CacheStats</compoundname>
+    <includes refid="vault__key__provider_8h" local="no">vault_key_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a44f64f71ad7418e70b297ec2b108e981" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::VaultKeyProvider::CacheStats::hit_rate</definition>
+        <argsstring></argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::VaultKeyProvider::CacheStats::hit_rate</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="90" column="16" bodyfile="include/security/vault_key_provider.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a1f1ef24614a4577948acf36860e59445" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VaultKeyProvider::CacheStats::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::VaultKeyProvider::CacheStats::total_requests</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="91" column="16" bodyfile="include/security/vault_key_provider.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_cache_stats_1ae2f56ee9cd20f549784794aa9da08241" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VaultKeyProvider::CacheStats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::VaultKeyProvider::CacheStats::cache_hits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="92" column="16" bodyfile="include/security/vault_key_provider.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a18268465934c9f06bd845433c3872a6a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VaultKeyProvider::CacheStats::cache_size</definition>
+        <argsstring></argsstring>
+        <name>cache_size</name>
+        <qualifiedname>themis::VaultKeyProvider::CacheStats::cache_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="93" column="16" bodyfile="include/security/vault_key_provider.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/vault_key_provider.h" line="89" column="5" bodyfile="include/security/vault_key_provider.h" bodystart="89" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1ae2f56ee9cd20f549784794aa9da08241" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::CacheStats</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a18268465934c9f06bd845433c3872a6a" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::CacheStats</scope><name>cache_size</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a44f64f71ad7418e70b297ec2b108e981" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::CacheStats</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a1f1ef24614a4577948acf36860e59445" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::CacheStats</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_deploy_version_ex_test" kind="class" language="C++" prot="public">
+    <compoundname>DeployVersionExTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_deploy_version_ex_test_1ab27a9ddd952c4a0c9f4282a3acb22b5a" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer" kindref="compound">IncrementalLoRATrainer</ref></type>
+        <definition>IncrementalLoRATrainer DeployVersionExTest::trainer_</definition>
+        <argsstring></argsstring>
+        <name>trainer_</name>
+        <qualifiedname>DeployVersionExTest::trainer_</qualifiedname>
+        <initializer>{makeTrainer()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_phase2.cpp" line="103" column="28" bodyfile="tests/training/test_training_phase2.cpp" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DeployVersionExTest</label>
+        <link refid="class_deploy_version_ex_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DeployVersionExTest</label>
+        <link refid="class_deploy_version_ex_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>trainer_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::training::IncrementalLoRATrainer</label>
+        <link refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_training_phase2.cpp" line="101" column="1" bodyfile="tests/training/test_training_phase2.cpp" bodystart="101" bodyend="104"/>
+    <listofallmembers>
+      <member refid="class_deploy_version_ex_test_1ab27a9ddd952c4a0c9f4282a3acb22b5a" prot="protected" virt="non-virtual"><scope>DeployVersionExTest</scope><name>trainer_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

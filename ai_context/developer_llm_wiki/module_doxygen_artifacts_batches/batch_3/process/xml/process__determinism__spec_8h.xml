@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__determinism__spec_8h" kind="file" language="C++">
+    <compoundname>process_determinism_spec.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string_view</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/process_determinism_spec.h</label>
+        <link refid="process__determinism__spec_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec" prot="public">themis::process::BpmnParsingDeterminismSpec</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec" prot="public">themis::process::CmmnParsingDeterminismSpec</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_state_transition_determinism_spec" prot="public">themis::process::StateTransitionDeterminismSpec</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_model_update_determinism_spec" prot="public">themis::process::ModelUpdateDeterminismSpec</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_link_consistency_determinism_spec" prot="public">themis::process::LinkConsistencyDeterminismSpec</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec" prot="public">themis::process::RetrievalConsistencyDeterminismSpec</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_reproducibility_guidelines" prot="public">themis::process::ReproducibilityGuidelines</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Determinism and consistency guarantees for process module operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="process__stress__scenarios_8h_1purpose">
+<title>Purpose</title><para>Specifies which process module behaviors are deterministic and which are non-deterministic. Enables operators to understand repeatability guarantees and expected behavior under concurrent updates and model conflicts.</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1determinism_model">
+<title>Determinism Model</title><para>The process module distinguishes between:<itemizedlist>
+<listitem><para><bold>Deterministic:</bold> Identical input produces identical output every time</para>
+</listitem><listitem><para><bold>Non-deterministic:</bold> Output may vary due to timing, concurrency, or algorithm design</para>
+</listitem><listitem><para><bold>Conflict-resolved:</bold> Non-deterministic, but conflict resolution is deterministic</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1deterministic_operations">
+<title>Deterministic Operations</title><para><table rows="7" cols="5"><row>
+<entry thead="yes"><para>Operation  </para>
+</entry><entry thead="yes"><para>Input  </para>
+</entry><entry thead="yes"><para>Output  </para>
+</entry><entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para>Notes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>BPMN parse  </para>
+</entry><entry thead="no"><para>BPMN source  </para>
+</entry><entry thead="no"><para>Process graph  </para>
+</entry><entry thead="no"><para>UUID v5 with stable namespace  </para>
+</entry><entry thead="no"><para>Fully deterministic  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>State transition  </para>
+</entry><entry thead="no"><para>Instance + event  </para>
+</entry><entry thead="no"><para>New state  </para>
+</entry><entry thead="no"><para>Valid state machine  </para>
+</entry><entry thead="no"><para>BPMN 2.0 semantics  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Model retrieve  </para>
+</entry><entry thead="no"><para>Model ID + version  </para>
+</entry><entry thead="no"><para>Snapshot  </para>
+</entry><entry thead="no"><para>Version exists  </para>
+</entry><entry thead="no"><para>Snapshot isolation  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Link retrieval  </para>
+</entry><entry thead="no"><para>Instance ID + link type  </para>
+</entry><entry thead="no"><para>Link list  </para>
+</entry><entry thead="no"><para>Consistent snapshot  </para>
+</entry><entry thead="no"><para>Per-snapshot deterministic  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Community detect  </para>
+</entry><entry thead="no"><para>Graph  </para>
+</entry><entry thead="no"><para>Communities  </para>
+</entry><entry thead="no"><para>Algorithm deterministic  </para>
+</entry><entry thead="no"><para>Same input → same output  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Serialization  </para>
+</entry><entry thead="no"><para>Model  </para>
+</entry><entry thead="no"><para>XML/JSON  </para>
+</entry><entry thead="no"><para>Canonical format  </para>
+</entry><entry thead="no"><para>Deterministic codec  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1nondeterministic_operations">
+<title>Non-Deterministic Operations</title><para><table rows="5" cols="3"><row>
+<entry thead="yes"><para>Operation  </para>
+</entry><entry thead="yes"><para>Reason  </para>
+</entry><entry thead="yes"><para>Mitigation  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Subprocess execution order  </para>
+</entry><entry thead="no"><para>Thread scheduling  </para>
+</entry><entry thead="no"><para>Documented as non-deterministic  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>LLM context generation  </para>
+</entry><entry thead="no"><para>LLM stochasticity  </para>
+</entry><entry thead="no"><para>Use fixed seed if reproducibility required  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Query AUTO routing  </para>
+</entry><entry thead="no"><para>Heuristic keyword match  </para>
+</entry><entry thead="no"><para>Deterministic routing; docs specify heuristic  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Community order  </para>
+</entry><entry thead="no"><para>Graph iteration order  </para>
+</entry><entry thead="no"><para>Deterministic per snapshot; order not stable across versions  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1conflict_resolution_determinism">
+<title>Conflict Resolution Determinism</title><para>When concurrent updates conflict:<itemizedlist>
+<listitem><para><bold>Resolution mechanism:</bold> Last-Write-Wins (LWW) using monotonic version clocks</para>
+</listitem><listitem><para><bold>Deterministic outcome:</bold> Unique winner determined by version clock (no ties)</para>
+</listitem><listitem><para><bold>Repeatable behavior:</bold> Same concurrent operations always resolve the same way</para>
+</listitem><listitem><para><bold>Observable conflict:</bold> Error code PROC_LINKING_FAILED or implicit LWW (configurable)</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1rollback_semantics">
+<title>Rollback Semantics</title><para><bold>No automatic rollback.</bold> The process module does not support nested transactions or automatic rollback on error. Manual remediation required:</para>
+<para><orderedlist>
+<listitem><para><bold>Link creation fails (LINKING_INCIDENT):</bold><itemizedlist>
+<listitem><para>Link not created; orphaned link references cleaned up by manual repair</para>
+</listitem><listitem><para>Retry: Inspect latest model state and retry with fresh link payload</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>Model update conflicts (VALIDATION_INCIDENT):</bold><itemizedlist>
+<listitem><para>Conflict detected via version clock mismatch</para>
+</listitem><listitem><para>Retry: Re-fetch model at latest version and retry update</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>Retrieval inconsistency:</bold><itemizedlist>
+<listitem><para>Snapshot captured at consistent instant; no inconsistency expected</para>
+</listitem><listitem><para>If staleness observed: Re-query or reindex</para>
+</listitem></itemizedlist>
+</para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1use_example">
+<title>Usage Example</title><para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Deterministic<sp/>parsing:<sp/>identical<sp/>BPMN<sp/>→<sp/>identical<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>model1<sp/>=<sp/>parser.deserialize(bpmn_source);<sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>model2<sp/>=<sp/>parser.deserialize(bpmn_source);<sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">assert(model1.id<sp/>==<sp/>model2.id);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Same<sp/>UUID<sp/>v5</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">assert(model1.nodes<sp/>==<sp/>model2.nodes);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Identical<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Non-deterministic:<sp/>subprocess<sp/>execution<sp/>order<sp/>may<sp/>vary</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>But:<sp/>final<sp/>state<sp/>is<sp/>still<sp/>valid<sp/>per<sp/>BPMN<sp/>2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Conflict<sp/>resolution<sp/>is<sp/>deterministic<sp/>(LWW)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v1<sp/>=<sp/>mgr.update(model_id,<sp/>payload1,<sp/>version=100);<sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>1,<sp/>ts=t1</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v2<sp/>=<sp/>mgr.update(model_id,<sp/>payload2,<sp/>version=100);<sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>2,<sp/>ts=t2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>t2<sp/>&gt;<sp/>t1:<sp/>Thread<sp/>2<sp/>wins;<sp/>payload2<sp/>is<sp/>in<sp/>model<sp/>at<sp/>version<sp/>101</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Outcome<sp/>is<sp/>deterministic;<sp/>always<sp/>same<sp/>thread<sp/>wins<sp/>given<sp/>same<sp/>timing</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1contract_freeze">
+<title>Contract Freeze</title><para>This specification is frozen for ThemisDB v2.x. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="101" refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445aa96d65db20752636785d8fc9bf721e92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445aa96d65db20752636785d8fc9bf721e92" kindref="member">FULLY_DETERMINISTIC</ref><sp/>=<sp/>5800,</highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445af51e7578fd437885e3d885c4ecd38cb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445af51e7578fd437885e3d885c4ecd38cb6" kindref="member">NON_DETERMINISTIC</ref><sp/>=<sp/>5801,</highlight></codeline>
+<codeline lineno="105" refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445a9ac2170a3d5d65991c224289038b75d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445a9ac2170a3d5d65991c224289038b75d5" kindref="member">CONFLICT_RESOLVED_DETERMINISTIC</ref><sp/>=<sp/>5802,</highlight></codeline>
+<codeline lineno="107" refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445ad2b5f349b8320dbb3216b8094969a8d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445ad2b5f349b8320dbb3216b8094969a8d4" kindref="member">SNAPSHOT_DETERMINISTIC</ref><sp/>=<sp/>5803,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="115" refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bba934fc420d3d028a136f8b01e891fc17d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bba934fc420d3d028a136f8b01e891fc17d" kindref="member">SINGLE_MODEL</ref><sp/>=<sp/>5810,</highlight></codeline>
+<codeline lineno="117" refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bba32b57a949172af7d00a5d576d8c536e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bba32b57a949172af7d00a5d576d8c536e6" kindref="member">MODEL_NAMESPACE</ref><sp/>=<sp/>5811,</highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bbab18ff9ed18b27a951714b14b79b2b687" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ab18ff9ed18b27a951714b14b79b2b687" kindref="member">NO_CONFLICTS</ref><sp/>=<sp/>5812,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec" kindref="compound">BpmnParsingDeterminismSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1ab88cb6102953cf21f7f047e9d531d13d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref><sp/><ref refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1ab88cb6102953cf21f7f047e9d531d13d" kindref="member">determinism</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445aa96d65db20752636785d8fc9bf721e92" kindref="member">DeterminismClass::FULLY_DETERMINISTIC</ref>;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aedd147fbd6a4a2f411f2852ec4d40f8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref><sp/><ref refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aedd147fbd6a4a2f411f2852ec4d40f8f" kindref="member">conflict_scope</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bbab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictScope::NO_CONFLICTS</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aa248bad0b1ebdcd99a610738f587b832" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aa248bad0b1ebdcd99a610738f587b832" kindref="member">uuid_namespace</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;themis-bpmn-parser&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aee16a2e7e2ae05ab7539289acffa3031" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_bpmn_parsing_determinism_spec_1aee16a2e7e2ae05ab7539289acffa3031" kindref="member">describe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BPMN<sp/>parsing<sp/>is<sp/>fully<sp/>deterministic.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Identical<sp/>source<sp/>produces<sp/>identical<sp/>model<sp/>structure<sp/>and<sp/>ID.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec" kindref="compound">CmmnParsingDeterminismSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1a2005ff67a87617214ab54bab41a8b465" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref><sp/><ref refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1a2005ff67a87617214ab54bab41a8b465" kindref="member">determinism</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445aa96d65db20752636785d8fc9bf721e92" kindref="member">DeterminismClass::FULLY_DETERMINISTIC</ref>;</highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1aca0ef05b5bc6392c3389cf0ee5281d93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref><sp/><ref refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1aca0ef05b5bc6392c3389cf0ee5281d93" kindref="member">conflict_scope</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bbab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictScope::NO_CONFLICTS</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1a451a882fa5f6d1aadf0c7d9e0a6d1157" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1a451a882fa5f6d1aadf0c7d9e0a6d1157" kindref="member">uuid_namespace</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;themis-cmmn-parser&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1ae4b49fee03c4b3ab764d5385e079c718" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_cmmn_parsing_determinism_spec_1ae4b49fee03c4b3ab764d5385e079c718" kindref="member">describe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CMMN<sp/>parsing<sp/>is<sp/>fully<sp/>deterministic.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Identical<sp/>source<sp/>produces<sp/>identical<sp/>model<sp/>structure<sp/>and<sp/>ID.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1process_1_1_state_transition_determinism_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_state_transition_determinism_spec" kindref="compound">StateTransitionDeterminismSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1process_1_1_state_transition_determinism_spec_1a6d9cd975454f27a7e9d65715d82344a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref><sp/><ref refid="structthemis_1_1process_1_1_state_transition_determinism_spec_1a6d9cd975454f27a7e9d65715d82344a5" kindref="member">determinism</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445a9ac2170a3d5d65991c224289038b75d5" kindref="member">DeterminismClass::CONFLICT_RESOLVED_DETERMINISTIC</ref>;</highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1process_1_1_state_transition_determinism_spec_1add736e498474128705f09cb65fbdccc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref><sp/><ref refid="structthemis_1_1process_1_1_state_transition_determinism_spec_1add736e498474128705f09cb65fbdccc9" kindref="member">conflict_scope</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bba934fc420d3d028a136f8b01e891fc17d" kindref="member">ConflictScope::SINGLE_MODEL</ref>;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1process_1_1_state_transition_determinism_spec_1ad3ff4de0b327ef32138edf0cc6643fa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_state_transition_determinism_spec_1ad3ff4de0b327ef32138edf0cc6643fa2" kindref="member">describe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;State<sp/>transitions<sp/>within<sp/>a<sp/>single<sp/>instance<sp/>are<sp/>deterministic.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Transition<sp/>outcome<sp/>determined<sp/>by<sp/>current<sp/>state<sp/>and<sp/>incoming<sp/>event.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Subprocess<sp/>execution<sp/>order<sp/>may<sp/>vary<sp/>(non-deterministic).&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="structthemis_1_1process_1_1_model_update_determinism_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_model_update_determinism_spec" kindref="compound">ModelUpdateDeterminismSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="218" refid="structthemis_1_1process_1_1_model_update_determinism_spec_1ae56f575d7ad6d68ffebeaf87dc3a51c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref><sp/><ref refid="structthemis_1_1process_1_1_model_update_determinism_spec_1ae56f575d7ad6d68ffebeaf87dc3a51c8" kindref="member">determinism</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445a9ac2170a3d5d65991c224289038b75d5" kindref="member">DeterminismClass::CONFLICT_RESOLVED_DETERMINISTIC</ref>;</highlight></codeline>
+<codeline lineno="219" refid="structthemis_1_1process_1_1_model_update_determinism_spec_1ae55c0f01376382bfae1ac5be6c289942" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref><sp/><ref refid="structthemis_1_1process_1_1_model_update_determinism_spec_1ae55c0f01376382bfae1ac5be6c289942" kindref="member">conflict_scope</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bba32b57a949172af7d00a5d576d8c536e6" kindref="member">ConflictScope::MODEL_NAMESPACE</ref>;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="structthemis_1_1process_1_1_model_update_determinism_spec_1a12a2febcaad089a9fe8160a2b2b61af5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_update_determinism_spec_1a12a2febcaad089a9fe8160a2b2b61af5" kindref="member">expected_conflict_probability</ref><sp/>=<sp/>0.10;<sp/><sp/></highlight><highlight class="comment">//<sp/>10%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1process_1_1_model_update_determinism_spec_1a644a76093ebd6f7ba981552c211c7b31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_model_update_determinism_spec_1a644a76093ebd6f7ba981552c211c7b31" kindref="member">describe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Model<sp/>updates<sp/>use<sp/>Last-Write-Wins<sp/>conflict<sp/>resolution.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Winner<sp/>determined<sp/>by<sp/>version<sp/>clock;<sp/>outcome<sp/>is<sp/>deterministic.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Loser<sp/>must<sp/>retry<sp/>with<sp/>latest<sp/>version.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="structthemis_1_1process_1_1_link_consistency_determinism_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_link_consistency_determinism_spec" kindref="compound">LinkConsistencyDeterminismSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="250" refid="structthemis_1_1process_1_1_link_consistency_determinism_spec_1a1cde606f7b11d1ed6b01812d362e5ea1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref><sp/><ref refid="structthemis_1_1process_1_1_link_consistency_determinism_spec_1a1cde606f7b11d1ed6b01812d362e5ea1" kindref="member">determinism</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445ad2b5f349b8320dbb3216b8094969a8d4" kindref="member">DeterminismClass::SNAPSHOT_DETERMINISTIC</ref>;</highlight></codeline>
+<codeline lineno="251" refid="structthemis_1_1process_1_1_link_consistency_determinism_spec_1aeec16dc22bd33a0088e84f6217adf56c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref><sp/><ref refid="structthemis_1_1process_1_1_link_consistency_determinism_spec_1aeec16dc22bd33a0088e84f6217adf56c" kindref="member">conflict_scope</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bbab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictScope::NO_CONFLICTS</ref>;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="structthemis_1_1process_1_1_link_consistency_determinism_spec_1a8871727a3a0673ebf5245ac0e7f3cb5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_link_consistency_determinism_spec_1a8871727a3a0673ebf5245ac0e7f3cb5a" kindref="member">describe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Links<sp/>to<sp/>deleted<sp/>models<sp/>become<sp/>stale<sp/>but<sp/>are<sp/>not<sp/>corrupted.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Staleness<sp/>detected<sp/>at<sp/>read-time.<sp/>Manual<sp/>cleanup<sp/>required;<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;no<sp/>automatic<sp/>cascading<sp/>deletes.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279" refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec" kindref="compound">RetrievalConsistencyDeterminismSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="280" refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1a490e5cd2d966f635896760387c88ec87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref><sp/><ref refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1a490e5cd2d966f635896760387c88ec87" kindref="member">determinism</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445ad2b5f349b8320dbb3216b8094969a8d4" kindref="member">DeterminismClass::SNAPSHOT_DETERMINISTIC</ref>;</highlight></codeline>
+<codeline lineno="281" refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1a6e1a833db09ac571961abec235eba6b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bb" kindref="member">ConflictScope</ref><sp/><ref refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1a6e1a833db09ac571961abec235eba6b4" kindref="member">conflict_scope</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa7825524477a7af2eba0fd35722ad1bbab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictScope::NO_CONFLICTS</ref>;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1ab568c0697bab613211bf0e2118c1d25a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_retrieval_consistency_determinism_spec_1ab568c0697bab613211bf0e2118c1d25a" kindref="member">describe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Retrieval<sp/>queries<sp/>operate<sp/>over<sp/>consistent<sp/>snapshots.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Graph<sp/>traversal<sp/>is<sp/>deterministic<sp/>per<sp/>snapshot.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Concurrent<sp/>queries<sp/>may<sp/>see<sp/>different<sp/>snapshots.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="structthemis_1_1process_1_1_reproducibility_guidelines" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_reproducibility_guidelines" kindref="compound">ReproducibilityGuidelines</ref><sp/>{</highlight></codeline>
+<codeline lineno="297" refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a5ac459a92679fca0f1639c60a624b251" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a5ac459a92679fca0f1639c60a624b251" kindref="member">use_fixed_uuids_hint</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BPMN<sp/>parsing<sp/>uses<sp/>RFC<sp/>4122<sp/>v5<sp/>for<sp/>model<sp/>IDs.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Use<sp/>fixed<sp/>namespace<sp/>in<sp/>tests<sp/>for<sp/>reproducibility.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303" refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a4053848bcd3412fd50ae9c5b017e65b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a4053848bcd3412fd50ae9c5b017e65b3" kindref="member">avoid_subprocess_ordering_hint</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Subprocess<sp/>execution<sp/>order<sp/>is<sp/>non-deterministic.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>only<sp/>final<sp/>state,<sp/>not<sp/>execution<sp/>order.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a2dbf06bff8936eb6f88d1b13e3e00830" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a2dbf06bff8936eb6f88d1b13e3e00830" kindref="member">use_version_clocks_hint</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Model<sp/>updates<sp/>use<sp/>version<sp/>clocks<sp/>for<sp/>conflict<sp/>resolution.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Verify<sp/>version<sp/>numbers<sp/>in<sp/>assertions,<sp/>not<sp/>timestamps.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315" refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a489a73d411093bb15fddefdc7cae40df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_reproducibility_guidelines_1a489a73d411093bb15fddefdc7cae40df" kindref="member">capture_snapshots_at_known_points_hint</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Retrieval<sp/>is<sp/>snapshot-based.<sp/>Capture<sp/>snapshot<sp/>versions<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;before<sp/>retrieval<sp/>to<sp/>ensure<sp/>reproducible<sp/>results.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328" refid="namespacethemis_1_1process_1acf27877683535c8a3ce2e5c0fe276eb2" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1acf27877683535c8a3ce2e5c0fe276eb2" kindref="member">isDeterminismSufficient</ref>(</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref><sp/>required_determinism,</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445" kindref="member">DeterminismClass</ref><sp/>actual_determinism</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fully<sp/>deterministic<sp/>satisfies<sp/>all<sp/>requirements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(actual_determinism<sp/>==<sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445aa96d65db20752636785d8fc9bf721e92" kindref="member">DeterminismClass::FULLY_DETERMINISTIC</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Conflict-resolved<sp/>deterministic<sp/>satisfies<sp/>requirements<sp/>&gt;=<sp/>conflict-resolved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(required_determinism<sp/>&lt;=<sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445a9ac2170a3d5d65991c224289038b75d5" kindref="member">DeterminismClass::CONFLICT_RESOLVED_DETERMINISTIC</ref><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>actual_determinism<sp/>&gt;=<sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445a9ac2170a3d5d65991c224289038b75d5" kindref="member">DeterminismClass::CONFLICT_RESOLVED_DETERMINISTIC</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot-deterministic<sp/>sufficient<sp/>for<sp/>snapshot-based<sp/>use<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(required_determinism<sp/>==<sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445ad2b5f349b8320dbb3216b8094969a8d4" kindref="member">DeterminismClass::SNAPSHOT_DETERMINISTIC</ref><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>actual_determinism<sp/>==<sp/><ref refid="namespacethemis_1_1process_1a47b3035d47c051fd0cea480c24aaf445ad2b5f349b8320dbb3216b8094969a8d4" kindref="member">DeterminismClass::SNAPSHOT_DETERMINISTIC</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/process_determinism_spec.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_compliance_violation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceViolation</compoundname>
+    <includes refid="compliance__framework_8h" local="no">compliance_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1aca7558a7420714d1a3d9b776c10d6781" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceViolation::violation_id</definition>
+        <argsstring></argsstring>
+        <name>violation_id</name>
+        <qualifiedname>themis::governance::ComplianceViolation::violation_id</qualifiedname>
+        <briefdescription>
+<para>Unique violation ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="165" column="17" bodyfile="include/governance/compliance_framework.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1a5e213598240b3a6a2531a1732a3f4501" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceViolation::requirement_id</definition>
+        <argsstring></argsstring>
+        <name>requirement_id</name>
+        <qualifiedname>themis::governance::ComplianceViolation::requirement_id</qualifiedname>
+        <briefdescription>
+<para>Non-compliant requirement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="166" column="17" bodyfile="include/governance/compliance_framework.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1aad4f37fa8108eeff002c5ca641f0b59e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceViolation::control_id</definition>
+        <argsstring></argsstring>
+        <name>control_id</name>
+        <qualifiedname>themis::governance::ComplianceViolation::control_id</qualifiedname>
+        <briefdescription>
+<para>Failed control. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="167" column="17" bodyfile="include/governance/compliance_framework.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1a2bf9e6260c039bb2d987da34d821c52e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+        <definition>ComplianceFramework themis::governance::ComplianceViolation::framework</definition>
+        <argsstring></argsstring>
+        <name>framework</name>
+        <qualifiedname>themis::governance::ComplianceViolation::framework</qualifiedname>
+        <briefdescription>
+<para>Source framework. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="168" column="25" bodyfile="include/governance/compliance_framework.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1a1e4de533c4be760735550a061ed1150f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1afe4c21ca0a6085dc3625f62c9e539a39" kindref="member">ComplianceSeverity</ref></type>
+        <definition>ComplianceSeverity themis::governance::ComplianceViolation::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::governance::ComplianceViolation::severity</qualifiedname>
+        <briefdescription>
+<para>Violation severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="169" column="24" bodyfile="include/governance/compliance_framework.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1add0600537cfe429d34c56452140e3120" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceViolation::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::ComplianceViolation::description</qualifiedname>
+        <briefdescription>
+<para>What&apos;s not compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="170" column="17" bodyfile="include/governance/compliance_framework.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1a01382d05c53f1d2e8618b502ca7770c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceViolation::remediation_guidance</definition>
+        <argsstring></argsstring>
+        <name>remediation_guidance</name>
+        <qualifiedname>themis::governance::ComplianceViolation::remediation_guidance</qualifiedname>
+        <briefdescription>
+<para>How to fix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="171" column="17" bodyfile="include/governance/compliance_framework.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1a19f0c0fef6a6652554a2b64277038e66" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ComplianceViolation::detected_at_ms</definition>
+        <argsstring></argsstring>
+        <name>detected_at_ms</name>
+        <qualifiedname>themis::governance::ComplianceViolation::detected_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>When detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="172" column="13" bodyfile="include/governance/compliance_framework.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1a8a83ce6ee9511679d514a9a42e52b88b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ComplianceViolation::remediation_deadline_ms</definition>
+        <argsstring></argsstring>
+        <name>remediation_deadline_ms</name>
+        <qualifiedname>themis::governance::ComplianceViolation::remediation_deadline_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>When to fix by. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="173" column="13" bodyfile="include/governance/compliance_framework.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1aecd3ccd2d1538fc77b038319ac92d227" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ComplianceViolation::is_remediated</definition>
+        <argsstring></argsstring>
+        <name>is_remediated</name>
+        <qualifiedname>themis::governance::ComplianceViolation::is_remediated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="174" column="10" bodyfile="include/governance/compliance_framework.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1a24c1015bb2f35919e9d629c09747a845" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ComplianceViolation::remediated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>remediated_at_ms</name>
+        <qualifiedname>themis::governance::ComplianceViolation::remediated_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>When fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="175" column="13" bodyfile="include/governance/compliance_framework.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_violation_1a6b959e0439bffaba069b1148d42b5889" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceViolation::remediation_evidence</definition>
+        <argsstring></argsstring>
+        <name>remediation_evidence</name>
+        <qualifiedname>themis::governance::ComplianceViolation::remediation_evidence</qualifiedname>
+        <briefdescription>
+<para>Evidence of remediation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="176" column="17" bodyfile="include/governance/compliance_framework.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_violation_1a3687c84f5c247df8e6acce5b8e6e5d87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceViolation::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::ComplianceViolation::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_framework.h" line="182" column="20" bodyfile="src/governance/compliance_framework.cpp" bodystart="167" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_framework.h" line="164" column="1" bodyfile="include/governance/compliance_framework.h" bodystart="164" bodyend="183"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1aad4f37fa8108eeff002c5ca641f0b59e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>control_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1add0600537cfe429d34c56452140e3120" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1a19f0c0fef6a6652554a2b64277038e66" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>detected_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1a2bf9e6260c039bb2d987da34d821c52e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>framework</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1aecd3ccd2d1538fc77b038319ac92d227" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>is_remediated</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1a24c1015bb2f35919e9d629c09747a845" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>remediated_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1a8a83ce6ee9511679d514a9a42e52b88b" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>remediation_deadline_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1a6b959e0439bffaba069b1148d42b5889" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>remediation_evidence</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1a01382d05c53f1d2e8618b502ca7770c4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>remediation_guidance</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1a5e213598240b3a6a2531a1732a3f4501" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>requirement_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1a1e4de533c4be760735550a061ed1150f" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>severity</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1a3687c84f5c247df8e6acce5b8e6e5d87" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_violation_1aca7558a7420714d1a3d9b776c10d6781" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceViolation</scope><name>violation_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

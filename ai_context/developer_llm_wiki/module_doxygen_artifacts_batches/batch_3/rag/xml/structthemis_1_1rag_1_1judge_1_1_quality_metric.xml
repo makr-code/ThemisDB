@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_quality_metric" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::QualityMetric</compoundname>
+    <includes refid="continuous__learning__client_8h" local="no">continuous_learning_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_1a849c6fd806c96081b563fb7b28d10db9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145" kindref="member">MetricType</ref></type>
+        <definition>MetricType themis::rag::judge::QualityMetric::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::rag::judge::QualityMetric::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="66" column="16" bodyfile="include/rag/continuous_learning_client.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_1ac49d5f3134c6ca950aaf81fdf5388b8d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityMetric::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::rag::judge::QualityMetric::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="67" column="12" bodyfile="include/rag/continuous_learning_client.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_1a5ff81e34f482638fb67ae129fef19226" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QualityMetric::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::rag::judge::QualityMetric::context</qualifiedname>
+        <briefdescription>
+<para>Additional context (e.g., query, model). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="68" column="17" bodyfile="include/rag/continuous_learning_client.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_1a402f837cfce62afa3fd024713cc54ae5" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::judge::QualityMetric::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::rag::judge::QualityMetric::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="69" column="43" bodyfile="include/rag/continuous_learning_client.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_metric_1a5e19e0dcedcaabcabe8d2f3479b46cd4" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::rag::judge::QualityMetric::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::rag::judge::QualityMetric::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="72" column="20" bodyfile="include/rag/continuous_learning_client.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quality metric for continuous learning. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/continuous_learning_client.h" line="65" column="1" bodyfile="include/rag/continuous_learning_client.h" bodystart="65" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_1a5ff81e34f482638fb67ae129fef19226" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetric</scope><name>context</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_1a5e19e0dcedcaabcabe8d2f3479b46cd4" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetric</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_1a402f837cfce62afa3fd024713cc54ae5" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetric</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_1a849c6fd806c96081b563fb7b28d10db9" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetric</scope><name>type</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_1ac49d5f3134c6ca950aaf81fdf5388b8d" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityMetric</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

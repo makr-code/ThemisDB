@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUPhase23HardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1_1_diagnostic_event" prot="protected">themis::gpu::GPUPhase23HardeningTest::DiagnosticEvent</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1ac5745e48080f05e33b80e861fa9912b8" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1_1_diagnostic_event" kindref="compound">DiagnosticEvent</ref> &gt;</type>
+        <definition>std::vector&lt;DiagnosticEvent&gt; themis::gpu::GPUPhase23HardeningTest::diagnostics_received_</definition>
+        <argsstring></argsstring>
+        <name>diagnostics_received_</name>
+        <qualifiedname>themis::gpu::GPUPhase23HardeningTest::diagnostics_received_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="49" column="17" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1a676ed6f803148af21ae5ad120da05a08" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUPhase23HardeningTest::kPhase23Seed</definition>
+        <argsstring></argsstring>
+        <name>kPhase23Seed</name>
+        <qualifiedname>themis::gpu::GPUPhase23HardeningTest::kPhase23Seed</qualifiedname>
+        <initializer>= GPU_BACKEND_DISPATCH_SEED</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="51" column="31" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1acb0337c81bcbc7ed446f617fe2b8ded7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUPhase23HardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::gpu::GPUPhase23HardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="28" column="10" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="28" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1ab32b36533b7e4f0b899373b8fab2b9b6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUPhase23HardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::gpu::GPUPhase23HardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="38" column="10" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::GPUPhase23HardeningTest</label>
+        <link refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::GPUPhase23HardeningTest</label>
+        <link refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="26" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="26" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1ac5745e48080f05e33b80e861fa9912b8" prot="protected" virt="non-virtual"><scope>themis::gpu::GPUPhase23HardeningTest</scope><name>diagnostics_received_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1a676ed6f803148af21ae5ad120da05a08" prot="protected" virt="non-virtual"><scope>themis::gpu::GPUPhase23HardeningTest</scope><name>kPhase23Seed</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1acb0337c81bcbc7ed446f617fe2b8ded7" prot="protected" virt="non-virtual"><scope>themis::gpu::GPUPhase23HardeningTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1ab32b36533b7e4f0b899373b8fab2b9b6" prot="protected" virt="non-virtual"><scope>themis::gpu::GPUPhase23HardeningTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

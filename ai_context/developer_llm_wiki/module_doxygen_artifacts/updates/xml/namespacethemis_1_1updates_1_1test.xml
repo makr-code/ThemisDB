@@ -1,0 +1,629 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1updates_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::updates::test</compoundname>
+    <innerclass refid="classthemis_1_1updates_1_1test_1_1_blue_green_deployment_resource_test" prot="public">themis::updates::test::BlueGreenDeploymentResourceTest</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1test_1_1_build_verifier_resource_safety_test" prot="public">themis::updates::test::BuildVerifierResourceSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test" prot="public">themis::updates::test::ClusterUpdateManagerRAIITest</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1test_1_1_code_quality_improvements_test" prot="public">themis::updates::test::CodeQualityImprovementsTest</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1test_1_1_lambda_capture_and_const_test" prot="public">themis::updates::test::LambdaCaptureAndConstTest</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1test_1_1_schema_migration_resource_test" prot="public">themis::updates::test::SchemaMigrationResourceTest</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1test_1_1_string_concatenation_performance_test" prot="public">themis::updates::test::StringConcatenationPerformanceTest</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1test_1_1_tenant_update_scheduler_safety_test" prot="public">themis::updates::test::TenantUpdateSchedulerSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1test_1_1_updates_r_a_i_i_integration_test" prot="public">themis::updates::test::UpdatesRAIIIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1test_1_1_vector_optimization_and_override_test" prot="public">themis::updates::test::VectorOptimizationAndOverrideTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a76df45501c38c57c1bf1beaa840d1569" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(TenantUpdateSchedulerSafetyTest, UP_FIN_01_OverflowDetectionLargeSizes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_tenant_update_scheduler_safety_test" kindref="compound">TenantUpdateSchedulerSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_01_OverflowDetectionLargeSizes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="54" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="54" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a5b99eaf52ebc64d6f1ef150435603ebc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(TenantUpdateSchedulerSafetyTest, UP_FIN_02_OverflowCheckEdgeCases)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_tenant_update_scheduler_safety_test" kindref="compound">TenantUpdateSchedulerSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_02_OverflowCheckEdgeCases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="63" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="63" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1ae37ba2f3991da749c6f38c83e175ecd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(TenantUpdateSchedulerSafetyTest, UP_FIN_03_ZeroMultiplicationSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_tenant_update_scheduler_safety_test" kindref="compound">TenantUpdateSchedulerSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_03_ZeroMultiplicationSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="80" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="80" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1ae3de873e3f0a8f18cf2ed74a6f12c0cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(BuildVerifierResourceSafetyTest, UP_FIN_04_DestructorNoThrow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_build_verifier_resource_safety_test" kindref="compound">BuildVerifierResourceSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_04_DestructorNoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="102" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="102" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a2c6c4f17e8af768b5898086b429dd8e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(BuildVerifierResourceSafetyTest, UP_FIN_05_TemporaryDirectoryCleanup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_build_verifier_resource_safety_test" kindref="compound">BuildVerifierResourceSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_05_TemporaryDirectoryCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="109" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="109" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1ad80fe7cf6979b69fcb93991f363a27e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(BuildVerifierResourceSafetyTest, UP_FIN_06_NoExceptionPropagationInCleanup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_build_verifier_resource_safety_test" kindref="compound">BuildVerifierResourceSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_06_NoExceptionPropagationInCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="116" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="116" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a68db8549fc6ee619c40e984dbea810bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(BlueGreenDeploymentResourceTest, UP_FIN_07_DeploymentStateUniquePtr)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_blue_green_deployment_resource_test" kindref="compound">BlueGreenDeploymentResourceTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_07_DeploymentStateUniquePtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="138" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="138" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a6015a5136f7b989b2e6b2e62b15109ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(BlueGreenDeploymentResourceTest, UP_FIN_08_RollbackCallbackExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_blue_green_deployment_resource_test" kindref="compound">BlueGreenDeploymentResourceTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_08_RollbackCallbackExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="153" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="153" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1ac12a9362d5eb754394e01b4a9b564f69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(BlueGreenDeploymentResourceTest, UP_FIN_09_NoManualDeleteRequired)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_blue_green_deployment_resource_test" kindref="compound">BlueGreenDeploymentResourceTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_09_NoManualDeleteRequired</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="172" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="172" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a0d1e852b255cda218be72e58f26c276c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(ClusterUpdateManagerRAIITest, UP_FIN_10_UpdateBatchUniquePtr)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test" kindref="compound">ClusterUpdateManagerRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_10_UpdateBatchUniquePtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="201" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="201" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a8e9cfefdf8287808115dee337bbfc95f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(ClusterUpdateManagerRAIITest, UP_FIN_11_PartialBatchFailureCleanup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test" kindref="compound">ClusterUpdateManagerRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_11_PartialBatchFailureCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="220" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="220" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1ac35bac3d820b6eca407b7af2f73323b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(ClusterUpdateManagerRAIITest, UP_FIN_12_EarlyReturnCleanup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test" kindref="compound">ClusterUpdateManagerRAIITest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_12_EarlyReturnCleanup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="239" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="239" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a79c6fd2c045388c0d497e401af0b5ad9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(SchemaMigrationResourceTest, UP_FIN_13_ResourceCleanupWithExceptionWrapper)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_schema_migration_resource_test" kindref="compound">SchemaMigrationResourceTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_13_ResourceCleanupWithExceptionWrapper</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="272" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="272" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a08ca7c769935bcd59e65d3b6d32d84e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(SchemaMigrationResourceTest, UP_FIN_14_CleanupErrorLogging)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_schema_migration_resource_test" kindref="compound">SchemaMigrationResourceTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_14_CleanupErrorLogging</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="297" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="297" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a1ab1fe1d9194a7956126b062631cc2b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(SchemaMigrationResourceTest, UP_FIN_15_AllResourcesFreedOnException)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_schema_migration_resource_test" kindref="compound">SchemaMigrationResourceTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_15_AllResourcesFreedOnException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="311" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="311" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1aacab1f09a5e10ed4a8c0b1333c5d790c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(StringConcatenationPerformanceTest, UP_FIN_16_ErrorPathStringOptimization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_string_concatenation_performance_test" kindref="compound">StringConcatenationPerformanceTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_16_ErrorPathStringOptimization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="344" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="344" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a1d52b4f2284975212b1e90095c4005e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(StringConcatenationPerformanceTest, UP_FIN_17_AvoidUnnecessaryStringCopy)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_string_concatenation_performance_test" kindref="compound">StringConcatenationPerformanceTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_17_AvoidUnnecessaryStringCopy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="361" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="361" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1adf57b0eec812e8007f28c1421efe386c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(StringConcatenationPerformanceTest, UP_FIN_18_ErrorMessageConstruction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_string_concatenation_performance_test" kindref="compound">StringConcatenationPerformanceTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_18_ErrorMessageConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="372" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="372" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a16e91e0ebbb580bbea13570f12297210" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(LambdaCaptureAndConstTest, UP_FIN_19_UnusedLambdaCaptureRemoved)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_lambda_capture_and_const_test" kindref="compound">LambdaCaptureAndConstTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_19_UnusedLambdaCaptureRemoved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="391" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="391" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1ab6469bc6fdf282aa8870f4ef9a59a4fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(LambdaCaptureAndConstTest, UP_FIN_19B_ConstCorrectnessInCallbackSignature)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_lambda_capture_and_const_test" kindref="compound">LambdaCaptureAndConstTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_19B_ConstCorrectnessInCallbackSignature</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="405" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="405" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a1fcf298102f334d9520086ad83089091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(VectorOptimizationAndOverrideTest, UP_FIN_20_VectorCopyOptimization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_vector_optimization_and_override_test" kindref="compound">VectorOptimizationAndOverrideTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_20_VectorCopyOptimization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="424" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="424" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a58a61678c3c2320ff45e30e077d2769c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(VectorOptimizationAndOverrideTest, UP_FIN_20B_OverrideKeywordPresent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_vector_optimization_and_override_test" kindref="compound">VectorOptimizationAndOverrideTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_20B_OverrideKeywordPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="438" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="438" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a89e8c7215934cb1fb82ec2ade5a7c861" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(CodeQualityImprovementsTest, UP_FIN_21_NullCheckOrderConsistency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_code_quality_improvements_test" kindref="compound">CodeQualityImprovementsTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_21_NullCheckOrderConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="462" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="462" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a74be251d633cfa2ab721e8bd6ea8765a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(CodeQualityImprovementsTest, UP_FIN_22_SizeTIntComparisonSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_code_quality_improvements_test" kindref="compound">CodeQualityImprovementsTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_22_SizeTIntComparisonSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="475" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="475" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1ac5e982c19fcd068a5e879d5758a93d9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(UpdatesRAIIIntegrationTest, UP_FIN_23_NoMemoryLeaksUnderExceptions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_updates_r_a_i_i_integration_test" kindref="compound">UpdatesRAIIIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_23_NoMemoryLeaksUnderExceptions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="503" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="503" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a9dc6b9bf73906f19e3edc23fde734e90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(UpdatesRAIIIntegrationTest, UP_FIN_24_PerformanceBaselineMaintained)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_updates_r_a_i_i_integration_test" kindref="compound">UpdatesRAIIIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_24_PerformanceBaselineMaintained</type>
+        </param>
+        <briefdescription>
+<para>Verify no performance regression from Batch 4. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000011"><xreftitle>Test</xreftitle><xrefdescription><para>UP-FIN-24: Performance baseline maintained </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="526" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="526" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1ae68d6344a62bbaa0252f653d23ad05b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST_F</definition>
+        <argsstring>(UpdatesRAIIIntegrationTest, UP_FIN_25_CompilerWarningsFree)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1test_1_1_updates_r_a_i_i_integration_test" kindref="compound">UpdatesRAIIIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>UP_FIN_25_CompilerWarningsFree</type>
+        </param>
+        <briefdescription>
+<para>Verify all const correctness and override issues fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000012"><xreftitle>Test</xreftitle><xrefdescription><para>UP-FIN-25: Compiler warnings eliminated </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="550" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="550" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1abb576005f85b9b555b6c3541422afafe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST</definition>
+        <argsstring>(DeltaEngineHardeningTest, PatchRoundTripAndCorruptionRejection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::test::TEST</qualifiedname>
+        <param>
+          <type>DeltaEngineHardeningTest</type>
+        </param>
+        <param>
+          <type>PatchRoundTripAndCorruptionRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_phase2_phase3_hardening_focused.cpp" line="74" column="1" bodyfile="tests/updates/test_updates_phase2_phase3_hardening_focused.cpp" bodystart="74" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1a14e7e0de370d30ec56c97898e97493b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST</definition>
+        <argsstring>(SchemaMigrationHardeningTest, ApplyCustomMigrationAndRollbackNoOp)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::test::TEST</qualifiedname>
+        <param>
+          <type>SchemaMigrationHardeningTest</type>
+        </param>
+        <param>
+          <type>ApplyCustomMigrationAndRollbackNoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_phase2_phase3_hardening_focused.cpp" line="104" column="1" bodyfile="tests/updates/test_updates_phase2_phase3_hardening_focused.cpp" bodystart="104" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1test_1ade65f95df798726ac809cacbc2191421" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::test::TEST</definition>
+        <argsstring>(SchemaMigrationHardeningTest, AddColumnMigrationApplies)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::test::TEST</qualifiedname>
+        <param>
+          <type>SchemaMigrationHardeningTest</type>
+        </param>
+        <param>
+          <type>AddColumnMigrationApplies</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_phase2_phase3_hardening_focused.cpp" line="125" column="1" bodyfile="tests/updates/test_updates_phase2_phase3_hardening_focused.cpp" bodystart="125" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/updates/test_updates_batch5_finalization.cpp" line="33" column="1"/>
+  </compounddef>
+</doxygen>

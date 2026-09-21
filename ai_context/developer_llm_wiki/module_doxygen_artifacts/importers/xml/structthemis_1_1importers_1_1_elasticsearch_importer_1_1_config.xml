@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::ElasticsearchImporter::Config</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1aba0a1bfe2a0b2d71734102ae9ed4aca4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ElasticsearchImporter::Config::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::importers::ElasticsearchImporter::Config::host</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/elasticsearch_importer.h" line="58" column="21" bodyfile="include/importers/elasticsearch_importer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a7f37087284557d30d9a22cc88b200471" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ElasticsearchImporter::Config::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themis::importers::ElasticsearchImporter::Config::index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/elasticsearch_importer.h" line="59" column="21" bodyfile="include/importers/elasticsearch_importer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1adb7a5cd1eab505715f5962972b3bc704" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ElasticsearchImporter::Config::api_key</definition>
+        <argsstring></argsstring>
+        <name>api_key</name>
+        <qualifiedname>themis::importers::ElasticsearchImporter::Config::api_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/elasticsearch_importer.h" line="60" column="21" bodyfile="include/importers/elasticsearch_importer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a38bdb40d8ac2c65893014218ba9899c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ElasticsearchImporter::Config::username</definition>
+        <argsstring></argsstring>
+        <name>username</name>
+        <qualifiedname>themis::importers::ElasticsearchImporter::Config::username</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/elasticsearch_importer.h" line="61" column="21" bodyfile="include/importers/elasticsearch_importer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a92e9798f093446ceb009a1d2e3be064c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ElasticsearchImporter::Config::password_redacted</definition>
+        <argsstring></argsstring>
+        <name>password_redacted</name>
+        <qualifiedname>themis::importers::ElasticsearchImporter::Config::password_redacted</qualifiedname>
+        <briefdescription>
+<para>Never the real password; stored as &quot;***&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/elasticsearch_importer.h" line="62" column="21" bodyfile="include/importers/elasticsearch_importer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a317792ed9f650b094ecff0156bfa5539" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ElasticsearchImporter::Config::scroll_ttl</definition>
+        <argsstring></argsstring>
+        <name>scroll_ttl</name>
+        <qualifiedname>themis::importers::ElasticsearchImporter::Config::scroll_ttl</qualifiedname>
+        <initializer>{&quot;2m&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/elasticsearch_importer.h" line="63" column="21" bodyfile="include/importers/elasticsearch_importer.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a46a9ea111d37092a43eb875c4fe355be" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::ElasticsearchImporter::Config::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::importers::ElasticsearchImporter::Config::batch_size</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/elasticsearch_importer.h" line="64" column="13" bodyfile="include/importers/elasticsearch_importer.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a02de3c7750aef6fa7c3b5170eb8ffe7a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::ElasticsearchImporter::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::importers::ElasticsearchImporter::Config::max_retries</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/elasticsearch_importer.h" line="65" column="13" bodyfile="include/importers/elasticsearch_importer.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1abdabe54ea53a8584e8e48e70c55ab55b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::importers::ElasticsearchImporter::Config::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::importers::ElasticsearchImporter::Config::timeout_ms</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/elasticsearch_importer.h" line="66" column="18" bodyfile="include/importers/elasticsearch_importer.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/elasticsearch_importer.h" line="57" column="5" bodyfile="include/importers/elasticsearch_importer.h" bodystart="57" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1adb7a5cd1eab505715f5962972b3bc704" prot="public" virt="non-virtual"><scope>themis::importers::ElasticsearchImporter::Config</scope><name>api_key</name></member>
+      <member refid="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a46a9ea111d37092a43eb875c4fe355be" prot="public" virt="non-virtual"><scope>themis::importers::ElasticsearchImporter::Config</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1aba0a1bfe2a0b2d71734102ae9ed4aca4" prot="public" virt="non-virtual"><scope>themis::importers::ElasticsearchImporter::Config</scope><name>host</name></member>
+      <member refid="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a7f37087284557d30d9a22cc88b200471" prot="public" virt="non-virtual"><scope>themis::importers::ElasticsearchImporter::Config</scope><name>index</name></member>
+      <member refid="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a02de3c7750aef6fa7c3b5170eb8ffe7a" prot="public" virt="non-virtual"><scope>themis::importers::ElasticsearchImporter::Config</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a92e9798f093446ceb009a1d2e3be064c" prot="public" virt="non-virtual"><scope>themis::importers::ElasticsearchImporter::Config</scope><name>password_redacted</name></member>
+      <member refid="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a317792ed9f650b094ecff0156bfa5539" prot="public" virt="non-virtual"><scope>themis::importers::ElasticsearchImporter::Config</scope><name>scroll_ttl</name></member>
+      <member refid="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1abdabe54ea53a8584e8e48e70c55ab55b" prot="public" virt="non-virtual"><scope>themis::importers::ElasticsearchImporter::Config</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1importers_1_1_elasticsearch_importer_1_1_config_1a38bdb40d8ac2c65893014218ba9899c5" prot="public" virt="non-virtual"><scope>themis::importers::ElasticsearchImporter::Config</scope><name>username</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

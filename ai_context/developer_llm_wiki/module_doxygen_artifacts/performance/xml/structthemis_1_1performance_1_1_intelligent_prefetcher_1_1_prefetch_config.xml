@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::IntelligentPrefetcher::PrefetchConfig</compoundname>
+    <includes refid="intelligent__prefetcher_8h" local="no">intelligent_prefetcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a5bd2de28b0bf4ef6d46837eb00fcf722" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::IntelligentPrefetcher::PrefetchConfig::enable_learning</definition>
+        <argsstring></argsstring>
+        <name>enable_learning</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::PrefetchConfig::enable_learning</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable online pattern learning; when false only static prefetch hints are used (based on address arithmetic alone). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="75" column="14" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a1c28528faa6bdd68c320833300ce4eb6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::IntelligentPrefetcher::PrefetchConfig::max_prefetch_distance</definition>
+        <argsstring></argsstring>
+        <name>max_prefetch_distance</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::PrefetchConfig::max_prefetch_distance</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of addresses to prefetch ahead per prediction call. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="78" column="16" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1ab640928308e4fa7594467bf4302e3d69" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::IntelligentPrefetcher::PrefetchConfig::confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::PrefetchConfig::confidence_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Confidence threshold in [0, 1]. Only patterns with confidence &gt;= this value generate prefetch requests. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="82" column="16" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a4ef214a51665e0927a312197630a2bd6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::IntelligentPrefetcher::PrefetchConfig::history_size</definition>
+        <argsstring></argsstring>
+        <name>history_size</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::PrefetchConfig::history_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Size of the sliding window (number of addresses) used to learn access patterns. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="86" column="16" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1ac4f65e5a7e9d04d1acef1c1f55cf8b66" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::IntelligentPrefetcher::PrefetchConfig::enable_hardware_prefetch</definition>
+        <argsstring></argsstring>
+        <name>enable_hardware_prefetch</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::PrefetchConfig::enable_hardware_prefetch</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, issue actual CPU prefetch instructions via __builtin_prefetch / _mm_prefetch. Setting false is useful for unit testing without side effects. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="91" column="14" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher" kindref="compound">IntelligentPrefetcher</ref> construction. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields carry production-ready defaults that match the roadmap acceptance criteria. </para>
+    </detaileddescription>
+    <location file="include/performance/intelligent_prefetcher.h" line="72" column="5" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="72" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1ab640928308e4fa7594467bf4302e3d69" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::PrefetchConfig</scope><name>confidence_threshold</name></member>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1ac4f65e5a7e9d04d1acef1c1f55cf8b66" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::PrefetchConfig</scope><name>enable_hardware_prefetch</name></member>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a5bd2de28b0bf4ef6d46837eb00fcf722" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::PrefetchConfig</scope><name>enable_learning</name></member>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a4ef214a51665e0927a312197630a2bd6" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::PrefetchConfig</scope><name>history_size</name></member>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config_1a1c28528faa6bdd68c320833300ce4eb6" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::PrefetchConfig</scope><name>max_prefetch_distance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

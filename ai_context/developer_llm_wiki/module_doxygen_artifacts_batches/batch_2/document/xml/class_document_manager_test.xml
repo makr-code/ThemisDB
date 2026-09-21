@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_document_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>DocumentManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_document_manager_test_1a1d27ce887572db52f39797f090136f3a" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_manager" kindref="compound">InMemoryDocumentManager</ref></type>
+        <definition>InMemoryDocumentManager DocumentManagerTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>DocumentManagerTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="245" column="29" bodyfile="tests/document/test_document_store.cpp" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_document_manager_test_1a0daaf67ef6b25c89abcaac402cd58293" prot="protected" static="no" mutable="no">
+        <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref></type>
+        <definition>const CollectionId DocumentManagerTest::kCol</definition>
+        <argsstring></argsstring>
+        <name>kCol</name>
+        <qualifiedname>DocumentManagerTest::kCol</qualifiedname>
+        <initializer>{&quot;mgr-col&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="246" column="29" bodyfile="tests/document/test_document_store.cpp" bodystart="246" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DocumentManagerTest</label>
+        <link refid="class_document_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DocumentManagerTest</label>
+        <link refid="class_document_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mgr_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::document::IDocumentManager</label>
+        <link refid="classthemis_1_1document_1_1_i_document_manager"/>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryDocumentManager</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_manager"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_store.cpp" line="243" column="1" bodyfile="tests/document/test_document_store.cpp" bodystart="243" bodyend="247"/>
+    <listofallmembers>
+      <member refid="class_document_manager_test_1a0daaf67ef6b25c89abcaac402cd58293" prot="protected" virt="non-virtual"><scope>DocumentManagerTest</scope><name>kCol</name></member>
+      <member refid="class_document_manager_test_1a1d27ce887572db52f39797f090136f3a" prot="protected" virt="non-virtual"><scope>DocumentManagerTest</scope><name>mgr_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

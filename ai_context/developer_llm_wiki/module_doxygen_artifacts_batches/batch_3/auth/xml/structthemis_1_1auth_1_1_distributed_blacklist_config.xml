@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_distributed_blacklist_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::DistributedBlacklistConfig</compoundname>
+    <includes refid="distributed__token__blacklist_8h" local="no">distributed_token_blacklist.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_blacklist_config_1a28e01a16e09fa4c2d504e3a0538929ed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::DistributedBlacklistConfig::db_path</definition>
+        <argsstring></argsstring>
+        <name>db_path</name>
+        <qualifiedname>themis::auth::DistributedBlacklistConfig::db_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="38" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_blacklist_config_1ac9168adabf45cb6d337a8f84ac27c7f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::DistributedBlacklistConfig::column_family</definition>
+        <argsstring></argsstring>
+        <name>column_family</name>
+        <qualifiedname>themis::auth::DistributedBlacklistConfig::column_family</qualifiedname>
+        <initializer>= &quot;distributed_blacklist&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="40" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_blacklist_config_1a796a0070940f563db75a56a16fa37993" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::DistributedBlacklistConfig::purge_interval_seconds</definition>
+        <argsstring></argsstring>
+        <name>purge_interval_seconds</name>
+        <qualifiedname>themis::auth::DistributedBlacklistConfig::purge_interval_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="42" column="14" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_blacklist_config_1a3754cb291f7b981e3ec5504d797173b9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::DistributedBlacklistConfig::sync_interval_seconds</definition>
+        <argsstring></argsstring>
+        <name>sync_interval_seconds</name>
+        <qualifiedname>themis::auth::DistributedBlacklistConfig::sync_interval_seconds</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="44" column="14" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_blacklist_config_1ae0a39a5f5ded19bc29eb64a37fb93090" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::DistributedBlacklistConfig::peer_rpc_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>peer_rpc_timeout_ms</name>
+        <qualifiedname>themis::auth::DistributedBlacklistConfig::peer_rpc_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="46" column="9" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_blacklist_config_1a5851bb96127aa6ce74aec2892334898c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_cluster_node" kindref="compound">ClusterNode</ref></type>
+        <definition>ClusterNode themis::auth::DistributedBlacklistConfig::local_node</definition>
+        <argsstring></argsstring>
+        <name>local_node</name>
+        <qualifiedname>themis::auth::DistributedBlacklistConfig::local_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="48" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_blacklist_config_1abe446d949406cf0fb70b5cae83f83625" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1auth_1_1_cluster_node" kindref="compound">ClusterNode</ref> &gt;</type>
+        <definition>std::vector&lt;ClusterNode&gt; themis::auth::DistributedBlacklistConfig::peer_nodes</definition>
+        <argsstring></argsstring>
+        <name>peer_nodes</name>
+        <qualifiedname>themis::auth::DistributedBlacklistConfig::peer_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="50" column="17" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_distributed_blacklist_config_1a89fc0b5c77264ea966889a8d2e59a99a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::DistributedBlacklistConfig::enable_cluster_sync</definition>
+        <argsstring></argsstring>
+        <name>enable_cluster_sync</name>
+        <qualifiedname>themis::auth::DistributedBlacklistConfig::enable_cluster_sync</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/distributed_token_blacklist.h" line="52" column="10" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::auth::ClusterNode</label>
+        <link refid="structthemis_1_1auth_1_1_cluster_node"/>
+      </node>
+      <node id="1">
+        <label>themis::auth::DistributedBlacklistConfig</label>
+        <link refid="structthemis_1_1auth_1_1_distributed_blacklist_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>local_node</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/distributed_token_blacklist.h" line="37" column="1" bodyfile="include/auth/distributed_token_blacklist.h" bodystart="37" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1ac9168adabf45cb6d337a8f84ac27c7f0" prot="public" virt="non-virtual"><scope>themis::auth::DistributedBlacklistConfig</scope><name>column_family</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a28e01a16e09fa4c2d504e3a0538929ed" prot="public" virt="non-virtual"><scope>themis::auth::DistributedBlacklistConfig</scope><name>db_path</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a89fc0b5c77264ea966889a8d2e59a99a" prot="public" virt="non-virtual"><scope>themis::auth::DistributedBlacklistConfig</scope><name>enable_cluster_sync</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a5851bb96127aa6ce74aec2892334898c" prot="public" virt="non-virtual"><scope>themis::auth::DistributedBlacklistConfig</scope><name>local_node</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1abe446d949406cf0fb70b5cae83f83625" prot="public" virt="non-virtual"><scope>themis::auth::DistributedBlacklistConfig</scope><name>peer_nodes</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1ae0a39a5f5ded19bc29eb64a37fb93090" prot="public" virt="non-virtual"><scope>themis::auth::DistributedBlacklistConfig</scope><name>peer_rpc_timeout_ms</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a796a0070940f563db75a56a16fa37993" prot="public" virt="non-virtual"><scope>themis::auth::DistributedBlacklistConfig</scope><name>purge_interval_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a3754cb291f7b981e3ec5504d797173b9" prot="public" virt="non-virtual"><scope>themis::auth::DistributedBlacklistConfig</scope><name>sync_interval_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

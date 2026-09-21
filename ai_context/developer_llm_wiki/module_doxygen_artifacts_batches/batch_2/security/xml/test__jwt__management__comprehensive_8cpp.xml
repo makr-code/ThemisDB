@@ -1,0 +1,769 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__jwt__management__comprehensive_8cpp" kind="file" language="C++">
+    <compoundname>test_jwt_management_comprehensive.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">auth/jwt_validator.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_jwt_management_comprehensive.cpp</label>
+        <link refid="test__jwt__management__comprehensive_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>auth/jwt_validator.h</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_j_w_t_revocation_test" prot="public">JWTRevocationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTClaimsTest, IsExpired_PastExpiry_ReturnsTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTClaimsTest</type>
+        </param>
+        <param>
+          <type>IsExpired_PastExpiry_ReturnsTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="28" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a93eed431d898239094da43806ebdadef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTClaimsTest, IsExpired_FutureExpiry_ReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTClaimsTest</type>
+        </param>
+        <param>
+          <type>IsExpired_FutureExpiry_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="35" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="35" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a07ac8a0c3df5606a3929526fcce51b93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTClaimsTest, IsExpired_ExactlyNow_EffectivelyExpired)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTClaimsTest</type>
+        </param>
+        <param>
+          <type>IsExpired_ExactlyNow_EffectivelyExpired</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="42" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a5213cd932dfaed63326514bcc46146e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTClaimsTest, DefaultConstruction_EmptyFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTClaimsTest</type>
+        </param>
+        <param>
+          <type>DefaultConstruction_EmptyFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="49" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="49" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1afee1c72094b59d81dc8adab92a751251" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTClaimsTest, RolesAndGroups_CanBePopulated)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTClaimsTest</type>
+        </param>
+        <param>
+          <type>RolesAndGroups_CanBePopulated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="60" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="60" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1ad2250d2588753bbac5c24f4995562eac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTValidatorConfigTest, DefaultConfig_SaneDefaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTValidatorConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultConfig_SaneDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="78" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="78" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1acc545159a8fea35b5a6a0b5804349e47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTValidatorConfigTest, Constants_ValidValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTValidatorConfigTest</type>
+        </param>
+        <param>
+          <type>Constants_ValidValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="92" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="92" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a1cbc584641f79ee8206155c6bf516888" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTValidatorConfigTest, ConfigCanSpecifyRevokedKids)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTValidatorConfigTest</type>
+        </param>
+        <param>
+          <type>ConfigCanSpecifyRevokedKids</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="99" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="99" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a1ceaed0edb9a635dea2fcd9194f6ead0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(JWTRevocationTest, RevokeKid_KidIsRevoked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_j_w_t_revocation_test" kindref="compound">JWTRevocationTest</ref></type>
+        </param>
+        <param>
+          <type>RevokeKid_KidIsRevoked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="123" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="123" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1aab3fdc6f51c0082ffeb118cce0595cd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(JWTRevocationTest, UnrevokedKid_NotInRevocationList)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_j_w_t_revocation_test" kindref="compound">JWTRevocationTest</ref></type>
+        </param>
+        <param>
+          <type>UnrevokedKid_NotInRevocationList</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="131" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="131" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a8812efcc7668e382bb6ad567e0203aa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(JWTRevocationTest, RevokeMultipleKids)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_j_w_t_revocation_test" kindref="compound">JWTRevocationTest</ref></type>
+        </param>
+        <param>
+          <type>RevokeMultipleKids</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="138" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="138" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a5c64cb41e3b5dd0de28b46016d3affb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(JWTRevocationTest, RevokedKidInConfig_CheckedOnValidation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_j_w_t_revocation_test" kindref="compound">JWTRevocationTest</ref></type>
+        </param>
+        <param>
+          <type>RevokedKidInConfig_CheckedOnValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="149" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="149" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1afefc8930097c19fed9ebb59cbceba8ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTAccessControlTest, HasAccess_MatchingSubject_Granted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTAccessControlTest</type>
+        </param>
+        <param>
+          <type>HasAccess_MatchingSubject_Granted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="165" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="165" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a8360a709f0799168ab7f07c6df3752ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTAccessControlTest, HasAccess_MatchingGroup_Granted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTAccessControlTest</type>
+        </param>
+        <param>
+          <type>HasAccess_MatchingGroup_Granted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="173" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="173" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a5d46aa728e23f4a70c69ef2b1599f2f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTAccessControlTest, HasAccess_NoMatch_Denied)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTAccessControlTest</type>
+        </param>
+        <param>
+          <type>HasAccess_NoMatch_Denied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="182" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="182" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a163a4f0d19863d86a659600eaad2814a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTAccessControlTest, HasAccess_EmptyGroups_OnlySubjectMatches)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTAccessControlTest</type>
+        </param>
+        <param>
+          <type>HasAccess_EmptyGroups_OnlySubjectMatches</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="191" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="191" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a639cb661307694b378f788563bb3a040" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTAccessControlTest, HasAccess_EmptyClaims_Denied)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTAccessControlTest</type>
+        </param>
+        <param>
+          <type>HasAccess_EmptyClaims_Denied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="200" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="200" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a9322019aa8a9a5639e6dedca380096b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTAccessControlTest, HasAccess_MultipleGroups_AllChecked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTAccessControlTest</type>
+        </param>
+        <param>
+          <type>HasAccess_MultipleGroups_AllChecked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="206" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="206" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a93272e302b3f5eaa5d3b82f6b013ab99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTTokenValidationTest, EmptyToken_ThrowsOrReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTTokenValidationTest</type>
+        </param>
+        <param>
+          <type>EmptyToken_ThrowsOrReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="221" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="221" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1adc8431e6c24a7e0dd6efe0bc808b686e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTTokenValidationTest, TooLargeToken_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTTokenValidationTest</type>
+        </param>
+        <param>
+          <type>TooLargeToken_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="231" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="231" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1a814e4a4b83a1dfcff15d910c504a9c7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTTokenValidationTest, TokenWithOnlyTwoParts_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTTokenValidationTest</type>
+        </param>
+        <param>
+          <type>TokenWithOnlyTwoParts_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="243" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="243" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1ab46cd88384e0e12b481f5641af424245" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTTokenValidationTest, GarbageToken_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTTokenValidationTest</type>
+        </param>
+        <param>
+          <type>GarbageToken_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="254" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="254" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__management__comprehensive_8cpp_1af24f01109b8a5392ecfddd93257f9ea0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTTokenValidationTest, NoneAlgorithmToken_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTTokenValidationTest</type>
+        </param>
+        <param>
+          <type>NoneAlgorithmToken_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_management_comprehensive.cpp" line="264" column="1" bodyfile="tests/security/test_jwt_management_comprehensive.cpp" bodystart="264" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Comprehensive tests for JWT management and security. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>JWTClaims structure and expiration check</para>
+</listitem><listitem><para>JWTValidatorConfig constants and defaults</para>
+</listitem><listitem><para>Key ID revocation (revokeKid / isKidRevoked)</para>
+</listitem><listitem><para>Group-based access control (hasAccess)</para>
+</listitem><listitem><para>Token size limits (MAX_JWT_TOKEN_SIZE)</para>
+</listitem><listitem><para><ref refid="test__tls__hot__reload_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> fields: clock skew, cache TTL, revoked kids</para>
+</listitem><listitem><para>Validation of malformed tokens (missing headers/payload)</para>
+</listitem><listitem><para>Token with revoked kid is rejected </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/jwt_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>JWTClaims<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTClaimsTest,<sp/>IsExpired_PastExpiry_ReturnsTrue)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>expiration<sp/>in<sp/>the<sp/>past</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.expiration<sp/>=<sp/>std::chrono::system_clock::now()<sp/>-<sp/>std::chrono::hours(1);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.isExpired());</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTClaimsTest,<sp/>IsExpired_FutureExpiry_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>expiration<sp/>in<sp/>the<sp/>future</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.expiration<sp/>=<sp/>std::chrono::system_clock::now()<sp/>+<sp/>std::chrono::hours(1);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.isExpired());</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTClaimsTest,<sp/>IsExpired_ExactlyNow_EffectivelyExpired)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expiration<sp/>at<sp/>now<sp/>-<sp/>very<sp/>small<sp/>past</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.expiration<sp/>=<sp/>std::chrono::system_clock::now()<sp/>-<sp/>std::chrono::seconds(1);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.isExpired());</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTClaimsTest,<sp/>DefaultConstruction_EmptyFields)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.sub.empty());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.email.empty());</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.tenant_id.empty());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.roles.empty());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.groups.empty());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.issuer.empty());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.audience.empty());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTClaimsTest,<sp/>RolesAndGroups_CanBePopulated)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.sub<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.email<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user@example.com&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.roles<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.groups<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;engineering&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ops-team&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.sub,<sp/></highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.roles.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.groups.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.roles[0],<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.groups[1],<sp/></highlight><highlight class="stringliteral">&quot;ops-team&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>JWTValidatorConfig<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTValidatorConfigTest,<sp/>DefaultConfig_SaneDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.cache_ttl,<sp/>std::chrono::seconds(600));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.clock_skew,<sp/>std::chrono::seconds(60));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.jwks_url.empty());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.expected_issuer.has_value());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.expected_audience.has_value());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.revoked_kids.empty());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.jwks_timeout_seconds,<sp/>DEFAULT_JWKS_TIMEOUT_SECONDS);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.jwks_max_retries,<sp/>MAX_JWKS_RETRY_ATTEMPTS);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.require_issuer_validation);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.require_audience_validation);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTValidatorConfigTest,<sp/>Constants_ValidValues)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(MAX_JWT_TOKEN_SIZE,<sp/>16u<sp/>*<sp/>1024u);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(MAX_PRINCIPAL_NAME_LENGTH,<sp/>256u);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(DEFAULT_JWKS_TIMEOUT_SECONDS,<sp/>5);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(MAX_JWKS_RETRY_ATTEMPTS,<sp/>3);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTValidatorConfigTest,<sp/>ConfigCanSpecifyRevokedKids)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.revoked_kids<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;kid2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;kid3&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.revoked_kids.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.revoked_kids[0],<sp/></highlight><highlight class="stringliteral">&quot;kid1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Key<sp/>ID<sp/>Revocation<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="class_j_w_t_revocation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_j_w_t_revocation_test" kindref="compound">JWTRevocationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_j_w_t_revocation_test_1aa58cce7515d2d6027d156893854a194e" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.jwks_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost:8080/jwks&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Won&apos;t<sp/>be<sp/>called<sp/>in<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.require_issuer_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.require_audience_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_j_w_t_revocation_test_1a4fe17dc4cd451e855b17d883fa3b143f" kindref="member">validator_</ref><sp/>=<sp/>std::make_unique&lt;JWTValidator&gt;(cfg);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;JWTValidator&gt;<sp/><ref refid="class_j_w_t_revocation_test_1a4fe17dc4cd451e855b17d883fa3b143f" kindref="member">validator_</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1a1ceaed0edb9a635dea2fcd9194f6ead0" kindref="member">TEST_F</ref>(<ref refid="class_j_w_t_revocation_test" kindref="compound">JWTRevocationTest</ref>,<sp/>RevokeKid_KidIsRevoked)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator_-&gt;isKidRevoked(</highlight><highlight class="stringliteral">&quot;test-key-1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_-&gt;revokeKid(</highlight><highlight class="stringliteral">&quot;test-key-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator_-&gt;isKidRevoked(</highlight><highlight class="stringliteral">&quot;test-key-1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1a1ceaed0edb9a635dea2fcd9194f6ead0" kindref="member">TEST_F</ref>(<ref refid="class_j_w_t_revocation_test" kindref="compound">JWTRevocationTest</ref>,<sp/>UnrevokedKid_NotInRevocationList)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_-&gt;revokeKid(</highlight><highlight class="stringliteral">&quot;bad-key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator_-&gt;isKidRevoked(</highlight><highlight class="stringliteral">&quot;bad-key&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator_-&gt;isKidRevoked(</highlight><highlight class="stringliteral">&quot;good-key&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1a1ceaed0edb9a635dea2fcd9194f6ead0" kindref="member">TEST_F</ref>(<ref refid="class_j_w_t_revocation_test" kindref="compound">JWTRevocationTest</ref>,<sp/>RevokeMultipleKids)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_-&gt;revokeKid(</highlight><highlight class="stringliteral">&quot;key-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_-&gt;revokeKid(</highlight><highlight class="stringliteral">&quot;key-b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_-&gt;revokeKid(</highlight><highlight class="stringliteral">&quot;key-c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator_-&gt;isKidRevoked(</highlight><highlight class="stringliteral">&quot;key-a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator_-&gt;isKidRevoked(</highlight><highlight class="stringliteral">&quot;key-b&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator_-&gt;isKidRevoked(</highlight><highlight class="stringliteral">&quot;key-c&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator_-&gt;isKidRevoked(</highlight><highlight class="stringliteral">&quot;key-d&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1a1ceaed0edb9a635dea2fcd9194f6ead0" kindref="member">TEST_F</ref>(<ref refid="class_j_w_t_revocation_test" kindref="compound">JWTRevocationTest</ref>,<sp/>RevokedKidInConfig_CheckedOnValidation)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.jwks_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost/jwks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.revoked_kids<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;pre-revoked-key&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_issuer_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_audience_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>v(cfg);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-revoked<sp/>key<sp/>should<sp/>be<sp/>revoked<sp/>even<sp/>before<sp/>any<sp/>runtime<sp/>revocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(v.isKidRevoked(</highlight><highlight class="stringliteral">&quot;pre-revoked-key&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Group-Based<sp/>Access<sp/>Control<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTAccessControlTest,<sp/>HasAccess_MatchingSubject_Granted)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.sub<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user-abc-123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.groups<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;engineering&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;user-abc-123&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTAccessControlTest,<sp/>HasAccess_MatchingGroup_Granted)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.sub<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user-xyz&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.groups<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;finance-team&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;reporting&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;finance-team&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;reporting&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTAccessControlTest,<sp/>HasAccess_NoMatch_Denied)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.sub<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user-xyz&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.groups<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;engineering&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;finance-team&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;admin-group&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTAccessControlTest,<sp/>HasAccess_EmptyGroups_OnlySubjectMatches)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.sub<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;solo-user&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.groups<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;solo-user&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;any-group&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTAccessControlTest,<sp/>HasAccess_EmptyClaims_Denied)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>sub,<sp/>no<sp/>groups</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;some-context&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTAccessControlTest,<sp/>HasAccess_MultipleGroups_AllChecked)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.sub<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.groups<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;group-a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;group-b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;group-c&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;group-a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;group-b&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;group-c&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(JWTValidator::hasAccess(claims,<sp/></highlight><highlight class="stringliteral">&quot;group-d&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Token<sp/>Validation<sp/>-<sp/>Malformed<sp/>Token<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTTokenValidationTest,<sp/>EmptyToken_ThrowsOrReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.jwks_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost/jwks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_issuer_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_audience_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>v(cfg);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(v.parseAndValidate(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>std::exception);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTTokenValidationTest,<sp/>TooLargeToken_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.jwks_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost/jwks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_issuer_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_audience_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>v(cfg);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>larger<sp/>than<sp/>MAX_JWT_TOKEN_SIZE<sp/>(16KB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>huge_token(MAX_JWT_TOKEN_SIZE<sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;X&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(v.parseAndValidate(huge_token),<sp/>std::exception);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTTokenValidationTest,<sp/>TokenWithOnlyTwoParts_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.jwks_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost/jwks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_issuer_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_audience_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>v(cfg);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JWT<sp/>must<sp/>have<sp/>3<sp/>parts<sp/>separated<sp/>by<sp/>dots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(v.parseAndValidate(</highlight><highlight class="stringliteral">&quot;header.payload&quot;</highlight><highlight class="normal">),<sp/>std::exception);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTTokenValidationTest,<sp/>GarbageToken_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.jwks_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost/jwks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_issuer_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_audience_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>v(cfg);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(v.parseAndValidate(</highlight><highlight class="stringliteral">&quot;not.a.jwt&quot;</highlight><highlight class="normal">),<sp/>std::exception);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__jwt__management__comprehensive_8cpp_1ac9947a4cb19c3f90fe6c11fd74270749" kindref="member">TEST</ref>(JWTTokenValidationTest,<sp/>NoneAlgorithmToken_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>&quot;none&quot;<sp/>algorithm<sp/>JWT:<sp/>header={&quot;alg&quot;:&quot;none&quot;,&quot;typ&quot;:&quot;JWT&quot;},<sp/>payload={&quot;sub&quot;:&quot;attacker&quot;}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>represents<sp/>the<sp/>&quot;algorithm<sp/>confusion&quot;<sp/>attack</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.jwks_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost/jwks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_issuer_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.require_audience_validation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>v(cfg);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base64url-encoded:<sp/>{&quot;alg&quot;:&quot;none&quot;,&quot;typ&quot;:&quot;JWT&quot;}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>none_header<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base64url-encoded:<sp/>{&quot;sub&quot;:&quot;attacker&quot;,&quot;exp&quot;:9999999999}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>payload<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;eyJzdWIiOiJhdHRhY2tlciIsImV4cCI6OTk5OTk5OTk5OX0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>token<sp/>=<sp/>none_header<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>payload<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>rejected<sp/>-<sp/>&quot;none&quot;<sp/>algorithm<sp/>is<sp/>not<sp/>supported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(v.parseAndValidate(token),<sp/>std::exception);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_jwt_management_comprehensive.cpp"/>
+  </compounddef>
+</doxygen>

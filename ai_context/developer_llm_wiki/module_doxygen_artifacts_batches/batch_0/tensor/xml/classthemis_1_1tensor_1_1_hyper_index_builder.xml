@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_hyper_index_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::HyperIndexBuilder</compoundname>
+    <includes refid="hyper__index__builder_8h" local="no">hyper_index_builder.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_hyper_index_builder_1aaafcf00fb00ac50788e10ee5c2aa2d7d" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::size_t &gt;( const std::string &amp;, const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_column_schema" kindref="compound">ColumnSchema</ref> &gt; &amp;, const <ref refid="structthemis_1_1tensor_1_1_table_row" kindref="compound">TableRow</ref> &amp;, std::size_t, const std::vector&lt; std::size_t &gt; &amp;)&gt;</type>
+        <definition>using themis::tensor::HyperIndexBuilder::BucketAssignmentFn = std::function&lt;std::vector&lt;std::size_t&gt;(
+       const std::string&amp;,
+       const std::vector&lt;ColumnSchema&gt;&amp;,
+       const TableRow&amp;,
+       std::size_t,
+       const std::vector&lt;std::size_t&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BucketAssignmentFn</name>
+        <qualifiedname>themis::tensor::HyperIndexBuilder::BucketAssignmentFn</qualifiedname>
+        <briefdescription>
+<para>Optional bridge for FK-aware/custom bucket assignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inputs include tenant/schema/row index and the default per-column buckets produced by built-in uniform/category/bool bucketisation.</para>
+<para>Return a per-column bucket vector with the same size as <computeroutput>schema</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="151" column="5" bodyfile="include/tensor/hyper_index_builder.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_hyper_index_builder_1a091802325c6e9e676188c87afa50010c" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_hyper_index_tensor" kindref="compound">HyperIndexTensor</ref></type>
+        <definition>HyperIndexTensor themis::tensor::HyperIndexBuilder::fromSchema</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::vector&lt; ColumnSchema &gt; &amp;schema, const std::vector&lt; TableRow &gt; &amp;rows, const HyperIndexConfig &amp;cfg={})</argsstring>
+        <name>fromSchema</name>
+        <qualifiedname>themis::tensor::HyperIndexBuilder::fromSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_column_schema" kindref="compound">ColumnSchema</ref> &gt; &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_table_row" kindref="compound">TableRow</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_hyper_index_config" kindref="compound">HyperIndexConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="structthemis_1_1tensor_1_1_hyper_index_tensor" kindref="compound">HyperIndexTensor</ref> from rows and schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemis_1_1tensor_1_1_hyper_index_builder_1a091802325c6e9e676188c87afa50010c" kindref="member">HyperIndexBuilder::fromSchema</ref> ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Owning tenant (isolation guarantee). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column descriptors; length d ≥ 2. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data rows (parallel to schema). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Build configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if schema has &lt; 2 columns, rows is empty, or FK graph references invalid column indices. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if FK graph is configured to fail when join-strength statistics are missing.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Default path uses built-in numeric/category/bool bucketisation. If cfg.fk_graph.edges is non-empty, FK join-signal propagation is applied with cycle-protected graph traversal before counting. For FK-aware/custom assignment, install <computeroutput><ref refid="classthemis_1_1tensor_1_1_hyper_index_builder_1aaafcf00fb00ac50788e10ee5c2aa2d7d" kindref="member">BucketAssignmentFn</ref></computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::overflow_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::to_string(), empty(), shape(), max(), count_tensor(), buildNumericThresholds(), buildCategoryOrders(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="177" column="30" bodyfile="src/tensor/hyper_index_builder.cpp" bodystart="572" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_hyper_index_builder_1ad97645dfa68efcbc80536f35d0a4c080" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::HyperIndexBuilder::setBucketAssignmentFn</definition>
+        <argsstring>(BucketAssignmentFn fn)</argsstring>
+        <name>setBucketAssignmentFn</name>
+        <qualifiedname>themis::tensor::HyperIndexBuilder::setBucketAssignmentFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_hyper_index_builder_1aaafcf00fb00ac50788e10ee5c2aa2d7d" kindref="member">BucketAssignmentFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Thread-safe bridge management for custom bucket assignment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Bucket Assignment Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="186" column="17" bodyfile="src/tensor/hyper_index_builder.cpp" bodystart="676" bodyend="679"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_hyper_index_builder_1a4a73970282cd500dfe289195a88be437" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::HyperIndexBuilder::clearBucketAssignmentFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearBucketAssignmentFn</name>
+        <qualifiedname>themis::tensor::HyperIndexBuilder::clearBucketAssignmentFn</qualifiedname>
+        <briefdescription>
+<para>Clear Bucket Assignment Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="187" column="17" bodyfile="src/tensor/hyper_index_builder.cpp" bodystart="685" bodyend="688"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_hyper_index_builder_1a26014560ee9ab66e8c52e6286b24f8ef" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_hyper_index_builder_1aaafcf00fb00ac50788e10ee5c2aa2d7d" kindref="member">BucketAssignmentFn</ref></type>
+        <definition>HyperIndexBuilder::BucketAssignmentFn themis::tensor::HyperIndexBuilder::getBucketAssignmentFn</definition>
+        <argsstring>()</argsstring>
+        <name>getBucketAssignmentFn</name>
+        <qualifiedname>themis::tensor::HyperIndexBuilder::getBucketAssignmentFn</qualifiedname>
+        <briefdescription>
+<para>Get Bucket Assignment Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="188" column="32" bodyfile="src/tensor/hyper_index_builder.cpp" bodystart="695" bodyend="698"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Builds a <ref refid="structthemis_1_1tensor_1_1_hyper_index_tensor" kindref="compound">HyperIndexTensor</ref> from tabular rows + column schema. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe: stateless; all context is passed via parameters. </para>
+    </detaileddescription>
+    <location file="include/tensor/hyper_index_builder.h" line="141" column="1" bodyfile="include/tensor/hyper_index_builder.h" bodystart="141" bodyend="189"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_hyper_index_builder_1aaafcf00fb00ac50788e10ee5c2aa2d7d" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexBuilder</scope><name>BucketAssignmentFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_hyper_index_builder_1a4a73970282cd500dfe289195a88be437" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexBuilder</scope><name>clearBucketAssignmentFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_hyper_index_builder_1a091802325c6e9e676188c87afa50010c" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexBuilder</scope><name>fromSchema</name></member>
+      <member refid="classthemis_1_1tensor_1_1_hyper_index_builder_1a26014560ee9ab66e8c52e6286b24f8ef" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexBuilder</scope><name>getBucketAssignmentFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_hyper_index_builder_1ad97645dfa68efcbc80536f35d0a4c080" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexBuilder</scope><name>setBucketAssignmentFn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

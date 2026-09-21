@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_backend_health_sample" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::BackendHealthSample</compoundname>
+    <includes refid="adaptive__rate__limiter_8h" local="no">adaptive_rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_backend_health_sample_1a032e009bfa1ebbb39adffd2b5ac735ab" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::server::BackendHealthSample::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::server::BackendHealthSample::latency_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="27" column="31" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_backend_health_sample_1a6b8ff4dcd99431f775dca5450d4c30f0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::BackendHealthSample::is_error</definition>
+        <argsstring></argsstring>
+        <name>is_error</name>
+        <qualifiedname>themis::server::BackendHealthSample::is_error</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="29" column="10" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/adaptive_rate_limiter.h" line="26" column="1" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="26" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_backend_health_sample_1a6b8ff4dcd99431f775dca5450d4c30f0" prot="public" virt="non-virtual"><scope>themis::server::BackendHealthSample</scope><name>is_error</name></member>
+      <member refid="structthemis_1_1server_1_1_backend_health_sample_1a032e009bfa1ebbb39adffd2b5ac735ab" prot="public" virt="non-virtual"><scope>themis::server::BackendHealthSample</scope><name>latency_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

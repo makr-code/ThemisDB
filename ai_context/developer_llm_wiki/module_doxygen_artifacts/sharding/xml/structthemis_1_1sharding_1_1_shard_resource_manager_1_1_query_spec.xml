@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_resource_manager_1_1_query_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardResourceManager::QuerySpec</compoundname>
+    <includes refid="shard__resource__manager_8h" local="no">shard_resource_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_resource_manager_1_1_query_spec_1a3618beaba6231b33d715f1ff67f60c4f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardResourceManager::QuerySpec::query_id</definition>
+        <argsstring></argsstring>
+        <name>query_id</name>
+        <qualifiedname>themis::sharding::ShardResourceManager::QuerySpec::query_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_resource_manager.h" line="92" column="21" bodyfile="include/sharding/shard_resource_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_resource_manager_1_1_query_spec_1aca14109b465004c0d235da0d598aa713" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ShardResourceManager::QuerySpec::estimated_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>estimated_memory_bytes</name>
+        <qualifiedname>themis::sharding::ShardResourceManager::QuerySpec::estimated_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_resource_manager.h" line="93" column="16" bodyfile="include/sharding/shard_resource_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_resource_manager_1_1_query_spec_1a6954452eea095804cdc345ca06f8e1b2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ShardResourceManager::QuerySpec::estimated_cpu_percent</definition>
+        <argsstring></argsstring>
+        <name>estimated_cpu_percent</name>
+        <qualifiedname>themis::sharding::ShardResourceManager::QuerySpec::estimated_cpu_percent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_resource_manager.h" line="94" column="18" bodyfile="include/sharding/shard_resource_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_resource_manager_1_1_query_spec_1a7c2ab4c1588881ec8f40e672c16e0327" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::ShardResourceManager::QuerySpec::estimated_duration</definition>
+        <argsstring></argsstring>
+        <name>estimated_duration</name>
+        <qualifiedname>themis::sharding::ShardResourceManager::QuerySpec::estimated_duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_resource_manager.h" line="95" column="35" bodyfile="include/sharding/shard_resource_manager.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Query admission estimate used by <ref refid="classthemis_1_1sharding_1_1_shard_resource_manager_1afcced299e850bd45ed9331a7ac689c3c" kindref="member">canAcceptQuery()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_resource_manager.h" line="91" column="5" bodyfile="include/sharding/shard_resource_manager.h" bodystart="91" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_resource_manager_1_1_query_spec_1a6954452eea095804cdc345ca06f8e1b2" prot="public" virt="non-virtual"><scope>themis::sharding::ShardResourceManager::QuerySpec</scope><name>estimated_cpu_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_resource_manager_1_1_query_spec_1a7c2ab4c1588881ec8f40e672c16e0327" prot="public" virt="non-virtual"><scope>themis::sharding::ShardResourceManager::QuerySpec</scope><name>estimated_duration</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_resource_manager_1_1_query_spec_1aca14109b465004c0d235da0d598aa713" prot="public" virt="non-virtual"><scope>themis::sharding::ShardResourceManager::QuerySpec</scope><name>estimated_memory_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_resource_manager_1_1_query_spec_1a3618beaba6231b33d715f1ff67f60c4f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardResourceManager::QuerySpec</scope><name>query_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

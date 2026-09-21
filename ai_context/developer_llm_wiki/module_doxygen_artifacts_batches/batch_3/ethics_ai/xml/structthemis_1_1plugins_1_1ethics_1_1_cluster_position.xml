@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_cluster_position" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::ClusterPosition</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1aae2a69cba77a6e9e74f21108f9f77803" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::ClusterPosition::cluster_name</definition>
+        <argsstring></argsstring>
+        <name>cluster_name</name>
+        <qualifiedname>themis::plugins::ethics::ClusterPosition::cluster_name</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;Deontological&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="344" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1ab6232172716364897a77cb88e536cd9e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::ClusterPosition::school_ids</definition>
+        <argsstring></argsstring>
+        <name>school_ids</name>
+        <qualifiedname>themis::plugins::ethics::ClusterPosition::school_ids</qualifiedname>
+        <briefdescription>
+<para>Active (non-ABSTAIN) schools in this cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="345" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1ae2e0c94f28ffc59ddd68ffbbc1cf5be1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602e" kindref="member">DiscourseVerdict</ref></type>
+        <definition>DiscourseVerdict themis::plugins::ethics::ClusterPosition::verdict</definition>
+        <argsstring></argsstring>
+        <name>verdict</name>
+        <qualifiedname>themis::plugins::ethics::ClusterPosition::verdict</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602eaf4d833a3465758569accea637f9fc592" kindref="member">DiscourseVerdict::ABSTAIN</ref>}</initializer>
+        <briefdescription>
+<para>Majority verdict in cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="346" column="22" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="346" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1aa294b40eb5e35226962f5c9bd6d8f61c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::ClusterPosition::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::plugins::ethics::ClusterPosition::confidence</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Confidence in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="347" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="347" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1aed04832c17b0c0b7d8ab7aeaaa07a33e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::ClusterPosition::thesis_ids</definition>
+        <argsstring></argsstring>
+        <name>thesis_ids</name>
+        <qualifiedname>themis::plugins::ethics::ClusterPosition::thesis_ids</qualifiedname>
+        <briefdescription>
+<para>Supporting thesis identifiers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="348" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="343" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="343" bodyend="349"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1aae2a69cba77a6e9e74f21108f9f77803" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ClusterPosition</scope><name>cluster_name</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1aa294b40eb5e35226962f5c9bd6d8f61c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ClusterPosition</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1ab6232172716364897a77cb88e536cd9e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ClusterPosition</scope><name>school_ids</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1aed04832c17b0c0b7d8ab7aeaaa07a33e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ClusterPosition</scope><name>thesis_ids</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1ae2e0c94f28ffc59ddd68ffbbc1cf5be1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::ClusterPosition</scope><name>verdict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

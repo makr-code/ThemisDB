@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_api_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ApiResult</compoundname>
+    <includes refid="scraper__api__client_8h" local="no">scraper_api_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_result_1aecee8ace802bdf1f17f82136e80ca7a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiResult::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>themis::scraper::ApiResult::url</qualifiedname>
+        <briefdescription>
+<para>Source endpoint URL (with page params). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="70" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_result_1a52138a86a5bb59583541794cf5491114" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiResult::raw_json</definition>
+        <argsstring></argsstring>
+        <name>raw_json</name>
+        <qualifiedname>themis::scraper::ApiResult::raw_json</qualifiedname>
+        <briefdescription>
+<para>Raw JSON response text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="71" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_result_1a3b8fa18052e55ea65248bc8d36281344" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiResult::extracted_text</definition>
+        <argsstring></argsstring>
+        <name>extracted_text</name>
+        <qualifiedname>themis::scraper::ApiResult::extracted_text</qualifiedname>
+        <briefdescription>
+<para>Flattened plain text extracted from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="72" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_result_1a1286cd9caf4e9e45fa6c638bc34723d9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiResult::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::scraper::ApiResult::title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="73" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_result_1a0f3a880f8f3a319ff844ecb5a9b72108" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiResult::date</definition>
+        <argsstring></argsstring>
+        <name>date</name>
+        <qualifiedname>themis::scraper::ApiResult::date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="74" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_result_1a25ff880002ab79b51e3a2d3143c06ea6" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::scraper::ApiResult::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::scraper::ApiResult::fields</qualifiedname>
+        <briefdescription>
+<para>Parsed top-level string fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="75" column="14" bodyfile="include/scraper/scraper_api_client.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One item collected from a JSON REST or GraphQL API response. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Common fields (url, title, date) are extracted from well-known JSON keys; all top-level string values are also stored in fields for downstream access. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_api_client.h" line="69" column="1" bodyfile="include/scraper/scraper_api_client.h" bodystart="69" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_api_result_1a0f3a880f8f3a319ff844ecb5a9b72108" prot="public" virt="non-virtual"><scope>themis::scraper::ApiResult</scope><name>date</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_result_1a3b8fa18052e55ea65248bc8d36281344" prot="public" virt="non-virtual"><scope>themis::scraper::ApiResult</scope><name>extracted_text</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_result_1a25ff880002ab79b51e3a2d3143c06ea6" prot="public" virt="non-virtual"><scope>themis::scraper::ApiResult</scope><name>fields</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_result_1a52138a86a5bb59583541794cf5491114" prot="public" virt="non-virtual"><scope>themis::scraper::ApiResult</scope><name>raw_json</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_result_1a1286cd9caf4e9e45fa6c638bc34723d9" prot="public" virt="non-virtual"><scope>themis::scraper::ApiResult</scope><name>title</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_result_1aecee8ace802bdf1f17f82136e80ca7a6" prot="public" virt="non-virtual"><scope>themis::scraper::ApiResult</scope><name>url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

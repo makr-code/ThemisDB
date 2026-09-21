@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_rate_limiter_1_1_adaptive_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::RateLimiter::AdaptiveEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiter_1_1_adaptive_entry_1aa4cc322306b77f5635c903a8dfeddb86" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::chrono::steady_clock::time_point &gt;</type>
+        <definition>std::vector&lt;std::chrono::steady_clock::time_point&gt; themis::server::RateLimiter::AdaptiveEntry::rejection_times</definition>
+        <argsstring></argsstring>
+        <name>rejection_times</name>
+        <qualifiedname>themis::server::RateLimiter::AdaptiveEntry::rejection_times</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="210" column="21" bodyfile="include/server/rate_limiter.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiter_1_1_adaptive_entry_1a2ecf1f548a88c258961a4f462284f243" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::RateLimiter::AdaptiveEntry::penalty_until</definition>
+        <argsstring></argsstring>
+        <name>penalty_until</name>
+        <qualifiedname>themis::server::RateLimiter::AdaptiveEntry::penalty_until</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="212" column="47" bodyfile="include/server/rate_limiter.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiter_1_1_adaptive_entry_1a54868cc4ca95065090966aeec1049f6c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::RateLimiter::AdaptiveEntry::under_penalty</definition>
+        <argsstring></argsstring>
+        <name>under_penalty</name>
+        <qualifiedname>themis::server::RateLimiter::AdaptiveEntry::under_penalty</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="213" column="14" bodyfile="include/server/rate_limiter.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiter.h" line="208" column="5" bodyfile="include/server/rate_limiter.h" bodystart="208" bodyend="214"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_rate_limiter_1_1_adaptive_entry_1a2ecf1f548a88c258961a4f462284f243" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter::AdaptiveEntry</scope><name>penalty_until</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiter_1_1_adaptive_entry_1aa4cc322306b77f5635c903a8dfeddb86" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter::AdaptiveEntry</scope><name>rejection_times</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiter_1_1_adaptive_entry_1a54868cc4ca95065090966aeec1049f6c" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter::AdaptiveEntry</scope><name>under_penalty</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

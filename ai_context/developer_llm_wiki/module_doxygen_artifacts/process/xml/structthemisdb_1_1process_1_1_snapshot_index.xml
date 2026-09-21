@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1process_1_1_snapshot_index" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::process::SnapshotIndex</compoundname>
+    <includes refid="process__telemetry__contract_8h" local="no">process_telemetry_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_snapshot_index_1a44f4aedfb20c4b76fb024c76b4b8dcde" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::SnapshotIndex::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themisdb::process::SnapshotIndex::model_id</qualifiedname>
+        <briefdescription>
+<para>Base model ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="129" column="15" bodyfile="include/process/process_telemetry_contract.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_snapshot_index_1a3409dcd29fb1deaad640c03bb2f5cbbe" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::process::SnapshotIndex::snapshot_time</definition>
+        <argsstring></argsstring>
+        <name>snapshot_time</name>
+        <qualifiedname>themisdb::process::SnapshotIndex::snapshot_time</qualifiedname>
+        <briefdescription>
+<para>Snapshot creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="132" column="41" bodyfile="include/process/process_telemetry_contract.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_snapshot_index_1a2e12e8bfcaa35c9ef430c4800d051488" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themisdb::process::SnapshotIndex::snapshot_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>snapshot_size_bytes</name>
+        <qualifiedname>themisdb::process::SnapshotIndex::snapshot_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Snapshot size (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="135" column="17" bodyfile="include/process/process_telemetry_contract.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_snapshot_index_1a36bc02300503e9950bc86a93c92018e6" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themisdb::process::SnapshotIndex::start_entry_id</definition>
+        <argsstring></argsstring>
+        <name>start_entry_id</name>
+        <qualifiedname>themisdb::process::SnapshotIndex::start_entry_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Starting entry ID in audit trail this snapshot covers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="138" column="17" bodyfile="include/process/process_telemetry_contract.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_snapshot_index_1a31aee0cde8adf0fdb4dcb23874381570" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themisdb::process::SnapshotIndex::end_entry_id</definition>
+        <argsstring></argsstring>
+        <name>end_entry_id</name>
+        <qualifiedname>themisdb::process::SnapshotIndex::end_entry_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Ending entry ID in audit trail this snapshot covers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="141" column="17" bodyfile="include/process/process_telemetry_contract.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_snapshot_index_1a2a99c7e1be64320bfacaae8554293967" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::SnapshotIndex::storage_location</definition>
+        <argsstring></argsstring>
+        <name>storage_location</name>
+        <qualifiedname>themisdb::process::SnapshotIndex::storage_location</qualifiedname>
+        <briefdescription>
+<para>Storage location (backend-specific path/key). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="144" column="15" bodyfile="include/process/process_telemetry_contract.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_snapshot_index_1a694cbe4a074dd4de4e46f206d8f3641c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::SnapshotIndex::integrity_hash</definition>
+        <argsstring></argsstring>
+        <name>integrity_hash</name>
+        <qualifiedname>themisdb::process::SnapshotIndex::integrity_hash</qualifiedname>
+        <briefdescription>
+<para>Snapshot integrity check (SHA-256). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="147" column="15" bodyfile="include/process/process_telemetry_contract.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot index for O(log N) temporal reconstruction. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Maps timestamp ranges to snapshot locations for efficient retrieval. </para>
+    </detaileddescription>
+    <location file="include/process/process_telemetry_contract.h" line="127" column="1" bodyfile="include/process/process_telemetry_contract.h" bodystart="127" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1process_1_1_snapshot_index_1a31aee0cde8adf0fdb4dcb23874381570" prot="public" virt="non-virtual"><scope>themisdb::process::SnapshotIndex</scope><name>end_entry_id</name></member>
+      <member refid="structthemisdb_1_1process_1_1_snapshot_index_1a694cbe4a074dd4de4e46f206d8f3641c" prot="public" virt="non-virtual"><scope>themisdb::process::SnapshotIndex</scope><name>integrity_hash</name></member>
+      <member refid="structthemisdb_1_1process_1_1_snapshot_index_1a44f4aedfb20c4b76fb024c76b4b8dcde" prot="public" virt="non-virtual"><scope>themisdb::process::SnapshotIndex</scope><name>model_id</name></member>
+      <member refid="structthemisdb_1_1process_1_1_snapshot_index_1a2e12e8bfcaa35c9ef430c4800d051488" prot="public" virt="non-virtual"><scope>themisdb::process::SnapshotIndex</scope><name>snapshot_size_bytes</name></member>
+      <member refid="structthemisdb_1_1process_1_1_snapshot_index_1a3409dcd29fb1deaad640c03bb2f5cbbe" prot="public" virt="non-virtual"><scope>themisdb::process::SnapshotIndex</scope><name>snapshot_time</name></member>
+      <member refid="structthemisdb_1_1process_1_1_snapshot_index_1a36bc02300503e9950bc86a93c92018e6" prot="public" virt="non-virtual"><scope>themisdb::process::SnapshotIndex</scope><name>start_entry_id</name></member>
+      <member refid="structthemisdb_1_1process_1_1_snapshot_index_1a2a99c7e1be64320bfacaae8554293967" prot="public" virt="non-virtual"><scope>themisdb::process::SnapshotIndex</scope><name>storage_location</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="root__cause__analyzer_8h" kind="file" language="C++">
+    <compoundname>root_cause_analyzer.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="performance__analyzer_8h" local="yes">observability/performance_analyzer.h</includes>
+    <includedby refid="root__cause__analyzer_8cpp" local="yes">src/observability/root_cause_analyzer.cpp</includedby>
+    <includedby refid="test__observability__block__a__focused_8cpp" local="yes">tests/observability/test_observability_block_a_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="8">
+        <label>observability/performance_analyzer.h</label>
+        <link refid="performance__analyzer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>observability/query_profiler.h</label>
+        <link refid="query__profiler_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/observability/root_cause_analyzer.h</label>
+        <link refid="root__cause__analyzer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>observability/storage_profiler.h</label>
+        <link refid="storage__profiler_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/root_cause_analyzer.h</label>
+        <link refid="root__cause__analyzer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/observability/root_cause_analyzer.cpp</label>
+        <link refid="root__cause__analyzer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/observability/test_observability_block_a_focused.cpp</label>
+        <link refid="test__observability__block__a__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_time_series_point" prot="public">themis::observability::TimeSeriesPoint</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_time_series" prot="public">themis::observability::TimeSeries</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_system_snapshot" prot="public">themis::observability::SystemSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_correlated_metric" prot="public">themis::observability::CorrelatedMetric</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_causal_edge" prot="public">themis::observability::CausalEdge</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_causal_graph" prot="public">themis::observability::CausalGraph</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_root_cause_report" prot="public">themis::observability::RootCauseReport</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_root_cause_analyzer_config" prot="public">themis::observability::RootCauseAnalyzerConfig</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_root_cause_analyzer" prot="public">themis::observability::RootCauseAnalyzer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="performance__analyzer_8h" kindref="compound">observability/performance_analyzer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TimeSeries<sp/>–<sp/>a<sp/>named<sp/>sequence<sp/>of<sp/>(timestamp,<sp/>value)<sp/>observations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1observability_1_1_time_series_point" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_time_series_point" kindref="compound">TimeSeriesPoint</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1observability_1_1_time_series_point_1a37d63bcbf3fd284edba6956079d638f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_time_series_point_1a37d63bcbf3fd284edba6956079d638f3" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1observability_1_1_time_series_point_1ad5aeefad9bd026172c72b66de6ad477b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_time_series_point_1ad5aeefad9bd026172c72b66de6ad477b" kindref="member">value</ref>{0.0};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1observability_1_1_time_series" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_time_series" kindref="compound">TimeSeries</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1observability_1_1_time_series_1af31c9863e74f72ba28ebe1821108ac1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_time_series_1af31c9863e74f72ba28ebe1821108ac1f" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1observability_1_1_time_series_1af8db79aedc7bd9fb83e7dda711183123" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_time_series_1af8db79aedc7bd9fb83e7dda711183123" kindref="member">unit</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1observability_1_1_time_series_1a3581c6a9881c53f6a680c28d1b02f2b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TimeSeriesPoint&gt;<sp/><ref refid="structthemis_1_1observability_1_1_time_series_1a3581c6a9881c53f6a680c28d1b02f2b5" kindref="member">points</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_time_series_1a16d219044031ddcdf88c543ad86ba58b" kindref="member">change_percent</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_time_series_1ab9f05a80e80c926f1b34abbf5ac44322" kindref="member">mean</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SystemSnapshot<sp/>–<sp/>a<sp/>point-in-time<sp/>capture<sp/>of<sp/>key<sp/>system<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1observability_1_1_system_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_system_snapshot" kindref="compound">SystemSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1observability_1_1_system_snapshot_1a58b7179f038b9888d3f5a57d683dfc66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a58b7179f038b9888d3f5a57d683dfc66" kindref="member">captured_at</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Storage<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1observability_1_1_system_snapshot_1a2a1bef00707dd961646c86d12f9a0a97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a2a1bef00707dd961646c86d12f9a0a97" kindref="member">write_amplification</ref>{0.0};</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1observability_1_1_system_snapshot_1aac67de1f1afbac02f6b00c5834fca18a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1aac67de1f1afbac02f6b00c5834fca18a" kindref="member">read_amplification</ref>{0.0};</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1observability_1_1_system_snapshot_1a236671ff0ac81f37bac1616147855e09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a236671ff0ac81f37bac1616147855e09" kindref="member">compaction_rate_mb_s</ref>{0.0};</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1observability_1_1_system_snapshot_1a9e87a74a5aaa8692581a4c6362540076" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a9e87a74a5aaa8692581a4c6362540076" kindref="member">memtable_flush_rate_mb_s</ref>{0.0};</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1observability_1_1_system_snapshot_1a0db7f3e7168f5b1ef34521d119ef8f69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a0db7f3e7168f5b1ef34521d119ef8f69" kindref="member">sstable_count</ref>{0.0};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1observability_1_1_system_snapshot_1a27b082974711d22461dbaab58bd41822" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a27b082974711d22461dbaab58bd41822" kindref="member">block_cache_hit_rate_pct</ref>{0.0};</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1observability_1_1_system_snapshot_1a852a39fa6ed2a9b858c34e2c4a33baf7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a852a39fa6ed2a9b858c34e2c4a33baf7" kindref="member">row_cache_hit_rate_pct</ref>{0.0};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1observability_1_1_system_snapshot_1a311ed63befd44493826fb3c73a1cd12d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a311ed63befd44493826fb3c73a1cd12d" kindref="member">avg_query_latency_ms</ref>{0.0};</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1observability_1_1_system_snapshot_1a1dc49c3a13fb4a05ff00fcf4dc27b1d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a1dc49c3a13fb4a05ff00fcf4dc27b1d9" kindref="member">p99_query_latency_ms</ref>{0.0};</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1observability_1_1_system_snapshot_1a7a779985e4f43d63fb44495295fdc5f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a7a779985e4f43d63fb44495295fdc5f6" kindref="member">queries_per_second</ref>{0.0};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1observability_1_1_system_snapshot_1ac0080142fc2a87b6bac659ee48fda80f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1ac0080142fc2a87b6bac659ee48fda80f" kindref="member">cpu_usage_pct</ref>{0.0};</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1observability_1_1_system_snapshot_1a3e4b5ebe2d4a1039815f1caf594b5651" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a3e4b5ebe2d4a1039815f1caf594b5651" kindref="member">memory_usage_mb</ref>{0.0};</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1observability_1_1_system_snapshot_1a903c636aa7d80cc11470b0de5dffde85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a903c636aa7d80cc11470b0de5dffde85" kindref="member">disk_io_utilization_pct</ref>{0.0};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1observability_1_1_system_snapshot_1a2274789c50fdf1333c9dde1d9b79de5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1a2274789c50fdf1333c9dde1d9b79de5d" kindref="member">extra_metrics</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot_1ad23ab836e6847d0d81bfc53b5330040c" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CorrelatedMetric<sp/>–<sp/>a<sp/>metric<sp/>correlated<sp/>with<sp/>a<sp/>target<sp/>metric</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1observability_1_1_correlated_metric" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_correlated_metric" kindref="compound">CorrelatedMetric</ref><sp/>{</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1observability_1_1_correlated_metric_1a6e45d15868e9644483d9c8a14d3a7cdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_correlated_metric_1a6e45d15868e9644483d9c8a14d3a7cdd" kindref="member">metric_name</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1observability_1_1_correlated_metric_1a43126cd5a5a93ee3bcafe8cb136b8ec3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_correlated_metric_1a43126cd5a5a93ee3bcafe8cb136b8ec3" kindref="member">correlation_coefficient</ref>{0.0};</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1observability_1_1_correlated_metric_1ac3ae23cc998f1dd8e45fcfb1493ce3f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_correlated_metric_1ac3ae23cc998f1dd8e45fcfb1493ce3f1" kindref="member">lag_seconds</ref>{0.0};</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1observability_1_1_correlated_metric_1a4148187638453ce9a56b1d2c301bb363" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_correlated_metric_1a4148187638453ce9a56b1d2c301bb363" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CausalGraph<sp/>–<sp/>a<sp/>directed<sp/>acyclic<sp/>graph<sp/>of<sp/>causal<sp/>relationships</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1observability_1_1_causal_edge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_causal_edge" kindref="compound">CausalEdge</ref><sp/>{</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1observability_1_1_causal_edge_1ac45deb08e7fa00ceda2e76cc1148a828" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_causal_edge_1ac45deb08e7fa00ceda2e76cc1148a828" kindref="member">from_metric</ref>;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1observability_1_1_causal_edge_1a955b147147df7999773ad12fa54c3ccc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_causal_edge_1a955b147147df7999773ad12fa54c3ccc" kindref="member">to_metric</ref>;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1observability_1_1_causal_edge_1af5db97f00b84584412e7a252bd308db1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_causal_edge_1af5db97f00b84584412e7a252bd308db1" kindref="member">strength</ref>{0.0};</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1observability_1_1_causal_edge_1ad3b76dd5a92dc1fc4a1677d516d5d7d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_causal_edge_1ad3b76dd5a92dc1fc4a1677d516d5d7d0" kindref="member">lag_seconds</ref>{0.0};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1observability_1_1_causal_graph" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_causal_graph" kindref="compound">CausalGraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1observability_1_1_causal_graph_1ae732e0543cf9188e06277fc421347d0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_causal_graph_1ae732e0543cf9188e06277fc421347d0a" kindref="member">nodes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>metric<sp/>names</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1observability_1_1_causal_graph_1a749880733b8c41d4c54528190d155556" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CausalEdge&gt;<sp/><sp/><ref refid="structthemis_1_1observability_1_1_causal_graph_1a749880733b8c41d4c54528190d155556" kindref="member">edges</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_causal_graph_1a01122b4a9f850c676ad970fcde37aee1" kindref="member">rootNodes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_causal_graph_1af46aa3383eedc159ae068cb470f85b38" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RootCauseReport<sp/>–<sp/>the<sp/>output<sp/>of<sp/>a<sp/>root<sp/>cause<sp/>analysis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1observability_1_1_root_cause_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_root_cause_report" kindref="compound">RootCauseReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1observability_1_1_root_cause_report_1a6fa9c8abba422143ace2b98e47df6c00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_root_cause_report_1a6fa9c8abba422143ace2b98e47df6c00" kindref="member">primary_cause</ref>;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1observability_1_1_root_cause_report_1ab86a4c133eb152c43d696c10f3c6b44b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_root_cause_report_1ab86a4c133eb152c43d696c10f3c6b44b" kindref="member">primary_reason_code</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1observability_1_1_root_cause_report_1a663c815836c73f678314b6bfbfb00edc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_root_cause_report_1a663c815836c73f678314b6bfbfb00edc" kindref="member">confidence</ref>{0.0};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1observability_1_1_root_cause_report_1ac5358af7b50e810832d3e2d23147defb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_root_cause_report_1ac5358af7b50e810832d3e2d23147defb" kindref="member">contributing_factors</ref>;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1observability_1_1_root_cause_report_1adf9645b7fb382dd7928dd0cfc140f0c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_root_cause_report_1adf9645b7fb382dd7928dd0cfc140f0c3" kindref="member">remediation_steps</ref>;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1observability_1_1_root_cause_report_1a75b0473aaac8bc4bd178d8baa6935cd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1observability_1_1_root_cause_report_1a75b0473aaac8bc4bd178d8baa6935cd1" kindref="member">metric_impacts</ref>;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_root_cause_report_1a913fcacad4330e121816863357535769" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_root_cause_report_1a734e655d66b54e186171f58117e0b0b0" kindref="member">toReport</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RootCauseAnalyzer<sp/>–<sp/>the<sp/>main<sp/>entry<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1observability_1_1_root_cause_analyzer_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_root_cause_analyzer_config" kindref="compound">RootCauseAnalyzerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1observability_1_1_root_cause_analyzer_config_1a0acbe4c97e4b4f2bf257c22a9d88b752" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_root_cause_analyzer_config_1a0acbe4c97e4b4f2bf257c22a9d88b752" kindref="member">correlation_threshold</ref>{0.5};</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1observability_1_1_root_cause_analyzer_config_1a6c1af4102fd72901264ec6ff26df465c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_root_cause_analyzer_config_1a6c1af4102fd72901264ec6ff26df465c" kindref="member">max_correlations</ref>{10};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1observability_1_1_root_cause_analyzer_config_1ae89cd19bab2f8b0c4d5835bfc65e83ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_root_cause_analyzer_config_1ae89cd19bab2f8b0c4d5835bfc65e83ee" kindref="member">history_window</ref>{100};</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1observability_1_1_root_cause_analyzer_config_1a4a2778053b5d9ca552472fdf798161b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_root_cause_analyzer_config_1a4a2778053b5d9ca552472fdf798161b7" kindref="member">significant_delta_pct</ref>{20.0};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1observability_1_1_root_cause_analyzer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1adde041b8ed34311dfc64adfc7d9f752e" kindref="member">RootCauseAnalyzer</ref><sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1adde041b8ed34311dfc64adfc7d9f752e" kindref="member">RootCauseAnalyzer</ref>(</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_root_cause_analyzer_config" kindref="compound">RootCauseAnalyzerConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1observability_1_1_root_cause_analyzer_config" kindref="compound">RootCauseAnalyzerConfig</ref>{});</highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1observability_1_1_root_cause_analyzer_1a6ae5ad2d1520806eea1baeb55a299a95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1a6ae5ad2d1520806eea1baeb55a299a95" kindref="member">~RootCauseAnalyzer</ref>();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1observability_1_1_root_cause_analyzer_1a0652a7e224b19d5a45cb715c71e36f5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1a0652a7e224b19d5a45cb715c71e36f5e" kindref="member">RootCauseAnalyzer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1adde041b8ed34311dfc64adfc7d9f752e" kindref="member">RootCauseAnalyzer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1observability_1_1_root_cause_analyzer_1a921df1aff3145dc399eee5d1b45436a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1adde041b8ed34311dfc64adfc7d9f752e" kindref="member">RootCauseAnalyzer</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1a921df1aff3145dc399eee5d1b45436a6" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1adde041b8ed34311dfc64adfc7d9f752e" kindref="member">RootCauseAnalyzer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Time-series<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1ad52e648816a84af56f94612ca9c0cd56" kindref="member">addTimeSeries</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_time_series" kindref="compound">TimeSeries</ref>&amp;<sp/>series);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1abee1e14be6ffee60469a92d281f6cf6d" kindref="member">removeTimeSeries</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>analysis<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_root_cause_report" kindref="compound">RootCauseReport</ref><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1ae84fc237688f7a0a38d84b5853a8e8ea" kindref="member">analyzeIssue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref>&amp;<sp/>issue,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot" kindref="compound">SystemSnapshot</ref>&amp;<sp/>before,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot" kindref="compound">SystemSnapshot</ref>&amp;<sp/>after);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CorrelatedMetric&gt;<sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1a03efc5a0c148f39cd631699e01e76845" kindref="member">findCorrelations</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_causal_graph" kindref="compound">CausalGraph</ref><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1a0f480483f4430f2e90ce2991c1740259" kindref="member">buildCausalGraph</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TimeSeries&gt;&amp;<sp/>metrics);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_root_cause_analyzer_config" kindref="compound">RootCauseAnalyzerConfig</ref><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1adeb06cac2d54a1d993bd192f7183076f" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1a3c2633ef0edd1649e8fb4f2daeb8f4d0" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_root_cause_analyzer_config" kindref="compound">RootCauseAnalyzerConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/root_cause_analyzer.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,734 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GGUFConverter</compoundname>
+    <includes refid="gguf__converter_8h" local="no">gguf_converter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a4828db92b721a00fd570b7d4f0a6e2b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GGUFConverter::GGUFConverter</definition>
+        <argsstring>()=default</argsstring>
+        <name>GGUFConverter</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::GGUFConverter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="26" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a2082366dc91f5dc2f016f2f7f5715e5f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref></type>
+        <definition>QuantizedTensor themis::llm::lora::GGUFConverter::convertQ4KM</definition>
+        <argsstring>(const void *gguf_data, const TensorMetadata &amp;tensor_info)</argsstring>
+        <name>convertQ4KM</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::convertQ4KM</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>gguf_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_tensor_metadata" kindref="compound">TensorMetadata</ref> &amp;</type>
+          <declname>tensor_info</declname>
+        </param>
+        <briefdescription>
+<para>Convert Q4 KM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a91752102ce804f0d7bd4221bf6646a6e" kindref="member">convertQ4KM_direct()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="34" column="28" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="300" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a7414d6f065ed769a3cfee3c7eba8875a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref></type>
+        <definition>QuantizedTensor themis::llm::lora::GGUFConverter::convertQ8_0</definition>
+        <argsstring>(const void *gguf_data, const TensorMetadata &amp;tensor_info)</argsstring>
+        <name>convertQ8_0</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::convertQ8_0</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>gguf_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_tensor_metadata" kindref="compound">TensorMetadata</ref> &amp;</type>
+          <declname>tensor_info</declname>
+        </param>
+        <briefdescription>
+<para>Convert Q8 0. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a2f5f1c5a7256f2c11954097895f10764" kindref="member">convertQ8_0_direct()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="45" column="28" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="400" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1af771fe931b9c8a14a053422ca6fc689b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::lora::GGUFConverter::convertF16</definition>
+        <argsstring>(const void *gguf_data, const TensorMetadata &amp;tensor_info)</argsstring>
+        <name>convertF16</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::convertF16</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>gguf_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_tensor_metadata" kindref="compound">TensorMetadata</ref> &amp;</type>
+          <declname>tensor_info</declname>
+        </param>
+        <briefdescription>
+<para>Convert F16. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a5552993b995a6173929c1ae4d4c15d68" kindref="member">calculateElements()</ref>, output(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a8c056d060951498f4910193bb7dc19e9" kindref="member">fp16_to_fp32()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="56" column="24" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="416" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a2597d469d2c4aa17d870a72fb7d2089b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::lora::GGUFConverter::convertF32</definition>
+        <argsstring>(const void *gguf_data, const TensorMetadata &amp;tensor_info)</argsstring>
+        <name>convertF32</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::convertF32</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>gguf_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_tensor_metadata" kindref="compound">TensorMetadata</ref> &amp;</type>
+          <declname>tensor_info</declname>
+        </param>
+        <briefdescription>
+<para>Convert F32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a5552993b995a6173929c1ae4d4c15d68" kindref="member">calculateElements()</ref>, output(), std::memcpy(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="67" column="24" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="443" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1af474aef17a6fa59430aa5de9294aaac2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GGUFConverter::isSupported</definition>
+        <argsstring>(GGMLType type)</argsstring>
+        <name>isSupported</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::isSupported</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1" kindref="member">GGMLType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Is Supported. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isSupported without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="77" column="17" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="77" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a5eae045f8d06c7b2fb849d7b5e94f3c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a911424b03c1e9e0b9ba9fda73c55d843" kindref="member">QuantizationType</ref></type>
+        <definition>QuantizationType themis::llm::lora::GGUFConverter::getInternalType</definition>
+        <argsstring>(GGMLType type)</argsstring>
+        <name>getInternalType</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::getInternalType</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1" kindref="member">GGMLType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get Internal Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getInternalType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="84" column="29" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="95" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a91752102ce804f0d7bd4221bf6646a6e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref></type>
+        <definition>QuantizedTensor themis::llm::lora::GGUFConverter::convertQ4KM_direct</definition>
+        <argsstring>(const void *gguf_data, const TensorMetadata &amp;tensor_info)</argsstring>
+        <name>convertQ4KM_direct</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::convertQ4KM_direct</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>gguf_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_tensor_metadata" kindref="compound">TensorMetadata</ref> &amp;</type>
+          <declname>tensor_info</declname>
+        </param>
+        <briefdescription>
+<para>Convert Q4 KM direct. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a5552993b995a6173929c1ae4d4c15d68" kindref="member">calculateElements()</ref>, push_back(), result(), blocks(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a8c056d060951498f4910193bb7dc19e9" kindref="member">fp16_to_fp32()</ref>, std::min(), data(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="92" column="28" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="196" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a2f5f1c5a7256f2c11954097895f10764" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_tensor" kindref="compound">QuantizedTensor</ref></type>
+        <definition>QuantizedTensor themis::llm::lora::GGUFConverter::convertQ8_0_direct</definition>
+        <argsstring>(const void *gguf_data, const TensorMetadata &amp;tensor_info)</argsstring>
+        <name>convertQ8_0_direct</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::convertQ8_0_direct</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>gguf_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_tensor_metadata" kindref="compound">TensorMetadata</ref> &amp;</type>
+          <declname>tensor_info</declname>
+        </param>
+        <briefdescription>
+<para>Convert Q8 0 direct. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gguf_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a5552993b995a6173929c1ae4d4c15d68" kindref="member">calculateElements()</ref>, push_back(), result(), blocks(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a8c056d060951498f4910193bb7dc19e9" kindref="member">fp16_to_fp32()</ref>, std::min(), data(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="103" column="28" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="316" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1acbe3f6e810ad1762008be708abf1dcbe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::lora::GGUFConverter::dequantizeQ4KM</definition>
+        <argsstring>(const void *data, size_t num_elements)</argsstring>
+        <name>dequantizeQ4KM</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::dequantizeQ4KM</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_elements</declname>
+        </param>
+        <briefdescription>
+<para>Dequantize Q4 KM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_elements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_elements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: output(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a8c056d060951498f4910193bb7dc19e9" kindref="member">fp16_to_fp32()</ref>, std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="114" column="24" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="113" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a357586ca48e15e87c8c6687f53a969bc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::lora::GGUFConverter::dequantizeQ8_0</definition>
+        <argsstring>(const void *data, size_t num_elements)</argsstring>
+        <name>dequantizeQ8_0</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::dequantizeQ8_0</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_elements</declname>
+        </param>
+        <briefdescription>
+<para>Dequantize Q8 0. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_elements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_elements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: output(), <ref refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a8c056d060951498f4910193bb7dc19e9" kindref="member">fp16_to_fp32()</ref>, std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="125" column="24" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="160" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a5552993b995a6173929c1ae4d4c15d68" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GGUFConverter::calculateElements</definition>
+        <argsstring>(const std::vector&lt; int64_t &gt; &amp;shape)</argsstring>
+        <name>calculateElements</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::calculateElements</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int64_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Elements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements calculateElements without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="135" column="19" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="63" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a8c056d060951498f4910193bb7dc19e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GGUFConverter::fp16_to_fp32</definition>
+        <argsstring>(uint16_t h)</argsstring>
+        <name>fp16_to_fp32</name>
+        <qualifiedname>themis::llm::lora::GGUFConverter::fp16_to_fp32</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+<para>Fp16 to fp32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="142" column="18" bodyfile="src/llm/lora_framework/gguf_converter.cpp" bodystart="22" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gguf_converter.h" line="24" column="1" bodyfile="include/llm/lora_framework/gguf_converter.h" bodystart="24" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a5552993b995a6173929c1ae4d4c15d68" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>calculateElements</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1af771fe931b9c8a14a053422ca6fc689b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>convertF16</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a2597d469d2c4aa17d870a72fb7d2089b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>convertF32</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a2082366dc91f5dc2f016f2f7f5715e5f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>convertQ4KM</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a91752102ce804f0d7bd4221bf6646a6e" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>convertQ4KM_direct</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a7414d6f065ed769a3cfee3c7eba8875a" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>convertQ8_0</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a2f5f1c5a7256f2c11954097895f10764" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>convertQ8_0_direct</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1acbe3f6e810ad1762008be708abf1dcbe" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>dequantizeQ4KM</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a357586ca48e15e87c8c6687f53a969bc" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>dequantizeQ8_0</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a8c056d060951498f4910193bb7dc19e9" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>fp16_to_fp32</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a5eae045f8d06c7b2fb849d7b5e94f3c8" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>getInternalType</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1a4828db92b721a00fd570b7d4f0a6e2b9" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>GGUFConverter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_g_u_f_converter_1af474aef17a6fa59430aa5de9294aaac2" prot="public" virt="non-virtual"><scope>themis::llm::lora::GGUFConverter</scope><name>isSupported</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

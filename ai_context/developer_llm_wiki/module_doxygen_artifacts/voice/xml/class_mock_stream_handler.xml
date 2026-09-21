@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_stream_handler" kind="class" language="C++" prot="public">
+    <compoundname>MockStreamHandler</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_stream_handler_1af76e12a41d2f2a1b6823cb1f288c1d02" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual MockStreamHandler::~MockStreamHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MockStreamHandler</name>
+        <qualifiedname>MockStreamHandler::~MockStreamHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="44" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_stream_handler_1aa5ccf7dd4d7e1646a148b2fe4d22aa6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MockStreamHandler::MOCK_METHOD</definition>
+        <argsstring>(void, onChunk,(const StreamID &amp;, const std::vector&lt; uint8_t &gt; &amp;))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>MockStreamHandler::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type>onChunk</type>
+        </param>
+        <param>
+          <type>(const <ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref> &amp;, const std::vector&lt; uint8_t &gt; &amp;)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_stream_handler_1a8a9ae7ea6d6d18077b518c07c55cde87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MockStreamHandler::MOCK_METHOD</definition>
+        <argsstring>(void, onPartialTranscript,(const PartialTranscript &amp;))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>MockStreamHandler::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type>onPartialTranscript</type>
+        </param>
+        <param>
+          <type>(const <ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref> &amp;)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_stream_handler_1a937cc40172de3135830f5fea4633f782" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MockStreamHandler::MOCK_METHOD</definition>
+        <argsstring>(void, onFinalTranscript,(const FinalTranscript &amp;))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>MockStreamHandler::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type>onFinalTranscript</type>
+        </param>
+        <param>
+          <type>(const <ref refid="structthemis_1_1voice_1_1_final_transcript" kindref="compound">FinalTranscript</ref> &amp;)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_stream_handler_1ae8278fc041a4acb396ecb25acc4aa0a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MockStreamHandler::MOCK_METHOD</definition>
+        <argsstring>(void, onError,(const StreamID &amp;, const std::string &amp;))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>MockStreamHandler::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type>onError</type>
+        </param>
+        <param>
+          <type>(const <ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref> &amp;, const std::string &amp;)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_stream_handler_1a591c903f9d9036b2b5814f06f276e248" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MockStreamHandler::MOCK_METHOD</definition>
+        <argsstring>(void, onConnectionLoss,(const StreamID &amp;))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>MockStreamHandler::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type>onConnectionLoss</type>
+        </param>
+        <param>
+          <type>(const <ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref> &amp;)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_streaming_focused.cpp" line="49" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_streaming_focused.cpp" line="42" column="1" bodyfile="tests/voice/test_voice_streaming_focused.cpp" bodystart="42" bodyend="50"/>
+    <listofallmembers>
+      <member refid="class_mock_stream_handler_1aa5ccf7dd4d7e1646a148b2fe4d22aa6d" prot="public" virt="non-virtual"><scope>MockStreamHandler</scope><name>MOCK_METHOD</name></member>
+      <member refid="class_mock_stream_handler_1a8a9ae7ea6d6d18077b518c07c55cde87" prot="public" virt="non-virtual"><scope>MockStreamHandler</scope><name>MOCK_METHOD</name></member>
+      <member refid="class_mock_stream_handler_1a937cc40172de3135830f5fea4633f782" prot="public" virt="non-virtual"><scope>MockStreamHandler</scope><name>MOCK_METHOD</name></member>
+      <member refid="class_mock_stream_handler_1ae8278fc041a4acb396ecb25acc4aa0a6" prot="public" virt="non-virtual"><scope>MockStreamHandler</scope><name>MOCK_METHOD</name></member>
+      <member refid="class_mock_stream_handler_1a591c903f9d9036b2b5814f06f276e248" prot="public" virt="non-virtual"><scope>MockStreamHandler</scope><name>MOCK_METHOD</name></member>
+      <member refid="class_mock_stream_handler_1af76e12a41d2f2a1b6823cb1f288c1d02" prot="public" virt="virtual"><scope>MockStreamHandler</scope><name>~MockStreamHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

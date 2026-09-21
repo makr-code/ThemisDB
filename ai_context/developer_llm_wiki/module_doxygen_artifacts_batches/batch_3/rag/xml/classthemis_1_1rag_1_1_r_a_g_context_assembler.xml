@@ -1,0 +1,356 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_r_a_g_context_assembler" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::RAGContextAssembler</compoundname>
+    <includes refid="rag__context__assembler_8h" local="no">rag_context_assembler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1ab9432a773a7aac9ae15cb5c9d46fc684" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref></type>
+        <definition>RAGContextAssemblerConfig themis::rag::RAGContextAssembler::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::RAGContextAssembler::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="216" column="31" bodyfile="include/rag/rag_context_assembler.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a446395fbd9b2169bbae104a1c4f143dd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::RAGContextAssembler::RAGContextAssembler</definition>
+        <argsstring>(const RAGContextAssemblerConfig &amp;cfg={})</argsstring>
+        <name>RAGContextAssembler</name>
+        <qualifiedname>themis::rag::RAGContextAssembler::RAGContextAssembler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="128" column="14" bodyfile="src/rag/rag_context_assembler.cpp" bodystart="29" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_assembled_context" kindref="compound">AssembledContext</ref></type>
+        <definition>AssembledContext themis::rag::RAGContextAssembler::assemble</definition>
+        <argsstring>(const std::vector&lt; RetrievedChunk &gt; &amp;chunks, const std::string &amp;system_prompt, const std::string &amp;query) const</argsstring>
+        <name>assemble</name>
+        <qualifiedname>themis::rag::RAGContextAssembler::assemble</qualifiedname>
+        <param>
+          <type>const std::vector&lt; RetrievedChunk &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>system_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Assemble context chunks within the token budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deterministically selects a subset of <computeroutput>chunks</computeroutput> that fit within the context window while reserving tokens for the model&apos;s response.</para>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md8_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md8">
+<title>Algorithm</title><para><orderedlist>
+<listitem><para>Compute ContextWindowBudget from config + system_prompt + query.</para>
+</listitem><listitem><para>Sort <computeroutput>chunks</computeroutput> by relevance_score descending with deterministic tie-breaking (chunk_id, source, content).</para>
+</listitem><listitem><para>Greedily fill the available token budget in sorted order.</para>
+</listitem><listitem><para>Optionally truncate the last over-budget chunk if config_.allow_partial_chunk is true.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md9_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md9">
+<title>Complexity</title><para><itemizedlist>
+<listitem><para><bold>Time</bold>: O(n log n) where n = chunks.size()</para>
+</listitem><listitem><para><bold>Space</bold>: O(n) for result.chunks_used</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate retrieved chunks (may be empty). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>system_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>System / instruction prompt (used for budget calculation). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query (used for budget calculation).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1rag_1_1_assembled_context" kindref="compound">AssembledContext</ref> with:<itemizedlist>
+<listitem><para>chunks_used: selected chunks in relevance order</para>
+</listitem><listitem><para>tokens_used: estimated token count of assembled context</para>
+</listitem><listitem><para>tokens_remaining_for_response: guaranteed response budget</para>
+</listitem><listitem><para>was_truncated: true if the last chunk was truncated to fit</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="pre"><para>config_.model_context_tokens &gt; 0 (or defaults to kDefaultContextWindowTokens) </para>
+</simplesect>
+<simplesect kind="pre"><para>config_.min_response_tokens &gt;= 0 </para>
+</simplesect>
+<simplesect kind="pre"><para>chunks.empty() is valid; returns valid empty context</para>
+</simplesect>
+<simplesect kind="post"><para>result.tokens_remaining_for_response &gt;= min_response_tokens </para>
+</simplesect>
+<simplesect kind="post"><para>result.tokens_remaining_for_response &gt;= 20% of model_context_tokens </para>
+</simplesect>
+<simplesect kind="post"><para>result.tokens_used + result.tokens_remaining_for_response &lt;= model_context_tokens </para>
+</simplesect>
+<simplesect kind="post"><para>result.chunks_used is sorted by relevance descending</para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe: no concurrent mutation of config_ during call </para>
+</simplesect>
+<simplesect kind="note"><para>Fail-closed: empty input or zero budget returns valid empty context </para>
+</simplesect>
+</para>
+</sect2></sect1>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="171" column="22" bodyfile="src/rag/rag_context_assembler.cpp" bodystart="79" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a09d184bb500bab4b249b263118549335" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref> &amp;</type>
+        <definition>const RAGContextAssemblerConfig &amp; themis::rag::RAGContextAssembler::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::RAGContextAssembler::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="212" column="37" bodyfile="src/rag/rag_context_assembler.cpp" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a26505e2bfb835da047c0b14bc2e4c93d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::RAGContextAssembler::setConfig</definition>
+        <argsstring>(const RAGContextAssemblerConfig &amp;cfg)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::RAGContextAssembler::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_r_a_g_context_assembler_config" kindref="compound">RAGContextAssemblerConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="213" column="10" bodyfile="src/rag/rag_context_assembler.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a20532b4271fe1f1b61518eab7331193e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::rag::RAGContextAssembler::computeMaxTokens</definition>
+        <argsstring>(const ContextWindowBudget &amp;budget, int user_max=0)</argsstring>
+        <name>computeMaxTokens</name>
+        <qualifiedname>themis::rag::RAGContextAssembler::computeMaxTokens</qualifiedname>
+        <param>
+          <type>const ContextWindowBudget &amp;</type>
+          <declname>budget</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>user_max</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Compute the recommended InferenceRequest::max_tokens value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Max Tokens.</para>
+<para>Ensures the model cannot be asked to generate more tokens than the context window can hold after the prompt is filled. This guards against token budget exhaustion during generation.</para>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md10_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md10">
+<title>Calculation</title><para><orderedlist>
+<listitem><para>Calculate available_response_tokens = budget.reserved_response_tokens</para>
+</listitem><listitem><para>If <computeroutput>user_max</computeroutput> &gt; 0: clamp to min(user_max, available_response_tokens)</para>
+</listitem><listitem><para>Otherwise: use available_response_tokens</para>
+</listitem><listitem><para>Ensure result &gt;= 1 (model must be able to generate at least one token)</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>budget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed ContextWindowBudget for the request (from ContextWindowBudget::compute(context_window,
+                                              system_prompt, query,
+                                              min_response_tokens)). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Caller-supplied cap. If 0: unconstrained by caller. If &gt;0: result is min(user_max, available_response).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recommended max_tokens value for InferenceRequest. </para>
+</simplesect>
+<simplesect kind="post"><para>return value &gt;= 1 </para>
+</simplesect>
+<simplesect kind="post"><para>return value &lt;= budget.reserved_response_tokens </para>
+</simplesect>
+<simplesect kind="post"><para>if user_max &gt; 0: return value &lt;= user_max</para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe: stateless function </para>
+</simplesect>
+<simplesect kind="note"><para>Complexity: O(1)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">budget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+</sect2></sect1>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="206" column="16" bodyfile="src/rag/rag_context_assembler.cpp" bodystart="208" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1aea7752c7f4492c112756699e3cc1bc99" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGContextAssembler::truncateContent</definition>
+        <argsstring>(const std::string &amp;content, size_t max_chars) const</argsstring>
+        <name>truncateContent</name>
+        <qualifiedname>themis::rag::RAGContextAssembler::truncateContent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_chars</declname>
+        </param>
+        <briefdescription>
+<para>Truncate <computeroutput>content</computeroutput> to at most <computeroutput>max_chars</computeroutput>, appending truncation_marker. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="219" column="17" bodyfile="src/rag/rag_context_assembler.cpp" bodystart="50" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Budget-aware context assembler for RAG inference. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Deterministically packs retrieved chunks into a fixed context window, ensuring the model&apos;s response budget is always reserved. Supports optional chunk truncation to maximize context utilization.</para>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md4_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md4">
+<title>Thread Safety</title><para>All methods are <bold>thread-safe</bold>: no mutable shared state beyond constructor-injected configuration. The config_ member is immutable after construction or explicit <ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a26505e2bfb835da047c0b14bc2e4c93d" kindref="member">setConfig()</ref> call; concurrent <ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble()</ref> calls do not race.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md5_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md5">
+<title>Complexity Analysis</title><para><itemizedlist>
+<listitem><para><bold><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" kindref="member">assemble()</ref></bold>: O(n log n) for sorting + O(n) for greedy fill<itemizedlist>
+<listitem><para>n = number of input chunks</para>
+</listitem><listitem><para>Sorting: deterministic tie-breaking by relevance_score, chunk_id, source, content</para>
+</listitem><listitem><para>Greedy fill: single pass with token estimation per chunk</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>truncateContent()</bold>: O(k) where k = content length<itemizedlist>
+<listitem><para>Deterministic UTF-8-safe truncation with marker suffix</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md6_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md6">
+<title>Failure Modes</title><para><itemizedlist>
+<listitem><para><bold>Empty input</bold>: returns valid empty <ref refid="structthemis_1_1rag_1_1_assembled_context" kindref="compound">AssembledContext</ref> (not error)</para>
+</listitem><listitem><para><bold>Zero budget</bold>: returns valid empty <ref refid="structthemis_1_1rag_1_1_assembled_context" kindref="compound">AssembledContext</ref> with response reservation</para>
+</listitem><listitem><para><bold>All chunks over-budget</bold>: greedy returns what fits or empty if nothing fits</para>
+</listitem><listitem><para><bold>Budget overflow</bold>: integer overflow in token counting prevented by bounds</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md7_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_context_assembler_1autotoc_md7">
+<title>Response Reservation Guarantee</title><para>The response budget is always <computeroutput>max</computeroutput>(min_response_tokens, 20% of window). This is enforced by ContextWindowBudget::compute() and never violated even if all retrieved chunks fit.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">RAGContextAssemblerConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.model_context_tokens<sp/>=<sp/>model_info.context_length;</highlight></codeline>
+<codeline><highlight class="normal">cfg.min_response_tokens<sp/><sp/>=<sp/>512;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a446395fbd9b2169bbae104a1c4f143dd" kindref="member">RAGContextAssembler</ref><sp/>assembler(cfg);</highlight></codeline>
+<codeline><highlight class="normal">AssembledContext<sp/>ctx<sp/>=<sp/>assembler.assemble(chunks,<sp/>system_prompt,<sp/>query);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wire<sp/>into<sp/>the<sp/>inference<sp/>request:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">request.max_tokens<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a20532b4271fe1f1b61518eab7331193e" kindref="member">RAGContextAssembler::computeMaxTokens</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ContextWindowBudget::compute(cfg.model_context_tokens,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>system_prompt,<sp/>query,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.min_response_tokens),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>user_supplied_max_tokens);</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/rag/rag_context_assembler.h" line="126" column="1" bodyfile="include/rag/rag_context_assembler.h" bodystart="126" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a4cab2bf1a99f3fb6e51de862579acf53" prot="public" virt="non-virtual"><scope>themis::rag::RAGContextAssembler</scope><name>assemble</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a20532b4271fe1f1b61518eab7331193e" prot="public" virt="non-virtual"><scope>themis::rag::RAGContextAssembler</scope><name>computeMaxTokens</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1ab9432a773a7aac9ae15cb5c9d46fc684" prot="private" virt="non-virtual"><scope>themis::rag::RAGContextAssembler</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a09d184bb500bab4b249b263118549335" prot="public" virt="non-virtual"><scope>themis::rag::RAGContextAssembler</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a446395fbd9b2169bbae104a1c4f143dd" prot="public" virt="non-virtual"><scope>themis::rag::RAGContextAssembler</scope><name>RAGContextAssembler</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1a26505e2bfb835da047c0b14bc2e4c93d" prot="public" virt="non-virtual"><scope>themis::rag::RAGContextAssembler</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_context_assembler_1aea7752c7f4492c112756699e3cc1bc99" prot="private" virt="non-virtual"><scope>themis::rag::RAGContextAssembler</scope><name>truncateContent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

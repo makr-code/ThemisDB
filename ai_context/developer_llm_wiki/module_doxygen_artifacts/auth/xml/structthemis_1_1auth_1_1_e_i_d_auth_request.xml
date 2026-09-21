@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_e_i_d_auth_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::EIDAuthRequest</compoundname>
+    <includes refid="eid__authenticator_8h" local="no">eid_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_request_1adc59009706899c1f80434f81f5af3ebd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAuthRequest::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::auth::EIDAuthRequest::transaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="294" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_request_1ab272e4c8dcb38d1a3c86b1431353a7ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAuthRequest::service_provider</definition>
+        <argsstring></argsstring>
+        <name>service_provider</name>
+        <qualifiedname>themis::auth::EIDAuthRequest::service_provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="295" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_request_1ad3e267bb7864f11a9a6e968d53207468" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980" kindref="member">EIDAttributeType</ref> &gt;</type>
+        <definition>std::vector&lt;EIDAttributeType&gt; themis::auth::EIDAuthRequest::requested_attributes</definition>
+        <argsstring></argsstring>
+        <name>requested_attributes</name>
+        <qualifiedname>themis::auth::EIDAuthRequest::requested_attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="296" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_request_1ab0b93b1782bd72c8cc123fdcb827a29f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1auth_1a0bc27dea4311d86005a5329762696607" kindref="member">EIDAssuranceLevel</ref></type>
+        <definition>EIDAssuranceLevel themis::auth::EIDAuthRequest::minimum_assurance</definition>
+        <argsstring></argsstring>
+        <name>minimum_assurance</name>
+        <qualifiedname>themis::auth::EIDAuthRequest::minimum_assurance</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1auth_1a0bc27dea4311d86005a5329762696607ab89de3b4b81c4facfac906edf29aec8c" kindref="member">EIDAssuranceLevel::HIGH</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="297" column="23" bodyfile="include/auth/eid_authenticator.h" bodystart="297" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/eid_authenticator.h" line="293" column="1" bodyfile="include/auth/eid_authenticator.h" bodystart="293" bodyend="298"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_request_1ab0b93b1782bd72c8cc123fdcb827a29f" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthRequest</scope><name>minimum_assurance</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_request_1ad3e267bb7864f11a9a6e968d53207468" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthRequest</scope><name>requested_attributes</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_request_1ab272e4c8dcb38d1a3c86b1431353a7ab" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthRequest</scope><name>service_provider</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_request_1adc59009706899c1f80434f81f5af3ebd" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthRequest</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

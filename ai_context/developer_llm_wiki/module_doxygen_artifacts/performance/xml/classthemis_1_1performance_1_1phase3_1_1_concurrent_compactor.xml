@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::ConcurrentCompactor</compoundname>
+    <includes refid="splinterdb_8h" local="no">splinterdb.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1_1_stats" prot="public">themis::performance::phase3::ConcurrentCompactor::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1af835b21338a452c17e5bc7c43290e89c" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::ConcurrentCompactor::num_threads_</definition>
+        <argsstring></argsstring>
+        <name>num_threads_</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::num_threads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="55" column="12" bodyfile="include/performance/phase3/splinterdb.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1aaba63d52d03f776ec92b33d8d5baa1e9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::performance::phase3::ConcurrentCompactor::worker_threads_</definition>
+        <argsstring></argsstring>
+        <name>worker_threads_</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::worker_threads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="56" column="17" bodyfile="include/performance/phase3/splinterdb.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a00987ecd4047dca40163d8713223e78f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase3::ConcurrentCompactor::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="57" column="17" bodyfile="include/performance/phase3/splinterdb.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a0106f475ac7c70e5cc4a38c9b799bbd3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::ConcurrentCompactor::ConcurrentCompactor</definition>
+        <argsstring>(size_t num_threads=4)</argsstring>
+        <name>ConcurrentCompactor</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::ConcurrentCompactor</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_threads</declname>
+          <defval>4</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="34" column="14" bodyfile="src/performance/phase3/splinterdb.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a9bc0f4652c6ad1157223042a7650c5e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::ConcurrentCompactor::~ConcurrentCompactor</definition>
+        <argsstring>()</argsstring>
+        <name>~ConcurrentCompactor</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::~ConcurrentCompactor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="35" column="5" bodyfile="src/performance/phase3/splinterdb.cpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a38fb92c614c0e69edc466073a0610e7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::ConcurrentCompactor::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), emplace_back(), worker_loop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="38" column="10" bodyfile="src/performance/phase3/splinterdb.cpp" bodystart="112" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a1db89ee133862a993af9b47c756faaf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::ConcurrentCompactor::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), shutdown(), joinable(), join(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="41" column="10" bodyfile="src/performance/phase3/splinterdb.cpp" bodystart="129" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a23161b45887a6740de930ae98a0b1e2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::ConcurrentCompactor::schedule_compaction</definition>
+        <argsstring>(int level, std::function&lt; void()&gt; compaction_fn)</argsstring>
+        <name>schedule_compaction</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::schedule_compaction</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>compaction_fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="44" column="10" bodyfile="src/performance/phase3/splinterdb.cpp" bodystart="147" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1aedd25b2385883088731953d27bcbd949" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>ConcurrentCompactor::Stats themis::performance::phase3::ConcurrentCompactor::get_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::get_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="52" column="11" bodyfile="src/performance/phase3/splinterdb.cpp" bodystart="155" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a9f38fdd746df623d367459b485fdf184" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::ConcurrentCompactor::worker_loop</definition>
+        <argsstring>()</argsstring>
+        <name>worker_loop</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::worker_loop</qualifiedname>
+        <briefdescription>
+<para>Worker loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), pop(), fetch_add(), std::chrono::high_resolution_clock::now(), fn(), fetch_sub(), count(), compare_exchange_weak(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="60" column="10" bodyfile="src/performance/phase3/splinterdb.cpp" bodystart="175" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Concurrent compaction manager. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/splinterdb.h" line="32" column="1" bodyfile="include/performance/phase3/splinterdb.h" bodystart="32" bodyend="61"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a0106f475ac7c70e5cc4a38c9b799bbd3" prot="public" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor</scope><name>ConcurrentCompactor</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1aedd25b2385883088731953d27bcbd949" prot="public" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1af835b21338a452c17e5bc7c43290e89c" prot="private" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor</scope><name>num_threads_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a00987ecd4047dca40163d8713223e78f" prot="private" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor</scope><name>running_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a23161b45887a6740de930ae98a0b1e2f" prot="public" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor</scope><name>schedule_compaction</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a38fb92c614c0e69edc466073a0610e7b" prot="public" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor</scope><name>start</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a1db89ee133862a993af9b47c756faaf2" prot="public" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor</scope><name>stop</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a9f38fdd746df623d367459b485fdf184" prot="private" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor</scope><name>worker_loop</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1aaba63d52d03f776ec92b33d8d5baa1e9" prot="private" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor</scope><name>worker_threads_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1a9bc0f4652c6ad1157223042a7650c5e3" prot="public" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor</scope><name>~ConcurrentCompactor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_cached_model" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::CachedModel</compoundname>
+    <includes refid="model__loader_8h" local="no">model_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1a9273c56b5b8e3c4444aa6d419faecbbc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::CachedModel::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::CachedModel::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="74" column="17" bodyfile="include/llm/model_loader.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1a71f9e6f74d663d5ac2b46b8e8f1e4afb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::CachedModel::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themis::llm::CachedModel::model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="75" column="17" bodyfile="include/llm/model_loader.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1afeab4a35ca445f737748b8bfe98ef7f1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref></type>
+        <definition>ModelInfo themis::llm::CachedModel::info</definition>
+        <argsstring></argsstring>
+        <name>info</name>
+        <qualifiedname>themis::llm::CachedModel::info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="76" column="15" bodyfile="include/llm/model_loader.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1afb24c8913ade00267de6f7be657e2737" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::CachedModel::model_handle</definition>
+        <argsstring></argsstring>
+        <name>model_handle</name>
+        <qualifiedname>themis::llm::CachedModel::model_handle</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="78" column="10" bodyfile="include/llm/model_loader.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1ade9fa2ecba9a4b4dd184b7fb0589b724" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::CachedModel::context_handle</definition>
+        <argsstring></argsstring>
+        <name>context_handle</name>
+        <qualifiedname>themis::llm::CachedModel::context_handle</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="79" column="10" bodyfile="include/llm/model_loader.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1ad34362225f76d4eb98f3a096a4de1609" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::CachedModel::last_used</definition>
+        <argsstring></argsstring>
+        <name>last_used</name>
+        <qualifiedname>themis::llm::CachedModel::last_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="81" column="43" bodyfile="include/llm/model_loader.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1af8fbed62e866daa3487d1d73420cbf5d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::CachedModel::loaded_at</definition>
+        <argsstring></argsstring>
+        <name>loaded_at</name>
+        <qualifiedname>themis::llm::CachedModel::loaded_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="82" column="43" bodyfile="include/llm/model_loader.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1a08e3320bca9257b3b3fe1bf33b0ddac5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::CachedModel::use_count</definition>
+        <argsstring></argsstring>
+        <name>use_count</name>
+        <qualifiedname>themis::llm::CachedModel::use_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="83" column="12" bodyfile="include/llm/model_loader.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1a9eaa244969b97f9a476f025c73f04665" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::CachedModel::vram_mb</definition>
+        <argsstring></argsstring>
+        <name>vram_mb</name>
+        <qualifiedname>themis::llm::CachedModel::vram_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="85" column="12" bodyfile="include/llm/model_loader.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1a4226a708c3106e4557ba472f39473c0b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::CachedModel::ram_mb</definition>
+        <argsstring></argsstring>
+        <name>ram_mb</name>
+        <qualifiedname>themis::llm::CachedModel::ram_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="86" column="12" bodyfile="include/llm/model_loader.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1ad76f34aa25401fc7ee219dc6b8554ed2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::CachedModel::is_loading</definition>
+        <argsstring></argsstring>
+        <name>is_loading</name>
+        <qualifiedname>themis::llm::CachedModel::is_loading</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="88" column="10" bodyfile="include/llm/model_loader.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_cached_model_1ace03664dc8087fde161b7da114195c9b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::CachedModel::keep_loaded</definition>
+        <argsstring></argsstring>
+        <name>keep_loaded</name>
+        <qualifiedname>themis::llm::CachedModel::keep_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="89" column="10" bodyfile="include/llm/model_loader.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_cached_model_1a35ef451ab0dc7728efe05bc9e405fd2c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type></type>
+        <definition>themis::llm::CachedModel::~CachedModel</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~CachedModel</name>
+        <qualifiedname>themis::llm::CachedModel::~CachedModel</qualifiedname>
+        <briefdescription>
+<para>Cached Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="73" column="13" bodyfile="src/llm/model_loader.cpp" bodystart="162" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::CachedModel</label>
+        <link refid="structthemis_1_1llm_1_1_cached_model"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>info</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ModelInfo</label>
+        <link refid="structthemis_1_1llm_1_1_model_info"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/model_loader.h" line="67" column="1" bodyfile="include/llm/model_loader.h" bodystart="67" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1ade9fa2ecba9a4b4dd184b7fb0589b724" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>context_handle</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1afeab4a35ca445f737748b8bfe98ef7f1" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>info</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1ad76f34aa25401fc7ee219dc6b8554ed2" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>is_loading</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1ace03664dc8087fde161b7da114195c9b" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>keep_loaded</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1ad34362225f76d4eb98f3a096a4de1609" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>last_used</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1af8fbed62e866daa3487d1d73420cbf5d" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>loaded_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1afb24c8913ade00267de6f7be657e2737" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>model_handle</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1a9273c56b5b8e3c4444aa6d419faecbbc" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1a71f9e6f74d663d5ac2b46b8e8f1e4afb" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>model_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1a4226a708c3106e4557ba472f39473c0b" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>ram_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1a08e3320bca9257b3b3fe1bf33b0ddac5" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>use_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1a9eaa244969b97f9a476f025c73f04665" prot="public" virt="non-virtual"><scope>themis::llm::CachedModel</scope><name>vram_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_cached_model_1a35ef451ab0dc7728efe05bc9e405fd2c" prot="public" virt="virtual"><scope>themis::llm::CachedModel</scope><name>~CachedModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

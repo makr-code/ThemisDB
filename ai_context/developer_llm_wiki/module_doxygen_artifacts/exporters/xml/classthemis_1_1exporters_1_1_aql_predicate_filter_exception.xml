@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_aql_predicate_filter_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::AqlPredicateFilterException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="aql__predicate__filter_8h" local="no">aql_predicate_filter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_aql_predicate_filter_exception_1a8d55a9de8ccaac9f2fa91e6423d6f72a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::AqlPredicateFilterException::AqlPredicateFilterException</definition>
+        <argsstring>(const std::string &amp;msg)</argsstring>
+        <name>AqlPredicateFilterException</name>
+        <qualifiedname>themis::exporters::AqlPredicateFilterException::AqlPredicateFilterException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Aql Predicate Filter Exception. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/aql_predicate_filter.h" line="36" column="14" bodyfile="include/exporters/aql_predicate_filter.h" bodystart="36" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::exporters::AqlPredicateFilterException</label>
+        <link refid="classthemis_1_1exporters_1_1_aql_predicate_filter_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::exporters::AqlPredicateFilterException</label>
+        <link refid="classthemis_1_1exporters_1_1_aql_predicate_filter_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/aql_predicate_filter.h" line="29" column="1" bodyfile="include/exporters/aql_predicate_filter.h" bodystart="29" bodyend="38"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_aql_predicate_filter_exception_1a8d55a9de8ccaac9f2fa91e6423d6f72a" prot="public" virt="non-virtual"><scope>themis::exporters::AqlPredicateFilterException</scope><name>AqlPredicateFilterException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

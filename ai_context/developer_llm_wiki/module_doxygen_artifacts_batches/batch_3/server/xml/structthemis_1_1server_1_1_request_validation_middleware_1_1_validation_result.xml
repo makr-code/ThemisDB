@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RequestValidationMiddleware::ValidationResult</compoundname>
+    <includes refid="request__validation__middleware_8h" local="no">request_validation_middleware.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1a10d31ed79654d1dbb146efd0f365eac2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::RequestValidationMiddleware::ValidationResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::ValidationResult::valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="28" column="14" bodyfile="include/server/request_validation_middleware.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1aa5012bb60662862f3b5420d18ec93c1a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RequestValidationMiddleware::ValidationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::ValidationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="29" column="21" bodyfile="include/server/request_validation_middleware.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1adfec3c13a02185e7d2cdbb7ad885130c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>static ValidationResult themis::server::RequestValidationMiddleware::ValidationResult::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::ValidationResult::OK</qualifiedname>
+        <briefdescription>
+<para>OK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements OK without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="36" column="33" bodyfile="include/server/request_validation_middleware.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1acdfbe534c34f2025e36e5542e8236d15" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>static ValidationResult themis::server::RequestValidationMiddleware::ValidationResult::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::ValidationResult::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="43" column="33" bodyfile="include/server/request_validation_middleware.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/request_validation_middleware.h" line="27" column="5" bodyfile="include/server/request_validation_middleware.h" bodystart="27" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1acdfbe534c34f2025e36e5542e8236d15" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::ValidationResult</scope><name>Error</name></member>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1aa5012bb60662862f3b5420d18ec93c1a" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::ValidationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1adfec3c13a02185e7d2cdbb7ad885130c" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::ValidationResult</scope><name>OK</name></member>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1a10d31ed79654d1dbb146efd0f365eac2" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::ValidationResult</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

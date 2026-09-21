@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_parser_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::Parser::Result</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_parser_1_1_result_1ab7191df73670cdbb3c4d52bade822edc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::Parser::Result::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::graphql::Parser::Result::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="327" column="14" bodyfile="include/api/graphql.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_parser_1_1_result_1a100faf3451f4ebf5649696962829c8e7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graphql_1_1_document" kindref="compound">Document</ref></type>
+        <definition>Document themis::graphql::Parser::Result::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>themis::graphql::Parser::Result::document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="328" column="18" bodyfile="include/api/graphql.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_parser_1_1_result_1abc4265b3e5f3cac552dabeb4c2fa3641" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graphql_1_1_parse_error" kindref="compound">ParseError</ref> &gt;</type>
+        <definition>std::vector&lt;ParseError&gt; themis::graphql::Parser::Result::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::graphql::Parser::Result::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="329" column="21" bodyfile="include/api/graphql.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::graphql::Document</label>
+        <link refid="structthemis_1_1graphql_1_1_document"/>
+      </node>
+      <node id="1">
+        <label>themis::graphql::Parser::Result</label>
+        <link refid="structthemis_1_1graphql_1_1_parser_1_1_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>document</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/api/graphql.h" line="326" column="5" bodyfile="include/api/graphql.h" bodystart="326" bodyend="330"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_parser_1_1_result_1a100faf3451f4ebf5649696962829c8e7" prot="public" virt="non-virtual"><scope>themis::graphql::Parser::Result</scope><name>document</name></member>
+      <member refid="structthemis_1_1graphql_1_1_parser_1_1_result_1abc4265b3e5f3cac552dabeb4c2fa3641" prot="public" virt="non-virtual"><scope>themis::graphql::Parser::Result</scope><name>errors</name></member>
+      <member refid="structthemis_1_1graphql_1_1_parser_1_1_result_1ab7191df73670cdbb3c4d52bade822edc" prot="public" virt="non-virtual"><scope>themis::graphql::Parser::Result</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_classify_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::ClassifyResult</compoundname>
+    <includes refid="classify__bridge_8h" local="no">classify_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_classify_result_1a0093367bf79da37aa94ac46d64620f9d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ClassifyResult::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::aql::ClassifyResult::category</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/classify_bridge.h" line="23" column="17" bodyfile="include/aql/classify_bridge.h" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_classify_result_1af3624ba9c9ae32ee692d7948a63cf818" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::aql::ClassifyResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::aql::ClassifyResult::confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/classify_bridge.h" line="25" column="12" bodyfile="include/aql/classify_bridge.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_classify_result_1a4a41f2c3e6362a29fa23301ca2408741" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::aql::ClassifyResult::scores</definition>
+        <argsstring></argsstring>
+        <name>scores</name>
+        <qualifiedname>themis::aql::ClassifyResult::scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/classify_bridge.h" line="27" column="24" bodyfile="include/aql/classify_bridge.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/classify_bridge.h" line="22" column="1" bodyfile="include/aql/classify_bridge.h" bodystart="22" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_classify_result_1a0093367bf79da37aa94ac46d64620f9d" prot="public" virt="non-virtual"><scope>themis::aql::ClassifyResult</scope><name>category</name></member>
+      <member refid="structthemis_1_1aql_1_1_classify_result_1af3624ba9c9ae32ee692d7948a63cf818" prot="public" virt="non-virtual"><scope>themis::aql::ClassifyResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1aql_1_1_classify_result_1a4a41f2c3e6362a29fa23301ca2408741" prot="public" virt="non-virtual"><scope>themis::aql::ClassifyResult</scope><name>scores</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

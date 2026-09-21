@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::test::ConfigFileWatcherHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test_1af07bd7e00da69f10539d37b650235aab" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigFileWatcherHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::test::ConfigFileWatcherHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_hardening_watcher_store.cpp" line="37" column="10" bodyfile="tests/config/test_config_hardening_watcher_store.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test_1af6a4dec313e52b5d50e7170c70acb362" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigFileWatcherHardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::config::test::ConfigFileWatcherHardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_hardening_watcher_store.cpp" line="38" column="10" bodyfile="tests/config/test_config_hardening_watcher_store.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigFileWatcherHardeningTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigFileWatcherHardeningTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/config/test_config_hardening_watcher_store.cpp" line="35" column="1" bodyfile="tests/config/test_config_hardening_watcher_store.cpp" bodystart="35" bodyend="39"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test_1af07bd7e00da69f10539d37b650235aab" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigFileWatcherHardeningTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_file_watcher_hardening_test_1af6a4dec313e52b5d50e7170c70acb362" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigFileWatcherHardeningTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,630 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_replication_slot" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationSlot</compoundname>
+    <includes refid="replication__slot_8h" local="no">replication_slot.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state" prot="public">themisdb::replication::ReplicationSlot::SlotState</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemisdb_1_1replication_1_1_replication_slot_1a23d93a5a379564e459993035e6722a97" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SlotStatus</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::SlotStatus</qualifiedname>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_slot_1a23d93a5a379564e459993035e6722a97a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+<para>Slot is active; WAL is being shipped normally. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_slot_1a23d93a5a379564e459993035e6722a97a99b2439e63f73ad515f7ab2447a80673" prot="public">
+          <name>PAUSED</name>
+          <briefdescription>
+<para>Slot is paused; WAL segments are retained but not shipped. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1replication_1_1_replication_slot_1a23d93a5a379564e459993035e6722a97ac69a1e32a105a29d95e6e7a883188d62" prot="public">
+          <name>DROPPED</name>
+          <briefdescription>
+<para>Slot has been dropped; WAL retention requirement is released. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="97" column="5" bodyfile="include/replication/replication_slot.h" bodystart="97" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_slot_1ac17d817bfca59c4b96934a8068c45b0b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::ReplicationSlot::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="192" column="33" bodyfile="include/replication/replication_slot.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_slot_1af8d0b1308ad82fb378a00d62704f26ab" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state" kindref="compound">SlotState</ref></type>
+        <definition>SlotState themisdb::replication::ReplicationSlot::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="193" column="33" bodyfile="include/replication/replication_slot.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_slot_1aca7c01e7244c95db28e29be23ef51c13" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;WALManager&gt; themisdb::replication::ReplicationSlot::wal_manager_</definition>
+        <argsstring></argsstring>
+        <name>wal_manager_</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::wal_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="194" column="21" bodyfile="include/replication/replication_slot.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_slot_1ae5534111d80df2cf0f69fb7b52174413" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationSlot::state_file_path_</definition>
+        <argsstring></argsstring>
+        <name>state_file_path_</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::state_file_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="195" column="33" bodyfile="include/replication/replication_slot.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1ae76902125d3823df69f33a84ab7ecd70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationSlot::ReplicationSlot</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;plugin_name, const std::string &amp;downstream_node_id, std::shared_ptr&lt; WALManager &gt; wal_manager, const std::string &amp;state_file_path)</argsstring>
+        <name>ReplicationSlot</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::ReplicationSlot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>downstream_node_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+          <declname>wal_manager</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state_file_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new slot.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique slot identifier within this node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output plugin (e.g., &quot;physical&quot;, &quot;json&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>downstream_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica or consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wal_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>WAL manager used to query sequence ranges. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>state_file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path where slot state is persisted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="127" column="5" bodyfile="src/replication/replication_slot.cpp" bodystart="89" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1aebf309f54dc5cf55994e1ac130ee9e70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationSlot::~ReplicationSlot</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ReplicationSlot</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::~ReplicationSlot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1a82151887b37fd5ec06fed4ffdf1ddfde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationSlot::ReplicationSlot</definition>
+        <argsstring>(const ReplicationSlot &amp;)=delete</argsstring>
+        <name>ReplicationSlot</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::ReplicationSlot</qualifiedname>
+        <param>
+          <type>const ReplicationSlot &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1a4fb27e3e973bfbee1b63e9ecaa322f14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_slot_1ae76902125d3823df69f33a84ab7ecd70" kindref="member">ReplicationSlot</ref> &amp;</type>
+        <definition>ReplicationSlot &amp; themisdb::replication::ReplicationSlot::operator=</definition>
+        <argsstring>(const ReplicationSlot &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_replication_slot_1ae76902125d3823df69f33a84ab7ecd70" kindref="member">ReplicationSlot</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="139" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1aea5f534aca2de761106c5ca79325c0f0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationSlot::ReplicationSlot</definition>
+        <argsstring>(ReplicationSlot &amp;&amp;) noexcept=default</argsstring>
+        <name>ReplicationSlot</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::ReplicationSlot</qualifiedname>
+        <param>
+          <type>ReplicationSlot &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="140" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1a3136c608cbe50e510924169ef69bc957" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_slot_1ae76902125d3823df69f33a84ab7ecd70" kindref="member">ReplicationSlot</ref> &amp;</type>
+        <definition>ReplicationSlot &amp; themisdb::replication::ReplicationSlot::operator=</definition>
+        <argsstring>(ReplicationSlot &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_replication_slot_1ae76902125d3823df69f33a84ab7ecd70" kindref="member">ReplicationSlot</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="141" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1a25a6972854c8dfc38069dce2f415f8b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationSlot::pause</definition>
+        <argsstring>()</argsstring>
+        <name>pause</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::pause</qualifiedname>
+        <briefdescription>
+<para>Lock Hierarchy Note: This method acquires state_mutex_ (Level 2), copies state within the lock, then releases the lock before calling persistStateImpl() for blocking I/O. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Pause this slot.</para>
+<para>WAL segments beyond confirmed_lsn will be retained until the slot is resumed or dropped. Returns false if the slot is already paused or has been dropped.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+This ensures lock-free blocking operations and prevents deadlocks. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="154" column="10" bodyfile="src/replication/replication_slot.cpp" bodystart="124" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1a54f4a18e3a9a3df286b0f7e0ce6a792e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationSlot::resume</definition>
+        <argsstring>()</argsstring>
+        <name>resume</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::resume</qualifiedname>
+        <briefdescription>
+<para>Resume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resume a paused slot. Returns false if the slot is ACTIVE or DROPPED.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="160" column="10" bodyfile="src/replication/replication_slot.cpp" bodystart="149" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1af4a659e40349a9fafa08787984516b23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationSlot::drop</definition>
+        <argsstring>()</argsstring>
+        <name>drop</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::drop</qualifiedname>
+        <briefdescription>
+<para>Drop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Drop this slot permanently. WAL retention for this slot&apos;s LSN range is released. After calling <ref refid="classthemisdb_1_1replication_1_1_replication_slot_1af4a659e40349a9fafa08787984516b23" kindref="member">drop()</ref> all subsequent control calls return false.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="167" column="10" bodyfile="src/replication/replication_slot.cpp" bodystart="174" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1a3f01ddd9b0f8393f4de983fba715a8b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationSlot::advance</definition>
+        <argsstring>(uint64_t confirmed_lsn)</argsstring>
+        <name>advance</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::advance</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>confirmed_lsn</declname>
+        </param>
+        <briefdescription>
+<para>Advance an iterator within the validated range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Advance the confirmed LSN for this slot (called by the consumer on ack). Persists the new LSN to the state file. Returns false when the slot is paused or dropped.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">confirmed_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="178" column="10" bodyfile="src/replication/replication_slot.cpp" bodystart="204" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1acee1a94cf0879d8f1d5244e99ab07295" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themisdb::replication::ReplicationSlot::name</definition>
+        <argsstring>() const</argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="184" column="24" bodyfile="src/replication/replication_slot.cpp" bodystart="231" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1af0dfc6e7703c8f614a9b25c3cc54e442" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_slot_1a23d93a5a379564e459993035e6722a97" kindref="member">SlotStatus</ref></type>
+        <definition>ReplicationSlot::SlotStatus themisdb::replication::ReplicationSlot::status</definition>
+        <argsstring>() const</argsstring>
+        <name>status</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="185" column="25" bodyfile="src/replication/replication_slot.cpp" bodystart="237" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1ab65ef9c1db9a2365f21bfe48fc3f96eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state" kindref="compound">SlotState</ref></type>
+        <definition>ReplicationSlot::SlotState themisdb::replication::ReplicationSlot::state</definition>
+        <argsstring>() const</argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="186" column="25" bodyfile="src/replication/replication_slot.cpp" bodystart="248" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1a59f9329bfca1273e902bbfc43155e3d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ReplicationSlot::lag</definition>
+        <argsstring>() const</argsstring>
+        <name>lag</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::lag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Lag in number of WAL sequences between the leader and this slot. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="189" column="14" bodyfile="src/replication/replication_slot.cpp" bodystart="273" bodyend="290"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1ab9116869483db671076d3cd0be8e762d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationSlot::persistState</definition>
+        <argsstring>() const</argsstring>
+        <name>persistState</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::persistState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Convenience wrapper that acquires lock and calls persistStateImpl This is safe for callers who don&apos;t already hold the lock <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="197" column="10" bodyfile="src/replication/replication_slot.cpp" bodystart="334" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1adf7b899cd1be77b87f5b6defbf0ef003" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationSlot::persistStateImpl</definition>
+        <argsstring>(const SlotState &amp;state) const</argsstring>
+        <name>persistStateImpl</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::persistStateImpl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replication_slot_1_1_slot_state" kindref="compound">SlotState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="198" column="10" bodyfile="src/replication/replication_slot.cpp" bodystart="296" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_slot_1a4e76dc9691069dd68c151d7f54a44f06" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationSlot::loadState</definition>
+        <argsstring>()</argsstring>
+        <name>loadState</name>
+        <qualifiedname>themisdb::replication::ReplicationSlot::loadState</qualifiedname>
+        <briefdescription>
+<para>Load State. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Load state from JSON file (called at construction, without lock) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_file_path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_slot.h" line="199" column="10" bodyfile="src/replication/replication_slot.cpp" bodystart="348" bodyend="407"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_replication_slot" kindref="compound">ReplicationSlot</ref></para>
+<para>Represents a single named replication slot, tracking one downstream consumer&apos;s confirmed WAL position.</para>
+<para>Thread-safety: All public methods are safe to call concurrently.</para>
+<para><hruler/>
+ </para>
+<sect1 id="classthemisdb_1_1replication_1_1_replication_slot_1autotoc_md4">
+<title>LOCK HIERARCHY DOCUMENTATION</title><para>This class participates in a 3-level lock hierarchy to prevent deadlocks:</para>
+<para>Level 1: ReplicationSlotManager::slots_mutex_ └→ Level 2: ReplicationSlot::state_mutex_ └→ Level 3: Blocking I/O (no lock)</para>
+<para>SAFE LOCKING PATTERN (implemented in pause/resume/drop/advance):</para>
+<para><orderedlist>
+<listitem><para>Acquire state_mutex_ (Level 2)</para>
+</listitem><listitem><para>Copy state data while holding lock</para>
+</listitem><listitem><para>Release state_mutex_</para>
+</listitem><listitem><para>Perform blocking I/O (file I/O, WAL queries) WITH LOCK RELEASED</para>
+</listitem></orderedlist>
+</para>
+<para>KEY INVARIANTS:<itemizedlist>
+<listitem><para>No blocking I/O is performed while holding state_mutex_</para>
+</listitem><listitem><para>All state modifications happen while holding state_mutex_</para>
+</listitem><listitem><para>State is always extracted (copied) before releasing lock</para>
+</listitem><listitem><para>External component calls (e.g., wal_manager_) happen lock-free</para>
+</listitem></itemizedlist>
+</para>
+<para>IMPACT:<itemizedlist>
+<listitem><para>Eliminates circular deadlock scenarios</para>
+</listitem><listitem><para>Reduces lock hold time by 99%+ (no blocking I/O under lock)</para>
+</listitem><listitem><para>Maintains strong consistency guarantees via copying pattern</para>
+</listitem></itemizedlist>
+</para>
+<para><hruler/>
+ </para>
+</sect1>
+    </detaileddescription>
+    <location file="include/replication/replication_slot.h" line="95" column="1" bodyfile="include/replication/replication_slot.h" bodystart="95" bodyend="200"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1a3f01ddd9b0f8393f4de983fba715a8b4" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>advance</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1af4a659e40349a9fafa08787984516b23" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>drop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1a59f9329bfca1273e902bbfc43155e3d8" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>lag</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1a4e76dc9691069dd68c151d7f54a44f06" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>loadState</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1acee1a94cf0879d8f1d5244e99ab07295" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>name</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1a4fb27e3e973bfbee1b63e9ecaa322f14" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1a3136c608cbe50e510924169ef69bc957" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1a25a6972854c8dfc38069dce2f415f8b3" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>pause</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1ab9116869483db671076d3cd0be8e762d" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>persistState</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1adf7b899cd1be77b87f5b6defbf0ef003" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>persistStateImpl</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1ae76902125d3823df69f33a84ab7ecd70" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>ReplicationSlot</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1a82151887b37fd5ec06fed4ffdf1ddfde" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>ReplicationSlot</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1aea5f534aca2de761106c5ca79325c0f0" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>ReplicationSlot</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1a54f4a18e3a9a3df286b0f7e0ce6a792e" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>resume</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1a23d93a5a379564e459993035e6722a97" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>SlotStatus</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1ab65ef9c1db9a2365f21bfe48fc3f96eb" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>state</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1af8d0b1308ad82fb378a00d62704f26ab" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>state_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1ae5534111d80df2cf0f69fb7b52174413" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>state_file_path_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1ac17d817bfca59c4b96934a8068c45b0b" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>state_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1af0dfc6e7703c8f614a9b25c3cc54e442" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>status</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1aca7c01e7244c95db28e29be23ef51c13" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>wal_manager_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_slot_1aebf309f54dc5cf55994e1ac130ee9e70" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationSlot</scope><name>~ReplicationSlot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

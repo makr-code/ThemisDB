@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_keys_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::KeysApiHandler</compoundname>
+    <includes refid="keys__api__handler_8h" local="no">keys_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_keys_api_handler_1a133a85d4c67c06828d6df9aa5bf50c76" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt;KeyProvider&gt; themis::server::KeysApiHandler::key_provider_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_</name>
+        <qualifiedname>themis::server::KeysApiHandler::key_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/keys_api_handler.h" line="48" column="21" bodyfile="include/server/keys_api_handler.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_keys_api_handler_1a0a3b75db00425242447d15b57ac75622" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::KeysApiHandler::KeysApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; KeyProvider &gt; key_provider)</argsstring>
+        <name>KeysApiHandler</name>
+        <qualifiedname>themis::server::KeysApiHandler::KeysApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+          <declname>key_provider</declname>
+        </param>
+        <briefdescription>
+<para>Keys Api Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/keys_api_handler.h" line="29" column="14" bodyfile="src/server/keys_api_handler.cpp" bodystart="21" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_keys_api_handler_1a61efe2a41b10afc995c54c138924e5f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::KeysApiHandler::KeysApiHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>KeysApiHandler</name>
+        <qualifiedname>themis::server::KeysApiHandler::KeysApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/keys_api_handler.h" line="31" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_keys_api_handler_1a2408422fcbe524e426022e217d0f3da7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::KeysApiHandler::listKeys</definition>
+        <argsstring>()</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::server::KeysApiHandler::listKeys</qualifiedname>
+        <briefdescription>
+<para>List Keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), THEMIS_WARN(), nlohmann::json::array(), std::put_time(), std::gmtime(), str(), push_back(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/keys_api_handler.h" line="37" column="20" bodyfile="src/server/keys_api_handler.cpp" bodystart="30" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_keys_api_handler_1a0abb92aee910ce2a85858c0443815cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::KeysApiHandler::rotateKey</definition>
+        <argsstring>(const std::string &amp;key_id, const nlohmann::json &amp;body)</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>themis::server::KeysApiHandler::rotateKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Rotate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), is_null(), is_object(), THEMIS_WARN(), contains(), is_string(), THEMIS_DEBUG(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/keys_api_handler.h" line="45" column="20" bodyfile="src/server/keys_api_handler.cpp" bodystart="102" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/keys_api_handler.h" line="22" column="1" bodyfile="include/server/keys_api_handler.h" bodystart="22" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_keys_api_handler_1a133a85d4c67c06828d6df9aa5bf50c76" prot="private" virt="non-virtual"><scope>themis::server::KeysApiHandler</scope><name>key_provider_</name></member>
+      <member refid="classthemis_1_1server_1_1_keys_api_handler_1a0a3b75db00425242447d15b57ac75622" prot="public" virt="non-virtual"><scope>themis::server::KeysApiHandler</scope><name>KeysApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_keys_api_handler_1a61efe2a41b10afc995c54c138924e5f4" prot="public" virt="non-virtual"><scope>themis::server::KeysApiHandler</scope><name>KeysApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_keys_api_handler_1a2408422fcbe524e426022e217d0f3da7" prot="public" virt="non-virtual"><scope>themis::server::KeysApiHandler</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1server_1_1_keys_api_handler_1a0abb92aee910ce2a85858c0443815cbb" prot="public" virt="non-virtual"><scope>themis::server::KeysApiHandler</scope><name>rotateKey</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

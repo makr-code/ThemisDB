@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::config::ConfigPathResolver::Metrics</compoundname>
+    <includes refid="config__path__resolver_8h" local="no">config_path_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ad1decf43b1651f884e2fb094cca466de" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::config::ConfigPathResolver::Metrics::resolution_hits</definition>
+        <argsstring></argsstring>
+        <name>resolution_hits</name>
+        <qualifiedname>themis::config::ConfigPathResolver::Metrics::resolution_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="82" column="21" bodyfile="include/config/config_path_resolver.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ae3e047af733cdc523c33d2427e2131c7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::config::ConfigPathResolver::Metrics::resolution_misses</definition>
+        <argsstring></argsstring>
+        <name>resolution_misses</name>
+        <qualifiedname>themis::config::ConfigPathResolver::Metrics::resolution_misses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="83" column="21" bodyfile="include/config/config_path_resolver.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a607738b212e534af0bdf930f96b94bde" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::config::ConfigPathResolver::Metrics::legacy_fallbacks</definition>
+        <argsstring></argsstring>
+        <name>legacy_fallbacks</name>
+        <qualifiedname>themis::config::ConfigPathResolver::Metrics::legacy_fallbacks</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="84" column="21" bodyfile="include/config/config_path_resolver.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ae1e14537e0a65e090941aa8213a67da9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::config::ConfigPathResolver::Metrics::new_path_hits</definition>
+        <argsstring></argsstring>
+        <name>new_path_hits</name>
+        <qualifiedname>themis::config::ConfigPathResolver::Metrics::new_path_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="85" column="21" bodyfile="include/config/config_path_resolver.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a950636fe10432e691c0377cebbbf6ae6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::config::ConfigPathResolver::Metrics::unmapped_requests</definition>
+        <argsstring></argsstring>
+        <name>unmapped_requests</name>
+        <qualifiedname>themis::config::ConfigPathResolver::Metrics::unmapped_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="86" column="21" bodyfile="include/config/config_path_resolver.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a2a09d7d7fecbc54f37dd8ed05d52cf87" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::config::ConfigPathResolver::Metrics::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::config::ConfigPathResolver::Metrics::cache_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="87" column="21" bodyfile="include/config/config_path_resolver.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a2f3ec07ee82f92fbffbbe72ee7899c63" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::config::ConfigPathResolver::Metrics::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::config::ConfigPathResolver::Metrics::cache_misses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="88" column="21" bodyfile="include/config/config_path_resolver.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/config_path_resolver.h" line="81" column="5" bodyfile="include/config/config_path_resolver.h" bodystart="81" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a2a09d7d7fecbc54f37dd8ed05d52cf87" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::Metrics</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a2f3ec07ee82f92fbffbbe72ee7899c63" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::Metrics</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a607738b212e534af0bdf930f96b94bde" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::Metrics</scope><name>legacy_fallbacks</name></member>
+      <member refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ae1e14537e0a65e090941aa8213a67da9" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::Metrics</scope><name>new_path_hits</name></member>
+      <member refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ad1decf43b1651f884e2fb094cca466de" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::Metrics</scope><name>resolution_hits</name></member>
+      <member refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ae3e047af733cdc523c33d2427e2131c7" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::Metrics</scope><name>resolution_misses</name></member>
+      <member refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a950636fe10432e691c0377cebbbf6ae6" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver::Metrics</scope><name>unmapped_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

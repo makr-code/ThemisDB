@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_placement_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::PlacementPlan</compoundname>
+    <includes refid="shard__placement_8h" local="no">shard_placement.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_placement_plan_1a089e723e6b41bd90a9c386235bde9278" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::PlacementPlan::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::PlacementPlan::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="73" column="15" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_placement_plan_1abeee9350b0c223108b23f96645b0f4df" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_shard_placement" kindref="compound">ShardPlacement</ref> &gt;</type>
+        <definition>std::vector&lt;ShardPlacement&gt; themis::distributed_tensor::PlacementPlan::shard_placements</definition>
+        <argsstring></argsstring>
+        <name>shard_placements</name>
+        <qualifiedname>themis::distributed_tensor::PlacementPlan::shard_placements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="75" column="15" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_placement_plan_1a6e57646edebf44a354dc82c6eee18b25" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::PlacementPlan::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::distributed_tensor::PlacementPlan::confidence_score</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="77" column="9" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_placement_plan_1a9fa939e5cfb2bb302cd891c6a6e3086f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::PlacementPlan::estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost</name>
+        <qualifiedname>themis::distributed_tensor::PlacementPlan::estimated_cost</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="79" column="12" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_placement_plan_1a249552fc9754602911a2bebe01137c46" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::PlacementPlan::placement_rationale</definition>
+        <argsstring></argsstring>
+        <name>placement_rationale</name>
+        <qualifiedname>themis::distributed_tensor::PlacementPlan::placement_rationale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="81" column="15" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_placement_plan_1a503bdb04c218c03a87e083c5d37331fe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::PlacementPlan::satisfies_hard_constraints</definition>
+        <argsstring></argsstring>
+        <name>satisfies_hard_constraints</name>
+        <qualifiedname>themis::distributed_tensor::PlacementPlan::satisfies_hard_constraints</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="83" column="8" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_placement_plan_1a9391f2e67c1d8413d61715b1b19e4077" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::PlacementPlan::is_degraded</definition>
+        <argsstring></argsstring>
+        <name>is_degraded</name>
+        <qualifiedname>themis::distributed_tensor::PlacementPlan::is_degraded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="85" column="8" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_placement_plan_1a4aa25180d07e58ce71dfe2a9d1efd43b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::distributed_tensor::PlacementPlan::placement_warnings</definition>
+        <argsstring></argsstring>
+        <name>placement_warnings</name>
+        <qualifiedname>themis::distributed_tensor::PlacementPlan::placement_warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="87" column="15" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_placement_plan_1a00239540b7e0359a5f3bae70a663ae35" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::PlacementPlan::computed_at</definition>
+        <argsstring></argsstring>
+        <name>computed_at</name>
+        <qualifiedname>themis::distributed_tensor::PlacementPlan::computed_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="89" column="15" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/shard_placement.h" line="72" column="1" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="72" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a089e723e6b41bd90a9c386235bde9278" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::PlacementPlan</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a00239540b7e0359a5f3bae70a663ae35" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::PlacementPlan</scope><name>computed_at</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a6e57646edebf44a354dc82c6eee18b25" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::PlacementPlan</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a9fa939e5cfb2bb302cd891c6a6e3086f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::PlacementPlan</scope><name>estimated_cost</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a9391f2e67c1d8413d61715b1b19e4077" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::PlacementPlan</scope><name>is_degraded</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a249552fc9754602911a2bebe01137c46" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::PlacementPlan</scope><name>placement_rationale</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a4aa25180d07e58ce71dfe2a9d1efd43b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::PlacementPlan</scope><name>placement_warnings</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a503bdb04c218c03a87e083c5d37331fe" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::PlacementPlan</scope><name>satisfies_hard_constraints</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1abeee9350b0c223108b23f96645b0f4df" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::PlacementPlan</scope><name>shard_placements</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

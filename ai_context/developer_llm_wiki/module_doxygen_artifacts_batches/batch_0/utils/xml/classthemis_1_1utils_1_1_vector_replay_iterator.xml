@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_vector_replay_iterator" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::VectorReplayIterator</compoundname>
+    <basecompoundref refid="classthemis_1_1utils_1_1_replay_iterator" prot="public" virt="non-virtual">themis::utils::ReplayIterator</basecompoundref>
+    <includes refid="utils__adapters_8h" local="no">utils_adapters.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_vector_replay_iterator_1a1b37f6b6f3fcc1d8d1b22b6043d07cf7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_s_a_g_a_log_entry" kindref="compound">SAGALogEntry</ref> &gt;</type>
+        <definition>std::vector&lt;SAGALogEntry&gt; themis::utils::VectorReplayIterator::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::utils::VectorReplayIterator::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="202" column="17" bodyfile="include/utils/utils_adapters.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_vector_replay_iterator_1a58349ede3980c8c49414df2b96323ad4" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::VectorReplayIterator::pos_</definition>
+        <argsstring></argsstring>
+        <name>pos_</name>
+        <qualifiedname>themis::utils::VectorReplayIterator::pos_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="203" column="12" bodyfile="include/utils/utils_adapters.h" bodystart="203" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_vector_replay_iterator_1ad9d2037a700be9e617fcb7a8bddbf94d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::VectorReplayIterator::VectorReplayIterator</definition>
+        <argsstring>(std::vector&lt; SAGALogEntry &gt; entries)</argsstring>
+        <name>VectorReplayIterator</name>
+        <qualifiedname>themis::utils::VectorReplayIterator::VectorReplayIterator</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_s_a_g_a_log_entry" kindref="compound">SAGALogEntry</ref> &gt;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="195" column="14" bodyfile="src/utils/utils_adapters.cpp" bodystart="357" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_vector_replay_iterator_1a3bf3794a1c64f5a23d1beaab618a9890" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::VectorReplayIterator::hasNext</definition>
+        <argsstring>() const override</argsstring>
+        <name>hasNext</name>
+        <qualifiedname>themis::utils::VectorReplayIterator::hasNext</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_replay_iterator_1ac1cca319b80b0672ce641dbe96e12859">hasNext</reimplements>
+        <briefdescription>
+<para>true when at least one more entry is available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="197" column="17" bodyfile="src/utils/utils_adapters.cpp" bodystart="361" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_vector_replay_iterator_1ade0389304298b203b2ebd62d6ca9588c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_s_a_g_a_log_entry" kindref="compound">SAGALogEntry</ref></type>
+        <definition>SAGALogEntry themis::utils::VectorReplayIterator::next</definition>
+        <argsstring>() override</argsstring>
+        <name>next</name>
+        <qualifiedname>themis::utils::VectorReplayIterator::next</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_replay_iterator_1a3a63d81ce4452b1c2c8d64e604ac5900">next</reimplements>
+        <briefdescription>
+<para>Next. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements next without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="198" column="18" bodyfile="src/utils/utils_adapters.cpp" bodystart="370" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_vector_replay_iterator_1a1240ab995f19950f9241db09ccca2842" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::utils::VectorReplayIterator::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::utils::VectorReplayIterator::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_replay_iterator_1afc85c84f78fc3349fd0b172aba02ddf6">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements reset without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_adapters.h" line="199" column="17" bodyfile="src/utils/utils_adapters.cpp" bodystart="378" bodyend="380"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Concrete <ref refid="classthemis_1_1utils_1_1_replay_iterator" kindref="compound">ReplayIterator</ref> over a pre-loaded vector of <ref refid="structthemis_1_1utils_1_1_s_a_g_a_log_entry" kindref="compound">SAGALogEntry</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The entries are read eagerly from the WAL at construction time so that the iterator is independent of the underlying file handles. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::utils::ReplayIterator</label>
+        <link refid="classthemis_1_1utils_1_1_replay_iterator"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::VectorReplayIterator</label>
+        <link refid="classthemis_1_1utils_1_1_vector_replay_iterator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::utils::ReplayIterator</label>
+        <link refid="classthemis_1_1utils_1_1_replay_iterator"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::VectorReplayIterator</label>
+        <link refid="classthemis_1_1utils_1_1_vector_replay_iterator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/utils_adapters.h" line="193" column="1" bodyfile="include/utils/utils_adapters.h" bodystart="193" bodyend="204"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_vector_replay_iterator_1a1b37f6b6f3fcc1d8d1b22b6043d07cf7" prot="private" virt="non-virtual"><scope>themis::utils::VectorReplayIterator</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1utils_1_1_vector_replay_iterator_1a3bf3794a1c64f5a23d1beaab618a9890" prot="public" virt="virtual"><scope>themis::utils::VectorReplayIterator</scope><name>hasNext</name></member>
+      <member refid="classthemis_1_1utils_1_1_vector_replay_iterator_1ade0389304298b203b2ebd62d6ca9588c" prot="public" virt="virtual"><scope>themis::utils::VectorReplayIterator</scope><name>next</name></member>
+      <member refid="classthemis_1_1utils_1_1_vector_replay_iterator_1a58349ede3980c8c49414df2b96323ad4" prot="private" virt="non-virtual"><scope>themis::utils::VectorReplayIterator</scope><name>pos_</name></member>
+      <member refid="classthemis_1_1utils_1_1_vector_replay_iterator_1a1240ab995f19950f9241db09ccca2842" prot="public" virt="virtual"><scope>themis::utils::VectorReplayIterator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1utils_1_1_vector_replay_iterator_1ad9d2037a700be9e617fcb7a8bddbf94d" prot="public" virt="non-virtual"><scope>themis::utils::VectorReplayIterator</scope><name>VectorReplayIterator</name></member>
+      <member refid="classthemis_1_1utils_1_1_replay_iterator_1a9bdd8a0587483b98971265dc321496da" prot="public" virt="virtual"><scope>themis::utils::VectorReplayIterator</scope><name>~ReplayIterator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

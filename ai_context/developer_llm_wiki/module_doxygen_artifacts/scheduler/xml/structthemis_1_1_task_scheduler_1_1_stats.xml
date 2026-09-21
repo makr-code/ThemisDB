@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_task_scheduler_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TaskScheduler::Stats</compoundname>
+    <includes refid="task__scheduler_8h" local="no">task_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_stats_1a2654cd921fa21902f130e8fda8bd7f68" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::Stats::registered_tasks</definition>
+        <argsstring></argsstring>
+        <name>registered_tasks</name>
+        <qualifiedname>themis::TaskScheduler::Stats::registered_tasks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="542" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="542" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_stats_1a7267e6172657f3bf0af0a73d902228cd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::Stats::active_tasks</definition>
+        <argsstring></argsstring>
+        <name>active_tasks</name>
+        <qualifiedname>themis::TaskScheduler::Stats::active_tasks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="543" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="543" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_stats_1a7d38324636598cb5c1bf3a2fdb86240a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::Stats::running_tasks</definition>
+        <argsstring></argsstring>
+        <name>running_tasks</name>
+        <qualifiedname>themis::TaskScheduler::Stats::running_tasks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="544" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="544" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_stats_1a176f5c5264ab588eb2e248a87d351fac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::Stats::total_executions</definition>
+        <argsstring></argsstring>
+        <name>total_executions</name>
+        <qualifiedname>themis::TaskScheduler::Stats::total_executions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="545" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="545" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_stats_1af83e8d3cf45a6bd01aa3b09d1be7cb87" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TaskScheduler::Stats::failed_executions</definition>
+        <argsstring></argsstring>
+        <name>failed_executions</name>
+        <qualifiedname>themis::TaskScheduler::Stats::failed_executions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="546" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_stats_1a79aa6592513b68b46b7dad0cc4adb89d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::TaskScheduler::Stats::last_run</definition>
+        <argsstring></argsstring>
+        <name>last_run</name>
+        <qualifiedname>themis::TaskScheduler::Stats::last_run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="547" column="47" bodyfile="include/scheduler/task_scheduler.h" bodystart="547" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_task_scheduler_1_1_stats_1a08a24eea781a0fabd68640d64d90f1dd" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::TaskScheduler::Stats::next_run</definition>
+        <argsstring></argsstring>
+        <name>next_run</name>
+        <qualifiedname>themis::TaskScheduler::Stats::next_run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="548" column="47" bodyfile="include/scheduler/task_scheduler.h" bodystart="548" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/task_scheduler.h" line="541" column="5" bodyfile="include/scheduler/task_scheduler.h" bodystart="541" bodyend="549"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_task_scheduler_1_1_stats_1a7267e6172657f3bf0af0a73d902228cd" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Stats</scope><name>active_tasks</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_stats_1af83e8d3cf45a6bd01aa3b09d1be7cb87" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Stats</scope><name>failed_executions</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_stats_1a79aa6592513b68b46b7dad0cc4adb89d" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Stats</scope><name>last_run</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_stats_1a08a24eea781a0fabd68640d64d90f1dd" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Stats</scope><name>next_run</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_stats_1a2654cd921fa21902f130e8fda8bd7f68" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Stats</scope><name>registered_tasks</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_stats_1a7d38324636598cb5c1bf3a2fdb86240a" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Stats</scope><name>running_tasks</name></member>
+      <member refid="structthemis_1_1_task_scheduler_1_1_stats_1a176f5c5264ab588eb2e248a87d351fac" prot="public" virt="non-virtual"><scope>themis::TaskScheduler::Stats</scope><name>total_executions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_prompt_template" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::PromptTemplate</compoundname>
+    <includes refid="llm__integration_8h" local="no">llm_integration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_prompt_template_1a3d9af02754adb7839ad1e1885196758d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::PromptTemplate::system_prompt</definition>
+        <argsstring></argsstring>
+        <name>system_prompt</name>
+        <qualifiedname>themis::rag::PromptTemplate::system_prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="59" column="17" bodyfile="include/rag/llm_integration.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_prompt_template_1a86e64847083ede0e17f5d38839221fbb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::PromptTemplate::user_template</definition>
+        <argsstring></argsstring>
+        <name>user_template</name>
+        <qualifiedname>themis::rag::PromptTemplate::user_template</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="60" column="17" bodyfile="include/rag/llm_integration.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_prompt_template_1a8f12b107761d81b3e4b4238ac6a6f283" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::PromptTemplate::few_shot_examples</definition>
+        <argsstring></argsstring>
+        <name>few_shot_examples</name>
+        <qualifiedname>themis::rag::PromptTemplate::few_shot_examples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="61" column="17" bodyfile="include/rag/llm_integration.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_prompt_template_1aa96213ac31723e292b79780aed2ccf70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::PromptTemplate::output_format_instruction</definition>
+        <argsstring></argsstring>
+        <name>output_format_instruction</name>
+        <qualifiedname>themis::rag::PromptTemplate::output_format_instruction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="62" column="17" bodyfile="include/rag/llm_integration.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_prompt_template_1a51434981758e022ca1de367e5286ab55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::PromptTemplate::format</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;variables) const</argsstring>
+        <name>format</name>
+        <qualifiedname>themis::rag::PromptTemplate::format</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>variables</declname>
+        </param>
+        <briefdescription>
+<para>Format the prompt with given variables. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>variables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of variable names to values </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted prompt string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="69" column="17" bodyfile="src/rag/llm_integration.cpp" bodystart="69" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Prompt template for LLM-based evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/llm_integration.h" line="58" column="1" bodyfile="include/rag/llm_integration.h" bodystart="58" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_prompt_template_1a8f12b107761d81b3e4b4238ac6a6f283" prot="public" virt="non-virtual"><scope>themis::rag::PromptTemplate</scope><name>few_shot_examples</name></member>
+      <member refid="structthemis_1_1rag_1_1_prompt_template_1a51434981758e022ca1de367e5286ab55" prot="public" virt="non-virtual"><scope>themis::rag::PromptTemplate</scope><name>format</name></member>
+      <member refid="structthemis_1_1rag_1_1_prompt_template_1aa96213ac31723e292b79780aed2ccf70" prot="public" virt="non-virtual"><scope>themis::rag::PromptTemplate</scope><name>output_format_instruction</name></member>
+      <member refid="structthemis_1_1rag_1_1_prompt_template_1a3d9af02754adb7839ad1e1885196758d" prot="public" virt="non-virtual"><scope>themis::rag::PromptTemplate</scope><name>system_prompt</name></member>
+      <member refid="structthemis_1_1rag_1_1_prompt_template_1a86e64847083ede0e17f5d38839221fbb" prot="public" virt="non-virtual"><scope>themis::rag::PromptTemplate</scope><name>user_template</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

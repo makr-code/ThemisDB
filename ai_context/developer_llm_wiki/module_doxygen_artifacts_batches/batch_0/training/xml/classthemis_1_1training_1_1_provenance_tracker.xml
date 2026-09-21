@@ -1,0 +1,417 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_provenance_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::ProvenanceTracker</compoundname>
+    <includes refid="provenance__tracker_8h" local="no">provenance_tracker.h</includes>
+    <innerclass refid="classthemis_1_1training_1_1_provenance_tracker_1_1_impl" prot="public">themis::training::ProvenanceTracker::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_provenance_tracker_1a488b82a40088664066ccbf3610a2afad" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_provenance_tracker_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::training::ProvenanceTracker::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::training::ProvenanceTracker::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="206" column="21" bodyfile="include/training/provenance_tracker.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_provenance_tracker_1aaf1126465c019e70590908cbaa6e946f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ProvenanceTracker::ProvenanceTracker</definition>
+        <argsstring>(const ProvenanceTrackerConfig &amp;config, const std::string &amp;db_connection, query::QueryEngine *engine=nullptr)</argsstring>
+        <name>ProvenanceTracker</name>
+        <qualifiedname>themis::training::ProvenanceTracker::ProvenanceTracker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_provenance_tracker_config" kindref="compound">ProvenanceTrackerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_connection</declname>
+        </param>
+        <param>
+          <type>query::QueryEngine *</type>
+          <declname>engine</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct the tracker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tracker configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>db_connection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Database connection string (ArangoDB endpoint). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional AQL query engine. When non-null, <ref refid="classthemis_1_1training_1_1_provenance_tracker_1a4403779f38fbafb49fee0f75424158ef" kindref="member">write()</ref> persists vertices and edges via AQL INSERT statements and <ref refid="classthemis_1_1training_1_1_provenance_tracker_1a60a4f5f83f70e9ad74e27e7fb7a9b4b8" kindref="member">queryLineage()</ref> traverses the live graph via AQL. Pass nullptr (the default) to operate in offline / test mode, where the in-process store is used. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="128" column="14" bodyfile="src/training/provenance_tracker.cpp" bodystart="441" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_provenance_tracker_1a25b93caf35d0571d045e1dd419da577e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ProvenanceTracker::~ProvenanceTracker</definition>
+        <argsstring>()</argsstring>
+        <name>~ProvenanceTracker</name>
+        <qualifiedname>themis::training::ProvenanceTracker::~ProvenanceTracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_provenance_tracker_1adffaf662a10a20811ff3d8b5971fc8d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ProvenanceTracker::ProvenanceTracker</definition>
+        <argsstring>(const ProvenanceTracker &amp;)=delete</argsstring>
+        <name>ProvenanceTracker</name>
+        <qualifiedname>themis::training::ProvenanceTracker::ProvenanceTracker</qualifiedname>
+        <param>
+          <type>const ProvenanceTracker &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_provenance_tracker_1a4cc270102f1a7cb935b6e215c536e601" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1training_1_1_provenance_tracker_1aaf1126465c019e70590908cbaa6e946f" kindref="member">ProvenanceTracker</ref> &amp;</type>
+        <definition>ProvenanceTracker &amp; themis::training::ProvenanceTracker::operator=</definition>
+        <argsstring>(const ProvenanceTracker &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::training::ProvenanceTracker::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1training_1_1_provenance_tracker_1aaf1126465c019e70590908cbaa6e946f" kindref="member">ProvenanceTracker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="136" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_provenance_tracker_1a4403779f38fbafb49fee0f75424158ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_provenance_write_stats" kindref="compound">ProvenanceWriteStats</ref></type>
+        <definition>ProvenanceWriteStats themis::training::ProvenanceTracker::write</definition>
+        <argsstring>(const std::vector&lt; ProvenanceRecord &gt; &amp;records)</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::training::ProvenanceTracker::write</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1training_1_1_provenance_record" kindref="compound">ProvenanceRecord</ref> &gt; &amp;</type>
+          <declname>records</declname>
+        </param>
+        <briefdescription>
+<para>Persist provenance records to the AQL graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Write.</para>
+<para>Writes a <computeroutput><ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref></computeroutput> vertex and a <computeroutput>DerivedFrom</computeroutput> edge for each record. Records without <computeroutput>source_doc_urn</computeroutput> are rejected when <computeroutput>reject_without_urn</computeroutput> is true.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Provenance records to persist. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Write statistics.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements write without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="148" column="26" bodyfile="src/training/provenance_tracker.cpp" bodystart="454" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_provenance_tracker_1a76e6f35571bf1d8211e78e8d0b615018" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::ProvenanceTracker::recordFilteredSample</definition>
+        <argsstring>(const std::string &amp;sample_id, const std::string &amp;category, float confidence, float threshold_used)</argsstring>
+        <name>recordFilteredSample</name>
+        <qualifiedname>themis::training::ProvenanceTracker::recordFilteredSample</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sample_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>confidence</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold_used</declname>
+        </param>
+        <briefdescription>
+<para>Record an audit event for a sample filtered out by the confidence threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Filtered Sample.</para>
+<para>Emits a structured event to <computeroutput>utils/audit_logger</computeroutput> containing the sample ID, category, confidence score, and applied threshold.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sample_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the rejected sample. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Legal category of the sample. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Confidence score that caused rejection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Category threshold applied at the time of rejection.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sample. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordFilteredSample without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="161" column="10" bodyfile="src/training/provenance_tracker.cpp" bodystart="466" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_provenance_tracker_1a60a4f5f83f70e9ad74e27e7fb7a9b4b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_lineage_node" kindref="compound">LineageNode</ref></type>
+        <definition>LineageNode themis::training::ProvenanceTracker::queryLineage</definition>
+        <argsstring>(const std::string &amp;model_id, size_t max_hops=10) const</argsstring>
+        <name>queryLineage</name>
+        <qualifiedname>themis::training::ProvenanceTracker::queryLineage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_hops</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Query the lineage graph, tracing a model back to source documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Traverses <computeroutput>DerivedFrom</computeroutput> edges up to <computeroutput>max_hops</computeroutput> hops starting from the given model node, returning a recursive lineage tree.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model or adapter version to start the traversal from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_hops</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of edge hops (default 10). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Root lineage node for the model with populated parent chain. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="176" column="17" bodyfile="src/training/provenance_tracker.cpp" bodystart="473" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_provenance_tracker_1a998dcb188358279ffb3b48f999c91086" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_provenance_record" kindref="compound">ProvenanceRecord</ref></type>
+        <definition>ProvenanceRecord themis::training::ProvenanceTracker::getRecord</definition>
+        <argsstring>(const std::string &amp;sample_id) const</argsstring>
+        <name>getRecord</name>
+        <qualifiedname>themis::training::ProvenanceTracker::getRecord</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sample_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the provenance record for a specific sample (if persisted). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sample_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Provenance record, or empty record if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="184" column="22" bodyfile="src/training/provenance_tracker.cpp" bodystart="478" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_provenance_tracker_1a342e134bd6352e422448ffe30f826c19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::ProvenanceTracker::setQueryEngine</definition>
+        <argsstring>(query::QueryEngine *engine)</argsstring>
+        <name>setQueryEngine</name>
+        <qualifiedname>themis::training::ProvenanceTracker::setQueryEngine</qualifiedname>
+        <param>
+          <type>query::QueryEngine *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Inject or replace the AQL query engine after construction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Query Engine.</para>
+<para>Allows server bootstrap code to wire a live <computeroutput>QueryEngine</computeroutput> into an already-constructed <computeroutput><ref refid="classthemis_1_1training_1_1_provenance_tracker" kindref="compound">ProvenanceTracker</ref></computeroutput> without recreating it. When <computeroutput>engine</computeroutput> is non-null, subsequent <computeroutput><ref refid="classthemis_1_1training_1_1_provenance_tracker_1a4403779f38fbafb49fee0f75424158ef" kindref="member">write()</ref></computeroutput> calls persist vertices and edges via AQL INSERT, and <computeroutput><ref refid="classthemis_1_1training_1_1_provenance_tracker_1a60a4f5f83f70e9ad74e27e7fb7a9b4b8" kindref="member">queryLineage()</ref></computeroutput> traverses the live graph via AQL. Pass <computeroutput>nullptr</computeroutput> to revert to offline/test mode (in-process store only).</para>
+<para>Thread safety: not thread-safe with respect to concurrent <computeroutput><ref refid="classthemis_1_1training_1_1_provenance_tracker_1a4403779f38fbafb49fee0f75424158ef" kindref="member">write()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1training_1_1_provenance_tracker_1a60a4f5f83f70e9ad74e27e7fb7a9b4b8" kindref="member">queryLineage()</ref></computeroutput> calls; call this method before first use or while no other threads are accessing the tracker.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to the AQL query engine; may be null.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setQueryEngine without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/provenance_tracker.h" line="202" column="10" bodyfile="src/training/provenance_tracker.cpp" bodystart="487" bodyend="489"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>End-to-end provenance and lineage tracker for training samples. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Writes <computeroutput><ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref></computeroutput> vertices and <computeroutput>DerivedFrom</computeroutput> edges to the AQL graph so that every accepted sample is traceable back to its source document. Integrates with <computeroutput>utils/audit_logger.cpp</computeroutput> to emit structured audit events for samples filtered out by the confidence threshold.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal">ProvenanceTrackerConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.graph_collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;TrainingSamples&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.emit_audit_events<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1training_1_1_provenance_tracker_1aaf1126465c019e70590908cbaa6e946f" kindref="member">ProvenanceTracker</ref><sp/>tracker(cfg,<sp/></highlight><highlight class="stringliteral">&quot;arango://localhost:8529&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>tracker.write(records);</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>stats.records_written<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>provenance<sp/>records<sp/>written\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Trace<sp/>a<sp/>model<sp/>prediction<sp/>back<sp/>to<sp/>source<sp/>documents</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lineage<sp/>=<sp/>tracker.queryLineage(</highlight><highlight class="stringliteral">&quot;model_legal_v1&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/training/provenance_tracker.h" line="116" column="1" bodyfile="include/training/provenance_tracker.h" bodystart="116" bodyend="207"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_provenance_tracker_1a998dcb188358279ffb3b48f999c91086" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTracker</scope><name>getRecord</name></member>
+      <member refid="classthemis_1_1training_1_1_provenance_tracker_1a488b82a40088664066ccbf3610a2afad" prot="private" virt="non-virtual"><scope>themis::training::ProvenanceTracker</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1training_1_1_provenance_tracker_1a4cc270102f1a7cb935b6e215c536e601" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTracker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1training_1_1_provenance_tracker_1aaf1126465c019e70590908cbaa6e946f" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTracker</scope><name>ProvenanceTracker</name></member>
+      <member refid="classthemis_1_1training_1_1_provenance_tracker_1adffaf662a10a20811ff3d8b5971fc8d0" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTracker</scope><name>ProvenanceTracker</name></member>
+      <member refid="classthemis_1_1training_1_1_provenance_tracker_1a60a4f5f83f70e9ad74e27e7fb7a9b4b8" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTracker</scope><name>queryLineage</name></member>
+      <member refid="classthemis_1_1training_1_1_provenance_tracker_1a76e6f35571bf1d8211e78e8d0b615018" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTracker</scope><name>recordFilteredSample</name></member>
+      <member refid="classthemis_1_1training_1_1_provenance_tracker_1a342e134bd6352e422448ffe30f826c19" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTracker</scope><name>setQueryEngine</name></member>
+      <member refid="classthemis_1_1training_1_1_provenance_tracker_1a4403779f38fbafb49fee0f75424158ef" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTracker</scope><name>write</name></member>
+      <member refid="classthemis_1_1training_1_1_provenance_tracker_1a25b93caf35d0571d045e1dd419da577e" prot="public" virt="non-virtual"><scope>themis::training::ProvenanceTracker</scope><name>~ProvenanceTracker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

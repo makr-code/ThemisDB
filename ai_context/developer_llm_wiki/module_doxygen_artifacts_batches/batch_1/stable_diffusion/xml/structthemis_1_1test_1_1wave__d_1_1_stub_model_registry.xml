@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::StubModelRegistry</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1ad1e2a70728f755e18899089748582585" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::wave_d::StubModelRegistry::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::test::wave_d::StubModelRegistry::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="96" column="24" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a53bfb327d008559d04f9e4c4a1607742" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; themis::test::wave_d::StubModelRegistry::loaded_</definition>
+        <argsstring></argsstring>
+        <name>loaded_</name>
+        <qualifiedname>themis::test::wave_d::StubModelRegistry::loaded_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="97" column="24" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a39828ea5fad6ee55a6a03cee34d747d1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubModelRegistry::loads_</definition>
+        <argsstring></argsstring>
+        <name>loads_</name>
+        <qualifiedname>themis::test::wave_d::StubModelRegistry::loads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="98" column="17" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a929b4a0b3ee1fce8b967514f0d9a782c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubModelRegistry::unloads_</definition>
+        <argsstring></argsstring>
+        <name>unloads_</name>
+        <qualifiedname>themis::test::wave_d::StubModelRegistry::unloads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="99" column="17" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="99" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a68f747498f67fd65c18e833abdfa02f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubModelRegistry::load</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::test::wave_d::StubModelRegistry::load</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="73" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a6966010fbb4cfd6025d1681f32c6cca5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubModelRegistry::unload</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>unload</name>
+        <qualifiedname>themis::test::wave_d::StubModelRegistry::unload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="80" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="80" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a3f72561df6a0a8c2ec64f41a5a2d5be5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubModelRegistry::isLoaded</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>isLoaded</name>
+        <qualifiedname>themis::test::wave_d::StubModelRegistry::isLoaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="87" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="87" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a5e0ac93a6696d954073f851c589dce0e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubModelRegistry::loads</definition>
+        <argsstring>() const</argsstring>
+        <name>loads</name>
+        <qualifiedname>themis::test::wave_d::StubModelRegistry::loads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="92" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a10564303422033f2f4c74da7f733b7ea" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubModelRegistry::unloads</definition>
+        <argsstring>() const</argsstring>
+        <name>unloads</name>
+        <qualifiedname>themis::test::wave_d::StubModelRegistry::unloads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="93" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="93" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="72" column="1" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="72" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a3f72561df6a0a8c2ec64f41a5a2d5be5" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubModelRegistry</scope><name>isLoaded</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a68f747498f67fd65c18e833abdfa02f7" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubModelRegistry</scope><name>load</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a53bfb327d008559d04f9e4c4a1607742" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubModelRegistry</scope><name>loaded_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a5e0ac93a6696d954073f851c589dce0e" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubModelRegistry</scope><name>loads</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a39828ea5fad6ee55a6a03cee34d747d1" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubModelRegistry</scope><name>loads_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1ad1e2a70728f755e18899089748582585" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubModelRegistry</scope><name>mu_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a6966010fbb4cfd6025d1681f32c6cca5" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubModelRegistry</scope><name>unload</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a10564303422033f2f4c74da7f733b7ea" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubModelRegistry</scope><name>unloads</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_model_registry_1a929b4a0b3ee1fce8b967514f0d9a782c" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubModelRegistry</scope><name>unloads_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

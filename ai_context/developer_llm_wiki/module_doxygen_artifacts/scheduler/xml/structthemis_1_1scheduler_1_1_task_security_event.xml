@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scheduler_1_1_task_security_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scheduler::TaskSecurityEvent</compoundname>
+    <includes refid="task__audit__event_8h" local="no">task_audit_event.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1afa5ab07843814cec89903dc358ae4364" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskSecurityEvent::uuid</definition>
+        <argsstring></argsstring>
+        <name>uuid</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::uuid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="194" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1ae4abc723c3b36414e6d484b11b3af934" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::scheduler::TaskSecurityEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="197" column="43" bodyfile="include/scheduler/task_audit_event.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1a246a9012e0d61cf3f9bbe12f6a6ee45c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskSecurityEvent::task_id</definition>
+        <argsstring></argsstring>
+        <name>task_id</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::task_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="200" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1a7b6eb5e4b17ab3495e6da331f523c85e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskSecurityEvent::task_name</definition>
+        <argsstring></argsstring>
+        <name>task_name</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::task_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="201" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1a6f2d718ceb013dd2ee1241a1760da21b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4c" kindref="member">TaskSecurityEventType</ref></type>
+        <definition>TaskSecurityEventType themis::scheduler::TaskSecurityEvent::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::event_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="204" column="27" bodyfile="include/scheduler/task_audit_event.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1a1655c75330eaeb95d88e267252b11bb5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskSecurityEvent::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="205" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1aee87cd8b08b825204112f191d6fc2607" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskSecurityEvent::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="208" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1a63d78db211910a9e514629482aa92df7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskSecurityEvent::ip_address</definition>
+        <argsstring></argsstring>
+        <name>ip_address</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::ip_address</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="209" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1a094ee077b81beeb21c6ddd78e2c2f299" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskSecurityEvent::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="210" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1a246594d93385d5b48357801b8edef384" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskSecurityEvent::violation_type</definition>
+        <argsstring></argsstring>
+        <name>violation_type</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::violation_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="213" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1ad1206df6285192fb128bb9abeb74e839" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskSecurityEvent::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="214" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1a9360bb2115286ed2b51df633bcf09032" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::TaskSecurityEvent::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="215" column="20" bodyfile="include/scheduler/task_audit_event.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1a6f1e272897385caf6b997496f163a4b4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::scheduler::TaskSecurityEvent::policy_id</definition>
+        <argsstring></argsstring>
+        <name>policy_id</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::policy_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="218" column="19" bodyfile="include/scheduler/task_audit_event.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1a700df544836bd07bee36ac9afe59b4e9" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::scheduler::TaskSecurityEvent::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="219" column="19" bodyfile="include/scheduler/task_audit_event.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1ae7341d1add23bd63b79ed5eac5e6d5ce" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scheduler::TaskSecurityEvent::blocked</definition>
+        <argsstring></argsstring>
+        <name>blocked</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::blocked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="220" column="10" bodyfile="include/scheduler/task_audit_event.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_security_event_1a524be58971c32e16f0d674cd4cf5cc71" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskSecurityEvent::action_taken</definition>
+        <argsstring></argsstring>
+        <name>action_taken</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::action_taken</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="223" column="17" bodyfile="include/scheduler/task_audit_event.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1scheduler_1_1_task_security_event_1aa7612445d11d85090aebc6e234cfa45d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::TaskSecurityEvent::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert security event to JSON format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON representation of the event </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="229" column="20" bodyfile="src/scheduler/task_audit_event.cpp" bodystart="362" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1scheduler_1_1_task_security_event_1a780b364ecb8ffc7e204b3024ee6b49e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskSecurityEvent::toCEF</definition>
+        <argsstring>() const</argsstring>
+        <name>toCEF</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEvent::toCEF</qualifiedname>
+        <briefdescription>
+<para>Convert to CEF format with security extensions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>CEF-formatted string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="235" column="17" bodyfile="src/scheduler/task_audit_event.cpp" bodystart="398" bodyend="427"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Security violation event for task execution. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Specialized event for security-related incidents and policy violations </para>
+    </detaileddescription>
+    <location file="include/scheduler/task_audit_event.h" line="192" column="1" bodyfile="include/scheduler/task_audit_event.h" bodystart="192" bodyend="236"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a524be58971c32e16f0d674cd4cf5cc71" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>action_taken</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1ae7341d1add23bd63b79ed5eac5e6d5ce" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>blocked</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1ad1206df6285192fb128bb9abeb74e839" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>description</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a9360bb2115286ed2b51df633bcf09032" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>details</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a6f2d718ceb013dd2ee1241a1760da21b" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a63d78db211910a9e514629482aa92df7" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>ip_address</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a6f1e272897385caf6b997496f163a4b4" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>policy_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a700df544836bd07bee36ac9afe59b4e9" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a094ee077b81beeb21c6ddd78e2c2f299" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a1655c75330eaeb95d88e267252b11bb5" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>severity</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a246a9012e0d61cf3f9bbe12f6a6ee45c" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>task_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a7b6eb5e4b17ab3495e6da331f523c85e" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>task_name</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1ae4abc723c3b36414e6d484b11b3af934" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a780b364ecb8ffc7e204b3024ee6b49e9" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>toCEF</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1aa7612445d11d85090aebc6e234cfa45d" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1aee87cd8b08b825204112f191d6fc2607" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>user_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1afa5ab07843814cec89903dc358ae4364" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>uuid</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_security_event_1a246594d93385d5b48357801b8edef384" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskSecurityEvent</scope><name>violation_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

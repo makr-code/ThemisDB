@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1adversarial_1_1_base_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::adversarial::BaseQuery</compoundname>
+    <includes refid="adversarial__tester_8h" local="no">adversarial_tester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_base_query_1a1796ca26f1ddcb013835eed36a456765" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::adversarial::BaseQuery::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::rag::adversarial::BaseQuery::query</qualifiedname>
+        <briefdescription>
+<para>Original query text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="61" column="17" bodyfile="include/rag/adversarial_tester.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_base_query_1a36d26cfeef9f2dbe71cc6068b936e912" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::adversarial::BaseQuery::expected_answer</definition>
+        <argsstring></argsstring>
+        <name>expected_answer</name>
+        <qualifiedname>themis::rag::adversarial::BaseQuery::expected_answer</qualifiedname>
+        <briefdescription>
+<para>Ground-truth answer (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="62" column="17" bodyfile="include/rag/adversarial_tester.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A base query together with its expected (ground-truth) answer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/adversarial_tester.h" line="60" column="1" bodyfile="include/rag/adversarial_tester.h" bodystart="60" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_base_query_1a36d26cfeef9f2dbe71cc6068b936e912" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::BaseQuery</scope><name>expected_answer</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_base_query_1a1796ca26f1ddcb013835eed36a456765" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::BaseQuery</scope><name>query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

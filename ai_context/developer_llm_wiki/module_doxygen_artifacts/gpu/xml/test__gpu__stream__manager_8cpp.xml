@@ -1,0 +1,1031 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__stream__manager_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_stream_manager.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/stream_manager.h</includes>
+    <includes local="yes">themis/gpu/rocm_backend.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_stream_manager.cpp</label>
+        <link refid="test__gpu__stream__manager_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>themis/gpu/rocm_backend.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/stream_manager.h</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a6808d7625a9b7a1281ce67d58ad44af0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GPULauncher::WorkItem</type>
+        <definition>static GPULauncher::WorkItem makeItem</definition>
+        <argsstring>(const std::string &amp;kernel=&quot;k1&quot;, const std::string &amp;tag=&quot;test&quot;)</argsstring>
+        <name>makeItem</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kernel</declname>
+          <defval>&quot;k1&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+          <defval>&quot;test&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="11" column="30" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="11" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateStream_SucceedsForNewName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateStream_SucceedsForNewName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="23" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="23" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1af809276f7a46335ea533f5bed4dbdc56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateStream_FailsForDuplicateName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateStream_FailsForDuplicateName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="29" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1af9650e2e3c15ed509bac24100352bc88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateStream_FailsForEmptyName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateStream_FailsForEmptyName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="35" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1ab4fe2c003c6a5fac73aba7641a9a38d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, DestroyStream_SucceedsForExistingStream)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>DestroyStream_SucceedsForExistingStream</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="40" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="40" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a3d5f7bc08fac46a5d8192745ddd87e55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, DestroyStream_FailsForUnknownStream)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>DestroyStream_FailsForUnknownStream</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="47" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1ae2362e4d4c909040ca731455a8f43f77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, StreamCount_ReflectsLifecycle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>StreamCount_ReflectsLifecycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="52" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="52" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1aec8d41c2f9ef3f7b0928ae6695e0c05a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, StreamNames_ReturnsAllNames)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>StreamNames_ReturnsAllNames</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="62" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="62" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a32e8bffad9e204d26964e702a39afc97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, Submit_ToExistingStream_Succeeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>Submit_ToExistingStream_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="79" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="79" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1ac344d1c97aa988d1523a3883b394ae95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, Submit_ToUnknownStream_ReturnsFail)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>Submit_ToUnknownStream_ReturnsFail</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="88" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="88" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a923abac61e84f0baebc4796ef03f758d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, Submit_WithFailingBackend_CountsFailure)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>Submit_WithFailingBackend_CountsFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="96" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1aafce8fafcd7de2f0069b747d022f3662" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, GetStreamStats_UnknownStream_ReturnsZeroStats)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>GetStreamStats_UnknownStream_ReturnsZeroStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="109" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="109" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1ad0d753f1863d4edcb13cfa1e25d4d5d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, GetStreamStats_TracksTotals)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>GetStreamStats_TracksTotals</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="116" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="116" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a72244118a963c09a2067e104a5411661" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, GetAllStreamStats_ReturnsOneEntryPerStream)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>GetAllStreamStats_ReturnsOneEntryPerStream</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="127" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="127" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1adcca4bd99386a7dc72faf242bc4a0ab6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, BudgetExceeded_CountedWhenBackendExceedsThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>BudgetExceeded_CountedWhenBackendExceedsThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="139" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="139" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a1445a9ec2979f8b50176e12102d79775" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, BudgetNotExceeded_WhenFastEnough)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>BudgetNotExceeded_WhenFastEnough</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="154" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="154" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a1de4f36beaef03777a0b9514aecc7a59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, ZeroBudget_NeverCountsBudgetExceeded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>ZeroBudget_NeverCountsBudgetExceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="165" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="165" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a160910a528993594d3d9e5df415ef761" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, ConcurrentSubmits_SubmittedCountIsAccurate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>ConcurrentSubmits_SubmittedCountIsAccurate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="183" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="183" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1ab3f4d71cae1b74fa191d9e4f6cdd8484" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, NullptrBackend_ItemsSucceedViaCPU)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>NullptrBackend_ItemsSucceedViaCPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="209" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="209" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a298d3a357169e7e9ae314facc5189da0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateStream_CudaHandle_IsZeroWhenCudaUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateStream_CudaHandle_IsZeroWhenCudaUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="220" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="220" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a99e9eeed02f68ca6f6482cc6906d280a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateAndDestroy_MultipleStreams_CudaPathClean)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateAndDestroy_MultipleStreams_CudaPathClean</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="233" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="233" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a732dd61135eab218537ed7ac497edc6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateCudaStream_SucceedsForNewName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateCudaStream_SucceedsForNewName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="248" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="248" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1ae53961d9d3b58002920cbc0cd88816ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateCudaStream_FailsForEmptyName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateCudaStream_FailsForEmptyName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="255" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="255" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1aa980ca4a6402f6d5ee70d7af661aeb7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateCudaStream_FailsForDuplicateName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateCudaStream_FailsForDuplicateName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="260" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="260" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1af208362fecc7f84c125db3b26a07ee13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateCudaStream_FailsWhenNameAlreadyUsedByCreateStream)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateCudaStream_FailsWhenNameAlreadyUsedByCreateStream</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="267" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="267" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1ace7766d644e13f1af74d7dc4669d1e67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateCudaStream_WorkItemSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateCudaStream_WorkItemSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="275" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="275" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a21970a1167e2a8f46a3ecd90dfc700ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateCudaStream_StatsTracked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateCudaStream_StatsTracked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="285" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="285" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a731093052de379d44f5c07023da099e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateCudaStream_DestroySucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateCudaStream_DestroySucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="296" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="296" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a3d7160255db9679b78c407b4cea93e90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateCudaStream_MultipleDistinctStreams)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateCudaStream_MultipleDistinctStreams</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="303" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="303" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1aae990a7f5ce8cd94a9600f8337fe0113" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CreateCudaStream_WithDeviceIndex_Succeeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CreateCudaStream_WithDeviceIndex_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="325" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="325" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a47285aa62b1c02e0968525cba665ed61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, NullBackend_RegistersRocmStream)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>NullBackend_RegistersRocmStream</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="337" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="337" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__manager_8cpp_1a692dce1af09938375de3d5851ba1c13c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUStreamManagerTest, CustomBackend_DoesNotRegisterRocmStream)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUStreamManagerTest</type>
+        </param>
+        <param>
+          <type>CustomBackend_DoesNotRegisterRocmStream</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_manager.cpp" line="354" column="1" bodyfile="tests/gpu/test_gpu_stream_manager.cpp" bodystart="354" bodyend="362"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/stream_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/rocm_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>to<sp/>build<sp/>a<sp/>simple<sp/>work<sp/>item.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem<sp/>makeItem(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kernel<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULauncher::WorkItem<sp/>w;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>w.kernel_id<sp/>=<sp/>kernel;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>w.tag<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>tag;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>w;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stream<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateStream_SucceedsForNewName)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.createStream({</highlight><highlight class="stringliteral">&quot;stream_a&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.hasStream(</highlight><highlight class="stringliteral">&quot;stream_a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateStream_FailsForDuplicateName)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createStream({</highlight><highlight class="stringliteral">&quot;dup&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.createStream({</highlight><highlight class="stringliteral">&quot;dup&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateStream_FailsForEmptyName)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.createStream({</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>DestroyStream_SucceedsForExistingStream)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.destroyStream(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.hasStream(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>DestroyStream_FailsForUnknownStream)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.destroyStream(</highlight><highlight class="stringliteral">&quot;no_such_stream&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>StreamCount_ReflectsLifecycle)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm.streamCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm.streamCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.destroyStream(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm.streamCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>StreamNames_ReturnsAllNames)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>names<sp/>=<sp/>sm.streamNames();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(names.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>order<sp/>is<sp/>unspecified<sp/>(hash<sp/>map);<sp/>just<sp/>check<sp/>membership</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_x<sp/>=<sp/>(names[0]<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal"><sp/>||<sp/>names[1]<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_y<sp/>=<sp/>(names[0]<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal"><sp/>||<sp/>names[1]<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_x);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_y);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Work<sp/>submission<sp/>—<sp/>success<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>Submit_ToExistingStream_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;main&quot;</highlight><highlight class="normal">},<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fut<sp/>=<sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;main&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>fut.get();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.success);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.kernel_id,<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>Submit_ToUnknownStream_ReturnsFail)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fut<sp/>=<sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;no_stream&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>fut.get();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.success);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.error_message.empty());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>Submit_WithFailingBackend_CountsFailure)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;failing&quot;</highlight><highlight class="normal">},<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;failing&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;kfail&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>sm.getStreamStats(</highlight><highlight class="stringliteral">&quot;failing&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.submitted,<sp/>1u);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.failed,<sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>GetStreamStats_UnknownStream_ReturnsZeroStats)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>sm.getStreamStats(</highlight><highlight class="stringliteral">&quot;ghost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.submitted,<sp/>0u);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.succeeded,<sp/>0u);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>GetStreamStats_TracksTotals)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;tracker&quot;</highlight><highlight class="normal">},<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;tracker&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;tracker&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>sm.getStreamStats(</highlight><highlight class="stringliteral">&quot;tracker&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.submitted,<sp/>2u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.succeeded,<sp/>2u);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.failed,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>GetAllStreamStats_ReturnsOneEntryPerStream)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all<sp/>=<sp/>sm.getAllStreamStats();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CPU<sp/>fallback<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>BudgetExceeded_CountedWhenBackendExceedsThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager::StreamConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;slow_stream&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.cpu_budget_ms<sp/><sp/>=<sp/>1;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>ms<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backend<sp/>sleeps<sp/>for<sp/>50<sp/>ms<sp/>—<sp/>well<sp/>above<sp/>the<sp/>1<sp/>ms<sp/>budget<sp/>even<sp/>under<sp/>CI<sp/>load.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream(cfg,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(50));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;slow_stream&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;slow_k&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>sm.getStreamStats(</highlight><highlight class="stringliteral">&quot;slow_stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(st.budget_exceeded,<sp/>1u);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>BudgetNotExceeded_WhenFastEnough)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager::StreamConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fast_stream&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.cpu_budget_ms<sp/>=<sp/>5000;<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>s<sp/>—<sp/>essentially<sp/>never<sp/>exceeded<sp/>by<sp/>unit<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream(cfg,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;fast_stream&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;fast_k&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>sm.getStreamStats(</highlight><highlight class="stringliteral">&quot;fast_stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.budget_exceeded,<sp/>0u);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>ZeroBudget_NeverCountsBudgetExceeded)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager::StreamConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;no_budget&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.cpu_budget_ms<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream(cfg,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(5));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;no_budget&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>sm.getStreamStats(</highlight><highlight class="stringliteral">&quot;no_budget&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.budget_exceeded,<sp/>0u);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concurrent<sp/>submissions<sp/>to<sp/>the<sp/>same<sp/>stream</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>ConcurrentSubmits_SubmittedCountIsAccurate)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;parallel&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kItemsPerThread<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::future&lt;GPULauncher::WorkResult&gt;&gt;<sp/>futs;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>futs.reserve(kThreads<sp/>*<sp/>kItemsPerThread);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kItemsPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>futs.push_back(sm.submit(</highlight><highlight class="stringliteral">&quot;parallel&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;k_par&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>f<sp/>:<sp/>futs)<sp/>{<sp/>f.get();<sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>sm.getStreamStats(</highlight><highlight class="stringliteral">&quot;parallel&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.submitted,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kThreads<sp/>*<sp/>kItemsPerThread));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.succeeded,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kThreads<sp/>*<sp/>kItemsPerThread));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>No-op<sp/>(nullptr)<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>NullptrBackend_ItemsSucceedViaCPU)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;noop&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;noop&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;noop_k&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.success);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CUDA<sp/>stream<sp/>creation<sp/>(CPU<sp/>fallback<sp/>path<sp/>when<sp/>THEMIS_ENABLE_CUDA<sp/>is<sp/>absent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateStream_CudaHandle_IsZeroWhenCudaUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>THEMIS_ENABLE_CUDA<sp/>is<sp/>not<sp/>defined<sp/>the<sp/>cuda_stream<sp/>field<sp/>must<sp/>remain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>after<sp/>createStream()<sp/>succeeds<sp/>(no<sp/>hardware<sp/>present<sp/>in<sp/>CI).<sp/><sp/>When<sp/>CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IS<sp/>available<sp/>the<sp/>field<sp/>holds<sp/>a<sp/>real<sp/>cudaStream_t<sp/>cast<sp/>to<sp/>uintptr_t.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createStream({</highlight><highlight class="stringliteral">&quot;cuda_test&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.hasStream(</highlight><highlight class="stringliteral">&quot;cuda_test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Destroying<sp/>the<sp/>stream<sp/>must<sp/>succeed<sp/>regardless<sp/>of<sp/>whether<sp/>a<sp/>real<sp/>CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>handle<sp/>was<sp/>created;<sp/>cudaStreamDestroy<sp/>is<sp/>called<sp/>only<sp/>when<sp/>the<sp/>handle<sp/>!=<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.destroyStream(</highlight><highlight class="stringliteral">&quot;cuda_test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.hasStream(</highlight><highlight class="stringliteral">&quot;cuda_test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateAndDestroy_MultipleStreams_CudaPathClean)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createStream({</highlight><highlight class="stringliteral">&quot;cs1&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createStream({</highlight><highlight class="stringliteral">&quot;cs2&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm.streamCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.destroyStream(</highlight><highlight class="stringliteral">&quot;cs1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.destroyStream(</highlight><highlight class="stringliteral">&quot;cs2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm.streamCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>createCudaStream<sp/>—<sp/>CUDA-specific<sp/>stream<sp/>creation<sp/>with<sp/>CPU<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(covers<sp/>Issue:<sp/>#1801<sp/>—<sp/>recurring<sp/>query<sp/>pattern<sp/>capture<sp/>via<sp/>CUDA<sp/>streams)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateCudaStream_SucceedsForNewName)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;cuda_stream_a&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.hasStream(</highlight><highlight class="stringliteral">&quot;cuda_stream_a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.destroyStream(</highlight><highlight class="stringliteral">&quot;cuda_stream_a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateCudaStream_FailsForEmptyName)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateCudaStream_FailsForDuplicateName)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;dup_cuda&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;dup_cuda&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.destroyStream(</highlight><highlight class="stringliteral">&quot;dup_cuda&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateCudaStream_FailsWhenNameAlreadyUsedByCreateStream)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>stream<sp/>created<sp/>with<sp/>createStream()<sp/>blocks<sp/>createCudaStream()<sp/>for<sp/>the<sp/>same<sp/>name.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createStream({</highlight><highlight class="stringliteral">&quot;mixed_name&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;mixed_name&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.destroyStream(</highlight><highlight class="stringliteral">&quot;mixed_name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateCudaStream_WorkItemSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Work<sp/>submitted<sp/>to<sp/>a<sp/>CUDA-path<sp/>stream<sp/>must<sp/>still<sp/>succeed<sp/>on<sp/>CPU<sp/>fallback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;cuda_work_stream&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fut<sp/>=<sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;cuda_work_stream&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;cuda_k&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>fut.get();</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.success);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.destroyStream(</highlight><highlight class="stringliteral">&quot;cuda_work_stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateCudaStream_StatsTracked)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;cuda_stats_stream&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;cuda_stats_stream&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;cuda_stats_stream&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>sm.getStreamStats(</highlight><highlight class="stringliteral">&quot;cuda_stats_stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.submitted,<sp/>2u);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(st.succeeded,<sp/>2u);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.destroyStream(</highlight><highlight class="stringliteral">&quot;cuda_stats_stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateCudaStream_DestroySucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;cuda_destroy_stream&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.destroyStream(</highlight><highlight class="stringliteral">&quot;cuda_destroy_stream&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.hasStream(</highlight><highlight class="stringliteral">&quot;cuda_destroy_stream&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateCudaStream_MultipleDistinctStreams)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>CUDA<sp/>streams<sp/>can<sp/>coexist<sp/>with<sp/>independent<sp/>lifecycles.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;cs_a&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;cs_b&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;cs_c&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm.streamCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;cs_a&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;ka&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;cs_b&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;kb&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.submit(</highlight><highlight class="stringliteral">&quot;cs_c&quot;</highlight><highlight class="normal">,<sp/>makeItem(</highlight><highlight class="stringliteral">&quot;kc&quot;</highlight><highlight class="normal">)).get();</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm.getStreamStats(</highlight><highlight class="stringliteral">&quot;cs_a&quot;</highlight><highlight class="normal">).succeeded,<sp/>1u);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm.getStreamStats(</highlight><highlight class="stringliteral">&quot;cs_b&quot;</highlight><highlight class="normal">).succeeded,<sp/>1u);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm.getStreamStats(</highlight><highlight class="stringliteral">&quot;cs_c&quot;</highlight><highlight class="normal">).succeeded,<sp/>1u);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.destroyStream(</highlight><highlight class="stringliteral">&quot;cs_a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.destroyStream(</highlight><highlight class="stringliteral">&quot;cs_b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.destroyStream(</highlight><highlight class="stringliteral">&quot;cs_c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm.streamCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CreateCudaStream_WithDeviceIndex_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Device<sp/>index<sp/>0<sp/>always<sp/>resolves<sp/>(CPU<sp/>fallback<sp/>when<sp/>no<sp/>CUDA<sp/>hardware).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.createCudaStream({</highlight><highlight class="stringliteral">&quot;cuda_dev0&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="comment">/*device_index=*/</highlight><highlight class="normal">0));</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.hasStream(</highlight><highlight class="stringliteral">&quot;cuda_dev0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.destroyStream(</highlight><highlight class="stringliteral">&quot;cuda_dev0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROCm<sp/>stream<sp/>lifecycle<sp/>(CPU<sp/>fallback<sp/>path<sp/>when<sp/>THEMIS_ENABLE_HIP<sp/>is<sp/>absent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>NullBackend_RegistersRocmStream)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>createStream()<sp/>is<sp/>called<sp/>without<sp/>a<sp/>backend,<sp/>the<sp/>stream<sp/>must<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>usable<sp/>and<sp/>cleanly<sp/>destroyable.<sp/>Some<sp/>builds<sp/>register<sp/>a<sp/>named<sp/>ROCm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>stream<sp/>explicitly,<sp/>while<sp/>others<sp/>wire<sp/>the<sp/>backend<sp/>directly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.createStream({</highlight><highlight class="stringliteral">&quot;rocm_stream_test&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.hasStream(</highlight><highlight class="stringliteral">&quot;rocm_stream_test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>rocm_registered<sp/>=</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ROCmBackend::GetInstance().hasStream(</highlight><highlight class="stringliteral">&quot;rocm_stream_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.destroyStream(</highlight><highlight class="stringliteral">&quot;rocm_stream_test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rocm_registered)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(ROCmBackend::GetInstance().hasStream(</highlight><highlight class="stringliteral">&quot;rocm_stream_test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><ref refid="test__gpu__stream__manager_8cpp_1a62667cb30e1ef2f590c74cba17d02c45" kindref="member">TEST</ref>(GPUStreamManagerTest,<sp/>CustomBackend_DoesNotRegisterRocmStream)<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>a<sp/>caller-supplied<sp/>backend<sp/>is<sp/>passed,<sp/>GPUStreamManager<sp/>must<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>create<sp/>a<sp/>ROCm<sp/>stream<sp/>(caller<sp/>owns<sp/>the<sp/>backend<sp/>lifecycle).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUStreamManager<sp/>sm;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.createStream({</highlight><highlight class="stringliteral">&quot;custom_backend_stream&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPULauncher::WorkItem&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ROCmBackend::GetInstance().hasStream(</highlight><highlight class="stringliteral">&quot;custom_backend_stream&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>sm.destroyStream(</highlight><highlight class="stringliteral">&quot;custom_backend_stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_stream_manager.cpp"/>
+  </compounddef>
+</doxygen>

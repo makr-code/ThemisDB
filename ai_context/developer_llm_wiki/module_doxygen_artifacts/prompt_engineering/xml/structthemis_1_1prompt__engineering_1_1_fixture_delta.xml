@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_fixture_delta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::FixtureDelta</compoundname>
+    <includes refid="prompt__regression__runner_8h" local="no">prompt_regression_runner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_fixture_delta_1a48c3ef935217fa5dc49b04d20c535861" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::prompt_engineering::FixtureDelta::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themis::prompt_engineering::FixtureDelta::index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Index in fixture vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="87" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_fixture_delta_1af2f2fb0bca7df712652eca7ba66d17be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FixtureDelta::template_id</definition>
+        <argsstring></argsstring>
+        <name>template_id</name>
+        <qualifiedname>themis::prompt_engineering::FixtureDelta::template_id</qualifiedname>
+        <briefdescription>
+<para>Template ID from fixture. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="88" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_fixture_delta_1a80189bb6ad75a55dc3df7053993495f7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::FixtureDelta::baseline_score</definition>
+        <argsstring></argsstring>
+        <name>baseline_score</name>
+        <qualifiedname>themis::prompt_engineering::FixtureDelta::baseline_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Old-version score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="89" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_fixture_delta_1a49fc5ee45de9c8cee7ac300e8c2b49fc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::FixtureDelta::candidate_score</definition>
+        <argsstring></argsstring>
+        <name>candidate_score</name>
+        <qualifiedname>themis::prompt_engineering::FixtureDelta::candidate_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>New-version score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="90" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_fixture_delta_1ad1cba05a687718a1b671885adfbcc6c3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::FixtureDelta::delta</definition>
+        <argsstring></argsstring>
+        <name>delta</name>
+        <qualifiedname>themis::prompt_engineering::FixtureDelta::delta</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>candidate - baseline </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="91" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-fixture score pair for detailed inspection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_regression_runner.h" line="86" column="1" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="86" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_fixture_delta_1a80189bb6ad75a55dc3df7053993495f7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FixtureDelta</scope><name>baseline_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_fixture_delta_1a49fc5ee45de9c8cee7ac300e8c2b49fc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FixtureDelta</scope><name>candidate_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_fixture_delta_1ad1cba05a687718a1b671885adfbcc6c3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FixtureDelta</scope><name>delta</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_fixture_delta_1a48c3ef935217fa5dc49b04d20c535861" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FixtureDelta</scope><name>index</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_fixture_delta_1af2f2fb0bca7df712652eca7ba66d17be" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FixtureDelta</scope><name>template_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

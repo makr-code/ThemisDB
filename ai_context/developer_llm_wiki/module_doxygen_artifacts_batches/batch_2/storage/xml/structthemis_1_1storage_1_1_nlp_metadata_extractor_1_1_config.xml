@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::NlpMetadataExtractor::Config</compoundname>
+    <includes refid="nlp__metadata__extractor_8h" local="no">nlp_metadata_extractor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a7467cdc16a74ad6b1be5e5210a2d5008" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::NlpMetadataExtractor::Config::max_keywords</definition>
+        <argsstring></argsstring>
+        <name>max_keywords</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::Config::max_keywords</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum keywords to extract. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="40" column="16" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a25bdade2d1fc43d9b519c523d50603e0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::NlpMetadataExtractor::Config::min_keyword_length</definition>
+        <argsstring></argsstring>
+        <name>min_keyword_length</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::Config::min_keyword_length</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Minimum keyword length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="41" column="16" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a5a0c8d8f4afddd49174635829fe1b8e2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NlpMetadataExtractor::Config::extract_entities</definition>
+        <argsstring></argsstring>
+        <name>extract_entities</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::Config::extract_entities</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Extract named entities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="42" column="14" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a6228d32ad3d67e3ac54efd5ed97360cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NlpMetadataExtractor::Config::detect_language</definition>
+        <argsstring></argsstring>
+        <name>detect_language</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::Config::detect_language</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Detect document language. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="43" column="14" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a649eb12cd5efbe251885549655756de8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NlpMetadataExtractor::Config::compute_sentiment</definition>
+        <argsstring></argsstring>
+        <name>compute_sentiment</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::Config::compute_sentiment</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Compute sentiment score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="44" column="14" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a5459023c091fe31db5d4b5a7344df4be" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NlpMetadataExtractor::Config::compute_complexity</definition>
+        <argsstring></argsstring>
+        <name>compute_complexity</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::Config::compute_complexity</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Compute text complexity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="45" column="14" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a160d7249da5b7b5879e422d0b540596b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NlpMetadataExtractor::Config::enable_stopwords</definition>
+        <argsstring></argsstring>
+        <name>enable_stopwords</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::Config::enable_stopwords</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Use stopword filtering. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="46" column="14" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a14c5493e4cf3f508b085819b8f6a0670" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::NlpMetadataExtractor::Config::stopwords_path</definition>
+        <argsstring></argsstring>
+        <name>stopwords_path</name>
+        <qualifiedname>themis::storage::NlpMetadataExtractor::Config::stopwords_path</qualifiedname>
+        <briefdescription>
+<para>Path to stopwords directory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nlp_metadata_extractor.h" line="47" column="21" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for metadata extraction. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/nlp_metadata_extractor.h" line="39" column="5" bodyfile="include/storage/nlp_metadata_extractor.h" bodystart="39" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a5459023c091fe31db5d4b5a7344df4be" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor::Config</scope><name>compute_complexity</name></member>
+      <member refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a649eb12cd5efbe251885549655756de8" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor::Config</scope><name>compute_sentiment</name></member>
+      <member refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a6228d32ad3d67e3ac54efd5ed97360cb" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor::Config</scope><name>detect_language</name></member>
+      <member refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a160d7249da5b7b5879e422d0b540596b" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor::Config</scope><name>enable_stopwords</name></member>
+      <member refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a5a0c8d8f4afddd49174635829fe1b8e2" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor::Config</scope><name>extract_entities</name></member>
+      <member refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a7467cdc16a74ad6b1be5e5210a2d5008" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor::Config</scope><name>max_keywords</name></member>
+      <member refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a25bdade2d1fc43d9b519c523d50603e0" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor::Config</scope><name>min_keyword_length</name></member>
+      <member refid="structthemis_1_1storage_1_1_nlp_metadata_extractor_1_1_config_1a14c5493e4cf3f508b085819b8f6a0670" prot="public" virt="non-virtual"><scope>themis::storage::NlpMetadataExtractor::Config</scope><name>stopwords_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

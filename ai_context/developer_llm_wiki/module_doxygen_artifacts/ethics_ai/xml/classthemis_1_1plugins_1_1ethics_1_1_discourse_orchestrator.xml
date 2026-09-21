@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::DiscourseOrchestrator</compoundname>
+    <includes refid="discourse__orchestrator_8h" local="no">discourse_orchestrator.h</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl" prot="public">themis::plugins::ethics::DiscourseOrchestrator::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a32c92ca4aca7b63ec118cdea915b920b" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref>(const std::string &amp;school_id, const std::string &amp;dilemma_text)&gt;</type>
+        <definition>using themis::plugins::ethics::DiscourseOrchestrator::LLMInferenceFn = std::function&lt;
+       DiscourseRoundOutput(const std::string&amp; school_id,
+                            const std::string&amp; dilemma_text)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LLMInferenceFn</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::LLMInferenceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="47" column="5" bodyfile="include/ethics_ai/discourse_orchestrator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a54eeaf5bc01adb4390ee24a120975132" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::plugins::ethics::DiscourseOrchestrator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="98" column="21" bodyfile="include/ethics_ai/discourse_orchestrator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::DiscourseOrchestrator::DiscourseOrchestrator</definition>
+        <argsstring>(IEthicsProfileRegistry *registry, const RouterConfig &amp;config)</argsstring>
+        <name>DiscourseOrchestrator</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::DiscourseOrchestrator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry" kindref="compound">IEthicsProfileRegistry</ref> *</type>
+          <declname>registry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Discourse Orchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="57" column="14" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="148" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1af729c631eee7a895831c6b22a74b6fc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::DiscourseOrchestrator::~DiscourseOrchestrator</definition>
+        <argsstring>()</argsstring>
+        <name>~DiscourseOrchestrator</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::~DiscourseOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1acc37016bdb9a822799ae9c1ab19a6b3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::DiscourseOrchestrator::DiscourseOrchestrator</definition>
+        <argsstring>(const DiscourseOrchestrator &amp;)=delete</argsstring>
+        <name>DiscourseOrchestrator</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::DiscourseOrchestrator</qualifiedname>
+        <param>
+          <type>const DiscourseOrchestrator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a6e9a35590ff553f81318c052dae852af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref> &amp;</type>
+        <definition>DiscourseOrchestrator &amp; themis::plugins::ethics::DiscourseOrchestrator::operator=</definition>
+        <argsstring>(const DiscourseOrchestrator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="64" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3377f47119aadec5337eb3ee3e7bfce8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::DiscourseOrchestrator::DiscourseOrchestrator</definition>
+        <argsstring>(DiscourseOrchestrator &amp;&amp;) noexcept=default</argsstring>
+        <name>DiscourseOrchestrator</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::DiscourseOrchestrator</qualifiedname>
+        <param>
+          <type>DiscourseOrchestrator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a6d19124a70182edcb886feae60fcc393" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref> &amp;</type>
+        <definition>DiscourseOrchestrator &amp; themis::plugins::ethics::DiscourseOrchestrator::operator=</definition>
+        <argsstring>(DiscourseOrchestrator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kindref="member">DiscourseOrchestrator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="66" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1af42cabe80641e7296282b12a0710b51b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::DiscourseOrchestrator::setLLMInferenceFn</definition>
+        <argsstring>(LLMInferenceFn fn)</argsstring>
+        <name>setLLMInferenceFn</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::setLLMInferenceFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a32c92ca4aca7b63ec118cdea915b920b" kindref="member">LLMInferenceFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set LLMInference Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="72" column="10" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="159" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1aea3bfef24996389fe0164b6657d1e018" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::DiscourseOrchestrator::setSchoolTimeoutMs</definition>
+        <argsstring>(int timeout_ms) noexcept</argsstring>
+        <name>setSchoolTimeoutMs</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::setSchoolTimeoutMs</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Set School Timeout Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="79" column="10" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="164" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a46d7fd6d4992a31c5906997857e36df5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref> &gt;</type>
+        <definition>std::vector&lt; DiscourseRoundOutput &gt; themis::plugins::ethics::DiscourseOrchestrator::runEbene1</definition>
+        <argsstring>(const DiscourseOrchestratorPlan &amp;plan, const std::string &amp;dilemma_text, const MirrorSchoolPolicy &amp;mirror_policy)</argsstring>
+        <name>runEbene1</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::runEbene1</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan" kindref="compound">DiscourseOrchestratorPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_mirror_school_policy" kindref="compound">MirrorSchoolPolicy</ref> &amp;</type>
+          <declname>mirror_policy</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ runEbene1 — parallel equal-weight initial scoring ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dilemma_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mirror_policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="81" column="18" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="177" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1aac455c621c9234c14d034bdaffeff657" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position" kindref="compound">ClusterPosition</ref> &gt;, std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry" kindref="compound">EpisodicMemoryEntry</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; ClusterPosition &gt;, std::vector&lt; EpisodicMemoryEntry &gt; &gt; themis::plugins::ethics::DiscourseOrchestrator::runEbene2</definition>
+        <argsstring>(const DiscourseOrchestratorPlan &amp;plan, const std::vector&lt; DiscourseRoundOutput &gt; &amp;ebene1_results)</argsstring>
+        <name>runEbene2</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::runEbene2</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan" kindref="compound">DiscourseOrchestratorPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref> &gt; &amp;</type>
+          <declname>ebene1_results</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="88" column="5" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="265" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1acaeed308ab6f67e69d6d66b0a0d0ea02" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref> &gt;</type>
+        <definition>std::vector&lt; DiscourseRoundOutput &gt; themis::plugins::ethics::DiscourseOrchestrator::runMirrorSchools</definition>
+        <argsstring>(const MirrorSchoolPolicy &amp;mirror_policy, const std::string &amp;dilemma_text, const std::string &amp;domain)</argsstring>
+        <name>runMirrorSchools</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestrator::runMirrorSchools</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_mirror_school_policy" kindref="compound">MirrorSchoolPolicy</ref> &amp;</type>
+          <declname>mirror_policy</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ runMirrorSchools — lightweight parallel mirror step ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mirror_policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dilemma_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_orchestrator.h" line="91" column="18" bodyfile="src/ethics_ai/discourse_orchestrator.cpp" bodystart="363" bodyend="419"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/discourse_orchestrator.h" line="45" column="1" bodyfile="include/ethics_ai/discourse_orchestrator.h" bodystart="45" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>DiscourseOrchestrator</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1acc37016bdb9a822799ae9c1ab19a6b3e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>DiscourseOrchestrator</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3377f47119aadec5337eb3ee3e7bfce8" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>DiscourseOrchestrator</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a54eeaf5bc01adb4390ee24a120975132" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a32c92ca4aca7b63ec118cdea915b920b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>LLMInferenceFn</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a6e9a35590ff553f81318c052dae852af" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a6d19124a70182edcb886feae60fcc393" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a46d7fd6d4992a31c5906997857e36df5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>runEbene1</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1aac455c621c9234c14d034bdaffeff657" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>runEbene2</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1acaeed308ab6f67e69d6d66b0a0d0ea02" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>runMirrorSchools</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1af42cabe80641e7296282b12a0710b51b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>setLLMInferenceFn</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1aea3bfef24996389fe0164b6657d1e018" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>setSchoolTimeoutMs</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1af729c631eee7a895831c6b22a74b6fc4" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestrator</scope><name>~DiscourseOrchestrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

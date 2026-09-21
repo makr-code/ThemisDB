@@ -1,0 +1,323 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RAIDPaxosConfig</compoundname>
+    <basecompoundref refid="structthemisdb_1_1sharding_1_1_consensus_config" prot="public" virt="non-virtual">themisdb::sharding::ConsensusConfig</basecompoundref>
+    <includes refid="raid__paxos__config_8h" local="no">raid_paxos_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083c" kindref="member">RAIDMode</ref></type>
+        <definition>RAIDMode themisdb::sharding::RAIDPaxosConfig::raid_mode</definition>
+        <argsstring></argsstring>
+        <name>raid_mode</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::raid_mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="40" column="14" bodyfile="include/sharding/raid_paxos_config.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a47cd105139726c1550ff86599a5913a1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::sharding::RAIDPaxosConfig::parity_shard_index</definition>
+        <argsstring></argsstring>
+        <name>parity_shard_index</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::parity_shard_index</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="43" column="9" bodyfile="include/sharding/raid_paxos_config.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a1e2038fc81c0da82b58814544e3124ae" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themisdb::sharding::RAIDPaxosConfig::data_shard_indices</definition>
+        <argsstring></argsstring>
+        <name>data_shard_indices</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::data_shard_indices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><blockquote><para>Index of the parity shard (-1 = not configured) </para>
+</blockquote></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="44" column="17" bodyfile="include/sharding/raid_paxos_config.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1ae4b9ff71a729ea06068b7f269a89d346" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::sharding::RAIDPaxosConfig::mirror_factor</definition>
+        <argsstring></argsstring>
+        <name>mirror_factor</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::mirror_factor</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><blockquote><para>Indices of data shards </para>
+</blockquote></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="47" column="9" bodyfile="include/sharding/raid_paxos_config.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a16fa1ddc8861e03e7aed89555e3d8b25" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::sharding::RAIDPaxosConfig::stripe_width</definition>
+        <argsstring></argsstring>
+        <name>stripe_width</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::stripe_width</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><blockquote><para>Number of mirrors per stripe </para>
+</blockquote></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="48" column="9" bodyfile="include/sharding/raid_paxos_config.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1ad36a695033d9761dddc35f78939d25a5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RAIDPaxosConfig::allow_raid0</definition>
+        <argsstring></argsstring>
+        <name>allow_raid0</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::allow_raid0</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><blockquote><para>Number of data shards per stripe </para>
+</blockquote></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="51" column="10" bodyfile="include/sharding/raid_paxos_config.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a5ed76ba9967f89b3098457a104e20290" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::sharding::RAIDPaxosConfig::max_tolerable_failures</definition>
+        <argsstring></argsstring>
+        <name>max_tolerable_failures</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::max_tolerable_failures</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><blockquote><para>Allow RAID 0 (no redundancy) - DANGEROUS for production </para>
+</blockquote></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="54" column="9" bodyfile="include/sharding/raid_paxos_config.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a8a9e0069506549c254ff7117d6d54100" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::sharding::RAIDPaxosConfig::calculateQuorumSize</definition>
+        <argsstring>(int total_shards) const</argsstring>
+        <name>calculateQuorumSize</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::calculateQuorumSize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>total_shards</declname>
+        </param>
+        <briefdescription>
+<para>Calculate quorum size based on RAID mode and total shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><blockquote><para>Maximum shard failures before consensus fails </para>
+</blockquote></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>total_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of shards in the cluster </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Minimum number of shards required for quorum </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="62" column="9" bodyfile="include/sharding/raid_paxos_config.h" bodystart="128" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a575811a3dbfa7cddcf8a7055845291a4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RAIDPaxosConfig::isValidConfiguration</definition>
+        <argsstring>() const</argsstring>
+        <name>isValidConfiguration</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::isValidConfiguration</qualifiedname>
+        <briefdescription>
+<para>Check if configuration is valid for the given RAID mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if configuration is valid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="69" column="10" bodyfile="include/sharding/raid_paxos_config.h" bodystart="155" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1af75a28767994ee3760f9a310cb0b4701" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RAIDPaxosConfig::getRAIDModeDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getRAIDModeDescription</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::getRAIDModeDescription</qualifiedname>
+        <briefdescription>
+<para>Get human-readable description of RAID mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>String description </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="76" column="17" bodyfile="include/sharding/raid_paxos_config.h" bodystart="174" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a201a1f02ebf111edc4e85f19548100a5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RAIDPaxosConfig::canRecoverFromFailures</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;failed_shards) const</argsstring>
+        <name>canRecoverFromFailures</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::canRecoverFromFailures</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>failed_shards</declname>
+        </param>
+        <briefdescription>
+<para>Check if data can be recovered from given failed shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>failed_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of failed shard indices </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if recovery is possible </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="84" column="10" bodyfile="include/sharding/raid_paxos_config.h" bodystart="193" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1ad40c8ff26694101067b7dfbd1f21593f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::sharding::RAIDPaxosConfig::getMaxTolerableFailures</definition>
+        <argsstring>(int total_shards) const</argsstring>
+        <name>getMaxTolerableFailures</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosConfig::getMaxTolerableFailures</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>total_shards</declname>
+        </param>
+        <briefdescription>
+<para>Get maximum number of shards that can fail while maintaining consensus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>total_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of shards </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Maximum tolerable failures </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_paxos_config.h" line="92" column="9" bodyfile="include/sharding/raid_paxos_config.h" bodystart="199" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAID-specific Paxos configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extends standard Paxos configuration with RAID-mode-specific settings for quorum calculation, failure tolerance, and recovery behavior. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::sharding::ConsensusConfig</label>
+        <link refid="structthemisdb_1_1sharding_1_1_consensus_config"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::RAIDPaxosConfig</label>
+        <link refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::sharding::ConsensusConfig</label>
+        <link refid="structthemisdb_1_1sharding_1_1_consensus_config"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::RAIDPaxosConfig</label>
+        <link refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/raid_paxos_config.h" line="38" column="1" bodyfile="include/sharding/raid_paxos_config.h" bodystart="38" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1ad36a695033d9761dddc35f78939d25a5" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>allow_raid0</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a8a9e0069506549c254ff7117d6d54100" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>calculateQuorumSize</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a201a1f02ebf111edc4e85f19548100a5" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>canRecoverFromFailures</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1accf720e654faf5c0660dc61488c8baf8" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>cluster_nodes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1aafddc1131b1f4622b0ce2f0bdb82e263" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>data_dir</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a1e2038fc81c0da82b58814544e3124ae" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>data_shard_indices</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1ad2cb7031b2eeddab81b128c4842e4371" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>election_timeout_max</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1adf2a1c6d854904d2eaf142080a5b9209" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>election_timeout_min</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0aef100316de66798cc9b18e628c3a1a" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>enable_compression</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1ada6a6b8dc558e72d3a52e3b9717db2bb" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>enable_persistence</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1ad40c8ff26694101067b7dfbd1f21593f" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>getMaxTolerableFailures</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1af75a28767994ee3760f9a310cb0b4701" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>getRAIDModeDescription</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0060209741b662f04873e28d7d726637" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>gossip_fanout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a3f5017678d6635aa7fc059fba0cedb2c" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>gossip_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a3e0064c54b2ab21d7e0896d39be179cc" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>heartbeat_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a575811a3dbfa7cddcf8a7055845291a4" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>isValidConfiguration</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0e7d649ec877391be06404c6d1630cae" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>max_batch_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a5ed76ba9967f89b3098457a104e20290" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>max_tolerable_failures</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1ae4b9ff71a729ea06068b7f269a89d346" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>mirror_factor</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1aaca1a059869f0f0a3d7e3a9b8e445c55" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a47cd105139726c1550ff86599a5913a1" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>parity_shard_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a61ed494b970acdedbaeb5216ac84cc8d" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>paxos_accept_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0f96d6c142b1c4d8ba709285bb1f46f8" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>paxos_enable_fast_path</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a15814d4753f9961a187afac0da7bbd6a" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>paxos_prepare_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a2e34db5ec6d2daa445421583b2f3904a" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>paxos_quorum_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a1f0ed266c7d812599fefc3d5e8794457" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>raft_enable_pipelining</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a57487b28b31b3fb19c0c77bf4a049314" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>raft_log_max_entries</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>raid_mode</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a769e6765f20c49210a7c77ac38fb50ac" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>rpc_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a7b88d5de85de06edad682ba7eeea5219" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>snapshot_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a16fa1ddc8861e03e7aed89555e3d8b25" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>stripe_width</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1a53a8e978e7da24a6be77f28a81985c2b" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_config_1aed1b47b471b6f3c04d5e78543af73127" prot="public" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

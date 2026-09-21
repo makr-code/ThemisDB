@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_streaming_ingest_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::StreamingIngestManager::Stats</compoundname>
+    <includes refid="streaming__ingest__manager_8h" local="no">streaming_ingest_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_stats_1ac9b52d05fe9a80838d7d1a961f0b5e3b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StreamingIngestManager::Stats::events_ingested</definition>
+        <argsstring></argsstring>
+        <name>events_ingested</name>
+        <qualifiedname>themis::StreamingIngestManager::Stats::events_ingested</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total events accepted since <ref refid="classthemis_1_1_streaming_ingest_manager_1a4227fe067bb1d029311b245c4f7a7be2" kindref="member">start()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="49" column="18" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_stats_1abc5df3e83083a08927629bfd268d9087" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StreamingIngestManager::Stats::events_flushed</definition>
+        <argsstring></argsstring>
+        <name>events_flushed</name>
+        <qualifiedname>themis::StreamingIngestManager::Stats::events_flushed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total events written to RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="50" column="18" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_stats_1a7f9ad2112c0e27b50e62bebc77aad30f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StreamingIngestManager::Stats::flush_count</definition>
+        <argsstring></argsstring>
+        <name>flush_count</name>
+        <qualifiedname>themis::StreamingIngestManager::Stats::flush_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total flush-thread iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="51" column="18" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_stats_1ae3ca2a3592c01a88415d3858ff7280f2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StreamingIngestManager::Stats::backpressure_waits</definition>
+        <argsstring></argsstring>
+        <name>backpressure_waits</name>
+        <qualifiedname>themis::StreamingIngestManager::Stats::backpressure_waits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Times <ref refid="classthemis_1_1_streaming_ingest_manager_1a92b387539887f44ab11bbaaaee7084b0" kindref="member">ingest()</ref> blocked on back-pressure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="52" column="18" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_stats_1a2cf7de2d907aadb38a4cf51bc0d3de43" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StreamingIngestManager::Stats::dropped_events</definition>
+        <argsstring></argsstring>
+        <name>dropped_events</name>
+        <qualifiedname>themis::StreamingIngestManager::Stats::dropped_events</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Events dropped due to overflow (overflow_policy=DROP). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="53" column="18" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics snapshot from <ref refid="classthemis_1_1_streaming_ingest_manager_1a03f8829c23479e63e4425b11fcd29124" kindref="member">stats()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/streaming_ingest_manager.h" line="48" column="5" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="48" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_stats_1ae3ca2a3592c01a88415d3858ff7280f2" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Stats</scope><name>backpressure_waits</name></member>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_stats_1a2cf7de2d907aadb38a4cf51bc0d3de43" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Stats</scope><name>dropped_events</name></member>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_stats_1abc5df3e83083a08927629bfd268d9087" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Stats</scope><name>events_flushed</name></member>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_stats_1ac9b52d05fe9a80838d7d1a961f0b5e3b" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Stats</scope><name>events_ingested</name></member>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_stats_1a7f9ad2112c0e27b50e62bebc77aad30f" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Stats</scope><name>flush_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

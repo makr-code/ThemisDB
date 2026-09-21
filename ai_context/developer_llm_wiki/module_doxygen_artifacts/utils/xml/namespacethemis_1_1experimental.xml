@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1experimental" kind="namespace" language="C++">
+    <compoundname>themis::experimental</compoundname>
+    <innerclass refid="classthemis_1_1experimental_1_1_adaptive_compressor" prot="public">themis::experimental::AdaptiveCompressor</innerclass>
+    <innerclass refid="classthemis_1_1experimental_1_1_dictionary_codec" prot="public">themis::experimental::DictionaryCodec</innerclass>
+    <innerclass refid="structthemis_1_1experimental_1_1_dictionary_compressed" prot="public">themis::experimental::DictionaryCompressed</innerclass>
+    <innerclass refid="structthemis_1_1experimental_1_1_lossless_compression_config" prot="public">themis::experimental::LosslessCompressionConfig</innerclass>
+    <innerclass refid="classthemis_1_1experimental_1_1_sparse_vector_codec" prot="public">themis::experimental::SparseVectorCodec</innerclass>
+    <innerclass refid="structthemis_1_1experimental_1_1_sparse_vector_c_s_r" prot="public">themis::experimental::SparseVectorCSR</innerclass>
+    <innerclass refid="classthemis_1_1experimental_1_1_var_int_codec" prot="public">themis::experimental::VarIntCodec</innerclass>
+    <innerclass refid="classthemis_1_1experimental_1_1_vector_compression_helper" prot="public">themis::experimental::VectorCompressionHelper</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1experimental_1af9dcd5a0ae580875fa659cab0178bb41" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LosslessCompressionMethod</name>
+        <qualifiedname>themis::experimental::LosslessCompressionMethod</qualifiedname>
+        <enumvalue id="namespacethemis_1_1experimental_1af9dcd5a0ae580875fa659cab0178bb41ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1experimental_1af9dcd5a0ae580875fa659cab0178bb41a9fe93a076ef6e755a8bf4f8612cb7c3d" prot="public">
+          <name>SPARSE_CSR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1experimental_1af9dcd5a0ae580875fa659cab0178bb41a18c1658a1da07c76027243db3e31817d" prot="public">
+          <name>DELTA_VARINT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1experimental_1af9dcd5a0ae580875fa659cab0178bb41a941b306e67df7bda6303f69eef2899fe" prot="public">
+          <name>DICTIONARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="325" column="1" bodyfile="include/utils/lossless_vector_compression.h" bodystart="325" bodyend="330"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/lossless_vector_compression.h" line="38" column="1"/>
+  </compounddef>
+</doxygen>

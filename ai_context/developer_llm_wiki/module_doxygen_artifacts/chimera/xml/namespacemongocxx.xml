@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacemongocxx" kind="namespace" language="C++">
+    <compoundname>mongocxx</compoundname>
+    <innernamespace refid="namespacemongocxx_1_1collection">mongocxx::collection</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/mongodb_adapter.hpp" line="21" column="1"/>
+  </compounddef>
+</doxygen>

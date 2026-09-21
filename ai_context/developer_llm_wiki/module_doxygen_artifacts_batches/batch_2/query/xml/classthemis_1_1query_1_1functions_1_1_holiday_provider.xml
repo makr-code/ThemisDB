@@ -1,0 +1,740 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1_holiday_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::HolidayProvider</compoundname>
+    <includes refid="holiday__provider_8h" local="no">holiday_provider.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar" prot="public">themis::query::functions::HolidayProvider::Calendar</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ab01bb3717d42970ac9b00d341dc9624d" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::functions::HolidayProvider::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="564" column="16" bodyfile="include/query/functions/holiday_provider.h" bodystart="564" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a836401ae44d41a04aff2ccce58b74912" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::functions::HolidayProvider::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="565" column="10" bodyfile="include/query/functions/holiday_provider.h" bodystart="565" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a41db8cac7d3a45d8715123263bfac0e9" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar" kindref="compound">Calendar</ref> &gt;</type>
+        <definition>std::map&lt;std::string, Calendar&gt; themis::query::functions::HolidayProvider::calendars_</definition>
+        <argsstring></argsstring>
+        <name>calendars_</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::calendars_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="566" column="14" bodyfile="include/query/functions/holiday_provider.h" bodystart="566" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1af06793e0693404620ed2d0211a36b96d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>HolidayProvider &amp;</type>
+        <definition>static HolidayProvider &amp; themis::query::functions::HolidayProvider::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="50" column="28" bodyfile="include/query/functions/holiday_provider.h" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1aa7e994eb31b8651e6e3069268cd10300" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>static nlohmann::json themis::query::functions::HolidayProvider::toJsonArray</definition>
+        <argsstring>(const std::set&lt; int64_t &gt; &amp;holidays)</argsstring>
+        <name>toJsonArray</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::toJsonArray</qualifiedname>
+        <param>
+          <type>const std::set&lt; int64_t &gt; &amp;</type>
+          <declname>holidays</declname>
+        </param>
+        <briefdescription>
+<para>To Json Array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">holidays</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="280" column="27" bodyfile="include/query/functions/holiday_provider.h" bodystart="280" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a635f7356ede4dcb4d73e27f9f40641f3" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themis::query::functions::HolidayProvider::parseDateToTimestamp</definition>
+        <argsstring>(const std::string &amp;dateStr)</argsstring>
+        <name>parseDateToTimestamp</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::parseDateToTimestamp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dateStr</declname>
+        </param>
+        <briefdescription>
+<para>Parse Date To Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dateStr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::regex_match(), std::regex(), ss(), std::get_time(), fail(), tmToMs(), std::stoll(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="295" column="20" bodyfile="include/query/functions/holiday_provider.h" bodystart="295" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a7555b1b263d729a4f3f5d87515d38918" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themis::query::functions::HolidayProvider::makeDate</definition>
+        <argsstring>(int year, int month, int day)</argsstring>
+        <name>makeDate</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::makeDate</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>year</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>month</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>day</declname>
+        </param>
+        <briefdescription>
+<para>Make Date. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">year</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">month</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">day</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tmToMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="341" column="20" bodyfile="include/query/functions/holiday_provider.h" bodystart="341" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ad08cfd0a19498a92a76575c6a02d96bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::HolidayProvider::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), registerBuiltinCalendars(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="59" column="10" bodyfile="include/query/functions/holiday_provider.h" bodystart="59" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a77bbf83b610b15b042483fd96e6f99b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::set&lt; int64_t &gt;</type>
+        <definition>std::set&lt; int64_t &gt; themis::query::functions::HolidayProvider::getHolidays</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getHolidays</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::getHolidays</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get Holidays. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), registerBuiltinCalendars(), validateName(), toUpperCase(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="76" column="14" bodyfile="include/query/functions/holiday_provider.h" bodystart="76" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a74fde309bebddd051f8acf3abb43baca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::set&lt; int64_t &gt;</type>
+        <definition>std::set&lt; int64_t &gt; themis::query::functions::HolidayProvider::getMergedHolidays</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;names)</argsstring>
+        <name>getMergedHolidays</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::getMergedHolidays</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>names</declname>
+        </param>
+        <briefdescription>
+<para>Get Merged Holidays. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">names</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a77bbf83b610b15b042483fd96e6f99b1" kindref="member">getHolidays()</ref>, insert(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="108" column="14" bodyfile="include/query/functions/holiday_provider.h" bodystart="108" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a3d7a7c0f56b1b7d0c57fd9c54cd134d1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::query::functions::HolidayProvider::listCalendars</definition>
+        <argsstring>()</argsstring>
+        <name>listCalendars</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::listCalendars</qualifiedname>
+        <briefdescription>
+<para>List Calendars. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), registerBuiltinCalendars(), reserve(), size(), push_back(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="124" column="17" bodyfile="include/query/functions/holiday_provider.h" bodystart="124" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a4985a028eea5a5419213cdb495083830" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar" kindref="compound">Calendar</ref> &gt;</type>
+        <definition>std::optional&lt; Calendar &gt; themis::query::functions::HolidayProvider::getCalendarInfo</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getCalendarInfo</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::getCalendarInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar" kindref="compound">Calendar</ref> Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), toUpperCase(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="150" column="19" bodyfile="include/query/functions/holiday_provider.h" bodystart="150" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ab9c3d6b26e57b66a7851a298ddd8d316" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::HolidayProvider::registerCalendar</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;region, int year, const std::set&lt; int64_t &gt; &amp;holidays, const std::string &amp;description=&quot;&quot;)</argsstring>
+        <name>registerCalendar</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::registerCalendar</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>year</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; int64_t &gt; &amp;</type>
+          <declname>holidays</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="166" column="10" bodyfile="include/query/functions/holiday_provider.h" bodystart="166" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a35228f7b0767baec65c86681ba23cf86" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::HolidayProvider::loadCalendarFromFile</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;filePath)</argsstring>
+        <name>loadCalendarFromFile</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::loadCalendarFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filePath</declname>
+        </param>
+        <briefdescription>
+<para>Load <ref refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar" kindref="compound">Calendar</ref> From File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: file(), is_open(), rdbuf(), str(), close(), nlohmann::json::parse(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="198" column="10" bodyfile="include/query/functions/holiday_provider.h" bodystart="198" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a3693e9e6e85577451890707056e00313" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::HolidayProvider::clearCustomCalendars</definition>
+        <argsstring>()</argsstring>
+        <name>clearCustomCalendars</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::clearCustomCalendars</qualifiedname>
+        <briefdescription>
+<para>Clear Custom Calendars. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="258" column="10" bodyfile="include/query/functions/holiday_provider.h" bodystart="258" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1aea32c289ed149f5b7f5dd2a6d8c19daa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::HolidayProvider::HolidayProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>HolidayProvider</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::HolidayProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="354" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a923214fba67cbabf6fde77198220a29b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::HolidayProvider::~HolidayProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~HolidayProvider</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::~HolidayProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="355" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a1b04fce20d878b6a7d940de70dd819e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::HolidayProvider::HolidayProvider</definition>
+        <argsstring>(const HolidayProvider &amp;)=delete</argsstring>
+        <name>HolidayProvider</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::HolidayProvider</qualifiedname>
+        <param>
+          <type>const HolidayProvider &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="356" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a1061bdafa62d0d6885849338a636cfde" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>HolidayProvider &amp;</type>
+        <definition>HolidayProvider &amp; themis::query::functions::HolidayProvider::operator=</definition>
+        <argsstring>(const HolidayProvider &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::operator=</qualifiedname>
+        <param>
+          <type>const HolidayProvider &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="357" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a895a50e263236c56dcd7ca4c9dade923" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::HolidayProvider::registerBuiltinCalendars</definition>
+        <argsstring>()</argsstring>
+        <name>registerBuiltinCalendars</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::registerBuiltinCalendars</qualifiedname>
+        <briefdescription>
+<para>Register Builtin Calendars. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: registerBuiltinCalendar(), <ref refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a7555b1b263d729a4f3f5d87515d38918" kindref="member">makeDate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="363" column="10" bodyfile="include/query/functions/holiday_provider.h" bodystart="363" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ab248628028cc17850940c0aba9cc638a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::HolidayProvider::registerBuiltinCalendar</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;region, int year, const std::string &amp;description, const std::set&lt; int64_t &gt; &amp;holidays)</argsstring>
+        <name>registerBuiltinCalendar</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::registerBuiltinCalendar</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>year</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; int64_t &gt; &amp;</type>
+          <declname>holidays</declname>
+        </param>
+        <briefdescription>
+<para>Register Builtin <ref refid="structthemis_1_1query_1_1functions_1_1_holiday_provider_1_1_calendar" kindref="compound">Calendar</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">region</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">year</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">holidays</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerBuiltinCalendar without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="492" column="10" bodyfile="include/query/functions/holiday_provider.h" bodystart="492" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ae1e383783dfeaba4cbbde3fcf4e75c2f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::HolidayProvider::validateName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>validateName</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::validateName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Validate Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), length(), validName(), std::regex_match(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="514" column="10" bodyfile="include/query/functions/holiday_provider.h" bodystart="514" bodyend="529"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ab452d7824b9902d633c8ed473721888f" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::query::functions::HolidayProvider::toUpperCase</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>toUpperCase</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::toUpperCase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>To Upper Case. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="537" column="24" bodyfile="include/query/functions/holiday_provider.h" bodystart="537" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_holiday_provider_1aeb8207b77db65e8e9ee95b33a56eb944" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themis::query::functions::HolidayProvider::tmToMs</definition>
+        <argsstring>(const std::tm &amp;tm)</argsstring>
+        <name>tmToMs</name>
+        <qualifiedname>themis::query::functions::HolidayProvider::tmToMs</qualifiedname>
+        <param>
+          <type>const std::tm &amp;</type>
+          <declname>tm</declname>
+        </param>
+        <briefdescription>
+<para>Tm To Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: _mkgmtime(), timegm(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/holiday_provider.h" line="549" column="20" bodyfile="include/query/functions/holiday_provider.h" bodystart="549" bodyend="562"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/holiday_provider.h" line="34" column="1" bodyfile="include/query/functions/holiday_provider.h" bodystart="34" bodyend="567"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a41db8cac7d3a45d8715123263bfac0e9" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>calendars_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a3693e9e6e85577451890707056e00313" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>clearCustomCalendars</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a4985a028eea5a5419213cdb495083830" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>getCalendarInfo</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a77bbf83b610b15b042483fd96e6f99b1" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>getHolidays</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a74fde309bebddd051f8acf3abb43baca" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>getMergedHolidays</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1aea32c289ed149f5b7f5dd2a6d8c19daa" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>HolidayProvider</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a1b04fce20d878b6a7d940de70dd819e4" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>HolidayProvider</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ad08cfd0a19498a92a76575c6a02d96bf" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a836401ae44d41a04aff2ccce58b74912" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1af06793e0693404620ed2d0211a36b96d" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>instance</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a3d7a7c0f56b1b7d0c57fd9c54cd134d1" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>listCalendars</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a35228f7b0767baec65c86681ba23cf86" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>loadCalendarFromFile</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a7555b1b263d729a4f3f5d87515d38918" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>makeDate</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ab01bb3717d42970ac9b00d341dc9624d" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a1061bdafa62d0d6885849338a636cfde" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a635f7356ede4dcb4d73e27f9f40641f3" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>parseDateToTimestamp</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ab248628028cc17850940c0aba9cc638a" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>registerBuiltinCalendar</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a895a50e263236c56dcd7ca4c9dade923" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>registerBuiltinCalendars</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ab9c3d6b26e57b66a7851a298ddd8d316" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>registerCalendar</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1aeb8207b77db65e8e9ee95b33a56eb944" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>tmToMs</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1aa7e994eb31b8651e6e3069268cd10300" prot="public" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>toJsonArray</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ab452d7824b9902d633c8ed473721888f" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>toUpperCase</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1ae1e383783dfeaba4cbbde3fcf4e75c2f" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>validateName</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_holiday_provider_1a923214fba67cbabf6fde77198220a29b" prot="private" virt="non-virtual"><scope>themis::query::functions::HolidayProvider</scope><name>~HolidayProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

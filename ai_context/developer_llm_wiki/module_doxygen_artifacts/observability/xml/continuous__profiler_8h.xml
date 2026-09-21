@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="continuous__profiler_8h" kind="file" language="C++">
+    <compoundname>continuous_profiler.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="distributed__flame__graph_8h" local="yes">include/observability/distributed_flame_graph.h</includedby>
+    <includedby refid="tracer_8h" local="yes">include/observability/tracer.h</includedby>
+    <includedby refid="continuous__profiler_8cpp" local="yes">src/observability/continuous_profiler.cpp</includedby>
+    <includedby refid="test__observability__block__a__focused_8cpp" local="yes">tests/observability/test_observability_block_a_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/continuous_profiler.h</label>
+        <link refid="continuous__profiler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="8">
+        <label>benchmarks/observability/bench_observability_block_b_gates.cpp</label>
+        <link refid="bench__observability__block__b__gates_8cpp"/>
+      </node>
+      <node id="6">
+        <label>benchmarks/observability/bench_observability_goals.cpp</label>
+        <link refid="bench__observability__goals_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/observability/continuous_profiler.h</label>
+        <link refid="continuous__profiler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/observability/distributed_flame_graph.h</label>
+        <link refid="distributed__flame__graph_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/observability/opentelemetry_tracer.h</label>
+        <link refid="opentelemetry__tracer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/observability/tracer.h</label>
+        <link refid="tracer_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>src/observability/continuous_profiler.cpp</label>
+        <link refid="continuous__profiler_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/observability/distributed_flame_graph.cpp</label>
+        <link refid="distributed__flame__graph_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/observability/opentelemetry_tracer.cpp</label>
+        <link refid="opentelemetry__tracer_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/observability/tracer.cpp</label>
+        <link refid="tracer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/observability/test_observability_block_a_focused.cpp</label>
+        <link refid="test__observability__block__a__focused_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/observability/test_observability_block_b_focused.cpp</label>
+        <link refid="test__observability__block__b__focused_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/observability/test_observability_contract_hardening_focused.cpp</label>
+        <link refid="test__observability__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_profile_snapshot" prot="public">themis::observability::ProfileSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_profile_diff" prot="public">themis::observability::ProfileDiff</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_continuous_profiler_config" prot="public">themis::observability::ContinuousProfilerConfig</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_continuous_profiler" prot="public">themis::observability::ContinuousProfiler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.18 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" kindref="member">ProfileType</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efa2b55387dd066c5bac646ac61543d152d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efa2b55387dd066c5bac646ac61543d152d" kindref="member">CPU</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efab6722804f5872cdd88347da194d42087" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efab6722804f5872cdd88347da194d42087" kindref="member">HEAP</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efaa1c14d3d9bcf3765abaf9fb6c35ac5fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efaa1c14d3d9bcf3765abaf9fb6c35ac5fd" kindref="member">MUTEX</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efa4d34f53389ed7f28ca91fc31ea360a66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efa4d34f53389ed7f28ca91fc31ea360a66" kindref="member">BLOCK</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1observability_1_1_profile_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1observability_1_1_profile_snapshot_1a40c9890ca4ae893535389cd1b00e0835" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" kindref="member">ProfileType</ref><sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot_1a40c9890ca4ae893535389cd1b00e0835" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1observability_1_1_profile_snapshot_1a5254cdbee64cb1cb2e97b3fca167914a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot_1a5254cdbee64cb1cb2e97b3fca167914a" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1observability_1_1_profile_snapshot_1ad7824adf11a3093262abd8958374b551" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot_1ad7824adf11a3093262abd8958374b551" kindref="member">duration</ref>{0};</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1observability_1_1_profile_snapshot_1ac98a3e93e0ab57b2739ae6f8e6a79c48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot_1ac98a3e93e0ab57b2739ae6f8e6a79c48" kindref="member">data</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1observability_1_1_profile_snapshot_1a3b196d4bb5a5999ef13c818f299a7a39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot_1a3b196d4bb5a5999ef13c818f299a7a39" kindref="member">dataAsString</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(<ref refid="structthemis_1_1observability_1_1_profile_snapshot_1ac98a3e93e0ab57b2739ae6f8e6a79c48" kindref="member">data</ref>.begin(),<sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot_1ac98a3e93e0ab57b2739ae6f8e6a79c48" kindref="member">data</ref>.end());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot_1a7484fda2d75d11c056061ec498c4881e" kindref="member">saveToFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref><sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot_1a008bcc68cdededa9b45879bdf31ba940" kindref="member">loadFromFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot_1a6c264bfda9366c92b698bcbc3030f2c2" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1observability_1_1_profile_diff" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_profile_diff" kindref="compound">ProfileDiff</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1observability_1_1_profile_diff_1a2b3e92f4c3ec6ba6238666dd257400a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_profile_diff_1a2b3e92f4c3ec6ba6238666dd257400a8" kindref="member">cpu_regression_percent</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1observability_1_1_profile_diff_1a855bfa78ab3a909a5d2d5f1ca8abe076" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_profile_diff_1a855bfa78ab3a909a5d2d5f1ca8abe076" kindref="member">memory_regression_percent</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1observability_1_1_profile_diff_1ab081b99c73974302908a46be29786a9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_profile_diff_1ab081b99c73974302908a46be29786a9b" kindref="member">new_hotspots</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1observability_1_1_profile_diff_1a9be39704b2ded6844bf966e517ab679b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_profile_diff_1a9be39704b2ded6844bf966e517ab679b" kindref="member">removed_hotspots</ref>;<sp/></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1observability_1_1_profile_diff_1a8840c120859c59c3c31a40224083e10a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_profile_diff_1a8840c120859c59c3c31a40224083e10a" kindref="member">changed_hotspots</ref>;<sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_profile_diff_1a5ab821f30d616745393c24c1c3db258c" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1observability_1_1_continuous_profiler_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config" kindref="compound">ContinuousProfilerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1observability_1_1_continuous_profiler_config_1abb087a1442056dd29c7dae8c9361b0bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config_1abb087a1442056dd29c7dae8c9361b0bf" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a5e17a7b3189b8a7cee06b6855feed525" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a5e17a7b3189b8a7cee06b6855feed525" kindref="member">cpu_sample_rate</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1observability_1_1_continuous_profiler_config_1ac2cf170651f3b3c3c4e5393f943dca22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config_1ac2cf170651f3b3c3c4e5393f943dca22" kindref="member">snapshot_interval</ref>{60};</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a61ef5f31c7e3eb7ed8328a3097cfd126" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a61ef5f31c7e3eb7ed8328a3097cfd126" kindref="member">max_snapshots_retained</ref><sp/>=<sp/>1440;<sp/><sp/></highlight><highlight class="comment">//<sp/>24<sp/>h<sp/>at<sp/>1/min</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a4a60c6cd579f3b1c4c9bb38ad2370aa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a4a60c6cd579f3b1c4c9bb38ad2370aa5" kindref="member">output_dir</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/var/lib/themisdb/profiles&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1observability_1_1_continuous_profiler_config_1ab26467cd7e856c4fa2b04cad60b575f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config_1ab26467cd7e856c4fa2b04cad60b575f3" kindref="member">enable_cpu_profiling</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a2652cd172bfac73d8508f534c7cde173" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a2652cd172bfac73d8508f534c7cde173" kindref="member">enable_heap_profiling</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a3a67664342cb1ae807c1d17641d789ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a3a67664342cb1ae807c1d17641d789ac" kindref="member">enable_mutex_profiling</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1observability_1_1_continuous_profiler_config_1af9e3cbfe8501fd921823ccebc27ee7d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config_1af9e3cbfe8501fd921823ccebc27ee7d8" kindref="member">enable_block_profiling</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1observability_1_1_continuous_profiler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a4975a9db158e28535b3151202c92d769" kindref="member">ContinuousProfiler</ref><sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a4975a9db158e28535b3151202c92d769" kindref="member">ContinuousProfiler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config" kindref="compound">ContinuousProfilerConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config" kindref="compound">ContinuousProfilerConfig</ref>{});</highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1observability_1_1_continuous_profiler_1a8f1f85c311731fdad91274a396dc3837" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a8f1f85c311731fdad91274a396dc3837" kindref="member">~ContinuousProfiler</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1observability_1_1_continuous_profiler_1aaebaffcfb12f4af093ebbb8a1271e9bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1aaebaffcfb12f4af093ebbb8a1271e9bd" kindref="member">ContinuousProfiler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a4975a9db158e28535b3151202c92d769" kindref="member">ContinuousProfiler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1observability_1_1_continuous_profiler_1a09ee358f51fc33e650291b90137c9daa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a4975a9db158e28535b3151202c92d769" kindref="member">ContinuousProfiler</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a09ee358f51fc33e650291b90137c9daa" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a4975a9db158e28535b3151202c92d769" kindref="member">ContinuousProfiler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a0b8224744ce5214595bb9f3d85c7ad7d" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a88742d72390a97913244f35585d70e82" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1aa9d2f031ace6ca786fcf9196e7fc2e96" kindref="member">snapshot</ref>(<ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" kindref="member">ProfileType</ref><sp/>type<sp/>=<sp/><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efa2b55387dd066c5bac646ac61543d152d" kindref="member">ProfileType::CPU</ref>);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ProfileSnapshot&gt;<sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a368d53b10f9a2bc32a698d378ce37db1" kindref="member">getSnapshots</ref>(</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" kindref="member">ProfileType</ref><sp/>type,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>from,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>to)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_profile_diff" kindref="compound">ProfileDiff</ref><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a78cdf983df02d7d4c4e78170d6f6dbd1" kindref="member">compare</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref>&amp;<sp/>baseline,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref>&amp;<sp/>current)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a349647f82b801e3ca3217f93dc95f7c0" kindref="member">registerAnomalyCallback</ref>(</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>anomaly)&gt;<sp/>cb);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a64c81c63dd0517200d7e6328925aae7c" kindref="member">enable</ref>();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1af0bffee1ce691f082697d24a0b3708e7" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1ae621a01ee53049ea31ad86a0b22ded76" kindref="member">isEnabled</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config" kindref="compound">ContinuousProfilerConfig</ref><sp/><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a3d915f50de343836578fa8b7d64e0ba9" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/continuous_profiler.h"/>
+  </compounddef>
+</doxygen>

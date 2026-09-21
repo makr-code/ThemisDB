@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::Argon2idParams</compoundname>
+    <includes refid="key__derivation__service_8hpp" local="no">key_derivation_service.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1aac45a2f9628a59a92aebf943d7632704" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::user_storage::Argon2idParams::memory_kb</definition>
+        <argsstring></argsstring>
+        <name>memory_kb</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idParams::memory_kb</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="88" column="14" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a2a6b4b9b7798d27d04b6a89feaf0e04a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::user_storage::Argon2idParams::iterations</definition>
+        <argsstring></argsstring>
+        <name>iterations</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idParams::iterations</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="89" column="14" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a76f3e4dea220c957fad257ce1b5f8c11" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::user_storage::Argon2idParams::parallelism</definition>
+        <argsstring></argsstring>
+        <name>parallelism</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idParams::parallelism</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="90" column="14" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a4cfb0a20ab7a41c146ac18286f180aac" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::user_storage::Argon2idParams::output_len</definition>
+        <argsstring></argsstring>
+        <name>output_len</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idParams::output_len</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="91" column="14" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Argon2id parameters. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defaults follow OWASP recommendations:<itemizedlist>
+<listitem><para>m = 65536 (64 MB), t = 3 iterations, p = 4 threads, output = 32 bytes </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="87" column="1" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="87" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a2a6b4b9b7798d27d04b6a89feaf0e04a" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idParams</scope><name>iterations</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1aac45a2f9628a59a92aebf943d7632704" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idParams</scope><name>memory_kb</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a4cfb0a20ab7a41c146ac18286f180aac" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idParams</scope><name>output_len</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a76f3e4dea220c957fad257ce1b5f8c11" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idParams</scope><name>parallelism</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

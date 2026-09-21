@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_mime_detector_1_1_magic_signature" kind="struct" language="C++" prot="private">
+    <compoundname>themis::content::MimeDetector::MagicSignature</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_mime_detector_1_1_magic_signature_1a2a7ade9d3624d09f4d83d29321ca8d62" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::content::MimeDetector::MagicSignature::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::content::MimeDetector::MagicSignature::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mime_detector.h" line="172" column="21" bodyfile="include/content/mime_detector.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_mime_detector_1_1_magic_signature_1a11d4882818e905a47d2d74e5f3ae5edf" prot="public" static="no" mutable="no">
+        <type>std::set&lt; size_t &gt;</type>
+        <definition>std::set&lt;size_t&gt; themis::content::MimeDetector::MagicSignature::wildcard_positions</definition>
+        <argsstring></argsstring>
+        <name>wildcard_positions</name>
+        <qualifiedname>themis::content::MimeDetector::MagicSignature::wildcard_positions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mime_detector.h" line="173" column="22" bodyfile="include/content/mime_detector.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_mime_detector_1_1_magic_signature_1ad48a47388ae3b1abc4679ae743c6e590" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::MimeDetector::MagicSignature::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::content::MimeDetector::MagicSignature::mime_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mime_detector.h" line="174" column="21" bodyfile="include/content/mime_detector.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_mime_detector_1_1_magic_signature_1a2a4e741008dec6b5f6efc93fbabd0e28" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::MimeDetector::MagicSignature::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::content::MimeDetector::MagicSignature::offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/mime_detector.h" line="175" column="16" bodyfile="include/content/mime_detector.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/mime_detector.h" line="171" column="5" bodyfile="include/content/mime_detector.h" bodystart="171" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_mime_detector_1_1_magic_signature_1ad48a47388ae3b1abc4679ae743c6e590" prot="public" virt="non-virtual"><scope>themis::content::MimeDetector::MagicSignature</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1content_1_1_mime_detector_1_1_magic_signature_1a2a4e741008dec6b5f6efc93fbabd0e28" prot="public" virt="non-virtual"><scope>themis::content::MimeDetector::MagicSignature</scope><name>offset</name></member>
+      <member refid="structthemis_1_1content_1_1_mime_detector_1_1_magic_signature_1a2a7ade9d3624d09f4d83d29321ca8d62" prot="public" virt="non-virtual"><scope>themis::content::MimeDetector::MagicSignature</scope><name>signature</name></member>
+      <member refid="structthemis_1_1content_1_1_mime_detector_1_1_magic_signature_1a11d4882818e905a47d2d74e5f3ae5edf" prot="public" virt="non-virtual"><scope>themis::content::MimeDetector::MagicSignature</scope><name>wildcard_positions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

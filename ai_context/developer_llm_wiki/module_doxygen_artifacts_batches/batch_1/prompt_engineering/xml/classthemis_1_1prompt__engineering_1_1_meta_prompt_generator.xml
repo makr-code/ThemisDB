@@ -1,0 +1,491 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::MetaPromptGenerator</compoundname>
+    <includes refid="meta__prompt__generator_8h" local="no">meta_prompt_generator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a6b2083fb14f157f3d799ab57bc51bc00" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_config" kindref="compound">MetaPromptConfig</ref></type>
+        <definition>MetaPromptConfig themis::prompt_engineering::MetaPromptGenerator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="164" column="22" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a9882c9c1c4c175b5f0b288d21ea78428" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider" kindref="compound">ILLMProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ILLMProvider&gt; themis::prompt_engineering::MetaPromptGenerator::llm_provider_</definition>
+        <argsstring></argsstring>
+        <name>llm_provider_</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::llm_provider_</qualifiedname>
+        <briefdescription>
+<para>Optional pluggable LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="165" column="21" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a0fb652afc581d81a6ef3f4a779f9248d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::MetaPromptGenerator::MetaPromptGenerator</definition>
+        <argsstring>(const MetaPromptConfig &amp;config=MetaPromptConfig{})</argsstring>
+        <name>MetaPromptGenerator</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::MetaPromptGenerator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_config" kindref="compound">MetaPromptConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_config" kindref="compound">MetaPromptConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Meta-prompt configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="80" column="14" bodyfile="src/prompt_engineering/meta_prompt_generator.cpp" bodystart="20" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a813b03f48b50e0ff1f2b2c9451d6bcdd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_result" kindref="compound">MetaPromptResult</ref></type>
+        <definition>MetaPromptResult themis::prompt_engineering::MetaPromptGenerator::generateImprovementPrompt</definition>
+        <argsstring>(const std::string &amp;original_prompt, const std::string &amp;feedback, double score, const std::string &amp;task_description=&quot;&quot;) const</argsstring>
+        <name>generateImprovementPrompt</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::generateImprovementPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feedback</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Generate a meta-prompt for improving a prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>original_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The prompt to improve </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Feedback about the prompt&apos;s performance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current performance score </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>task_description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of the task </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Meta-prompt result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Build Improvement Instructions. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Build Constraints. <simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Build Example Section. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="90" column="22" bodyfile="src/prompt_engineering/meta_prompt_generator.cpp" bodystart="26" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a95f112176c4e318c3e5cb9972997f340" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::MetaPromptGenerator::generateAnalysisPrompt</definition>
+        <argsstring>(const std::string &amp;prompt, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;examples) const</argsstring>
+        <name>generateAnalysisPrompt</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::generateAnalysisPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>examples</declname>
+        </param>
+        <briefdescription>
+<para>Generate a prompt for analyzing prompt quality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt to analyze </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Example inputs/outputs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Analysis meta-prompt </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="103" column="17" bodyfile="src/prompt_engineering/meta_prompt_generator.cpp" bodystart="153" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1af51c0537a0a84a7fe612c104e0b11677" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::MetaPromptGenerator::generateImprovementSuggestions</definition>
+        <argsstring>(const std::string &amp;prompt, const std::string &amp;weakness) const</argsstring>
+        <name>generateImprovementSuggestions</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::generateImprovementSuggestions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>weakness</declname>
+        </param>
+        <briefdescription>
+<para>Generate suggestions for specific improvements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current prompt </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weakness</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identified weakness </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Improvement suggestions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="114" column="17" bodyfile="src/prompt_engineering/meta_prompt_generator.cpp" bodystart="181" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1ad5d23ef88574d0c91c457c91f8f91356" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::MetaPromptGenerator::extractSuccessPatterns</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &amp;successful_prompts) const</argsstring>
+        <name>extractSuccessPatterns</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::extractSuccessPatterns</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, double &gt; &gt; &amp;</type>
+          <declname>successful_prompts</declname>
+        </param>
+        <briefdescription>
+<para>Extract patterns from successful prompts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>successful_prompts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of high-performing prompts </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Common patterns and best practices </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="124" column="17" bodyfile="src/prompt_engineering/meta_prompt_generator.cpp" bodystart="228" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a8eaa61143d6b5eb0a820548fba4c20b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_config" kindref="compound">MetaPromptConfig</ref> &amp;</type>
+        <definition>const MetaPromptConfig &amp; themis::prompt_engineering::MetaPromptGenerator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="131" column="28" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a245ff3935e6355bbe7e9fefb5612f0ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::MetaPromptGenerator::setConfig</definition>
+        <argsstring>(const MetaPromptConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_config" kindref="compound">MetaPromptConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="136" column="10" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a126f567efb5b326ff673e30a40fcf30d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::MetaPromptGenerator::setLLMProvider</definition>
+        <argsstring>(std::shared_ptr&lt; ILLMProvider &gt; provider)</argsstring>
+        <name>setLLMProvider</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::setLLMProvider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider" kindref="compound">ILLMProvider</ref> &gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Attach a pluggable LLM provider for real-time prompt improvement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <computeroutput>generateImprovementPrompt</computeroutput> will invoke the provider with the generated meta-prompt and return the LLM&apos;s improved prompt text instead of the static template.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to an <ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider" kindref="compound">ILLMProvider</ref> implementation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="147" column="10" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a50dda586f874e260610f5d957fe2361b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::MetaPromptGenerator::clearLLMProvider</definition>
+        <argsstring>()</argsstring>
+        <name>clearLLMProvider</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::clearLLMProvider</qualifiedname>
+        <briefdescription>
+<para>Remove the attached LLM provider (fall back to template-based generation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="154" column="10" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1ac61b6f4871996835ad4e14e3ea8085a1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::MetaPromptGenerator::hasLLMProvider</definition>
+        <argsstring>() const</argsstring>
+        <name>hasLLMProvider</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::hasLLMProvider</qualifiedname>
+        <briefdescription>
+<para>Returns true if a live LLM provider is attached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="161" column="10" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a61f291d3d7bbc0b5ff9d9c5285c95df0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::MetaPromptGenerator::buildImprovementInstructions</definition>
+        <argsstring>(const std::string &amp;feedback, double score) const</argsstring>
+        <name>buildImprovementInstructions</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::buildImprovementInstructions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feedback</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+        </param>
+        <briefdescription>
+<para>Build improvement instructions based on feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="170" column="17" bodyfile="src/prompt_engineering/meta_prompt_generator.cpp" bodystart="294" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1ab095c836146b98d031118cdadae1d3e6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::MetaPromptGenerator::buildConstraints</definition>
+        <argsstring>() const</argsstring>
+        <name>buildConstraints</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::buildConstraints</qualifiedname>
+        <briefdescription>
+<para>Generate constraint clauses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="178" column="17" bodyfile="src/prompt_engineering/meta_prompt_generator.cpp" bodystart="325" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a56602b369b5cdf5030fc3b6e6b8f9cdc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::MetaPromptGenerator::buildExampleSection</definition>
+        <argsstring>(const std::string &amp;original_prompt) const</argsstring>
+        <name>buildExampleSection</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::buildExampleSection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_prompt</declname>
+        </param>
+        <briefdescription>
+<para>Generate example section for meta-prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="183" column="17" bodyfile="src/prompt_engineering/meta_prompt_generator.cpp" bodystart="342" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a34c1c5335e83680ef94e618f29a151d7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::MetaPromptGenerator::analyzePromptStructure</definition>
+        <argsstring>(const std::string &amp;prompt) const</argsstring>
+        <name>analyzePromptStructure</name>
+        <qualifiedname>themis::prompt_engineering::MetaPromptGenerator::analyzePromptStructure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Analyze prompt structure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/meta_prompt_generator.h" line="190" column="20" bodyfile="src/prompt_engineering/meta_prompt_generator.cpp" bodystart="359" bodyend="397"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Meta-prompt generator class. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Generates prompts for improving other prompts:<itemizedlist>
+<listitem><para>Creates structured improvement instructions</para>
+</listitem><listitem><para>Incorporates feedback and performance data</para>
+</listitem><listitem><para>Suggests specific modifications</para>
+</listitem><listitem><para>Learns from successful prompt patterns </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/meta_prompt_generator.h" line="74" column="1" bodyfile="include/prompt_engineering/meta_prompt_generator.h" bodystart="74" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a34c1c5335e83680ef94e618f29a151d7" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>analyzePromptStructure</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1ab095c836146b98d031118cdadae1d3e6" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>buildConstraints</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a56602b369b5cdf5030fc3b6e6b8f9cdc" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>buildExampleSection</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a61f291d3d7bbc0b5ff9d9c5285c95df0" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>buildImprovementInstructions</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a50dda586f874e260610f5d957fe2361b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>clearLLMProvider</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a6b2083fb14f157f3d799ab57bc51bc00" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1ad5d23ef88574d0c91c457c91f8f91356" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>extractSuccessPatterns</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a95f112176c4e318c3e5cb9972997f340" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>generateAnalysisPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a813b03f48b50e0ff1f2b2c9451d6bcdd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>generateImprovementPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1af51c0537a0a84a7fe612c104e0b11677" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>generateImprovementSuggestions</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a8eaa61143d6b5eb0a820548fba4c20b3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1ac61b6f4871996835ad4e14e3ea8085a1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>hasLLMProvider</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a9882c9c1c4c175b5f0b288d21ea78428" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>llm_provider_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a0fb652afc581d81a6ef3f4a779f9248d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>MetaPromptGenerator</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a245ff3935e6355bbe7e9fefb5612f0ea" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a126f567efb5b326ff673e30a40fcf30d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MetaPromptGenerator</scope><name>setLLMProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

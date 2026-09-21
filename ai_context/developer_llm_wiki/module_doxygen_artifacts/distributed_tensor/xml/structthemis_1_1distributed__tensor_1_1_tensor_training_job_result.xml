@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::TensorTrainingJobResult</compoundname>
+    <includes refid="tensor__training__coordinator_8h" local="no">tensor_training_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a688d9af95c604747947ed7fdebc20d9c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::TensorTrainingJobResult::job_id</definition>
+        <argsstring></argsstring>
+        <name>job_id</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingJobResult::job_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="47" column="17" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a396385be6543d46242dfadea0cde9366" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38" kindref="member">TrainingJobState</ref></type>
+        <definition>TrainingJobState themis::distributed_tensor::TensorTrainingJobResult::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingJobResult::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38a9df29ce7ca629ff1d47bca1149d9faae" kindref="member">TrainingJobState::QUEUED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="48" column="22" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a5380fee5a987cecaca3d12d50cf4e5f7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_tensor::TensorTrainingJobResult::retries</definition>
+        <argsstring></argsstring>
+        <name>retries</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingJobResult::retries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="49" column="17" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1af65109382b7b23a0e1708ae047f7ad57" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::distributed_tensor::TensorTrainingJobResult::iterations</definition>
+        <argsstring></argsstring>
+        <name>iterations</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingJobResult::iterations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="50" column="17" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1aa600a7bb2641771a523817a99b441ad7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::distributed_tensor::TensorTrainingJobResult::aggregated_tensor</definition>
+        <argsstring></argsstring>
+        <name>aggregated_tensor</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingJobResult::aggregated_tensor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="51" column="17" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1ac3c02fe7b817317db48dcd642ed8180e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::TensorTrainingJobResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingJobResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="52" column="17" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/tensor_training_coordinator.h" line="46" column="1" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="46" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1aa600a7bb2641771a523817a99b441ad7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingJobResult</scope><name>aggregated_tensor</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1ac3c02fe7b817317db48dcd642ed8180e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingJobResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1af65109382b7b23a0e1708ae047f7ad57" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingJobResult</scope><name>iterations</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a688d9af95c604747947ed7fdebc20d9c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingJobResult</scope><name>job_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a5380fee5a987cecaca3d12d50cf4e5f7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingJobResult</scope><name>retries</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result_1a396385be6543d46242dfadea0cde9366" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingJobResult</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

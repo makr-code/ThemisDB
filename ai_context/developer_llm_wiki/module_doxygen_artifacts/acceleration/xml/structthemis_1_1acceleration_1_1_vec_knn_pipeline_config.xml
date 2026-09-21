@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::VecKnnPipelineConfig</compoundname>
+    <includes refid="vec__knn_8h" local="no">vec_knn.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config_1a80964dd2bea282092fe9172c25b1e4b8" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::acceleration::VecKnnPipelineConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::acceleration::VecKnnPipelineConfig::batch_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="141" column="17" bodyfile="include/acceleration/vec_knn.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config_1a24239a43c4d83e4dcd9c95279ccff923" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::acceleration::VecKnnPipelineConfig::num_threads</definition>
+        <argsstring></argsstring>
+        <name>num_threads</name>
+        <qualifiedname>themis::acceleration::VecKnnPipelineConfig::num_threads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="143" column="17" bodyfile="include/acceleration/vec_knn.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config_1a5f875729e8a38d92dde065e8efa9f70d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VecKnnPipelineConfig::enable_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_cache</name>
+        <qualifiedname>themis::acceleration::VecKnnPipelineConfig::enable_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="145" column="17" bodyfile="include/acceleration/vec_knn.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config_1a7d23da026f3e8394e8caccd1189779e5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::acceleration::VecKnnPipelineConfig::cache_entries</definition>
+        <argsstring></argsstring>
+        <name>cache_entries</name>
+        <qualifiedname>themis::acceleration::VecKnnPipelineConfig::cache_entries</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="147" column="17" bodyfile="include/acceleration/vec_knn.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config_1a7f140317ec04cd7787b2809022d07e26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::VecKnnPipelineConfig::vector_field</definition>
+        <argsstring></argsstring>
+        <name>vector_field</name>
+        <qualifiedname>themis::acceleration::VecKnnPipelineConfig::vector_field</qualifiedname>
+        <initializer>= &quot;embedding&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="149" column="17" bodyfile="include/acceleration/vec_knn.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/vec_knn.h" line="140" column="1" bodyfile="include/acceleration/vec_knn.h" bodystart="140" bodyend="150"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config_1a80964dd2bea282092fe9172c25b1e4b8" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnPipelineConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config_1a7d23da026f3e8394e8caccd1189779e5" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnPipelineConfig</scope><name>cache_entries</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config_1a5f875729e8a38d92dde065e8efa9f70d" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnPipelineConfig</scope><name>enable_cache</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config_1a24239a43c4d83e4dcd9c95279ccff923" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnPipelineConfig</scope><name>num_threads</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vec_knn_pipeline_config_1a7f140317ec04cd7787b2809022d07e26" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnPipelineConfig</scope><name>vector_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

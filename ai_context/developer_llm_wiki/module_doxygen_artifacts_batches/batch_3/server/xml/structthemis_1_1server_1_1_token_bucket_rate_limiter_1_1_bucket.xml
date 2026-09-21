@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::TokenBucketRateLimiter::Bucket</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1a6a66c5612fa4d4f6de31ed73a825b6b3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::server::TokenBucketRateLimiter::Bucket::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>themis::server::TokenBucketRateLimiter::Bucket::tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="128" column="21" bodyfile="include/server/rate_limiter_v2.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1a808566d03b87025efffd81dc749b6e99" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::TokenBucketRateLimiter::Bucket::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::server::TokenBucketRateLimiter::Bucket::capacity</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="129" column="16" bodyfile="include/server/rate_limiter_v2.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1a8dc9c9ab0dc5418e0c0665e95777dcff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::TokenBucketRateLimiter::Bucket::refill_rate</definition>
+        <argsstring></argsstring>
+        <name>refill_rate</name>
+        <qualifiedname>themis::server::TokenBucketRateLimiter::Bucket::refill_rate</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="130" column="16" bodyfile="include/server/rate_limiter_v2.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1abb138a100e841231e5fb3930f9a25cbb" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::TokenBucketRateLimiter::Bucket::last_refill</definition>
+        <argsstring></argsstring>
+        <name>last_refill</name>
+        <qualifiedname>themis::server::TokenBucketRateLimiter::Bucket::last_refill</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="131" column="47" bodyfile="include/server/rate_limiter_v2.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1a08d91e37d36147c84905b91f5df22970" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::TokenBucketRateLimiter::Bucket::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::server::TokenBucketRateLimiter::Bucket::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="132" column="28" bodyfile="include/server/rate_limiter_v2.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1ad9be53bdc9d0c7303c7a6f6256096545" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::TokenBucketRateLimiter::Bucket::Bucket</definition>
+        <argsstring>(size_t cap, size_t rate)</argsstring>
+        <name>Bucket</name>
+        <qualifiedname>themis::server::TokenBucketRateLimiter::Bucket::Bucket</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>cap</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="134" column="9" bodyfile="include/server/rate_limiter_v2.h" bodystart="134" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1a7a91950dd7ffb76c0bb3868e7468b046" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::TokenBucketRateLimiter::Bucket::refill</definition>
+        <argsstring>()</argsstring>
+        <name>refill</name>
+        <qualifiedname>themis::server::TokenBucketRateLimiter::Bucket::refill</qualifiedname>
+        <briefdescription>
+<para>Refill. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Bucket Implementation =====</para>
+<para>Calls: lock(), std::chrono::steady_clock::now(), count(), load(), std::min(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="144" column="14" bodyfile="src/server/rate_limiter_v2.cpp" bodystart="521" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1acdf68304f37911e3fd16459c34495dec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::TokenBucketRateLimiter::Bucket::consume</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>consume</name>
+        <qualifiedname>themis::server::TokenBucketRateLimiter::Bucket::consume</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Consume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), compare_exchange_weak(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="150" column="14" bodyfile="src/server/rate_limiter_v2.cpp" bodystart="549" bodyend="563"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiter_v2.h" line="127" column="5" bodyfile="include/server/rate_limiter_v2.h" bodystart="127" bodyend="151"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1ad9be53bdc9d0c7303c7a6f6256096545" prot="public" virt="non-virtual"><scope>themis::server::TokenBucketRateLimiter::Bucket</scope><name>Bucket</name></member>
+      <member refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1a808566d03b87025efffd81dc749b6e99" prot="public" virt="non-virtual"><scope>themis::server::TokenBucketRateLimiter::Bucket</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1acdf68304f37911e3fd16459c34495dec" prot="public" virt="non-virtual"><scope>themis::server::TokenBucketRateLimiter::Bucket</scope><name>consume</name></member>
+      <member refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1abb138a100e841231e5fb3930f9a25cbb" prot="public" virt="non-virtual"><scope>themis::server::TokenBucketRateLimiter::Bucket</scope><name>last_refill</name></member>
+      <member refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1a08d91e37d36147c84905b91f5df22970" prot="public" virt="non-virtual"><scope>themis::server::TokenBucketRateLimiter::Bucket</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1a7a91950dd7ffb76c0bb3868e7468b046" prot="public" virt="non-virtual"><scope>themis::server::TokenBucketRateLimiter::Bucket</scope><name>refill</name></member>
+      <member refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1a8dc9c9ab0dc5418e0c0665e95777dcff" prot="public" virt="non-virtual"><scope>themis::server::TokenBucketRateLimiter::Bucket</scope><name>refill_rate</name></member>
+      <member refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket_1a6a66c5612fa4d4f6de31ed73a825b6b3" prot="public" virt="non-virtual"><scope>themis::server::TokenBucketRateLimiter::Bucket</scope><name>tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

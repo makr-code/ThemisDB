@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test_1_1wave__d" kind="namespace" language="C++">
+    <compoundname>themis::test::wave_d</compoundname>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_vacuum_task_store" prot="public">themis::test::wave_d::StubVacuumTaskStore</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_compaction_shard" prot="public">themis::test::wave_d::StubCompactionShard</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_retention_enforcer" prot="public">themis::test::wave_d::StubRetentionEnforcer</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a41e69cb75be43e706fdf10fc07c22acd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_MaintenanceStress, HighCardinalityVacuumTask)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_MaintenanceStress</type>
+        </param>
+        <param>
+          <type>HighCardinalityVacuumTask</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="109" column="1" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="109" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a15e89d19891976866c95099aa6049df7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_MaintenanceStress, ConcurrentCompactionStress)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_MaintenanceStress</type>
+        </param>
+        <param>
+          <type>ConcurrentCompactionStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="140" column="1" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="140" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1ae27c5b50c38e5acd54d9b740e08c455c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_MaintenanceStress, RetentionPolicyStress)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_MaintenanceStress</type>
+        </param>
+        <param>
+          <type>RetentionPolicyStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="169" column="1" bodyfile="tests/maintenance/test_maintenance_highcardinality_stress.cpp" bodystart="169" bodyend="194"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/maintenance/test_maintenance_highcardinality_stress.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

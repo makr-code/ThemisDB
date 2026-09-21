@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessGraphRag::NodeDwellStats</compoundname>
+    <includes refid="process__graph__rag_8h" local="no">process_graph_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats_1af8742b91c8b0ab587027cc5a65e1be14" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessGraphRag::NodeDwellStats::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::process::ProcessGraphRag::NodeDwellStats::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="383" column="21" bodyfile="include/process/process_graph_rag.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats_1a918ee7fc2a2eba73af934664ceb0fd06" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessGraphRag::NodeDwellStats::node_name</definition>
+        <argsstring></argsstring>
+        <name>node_name</name>
+        <qualifiedname>themis::process::ProcessGraphRag::NodeDwellStats::node_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="384" column="21" bodyfile="include/process/process_graph_rag.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats_1ae64010c930d6665f188c9ed5e2270d6b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::ProcessGraphRag::NodeDwellStats::avg_dwell_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_dwell_ms</name>
+        <qualifiedname>themis::process::ProcessGraphRag::NodeDwellStats::avg_dwell_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="385" column="16" bodyfile="include/process/process_graph_rag.h" bodystart="385" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats_1a3f8855a45056552ef703f4ff1875005c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::ProcessGraphRag::NodeDwellStats::p95_dwell_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_dwell_ms</name>
+        <qualifiedname>themis::process::ProcessGraphRag::NodeDwellStats::p95_dwell_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="386" column="16" bodyfile="include/process/process_graph_rag.h" bodystart="386" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats_1ae066dbcd97080f71475d737fcc9d9894" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::ProcessGraphRag::NodeDwellStats::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::process::ProcessGraphRag::NodeDwellStats::sample_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="387" column="16" bodyfile="include/process/process_graph_rag.h" bodystart="387" bodyend="387"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-node dwell-time statistics aggregated across all completed instances. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_graph_rag.h" line="382" column="5" bodyfile="include/process/process_graph_rag.h" bodystart="382" bodyend="388"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats_1ae64010c930d6665f188c9ed5e2270d6b" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::NodeDwellStats</scope><name>avg_dwell_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats_1af8742b91c8b0ab587027cc5a65e1be14" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::NodeDwellStats</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats_1a918ee7fc2a2eba73af934664ceb0fd06" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::NodeDwellStats</scope><name>node_name</name></member>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats_1a3f8855a45056552ef703f4ff1875005c" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::NodeDwellStats</scope><name>p95_dwell_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_node_dwell_stats_1ae066dbcd97080f71475d737fcc9d9894" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::NodeDwellStats</scope><name>sample_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

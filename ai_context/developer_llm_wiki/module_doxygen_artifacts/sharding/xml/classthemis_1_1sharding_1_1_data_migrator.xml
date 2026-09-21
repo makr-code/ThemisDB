@@ -1,0 +1,1258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_data_migrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::DataMigrator</compoundname>
+    <includes refid="data__migrator_8h" local="no">data_migrator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_data_migrator_1ae2647284a3e0bc912cfbb919b497c0da" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1sharding_1_1_migration_progress" kindref="compound">MigrationProgress</ref> &amp;)&gt;</type>
+        <definition>using themis::sharding::DataMigrator::ProgressCallback = std::function&lt;void(const MigrationProgress&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProgressCallback</name>
+        <qualifiedname>themis::sharding::DataMigrator::ProgressCallback</qualifiedname>
+        <briefdescription>
+<para>Callback fuer MigrationProgress-Updates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="142" column="5" bodyfile="include/sharding/data_migrator.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_data_migrator_1ad438432958bbcdc1e5659bbc65eb7385" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_data_migrator_config" kindref="compound">DataMigratorConfig</ref></type>
+        <definition>DataMigratorConfig themis::sharding::DataMigrator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::DataMigrator::config_</qualifiedname>
+        <briefdescription>
+<para>Laufzeitkonfiguration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="265" column="24" bodyfile="include/sharding/data_migrator.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_data_migrator_1adcd9f04306249e5b2e17e6e78ee987ba" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PrometheusMetrics&gt; themis::sharding::DataMigrator::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::sharding::DataMigrator::metrics_</qualifiedname>
+        <briefdescription>
+<para>Optionales Metrics-Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="266" column="21" bodyfile="include/sharding/data_migrator.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_data_migrator_1a4ba4a065588fcb8e538b4ac9913234f4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::DataMigrator::idempotency_mutex_</definition>
+        <argsstring></argsstring>
+        <name>idempotency_mutex_</name>
+        <qualifiedname>themis::sharding::DataMigrator::idempotency_mutex_</qualifiedname>
+        <briefdescription>
+<para>Schutz fuer idempotente Statusmengen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="269" column="24" bodyfile="include/sharding/data_migrator.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_data_migrator_1aba3a4b44e64736f77c6c7018fef25011" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::sharding::DataMigrator::completed_migrations_</definition>
+        <argsstring></argsstring>
+        <name>completed_migrations_</name>
+        <qualifiedname>themis::sharding::DataMigrator::completed_migrations_</qualifiedname>
+        <briefdescription>
+<para>Bereits finalisierte Migrationen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="270" column="24" bodyfile="include/sharding/data_migrator.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_data_migrator_1aafc185ea0883804ea06a1ce408e00ba6" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::sharding::DataMigrator::completed_batches_</definition>
+        <argsstring></argsstring>
+        <name>completed_batches_</name>
+        <qualifiedname>themis::sharding::DataMigrator::completed_batches_</qualifiedname>
+        <briefdescription>
+<para>Bereits verarbeitete Batch-IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="271" column="24" bodyfile="include/sharding/data_migrator.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_data_migrator_1a2a4a1ddf4d51056306ba7d9e1cdade2e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::sharding::DataMigrator::batch_counter_</definition>
+        <argsstring></argsstring>
+        <name>batch_counter_</name>
+        <qualifiedname>themis::sharding::DataMigrator::batch_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Zaehler fuer periodische Statuspersistenz. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="272" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1abeeab4af7680b81471005674a1cdc227" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::DataMigrator::DataMigrator</definition>
+        <argsstring>(const DataMigratorConfig &amp;config, std::shared_ptr&lt; PrometheusMetrics &gt; metrics=nullptr)</argsstring>
+        <name>DataMigrator</name>
+        <qualifiedname>themis::sharding::DataMigrator::DataMigrator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_data_migrator_config" kindref="compound">DataMigratorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Erzeugt einen <ref refid="classthemis_1_1sharding_1_1_data_migrator" kindref="compound">DataMigrator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Laufzeitkonfiguration inklusive Endpoints und mTLS-Pfaden. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optionales Prometheus-Metrics-Backend. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wenn Endpoints leer sind oder batch_size == 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="150" column="14" bodyfile="src/sharding/data_migrator.cpp" bodystart="52" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a66818a6e6e3c1e1815a4480f86858dce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::DataMigrator::~DataMigrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DataMigrator</name>
+        <qualifiedname>themis::sharding::DataMigrator::~DataMigrator</qualifiedname>
+        <briefdescription>
+<para>Standard-Destruktor ohne spezielle Ressourcenlogik. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="156" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1ac46fa1b11b3bbb2429149bde03f57751" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::sharding::DataMigrator::migrate</definition>
+        <argsstring>(const std::string &amp;source_shard_id, const std::string &amp;target_shard_id, uint64_t token_range_start, uint64_t token_range_end, ProgressCallback progress_callback=nullptr)</argsstring>
+        <name>migrate</name>
+        <qualifiedname>themis::sharding::DataMigrator::migrate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_range_start</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_range_end</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_data_migrator_1ae2647284a3e0bc912cfbb919b497c0da" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Migrate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Migrate data for a token range from source to target shard</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_range_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of token range to migrate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_range_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of token range to migrate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional callback for progress updates </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_migration_result" kindref="compound">MigrationResult</ref> with success status and statistics</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_range_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_range_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_data_migrator_1a1d311ee209ede25e5a8e07f1e2d1c749" kindref="member">generateMigrationId()</ref>, <ref refid="classthemis_1_1sharding_1_1_data_migrator_1a3cde1f4d07b0bde09c5b670fd55a68fc" kindref="member">isMigrationCompleted()</ref>, std::chrono::steady_clock::now(), createMTLSClient(), isReady(), get(), str(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="168" column="21" bodyfile="src/sharding/data_migrator.cpp" bodystart="82" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a9c16bc1a6fdce945d9ab3c438eb07f2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DataMigrator::verifyIntegrity</definition>
+        <argsstring>(const std::string &amp;source_shard_id, const std::string &amp;target_shard_id, uint64_t token_range_start, uint64_t token_range_end)</argsstring>
+        <name>verifyIntegrity</name>
+        <qualifiedname>themis::sharding::DataMigrator::verifyIntegrity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_range_start</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_range_end</declname>
+        </param>
+        <briefdescription>
+<para>Verify Integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify data integrity between source and target</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_range_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of token range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_range_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of token range </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if data matches, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_range_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_range_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fetchBatch(), calculateHash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="185" column="10" bodyfile="src/sharding/data_migrator.cpp" bodystart="252" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1ab97c502eeee272142bb3ea0999f600a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_live_migration_result" kindref="compound">LiveMigrationResult</ref></type>
+        <definition>LiveMigrationResult themis::sharding::DataMigrator::liveMigrate</definition>
+        <argsstring>(const std::string &amp;source_shard_id, const std::string &amp;target_shard_id, uint64_t token_range_start, uint64_t token_range_end, std::shared_ptr&lt; ShardTopology &gt; topology=nullptr, std::shared_ptr&lt; WALShipper &gt; wal_shipper=nullptr, const LiveMigrationConfig &amp;live_cfg=LiveMigrationConfig{}, ProgressCallback progress_callback=nullptr)</argsstring>
+        <name>liveMigrate</name>
+        <qualifiedname>themis::sharding::DataMigrator::liveMigrate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_range_start</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_range_end</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_w_a_l_shipper" kindref="compound">WALShipper</ref> &gt;</type>
+          <declname>wal_shipper</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_live_migration_config" kindref="compound">LiveMigrationConfig</ref> &amp;</type>
+          <declname>live_cfg</declname>
+          <defval><ref refid="structthemis_1_1sharding_1_1_live_migration_config" kindref="compound">LiveMigrationConfig</ref>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_data_migrator_1ae2647284a3e0bc912cfbb919b497c0da" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Live migration (dual-write protocol) ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform a live (dual-write) migration with zero read-unavailability.</para>
+<para>Protocol:<orderedlist>
+<listitem><para>Bulk-copy existing data from source to target using <ref refid="classthemis_1_1sharding_1_1_data_migrator_1ac46fa1b11b3bbb2429149bde03f57751" kindref="member">migrate()</ref>.</para>
+</listitem><listitem><para>While the copy runs the source shard continues accepting writes.</para>
+</listitem><listitem><para>After the bulk copy the target shard is registered with wal_shipper so it receives incremental WAL entries for the migrated token range.</para>
+</listitem><listitem><para>Once the WAL lag drops below live_cfg.max_wal_lag_bytes an atomic cutover is performed: topology is updated via <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref>, the source shard becomes read-only for the token range, and the target shard becomes authoritative.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source (hot) shard </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination shard for the token range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_range_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of token range to migrate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_range_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of token range to migrate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> for atomic cutover (may be nullptr to skip cutover) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wal_shipper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_w_a_l_shipper" kindref="compound">WALShipper</ref> for incremental catchup (may be nullptr to skip WAL phase) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>live_cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Live migration configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional progress callback for bulk-copy phase </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_live_migration_result" kindref="compound">LiveMigrationResult</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_range_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_range_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_shipper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">live_cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_data_migrator_1a1d311ee209ede25e5a8e07f1e2d1c749" kindref="member">generateMigrationId()</ref>, <ref refid="classthemis_1_1sharding_1_1_data_migrator_1ac46fa1b11b3bbb2429149bde03f57751" kindref="member">migrate()</ref>, <ref refid="classthemis_1_1sharding_1_1_data_migrator_1a9c16bc1a6fdce945d9ab3c438eb07f2d" kindref="member">verifyIntegrity()</ref>, addReplica(), std::chrono::steady_clock::now(), getReplicaInfo(), getStatistics(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="215" column="25" bodyfile="src/sharding/data_migrator.cpp" bodystart="669" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a1d311ee209ede25e5a8e07f1e2d1c749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DataMigrator::generateMigrationId</definition>
+        <argsstring>(const std::string &amp;source_shard_id, const std::string &amp;target_shard_id, uint64_t token_range_start, uint64_t token_range_end)</argsstring>
+        <name>generateMigrationId</name>
+        <qualifiedname>themis::sharding::DataMigrator::generateMigrationId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_range_start</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_range_end</declname>
+        </param>
+        <briefdescription>
+<para>Erzeugt eine deterministische Migrations-ID aus Quelle/Ziel/Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Migration Id.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quell-Shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ziel-Shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_range_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range-Start. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_range_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range-Ende. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Deterministische, hash-basierte Migrations-ID.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_range_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_range_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(), SHA256(), c_str(), size(), std::setfill(), std::setw(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="234" column="17" bodyfile="src/sharding/data_migrator.cpp" bodystart="457" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a39bce3a511df47570b3ba6e10ea8a9d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DataMigrator::generateBatchId</definition>
+        <argsstring>(const std::string &amp;migration_id, uint32_t batch_index)</argsstring>
+        <name>generateBatchId</name>
+        <qualifiedname>themis::sharding::DataMigrator::generateBatchId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>migration_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>batch_index</declname>
+        </param>
+        <briefdescription>
+<para>Erzeugt eine deterministische Batch-ID innerhalb einer Migration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Batch Id.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>migration_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Deterministische Migrations-ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>batch_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Laufender Batch-Index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Eindeutige Batch-ID fuer Idempotenztracking.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">migration_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the migration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="247" column="17" bodyfile="src/sharding/data_migrator.cpp" bodystart="493" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a3cde1f4d07b0bde09c5b670fd55a68fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DataMigrator::isMigrationCompleted</definition>
+        <argsstring>(const std::string &amp;migration_id)</argsstring>
+        <name>isMigrationCompleted</name>
+        <qualifiedname>themis::sharding::DataMigrator::isMigrationCompleted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>migration_id</declname>
+        </param>
+        <briefdescription>
+<para>Prueft, ob eine Migration bereits als abgeschlossen markiert ist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Migration Completed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">migration_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the migration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="253" column="10" bodyfile="src/sharding/data_migrator.cpp" bodystart="506" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1aea5e3f95ec7f8ade7037965a4f24754b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DataMigrator::markMigrationCompleted</definition>
+        <argsstring>(const std::string &amp;migration_id)</argsstring>
+        <name>markMigrationCompleted</name>
+        <qualifiedname>themis::sharding::DataMigrator::markMigrationCompleted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>migration_id</declname>
+        </param>
+        <briefdescription>
+<para>Markiert eine Migration als abgeschlossen und persistiert den Zustand. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mark Migration Completed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">migration_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the migration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), insert(), saveIdempotencyState(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="256" column="10" bodyfile="src/sharding/data_migrator.cpp" bodystart="516" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a6385b492c1c46e337d19a8f3f7aa2323" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DataMigrator::isBatchCompleted</definition>
+        <argsstring>(const std::string &amp;batch_id)</argsstring>
+        <name>isBatchCompleted</name>
+        <qualifiedname>themis::sharding::DataMigrator::isBatchCompleted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>batch_id</declname>
+        </param>
+        <briefdescription>
+<para>Prueft, ob eine Batch bereits erfolgreich verarbeitet wurde. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Batch Completed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="259" column="10" bodyfile="src/sharding/data_migrator.cpp" bodystart="531" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a16169060b952f1cbdbc05b5bb41a678c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DataMigrator::markBatchCompleted</definition>
+        <argsstring>(const std::string &amp;batch_id)</argsstring>
+        <name>markBatchCompleted</name>
+        <qualifiedname>themis::sharding::DataMigrator::markBatchCompleted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>batch_id</declname>
+        </param>
+        <briefdescription>
+<para>Markiert eine Batch als abgeschlossen; persistiert periodisch den Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mark Batch Completed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), insert(), fetch_add(), saveIdempotencyState(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="262" column="10" bodyfile="src/sharding/data_migrator.cpp" bodystart="541" bodyend="553"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a41d95f6e441bed58adb0ed8fe0f0fa85" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DataMigrator::loadIdempotencyState</definition>
+        <argsstring>()</argsstring>
+        <name>loadIdempotencyState</name>
+        <qualifiedname>themis::sharding::DataMigrator::loadIdempotencyState</qualifiedname>
+        <briefdescription>
+<para>Load Idempotency State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load idempotency state from persistent storage</para>
+<para>Calls: state_dir(), fs::exists(), fs::create_directories(), ifs(), is_array(), is_string(), insert(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="277" column="10" bodyfile="src/sharding/data_migrator.cpp" bodystart="559" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1ac85e728c1c9968b3e553a3eb9535705b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DataMigrator::saveIdempotencyState</definition>
+        <argsstring>()</argsstring>
+        <name>saveIdempotencyState</name>
+        <qualifiedname>themis::sharding::DataMigrator::saveIdempotencyState</qualifiedname>
+        <briefdescription>
+<para>Save Idempotency State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Save idempotency state to persistent storage</para>
+<para>Calls: nlohmann::json::array(), lock(), push_back(), state_dir(), fs::exists(), fs::create_directories(), ofs_migrations(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="282" column="10" bodyfile="src/sharding/data_migrator.cpp" bodystart="618" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a75be22b9105fc948dc58539a9035dca3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::DataMigrator::fetchBatch</definition>
+        <argsstring>(const std::string &amp;source_shard_id, uint64_t token_range_start, uint64_t token_range_end, uint32_t offset, uint32_t limit)</argsstring>
+        <name>fetchBatch</name>
+        <qualifiedname>themis::sharding::DataMigrator::fetchBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_range_start</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_range_end</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+<para>Holt eine Daten-Batch vom Quell-Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fetch Batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quell-Shard-ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_range_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range-Start. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_range_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range-Ende. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Paging-Offset. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximale Anzahl Records. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON-Array mit Records; bei Fehlern leeres Array.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_range_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_range_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createMTLSClient(), isReady(), nlohmann::json::array(), get(), str(), is_object(), contains(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="293" column="20" bodyfile="src/sharding/data_migrator.cpp" bodystart="286" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a244034e8fc0349f74cc24a238207f66e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DataMigrator::writeBatch</definition>
+        <argsstring>(const std::string &amp;target_shard_id, const nlohmann::json &amp;batch)</argsstring>
+        <name>writeBatch</name>
+        <qualifiedname>themis::sharding::DataMigrator::writeBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_shard_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Schreibt eine Batch atomar auf den Ziel-Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Write Batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ziel-Shard-ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zu schreibende Records als JSON-Array. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true bei bestaetigtem erfolgreichem Write.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: is_array(), empty(), createMTLSClient(), isReady(), retryOperation(), post(), is_object(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="307" column="10" bodyfile="src/sharding/data_migrator.cpp" bodystart="346" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a4c5556d20b65abaec4baed637f9e8c79" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DataMigrator::calculateHash</definition>
+        <argsstring>(const nlohmann::json &amp;data)</argsstring>
+        <name>calculateHash</name>
+        <qualifiedname>themis::sharding::DataMigrator::calculateHash</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Berechnet einen SHA-256-Hash ueber serialisierte JSON-Daten. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Eingabedaten. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Hex-codierter SHA-256-Hash.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dump(), SHA256(), c_str(), size(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="317" column="17" bodyfile="src/sharding/data_migrator.cpp" bodystart="399" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_data_migrator_1a3b70164cadf2cb4e2c9c12d8cd89b8b1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themis::sharding::DataMigrator::retryOperation</definition>
+        <argsstring>(Func func)</argsstring>
+        <name>retryOperation</name>
+        <qualifiedname>themis::sharding::DataMigrator::retryOperation</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Fuehrt eine Operation mit begrenzten Retries aus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Retry Operation.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable mit Rueckgabe bool. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Auszufuehrende Operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true sobald ein Versuch erfolgreich war, sonst false.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: func(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="326" column="10" bodyfile="src/sharding/data_migrator.cpp" bodystart="423" bodyend="441"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Handles data migration between shards</para>
+<para>Features:<itemizedlist>
+<listitem><para>Stream-based batch processing</para>
+</listitem><listitem><para>Data integrity verification (hash-based)</para>
+</listitem><listitem><para>Atomic cutover</para>
+</listitem><listitem><para>Progress tracking</para>
+</listitem><listitem><para>Error handling with retry </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/data_migrator.h" line="139" column="1" bodyfile="include/sharding/data_migrator.h" bodystart="139" bodyend="327"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a2a4a1ddf4d51056306ba7d9e1cdade2e" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>batch_counter_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a4c5556d20b65abaec4baed637f9e8c79" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>calculateHash</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1aafc185ea0883804ea06a1ce408e00ba6" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>completed_batches_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1aba3a4b44e64736f77c6c7018fef25011" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>completed_migrations_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1ad438432958bbcdc1e5659bbc65eb7385" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1abeeab4af7680b81471005674a1cdc227" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>DataMigrator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a75be22b9105fc948dc58539a9035dca3" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>fetchBatch</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a39bce3a511df47570b3ba6e10ea8a9d8" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>generateBatchId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a1d311ee209ede25e5a8e07f1e2d1c749" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>generateMigrationId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a4ba4a065588fcb8e538b4ac9913234f4" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>idempotency_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a6385b492c1c46e337d19a8f3f7aa2323" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>isBatchCompleted</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a3cde1f4d07b0bde09c5b670fd55a68fc" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>isMigrationCompleted</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1ab97c502eeee272142bb3ea0999f600a9" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>liveMigrate</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a41d95f6e441bed58adb0ed8fe0f0fa85" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>loadIdempotencyState</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a16169060b952f1cbdbc05b5bb41a678c" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>markBatchCompleted</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1aea5e3f95ec7f8ade7037965a4f24754b" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>markMigrationCompleted</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1adcd9f04306249e5b2e17e6e78ee987ba" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1ac46fa1b11b3bbb2429149bde03f57751" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>migrate</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1ae2647284a3e0bc912cfbb919b497c0da" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>ProgressCallback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a3b70164cadf2cb4e2c9c12d8cd89b8b1" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>retryOperation</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1ac85e728c1c9968b3e553a3eb9535705b" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>saveIdempotencyState</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a9c16bc1a6fdce945d9ab3c438eb07f2d" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>verifyIntegrity</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a244034e8fc0349f74cc24a238207f66e" prot="private" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>writeBatch</name></member>
+      <member refid="classthemis_1_1sharding_1_1_data_migrator_1a66818a6e6e3c1e1815a4480f86858dce" prot="public" virt="non-virtual"><scope>themis::sharding::DataMigrator</scope><name>~DataMigrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

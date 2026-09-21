@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_eigen" kind="namespace" language="C++">
+    <compoundname>Eigen</compoundname>
+    <innerclass refid="class_eigen_1_1_matrix_xf" prot="public">Eigen::MatrixXf</innerclass>
+    <innerclass refid="class_eigen_1_1_vector_xf" prot="public">Eigen::VectorXf</innerclass>
+    <innerclass refid="class_eigen_1_1_matrix_xd" prot="public">Eigen::MatrixXd</innerclass>
+    <innerclass refid="class_eigen_1_1_vector_xd" prot="public">Eigen::VectorXd</innerclass>
+    <innerclass refid="class_eigen_1_1_map" prot="public">Eigen::Map</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespace_eigen_1a5605d96eb14b962285ca9876eafeca04" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_eigen_1_1_vector_xf" kindref="compound">VectorXf</ref></type>
+        <definition>VectorXf Eigen::operator*</definition>
+        <argsstring>(const MatrixXf &amp;m, const VectorXf &amp;v)</argsstring>
+        <name>operator*</name>
+        <qualifiedname>Eigen::operator*</qualifiedname>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xf" kindref="compound">MatrixXf</ref> &amp;</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_vector_xf" kindref="compound">VectorXf</ref> &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="168" column="21" bodyfile="include/llm/eigen_stub.h" bodystart="168" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_eigen_1a1beb85bbfdf8966018c37ed87bf9a7fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">MatrixXf</ref></type>
+        <definition>MatrixXf Eigen::operator*</definition>
+        <argsstring>(const MatrixXf &amp;a, const MatrixXf &amp;b)</argsstring>
+        <name>operator*</name>
+        <qualifiedname>Eigen::operator*</qualifiedname>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xf" kindref="compound">MatrixXf</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xf" kindref="compound">MatrixXf</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="181" column="21" bodyfile="include/llm/eigen_stub.h" bodystart="181" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_eigen_1a879aff8f22e3975201f3e55807aaaa79" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_eigen_1_1_vector_xd" kindref="compound">VectorXd</ref></type>
+        <definition>VectorXd Eigen::operator*</definition>
+        <argsstring>(const MatrixXd &amp;m, const VectorXd &amp;v)</argsstring>
+        <name>operator*</name>
+        <qualifiedname>Eigen::operator*</qualifiedname>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_matrix_xd" kindref="compound">MatrixXd</ref> &amp;</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_eigen_1_1_vector_xd" kindref="compound">VectorXd</ref> &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="309" column="21" bodyfile="include/llm/eigen_stub.h" bodystart="309" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/eigen_stub.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

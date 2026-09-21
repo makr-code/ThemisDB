@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_predicate_phrase" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::PredicatePhrase</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_phrase_1ac7e8e3ff40bdf1df3481d8fc52a621a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PredicatePhrase::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::query::PredicatePhrase::column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="223" column="17" bodyfile="include/query/query_engine.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_phrase_1aa747c057d10b9c628b94914aa81d1988" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PredicatePhrase::phrase</definition>
+        <argsstring></argsstring>
+        <name>phrase</name>
+        <qualifiedname>themis::query::PredicatePhrase::phrase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="224" column="17" bodyfile="include/query/query_engine.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_phrase_1a57ce967d3b55df0033444f7a5aa99769" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::PredicatePhrase::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::query::PredicatePhrase::limit</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="225" column="12" bodyfile="include/query/query_engine.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="222" column="1" bodyfile="include/query/query_engine.h" bodystart="222" bodyend="226"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_predicate_phrase_1ac7e8e3ff40bdf1df3481d8fc52a621a4" prot="public" virt="non-virtual"><scope>themis::query::PredicatePhrase</scope><name>column</name></member>
+      <member refid="structthemis_1_1query_1_1_predicate_phrase_1a57ce967d3b55df0033444f7a5aa99769" prot="public" virt="non-virtual"><scope>themis::query::PredicatePhrase</scope><name>limit</name></member>
+      <member refid="structthemis_1_1query_1_1_predicate_phrase_1aa747c057d10b9c628b94914aa81d1988" prot="public" virt="non-virtual"><scope>themis::query::PredicatePhrase</scope><name>phrase</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

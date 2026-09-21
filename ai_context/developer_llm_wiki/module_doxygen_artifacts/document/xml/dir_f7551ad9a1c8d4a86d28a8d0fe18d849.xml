@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f7551ad9a1c8d4a86d28a8d0fe18d849" kind="dir">
+    <compoundname>include/document</compoundname>
+    <innerfile refid="document__diagnostics_8h">document_diagnostics.h</innerfile>
+    <innerfile refid="document__diff__merge_8h">document_diff_merge.h</innerfile>
+    <innerfile refid="document__lifecycle_8h">document_lifecycle.h</innerfile>
+    <innerfile refid="document__manager_8h">document_manager.h</innerfile>
+    <innerfile refid="document__manager__deprecated_8h">document_manager_deprecated.h</innerfile>
+    <innerfile refid="document__schema__evolution_8h">document_schema_evolution.h</innerfile>
+    <innerfile refid="document__store_8h">document_store.h</innerfile>
+    <innerfile refid="include_2document_2encrypted__entities_8h">encrypted_entities.h</innerfile>
+    <innerfile refid="round__trip__editor_8h">round_trip_editor.h</innerfile>
+    <innerfile refid="xdomea__connector_8h">xdomea_connector.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/"/>
+  </compounddef>
+</doxygen>

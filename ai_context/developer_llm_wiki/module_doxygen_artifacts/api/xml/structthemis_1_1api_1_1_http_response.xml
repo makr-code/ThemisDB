@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_http_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::HttpResponse</compoundname>
+    <includes refid="http__handler_8h" local="no">http_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::api::HttpResponse::status_code</definition>
+        <argsstring></argsstring>
+        <name>status_code</name>
+        <qualifiedname>themis::api::HttpResponse::status_code</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="119" column="9" bodyfile="include/api/http_handler.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::api::HttpResponse::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>themis::api::HttpResponse::headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="121" column="24" bodyfile="include/api/http_handler.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::HttpResponse::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>themis::api::HttpResponse::body</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="123" column="17" bodyfile="include/api/http_handler.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref></type>
+        <definition>static HttpResponse themis::api::HttpResponse::ok</definition>
+        <argsstring>(std::string body={}, std::string content_type=&quot;application/json&quot;)</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::api::HttpResponse::ok</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>body</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>content_type</declname>
+          <defval>&quot;application/json&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="127" column="25" bodyfile="include/api/http_handler.h" bodystart="127" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1api_1_1_http_response_1a140adfe86a0d0ecc515f2fb6b99b26fb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref></type>
+        <definition>static HttpResponse themis::api::HttpResponse::created</definition>
+        <argsstring>(std::string body={})</argsstring>
+        <name>created</name>
+        <qualifiedname>themis::api::HttpResponse::created</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>body</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="135" column="25" bodyfile="include/api/http_handler.h" bodystart="135" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1api_1_1_http_response_1aa7adde838dfd8e8bf0a32b88074e5b56" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref></type>
+        <definition>static HttpResponse themis::api::HttpResponse::noContent</definition>
+        <argsstring>()</argsstring>
+        <name>noContent</name>
+        <qualifiedname>themis::api::HttpResponse::noContent</qualifiedname>
+        <briefdescription>
+<para>No Content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements noContent without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="148" column="25" bodyfile="include/api/http_handler.h" bodystart="148" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1api_1_1_http_response_1a4f192eeb6dba49328fefe28e6bfd2aca" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref></type>
+        <definition>static HttpResponse themis::api::HttpResponse::badRequest</definition>
+        <argsstring>(std::string message=&quot;Bad Request&quot;)</argsstring>
+        <name>badRequest</name>
+        <qualifiedname>themis::api::HttpResponse::badRequest</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+          <defval>&quot;Bad Request&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="154" column="25" bodyfile="include/api/http_handler.h" bodystart="154" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1api_1_1_http_response_1ab5f976970056248d73bfc03a0b51925a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref></type>
+        <definition>static HttpResponse themis::api::HttpResponse::unauthorized</definition>
+        <argsstring>()</argsstring>
+        <name>unauthorized</name>
+        <qualifiedname>themis::api::HttpResponse::unauthorized</qualifiedname>
+        <briefdescription>
+<para>Unauthorized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements unauthorized without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="167" column="25" bodyfile="include/api/http_handler.h" bodystart="167" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1api_1_1_http_response_1ae8a28e41f0e2c7f5accaea6327f42910" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref></type>
+        <definition>static HttpResponse themis::api::HttpResponse::forbidden</definition>
+        <argsstring>()</argsstring>
+        <name>forbidden</name>
+        <qualifiedname>themis::api::HttpResponse::forbidden</qualifiedname>
+        <briefdescription>
+<para>Forbidden. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements forbidden without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="180" column="25" bodyfile="include/api/http_handler.h" bodystart="180" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1api_1_1_http_response_1a9f41eb7c02d6f0dba058fc0ae42e44da" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref></type>
+        <definition>static HttpResponse themis::api::HttpResponse::notFound</definition>
+        <argsstring>()</argsstring>
+        <name>notFound</name>
+        <qualifiedname>themis::api::HttpResponse::notFound</qualifiedname>
+        <briefdescription>
+<para>Not Found. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements notFound without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="193" column="25" bodyfile="include/api/http_handler.h" bodystart="193" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1api_1_1_http_response_1a751b97c1de732550f7044667ca2f313a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref></type>
+        <definition>static HttpResponse themis::api::HttpResponse::internalError</definition>
+        <argsstring>(std::string message=&quot;Internal Server Error&quot;)</argsstring>
+        <name>internalError</name>
+        <qualifiedname>themis::api::HttpResponse::internalError</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+          <defval>&quot;Internal Server Error&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/http_handler.h" line="201" column="25" bodyfile="include/api/http_handler.h" bodystart="201" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/http_handler.h" line="118" column="1" bodyfile="include/api/http_handler.h" bodystart="118" bodyend="208"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_http_response_1a4f192eeb6dba49328fefe28e6bfd2aca" prot="public" virt="non-virtual"><scope>themis::api::HttpResponse</scope><name>badRequest</name></member>
+      <member refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" prot="public" virt="non-virtual"><scope>themis::api::HttpResponse</scope><name>body</name></member>
+      <member refid="structthemis_1_1api_1_1_http_response_1a140adfe86a0d0ecc515f2fb6b99b26fb" prot="public" virt="non-virtual"><scope>themis::api::HttpResponse</scope><name>created</name></member>
+      <member refid="structthemis_1_1api_1_1_http_response_1ae8a28e41f0e2c7f5accaea6327f42910" prot="public" virt="non-virtual"><scope>themis::api::HttpResponse</scope><name>forbidden</name></member>
+      <member refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" prot="public" virt="non-virtual"><scope>themis::api::HttpResponse</scope><name>headers</name></member>
+      <member refid="structthemis_1_1api_1_1_http_response_1a751b97c1de732550f7044667ca2f313a" prot="public" virt="non-virtual"><scope>themis::api::HttpResponse</scope><name>internalError</name></member>
+      <member refid="structthemis_1_1api_1_1_http_response_1aa7adde838dfd8e8bf0a32b88074e5b56" prot="public" virt="non-virtual"><scope>themis::api::HttpResponse</scope><name>noContent</name></member>
+      <member refid="structthemis_1_1api_1_1_http_response_1a9f41eb7c02d6f0dba058fc0ae42e44da" prot="public" virt="non-virtual"><scope>themis::api::HttpResponse</scope><name>notFound</name></member>
+      <member refid="structthemis_1_1api_1_1_http_response_1a1a23e86743f248802bc9cbf8aecb9893" prot="public" virt="non-virtual"><scope>themis::api::HttpResponse</scope><name>ok</name></member>
+      <member refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" prot="public" virt="non-virtual"><scope>themis::api::HttpResponse</scope><name>status_code</name></member>
+      <member refid="structthemis_1_1api_1_1_http_response_1ab5f976970056248d73bfc03a0b51925a" prot="public" virt="non-virtual"><scope>themis::api::HttpResponse</scope><name>unauthorized</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

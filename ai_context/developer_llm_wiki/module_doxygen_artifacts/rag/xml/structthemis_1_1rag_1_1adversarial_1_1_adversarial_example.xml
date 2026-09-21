@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::adversarial::AdversarialExample</compoundname>
+    <includes refid="adversarial__tester_8h" local="no">adversarial_tester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a3690d58d63830f8c838988cd4c6128ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::adversarial::AdversarialExample::original_query</definition>
+        <argsstring></argsstring>
+        <name>original_query</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialExample::original_query</qualifiedname>
+        <briefdescription>
+<para>Unmodified query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="70" column="27" bodyfile="include/rag/adversarial_tester.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a3dcc63c8afbbedf66f5ee7544841347a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::adversarial::AdversarialExample::perturbed_query</definition>
+        <argsstring></argsstring>
+        <name>perturbed_query</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialExample::perturbed_query</qualifiedname>
+        <briefdescription>
+<para>Adversarially modified query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="71" column="27" bodyfile="include/rag/adversarial_tester.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a9207b0ddf49ec394829dc075ac556874" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979d" kindref="member">AdversarialStrategy</ref></type>
+        <definition>AdversarialStrategy themis::rag::adversarial::AdversarialExample::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialExample::strategy</qualifiedname>
+        <briefdescription>
+<para>Strategy that produced the perturbation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="72" column="27" bodyfile="include/rag/adversarial_tester.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a9834ca978d5a23062d2efe8145322047" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::rag::adversarial::AdversarialExample::original_result</definition>
+        <argsstring></argsstring>
+        <name>original_result</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialExample::original_result</qualifiedname>
+        <briefdescription>
+<para>Judge result for original. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="73" column="27" bodyfile="include/rag/adversarial_tester.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a7eb7021e04683931dc854baa7e502bf8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::rag::adversarial::AdversarialExample::perturbed_result</definition>
+        <argsstring></argsstring>
+        <name>perturbed_result</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialExample::perturbed_result</qualifiedname>
+        <briefdescription>
+<para>Judge result for perturbed variant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="74" column="27" bodyfile="include/rag/adversarial_tester.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a4b253309d20e82a30d1c20274e88e698" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::adversarial::AdversarialExample::score_delta</definition>
+        <argsstring></argsstring>
+        <name>score_delta</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialExample::score_delta</qualifiedname>
+        <briefdescription>
+<para>|original_score − perturbed_score| </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="75" column="27" bodyfile="include/rag/adversarial_tester.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single adversarial example – the original input, its perturbed variant, and the evaluation results for both. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::adversarial::AdversarialExample</label>
+        <link refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>original_result</edgelabel>
+          <edgelabel>perturbed_result</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::judge::EvaluationResult</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/adversarial_tester.h" line="69" column="1" bodyfile="include/rag/adversarial_tester.h" bodystart="69" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a3690d58d63830f8c838988cd4c6128ce" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialExample</scope><name>original_query</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a9834ca978d5a23062d2efe8145322047" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialExample</scope><name>original_result</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a3dcc63c8afbbedf66f5ee7544841347a" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialExample</scope><name>perturbed_query</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a7eb7021e04683931dc854baa7e502bf8" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialExample</scope><name>perturbed_result</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a4b253309d20e82a30d1c20274e88e698" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialExample</scope><name>score_delta</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a9207b0ddf49ec394829dc075ac556874" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialExample</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

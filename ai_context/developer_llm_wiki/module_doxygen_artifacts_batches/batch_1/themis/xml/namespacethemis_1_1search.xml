@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1search" kind="namespace" language="C++">
+    <compoundname>themis::search</compoundname>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1search_1a0c234cd3b0c0002008532e6772d66320" prot="public" static="no">
+        <type>std::function&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1_i_llm_reranker" kindref="compound">ILlmReranker</ref> &gt;(const <ref refid="structthemis_1_1_i_llm_reranker_1_1_config" kindref="compound">ILlmReranker::Config</ref> &amp;)&gt;</type>
+        <definition>using themis::search::LlmRerankerFactory = std::function&lt;std::unique_ptr&lt;ILlmReranker&gt;(const ILlmReranker::Config&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LlmRerankerFactory</name>
+        <qualifiedname>themis::search::LlmRerankerFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/search/llm_reranker_factory.h" line="9" column="1" bodyfile="include/themis/search/llm_reranker_factory.h" bodystart="9" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1search_1ae45adc05962993830182f8807c53f642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::search::registerLlmRerankerFactory</definition>
+        <argsstring>(LlmRerankerFactory f)</argsstring>
+        <name>registerLlmRerankerFactory</name>
+        <qualifiedname>themis::search::registerLlmRerankerFactory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1search_1a0c234cd3b0c0002008532e6772d66320" kindref="member">LlmRerankerFactory</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/search/llm_reranker_factory.h" line="11" column="6" declfile="include/themis/search/llm_reranker_factory.h" declline="11" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1search_1a12e03bc717daf64e3bc5152f03bdb005" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_i_llm_reranker" kindref="compound">ILlmReranker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ILlmReranker &gt; themis::search::createLlmReranker</definition>
+        <argsstring>(const ILlmReranker::Config &amp;cfg=ILlmReranker::Config::defaults())</argsstring>
+        <name>createLlmReranker</name>
+        <qualifiedname>themis::search::createLlmReranker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_i_llm_reranker_1_1_config" kindref="compound">ILlmReranker::Config</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval><ref refid="structthemis_1_1_i_llm_reranker_1_1_config_1a00dc79f99e4fe70c070f3acd9f8b5958" kindref="member">ILlmReranker::Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/search/llm_reranker_factory.h" line="12" column="17" declfile="include/themis/search/llm_reranker_factory.h" declline="12" declcolumn="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/search/llm_reranker_factory.h" line="7" column="1"/>
+  </compounddef>
+</doxygen>

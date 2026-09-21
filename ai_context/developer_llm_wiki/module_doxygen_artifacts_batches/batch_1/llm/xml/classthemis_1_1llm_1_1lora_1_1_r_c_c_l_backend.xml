@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::RCCLBackend</compoundname>
+    <includes refid="rccl__backend_8h" local="no">rccl_backend.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1acd2f9432250223318f15a76410c91477" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref> &amp;</type>
+        <definition>const MultiGPUContext&amp; themis::llm::lora::RCCLBackend::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="82" column="27" bodyfile="include/llm/lora_framework/rccl_backend.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a8c11661cdb12a92304a6ce036fdad91f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::RCCLBackend::rank_</definition>
+        <argsstring></argsstring>
+        <name>rank_</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::rank_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="83" column="9" bodyfile="include/llm/lora_framework/rccl_backend.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ac8f7449e6440896645195184282949fa" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::RCCLBackend::world_size_</definition>
+        <argsstring></argsstring>
+        <name>world_size_</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::world_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="84" column="9" bodyfile="include/llm/lora_framework/rccl_backend.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a8d43b464f2fe80c38f6d40b77f2c1aa1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::RCCLBackend::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="85" column="10" bodyfile="include/llm/lora_framework/rccl_backend.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ab1419abcc9a714e6ac600556450f0524" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::RCCLBackend::RCCLBackend</definition>
+        <argsstring>(const MultiGPUContext &amp;ctx, int rank, int world_size)</argsstring>
+        <name>RCCLBackend</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::RCCLBackend</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>world_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="31" column="5" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="24" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a8e8b8c1a44ad153d7a88fca925e28781" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::RCCLBackend::~RCCLBackend</definition>
+        <argsstring>()</argsstring>
+        <name>~RCCLBackend</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::~RCCLBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="33" column="5" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ab82690693595b50a009d2e5286b3325d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::RCCLBackend::RCCLBackend</definition>
+        <argsstring>(const RCCLBackend &amp;)=delete</argsstring>
+        <name>RCCLBackend</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::RCCLBackend</qualifiedname>
+        <param>
+          <type>const RCCLBackend &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a360a409603ef3296eabf3dedcd63ad4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ab1419abcc9a714e6ac600556450f0524" kindref="member">RCCLBackend</ref> &amp;</type>
+        <definition>RCCLBackend &amp; themis::llm::lora::RCCLBackend::operator=</definition>
+        <argsstring>(const RCCLBackend &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ab1419abcc9a714e6ac600556450f0524" kindref="member">RCCLBackend</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="37" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ada9636ab0d76b8c0d81f7b68c4661080" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::RCCLBackend::RCCLBackend</definition>
+        <argsstring>(RCCLBackend &amp;&amp;) noexcept</argsstring>
+        <name>RCCLBackend</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::RCCLBackend</qualifiedname>
+        <param>
+          <type>RCCLBackend &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="38" column="5" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="42" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ac714fe160918cb0e52faff2bd147e53d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ab1419abcc9a714e6ac600556450f0524" kindref="member">RCCLBackend</ref> &amp;</type>
+        <definition>RCCLBackend &amp; themis::llm::lora::RCCLBackend::operator=</definition>
+        <argsstring>(RCCLBackend &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ab1419abcc9a714e6ac600556450f0524" kindref="member">RCCLBackend</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="39" column="17" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="57" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a4d0d278a1bbebf9f13d264cf8ef1387c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::RCCLBackend::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), <ref refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1af56237480255ab992a7812bfb3ba9d7f" kindref="member">is_available()</ref>, spdlog::error(), gpu_type(), initialize_rccl(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="45" column="10" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="86" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a0537d910049e87bb79e0cee155a2bacf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::RCCLBackend::finalize</definition>
+        <argsstring>()</argsstring>
+        <name>finalize</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::finalize</qualifiedname>
+        <briefdescription>
+<para>Finalize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cleanup_rccl(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="50" column="10" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="109" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a48e359370c6b3f1012fc18bbc8bf4bfb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::RCCLBackend::is_initialized</definition>
+        <argsstring>() const</argsstring>
+        <name>is_initialized</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::is_initialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="52" column="10" bodyfile="include/llm/lora_framework/rccl_backend.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a08523a2752bb2704b088df18c2fd08ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::RCCLBackend::allreduce</definition>
+        <argsstring>(std::vector&lt; GPUTensor * &gt; &amp;tensors, bool average=true)</argsstring>
+        <name>allreduce</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::allreduce</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> * &gt; &amp;</type>
+          <declname>tensors</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>average</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Allreduce. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tensors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">average</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(), ncclGroupStart(), ncclGetErrorString(), device(), spdlog::warn(), gpu_ptr(), size(), ncclAllReduce(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="54" column="10" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="126" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a7018ea64b56c62acdf0660482043d59e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::RCCLBackend::allreduce</definition>
+        <argsstring>(GPUTensor &amp;tensor, bool average=true)</argsstring>
+        <name>allreduce</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::allreduce</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>tensor</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>average</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Allreduce. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">average</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements allreduce without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="56" column="10" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="221" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ac364b462a794e344cee921f68871e70f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::RCCLBackend::broadcast</definition>
+        <argsstring>(GPUTensor &amp;tensor, int root=0)</argsstring>
+        <name>broadcast</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::broadcast</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>tensor</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>root</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Broadcast. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">root</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(), device(), ncclBcast(), gpu_ptr(), size(), ncclGetErrorString(), hipStreamSynchronize(), hipGetErrorString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="58" column="10" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="233" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a3e5cd9486522a74d5a5d72813ac11481" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::RCCLBackend::barrier</definition>
+        <argsstring>()</argsstring>
+        <name>barrier</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::barrier</qualifiedname>
+        <briefdescription>
+<para>Barrier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: ncclAllReduce(), spdlog::error(), ncclGetErrorString(), hipStreamSynchronize(), hipGetErrorString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="63" column="10" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="288" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a7e098f19dfa3a3b6512efd64cd73a1ec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::RCCLBackend::rank</definition>
+        <argsstring>() const</argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::rank</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="65" column="9" bodyfile="include/llm/lora_framework/rccl_backend.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a249f5587b1c7cec171ec312aa8f369b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::RCCLBackend::world_size</definition>
+        <argsstring>() const</argsstring>
+        <name>world_size</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::world_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="67" column="9" bodyfile="include/llm/lora_framework/rccl_backend.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1af56237480255ab992a7812bfb3ba9d7f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::RCCLBackend::is_available</definition>
+        <argsstring>()</argsstring>
+        <name>is_available</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::is_available</qualifiedname>
+        <briefdescription>
+<para>Is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements is_available without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="73" column="17" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="330" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1aa9ce620ed60a030602264ae38c5736a5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::RCCLBackend::get_version</definition>
+        <argsstring>()</argsstring>
+        <name>get_version</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::get_version</qualifiedname>
+        <briefdescription>
+<para>Get version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ncclGetVersion(), spdlog::warn(), ncclGetErrorString(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="79" column="24" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="347" bodyend="366"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a90bd49098c9736faa2f05e4f5eb7a9ae" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::RCCLBackend::initialize_rccl</definition>
+        <argsstring>()</argsstring>
+        <name>initialize_rccl</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::initialize_rccl</qualifiedname>
+        <briefdescription>
+<para>Initialize rccl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), get_device(), hipSetDevice(), spdlog::error(), hipGetErrorString(), hipStreamCreate(), ncclGetUniqueId(), ncclGetErrorString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="99" column="10" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="373" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a95641a9fbd3387cabdda499c5d2acbb6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::RCCLBackend::cleanup_rccl</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup_rccl</name>
+        <qualifiedname>themis::llm::lora::RCCLBackend::cleanup_rccl</qualifiedname>
+        <briefdescription>
+<para>Cleanup rccl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: ncclCommDestroy(), spdlog::warn(), ncclGetErrorString(), hipStreamDestroy(), hipGetErrorString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/rccl_backend.h" line="103" column="10" bodyfile="src/llm/lora_framework/rccl_backend.cpp" bodystart="434" bodyend="454"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/rccl_backend.h" line="29" column="1" bodyfile="include/llm/lora_framework/rccl_backend.h" bodystart="29" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a08523a2752bb2704b088df18c2fd08ad" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>allreduce</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a7018ea64b56c62acdf0660482043d59e" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>allreduce</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a3e5cd9486522a74d5a5d72813ac11481" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>barrier</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ac364b462a794e344cee921f68871e70f" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>broadcast</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a95641a9fbd3387cabdda499c5d2acbb6" prot="private" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>cleanup_rccl</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1acd2f9432250223318f15a76410c91477" prot="private" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>ctx_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a0537d910049e87bb79e0cee155a2bacf" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>finalize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1aa9ce620ed60a030602264ae38c5736a5" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>get_version</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a4d0d278a1bbebf9f13d264cf8ef1387c" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a90bd49098c9736faa2f05e4f5eb7a9ae" prot="private" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>initialize_rccl</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a8d43b464f2fe80c38f6d40b77f2c1aa1" prot="private" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1af56237480255ab992a7812bfb3ba9d7f" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>is_available</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a48e359370c6b3f1012fc18bbc8bf4bfb" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>is_initialized</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a360a409603ef3296eabf3dedcd63ad4f" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ac714fe160918cb0e52faff2bd147e53d" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a7e098f19dfa3a3b6512efd64cd73a1ec" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>rank</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a8c11661cdb12a92304a6ce036fdad91f" prot="private" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>rank_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ab1419abcc9a714e6ac600556450f0524" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>RCCLBackend</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ab82690693595b50a009d2e5286b3325d" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>RCCLBackend</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ada9636ab0d76b8c0d81f7b68c4661080" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>RCCLBackend</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a249f5587b1c7cec171ec312aa8f369b3" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>world_size</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1ac8f7449e6440896645195184282949fa" prot="private" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>world_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1a8e8b8c1a44ad153d7a88fca925e28781" prot="public" virt="non-virtual"><scope>themis::llm::lora::RCCLBackend</scope><name>~RCCLBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

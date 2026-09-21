@@ -1,0 +1,678 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1timeseries_1_1_incident" kind="struct" language="C++" prot="public">
+    <compoundname>themis::timeseries::Incident</compoundname>
+    <includes refid="timeseries__incident__taxonomy_8h" local="no">timeseries_incident_taxonomy.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1timeseries_1_1_incident_1a2b7301bad48447a2bc5ccccd8a4aa1c5" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>Class</name>
+        <qualifiedname>themis::timeseries::Incident::Class</qualifiedname>
+        <enumvalue id="structthemis_1_1timeseries_1_1_incident_1a2b7301bad48447a2bc5ccccd8a4aa1c5a3d67567d7af236dd7fd7f1f4076ca1c5" prot="public">
+          <name>INGEST</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1timeseries_1_1_incident_1a2b7301bad48447a2bc5ccccd8a4aa1c5a5662080872eece1e1ceeec5750198283" prot="public">
+          <name>QUERY</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1timeseries_1_1_incident_1a2b7301bad48447a2bc5ccccd8a4aa1c5adb52cb766062d5cdfb2ed5106e3a2884" prot="public">
+          <name>LIFECYCLE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1timeseries_1_1_incident_1a2b7301bad48447a2bc5ccccd8a4aa1c5a0267fe7f65539ce52609a93e0391104c" prot="public">
+          <name>INTEGRATION</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Which incident class this belongs to (4 classes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="354" column="5" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="354" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1aa11b9b77584948b5378cfc766ea98d1e" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemis_1_1timeseries_1_1_incident_1a2b7301bad48447a2bc5ccccd8a4aa1c5" kindref="member">themis::timeseries::Incident::Class</ref></type>
+        <definition>enum themis::timeseries::Incident::Class themis::timeseries::Incident::incident_class</definition>
+        <argsstring></argsstring>
+        <name>incident_class</name>
+        <qualifiedname>themis::timeseries::Incident::incident_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="359" column="20"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1aee056432129eb6b6da21b86705bdf4a9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1timeseries_1af6f1729850e460364bf59c9e4d280520" kindref="member">IncidentSeverity</ref></type>
+        <definition>IncidentSeverity themis::timeseries::Incident::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::timeseries::Incident::severity</qualifiedname>
+        <briefdescription>
+<para>Severity of the incident (CRITICAL, ERROR, WARN, INFO). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="362" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1a2f7d19f3a3d924bc5595b9b3fdb9f871" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494b" kindref="member">IngestIncidentCode</ref></type>
+        <definition>IngestIncidentCode themis::timeseries::Incident::ingest_code</definition>
+        <argsstring></argsstring>
+        <name>ingest_code</name>
+        <qualifiedname>themis::timeseries::Incident::ingest_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="366" column="33" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1ac2b56e061b1c5ed5b74b664f2d07dc80" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bf" kindref="member">QueryIncidentCode</ref></type>
+        <definition>QueryIncidentCode themis::timeseries::Incident::query_code</definition>
+        <argsstring></argsstring>
+        <name>query_code</name>
+        <qualifiedname>themis::timeseries::Incident::query_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="367" column="33" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1a0831293d65af43c120c72bb45071a4f8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcc" kindref="member">LifecycleIncidentCode</ref></type>
+        <definition>LifecycleIncidentCode themis::timeseries::Incident::lifecycle_code</definition>
+        <argsstring></argsstring>
+        <name>lifecycle_code</name>
+        <qualifiedname>themis::timeseries::Incident::lifecycle_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="368" column="33" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1a4cc3a5a15cfac4e1e295fc1d2f8f7218" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07c" kindref="member">IntegrationIncidentCode</ref></type>
+        <definition>IntegrationIncidentCode themis::timeseries::Incident::integration_code</definition>
+        <argsstring></argsstring>
+        <name>integration_code</name>
+        <qualifiedname>themis::timeseries::Incident::integration_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="369" column="33" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1a3dd31fa87547a1f1a3acd81ddfa5f44a" prot="public" static="no" mutable="no">
+        <type>union themis::timeseries::Incident::@234004074074213214067161136011072147002050366265</type>
+        <definition>union themis::timeseries::Incident::@234004074074213214067161136011072147002050366265 themis::timeseries::Incident::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::timeseries::Incident::code</qualifiedname>
+        <briefdescription>
+<para>Specific error code (mapped to incident class). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="370" column="10"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1a897cf444af2414c8c0e1e6a7ef7f8d1b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident_timestamp" kindref="compound">IncidentTimestamp</ref></type>
+        <definition>IncidentTimestamp themis::timeseries::Incident::when</definition>
+        <argsstring></argsstring>
+        <name>when</name>
+        <qualifiedname>themis::timeseries::Incident::when</qualifiedname>
+        <briefdescription>
+<para>When the incident was emitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="373" column="23" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1a0c67dbfefc7a1e5a598e398a3f0d0bc1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+        <definition>IncidentContext themis::timeseries::Incident::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::timeseries::Incident::context</qualifiedname>
+        <briefdescription>
+<para>Optional diagnostic context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="376" column="21" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1ad990a033d003200831fefd1933225392" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::timeseries::Incident::http_status</definition>
+        <argsstring></argsstring>
+        <name>http_status</name>
+        <qualifiedname>themis::timeseries::Incident::http_status</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>HTTP status code for remote-write/integration errors (0 if N/A). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="379" column="9" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1a047455d900a3cc246075083167e8cafb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::timeseries::Incident::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::timeseries::Incident::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of retries attempted (for integration incidents). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="382" column="9" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_incident_1aebb886eafeff336e626c3098e8ce2a44" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::timeseries::Incident::operation_duration_us</definition>
+        <argsstring></argsstring>
+        <name>operation_duration_us</name>
+        <qualifiedname>themis::timeseries::Incident::operation_duration_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bounded latency of operation that triggered incident (microseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="385" column="18" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1a6c7faec374aeddc6364cf8e8c2ccfa2c" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::criticalIngest</definition>
+        <argsstring>(IngestIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>criticalIngest</name>
+        <qualifiedname>themis::timeseries::Incident::criticalIngest</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494b" kindref="member">IngestIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a CRITICAL ingest incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="388" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="388" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1a96af3a1b76efeb97187128ff0a225cdc" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::errorIngest</definition>
+        <argsstring>(IngestIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>errorIngest</name>
+        <qualifiedname>themis::timeseries::Incident::errorIngest</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494b" kindref="member">IngestIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs an ERROR ingest incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="400" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="400" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1af439d10ad79f6128633520d2aa893e12" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::warnIngest</definition>
+        <argsstring>(IngestIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>warnIngest</name>
+        <qualifiedname>themis::timeseries::Incident::warnIngest</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494b" kindref="member">IngestIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a WARN ingest incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="412" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="412" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1a95f1ed8bc5a44e5a240d346c5a743877" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::infoIngest</definition>
+        <argsstring>(IngestIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>infoIngest</name>
+        <qualifiedname>themis::timeseries::Incident::infoIngest</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a847b386edee16cc1f022ea7b8e42494b" kindref="member">IngestIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs an INFO ingest incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="424" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="424" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1ac8b0356259a4a828c2f14ec57a42ff7c" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::criticalQuery</definition>
+        <argsstring>(QueryIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>criticalQuery</name>
+        <qualifiedname>themis::timeseries::Incident::criticalQuery</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bf" kindref="member">QueryIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a CRITICAL query incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="436" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="436" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1a465d7648440adbbc60794ef8b892c6b1" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::errorQuery</definition>
+        <argsstring>(QueryIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>errorQuery</name>
+        <qualifiedname>themis::timeseries::Incident::errorQuery</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bf" kindref="member">QueryIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs an ERROR query incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="448" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="448" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1aa67cd6b77b6628cf9989fcf458ba84b9" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::warnQuery</definition>
+        <argsstring>(QueryIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>warnQuery</name>
+        <qualifiedname>themis::timeseries::Incident::warnQuery</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bf" kindref="member">QueryIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a WARN query incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="460" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="460" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1acb440c26ee6122b484b8a5ac6bfba5e5" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::infoQuery</definition>
+        <argsstring>(QueryIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>infoQuery</name>
+        <qualifiedname>themis::timeseries::Incident::infoQuery</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a25063e5f11a694ee60718aa02dd502bf" kindref="member">QueryIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs an INFO query incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="472" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="472" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1a2d5fa08aa944d74e75190eaa7986afad" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::criticalLifecycle</definition>
+        <argsstring>(LifecycleIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>criticalLifecycle</name>
+        <qualifiedname>themis::timeseries::Incident::criticalLifecycle</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcc" kindref="member">LifecycleIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a CRITICAL lifecycle incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="484" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="484" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1a8e5fb11fe5c6ffe084e2166ab2a671b7" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::errorLifecycle</definition>
+        <argsstring>(LifecycleIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>errorLifecycle</name>
+        <qualifiedname>themis::timeseries::Incident::errorLifecycle</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcc" kindref="member">LifecycleIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs an ERROR lifecycle incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="496" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="496" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1a617c996e8965150555ad064a6fe20f8b" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::warnLifecycle</definition>
+        <argsstring>(LifecycleIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>warnLifecycle</name>
+        <qualifiedname>themis::timeseries::Incident::warnLifecycle</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcc" kindref="member">LifecycleIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a WARN lifecycle incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="508" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="508" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1ad7b1a0137a7a8d1e372d11afa4c6240d" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::infoLifecycle</definition>
+        <argsstring>(LifecycleIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>infoLifecycle</name>
+        <qualifiedname>themis::timeseries::Incident::infoLifecycle</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1a643e8c94773152df3e54b9967f4efdcc" kindref="member">LifecycleIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs an INFO lifecycle incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="520" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="520" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1af1439bb59f3945af2af8ea545be3a656" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::criticalIntegration</definition>
+        <argsstring>(IntegrationIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>criticalIntegration</name>
+        <qualifiedname>themis::timeseries::Incident::criticalIntegration</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07c" kindref="member">IntegrationIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a CRITICAL integration incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="532" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="532" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1ac97c34d19a6d36cf4ba05ff0491e4615" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::errorIntegration</definition>
+        <argsstring>(IntegrationIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>errorIntegration</name>
+        <qualifiedname>themis::timeseries::Incident::errorIntegration</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07c" kindref="member">IntegrationIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs an ERROR integration incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="544" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="544" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1ac43216ad7afd4997b8062b093ecf08f2" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::warnIntegration</definition>
+        <argsstring>(IntegrationIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>warnIntegration</name>
+        <qualifiedname>themis::timeseries::Incident::warnIntegration</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07c" kindref="member">IntegrationIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a WARN integration incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="556" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="556" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_incident_1ac91a690a0a8d9e6b1940f7d225b26581" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>static Incident themis::timeseries::Incident::infoIntegration</definition>
+        <argsstring>(IntegrationIncidentCode code, IncidentContext ctx={}) noexcept</argsstring>
+        <name>infoIntegration</name>
+        <qualifiedname>themis::timeseries::Incident::infoIntegration</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1timeseries_1afefbcaf4ebc12e1e3c517ba5987cf07c" kindref="member">IntegrationIncidentCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1timeseries_1_1_incident_context" kindref="compound">IncidentContext</ref></type>
+          <declname>ctx</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs an INFO integration incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_incident_taxonomy.h" line="568" column="22" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="568" bodyend="577"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents a single incident emission. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This struct is used to record incidents uniformly across all paths. Incidents are designed to be lightweight (stack-allocatable) and diagnostic-friendly. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::timeseries::Incident</label>
+        <link refid="structthemis_1_1timeseries_1_1_incident"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>when</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>context</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::timeseries::IncidentContext</label>
+        <link refid="structthemis_1_1timeseries_1_1_incident_context"/>
+      </node>
+      <node id="2">
+        <label>themis::timeseries::IncidentTimestamp</label>
+        <link refid="structthemis_1_1timeseries_1_1_incident_timestamp"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/timeseries/timeseries_incident_taxonomy.h" line="352" column="1" bodyfile="include/timeseries/timeseries_incident_taxonomy.h" bodystart="352" bodyend="578"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a2b7301bad48447a2bc5ccccd8a4aa1c5" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>Class</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a3dd31fa87547a1f1a3acd81ddfa5f44a" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>code</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a0c67dbfefc7a1e5a598e398a3f0d0bc1" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>context</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a6c7faec374aeddc6364cf8e8c2ccfa2c" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>criticalIngest</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1af1439bb59f3945af2af8ea545be3a656" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>criticalIntegration</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a2d5fa08aa944d74e75190eaa7986afad" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>criticalLifecycle</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1ac8b0356259a4a828c2f14ec57a42ff7c" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>criticalQuery</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a96af3a1b76efeb97187128ff0a225cdc" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>errorIngest</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1ac97c34d19a6d36cf4ba05ff0491e4615" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>errorIntegration</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a8e5fb11fe5c6ffe084e2166ab2a671b7" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>errorLifecycle</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a465d7648440adbbc60794ef8b892c6b1" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>errorQuery</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1ad990a033d003200831fefd1933225392" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>http_status</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1aa11b9b77584948b5378cfc766ea98d1e" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>incident_class</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a95f1ed8bc5a44e5a240d346c5a743877" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>infoIngest</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1ac91a690a0a8d9e6b1940f7d225b26581" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>infoIntegration</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1ad7b1a0137a7a8d1e372d11afa4c6240d" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>infoLifecycle</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1acb440c26ee6122b484b8a5ac6bfba5e5" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>infoQuery</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a2f7d19f3a3d924bc5595b9b3fdb9f871" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>ingest_code</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a4cc3a5a15cfac4e1e295fc1d2f8f7218" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>integration_code</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a0831293d65af43c120c72bb45071a4f8" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>lifecycle_code</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1aebb886eafeff336e626c3098e8ce2a44" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>operation_duration_us</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1ac2b56e061b1c5ed5b74b664f2d07dc80" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>query_code</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a047455d900a3cc246075083167e8cafb" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1aee056432129eb6b6da21b86705bdf4a9" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>severity</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1af439d10ad79f6128633520d2aa893e12" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>warnIngest</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1ac43216ad7afd4997b8062b093ecf08f2" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>warnIntegration</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a617c996e8965150555ad064a6fe20f8b" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>warnLifecycle</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1aa67cd6b77b6628cf9989fcf458ba84b9" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>warnQuery</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_incident_1a897cf444af2414c8c0e1e6a7ef7f8d1b" prot="public" virt="non-virtual"><scope>themis::timeseries::Incident</scope><name>when</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

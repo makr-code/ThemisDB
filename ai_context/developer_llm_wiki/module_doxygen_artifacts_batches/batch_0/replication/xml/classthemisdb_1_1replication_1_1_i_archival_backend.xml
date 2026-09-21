@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_i_archival_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themisdb::replication::IArchivalBackend</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_archival_backend_1ae282d49fa523cf7aea67b8e707b99739" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::replication::IArchivalBackend::~IArchivalBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IArchivalBackend</name>
+        <qualifiedname>themisdb::replication::IArchivalBackend::~IArchivalBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1792" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_archival_backend_1aa9e104a56745b60487650236e753c87c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themisdb::replication::IArchivalBackend::putObject</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; uint8_t &gt; &amp;data)=0</argsstring>
+        <name>putObject</name>
+        <qualifiedname>themisdb::replication::IArchivalBackend::putObject</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1795" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_archival_backend_1ad3da2561f1a8c41a0a0ec96960554012" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>virtual std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themisdb::replication::IArchivalBackend::getObject</definition>
+        <argsstring>(const std::string &amp;key) const =0</argsstring>
+        <name>getObject</name>
+        <qualifiedname>themisdb::replication::IArchivalBackend::getObject</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1799" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_archival_backend_1a0a6757720227059bf90492e2feec88ee" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themisdb::replication::IArchivalBackend::deleteObject</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>deleteObject</name>
+        <qualifiedname>themisdb::replication::IArchivalBackend::deleteObject</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1803" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_archival_backend_1abe64a6e0830fa17c2b6baba9e92564b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IArchivalBackend::setStorageTier</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;tier)=0</argsstring>
+        <name>setStorageTier</name>
+        <qualifiedname>themisdb::replication::IArchivalBackend::setStorageTier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1807" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_i_archival_backend" kindref="compound">IArchivalBackend</ref></para>
+<para>Pluggable backend interface for WAL segment storage. The default LocalArchivalBackend writes to the local filesystem; cloud backends (S3, GCS, Azure Blob) implement this interface for object-storage targets. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1790" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1790" bodyend="1809"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_i_archival_backend_1a0a6757720227059bf90492e2feec88ee" prot="public" virt="pure-virtual"><scope>themisdb::replication::IArchivalBackend</scope><name>deleteObject</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_archival_backend_1ad3da2561f1a8c41a0a0ec96960554012" prot="public" virt="pure-virtual"><scope>themisdb::replication::IArchivalBackend</scope><name>getObject</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_archival_backend_1aa9e104a56745b60487650236e753c87c" prot="public" virt="pure-virtual"><scope>themisdb::replication::IArchivalBackend</scope><name>putObject</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_archival_backend_1abe64a6e0830fa17c2b6baba9e92564b6" prot="public" virt="pure-virtual"><scope>themisdb::replication::IArchivalBackend</scope><name>setStorageTier</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_archival_backend_1ae282d49fa523cf7aea67b8e707b99739" prot="public" virt="virtual"><scope>themisdb::replication::IArchivalBackend</scope><name>~IArchivalBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

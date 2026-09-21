@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_plugin_dependency_resolver_test" kind="class" language="C++" prot="public">
+    <compoundname>PluginDependencyResolverTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="struct_plugin_dependency_resolver_test_1_1_test_plugin_entry" prot="protected">PluginDependencyResolverTest::TestPluginEntry</innerclass>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_plugin_dependency_resolver_test_1a97a102af192b372e5a80a283bdc1b052" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_plugin_dependency_resolver_test_1_1_test_plugin_entry" kindref="compound">TestPluginEntry</ref></type>
+        <definition>TestPluginEntry PluginDependencyResolverTest::createPlugin</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; std::string &gt; &amp;dependencies={})</argsstring>
+        <name>createPlugin</name>
+        <qualifiedname>PluginDependencyResolverTest::createPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>dependencies</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_dependency_resolver.cpp" line="26" column="21" bodyfile="tests/plugins/test_plugin_dependency_resolver.cpp" bodystart="26" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_dependency_resolver_test_1af778d8269a94b099a091a271b436e46f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="struct_plugin_dependency_resolver_test_1_1_test_plugin_entry" kindref="compound">TestPluginEntry</ref> &gt;</type>
+        <definition>std::map&lt; std::string, TestPluginEntry &gt; PluginDependencyResolverTest::toMap</definition>
+        <argsstring>(const std::vector&lt; TestPluginEntry &gt; &amp;entries)</argsstring>
+        <name>toMap</name>
+        <qualifiedname>PluginDependencyResolverTest::toMap</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_plugin_dependency_resolver_test_1_1_test_plugin_entry" kindref="compound">TestPluginEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_dependency_resolver.cpp" line="40" column="14" bodyfile="tests/plugins/test_plugin_dependency_resolver.cpp" bodystart="40" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PluginDependencyResolverTest</label>
+        <link refid="class_plugin_dependency_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PluginDependencyResolverTest</label>
+        <link refid="class_plugin_dependency_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_dependency_resolver.cpp" line="17" column="1" bodyfile="tests/plugins/test_plugin_dependency_resolver.cpp" bodystart="17" bodyend="50"/>
+    <listofallmembers>
+      <member refid="class_plugin_dependency_resolver_test_1a97a102af192b372e5a80a283bdc1b052" prot="protected" virt="non-virtual"><scope>PluginDependencyResolverTest</scope><name>createPlugin</name></member>
+      <member refid="class_plugin_dependency_resolver_test_1af778d8269a94b099a091a271b436e46f" prot="protected" virt="non-virtual"><scope>PluginDependencyResolverTest</scope><name>toMap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

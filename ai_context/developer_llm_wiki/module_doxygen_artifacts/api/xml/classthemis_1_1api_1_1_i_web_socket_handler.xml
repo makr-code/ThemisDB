@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_i_web_socket_handler" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::api::IWebSocketHandler</compoundname>
+    <includes refid="websocket__handler_8h" local="no">websocket_handler.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_web_socket_handler_1a48230883133412bd5d0caae0a7317876" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::api::IWebSocketHandler::~IWebSocketHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IWebSocketHandler</name>
+        <qualifiedname>themis::api::IWebSocketHandler::~IWebSocketHandler</qualifiedname>
+        <briefdescription>
+<para>IWeb Socket Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="184" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_web_socket_handler_1a3bc1db992c9c4216e3502c9b8b5e7b7b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>themis::Result&lt; <ref refid="classthemis_1_1api_1_1_web_socket_session" kindref="compound">WebSocketSession</ref> * &gt;</type>
+        <definition>virtual themis::Result&lt; WebSocketSession * &gt; themis::api::IWebSocketHandler::upgrade</definition>
+        <argsstring>(std::string_view method, std::string_view path, const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, IWebSocketFrameCallback &amp;callback)=0</argsstring>
+        <name>upgrade</name>
+        <qualifiedname>themis::api::IWebSocketHandler::upgrade</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1api_1_1_i_web_socket_frame_callback" kindref="compound">IWebSocketFrameCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="186" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_web_socket_handler_1ac221e0f302b74e08c24ac4795d09f08c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string_view</type>
+        <definition>virtual std::string_view themis::api::IWebSocketHandler::handlerName</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>handlerName</name>
+        <qualifiedname>themis::api::IWebSocketHandler::handlerName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="192" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/websocket_handler.h" line="178" column="1" bodyfile="include/api/websocket_handler.h" bodystart="178" bodyend="193"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_i_web_socket_handler_1ac221e0f302b74e08c24ac4795d09f08c" prot="public" virt="pure-virtual"><scope>themis::api::IWebSocketHandler</scope><name>handlerName</name></member>
+      <member refid="classthemis_1_1api_1_1_i_web_socket_handler_1a3bc1db992c9c4216e3502c9b8b5e7b7b" prot="public" virt="pure-virtual"><scope>themis::api::IWebSocketHandler</scope><name>upgrade</name></member>
+      <member refid="classthemis_1_1api_1_1_i_web_socket_handler_1a48230883133412bd5d0caae0a7317876" prot="public" virt="virtual"><scope>themis::api::IWebSocketHandler</scope><name>~IWebSocketHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

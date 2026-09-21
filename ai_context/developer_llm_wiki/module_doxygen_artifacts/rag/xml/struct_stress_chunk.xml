@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stress_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>StressChunk</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stress_chunk_1a33ea05775f9969a38d3b2fbe140faa15" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t StressChunk::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>StressChunk::id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_highcardinality_stress.cpp" line="47" column="17" bodyfile="tests/rag/test_rag_highcardinality_stress.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stress_chunk_1a8d443797cf058211adcf6342f86204bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StressChunk::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>StressChunk::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_highcardinality_stress.cpp" line="48" column="17" bodyfile="tests/rag/test_rag_highcardinality_stress.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stress_chunk_1a1316edf387ffa3cff327a0bddf306fa3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float StressChunk::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>StressChunk::score</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_highcardinality_stress.cpp" line="49" column="17" bodyfile="tests/rag/test_rag_highcardinality_stress.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub chunk record used throughout stress tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/rag/test_rag_highcardinality_stress.cpp" line="46" column="1" bodyfile="tests/rag/test_rag_highcardinality_stress.cpp" bodystart="46" bodyend="50"/>
+    <listofallmembers>
+      <member refid="struct_stress_chunk_1a33ea05775f9969a38d3b2fbe140faa15" prot="public" virt="non-virtual"><scope>StressChunk</scope><name>id</name></member>
+      <member refid="struct_stress_chunk_1a1316edf387ffa3cff327a0bddf306fa3" prot="public" virt="non-virtual"><scope>StressChunk</scope><name>score</name></member>
+      <member refid="struct_stress_chunk_1a8d443797cf058211adcf6342f86204bb" prot="public" virt="non-virtual"><scope>StressChunk</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

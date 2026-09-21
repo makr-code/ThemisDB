@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1_0d013172045307332012200051322327114021147117105322" kind="namespace" language="C++">
+    <compoundname>themis::governance::@013172045307332012200051322327114021147117105322</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/governance/opa_adapter.cpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

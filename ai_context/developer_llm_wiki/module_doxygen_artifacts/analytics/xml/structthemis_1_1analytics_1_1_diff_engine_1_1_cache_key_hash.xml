@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_diff_engine_1_1_cache_key_hash" kind="struct" language="C++" prot="private">
+    <compoundname>themis::analytics::DiffEngine::CacheKeyHash</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_diff_engine_1_1_cache_key_hash_1a42d286361436f380502c4128df6875b3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::analytics::DiffEngine::CacheKeyHash::operator()</definition>
+        <argsstring>(const CacheKey &amp;k) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::analytics::DiffEngine::CacheKeyHash::operator()</qualifiedname>
+        <param>
+          <type>const CacheKey &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="236" column="21" bodyfile="include/analytics/diff_engine.h" bodystart="236" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/diff_engine.h" line="235" column="5" bodyfile="include/analytics/diff_engine.h" bodystart="235" bodyend="242"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_cache_key_hash_1a42d286361436f380502c4128df6875b3" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::CacheKeyHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

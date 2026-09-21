@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classbench__internal_1_1_conflict_resolver" kind="class" language="C++" prot="public">
+    <compoundname>bench_internal::ConflictResolver</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classbench__internal_1_1_conflict_resolver_1a1b26bcbbd08852d1346e9b29ec3c20fc" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, nlohmann::json &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, nlohmann::json&gt; &gt; bench_internal::ConflictResolver::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>bench_internal::ConflictResolver::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="104" column="2" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classbench__internal_1_1_conflict_resolver_1a7fe629ea7499a284733cfb8014c46b21" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void bench_internal::ConflictResolver::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>bench_internal::ConflictResolver::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="68" column="10" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classbench__internal_1_1_conflict_resolver_1a8803ce7e19901f804b23593de5da4c73" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json bench_internal::ConflictResolver::resolve</definition>
+        <argsstring>(const nlohmann::json &amp;entity, const std::string &amp;table, const std::string &amp;key, ConflictStrategy strategy, bool &amp;conflict_detected)</argsstring>
+        <name>resolve</name>
+        <qualifiedname>bench_internal::ConflictResolver::resolve</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacebench__internal_1a3b3bb441febfe026c1bda61d26c264db" kindref="member">ConflictStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>conflict_detected</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="71" column="20" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="71" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal conflict resolver mirroring <ref refid="conflict__resolver_8cpp" kindref="compound">src/importers/conflict_resolver.cpp</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importer_throughput.cpp" line="66" column="1" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="66" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classbench__internal_1_1_conflict_resolver_1a1b26bcbbd08852d1346e9b29ec3c20fc" prot="private" virt="non-virtual"><scope>bench_internal::ConflictResolver</scope><name>registry_</name></member>
+      <member refid="classbench__internal_1_1_conflict_resolver_1a7fe629ea7499a284733cfb8014c46b21" prot="public" virt="non-virtual"><scope>bench_internal::ConflictResolver</scope><name>reset</name></member>
+      <member refid="classbench__internal_1_1_conflict_resolver_1a8803ce7e19901f804b23593de5da4c73" prot="public" virt="non-virtual"><scope>bench_internal::ConflictResolver</scope><name>resolve</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_inference_permission_test" kind="class" language="C++" prot="public">
+    <compoundname>InferencePermissionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_inference_permission_test_1a2b35770ec962cc406b8003c8c986570c" prot="protected" static="no" mutable="no">
+        <type>PolicyEngine</type>
+        <definition>PolicyEngine InferencePermissionTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>InferencePermissionTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_openai_compat_adapter.cpp" line="426" column="18" bodyfile="tests/llm/test_openai_compat_adapter.cpp" bodystart="426" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>InferencePermissionTest</label>
+        <link refid="class_inference_permission_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>InferencePermissionTest</label>
+        <link refid="class_inference_permission_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_openai_compat_adapter.cpp" line="424" column="1" bodyfile="tests/llm/test_openai_compat_adapter.cpp" bodystart="424" bodyend="427"/>
+    <listofallmembers>
+      <member refid="class_inference_permission_test_1a2b35770ec962cc406b8003c8c986570c" prot="protected" virt="non-virtual"><scope>InferencePermissionTest</scope><name>engine_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

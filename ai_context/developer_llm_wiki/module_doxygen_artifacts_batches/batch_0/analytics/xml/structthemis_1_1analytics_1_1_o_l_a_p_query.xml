@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_o_l_a_p_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::OLAPQuery</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <innerclass refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1_1_window_spec" prot="public">themis::analytics::OLAPQuery::WindowSpec</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GroupingMode</name>
+        <qualifiedname>themis::analytics::OLAPQuery::GroupingMode</qualifiedname>
+        <enumvalue id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2a1fbb1e3943c2c6c560247ac8f9289780" prot="public">
+          <name>Simple</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2aa296104f0c61a9cf39f4824d05315e12" prot="public">
+          <name>Cube</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2a3bb2610b8b77a46442c4d1c2988397b1" prot="public">
+          <name>Rollup</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2a57d8b56d0152f4f304ce1a5e75073593" prot="public">
+          <name>GroupingSets</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="138" column="5" bodyfile="include/analytics/olap.h" bodystart="138" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::OLAPQuery::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::analytics::OLAPQuery::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="127" column="17" bodyfile="include/analytics/olap.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a64c088e5a0aea4537d770d231ca42695" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref> &gt;</type>
+        <definition>std::vector&lt;Dimension&gt; themis::analytics::OLAPQuery::dimensions</definition>
+        <argsstring></argsstring>
+        <name>dimensions</name>
+        <qualifiedname>themis::analytics::OLAPQuery::dimensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="128" column="17" bodyfile="include/analytics/olap.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a1409e019af8ca60501dd36f95eec4682" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">Measure</ref> &gt;</type>
+        <definition>std::vector&lt;Measure&gt; themis::analytics::OLAPQuery::measures</definition>
+        <argsstring></argsstring>
+        <name>measures</name>
+        <qualifiedname>themis::analytics::OLAPQuery::measures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="129" column="17" bodyfile="include/analytics/olap.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a98cfbc7ae6d2aae8f1b88dcb5dd4a80b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_filter" kindref="compound">Filter</ref> &gt;</type>
+        <definition>std::vector&lt;Filter&gt; themis::analytics::OLAPQuery::filters</definition>
+        <argsstring></argsstring>
+        <name>filters</name>
+        <qualifiedname>themis::analytics::OLAPQuery::filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="130" column="17" bodyfile="include/analytics/olap.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a90f626638f405a522f0df697c6a41a88" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_sort" kindref="compound">Sort</ref> &gt;</type>
+        <definition>std::vector&lt;Sort&gt; themis::analytics::OLAPQuery::sorts</definition>
+        <argsstring></argsstring>
+        <name>sorts</name>
+        <qualifiedname>themis::analytics::OLAPQuery::sorts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="131" column="17" bodyfile="include/analytics/olap.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a7f9ccc01a083857cc37952f794be53f2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::analytics::OLAPQuery::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::analytics::OLAPQuery::limit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="132" column="19" bodyfile="include/analytics/olap.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1ae308930e4462491695cf32525bc28104" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::analytics::OLAPQuery::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::analytics::OLAPQuery::offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="133" column="19" bodyfile="include/analytics/olap.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1aeea14b7e99eb628ec00f12fe4ab72944" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::OLAPQuery::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::analytics::OLAPQuery::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="135" column="17" bodyfile="include/analytics/olap.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1ae1a52acf165c3f43f5c41b00f71ef7f5" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2" kindref="member">GroupingMode</ref></type>
+        <definition>GroupingMode themis::analytics::OLAPQuery::grouping_mode</definition>
+        <argsstring></argsstring>
+        <name>grouping_mode</name>
+        <qualifiedname>themis::analytics::OLAPQuery::grouping_mode</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2a1fbb1e3943c2c6c560247ac8f9289780" kindref="member">GroupingMode::Simple</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="145" column="18" bodyfile="include/analytics/olap.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1a1e1689d270863eb32f71c33c154c7d19" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_grouping_set" kindref="compound">GroupingSet</ref> &gt;</type>
+        <definition>std::vector&lt;GroupingSet&gt; themis::analytics::OLAPQuery::grouping_sets</definition>
+        <argsstring></argsstring>
+        <name>grouping_sets</name>
+        <qualifiedname>themis::analytics::OLAPQuery::grouping_sets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="146" column="17" bodyfile="include/analytics/olap.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_query_1aa051c58c1c4d2be2da0daa7e204ca1ba" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1_1_window_spec" kindref="compound">WindowSpec</ref> &gt;</type>
+        <definition>std::vector&lt;WindowSpec&gt; themis::analytics::OLAPQuery::windows</definition>
+        <argsstring></argsstring>
+        <name>windows</name>
+        <qualifiedname>themis::analytics::OLAPQuery::windows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="156" column="17" bodyfile="include/analytics/olap.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="126" column="1" bodyfile="include/analytics/olap.h" bodystart="126" bodyend="157"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>collection</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a64c088e5a0aea4537d770d231ca42695" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>dimensions</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a98cfbc7ae6d2aae8f1b88dcb5dd4a80b" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>filters</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1ae1a52acf165c3f43f5c41b00f71ef7f5" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>grouping_mode</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a1e1689d270863eb32f71c33c154c7d19" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>grouping_sets</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a384d238ca838a2c6307418715b90f3b2" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>GroupingMode</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a7f9ccc01a083857cc37952f794be53f2" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>limit</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a1409e019af8ca60501dd36f95eec4682" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>measures</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1ae308930e4462491695cf32525bc28104" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>offset</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a90f626638f405a522f0df697c6a41a88" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>sorts</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1aeea14b7e99eb628ec00f12fe4ab72944" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1aa051c58c1c4d2be2da0daa7e204ca1ba" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPQuery</scope><name>windows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

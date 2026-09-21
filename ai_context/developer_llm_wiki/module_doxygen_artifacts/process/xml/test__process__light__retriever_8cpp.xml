@@ -1,0 +1,716 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__process__light__retriever_8cpp" kind="file" language="C++">
+    <compoundname>test_process_light_retriever.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">index/process_graph.h</includes>
+    <includes refid="process__community__detector_8h" local="yes">process/process_community_detector.h</includes>
+    <includes refid="process__graph__rag_8h" local="yes">process/process_graph_rag.h</includes>
+    <includes refid="process__light__retriever_8h" local="yes">process/process_light_retriever.h</includes>
+    <includes refid="process__linker_8h" local="yes">process/process_linker.h</includes>
+    <includes refid="process__model__manager_8h" local="yes">process/process_model_manager.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="17">
+        <label>process/process_api_contract.h</label>
+        <link refid="process__api__contract_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>process/process_community_detector.h</label>
+        <link refid="process__community__detector_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>process/process_diagnostics.h</label>
+        <link refid="process__diagnostics_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>process/process_graph_rag.h</label>
+        <link refid="process__graph__rag_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>process/process_light_retriever.h</label>
+        <link refid="process__light__retriever_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>process/process_linker.h</label>
+        <link refid="process__linker_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>process/process_model_manager.h</label>
+        <link refid="process__model__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/process/test_process_light_retriever.cpp</label>
+        <link refid="test__process__light__retriever_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>analytics/cep_engine.h</label>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="18">
+        <label>chrono</label>
+      </node>
+      <node id="32">
+        <label>cstddef</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="33">
+        <label>filesystem</label>
+      </node>
+      <node id="27">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="15">
+        <label>map</label>
+      </node>
+      <node id="28">
+        <label>memory</label>
+      </node>
+      <node id="30">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="21">
+        <label>optional</label>
+      </node>
+      <node id="29">
+        <label>rag/knowledge_graph_retriever.h</label>
+      </node>
+      <node id="22">
+        <label>set</label>
+      </node>
+      <node id="19">
+        <label>shared_mutex</label>
+      </node>
+      <node id="26">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="5">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="23">
+        <label>unordered_map</label>
+      </node>
+      <node id="24">
+        <label>unordered_set</label>
+      </node>
+      <node id="20">
+        <label>utility</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_process_light_retriever_test" prot="public">ProcessLightRetrieverTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__process__light__retriever_8cpp_1a685a62c81ebb9eecc9d5c81099ababd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessLightRetrieverTest, PLR01_AutoGlobalKeyword)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>PLR01_AutoGlobalKeyword</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="104" column="1" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="104" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__light__retriever_8cpp_1a46ee0c685223e4829a2e85724df83fa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessLightRetrieverTest, PLR02_AutoLocalKeyword)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>PLR02_AutoLocalKeyword</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="128" column="1" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="128" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__light__retriever_8cpp_1adf9843340056812c869093df95a424c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessLightRetrieverTest, PLR03_GlobalWithPersistedCommunities)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>PLR03_GlobalWithPersistedCommunities</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="144" column="1" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="144" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__light__retriever_8cpp_1adbae3ee26c82075342b0e6187016ba24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessLightRetrieverTest, PLR04_GlobalFallbackToLocal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>PLR04_GlobalFallbackToLocal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="170" column="1" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="170" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__light__retriever_8cpp_1ae471af74ce69a7ca7e72cbda4c0ca205" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessLightRetrieverTest, PLR05_LocalModeExplicit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>PLR05_LocalModeExplicit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="188" column="1" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="188" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__light__retriever_8cpp_1aa480ceb021d109a16547ab0f0275f5bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessLightRetrieverTest, PLR06_NonEmptyLlmContext)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>PLR06_NonEmptyLlmContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="205" column="1" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="205" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__light__retriever_8cpp_1abefedb237bf416fc482b7fffc0f83029" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessLightRetrieverTest, PLR07_UsedModeMatchesRequested)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>PLR07_UsedModeMatchesRequested</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="223" column="1" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="223" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__process__light__retriever_8cpp_1aa153b92dcfaf8d9906aa37b907a44189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ProcessLightRetrieverTest, PLR08_ClassifyQueryCaseInsensitive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref></type>
+        </param>
+        <param>
+          <type>PLR08_ClassifyQueryCaseInsensitive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_light_retriever.cpp" line="251" column="1" bodyfile="tests/process/test_process_light_retriever.cpp" bodystart="251" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>-<sp/>Process<sp/>Modeling<sp/>Module</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>test_process_light_retriever.cpp</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>tests/process/</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>GTest<sp/>unit<sp/>tests<sp/>PLR-01<sp/>..<sp/>PLR-08<sp/>for<sp/>ProcessLightRetriever.</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/process_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__community__detector_8h" kindref="compound">process/process_community_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__graph__rag_8h" kindref="compound">process/process_graph_rag.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__light__retriever_8h" kindref="compound">process/process_light_retriever.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__linker_8h" kindref="compound">process/process_linker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__model__manager_8h" kindref="compound">process/process_model_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process_1af2af767b6a1134cb0bbfb5250485892f" kindref="member">json</ref><sp/><sp/><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="class_process_light_retriever_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_process_light_retriever_test_1af2b121889d813570fb8f00009fa820b9" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1aa3c33dd3c4db2f341ab7031f28e0958b" kindref="member">db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/test_light_retriever&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_process_light_retriever_test_1aa3c33dd3c4db2f341ab7031f28e0958b" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_process_light_retriever_test_1aa3c33dd3c4db2f341ab7031f28e0958b" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/><sp/><sp/><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_background_jobs<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" kindref="member">db_</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::registerProcessEdgeTypes();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1aebc8adb1565d8ddb8872a0a81d6293d2" kindref="member">engine_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;themis::ProcessGraphManager&gt;(*<ref refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1aa390219fc6a80125cc5de22cc0226205" kindref="member">mgr_</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;themis::process::ProcessModelManager&gt;(*<ref refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1ac4ef51e5dc8b798e80f66d8bfdbd97c5" kindref="member">linker_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;themis::process::ProcessLinker&gt;(*<ref refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1a7facb8aed8e521cb901198b34ada3268" kindref="member">rag_</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;themis::process::ProcessGraphRag&gt;(</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<ref refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" kindref="member">db_</ref>,<sp/>*<ref refid="class_process_light_retriever_test_1aebc8adb1565d8ddb8872a0a81d6293d2" kindref="member">engine_</ref>,<sp/>*<ref refid="class_process_light_retriever_test_1aa390219fc6a80125cc5de22cc0226205" kindref="member">mgr_</ref>,<sp/>*<ref refid="class_process_light_retriever_test_1ac4ef51e5dc8b798e80f66d8bfdbd97c5" kindref="member">linker_</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1a3990dff20e5fe97456fbc3b3eea5ead0" kindref="member">detector_</ref><sp/><sp/>=<sp/>std::make_unique&lt;themis::process::ProcessCommunityDetector&gt;(*<ref refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1aabf744708a6030ce4d6c602e0789aa4b" kindref="member">retriever_</ref><sp/>=<sp/>std::make_unique&lt;themis::process::ProcessLightRetriever&gt;(</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<ref refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" kindref="member">db_</ref>,<sp/>*<ref refid="class_process_light_retriever_test_1a7facb8aed8e521cb901198b34ada3268" kindref="member">rag_</ref>,<sp/>*<ref refid="class_process_light_retriever_test_1a3990dff20e5fe97456fbc3b3eea5ead0" kindref="member">detector_</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_process_light_retriever_test_1a4248ad42cc04ef5eb39f36d74ee3c2f4" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1aabf744708a6030ce4d6c602e0789aa4b" kindref="member">retriever_</ref>.reset();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1a3990dff20e5fe97456fbc3b3eea5ead0" kindref="member">detector_</ref>.reset();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1a7facb8aed8e521cb901198b34ada3268" kindref="member">rag_</ref>.reset();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1ac4ef51e5dc8b798e80f66d8bfdbd97c5" kindref="member">linker_</ref>.reset();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1aa390219fc6a80125cc5de22cc0226205" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1aebc8adb1565d8ddb8872a0a81d6293d2" kindref="member">engine_</ref>.reset();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_process_light_retriever_test_1aa3c33dd3c4db2f341ab7031f28e0958b" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_process_light_retriever_test_1aad1ffb0b93fbce9dada5ccd9aef13331" kindref="member">saveMinimalModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">themis::process::ProcessModelRecord</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1process_1_1_process_model_record_1a72f4aec96ca2f648f178f409d4244774" kindref="member">id</ref><sp/><sp/><sp/>=<sp/>model_id;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1process_1_1_process_model_record_1a1d53df2f4efa62f9ba57360ad96174c5" kindref="member">name</ref><sp/>=<sp/>model_id;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1process_1_1_process_model_record_1a814c6661c9a25fb16172544b0d2e2e88" kindref="member">normalized</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;nodes&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Start&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;End&quot;</highlight><highlight class="normal">}}})},</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;edges&quot;</highlight><highlight class="normal">,<sp/>json::array({</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json{{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">}}})}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1aa390219fc6a80125cc5de22cc0226205" kindref="member">mgr_</ref>-&gt;save(rec);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>model_id;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_process_light_retriever_test_1a4d87e737ac35a9c633a46690882d6c41" kindref="member">storeInstance</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>instance_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json<sp/>inst;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inst[</highlight><highlight class="stringliteral">&quot;model_id&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>model_id;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inst[</highlight><highlight class="stringliteral">&quot;process_definition_id&quot;</highlight><highlight class="normal">]<sp/>=<sp/>model_id;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" kindref="member">db_</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;proc:inst:&quot;</highlight><highlight class="normal"><sp/>+<sp/>instance_id,<sp/>inst.dump());</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_process_light_retriever_test_1aa3c33dd3c4db2f341ab7031f28e0958b" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1a4d3827457f2fa28c4e5ea27607cf93b1" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::ProcessGraphManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1aebc8adb1565d8ddb8872a0a81d6293d2" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::process::ProcessModelManager&gt;<sp/><ref refid="class_process_light_retriever_test_1aa390219fc6a80125cc5de22cc0226205" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::process::ProcessLinker&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1ac4ef51e5dc8b798e80f66d8bfdbd97c5" kindref="member">linker_</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::process::ProcessGraphRag&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1a7facb8aed8e521cb901198b34ada3268" kindref="member">rag_</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::process::ProcessCommunityDetector&gt;<sp/><ref refid="class_process_light_retriever_test_1a3990dff20e5fe97456fbc3b3eea5ead0" kindref="member">detector_</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::process::ProcessLightRetriever&gt;<sp/><sp/><sp/><sp/><ref refid="class_process_light_retriever_test_1aabf744708a6030ce4d6c602e0789aa4b" kindref="member">retriever_</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLR-01:<sp/>AUTO<sp/>mode<sp/>with<sp/>global<sp/>keyword<sp/>→<sp/>uses<sp/>GLOBAL<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__process__light__retriever_8cpp_1a685a62c81ebb9eecc9d5c81099ababd2" kindref="member">TEST_F</ref>(<ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref>,<sp/>PLR01_AutoGlobalKeyword)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>saveMinimalModel(</highlight><highlight class="stringliteral">&quot;m_plr01&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>storeInstance(</highlight><highlight class="stringliteral">&quot;inst_plr01&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m_plr01&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Persist<sp/>at<sp/>least<sp/>one<sp/>community<sp/>so<sp/>GLOBAL<sp/>path<sp/>returns<sp/>GLOBAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_community" kindref="compound">themis::process::ProcessCommunity</ref><sp/>c;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aecdcb9127a0a2838a34a370dcfa29527" kindref="member">community_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;community_0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aa11edf4723fb9e9cefe0aa34ebdbe580" kindref="member">node_ids</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1a1c74212696e9dd730bf6a76ef78f17f6" kindref="member">label</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Start;<sp/>End&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aff05c1f02cee6508b0cb8b90ab89d68b" kindref="member">report</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Report<sp/>for<sp/>community_0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;persistCommunities(</highlight><highlight class="stringliteral">&quot;m_plr01&quot;</highlight><highlight class="normal">,<sp/>{c});</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever_-&gt;retrieve(</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;gesamte<sp/>Prozessbeschreibung&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>global<sp/>keyword</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inst_plr01&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95bae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">themis::process::RetrievalMode::AUTO</ref>);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.used_mode,<sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba6eecfba72d12922ee1dead07a0ef3334" kindref="member">themis::process::RetrievalMode::GLOBAL</ref>);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLR-02:<sp/>AUTO<sp/>mode<sp/>with<sp/>specific<sp/>term<sp/>→<sp/>uses<sp/>LOCAL<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__process__light__retriever_8cpp_1a685a62c81ebb9eecc9d5c81099ababd2" kindref="member">TEST_F</ref>(<ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref>,<sp/>PLR02_AutoLocalKeyword)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>saveMinimalModel(</highlight><highlight class="stringliteral">&quot;m_plr02&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>storeInstance(</highlight><highlight class="stringliteral">&quot;inst_plr02&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m_plr02&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever_-&gt;retrieve(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Welche<sp/>Dokumente<sp/>fehlen<sp/>bei<sp/>Schritt<sp/>n1?&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>specific<sp/>–<sp/>no<sp/>global<sp/>keyword</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inst_plr02&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95bae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">themis::process::RetrievalMode::AUTO</ref>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.used_mode,<sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">themis::process::RetrievalMode::LOCAL</ref>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLR-03:<sp/>GLOBAL<sp/>mode<sp/>with<sp/>persisted<sp/>communities<sp/>→<sp/>returns<sp/>community<sp/>reports</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__process__light__retriever_8cpp_1a685a62c81ebb9eecc9d5c81099ababd2" kindref="member">TEST_F</ref>(<ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref>,<sp/>PLR03_GlobalWithPersistedCommunities)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>saveMinimalModel(</highlight><highlight class="stringliteral">&quot;m_plr03&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>storeInstance(</highlight><highlight class="stringliteral">&quot;inst_plr03&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m_plr03&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_community" kindref="compound">themis::process::ProcessCommunity</ref><sp/>c;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aecdcb9127a0a2838a34a370dcfa29527" kindref="member">community_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;community_0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aa11edf4723fb9e9cefe0aa34ebdbe580" kindref="member">node_ids</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1a1c74212696e9dd730bf6a76ef78f17f6" kindref="member">label</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Start;<sp/>End&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aff05c1f02cee6508b0cb8b90ab89d68b" kindref="member">report</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Summary<sp/>of<sp/>the<sp/>process<sp/>flow&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1a7c2db9fea6f4d09acaefadc9ed553299" kindref="member">modularity_score</ref><sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(detector_-&gt;persistCommunities(</highlight><highlight class="stringliteral">&quot;m_plr03&quot;</highlight><highlight class="normal">,<sp/>{c}));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever_-&gt;retrieve(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Überblick&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inst_plr03&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba6eecfba72d12922ee1dead07a0ef3334" kindref="member">themis::process::RetrievalMode::GLOBAL</ref>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.used_mode,<sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba6eecfba72d12922ee1dead07a0ef3334" kindref="member">themis::process::RetrievalMode::GLOBAL</ref>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.llm_context.empty());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.community_ids_used.empty());</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLR-04:<sp/>GLOBAL<sp/>mode<sp/>without<sp/>persisted<sp/>communities<sp/>→<sp/>falls<sp/>back<sp/>to<sp/>LOCAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__process__light__retriever_8cpp_1a685a62c81ebb9eecc9d5c81099ababd2" kindref="member">TEST_F</ref>(<ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref>,<sp/>PLR04_GlobalFallbackToLocal)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>saveMinimalModel(</highlight><highlight class="stringliteral">&quot;m_plr04&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>storeInstance(</highlight><highlight class="stringliteral">&quot;inst_plr04&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m_plr04&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>communities<sp/>persisted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever_-&gt;retrieve(</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Überblick&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inst_plr04&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba6eecfba72d12922ee1dead07a0ef3334" kindref="member">themis::process::RetrievalMode::GLOBAL</ref>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>fall<sp/>back<sp/>to<sp/>LOCAL<sp/>without<sp/>throwing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.used_mode,<sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">themis::process::RetrievalMode::LOCAL</ref>);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLR-05:<sp/>LOCAL<sp/>mode<sp/>explicitly<sp/>→<sp/>delegates<sp/>to<sp/>ProcessGraphRag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__process__light__retriever_8cpp_1a685a62c81ebb9eecc9d5c81099ababd2" kindref="member">TEST_F</ref>(<ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref>,<sp/>PLR05_LocalModeExplicit)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>saveMinimalModel(</highlight><highlight class="stringliteral">&quot;m_plr05&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>storeInstance(</highlight><highlight class="stringliteral">&quot;inst_plr05&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m_plr05&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever_-&gt;retrieve(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Schritt<sp/>1<sp/>Dokumente&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inst_plr05&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">themis::process::RetrievalMode::LOCAL</ref>);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.used_mode,<sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">themis::process::RetrievalMode::LOCAL</ref>);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.community_ids_used.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLR-06:<sp/>retrieve()<sp/>returns<sp/>non-empty<sp/>llm_context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__process__light__retriever_8cpp_1a685a62c81ebb9eecc9d5c81099ababd2" kindref="member">TEST_F</ref>(<ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref>,<sp/>PLR06_NonEmptyLlmContext)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>saveMinimalModel(</highlight><highlight class="stringliteral">&quot;m_plr06&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>storeInstance(</highlight><highlight class="stringliteral">&quot;inst_plr06&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m_plr06&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>LOCAL<sp/>(always<sp/>produces<sp/>a<sp/>prompt)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever_-&gt;retrieve(</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Was<sp/>fehlt<sp/>noch?&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inst_plr06&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">themis::process::RetrievalMode::LOCAL</ref>);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ProcessGraphRag::retrieve()<sp/>always<sp/>builds<sp/>a<sp/>prompt,<sp/>even<sp/>for<sp/>minimal<sp/>instances</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.instance_id_used.empty());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLR-07:<sp/>used_mode<sp/>in<sp/>result<sp/>matches<sp/>requested<sp/>mode<sp/>(non-AUTO)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__process__light__retriever_8cpp_1a685a62c81ebb9eecc9d5c81099ababd2" kindref="member">TEST_F</ref>(<ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref>,<sp/>PLR07_UsedModeMatchesRequested)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>saveMinimalModel(</highlight><highlight class="stringliteral">&quot;m_plr07&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>storeInstance(</highlight><highlight class="stringliteral">&quot;inst_plr07&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m_plr07&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LOCAL<sp/>requested<sp/>→<sp/>used_mode<sp/>must<sp/>be<sp/>LOCAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever_-&gt;retrieve(</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;any<sp/>query&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inst_plr07&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">themis::process::RetrievalMode::LOCAL</ref>);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.used_mode,<sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">themis::process::RetrievalMode::LOCAL</ref>);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GLOBAL<sp/>requested<sp/>without<sp/>communities<sp/>→<sp/>falls<sp/>back<sp/>to<sp/>LOCAL<sp/>(documented<sp/>behaviour)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever_-&gt;retrieve(</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;any<sp/>query&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inst_plr07&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba6eecfba72d12922ee1dead07a0ef3334" kindref="member">themis::process::RetrievalMode::GLOBAL</ref>);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fallback<sp/>is<sp/>LOCAL;<sp/>this<sp/>is<sp/>the<sp/>documented<sp/>fallback<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.used_mode,<sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">themis::process::RetrievalMode::LOCAL</ref>);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLR-08:<sp/>classifyQuery<sp/>is<sp/>case-insensitive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__process__light__retriever_8cpp_1a685a62c81ebb9eecc9d5c81099ababd2" kindref="member">TEST_F</ref>(<ref refid="class_process_light_retriever_test" kindref="compound">ProcessLightRetrieverTest</ref>,<sp/>PLR08_ClassifyQueryCaseInsensitive)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>saveMinimalModel(</highlight><highlight class="stringliteral">&quot;m_plr08&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>storeInstance(</highlight><highlight class="stringliteral">&quot;inst_plr08&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;m_plr08&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Persist<sp/>communities<sp/>so<sp/>GLOBAL<sp/>actually<sp/>returns<sp/>GLOBAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_community" kindref="compound">themis::process::ProcessCommunity</ref><sp/>c;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aecdcb9127a0a2838a34a370dcfa29527" kindref="member">community_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;community_0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aa11edf4723fb9e9cefe0aa34ebdbe580" kindref="member">node_ids</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1a1c74212696e9dd730bf6a76ef78f17f6" kindref="member">label</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Start&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1aff05c1f02cee6508b0cb8b90ab89d68b" kindref="member">report</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Report<sp/>text&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1process_1_1_process_community_1a7c2db9fea6f4d09acaefadc9ed553299" kindref="member">modularity_score</ref><sp/>=<sp/>0.4f;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;persistCommunities(</highlight><highlight class="stringliteral">&quot;m_plr08&quot;</highlight><highlight class="normal">,<sp/>{c});</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Upper-case<sp/>version<sp/>of<sp/>a<sp/>global<sp/>keyword</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result_upper<sp/>=<sp/>retriever_-&gt;retrieve(</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;OVERVIEW<sp/>of<sp/>the<sp/>process&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inst_plr08&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95bae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">themis::process::RetrievalMode::AUTO</ref>);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result_upper.used_mode,<sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba6eecfba72d12922ee1dead07a0ef3334" kindref="member">themis::process::RetrievalMode::GLOBAL</ref>);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mixed-case</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result_mixed<sp/>=<sp/>retriever_-&gt;retrieve(</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;GeSaMtE<sp/>Prozess&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inst_plr08&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95bae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">themis::process::RetrievalMode::AUTO</ref>);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result_mixed.used_mode,<sp/><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95ba6eecfba72d12922ee1dead07a0ef3334" kindref="member">themis::process::RetrievalMode::GLOBAL</ref>);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/process/test_process_light_retriever.cpp"/>
+  </compounddef>
+</doxygen>

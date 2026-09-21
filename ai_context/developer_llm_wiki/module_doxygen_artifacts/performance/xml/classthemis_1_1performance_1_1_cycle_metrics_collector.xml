@@ -1,0 +1,518 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_cycle_metrics_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::CycleMetricsCollector</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1ad3ddb22c2e7a312c6851f2f9d0ede400" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::CycleMetricsCollector::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::running_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="263" column="17" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1af42f964f9ef75f89e0c874b507ab2033" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::CycleMetricsCollector::export_interval_</definition>
+        <argsstring></argsstring>
+        <name>export_interval_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::export_interval_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="264" column="9" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a00570197ab40373f68c93a51c008089b" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::performance::CycleMetricsCollector::export_thread_</definition>
+        <argsstring></argsstring>
+        <name>export_thread_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::export_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="265" column="17" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1aa71fd4a5f697d5731afcd7d34984b57c" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::CycleMetricsCollector::cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cv_mutex_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::cv_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="267" column="16" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a751f01cd00d767179f6b2eae3d9916a1" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::performance::CycleMetricsCollector::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="268" column="29" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a7543784528158c059511b2cd7f0f80eb" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::CycleMetricsCollector::buffers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>buffers_mutex_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::buffers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="270" column="16" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a79e979d9238c37ab71b3d9ad9b475f9e" prot="private" static="no" mutable="no">
+        <type>std::set&lt; <ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer" kindref="compound">ThreadLocalMetricsBuffer</ref> * &gt;</type>
+        <definition>std::set&lt;ThreadLocalMetricsBuffer*&gt; themis::performance::CycleMetricsCollector::thread_buffers_</definition>
+        <argsstring></argsstring>
+        <name>thread_buffers_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::thread_buffers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="271" column="14" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a7a737bf7a10d961436c61fc056d1099f" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::CycleMetricsCollector::aggregated_metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>aggregated_metrics_mutex_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::aggregated_metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="273" column="16" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1aee4499e365474b4ca3c3819b93256738" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1performance_1_1_metrics_entry" kindref="compound">MetricsEntry</ref> &gt;</type>
+        <definition>std::vector&lt;MetricsEntry&gt; themis::performance::CycleMetricsCollector::aggregated_metrics_</definition>
+        <argsstring></argsstring>
+        <name>aggregated_metrics_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::aggregated_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="274" column="17" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a176bc2d0cdf23bd91750d8b0fcb9f6c5" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::CycleMetricsCollector::function_metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>function_metrics_mutex_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::function_metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="276" column="16" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1ac182ed5a530cb6125206a5d5ce2c04b4" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; uint64_t &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;uint64_t&gt; &gt; themis::performance::CycleMetricsCollector::function_metrics_</definition>
+        <argsstring></argsstring>
+        <name>function_metrics_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::function_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="277" column="14" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1ad338e2d2e1c9753277765264356f16fa" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::CycleMetricsCollector::dropped_metrics_</definition>
+        <argsstring></argsstring>
+        <name>dropped_metrics_</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::dropped_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="279" column="17" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a4ef9a200f5031a795e5b742fa9dea243" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>CycleMetricsCollector &amp;</type>
+        <definition>static CycleMetricsCollector &amp; themis::performance::CycleMetricsCollector::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="49" column="34" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="49" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a7ba6b7f9fc0a8b625e598dc03a37a043" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::CycleMetricsCollector::recordOperation</definition>
+        <argsstring>(const std::string &amp;operation_name, const OperationCycleMetrics &amp;metrics)</argsstring>
+        <name>recordOperation</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::recordOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics" kindref="compound">OperationCycleMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Record Operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the operation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1performance_1_1_runtime_config_1ad88e7978b65d8d346789bc2e84b273d5" kindref="member">RuntimeConfig::instance()</ref>, isOperationEnabled(), shouldMeasure(), BufferWrapper(), collector(), invalidate(), deregisterThreadBuffer(), wrapper(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="60" column="10" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="60" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a8a3ac2346b88262abaeb09b3e6566e14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::CycleMetricsCollector::recordFunctionCycles</definition>
+        <argsstring>(const std::string &amp;function_name, uint64_t cycles)</argsstring>
+        <name>recordFunctionCycles</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::recordFunctionCycles</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>function_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>cycles</declname>
+        </param>
+        <briefdescription>
+<para>Record Function Cycles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">function_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the function. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cycles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="109" column="10" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1acbd5ad35a8ed4f603d6fb13c2c667df9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::CycleMetricsCollector::start</definition>
+        <argsstring>(int export_interval_seconds=1)</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::start</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>export_interval_seconds</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="114" column="10" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="114" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a59ec1b4f5482612d0bbe61a427345d53" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::CycleMetricsCollector::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), store(), notify_all(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="131" column="10" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="131" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1aba784f8dad28e67d6e3a9469f2573fb9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::CycleMetricsCollector::getPrometheusMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getPrometheusMetrics</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::getPrometheusMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Prometheus Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="namespacethemis_1_1performance_1a10da6a485e246895744c4c5ac2383e12" kindref="member">exportPrometheusMetrics()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="149" column="17" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="149" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a94833a69eba5e3bb35f512e688106441" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::CycleMetricsCollector::getCHIMERAMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getCHIMERAMetrics</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::getCHIMERAMetrics</qualifiedname>
+        <briefdescription>
+<para>Get CHIMERAMetrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="namespacethemis_1_1performance_1a61ef3260270e7755d86aa6d8d7078203" kindref="member">exportChimeraMetrics()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="159" column="17" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="159" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1ac1d2218fc3ddc40bdaf83f7390f91666" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::CycleMetricsCollector::getDroppedMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getDroppedMetrics</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::getDroppedMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="164" column="14" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="164" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a705c59b0032914c04c503e0ea7860448" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::CycleMetricsCollector::~CycleMetricsCollector</definition>
+        <argsstring>()</argsstring>
+        <name>~CycleMetricsCollector</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::~CycleMetricsCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="168" column="5" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="168" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a0fae6d9c2597266b5cebf3bc8a31ace0" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::CycleMetricsCollector::CycleMetricsCollector</definition>
+        <argsstring>()</argsstring>
+        <name>CycleMetricsCollector</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::CycleMetricsCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="173" column="5" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="173" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a5ea0d6e419094971abd64fc35ef520d0" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::CycleMetricsCollector::registerThreadBuffer</definition>
+        <argsstring>(ThreadLocalMetricsBuffer *buffer)</argsstring>
+        <name>registerThreadBuffer</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::registerThreadBuffer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer" kindref="compound">ThreadLocalMetricsBuffer</ref> *</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Register Thread Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="181" column="10" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="181" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a0e602b0cd39726eda792fc8b9e8f3831" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::CycleMetricsCollector::deregisterThreadBuffer</definition>
+        <argsstring>(ThreadLocalMetricsBuffer *buffer)</argsstring>
+        <name>deregisterThreadBuffer</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::deregisterThreadBuffer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer" kindref="compound">ThreadLocalMetricsBuffer</ref> *</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Deregister Thread Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="191" column="10" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="191" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a521d64adb23f34e6af29e7571d31fe9f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::CycleMetricsCollector::exportLoop</definition>
+        <argsstring>()</argsstring>
+        <name>exportLoop</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::exportLoop</qualifiedname>
+        <briefdescription>
+<para>Export Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), wait_for(), std::chrono::seconds(), drainAllBuffers(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="200" column="10" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="200" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_cycle_metrics_collector_1a0c107d2cf19c019b22e18a1b7c463264" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::CycleMetricsCollector::drainAllBuffers</definition>
+        <argsstring>()</argsstring>
+        <name>drainAllBuffers</name>
+        <qualifiedname>themis::performance::CycleMetricsCollector::drainAllBuffers</qualifiedname>
+        <briefdescription>
+<para>Drain All Buffers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), reserve(), size(), assign(), begin(), end(), is_valid(), drain(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="221" column="10" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="221" bodyend="261"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/performance/async_metrics_exporter.cpp" line="42" column="1" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="42" bodyend="280"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1aee4499e365474b4ca3c3819b93256738" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>aggregated_metrics_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a7a737bf7a10d961436c61fc056d1099f" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>aggregated_metrics_mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a7543784528158c059511b2cd7f0f80eb" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>buffers_mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a751f01cd00d767179f6b2eae3d9916a1" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1aa71fd4a5f697d5731afcd7d34984b57c" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>cv_mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a0fae6d9c2597266b5cebf3bc8a31ace0" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>CycleMetricsCollector</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a0e602b0cd39726eda792fc8b9e8f3831" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>deregisterThreadBuffer</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a0c107d2cf19c019b22e18a1b7c463264" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>drainAllBuffers</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1ad338e2d2e1c9753277765264356f16fa" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>dropped_metrics_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1af42f964f9ef75f89e0c874b507ab2033" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>export_interval_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a00570197ab40373f68c93a51c008089b" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>export_thread_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a521d64adb23f34e6af29e7571d31fe9f" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>exportLoop</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1ac182ed5a530cb6125206a5d5ce2c04b4" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>function_metrics_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a176bc2d0cdf23bd91750d8b0fcb9f6c5" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>function_metrics_mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a94833a69eba5e3bb35f512e688106441" prot="public" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>getCHIMERAMetrics</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1ac1d2218fc3ddc40bdaf83f7390f91666" prot="public" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>getDroppedMetrics</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1aba784f8dad28e67d6e3a9469f2573fb9" prot="public" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>getPrometheusMetrics</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a4ef9a200f5031a795e5b742fa9dea243" prot="public" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>instance</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a8a3ac2346b88262abaeb09b3e6566e14" prot="public" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>recordFunctionCycles</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a7ba6b7f9fc0a8b625e598dc03a37a043" prot="public" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>recordOperation</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a5ea0d6e419094971abd64fc35ef520d0" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>registerThreadBuffer</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1ad3ddb22c2e7a312c6851f2f9d0ede400" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>running_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1acbd5ad35a8ed4f603d6fb13c2c667df9" prot="public" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>start</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a59ec1b4f5482612d0bbe61a427345d53" prot="public" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>stop</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a79e979d9238c37ab71b3d9ad9b475f9e" prot="private" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>thread_buffers_</name></member>
+      <member refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a705c59b0032914c04c503e0ea7860448" prot="public" virt="non-virtual"><scope>themis::performance::CycleMetricsCollector</scope><name>~CycleMetricsCollector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

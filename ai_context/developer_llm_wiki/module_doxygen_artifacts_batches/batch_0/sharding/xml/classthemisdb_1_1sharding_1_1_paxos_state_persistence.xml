@@ -1,0 +1,584 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_paxos_state_persistence" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PaxosStatePersistence</compoundname>
+    <includes refid="paxos__state__persistence_8h" local="no">paxos_state_persistence.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config" prot="public">themisdb::sharding::PaxosStatePersistence::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a457e85d5734173461547cae6586bd7ef" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l" kindref="compound">PaxosWAL</ref> *</type>
+        <definition>PaxosWAL* themisdb::sharding::PaxosStatePersistence::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="186" column="26" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a88e810827256d053e2909b35454c8cda" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager" kindref="compound">PaxosSnapshotManager</ref> *</type>
+        <definition>PaxosSnapshotManager* themisdb::sharding::PaxosStatePersistence::snapshot_mgr_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_mgr_</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::snapshot_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="187" column="26" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a53e805813de430450a8c4ee7cadd9d59" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::sharding::PaxosStatePersistence::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="188" column="27" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a096d3dd3182614af5db3f042f3ad616d" prot="private" static="no" mutable="yes">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex themisdb::sharding::PaxosStatePersistence::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="190" column="30" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a026bde89a8b180691e0e52bec89c475a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::PaxosStatePersistence::is_open_</definition>
+        <argsstring></argsstring>
+        <name>is_open_</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::is_open_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="191" column="21" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a9be88e2ff800eeb593a14a97accca704" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_durable_node_state" kindref="compound">DurableNodeState</ref></type>
+        <definition>DurableNodeState themisdb::sharding::PaxosStatePersistence::node_state_</definition>
+        <argsstring></argsstring>
+        <name>node_state_</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::node_state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="192" column="27" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a83e5ea0ec0f0c9e9c1c0e890c8539cc8" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PaxosStatePersistence::commits_since_compact_</definition>
+        <argsstring></argsstring>
+        <name>commits_since_compact_</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::commits_since_compact_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="193" column="27" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1ac93fba328e7171405e01b4c95a1df762" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, <ref refid="structthemisdb_1_1sharding_1_1_durable_acceptor_state" kindref="compound">DurableAcceptorState</ref> &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, DurableAcceptorState&gt; themisdb::sharding::PaxosStatePersistence::slot_cache_</definition>
+        <argsstring></argsstring>
+        <name>slot_cache_</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::slot_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="196" column="24" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a709e77f362f80dc59c3ee7a2874bc849" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PaxosStatePersistence::PaxosStatePersistence</definition>
+        <argsstring>(PaxosWAL *wal, PaxosSnapshotManager *snapshot_mgr)</argsstring>
+        <name>PaxosStatePersistence</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::PaxosStatePersistence</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l" kindref="compound">PaxosWAL</ref> *</type>
+          <declname>wal</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager" kindref="compound">PaxosSnapshotManager</ref> *</type>
+          <declname>snapshot_mgr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="101" column="5" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="103" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a8e403c1813446b1129b82b8b07e4c7cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PaxosStatePersistence::PaxosStatePersistence</definition>
+        <argsstring>(PaxosWAL *wal, PaxosSnapshotManager *snapshot_mgr, const Config &amp;config)</argsstring>
+        <name>PaxosStatePersistence</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::PaxosStatePersistence</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l" kindref="compound">PaxosWAL</ref> *</type>
+          <declname>wal</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_paxos_snapshot_manager" kindref="compound">PaxosSnapshotManager</ref> *</type>
+          <declname>snapshot_mgr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="104" column="5" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="108" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1abe3100dd3718115cf4873e4284c1a775" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PaxosStatePersistence::~PaxosStatePersistence</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PaxosStatePersistence</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::~PaxosStatePersistence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1ad4addf1aced731b70835f325ca24c6a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PaxosStatePersistence::PaxosStatePersistence</definition>
+        <argsstring>(const PaxosStatePersistence &amp;)=delete</argsstring>
+        <name>PaxosStatePersistence</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::PaxosStatePersistence</qualifiedname>
+        <param>
+          <type>const PaxosStatePersistence &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a1c93bdb3187bcb4d337d582075cc8603" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a709e77f362f80dc59c3ee7a2874bc849" kindref="member">PaxosStatePersistence</ref> &amp;</type>
+        <definition>PaxosStatePersistence &amp; themisdb::sharding::PaxosStatePersistence::operator=</definition>
+        <argsstring>(const PaxosStatePersistence &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a709e77f362f80dc59c3ee7a2874bc849" kindref="member">PaxosStatePersistence</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="111" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a00539d7da4d6e6ace349c2c78717cb7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PaxosStatePersistence::open</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>open</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::open</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Load durable state from disk on process startup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Open.</para>
+<para>Reads the latest snapshot and replays the WAL tail. Must be called before any other method. <simplesect kind="return"><para>true on success (empty state on first startup is also success).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), try_lock_for(), THEMIS_ERROR(), load(), fs::create_directories(), loadLatestSnapshot(), THEMIS_INFO(), <ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="122" column="10" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="131" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a695fd7131ff3afa1bafefba60e4faa17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PaxosStatePersistence::close</definition>
+        <argsstring>()</argsstring>
+        <name>close</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::close</qualifiedname>
+        <briefdescription>
+<para>Flush and close all open handles. Safe to call multiple times. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Close.</para>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="127" column="10" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="180" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1ae1e8aa420c2bcdca008c5da4d3bb9473" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PaxosStatePersistence::persistPromise</definition>
+        <argsstring>(uint64_t slot, uint64_t ballot_round, const std::string &amp;proposer_node_id)</argsstring>
+        <name>persistPromise</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::persistPromise</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>slot</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ballot_round</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>proposer_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Persist a Phase-1 promise (ballot upgrade) for <computeroutput>slot</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist Promise.</para>
+<para>Must be called — and must complete — before sending a PROMISE response.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ballot_round</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">proposer_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the proposer node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), try_lock_for(), THEMIS_ERROR(), load(), logPromise(), empty(), json::parse(), flush(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="136" column="10" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="265" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a187ce2c3fdd7ad0fbd3960bcb54caaa0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PaxosStatePersistence::persistAccept</definition>
+        <argsstring>(uint64_t slot, uint64_t ballot_round, const std::string &amp;value)</argsstring>
+        <name>persistAccept</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::persistAccept</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>slot</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ballot_round</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Persist a Phase-2 accept for <computeroutput>slot</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist Accept.</para>
+<para>Must be called — and must complete — before sending an ACCEPTED response.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ballot_round</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), try_lock_for(), THEMIS_ERROR(), load(), std::chrono::system_clock::now(), json::object(), json::parse(), is_discarded(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="144" column="10" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="307" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a7a628e0a5ea9969deca0d2e4a7fe38f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PaxosStatePersistence::persistCommit</definition>
+        <argsstring>(uint64_t slot)</argsstring>
+        <name>persistCommit</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::persistCommit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>slot</declname>
+        </param>
+        <briefdescription>
+<para>Record that <computeroutput>slot</computeroutput> has been committed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist Commit.</para>
+<para>Triggers compaction if <ref refid="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config_1a3b994a061f578f9a37c780fab9bcc51e" kindref="member">Config::compact_interval</ref> has been reached.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), load(), find(), end(), count(), empty(), buildConsensusEntryFromAcceptedValue(), logCommit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="152" column="10" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="365" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a19f4b966c7429f0e58989b60dd8d8c55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_durable_acceptor_state" kindref="compound">DurableAcceptorState</ref> &gt;</type>
+        <definition>std::optional&lt; DurableAcceptorState &gt; themisdb::sharding::PaxosStatePersistence::getAcceptorState</definition>
+        <argsstring>(uint64_t slot) const</argsstring>
+        <name>getAcceptorState</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::getAcceptorState</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>slot</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the durable acceptor state for a slot after a restart. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns std::nullopt when the slot is unknown (not yet seen or already compacted into a snapshot). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="162" column="19" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="416" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a62a224b6d26f94c38757b5301cd5bf0c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_durable_node_state" kindref="compound">DurableNodeState</ref> &amp;</type>
+        <definition>const DurableNodeState &amp; themisdb::sharding::PaxosStatePersistence::nodeState</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>nodeState</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::nodeState</qualifiedname>
+        <briefdescription>
+<para>Return the recovered node-level state (round counter, commit index). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="167" column="28" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a843a3a49171b73c298383fc13c7dcc44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PaxosStatePersistence::maybeCompact</definition>
+        <argsstring>()</argsstring>
+        <name>maybeCompact</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::maybeCompact</qualifiedname>
+        <briefdescription>
+<para>Take a snapshot and truncate the WAL if the compact threshold is met. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maybe Compact.</para>
+<para>Safe to call from a background thread.</para>
+<para>Calls: lock(), try_lock_for(), THEMIS_WARN(), <ref refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a0460d5d45685ab9dd8aa400bffa399fa" kindref="member">forceCompact()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="176" column="10" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="437" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a0460d5d45685ab9dd8aa400bffa399fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PaxosStatePersistence::forceCompact</definition>
+        <argsstring>()</argsstring>
+        <name>forceCompact</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::forceCompact</qualifiedname>
+        <briefdescription>
+<para>Force a snapshot regardless of the compaction threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Force Compact.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), try_lock_for(), THEMIS_ERROR(), buildConsensusEntryFromAcceptedValue(), createSnapshot(), THEMIS_INFO(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="181" column="10" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="456" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a3fe06c1d5d8a9b346b65d4075b909121" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PaxosStatePersistence::isOpen</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isOpen</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::isOpen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="183" column="10" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a5284fe2f0f2ba34a6747ea3269a75465" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PaxosStatePersistence::replayWal</definition>
+        <argsstring>(LSN from_lsn)</argsstring>
+        <name>replayWal</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::replayWal</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+          <declname>from_lsn</declname>
+        </param>
+        <briefdescription>
+<para>Replay Wal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: readEntries(), contains(), is_object(), is_string(), dump(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="198" column="10" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="193" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistence façade for Paxos acceptor state. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a709e77f362f80dc59c3ee7a2874bc849" kindref="member">PaxosStatePersistence</ref><sp/>persist(wal,<sp/>snapshot_mgr,<sp/>config);</highlight></codeline>
+<codeline><highlight class="normal">persist.open();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>on<sp/>startup</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>On<sp/>every<sp/>PROMISE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">persist.persistPromise(slot,<sp/>ballot);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>On<sp/>every<sp/>ACCEPT:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">persist.persistAccept(slot,<sp/>ballot,<sp/>value);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>After<sp/>commit:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">persist.persistCommit(slot);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Periodic<sp/>compaction<sp/>(call<sp/>from<sp/>a<sp/>background<sp/>thread):</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">persist.maybeCompact();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/sharding/paxos_state_persistence.h" line="88" column="1" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="88" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a695fd7131ff3afa1bafefba60e4faa17" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>close</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a83e5ea0ec0f0c9e9c1c0e890c8539cc8" prot="private" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>commits_since_compact_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a53e805813de430450a8c4ee7cadd9d59" prot="private" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a0460d5d45685ab9dd8aa400bffa399fa" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>forceCompact</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a19f4b966c7429f0e58989b60dd8d8c55" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>getAcceptorState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a026bde89a8b180691e0e52bec89c475a" prot="private" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>is_open_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a3fe06c1d5d8a9b346b65d4075b909121" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>isOpen</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a843a3a49171b73c298383fc13c7dcc44" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>maybeCompact</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a096d3dd3182614af5db3f042f3ad616d" prot="private" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a9be88e2ff800eeb593a14a97accca704" prot="private" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>node_state_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a62a224b6d26f94c38757b5301cd5bf0c" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>nodeState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a00539d7da4d6e6ace349c2c78717cb7f" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>open</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a1c93bdb3187bcb4d337d582075cc8603" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a709e77f362f80dc59c3ee7a2874bc849" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>PaxosStatePersistence</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a8e403c1813446b1129b82b8b07e4c7cc" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>PaxosStatePersistence</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1ad4addf1aced731b70835f325ca24c6a7" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>PaxosStatePersistence</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a187ce2c3fdd7ad0fbd3960bcb54caaa0" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>persistAccept</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a7a628e0a5ea9969deca0d2e4a7fe38f1" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>persistCommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1ae1e8aa420c2bcdca008c5da4d3bb9473" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>persistPromise</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a5284fe2f0f2ba34a6747ea3269a75465" prot="private" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>replayWal</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1ac93fba328e7171405e01b4c95a1df762" prot="private" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>slot_cache_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a88e810827256d053e2909b35454c8cda" prot="private" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>snapshot_mgr_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1a457e85d5734173461547cae6586bd7ef" prot="private" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>wal_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paxos_state_persistence_1abe3100dd3718115cf4873e4284c1a775" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence</scope><name>~PaxosStatePersistence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

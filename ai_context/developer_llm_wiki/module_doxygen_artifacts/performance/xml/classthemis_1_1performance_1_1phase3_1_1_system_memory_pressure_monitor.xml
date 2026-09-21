@@ -1,0 +1,666 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::SystemMemoryPressureMonitor</compoundname>
+    <includes refid="memory__pressure_8h" local="no">memory_pressure.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_memory_snapshot" prot="public">themis::performance::phase3::SystemMemoryPressureMonitor::MemorySnapshot</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds" prot="public">themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config" prot="public">themis::performance::phase3::SystemMemoryPressureMonitor::Config</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_callback_entry" prot="private">themis::performance::phase3::SystemMemoryPressureMonitor::CallbackEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PressureLevel</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::PressureLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952a1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <briefdescription>
+<para>&lt; 70% system RAM used </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952a5137485eff3ff278d233d993c8539599" prot="public">
+          <name>MODERATE</name>
+          <briefdescription>
+<para>70-84% system RAM used </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+<para>85-94% system RAM used </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>&gt;= 95% system RAM used </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classified memory pressure levels. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Levels are ordered: NORMAL &lt; MODERATE &lt; HIGH &lt; CRITICAL. Default thresholds (percentage of total RAM used): NORMAL &lt; 70 % MODERATE 70 – 84 % HIGH 85 – 94 % CRITICAL &gt;= 95 % </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="80" column="5" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="80" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aebdf53af56818df63f2dc5bc90a6a7b2" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::performance::phase3::SystemMemoryPressureMonitor::EvictionCallback = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>EvictionCallback</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::EvictionCallback</qualifiedname>
+        <briefdescription>
+<para>Eviction callback signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called on the monitor&apos;s internal polling thread; must be fast (non-blocking) to avoid delaying subsequent samples. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="133" column="5" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ad3079bedb4ff4a9a0cc7043bf4b2d222" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::performance::phase3::SystemMemoryPressureMonitor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="243" column="12" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a548b3adfd84e5cea1a6109fcdfab1d52" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::phase3::SystemMemoryPressureMonitor::callbacks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callbacks_mutex_</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::callbacks_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="251" column="24" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ad21ca7ad717d5de6e2a4a34fb848eff6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; CallbackEntry &gt;</type>
+        <definition>std::vector&lt;CallbackEntry&gt; themis::performance::phase3::SystemMemoryPressureMonitor::callbacks_</definition>
+        <argsstring></argsstring>
+        <name>callbacks_</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::callbacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="252" column="17" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a7932f2b9f3cbf98c9cd8f6bf19fd3f8b" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::SystemMemoryPressureMonitor::next_handle_</definition>
+        <argsstring></argsstring>
+        <name>next_handle_</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::next_handle_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="253" column="12" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="253" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ab78b3756981f2633423dae970776ac04" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::phase3::SystemMemoryPressureMonitor::snapshot_mutex_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_mutex_</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::snapshot_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="255" column="24" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ae366057bd99d3935c25637156ac2b59c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_memory_snapshot" kindref="compound">MemorySnapshot</ref></type>
+        <definition>MemorySnapshot themis::performance::phase3::SystemMemoryPressureMonitor::last_snapshot_</definition>
+        <argsstring></argsstring>
+        <name>last_snapshot_</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::last_snapshot_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="256" column="20" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a299ccb46abd6b4ef352bb0e8b1406dde" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::phase3::SystemMemoryPressureMonitor::eviction_trigger_count_</definition>
+        <argsstring></argsstring>
+        <name>eviction_trigger_count_</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::eviction_trigger_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="258" column="17" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="258" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a35bc8e7e9acc356d0b28ec0e9c0d472f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase3::SystemMemoryPressureMonitor::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="259" column="17" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ab70ee4ad25213ce604f63c0864b38bac" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::performance::phase3::SystemMemoryPressureMonitor::poll_thread_</definition>
+        <argsstring></argsstring>
+        <name>poll_thread_</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::poll_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="260" column="17" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aa1d937beb2847447370b4e83e21f1984" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::SystemMemoryPressureMonitor::SystemMemoryPressureMonitor</definition>
+        <argsstring>()</argsstring>
+        <name>SystemMemoryPressureMonitor</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::SystemMemoryPressureMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="139" column="5" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="38" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a1c3237e27c7e432007ae6a0e26d958f5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::SystemMemoryPressureMonitor::SystemMemoryPressureMonitor</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>SystemMemoryPressureMonitor</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::SystemMemoryPressureMonitor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="140" column="14" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="41" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1adb317d08f8965f72f9e9849133acfb41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::SystemMemoryPressureMonitor::~SystemMemoryPressureMonitor</definition>
+        <argsstring>()</argsstring>
+        <name>~SystemMemoryPressureMonitor</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::~SystemMemoryPressureMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="141" column="5" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1abc6536a263b9bbd3ee70cecf40b856ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::SystemMemoryPressureMonitor::SystemMemoryPressureMonitor</definition>
+        <argsstring>(const SystemMemoryPressureMonitor &amp;)=delete</argsstring>
+        <name>SystemMemoryPressureMonitor</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::SystemMemoryPressureMonitor</qualifiedname>
+        <param>
+          <type>const SystemMemoryPressureMonitor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="144" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ad5f9eb475bdd57418a0fcadd1705e299" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aa1d937beb2847447370b4e83e21f1984" kindref="member">SystemMemoryPressureMonitor</ref> &amp;</type>
+        <definition>SystemMemoryPressureMonitor &amp; themis::performance::phase3::SystemMemoryPressureMonitor::operator=</definition>
+        <argsstring>(const SystemMemoryPressureMonitor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aa1d937beb2847447370b4e83e21f1984" kindref="member">SystemMemoryPressureMonitor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="145" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a671a4efa429d241fa3b1c30229104cd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::SystemMemoryPressureMonitor::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::start</qualifiedname>
+        <briefdescription>
+<para>Start background polling thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Safe to call only once; subsequent calls are no-ops.</para>
+<para>Calls: compare_exchange_strong(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="156" column="10" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a084fbaeb8edbf17807a488f7afc032ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::SystemMemoryPressureMonitor::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::stop</qualifiedname>
+        <briefdescription>
+<para>Stop background polling thread and join it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Blocks until the polling thread exits. Safe to call even if <ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a671a4efa429d241fa3b1c30229104cd0" kindref="member">start()</ref> was never called.</para>
+<para>Calls: store(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="164" column="10" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a1fa30179aaf63567e4437516ff88ccb1" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::SystemMemoryPressureMonitor::is_running</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_running</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::is_running</qualifiedname>
+        <briefdescription>
+<para>Returns true if the polling thread is currently running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="169" column="10" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ad23789433e555479d2e4e5d1d4162193" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::SystemMemoryPressureMonitor::register_eviction_callback</definition>
+        <argsstring>(PressureLevel trigger_level, EvictionCallback callback)</argsstring>
+        <name>register_eviction_callback</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::register_eviction_callback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952" kindref="member">PressureLevel</ref></type>
+          <declname>trigger_level</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aebdf53af56818df63f2dc5bc90a6a7b2" kindref="member">EvictionCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register an eviction callback for a minimum pressure level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register eviction callback.</para>
+<para>The callback is invoked every polling cycle in which current_level &gt;= trigger_level.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>trigger_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum pressure level that activates the callback. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call; must be thread-safe. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Handle that can be passed to <ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a25186bc9d4806d6b0633d25c3f09a4b3" kindref="member">unregister_eviction_callback()</ref>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">trigger_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="185" column="12" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="90" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a25186bc9d4806d6b0633d25c3f09a4b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::SystemMemoryPressureMonitor::unregister_eviction_callback</definition>
+        <argsstring>(size_t handle)</argsstring>
+        <name>unregister_eviction_callback</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::unregister_eviction_callback</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a previously registered callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle returned by <ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ad23789433e555479d2e4e5d1d4162193" kindref="member">register_eviction_callback()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callbacks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="193" column="10" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="98" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a337581080963203648d98c01a187ba8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_memory_snapshot" kindref="compound">MemorySnapshot</ref></type>
+        <definition>SystemMemoryPressureMonitor::MemorySnapshot themis::performance::phase3::SystemMemoryPressureMonitor::sample</definition>
+        <argsstring>() const</argsstring>
+        <name>sample</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::sample</qualifiedname>
+        <briefdescription>
+<para>Take an immediate OS memory snapshot (may be called from any thread). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="202" column="20" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="116" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a63853fac67457f5129e29875680bf421" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_memory_snapshot" kindref="compound">MemorySnapshot</ref></type>
+        <definition>SystemMemoryPressureMonitor::MemorySnapshot themis::performance::phase3::SystemMemoryPressureMonitor::last_snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>last_snapshot</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::last_snapshot</qualifiedname>
+        <briefdescription>
+<para>Return the most recent snapshot collected by the polling thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Valid only after <ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a671a4efa429d241fa3b1c30229104cd0" kindref="member">start()</ref> has been called and at least one poll cycle has elapsed; returns a zero-initialised snapshot otherwise. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="210" column="20" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="121" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aeae5cfb579704a72d1efd9e68ed1efdd" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase3::SystemMemoryPressureMonitor::eviction_trigger_count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>eviction_trigger_count</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::eviction_trigger_count</qualifiedname>
+        <briefdescription>
+<para>Cumulative number of times eviction callbacks were invoked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="215" column="14" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="131" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a681c8bb22e4cabb60ba6cdfaa25dcbb8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::phase3::SystemMemoryPressureMonitor::level_name</definition>
+        <argsstring>(PressureLevel level)</argsstring>
+        <name>level_name</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::level_name</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952" kindref="member">PressureLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable description of a pressure level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="test__memory__pressure_8cpp_1a0fe1d8db2e822024de350fccbadd62f1" kindref="member">Level</ref> name.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements level_name without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="220" column="24" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="141" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aadb94e4ef359178bae6530f54df855b7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_memory_snapshot" kindref="compound">MemorySnapshot</ref></type>
+        <definition>SystemMemoryPressureMonitor::MemorySnapshot themis::performance::phase3::SystemMemoryPressureMonitor::read_os_memory</definition>
+        <argsstring>() const</argsstring>
+        <name>read_os_memory</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::read_os_memory</qualifiedname>
+        <briefdescription>
+<para>Read OS memory statistics and return a fresh snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="228" column="20" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="156" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a2f17e4da31bd1cba234a073f7ca9dc81" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952" kindref="member">PressureLevel</ref></type>
+        <definition>SystemMemoryPressureMonitor::PressureLevel themis::performance::phase3::SystemMemoryPressureMonitor::classify</definition>
+        <argsstring>(double usage_percent) const noexcept</argsstring>
+        <name>classify</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::classify</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>usage_percent</declname>
+        </param>
+        <briefdescription>
+<para>Classify usage_percent into a <ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952" kindref="member">PressureLevel</ref> using current thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="231" column="19" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="235" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a66f9dd65318d4b0153c1d0253b08e3e6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::SystemMemoryPressureMonitor::poll_loop</definition>
+        <argsstring>()</argsstring>
+        <name>poll_loop</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::poll_loop</qualifiedname>
+        <briefdescription>
+<para>Main loop executed by the background polling thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Poll loop.</para>
+<para>Calls: load(), read_os_memory(), lock(), trigger_callbacks(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="234" column="10" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="253" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aad300cedb2fe3ba8be1d8f83615fa19d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::SystemMemoryPressureMonitor::trigger_callbacks</definition>
+        <argsstring>(PressureLevel current_level)</argsstring>
+        <name>trigger_callbacks</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::trigger_callbacks</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952" kindref="member">PressureLevel</ref></type>
+          <declname>current_level</declname>
+        </param>
+        <briefdescription>
+<para>Invoke all callbacks whose trigger_level &lt;= current snapshot level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callbacks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="237" column="10" bodyfile="src/performance/phase3/memory_pressure.cpp" bodystart="277" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>System memory pressure monitor with automatic cache eviction. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Registers eviction callbacks that are invoked automatically when system memory usage exceeds configurable thresholds. A background polling thread samples OS-level memory statistics and classifies pressure into four levels.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aa1d937beb2847447370b4e83e21f1984" kindref="member">SystemMemoryPressureMonitor</ref><sp/>monitor;</highlight></codeline>
+<codeline><highlight class="normal">monitor.register_eviction_callback(<ref refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952ab89de3b4b81c4facfac906edf29aec8c" kindref="member">PressureLevel::HIGH</ref>,<sp/>[&amp;cache]()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cache.evict_fraction(0.25);<sp/><sp/></highlight><highlight class="comment">//<sp/>free<sp/>25%<sp/>of<sp/>cache<sp/>under<sp/>high<sp/>pressure</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">monitor.start();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>run<sp/>workload<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">monitor.stop();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/performance/phase3/memory_pressure.h" line="64" column="1" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="64" bodyend="261"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ad21ca7ad717d5de6e2a4a34fb848eff6" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>callbacks_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a548b3adfd84e5cea1a6109fcdfab1d52" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>callbacks_mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a2f17e4da31bd1cba234a073f7ca9dc81" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>classify</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ad3079bedb4ff4a9a0cc7043bf4b2d222" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aeae5cfb579704a72d1efd9e68ed1efdd" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>eviction_trigger_count</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a299ccb46abd6b4ef352bb0e8b1406dde" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>eviction_trigger_count_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aebdf53af56818df63f2dc5bc90a6a7b2" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>EvictionCallback</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a1fa30179aaf63567e4437516ff88ccb1" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>is_running</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a63853fac67457f5129e29875680bf421" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>last_snapshot</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ae366057bd99d3935c25637156ac2b59c" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>last_snapshot_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a681c8bb22e4cabb60ba6cdfaa25dcbb8" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>level_name</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a7932f2b9f3cbf98c9cd8f6bf19fd3f8b" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>next_handle_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ad5f9eb475bdd57418a0fcadd1705e299" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a66f9dd65318d4b0153c1d0253b08e3e6" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>poll_loop</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ab70ee4ad25213ce604f63c0864b38bac" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>poll_thread_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a368f42c07860ab49d91a8df491749952" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>PressureLevel</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aadb94e4ef359178bae6530f54df855b7" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>read_os_memory</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ad23789433e555479d2e4e5d1d4162193" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>register_eviction_callback</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a35bc8e7e9acc356d0b28ec0e9c0d472f" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>running_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a337581080963203648d98c01a187ba8d" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>sample</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1ab78b3756981f2633423dae970776ac04" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>snapshot_mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a671a4efa429d241fa3b1c30229104cd0" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>start</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a084fbaeb8edbf17807a488f7afc032ef" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>stop</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aa1d937beb2847447370b4e83e21f1984" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>SystemMemoryPressureMonitor</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a1c3237e27c7e432007ae6a0e26d958f5" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>SystemMemoryPressureMonitor</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1abc6536a263b9bbd3ee70cecf40b856ec" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>SystemMemoryPressureMonitor</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1aad300cedb2fe3ba8be1d8f83615fa19d" prot="private" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>trigger_callbacks</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1a25186bc9d4806d6b0633d25c3f09a4b3" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>unregister_eviction_callback</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1adb317d08f8965f72f9e9849133acfb41" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor</scope><name>~SystemMemoryPressureMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

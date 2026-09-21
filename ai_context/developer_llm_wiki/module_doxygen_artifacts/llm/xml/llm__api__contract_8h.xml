@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__api__contract_8h" kind="file" language="C++">
+    <compoundname>llm_api_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__llm__hotpaths_8cpp" local="yes">benchmarks/llm/bench_llm_hotpaths.cpp</includedby>
+    <includedby refid="test__llm__api__contract__hardening__focused_8cpp" local="yes">tests/llm/test_llm_api_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/llm_api_contract.h</label>
+        <link refid="llm__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/llm/bench_llm_hotpaths.cpp</label>
+        <link refid="bench__llm__hotpaths_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/llm/llm_api_contract.h</label>
+        <link refid="llm__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/llm/test_llm_api_contract_hardening_focused.cpp</label>
+        <link refid="test__llm__api__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Frozen LLM module API contracts for the active v1.x line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para><bold>Header-Only Contract</bold>: This file defines frozen semantics and invariants. No .cpp implementation needed. Consumers link to implementations of the contracts (e.g., inference engines, plugin managers, embedding pipelines, etc.).</para>
+</simplesect>
+This header defines the normative contract for all LLM module inference, embedding, streaming, plugin/adapter lifecycle, cancellation, resource ownership, and concurrency guarantees.</para>
+<sect1 id="llm__api__contract_8h_1scope">
+<title>Contract Scope</title><para>The contracts below are binding for all implementations that participate in the ThemisDB LLM pipeline:<itemizedlist>
+<listitem><para>Inference engine (generate, generateBatch, generateStream)</para>
+</listitem><listitem><para>Embedding engine (embed, embedBatch)</para>
+</listitem><listitem><para>Plugin/adapter lifecycle manager (load, warm, infer, unload)</para>
+</listitem><listitem><para>Cancellation token infrastructure (CancellationToken)</para>
+</listitem><listitem><para>VRAM/RAM resource manager (ActiveVramAllocator)</para>
+</listitem><listitem><para>Model loader (ModelLoader, <ref refid="class_llama_wrapper" kindref="compound">LlamaWrapper</ref>)</para>
+</listitem><listitem><para>Streaming callback dispatch</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="llm__api__contract_8h_1versioning">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/llm/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="test__llm__api__contract__hardening__focused_8cpp" kindref="compound">tests/llm/test_llm_api_contract_hardening_focused.cpp</ref> — LAC-01..LAC-20 </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="bench__llm__hotpaths_8cpp" kindref="compound">benchmarks/llm/bench_llm_hotpaths.cpp</ref> — LLM-01..LLM-08 </para>
+</simplesect>
+</para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Inference<sp/>API<sp/>Input<sp/>/<sp/>Output<sp/>Ownership</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>generate()<sp/>/<sp/>generateBatch()<sp/>/<sp/>generateStream():</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Caller<sp/>owns<sp/>the<sp/>input<sp/>prompt<sp/>string;<sp/>the<sp/>engine<sp/>does<sp/>not<sp/>retain<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>reference<sp/>beyond<sp/>the<sp/>duration<sp/>of<sp/>the<sp/>synchronous<sp/>call.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>returned<sp/>output<sp/>string<sp/>is<sp/>owned<sp/>by<sp/>the<sp/>caller<sp/>from<sp/>the<sp/>moment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>generate()<sp/>returns.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>generateBatch()<sp/>returns<sp/>a<sp/>vector<sp/>whose<sp/>entries<sp/>correspond<sp/>1:1<sp/>to<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>input<sp/>batch<sp/>in<sp/>the<sp/>same<sp/>order<sp/>(batch<sp/>consistency<sp/>guarantee).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>generateStream()<sp/>dispatches<sp/>tokens<sp/>to<sp/>the<sp/>provided<sp/>callback;<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>callback<sp/>is<sp/>invoked<sp/>synchronously<sp/>from<sp/>the<sp/>engine<sp/>thread.<sp/>The<sp/>caller</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>MUST<sp/>NOT<sp/>block<sp/>the<sp/>callback<sp/>for<sp/>more<sp/>than<sp/>kStreamCallbackMaxBlockMs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Exception<sp/>safety:<sp/>if<sp/>generate()<sp/>throws,<sp/>no<sp/>partial<sp/>output<sp/>is<sp/>returned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>and<sp/>the<sp/>engine<sp/>state<sp/>remains<sp/>consistent<sp/>(strong<sp/>guarantee).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1llm_1aafad867b0d165e2fa648df9ff96132f3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1llm_1aafad867b0d165e2fa648df9ff96132f3" kindref="member">kMaxPromptBytes</ref><sp/>=<sp/>1u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>MiB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1llm_1a7e71413da1b1dbb0bbd5c358a2c3f4b0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1llm_1a7e71413da1b1dbb0bbd5c358a2c3f4b0" kindref="member">kMaxBatchSize</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1llm_1abd5430c1d8282b2eeaa860ef6aa5ff32" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1llm_1abd5430c1d8282b2eeaa860ef6aa5ff32" kindref="member">kStreamCallbackMaxBlockMs</ref>{100};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1llm_1a619658797bacaa1a5bb6cbaea976f9f0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1llm_1a619658797bacaa1a5bb6cbaea976f9f0" kindref="member">kDefaultInferenceTimeout</ref>{120};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1llm_1a3bf9678345b1cf991187aa48d716a45c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1llm_1a3bf9678345b1cf991187aa48d716a45c" kindref="member">kMaxInferenceTimeout</ref>{600};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Embedding<sp/>API<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>embed()<sp/>/<sp/>embedBatch():</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Output<sp/>vectors<sp/>are<sp/>L2-normalised<sp/>before<sp/>return.<sp/>‖v‖₂<sp/>=<sp/>1.0<sp/>±<sp/>1e-5.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>An<sp/>empty<sp/>input<sp/>string<sp/>returns<sp/>a<sp/>zero<sp/>vector<sp/>(no<sp/>error).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>embedBatch()<sp/>order<sp/>is<sp/>preserved:<sp/>output[i]<sp/>corresponds<sp/>to<sp/>input[i].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>returned<sp/>float<sp/>vector<sp/>has<sp/>dimension<sp/>equal<sp/>to<sp/>the<sp/>model&apos;s<sp/>embedding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>dimension;<sp/>this<sp/>is<sp/>fixed<sp/>per<sp/>loaded<sp/>model.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>embed()<sp/>is<sp/>thread-safe<sp/>when<sp/>called<sp/>from<sp/>different<sp/>threads<sp/>concurrently,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>provided<sp/>each<sp/>call<sp/>uses<sp/>a<sp/>separate<sp/>inference<sp/>context<sp/>handle.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1_1llm_1af72c7a23a6c6920b172c20d755e7218e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1af72c7a23a6c6920b172c20d755e7218e" kindref="member">kEmbedL2NormTolerance</ref><sp/>=<sp/>1e-5f;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1llm_1a83e4747148f2399aaf36dfa2390e9389" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1llm_1a83e4747148f2399aaf36dfa2390e9389" kindref="member">kMaxEmbedInputBytes</ref><sp/>=<sp/>128u<sp/>*<sp/>1024u;<sp/><sp/></highlight><highlight class="comment">//<sp/>128<sp/>KiB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Plugin<sp/>/<sp/>Adapter<sp/>Lifecycle<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Plugin<sp/>lifecycle:<sp/>load<sp/>→<sp/>warm<sp/>→<sp/>infer<sp/>→<sp/>unload.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>load():<sp/>acquires<sp/>all<sp/>resources<sp/>(VRAM,<sp/>file<sp/>handles,<sp/>thread<sp/>pool<sp/>slots).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>On<sp/>failure<sp/>throws<sp/>with<sp/>LLM_PLUGIN_LOAD_FAILED;<sp/>no<sp/>resources<sp/>are<sp/>retained.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>warm():<sp/>optional;<sp/>pre-allocates<sp/>KV<sp/>cache<sp/>and<sp/>context<sp/>buffers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>infer():<sp/>delegates<sp/>to<sp/>the<sp/>loaded<sp/>plugin;<sp/>caller<sp/>holds<sp/>a<sp/>shared_ptr<sp/>to<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>plugin<sp/>handle.<sp/>The<sp/>engine<sp/>guarantees<sp/>the<sp/>handle<sp/>remains<sp/>valid<sp/>for<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>duration<sp/>of<sp/>infer().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>unload():<sp/>releases<sp/>all<sp/>plugin<sp/>resources.<sp/>After<sp/>unload(),<sp/>the<sp/>plugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>handle<sp/>is<sp/>invalid.<sp/>Calling<sp/>unload()<sp/>on<sp/>an<sp/>already-unloaded<sp/>plugin<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>safe<sp/>(idempotent<sp/>/<sp/>no-op).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>double-unload:<sp/>second<sp/>call<sp/>is<sp/>a<sp/>no-op,<sp/>not<sp/>an<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>null<sp/>plugin:<sp/>passing<sp/>a<sp/>null<sp/>handle<sp/>to<sp/>any<sp/>lifecycle<sp/>call<sp/>throws<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>LLM_PLUGIN_NULL_HANDLE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Streaming<sp/>Callback<sp/>Ownership<sp/>and<sp/>Exception<sp/>Safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>generateStream()<sp/>callback<sp/>contract:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>callback<sp/>function<sp/>object<sp/>is<sp/>owned<sp/>by<sp/>the<sp/>caller;<sp/>the<sp/>engine<sp/>holds<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>non-owning<sp/>reference<sp/>during<sp/>the<sp/>stream<sp/>lifetime.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>If<sp/>the<sp/>callback<sp/>throws<sp/>an<sp/>exception,<sp/>the<sp/>engine<sp/>MUST<sp/>catch<sp/>it,<sp/>abort<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>stream,<sp/>and<sp/>return<sp/>STREAM_ABORTED<sp/>to<sp/>the<sp/>caller.<sp/>The<sp/>exception<sp/>MUST<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>propagate<sp/>to<sp/>the<sp/>engine&apos;s<sp/>internal<sp/>thread<sp/>pool.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>After<sp/>cancellation<sp/>(via<sp/>CancellationToken),<sp/>the<sp/>callback<sp/>will<sp/>not<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>invoked<sp/>again.<sp/>Any<sp/>pending<sp/>callback<sp/>invocations<sp/>already<sp/>in<sp/>flight<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>allowed<sp/>to<sp/>complete.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>callback<sp/>is<sp/>NOT<sp/>called<sp/>after<sp/>generateStream()<sp/>returns.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Cancellation<sp/>Token<sp/>Semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CancellationToken<sp/>contract:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Cancellation<sp/>is<sp/>checked<sp/>at<sp/>the<sp/>pre-inference<sp/>boundary<sp/>only.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>A<sp/>cancelled<sp/>token<sp/>causes<sp/>the<sp/>engine<sp/>to<sp/>return<sp/>INFERENCE_CANCELLED<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>any<sp/>computation<sp/>begins.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Mid-inference<sp/>cancellation<sp/>is<sp/>NOT<sp/>guaranteed;<sp/>the<sp/>engine<sp/>may<sp/>complete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>the<sp/>current<sp/>token<sp/>generation<sp/>step<sp/>before<sp/>honouring<sp/>cancellation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>CancellationToken::cancel()<sp/>is<sp/>thread-safe<sp/>and<sp/>may<sp/>be<sp/>called<sp/>from<sp/>any</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>thread.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Checking<sp/>isCancelled()<sp/>is<sp/>O(1)<sp/>(atomic<sp/>load);<sp/>no<sp/>blocking<sp/>occurs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="namespacethemis_1_1llm_1ac02672c99cf3d413a28f961f0887b44c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::microseconds<sp/><ref refid="namespacethemis_1_1llm_1ac02672c99cf3d413a28f961f0887b44c" kindref="member">kCancellationCheckMaxOverhead</ref>{1};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Resource<sp/>Contracts:<sp/>VRAM<sp/>/<sp/>RAM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VRAM<sp/>ownership:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>VRAM<sp/>allocator<sp/>grants<sp/>exclusive<sp/>ownership<sp/>of<sp/>each<sp/>allocation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>On<sp/>VRAM<sp/>pressure,<sp/>the<sp/>eviction<sp/>policy<sp/>is<sp/>LRU<sp/>over<sp/>inactive<sp/>model<sp/>contexts.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>If<sp/>VRAM<sp/>cannot<sp/>be<sp/>allocated,<sp/>the<sp/>engine<sp/>throws<sp/>with<sp/>VRAM_EXHAUSTED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Evicted<sp/>model<sp/>contexts<sp/>must<sp/>be<sp/>reloaded<sp/>before<sp/>next<sp/>infer();<sp/>the<sp/>engine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>handles<sp/>reload<sp/>transparently<sp/>unless<sp/>kDisableAutoReload<sp/>is<sp/>set.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAM<sp/>ownership:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>All<sp/>heap<sp/>allocations<sp/>for<sp/>inference<sp/>context<sp/>buffers<sp/>use<sp/>RAII<sp/>(unique_ptr<sp/>/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>shared_ptr).<sp/>No<sp/>raw<sp/>new/delete<sp/>in<sp/>the<sp/>inference<sp/>hot<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>On<sp/>OOM,<sp/>std::bad_alloc<sp/>propagates<sp/>to<sp/>the<sp/>caller;<sp/>the<sp/>engine<sp/>state<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>consistent<sp/>(basic<sp/>guarantee).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="namespacethemis_1_1llm_1a46ebe1d0c55637bdf3a49ee59ced1ed9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1llm_1a46ebe1d0c55637bdf3a49ee59ced1ed9" kindref="member">kVramAllocTimeout</ref>{5000};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Error<sp/>Taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>LLM<sp/>components<sp/>MUST<sp/>map<sp/>internal<sp/>error<sp/>states<sp/>to<sp/>one<sp/>of<sp/>these<sp/>canonical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>error<sp/>codes.<sp/>This<sp/>enables<sp/>uniform<sp/>operator<sp/>diagnostics.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1d" kindref="member">LlmErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="181" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>0,</highlight></codeline>
+<codeline lineno="183" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dac4a871a5e43e174abb4faf731da4b3da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dac4a871a5e43e174abb4faf731da4b3da" kindref="member">MODEL_NOT_LOADED</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>1,</highlight></codeline>
+<codeline lineno="185" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dab2ace4f6c16e976f454c428f39101da6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dab2ace4f6c16e976f454c428f39101da6" kindref="member">INFERENCE_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>2,</highlight></codeline>
+<codeline lineno="187" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da7b5ebda18b68fd00572f37b4766bc243" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da7b5ebda18b68fd00572f37b4766bc243" kindref="member">VRAM_EXHAUSTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>3,</highlight></codeline>
+<codeline lineno="189" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da37a01de13cfbf0969f84c51bf083a078" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da37a01de13cfbf0969f84c51bf083a078" kindref="member">PLUGIN_LOAD_FAILED</ref><sp/><sp/><sp/><sp/>=<sp/><sp/>4,</highlight></codeline>
+<codeline lineno="191" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da114ec890bbe482b987c387ecf7e0e047" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da114ec890bbe482b987c387ecf7e0e047" kindref="member">STREAM_ABORTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>5,</highlight></codeline>
+<codeline lineno="193" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dabc56602da5a8282afc0f0432435db4c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dabc56602da5a8282afc0f0432435db4c6" kindref="member">QUOTA_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>6,</highlight></codeline>
+<codeline lineno="195" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da9062cae307f2b1c6c94898fd8b6db441" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da9062cae307f2b1c6c94898fd8b6db441" kindref="member">BATCH_SIZE_EXCEEDED</ref><sp/><sp/><sp/>=<sp/><sp/>7,</highlight></codeline>
+<codeline lineno="197" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da96c1f0a4abe8a2d4a6e95697160d7adb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da96c1f0a4abe8a2d4a6e95697160d7adb" kindref="member">INPUT_TOO_LARGE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>8,</highlight></codeline>
+<codeline lineno="199" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da1a3b553e8a09c187a056b484c964a9a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da1a3b553e8a09c187a056b484c964a9a6" kindref="member">MODEL_CONTEXT_INVALID</ref><sp/>=<sp/><sp/>9,</highlight></codeline>
+<codeline lineno="201" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da3fa39a4f2ad52953ec2e062289580045" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da3fa39a4f2ad52953ec2e062289580045" kindref="member">INFERENCE_CANCELLED</ref><sp/><sp/><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="203" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da014d632e5a8959fe395174bdf3c969a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1da014d632e5a8959fe395174bdf3c969a5" kindref="member">PLUGIN_NULL_HANDLE</ref><sp/><sp/><sp/><sp/>=<sp/>11,</highlight></codeline>
+<codeline lineno="205" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dabbbe908513a3400af810e822992415b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dabbbe908513a3400af810e822992415b5" kindref="member">PLUGIN_NOT_FOUND</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>12,</highlight></codeline>
+<codeline lineno="207" refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1dae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>13,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>8<sp/><sp/>Concurrency<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-safety<sp/>guarantees<sp/>by<sp/>path:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>generate()<sp/>/<sp/>embed():<sp/>thread-safe<sp/>when<sp/>called<sp/>concurrently<sp/>with<sp/>distinct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>inference<sp/>context<sp/>handles.<sp/>Shared<sp/>model<sp/>weights<sp/>are<sp/>read-only<sp/>after<sp/>load().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>generateBatch()<sp/>/<sp/>embedBatch():<sp/>internally<sp/>serialised<sp/>per<sp/>model<sp/>instance;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>callers<sp/>requiring<sp/>concurrent<sp/>batch<sp/>execution<sp/>must<sp/>use<sp/>separate<sp/>model<sp/>handles.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>generateStream():<sp/>the<sp/>stream<sp/>for<sp/>a<sp/>given<sp/>handle<sp/>is<sp/>serialised;<sp/>concurrent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>streams<sp/>on<sp/>the<sp/>same<sp/>handle<sp/>require<sp/>external<sp/>serialisation<sp/>by<sp/>the<sp/>caller.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Plugin<sp/>load()<sp/>/<sp/>unload():<sp/>serialised<sp/>via<sp/>the<sp/>plugin<sp/>registry<sp/>mutex.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>Concurrent<sp/>load/unload<sp/>of<sp/>the<sp/>same<sp/>plugin<sp/>name<sp/>is<sp/>safe<sp/>but<sp/>one<sp/>call<sp/>will</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>block<sp/>until<sp/>the<sp/>other<sp/>completes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>CancellationToken::cancel():<sp/>thread-safe<sp/>(atomic<sp/>write).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Quota<sp/>check<sp/>(in-memory):<sp/>thread-safe<sp/>(atomic<sp/>counter<sp/>per<sp/>tenant).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="namespacethemis_1_1llm_1ad8fec6f197c766ec31e205cc8cce6f18" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1llm_1ad8fec6f197c766ec31e205cc8cce6f18" kindref="member">kQuotaSyncInterval</ref>{1000};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/llm_api_contract.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_approval_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ApprovalRecord</compoundname>
+    <includes refid="policy__approval__workflow_8h" local="no">policy_approval_workflow.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_approval_record_1aad7eefc8a3eea3c59419bf66b3ff89ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ApprovalRecord::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::ApprovalRecord::rule_id</qualifiedname>
+        <briefdescription>
+<para>Rule being approved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="53" column="17" bodyfile="include/governance/policy_approval_workflow.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_approval_record_1afe8b9ca0a11fa5b3060bf5cc409dab50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ApprovalRecord::approver</definition>
+        <argsstring></argsstring>
+        <name>approver</name>
+        <qualifiedname>themis::governance::ApprovalRecord::approver</qualifiedname>
+        <briefdescription>
+<para>User who approved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="54" column="17" bodyfile="include/governance/policy_approval_workflow.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_approval_record_1ab9f9517323637033c4cf4fc41bcddb2f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ApprovalRecord::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::governance::ApprovalRecord::timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>When approval occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="55" column="13" bodyfile="include/governance/policy_approval_workflow.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_approval_record_1a30e3b800e7b529ada6ce40b6183aeaa9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1aade23a4589a24ee8bea2bd895634c94e" kindref="member">ApprovalAction</ref></type>
+        <definition>ApprovalAction themis::governance::ApprovalRecord::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::governance::ApprovalRecord::action</qualifiedname>
+        <briefdescription>
+<para>What action was taken. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="56" column="20" bodyfile="include/governance/policy_approval_workflow.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_approval_record_1a48c05d5dc642c7032150cb64437f896d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ApprovalRecord::comment</definition>
+        <argsstring></argsstring>
+        <name>comment</name>
+        <qualifiedname>themis::governance::ApprovalRecord::comment</qualifiedname>
+        <briefdescription>
+<para>Approver&apos;s comment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="57" column="17" bodyfile="include/governance/policy_approval_workflow.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_approval_record_1ae501ff908ef468802176156a70f1dc26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ApprovalRecord::old_state</definition>
+        <argsstring></argsstring>
+        <name>old_state</name>
+        <qualifiedname>themis::governance::ApprovalRecord::old_state</qualifiedname>
+        <briefdescription>
+<para>State before action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="58" column="17" bodyfile="include/governance/policy_approval_workflow.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_approval_record_1adcdc4f72e9d9376967559202b867058c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ApprovalRecord::new_state</definition>
+        <argsstring></argsstring>
+        <name>new_state</name>
+        <qualifiedname>themis::governance::ApprovalRecord::new_state</qualifiedname>
+        <briefdescription>
+<para>State after action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="59" column="17" bodyfile="include/governance/policy_approval_workflow.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_approval_record_1a7f12fabc2191b6cdc8388cc55eaf4aa7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ApprovalRecord::is_emergency_override</definition>
+        <argsstring></argsstring>
+        <name>is_emergency_override</name>
+        <qualifiedname>themis::governance::ApprovalRecord::is_emergency_override</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether this was emergency override. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="60" column="10" bodyfile="include/governance/policy_approval_workflow.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_approval_record_1afb030c0bcd2e603119835e1626d2b015" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ApprovalRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::ApprovalRecord::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="66" column="20" bodyfile="src/governance/policy_approval_workflow.cpp" bodystart="22" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_approval_record_1a51145774ea345595c8da3db5f0fd013f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_approval_record" kindref="compound">ApprovalRecord</ref></type>
+        <definition>ApprovalRecord themis::governance::ApprovalRecord::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::ApprovalRecord::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_approval_workflow.h" line="72" column="27" bodyfile="src/governance/policy_approval_workflow.cpp" bodystart="41" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_approval_workflow.h" line="52" column="1" bodyfile="include/governance/policy_approval_workflow.h" bodystart="52" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_approval_record_1a30e3b800e7b529ada6ce40b6183aeaa9" prot="public" virt="non-virtual"><scope>themis::governance::ApprovalRecord</scope><name>action</name></member>
+      <member refid="structthemis_1_1governance_1_1_approval_record_1afe8b9ca0a11fa5b3060bf5cc409dab50" prot="public" virt="non-virtual"><scope>themis::governance::ApprovalRecord</scope><name>approver</name></member>
+      <member refid="structthemis_1_1governance_1_1_approval_record_1a48c05d5dc642c7032150cb64437f896d" prot="public" virt="non-virtual"><scope>themis::governance::ApprovalRecord</scope><name>comment</name></member>
+      <member refid="structthemis_1_1governance_1_1_approval_record_1a51145774ea345595c8da3db5f0fd013f" prot="public" virt="non-virtual"><scope>themis::governance::ApprovalRecord</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_approval_record_1a7f12fabc2191b6cdc8388cc55eaf4aa7" prot="public" virt="non-virtual"><scope>themis::governance::ApprovalRecord</scope><name>is_emergency_override</name></member>
+      <member refid="structthemis_1_1governance_1_1_approval_record_1adcdc4f72e9d9376967559202b867058c" prot="public" virt="non-virtual"><scope>themis::governance::ApprovalRecord</scope><name>new_state</name></member>
+      <member refid="structthemis_1_1governance_1_1_approval_record_1ae501ff908ef468802176156a70f1dc26" prot="public" virt="non-virtual"><scope>themis::governance::ApprovalRecord</scope><name>old_state</name></member>
+      <member refid="structthemis_1_1governance_1_1_approval_record_1aad7eefc8a3eea3c59419bf66b3ff89ad" prot="public" virt="non-virtual"><scope>themis::governance::ApprovalRecord</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_approval_record_1ab9f9517323637033c4cf4fc41bcddb2f" prot="public" virt="non-virtual"><scope>themis::governance::ApprovalRecord</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1governance_1_1_approval_record_1afb030c0bcd2e603119835e1626d2b015" prot="public" virt="non-virtual"><scope>themis::governance::ApprovalRecord</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

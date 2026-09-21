@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_bench_listener" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::BenchListener</compoundname>
+    <basecompoundref refid="classthemis_1_1cache_1_1_i_eviction_listener" prot="public" virt="non-virtual">themis::cache::IEvictionListener</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_bench_listener_1a7e52b4fecf00550a5bad85b77e1b1a2b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::cache::BenchListener::event_count</definition>
+        <argsstring></argsstring>
+        <name>event_count</name>
+        <qualifiedname>themis::cache::BenchListener::event_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="33" column="17" bodyfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_bench_listener_1a4e7d669fc16b369cf05a7a0506907a94" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cache::BenchListener::total_access_count</definition>
+        <argsstring></argsstring>
+        <name>total_access_count</name>
+        <qualifiedname>themis::cache::BenchListener::total_access_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="34" column="17" bodyfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bench_listener_1a9cbf18d7c3e3dcfe02b7facde55cfbb8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::BenchListener::onCacheEvicted</definition>
+        <argsstring>(const CacheEvictionEvent &amp;event) override</argsstring>
+        <name>onCacheEvicted</name>
+        <qualifiedname>themis::cache::BenchListener::onCacheEvicted</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_eviction_listener_1a7050da58bfc5472e9b5a41abf3216e69">onCacheEvicted</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_cache_eviction_event" kindref="compound">CacheEvictionEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>On Cache Evicted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="36" column="10" bodyfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" bodystart="36" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bench_listener_1a60e525cb50e95cb0e8644e8986bd6c1a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::BenchListener::onCapacityPressure</definition>
+        <argsstring>(TierLevel, uint32_t, std::size_t) override</argsstring>
+        <name>onCapacityPressure</name>
+        <qualifiedname>themis::cache::BenchListener::onCapacityPressure</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_eviction_listener_1a48cdcfbd58a84acbca8f0624ee8dc045">onCapacityPressure</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1abe2c67d7127a32edaea2089841eafd0d" kindref="member">TierLevel</ref></type>
+          <declname>from_tier</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>current_capacity_percent</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>recommended_eviction_count</declname>
+        </param>
+        <briefdescription>
+<para>On Capacity Pressure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_capacity_percent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recommended_eviction_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements onCapacityPressure without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="41" column="10" bodyfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>High-performance test listener for benchmarking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cache::BenchListener</label>
+        <link refid="classthemis_1_1cache_1_1_bench_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IEvictionListener</label>
+        <link refid="classthemis_1_1cache_1_1_i_eviction_listener"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::cache::BenchListener</label>
+        <link refid="classthemis_1_1cache_1_1_bench_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IEvictionListener</label>
+        <link refid="classthemis_1_1cache_1_1_i_eviction_listener"/>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="31" column="1" bodyfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" bodystart="31" bodyend="44"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_bench_listener_1a7e52b4fecf00550a5bad85b77e1b1a2b" prot="public" virt="non-virtual"><scope>themis::cache::BenchListener</scope><name>event_count</name></member>
+      <member refid="classthemis_1_1cache_1_1_bench_listener_1a9cbf18d7c3e3dcfe02b7facde55cfbb8" prot="public" virt="virtual"><scope>themis::cache::BenchListener</scope><name>onCacheEvicted</name></member>
+      <member refid="classthemis_1_1cache_1_1_bench_listener_1a60e525cb50e95cb0e8644e8986bd6c1a" prot="public" virt="virtual"><scope>themis::cache::BenchListener</scope><name>onCapacityPressure</name></member>
+      <member refid="classthemis_1_1cache_1_1_bench_listener_1a4e7d669fc16b369cf05a7a0506907a94" prot="public" virt="non-virtual"><scope>themis::cache::BenchListener</scope><name>total_access_count</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_eviction_listener_1a4369ffb7f0e28a55765644ee6d47b6a2" prot="public" virt="virtual"><scope>themis::cache::BenchListener</scope><name>~IEvictionListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

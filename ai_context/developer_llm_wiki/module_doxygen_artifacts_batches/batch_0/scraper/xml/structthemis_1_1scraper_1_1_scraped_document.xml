@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_scraped_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ScrapedDocument</compoundname>
+    <includes refid="scraper__plugin_8h" local="no">scraper_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1adae88dc4fe24204070a7ae5a7987e640" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapedDocument::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="44" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1ad5cc8b659131a4ac71ea3df34ed9471d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapedDocument::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="45" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1a91dcb318c9063a1c303dc740079a5d46" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapedDocument::raw_html</definition>
+        <argsstring></argsstring>
+        <name>raw_html</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::raw_html</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="46" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1abcff90cabc6a75c97fb169bbeeced2a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapedDocument::extracted_text</definition>
+        <argsstring></argsstring>
+        <name>extracted_text</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::extracted_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="47" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1a235850954fe28d9d08c95b1aa5a85aa0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapedDocument::source_name</definition>
+        <argsstring></argsstring>
+        <name>source_name</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::source_name</qualifiedname>
+        <briefdescription>
+<para>Gov source id or hostname. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="48" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1a31ef05650a0719d73b1d72fa65c2bfb5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapedDocument::document_type</definition>
+        <argsstring></argsstring>
+        <name>document_type</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::document_type</qualifiedname>
+        <briefdescription>
+<para>&quot;Urteil&quot;, &quot;Gesetz&quot;, &quot;API&quot;, … </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="49" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1ae254f497a854ad96779c6553b4122a61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapedDocument::date_issued</definition>
+        <argsstring></argsstring>
+        <name>date_issued</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::date_issued</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="50" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1adfe623c6da7b7f68d00456918c28f978" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scraper::ScrapedDocument::quality_score</definition>
+        <argsstring></argsstring>
+        <name>quality_score</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::quality_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="51" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1a6a21fc6fd7de89aac021c360849083d1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scraper::ScrapedDocument::gap_relevance</definition>
+        <argsstring></argsstring>
+        <name>gap_relevance</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::gap_relevance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="52" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1a816e967d5a0f11f994c9ab54dbc03bcd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::ScrapedDocument::discarded</definition>
+        <argsstring></argsstring>
+        <name>discarded</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::discarded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="53" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1a598fc5d9208e01a8f9cc4e2e692e4d9f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapedDocument::discard_reason</definition>
+        <argsstring></argsstring>
+        <name>discard_reason</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::discard_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="54" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1aebc52bd45d5193aeb2f1ef98a4cb00b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapedDocument::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::doc_id</qualifiedname>
+        <briefdescription>
+<para>Content hash (set after evaluation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="55" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1a8d5c61c0a8efd23da1f9268e4b252123" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::scraper::ScrapedDocument::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="56" column="14" bodyfile="include/scraper/scraper_plugin.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1a978a408f581c0b00e320d458b85e4924" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::ScrapedDocument::is_scraper_ingested</definition>
+        <argsstring></argsstring>
+        <name>is_scraper_ingested</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::is_scraper_ingested</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Always true for documents collected by this plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="60" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1a05df4d29a074149fda17102964af7187" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapedDocument::ingestion_source_type</definition>
+        <argsstring></argsstring>
+        <name>ingestion_source_type</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::ingestion_source_type</qualifiedname>
+        <initializer>= &quot;SCRAPER&quot;</initializer>
+        <briefdescription>
+<para>Fixed literal &quot;SCRAPER&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="62" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraped_document_1a28df485567abd32027b73571748171e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapedDocument::ingestion_plugin_version</definition>
+        <argsstring></argsstring>
+        <name>ingestion_plugin_version</name>
+        <qualifiedname>themis::scraper::ScrapedDocument::ingestion_plugin_version</qualifiedname>
+        <initializer>= &quot;1.0.0&quot;</initializer>
+        <briefdescription>
+<para>Semver of the scraper plugin that produced this document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="64" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One document collected during a scraper run. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Carries a copy of the provenance fields so that callers can inspect the ingestion origin without looking up the relational record. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_plugin.h" line="43" column="1" bodyfile="include/scraper/scraper_plugin.h" bodystart="43" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1ae254f497a854ad96779c6553b4122a61" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>date_issued</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1a598fc5d9208e01a8f9cc4e2e692e4d9f" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>discard_reason</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1a816e967d5a0f11f994c9ab54dbc03bcd" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>discarded</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1aebc52bd45d5193aeb2f1ef98a4cb00b4" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1a31ef05650a0719d73b1d72fa65c2bfb5" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>document_type</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1abcff90cabc6a75c97fb169bbeeced2a0" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>extracted_text</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1a6a21fc6fd7de89aac021c360849083d1" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>gap_relevance</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1a28df485567abd32027b73571748171e3" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>ingestion_plugin_version</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1a05df4d29a074149fda17102964af7187" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>ingestion_source_type</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1a978a408f581c0b00e320d458b85e4924" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>is_scraper_ingested</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1a8d5c61c0a8efd23da1f9268e4b252123" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1adfe623c6da7b7f68d00456918c28f978" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>quality_score</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1a91dcb318c9063a1c303dc740079a5d46" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>raw_html</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1a235850954fe28d9d08c95b1aa5a85aa0" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>source_name</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1ad5cc8b659131a4ac71ea3df34ed9471d" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>title</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraped_document_1adae88dc4fe24204070a7ae5a7987e640" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapedDocument</scope><name>url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,574 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::LoRAAdapter::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1ad66afbf8d10cdfefbd2696eca76f5c30" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRAAdapter::Impl::default_rank_</definition>
+        <argsstring></argsstring>
+        <name>default_rank_</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::default_rank_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="438" column="12" bodyfile="src/training/lora_adapter.cpp" bodystart="438" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a6d0e6d3b76d786eb56b52d4aa92a2ab3" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::LoRAAdapter::Impl::default_alpha_</definition>
+        <argsstring></argsstring>
+        <name>default_alpha_</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::default_alpha_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="439" column="12" bodyfile="src/training/lora_adapter.cpp" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a555fcddaa77fb9e9964e56345b47000a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1training_1_1_lo_r_a_weight_entry" kindref="compound">LoRAWeightEntry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LoRAWeightEntry&gt; themis::training::LoRAAdapter::Impl::layers_</definition>
+        <argsstring></argsstring>
+        <name>layers_</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::layers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="440" column="24" bodyfile="src/training/lora_adapter.cpp" bodystart="440" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1ac6f4224c464701b820210f961426c328" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LoRAAdapter::Impl::Impl</definition>
+        <argsstring>(size_t default_rank, float default_alpha)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::Impl</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>default_rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>default_alpha</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">default_rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">default_alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="110" column="14" bodyfile="src/training/lora_adapter.cpp" bodystart="110" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1accb7daa963d59f6a0503fdce12c9f5b5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LoRAAdapter::Impl::addLayer</definition>
+        <argsstring>(const std::string &amp;layer_name, size_t in_dim, size_t out_dim, size_t rank, float alpha)</argsstring>
+        <name>addLayer</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::addLayer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>in_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>out_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>alpha</declname>
+        </param>
+        <briefdescription>
+<para>Add Layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), count(), std::to_string(), std::min(), detail::kaimingUniform(), detail::seedFromName(), assign(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="133" column="10" bodyfile="src/training/lora_adapter.cpp" bodystart="133" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a66d573b4ca73b0161d9c9fa630e1500b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::LoRAAdapter::Impl::removeLayer</definition>
+        <argsstring>(const std::string &amp;layer_name)</argsstring>
+        <name>removeLayer</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::removeLayer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove Layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="176" column="10" bodyfile="src/training/lora_adapter.cpp" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a861c44f5a684a3c2c75a2b6f7af03e19" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::LoRAAdapter::Impl::hasLayer</definition>
+        <argsstring>(const std::string &amp;layer_name) const</argsstring>
+        <name>hasLayer</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::hasLayer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="180" column="10" bodyfile="src/training/lora_adapter.cpp" bodystart="180" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1adff346cfc816445eae7f4d6c08b6ee4d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::training::LoRAAdapter::Impl::layerNames</definition>
+        <argsstring>() const</argsstring>
+        <name>layerNames</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::layerNames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="184" column="17" bodyfile="src/training/lora_adapter.cpp" bodystart="184" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a1fc74e350513dc2fa765435ef9eee819" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRAAdapter::Impl::layerCount</definition>
+        <argsstring>() const</argsstring>
+        <name>layerCount</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::layerCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="194" column="12" bodyfile="src/training/lora_adapter.cpp" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1ab3f7a6a7f880b0c5ea21a154c3cd719e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRAAdapter::Impl::totalParameterCount</definition>
+        <argsstring>() const</argsstring>
+        <name>totalParameterCount</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::totalParameterCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="196" column="12" bodyfile="src/training/lora_adapter.cpp" bodystart="196" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1aa189f268f5974a61384b54e8a91f3b5f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1training_1_1_lo_r_a_weight_entry" kindref="compound">LoRAWeightEntry</ref> &amp;</type>
+        <definition>const LoRAWeightEntry &amp; themis::training::LoRAAdapter::Impl::getWeights</definition>
+        <argsstring>(const std::string &amp;layer_name) const</argsstring>
+        <name>getWeights</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::getWeights</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="209" column="27" bodyfile="src/training/lora_adapter.cpp" bodystart="209" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a250a40167b1dbb36ecd0935fd969bb7e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LoRAAdapter::Impl::setWeights</definition>
+        <argsstring>(const std::string &amp;layer_name, const std::vector&lt; float &gt; &amp;B, const std::vector&lt; float &gt; &amp;A)</argsstring>
+        <name>setWeights</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::setWeights</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+<para>Set Weights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="225" column="10" bodyfile="src/training/lora_adapter.cpp" bodystart="225" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1adefa4891d38d14f2c33940e8736369e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_weight_update_result" kindref="compound">WeightUpdateResult</ref></type>
+        <definition>WeightUpdateResult themis::training::LoRAAdapter::Impl::applyUpdate</definition>
+        <argsstring>(const std::string &amp;layer_name, const std::vector&lt; float &gt; &amp;delta_B, const std::vector&lt; float &gt; &amp;delta_A)</argsstring>
+        <name>applyUpdate</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::applyUpdate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>delta_B</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>delta_A</declname>
+        </param>
+        <briefdescription>
+<para>Apply Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="267" column="24" bodyfile="src/training/lora_adapter.cpp" bodystart="267" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a2a0215796a1c45085066861f43b0f565" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_weight_update_result" kindref="compound">WeightUpdateResult</ref></type>
+        <definition>WeightUpdateResult themis::training::LoRAAdapter::Impl::applyBatchUpdate</definition>
+        <argsstring>(const WeightUpdateBatch &amp;batch)</argsstring>
+        <name>applyBatchUpdate</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::applyBatchUpdate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_weight_update_batch" kindref="compound">WeightUpdateBatch</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Apply Batch Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), find(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="310" column="24" bodyfile="src/training/lora_adapter.cpp" bodystart="310" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1ae96298e63f655bd030fecae1ccee40a3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::training::LoRAAdapter::Impl::forward</definition>
+        <argsstring>(const std::string &amp;layer_name, const std::vector&lt; float &gt; &amp;input, size_t batch_size) const</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::forward</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="358" column="17" bodyfile="src/training/lora_adapter.cpp" bodystart="358" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a978b8ad18fda2cd85964103017a1737a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_lo_r_a_weight_entry" kindref="compound">LoRAWeightEntry</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAWeightEntry &gt; themis::training::LoRAAdapter::Impl::exportWeights</definition>
+        <argsstring>() const</argsstring>
+        <name>exportWeights</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::exportWeights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="399" column="17" bodyfile="src/training/lora_adapter.cpp" bodystart="399" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a7cc84cbb5215d93ed2ad12c120970d2f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LoRAAdapter::Impl::importWeights</definition>
+        <argsstring>(const std::vector&lt; LoRAWeightEntry &gt; &amp;entries)</argsstring>
+        <name>importWeights</name>
+        <qualifiedname>themis::training::LoRAAdapter::Impl::importWeights</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1training_1_1_lo_r_a_weight_entry" kindref="compound">LoRAWeightEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Import Weights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_adapter.cpp" line="415" column="10" bodyfile="src/training/lora_adapter.cpp" bodystart="415" bodyend="435"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/lora_adapter.cpp" line="102" column="1" bodyfile="src/training/lora_adapter.cpp" bodystart="102" bodyend="441"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1accb7daa963d59f6a0503fdce12c9f5b5" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>addLayer</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a2a0215796a1c45085066861f43b0f565" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>applyBatchUpdate</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1adefa4891d38d14f2c33940e8736369e2" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>applyUpdate</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a6d0e6d3b76d786eb56b52d4aa92a2ab3" prot="private" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>default_alpha_</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1ad66afbf8d10cdfefbd2696eca76f5c30" prot="private" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>default_rank_</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a978b8ad18fda2cd85964103017a1737a" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>exportWeights</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1ae96298e63f655bd030fecae1ccee40a3" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>forward</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1aa189f268f5974a61384b54e8a91f3b5f" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>getWeights</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a861c44f5a684a3c2c75a2b6f7af03e19" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>hasLayer</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1ac6f4224c464701b820210f961426c328" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a7cc84cbb5215d93ed2ad12c120970d2f" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>importWeights</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a1fc74e350513dc2fa765435ef9eee819" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>layerCount</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1adff346cfc816445eae7f4d6c08b6ee4d" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>layerNames</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a555fcddaa77fb9e9964e56345b47000a" prot="private" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>layers_</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a66d573b4ca73b0161d9c9fa630e1500b" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>removeLayer</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1a250a40167b1dbb36ecd0935fd969bb7e" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>setWeights</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_1_1_impl_1ab3f7a6a7f880b0c5ea21a154c3cd719e" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapter::Impl</scope><name>totalParameterCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

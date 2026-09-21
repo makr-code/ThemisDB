@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="updates__api__contract_8h" kind="file" language="C++">
+    <compoundname>updates_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__updates__release__gates_8cpp" local="yes">benchmarks/updates/bench_updates_release_gates.cpp</includedby>
+    <includedby refid="test__updates__contract__hardening__focused_8cpp" local="yes">tests/updates/test_updates_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/updates/updates_api_contract.h</label>
+        <link refid="updates__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/updates/bench_updates_release_gates.cpp</label>
+        <link refid="bench__updates__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/updates/updates_api_contract.h</label>
+        <link refid="updates__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/updates/test_updates_contract_hardening_focused.cpp</label>
+        <link refid="test__updates__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1updates_1_1_verification_result" prot="public">themis::updates::VerificationResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Frozen API contract for the ThemisDB updates module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="updates__api__contract_8h_1purpose">
+<title>Purpose</title><para>The updates module manages software lifecycle operations: blue/green deployments, canary rollouts, build verification, and live patch application. All update operations MUST be reversible (rollback) unless the operation is explicitly marked as irreversible.</para>
+</sect1>
+<sect1 id="updates__api__contract_8h_1contracts">
+<title>API Contracts</title><para><heading level="3">BlueGreenDeployment</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>switchTraffic()</computeroutput> completes atomically from the caller&apos;s perspective; traffic is never split between old and new versions mid-switch.</para>
+</listitem><listitem><para><computeroutput>rollback()</computeroutput> reverts to the prior healthy slot; calling rollback with no prior switch → UPD_NO_ROLLBACK_TARGET.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">CanaryRollout</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>advancePercentage()</computeroutput> increments traffic in configured steps; never exceeds 100 % in a single step unless explicitly forced.</para>
+</listitem><listitem><para>Canary abort reverts traffic to 0 % without requiring explicit rollback.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">BuildVerifier</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>verify()</computeroutput> returns a signed verification token on success.</para>
+</listitem><listitem><para>Signature mismatch → UPD_CHECKSUM_MISMATCH (NEVER silent pass-through).</para>
+</listitem><listitem><para>Missing build artifact → UPD_ARTIFACT_MISSING.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">LivePatcher</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Patches are applied in-place without restarting the server process.</para>
+</listitem><listitem><para>Incompatible patch for running version → UPD_PATCH_INCOMPATIBLE.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="updates__api__contract_8h_1error_taxonomy">
+<title>Error Taxonomy</title><para><table rows="7" cols="2"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UPD_NO_ROLLBACK_TARGET  </para>
+</entry><entry thead="no"><para>Rollback requested but no prior slot exists  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UPD_CHECKSUM_MISMATCH  </para>
+</entry><entry thead="no"><para>Build artifact checksum validation failed  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UPD_ARTIFACT_MISSING  </para>
+</entry><entry thead="no"><para>Required build artifact not found  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UPD_PATCH_INCOMPATIBLE  </para>
+</entry><entry thead="no"><para>Patch not compatible with running version  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UPD_SWITCH_IN_PROGRESS  </para>
+</entry><entry thead="no"><para>Traffic switch already in progress  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UPD_CANARY_ABORTED  </para>
+</entry><entry thead="no"><para>Canary rollout aborted due to error threshold  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="updates__api__contract_8h_1threading">
+<title>Threading Guarantees</title><para><itemizedlist>
+<listitem><para><computeroutput>BlueGreenDeployment</computeroutput> state machine is protected by an internal mutex.</para>
+</listitem><listitem><para><computeroutput>CanaryRollout</computeroutput> percentage updates are atomic.</para>
+</listitem><listitem><para><computeroutput>BuildVerifier</computeroutput> is stateless and fully thread-safe.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="updates__api__contract_8h_1contract_freeze">
+<title>Contract Freeze</title><para>Frozen for ThemisDB v2.x.</para>
+<para><simplesect kind="see"><para>src/updates/ROADMAP.md — Phase 1 gate </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="bench__updates__release__gates_8cpp" kindref="compound">benchmarks/updates/bench_updates_release_gates.cpp</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="test__updates__contract__hardening__focused_8cpp" kindref="compound">tests/updates/test_updates_contract_hardening_focused.cpp</ref> </para>
+</simplesect>
+</para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">themis::updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daa" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daa" kindref="member">UpdatesError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaf80e32da8beb05fa5c71267998ea0c9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaf80e32da8beb05fa5c71267998ea0c9a" kindref="member">kNoRollbackTarget</ref><sp/><sp/>=<sp/>7400,<sp/></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" kindref="member">kChecksumMismatch</ref><sp/><sp/>=<sp/>7401,<sp/></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa06191f02e256f57553faf1ad941b7308" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa06191f02e256f57553faf1ad941b7308" kindref="member">kArtifactMissing</ref><sp/><sp/><sp/>=<sp/>7402,<sp/></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa9de7962ec8946f55afde6f4bd67609c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa9de7962ec8946f55afde6f4bd67609c7" kindref="member">kPatchIncompatible</ref><sp/>=<sp/>7403,<sp/></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa306f6148ff0bb8762477c4ee29c51ed4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa306f6148ff0bb8762477c4ee29c51ed4" kindref="member">kSwitchInProgress</ref><sp/><sp/>=<sp/>7404,<sp/></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaa9310378f62c7c151bcf1ecd606df526" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaa9310378f62c7c151bcf1ecd606df526" kindref="member">kCanaryAborted</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>7405,<sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1updates_1ac7aca241fc526ccaae5884e741fd6ce8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref><sp/>:<sp/>int32_t<sp/>{<sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a8d069917ec494cc042c27acaad671f52" kindref="member">kBlue</ref><sp/>=<sp/>0,<sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1299e6e2ec6371a79385cd3a862f7cc9" kindref="member">kGreen</ref><sp/>=<sp/>1<sp/>};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">VerificationResult<sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" kindref="member">signatureToken</ref>;<sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1updates_1_1_verification_result_1a12e642dfb1d334881be6a9350e836ae1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daa" kindref="member">UpdatesError</ref><sp/><ref refid="structthemis_1_1updates_1_1_verification_result_1a12e642dfb1d334881be6a9350e836ae1" kindref="member">error</ref>{<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" kindref="member">UpdatesError::kChecksumMismatch</ref>};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::updates</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/updates/updates_api_contract.h"/>
+  </compounddef>
+</doxygen>

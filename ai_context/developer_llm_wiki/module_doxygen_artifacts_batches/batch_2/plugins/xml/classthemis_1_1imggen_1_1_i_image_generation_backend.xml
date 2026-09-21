@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1imggen_1_1_i_image_generation_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::imggen::IImageGenerationBackend</compoundname>
+    <includes refid="image__generation__interface_8h" local="no">image_generation_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_image_generation_backend_1ac36be31cbbf81854b09dcc3ebe7099e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::imggen::IImageGenerationBackend::~IImageGenerationBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IImageGenerationBackend</name>
+        <qualifiedname>themis::imggen::IImageGenerationBackend::~IImageGenerationBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="87" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_image_generation_backend_1af598e14ba9439fd3b38e08e2028bf2a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::imggen::IImageGenerationBackend::initialize</definition>
+        <argsstring>(const std::string &amp;model_path, const json &amp;config)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::imggen::IImageGenerationBackend::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Load model and apply configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the GGUF/safetensors model file (empty for stub). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON configuration (see sd_config.h). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="94" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_image_generation_backend_1ae62c1fc96ce4986f7abc99790940a89f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::imggen::IImageGenerationBackend::isInitialized</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::imggen::IImageGenerationBackend::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="96" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_image_generation_backend_1a9b36a35bbb8b3707880fa0b823129a18" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1imggen_1_1_generated_image" kindref="compound">GeneratedImage</ref></type>
+        <definition>virtual GeneratedImage themis::imggen::IImageGenerationBackend::generate</definition>
+        <argsstring>(const std::string &amp;prompt, const SDGenerationConfig &amp;cfg)=0</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::imggen::IImageGenerationBackend::generate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1imggen_1_1_s_d_generation_config" kindref="compound">SDGenerationConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Generate an image from a text prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations MUST check <ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a427b512f8659b0782956b5a54edb4e11" kindref="member">isPromptAllowed()</ref> before running inference. If the prompt is blocked, they should return a <ref refid="structthemis_1_1imggen_1_1_generated_image" kindref="compound">GeneratedImage</ref> with success=false and an appropriate error_message. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="105" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_image_generation_backend_1a7a734097514b544cd01fdeec7db2936d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1imggen_1_1_generated_image" kindref="compound">GeneratedImage</ref> &gt;</type>
+        <definition>virtual std::vector&lt; GeneratedImage &gt; themis::imggen::IImageGenerationBackend::generateBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;prompts, const SDGenerationConfig &amp;cfg)</argsstring>
+        <name>generateBatch</name>
+        <qualifiedname>themis::imggen::IImageGenerationBackend::generateBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>prompts</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1imggen_1_1_s_d_generation_config" kindref="compound">SDGenerationConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Generate multiple images from a list of prompts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation calls <ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a9b36a35bbb8b3707880fa0b823129a18" kindref="member">generate()</ref> for each prompt independently. Backends may override with a parallelised implementation. Content-policy screening is applied to each prompt independently.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of text prompts (one per image). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared generation config applied to every prompt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>One <ref refid="structthemis_1_1imggen_1_1_generated_image" kindref="compound">GeneratedImage</ref> per prompt, in the same order. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="119" column="25" bodyfile="include/plugins/image_generation_interface.h" bodystart="119" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_image_generation_backend_1a7706cf58c55c53ddf1057afb8f145eca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1imggen_1_1_generated_image" kindref="compound">GeneratedImage</ref></type>
+        <definition>virtual GeneratedImage themis::imggen::IImageGenerationBackend::generateImg2Img</definition>
+        <argsstring>(const std::string &amp;prompt, const Img2ImgConfig &amp;cfg)</argsstring>
+        <name>generateImg2Img</name>
+        <qualifiedname>themis::imggen::IImageGenerationBackend::generateImg2Img</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1imggen_1_1_img2_img_config" kindref="compound">Img2ImgConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Modify an existing image guided by a text prompt (img2img). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation falls back to generate(prompt, cfg) ignoring the input image. Backends with real model support override this method.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Text prompt describing the desired output. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Img2Img config including the input image and denoising strength. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1imggen_1_1_generated_image" kindref="compound">GeneratedImage</ref> with the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="141" column="28" bodyfile="include/plugins/image_generation_interface.h" bodystart="141" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_image_generation_backend_1a427b512f8659b0782956b5a54edb4e11" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::imggen::IImageGenerationBackend::isPromptAllowed</definition>
+        <argsstring>(const std::string &amp;prompt) const =0</argsstring>
+        <name>isPromptAllowed</name>
+        <qualifiedname>themis::imggen::IImageGenerationBackend::isPromptAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Content-policy check. Returns false for blocked prompts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="149" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_image_generation_backend_1aff3e56eb3e9fb98b2e47424f905126dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::imggen::IImageGenerationBackend::getModelId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getModelId</name>
+        <qualifiedname>themis::imggen::IImageGenerationBackend::getModelId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="151" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_image_generation_backend_1a63dc8f051c1330ca35388d65ef883782" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::imggen::IImageGenerationBackend::getPluginVersion</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getPluginVersion</name>
+        <qualifiedname>themis::imggen::IImageGenerationBackend::getPluginVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="152" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_i_image_generation_backend_1ac63ef7b044914992d6e218b0ecb17c8b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref></type>
+        <definition>virtual json themis::imggen::IImageGenerationBackend::getStatistics</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::imggen::IImageGenerationBackend::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="153" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pure-virtual interface for image-generation backends. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations: SDPlugin (stable-diffusion.cpp), stub/test doubles. </para>
+    </detaileddescription>
+    <location file="include/plugins/image_generation_interface.h" line="85" column="1" bodyfile="include/plugins/image_generation_interface.h" bodystart="85" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a9b36a35bbb8b3707880fa0b823129a18" prot="public" virt="pure-virtual"><scope>themis::imggen::IImageGenerationBackend</scope><name>generate</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a7a734097514b544cd01fdeec7db2936d" prot="public" virt="virtual"><scope>themis::imggen::IImageGenerationBackend</scope><name>generateBatch</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a7706cf58c55c53ddf1057afb8f145eca" prot="public" virt="virtual"><scope>themis::imggen::IImageGenerationBackend</scope><name>generateImg2Img</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1aff3e56eb3e9fb98b2e47424f905126dd" prot="public" virt="pure-virtual"><scope>themis::imggen::IImageGenerationBackend</scope><name>getModelId</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a63dc8f051c1330ca35388d65ef883782" prot="public" virt="pure-virtual"><scope>themis::imggen::IImageGenerationBackend</scope><name>getPluginVersion</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1ac63ef7b044914992d6e218b0ecb17c8b" prot="public" virt="pure-virtual"><scope>themis::imggen::IImageGenerationBackend</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1af598e14ba9439fd3b38e08e2028bf2a3" prot="public" virt="pure-virtual"><scope>themis::imggen::IImageGenerationBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1ae62c1fc96ce4986f7abc99790940a89f" prot="public" virt="pure-virtual"><scope>themis::imggen::IImageGenerationBackend</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a427b512f8659b0782956b5a54edb4e11" prot="public" virt="pure-virtual"><scope>themis::imggen::IImageGenerationBackend</scope><name>isPromptAllowed</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1ac36be31cbbf81854b09dcc3ebe7099e7" prot="public" virt="virtual"><scope>themis::imggen::IImageGenerationBackend</scope><name>~IImageGenerationBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

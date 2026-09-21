@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_rewrite_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryRewritePipeline</compoundname>
+    <includes refid="query__rewrite__rule_8h" local="no">query_rewrite_rule.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_rewrite_pipeline_1a7111a638ffeaaec40ad506e4ec440dd9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryRewritePipeline::kDefaultMaxIterations</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxIterations</name>
+        <qualifiedname>themis::query::QueryRewritePipeline::kDefaultMaxIterations</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="105" column="29" bodyfile="include/query/query_rewrite_rule.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_rewrite_pipeline_1a70eac2fa7aeedd06b036507fdbee2b8c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule" kindref="compound">IQueryRewriteRule</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;IQueryRewriteRule&gt; &gt; themis::query::QueryRewritePipeline::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themis::query::QueryRewritePipeline::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="141" column="17" bodyfile="include/query/query_rewrite_rule.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_rewrite_pipeline_1a6abbfadb7c3a090bc49c26237803d7c0" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryRewritePipeline::max_iterations_</definition>
+        <argsstring></argsstring>
+        <name>max_iterations_</name>
+        <qualifiedname>themis::query::QueryRewritePipeline::max_iterations_</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a7111a638ffeaaec40ad506e4ec440dd9" kindref="member">kDefaultMaxIterations</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="142" column="12" bodyfile="include/query/query_rewrite_rule.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_rewrite_pipeline_1a578472323205bbcf33198eadbcfc1f67" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryRewritePipeline::QueryRewritePipeline</definition>
+        <argsstring>(size_t max_iterations=kDefaultMaxIterations)</argsstring>
+        <name>QueryRewritePipeline</name>
+        <qualifiedname>themis::query::QueryRewritePipeline::QueryRewritePipeline</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_iterations</declname>
+          <defval><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a7111a638ffeaaec40ad506e4ec440dd9" kindref="member">kDefaultMaxIterations</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="107" column="14" bodyfile="src/query/query_rewrite_rule.cpp" bodystart="539" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_rewrite_pipeline_1a998b69753b04e293b78a6e81c3f813db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryRewritePipeline::addRule</definition>
+        <argsstring>(std::shared_ptr&lt; IQueryRewriteRule &gt; rule)</argsstring>
+        <name>addRule</name>
+        <qualifiedname>themis::query::QueryRewritePipeline::addRule</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_i_query_rewrite_rule" kindref="compound">IQueryRewriteRule</ref> &gt;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Add Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="113" column="10" bodyfile="src/query/query_rewrite_rule.cpp" bodystart="547" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_rewrite_pipeline_1a1b02b62946b5a247fc9428c62b47293a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryRewritePipeline::clearRules</definition>
+        <argsstring>()</argsstring>
+        <name>clearRules</name>
+        <qualifiedname>themis::query::QueryRewritePipeline::clearRules</qualifiedname>
+        <briefdescription>
+<para>Clear Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="118" column="10" bodyfile="src/query/query_rewrite_rule.cpp" bodystart="557" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_rewrite_pipeline_1ae38aa322e7550480599675ee95bccc3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryRewritePipeline::ruleCount</definition>
+        <argsstring>() const</argsstring>
+        <name>ruleCount</name>
+        <qualifiedname>themis::query::QueryRewritePipeline::ruleCount</qualifiedname>
+        <briefdescription>
+<para>Rule Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="124" column="12" bodyfile="src/query/query_rewrite_rule.cpp" bodystart="561" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_rewrite_pipeline_1ae56464b23b7736b84931d4146ebb554d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_rewrite_stats" kindref="compound">RewriteStats</ref></type>
+        <definition>RewriteStats themis::query::QueryRewritePipeline::run</definition>
+        <argsstring>(nlohmann::json &amp;plan, const RewriteContext &amp;ctx) const</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::query::QueryRewritePipeline::run</qualifiedname>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="132" column="18" bodyfile="src/query/query_rewrite_rule.cpp" bodystart="565" bodyend="584"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_rewrite_pipeline_1abccd942484dd4e7016791193066fd9e8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a578472323205bbcf33198eadbcfc1f67" kindref="member">QueryRewritePipeline</ref></type>
+        <definition>QueryRewritePipeline themis::query::QueryRewritePipeline::createDefault</definition>
+        <argsstring>()</argsstring>
+        <name>createDefault</name>
+        <qualifiedname>themis::query::QueryRewritePipeline::createDefault</qualifiedname>
+        <briefdescription>
+<para>Create Default. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a998b69753b04e293b78a6e81c3f813db" kindref="member">addRule()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="138" column="33" bodyfile="src/query/query_rewrite_rule.cpp" bodystart="591" bodyend="599"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_rewrite_rule.h" line="103" column="1" bodyfile="include/query/query_rewrite_rule.h" bodystart="103" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a998b69753b04e293b78a6e81c3f813db" prot="public" virt="non-virtual"><scope>themis::query::QueryRewritePipeline</scope><name>addRule</name></member>
+      <member refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a1b02b62946b5a247fc9428c62b47293a" prot="public" virt="non-virtual"><scope>themis::query::QueryRewritePipeline</scope><name>clearRules</name></member>
+      <member refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1abccd942484dd4e7016791193066fd9e8" prot="public" virt="non-virtual"><scope>themis::query::QueryRewritePipeline</scope><name>createDefault</name></member>
+      <member refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a7111a638ffeaaec40ad506e4ec440dd9" prot="public" virt="non-virtual"><scope>themis::query::QueryRewritePipeline</scope><name>kDefaultMaxIterations</name></member>
+      <member refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a6abbfadb7c3a090bc49c26237803d7c0" prot="private" virt="non-virtual"><scope>themis::query::QueryRewritePipeline</scope><name>max_iterations_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a578472323205bbcf33198eadbcfc1f67" prot="public" virt="non-virtual"><scope>themis::query::QueryRewritePipeline</scope><name>QueryRewritePipeline</name></member>
+      <member refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1ae38aa322e7550480599675ee95bccc3b" prot="public" virt="non-virtual"><scope>themis::query::QueryRewritePipeline</scope><name>ruleCount</name></member>
+      <member refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1a70eac2fa7aeedd06b036507fdbee2b8c" prot="private" virt="non-virtual"><scope>themis::query::QueryRewritePipeline</scope><name>rules_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_rewrite_pipeline_1ae56464b23b7736b84931d4146ebb554d" prot="public" virt="non-virtual"><scope>themis::query::QueryRewritePipeline</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

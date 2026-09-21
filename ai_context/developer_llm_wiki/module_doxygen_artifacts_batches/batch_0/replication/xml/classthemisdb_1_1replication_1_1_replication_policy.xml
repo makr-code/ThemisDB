@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_replication_policy" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationPolicy</compoundname>
+    <includes refid="policy_8h" local="no">policy.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" prot="public">themisdb::replication::ReplicationPolicy::Policy</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result" prot="public">themisdb::replication::ReplicationPolicy::ValidationResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_policy_1a2ffb59b238bfeb82dcbcee85d72d5bf5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ReplicationManager&gt; themisdb::replication::ReplicationPolicy::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="188" column="21" bodyfile="include/replication/policy.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_policy_1a25bb688b1e957fb7783a232ed3dedf41" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::ReplicationPolicy::policies_mutex_</definition>
+        <argsstring></argsstring>
+        <name>policies_mutex_</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::policies_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="190" column="41" bodyfile="include/replication/policy.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_policy_1acd4389685ee3b930cbf0f6f0ffcab8b5" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref> &gt;</type>
+        <definition>std::map&lt;std::string, Policy&gt; themisdb::replication::ReplicationPolicy::policies_</definition>
+        <argsstring></argsstring>
+        <name>policies_</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::policies_</qualifiedname>
+        <briefdescription>
+<para>name → policy </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="191" column="20" bodyfile="include/replication/policy.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_policy_1a53bbfb4f2fc0ba06b5ef0c83da531d25" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themisdb::replication::ReplicationPolicy::assignments_</definition>
+        <argsstring></argsstring>
+        <name>assignments_</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::assignments_</qualifiedname>
+        <briefdescription>
+<para>collection → policy name </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="192" column="15" bodyfile="include/replication/policy.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationPolicy::ReplicationPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; ReplicationManager &gt; manager)</argsstring>
+        <name>ReplicationPolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::ReplicationPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> &gt;</type>
+          <declname>manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a <ref refid="classthemisdb_1_1replication_1_1_replication_policy" kindref="compound">ReplicationPolicy</ref> manager backed by the given <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> (used to query the current cluster topology during validation). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="126" column="14" bodyfile="src/replication/policy.cpp" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1a6bd5355ca37315f356af4f8e11c60832" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationPolicy::ReplicationPolicy</definition>
+        <argsstring>(const ReplicationPolicy &amp;)=delete</argsstring>
+        <name>ReplicationPolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::ReplicationPolicy</qualifiedname>
+        <param>
+          <type>const ReplicationPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="129" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1aa8d5f8e784155c76a1940433bde80ccd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref> &amp;</type>
+        <definition>ReplicationPolicy &amp; themisdb::replication::ReplicationPolicy::operator=</definition>
+        <argsstring>(const ReplicationPolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="130" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1a762c60234103b24edf0688b686e841ce" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationPolicy::ReplicationPolicy</definition>
+        <argsstring>(ReplicationPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>ReplicationPolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::ReplicationPolicy</qualifiedname>
+        <param>
+          <type>ReplicationPolicy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="131" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1ad160f41d6582f1645e9b4a774d0308c0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref> &amp;</type>
+        <definition>ReplicationPolicy &amp; themisdb::replication::ReplicationPolicy::operator=</definition>
+        <argsstring>(ReplicationPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="132" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1a068c4dcf727fa2e8a4d7b1497f1c91b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationPolicy::definePolicy</definition>
+        <argsstring>(const std::string &amp;policy_name, const Policy &amp;policy)</argsstring>
+        <name>definePolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::definePolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Define <ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Define (or replace) a named policy. Thread-safe; policy is visible to subsequent calls immediately.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the retention policy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policies_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="142" column="10" bodyfile="src/replication/policy.cpp" bodystart="94" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1a2f67b0053cd6031a3235c4f148cde80f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationPolicy::removePolicy</definition>
+        <argsstring>(const std::string &amp;policy_name)</argsstring>
+        <name>removePolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::removePolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove a retention policy by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove a named policy. Assignments referencing it remain but will return the default policy until reassigned. Returns false if the policy_name did not exist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the retention policy to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the policy existed and was removed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policies_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="149" column="10" bodyfile="src/replication/policy.cpp" bodystart="112" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1a6b3b62e6f5606a90416664540d0cbef6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationPolicy::assignPolicy</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;policy_name)</argsstring>
+        <name>assignPolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::assignPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <briefdescription>
+<para>Assign <ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Assign a previously defined policy to a collection. Overwrites any existing assignment for that collection. Returns false if policy_name was not previously defined.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the retention policy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policies_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="156" column="10" bodyfile="src/replication/policy.cpp" bodystart="129" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1a2edd3d54a711da33cb3cf127e92a1b6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref></type>
+        <definition>ReplicationPolicy::Policy themisdb::replication::ReplicationPolicy::getPolicy</definition>
+        <argsstring>(const std::string &amp;collection) const</argsstring>
+        <name>getPolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::getPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the effective policy for a collection. Returns the default policy when no assignment exists. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policies_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="163" column="12" bodyfile="src/replication/policy.cpp" bodystart="147" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1a1d222a483c3b4aeacf24152b7e05765a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::replication::ReplicationPolicy::listPolicies</definition>
+        <argsstring>() const</argsstring>
+        <name>listPolicies</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::listPolicies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List all defined policy names. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policies_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="166" column="17" bodyfile="src/replication/policy.cpp" bodystart="166" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1a0401becee9f7194bf0e345961351abbd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ReplicationPolicy::ValidationResult themisdb::replication::ReplicationPolicy::validatePolicy</definition>
+        <argsstring>(const Policy &amp;policy) const</argsstring>
+        <name>validatePolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::validatePolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check whether the given policy is currently achievable given the cluster topology reported by the <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref>.</para>
+<para>Checks performed:<orderedlist>
+<listitem><para>Enough healthy replicas to meet desired_replicas.</para>
+</listitem><listitem><para>Enough distinct datacenters to meet min_datacenters.</para>
+</listitem><listitem><para>required_datacenters each have at least one healthy replica.</para>
+</listitem><listitem><para>write_quorum ≤ current healthy replica count.</para>
+</listitem><listitem><para>SYNC mode is feasible only when all replicas are healthy.</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="return"><para><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_validation_result" kindref="compound">ValidationResult</ref> with is_valid = true when all checks pass. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="185" column="22" bodyfile="src/replication/policy.cpp" bodystart="188" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_policy_1adfff85a35befeab9d026c1faec7a4fcc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_policy_1_1_policy" kindref="compound">Policy</ref></type>
+        <definition>ReplicationPolicy::Policy themisdb::replication::ReplicationPolicy::defaultPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>defaultPolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationPolicy::defaultPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/policy.h" line="194" column="19" bodyfile="src/replication/policy.cpp" bodystart="78" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_replication_policy" kindref="compound">ReplicationPolicy</ref></para>
+<para>Manages named replication policies and their assignment to collections.</para>
+<para>Example: <programlisting><codeline><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" kindref="member">ReplicationPolicy</ref><sp/>policy_mgr(repl_mgr);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ReplicationPolicy::Policy<sp/>critical;</highlight></codeline>
+<codeline><highlight class="normal">critical.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;critical&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">critical.desired_replicas<sp/>=<sp/>5;</highlight></codeline>
+<codeline><highlight class="normal">critical.min_datacenters<sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal">critical.mode<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bca274ccef15a21e829d03293a6fd1974f3" kindref="member">ReplicationMode::SYNC</ref>;</highlight></codeline>
+<codeline><highlight class="normal">critical.write_quorum<sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal">critical.enable_pitr<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">policy_mgr.definePolicy(</highlight><highlight class="stringliteral">&quot;critical&quot;</highlight><highlight class="normal">,<sp/>critical);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">policy_mgr.assignPolicy(</highlight><highlight class="stringliteral">&quot;financial_transactions&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;critical&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>policy_mgr.validatePolicy(critical);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!v.is_valid)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>viol<sp/>:<sp/>v.violations)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Violation:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>viol<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/replication/policy.h" line="73" column="1" bodyfile="include/replication/policy.h" bodystart="73" bodyend="195"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a53bbfb4f2fc0ba06b5ef0c83da531d25" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>assignments_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a6b3b62e6f5606a90416664540d0cbef6" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>assignPolicy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1adfff85a35befeab9d026c1faec7a4fcc" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>defaultPolicy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a068c4dcf727fa2e8a4d7b1497f1c91b9" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>definePolicy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a2edd3d54a711da33cb3cf127e92a1b6b" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>getPolicy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a1d222a483c3b4aeacf24152b7e05765a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>listPolicies</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a2ffb59b238bfeb82dcbcee85d72d5bf5" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>manager_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1aa8d5f8e784155c76a1940433bde80ccd" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1ad160f41d6582f1645e9b4a774d0308c0" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1acd4389685ee3b930cbf0f6f0ffcab8b5" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>policies_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a25bb688b1e957fb7783a232ed3dedf41" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>policies_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a2f67b0053cd6031a3235c4f148cde80f" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>removePolicy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a6d12fab3af461f5b27453623dc010975" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>ReplicationPolicy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a6bd5355ca37315f356af4f8e11c60832" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>ReplicationPolicy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a762c60234103b24edf0688b686e841ce" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>ReplicationPolicy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_policy_1a0401becee9f7194bf0e345961351abbd" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationPolicy</scope><name>validatePolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

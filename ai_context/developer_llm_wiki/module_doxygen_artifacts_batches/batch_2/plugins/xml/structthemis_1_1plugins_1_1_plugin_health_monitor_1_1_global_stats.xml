@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginHealthMonitor::GlobalStats</compoundname>
+    <includes refid="plugin__health__monitor_8h" local="no">plugin_health_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1ac20908f84f5078b9050164a9a23b039a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginHealthMonitor::GlobalStats::total_health_checks</definition>
+        <argsstring></argsstring>
+        <name>total_health_checks</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::GlobalStats::total_health_checks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="230" column="18" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a179b7aafd8907792628c956ef91d5e34" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginHealthMonitor::GlobalStats::total_recovery_attempts</definition>
+        <argsstring></argsstring>
+        <name>total_recovery_attempts</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::GlobalStats::total_recovery_attempts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="231" column="18" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a8d8f32a3e8addc3aa219f8be903ee051" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginHealthMonitor::GlobalStats::total_successful_recoveries</definition>
+        <argsstring></argsstring>
+        <name>total_successful_recoveries</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::GlobalStats::total_successful_recoveries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="232" column="18" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a1caf7d74fb2a6479c577d3ec4531255b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginHealthMonitor::GlobalStats::total_failed_recoveries</definition>
+        <argsstring></argsstring>
+        <name>total_failed_recoveries</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::GlobalStats::total_failed_recoveries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="233" column="18" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a1212272b9bf9693b74059e8fb31bebdc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::PluginHealthMonitor::GlobalStats::monitored_plugins_count</definition>
+        <argsstring></argsstring>
+        <name>monitored_plugins_count</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::GlobalStats::monitored_plugins_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="234" column="16" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a6b1beddd021c67b336cbd057500897cf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::PluginHealthMonitor::GlobalStats::healthy_plugins_count</definition>
+        <argsstring></argsstring>
+        <name>healthy_plugins_count</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::GlobalStats::healthy_plugins_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="235" column="16" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a8e54b20f2bc55f28cb8c98034269f63d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::PluginHealthMonitor::GlobalStats::unhealthy_plugins_count</definition>
+        <argsstring></argsstring>
+        <name>unhealthy_plugins_count</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::GlobalStats::unhealthy_plugins_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="236" column="16" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a95128337541157613680add853b7a655" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::PluginHealthMonitor::GlobalStats::recovering_plugins_count</definition>
+        <argsstring></argsstring>
+        <name>recovering_plugins_count</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::GlobalStats::recovering_plugins_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="237" column="16" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get global monitoring statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/plugin_health_monitor.h" line="229" column="5" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="229" bodyend="238"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a6b1beddd021c67b336cbd057500897cf" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor::GlobalStats</scope><name>healthy_plugins_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a1212272b9bf9693b74059e8fb31bebdc" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor::GlobalStats</scope><name>monitored_plugins_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a95128337541157613680add853b7a655" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor::GlobalStats</scope><name>recovering_plugins_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a1caf7d74fb2a6479c577d3ec4531255b" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor::GlobalStats</scope><name>total_failed_recoveries</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1ac20908f84f5078b9050164a9a23b039a" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor::GlobalStats</scope><name>total_health_checks</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a179b7aafd8907792628c956ef91d5e34" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor::GlobalStats</scope><name>total_recovery_attempts</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a8d8f32a3e8addc3aa219f8be903ee051" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor::GlobalStats</scope><name>total_successful_recoveries</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats_1a8e54b20f2bc55f28cb8c98034269f63d" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor::GlobalStats</scope><name>unhealthy_plugins_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

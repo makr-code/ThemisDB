@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::test</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1ae94b9371e6309a86e6ee7635af712815" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(NetworkProtocolChaosTest, MalformedMessageHandling)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>NetworkProtocolChaosTest</type>
+        </param>
+        <param>
+          <type>MalformedMessageHandling</type>
+        </param>
+        <briefdescription>
+<para>Test wire protocol with malformed data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_protocol_chaos.cpp" line="29" column="1" bodyfile="tests/network/test_network_protocol_chaos.cpp" bodystart="29" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ac1330269e9fa559461a7e04730335ee6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(NetworkProtocolChaosTest, RandomMessageFuzzing)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>NetworkProtocolChaosTest</type>
+        </param>
+        <param>
+          <type>RandomMessageFuzzing</type>
+        </param>
+        <briefdescription>
+<para>Test message fuzzing with random data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_protocol_chaos.cpp" line="54" column="1" bodyfile="tests/network/test_network_protocol_chaos.cpp" bodystart="54" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a813df3fd42cefeb3d174b086ef2727cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(NetworkProtocolChaosTest, LatencySimulation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>NetworkProtocolChaosTest</type>
+        </param>
+        <param>
+          <type>LatencySimulation</type>
+        </param>
+        <briefdescription>
+<para>Test network latency simulation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_protocol_chaos.cpp" line="90" column="1" bodyfile="tests/network/test_network_protocol_chaos.cpp" bodystart="90" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1aff9549271485de5166e945ce5fb50c3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(NetworkProtocolChaosTest, PacketLossSimulation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>NetworkProtocolChaosTest</type>
+        </param>
+        <param>
+          <type>PacketLossSimulation</type>
+        </param>
+        <briefdescription>
+<para>Test packet loss simulation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_protocol_chaos.cpp" line="143" column="1" bodyfile="tests/network/test_network_protocol_chaos.cpp" bodystart="143" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a039cee1ec7b434370790cebe4813b29f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(NetworkProtocolChaosTest, ConnectionTimeoutHandling)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>NetworkProtocolChaosTest</type>
+        </param>
+        <param>
+          <type>ConnectionTimeoutHandling</type>
+        </param>
+        <briefdescription>
+<para>Test connection timeout handling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_protocol_chaos.cpp" line="180" column="1" bodyfile="tests/network/test_network_protocol_chaos.cpp" bodystart="180" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a8bda5ca9777d401107f0c797f4b5672a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(NetworkProtocolChaosTest, DataCorruptionDetection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>NetworkProtocolChaosTest</type>
+        </param>
+        <param>
+          <type>DataCorruptionDetection</type>
+        </param>
+        <briefdescription>
+<para>Test data corruption detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_protocol_chaos.cpp" line="229" column="1" bodyfile="tests/network/test_network_protocol_chaos.cpp" bodystart="229" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a9dc4d32ef0587d24c8530f3cbae57bd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(NetworkProtocolChaosTest, ProtocolVersionMismatch)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>NetworkProtocolChaosTest</type>
+        </param>
+        <param>
+          <type>ProtocolVersionMismatch</type>
+        </param>
+        <briefdescription>
+<para>Test protocol version mismatch handling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_protocol_chaos.cpp" line="291" column="1" bodyfile="tests/network/test_network_protocol_chaos.cpp" bodystart="291" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a37a15c60d40dd0124db9a41403250b43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(NetworkProtocolChaosTest, BurstTrafficHandling)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>NetworkProtocolChaosTest</type>
+        </param>
+        <param>
+          <type>BurstTrafficHandling</type>
+        </param>
+        <briefdescription>
+<para>Test burst traffic handling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_protocol_chaos.cpp" line="331" column="1" bodyfile="tests/network/test_network_protocol_chaos.cpp" bodystart="331" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a0ccbe4f8705be6711266ce1cd2eda9e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(NetworkProtocolChaosTest, OutOfOrderMessages)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>NetworkProtocolChaosTest</type>
+        </param>
+        <param>
+          <type>OutOfOrderMessages</type>
+        </param>
+        <briefdescription>
+<para>Test out-of-order message handling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_protocol_chaos.cpp" line="380" column="1" bodyfile="tests/network/test_network_protocol_chaos.cpp" bodystart="380" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a20b4833ae4aa62ebf03106106e73e907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(NetworkProtocolChaosTest, ConnectionRetryLogic)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>NetworkProtocolChaosTest</type>
+        </param>
+        <param>
+          <type>ConnectionRetryLogic</type>
+        </param>
+        <briefdescription>
+<para>Test connection retry logic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_protocol_chaos.cpp" line="418" column="1" bodyfile="tests/network/test_network_protocol_chaos.cpp" bodystart="418" bodyend="453"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/test_network_protocol_chaos.cpp" line="24" column="1"/>
+  </compounddef>
+</doxygen>

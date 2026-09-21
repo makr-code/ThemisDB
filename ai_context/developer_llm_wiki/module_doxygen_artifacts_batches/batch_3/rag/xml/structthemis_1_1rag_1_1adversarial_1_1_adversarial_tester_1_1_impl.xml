@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::adversarial::AdversarialTester::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl_1a1fef6b7bfea5064871e8bd338c953cc7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" kindref="compound">AdversarialTesterConfig</ref></type>
+        <definition>AdversarialTesterConfig themis::rag::adversarial::AdversarialTester::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/adversarial_tester.cpp" line="318" column="33" bodyfile="src/rag/adversarial_tester.cpp" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl_1acd2d5192e6b95e7731c6a44430df490d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1adversarial_1_1_base_query" kindref="compound">BaseQuery</ref> &gt;</type>
+        <definition>std::vector&lt;BaseQuery&gt; themis::rag::adversarial::AdversarialTester::Impl::base_queries</definition>
+        <argsstring></argsstring>
+        <name>base_queries</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::Impl::base_queries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/adversarial_tester.cpp" line="319" column="22" bodyfile="src/rag/adversarial_tester.cpp" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl_1a381ae1bdfe6fb36e659821f19d3da0bc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;RetrievedDocument&gt; themis::rag::adversarial::AdversarialTester::Impl::base_documents</definition>
+        <argsstring></argsstring>
+        <name>base_documents</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::Impl::base_documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/adversarial_tester.cpp" line="320" column="17" bodyfile="src/rag/adversarial_tester.cpp" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl_1ad92470b43560749d5f2a5d5abb96328b" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::adversarial::AdversarialTester::Impl::data_mutex</definition>
+        <argsstring></argsstring>
+        <name>data_mutex</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialTester::Impl::data_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/adversarial_tester.cpp" line="323" column="24" bodyfile="src/rag/adversarial_tester.cpp" bodystart="323" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::adversarial::AdversarialTester::Impl</label>
+        <link refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::adversarial::AdversarialTesterConfig</label>
+        <link refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/adversarial_tester.cpp" line="317" column="1" bodyfile="src/rag/adversarial_tester.cpp" bodystart="317" bodyend="324"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl_1a381ae1bdfe6fb36e659821f19d3da0bc" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester::Impl</scope><name>base_documents</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl_1acd2d5192e6b95e7731c6a44430df490d" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester::Impl</scope><name>base_queries</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl_1a1fef6b7bfea5064871e8bd338c953cc7" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1_1_impl_1ad92470b43560749d5f2a5d5abb96328b" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::AdversarialTester::Impl</scope><name>data_mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

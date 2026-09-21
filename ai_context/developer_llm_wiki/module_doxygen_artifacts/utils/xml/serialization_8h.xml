@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="serialization_8h" kind="file" language="C++">
+    <compoundname>serialization.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includedby refid="serialization_8cpp" local="yes">src/utils/serialization.cpp</includedby>
+    <includedby refid="test__serialization_8cpp" local="yes">tests/utils/test_serialization.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/serialization.h</label>
+        <link refid="serialization_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/serialization.h</label>
+        <link refid="serialization_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/utils/serialization.cpp</label>
+        <link refid="serialization_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/utils/test_serialization.cpp</label>
+        <link refid="test__serialization_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1utils_1_1_serialization" prot="public">themis::utils::Serialization</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_serialization_1_1_encoder" prot="public">themis::utils::Serialization::Encoder</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_serialization_1_1_decoder" prot="public">themis::utils::Serialization::Decoder</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1utils_1_1_serialization" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_serialization" kindref="compound">Serialization</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>limits<sp/>for<sp/>Phase<sp/>2.4c<sp/>hardening</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1utils_1_1_serialization_1a135ce9f9169206fba7bd97f7e4581bec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a135ce9f9169206fba7bd97f7e4581bec" kindref="member">MAX_NESTING_DEPTH</ref><sp/>=<sp/>32;<sp/><sp/></highlight><highlight class="comment">//<sp/>Stack<sp/>overflow<sp/>protection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1utils_1_1_serialization_1a4ab1ef2e5ba8702f89e2271fdf2ba8a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a4ab1ef2e5ba8702f89e2271fdf2ba8a2" kindref="member">MAX_STRING_SIZE</ref><sp/>=<sp/>256<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>256MB<sp/>max<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1utils_1_1_serialization_1aa2e67d6bcfe8d75eceebdc47d39c5568" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1aa2e67d6bcfe8d75eceebdc47d39c5568" kindref="member">MAX_BINARY_SIZE</ref><sp/>=<sp/>512<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>512MB<sp/>max<sp/>binary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1utils_1_1_serialization_1a12af1e0c60644fe61f1f084db0d5bac7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a12af1e0c60644fe61f1f084db0d5bac7" kindref="member">MAX_ARRAY_SIZE</ref><sp/>=<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>1M<sp/>max<sp/>array<sp/>elements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3" kindref="member">TypeTag</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3aa9f0aff2067f91437e50e4872b229e6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3aa9f0aff2067f91437e50e4872b229e6a" kindref="member">NULL_VALUE</ref><sp/>=<sp/>0x00,</highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a0736890de6c4467d299bcbb71e0d023e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a0736890de6c4467d299bcbb71e0d023e" kindref="member">BOOL_FALSE</ref><sp/>=<sp/>0x01,</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a4c32ae3d339004a1ea9affc221ef0cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a4c32ae3d339004a1ea9affc221ef0cce" kindref="member">BOOL_TRUE</ref><sp/>=<sp/>0x02,</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a6495adba09844fac8eeb0aba86e6f1bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a6495adba09844fac8eeb0aba86e6f1bf" kindref="member">INT32</ref><sp/>=<sp/>0x10,</highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a4e866b275c85fbb439f6484251cfb31c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a4e866b275c85fbb439f6484251cfb31c" kindref="member">INT64</ref><sp/>=<sp/>0x11,</highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a17266551181f69a1b4a3ad5c9e270afc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a17266551181f69a1b4a3ad5c9e270afc" kindref="member">UINT32</ref><sp/>=<sp/>0x12,</highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a6de7acf711860176ba606e9aa2b85d5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a6de7acf711860176ba606e9aa2b85d5f" kindref="member">UINT64</ref><sp/>=<sp/>0x13,</highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3ae738c26bf4ce1037fa81b039a915cbf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3ae738c26bf4ce1037fa81b039a915cbf6" kindref="member">FLOAT</ref><sp/>=<sp/>0x20,</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3afd3e4ece78a7d422280d5ed379482229" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3afd3e4ece78a7d422280d5ed379482229" kindref="member">DOUBLE</ref><sp/>=<sp/>0x21,</highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a63b588d5559f64f89a416e656880b949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a63b588d5559f64f89a416e656880b949" kindref="member">STRING</ref><sp/>=<sp/>0x30,</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a98ad0e8750ae10ad556ed7a62affb452" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a98ad0e8750ae10ad556ed7a62affb452" kindref="member">BINARY</ref><sp/>=<sp/>0x40,</highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3acb4fb1757fb37c43cded35d3eb857c43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3acb4fb1757fb37c43cded35d3eb857c43" kindref="member">ARRAY</ref><sp/>=<sp/>0x50,</highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a8eee8e217391199668cbac89472ace53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a8eee8e217391199668cbac89472ace53" kindref="member">OBJECT</ref><sp/>=<sp/>0x60,</highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a38bbbd837be5914a8667d76948e1537b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a38bbbd837be5914a8667d76948e1537b" kindref="member">VECTOR_FLOAT</ref><sp/>=<sp/>0x70,<sp/><sp/></highlight><highlight class="comment">//<sp/>Optimized<sp/>for<sp/>embeddings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1utils_1_1_serialization_1_1_encoder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a5d34295672ebaa3a8c26418ed033567e" kindref="member">Encoder</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a5d34295672ebaa3a8c26418ed033567e" kindref="member">Encoder</ref>();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ab968c1c488f56a35ffac4a01c9ed77fa" kindref="member">encodeNull</ref>();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a1cfed9670fa2aa786a6e26fb991318ab" kindref="member">encodeBool</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a790cf523ef41f7eae1a97a8f1366f33e" kindref="member">encodeInt32</ref>(int32_t<sp/>value);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a516b88a0756f0a1911fb8c2821684508" kindref="member">encodeInt64</ref>(int64_t<sp/>value);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ac197fb7a56332862ce64b6bd8bdfe4f6" kindref="member">encodeUInt32</ref>(uint32_t<sp/>value);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a1e1049976ace9b6ac30dd5f462233f6e" kindref="member">encodeUInt64</ref>(uint64_t<sp/>value);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a483daaff046ff4dcc658e87728e94ee5" kindref="member">encodeFloat</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a254d6a941abe2752186598683af2e53b" kindref="member">encodeDouble</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a6cb6bab1416ae94ec58e393a8f431328" kindref="member">encodeString</ref>(std::string_view<sp/>str);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ade1b365b1bb23cd9ddd4f965c1e1d10f" kindref="member">encodeBinary</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a7c6aff0b068672158a1b6c6a404d62a0" kindref="member">encodeFloatVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>vec);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1afae183d47d84f92d553dd6eb86848a0e" kindref="member">beginArray</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ade0dc1d7e2949a68d95c574b8cdd36f2" kindref="member">endArray</ref>();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1aa15277f3705ff66fe1a80921c3f35d07" kindref="member">beginObject</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_fields);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ab520f3436b516a1a3e60f4cae81f3280" kindref="member">endObject</ref>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a5769dac5193e554c98fc641e98ce9587" kindref="member">finish</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>buffer_;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeTag(<ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3" kindref="member">TypeTag</ref><sp/>tag);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeUInt32(uint32_t<sp/>value);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeUInt64(uint64_t<sp/>value);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1utils_1_1_serialization_1_1_decoder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a7d3cc74d2fd5edb5982120fe8abb463d" kindref="member">Decoder</ref><sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a7d3cc74d2fd5edb5982120fe8abb463d" kindref="member">Decoder</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3" kindref="member">TypeTag</ref><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ab0a2692cf22889f4ff3857a629c0039c" kindref="member">peekType</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a9e8ffdcc37fbd7f22f1d858c6d53f0a8" kindref="member">isNull</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aae519b7c3748c2f6ce0d653b01ac8caf" kindref="member">decodeBool</ref>();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a9fb0fab9555c4f7a1b00dd50e1a3ede0" kindref="member">decodeInt32</ref>();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aff620395e9e2614b88b3632eed40b7a7" kindref="member">decodeInt64</ref>();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a7bccc6a72c98a2b7fa73792233cfc5c6" kindref="member">decodeUInt32</ref>();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a208ee570fefced2adb2dc356fe9d862f" kindref="member">decodeUInt64</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a859eb183988c892bb37563c8f2180bc0" kindref="member">decodeFloat</ref>();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1af98f5f8f0a74e47601459006169a49ae" kindref="member">decodeDouble</ref>();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ac707399631352a69cd3b0ecd3c2692d8" kindref="member">decodeString</ref>();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1abb21c62097c59ee152e36b9ceaac6899" kindref="member">decodeBinary</ref>();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a4840e83b0eec76dba3cac621e55830f5" kindref="member">decodeFloatVector</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1afc815c667d515e9a98ba32016fd008e2" kindref="member">beginArray</ref>();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a784ec36d44123c7b6df4a91a2c71eb9e" kindref="member">endArray</ref>();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ab03b330c514de9bdbdfe1b78d4e0b86c" kindref="member">beginObject</ref>();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aa785a913bc3ce9e8202654005747378c" kindref="member">endObject</ref>();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a45c489da7901eb222e96fa604268e9f7" kindref="member">hasMore</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3" kindref="member">TypeTag</ref><sp/><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag</ref>();</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_NESTING_DEPTH<sp/>=<sp/>64;<sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pos_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>nesting_depth_<sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>readUInt32();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>readUInt64();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/serialization.h"/>
+  </compounddef>
+</doxygen>

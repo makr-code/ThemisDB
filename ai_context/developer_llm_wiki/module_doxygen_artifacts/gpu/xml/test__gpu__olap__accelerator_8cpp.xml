@@ -1,0 +1,684 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__olap__accelerator_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_olap_accelerator.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">analytics/olap.h</includes>
+    <includes local="yes">themis/gpu/query_accelerator.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">cstring</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_olap_accelerator.cpp</label>
+        <link refid="test__gpu__olap__accelerator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>analytics/olap.h</label>
+      </node>
+      <node id="5">
+        <label>cmath</label>
+      </node>
+      <node id="6">
+        <label>cstring</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>themis/gpu/query_accelerator.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_g_p_u_o_l_a_p_aggregate_test" prot="public">GPUOLAPAggregateTest</innerclass>
+    <innerclass refid="class_o_l_a_p_g_p_u_aggregate_correctness_test" prot="public">OLAPGPUAggregateCorrectnessTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1analytics">themis::analytics</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1aae4d1f3c55ec09aa428f283a366ff184" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPConfigTest, DefaultConfigIsGPUDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultConfigIsGPUDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="24" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="24" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1a4bee15fee7421255044de66716fc699d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPConfigTest, ConfigFieldsAssignable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPConfigTest</type>
+        </param>
+        <param>
+          <type>ConfigFieldsAssignable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="32" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="32" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1ab3de25f2438f28ce8d39c2ec9f16d3bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPGPUConstructorTest, DefaultConstructorStillWorks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPGPUConstructorTest</type>
+        </param>
+        <param>
+          <type>DefaultConstructorStillWorks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="49" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="49" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1a2e715917265062f779f5e6c3fb77fe95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPGPUConstructorTest, GPUEnabledConstructorDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPGPUConstructorTest</type>
+        </param>
+        <param>
+          <type>GPUEnabledConstructorDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="61" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="61" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1abc95d1ee2497ea662805fb3728983e7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPGPUConstructorTest, GPUDisabledConstructorWorks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPGPUConstructorTest</type>
+        </param>
+        <param>
+          <type>GPUDisabledConstructorWorks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="78" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="78" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1afd836d7d6b435642c18d1c72ddaffce4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPGPUExplainTest, GPUEnabledAddsHintToQueryPlan)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPGPUExplainTest</type>
+        </param>
+        <param>
+          <type>GPUEnabledAddsHintToQueryPlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="96" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="96" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1afebc4defb2aad5361f55f8c7e1686dba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPGPUExplainTest, GPUEnabledHintContainsThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPGPUExplainTest</type>
+        </param>
+        <param>
+          <type>GPUEnabledHintContainsThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="119" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="119" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1aa5fd75ed0a903d1ff6be7fcdb68dc0b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OLAPGPUExplainTest, GPUDisabledHasNoGPUHint)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OLAPGPUExplainTest</type>
+        </param>
+        <param>
+          <type>GPUDisabledHasNoGPUHint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="141" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="141" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1afadf6ffd80d0a3a445eedfb8726b6c97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUOLAPAggregateTest, SumAggregation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref></type>
+        </param>
+        <param>
+          <type>SumAggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="202" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="202" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1a46d62e56765de2cfb0857f76328cc84f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUOLAPAggregateTest, CountAggregation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref></type>
+        </param>
+        <param>
+          <type>CountAggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="211" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="211" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1a0065f033e1fa6ecbcf270e1b1b7501f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUOLAPAggregateTest, MinAggregation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref></type>
+        </param>
+        <param>
+          <type>MinAggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="218" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="218" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1a23726b6ebba2ab2c324aa2d69b3b5d34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUOLAPAggregateTest, MaxAggregation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref></type>
+        </param>
+        <param>
+          <type>MaxAggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="225" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="225" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1a1be0c3e43370ea9dea4e102035c02a2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUOLAPAggregateTest, AvgAggregation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref></type>
+        </param>
+        <param>
+          <type>AvgAggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="232" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="232" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1a2cdf0597a04d92c11456b8f2561cd6a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUOLAPAggregateTest, EmptyRowsReturnsZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyRowsReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="240" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="240" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1a892fa683aca23b314e2a36dbb19bf7ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUOLAPAggregateTest, BelowThresholdUsesCPUPath)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref></type>
+        </param>
+        <param>
+          <type>BelowThresholdUsesCPUPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="247" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="247" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1a649697a6d67fcb92a40046575b5b1bc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OLAPGPUAggregateCorrectnessTest, EmptyCollectionReturnsEmptyResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_o_l_a_p_g_p_u_aggregate_correctness_test" kindref="compound">OLAPGPUAggregateCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyCollectionReturnsEmptyResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="281" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="281" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__olap__accelerator_8cpp_1a244c767a54dd0a563f75a3b1ccdd4bd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OLAPGPUAggregateCorrectnessTest, ExplainWithLowThreshold)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_o_l_a_p_g_p_u_aggregate_correctness_test" kindref="compound">OLAPGPUAggregateCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>ExplainWithLowThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="292" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="292" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Tests<sp/>for<sp/>GPU-accelerated<sp/>OLAP<sp/>aggregations.</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Validates:</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>-<sp/>OLAPEngine::Config<sp/>struct<sp/>and<sp/>GPU-enabled<sp/>constructor</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>-<sp/>GPU<sp/>threshold<sp/>/<sp/>CPU-fallback<sp/>dispatch<sp/>logic<sp/>(via<sp/>GPUQueryAccelerator)</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>-<sp/>explain()<sp/>hint<sp/>injection<sp/>when<sp/>GPU<sp/>is<sp/>enabled</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>-<sp/>Correct<sp/>results<sp/>for<sp/>all<sp/>aggregation<sp/>functions<sp/>under<sp/>CPU<sp/>fallback</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/>(no<sp/>real<sp/>GPU<sp/>hardware<sp/>required)</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;analytics/olap.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/query_accelerator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::analytics;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OLAPEngine::Config<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1aae4d1f3c55ec09aa428f283a366ff184" kindref="member">TEST</ref>(OLAPConfigTest,<sp/>DefaultConfigIsGPUDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.enable_gpu);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.gpu_device_id,<sp/>0);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.gpu_memory_limit,<sp/>4ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.gpu_threshold_rows,<sp/>10&apos;000u);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1aae4d1f3c55ec09aa428f283a366ff184" kindref="member">TEST</ref>(OLAPConfigTest,<sp/>ConfigFieldsAssignable)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_gpu<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.gpu_device_id<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.gpu_memory_limit<sp/>=<sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.gpu_threshold_rows<sp/>=<sp/>50&apos;000;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.enable_gpu);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.gpu_device_id,<sp/>1);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.gpu_memory_limit,<sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.gpu_threshold_rows,<sp/>50&apos;000u);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OLAPEngine<sp/>GPU<sp/>Constructor<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1aae4d1f3c55ec09aa428f283a366ff184" kindref="member">TEST</ref>(OLAPGPUConstructorTest,<sp/>DefaultConstructorStillWorks)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine<sp/>engine;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPQuery<sp/>query;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>query.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>query.dimensions.push_back({</highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>query.measures.push_back({</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/>Measure::Function::Sum});</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine.execute(query);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rows.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.execution_time_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1aae4d1f3c55ec09aa428f283a366ff184" kindref="member">TEST</ref>(OLAPGPUConstructorTest,<sp/>GPUEnabledConstructorDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_gpu<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.gpu_threshold_rows<sp/>=<sp/>10&apos;000;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine<sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPQuery<sp/>query;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>query.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>query.dimensions.push_back({</highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>query.measures.push_back({</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/>Measure::Function::Sum});</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine.execute(query);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rows.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.execution_time_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1aae4d1f3c55ec09aa428f283a366ff184" kindref="member">TEST</ref>(OLAPGPUConstructorTest,<sp/>GPUDisabledConstructorWorks)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_gpu<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine<sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPQuery<sp/>query;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>query.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>query.measures.push_back({</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/>Measure::Function::Count});</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine.execute(query);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rows.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>explain()<sp/>GPU<sp/>hint<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1aae4d1f3c55ec09aa428f283a366ff184" kindref="member">TEST</ref>(OLAPGPUExplainTest,<sp/>GPUEnabledAddsHintToQueryPlan)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_gpu<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.gpu_threshold_rows<sp/>=<sp/>5&apos;000;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine<sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPQuery<sp/>query;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>query.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sales&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>query.dimensions.push_back({</highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>query.measures.push_back({</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/>Measure::Function::Sum});</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>engine.explain(query);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_gpu_hint<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>note<sp/>:<sp/>plan.optimization_notes)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(note.find(</highlight><highlight class="stringliteral">&quot;GPU<sp/>acceleration&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_gpu_hint<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_gpu_hint)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Query<sp/>plan<sp/>should<sp/>mention<sp/>GPU<sp/>acceleration<sp/>when<sp/>enabled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1aae4d1f3c55ec09aa428f283a366ff184" kindref="member">TEST</ref>(OLAPGPUExplainTest,<sp/>GPUEnabledHintContainsThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_gpu<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.gpu_threshold_rows<sp/>=<sp/>25&apos;000;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine<sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPQuery<sp/>query;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>query.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sales&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>query.measures.push_back({</highlight><highlight class="stringliteral">&quot;cnt&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>Measure::Function::Count});</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>engine.explain(query);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_threshold<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>note<sp/>:<sp/>plan.optimization_notes)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(note.find(</highlight><highlight class="stringliteral">&quot;25000&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_threshold<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_threshold)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GPU<sp/>hint<sp/>should<sp/>include<sp/>the<sp/>configured<sp/>threshold<sp/>row<sp/>count&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1aae4d1f3c55ec09aa428f283a366ff184" kindref="member">TEST</ref>(OLAPGPUExplainTest,<sp/>GPUDisabledHasNoGPUHint)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_gpu<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPEngine<sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPQuery<sp/>query;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>query.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sales&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>query.dimensions.push_back({</highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>query.measures.push_back({</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/>Measure::Function::Sum});</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>engine.explain(query);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>note<sp/>:<sp/>plan.optimization_notes)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(note.find(</highlight><highlight class="stringliteral">&quot;GPU<sp/>acceleration&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Query<sp/>plan<sp/>should<sp/>NOT<sp/>mention<sp/>GPU<sp/>acceleration<sp/>when<sp/>disabled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPUQueryAccelerator<sp/>integration<sp/>—<sp/>dispatch<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>tests<sp/>exercise<sp/>GPUQueryAccelerator<sp/>directly<sp/>to<sp/>verify<sp/>that<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CPU-fallback<sp/>path<sp/>(force_cpu<sp/>=<sp/>true)<sp/>produces<sp/>correct<sp/>results,<sp/>which<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>same<sp/>code<sp/>path<sp/>used<sp/>by<sp/>OLAPEngine<sp/>on<sp/>hardware<sp/>without<sp/>a<sp/>physical<sp/>GPU.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="class_g_p_u_o_l_a_p_aggregate_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>GPUQueryAccelerator<sp/>rows<sp/>from<sp/>a<sp/>vector<sp/>of<sp/>double<sp/>values.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;themis::gpu::GPUQueryAccelerator::Row&gt;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_g_p_u_o_l_a_p_aggregate_test_1ad67199bf1f8843153db31c6fe3ebc79f" kindref="member">makeRows</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>values)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;themis::gpu::GPUQueryAccelerator::Row&gt;<sp/>rows<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rows.reserve(values.size());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>values.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::gpu::GPUQueryAccelerator::Row<sp/>row;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>row.id<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>row.data.resize(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::memcpy(row.data.data(),<sp/>&amp;values[i],<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rows.push_back(std::move(row));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rows;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extract<sp/>the<sp/>double<sp/>payload<sp/>stored<sp/>in<sp/>a<sp/>Row.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_o_l_a_p_aggregate_test_1ada92e07602f2082750d860f6c37b1d83" kindref="member">extractValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::gpu::GPUQueryAccelerator::Row&amp;<sp/>r)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.data.size()<sp/>&lt;<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::memcpy(&amp;v,<sp/>r.data.data(),<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUQueryAccelerator::Config<sp/><ref refid="class_g_p_u_o_l_a_p_aggregate_test_1ad1c9e49d0253468ff38dc39094010845" kindref="member">cpuConfig</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::gpu::GPUQueryAccelerator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.force_cpu<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1afadf6ffd80d0a3a445eedfb8726b6c97" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref>,<sp/>SumAggregation)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUQueryAccelerator<sp/>acc(cpuConfig());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>values:<sp/>10,<sp/>20,<sp/>30,<sp/>40,<sp/>50<sp/><sp/>→<sp/><sp/>sum<sp/>=<sp/>150</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeRows({10.0,<sp/>20.0,<sp/>30.0,<sp/>40.0,<sp/>50.0});</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>acc.aggregate(rows,<sp/>themis::gpu::GPUQueryAccelerator::AggFunc::SUM,<sp/>extractValue);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(res.value,<sp/>150.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.count,<sp/>5u);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1afadf6ffd80d0a3a445eedfb8726b6c97" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref>,<sp/>CountAggregation)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUQueryAccelerator<sp/>acc(cpuConfig());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeRows({1.0,<sp/>2.0,<sp/>3.0});</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>acc.aggregate(rows,<sp/>themis::gpu::GPUQueryAccelerator::AggFunc::COUNT,<sp/>extractValue);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(res.value,<sp/>3.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1afadf6ffd80d0a3a445eedfb8726b6c97" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref>,<sp/>MinAggregation)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUQueryAccelerator<sp/>acc(cpuConfig());</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeRows({50.0,<sp/>10.0,<sp/>30.0});</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>acc.aggregate(rows,<sp/>themis::gpu::GPUQueryAccelerator::AggFunc::MIN,<sp/>extractValue);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(res.value,<sp/>10.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1afadf6ffd80d0a3a445eedfb8726b6c97" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref>,<sp/>MaxAggregation)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUQueryAccelerator<sp/>acc(cpuConfig());</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeRows({5.0,<sp/>95.0,<sp/>50.0});</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>acc.aggregate(rows,<sp/>themis::gpu::GPUQueryAccelerator::AggFunc::MAX,<sp/>extractValue);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(res.value,<sp/>95.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1afadf6ffd80d0a3a445eedfb8726b6c97" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref>,<sp/>AvgAggregation)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUQueryAccelerator<sp/>acc(cpuConfig());</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>values:<sp/>10,<sp/>20,<sp/>30<sp/><sp/>→<sp/><sp/>avg<sp/>=<sp/>20</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeRows({10.0,<sp/>20.0,<sp/>30.0});</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>acc.aggregate(rows,<sp/>themis::gpu::GPUQueryAccelerator::AggFunc::AVG,<sp/>extractValue);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(res.value,<sp/>20.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1afadf6ffd80d0a3a445eedfb8726b6c97" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref>,<sp/>EmptyRowsReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUQueryAccelerator<sp/>acc(cpuConfig());</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>acc.aggregate({},<sp/>themis::gpu::GPUQueryAccelerator::AggFunc::SUM,<sp/>extractValue);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(res.value,<sp/>0.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.count,<sp/>0u);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1afadf6ffd80d0a3a445eedfb8726b6c97" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_o_l_a_p_aggregate_test" kindref="compound">GPUOLAPAggregateTest</ref>,<sp/>BelowThresholdUsesCPUPath)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>dispatch<sp/>is<sp/>skipped<sp/>below<sp/>the<sp/>threshold;<sp/>verify<sp/>the<sp/>CPU<sp/>result<sp/>is<sp/>correct.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUQueryAccelerator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.gpu_threshold_rows<sp/>=<sp/>1&apos;000;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.force_cpu<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Would<sp/>use<sp/>GPU<sp/>above<sp/>threshold<sp/>if<sp/>hardware<sp/>existed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUQueryAccelerator<sp/>acc(cfg);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>5<sp/>rows<sp/>—<sp/>well<sp/>below<sp/>threshold<sp/>→<sp/>CPU<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/>makeRows({1.0,<sp/>2.0,<sp/>3.0,<sp/>4.0,<sp/>5.0});</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>acc.aggregate(rows,<sp/>themis::gpu::GPUQueryAccelerator::AggFunc::SUM,<sp/>extractValue);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(res.value,<sp/>15.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.used_gpu);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OLAPEngine<sp/>GPU<sp/>aggregation<sp/>correctness<sp/>—<sp/>CPU<sp/>fallback<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>tests<sp/>set<sp/>gpu_threshold_rows<sp/>to<sp/>1<sp/>so<sp/>that<sp/>the<sp/>GPU<sp/>path<sp/>is<sp/>always</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>attempted;<sp/>with<sp/>no<sp/>real<sp/>CUDA<sp/>device<sp/>the<sp/>GPUQueryAccelerator<sp/>falls<sp/>back<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>its<sp/>CPU<sp/>implementation,<sp/>which<sp/>lets<sp/>us<sp/>verify<sp/>end-to-end<sp/>correctness.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269" refid="class_o_l_a_p_g_p_u_aggregate_correctness_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_o_l_a_p_g_p_u_aggregate_correctness_test" kindref="compound">OLAPGPUAggregateCorrectnessTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>an<sp/>OLAPEngine<sp/>with<sp/>GPU<sp/>enabled<sp/>and<sp/>a<sp/>very<sp/>low<sp/>threshold<sp/>so<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>every<sp/>non-empty<sp/>value<sp/>set<sp/>enters<sp/>the<sp/>GPU<sp/>dispatch<sp/>code<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>OLAPEngine<sp/><ref refid="class_o_l_a_p_g_p_u_aggregate_correctness_test_1ad3ee03b5c612813b733143d8842171af" kindref="member">makeGPUEngine</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>threshold<sp/>=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>OLAPEngine::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_gpu<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.gpu_threshold_rows<sp/>=<sp/>threshold;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>OLAPEngine(cfg);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1afadf6ffd80d0a3a445eedfb8726b6c97" kindref="member">TEST_F</ref>(<ref refid="class_o_l_a_p_g_p_u_aggregate_correctness_test" kindref="compound">OLAPGPUAggregateCorrectnessTest</ref>,<sp/>EmptyCollectionReturnsEmptyResult)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>makeGPUEngine();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPQuery<sp/>query;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>query.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;empty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>query.dimensions.push_back({</highlight><highlight class="stringliteral">&quot;dim&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>query.measures.push_back({</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">,<sp/>Measure::Function::Sum});</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine.execute(query);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rows.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="test__gpu__olap__accelerator_8cpp_1afadf6ffd80d0a3a445eedfb8726b6c97" kindref="member">TEST_F</ref>(<ref refid="class_o_l_a_p_g_p_u_aggregate_correctness_test" kindref="compound">OLAPGPUAggregateCorrectnessTest</ref>,<sp/>ExplainWithLowThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>makeGPUEngine(1);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>OLAPQuery<sp/>query;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>query.collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sales&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>query.measures.push_back({</highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/>Measure::Function::Sum});</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>engine.explain(query);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_gpu_note<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>note<sp/>:<sp/>plan.optimization_notes)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(note.find(</highlight><highlight class="stringliteral">&quot;GPU<sp/>acceleration&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>has_gpu_note<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_gpu_note);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_olap_accelerator.cpp"/>
+  </compounddef>
+</doxygen>

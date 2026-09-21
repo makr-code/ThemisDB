@@ -190,8 +190,9 @@ runs:
             for (let i = 0; i < normalized.length; i += 1) {
               hash = normalized.charCodeAt(i) + ((hash << 5) - hash);
             }
-            const hue = Math.abs(hash) % 360;
-            return `hsl(${hue}, 65%, 50%)`.replace(/[^0-9a-fhsl%,()]/gi, '').slice(0, 6); 
+            // Derive a deterministic fallback label color as a valid 6-digit hex value.
+            const hex = (hash >>> 0).toString(16).slice(-6).padStart(6, '0').toUpperCase();
+            return hex;
           };
 
           const ensureLabel = async (name) => {
@@ -201,7 +202,8 @@ runs:
               return;
             } catch (error) {
               if (error.status !== 404) throw error;
-              const color = labelColorFor(name).replace('#', '').replace(/[^0-9a-f]/gi, '').slice(0, 6) || 'D4C5F9';
+              const candidate = (labelColorFor(name) || '').replace('#', '').trim();
+              const color = /^[0-9A-Fa-f]{6}$/.test(candidate) ? candidate.toUpperCase() : 'D4C5F9';
               await github.rest.issues.createLabel({
                 owner,
                 repo,

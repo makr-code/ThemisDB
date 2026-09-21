@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="storage__profiler_8h" kind="file" language="C++">
+    <compoundname>storage_profiler.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="performance__analyzer_8h" local="yes">include/observability/performance_analyzer.h</includedby>
+    <includedby refid="storage__profiler_8cpp" local="yes">src/observability/storage_profiler.cpp</includedby>
+    <includedby refid="test__observability__profilers_8cpp" local="yes">tests/observability/test_observability_profilers.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/storage_profiler.h</label>
+        <link refid="storage__profiler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/observability/performance_analyzer.h</label>
+        <link refid="performance__analyzer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/observability/root_cause_analyzer.h</label>
+        <link refid="root__cause__analyzer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/observability/storage_profiler.h</label>
+        <link refid="storage__profiler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/observability/performance_analyzer.cpp</label>
+        <link refid="performance__analyzer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/observability/root_cause_analyzer.cpp</label>
+        <link refid="root__cause__analyzer_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/observability/storage_profiler.cpp</label>
+        <link refid="storage__profiler_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/observability/test_observability_block_a_focused.cpp</label>
+        <link refid="test__observability__block__a__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/observability/test_observability_profilers.cpp</label>
+        <link refid="test__observability__profilers_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_storage_op_stats" prot="public">themis::observability::StorageOpStats</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_rocks_d_b_stats" prot="public">themis::observability::RocksDBStats</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_storage_profiler_config" prot="public">themis::observability::StorageProfilerConfig</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_storage_profiler" prot="public">themis::observability::StorageProfiler</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_scoped_storage_op" prot="public">themis::observability::ScopedStorageOp</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>DELETE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>DELETE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fd" kindref="member">StorageOpType</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda7528035a93ee69cedb1dbddb2f0bfcc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda7528035a93ee69cedb1dbddb2f0bfcc8" kindref="member">GET</ref>,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda3e75383a5992a6d15fb81e872e46e256" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda3e75383a5992a6d15fb81e872e46e256" kindref="member">PUT</ref>,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda32f68a60cef40faedbc6af20298c1a1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda32f68a60cef40faedbc6af20298c1a1e" kindref="member">DELETE</ref>,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fdae0740abfbc61bc2be0bfa78af61106ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688fae0740abfbc61bc2be0bfa78af61106ae" kindref="member">SCAN</ref>,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda750a2e32f5345d9de9973ff12221e373" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda750a2e32f5345d9de9973ff12221e373" kindref="member">BATCH_WRITE</ref>,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fdabbd53c25a2b976c1757ce1f9dbe8bd1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fdabbd53c25a2b976c1757ce1f9dbe8bd1f" kindref="member">COMPACT</ref>,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda26eed7f078fc015c5252f817059a6f9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda26eed7f078fc015c5252f817059a6f9f" kindref="member">FLUSH</ref>,</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fdaf0eb752949db70fa7d7aa3a7b8d75788" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fdaf0eb752949db70fa7d7aa3a7b8d75788" kindref="member">ITERATOR_SEEK</ref>,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda38546c0cb5b38fa104a5b2e22a99b092" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fda38546c0cb5b38fa104a5b2e22a99b092" kindref="member">ITERATOR_NEXT</ref></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1observability_1_1_storage_op_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_storage_op_stats" kindref="compound">StorageOpStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1observability_1_1_storage_op_stats_1afc1d304ac950a9222cd5e4447499265b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fd" kindref="member">StorageOpType</ref><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats_1afc1d304ac950a9222cd5e4447499265b" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1observability_1_1_storage_op_stats_1a10f5cd0cd6be293c324bf0e4e401f7e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats_1a10f5cd0cd6be293c324bf0e4e401f7e8" kindref="member">duration</ref>{0};</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1observability_1_1_storage_op_stats_1a47430410126fcd217cec39b7401e6115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats_1a47430410126fcd217cec39b7401e6115" kindref="member">bytes_read</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1observability_1_1_storage_op_stats_1a85d38008d2d5aa5d1078f8ada4244ee2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats_1a85d38008d2d5aa5d1078f8ada4244ee2" kindref="member">bytes_written</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1observability_1_1_storage_op_stats_1ab3867d4cd16710aaa4cb84fa9c86ddef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats_1ab3867d4cd16710aaa4cb84fa9c86ddef" kindref="member">keys_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1observability_1_1_storage_op_stats_1a368076fb752deda132d8ef31b2a10025" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats_1a368076fb752deda132d8ef31b2a10025" kindref="member">cache_hit</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1observability_1_1_storage_op_stats_1aa69495eaaca5d7b69555fd29825041c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats_1aa69495eaaca5d7b69555fd29825041c4" kindref="member">from_sst</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1observability_1_1_storage_op_stats_1a9d16545089463c7388f957fc030f7742" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats_1a9d16545089463c7388f957fc030f7742" kindref="member">from_memtable</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1observability_1_1_storage_op_stats_1a8e4421332c9f6a65951e7ccc41d2964a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats_1a8e4421332c9f6a65951e7ccc41d2964a" kindref="member">sst_reads</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1observability_1_1_storage_op_stats_1abbacf75a18d366d76ab32f6d8868ada7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats_1abbacf75a18d366d76ab32f6d8868ada7" kindref="member">column_family</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats_1a335ce5139e8aab8ab2e7f209cd9f31b2" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1observability_1_1_rocks_d_b_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats" kindref="compound">RocksDBStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a08fcede28eee0a8917e4ae9f6e3edd84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a08fcede28eee0a8917e4ae9f6e3edd84" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compaction<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ab3b09492d18215b19fc50972c1ec40ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ab3b09492d18215b19fc50972c1ec40ac" kindref="member">num_compactions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a9eb837c7058b88d18334ed4a7fb95f94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a9eb837c7058b88d18334ed4a7fb95f94" kindref="member">compaction_bytes_read</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a8b32561a8498914c7495ab523ebb6a8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a8b32561a8498914c7495ab523ebb6a8b" kindref="member">compaction_bytes_written</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a7ab0e9f1962b6fe15439890461b17f04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a7ab0e9f1962b6fe15439890461b17f04" kindref="member">total_compaction_time</ref>{0};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ade85f3aaaedf35b94bfc5410133bee8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ade85f3aaaedf35b94bfc5410133bee8f" kindref="member">num_writes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa68842f8ae138efa2c6c9b5df7f0027b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa68842f8ae138efa2c6c9b5df7f0027b" kindref="member">bytes_written</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aaf5c28e1ffb922ab8ebab4ee82571c9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aaf5c28e1ffb922ab8ebab4ee82571c9b" kindref="member">wal_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a0c7eecee76c42fda1bf9b7b12ae56559" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a0c7eecee76c42fda1bf9b7b12ae56559" kindref="member">memtable_writes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3dd67fb26745e499f4079d2ca5818ae8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3dd67fb26745e499f4079d2ca5818ae8" kindref="member">num_reads</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa5ef2cd48054c1b5abaa39cfbc060d9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa5ef2cd48054c1b5abaa39cfbc060d9b" kindref="member">bytes_read</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a10882ed3846551fdebcbf2e75f52c6fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a10882ed3846551fdebcbf2e75f52c6fd" kindref="member">block_cache_hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aaf9ea10eba62f834729f2eacb16fe512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aaf9ea10eba62f834729f2eacb16fe512" kindref="member">block_cache_misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1a392e76973f8717b5deca098114a559" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1a392e76973f8717b5deca098114a559" kindref="member">bloom_filter_hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1c3934fc566e01a7ad1e1c81982b4a79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1c3934fc566e01a7ad1e1c81982b4a79" kindref="member">bloom_filter_misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SST<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1a5d4089eeed20c71aa695de426f4555" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a1a5d4089eeed20c71aa695de426f4555" kindref="member">num_sst_files</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1af5cc0d6539706264e17ef9c65f599018" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1af5cc0d6539706264e17ef9c65f599018" kindref="member">total_sst_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa83ce046a34e101e10646808ce1d0ee3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aa83ce046a34e101e10646808ce1d0ee3" kindref="member">num_levels</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a6042eec3b5e2a9dadc597f79151b682c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a6042eec3b5e2a9dadc597f79151b682c" kindref="member">level_sizes</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a6f1c2635af8165db628ad1e9df2a5b0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a6f1c2635af8165db628ad1e9df2a5b0c" kindref="member">memtable_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a63137898d191898b5b66e8dc97daf5ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a63137898d191898b5b66e8dc97daf5ab" kindref="member">block_cache_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ad02ef381e7c2865a84076c19eb0c21a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ad02ef381e7c2865a84076c19eb0c21a1" kindref="member">block_cache_capacity</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WAL<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aac8537b75952619edd4cf26b156d061f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1aac8537b75952619edd4cf26b156d061f" kindref="member">wal_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a0f794d4dfc50106e546fb364d15190ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a0f794d4dfc50106e546fb364d15190ef" kindref="member">wal_syncs</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3acebc51ca814ff7a7dbb397bed60eaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3acebc51ca814ff7a7dbb397bed60eaa" kindref="member">write_amplification</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ad52ba340b6476463c8829d82ec5c7689" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1ad52ba340b6476463c8829d82ec5c7689" kindref="member">read_amplification</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3410f6a36b9a7f721df7f277cabbf163" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1a3410f6a36b9a7f721df7f277cabbf163" kindref="member">space_amplification</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats_1abfdb58e36513c9e42d0f96a91f873ce4" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1observability_1_1_storage_profiler_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1observability_1_1_storage_profiler_config_1a87ba701612e9486a64725ecc0126aad0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config_1a87ba701612e9486a64725ecc0126aad0" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1observability_1_1_storage_profiler_config_1a10695d93c273f156579949427c44ccaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config_1a10695d93c273f156579949427c44ccaf" kindref="member">collect_op_stats</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1observability_1_1_storage_profiler_config_1aa49b58eeeca01b9b21f2d78db7478dca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config_1aa49b58eeeca01b9b21f2d78db7478dca" kindref="member">collect_rocksdb_stats</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1observability_1_1_storage_profiler_config_1ac8aca871e8ffa68b7d69552a7c2a4091" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config_1ac8aca871e8ffa68b7d69552a7c2a4091" kindref="member">max_ops_retained</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1observability_1_1_storage_profiler_config_1a7e8b3d65d0099a6f875cd2b4ea1ed629" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config_1a7e8b3d65d0099a6f875cd2b4ea1ed629" kindref="member">stats_collection_interval</ref>{60};</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1observability_1_1_storage_profiler_config_1a318852e5c445a0604caa9441da47e75e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config_1a318852e5c445a0604caa9441da47e75e" kindref="member">retention_duration</ref>{3600};</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1observability_1_1_storage_profiler_config_1af1e159a3945bc96b871ba4811930ce0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config_1af1e159a3945bc96b871ba4811930ce0f" kindref="member">log_slow_ops</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1observability_1_1_storage_profiler_config_1ac038c87c1f542b0f633a0fad1c87d199" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config_1ac038c87c1f542b0f633a0fad1c87d199" kindref="member">slow_op_threshold</ref>{100};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1observability_1_1_storage_profiler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a8843fe4b8c32c3a640e5ee1a7322588d" kindref="member">StorageProfiler</ref><sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a8843fe4b8c32c3a640e5ee1a7322588d" kindref="member">StorageProfiler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref>{});</highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1observability_1_1_storage_profiler_1adb6717956edee92eb8108b4a398c4ec9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1adb6717956edee92eb8108b4a398c4ec9" kindref="member">~StorageProfiler</ref>();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1observability_1_1_storage_profiler_1a99a7d4dea092702ed68950acec40693a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a99a7d4dea092702ed68950acec40693a" kindref="member">StorageProfiler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a8843fe4b8c32c3a640e5ee1a7322588d" kindref="member">StorageProfiler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1observability_1_1_storage_profiler_1a6ba9d137868b2feac774f564cbf4194e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a8843fe4b8c32c3a640e5ee1a7322588d" kindref="member">StorageProfiler</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a6ba9d137868b2feac774f564cbf4194e" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a8843fe4b8c32c3a640e5ee1a7322588d" kindref="member">StorageProfiler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a17368cdf39d0121e678c3a0a4eef3d1a" kindref="member">record_operation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats" kindref="compound">StorageOpStats</ref>&amp;<sp/>stats);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats" kindref="compound">RocksDBStats</ref><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1ad9f0cc158b59c8d2ef397890960bfdba" kindref="member">collect_rocksdb_stats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>db_path);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StorageOpStats&gt;<sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a6015788b494bf19fbc71e7d5a726e5fe" kindref="member">get_operations</ref>(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;StorageOpType&gt;<sp/>type<sp/>=<sp/>std::nullopt)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StorageOpStats&gt;<sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1af2118ef2eb48133bf23d87143b2c896b" kindref="member">get_slow_operations</ref>(</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>threshold)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RocksDBStats&gt;<sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a55a7315f675aaece77ef462a73aa94f9" kindref="member">get_rocksdb_stats_history</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;RocksDBStats&gt;<sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1ac20d7ef4de3a2213c875d215c55427dc" kindref="member">get_latest_rocksdb_stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a611a6824f447ba43cc84c7325b72570a" kindref="member">get_operation_summary</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a1cd947a2489a942de353df009d3f5e21" kindref="member">get_amplification_metrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a85b5ff5ccaab69365894bac604864838" kindref="member">get_cache_metrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a1ca84a03cb47a326cd21ee80c98496b0" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a3887ecb169927a222b07ee70cf29158a" kindref="member">export_to_json</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a86f26b4bbdb0525809e8a1f6af2da0c3" kindref="member">get_config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a200e52554ff98fc9589fd62266c30414" kindref="member">set_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a7a3aafba05c18f6b30611f234fe9c101" kindref="member">enable</ref>();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1a5958fe9fbe66e0cd3531d83942dcc6e0" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler_1acd1c2eb0d163da7ddf4fd6fdfd9ad638" kindref="member">is_enabled</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_storage_profiler_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanup_old_data();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>log_slow_operation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats" kindref="compound">StorageOpStats</ref>&amp;<sp/>stats);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1observability_1_1_scoped_storage_op" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a2c16e3b98b21c31cb88c86f4e67f9327" kindref="member">ScopedStorageOp</ref><sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a2c16e3b98b21c31cb88c86f4e67f9327" kindref="member">ScopedStorageOp</ref>(<ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref>&amp;<sp/>profiler,<sp/><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fd" kindref="member">StorageOpType</ref><sp/>type,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>column_family<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a3ce630e69eea4c27d779a98c829a1347" kindref="member">~ScopedStorageOp</ref>();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="classthemis_1_1observability_1_1_scoped_storage_op_1ace1bc4dcb099942caf5c985ed563529d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1ace1bc4dcb099942caf5c985ed563529d" kindref="member">ScopedStorageOp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a2c16e3b98b21c31cb88c86f4e67f9327" kindref="member">ScopedStorageOp</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256" refid="classthemis_1_1observability_1_1_scoped_storage_op_1a36fb9192df0cf48f80b81caf6525854b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a2c16e3b98b21c31cb88c86f4e67f9327" kindref="member">ScopedStorageOp</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a36fb9192df0cf48f80b81caf6525854b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a2c16e3b98b21c31cb88c86f4e67f9327" kindref="member">ScopedStorageOp</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a7162a934ee97d9374b27ba761f70a1fd" kindref="member">record_bytes_read</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a82244e77c8ba042f5d9af031195aea38" kindref="member">record_bytes_written</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1aef89a0f8671586a3cb2adaed3cfc8bde" kindref="member">record_keys</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a5d224e29f2cb51fee3181aeda88ce795" kindref="member">set_cache_hit</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hit);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1ad53230bf861d724354dac645bcb3060a" kindref="member">set_from_sst</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>from_sst);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a036f21307fb66675c74d6d66a8521b2e" kindref="member">set_from_memtable</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>from_memtable);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a8aab41fc8f66d57d155e766b8633136b" kindref="member">record_sst_read</ref>();</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref>&amp;<sp/>profiler_;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_storage_op_stats" kindref="compound">StorageOpStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::high_resolution_clock::time_point<sp/>start_;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1observability_1a3df39fa46e41033417f0bfa840e932b3" kindref="member">to_string</ref>(<ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fd" kindref="member">StorageOpType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/storage_profiler.h"/>
+  </compounddef>
+</doxygen>

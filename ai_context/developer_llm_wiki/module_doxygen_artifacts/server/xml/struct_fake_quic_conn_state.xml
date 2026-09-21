@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_fake_quic_conn_state" kind="struct" language="C++" prot="public">
+    <compoundname>FakeQuicConnState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_fake_quic_conn_state_1a2cc5fbceea9e508d7b348509d276ca0e" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_fake_peer_endpoint" kindref="compound">FakePeerEndpoint</ref></type>
+        <definition>FakePeerEndpoint FakeQuicConnState::current_peer</definition>
+        <argsstring></argsstring>
+        <name>current_peer</name>
+        <qualifiedname>FakeQuicConnState::current_peer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="73" column="22" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fake_quic_conn_state_1a366172409841d598add3cb30f9fe87ac" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; FakeQuicConnState::migration_count</definition>
+        <argsstring></argsstring>
+        <name>migration_count</name>
+        <qualifiedname>FakeQuicConnState::migration_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="74" column="17" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fake_quic_conn_state_1a8df4ab17ccc3499c36f670d10e4b545b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; FakeQuicConnState::draining</definition>
+        <argsstring></argsstring>
+        <name>draining</name>
+        <qualifiedname>FakeQuicConnState::draining</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="75" column="17" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fake_quic_conn_state_1a0fd1c21ec94014d2f25a7a7b01515de3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; FakeQuicConnState::conn_deleted</definition>
+        <argsstring></argsstring>
+        <name>conn_deleted</name>
+        <qualifiedname>FakeQuicConnState::conn_deleted</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>tracks RAII destruction </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="76" column="17" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_fake_quic_conn_state_1a481107a1ca033b2d612b4ccef370bd5c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FakeQuicConnState::onPathMigration</definition>
+        <argsstring>(const FakePeerEndpoint &amp;new_peer)</argsstring>
+        <name>onPathMigration</name>
+        <qualifiedname>FakeQuicConnState::onPathMigration</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_fake_peer_endpoint" kindref="compound">FakePeerEndpoint</ref> &amp;</type>
+          <declname>new_peer</declname>
+        </param>
+        <briefdescription>
+<para>Simulate onPathMigration: update peer and increment counter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="79" column="10" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="79" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_fake_quic_conn_state_1a61b5b6ec558be834359d03a83d46b95f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FakeQuicConnState::enterDraining</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>enterDraining</name>
+        <qualifiedname>FakeQuicConnState::enterDraining</qualifiedname>
+        <briefdescription>
+<para>Simulate entering the DRAINING state (NGTCP2_ERR_DRAINING). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="89" column="10" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_fake_quic_conn_state_1ae79cbdf2cd2c0566ea1e5fb30a2f5f09" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FakeQuicConnState::destroy</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>destroy</name>
+        <qualifiedname>FakeQuicConnState::destroy</qualifiedname>
+        <briefdescription>
+<para>Simulate RAII cleanup (connection deletion). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="94" column="10" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="94" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Minimal QUIC connection state for migration testing (in-process stub) Models the state that Http3Session tracks for the active peer endpoint and migration bookkeeping, without requiring ngtcp2/OpenSSL linkage in tests. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>FakePeerEndpoint</label>
+        <link refid="struct_fake_peer_endpoint"/>
+      </node>
+      <node id="1">
+        <label>FakeQuicConnState</label>
+        <link refid="struct_fake_quic_conn_state"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>current_peer</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_http3_stress_focused.cpp" line="72" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="72" bodyend="95"/>
+    <listofallmembers>
+      <member refid="struct_fake_quic_conn_state_1a0fd1c21ec94014d2f25a7a7b01515de3" prot="public" virt="non-virtual"><scope>FakeQuicConnState</scope><name>conn_deleted</name></member>
+      <member refid="struct_fake_quic_conn_state_1a2cc5fbceea9e508d7b348509d276ca0e" prot="public" virt="non-virtual"><scope>FakeQuicConnState</scope><name>current_peer</name></member>
+      <member refid="struct_fake_quic_conn_state_1ae79cbdf2cd2c0566ea1e5fb30a2f5f09" prot="public" virt="non-virtual"><scope>FakeQuicConnState</scope><name>destroy</name></member>
+      <member refid="struct_fake_quic_conn_state_1a8df4ab17ccc3499c36f670d10e4b545b" prot="public" virt="non-virtual"><scope>FakeQuicConnState</scope><name>draining</name></member>
+      <member refid="struct_fake_quic_conn_state_1a61b5b6ec558be834359d03a83d46b95f" prot="public" virt="non-virtual"><scope>FakeQuicConnState</scope><name>enterDraining</name></member>
+      <member refid="struct_fake_quic_conn_state_1a366172409841d598add3cb30f9fe87ac" prot="public" virt="non-virtual"><scope>FakeQuicConnState</scope><name>migration_count</name></member>
+      <member refid="struct_fake_quic_conn_state_1a481107a1ca033b2d612b4ccef370bd5c" prot="public" virt="non-virtual"><scope>FakeQuicConnState</scope><name>onPathMigration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

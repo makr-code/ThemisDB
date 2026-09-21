@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_kafka_offset" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::KafkaOffset</compoundname>
+    <includes refid="importer__interfaces_8h" local="no">importer_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_kafka_offset_1af52a3d316751177751f938d9bfb83c67" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaOffset::topic</definition>
+        <argsstring></argsstring>
+        <name>topic</name>
+        <qualifiedname>themis::importers::KafkaOffset::topic</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="111" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_kafka_offset_1a8f30e586518a7dbadd3f0e68198b1a7f" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::importers::KafkaOffset::partition</definition>
+        <argsstring></argsstring>
+        <name>partition</name>
+        <qualifiedname>themis::importers::KafkaOffset::partition</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="112" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_kafka_offset_1addc331e3e7518b5f01926a5b3c834b2f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::importers::KafkaOffset::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::importers::KafkaOffset::offset</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>Offset to commit (typically last consumed + 1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interfaces.h" line="113" column="17" bodyfile="include/importers/importer_interfaces.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_interfaces.h" line="110" column="1" bodyfile="include/importers/importer_interfaces.h" bodystart="110" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_kafka_offset_1addc331e3e7518b5f01926a5b3c834b2f" prot="public" virt="non-virtual"><scope>themis::importers::KafkaOffset</scope><name>offset</name></member>
+      <member refid="structthemis_1_1importers_1_1_kafka_offset_1a8f30e586518a7dbadd3f0e68198b1a7f" prot="public" virt="non-virtual"><scope>themis::importers::KafkaOffset</scope><name>partition</name></member>
+      <member refid="structthemis_1_1importers_1_1_kafka_offset_1af52a3d316751177751f938d9bfb83c67" prot="public" virt="non-virtual"><scope>themis::importers::KafkaOffset</scope><name>topic</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

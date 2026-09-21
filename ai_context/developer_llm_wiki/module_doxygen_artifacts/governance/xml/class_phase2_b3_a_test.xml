@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_phase2_b3_a_test" kind="class" language="C++" prot="public">
+    <compoundname>Phase2B3ATest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_phase2_b3_a_test_1a7906d81ec8a6fd5c041e08edd0e88b38" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase2B3ATest::policy_yaml_path_</definition>
+        <argsstring></argsstring>
+        <name>policy_yaml_path_</name>
+        <qualifiedname>Phase2B3ATest::policy_yaml_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2b_phase3a_focused.cpp" line="62" column="17" bodyfile="tests/governance/test_governance_phase2b_phase3a_focused.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_phase2_b3_a_test_1a7fd52127412bb925337e9cc99167b635" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Phase2B3ATest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>Phase2B3ATest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2b_phase3a_focused.cpp" line="27" column="10" bodyfile="tests/governance/test_governance_phase2b_phase3a_focused.cpp" bodystart="27" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_phase2_b3_a_test_1a43df77f10ae57a893cb78803eeac2f3c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Phase2B3ATest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>Phase2B3ATest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2b_phase3a_focused.cpp" line="55" column="10" bodyfile="tests/governance/test_governance_phase2b_phase3a_focused.cpp" bodystart="55" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Phase2B3ATest</label>
+        <link refid="class_phase2_b3_a_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Phase2B3ATest</label>
+        <link refid="class_phase2_b3_a_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_governance_phase2b_phase3a_focused.cpp" line="25" column="1" bodyfile="tests/governance/test_governance_phase2b_phase3a_focused.cpp" bodystart="25" bodyend="63"/>
+    <listofallmembers>
+      <member refid="class_phase2_b3_a_test_1a7906d81ec8a6fd5c041e08edd0e88b38" prot="protected" virt="non-virtual"><scope>Phase2B3ATest</scope><name>policy_yaml_path_</name></member>
+      <member refid="class_phase2_b3_a_test_1a7fd52127412bb925337e9cc99167b635" prot="protected" virt="non-virtual"><scope>Phase2B3ATest</scope><name>SetUp</name></member>
+      <member refid="class_phase2_b3_a_test_1a43df77f10ae57a893cb78803eeac2f3c" prot="protected" virt="non-virtual"><scope>Phase2B3ATest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

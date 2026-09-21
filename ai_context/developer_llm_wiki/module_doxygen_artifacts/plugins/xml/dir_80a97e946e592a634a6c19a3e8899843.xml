@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_80a97e946e592a634a6c19a3e8899843" kind="dir">
+    <compoundname>include/plugins</compoundname>
+    <innerfile refid="audio__backend__interface_8h">audio_backend_interface.h</innerfile>
+    <innerfile refid="edition__policy__plugin_8h">edition_policy_plugin.h</innerfile>
+    <innerfile refid="huggingface__ingestion__plugin_8h">huggingface_ingestion_plugin.h</innerfile>
+    <innerfile refid="image__analysis__interface_8h">image_analysis_interface.h</innerfile>
+    <innerfile refid="image__analysis__manager_8h">image_analysis_manager.h</innerfile>
+    <innerfile refid="image__generation__interface_8h">image_generation_interface.h</innerfile>
+    <innerfile refid="oci__manifest__signing_8h">oci_manifest_signing.h</innerfile>
+    <innerfile refid="oci__registry__client_8h">oci_registry_client.h</innerfile>
+    <innerfile refid="plugin__api_8h">plugin_api.h</innerfile>
+    <innerfile refid="plugin__dependency__resolver_8h">plugin_dependency_resolver.h</innerfile>
+    <innerfile refid="plugin__health__monitor_8h">plugin_health_monitor.h</innerfile>
+    <innerfile refid="plugin__hot__plug__monitor_8h">plugin_hot_plug_monitor.h</innerfile>
+    <innerfile refid="plugin__interface_8h">plugin_interface.h</innerfile>
+    <innerfile refid="plugin__manager_8h">plugin_manager.h</innerfile>
+    <innerfile refid="plugin__metrics_8h">plugin_metrics.h</innerfile>
+    <innerfile refid="plugin__registry_8h">plugin_registry.h</innerfile>
+    <innerfile refid="plugins__api__contract_8h">plugins_api_contract.h</innerfile>
+    <innerfile refid="rpc__plugin__interface_8h">rpc_plugin_interface.h</innerfile>
+    <innerfile refid="self__healing__plugin_8h">self_healing_plugin.h</innerfile>
+    <innerfile refid="signed__plugin__repository_8h">signed_plugin_repository.h</innerfile>
+    <innerfile refid="tesseract__ocr__plugin_8h">tesseract_ocr_plugin.h</innerfile>
+    <innerfile refid="wasm__component__model_8h">wasm_component_model.h</innerfile>
+    <innerfile refid="wasm__host__api_8h">wasm_host_api.h</innerfile>
+    <innerfile refid="yolov8__onnx__plugin_8h">yolov8_onnx_plugin.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/"/>
+  </compounddef>
+</doxygen>

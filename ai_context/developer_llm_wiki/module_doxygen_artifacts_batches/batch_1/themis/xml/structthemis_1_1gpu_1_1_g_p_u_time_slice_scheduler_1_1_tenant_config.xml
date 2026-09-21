@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUTimeSliceScheduler::TenantConfig</compoundname>
+    <includes refid="time__slice__scheduler_8h" local="no">time_slice_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config_1a120c8811706dee58b3cf17b909cd7e4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUTimeSliceScheduler::TenantConfig::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantConfig::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="64" column="21" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config_1a7cb6549f48bbd9af86abc5bfb40bdc39" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUTimeSliceScheduler::TenantConfig::slice_ms</definition>
+        <argsstring></argsstring>
+        <name>slice_ms</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantConfig::slice_ms</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Time quantum in milliseconds for this tenant. Each dispatch round executes items from this tenant until <computeroutput><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config_1a7cb6549f48bbd9af86abc5bfb40bdc39" kindref="member">slice_ms</ref></computeroutput> milliseconds have elapsed. Must be &gt; 0. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="68" column="18" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/time_slice_scheduler.h" line="63" column="5" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="63" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config_1a7cb6549f48bbd9af86abc5bfb40bdc39" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantConfig</scope><name>slice_ms</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config_1a120c8811706dee58b3cf17b909cd7e4b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantConfig</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_quantization_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::QuantizationConfig</compoundname>
+    <includes refid="incremental__lora__trainer_8h" local="no">incremental_lora_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_quantization_config_1a07aa3cf0158d4a0784d055e2b07e18d1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9" kindref="member">TrainingQuantizationType</ref></type>
+        <definition>TrainingQuantizationType themis::training::QuantizationConfig::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::training::QuantizationConfig::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9ab50339a10e1de285ac99d4c3990b8693" kindref="member">TrainingQuantizationType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="63" column="30" bodyfile="include/training/incremental_lora_trainer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_quantization_config_1a38bb0c09591de892c9a098c896428022" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::training::QuantizationConfig::block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <qualifiedname>themis::training::QuantizationConfig::block_size</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Quantization block size (weights per quantization group). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="64" column="9" bodyfile="include/training/incremental_lora_trainer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_quantization_config_1a0af931ffd9fa99ace2137017f8d7a9d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::QuantizationConfig::QuantizationConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>QuantizationConfig</name>
+        <qualifiedname>themis::training::QuantizationConfig::QuantizationConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="66" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1training_1_1_quantization_config_1a0f4c014cc8ecfc50b7eb374d27bb9237" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::QuantizationConfig::QuantizationConfig</definition>
+        <argsstring>(TrainingQuantizationType t, int bs=64)</argsstring>
+        <name>QuantizationConfig</name>
+        <qualifiedname>themis::training::QuantizationConfig::QuantizationConfig</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9" kindref="member">TrainingQuantizationType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>bs</declname>
+          <defval>64</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="67" column="14" bodyfile="include/training/incremental_lora_trainer.h" bodystart="67" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quantization settings applied during LoRA training. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When <computeroutput>type</computeroutput> is not NONE the base-model weights are quantized before the LoRA adapters are applied. This reduces GPU memory requirements and enables QLoRA-style training on consumer hardware. </para>
+    </detaileddescription>
+    <location file="include/training/incremental_lora_trainer.h" line="62" column="1" bodyfile="include/training/incremental_lora_trainer.h" bodystart="62" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_quantization_config_1a38bb0c09591de892c9a098c896428022" prot="public" virt="non-virtual"><scope>themis::training::QuantizationConfig</scope><name>block_size</name></member>
+      <member refid="structthemis_1_1training_1_1_quantization_config_1a0af931ffd9fa99ace2137017f8d7a9d5" prot="public" virt="non-virtual"><scope>themis::training::QuantizationConfig</scope><name>QuantizationConfig</name></member>
+      <member refid="structthemis_1_1training_1_1_quantization_config_1a0f4c014cc8ecfc50b7eb374d27bb9237" prot="public" virt="non-virtual"><scope>themis::training::QuantizationConfig</scope><name>QuantizationConfig</name></member>
+      <member refid="structthemis_1_1training_1_1_quantization_config_1a07aa3cf0158d4a0784d055e2b07e18d1" prot="public" virt="non-virtual"><scope>themis::training::QuantizationConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

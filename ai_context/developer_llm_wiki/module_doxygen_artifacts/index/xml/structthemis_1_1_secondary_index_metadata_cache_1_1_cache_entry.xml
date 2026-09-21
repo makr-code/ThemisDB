@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::SecondaryIndexMetadataCache::CacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_entry_1a4ee9b681fe4a1c63f8e5681ecdff9536" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata" kindref="compound">IndexMetadata</ref></type>
+        <definition>IndexMetadata themis::SecondaryIndexMetadataCache::CacheEntry::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::CacheEntry::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="151" column="23" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_entry_1a9d9c81dbda697f8e319317d5afe016e9" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::SecondaryIndexMetadataCache::CacheEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::CacheEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="152" column="47" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::SecondaryIndexMetadataCache::CacheEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metadata</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SecondaryIndexMetadataCache::IndexMetadata</label>
+        <link refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/index/secondary_index_metadata_cache.h" line="150" column="5" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="150" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_entry_1a4ee9b681fe4a1c63f8e5681ecdff9536" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::CacheEntry</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_entry_1a9d9c81dbda697f8e319317d5afe016e9" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::CacheEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

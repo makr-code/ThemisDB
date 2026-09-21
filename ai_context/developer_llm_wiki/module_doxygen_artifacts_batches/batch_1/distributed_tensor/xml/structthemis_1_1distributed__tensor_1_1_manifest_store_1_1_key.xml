@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key" kind="struct" language="C++" prot="private">
+    <compoundname>themis::distributed_tensor::ManifestStore::Key</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_1a22c0bae6bce8d55eda4d40a2916c1403" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ManifestStore::Key::tensor_name</definition>
+        <argsstring></argsstring>
+        <name>tensor_name</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::Key::tensor_name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="96" column="21" bodyfile="src/distributed_tensor/include/manifest_store.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_1ac8aaac6c2c596bd1293d5c8518b46094" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::ManifestStore::Key::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::Key::shard_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="97" column="21" bodyfile="src/distributed_tensor/include/manifest_store.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_1a16a6213e9da302ca8b47262cef3254c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ManifestStore::Key::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::Key::artifact_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="98" column="21" bodyfile="src/distributed_tensor/include/manifest_store.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_1ae3f3ddc30cc3ebf6cdb2490e0a2b1138" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ManifestStore::Key::operator==</definition>
+        <argsstring>(const Key &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::distributed_tensor::ManifestStore::Key::operator==</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/manifest_store.h" line="100" column="14" bodyfile="src/distributed_tensor/include/manifest_store.h" bodystart="100" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/manifest_store.h" line="95" column="5" bodyfile="src/distributed_tensor/include/manifest_store.h" bodystart="95" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_1a16a6213e9da302ca8b47262cef3254c6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore::Key</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_1ae3f3ddc30cc3ebf6cdb2490e0a2b1138" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore::Key</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_1ac8aaac6c2c596bd1293d5c8518b46094" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore::Key</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_manifest_store_1_1_key_1a22c0bae6bce8d55eda4d40a2916c1403" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ManifestStore::Key</scope><name>tensor_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

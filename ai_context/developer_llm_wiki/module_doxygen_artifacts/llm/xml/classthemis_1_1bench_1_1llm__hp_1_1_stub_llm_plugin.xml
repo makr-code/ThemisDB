@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::llm_hp::StubLlmPlugin</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_plugin_1ac6ee35e4a8f0c1c4ff598daea53b35df" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::llm_hp::StubLlmPlugin::loaded</definition>
+        <argsstring></argsstring>
+        <name>loaded</name>
+        <qualifiedname>themis::bench::llm_hp::StubLlmPlugin::loaded</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="132" column="10" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_plugin_1a80acaed9a3f677e21b784ec5f173341d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1d" kindref="member">LlmErrorCode</ref></type>
+        <definition>LlmErrorCode themis::bench::llm_hp::StubLlmPlugin::load</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::bench::llm_hp::StubLlmPlugin::load</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="133" column="18" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_plugin_1a00bec1d7c6c09418249c2a7ddb373b85" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1d" kindref="member">LlmErrorCode</ref></type>
+        <definition>LlmErrorCode themis::bench::llm_hp::StubLlmPlugin::unload</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>unload</name>
+        <qualifiedname>themis::bench::llm_hp::StubLlmPlugin::unload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="134" column="18" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="134" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub plugin with load/unload. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="130" column="1" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="130" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_plugin_1a80acaed9a3f677e21b784ec5f173341d" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubLlmPlugin</scope><name>load</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_plugin_1ac6ee35e4a8f0c1c4ff598daea53b35df" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubLlmPlugin</scope><name>loaded</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_plugin_1a00bec1d7c6c09418249c2a7ddb373b85" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubLlmPlugin</scope><name>unload</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

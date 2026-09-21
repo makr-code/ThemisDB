@@ -1,0 +1,969 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_audit_batch_writer" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::AuditBatchWriter</compoundname>
+    <includes refid="audit__batch__writer_8h" local="no">audit_batch_writer.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" prot="public">themis::governance::AuditBatchWriter::Config</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result" prot="public">themis::governance::AuditBatchWriter::WriteResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics" prot="private">themis::governance::AuditBatchWriter::Metrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1a5cc41a99a655534059bf0ff6acf943ac" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_audit_integrity_manager" kindref="compound">AuditIntegrityManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AuditIntegrityManager&gt; themis::governance::AuditBatchWriter::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="216" column="21" bodyfile="include/governance/audit_batch_writer.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1a99a4d6e780df3e2f51f8dcd60db0629b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::governance::AuditBatchWriter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="217" column="12" bodyfile="include/governance/audit_batch_writer.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1a859fd52915632796e4aa54bdea4d175f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::AuditBatchWriter::buffer_mutex_</definition>
+        <argsstring></argsstring>
+        <name>buffer_mutex_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::buffer_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="220" column="24" bodyfile="include/governance/audit_batch_writer.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1af361ccaae1a55465b754dfcc555ce5e8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt;ImmutableAuditEntry&gt; themis::governance::AuditBatchWriter::pending_entries_</definition>
+        <argsstring></argsstring>
+        <name>pending_entries_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::pending_entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="221" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1ae21d2c5e74a941d1fc19707d5b30bb62" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::governance::AuditBatchWriter::entry_sequence_counter_</definition>
+        <argsstring></argsstring>
+        <name>entry_sequence_counter_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::entry_sequence_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="222" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1aa6b3e49c303ef473e9d95e6e293eb1d2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::governance::AuditBatchWriter::batch_sequence_counter_</definition>
+        <argsstring></argsstring>
+        <name>batch_sequence_counter_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::batch_sequence_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="223" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1a856ab081e689de9299d00aff3e1da55a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" kindref="compound">AuditBatchCheckpoint</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AuditBatchCheckpoint&gt; themis::governance::AuditBatchWriter::checkpoints_</definition>
+        <argsstring></argsstring>
+        <name>checkpoints_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::checkpoints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="226" column="24" bodyfile="include/governance/audit_batch_writer.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1af204b917c683782831acc69b3f6cc9ff" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" kindref="compound">AuditBatchCheckpoint</ref> &gt;</type>
+        <definition>std::vector&lt;AuditBatchCheckpoint&gt; themis::governance::AuditBatchWriter::checkpoint_history_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_history_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::checkpoint_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="227" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1ad1e518ebbaae0f5fef25c75748667d40" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_idempotency_token" kindref="compound">IdempotencyToken</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, IdempotencyToken&gt; themis::governance::AuditBatchWriter::idempotency_tokens_</definition>
+        <argsstring></argsstring>
+        <name>idempotency_tokens_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::idempotency_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="230" column="24" bodyfile="include/governance/audit_batch_writer.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1adf807e10ed222cbc9636b8be41055722" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::AuditBatchWriter::idempotency_mutex_</definition>
+        <argsstring></argsstring>
+        <name>idempotency_mutex_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::idempotency_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="231" column="24" bodyfile="include/governance/audit_batch_writer.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1a7488e711fa50d2d398b5abbab0a3b26a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::thread &gt;</type>
+        <definition>std::unique_ptr&lt;std::thread&gt; themis::governance::AuditBatchWriter::flush_thread_</definition>
+        <argsstring></argsstring>
+        <name>flush_thread_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::flush_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="234" column="21" bodyfile="include/governance/audit_batch_writer.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1a9208e0cc9462efa83d16bf1f8a1687bf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::governance::AuditBatchWriter::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="235" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="235" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1a535dd6886bd706452f5f6c92dc14300e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::governance::AuditBatchWriter::shutdown_requested_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_requested_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::shutdown_requested_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="236" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1a984910a3f175b9b6e24dd057ab9ae67b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::AuditBatchWriter::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="248" column="24" bodyfile="include/governance/audit_batch_writer.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1a99c966c0a95850d833e2a88275370999" prot="private" static="no" mutable="no">
+        <type>Metrics</type>
+        <definition>Metrics themis::governance::AuditBatchWriter::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="249" column="13" bodyfile="include/governance/audit_batch_writer.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_batch_writer_1a292b027d5eb179189d3ed2ddfe3057cb" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::governance::AuditBatchWriter::latency_samples_us_</definition>
+        <argsstring></argsstring>
+        <name>latency_samples_us_</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::latency_samples_us_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="250" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1aeca4cfde74cc2fe5364af3bae10f2956" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::AuditBatchWriter::AuditBatchWriter</definition>
+        <argsstring>(std::shared_ptr&lt; AuditIntegrityManager &gt; manager, const Config &amp;config=Config{})</argsstring>
+        <name>AuditBatchWriter</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::AuditBatchWriter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_audit_integrity_manager" kindref="compound">AuditIntegrityManager</ref> &gt;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" kindref="compound">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="123" column="5" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1ad139d895d6d9e65fa457e4d28f7fdcc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::AuditBatchWriter::~AuditBatchWriter</definition>
+        <argsstring>()</argsstring>
+        <name>~AuditBatchWriter</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::~AuditBatchWriter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="128" column="5" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="117" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1a03df4220ac25ae1be128fc50acb1c17c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AuditBatchWriter::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), store(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="134" column="17" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="128" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1a6f8ed4deef8fee57f3c69a6baea2b5c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AuditBatchWriter::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), store(), joinable(), join(), <ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1a1ceace2eb1545b0cc2c1c523df6b39c0" kindref="member">forceFlush()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="140" column="17" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="151" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1ad33bab94e118b0caf22ab1bb15abca16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AuditBatchWriter::submitEntry</definition>
+        <argsstring>(const ImmutableAuditEntry &amp;entry)</argsstring>
+        <name>submitEntry</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::submitEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Submit Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), std::chrono::high_resolution_clock::now(), lock(), size(), push_back(), count(), recordMetrics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="147" column="17" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="175" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1a77342b183eb5a47f8ea24fad39390d2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AuditBatchWriter::submitEntryIdempotent</definition>
+        <argsstring>(const ImmutableAuditEntry &amp;entry, const std::string &amp;idempotency_token)</argsstring>
+        <name>submitEntryIdempotent</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::submitEntryIdempotent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>idempotency_token</declname>
+        </param>
+        <briefdescription>
+<para>Submit Entry Idempotent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">idempotency_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">idempotency_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::move(), <ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1ad33bab94e118b0caf22ab1bb15abca16" kindref="member">submitEntry()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="155" column="17" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="210" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1a31f2360bf4f731e74589956d111cfee1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>AuditBatchWriter::WriteResult themis::governance::AuditBatchWriter::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::flush</qualifiedname>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), std::min(), size(), assign(), begin(), erase(), flushBatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="164" column="17" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="259" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1a1ceace2eb1545b0cc2c1c523df6b39c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>AuditBatchWriter::WriteResult themis::governance::AuditBatchWriter::forceFlush</definition>
+        <argsstring>()</argsstring>
+        <name>forceFlush</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::forceFlush</qualifiedname>
+        <briefdescription>
+<para>Force Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), clear(), flushBatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="170" column="17" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="287" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1ae655399391d8ff6d15a1203bfbf18aae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::AuditBatchWriter::getBufferStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getBufferStats</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::getBufferStats</qualifiedname>
+        <briefdescription>
+<para>Get Buffer Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="176" column="20" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="308" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1aa4df75bcec02183f025ceba016283b89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::AuditBatchWriter::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="182" column="20" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="325" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1a11b9826025d2950caa654308a8f87a6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" kindref="compound">AuditBatchCheckpoint</ref> &gt;</type>
+        <definition>std::vector&lt; AuditBatchCheckpoint &gt; themis::governance::AuditBatchWriter::getCheckpoints</definition>
+        <argsstring>() const</argsstring>
+        <name>getCheckpoints</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::getCheckpoints</qualifiedname>
+        <briefdescription>
+<para>Get Checkpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="188" column="17" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="344" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1a893bed736b4f8f97027e97c7537c7127" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::AuditBatchWriter::verifyCheckpoint</definition>
+        <argsstring>(const AuditBatchCheckpoint &amp;checkpoint) const</argsstring>
+        <name>verifyCheckpoint</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::verifyCheckpoint</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" kindref="compound">AuditBatchCheckpoint</ref> &amp;</type>
+          <declname>checkpoint</declname>
+        </param>
+        <briefdescription>
+<para>Verify Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="195" column="10" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="354" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1ae097fd9d60ccf07cbaa45a5d9e30e3bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>AuditBatchWriter::WriteResult themis::governance::AuditBatchWriter::recoverFromCheckpoint</definition>
+        <argsstring>(const AuditBatchCheckpoint &amp;checkpoint)</argsstring>
+        <name>recoverFromCheckpoint</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::recoverFromCheckpoint</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" kindref="compound">AuditBatchCheckpoint</ref> &amp;</type>
+          <declname>checkpoint</declname>
+        </param>
+        <briefdescription>
+<para>Recover From Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements recoverFromCheckpoint without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="202" column="17" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="366" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1aa074eee378f2906dde107fd04a69ca73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_idempotency_token" kindref="compound">IdempotencyToken</ref> &gt;</type>
+        <definition>std::optional&lt; IdempotencyToken &gt; themis::governance::AuditBatchWriter::getTokenStatus</definition>
+        <argsstring>(const std::string &amp;token) const</argsstring>
+        <name>getTokenStatus</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::getTokenStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Get Token Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">idempotency_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="209" column="19" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="380" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1ac6d35cfea7f586713fee22561280f530" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::governance::AuditBatchWriter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="211" column="18" bodyfile="include/governance/audit_batch_writer.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1a1b7d22d7d57bb972526f10f70cbdd00c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::AuditBatchWriter::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="213" column="10" bodyfile="include/governance/audit_batch_writer.h" bodystart="213" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1a078d44140ede77575a23f606da726491" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::AuditBatchWriter::flushThread</definition>
+        <argsstring>()</argsstring>
+        <name>flushThread</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::flushThread</qualifiedname>
+        <briefdescription>
+<para>Flush Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), empty(), <ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1a31f2360bf4f731e74589956d111cfee1" kindref="member">flush()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="256" column="10" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="401" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1ace919bd9981ae57caf661529ef6f1e5e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>AuditBatchWriter::WriteResult themis::governance::AuditBatchWriter::flushBatch</definition>
+        <argsstring>(const std::vector&lt; ImmutableAuditEntry &gt; &amp;batch)</argsstring>
+        <name>flushBatch</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::flushBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Flush Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), fetch_add(), load(), createCheckpoint(), persistCheckpoint(), addEntry(), what(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="262" column="17" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="427" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1ae2b32a5462216816771e5bde98d55da5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AuditBatchWriter::computeBatchHash</definition>
+        <argsstring>(const std::vector&lt; ImmutableAuditEntry &gt; &amp;batch) const</argsstring>
+        <name>computeBatchHash</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::computeBatchHash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Compute Batch Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="268" column="17" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="497" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1a8622e0c7f85b21e342436871e237b33e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" kindref="compound">AuditBatchCheckpoint</ref></type>
+        <definition>AuditBatchCheckpoint themis::governance::AuditBatchWriter::createCheckpoint</definition>
+        <argsstring>(const std::vector&lt; ImmutableAuditEntry &gt; &amp;batch, const std::string &amp;state)</argsstring>
+        <name>createCheckpoint</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::createCheckpoint</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Create Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), load(), size(), computeBatchHash(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="275" column="26" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="528" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1abaf84aaee46d7232051fd828bcabeaa4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::AuditBatchWriter::persistCheckpoint</definition>
+        <argsstring>(const AuditBatchCheckpoint &amp;checkpoint)</argsstring>
+        <name>persistCheckpoint</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::persistCheckpoint</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" kindref="compound">AuditBatchCheckpoint</ref> &amp;</type>
+          <declname>checkpoint</declname>
+        </param>
+        <briefdescription>
+<para>Persist Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="283" column="10" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="549" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_batch_writer_1a6e5f56cf064c0768470d6a1a8457cce4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::AuditBatchWriter::recordMetrics</definition>
+        <argsstring>(int64_t submission_latency_us)</argsstring>
+        <name>recordMetrics</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::recordMetrics</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>submission_latency_us</declname>
+        </param>
+        <briefdescription>
+<para>Record Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">submission_latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">submission_latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), erase(), begin(), std::sort(), end(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="288" column="10" bodyfile="src/governance/audit_batch_writer.cpp" bodystart="568" bodyend="599"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/audit_batch_writer.h" line="93" column="1" bodyfile="include/governance/audit_batch_writer.h" bodystart="93" bodyend="289"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1aeca4cfde74cc2fe5364af3bae10f2956" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>AuditBatchWriter</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1aa6b3e49c303ef473e9d95e6e293eb1d2" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>batch_sequence_counter_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a859fd52915632796e4aa54bdea4d175f" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>buffer_mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1af204b917c683782831acc69b3f6cc9ff" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>checkpoint_history_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a856ab081e689de9299d00aff3e1da55a" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>checkpoints_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1ae2b32a5462216816771e5bde98d55da5" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>computeBatchHash</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a99a4d6e780df3e2f51f8dcd60db0629b" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a8622e0c7f85b21e342436871e237b33e" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>createCheckpoint</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1ae21d2c5e74a941d1fc19707d5b30bb62" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>entry_sequence_counter_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a31f2360bf4f731e74589956d111cfee1" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>flush</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a7488e711fa50d2d398b5abbab0a3b26a" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>flush_thread_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1ace919bd9981ae57caf661529ef6f1e5e" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>flushBatch</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a078d44140ede77575a23f606da726491" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>flushThread</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a1ceace2eb1545b0cc2c1c523df6b39c0" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>forceFlush</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1ae655399391d8ff6d15a1203bfbf18aae" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>getBufferStats</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a11b9826025d2950caa654308a8f87a6a" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>getCheckpoints</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1ac6d35cfea7f586713fee22561280f530" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1aa4df75bcec02183f025ceba016283b89" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1aa074eee378f2906dde107fd04a69ca73" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>getTokenStatus</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1adf807e10ed222cbc9636b8be41055722" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>idempotency_mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1ad1e518ebbaae0f5fef25c75748667d40" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>idempotency_tokens_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a1b7d22d7d57bb972526f10f70cbdd00c" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a292b027d5eb179189d3ed2ddfe3057cb" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>latency_samples_us_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a5cc41a99a655534059bf0ff6acf943ac" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a99c966c0a95850d833e2a88275370999" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a984910a3f175b9b6e24dd057ab9ae67b" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1af361ccaae1a55465b754dfcc555ce5e8" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>pending_entries_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1abaf84aaee46d7232051fd828bcabeaa4" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>persistCheckpoint</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a6e5f56cf064c0768470d6a1a8457cce4" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>recordMetrics</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1ae097fd9d60ccf07cbaa45a5d9e30e3bd" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>recoverFromCheckpoint</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a9208e0cc9462efa83d16bf1f8a1687bf" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>running_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a6f8ed4deef8fee57f3c69a6baea2b5c3" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a535dd6886bd706452f5f6c92dc14300e" prot="private" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>shutdown_requested_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a03df4220ac25ae1be128fc50acb1c17c" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>start</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1ad33bab94e118b0caf22ab1bb15abca16" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>submitEntry</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a77342b183eb5a47f8ea24fad39390d2f" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>submitEntryIdempotent</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1a893bed736b4f8f97027e97c7537c7127" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>verifyCheckpoint</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_batch_writer_1ad139d895d6d9e65fa457e4d28f7fdcc7" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter</scope><name>~AuditBatchWriter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

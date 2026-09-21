@@ -1,0 +1,562 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_macro_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceMacroManager</compoundname>
+    <includes refid="voice__macro_8h" local="no">voice_macro.h</includes>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_macro_manager_1_1_impl" prot="public">themis::voice::VoiceMacroManager::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_macro_manager_1ada9fc5f59042177208c2cf09bd4970b5" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1voice_1_1_voice_macro_manager_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::voice::VoiceMacroManager::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="278" column="21" bodyfile="include/voice/voice_macro.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1ade33bdd92c150648d8283f6e94ed32e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceMacroManager::VoiceMacroManager</definition>
+        <argsstring>()</argsstring>
+        <name>VoiceMacroManager</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::VoiceMacroManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="159" column="5" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="306" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1a5c20c43c91ea688ed11c7be0074f4243" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceMacroManager::~VoiceMacroManager</definition>
+        <argsstring>()</argsstring>
+        <name>~VoiceMacroManager</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::~VoiceMacroManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="160" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1a062986ebc3b1c7b776b1f34393defb99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref></type>
+        <definition>MacroID themis::voice::VoiceMacroManager::createMacro</definition>
+        <argsstring>(const std::string &amp;trigger_phrase, const std::vector&lt; MacroStep &gt; &amp;steps, const MacroOptions &amp;options={})</argsstring>
+        <name>createMacro</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::createMacro</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>trigger_phrase</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1voice_1_1_macro_step" kindref="compound">MacroStep</ref> &gt; &amp;</type>
+          <declname>steps</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_macro_options" kindref="compound">MacroOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Register a new macro. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Macro.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>trigger_phrase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Normalised voice phrase (e.g. &quot;morning report&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ordered execution steps. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Execution options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>New macro ID, or empty string on error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">trigger_phrase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="173" column="13" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="318" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1a6861fd73f47b68c563f94003ca47c9f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1voice_1_1_macro_info" kindref="compound">MacroInfo</ref> &gt;</type>
+        <definition>std::optional&lt; MacroInfo &gt; themis::voice::VoiceMacroManager::getMacro</definition>
+        <argsstring>(const MacroID &amp;macro_id) const</argsstring>
+        <name>getMacro</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::getMacro</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref> &amp;</type>
+          <declname>macro_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a copy of metadata for a single macro. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a value copy so callers are not exposed to the internal map storage (which could be invalidated by concurrent modifications).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>macro_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Macro identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Copy of <ref refid="structthemis_1_1voice_1_1_macro_info" kindref="compound">MacroInfo</ref>, or std::nullopt if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="187" column="19" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="342" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1a776a69194e6332948eac6125991ca819" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_macro_info" kindref="compound">MacroInfo</ref> &gt;</type>
+        <definition>std::vector&lt; MacroInfo &gt; themis::voice::VoiceMacroManager::listMacros</definition>
+        <argsstring>(const std::string &amp;user_id=&quot;&quot;, const std::vector&lt; std::string &gt; &amp;tags={}) const</argsstring>
+        <name>listMacros</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::listMacros</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>tags</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>List all macros, optionally filtered by tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(Reserved for future per-user isolation.) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Only return macros that carry at least one of these tags. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <ref refid="structthemis_1_1voice_1_1_macro_info" kindref="compound">MacroInfo</ref> copies. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="195" column="17" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="351" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1a4a8559872700cffcad56ed4847fd1cec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceMacroManager::setMacroMeta</definition>
+        <argsstring>(const MacroID &amp;macro_id, const std::string &amp;name, const std::string &amp;description, const std::vector&lt; std::string &gt; &amp;tags, bool enabled)</argsstring>
+        <name>setMacroMeta</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::setMacroMeta</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref> &amp;</type>
+          <declname>macro_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>tags</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Update the human-readable metadata of a macro without touching steps or options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Macro Meta.</para>
+<para>Allows callers to rename, re-describe, re-tag, or enable/disable a macro.</para>
+<para><simplesect kind="return"><para>true on success, false if the macro was not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">macro_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the macro. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="206" column="10" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="390" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1affbaf7cf3dac25fd0469bb9b2a55bc78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceMacroManager::updateMacro</definition>
+        <argsstring>(const MacroID &amp;macro_id, const std::vector&lt; MacroStep &gt; &amp;steps, const MacroOptions &amp;options)</argsstring>
+        <name>updateMacro</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::updateMacro</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref> &amp;</type>
+          <declname>macro_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1voice_1_1_macro_step" kindref="compound">MacroStep</ref> &gt; &amp;</type>
+          <declname>steps</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_macro_options" kindref="compound">MacroOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Replace the steps and options of an existing macro. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Macro.</para>
+<para><simplesect kind="return"><para>true on success, false if the macro was not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">macro_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the macro. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="217" column="10" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="416" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1a3917ece429d4d4e59cdd84386cfad942" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceMacroManager::deleteMacro</definition>
+        <argsstring>(const MacroID &amp;macro_id)</argsstring>
+        <name>deleteMacro</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::deleteMacro</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref> &amp;</type>
+          <declname>macro_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a macro. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Macro.</para>
+<para><simplesect kind="return"><para>true on success, false if not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">macro_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the macro. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="226" column="10" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="437" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1a8f1e3e2df7ddbd5be5de75e486ab10d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_macro_result" kindref="compound">MacroResult</ref></type>
+        <definition>MacroResult themis::voice::VoiceMacroManager::executeMacro</definition>
+        <argsstring>(const MacroID &amp;macro_id, const std::map&lt; std::string, std::string &gt; &amp;parameters={})</argsstring>
+        <name>executeMacro</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::executeMacro</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref> &amp;</type>
+          <declname>macro_id</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>parameters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute a macro by its ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>macro_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Macro to run. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Runtime parameter overrides (merged with step params). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_macro_result" kindref="compound">MacroResult</ref>; result.success == false when the macro is unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="238" column="17" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="442" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1af82893a6b0a96a9b0e4b58e1b52b78f6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref></type>
+        <definition>MacroID themis::voice::VoiceMacroManager::matchTrigger</definition>
+        <argsstring>(const std::string &amp;utterance) const</argsstring>
+        <name>matchTrigger</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::matchTrigger</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>utterance</declname>
+        </param>
+        <briefdescription>
+<para>Try to match <computeroutput>utterance</computeroutput> against registered trigger phrases. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a copy of the matched macro&apos;s ID so callers are not exposed to internal storage. The empty string signals no match.</para>
+<para><simplesect kind="return"><para><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref> of the first matching enabled macro, or empty string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="250" column="13" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="503" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1a3f7cb9b0febdf4f4a7b2e224f711f403" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceMacroManager::exportMacros</definition>
+        <argsstring>(const std::vector&lt; MacroID &gt; &amp;macro_ids={}) const</argsstring>
+        <name>exportMacros</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::exportMacros</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref> &gt; &amp;</type>
+          <declname>macro_ids</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Serialise one or more macros to a JSON string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>macro_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Macros to include (empty = all). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON array serialisation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="261" column="17" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="521" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1af84fbdff6625705478adc31e663eec8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref> &gt;</type>
+        <definition>std::vector&lt; MacroID &gt; themis::voice::VoiceMacroManager::importMacros</definition>
+        <argsstring>(const std::string &amp;json_str)</argsstring>
+        <name>importMacros</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::importMacros</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_str</declname>
+        </param>
+        <briefdescription>
+<para>Import macros from a JSON string produced by <ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1a3f7cb9b0febdf4f4a7b2e224f711f403" kindref="member">exportMacros()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import Macros.</para>
+<para><simplesect kind="return"><para>IDs of successfully imported macros.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), is_array(), lock(), macroInfoFromJson(), empty(), generateID(), normalise(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="267" column="17" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="546" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_macro_manager_1a3ab2c0ee9adb8bc43a5e5eda34061430" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceMacroManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::voice::VoiceMacroManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return statistics object (macro count, total executions). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="274" column="10" bodyfile="src/voice/voice_macro_manager.cpp" bodystart="593" bodyend="606"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages user-defined voice command macros. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe. Macros are stored in memory; persistence to ThemisDB can be added via importMacros / exportMacros once the storage layer is wired up.</para>
+<para>Trigger-phrase matching is case-insensitive and uses substring lookup: the user utterance is normalised to lower-case, and the registered phrase is treated as a sub-string that must appear in the utterance. </para>
+    </detaileddescription>
+    <location file="include/voice/voice_macro.h" line="157" column="1" bodyfile="include/voice/voice_macro.h" bodystart="157" bodyend="279"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1a062986ebc3b1c7b776b1f34393defb99" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>createMacro</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1a3917ece429d4d4e59cdd84386cfad942" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>deleteMacro</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1a8f1e3e2df7ddbd5be5de75e486ab10d5" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>executeMacro</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1a3f7cb9b0febdf4f4a7b2e224f711f403" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>exportMacros</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1a6861fd73f47b68c563f94003ca47c9f8" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>getMacro</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1a3ab2c0ee9adb8bc43a5e5eda34061430" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1ada9fc5f59042177208c2cf09bd4970b5" prot="private" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1af84fbdff6625705478adc31e663eec8a" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>importMacros</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1a776a69194e6332948eac6125991ca819" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>listMacros</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1af82893a6b0a96a9b0e4b58e1b52b78f6" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>matchTrigger</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1a4a8559872700cffcad56ed4847fd1cec" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>setMacroMeta</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1affbaf7cf3dac25fd0469bb9b2a55bc78" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>updateMacro</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1ade33bdd92c150648d8283f6e94ed32e3" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>VoiceMacroManager</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_macro_manager_1a5c20c43c91ea688ed11c7be0074f4243" prot="public" virt="non-virtual"><scope>themis::voice::VoiceMacroManager</scope><name>~VoiceMacroManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

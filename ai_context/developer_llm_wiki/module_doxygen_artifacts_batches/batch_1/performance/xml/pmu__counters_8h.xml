@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="pmu__counters_8h" kind="file" language="C++">
+    <compoundname>pmu_counters.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="pmu__counters_8cpp" local="yes">src/performance/phase4/pmu_counters.cpp</includedby>
+    <includedby refid="test__pmu__counters_8cpp" local="yes">tests/performance/phase4/test_pmu_counters.cpp</includedby>
+    <includedby refid="test__cycle__metrics_8cpp" local="yes">tests/performance/test_cycle_metrics.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/phase4/pmu_counters.h</label>
+        <link refid="pmu__counters_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/phase4/pmu_counters.h</label>
+        <link refid="pmu__counters_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/phase4/pmu_counters.cpp</label>
+        <link refid="pmu__counters_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/performance/phase4/test_pmu_counters.cpp</label>
+        <link refid="test__pmu__counters_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/performance/test_cycle_metrics.cpp</label>
+        <link refid="test__cycle__metrics_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" prot="public">themis::performance::phase4::CacheMissMetrics</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" prot="public">themis::performance::phase4::PmuCounter</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" prot="public">themis::performance::phase4::CacheMissAnalyzer</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer" prot="public">themis::performance::phase4::ScopedCacheMissTimer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance_1_1phase4">themis::performance::phase4</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>-<sp/>Hardware<sp/>Performance<sp/>Counter<sp/>(PMU)<sp/>Integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provides<sp/>cache<sp/>miss<sp/>analysis<sp/>via<sp/>Linux<sp/>perf_event_open<sp/>(Phase<sp/>4).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Key<sp/>idea:<sp/>modern<sp/>CPUs<sp/>expose<sp/>hardware<sp/>performance<sp/>monitoring<sp/>units<sp/>(PMU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>that<sp/>count<sp/>hardware<sp/>events<sp/>(cache<sp/>misses,<sp/>branch<sp/>mispredictions,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>with<sp/>negligible<sp/>overhead<sp/>(&lt;1<sp/>ns<sp/>per<sp/>measurement<sp/>point<sp/>when<sp/>amortised).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>module<sp/>wraps<sp/>the<sp/>Linux<sp/>perf_event_open(2)<sp/>syscall<sp/>to<sp/>expose:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>•<sp/>L1d<sp/>read<sp/>cache<sp/>misses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>•<sp/>Last-level<sp/>cache<sp/>(LLC)<sp/>misses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>•<sp/>Branch<sp/>mispredictions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>On<sp/>non-Linux<sp/>platforms<sp/>or<sp/>when<sp/>perf_event_open<sp/>is<sp/>unavailable<sp/>(e.g.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>due<sp/>to<sp/>kernel<sp/>parameter<sp/>paranoid<sp/>&gt;<sp/>2)<sp/>all<sp/>counters<sp/>return<sp/>0<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CacheMissAnalyzer::is_available()<sp/>returns<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compile-time<sp/>gate:<sp/>THEMIS_ENABLE_PMU_COUNTERS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Runtime<sp/>gate:<sp/><sp/><sp/><sp/><sp/><sp/>Phase4FeatureFlags::instance().pmu_enabled()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase4" kindref="compound">phase4</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CacheMissMetrics<sp/>–<sp/>plain<sp/>data<sp/>aggregate<sp/>returned<sp/>by<sp/>CacheMissAnalyzer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1aac4742bde8f28e5197df1c3cd777ac98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1aac4742bde8f28e5197df1c3cd777ac98" kindref="member">l1d_read_misses</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a07a3fd1c71cdc79f742c6e1b6fbc2203" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a07a3fd1c71cdc79f742c6e1b6fbc2203" kindref="member">llc_misses</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a6ab8a2521e01ea742ab7fc3efbdb8e34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a6ab8a2521e01ea742ab7fc3efbdb8e34" kindref="member">branch_mispredictions</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" kindref="member">available</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PmuCounter<sp/>–<sp/>thin<sp/>RAII<sp/>wrapper<sp/>around<sp/>a<sp/>single<sp/>perf_event<sp/>fd</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a4164e9cb49266745d4e4779cdf8efcb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a4164e9cb49266745d4e4779cdf8efcb7" kindref="member">OpenFn</ref><sp/>=<sp/>std::function&lt;bool(uint32_t,<sp/>uint64_t)&gt;;</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a61a411ace50eef94252257a9934dd214" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a61a411ace50eef94252257a9934dd214" kindref="member">ReadFn</ref><sp/>=<sp/>std::function&lt;uint64_t()&gt;;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a01d46e795dd8806c34d024433e156ad2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref>(const<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a4973741b9b8cd0edde6315598c64ca18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref>(<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref>&amp;&amp;<sp/>other)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ad327b08c4832f9d374def5f47029e587" kindref="member">PmuCounter</ref>&amp;&amp;<sp/>other)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a671c412a7e81afe42947e340ff9d8b0d" kindref="member">open</ref>(uint32_t<sp/>type,<sp/>uint64_t<sp/>config)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a5f4b1906bfc705522a7c3f7390b3b6b1" kindref="member">enable</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ae009e49371981381b9f7a30872d22130" kindref="member">disable</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1aea088bb1b404a5bab30f7b048f66eb20" kindref="member">read</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a57f3fecfc64750eaa6cbceb60b7295db" kindref="member">close</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a1373c32fad33741967df43f8a5c7945b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a1373c32fad33741967df43f8a5c7945b" kindref="member">is_open</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fd_<sp/>&gt;=<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1affc6d68341663aea49a75f1f4c6e8315" kindref="member">setOpenFn</ref>(<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a4164e9cb49266745d4e4779cdf8efcb7" kindref="member">OpenFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a580b8c03f976d05e07aafb7eeec8e631" kindref="member">setReadFn</ref>(<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a61a411ace50eef94252257a9934dd214" kindref="member">ReadFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd_{-1};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CacheMissAnalyzer<sp/>–<sp/>high-level<sp/>helper<sp/>for<sp/>cache-miss<sp/>analysis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" kindref="member">CacheMissAnalyzer</ref><sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a76e4bca55e18c710f4a8a8e29a5ff896" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a76e4bca55e18c710f4a8a8e29a5ff896" kindref="member">StopFn</ref><sp/>=<sp/>std::function&lt;<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref>()&gt;;</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a97418fb592c1295d761a003bcfbfb31d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a97418fb592c1295d761a003bcfbfb31d" kindref="member">ProbeFn</ref><sp/>=<sp/>std::function&lt;bool()&gt;;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" kindref="member">CacheMissAnalyzer</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1aeb567350bb3bb12eccdeec42525efcdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" kindref="member">CacheMissAnalyzer</ref>()<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1abb3806cadb26d4123ef66aa4ae5314e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" kindref="member">CacheMissAnalyzer</ref>(const<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" kindref="member">CacheMissAnalyzer</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a6340ff9eca367d18788d6c4a997ed25a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" kindref="member">CacheMissAnalyzer</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a402b33961521978dc5515728b2f5ea52" kindref="member">CacheMissAnalyzer</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" kindref="member">is_available</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>available_;<sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a13139fba878e06a350f8bec205fd8c31" kindref="member">start</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ad5d9459d6b31b631e1f7dfc194e1badd" kindref="member">stop</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1aa2135f76d9b10d734556748ca8e8c646" kindref="member">pmu_accessible</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a30da8eaaabf7f59b063c454c1b8de35f" kindref="member">setStopFn</ref>(<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a76e4bca55e18c710f4a8a8e29a5ff896" kindref="member">StopFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a78c1402bde6cc3552a991fa5621eee46" kindref="member">setProbeFn</ref>(<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a97418fb592c1295d761a003bcfbfb31d" kindref="member">ProbeFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>l1d_misses_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>llc_misses_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>branch_mispredict_;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>available_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ScopedCacheMissTimer<sp/>–<sp/>RAII<sp/>measurement<sp/>wrapper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a53188d1a0854d449fd4868b704c7aaf7" kindref="member">ScopedCacheMissTimer</ref><sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a53188d1a0854d449fd4868b704c7aaf7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a53188d1a0854d449fd4868b704c7aaf7" kindref="member">ScopedCacheMissTimer</ref>(<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref>&amp;<sp/>analyzer,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref>*<sp/><sp/>output)<sp/>noexcept</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>analyzer_(analyzer),<sp/>output_(output)</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>analyzer_.start();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a70e4ee8fe6b566000de8e6821c548958" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a70e4ee8fe6b566000de8e6821c548958" kindref="member">~ScopedCacheMissTimer</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(output_)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*output_<sp/>=<sp/>analyzer_.stop();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a882d064f55982ec00553d3592844b08d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a882d064f55982ec00553d3592844b08d" kindref="member">ScopedCacheMissTimer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a53188d1a0854d449fd4868b704c7aaf7" kindref="member">ScopedCacheMissTimer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a42f12f8f101d244c9cc9114bb686532c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a53188d1a0854d449fd4868b704c7aaf7" kindref="member">ScopedCacheMissTimer</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a42f12f8f101d244c9cc9114bb686532c" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a53188d1a0854d449fd4868b704c7aaf7" kindref="member">ScopedCacheMissTimer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref>&amp;<sp/>analyzer_;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref>*<sp/><sp/>output_;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>phase4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/phase4/pmu_counters.h"/>
+  </compounddef>
+</doxygen>

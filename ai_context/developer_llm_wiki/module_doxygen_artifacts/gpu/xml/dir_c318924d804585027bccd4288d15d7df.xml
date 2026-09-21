@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c318924d804585027bccd4288d15d7df" kind="dir">
+    <compoundname>tests/gpu</compoundname>
+    <innerfile refid="test__break__even__validation_8cpp">test_break_even_validation.cpp</innerfile>
+    <innerfile refid="test__cuda__error__hardening_8cpp">test_cuda_error_hardening.cpp</innerfile>
+    <innerfile refid="test__cuda__wrapper__integration_8cpp">test_cuda_wrapper_integration.cpp</innerfile>
+    <innerfile refid="test__gpu__admin__api_8cpp">test_gpu_admin_api.cpp</innerfile>
+    <innerfile refid="test__gpu__adversarial_8cpp">test_gpu_adversarial.cpp</innerfile>
+    <innerfile refid="test__gpu__alerts_8cpp">test_gpu_alerts.cpp</innerfile>
+    <innerfile refid="test__gpu__audit__log_8cpp">test_gpu_audit_log.cpp</innerfile>
+    <innerfile refid="test__gpu__batch__a9__safety__focused_8cpp">test_gpu_batch_a9_safety_focused.cpp</innerfile>
+    <innerfile refid="test__gpu__chaos__fault__injection_8cpp">test_gpu_chaos_fault_injection.cpp</innerfile>
+    <innerfile refid="test__gpu__cluster__coordinator_8cpp">test_gpu_cluster_coordinator.cpp</innerfile>
+    <innerfile refid="test__gpu__cluster__topology_8cpp">test_gpu_cluster_topology.cpp</innerfile>
+    <innerfile refid="test__gpu__compression_8cpp">test_gpu_compression.cpp</innerfile>
+    <innerfile refid="test__gpu__config_8cpp">test_gpu_config.cpp</innerfile>
+    <innerfile refid="test__gpu__device__discovery_8cpp">test_gpu_device_discovery.cpp</innerfile>
+    <innerfile refid="test__gpu__erasure__coding_8cpp">test_gpu_erasure_coding.cpp</innerfile>
+    <innerfile refid="test__gpu__error__handling_8cpp">test_gpu_error_handling.cpp</innerfile>
+    <innerfile refid="test__gpu__error__handling__comprehensive_8cpp">test_gpu_error_handling_comprehensive.cpp</innerfile>
+    <innerfile refid="test__gpu__fallback__all__paths_8cpp">test_gpu_fallback_all_paths.cpp</innerfile>
+    <innerfile refid="test__gpu__feature__flags_8cpp">test_gpu_feature_flags.cpp</innerfile>
+    <innerfile refid="test__gpu__graph__cache_8cpp">test_gpu_graph_cache.cpp</innerfile>
+    <innerfile refid="test__gpu__graph__traversal_8cpp">test_gpu_graph_traversal.cpp</innerfile>
+    <innerfile refid="test__gpu__highcardinality__stress_8cpp">test_gpu_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__gpu__kernel__timeout__enforcer_8cpp">test_gpu_kernel_timeout_enforcer.cpp</innerfile>
+    <innerfile refid="test__gpu__kernel__validator_8cpp">test_gpu_kernel_validator.cpp</innerfile>
+    <innerfile refid="test__gpu__launcher_8cpp">test_gpu_launcher.cpp</innerfile>
+    <innerfile refid="test__gpu__load__balancer_8cpp">test_gpu_load_balancer.cpp</innerfile>
+    <innerfile refid="test__gpu__lora__layers_8cpp">test_gpu_lora_layers.cpp</innerfile>
+    <innerfile refid="test__gpu__memory__hierarchy_8cpp">test_gpu_memory_hierarchy.cpp</innerfile>
+    <innerfile refid="test__gpu__memory__management_8cpp">test_gpu_memory_management.cpp</innerfile>
+    <innerfile refid="test__gpu__memory__pool_8cpp">test_gpu_memory_pool.cpp</innerfile>
+    <innerfile refid="test__gpu__memory__raii__batch1_8cpp">test_gpu_memory_raii_batch1.cpp</innerfile>
+    <innerfile refid="test__gpu__metrics_8cpp">test_gpu_metrics.cpp</innerfile>
+    <innerfile refid="test__gpu__mig__manager_8cpp">test_gpu_mig_manager.cpp</innerfile>
+    <innerfile refid="test__gpu__module_8cpp">test_gpu_module.cpp</innerfile>
+    <innerfile refid="test__gpu__olap__accelerator_8cpp">test_gpu_olap_accelerator.cpp</innerfile>
+    <innerfile refid="test__gpu__p2p__transfer_8cpp">test_gpu_p2p_transfer.cpp</innerfile>
+    <innerfile refid="test__gpu__phase1__foundations_8cpp">test_gpu_phase1_foundations.cpp</innerfile>
+    <innerfile refid="test__gpu__phase2__phase3__focused_8cpp">test_gpu_phase2_phase3_focused.cpp</innerfile>
+    <innerfile refid="test__gpu__phase__c__integration_8cpp">test_gpu_phase_c_integration.cpp</innerfile>
+    <innerfile refid="test__gpu__policy_8cpp">test_gpu_policy.cpp</innerfile>
+    <innerfile refid="test__gpu__profiler_8cpp">test_gpu_profiler.cpp</innerfile>
+    <innerfile refid="test__gpu__query__accelerator_8cpp">test_gpu_query_accelerator.cpp</innerfile>
+    <innerfile refid="test__gpu__query__accelerator__error__injection_8cpp">test_gpu_query_accelerator_error_injection.cpp</innerfile>
+    <innerfile refid="test__gpu__query__accelerator__parity_8cpp">test_gpu_query_accelerator_parity.cpp</innerfile>
+    <innerfile refid="test__gpu__resource__exhaustion_8cpp">test_gpu_resource_exhaustion.cpp</innerfile>
+    <innerfile refid="test__gpu__rocm__backend_8cpp">test_gpu_rocm_backend.cpp</innerfile>
+    <innerfile refid="test__gpu__safe__fail_8cpp">test_gpu_safe_fail.cpp</innerfile>
+    <innerfile refid="test__gpu__safe__fail__module_8cpp">test_gpu_safe_fail_module.cpp</innerfile>
+    <innerfile refid="test__gpu__shader__coverage_8cpp">test_gpu_shader_coverage.cpp</innerfile>
+    <innerfile refid="test__gpu__stream__cuda__bridge_8cpp">test_gpu_stream_cuda_bridge.cpp</innerfile>
+    <innerfile refid="test__gpu__stream__manager_8cpp">test_gpu_stream_manager.cpp</innerfile>
+    <innerfile refid="test__gpu__stream__raii_8cpp">test_gpu_stream_raii.cpp</innerfile>
+    <innerfile refid="test__gpu__stubs__comprehensive_8cpp">test_gpu_stubs_comprehensive.cpp</innerfile>
+    <innerfile refid="test__gpu__temperature__telemetry_8cpp">test_gpu_temperature_telemetry.cpp</innerfile>
+    <innerfile refid="test__gpu__tensor_8cpp">test_gpu_tensor.cpp</innerfile>
+    <innerfile refid="test__gpu__time__slice__scheduler_8cpp">test_gpu_time_slice_scheduler.cpp</innerfile>
+    <innerfile refid="test__gpu__training__loop_8cpp">test_gpu_training_loop.cpp</innerfile>
+    <innerfile refid="test__gpu__unified__memory_8cpp">test_gpu_unified_memory.cpp</innerfile>
+    <innerfile refid="test__gpu__vector__index_8cpp">test_gpu_vector_index.cpp</innerfile>
+    <innerfile refid="test__gpu__vram__allocation_8cpp">test_gpu_vram_allocation.cpp</innerfile>
+    <innerfile refid="test__gpu__vulkan__backend_8cpp">test_gpu_vulkan_backend.cpp</innerfile>
+    <innerfile refid="test__gpu__wasm__kernel__sandbox_8cpp">test_gpu_wasm_kernel_sandbox.cpp</innerfile>
+    <innerfile refid="test__gpu__wave__a__timeout__closure_8cpp">test_gpu_wave_a_timeout_closure.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/"/>
+  </compounddef>
+</doxygen>

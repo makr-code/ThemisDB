@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_eviction_policy_1_1_eviction_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheEvictionPolicy::EvictionDecision</compoundname>
+    <includes refid="cache__eviction__policy_8h" local="no">cache_eviction_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_eviction_policy_1_1_eviction_decision_1a7023e479312f3c53909a05a128c39a4e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheEvictionPolicy::EvictionDecision::should_evict</definition>
+        <argsstring></argsstring>
+        <name>should_evict</name>
+        <qualifiedname>themis::cache::CacheEvictionPolicy::EvictionDecision::should_evict</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>true if key should be evicted </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="60" column="14" bodyfile="include/cache/cache_eviction_policy.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_eviction_policy_1_1_eviction_decision_1a6395fb097d49dcf090235bbe09a7d182" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheEvictionPolicy::EvictionDecision::victim_key</definition>
+        <argsstring></argsstring>
+        <name>victim_key</name>
+        <qualifiedname>themis::cache::CacheEvictionPolicy::EvictionDecision::victim_key</qualifiedname>
+        <briefdescription>
+<para>Selected victim key when should_evict is true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="61" column="21" bodyfile="include/cache/cache_eviction_policy.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_eviction_policy_1_1_eviction_decision_1a3759cf5250726ab76ed12da9a2a890e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheEvictionPolicy::EvictionDecision::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::cache::CacheEvictionPolicy::EvictionDecision::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable reason. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="62" column="21" bodyfile="include/cache/cache_eviction_policy.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_eviction_policy.h" line="59" column="5" bodyfile="include/cache/cache_eviction_policy.h" bodystart="59" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_eviction_policy_1_1_eviction_decision_1a3759cf5250726ab76ed12da9a2a890e9" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvictionPolicy::EvictionDecision</scope><name>reason</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_eviction_policy_1_1_eviction_decision_1a7023e479312f3c53909a05a128c39a4e" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvictionPolicy::EvictionDecision</scope><name>should_evict</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_eviction_policy_1_1_eviction_decision_1a6395fb097d49dcf090235bbe09a7d182" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvictionPolicy::EvictionDecision</scope><name>victim_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

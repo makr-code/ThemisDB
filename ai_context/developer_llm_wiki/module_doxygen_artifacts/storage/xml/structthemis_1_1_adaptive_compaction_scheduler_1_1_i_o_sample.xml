@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_adaptive_compaction_scheduler_1_1_i_o_sample" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AdaptiveCompactionScheduler::IOSample</compoundname>
+    <includes refid="adaptive__compaction_8h" local="no">adaptive_compaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_i_o_sample_1a2bcb11461eff832e77749c4b4a8cbe00" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::AdaptiveCompactionScheduler::IOSample::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::IOSample::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="149" column="47" bodyfile="include/storage/adaptive_compaction.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_i_o_sample_1a9c795c0226c05bb8a60c0eeda1c8fc67" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::IOSample::write_rate</definition>
+        <argsstring></argsstring>
+        <name>write_rate</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::IOSample::write_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Writes/s observed during this interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="150" column="16" bodyfile="include/storage/adaptive_compaction.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_i_o_sample_1ab5b4074b891972db62dd897d00afb7ca" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::IOSample::read_rate</definition>
+        <argsstring></argsstring>
+        <name>read_rate</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::IOSample::read_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Reads/s observed during this interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="151" column="16" bodyfile="include/storage/adaptive_compaction.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A single I/O observation collected by the background sampling thread. </para>
+    </detaileddescription>
+    <location file="include/storage/adaptive_compaction.h" line="148" column="5" bodyfile="include/storage/adaptive_compaction.h" bodystart="148" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_i_o_sample_1ab5b4074b891972db62dd897d00afb7ca" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::IOSample</scope><name>read_rate</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_i_o_sample_1a2bcb11461eff832e77749c4b4a8cbe00" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::IOSample</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_i_o_sample_1a9c795c0226c05bb8a60c0eeda1c8fc67" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::IOSample</scope><name>write_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

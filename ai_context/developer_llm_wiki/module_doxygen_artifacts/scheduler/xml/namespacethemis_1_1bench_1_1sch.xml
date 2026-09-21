@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1sch" kind="namespace" language="C++">
+    <compoundname>themis::bench::sch</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1sch_1ae3668ba1940328f56026d53e4915578d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::sch::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::sch::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all SCH benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_release_gates.cpp" line="54" column="27" bodyfile="benchmarks/scheduler/bench_scheduler_release_gates.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1sch_1a649ef34fdc5551562a5ecc9c06d16932" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::sch::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::sch::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of repetitions for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_release_gates.cpp" line="57" column="22" bodyfile="benchmarks/scheduler/bench_scheduler_release_gates.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sch_1ab2ee97df329b6c650d98716bd28f3bb9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::sch::BM_SCH01_ErrorEnumCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SCH01_ErrorEnumCast</name>
+        <qualifiedname>themis::bench::sch::BM_SCH01_ErrorEnumCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_release_gates.cpp" line="63" column="13" bodyfile="benchmarks/scheduler/bench_scheduler_release_gates.cpp" bodystart="63" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sch_1a1c72f24dce2bb8b6fba7e93080f0336e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::sch::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::sch::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_release_gates.cpp" line="73" column="5" declfile="benchmarks/scheduler/bench_scheduler_release_gates.cpp" declline="73" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sch_1ad41359ff50500bbdb81727244f413d99" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::sch::BM_SCH02_SwitchDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SCH02_SwitchDispatch</name>
+        <qualifiedname>themis::bench::sch::BM_SCH02_SwitchDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_release_gates.cpp" line="80" column="13" bodyfile="benchmarks/scheduler/bench_scheduler_release_gates.cpp" bodystart="80" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sch_1a4356f15d0ccf1e1b47fbffaa72023c82" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::sch::BM_SCH03_StructAlloc</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SCH03_StructAlloc</name>
+        <qualifiedname>themis::bench::sch::BM_SCH03_StructAlloc</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_release_gates.cpp" line="119" column="13" bodyfile="benchmarks/scheduler/bench_scheduler_release_gates.cpp" bodystart="119" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1sch_1a9fc01793e0fd34ce90dc7b9bb06f3939" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::sch::BM_SCH04_BatchCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SCH04_BatchCast</name>
+        <qualifiedname>themis::bench::sch::BM_SCH04_BatchCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_scheduler_release_gates.cpp" line="137" column="13" bodyfile="benchmarks/scheduler/bench_scheduler_release_gates.cpp" bodystart="137" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/scheduler/bench_scheduler_release_gates.cpp" line="51" column="1"/>
+  </compounddef>
+</doxygen>

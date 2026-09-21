@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_cdc_connector" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::CdcConnector</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_source_connector" prot="public" virt="non-virtual">themis::ingestion::ISourceConnector</basecompoundref>
+    <includes refid="cdc__connector_8h" local="no">cdc_connector.h</includes>
+    <innerclass refid="structthemis_1_1ingestion_1_1_cdc_connector_1_1_cdc_event" prot="public">themis::ingestion::CdcConnector::CdcEvent</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_cdc_connector_1_1_impl" prot="public">themis::ingestion::CdcConnector::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_cdc_connector_1a610dc51717f6045e80def9b1af3a182f" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_cdc_connector_1_1_cdc_event" kindref="compound">CdcEvent</ref> &gt;()&gt;</type>
+        <definition>using themis::ingestion::CdcConnector::CdcEventFetchFn = std::function&lt;std::vector&lt;CdcEvent&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>CdcEventFetchFn</name>
+        <qualifiedname>themis::ingestion::CdcConnector::CdcEventFetchFn</qualifiedname>
+        <briefdescription>
+<para>Function type for providing CDC event batches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each call should return the next batch of events. Return an empty vector to signal end-of-stream. Injected via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_cdc_connector_1a8cb27e2b9fdf4d5138e57d5f0e1172ca" kindref="member">setCdcEventFetchForTesting()</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="184" column="5" bodyfile="include/ingestion/cdc_connector.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_cdc_connector_1a548be7edf1bd9c3438987a10224c2121" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_cdc_connector_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::ingestion::CdcConnector::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::ingestion::CdcConnector::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="198" column="21" bodyfile="include/ingestion/cdc_connector.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cdc_connector_1a203b2c46d353341eca5832d9836713ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::CdcConnector::CdcConnector</definition>
+        <argsstring>()</argsstring>
+        <name>CdcConnector</name>
+        <qualifiedname>themis::ingestion::CdcConnector::CdcConnector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="106" column="5" bodyfile="src/ingestion/cdc_connector.cpp" bodystart="980" bodyend="981"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cdc_connector_1a7464fe7c5d897e1f94bf87037b34c14b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::CdcConnector::~CdcConnector</definition>
+        <argsstring>() override</argsstring>
+        <name>~CdcConnector</name>
+        <qualifiedname>themis::ingestion::CdcConnector::~CdcConnector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cdc_connector_1ac9d6906ac5d565c66cb1d793bd7563bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::CdcConnector::CdcConnector</definition>
+        <argsstring>(const CdcConnector &amp;)=delete</argsstring>
+        <name>CdcConnector</name>
+        <qualifiedname>themis::ingestion::CdcConnector::CdcConnector</qualifiedname>
+        <param>
+          <type>const CdcConnector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cdc_connector_1a2ef9e1aedc28f1e60c6dcb31e4e7eb00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_cdc_connector_1a203b2c46d353341eca5832d9836713ab" kindref="member">CdcConnector</ref> &amp;</type>
+        <definition>CdcConnector &amp; themis::ingestion::CdcConnector::operator=</definition>
+        <argsstring>(const CdcConnector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::CdcConnector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_cdc_connector_1a203b2c46d353341eca5832d9836713ab" kindref="member">CdcConnector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="111" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cdc_connector_1aeab94d472f9f8ec473e1cad9c6cfa51a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::CdcConnector::initialize</definition>
+        <argsstring>(const SourceConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::CdcConnector::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ab6a018a611fc4bcc353665f96b59bfd5">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the connector from a source configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Must have <computeroutput>type == <ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fab451ae487bde3a3338f110920744afa8" kindref="member">SourceType::CDC</ref></computeroutput>; <computeroutput>location</computeroutput> is the database connection URL. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="119" column="10" bodyfile="src/ingestion/cdc_connector.cpp" bodystart="991" bodyend="993"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cdc_connector_1ad1c3f508536f22a56249e783e04cf30d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::CdcConnector::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::CdcConnector::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ae6d4963df23947b6546b6a943f8a7d2d">isAvailable</reimplements>
+        <briefdescription>
+<para>Check whether the CDC stream source is reachable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attempts to open and immediately close a connection to the database. Returns true when a test mock is injected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="127" column="10" bodyfile="src/ingestion/cdc_connector.cpp" bodystart="995" bodyend="997"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cdc_connector_1a656c729b07f09c8c2f6ca4f129dd73bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::CdcConnector::getDocumentCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::ingestion::CdcConnector::getDocumentCount</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1a22a97b14d4935c62895fa668e021ab4e">getDocumentCount</reimplements>
+        <briefdescription>
+<para>Estimate available event count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0 when the total is not known in advance (streaming sources typically do not expose a count up front). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="135" column="12" bodyfile="src/ingestion/cdc_connector.cpp" bodystart="999" bodyend="1001"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cdc_connector_1a820751cc1ebda146953ce3d2c2cd708b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats themis::ingestion::CdcConnector::ingest</definition>
+        <argsstring>(const std::string &amp;target_collection, ProgressCallback progress_callback) override</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::CdcConnector::ingest</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1add9fbbb52139b936dba9a2236a80edbb">ingest</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Consume CDC events from the stream and ingest each as a document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest.</para>
+<para>Events are fetched in batches of <computeroutput>batch_size</computeroutput>. Progress callbacks are invoked after each batch. Consumption stops when <computeroutput>max_events</computeroutput> is reached, the stream is drained, or the poll timeout expires with no new events.</para>
+<para>When <computeroutput>THEMIS_ENABLE_CDC_STREAM</computeroutput> is not defined and no test mock is present, returns immediately with a <computeroutput>CONNECTOR_NOT_SUPPORTED</computeroutput> error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="148" column="20" bodyfile="src/ingestion/cdc_connector.cpp" bodystart="1010" bodyend="1013"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cdc_connector_1aba46f319904aef583a9a04fa4593abf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::CdcConnector::setRetryConfig</definition>
+        <argsstring>(const RetryConfig &amp;config)</argsstring>
+        <name>setRetryConfig</name>
+        <qualifiedname>themis::ingestion::CdcConnector::setRetryConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure retry behaviour for this connector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Retry Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRetryConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="154" column="10" bodyfile="src/ingestion/cdc_connector.cpp" bodystart="1020" bodyend="1022"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cdc_connector_1aa96e260a1f24f19213a208c002feb714" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::CdcConnector::setEventBatchProvider</definition>
+        <argsstring>(CdcEventFetchFn fn)</argsstring>
+        <name>setEventBatchProvider</name>
+        <qualifiedname>themis::ingestion::CdcConnector::setEventBatchProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_cdc_connector_1a610dc51717f6045e80def9b1af3a182f" kindref="member">CdcEventFetchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a CDC event-batch provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Event Batch Provider.</para>
+<para>When set, every replication-stream poll that would normally be executed against a live database is replaced by calls to <computeroutput>fn</computeroutput>. Pass an empty <computeroutput><ref refid="classthemis_1_1ingestion_1_1_cdc_connector_1a610dc51717f6045e80def9b1af3a182f" kindref="member">CdcEventFetchFn</ref>{}</computeroutput> to restore the real stream path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_cdc_connector_1a8cb27e2b9fdf4d5138e57d5f0e1172ca" kindref="member">setCdcEventFetchForTesting()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="193" column="10" bodyfile="src/ingestion/cdc_connector.cpp" bodystart="1038" bodyend="1040"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cdc_connector_1a8cb27e2b9fdf4d5138e57d5f0e1172ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::CdcConnector::setCdcEventFetchForTesting</definition>
+        <argsstring>(CdcEventFetchFn fn)</argsstring>
+        <name>setCdcEventFetchForTesting</name>
+        <qualifiedname>themis::ingestion::CdcConnector::setCdcEventFetchForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_cdc_connector_1a610dc51717f6045e80def9b1af3a182f" kindref="member">CdcEventFetchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Cdc Event Fetch For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_cdc_connector_1aa96e260a1f24f19213a208c002feb714" kindref="member">setEventBatchProvider()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/cdc_connector.h" line="194" column="10" bodyfile="src/ingestion/cdc_connector.cpp" bodystart="1029" bodyend="1031"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>CDC (Change-Data-Capture) source connector for live database streams. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Consumes change events from a live database replication stream (PostgreSQL logical replication, MySQL binlog, or any compatible CDC source) and ingests each event as a document into ThemisDB.</para>
+<para>When <computeroutput>THEMIS_ENABLE_CDC_STREAM</computeroutput> is defined at compile time, the real replication-stream backend is compiled. Without that flag the connector still compiles but returns <computeroutput>CONNECTOR_NOT_SUPPORTED</computeroutput> on any live call, unless a mock has been injected via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_cdc_connector_1a8cb27e2b9fdf4d5138e57d5f0e1172ca" kindref="member">setCdcEventFetchForTesting()</ref></computeroutput>.</para>
+<para>Supported <computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1ac8e92308a83924d0cfa5df19281909e0" kindref="member">SourceConfig::options</ref></computeroutput> keys: <table rows="10" cols="3"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry><entry thead="yes"><para>Default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>slot_name</computeroutput>  </para>
+</entry><entry thead="no"><para>Replication slot name (PostgreSQL) or equivalent  </para>
+</entry><entry thead="no"><para><computeroutput>themis_cdc</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>table_filter</computeroutput>  </para>
+</entry><entry thead="no"><para>Comma-separated table names to capture (empty = all)  </para>
+</entry><entry thead="no"><para>(all tables)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>operations</computeroutput>  </para>
+</entry><entry thead="no"><para>Comma-separated ops to capture: <computeroutput>INSERT,UPDATE,DELETE</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>INSERT,UPDATE,DELETE</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>text_columns</computeroutput>  </para>
+</entry><entry thead="no"><para>Comma-separated columns to use as document text  </para>
+</entry><entry thead="no"><para>(full event JSON)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>batch_size</computeroutput>  </para>
+</entry><entry thead="no"><para>Number of events to fetch per poll iteration  </para>
+</entry><entry thead="no"><para><computeroutput>500</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_events</computeroutput>  </para>
+</entry><entry thead="no"><para>Maximum events to consume (0 = unlimited)  </para>
+</entry><entry thead="no"><para><computeroutput>0</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>poll_timeout_ms</computeroutput>  </para>
+</entry><entry thead="no"><para>Poll sleep duration between empty polls (milliseconds)  </para>
+</entry><entry thead="no"><para><computeroutput>1000</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_empty_polls</computeroutput>  </para>
+</entry><entry thead="no"><para>Consecutive empty polls before stopping (≥1)  </para>
+</entry><entry thead="no"><para><computeroutput>3</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>from_lsn</computeroutput>  </para>
+</entry><entry thead="no"><para>Start from this LSN / binlog position (empty = start)  </para>
+</entry><entry thead="no"><para>(from beginning)  </para>
+</entry></row>
+</table>
+</para>
+<para><computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">SourceConfig::location</ref></computeroutput> must be a database connection URL: <computeroutput>postgresql://localhost:5432/mydb</computeroutput> <computeroutput>mysql://db.example.com:3306/inventory</computeroutput></para>
+<para>Each change event is serialized as a JSON object of the form: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;INSERT&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;table&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;lsn&quot;</highlight><highlight class="normal">:<sp/>12345678,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;timestamp_ms&quot;</highlight><highlight class="normal">:<sp/>1706438400000,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;before&quot;</highlight><highlight class="normal">:<sp/>{},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;after&quot;</highlight><highlight class="normal">:<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;created&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>The text for ingestion is either the concatenation of all configured <computeroutput>text_columns</computeroutput> values from the <computeroutput>after</computeroutput> image (or <computeroutput>before</computeroutput> for DELETE), or the full JSON serialization when <computeroutput>text_columns</computeroutput> is not set.</para>
+<para>Example usage (direct): <programlisting><codeline><highlight class="normal">SourceConfig<sp/>cfg{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.source_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders_cdc&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.type<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fab451ae487bde3a3338f110920744afa8" kindref="member">SourceType::CDC</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.location<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;postgresql://localhost:5432/shop&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.options<sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;slot_name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;themis_orders&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;table_filter&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;orders,order_items&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;text_columns&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;status,description&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_events&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;10000&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_cdc_connector_1a203b2c46d353341eca5832d9836713ab" kindref="member">CdcConnector</ref><sp/>conn;</highlight></codeline>
+<codeline><highlight class="normal">conn.initialize(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>conn.ingest(</highlight><highlight class="stringliteral">&quot;orders_collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para>Example usage via <ref refid="classthemis_1_1ingestion_1_1_ingestion_builder" kindref="compound">IngestionBuilder</ref>: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mgr<sp/>=<sp/>IngestionBuilder(</highlight><highlight class="stringliteral">&quot;mydb&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.withCdcSource(</highlight><highlight class="stringliteral">&quot;orders_cdc&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;postgresql://localhost:5432/shop&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;slot_name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;themis_orders&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;table_filter&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;text_columns&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;status,description&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_events&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;10000&quot;</highlight><highlight class="normal">}})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.build();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>mgr-&gt;ingestAll();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::CdcConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_cdc_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::CdcConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_cdc_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/cdc_connector.h" line="104" column="1" bodyfile="include/ingestion/cdc_connector.h" bodystart="104" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1a203b2c46d353341eca5832d9836713ab" prot="public" virt="non-virtual"><scope>themis::ingestion::CdcConnector</scope><name>CdcConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1ac9d6906ac5d565c66cb1d793bd7563bd" prot="public" virt="non-virtual"><scope>themis::ingestion::CdcConnector</scope><name>CdcConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1a610dc51717f6045e80def9b1af3a182f" prot="public" virt="non-virtual"><scope>themis::ingestion::CdcConnector</scope><name>CdcEventFetchFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1a656c729b07f09c8c2f6ca4f129dd73bf" prot="public" virt="virtual"><scope>themis::ingestion::CdcConnector</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1a548be7edf1bd9c3438987a10224c2121" prot="private" virt="non-virtual"><scope>themis::ingestion::CdcConnector</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1a820751cc1ebda146953ce3d2c2cd708b" prot="public" virt="virtual"><scope>themis::ingestion::CdcConnector</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1aeab94d472f9f8ec473e1cad9c6cfa51a" prot="public" virt="virtual"><scope>themis::ingestion::CdcConnector</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1ad1c3f508536f22a56249e783e04cf30d" prot="public" virt="virtual"><scope>themis::ingestion::CdcConnector</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1a2ef9e1aedc28f1e60c6dcb31e4e7eb00" prot="public" virt="non-virtual"><scope>themis::ingestion::CdcConnector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1a8cb27e2b9fdf4d5138e57d5f0e1172ca" prot="public" virt="non-virtual"><scope>themis::ingestion::CdcConnector</scope><name>setCdcEventFetchForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1a762b4b0305a9c2a3e466d00c6e05df84" prot="public" virt="virtual"><scope>themis::ingestion::CdcConnector</scope><name>setDocumentValidator</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1aa96e260a1f24f19213a208c002feb714" prot="public" virt="non-virtual"><scope>themis::ingestion::CdcConnector</scope><name>setEventBatchProvider</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1aba46f319904aef583a9a04fa4593abf3" prot="public" virt="non-virtual"><scope>themis::ingestion::CdcConnector</scope><name>setRetryConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cdc_connector_1a7464fe7c5d897e1f94bf87037b34c14b" prot="public" virt="non-virtual"><scope>themis::ingestion::CdcConnector</scope><name>~CdcConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1af3935b3583056d092875221c07ecf7d4" prot="public" virt="virtual"><scope>themis::ingestion::CdcConnector</scope><name>~ISourceConnector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

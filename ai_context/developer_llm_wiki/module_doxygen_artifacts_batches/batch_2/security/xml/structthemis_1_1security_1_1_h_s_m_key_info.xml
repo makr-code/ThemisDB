@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_h_s_m_key_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::HSMKeyInfo</compoundname>
+    <includes refid="hsm__provider_8h" local="no">hsm_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_info_1a35cbe29662d85a537afa27876cc5dc28" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMKeyInfo::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::security::HSMKeyInfo::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="74" column="17" bodyfile="include/security/hsm_provider.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_info_1a3cfc00c3146c722b8df9664f5d4d2315" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMKeyInfo::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::security::HSMKeyInfo::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="75" column="17" bodyfile="include/security/hsm_provider.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_info_1acbd9301167295bb7e05fb2239773a483" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMKeyInfo::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::security::HSMKeyInfo::algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="76" column="17" bodyfile="include/security/hsm_provider.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_info_1a2c38c21197beb50c2b4fd2f404bce4b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::HSMKeyInfo::can_sign</definition>
+        <argsstring></argsstring>
+        <name>can_sign</name>
+        <qualifiedname>themis::security::HSMKeyInfo::can_sign</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="77" column="10" bodyfile="include/security/hsm_provider.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_info_1ae3e3313d0e003802b02e730662d14dc0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::HSMKeyInfo::can_verify</definition>
+        <argsstring></argsstring>
+        <name>can_verify</name>
+        <qualifiedname>themis::security::HSMKeyInfo::can_verify</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="78" column="10" bodyfile="include/security/hsm_provider.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_info_1abbef544552948bfc5488c7c9a5ee68ef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::HSMKeyInfo::extractable</definition>
+        <argsstring></argsstring>
+        <name>extractable</name>
+        <qualifiedname>themis::security::HSMKeyInfo::extractable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="79" column="10" bodyfile="include/security/hsm_provider.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_key_info_1a08a8270b66c1882c850207c68cf046f6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::HSMKeyInfo::key_size</definition>
+        <argsstring></argsstring>
+        <name>key_size</name>
+        <qualifiedname>themis::security::HSMKeyInfo::key_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="80" column="14" bodyfile="include/security/hsm_provider.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/hsm_provider.h" line="73" column="1" bodyfile="include/security/hsm_provider.h" bodystart="73" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_info_1acbd9301167295bb7e05fb2239773a483" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyInfo</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_info_1a2c38c21197beb50c2b4fd2f404bce4b1" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyInfo</scope><name>can_sign</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_info_1ae3e3313d0e003802b02e730662d14dc0" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyInfo</scope><name>can_verify</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_info_1abbef544552948bfc5488c7c9a5ee68ef" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyInfo</scope><name>extractable</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_info_1a3cfc00c3146c722b8df9664f5d4d2315" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyInfo</scope><name>id</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_info_1a08a8270b66c1882c850207c68cf046f6" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyInfo</scope><name>key_size</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_key_info_1a35cbe29662d85a537afa27876cc5dc28" prot="public" virt="non-virtual"><scope>themis::security::HSMKeyInfo</scope><name>label</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

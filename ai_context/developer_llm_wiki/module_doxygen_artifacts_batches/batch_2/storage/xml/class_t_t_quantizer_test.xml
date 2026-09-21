@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_t_t_quantizer_test" kind="class" language="C++" prot="public">
+    <compoundname>TTQuantizerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_t_t_quantizer_test_1a53df33d698a005de2ee56d53e3ccf0ac" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer" kindref="compound">TensorTrainDecomposer</ref></type>
+        <definition>TensorTrainDecomposer TTQuantizerTest::decomposer</definition>
+        <argsstring></argsstring>
+        <name>decomposer</name>
+        <qualifiedname>TTQuantizerTest::decomposer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="239" column="27" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_t_t_quantizer_test_1af642a5114daebb6f4e038f9414ade492" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_t_t_quantizer" kindref="compound">TTQuantizer</ref></type>
+        <definition>TTQuantizer TTQuantizerTest::quantizer</definition>
+        <argsstring></argsstring>
+        <name>quantizer</name>
+        <qualifiedname>TTQuantizerTest::quantizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="240" column="27" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TTQuantizerTest</label>
+        <link refid="class_t_t_quantizer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TTQuantizerTest</label>
+        <link refid="class_t_t_quantizer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>decomposer</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>quantizer</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::storage::TTQuantizer</label>
+        <link refid="classthemis_1_1storage_1_1_t_t_quantizer"/>
+      </node>
+      <node id="3">
+        <label>themis::storage::TensorTrainDecomposer</label>
+        <link refid="classthemis_1_1storage_1_1_tensor_train_decomposer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/storage/test_tensor_train_decomposer.cpp" line="237" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="237" bodyend="241"/>
+    <listofallmembers>
+      <member refid="class_t_t_quantizer_test_1a53df33d698a005de2ee56d53e3ccf0ac" prot="protected" virt="non-virtual"><scope>TTQuantizerTest</scope><name>decomposer</name></member>
+      <member refid="class_t_t_quantizer_test_1af642a5114daebb6f4e038f9414ade492" prot="protected" virt="non-virtual"><scope>TTQuantizerTest</scope><name>quantizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

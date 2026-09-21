@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_column_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::ColumnStatistics</compoundname>
+    <includes refid="schema__inference_8h" local="no">schema_inference.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_statistics_1a67a0f7e6fdb15ee98d11a42b84be67ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ColumnStatistics::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::importers::ColumnStatistics::column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="26" column="17" bodyfile="include/importers/schema_inference.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_statistics_1a9235807adeb1f12fd2cbf7d2362656da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ColumnStatistics::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::importers::ColumnStatistics::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="27" column="17" bodyfile="include/importers/schema_inference.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_statistics_1ab204f09134015500873659cd71521c85" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ColumnStatistics::total_rows</definition>
+        <argsstring></argsstring>
+        <name>total_rows</name>
+        <qualifiedname>themis::importers::ColumnStatistics::total_rows</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="28" column="12" bodyfile="include/importers/schema_inference.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_statistics_1a6d224170a10d465d55872132794952c2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ColumnStatistics::null_count</definition>
+        <argsstring></argsstring>
+        <name>null_count</name>
+        <qualifiedname>themis::importers::ColumnStatistics::null_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="29" column="12" bodyfile="include/importers/schema_inference.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_statistics_1a7fd0710bbf8e0d1885792c28386dc97e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ColumnStatistics::distinct_count</definition>
+        <argsstring></argsstring>
+        <name>distinct_count</name>
+        <qualifiedname>themis::importers::ColumnStatistics::distinct_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="30" column="12" bodyfile="include/importers/schema_inference.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_statistics_1ad04823869d02279f10c68482d797c286" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::ColumnStatistics::avg_length</definition>
+        <argsstring></argsstring>
+        <name>avg_length</name>
+        <qualifiedname>themis::importers::ColumnStatistics::avg_length</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="31" column="12" bodyfile="include/importers/schema_inference.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_statistics_1a2984b2792135bac5d92b4be14867efc5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::ColumnStatistics::min_value</definition>
+        <argsstring></argsstring>
+        <name>min_value</name>
+        <qualifiedname>themis::importers::ColumnStatistics::min_value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="32" column="12" bodyfile="include/importers/schema_inference.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_statistics_1a8bfc7e32fa8706e6b7e00b1e13124d4c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::ColumnStatistics::max_value</definition>
+        <argsstring></argsstring>
+        <name>max_value</name>
+        <qualifiedname>themis::importers::ColumnStatistics::max_value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="33" column="12" bodyfile="include/importers/schema_inference.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/schema_inference.h" line="25" column="1" bodyfile="include/importers/schema_inference.h" bodystart="25" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_column_statistics_1ad04823869d02279f10c68482d797c286" prot="public" virt="non-virtual"><scope>themis::importers::ColumnStatistics</scope><name>avg_length</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_statistics_1a67a0f7e6fdb15ee98d11a42b84be67ae" prot="public" virt="non-virtual"><scope>themis::importers::ColumnStatistics</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_statistics_1a7fd0710bbf8e0d1885792c28386dc97e" prot="public" virt="non-virtual"><scope>themis::importers::ColumnStatistics</scope><name>distinct_count</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_statistics_1a8bfc7e32fa8706e6b7e00b1e13124d4c" prot="public" virt="non-virtual"><scope>themis::importers::ColumnStatistics</scope><name>max_value</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_statistics_1a2984b2792135bac5d92b4be14867efc5" prot="public" virt="non-virtual"><scope>themis::importers::ColumnStatistics</scope><name>min_value</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_statistics_1a6d224170a10d465d55872132794952c2" prot="public" virt="non-virtual"><scope>themis::importers::ColumnStatistics</scope><name>null_count</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_statistics_1a9235807adeb1f12fd2cbf7d2362656da" prot="public" virt="non-virtual"><scope>themis::importers::ColumnStatistics</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_statistics_1ab204f09134015500873659cd71521c85" prot="public" virt="non-virtual"><scope>themis::importers::ColumnStatistics</scope><name>total_rows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

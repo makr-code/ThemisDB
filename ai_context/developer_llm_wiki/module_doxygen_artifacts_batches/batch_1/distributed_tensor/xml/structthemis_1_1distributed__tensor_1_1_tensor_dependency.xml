@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_tensor_dependency" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::TensorDependency</compoundname>
+    <includes refid="include_2distributed__tensor_2distributed__planner_8h" local="no">distributed_planner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_dependency_1a45f189792f444678ef885828fa4d8cf7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::TensorDependency::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::TensorDependency::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="65" column="13" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_dependency_1ace8ae8ab784c22a62571711af7fd61d3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397" kindref="member">ArtifactLifecycleStage</ref></type>
+        <definition>ArtifactLifecycleStage themis::distributed_tensor::TensorDependency::required_lifecycle_stage</definition>
+        <argsstring></argsstring>
+        <name>required_lifecycle_stage</name>
+        <qualifiedname>themis::distributed_tensor::TensorDependency::required_lifecycle_stage</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397a18ff74f43da410c5529f7d6fca84f115" kindref="member">ArtifactLifecycleStage::ACTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="66" column="24" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_dependency_1ae9a4cbe9200cb990b2ce9784be9c2f6f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::TensorDependency::is_required</definition>
+        <argsstring></argsstring>
+        <name>is_required</name>
+        <qualifiedname>themis::distributed_tensor::TensorDependency::is_required</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="67" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_dependency_1a5b682541d4c08b5200bdbbb68c3c8937" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::TensorDependency::max_staleness_seconds</definition>
+        <argsstring></argsstring>
+        <name>max_staleness_seconds</name>
+        <qualifiedname>themis::distributed_tensor::TensorDependency::max_staleness_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="68" column="10" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_dependency_1ad3384f41bf066eedbd65f692ba70de40" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::TensorDependency::allow_approximation</definition>
+        <argsstring></argsstring>
+        <name>allow_approximation</name>
+        <qualifiedname>themis::distributed_tensor::TensorDependency::allow_approximation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="69" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/distributed_planner.h" line="64" column="1" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="64" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_dependency_1ad3384f41bf066eedbd65f692ba70de40" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDependency</scope><name>allow_approximation</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_dependency_1a45f189792f444678ef885828fa4d8cf7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDependency</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_dependency_1ae9a4cbe9200cb990b2ce9784be9c2f6f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDependency</scope><name>is_required</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_dependency_1a5b682541d4c08b5200bdbbb68c3c8937" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDependency</scope><name>max_staleness_seconds</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_dependency_1ace8ae8ab784c22a62571711af7fd61d3" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDependency</scope><name>required_lifecycle_stage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

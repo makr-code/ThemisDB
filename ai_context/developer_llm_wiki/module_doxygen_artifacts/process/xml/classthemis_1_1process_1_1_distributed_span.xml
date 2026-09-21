@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_distributed_span" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::DistributedSpan</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_distributed_span_1a55ece8f8d46227fa2a982fae089ad8ea" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::DistributedSpan::operation_name_</definition>
+        <argsstring></argsstring>
+        <name>operation_name_</name>
+        <qualifiedname>themis::process::DistributedSpan::operation_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="232" column="15" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_distributed_span_1adb9d7ca94c4ed07180e3d3e4a99e3ef3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref></type>
+        <definition>TraceContext themis::process::DistributedSpan::context_</definition>
+        <argsstring></argsstring>
+        <name>context_</name>
+        <qualifiedname>themis::process::DistributedSpan::context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="233" column="16" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_distributed_span_1aa056bd42e77c6a48adc53ca361e476df" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::DistributedSpan::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themis::process::DistributedSpan::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="234" column="15" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_distributed_span_1a70f9282ec1aeeaff4dc30660e89b1738" prot="private" static="no" mutable="no">
+        <type>std::chrono::high_resolution_clock::time_point</type>
+        <definition>std::chrono::high_resolution_clock::time_point themis::process::DistributedSpan::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::process::DistributedSpan::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="235" column="50" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_distributed_span_1a29fe52c625997ba0134e5481ad556829" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::DistributedSpan::latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>latency_ms_</name>
+        <qualifiedname>themis::process::DistributedSpan::latency_ms_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="236" column="12" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_distributed_span_1a7a13354a05009bda7415a991913e0b7f" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::DistributedSpan::is_recorded_</definition>
+        <argsstring></argsstring>
+        <name>is_recorded_</name>
+        <qualifiedname>themis::process::DistributedSpan::is_recorded_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="237" column="8" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_distributed_span_1aacd7b64f1b35fa552ec1856863a35c6a" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::process::DistributedSpan::attributes_</definition>
+        <argsstring></argsstring>
+        <name>attributes_</name>
+        <qualifiedname>themis::process::DistributedSpan::attributes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="238" column="12" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_distributed_span_1ad7a7902949abc73d1f69edcfba8a3556" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::chrono::high_resolution_clock::time_point &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::chrono::high_resolution_clock::time_point&gt; &gt; themis::process::DistributedSpan::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>themis::process::DistributedSpan::events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="241" column="7" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_distributed_span_1a2e3517174403adf12b0ef08823022d80" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::DistributedSpan::DistributedSpan</definition>
+        <argsstring>(const std::string &amp;operation_name, const TraceContext &amp;context, const std::string &amp;node_id)</argsstring>
+        <name>DistributedSpan</name>
+        <qualifiedname>themis::process::DistributedSpan::DistributedSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="146" column="3" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="146" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_distributed_span_1a00aaccddda4aac2fa914d1d23c71b5bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::DistributedSpan::~DistributedSpan</definition>
+        <argsstring>()</argsstring>
+        <name>~DistributedSpan</name>
+        <qualifiedname>themis::process::DistributedSpan::~DistributedSpan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="158" column="3" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_distributed_span_1a1700545dda00e849217de1262a91ca14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::DistributedSpan::SetAttribute</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>SetAttribute</name>
+        <qualifiedname>themis::process::DistributedSpan::SetAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements SetAttribute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="166" column="8" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="166" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_distributed_span_1a0c1c507135ab12252a4bcaf82eb79670" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::DistributedSpan::SetAttribute</definition>
+        <argsstring>(const std::string &amp;key, uint64_t value)</argsstring>
+        <name>SetAttribute</name>
+        <qualifiedname>themis::process::DistributedSpan::SetAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="176" column="8" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_distributed_span_1abb9e26ea402bf65991853acb49284d60" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::DistributedSpan::SetAttribute</definition>
+        <argsstring>(const std::string &amp;key, double value)</argsstring>
+        <name>SetAttribute</name>
+        <qualifiedname>themis::process::DistributedSpan::SetAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="186" column="8" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="186" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_distributed_span_1ac68822e3891795bedfbd806a26cf76e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::DistributedSpan::RecordEvent</definition>
+        <argsstring>(const std::string &amp;event_name)</argsstring>
+        <name>RecordEvent</name>
+        <qualifiedname>themis::process::DistributedSpan::RecordEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_name</declname>
+        </param>
+        <briefdescription>
+<para>Record Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the event.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::chrono::high_resolution_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="195" column="8" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="195" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_distributed_span_1ac3af391bf5c4602fc792aeb286204305" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::DistributedSpan::End</definition>
+        <argsstring>()</argsstring>
+        <name>End</name>
+        <qualifiedname>themis::process::DistributedSpan::End</qualifiedname>
+        <briefdescription>
+<para>End. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::high_resolution_clock::now(), count(), utils::Logger::Debug(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="204" column="8" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="204" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_distributed_span_1a1461f0d1f693188b30988297776ef68f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::process::DistributedSpan::GetOperationName</definition>
+        <argsstring>() const</argsstring>
+        <name>GetOperationName</name>
+        <qualifiedname>themis::process::DistributedSpan::GetOperationName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="224" column="21" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_distributed_span_1a03115841e6fa5928d1eeffd0c4a89d91" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref> &amp;</type>
+        <definition>const TraceContext &amp; themis::process::DistributedSpan::GetContext</definition>
+        <argsstring>() const</argsstring>
+        <name>GetContext</name>
+        <qualifiedname>themis::process::DistributedSpan::GetContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="225" column="22" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_distributed_span_1a91ec122436ebc2cc73695edf6137fa6c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::DistributedSpan::GetLatencyMs</definition>
+        <argsstring>() const</argsstring>
+        <name>GetLatencyMs</name>
+        <qualifiedname>themis::process::DistributedSpan::GetLatencyMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="226" column="12" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="226" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_distributed_span_1a2dcfa2e5991866a5b058f143ae0193aa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+        <definition>const std::map&lt; std::string, std::string &gt; &amp; themis::process::DistributedSpan::GetAttributes</definition>
+        <argsstring>() const</argsstring>
+        <name>GetAttributes</name>
+        <qualifiedname>themis::process::DistributedSpan::GetAttributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="227" column="18" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="227" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/process/process_telemetry_integration.cpp" line="144" column="1" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="144" bodyend="242"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1aacd7b64f1b35fa552ec1856863a35c6a" prot="private" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>attributes_</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1adb9d7ca94c4ed07180e3d3e4a99e3ef3" prot="private" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>context_</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a2e3517174403adf12b0ef08823022d80" prot="public" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>DistributedSpan</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1ac3af391bf5c4602fc792aeb286204305" prot="public" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>End</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1ad7a7902949abc73d1f69edcfba8a3556" prot="private" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>events_</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a2dcfa2e5991866a5b058f143ae0193aa" prot="public" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>GetAttributes</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a03115841e6fa5928d1eeffd0c4a89d91" prot="public" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>GetContext</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a91ec122436ebc2cc73695edf6137fa6c" prot="public" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>GetLatencyMs</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a1461f0d1f693188b30988297776ef68f" prot="public" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>GetOperationName</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a7a13354a05009bda7415a991913e0b7f" prot="private" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>is_recorded_</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a29fe52c625997ba0134e5481ad556829" prot="private" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>latency_ms_</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1aa056bd42e77c6a48adc53ca361e476df" prot="private" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>node_id_</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a55ece8f8d46227fa2a982fae089ad8ea" prot="private" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>operation_name_</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1ac68822e3891795bedfbd806a26cf76e7" prot="public" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>RecordEvent</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a1700545dda00e849217de1262a91ca14" prot="public" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>SetAttribute</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a0c1c507135ab12252a4bcaf82eb79670" prot="public" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>SetAttribute</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1abb9e26ea402bf65991853acb49284d60" prot="public" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>SetAttribute</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a70f9282ec1aeeaff4dc30660e89b1738" prot="private" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1process_1_1_distributed_span_1a00aaccddda4aac2fa914d1d23c71b5bc" prot="public" virt="non-virtual"><scope>themis::process::DistributedSpan</scope><name>~DistributedSpan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

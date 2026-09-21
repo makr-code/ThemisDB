@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="iconnection__policy_8h" kind="file" language="C++">
+    <compoundname>iconnection_policy.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includedby refid="edition__manager_8h" local="yes">include/themis/edition_manager.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/network/iconnection_policy.h</label>
+        <link refid="iconnection__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/themis/edition_manager.h</label>
+        <link refid="edition__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/network/iconnection_policy.h</label>
+        <link refid="iconnection__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/themis/edition_manager.cpp</label>
+        <link refid="edition__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/themis/test_themis_integration.cpp</label>
+        <link refid="test__themis__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1network_1_1_i_connection_policy" prot="public">themis::network::IConnectionPolicy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>Abstract connection-limit policy for HTTP/2 streams, SSE, and total server connections in ThemisDB. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Governs four connection-admission axes: concurrent HTTP/2 streams per physical connection, total SSE long-poll connections, total simultaneous server connections, and SSE event emission rate. Sits in Tier 2 of the four-tier resource-governance chain:</para>
+<para><programlisting><codeline><highlight class="normal">compile-time<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>(edition.h)<sp/><sp/><sp/>←<sp/>absolute<sp/>ceiling,<sp/>never<sp/>overridable</highlight></codeline>
+<codeline><highlight class="normal">RuntimeLicenseGate<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>←<sp/>edition-tier<sp/>ceiling</highlight></codeline>
+<codeline><highlight class="normal">IConnectionPolicy<sp/><sp/><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>file)<sp/><sp/><sp/><sp/><sp/><sp/>←<sp/></highlight><highlight class="keywordtype">signed</highlight><highlight class="normal">-plugin<sp/>fine-tuning</highlight></codeline>
+<codeline><highlight class="normal">ConnectionConfig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>←<sp/>per-deployment<sp/>operational<sp/>tuning</highlight></codeline>
+</programlisting></para>
+<para>All implementations must be individually thread-safe.</para>
+<para><simplesect kind="note"><para>This interface is part of the edition-policy plugin contract (IEditionPolicyPlugin::createConnectionPolicy). Claimed limits are validated against the compile-time ceilings in <ref refid="edition_8h" kindref="compound">edition.h</ref> (CONNECTION_MAX_HTTP2_STREAMS, CONNECTION_MAX_SSE_CONNECTIONS, CONNECTION_MAX_TOTAL, CONNECTION_MAX_SSE_EVENTS_PER_SEC) before EditionManager accepts the policy. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1network" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">network</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1network_1_1_i_connection_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1network_1_1_i_connection_policy_1ab6411c6781491e22f036142f57ed20e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1ab6411c6781491e22f036142f57ed20e6" kindref="member">~IConnectionPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable<sp/>by<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1network_1_1_i_connection_policy_1a7384f9edf2f9278bff3bad5c1d322d05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7384f9edf2f9278bff3bad5c1d322d05" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HTTP/2<sp/>stream<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1network_1_1_i_connection_policy_1ae6d1143e91fe7dea8bf782e71bfb965c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1ae6d1143e91fe7dea8bf782e71bfb965c" kindref="member">canOpenStream</ref>(uint32_t<sp/>current_streams)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1network_1_1_i_connection_policy_1a9be7d43bc14e43054a17333d295fa8c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a9be7d43bc14e43054a17333d295fa8c5" kindref="member">maxHttp2StreamsPerConnection</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SSE<sp/>connection<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1network_1_1_i_connection_policy_1ace0e0bebcc1bc09c66d1d28660e24902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1ace0e0bebcc1bc09c66d1d28660e24902" kindref="member">canOpenSSEConnection</ref>()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1network_1_1_i_connection_policy_1a8d6f950a995e46f00aeb6d2746beffdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a8d6f950a995e46f00aeb6d2746beffdf" kindref="member">onSSEConnectionOpened</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1network_1_1_i_connection_policy_1ab82273bc5b3c40bfb2258e5b7e837dfb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1ab82273bc5b3c40bfb2258e5b7e837dfb" kindref="member">onSSEConnectionClosed</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1network_1_1_i_connection_policy_1a15dc3c7ced246ac03a1af0cb522a4356" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>uint32_t<sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a15dc3c7ced246ac03a1af0cb522a4356" kindref="member">maxSSEConnections</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>connection<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1network_1_1_i_connection_policy_1a76f4f20959c6154106f243a038ec48ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a76f4f20959c6154106f243a038ec48ed" kindref="member">canAcceptConnection</ref>()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1network_1_1_i_connection_policy_1a8f9a648b972d134776640df0cf69b376" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a8f9a648b972d134776640df0cf69b376" kindref="member">onConnectionAccepted</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1network_1_1_i_connection_policy_1a993c0cb209d0c98696f1ad1350dd3b4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a993c0cb209d0c98696f1ad1350dd3b4a" kindref="member">onConnectionClosed</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1network_1_1_i_connection_policy_1a293ce7b69531d9ec27cb439650d34a0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>uint32_t<sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a293ce7b69531d9ec27cb439650d34a0c" kindref="member">activeConnections</ref>()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1network_1_1_i_connection_policy_1aea972092c759139d145d756eadc80d8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>uint32_t<sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1aea972092c759139d145d756eadc80d8e" kindref="member">maxTotalConnections</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SSE<sp/>event<sp/>emission<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1network_1_1_i_connection_policy_1a6665365b0db204a949b891eadd2bc542" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a6665365b0db204a949b891eadd2bc542" kindref="member">allowSSEEvent</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1network_1_1_i_connection_policy_1a35d33ff0f959bfd5b5a3276ea7ff14c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>uint32_t<sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a35d33ff0f959bfd5b5a3276ea7ff14c2" kindref="member">maxSSEEventsPerSecond</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1network_1_1_i_connection_policy_1a5942c052a4e9986de84ec60511967eb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a5942c052a4e9986de84ec60511967eb1" kindref="member">isEnforced</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">protected:</highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1network_1_1_i_connection_policy_1a7823c7094279ab28bfbd8d16cf78e14b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1network_1_1_i_connection_policy_1aa9c48f7a84d21f9af2d0a85868dce520" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref>(<ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1network_1_1_i_connection_policy_1ab1e0531fa543fb63646366ab377c3382" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1network_1_1_i_connection_policy_1a7bc21e85a5f4c9f9944e740c06588f4e" kindref="member">IConnectionPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/network/iconnection_policy.h"/>
+  </compounddef>
+</doxygen>

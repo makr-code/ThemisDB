@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_pager_duty_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::PagerDutyConfig</compoundname>
+    <includes refid="notification__webhook_8h" local="no">notification_webhook.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_pager_duty_config_1ad355137b86a5834a6a79bd6ebf6e3dfd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::PagerDutyConfig::routing_key</definition>
+        <argsstring></argsstring>
+        <name>routing_key</name>
+        <qualifiedname>themis::updates::PagerDutyConfig::routing_key</qualifiedname>
+        <briefdescription>
+<para>Integration / routing key (32-character hex string). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="94" column="17" bodyfile="include/updates/notification_webhook.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_pager_duty_config_1a39ae19346d3af850b7fb094b6bfe9036" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::PagerDutyConfig::service_name</definition>
+        <argsstring></argsstring>
+        <name>service_name</name>
+        <qualifiedname>themis::updates::PagerDutyConfig::service_name</qualifiedname>
+        <initializer>{&quot;ThemisDB&quot;}</initializer>
+        <briefdescription>
+<para>Human-readable service name used in alert summaries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="97" column="17" bodyfile="include/updates/notification_webhook.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_pager_duty_config_1accb6ff569de932632091bc9da2780cad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::PagerDutyConfig::events_api_url</definition>
+        <argsstring></argsstring>
+        <name>events_api_url</name>
+        <qualifiedname>themis::updates::PagerDutyConfig::events_api_url</qualifiedname>
+        <initializer>{
+        &quot;https://events.pagerduty.com/v2/enqueue&quot;}</initializer>
+        <briefdescription>
+<para>PagerDuty Events API v2 endpoint (override for testing / proxies). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="100" column="17" bodyfile="include/updates/notification_webhook.h" bodystart="100" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the PagerDuty Events API v2. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Obtain the routing_key (integration key) from your PagerDuty service&apos;s &quot;Integrations&quot; tab when using the &quot;Events API v2&quot; integration type. </para>
+    </detaileddescription>
+    <location file="include/updates/notification_webhook.h" line="92" column="1" bodyfile="include/updates/notification_webhook.h" bodystart="92" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_pager_duty_config_1accb6ff569de932632091bc9da2780cad" prot="public" virt="non-virtual"><scope>themis::updates::PagerDutyConfig</scope><name>events_api_url</name></member>
+      <member refid="structthemis_1_1updates_1_1_pager_duty_config_1ad355137b86a5834a6a79bd6ebf6e3dfd" prot="public" virt="non-virtual"><scope>themis::updates::PagerDutyConfig</scope><name>routing_key</name></member>
+      <member refid="structthemis_1_1updates_1_1_pager_duty_config_1a39ae19346d3af850b7fb094b6bfe9036" prot="public" virt="non-virtual"><scope>themis::updates::PagerDutyConfig</scope><name>service_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

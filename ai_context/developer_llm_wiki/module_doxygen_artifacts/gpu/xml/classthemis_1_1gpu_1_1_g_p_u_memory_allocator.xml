@@ -1,0 +1,688 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMemoryAllocator</compoundname>
+    <includes refid="gpu__memory__allocator_8h" local="no">gpu_memory_allocator.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config" prot="public">themis::gpu::GPUMemoryAllocator::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a229d230694f69ee3635b7bd6ea08a69a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Strategy</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::Strategy</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a229d230694f69ee3635b7bd6ea08a69aaf85e332d28ad3c80c0404a9e49d1d76c" prot="public">
+          <name>CUDAMALLOC</name>
+          <briefdescription>
+<para>Direct cudaMalloc (may fragment). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a229d230694f69ee3635b7bd6ea08a69aa3723dd51f7096564a8322889e10d981d" prot="public">
+          <name>UNIFIED_MEMORY</name>
+          <briefdescription>
+<para>CUDA unified memory (automatic transfers). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a229d230694f69ee3635b7bd6ea08a69aa239ae17cbcc624e85d1552622328e8dd" prot="public">
+          <name>PINNED_HOST</name>
+          <briefdescription>
+<para>Pinned host memory for DMA. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="39" column="5" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="39" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ad527375b9f9e03b840d378e346a27490" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::gpu::GPUMemoryAllocator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="166" column="12" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1addf39a3ffd09ad72488252f8e519421b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref> &gt;</type>
+        <definition>std::vector&lt;MemoryAllocation&gt; themis::gpu::GPUMemoryAllocator::allocations_</definition>
+        <argsstring></argsstring>
+        <name>allocations_</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::allocations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="167" column="17" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1aa4b571484b6fdf1b3696ed75d27bf4f7" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryAllocator::next_alloc_id_</definition>
+        <argsstring></argsstring>
+        <name>next_alloc_id_</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::next_alloc_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="168" column="14" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1abdf1c80ea2c041efbe4e3d25e74cf811" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryAllocator::is_moved_from_</definition>
+        <argsstring></argsstring>
+        <name>is_moved_from_</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::is_moved_from_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="169" column="10" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a8446623f4fea5b53b079e6953de13109" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryAllocator::GPUMemoryAllocator</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>GPUMemoryAllocator</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::GPUMemoryAllocator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="54" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a8a17c98ab4cc26ea8dd80c0e30a22948" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryAllocator::GPUMemoryAllocator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>GPUMemoryAllocator</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::GPUMemoryAllocator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>GPUMemory Allocator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="61" column="14" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="27" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ae3d494dc9fed60cf8f66ac62199263ec" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryAllocator::~GPUMemoryAllocator</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~GPUMemoryAllocator</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::~GPUMemoryAllocator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="63" column="5" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1af1413f012059b7b33f159b84a7b5025c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryAllocator::GPUMemoryAllocator</definition>
+        <argsstring>(GPUMemoryAllocator &amp;&amp;other) noexcept</argsstring>
+        <name>GPUMemoryAllocator</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::GPUMemoryAllocator</qualifiedname>
+        <param>
+          <type>GPUMemoryAllocator &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="67" column="5" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="70" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1aa9ea784a92f4b27bbc8e3dcbf7f9e6ae" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a8446623f4fea5b53b079e6953de13109" kindref="member">GPUMemoryAllocator</ref> &amp;</type>
+        <definition>GPUMemoryAllocator &amp; themis::gpu::GPUMemoryAllocator::operator=</definition>
+        <argsstring>(GPUMemoryAllocator &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a8446623f4fea5b53b079e6953de13109" kindref="member">GPUMemoryAllocator</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="69" column="24" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="82" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a4563d320057bf440cf8ee322ae1e61e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryAllocator::GPUMemoryAllocator</definition>
+        <argsstring>(const GPUMemoryAllocator &amp;)=delete</argsstring>
+        <name>GPUMemoryAllocator</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::GPUMemoryAllocator</qualifiedname>
+        <param>
+          <type>const GPUMemoryAllocator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="72" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ac7b4990b0aadc207666b07161133668f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a8446623f4fea5b53b079e6953de13109" kindref="member">GPUMemoryAllocator</ref> &amp;</type>
+        <definition>GPUMemoryAllocator &amp; themis::gpu::GPUMemoryAllocator::operator=</definition>
+        <argsstring>(const GPUMemoryAllocator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a8446623f4fea5b53b079e6953de13109" kindref="member">GPUMemoryAllocator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="73" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ae028c2252f0c6b82adae027ca6d26aa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref></type>
+        <definition>MemoryAllocation themis::gpu::GPUMemoryAllocator::allocate</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para><mdash/> Memory operations <mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allocate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::high_resolution_clock::now(), time_since_epoch(), count(), <ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1ad8aacbfd811f09b0f94d4b07251f3b8c" kindref="member">GPUBackendDispatchDiagnostics::emitDiagnostic()</ref>, std::to_string(), <ref refid="gpu__safe__operations_8h_1a4ecdf944440947b7052c1b8fd828e74f" kindref="member">cudaMalloc()</ref>, std::string(), <ref refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" kindref="member">cudaGetErrorString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="81" column="22" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="113" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a281ec875e1e8810146f6cf0bcb103dc5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryAllocator::deallocate</definition>
+        <argsstring>(const MemoryAllocation &amp;alloc) noexcept</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::deallocate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref> &amp;</type>
+          <declname>alloc</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alloc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="88" column="10" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="209" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1af7ba440a1af74665e87d3bc79cfc460b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref></type>
+        <definition>MemoryAllocation themis::gpu::GPUMemoryAllocator::reallocate</definition>
+        <argsstring>(const MemoryAllocation &amp;alloc, size_t new_size)</argsstring>
+        <name>reallocate</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::reallocate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref> &amp;</type>
+          <declname>alloc</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>new_size</declname>
+        </param>
+        <briefdescription>
+<para>Reallocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alloc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alloc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ae028c2252f0c6b82adae027ca6d26aa9" kindref="member">allocate()</ref>, std::min(), cudaMemcpy(), <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a281ec875e1e8810146f6cf0bcb103dc5" kindref="member">deallocate()</ref>, std::string(), <ref refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" kindref="member">cudaGetErrorString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="96" column="22" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="240" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a6d02ca290227969131d03050d9de5096" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryAllocator::copy_to_device</definition>
+        <argsstring>(const MemoryAllocation &amp;alloc, const void *host_data, size_t size) const</argsstring>
+        <name>copy_to_device</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::copy_to_device</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref> &amp;</type>
+          <declname>alloc</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>host_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Copy to device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alloc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">host_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="104" column="10" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="270" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a3645795741a2c7fe45861dcb76276cd6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryAllocator::copy_from_device</definition>
+        <argsstring>(void *host_data, const MemoryAllocation &amp;alloc, size_t size) const</argsstring>
+        <name>copy_from_device</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::copy_from_device</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>host_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref> &amp;</type>
+          <declname>alloc</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Copy from device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">host_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alloc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="113" column="10" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="286" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a9ea66ee30f908d4bbc162311e6cfd97e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryAllocator::is_moved_from</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_moved_from</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::is_moved_from</qualifiedname>
+        <briefdescription>
+<para><mdash/> State and diagnostics <mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="123" column="10" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="303" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1aff3914c542a2f5cf75a04858654deed6" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryAllocator::is_initialized</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_initialized</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::is_initialized</qualifiedname>
+        <briefdescription>
+<para>Is initialized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="130" column="10" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="307" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a4285bdc0351016038e842f34b49d5203" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const GPUMemoryAllocator::Config &amp; themis::gpu::GPUMemoryAllocator::get_config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get_config</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::get_config</qualifiedname>
+        <briefdescription>
+<para>Get config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="137" column="18" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="311" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ac6f6e9a823bd3a19fefd8a96e87be27f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryAllocator::available_memory</definition>
+        <argsstring>() const</argsstring>
+        <name>available_memory</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::available_memory</qualifiedname>
+        <briefdescription>
+<para>Available memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="143" column="12" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="315" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a61b1376170eca6b4b1eb49c241bd4409" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryAllocator::allocated_memory</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>allocated_memory</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::allocated_memory</qualifiedname>
+        <briefdescription>
+<para>Allocated memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="150" column="12" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="329" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a9d00909b1c0c977e4823bd7d4553d3d0" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryAllocator::allocation_count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>allocation_count</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::allocation_count</qualifiedname>
+        <briefdescription>
+<para>Allocation count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="157" column="12" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="337" bodyend="339"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a3b05bdc67cbd42ea8707c96ad74f37f7" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryAllocator::cleanup</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="164" column="10" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="341" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_memory_allocator.h" line="37" column="1" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="37" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ae028c2252f0c6b82adae027ca6d26aa9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a61b1376170eca6b4b1eb49c241bd4409" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>allocated_memory</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a9d00909b1c0c977e4823bd7d4553d3d0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>allocation_count</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1addf39a3ffd09ad72488252f8e519421b" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>allocations_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ac6f6e9a823bd3a19fefd8a96e87be27f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>available_memory</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a3b05bdc67cbd42ea8707c96ad74f37f7" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ad527375b9f9e03b840d378e346a27490" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a3645795741a2c7fe45861dcb76276cd6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>copy_from_device</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a6d02ca290227969131d03050d9de5096" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>copy_to_device</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a281ec875e1e8810146f6cf0bcb103dc5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a4285bdc0351016038e842f34b49d5203" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>get_config</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a8446623f4fea5b53b079e6953de13109" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>GPUMemoryAllocator</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a8a17c98ab4cc26ea8dd80c0e30a22948" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>GPUMemoryAllocator</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1af1413f012059b7b33f159b84a7b5025c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>GPUMemoryAllocator</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a4563d320057bf440cf8ee322ae1e61e8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>GPUMemoryAllocator</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1aff3914c542a2f5cf75a04858654deed6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>is_initialized</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a9ea66ee30f908d4bbc162311e6cfd97e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>is_moved_from</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1abdf1c80ea2c041efbe4e3d25e74cf811" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>is_moved_from_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1aa4b571484b6fdf1b3696ed75d27bf4f7" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>next_alloc_id_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1aa9ea784a92f4b27bbc8e3dcbf7f9e6ae" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ac7b4990b0aadc207666b07161133668f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1af7ba440a1af74665e87d3bc79cfc460b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>reallocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a229d230694f69ee3635b7bd6ea08a69a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>Strategy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1ae3d494dc9fed60cf8f66ac62199263ec" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator</scope><name>~GPUMemoryAllocator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

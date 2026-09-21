@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUP2PTransferManager::Stats</compoundname>
+    <includes refid="p2p__transfer_8h" local="no">p2p_transfer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a5fff1687556726091c114b90b3425583" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUP2PTransferManager::Stats::total_transfers</definition>
+        <argsstring></argsstring>
+        <name>total_transfers</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::Stats::total_transfers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a071f4b9afdcf0c2a9b473991898d9162" kindref="member">transfer()</ref> calls that returned OK </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="102" column="16" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a274b6aee2762ca11b4f3be291e703378" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUP2PTransferManager::Stats::bytes_transferred</definition>
+        <argsstring></argsstring>
+        <name>bytes_transferred</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::Stats::bytes_transferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes transferred across all OK transfers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="103" column="16" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a5066ce62a8f3cbfb550246fd7115a3c1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUP2PTransferManager::Stats::nvlink_transfers</definition>
+        <argsstring></argsstring>
+        <name>nvlink_transfers</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::Stats::nvlink_transfers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Transfers routed through NVLink. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="104" column="16" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1ae624e9037afb0fb2fefcafb73f66ff8e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUP2PTransferManager::Stats::pcie_transfers</definition>
+        <argsstring></argsstring>
+        <name>pcie_transfers</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::Stats::pcie_transfers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Transfers routed through PCIe P2P. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="105" column="16" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a4c7286fc39f40e3ca38bd81f302fcc03" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUP2PTransferManager::Stats::cpu_fallback_transfers</definition>
+        <argsstring></argsstring>
+        <name>cpu_fallback_transfers</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::Stats::cpu_fallback_transfers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Transfers via CPU simulation (no HW P2P). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="106" column="16" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a2c285608d7b2f1ebb7ba8441cd396740" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUP2PTransferManager::Stats::failed_transfers</definition>
+        <argsstring></argsstring>
+        <name>failed_transfers</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::Stats::failed_transfers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a071f4b9afdcf0c2a9b473991898d9162" kindref="member">transfer()</ref> calls that returned an error </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="107" column="16" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a472d80734700078d6ce57c7151aa860c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUP2PTransferManager::Stats::peer_access_enabled_count</definition>
+        <argsstring></argsstring>
+        <name>peer_access_enabled_count</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::Stats::peer_access_enabled_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful <ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1a5ddb067fda113141e11b95c4f1e94d6a" kindref="member">enablePeerAccess()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="108" column="16" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a83d3f94e4306ac4a939afdeeb8658022" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUP2PTransferManager::Stats::peer_access_disabled_count</definition>
+        <argsstring></argsstring>
+        <name>peer_access_disabled_count</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::Stats::peer_access_disabled_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful <ref refid="classthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1ad755979bed799a2785bafe0a44f7ba42" kindref="member">disablePeerAccess()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="109" column="16" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/p2p_transfer.h" line="101" column="5" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="101" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a274b6aee2762ca11b4f3be291e703378" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::Stats</scope><name>bytes_transferred</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a4c7286fc39f40e3ca38bd81f302fcc03" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::Stats</scope><name>cpu_fallback_transfers</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a2c285608d7b2f1ebb7ba8441cd396740" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::Stats</scope><name>failed_transfers</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a5066ce62a8f3cbfb550246fd7115a3c1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::Stats</scope><name>nvlink_transfers</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1ae624e9037afb0fb2fefcafb73f66ff8e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::Stats</scope><name>pcie_transfers</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a83d3f94e4306ac4a939afdeeb8658022" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::Stats</scope><name>peer_access_disabled_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a472d80734700078d6ce57c7151aa860c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::Stats</scope><name>peer_access_enabled_count</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_stats_1a5fff1687556726091c114b90b3425583" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::Stats</scope><name>total_transfers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

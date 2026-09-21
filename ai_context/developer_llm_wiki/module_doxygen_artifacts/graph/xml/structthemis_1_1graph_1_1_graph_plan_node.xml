@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_plan_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphPlanNode</compoundname>
+    <includes refid="explain__plan_8h" local="no">explain_plan.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_plan_node_1a97c5349519f197316e1575b46a32c973" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphPlanNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::graph::GraphPlanNode::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="43" column="17" bodyfile="include/graph/explain_plan.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_plan_node_1a72b9682e2c18edacf8c06cc3bf3201c9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1a18e478963878085a497859cd59ca6ce2" kindref="member">GraphPlanNodeType</ref></type>
+        <definition>GraphPlanNodeType themis::graph::GraphPlanNode::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::graph::GraphPlanNode::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="44" column="23" bodyfile="include/graph/explain_plan.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_plan_node_1a2a007d3556b93fafc72a4b332c5b87ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphPlanNode::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::graph::GraphPlanNode::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="45" column="17" bodyfile="include/graph/explain_plan.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_plan_node_1a8e6d6b3b53e2075b11dd09d28006bd3b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GraphPlanNode::child_node_ids</definition>
+        <argsstring></argsstring>
+        <name>child_node_ids</name>
+        <qualifiedname>themis::graph::GraphPlanNode::child_node_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="46" column="17" bodyfile="include/graph/explain_plan.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_plan_node_1a16e792c31b4db328e9f9953c820c3f90" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::graph::GraphPlanNode::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::graph::GraphPlanNode::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="47" column="14" bodyfile="include/graph/explain_plan.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_plan_node_1a106fdb592557a76c6e27b81dc17a2dc4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphPlanNode::estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost</name>
+        <qualifiedname>themis::graph::GraphPlanNode::estimated_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="48" column="12" bodyfile="include/graph/explain_plan.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_plan_node_1ad841be88fc49ca10db4997479c762874" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphPlanNode::estimated_rows</definition>
+        <argsstring></argsstring>
+        <name>estimated_rows</name>
+        <qualifiedname>themis::graph::GraphPlanNode::estimated_rows</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="49" column="12" bodyfile="include/graph/explain_plan.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_plan_node_1a63a2bf10cd465c97ff5642b4469ceb02" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphPlanNode::actual_ms</definition>
+        <argsstring></argsstring>
+        <name>actual_ms</name>
+        <qualifiedname>themis::graph::GraphPlanNode::actual_ms</qualifiedname>
+        <initializer>= -1.0</initializer>
+        <briefdescription>
+<para>-1 = not executed (EXPLAIN only) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="50" column="12" bodyfile="include/graph/explain_plan.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_plan_node_1a947e83b570b5eb9596238a0ae582cc01" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphPlanNode::actual_rows</definition>
+        <argsstring></argsstring>
+        <name>actual_rows</name>
+        <qualifiedname>themis::graph::GraphPlanNode::actual_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/explain_plan.h" line="51" column="12" bodyfile="include/graph/explain_plan.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/explain_plan.h" line="42" column="1" bodyfile="include/graph/explain_plan.h" bodystart="42" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_plan_node_1a63a2bf10cd465c97ff5642b4469ceb02" prot="public" virt="non-virtual"><scope>themis::graph::GraphPlanNode</scope><name>actual_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_plan_node_1a947e83b570b5eb9596238a0ae582cc01" prot="public" virt="non-virtual"><scope>themis::graph::GraphPlanNode</scope><name>actual_rows</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_plan_node_1a8e6d6b3b53e2075b11dd09d28006bd3b" prot="public" virt="non-virtual"><scope>themis::graph::GraphPlanNode</scope><name>child_node_ids</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_plan_node_1a2a007d3556b93fafc72a4b332c5b87ea" prot="public" virt="non-virtual"><scope>themis::graph::GraphPlanNode</scope><name>description</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_plan_node_1a106fdb592557a76c6e27b81dc17a2dc4" prot="public" virt="non-virtual"><scope>themis::graph::GraphPlanNode</scope><name>estimated_cost</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_plan_node_1ad841be88fc49ca10db4997479c762874" prot="public" virt="non-virtual"><scope>themis::graph::GraphPlanNode</scope><name>estimated_rows</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_plan_node_1a97c5349519f197316e1575b46a32c973" prot="public" virt="non-virtual"><scope>themis::graph::GraphPlanNode</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_plan_node_1a16e792c31b4db328e9f9953c820c3f90" prot="public" virt="non-virtual"><scope>themis::graph::GraphPlanNode</scope><name>properties</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_plan_node_1a72b9682e2c18edacf8c06cc3bf3201c9" prot="public" virt="non-virtual"><scope>themis::graph::GraphPlanNode</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

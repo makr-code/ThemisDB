@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever" kind="class" language="C++" prot="public">
+    <compoundname>themis::retrieval::testing::MockANNRetriever</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a8b8c63f1431b8a277a0cf2c4592dd3f6" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;float&gt; &gt; themis::retrieval::testing::MockANNRetriever::vectors_</definition>
+        <argsstring></argsstring>
+        <name>vectors_</name>
+        <qualifiedname>themis::retrieval::testing::MockANNRetriever::vectors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="160" column="24" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1adbda8bc12a9e047b35c0671e163a8757" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::retrieval::testing::MockANNRetriever::ann_search_time_us_</definition>
+        <argsstring></argsstring>
+        <name>ann_search_time_us_</name>
+        <qualifiedname>themis::retrieval::testing::MockANNRetriever::ann_search_time_us_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="161" column="9" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="161" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a65173bf8c58b9e17cc7d19d051c37625" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::MockANNRetriever::MockANNRetriever</definition>
+        <argsstring>()</argsstring>
+        <name>MockANNRetriever</name>
+        <qualifiedname>themis::retrieval::testing::MockANNRetriever::MockANNRetriever</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="109" column="5" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1aadbc3f113bf1cf10a71ac92a993abdb8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result" kindref="compound">RetrievalResult</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievalResult &gt; themis::retrieval::testing::MockANNRetriever::retrieveANN</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_vector, size_t top_k=10)</argsstring>
+        <name>retrieveANN</name>
+        <qualifiedname>themis::retrieval::testing::MockANNRetriever::retrieveANN</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform ANN-based retrieval Simulates approximate nearest neighbor search </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="115" column="17" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="115" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a20e0eae7fcf3251538cb564ddfebef67" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::retrieval::testing::MockANNRetriever::addVector</definition>
+        <argsstring>(const std::string &amp;id, const std::vector&lt; float &gt; &amp;vector)</argsstring>
+        <name>addVector</name>
+        <qualifiedname>themis::retrieval::testing::MockANNRetriever::addVector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="147" column="10" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a097d32e38d9ea454dad55b57a2d8767c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::retrieval::testing::MockANNRetriever::clearVectors</definition>
+        <argsstring>()</argsstring>
+        <name>clearVectors</name>
+        <qualifiedname>themis::retrieval::testing::MockANNRetriever::clearVectors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="151" column="10" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a4fca56109fab1ecb8bd633f8c1e4a600" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::retrieval::testing::MockANNRetriever::vectorCount</definition>
+        <argsstring>() const</argsstring>
+        <name>vectorCount</name>
+        <qualifiedname>themis::retrieval::testing::MockANNRetriever::vectorCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="155" column="12" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="155" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a9878496a6030052b12633179c546992e" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::retrieval::testing::MockANNRetriever::computeDistance</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>computeDistance</name>
+        <qualifiedname>themis::retrieval::testing::MockANNRetriever::computeDistance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="163" column="11" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="163" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock implementation of ANN-based retrieval. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="107" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="107" bodyend="176"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a20e0eae7fcf3251538cb564ddfebef67" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::MockANNRetriever</scope><name>addVector</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1adbda8bc12a9e047b35c0671e163a8757" prot="private" virt="non-virtual"><scope>themis::retrieval::testing::MockANNRetriever</scope><name>ann_search_time_us_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a097d32e38d9ea454dad55b57a2d8767c" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::MockANNRetriever</scope><name>clearVectors</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a9878496a6030052b12633179c546992e" prot="private" virt="non-virtual"><scope>themis::retrieval::testing::MockANNRetriever</scope><name>computeDistance</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a65173bf8c58b9e17cc7d19d051c37625" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::MockANNRetriever</scope><name>MockANNRetriever</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1aadbc3f113bf1cf10a71ac92a993abdb8" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::MockANNRetriever</scope><name>retrieveANN</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a4fca56109fab1ecb8bd633f8c1e4a600" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::MockANNRetriever</scope><name>vectorCount</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever_1a8b8c63f1431b8a277a0cf2c4592dd3f6" prot="private" virt="non-virtual"><scope>themis::retrieval::testing::MockANNRetriever</scope><name>vectors_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

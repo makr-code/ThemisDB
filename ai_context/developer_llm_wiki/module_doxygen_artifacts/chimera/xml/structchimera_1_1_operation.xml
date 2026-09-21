@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structchimera_1_1_operation" kind="struct" language="C++" prot="public">
+    <compoundname>chimera::Operation</compoundname>
+    <includes refid="transaction_8hpp" local="no">transaction.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structchimera_1_1_operation_1ae0c58fba6dd171aace37d9e4b787c7e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::Operation::op_type</definition>
+        <argsstring></argsstring>
+        <name>op_type</name>
+        <qualifiedname>chimera::Operation::op_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="38" column="17" bodyfile="include/chimera/transaction.hpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_operation_1a10e9c9c8247be464528547339e05dc5e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::Operation::target</definition>
+        <argsstring></argsstring>
+        <name>target</name>
+        <qualifiedname>chimera::Operation::target</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="39" column="17" bodyfile="include/chimera/transaction.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_operation_1afaaf3b3f2e7c97f56c222f21686ac35a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::Operation::data_snapshot</definition>
+        <argsstring></argsstring>
+        <name>data_snapshot</name>
+        <qualifiedname>chimera::Operation::data_snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="40" column="17" bodyfile="include/chimera/transaction.hpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_operation_1a1b1878dbf740bfd44e734031a1710ce7" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point chimera::Operation::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>chimera::Operation::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="41" column="43" bodyfile="include/chimera/transaction.hpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_operation_1a2df0f48f5b0fe0801a89d54973478210" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool chimera::Operation::is_reversible</definition>
+        <argsstring></argsstring>
+        <name>is_reversible</name>
+        <qualifiedname>chimera::Operation::is_reversible</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="42" column="10" bodyfile="include/chimera/transaction.hpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/transaction.hpp" line="37" column="1" bodyfile="include/chimera/transaction.hpp" bodystart="37" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structchimera_1_1_operation_1afaaf3b3f2e7c97f56c222f21686ac35a" prot="public" virt="non-virtual"><scope>chimera::Operation</scope><name>data_snapshot</name></member>
+      <member refid="structchimera_1_1_operation_1a2df0f48f5b0fe0801a89d54973478210" prot="public" virt="non-virtual"><scope>chimera::Operation</scope><name>is_reversible</name></member>
+      <member refid="structchimera_1_1_operation_1ae0c58fba6dd171aace37d9e4b787c7e5" prot="public" virt="non-virtual"><scope>chimera::Operation</scope><name>op_type</name></member>
+      <member refid="structchimera_1_1_operation_1a10e9c9c8247be464528547339e05dc5e" prot="public" virt="non-virtual"><scope>chimera::Operation</scope><name>target</name></member>
+      <member refid="structchimera_1_1_operation_1a1b1878dbf740bfd44e734031a1710ce7" prot="public" virt="non-virtual"><scope>chimera::Operation</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

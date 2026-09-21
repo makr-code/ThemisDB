@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_policy_engine_1_1_rule" kind="struct" language="C++" prot="public">
+    <compoundname>PolicyEngine::Rule</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_policy_engine_1_1_rule_1aa09c07b8d33c7db9277ed93d809e8812" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PolicyEngine::Rule::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>PolicyEngine::Rule::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="18" column="21" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_policy_engine_1_1_rule_1aeb37757c4f81ee825235992f9e6f1719" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::map&lt; std::string, std::string &gt; &amp;)&gt;</type>
+        <definition>std::function&lt;bool(const std::map&lt;std::string, std::string&gt;&amp;)&gt; PolicyEngine::Rule::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>PolicyEngine::Rule::condition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="19" column="23" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_policy_engine_1_1_rule_1a37608581e15706dea459439176e9f074" prot="public" static="no" mutable="no">
+        <type><ref refid="class_policy_engine_1a2cfbe5a6e53acdf179690ea07964dc74" kindref="member">Effect</ref></type>
+        <definition>Effect PolicyEngine::Rule::effect</definition>
+        <argsstring></argsstring>
+        <name>effect</name>
+        <qualifiedname>PolicyEngine::Rule::effect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="20" column="16" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/governance/bench_policy_evaluation.cpp" line="17" column="5" bodyfile="benchmarks/governance/bench_policy_evaluation.cpp" bodystart="17" bodyend="21"/>
+    <listofallmembers>
+      <member refid="struct_policy_engine_1_1_rule_1aeb37757c4f81ee825235992f9e6f1719" prot="public" virt="non-virtual"><scope>PolicyEngine::Rule</scope><name>condition</name></member>
+      <member refid="struct_policy_engine_1_1_rule_1a37608581e15706dea459439176e9f074" prot="public" virt="non-virtual"><scope>PolicyEngine::Rule</scope><name>effect</name></member>
+      <member refid="struct_policy_engine_1_1_rule_1aa09c07b8d33c7db9277ed93d809e8812" prot="public" virt="non-virtual"><scope>PolicyEngine::Rule</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

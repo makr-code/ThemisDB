@@ -1,0 +1,2183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1training" kind="namespace" language="C++">
+    <compoundname>themis::training</compoundname>
+    <innerclass refid="structthemis_1_1training_1_1_acceptance_gate_metrics" prot="public">themis::training::AcceptanceGateMetrics</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter" prot="public">themis::training::AdaLoRAAdapter</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats" prot="public">themis::training::AdaLoRALayerStats</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_ada_lora_t_t_bridge" prot="public">themis::training::AdaLoraTTBridge</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_config" prot="public">themis::training::AdaLoraTTBridgeConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_ada_lora_t_t_export" prot="public">themis::training::AdaLoraTTExport</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_ada_lora_t_t_layer_export" prot="public">themis::training::AdaLoraTTLayerExport</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_adapter_descriptor" prot="public">themis::training::AdapterDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_adapter_merge_failsafe" prot="public">themis::training::AdapterMergeFailsafe</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_adapter_merge_fault_context" prot="public">themis::training::AdapterMergeFaultContext</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_adapter_merge_fault_result" prot="public">themis::training::AdapterMergeFaultResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_adapter_merge_snapshot" prot="public">themis::training::AdapterMergeSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_adaptive_rule" prot="public">themis::training::AdaptiveRule</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_async_training_result" prot="public">themis::training::AsyncTrainingResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_auto_label_config" prot="public">themis::training::AutoLabelConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_cache_entry" prot="public">themis::training::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_cache_stats" prot="public">themis::training::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_calibrated_threshold" prot="public">themis::training::CalibratedThreshold</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_calibration_dataset" prot="public">themis::training::CalibrationDataset</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_calibration_result" prot="public">themis::training::CalibrationResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_calibration_sample" prot="public">themis::training::CalibrationSample</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_calibrator_output" prot="public">themis::training::CalibratorOutput</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_checkpoint_descriptor" prot="public">themis::training::CheckpointDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_checkpoint_exception" prot="public">themis::training::CheckpointException</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_checkpoint_fault_context" prot="public">themis::training::CheckpointFaultContext</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_checkpoint_fault_handler" prot="public">themis::training::CheckpointFaultHandler</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_checkpoint_fault_result" prot="public">themis::training::CheckpointFaultResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_checkpoint_manager_config" prot="public">themis::training::CheckpointManagerConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" prot="public">themis::training::CheckpointManifestEntry</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_citation_extractor" prot="public">themis::training::CitationExtractor</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_confidence_calibrator" prot="public">themis::training::ConfidenceCalibrator</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_database_domain_auto_labeler" prot="public">themis::training::DatabaseDomainAutoLabeler</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_data_quality_report" prot="public">themis::training::DataQualityReport</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_data_sample" prot="public">themis::training::DataSample</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_data_selection_metrics" prot="public">themis::training::DataSelectionMetrics</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_data_selection_pipeline" prot="public">themis::training::DataSelectionPipeline</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_data_selection_result" prot="public">themis::training::DataSelectionResult</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_dataset_exception" prot="public">themis::training::DatasetException</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_deploy_result" prot="public">themis::training::DeployResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_domain_gating_result" prot="public">themis::training::DomainGatingResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_drift_report" prot="public">themis::training::DriftReport</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_enrichment_cache" prot="public">themis::training::EnrichmentCache</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_enrichment_cache_config" prot="public">themis::training::EnrichmentCacheConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_enrichment_cache_stats" prot="public">themis::training::EnrichmentCacheStats</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_enrichment_config" prot="public">themis::training::EnrichmentConfig</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_enrichment_exception" prot="public">themis::training::EnrichmentException</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_enrichment_gap_context" prot="public">themis::training::EnrichmentGapContext</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_enrichment_gap_handler" prot="public">themis::training::EnrichmentGapHandler</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_enrichment_gap_summary" prot="public">themis::training::EnrichmentGapSummary</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_enrichment_l_r_u_cache" prot="public">themis::training::EnrichmentLRUCache</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_enrichment_result" prot="public">themis::training::EnrichmentResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_enrichment_stats" prot="public">themis::training::EnrichmentStats</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_entity_ref" prot="public">themis::training::EntityRef</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_epoch_metrics" prot="public">themis::training::EpochMetrics</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_feedback_entry" prot="public">themis::training::FeedbackEntry</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_graph_context" prot="public">themis::training::GraphContext</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_hyperparam_result" prot="public">themis::training::HyperparamResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_hyperparam_search_config" prot="public">themis::training::HyperparamSearchConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_hyperparam_trial_result" prot="public">themis::training::HyperparamTrialResult</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_i_confidence_calibrator" prot="public">themis::training::IConfidenceCalibrator</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_i_k_g_enrichment_interface" prot="public">themis::training::IKGEnrichmentInterface</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_i_lineage_query_a_p_i" prot="public">themis::training::ILineageQueryAPI</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_i_l_l_m_router" prot="public">themis::training::ILLMRouter</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager" prot="public">themis::training::ILoRACheckpointManager</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer" prot="public">themis::training::IncrementalLoRATrainer</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_incremental_training_config" prot="public">themis::training::IncrementalTrainingConfig</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_i_sample_provenance_tracker" prot="public">themis::training::ISampleProvenanceTracker</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_i_training_pipeline" prot="public">themis::training::ITrainingPipeline</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_k_g_relation" prot="public">themis::training::KGRelation</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_knowledge_graph_enricher" prot="public">themis::training::KnowledgeGraphEnricher</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_labeled_db_sample" prot="public">themis::training::LabeledDbSample</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_labeling_exception" prot="public">themis::training::LabelingException</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_labeling_stats" prot="public">themis::training::LabelingStats</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_legal_auto_labeler" prot="public">themis::training::LegalAutoLabeler</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_lineage_graph" prot="public">themis::training::LineageGraph</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_lineage_node" prot="public">themis::training::LineageNode</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_lo_r_a_adapter" prot="public">themis::training::LoRAAdapter</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_lo_r_a_adapter_merger" prot="public">themis::training::LoRAAdapterMerger</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" prot="public">themis::training::LoRACheckpointManager</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_lo_r_a_data_selection_config" prot="public">themis::training::LoRADataSelectionConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_lo_r_a_weight_entry" prot="public">themis::training::LoRAWeightEntry</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_lo_r_a_weights" prot="public">themis::training::LoRAWeights</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_merge_exception" prot="public">themis::training::MergeException</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_merge_layer_result" prot="public">themis::training::MergeLayerResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_merge_result" prot="public">themis::training::MergeResult</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_modality_detector" prot="public">themis::training::ModalityDetector</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_modality_parser_config" prot="public">themis::training::ModalityParserConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_modality_parse_result" prot="public">themis::training::ModalityParseResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_modality_parse_stats" prot="public">themis::training::ModalityParseStats</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_m_t_l_sample" prot="public">themis::training::MTLSample</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_m_t_l_train_result" prot="public">themis::training::MTLTrainResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config" prot="public">themis::training::MultiTaskLoRAConfig</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer" prot="public">themis::training::MultiTaskLoRATrainer</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_o_c_r_extractor" prot="public">themis::training::OCRExtractor</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_origin_record" prot="public">themis::training::OriginRecord</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_pipeline_config" prot="public">themis::training::PipelineConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_pipeline_metrics" prot="public">themis::training::PipelineMetrics</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_pipeline_stats" prot="public">themis::training::PipelineStats</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_preprocessing_step" prot="public">themis::training::PreprocessingStep</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_provenance_exception" prot="public">themis::training::ProvenanceException</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_provenance_record" prot="public">themis::training::ProvenanceRecord</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_provenance_tracker" prot="public">themis::training::ProvenanceTracker</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_provenance_tracker_config" prot="public">themis::training::ProvenanceTrackerConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_provenance_write_stats" prot="public">themis::training::ProvenanceWriteStats</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_quantization_config" prot="public">themis::training::QuantizationConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_realloc_result" prot="public">themis::training::ReallocResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_sample_provenance" prot="public">themis::training::SampleProvenance</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_sample_ref" prot="public">themis::training::SampleRef</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_selection_audit_entry" prot="public">themis::training::SelectionAuditEntry</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_self_improvement_config" prot="public">themis::training::SelfImprovementConfig</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_self_improvement_module" prot="public">themis::training::SelfImprovementModule</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_serving_exception" prot="public">themis::training::ServingException</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_table_extractor" prot="public">themis::training::TableExtractor</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_task_config" prot="public">themis::training::TaskConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_task_metrics" prot="public">themis::training::TaskMetrics</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_text_clause_extractor" prot="public">themis::training::TextClauseExtractor</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_training_diagnostics" prot="public">themis::training::TrainingDiagnostics</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_training_error_logger" prot="public">themis::training::TrainingErrorLogger</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_training_exception" prot="public">themis::training::TrainingException</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_training_failure_exception" prot="public">themis::training::TrainingFailureException</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_training_incident" prot="public">themis::training::TrainingIncident</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_training_incident_emitter" prot="public">themis::training::TrainingIncidentEmitter</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_training_incident_listener" prot="public">themis::training::TrainingIncidentListener</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_training_job" prot="public">themis::training::TrainingJob</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_training_metrics" prot="public">themis::training::TrainingMetrics</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_training_pipeline" prot="public">themis::training::TrainingPipeline</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_training_result" prot="public">themis::training::TrainingResult</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_training_sample" prot="public">themis::training::TrainingSample</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_training_session" prot="public">themis::training::TrainingSession</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_version_record" prot="public">themis::training::VersionRecord</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_weight_update_batch" prot="public">themis::training::WeightUpdateBatch</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_weight_update_result" prot="public">themis::training::WeightUpdateResult</innerclass>
+    <innernamespace refid="namespacethemis_1_1training_1_1aql__templates">themis::training::aql_templates</innernamespace>
+    <innernamespace refid="namespacethemis_1_1training_1_1checkpoint">themis::training::checkpoint</innernamespace>
+    <innernamespace refid="namespacethemis_1_1training_1_1detail">themis::training::detail</innernamespace>
+    <innernamespace refid="namespacethemis_1_1training_1_1graph__aql">themis::training::graph_aql</innernamespace>
+    <innernamespace refid="namespacethemis_1_1training_1_1provenance__aql">themis::training::provenance_aql</innernamespace>
+    <innernamespace refid="namespacethemis_1_1training_1_1yaml__detail">themis::training::yaml_detail</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1training_1a42b3986090b456e4c741a98b9ca1c430" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ContentModality</name>
+        <qualifiedname>themis::training::ContentModality</qualifiedname>
+        <enumvalue id="namespacethemis_1_1training_1a42b3986090b456e4c741a98b9ca1c430a1bd90c08d0b0fb49bddda9c291a43c55" prot="public">
+          <name>TEXT_CLAUSE</name>
+          <briefdescription>
+<para>Plain-text legal clause (default modality). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a42b3986090b456e4c741a98b9ca1c430a34bbae0aee41ddd6a73697584a20afc6" prot="public">
+          <name>TABLE</name>
+          <briefdescription>
+<para>Structured table (e.g., damages schedule). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a42b3986090b456e4c741a98b9ca1c430a4d7570ca7e02ca3e76695d11e121a8a0" prot="public">
+          <name>CITATION</name>
+          <briefdescription>
+<para>Embedded statutory or case-law citation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a42b3986090b456e4c741a98b9ca1c430addd3cf6f0faa3fa093a858fcb50862e5" prot="public">
+          <name>OCR_IMAGE</name>
+          <briefdescription>
+<para>Scanned page processed via OCR. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a42b3986090b456e4c741a98b9ca1c430a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+<para>Modality could not be determined. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Content modality of a training sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Populated by the <ref refid="classthemis_1_1training_1_1_modality_detector" kindref="compound">ModalityDetector</ref> in <ref refid="auto__labeler_8cpp" kindref="compound">auto_labeler.cpp</ref> so that the training pipeline can apply modality-specific confidence thresholds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="41" column="1" bodyfile="include/training/auto_labeler.h" bodystart="41" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1training_1a619b2dcb68d4e906fdc0e573c7dd512a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DomainType</name>
+        <qualifiedname>themis::training::DomainType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1training_1a619b2dcb68d4e906fdc0e573c7dd512aac53151ffd180a17416e8f09b1ca4bfc3" prot="public">
+          <name>LEGAL</name>
+          <briefdescription>
+<para>German legal / regulatory domain (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a619b2dcb68d4e906fdc0e573c7dd512aaea68388b0642cfd18735a4a166494310" prot="public">
+          <name>MEDICAL</name>
+          <briefdescription>
+<para>Medical / clinical / pharmaceutical domain. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a619b2dcb68d4e906fdc0e573c7dd512aac5456d20536e889c2f971435d4235629" prot="public">
+          <name>FINANCIAL</name>
+          <briefdescription>
+<para>Financial regulation / compliance domain. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a619b2dcb68d4e906fdc0e573c7dd512aacf4f53cb98e1ae3262cf015a20a69ed3" prot="public">
+          <name>DATABASE_OPTIMIZER</name>
+          <briefdescription>
+<para>Query-plan optimization (IMPL-A1). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a619b2dcb68d4e906fdc0e573c7dd512aad57e5c9af2e2a4e6c2fc01124b1110eb" prot="public">
+          <name>INDEX_ADVISOR</name>
+          <briefdescription>
+<para>Index recommendation (IMPL-A1). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a619b2dcb68d4e906fdc0e573c7dd512aa48223173d9bae7b0beb2b38d71942196" prot="public">
+          <name>SCHEMA_ADVISOR</name>
+          <briefdescription>
+<para>Schema evolution advisory (IMPL-A1). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a619b2dcb68d4e906fdc0e573c7dd512aa63b6380ad1c102c8387da25f71256eba" prot="public">
+          <name>SECURITY_MONITOR</name>
+          <briefdescription>
+<para>Anomaly / threat detection (IMPL-A1). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Target domain for auto-labeling and sample extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Controls domain-specific keyword dictionaries and NLP heuristics used by <computeroutput><ref refid="classthemis_1_1training_1_1_legal_auto_labeler" kindref="compound">LegalAutoLabeler</ref></computeroutput> when the external NlpTextAnalyzer is unavailable or returns no modalities.</para>
+<para><itemizedlist>
+<listitem><para>LEGAL : German legal text (modal verbs: muss/soll/kann/darf/…)</para>
+</listitem><listitem><para>MEDICAL : Medical / clinical text (obligatory / recommended / optional care)</para>
+</listitem><listitem><para>FINANCIAL: Financial regulatory text (obligation / prohibition / disclosure) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="95" column="1" bodyfile="include/training/auto_labeler.h" bodystart="95" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TrainingMode</name>
+        <qualifiedname>themis::training::TrainingMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76a91d26e4b2b105c74655093c9becd30b7" prot="public">
+          <name>INITIAL</name>
+          <briefdescription>
+<para>Initial training from scratch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76a9c098c060958933384cc3fde595a1c07" prot="public">
+          <name>INCREMENTAL</name>
+          <briefdescription>
+<para>Incremental training on new data. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1aa4e3774a0cebae3e12e94045dd283f76a60d8f94ae4b491f76f232be5ab4e7b18" prot="public">
+          <name>FINETUNE</name>
+          <briefdescription>
+<para>Fine-tune existing adapter. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Training mode for incremental trainer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="32" column="1" bodyfile="include/training/incremental_lora_trainer.h" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TrainingQuantizationType</name>
+        <qualifiedname>themis::training::TrainingQuantizationType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>Full-precision (fp32) – no quantization. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9aa4bf99d6945c25077fd6660d536af8a0" prot="public">
+          <name>FP16</name>
+          <briefdescription>
+<para>16-bit floating point </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9aee9d73311ff0658494edfff14c3ec1e3" prot="public">
+          <name>INT8</name>
+          <briefdescription>
+<para>8-bit integer (symmetric per-block) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a3bef9d4409fe974b3360dcd92a60b5a9a167c795dd4cb725ea2c7da144e1f8e54" prot="public">
+          <name>NF4</name>
+          <briefdescription>
+<para>4-bit NormalFloat (QLoRA) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Quantization type for LoRA weight compression during training. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mirrors llm::lora::QuantizationType but is defined here to avoid a compile-time dependency on the LLM layer when THEMIS_ENABLE_LLM is off. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="48" column="1" bodyfile="include/training/incremental_lora_trainer.h" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>TrainingErrorCode</name>
+        <qualifiedname>themis::training::TrainingErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0x0000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba1837afd8df668f58b00316449eb5ebcc" prot="public">
+          <name>CHECKPOINT_DIR_INVALID</name>
+          <initializer>= 0x8000</initializer>
+          <briefdescription>
+<para>Checkpoint directory is empty or invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baa56d5101c721120d7677badbd5098ee7" prot="public">
+          <name>CHECKPOINT_PATH_UNSAFE</name>
+          <initializer>= 0x8001</initializer>
+          <briefdescription>
+<para>Checkpoint path contains path traversal or unsafe characters. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba0fd22e78d9be2d7f077995796f28bf54" prot="public">
+          <name>CHECKPOINT_MANIFEST_INVALID</name>
+          <initializer>= 0x8002</initializer>
+          <briefdescription>
+<para>Checkpoint manifest is corrupted or unparseable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba18ad6e90c836866e26b38a61cd668d73" prot="public">
+          <name>CHECKPOINT_NOT_FOUND</name>
+          <initializer>= 0x8003</initializer>
+          <briefdescription>
+<para>Requested checkpoint entry not found in manifest. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba1d011db2f5b267794924db7d0fb3c5b7" prot="public">
+          <name>CHECKPOINT_SIZE_INVALID</name>
+          <initializer>= 0x8004</initializer>
+          <briefdescription>
+<para>Checkpoint size is below minimum threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba1c0371243c9a95e278acdc3826739119" prot="public">
+          <name>CHECKPOINT_METADATA_INVALID</name>
+          <initializer>= 0x8005</initializer>
+          <briefdescription>
+<para>Checkpoint metadata contains invalid values. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba7f4b339a9c5f10f16c93e9e8ace18653" prot="public">
+          <name>CHECKPOINT_DISK_SPACE_EXHAUSTED</name>
+          <initializer>= 0x8011</initializer>
+          <briefdescription>
+<para>Insufficient disk space for checkpoint save. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba71a9c4bf37eca62ffb8a7ee3a363cb95" prot="public">
+          <name>CHECKPOINT_MEMORY_EXHAUSTED</name>
+          <initializer>= 0x8012</initializer>
+          <briefdescription>
+<para>Memory allocation failed during checkpoint processing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba2eafed8d7d79f1a772a318154efe779f" prot="public">
+          <name>CHECKPOINT_FD_LIMIT_EXCEEDED</name>
+          <initializer>= 0x8013</initializer>
+          <briefdescription>
+<para>Checkpoint file handle limit exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba2edc096d9523e2d5aebfd837d4699348" prot="public">
+          <name>CHECKPOINT_READ_FAILED</name>
+          <initializer>= 0x8022</initializer>
+          <briefdescription>
+<para>Failed to read checkpoint file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba1da339f1198f363184e874c1af77e4a0" prot="public">
+          <name>CHECKPOINT_WRITE_FAILED</name>
+          <initializer>= 0x8023</initializer>
+          <briefdescription>
+<para>Failed to write checkpoint file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba8df482a9b08ad493d17f7052e42fa638" prot="public">
+          <name>CHECKPOINT_RENAME_FAILED</name>
+          <initializer>= 0x8024</initializer>
+          <briefdescription>
+<para>Failed to rename/move checkpoint file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bad933ae5e65d1b3280c75a2d4a9912174" prot="public">
+          <name>CHECKPOINT_DELETE_FAILED</name>
+          <initializer>= 0x8025</initializer>
+          <briefdescription>
+<para>Failed to delete checkpoint file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bab9e6c9fc1d2e0b2b4dda9fca9e6e2def" prot="public">
+          <name>CHECKPOINT_MANIFEST_IO_FAILED</name>
+          <initializer>= 0x8026</initializer>
+          <briefdescription>
+<para>Checkpoint manifest read/write failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba01ad5b7ac41305f9fabebe822ba7d95b" prot="public">
+          <name>CHECKPOINT_VALIDATION_TIMEOUT</name>
+          <initializer>= 0x8033</initializer>
+          <briefdescription>
+<para>Checkpoint SHA-256 validation timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba8f67ad2b44e6d19799f0989a2020a3ee" prot="public">
+          <name>CHECKPOINT_IO_TIMEOUT</name>
+          <initializer>= 0x8034</initializer>
+          <briefdescription>
+<para>Checkpoint I/O operation exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba7ad0f8e56ad35179531a305985e78ef2" prot="public">
+          <name>CHECKPOINT_SHA256_MISMATCH</name>
+          <initializer>= 0x8044</initializer>
+          <briefdescription>
+<para>Checkpoint SHA-256 mismatch detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba0688af7b14a121c681152782a8668cca" prot="public">
+          <name>CHECKPOINT_TRUNCATED</name>
+          <initializer>= 0x8045</initializer>
+          <briefdescription>
+<para>Checkpoint file is truncated or incomplete. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baa58c421e0e41119a3c4971d4905aac0b" prot="public">
+          <name>CHECKPOINT_INVALID_FORMAT</name>
+          <initializer>= 0x8046</initializer>
+          <briefdescription>
+<para>Checkpoint magic number or header invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841badc97ab9dd7300f9d5fda2a9bc11cc0d4" prot="public">
+          <name>CHECKPOINT_MODEL_MISMATCH</name>
+          <initializer>= 0x8055</initializer>
+          <briefdescription>
+<para>Base model hash mismatch; checkpoint from different model. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba78f706c30ea4911d364f960876a6c4e6" prot="public">
+          <name>CHECKPOINT_VERSION_INCOMPATIBLE</name>
+          <initializer>= 0x8056</initializer>
+          <briefdescription>
+<para>Checkpoint adapter version incompatible. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf1e4fc9cbb011947992b62073947ef7a" prot="public">
+          <name>CHECKPOINT_FORMAT_VERSION_UNSUPPORTED</name>
+          <initializer>= 0x8057</initializer>
+          <briefdescription>
+<para>Checkpoint format version unsupported. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba8dec955d9a12df32863a125533a689b9" prot="public">
+          <name>CHECKPOINT_NO_VALID_CHECKPOINT</name>
+          <initializer>= 0x8066</initializer>
+          <briefdescription>
+<para>Attempted resume but no valid checkpoint exists. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba28a2cb866aa9d8a99b844f92cde5013c" prot="public">
+          <name>CHECKPOINT_RECOVERY_FAILED</name>
+          <initializer>= 0x8067</initializer>
+          <briefdescription>
+<para>Checkpoint recovery exhausted all fallback entries. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba64141d44f99dcc8f0241590366a4117a" prot="public">
+          <name>TRAINING_CONFIG_INVALID</name>
+          <initializer>= 0x8100</initializer>
+          <briefdescription>
+<para>Training configuration is invalid or incomplete. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba0cc08873cea78bfd74d26ba1993bd197" prot="public">
+          <name>TRAINING_DATASET_EMPTY</name>
+          <initializer>= 0x8101</initializer>
+          <briefdescription>
+<para>Training dataset is empty. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bae31bda38d7cbf92052d5c28ea7f099e2" prot="public">
+          <name>TRAINING_DATASET_CORRUPTED</name>
+          <initializer>= 0x8102</initializer>
+          <briefdescription>
+<para>Training dataset contains invalid samples. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bace6d30e3a99583e3ee6d14c31f02e55d" prot="public">
+          <name>TRAINING_MODEL_CONFIG_INVALID</name>
+          <initializer>= 0x8103</initializer>
+          <briefdescription>
+<para>Model configuration is invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bac57e2f9eb9dd43d05aafc33f36d7c057" prot="public">
+          <name>TRAINING_LEARNING_RATE_INVALID</name>
+          <initializer>= 0x8104</initializer>
+          <briefdescription>
+<para>Learning rate is out of valid range. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba2242156657692371ff3c2ac8e7840b65" prot="public">
+          <name>TRAINING_BATCH_SIZE_INVALID</name>
+          <initializer>= 0x8105</initializer>
+          <briefdescription>
+<para>Batch size exceeds model or memory limits. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba30bfb10a8c9111a8938b5a825df8ef22" prot="public">
+          <name>TRAINING_MODE_UNSUPPORTED</name>
+          <initializer>= 0x8106</initializer>
+          <briefdescription>
+<para>Training mode is unsupported. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba83c4cda57d0b5f4d296aec89e8eb18d3" prot="public">
+          <name>TRAINING_GPU_MEMORY_EXHAUSTED</name>
+          <initializer>= 0x8111</initializer>
+          <briefdescription>
+<para>GPU memory exhausted during training. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bae9819120772c7cac7d1544efcfc16bf6" prot="public">
+          <name>TRAINING_SYSTEM_MEMORY_EXHAUSTED</name>
+          <initializer>= 0x8112</initializer>
+          <briefdescription>
+<para>System memory exhausted during training. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bae07224af776657f2b20c78c1fbb2630f" prot="public">
+          <name>TRAINING_GPU_UNAVAILABLE</name>
+          <initializer>= 0x8113</initializer>
+          <briefdescription>
+<para>GPU not available or not initialized. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba547fd4f07d0ccb45c2705f7aa0fd2c64" prot="public">
+          <name>TRAINING_MAX_WORKERS_EXCEEDED</name>
+          <initializer>= 0x8114</initializer>
+          <briefdescription>
+<para>Maximum number of training threads/workers exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf4ee22cc5f19e60b6cd847c5fa7a0aa9" prot="public">
+          <name>TRAINING_DATA_READ_FAILED</name>
+          <initializer>= 0x8122</initializer>
+          <briefdescription>
+<para>Failed to read training data batch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba751a304a9778a02392e14544f946e1f6" prot="public">
+          <name>TRAINING_METRICS_WRITE_FAILED</name>
+          <initializer>= 0x8123</initializer>
+          <briefdescription>
+<para>Failed to write training metrics/logs. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baac6dc61b682f263fa021dcb288e6e14f" prot="public">
+          <name>TRAINING_CHECKPOINT_SAVE_FAILED</name>
+          <initializer>= 0x8124</initializer>
+          <briefdescription>
+<para>Training checkpoint save failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841badf639fde1c5a11ca31136a27b51946b1" prot="public">
+          <name>TRAINING_STEP_TIMEOUT</name>
+          <initializer>= 0x8133</initializer>
+          <briefdescription>
+<para>Training step exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba2925e4293e799515a48cb0f4c676a1d9" prot="public">
+          <name>TRAINING_EPOCH_TIMEOUT</name>
+          <initializer>= 0x8134</initializer>
+          <briefdescription>
+<para>Entire training epoch exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba4235dcbe65d8ff1d09a1c27216b7ba88" prot="public">
+          <name>TRAINING_DATA_LOAD_TIMEOUT</name>
+          <initializer>= 0x8135</initializer>
+          <briefdescription>
+<para>Data loading for batch exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baff0dc7e0da606c2470edbb6184a0199d" prot="public">
+          <name>TRAINING_LOSS_NAN</name>
+          <initializer>= 0x8144</initializer>
+          <briefdescription>
+<para>Detected NaN in training loss. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba0786eead1adaef490d7e6bef9e2535cb" prot="public">
+          <name>TRAINING_LOSS_INF</name>
+          <initializer>= 0x8145</initializer>
+          <briefdescription>
+<para>Detected Inf in training loss. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba4163aefcdfd57bd2607873ab99d2eb8e" prot="public">
+          <name>TRAINING_METRICS_INVALID</name>
+          <initializer>= 0x8146</initializer>
+          <briefdescription>
+<para>Training metrics contain invalid values. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba05256218c678e329eeba2c92ec7371d9" prot="public">
+          <name>TRAINING_ADAPTER_RANK_INCOMPATIBLE</name>
+          <initializer>= 0x8155</initializer>
+          <briefdescription>
+<para>Adapter rank incompatible with model. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba3722365be1f682371daa882d8c33a4a9" prot="public">
+          <name>TRAINING_MODEL_VERSION_INCOMPATIBLE</name>
+          <initializer>= 0x8156</initializer>
+          <briefdescription>
+<para>Base model version incompatible with trainer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841babb7b0abf3eb0b0bd5c4b0d9635129d22" prot="public">
+          <name>TRAINING_QUANTIZATION_UNSUPPORTED</name>
+          <initializer>= 0x8157</initializer>
+          <briefdescription>
+<para>Quantization type not supported by trainer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba003e50db6b96ce994c41ed0922347aa8" prot="public">
+          <name>TRAINING_ALREADY_RUNNING</name>
+          <initializer>= 0x8166</initializer>
+          <briefdescription>
+<para>Training already in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba909b2e4094d9178fbd8fc8bd66b94994" prot="public">
+          <name>TRAINING_CANCELLED</name>
+          <initializer>= 0x8167</initializer>
+          <briefdescription>
+<para>Training cancelled by user request. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba3d430e6f0ff87774346d8ca429a71d34" prot="public">
+          <name>TRAINING_NOT_INITIALIZED</name>
+          <initializer>= 0x8168</initializer>
+          <briefdescription>
+<para>Training not initialized before step attempt. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba7cb9525b59bbde573b650f2fc231c6df" prot="public">
+          <name>MERGE_NO_ADAPTERS</name>
+          <initializer>= 0x8200</initializer>
+          <briefdescription>
+<para>No adapters provided for merge. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba8f82acbf97cf07674e8c3874bb72f21c" prot="public">
+          <name>MERGE_WEIGHTS_INVALID</name>
+          <initializer>= 0x8201</initializer>
+          <briefdescription>
+<para>Merge weights do not sum to expected value. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba0322ed73c88d1135b73125fdd31f1b34" prot="public">
+          <name>MERGE_ADAPTER_DIMENSION_MISMATCH</name>
+          <initializer>= 0x8202</initializer>
+          <briefdescription>
+<para>Adapter dimensions incompatible for merge. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba4a590bac82c96620aa37a26fea40b0e9" prot="public">
+          <name>MERGE_STRATEGY_UNSUPPORTED</name>
+          <initializer>= 0x8203</initializer>
+          <briefdescription>
+<para>Merge strategy not supported. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baca454c314ba724c3871e0719294f6d2c" prot="public">
+          <name>MERGE_ADAPTER_CONFIG_INCOMPATIBLE</name>
+          <initializer>= 0x8204</initializer>
+          <briefdescription>
+<para>Adapter configuration incompatible for merge. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba497d71b3724de4af826d21d51f223b90" prot="public">
+          <name>MERGE_GPU_MEMORY_EXHAUSTED</name>
+          <initializer>= 0x8211</initializer>
+          <briefdescription>
+<para>GPU memory exhausted during merge. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bae9f4e2cb73418b32d488a0ee0f49c408" prot="public">
+          <name>MERGE_SYSTEM_MEMORY_EXHAUSTED</name>
+          <initializer>= 0x8212</initializer>
+          <briefdescription>
+<para>System memory exhausted during merge. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba56223d939921d2c9667f6c44ac630ba2" prot="public">
+          <name>MERGE_ADAPTER_READ_FAILED</name>
+          <initializer>= 0x8222</initializer>
+          <briefdescription>
+<para>Failed to read adapter for merge. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bae60a11d5c8b10fa7f34e5d8e655bf582" prot="public">
+          <name>MERGE_OUTPUT_WRITE_FAILED</name>
+          <initializer>= 0x8223</initializer>
+          <briefdescription>
+<para>Failed to write merged adapter. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba1598e3942841ec8abd0cdb0e9ba49e70" prot="public">
+          <name>MERGE_TIMEOUT</name>
+          <initializer>= 0x8233</initializer>
+          <briefdescription>
+<para>Merge operation exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba9ca24424164c0a7b00f7972a58b90e8e" prot="public">
+          <name>MERGE_COMPUTATION_NAN</name>
+          <initializer>= 0x8244</initializer>
+          <briefdescription>
+<para>Detected NaN during merge computation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf358116b199d8e107005e41c32fd7d41" prot="public">
+          <name>MERGE_COMPUTATION_INF</name>
+          <initializer>= 0x8245</initializer>
+          <briefdescription>
+<para>Detected Inf during merge computation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba70824578dbd9895e60c17c4ea00e0bad" prot="public">
+          <name>MERGE_RESULT_INVALID</name>
+          <initializer>= 0x8246</initializer>
+          <briefdescription>
+<para>Merge result validation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba04f3e7ba37a1fc5ff246daded59e8634" prot="public">
+          <name>MERGE_BASE_MODEL_MISMATCH</name>
+          <initializer>= 0x8255</initializer>
+          <briefdescription>
+<para>Adapter base model mismatch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba1dfd4a00a5b4cdc888ef034c163b1afe" prot="public">
+          <name>MERGE_ADAPTER_VERSION_MISMATCH</name>
+          <initializer>= 0x8256</initializer>
+          <briefdescription>
+<para>Adapter version mismatch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bae3fde01123c8140d4e348a7a727cfada" prot="public">
+          <name>MERGE_CONFLICTS_DETECTED</name>
+          <initializer>= 0x8266</initializer>
+          <briefdescription>
+<para>Merge conflicts detected; rollback required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baa6741f144a6fb71c258e2f899b0bcff2" prot="public">
+          <name>MERGE_STATE_INCONSISTENT</name>
+          <initializer>= 0x8267</initializer>
+          <briefdescription>
+<para>Merge in inconsistent state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba8eb28f918876f810c5745e2ccf711999" prot="public">
+          <name>ENRICHMENT_NO_ENRICHABLE_CONTENT</name>
+          <initializer>= 0x8300</initializer>
+          <briefdescription>
+<para>Training data has no enrichable content. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf6e922b1e6fd97002c0336095cc5bdfc" prot="public">
+          <name>ENRICHMENT_GRAPH_NOT_INITIALIZED</name>
+          <initializer>= 0x8301</initializer>
+          <briefdescription>
+<para>Knowledge graph not initialized. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf8a89e3bb28d8bdb6ace44c16e55870d" prot="public">
+          <name>ENRICHMENT_GRAPH_QUERY_INVALID</name>
+          <initializer>= 0x8302</initializer>
+          <briefdescription>
+<para>Graph query is malformed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba2001d4686e9594cac4f2d9de391a2478" prot="public">
+          <name>ENRICHMENT_CONFIG_INVALID</name>
+          <initializer>= 0x8303</initializer>
+          <briefdescription>
+<para>Enrichment configuration is invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba39c4fe560e36e35c142d87ffa66dbe46" prot="public">
+          <name>ENRICHMENT_CACHE_MEMORY_EXHAUSTED</name>
+          <initializer>= 0x8311</initializer>
+          <briefdescription>
+<para>Knowledge graph cache memory exhausted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba165363aea22a03179931526a5197824b" prot="public">
+          <name>ENRICHMENT_RESULT_SET_TOO_LARGE</name>
+          <initializer>= 0x8312</initializer>
+          <briefdescription>
+<para>Graph query result set too large. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841badec7d75e915e4eb0f81d1574887caaa0" prot="public">
+          <name>ENRICHMENT_GRAPH_QUERY_FAILED</name>
+          <initializer>= 0x8322</initializer>
+          <briefdescription>
+<para>Failed to query knowledge graph. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba11cc15f539bcf89bed17bf3982fbb7eb" prot="public">
+          <name>ENRICHMENT_CACHE_LOAD_FAILED</name>
+          <initializer>= 0x8323</initializer>
+          <briefdescription>
+<para>Failed to load enrichment cache. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf1bf9cd8a140f495478e8f6903da3f55" prot="public">
+          <name>ENRICHMENT_QUERY_TIMEOUT</name>
+          <initializer>= 0x8333</initializer>
+          <briefdescription>
+<para>Graph enrichment query timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bacc2f8068bbc8f5e4bd410513cd004126" prot="public">
+          <name>ENRICHMENT_CACHE_LOAD_TIMEOUT</name>
+          <initializer>= 0x8334</initializer>
+          <briefdescription>
+<para>Cache loading exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba8317c7769d889c56d42c6a70830e5d37" prot="public">
+          <name>ENRICHMENT_CACHE_CORRUPTED</name>
+          <initializer>= 0x8344</initializer>
+          <briefdescription>
+<para>Enrichment cache is corrupted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba2f4bfd85f126f8199acc2865157c5644" prot="public">
+          <name>ENRICHMENT_RESULT_INVALID</name>
+          <initializer>= 0x8345</initializer>
+          <briefdescription>
+<para>Enriched data contains invalid values. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba69b7898c3a418a113cc96f0fbf015f33" prot="public">
+          <name>ENRICHMENT_CACHE_MISS</name>
+          <initializer>= 0x8366</initializer>
+          <briefdescription>
+<para>Enrichment cache miss; fallback applied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba52b73b8a92db052d1d35a6834c358638" prot="public">
+          <name>ENRICHMENT_GRAPH_DISCONNECTED</name>
+          <initializer>= 0x8367</initializer>
+          <briefdescription>
+<para>Graph connection lost during enrichment. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba75addcc2e173b62dc55e35a6186c9fa7" prot="public">
+          <name>LABELING_NO_CONTENT</name>
+          <initializer>= 0x8400</initializer>
+          <briefdescription>
+<para>Sample has no content to label. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bae1cdd51407eb7dc3b4690462793f9620" prot="public">
+          <name>LABELING_DOMAIN_UNSUPPORTED</name>
+          <initializer>= 0x8401</initializer>
+          <briefdescription>
+<para>Sample domain type is not supported. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba4ec1c13903d525610a9e3155bba76ac5" prot="public">
+          <name>LABELING_CONFIG_INVALID</name>
+          <initializer>= 0x8402</initializer>
+          <briefdescription>
+<para>Labeler configuration is invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841badbf5a6ba900d4846451b6c591f982d46" prot="public">
+          <name>LABELING_CLASS_SET_EMPTY</name>
+          <initializer>= 0x8403</initializer>
+          <briefdescription>
+<para>Label class set is empty. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bab1e323f21e7f109f8a791c7b9c54712c" prot="public">
+          <name>LABELING_CONTENT_INVALID</name>
+          <initializer>= 0x8404</initializer>
+          <briefdescription>
+<para>Sample content is too short or malformed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841babc7cfeadd2e4b316ae04866abb330680" prot="public">
+          <name>LABELING_LLM_UNAVAILABLE</name>
+          <initializer>= 0x8411</initializer>
+          <briefdescription>
+<para>LLM model not available for labeling. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bab5296ab660d09c199ab236b3a532484f" prot="public">
+          <name>LABELING_QUEUE_FULL</name>
+          <initializer>= 0x8412</initializer>
+          <briefdescription>
+<para>Label generation queue full. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba5203adbac17450b56bb3fe9cf9c1c672" prot="public">
+          <name>LABELING_SAMPLE_READ_FAILED</name>
+          <initializer>= 0x8422</initializer>
+          <briefdescription>
+<para>Failed to read sample for labeling. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bab4a956234e0280909b0d6fcb530d4552" prot="public">
+          <name>LABELING_OUTPUT_WRITE_FAILED</name>
+          <initializer>= 0x8423</initializer>
+          <briefdescription>
+<para>Failed to write generated labels. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba7b4698ae07c7f83d51e45efa97b5405d" prot="public">
+          <name>LABELING_TIMEOUT</name>
+          <initializer>= 0x8433</initializer>
+          <briefdescription>
+<para>Label generation exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba89a67f06463ae26294eb844bd57813af" prot="public">
+          <name>LABELING_RESULT_INVALID</name>
+          <initializer>= 0x8444</initializer>
+          <briefdescription>
+<para>Generated label is malformed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba2b7f1c3cd22437cbc63ace073b4cac73" prot="public">
+          <name>LABELING_CONFIDENCE_INVALID</name>
+          <initializer>= 0x8445</initializer>
+          <briefdescription>
+<para>Label confidence score is invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bab8c2576f59b66f4ad8a7bffcdd745fb0" prot="public">
+          <name>LABELING_ALREADY_RUNNING</name>
+          <initializer>= 0x8466</initializer>
+          <briefdescription>
+<para>Labeling already in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bacaa08531acf26ac0ef65c3c2fd5e2847" prot="public">
+          <name>LABELING_NOT_INITIALIZED</name>
+          <initializer>= 0x8467</initializer>
+          <briefdescription>
+<para>Labeler not initialized. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bab4fcd729f1bec8baa23f6fe213c1be3e" prot="public">
+          <name>SERVING_ADAPTER_NOT_FOUND</name>
+          <initializer>= 0x8500</initializer>
+          <briefdescription>
+<para>Adapter not found in serving registry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf2ad0345efffeeb65bdd18c66fc86ce0" prot="public">
+          <name>SERVING_ENDPOINT_INVALID</name>
+          <initializer>= 0x8501</initializer>
+          <briefdescription>
+<para>Serving port or endpoint is invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bac676073f5eb7adc130c53a5ad5e98c3c" prot="public">
+          <name>SERVING_CONFIG_INVALID</name>
+          <initializer>= 0x8502</initializer>
+          <briefdescription>
+<para>Server configuration is invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba91c97a832f94f8a43ea8cc934f50251f" prot="public">
+          <name>SERVING_ADAPTER_INCOMPATIBLE</name>
+          <initializer>= 0x8503</initializer>
+          <briefdescription>
+<para>Adapter is incompatible with serving runtime. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841babf3a4137facec87ccefa15c7ca74d2ff" prot="public">
+          <name>SERVING_MEMORY_EXHAUSTED</name>
+          <initializer>= 0x8511</initializer>
+          <briefdescription>
+<para>Server memory pool exhausted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba9a47e86f472195d647a2540ceb9bddab" prot="public">
+          <name>SERVING_MAX_CONNECTIONS_EXCEEDED</name>
+          <initializer>= 0x8512</initializer>
+          <briefdescription>
+<para>Maximum concurrent requests exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf9b4f3712ab35a1836b24c1e37d21b41" prot="public">
+          <name>SERVING_GPU_MEMORY_EXHAUSTED</name>
+          <initializer>= 0x8513</initializer>
+          <briefdescription>
+<para>GPU memory full for adapter serving. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba8543673733a8143a4a04a78bd3d85d44" prot="public">
+          <name>SERVING_ADAPTER_LOAD_FAILED</name>
+          <initializer>= 0x8522</initializer>
+          <briefdescription>
+<para>Failed to load adapter for serving. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba41924fbf1b3fb01612ea7eac6e6a0c93" prot="public">
+          <name>SERVING_ADAPTER_UNLOAD_FAILED</name>
+          <initializer>= 0x8523</initializer>
+          <briefdescription>
+<para>Failed to unload adapter. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba36630da4069c5c20530961051430958e" prot="public">
+          <name>SERVING_REQUEST_TIMEOUT</name>
+          <initializer>= 0x8533</initializer>
+          <briefdescription>
+<para>Request processing exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba81cc10d7d69a11d4142cacbe8c08933d" prot="public">
+          <name>SERVING_HOTSWAP_TIMEOUT</name>
+          <initializer>= 0x8534</initializer>
+          <briefdescription>
+<para>Hot-swap operation exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba320947ad570fae9ed9c69c54b722da82" prot="public">
+          <name>SERVING_ADAPTER_CORRUPTED</name>
+          <initializer>= 0x8544</initializer>
+          <briefdescription>
+<para>Loaded adapter is corrupted or invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baa6f45125e17aa1eaf2cbf98a636d0c2e" prot="public">
+          <name>SERVING_NOT_INITIALIZED</name>
+          <initializer>= 0x8566</initializer>
+          <briefdescription>
+<para>Server not running or not initialized. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bad7c5eea23f8b5abcab1c37e14dd39575" prot="public">
+          <name>SERVING_ADAPTER_ALREADY_LOADED</name>
+          <initializer>= 0x8567</initializer>
+          <briefdescription>
+<para>Adapter already loaded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba42c71c19e78151a132205008295a170f" prot="public">
+          <name>SERVING_HOTSWAP_IN_PROGRESS</name>
+          <initializer>= 0x8568</initializer>
+          <briefdescription>
+<para>Hot-swap in progress; operation blocked. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba1a76682d43f886144950329a9d68e01b" prot="public">
+          <name>PROVENANCE_RECORD_INVALID</name>
+          <initializer>= 0x8600</initializer>
+          <briefdescription>
+<para>Provenance record is invalid or incomplete. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba4493d4b306a392c302476b15f22f587a" prot="public">
+          <name>PROVENANCE_SOURCE_UNAVAILABLE</name>
+          <initializer>= 0x8601</initializer>
+          <briefdescription>
+<para>Provenance data source not available. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baa4e2f37cae8d9590940c9b176db8b588" prot="public">
+          <name>PROVENANCE_QUERY_INVALID</name>
+          <initializer>= 0x8602</initializer>
+          <briefdescription>
+<para>Provenance query is malformed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba0a321882f2de03f93db4bad1f99880f9" prot="public">
+          <name>PROVENANCE_STORAGE_EXHAUSTED</name>
+          <initializer>= 0x8611</initializer>
+          <briefdescription>
+<para>Provenance storage exhausted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba96615816587c7ff03a526e1966f87d04" prot="public">
+          <name>PROVENANCE_BUFFER_FULL</name>
+          <initializer>= 0x8612</initializer>
+          <briefdescription>
+<para>Provenance record buffer full. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba788596df50b0dd939c623d236afe75ec" prot="public">
+          <name>PROVENANCE_WRITE_FAILED</name>
+          <initializer>= 0x8622</initializer>
+          <briefdescription>
+<para>Failed to write provenance record. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba6873f76363a9042eabe96fb62ea2a06a" prot="public">
+          <name>PROVENANCE_READ_FAILED</name>
+          <initializer>= 0x8623</initializer>
+          <briefdescription>
+<para>Failed to read provenance data. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf13bed6e3085c83ac322f523e4662429" prot="public">
+          <name>PROVENANCE_QUERY_TIMEOUT</name>
+          <initializer>= 0x8633</initializer>
+          <briefdescription>
+<para>Provenance query exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba7b79cdafd250eea797e64ee114c270e7" prot="public">
+          <name>PROVENANCE_DATA_CORRUPTED</name>
+          <initializer>= 0x8644</initializer>
+          <briefdescription>
+<para>Provenance data is corrupted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba65b74706ea889ab53e8ce271f1cbee23" prot="public">
+          <name>PROVENANCE_CHAIN_BROKEN</name>
+          <initializer>= 0x8645</initializer>
+          <briefdescription>
+<para>Provenance chain integrity violated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba16afe28fdb86e8e70abe2752e998a9f7" prot="public">
+          <name>PROVENANCE_NOT_INITIALIZED</name>
+          <initializer>= 0x8666</initializer>
+          <briefdescription>
+<para>Provenance tracking not initialized. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bab59e5b7ac7f441a0770b716fd242296a" prot="public">
+          <name>DATASET_PATH_INVALID</name>
+          <initializer>= 0x8700</initializer>
+          <briefdescription>
+<para>Dataset path is invalid or empty. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba5c480295f087dc16c9fa389e332cee59" prot="public">
+          <name>DATASET_FORMAT_UNSUPPORTED</name>
+          <initializer>= 0x8701</initializer>
+          <briefdescription>
+<para>Dataset format is not supported. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf35d5c623a584597793fa886a658ad13" prot="public">
+          <name>DATASET_EMPTY</name>
+          <initializer>= 0x8702</initializer>
+          <briefdescription>
+<para>Dataset contains no samples. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841baf53513f45388f20c39f5f9e9a60a1a55" prot="public">
+          <name>DATASET_SAMPLE_INVALID</name>
+          <initializer>= 0x8703</initializer>
+          <briefdescription>
+<para>Dataset sample validation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba732d11e7182c5bb37ef52b16bd0ed24d" prot="public">
+          <name>DATASET_SPLITS_INVALID</name>
+          <initializer>= 0x8704</initializer>
+          <briefdescription>
+<para>Dataset splits are misconfigured. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba266a9422e5d1083e936e325c49b57940" prot="public">
+          <name>DATASET_MEMORY_EXHAUSTED</name>
+          <initializer>= 0x8711</initializer>
+          <briefdescription>
+<para>Dataset loading exhausted available memory. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba43500022e1146b80a0cc309df8143cee" prot="public">
+          <name>DATASET_STORAGE_EXHAUSTED</name>
+          <initializer>= 0x8712</initializer>
+          <briefdescription>
+<para>Dataset too large for available storage. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba194404ba88d9d9be528fed958e288984" prot="public">
+          <name>DATASET_READ_FAILED</name>
+          <initializer>= 0x8722</initializer>
+          <briefdescription>
+<para>Failed to read dataset file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba9d2cd731bdc565c912f727e3116d9985" prot="public">
+          <name>DATASET_PARSE_FAILED</name>
+          <initializer>= 0x8723</initializer>
+          <briefdescription>
+<para>Failed to parse dataset format. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba452ce80220d97eba2f3816231efc42a0" prot="public">
+          <name>DATASET_LOAD_TIMEOUT</name>
+          <initializer>= 0x8733</initializer>
+          <briefdescription>
+<para>Dataset loading exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba154caa65d3d93d52b0b69026a5ce2fc4" prot="public">
+          <name>DATASET_FILE_CORRUPTED</name>
+          <initializer>= 0x8744</initializer>
+          <briefdescription>
+<para>Dataset file is corrupted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba8f1f03977aeda47fcb4afa8351599f47" prot="public">
+          <name>DATASET_MANIFEST_CORRUPTED</name>
+          <initializer>= 0x8745</initializer>
+          <briefdescription>
+<para>Dataset manifest contains invalid entries. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bac9ac6bfaff113770cfdb72ab34781bda" prot="public">
+          <name>DATASET_ITERATOR_EXHAUSTED</name>
+          <initializer>= 0x8766</initializer>
+          <briefdescription>
+<para>Dataset iterator exhausted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Comprehensive error code enumeration for training module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All errors follow a hierarchical pattern: 0x8XYZ where:<itemizedlist>
+<listitem><para>X: component (0=checkpoint, 1=training, 2=merge, 3=enrichment, 4=labeling, 5=serving, 6=provenance, 7=dataset)</para>
+</listitem><listitem><para>Y: error category (0=denial/invalid, 1=resource, 2=io, 3=timeout, 4=corruption, 5=incompatibility, 6=state)</para>
+</listitem><listitem><para>Z: specific error within category</para>
+</listitem></itemizedlist>
+</para>
+<para>Error Classification:<itemizedlist>
+<listitem><para>DENIAL: Operation cannot proceed due to invalid input or constraint violation</para>
+</listitem><listitem><para>RESOURCE: Memory, disk, GPU, or other resource exhaustion</para>
+</listitem><listitem><para>IO: File system, network, or I/O operation failure</para>
+</listitem><listitem><para>TIMEOUT: Operation exceeded time limit</para>
+</listitem><listitem><para>CORRUPTION: Data corruption or integrity violation detected</para>
+</listitem><listitem><para>INCOMPATIBILITY: Version, size, or format mismatch</para>
+</listitem><listitem><para>STATE: Invalid state transition or precondition not met </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_error_codes.h" line="54" column="1" bodyfile="include/training/training_error_codes.h" bodystart="54" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1training_1aa0f731bb4ce8174243dc9202b7263daf" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TrainingIncidentClass</name>
+        <qualifiedname>themis::training::TrainingIncidentClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1training_1aa0f731bb4ce8174243dc9202b7263dafa1688c5f13ed0cc68689219cac28e9ca6" prot="public">
+          <name>DATASET</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Labeling, enrichment, dataset selection, or data validation faults. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1aa0f731bb4ce8174243dc9202b7263dafa7c95c63fdc6550e5b33eed35360778c3" prot="public">
+          <name>TRAINING</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Training-step execution, convergence monitoring, or checkpoint faults. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1aa0f731bb4ce8174243dc9202b7263dafa98f0cd748f38ead2f2914ca91e45ab78" prot="public">
+          <name>ADAPTER</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Adapter merge, serving, or handoff faults. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Discriminator for the three training incident classes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by <ref refid="structthemis_1_1training_1_1_training_incident" kindref="compound">TrainingIncident</ref> to identify which subsystem emitted the event. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="59" column="1" bodyfile="include/training/training_incident_emitter.h" bodystart="59" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1training_1ac9f3ff49d8916723cffe63ddb9960104" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>JobStatus</name>
+        <qualifiedname>themis::training::JobStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1training_1ac9f3ff49d8916723cffe63ddb9960104a7b2f31b90fe1c2cc33a52233c1925df3" prot="public">
+          <name>Queued</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1ac9f3ff49d8916723cffe63ddb9960104a5bda814c4aedb126839228f1a3d92f09" prot="public">
+          <name>Running</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1ac9f3ff49d8916723cffe63ddb9960104a07ca5050e697392c9ed47e6453f1453f" prot="public">
+          <name>Completed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1ac9f3ff49d8916723cffe63ddb9960104ad7c8c85bf79bbe1b7188497c32c3b0ca" prot="public">
+          <name>Failed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1ac9f3ff49d8916723cffe63ddb9960104aa149e85a44aeec9140e92733d9ed694e" prot="public">
+          <name>Cancelled</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Lifecycle state of a submitted training job. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="178" column="1" bodyfile="include/training/training_interfaces.h" bodystart="178" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1training_1a91a723ad4f142cc5e4fd2515a9572392" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CancelResult</name>
+        <qualifiedname>themis::training::CancelResult</qualifiedname>
+        <enumvalue id="namespacethemis_1_1training_1a91a723ad4f142cc5e4fd2515a9572392aa149e85a44aeec9140e92733d9ed694e" prot="public">
+          <name>Cancelled</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a91a723ad4f142cc5e4fd2515a9572392a3b8e214d1e0f361f78c5417cbfb9e6fe" prot="public">
+          <name>AlreadyCompleted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1training_1a91a723ad4f142cc5e4fd2515a9572392a38c300f4fc9ce8a77aad4a30de05cad8" prot="public">
+          <name>NotFound</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Result of a cancel() call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="187" column="1" bodyfile="include/training/training_interfaces.h" bodystart="187" bodyend="191"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1training_1aa74730bdbe99bcd1d8f3268982e72465" prot="public" static="no">
+        <type>std::function&lt; void(size_t processed, size_t total, const std::string &amp;status)&gt;</type>
+        <definition>using themis::training::LabelingCallback = std::function&lt;void(size_t processed, 
+                                           size_t total,
+                                           const std::string&amp; status)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LabelingCallback</name>
+        <qualifiedname>themis::training::LabelingCallback</qualifiedname>
+        <briefdescription>
+<para>Labeling progress callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="80" column="1" bodyfile="include/training/auto_labeler.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1training_1aef71c1e7bfba4652c7ba87452e1d4f9a" prot="public" static="no">
+        <type>std::function&lt; void(size_t epoch, size_t step, double loss, const std::string &amp;status)&gt;</type>
+        <definition>using themis::training::TrainingCallback = std::function&lt;void(size_t epoch,
+                                           size_t step,
+                                           double loss,
+                                           const std::string&amp; status)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TrainingCallback</name>
+        <qualifiedname>themis::training::TrainingCallback</qualifiedname>
+        <briefdescription>
+<para>Training progress callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="140" column="1" bodyfile="include/training/incremental_lora_trainer.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1training_1a4bbbc514a6d2387b8fb13ce2854cf50e" prot="public" static="no">
+        <type>std::function&lt; void(size_t processed, size_t total, const std::string &amp;status)&gt;</type>
+        <definition>using themis::training::EnrichmentCallback = std::function&lt;void(size_t processed, 
+                                             size_t total,
+                                             const std::string&amp; status)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EnrichmentCallback</name>
+        <qualifiedname>themis::training::EnrichmentCallback</qualifiedname>
+        <briefdescription>
+<para>Enrichment progress callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="59" column="1" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1training_1ad0b32d75029f481835ef8aad6f89f69a" prot="public" static="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>using themis::training::DomainKeywords = std::map&lt;std::string, std::vector&lt;std::string&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>DomainKeywords</name>
+        <qualifiedname>themis::training::DomainKeywords</qualifiedname>
+        <briefdescription>
+<para>Per-domain keyword list for BM25 domain relevance scoring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="34" column="1" bodyfile="include/training/lora_data_selection.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1training_1ab62c68864316cf850af982b4c5370ee3" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;stage, size_t count, const std::string &amp;message)&gt;</type>
+        <definition>using themis::training::SelectionProgressCallback = 
+std::function&lt;void(const std::string&amp; stage,
+                   size_t count,
+                   const std::string&amp; message)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SelectionProgressCallback</name>
+        <qualifiedname>themis::training::SelectionProgressCallback</qualifiedname>
+        <briefdescription>
+<para>Called after each pipeline stage with progress information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stage name (e.g. &quot;quality_filter&quot;, &quot;deduplication&quot;, …) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of samples passing this stage so far </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable status message </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="205" column="1" bodyfile="include/training/lora_data_selection.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1training_1a169ab41ac45ae0879c3fa6c99239c993" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::training::CheckpointId = std::string</definition>
+        <argsstring></argsstring>
+        <name>CheckpointId</name>
+        <qualifiedname>themis::training::CheckpointId</qualifiedname>
+        <briefdescription>
+<para>Opaque identifier returned by <ref refid="classthemis_1_1training_1_1_i_lo_r_a_checkpoint_manager_1abc18a5fd1a8a74acb0241247916ec9c9" kindref="member">ILoRACheckpointManager::save()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="29" column="1" bodyfile="include/training/training_interfaces.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1training_1af9303b21c4a7eee30c3598d37206795b" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::training::JobId = std::string</definition>
+        <argsstring></argsstring>
+        <name>JobId</name>
+        <qualifiedname>themis::training::JobId</qualifiedname>
+        <briefdescription>
+<para>Opaque identifier for a submitted training job. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="32" column="1" bodyfile="include/training/training_interfaces.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1training_1a1382c6c1121dc979a2b83a6268069d11" prot="public" static="no">
+        <type>std::map&lt; std::string, float &gt;</type>
+        <definition>using themis::training::ThresholdMap = std::map&lt;std::string, float&gt;</definition>
+        <argsstring></argsstring>
+        <name>ThresholdMap</name>
+        <qualifiedname>themis::training::ThresholdMap</qualifiedname>
+        <briefdescription>
+<para>Per-category calibrated threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="125" column="1" bodyfile="include/training/training_interfaces.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1training_1a6b72290fe0e22756fdaaf857c0315ee9" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;stage, size_t step, const std::string &amp;message)&gt;</type>
+        <definition>using themis::training::PipelineCallback = std::function&lt;void(const std::string&amp; stage,
+                                           size_t step,
+                                           const std::string&amp; message)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PipelineCallback</name>
+        <qualifiedname>themis::training::PipelineCallback</qualifiedname>
+        <briefdescription>
+<para>Pipeline progress callback (Phase 7). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="187" column="1" bodyfile="include/training/training_pipeline.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1training_1a6ede5cf06216649fc11faae8420b3dec" prot="public" static="no">
+        <type>std::function&lt; void(size_t trial_index, const <ref refid="structthemis_1_1training_1_1_hyperparam_trial_result" kindref="compound">HyperparamTrialResult</ref> &amp;result)&gt;</type>
+        <definition>using themis::training::HyperparamSearchCallback = 
+std::function&lt;void(size_t trial_index, const HyperparamTrialResult&amp; result)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HyperparamSearchCallback</name>
+        <qualifiedname>themis::training::HyperparamSearchCallback</qualifiedname>
+        <briefdescription>
+<para>Per-trial progress callback for hyperparameter search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called once after each trial completes. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>trial_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-based index of the completed trial. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result for that trial. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="267" column="1" bodyfile="include/training/training_pipeline.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1training_1a91ef69bb49179fbfc900851bdfdd0d35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::validateDeploymentReadiness</definition>
+        <argsstring>(const std::string &amp;adapter_version, const std::string &amp;checkpoint_path, const std::string &amp;expected_sha256=&quot;&quot;)</argsstring>
+        <name>validateDeploymentReadiness</name>
+        <qualifiedname>themis::training::validateDeploymentReadiness</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_sha256</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Validate an adapter before deployment to serving infrastructure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Phase 2: Deployment Validation Implementation ============================================================================</para>
+<para>Phase 2 hardening: performs comprehensive deployment readiness checks including version string validation, state consistency, and pre-deployment health assessment.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version identifier (must be non-empty, valid format) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>checkpoint_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the checkpoint file (must exist and be readable) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected_sha256</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected SHA-256 of checkpoint (if empty, skipped) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Empty string if valid; otherwise error message describing the issue</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_sha256</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), length(), std::isalnum(), std::string(), f(), is_open(), seekg(), tellg(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/adapter_serving.cpp" line="43" column="13" bodyfile="src/training/adapter_serving.cpp" bodystart="43" bodyend="103" declfile="include/training/adapter_serving.h" declline="119" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1a975dd237b85085b50ea1623c7001101d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::computeDeploymentFingerprint</definition>
+        <argsstring>(const std::string &amp;adapter_version, const std::string &amp;checkpoint_sha256)</argsstring>
+        <name>computeDeploymentFingerprint</name>
+        <qualifiedname>themis::training::computeDeploymentFingerprint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_sha256</declname>
+        </param>
+        <briefdescription>
+<para>Generate deterministic deployment fingerprint for an adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Deployment Fingerprint.</para>
+<para>Creates a stable identifier based on the adapter version and checkpoint hash. Used to ensure repeatable deployment decisions and audit trail consistency.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>checkpoint_sha256</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SHA-256 of the checkpoint file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Deterministic fingerprint string (hex-encoded)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_sha256</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/adapter_serving.cpp" line="112" column="13" bodyfile="src/training/adapter_serving.cpp" bodystart="112" bodyend="135" declfile="include/training/adapter_serving.h" declline="135" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1a91b2c23fd6eda90af0ed4952dbb8f532" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::trainingErrorCodeToString</definition>
+        <argsstring>(TrainingErrorCode code)</argsstring>
+        <name>trainingErrorCodeToString</name>
+        <qualifiedname>themis::training::trainingErrorCodeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref> to human-readable string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code to convert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Descriptive string for the error code. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_error_codes.h" line="469" column="20" bodyfile="include/training/training_error_codes.h" bodystart="469" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1a61ebe01c9ba2cc5714cbdd1e66d8fc87" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::training::trainingIncidentClassName</definition>
+        <argsstring>(TrainingIncidentClass cls) noexcept</argsstring>
+        <name>trainingIncidentClassName</name>
+        <qualifiedname>themis::training::trainingIncidentClassName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aa0f731bb4ce8174243dc9202b7263daf" kindref="member">TrainingIncidentClass</ref></type>
+          <declname>cls</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable label for a <ref refid="namespacethemis_1_1training_1aa0f731bb4ce8174243dc9202b7263daf" kindref="member">TrainingIncidentClass</ref> value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Incident class discriminator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Null-terminated string literal (&quot;dataset&quot;, &quot;training&quot;, or &quot;adapter&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="74" column="19" bodyfile="include/training/training_incident_emitter.h" bodystart="74" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1training_1ab86b96b5687ec25ead64bc455e8a64f6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::training::jsonEscape</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>jsonEscape</name>
+        <qualifiedname>themis::training::jsonEscape</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Json Escape. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1190" column="20" bodyfile="src/training/lora_data_selection.cpp" bodystart="1190" bodyend="1209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/adalora_tt_bridge.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

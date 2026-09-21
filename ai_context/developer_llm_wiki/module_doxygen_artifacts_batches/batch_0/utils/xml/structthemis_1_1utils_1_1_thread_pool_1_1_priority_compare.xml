@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_thread_pool_1_1_priority_compare" kind="struct" language="C++" prot="private">
+    <compoundname>themis::utils::ThreadPool::PriorityCompare</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_thread_pool_1_1_priority_compare_1ada7713745ac225746d26deb832bc450e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::ThreadPool::PriorityCompare::operator()</definition>
+        <argsstring>(const std::shared_ptr&lt; Task &gt; &amp;a, const std::shared_ptr&lt; Task &gt; &amp;b) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::utils::ThreadPool::PriorityCompare::operator()</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_task" kindref="compound">Task</ref> &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_task" kindref="compound">Task</ref> &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="154" column="14" bodyfile="include/utils/thread_pool_manager.h" bodystart="154" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/thread_pool_manager.h" line="153" column="5" bodyfile="include/utils/thread_pool_manager.h" bodystart="153" bodyend="159"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_thread_pool_1_1_priority_compare_1ada7713745ac225746d26deb832bc450e" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPool::PriorityCompare</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

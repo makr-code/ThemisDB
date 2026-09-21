@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_training_service_registry_test" kind="class" language="C++" prot="public">
+    <compoundname>TrainingServiceRegistryTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_training_service_registry_test_1ad9528e86616a58fcd5243b2f8432b8f1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TrainingServiceRegistryTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TrainingServiceRegistryTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_service_registry.cpp" line="37" column="10" bodyfile="tests/training/test_training_service_registry.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_training_service_registry_test_1a494783b8278e604fde70f11c4f920ab1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TrainingServiceRegistryTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TrainingServiceRegistryTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_service_registry.cpp" line="42" column="10" bodyfile="tests/training/test_training_service_registry.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TrainingServiceRegistryTest</label>
+        <link refid="class_training_service_registry_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TrainingServiceRegistryTest</label>
+        <link refid="class_training_service_registry_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_training_service_registry.cpp" line="35" column="1" bodyfile="tests/training/test_training_service_registry.cpp" bodystart="35" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_training_service_registry_test_1ad9528e86616a58fcd5243b2f8432b8f1" prot="protected" virt="non-virtual"><scope>TrainingServiceRegistryTest</scope><name>SetUp</name></member>
+      <member refid="class_training_service_registry_test_1a494783b8278e604fde70f11c4f920ab1" prot="protected" virt="non-virtual"><scope>TrainingServiceRegistryTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

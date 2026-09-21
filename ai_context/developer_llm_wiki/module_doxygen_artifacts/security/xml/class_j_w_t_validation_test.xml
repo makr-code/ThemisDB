@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_j_w_t_validation_test" kind="class" language="C++" prot="public">
+    <compoundname>JWTValidationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_j_w_t_validation_test_1aec853c349b57a63d148e8d9eaaf16805" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="struct_r_s_a_fixture" kindref="compound">RSAFixture</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RSAFixture&gt; JWTValidationTest::rsa_fixture_</definition>
+        <argsstring></argsstring>
+        <name>rsa_fixture_</name>
+        <qualifiedname>JWTValidationTest::rsa_fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="140" column="21" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_j_w_t_validation_test_1adb27cdf1cc334f1093f4b9953f568fdf" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; JWTValidator &gt;</type>
+        <definition>std::unique_ptr&lt;JWTValidator&gt; JWTValidationTest::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>JWTValidationTest::validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="141" column="21" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_j_w_t_validation_test_1af592c96c6ba20325330a11a21bc57921" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string JWTValidationTest::kid_</definition>
+        <argsstring></argsstring>
+        <name>kid_</name>
+        <qualifiedname>JWTValidationTest::kid_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="142" column="17" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="142" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_j_w_t_validation_test_1af886a1671df1a520cda7a2bbaff0785c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void JWTValidationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>JWTValidationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="144" column="10" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="144" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="class_j_w_t_validation_test_1aeb10c3fd3530472164e7f0597996f7f7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string JWTValidationTest::createToken</definition>
+        <argsstring>(const nlohmann::json &amp;header, const nlohmann::json &amp;payload)</argsstring>
+        <name>createToken</name>
+        <qualifiedname>JWTValidationTest::createToken</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>header</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="161" column="17" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="161" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test JWT Validation Failures. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>JWTValidationTest</label>
+        <link refid="class_j_w_t_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>JWTValidationTest</label>
+        <link refid="class_j_w_t_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_jwt_validation_hardening.cpp" line="138" column="1" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="138" bodyend="168"/>
+    <listofallmembers>
+      <member refid="class_j_w_t_validation_test_1aeb10c3fd3530472164e7f0597996f7f7" prot="protected" virt="non-virtual"><scope>JWTValidationTest</scope><name>createToken</name></member>
+      <member refid="class_j_w_t_validation_test_1af592c96c6ba20325330a11a21bc57921" prot="protected" virt="non-virtual"><scope>JWTValidationTest</scope><name>kid_</name></member>
+      <member refid="class_j_w_t_validation_test_1aec853c349b57a63d148e8d9eaaf16805" prot="protected" virt="non-virtual"><scope>JWTValidationTest</scope><name>rsa_fixture_</name></member>
+      <member refid="class_j_w_t_validation_test_1af886a1671df1a520cda7a2bbaff0785c" prot="protected" virt="non-virtual"><scope>JWTValidationTest</scope><name>SetUp</name></member>
+      <member refid="class_j_w_t_validation_test_1adb27cdf1cc334f1093f4b9953f568fdf" prot="protected" virt="non-virtual"><scope>JWTValidationTest</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

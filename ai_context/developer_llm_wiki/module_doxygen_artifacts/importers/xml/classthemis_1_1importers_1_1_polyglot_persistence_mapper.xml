@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_polyglot_persistence_mapper" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::PolyglotPersistenceMapper</compoundname>
+    <includes refid="polyglot__mapper_8h" local="no">polyglot_mapper.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_query_pattern" prot="public">themis::importers::PolyglotPersistenceMapper::QueryPattern</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping" prot="public">themis::importers::PolyglotPersistenceMapper::DataModelMapping</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_model_transformer" prot="public">themis::importers::PolyglotPersistenceMapper::ModelTransformer</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6b86747b05162413e3d2991db11b2805" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DataModel</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::DataModel</qualifiedname>
+        <enumvalue id="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6b86747b05162413e3d2991db11b2805a179518da8867f0b4237259ea3241a2ec" prot="public">
+          <name>RELATIONAL</name>
+          <briefdescription>
+<para>Normalised tabular. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6b86747b05162413e3d2991db11b2805ac231fa48df3ee393c92dccac4dba5e7d" prot="public">
+          <name>DOCUMENT</name>
+          <briefdescription>
+<para>JSON/BSON with nesting. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6b86747b05162413e3d2991db11b2805ae27e2917b6444fcd3452d2d87046a487" prot="public">
+          <name>GRAPH</name>
+          <briefdescription>
+<para>Vertices &amp; edges (RDF / Property Graph). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6b86747b05162413e3d2991db11b2805a5eb907bdd20f7bdad174e0525e3c4097" prot="public">
+          <name>TIMESERIES</name>
+          <briefdescription>
+<para>Chronological events. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6b86747b05162413e3d2991db11b2805a08ae359e36f465a0a199258c7036906a" prot="public">
+          <name>VECTORSPACE</name>
+          <briefdescription>
+<para>Embeddings / similarity search. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6b86747b05162413e3d2991db11b2805a22d1e6c910eacc075354a67766a67595" prot="public">
+          <name>KEYVALUE</name>
+          <briefdescription>
+<para>Simple key-value store. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="24" column="5" bodyfile="include/importers/polyglot_mapper.h" bodystart="24" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1affac4bf60415f179c15c2b40a70a1d14" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PolyglotPersistenceMapper::dataModelToString</definition>
+        <argsstring>(DataModel m)</argsstring>
+        <name>dataModelToString</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::dataModelToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6b86747b05162413e3d2991db11b2805" kindref="member">DataModel</ref></type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Data Model To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements dataModelToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="38" column="24" bodyfile="src/importers/polyglot_mapper.cpp" bodystart="29" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6d558141defba737d70be80be9fae18f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping" kindref="compound">DataModelMapping</ref> &gt;</type>
+        <definition>std::vector&lt; PolyglotPersistenceMapper::DataModelMapping &gt; themis::importers::PolyglotPersistenceMapper::recommendDataModels</definition>
+        <argsstring>(const std::vector&lt; InferenceTableSchema &gt; &amp;schemas, const std::vector&lt; QueryPattern &gt; &amp;observed_queries={})</argsstring>
+        <name>recommendDataModels</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::recommendDataModels</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_inference_table_schema" kindref="compound">InferenceTableSchema</ref> &gt; &amp;</type>
+          <declname>schemas</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_query_pattern" kindref="compound">QueryPattern</ref> &gt; &amp;</type>
+          <declname>observed_queries</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="54" column="17" bodyfile="src/importers/polyglot_mapper.cpp" bodystart="103" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a9dc1f9e256ca0b0849cb41d15b7f414f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6b86747b05162413e3d2991db11b2805" kindref="member">DataModel</ref></type>
+        <definition>PolyglotPersistenceMapper::DataModel themis::importers::PolyglotPersistenceMapper::inferModelFromSchema</definition>
+        <argsstring>(const InferenceTableSchema &amp;schema, const std::vector&lt; QueryPattern &gt; &amp;queries) const</argsstring>
+        <name>inferModelFromSchema</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::inferModelFromSchema</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_inference_table_schema" kindref="compound">InferenceTableSchema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_query_pattern" kindref="compound">QueryPattern</ref> &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <briefdescription>
+<para>Infer Model From Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="97" column="15" bodyfile="src/importers/polyglot_mapper.cpp" bodystart="46" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/polyglot_mapper.h" line="22" column="1" bodyfile="include/importers/polyglot_mapper.h" bodystart="22" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6b86747b05162413e3d2991db11b2805" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper</scope><name>DataModel</name></member>
+      <member refid="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1affac4bf60415f179c15c2b40a70a1d14" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper</scope><name>dataModelToString</name></member>
+      <member refid="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a9dc1f9e256ca0b0849cb41d15b7f414f" prot="private" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper</scope><name>inferModelFromSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6d558141defba737d70be80be9fae18f" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper</scope><name>recommendDataModels</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

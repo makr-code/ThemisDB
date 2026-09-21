@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_deep_nesting_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::DeepNestingStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_deep_nesting_stress_1a53445a896d32c8f5d625484282d30a17" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::DeepNestingStress::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::process::DeepNestingStress::max_depth</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Maximum nesting depth for this scenario (default: 100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="122" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_deep_nesting_stress_1a32b73227d55a3c076f428f1c7b9d8fd2" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::DeepNestingStress::expected_latency_p95_ms</definition>
+        <argsstring></argsstring>
+        <name>expected_latency_p95_ms</name>
+        <qualifiedname>themis::process::DeepNestingStress::expected_latency_p95_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Expected latency ceiling (ms) at P95. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="125" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_deep_nesting_stress_1a4348a739f9e4934830b8446b1372f3f2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::DeepNestingStress::generateTestInput</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInput</name>
+        <qualifiedname>themis::process::DeepNestingStress::generateTestInput</qualifiedname>
+        <briefdescription>
+<para>Generate a test input with nested sub-processes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="128" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_deep_nesting_stress_1af18c2d8b37a59b2d01ee46822719f47c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::DeepNestingStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::DeepNestingStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success for this scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="131" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_deep_nesting_stress_1a3504cfd5429e0785921849c1aa2adb0a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::DeepNestingStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::DeepNestingStress::describe</qualifiedname>
+        <briefdescription>
+<para>Get scenario description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="134" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="134" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deep nesting stress scenario for BPMN parser. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> Process model with nested sub-processes up to maximum depth <linebreak/>
+ <bold>Maximum Depth:</bold> 100 levels (configurable) <linebreak/>
+ <bold>Expected Behavior:</bold> Success with deterministic output (should complete in &lt;50 ms) <linebreak/>
+ <bold>Trigger:</bold> <computeroutput>PROC_MAX_DEPTH_EXCEEDED</computeroutput> if max depth exceeded <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>Deserialization succeeds</para>
+</listitem><listitem><para>Output model is deterministic (same as non-nested version)</para>
+</listitem><listitem><para>Latency &lt;50 ms (P95)</para>
+</listitem><listitem><para>No stack overflow or memory corruption </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="120" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="120" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_deep_nesting_stress_1a3504cfd5429e0785921849c1aa2adb0a" prot="public" virt="non-virtual"><scope>themis::process::DeepNestingStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_deep_nesting_stress_1a32b73227d55a3c076f428f1c7b9d8fd2" prot="public" virt="non-virtual"><scope>themis::process::DeepNestingStress</scope><name>expected_latency_p95_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_deep_nesting_stress_1a4348a739f9e4934830b8446b1372f3f2" prot="public" virt="non-virtual"><scope>themis::process::DeepNestingStress</scope><name>generateTestInput</name></member>
+      <member refid="structthemis_1_1process_1_1_deep_nesting_stress_1af18c2d8b37a59b2d01ee46822719f47c" prot="public" virt="non-virtual"><scope>themis::process::DeepNestingStress</scope><name>isSuccess</name></member>
+      <member refid="structthemis_1_1process_1_1_deep_nesting_stress_1a53445a896d32c8f5d625484282d30a17" prot="public" virt="non-virtual"><scope>themis::process::DeepNestingStress</scope><name>max_depth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

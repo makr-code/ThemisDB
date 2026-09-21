@@ -138,7 +138,12 @@ TEST_F(ModelLoaderErrorHandlingTest, FileNotFoundErrorContext) {
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(ModelLoaderErrorHandlingTest, InvalidModelFileReturnsError) {
-    GTEST_SKIP() << "Requires actual GGUF parsing (simulated env)";
+    const std::string invalid_model_path = createInvalidModelFile();
+    LazyModelLoader loader(config_);
+
+    auto* result = loader.getOrLoadModel("test_model", invalid_model_path);
+
+    EXPECT_EQ(result, nullptr);
 }
 
 TEST_F(ModelLoaderErrorHandlingTest, LoadFailureErrorMetadata) {

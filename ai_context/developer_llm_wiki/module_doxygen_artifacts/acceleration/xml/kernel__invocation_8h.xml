@@ -1,0 +1,735 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="kernel__invocation_8h" kind="file" language="C++">
+    <compoundname>kernel_invocation.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="bench__acceleration__cuda__gates_8cpp" local="yes">benchmarks/acceleration/bench_acceleration_cuda_gates.cpp</includedby>
+    <includedby refid="bench__acceleration__dispatch_8cpp" local="yes">benchmarks/acceleration/bench_acceleration_dispatch.cpp</includedby>
+    <includedby refid="ai__hardware__dispatcher_8h" local="yes">include/acceleration/ai_hardware_dispatcher.h</includedby>
+    <includedby refid="compute__backend_8h" local="yes">include/acceleration/compute_backend.h</includedby>
+    <includedby refid="hip__backend_8h" local="yes">include/acceleration/hip_backend.h</includedby>
+    <includedby refid="kernel__fallback__dispatcher_8h" local="yes">include/acceleration/kernel_fallback_dispatcher.h</includedby>
+    <includedby refid="tensor__core__matmul_8h" local="yes">include/acceleration/tensor_core_matmul.h</includedby>
+    <includedby refid="vllm__resource__manager_8h" local="yes">include/acceleration/vllm_resource_manager.h</includedby>
+    <includedby refid="cpu__backend_8cpp" local="yes">src/acceleration/cpu_backend.cpp</includedby>
+    <includedby refid="cuda__backend_8cpp" local="yes">src/acceleration/cuda_backend.cpp</includedby>
+    <includedby refid="test__acceleration__coverage_8cpp" local="yes">tests/acceleration/test_acceleration_coverage.cpp</includedby>
+    <includedby refid="test__acceleration__dispatch_8cpp" local="yes">tests/acceleration/test_acceleration_dispatch.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/acceleration/kernel_invocation.h</label>
+        <link refid="kernel__invocation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/acceleration/bench_acceleration_cuda_gates.cpp</label>
+        <link refid="bench__acceleration__cuda__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/acceleration/bench_acceleration_dispatch.cpp</label>
+        <link refid="bench__acceleration__dispatch_8cpp"/>
+      </node>
+      <node id="12">
+        <label>benchmarks/acceleration/bench_category_b_gpu_cpu_parity.cpp</label>
+        <link refid="bench__category__b__gpu__cpu__parity_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/acceleration/ai_hardware_dispatcher.h</label>
+        <link refid="ai__hardware__dispatcher_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/acceleration/compute_backend.h</label>
+        <link refid="compute__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/acceleration/cpu_backend.h</label>
+        <link refid="cpu__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/acceleration/cuda_backend.h</label>
+        <link refid="cuda__backend_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/acceleration/device_manager.h</label>
+        <link refid="device__manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/acceleration/faiss_gpu_backend.h</label>
+        <link refid="faiss__gpu__backend_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/acceleration/geo_acceleration_bridge.h</label>
+        <link refid="geo__acceleration__bridge_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/acceleration/graphics_backends.h</label>
+        <link refid="graphics__backends_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>include/acceleration/hip_backend.h</label>
+        <link refid="hip__backend_8h"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>include/acceleration/kernel_fallback_dispatcher.h</label>
+        <link refid="kernel__fallback__dispatcher_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/acceleration/kernel_invocation.h</label>
+        <link refid="kernel__invocation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>include/acceleration/kernel_registry.h</label>
+        <link refid="kernel__registry_8h"/>
+      </node>
+      <node id="38">
+        <label>include/acceleration/multi_gpu_backend.h</label>
+        <link refid="multi__gpu__backend_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>include/acceleration/nccl_vector_backend.h</label>
+        <link refid="nccl__vector__backend_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>include/acceleration/opencl_backend.h</label>
+        <link refid="opencl__backend_8h"/>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>include/acceleration/plugin_loader.h</label>
+        <link refid="plugin__loader_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>include/acceleration/quantized_backend.h</label>
+        <link refid="quantized__backend_8h"/>
+      </node>
+      <node id="48">
+        <label>include/acceleration/rccl_vector_backend.h</label>
+        <link refid="rccl__vector__backend_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>include/acceleration/tensor_core_matmul.h</label>
+        <link refid="tensor__core__matmul_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>include/acceleration/vllm_resource_manager.h</label>
+        <link refid="vllm__resource__manager_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/acceleration/vulkan_backend.h</label>
+        <link refid="vulkan__backend_8h"/>
+      </node>
+      <node id="50">
+        <label>include/acceleration/zluda_backend.h</label>
+        <link refid="zluda__backend_8h"/>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/acceleration/ai_hardware_dispatcher.cpp</label>
+        <link refid="ai__hardware__dispatcher_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/acceleration/backend_registry.cpp</label>
+        <link refid="backend__registry_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/acceleration/compute_backend.cpp</label>
+        <link refid="compute__backend_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/acceleration/cpu_backend.cpp</label>
+        <link refid="cpu__backend_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/acceleration/cpu_backend_mt.cpp</label>
+        <link refid="cpu__backend__mt_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/acceleration/cpu_backend_tbb.cpp</label>
+        <link refid="cpu__backend__tbb_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/acceleration/cuda_backend.cpp</label>
+        <link refid="cuda__backend_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/acceleration/device_manager.cpp</label>
+        <link refid="device__manager_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/acceleration/directx_backend_full.cpp</label>
+        <link refid="directx__backend__full_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/acceleration/faiss_gpu_backend.cpp</label>
+        <link refid="faiss__gpu__backend_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/acceleration/geo_acceleration_bridge.cpp</label>
+        <link refid="geo__acceleration__bridge_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/acceleration/graphics_backends.cpp</label>
+        <link refid="graphics__backends_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/acceleration/hip_backend.cpp</label>
+        <link refid="hip__backend_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/acceleration/kernel_registry.cpp</label>
+        <link refid="kernel__registry_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/acceleration/multi_gpu_backend.cpp</label>
+        <link refid="multi__gpu__backend_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/acceleration/nccl_vector_backend.cpp</label>
+        <link refid="nccl__vector__backend_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/acceleration/oneapi_backend.cpp</label>
+        <link refid="oneapi__backend_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/acceleration/opencl_backend.cpp</label>
+        <link refid="opencl__backend_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/acceleration/plugin_loader.cpp</label>
+        <link refid="plugin__loader_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/acceleration/rccl_vector_backend.cpp</label>
+        <link refid="rccl__vector__backend_8cpp"/>
+      </node>
+      <node id="58">
+        <label>src/acceleration/tensor_core_matmul.cpp</label>
+        <link refid="tensor__core__matmul_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/acceleration/vllm_resource_manager.cpp</label>
+        <link refid="vllm__resource__manager_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/acceleration/vulkan_backend_full.cpp</label>
+        <link refid="vulkan__backend__full_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/acceleration/zluda_backend.cpp</label>
+        <link refid="zluda__backend_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/acceleration/test_acceleration.cpp</label>
+        <link refid="test__acceleration_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/acceleration/test_acceleration_coverage.cpp</label>
+        <link refid="test__acceleration__coverage_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/acceleration/test_acceleration_dispatch.cpp</label>
+        <link refid="test__acceleration__dispatch_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/acceleration/test_acceleration_failure_handling.cpp</label>
+        <link refid="test__acceleration__failure__handling_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/acceleration/test_acceleration_performance_gates.cpp</label>
+        <link refid="test__acceleration__performance__gates_8cpp"/>
+      </node>
+      <node id="46">
+        <label>tests/acceleration/test_acceleration_plugin_security_hardening.cpp</label>
+        <link refid="test__acceleration__plugin__security__hardening_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/acceleration/test_acceleration_regression.cpp</label>
+        <link refid="test__acceleration__regression_8cpp"/>
+      </node>
+      <node id="60">
+        <label>tests/acceleration/test_acceleration_vllm_resource_manager_focused.cpp</label>
+        <link refid="test__acceleration__vllm__resource__manager__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/acceleration/test_ai_hardware_dispatcher.cpp</label>
+        <link refid="test__ai__hardware__dispatcher_8cpp"/>
+      </node>
+      <node id="55">
+        <label>tests/acceleration/test_backend_registry_thread_safety.cpp</label>
+        <link refid="test__backend__registry__thread__safety_8cpp"/>
+      </node>
+      <node id="41">
+        <label>tests/acceleration/test_nccl_merge_topk.cpp</label>
+        <link refid="test__nccl__merge__topk_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params" prot="public">themis::acceleration::ANNKernelParams</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_result" prot="public">themis::acceleration::ANNKernelResult</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_geo_kernel_params" prot="public">themis::acceleration::GeoKernelParams</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_geo_containment_params" prot="public">themis::acceleration::GeoContainmentParams</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" prot="public">themis::acceleration::ANNKernelDispatch</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" prot="public">themis::acceleration::GeoKernelDispatch</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_matrix_kernel_params" prot="public">themis::acceleration::MatrixKernelParams</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch" prot="public">themis::acceleration::MatrixKernelDispatch</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.33 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>-<sp/>Frozen<sp/>Kernel<sp/>Invocation<sp/>Interfaces</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>File:<sp/><sp/><sp/><sp/>include/acceleration/kernel_invocation.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Version:<sp/>1.0.0<sp/><sp/>(INTERFACE_VERSION<sp/>=<sp/>100)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Status:<sp/><sp/>FROZEN<sp/>—<sp/>signatures<sp/>stable<sp/>from<sp/>Q2<sp/>2026<sp/>/<sp/>v1.x</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>header<sp/>defines<sp/>the<sp/>stable,<sp/>versioned<sp/>C++<sp/>kernel<sp/>invocation<sp/>API<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Approximate<sp/>Nearest<sp/>Neighbour<sp/>(ANN)<sp/>and<sp/>geospatial<sp/>operations.<sp/><sp/>All</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>acceleration<sp/>backends<sp/>(CUDA,<sp/>Vulkan,<sp/>HIP,<sp/>CPU)<sp/>MUST<sp/>conform<sp/>to<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>function-pointer<sp/>typedefs<sp/>declared<sp/>here<sp/>when<sp/>populating<sp/>their<sp/>dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>tables.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compatibility<sp/>guarantee</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-----------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Field<sp/>additions<sp/>to<sp/>parameter<sp/>/<sp/>result<sp/>structs<sp/>are<sp/>allowed;<sp/>new<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>are<sp/>zero-initialised<sp/>by<sp/>default<sp/>so<sp/>existing<sp/>callers<sp/>are<sp/>unaffected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Enum<sp/>values<sp/>will<sp/>not<sp/>be<sp/>renumbered<sp/>or<sp/>removed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Function-pointer<sp/>typedefs<sp/>(ANNDistanceFn,<sp/>ANNTopKFn,<sp/>GeoDistanceFn,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>GeoContainmentFn)<sp/>will<sp/>not<sp/>change<sp/>parameter<sp/>order<sp/>or<sp/>types.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>INTERFACE_VERSION<sp/>is<sp/>bumped<sp/>ONLY<sp/>on<sp/>breaking<sp/>changes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Backend<sp/>implementations<sp/>fill<sp/>an<sp/>ANNKernelDispatch<sp/>/<sp/>GeoKernelDispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>table.<sp/><sp/>The<sp/>BackendRegistry<sp/>dispatches<sp/>kernel<sp/>calls<sp/>through<sp/>these<sp/>tables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>at<sp/>query<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">acceleration</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Interface<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1acceleration_1a7f2079c40d536f11662190084f1ff156" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1acceleration_1a7f2079c40d536f11662190084f1ff156" kindref="member">KERNEL_INVOCATION_INTERFACE_VERSION</ref><sp/>=<sp/>100;<sp/></highlight><highlight class="comment">//<sp/>v1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>enumerations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" kindref="member">DistanceMetric</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a7e6aa2d53f6ee2b1a34b017fa403cb76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">L2</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100ae66ba018ef96aa5c78c8fba787f43717" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100ae66ba018ef96aa5c78c8fba787f43717" kindref="member">COSINE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a5dbd0030546e2ee560ccd7c5e4bfcfc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a5dbd0030546e2ee560ccd7c5e4bfcfc8" kindref="member">INNER_PRODUCT</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8" kindref="member">GeoDistanceFormula</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8a81c921de8f8e0770b86be8ad22767827" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8a81c921de8f8e0770b86be8ad22767827" kindref="member">HAVERSINE</ref><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8a75389c6edd009098ff0392ea001bfba0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8a75389c6edd009098ff0392ea001bfba0" kindref="member">VINCENTY</ref><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ANN<sp/>kernel<sp/>parameters<sp/>and<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params" kindref="compound">ANNKernelParams</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1aab9b8cc5c1cd3a46186dd1404505fa14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1aab9b8cc5c1cd3a46186dd1404505fa14" kindref="member">queries</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1ae734ca4f06f04a45720a48757b40c067" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1ae734ca4f06f04a45720a48757b40c067" kindref="member">numQueries</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1aa7ac1161ebabbaabe8b9a2b1acfb9a1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1aa7ac1161ebabbaabe8b9a2b1acfb9a1b" kindref="member">dim</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a65e2f8c933c3717f16836fc6e82cc483" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a65e2f8c933c3717f16836fc6e82cc483" kindref="member">vectors</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a016fd3f3fcc6b53f9d940489f17f7b3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a016fd3f3fcc6b53f9d940489f17f7b3d" kindref="member">numVectors</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a0c3540206916b24101c02ea6d170afed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a0c3540206916b24101c02ea6d170afed" kindref="member">topK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a7996ce6b43082b4017f8126a7b987548" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" kindref="member">DistanceMetric</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a7996ce6b43082b4017f8126a7b987548" kindref="member">metric</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">DistanceMetric::L2</ref>;<sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_result" kindref="compound">ANNKernelResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_result_1af65c9ed0e39e1203a59824adf4e62b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t*<sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_result_1af65c9ed0e39e1203a59824adf4e62b88" kindref="member">indices</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_result_1ad0b542ca6077537cb98b01f41f545587" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_result_1ad0b542ca6077537cb98b01f41f545587" kindref="member">distances</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Geospatial<sp/>kernel<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1acceleration_1_1_geo_kernel_params" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_params" kindref="compound">GeoKernelParams</ref><sp/>{</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a3f676753a52a41b1287152c3f21174c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a3f676753a52a41b1287152c3f21174c2" kindref="member">latitudes1</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a7d13c54a6805ebab96f27c82944c698f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a7d13c54a6805ebab96f27c82944c698f" kindref="member">longitudes1</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a4021723dd4f7a4b45988964e2ed233e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a4021723dd4f7a4b45988964e2ed233e7" kindref="member">latitudes2</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a2f4f32f0565c3c655a9200d5003f1333" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a2f4f32f0565c3c655a9200d5003f1333" kindref="member">longitudes2</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1afdd8ce7efe8429077c0d67140c19aed8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1afdd8ce7efe8429077c0d67140c19aed8" kindref="member">count</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1aa4232ab87e53ba8cbceb7ceae5a442cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8" kindref="member">GeoDistanceFormula</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1aa4232ab87e53ba8cbceb7ceae5a442cb" kindref="member">formula</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8a81c921de8f8e0770b86be8ad22767827" kindref="member">GeoDistanceFormula::HAVERSINE</ref>;<sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1acceleration_1_1_geo_containment_params" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_geo_containment_params" kindref="compound">GeoContainmentParams</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1acceleration_1_1_geo_containment_params_1af67d7b29152125cb7583e3db8e09b98e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1acceleration_1_1_geo_containment_params_1af67d7b29152125cb7583e3db8e09b98e" kindref="member">pointLats</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1acceleration_1_1_geo_containment_params_1a2f9862a6068c57dc92af54b6b8e9527e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1acceleration_1_1_geo_containment_params_1a2f9862a6068c57dc92af54b6b8e9527e" kindref="member">pointLons</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1acceleration_1_1_geo_containment_params_1a4a5963bed52cf0a6f71f1c20b49f6517" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_containment_params_1a4a5963bed52cf0a6f71f1c20b49f6517" kindref="member">numPoints</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1acceleration_1_1_geo_containment_params_1aea97acf260257350ff22b2c8341766e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1acceleration_1_1_geo_containment_params_1aea97acf260257350ff22b2c8341766e3" kindref="member">polygonCoords</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1acceleration_1_1_geo_containment_params_1a446fafde1e824a7053651270abccf065" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_containment_params_1a446fafde1e824a7053651270abccf065" kindref="member">numPolygonVertices</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Frozen<sp/>kernel-launcher<sp/>function-pointer<sp/>typedefs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>functions<sp/>follow<sp/>the<sp/>same<sp/>stream-forwarding<sp/>convention:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>opaque_stream<sp/>—<sp/>backend-specific<sp/>execution<sp/>stream<sp/>handle<sp/>cast<sp/>to<sp/>void*:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>CUDA:<sp/><sp/><sp/>cudaStream_t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>Vulkan:<sp/>VkCommandBuffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>HIP:<sp/><sp/><sp/><sp/>hipStream_t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>CPU:<sp/><sp/><sp/><sp/>ignored<sp/>(pass<sp/>nullptr)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Return<sp/>value:<sp/>0<sp/>on<sp/>success,<sp/>non-zero<sp/>error<sp/>code<sp/>on<sp/>failure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1acceleration_1a278189123062935cc7aa1a7aeb615a8f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration_1a278189123062935cc7aa1a7aeb615a8f" kindref="member">ANNDistanceFn</ref><sp/>=<sp/>int<sp/>(*)(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>d_queries,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>d_vectors,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>d_distances,<sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numQueries,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numVectors,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dim,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>opaque_stream</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="namespacethemis_1_1acceleration_1af80a3b84a1a63de5ad4bffd114831951" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration_1af80a3b84a1a63de5ad4bffd114831951" kindref="member">ANNTopKFn</ref><sp/>=<sp/>int<sp/>(*)(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>d_distances,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t*<sp/><sp/><sp/><sp/>d_topk_indices,<sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>d_topk_dists,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numQueries,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numVectors,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>topK,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>opaque_stream</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="namespacethemis_1_1acceleration_1abce98041b9f3f9ba293687a6124e560a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration_1abce98041b9f3f9ba293687a6124e560a" kindref="member">GeoDistanceFn</ref><sp/>=<sp/>int<sp/>(*)(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/>d_latitudes1,<sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/>d_longitudes1,<sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/>d_latitudes2,<sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/>d_longitudes2,<sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d_distances,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8" kindref="member">GeoDistanceFormula</ref><sp/>formula,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>opaque_stream</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="namespacethemis_1_1acceleration_1ac05580732b7e377a2535ad58ac1cadc2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration_1ac05580732b7e377a2535ad58ac1cadc2" kindref="member">GeoContainmentFn</ref><sp/>=<sp/>int<sp/>(*)(</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>d_point_lats,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>d_point_lons,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numPoints,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>d_polygon_coords,<sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numPolygonVertices,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t*<sp/><sp/><sp/><sp/><sp/><sp/>d_results,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>opaque_stream</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Kernel<sp/>dispatch<sp/>tables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Backends<sp/>fill<sp/>one<sp/>of<sp/>these<sp/>structs<sp/>during<sp/>initialization.<sp/><sp/>Null<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>indicate<sp/>unsupported<sp/>operations;<sp/>use<sp/>ANNKernelFallbackDispatcher<sp/>/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GeoKernelFallbackDispatcher<sp/>(kernel_fallback_dispatcher.h)<sp/>to<sp/>route<sp/>null</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>slots<sp/>to<sp/>a<sp/>CPU<sp/>fallback<sp/>table<sp/>and<sp/>retry<sp/>transient<sp/>device<sp/>errors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kindref="compound">ANNKernelDispatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a496471d178fff443b65c821858573ea9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a278189123062935cc7aa1a7aeb615a8f" kindref="member">ANNDistanceFn</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a496471d178fff443b65c821858573ea9" kindref="member">launchL2Distance</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a92a3b823f21bc6d47c6074186d7345a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a278189123062935cc7aa1a7aeb615a8f" kindref="member">ANNDistanceFn</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a92a3b823f21bc6d47c6074186d7345a4" kindref="member">launchCosine</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1af597ddaa9f7d1aeea3eb976b30975e54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a278189123062935cc7aa1a7aeb615a8f" kindref="member">ANNDistanceFn</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1af597ddaa9f7d1aeea3eb976b30975e54" kindref="member">launchInnerProduct</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a6f7dee0b9389fa9e6e3b15d0cc597715" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1af80a3b84a1a63de5ad4bffd114831951" kindref="member">ANNTopKFn</ref><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a6f7dee0b9389fa9e6e3b15d0cc597715" kindref="member">launchTopK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a99a82dd1bcdf4a11b3bd7164b7013765" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1acceleration_1a278189123062935cc7aa1a7aeb615a8f" kindref="member">ANNDistanceFn</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a99a82dd1bcdf4a11b3bd7164b7013765" kindref="member">distanceLauncherFor</ref>(<ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" kindref="member">DistanceMetric</ref><sp/>metric)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(metric)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">DistanceMetric::L2</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a496471d178fff443b65c821858573ea9" kindref="member">launchL2Distance</ref>;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100ae66ba018ef96aa5c78c8fba787f43717" kindref="member">DistanceMetric::COSINE</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a92a3b823f21bc6d47c6074186d7345a4" kindref="member">launchCosine</ref>;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a5dbd0030546e2ee560ccd7c5e4bfcfc8" kindref="member">DistanceMetric::INNER_PRODUCT</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1af597ddaa9f7d1aeea3eb976b30975e54" kindref="member">launchInnerProduct</ref>;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="211" refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch_1a0f3faf63cb20ab2fa29a1721c0b2ba76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1abce98041b9f3f9ba293687a6124e560a" kindref="member">GeoDistanceFn</ref><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch_1a0f3faf63cb20ab2fa29a1721c0b2ba76" kindref="member">launchDistance</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch_1a6822f1c07d86788a76e887f2c61fb88e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ac05580732b7e377a2535ad58ac1cadc2" kindref="member">GeoContainmentFn</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch_1a6822f1c07d86788a76e887f2c61fb88e" kindref="member">launchContainment</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Matrix<sp/>kernel<sp/>parameters<sp/>and<sp/>results<sp/>(FP16<sp/>/<sp/>BF16<sp/>/<sp/>Tensor<sp/>Core)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7" kindref="member">MatrixPrecision</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="222" refid="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7a693aa0bef84c25fe81c7e62e72f9313d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a1252a8ccb0f79157e79601591fad70e5" kindref="member">FP32</ref><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="223" refid="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7aa4bf99d6945c25077fd6660d536af8a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a12b8f5c1b8b98da188e744625feff02b" kindref="member">FP16</ref><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="224" refid="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7af656bbf613964dcf710b771b0918ab30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a3b6cd53120310484346d7258bcdd8a70" kindref="member">BF16</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="225" refid="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7aee9d73311ff0658494edfff14c3ec1e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1af63ddfe2f3f7db07ffdddc9511b5471b" kindref="member">INT8</ref><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1acceleration_1_1_matrix_kernel_params" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params" kindref="compound">MatrixKernelParams</ref><sp/>{</highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1afbfecdf74a123c5803017a203e758f92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1afbfecdf74a123c5803017a203e758f92" kindref="member">A</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233" refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1adac7b67e4abf248e99f9b1732636714e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1adac7b67e4abf248e99f9b1732636714e" kindref="member">B</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1ac62844ef26494e4046afc20de3ed0e6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1ac62844ef26494e4046afc20de3ed0e6d" kindref="member">C</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a15d5c612b88539249291304440d3625f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a15d5c612b88539249291304440d3625f" kindref="member">M</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236" refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a6a43c307e14f24cfe5aa6f7d611c6cdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a6a43c307e14f24cfe5aa6f7d611c6cdc" kindref="member">K</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237" refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a7ec8b9e9cb66363269d60e66b0d95e63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a7ec8b9e9cb66363269d60e66b0d95e63" kindref="member">N</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238" refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1af494c5ecd1a44e14d1823b56c70f6c77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1af494c5ecd1a44e14d1823b56c70f6c77" kindref="member">alpha</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239" refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a177374324ec76f84e85a228d02847fdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a177374324ec76f84e85a228d02847fdd" kindref="member">beta</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240" refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1acd54f9953fcdb4b5641800d41b399a30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7" kindref="member">MatrixPrecision</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1acd54f9953fcdb4b5641800d41b399a30" kindref="member">precision</ref><sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7a693aa0bef84c25fe81c7e62e72f9313d" kindref="member">MatrixPrecision::FP32</ref>;<sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Frozen<sp/>matrix<sp/>kernel-launcher<sp/>function-pointer<sp/>typedef</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>opaque_stream<sp/>convention<sp/>(same<sp/>as<sp/>ANN/Geo<sp/>launchers):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>CUDA:<sp/>cudaStream_t,<sp/>CPU:<sp/>ignored<sp/>(pass<sp/>nullptr)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Return<sp/>value:<sp/>0<sp/>on<sp/>success,<sp/>non-zero<sp/>error<sp/>code<sp/>on<sp/>failure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254" refid="namespacethemis_1_1acceleration_1a1df65092778a4c201960a6649007209d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration_1a1df65092778a4c201960a6649007209d" kindref="member">MatrixKernelFn</ref><sp/>=<sp/>int<sp/>(*)(</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params" kindref="compound">MatrixKernelParams</ref>&amp;<sp/>params,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>opaque_stream</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Matrix<sp/>kernel<sp/>dispatch<sp/>table</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch" kindref="compound">MatrixKernelDispatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="266" refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch_1a7385f749d4d94b683391e0219cfe73b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a1df65092778a4c201960a6649007209d" kindref="member">MatrixKernelFn</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch_1a7385f749d4d94b683391e0219cfe73b9" kindref="member">launchMatmul</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>acceleration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/acceleration/kernel_invocation.h"/>
+  </compounddef>
+</doxygen>

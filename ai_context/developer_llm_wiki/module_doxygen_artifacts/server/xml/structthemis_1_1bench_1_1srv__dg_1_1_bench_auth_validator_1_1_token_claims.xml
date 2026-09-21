@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::srv_dg::BenchAuthValidator::TokenClaims</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1ad93dd8c0ed9f234859a62318f5c8532d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::srv_dg::BenchAuthValidator::TokenClaims::sub</definition>
+        <argsstring></argsstring>
+        <name>sub</name>
+        <qualifiedname>themis::bench::srv_dg::BenchAuthValidator::TokenClaims::sub</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="106" column="21" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1aec2bb22e8fd12101270033613b5e121e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::srv_dg::BenchAuthValidator::TokenClaims::iss</definition>
+        <argsstring></argsstring>
+        <name>iss</name>
+        <qualifiedname>themis::bench::srv_dg::BenchAuthValidator::TokenClaims::iss</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="107" column="21" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1a0f2e0efc98142095f089a6e32dd75cb2" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::bench::srv_dg::BenchAuthValidator::TokenClaims::exp</definition>
+        <argsstring></argsstring>
+        <name>exp</name>
+        <qualifiedname>themis::bench::srv_dg::BenchAuthValidator::TokenClaims::exp</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="108" column="22" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1a7cb549125cbe03db53083328b318852c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::srv_dg::BenchAuthValidator::TokenClaims::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::bench::srv_dg::BenchAuthValidator::TokenClaims::valid</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="109" column="14" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="105" column="5" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="105" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1a0f2e0efc98142095f089a6e32dd75cb2" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchAuthValidator::TokenClaims</scope><name>exp</name></member>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1aec2bb22e8fd12101270033613b5e121e" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchAuthValidator::TokenClaims</scope><name>iss</name></member>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1ad93dd8c0ed9f234859a62318f5c8532d" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchAuthValidator::TokenClaims</scope><name>sub</name></member>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1a7cb549125cbe03db53083328b318852c" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchAuthValidator::TokenClaims</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

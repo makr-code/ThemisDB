@@ -1,0 +1,330 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_metric_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::evaluation::MetricCollector</compoundname>
+    <includes refid="retrieval__metrics_8h" local="no">retrieval_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_metric_collector_1a9a935aa195dfb34c660ca23150004a8a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" kindref="compound">TensorGraphSnapshot</ref> &gt;</type>
+        <definition>std::vector&lt;TensorGraphSnapshot&gt; themis::evaluation::MetricCollector::snapshots_</definition>
+        <argsstring></argsstring>
+        <name>snapshots_</name>
+        <qualifiedname>themis::evaluation::MetricCollector::snapshots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="291" column="17" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_metric_collector_1ad943366ad13f2c03689f19c893d5840d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::evaluation::MetricCollector::shard_counts_</definition>
+        <argsstring></argsstring>
+        <name>shard_counts_</name>
+        <qualifiedname>themis::evaluation::MetricCollector::shard_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="292" column="28" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_metric_collector_1a88c6ea079b86d0684b8094658640d6b4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::evaluation::MetricCollector::shard_bytes_</definition>
+        <argsstring></argsstring>
+        <name>shard_bytes_</name>
+        <qualifiedname>themis::evaluation::MetricCollector::shard_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="293" column="30" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_metric_collector_1ab14ce7cb5358a3ed861ec0feb0e58ca9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::evaluation::MetricCollector::shard_skipped_</definition>
+        <argsstring></argsstring>
+        <name>shard_skipped_</name>
+        <qualifiedname>themis::evaluation::MetricCollector::shard_skipped_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="294" column="28" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::MetricCollector::MetricCollector</definition>
+        <argsstring>()=default</argsstring>
+        <name>MetricCollector</name>
+        <qualifiedname>themis::evaluation::MetricCollector::MetricCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="254" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_collector_1a749e0cc38ada3e212f0aad872e9e7e82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::MetricCollector::MetricCollector</definition>
+        <argsstring>(const MetricCollector &amp;)=delete</argsstring>
+        <name>MetricCollector</name>
+        <qualifiedname>themis::evaluation::MetricCollector::MetricCollector</qualifiedname>
+        <param>
+          <type>const MetricCollector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="257" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_collector_1ab457c7b0c06255ed4d87cdc0c97d0c5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref> &amp;</type>
+        <definition>MetricCollector &amp; themis::evaluation::MetricCollector::operator=</definition>
+        <argsstring>(const MetricCollector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::MetricCollector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="258" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_collector_1a79cbb82c116466e29d89207b2ebf3bb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::MetricCollector::MetricCollector</definition>
+        <argsstring>(MetricCollector &amp;&amp;)=default</argsstring>
+        <name>MetricCollector</name>
+        <qualifiedname>themis::evaluation::MetricCollector::MetricCollector</qualifiedname>
+        <param>
+          <type>MetricCollector &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="259" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_collector_1af81f5f46b287b362207e47dd72f9e362" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref> &amp;</type>
+        <definition>MetricCollector &amp; themis::evaluation::MetricCollector::operator=</definition>
+        <argsstring>(MetricCollector &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::MetricCollector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="260" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_collector_1a7118858c739ad6f9f63baa1ff2d05396" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::evaluation::MetricCollector::recordSnapshot</definition>
+        <argsstring>(TensorGraphSnapshot snapshot)</argsstring>
+        <name>recordSnapshot</name>
+        <qualifiedname>themis::evaluation::MetricCollector::recordSnapshot</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" kindref="compound">TensorGraphSnapshot</ref></type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Record Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="266" column="10" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="680" bodyend="682"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_collector_1a4ac7218be07eb7d4577ddfd81d819771" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::evaluation::MetricCollector::recordShardQuery</definition>
+        <argsstring>(uint32_t shard_count, double bytes, uint32_t skipped)</argsstring>
+        <name>recordShardQuery</name>
+        <qualifiedname>themis::evaluation::MetricCollector::recordShardQuery</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>shard_count</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>skipped</declname>
+        </param>
+        <briefdescription>
+<para>Record Shard Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">skipped</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="274" column="10" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="690" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_collector_1abaef883fe410bdd2fc7259691a113811" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::evaluation::MetricCollector::snapshotCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>snapshotCount</name>
+        <qualifiedname>themis::evaluation::MetricCollector::snapshotCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="276" column="18" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="698" bodyend="700"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_collector_1a8c012fc6ad48dec23fb8ba234d271328" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics" kindref="compound">TensorGraphRuntimeMetrics</ref></type>
+        <definition>TensorGraphRuntimeMetrics themis::evaluation::MetricCollector::summarizeTensorGraph</definition>
+        <argsstring>(double max_residual_error=0.10) const</argsstring>
+        <name>summarizeTensorGraph</name>
+        <qualifiedname>themis::evaluation::MetricCollector::summarizeTensorGraph</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>max_residual_error</declname>
+          <defval>0.10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="278" column="32" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="702" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_collector_1ac701d6afee319ef61a57d4ef186f165f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics" kindref="compound">DistributedEfficiencyMetrics</ref></type>
+        <definition>DistributedEfficiencyMetrics themis::evaluation::MetricCollector::summarizeDistributed</definition>
+        <argsstring>(uint32_t total_shards) const</argsstring>
+        <name>summarizeDistributed</name>
+        <qualifiedname>themis::evaluation::MetricCollector::summarizeDistributed</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>total_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="281" column="35" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="708" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_metric_collector_1a53f0ffa14b8c21907a5829f2a038532e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::evaluation::MetricCollector::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::evaluation::MetricCollector::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="288" column="10" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="715" bodyend="720"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/retrieval_metrics.h" line="252" column="1" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="252" bodyend="295"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>MetricCollector</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a749e0cc38ada3e212f0aad872e9e7e82" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>MetricCollector</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a79cbb82c116466e29d89207b2ebf3bb5" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>MetricCollector</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1ab457c7b0c06255ed4d87cdc0c97d0c5c" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1af81f5f46b287b362207e47dd72f9e362" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a4ac7218be07eb7d4577ddfd81d819771" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>recordShardQuery</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a7118858c739ad6f9f63baa1ff2d05396" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>recordSnapshot</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a53f0ffa14b8c21907a5829f2a038532e" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>reset</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a88c6ea079b86d0684b8094658640d6b4" prot="private" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>shard_bytes_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1ad943366ad13f2c03689f19c893d5840d" prot="private" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>shard_counts_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1ab14ce7cb5358a3ed861ec0feb0e58ca9" prot="private" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>shard_skipped_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1abaef883fe410bdd2fc7259691a113811" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>snapshotCount</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a9a935aa195dfb34c660ca23150004a8a" prot="private" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>snapshots_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1ac701d6afee319ef61a57d4ef186f165f" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>summarizeDistributed</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_metric_collector_1a8c012fc6ad48dec23fb8ba234d271328" prot="public" virt="non-virtual"><scope>themis::evaluation::MetricCollector</scope><name>summarizeTensorGraph</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

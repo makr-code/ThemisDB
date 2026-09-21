@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::onnx_clip::OnnxClipInitializationProfiler</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1a4223d0833f04e1aed3a409d7da95c025" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model" kindref="compound">MockOnnxClipModel</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockOnnxClipModel&gt; themis::bench::onnx_clip::OnnxClipInitializationProfiler::model_</definition>
+        <argsstring></argsstring>
+        <name>model_</name>
+        <qualifiedname>themis::bench::onnx_clip::OnnxClipInitializationProfiler::model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="296" column="21" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="296" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1ae7033ee691a1fb1fd5d1a0d985e1a471" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::onnx_clip::OnnxClipInitializationProfiler::SetUp</definition>
+        <argsstring>(::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::bench::onnx_clip::OnnxClipInitializationProfiler::SetUp</qualifiedname>
+        <param>
+          <type>::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="287" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="287" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1a7a7d35fadc23614aa518ca538bfa3a4a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::onnx_clip::OnnxClipInitializationProfiler::TearDown</definition>
+        <argsstring>(::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::bench::onnx_clip::OnnxClipInitializationProfiler::TearDown</qualifiedname>
+        <param>
+          <type>::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="291" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="291" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for detailed initialization profiling. Breaks down model load, session creation, and warmup costs. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::bench::onnx_clip::OnnxClipInitializationProfiler</label>
+        <link refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::bench::onnx_clip::OnnxClipInitializationProfiler</label>
+        <link refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="285" column="1" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="285" bodyend="297"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1a4223d0833f04e1aed3a409d7da95c025" prot="protected" virt="non-virtual"><scope>themis::bench::onnx_clip::OnnxClipInitializationProfiler</scope><name>model_</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1ae7033ee691a1fb1fd5d1a0d985e1a471" prot="public" virt="non-virtual"><scope>themis::bench::onnx_clip::OnnxClipInitializationProfiler</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler_1a7a7d35fadc23614aa518ca538bfa3a4a" prot="public" virt="non-virtual"><scope>themis::bench::onnx_clip::OnnxClipInitializationProfiler</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

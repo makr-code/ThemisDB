@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_tier_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>TierManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_tier_manager_test_1acc795e33be93f02568c6a6b930eeac7b" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_tier_policy" kindref="compound">TierPolicy</ref></type>
+        <definition>TierPolicy TierManagerTest::policy</definition>
+        <argsstring></argsstring>
+        <name>policy</name>
+        <qualifiedname>TierManagerTest::policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_tier_manager.cpp" line="161" column="16" bodyfile="tests/temporal/test_temporal_tier_manager.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_tier_manager_test_1a977ce56326394a58bb7084f88171c525" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager" kindref="compound">TemporalTierManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TemporalTierManager&gt; TierManagerTest::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>TierManagerTest::mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_tier_manager.cpp" line="162" column="21" bodyfile="tests/temporal/test_temporal_tier_manager.cpp" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_tier_manager_test_1a66e0593c253c7985b3e6d4e6d77b1832" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TierManagerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TierManagerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_tier_manager.cpp" line="164" column="10" bodyfile="tests/temporal/test_temporal_tier_manager.cpp" bodystart="164" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TierManagerTest</label>
+        <link refid="class_tier_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TierManagerTest</label>
+        <link refid="class_tier_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>policy</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TierPolicy</label>
+        <link refid="structthemisdb_1_1temporal_1_1_tier_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_tier_manager.cpp" line="159" column="1" bodyfile="tests/temporal/test_temporal_tier_manager.cpp" bodystart="159" bodyend="171"/>
+    <listofallmembers>
+      <member refid="class_tier_manager_test_1a977ce56326394a58bb7084f88171c525" prot="protected" virt="non-virtual"><scope>TierManagerTest</scope><name>mgr</name></member>
+      <member refid="class_tier_manager_test_1acc795e33be93f02568c6a6b930eeac7b" prot="protected" virt="non-virtual"><scope>TierManagerTest</scope><name>policy</name></member>
+      <member refid="class_tier_manager_test_1a66e0593c253c7985b3e6d4e6d77b1832" prot="protected" virt="non-virtual"><scope>TierManagerTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

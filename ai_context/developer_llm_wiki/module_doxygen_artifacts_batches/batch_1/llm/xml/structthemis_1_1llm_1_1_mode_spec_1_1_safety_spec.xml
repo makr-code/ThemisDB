@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_mode_spec_1_1_safety_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModeSpec::SafetySpec</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1_1_safety_spec_1a9310ebfd43cd2adf9f043c12acda5ed3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModeSpec::SafetySpec::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::ModeSpec::SafetySpec::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="130" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1_1_safety_spec_1a3ba234970709e6a85fc4452909092401" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModeSpec::SafetySpec::ethics_profile</definition>
+        <argsstring></argsstring>
+        <name>ethics_profile</name>
+        <qualifiedname>themis::llm::ModeSpec::SafetySpec::ethics_profile</qualifiedname>
+        <briefdescription>
+<para>path or id of ethics YAML profile </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="131" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="129" column="5" bodyfile="include/llm/ai_orchestrator.h" bodystart="129" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1_1_safety_spec_1a9310ebfd43cd2adf9f043c12acda5ed3" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec::SafetySpec</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1_1_safety_spec_1a3ba234970709e6a85fc4452909092401" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec::SafetySpec</scope><name>ethics_profile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

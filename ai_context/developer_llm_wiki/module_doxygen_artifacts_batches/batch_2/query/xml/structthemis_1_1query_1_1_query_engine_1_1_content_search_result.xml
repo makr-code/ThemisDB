@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_engine_1_1_content_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryEngine::ContentSearchResult</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_content_search_result_1ade23c2d3b5a20723bf59139089dbc4c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryEngine::ContentSearchResult::pk</definition>
+        <argsstring></argsstring>
+        <name>pk</name>
+        <qualifiedname>themis::query::QueryEngine::ContentSearchResult::pk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="647" column="21" bodyfile="include/query/query_engine.h" bodystart="647" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_content_search_result_1a79af97fe9136b9e5fb18cc26cc84f7e3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryEngine::ContentSearchResult::bm25_score</definition>
+        <argsstring></argsstring>
+        <name>bm25_score</name>
+        <qualifiedname>themis::query::QueryEngine::ContentSearchResult::bm25_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="648" column="16" bodyfile="include/query/query_engine.h" bodystart="648" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_content_search_result_1a063523ebaedc0b6c897993518411ba89" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryEngine::ContentSearchResult::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>themis::query::QueryEngine::ContentSearchResult::entity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="649" column="24" bodyfile="include/query/query_engine.h" bodystart="649" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="646" column="5" bodyfile="include/query/query_engine.h" bodystart="646" bodyend="650"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_content_search_result_1a79af97fe9136b9e5fb18cc26cc84f7e3" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::ContentSearchResult</scope><name>bm25_score</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_content_search_result_1a063523ebaedc0b6c897993518411ba89" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::ContentSearchResult</scope><name>entity</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_content_search_result_1ade23c2d3b5a20723bf59139089dbc4c0" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::ContentSearchResult</scope><name>pk</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

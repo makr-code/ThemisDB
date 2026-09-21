@@ -1,0 +1,907 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_m_v_c_c_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::MVCCStore</compoundname>
+    <includes refid="mvcc__store_8h" local="no">mvcc_store.h</includes>
+    <innerclass refid="structthemis_1_1_m_v_c_c_store_1_1_version_entry" prot="public">themis::MVCCStore::VersionEntry</innerclass>
+    <innerclass refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options" prot="public">themis::MVCCStore::GCOptions</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_m_v_c_c_store_1aeecb9cc9dc81561072f5f9c4514c5235" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::MVCCStore::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::MVCCStore::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="280" column="25" bodyfile="include/storage/mvcc_store.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_m_v_c_c_store_1a7b51f9bc8635be41e9009f8119d0b64d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_hybrid_logical_clock" kindref="compound">HybridLogicalClock</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HybridLogicalClock&gt; themis::MVCCStore::clock_</definition>
+        <argsstring></argsstring>
+        <name>clock_</name>
+        <qualifiedname>themis::MVCCStore::clock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="281" column="21" bodyfile="include/storage/mvcc_store.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_m_v_c_c_store_1a2dec0f8fc6d6c697ad405a2aab6f4777" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::MVCCStore::latest_mu_</definition>
+        <argsstring></argsstring>
+        <name>latest_mu_</name>
+        <qualifiedname>themis::MVCCStore::latest_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="291" column="50" bodyfile="include/storage/mvcc_store.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_m_v_c_c_store_1aee3ad28d00c10e424f22fdc7444429df" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, HLCTimestamp&gt; themis::MVCCStore::latest_ts_map_</definition>
+        <argsstring></argsstring>
+        <name>latest_ts_map_</name>
+        <qualifiedname>themis::MVCCStore::latest_ts_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="292" column="24" bodyfile="include/storage/mvcc_store.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1ad660cd28fdff311ff0880d08b0339cc1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::MVCCStore::MVCCStore</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db, std::shared_ptr&lt; HybridLogicalClock &gt; clock=nullptr)</argsstring>
+        <name>MVCCStore</name>
+        <qualifiedname>themis::MVCCStore::MVCCStore</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_hybrid_logical_clock" kindref="compound">HybridLogicalClock</ref> &gt;</type>
+          <declname>clock</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct an <ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> backed by an existing <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared ownership of the underlying RocksDB instance. Must already be open. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>clock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared ownership of the HLC clock. If null, a new <ref refid="classthemis_1_1_hybrid_logical_clock" kindref="compound">HybridLogicalClock</ref> is created internally. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="92" column="14" bodyfile="src/storage/mvcc_store.cpp" bodystart="25" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1ace7f23b7def5df90dca58b3b722351a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::MVCCStore::put</definition>
+        <argsstring>(std::string_view key, const std::vector&lt; uint8_t &gt; &amp;value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::MVCCStore::put</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write a new version of <computeroutput>key</computeroutput> with an auto-generated HLC timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para><simplesect kind="return"><para>The HLC timestamp assigned to this version.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: now(), <ref refid="classthemis_1_1_m_v_c_c_store_1a7149c634e395b1581f423adbccd18968" kindref="member">putWithTimestamp()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="104" column="18" bodyfile="src/storage/mvcc_store.cpp" bodystart="105" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1aa70279b8c52eb934f3cf8821b92dc5a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::MVCCStore::putInTxn</definition>
+        <argsstring>(RocksDBWrapper::TransactionWrapper &amp;txn, std::string_view key, const std::vector&lt; uint8_t &gt; &amp;value)</argsstring>
+        <name>putInTxn</name>
+        <qualifiedname>themis::MVCCStore::putInTxn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper" kindref="compound">RocksDBWrapper::TransactionWrapper</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write a versioned history entry for <computeroutput>key</computeroutput> within an existing transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put In Txn.</para>
+<para>Both the live-key write and this call share <computeroutput>txn</computeroutput> so they commit atomically. The HLC clock is advanced and the timestamp is returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active RocksDB transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The base (live) key whose value is being recorded. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value bytes to store in the history entry. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The HLC timestamp assigned to this history entry.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: now(), <ref refid="classthemis_1_1_m_v_c_c_store_1a8190bf183a0cdd5053af949666202598" kindref="member">encodeVersionedKey()</ref>, <ref refid="classthemis_1_1_m_v_c_c_store_1ace7f23b7def5df90dca58b3b722351a7" kindref="member">put()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="117" column="18" bodyfile="src/storage/mvcc_store.cpp" bodystart="152" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1ae7c444afa544777daabc5258c587718d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::MVCCStore::delInTxn</definition>
+        <argsstring>(RocksDBWrapper::TransactionWrapper &amp;txn, std::string_view key)</argsstring>
+        <name>delInTxn</name>
+        <qualifiedname>themis::MVCCStore::delInTxn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper" kindref="compound">RocksDBWrapper::TransactionWrapper</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Write a tombstone history entry for <computeroutput>key</computeroutput> within an existing transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Del In Txn.</para>
+<para>Records a deletion event in the history keyspace (op = &quot;del&quot;).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active RocksDB transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The base (live) key that was deleted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The HLC timestamp assigned to this tombstone entry.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: now(), <ref refid="classthemis_1_1_m_v_c_c_store_1a8190bf183a0cdd5053af949666202598" kindref="member">encodeVersionedKey()</ref>, <ref refid="classthemis_1_1_m_v_c_c_store_1ace7f23b7def5df90dca58b3b722351a7" kindref="member">put()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="132" column="18" bodyfile="src/storage/mvcc_store.cpp" bodystart="170" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1a7149c634e395b1581f423adbccd18968" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::MVCCStore::putWithTimestamp</definition>
+        <argsstring>(std::string_view key, const std::vector&lt; uint8_t &gt; &amp;value, HLCTimestamp ts)</argsstring>
+        <name>putWithTimestamp</name>
+        <qualifiedname>themis::MVCCStore::putWithTimestamp</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+<para>Write a new version of <computeroutput>key</computeroutput> with an explicit timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put With Timestamp.</para>
+<para>Useful when the caller already holds a commit timestamp, e.g. from a DistributedTimeCoordinator. The clock is updated to stay ≥ ts.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Commit timestamp. Must be strictly greater than any previously written version of the same key.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: update(), <ref refid="classthemis_1_1_m_v_c_c_store_1a8190bf183a0cdd5053af949666202598" kindref="member">encodeVersionedKey()</ref>, <ref refid="classthemis_1_1_m_v_c_c_store_1ace7f23b7def5df90dca58b3b722351a7" kindref="member">put()</ref>, lk(), find(), std::string(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="146" column="10" bodyfile="src/storage/mvcc_store.cpp" bodystart="118" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1ade338f367ebcd1730e0b37361776e61f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::MVCCStore::getLatest</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>getLatest</name>
+        <qualifiedname>themis::MVCCStore::getLatest</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Read the latest committed version of <computeroutput>key</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Latest.</para>
+<para><simplesect kind="return"><para>The value bytes, or std::nullopt if the key does not exist.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), find(), std::string(), end(), <ref refid="classthemis_1_1_m_v_c_c_store_1a8190bf183a0cdd5053af949666202598" kindref="member">encodeVersionedKey()</ref>, unlock(), get(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="159" column="19" bodyfile="src/storage/mvcc_store.cpp" bodystart="191" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1a5d4696c10a5d34994f5823595acbc17c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::MVCCStore::getAtTimestamp</definition>
+        <argsstring>(std::string_view key, HLCTimestamp ts)</argsstring>
+        <name>getAtTimestamp</name>
+        <qualifiedname>themis::MVCCStore::getAtTimestamp</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+<para>Read the most-recent version of <computeroutput>key</computeroutput> committed at or before <computeroutput>ts</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get At Timestamp.</para>
+<para>This provides a consistent snapshot read without acquiring any lock.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The logical record key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The read timestamp (snapshot point). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The value bytes, or std::nullopt if no version exists at or before <computeroutput>ts</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_m_v_c_c_store_1a31147a67261939008f3f10a132216ea1" kindref="member">encodeVersionPrefix()</ref>, std::string(), data(), size(), push_back(), <ref refid="classthemis_1_1_m_v_c_c_store_1a8190bf183a0cdd5053af949666202598" kindref="member">encodeVersionedKey()</ref>, HLCTimestamp(), newSafeIterator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="171" column="19" bodyfile="src/storage/mvcc_store.cpp" bodystart="225" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1ad13c5998b9ef3bbc0b12644689675d52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::MVCCStore::scanVersions</definition>
+        <argsstring>(std::string_view key, std::function&lt; bool(const VersionEntry &amp;)&gt; callback)</argsstring>
+        <name>scanVersions</name>
+        <qualifiedname>themis::MVCCStore::scanVersions</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(const <ref refid="structthemis_1_1_m_v_c_c_store_1_1_version_entry" kindref="compound">VersionEntry</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Enumerate all stored versions of <computeroutput>key</computeroutput>, oldest first. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The logical record key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called once per version in ascending timestamp order. Return <computeroutput>false</computeroutput> to stop iteration early. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="185" column="10" bodyfile="src/storage/mvcc_store.cpp" bodystart="303" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1a02130143255aced885032b4ffc79825f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MVCCStore::gcVersionsBefore</definition>
+        <argsstring>(std::string_view key, HLCTimestamp min_ts, GCOptions opts)</argsstring>
+        <name>gcVersionsBefore</name>
+        <qualifiedname>themis::MVCCStore::gcVersionsBefore</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>min_ts</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options" kindref="compound">GCOptions</ref></type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+<para>Remove all versions of <computeroutput>key</computeroutput> that are strictly older than <computeroutput>min_ts</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gc Versions Before.</para>
+<para>Versions at or after <computeroutput>min_ts</computeroutput> are kept. The most-recent version is always retained regardless of <computeroutput>opts.min_versions_to_keep</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The logical record key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All versions with timestamp &lt; min_ts may be deleted. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GC tuning options (e.g., always keep N recent versions). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of version entries deleted.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_m_v_c_c_store_1a31147a67261939008f3f10a132216ea1" kindref="member">encodeVersionPrefix()</ref>, scanPrefix(), emplace_back(), empty(), size(), <ref refid="classthemis_1_1_m_v_c_c_store_1aa707b914a01f384801ed8e951268fd52" kindref="member">decodeTimestamp()</ref>, std::min(), del(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="203" column="14" bodyfile="src/storage/mvcc_store.cpp" bodystart="332" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1adf60e934df39657c6d27480899dc6354" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MVCCStore::gcVersionsBefore</definition>
+        <argsstring>(std::string_view key, HLCTimestamp min_ts)</argsstring>
+        <name>gcVersionsBefore</name>
+        <qualifiedname>themis::MVCCStore::gcVersionsBefore</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>min_ts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="210" column="14" bodyfile="include/storage/mvcc_store.h" bodystart="210" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1a7ce1b12bd53f4a61180c3389010dc446" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MVCCStore::gcAllBefore</definition>
+        <argsstring>(HLCTimestamp min_ts, GCOptions opts)</argsstring>
+        <name>gcAllBefore</name>
+        <qualifiedname>themis::MVCCStore::gcAllBefore</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>min_ts</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options" kindref="compound">GCOptions</ref></type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+<para>Run GC across all keys in the store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gc All Before.</para>
+<para>Iterates the entire keyspace and applies <computeroutput>min_ts</computeroutput> + <computeroutput>opts</computeroutput> to every versioned key. This is an O(N) scan – prefer per-key GC in hot paths.</para>
+<para><simplesect kind="return"><para>Total number of version entries deleted.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">min_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_m_v_c_c_store_1a619a921d0d5bd9a72f2c14c22f5dac10" kindref="member">scanBaseKeys()</ref>, emplace_back(), <ref refid="classthemis_1_1_m_v_c_c_store_1a02130143255aced885032b4ffc79825f" kindref="member">gcVersionsBefore()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="222" column="14" bodyfile="src/storage/mvcc_store.cpp" bodystart="381" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1a2fc3062185059fa1a782a586a9e288df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::MVCCStore::gcAllBefore</definition>
+        <argsstring>(HLCTimestamp min_ts)</argsstring>
+        <name>gcAllBefore</name>
+        <qualifiedname>themis::MVCCStore::gcAllBefore</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>min_ts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="225" column="14" bodyfile="include/storage/mvcc_store.h" bodystart="225" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1a619a921d0d5bd9a72f2c14c22f5dac10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::MVCCStore::scanBaseKeys</definition>
+        <argsstring>(std::function&lt; bool(std::string_view base_key)&gt; callback)</argsstring>
+        <name>scanBaseKeys</name>
+        <qualifiedname>themis::MVCCStore::scanBaseKeys</qualifiedname>
+        <param>
+          <type>std::function&lt; bool(std::string_view base_key)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Enumerate every distinct base key that has at least one versioned entry in the store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs a single O(N) full scan. The callback receives each unique base key exactly once. Return <computeroutput>false</computeroutput> from the callback to stop iteration early.</para>
+<para>Intended for use by <ref refid="classthemis_1_1_m_v_c_c_chain_pruner_1a4dc9b09164de2c2f2581c0badbddda82" kindref="member">MVCCChainPruner::pruneAll()</ref> so that the pruner can migrate-then-delete per-key without duplicating the key-discovery logic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="240" column="10" bodyfile="src/storage/mvcc_store.cpp" bodystart="395" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1a711cbf11108d495f1e9b8b5d403ca9de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::MVCCStore::currentTimestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>currentTimestamp</name>
+        <qualifiedname>themis::MVCCStore::currentTimestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the current HLC timestamp without advancing it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="245" column="18" bodyfile="src/storage/mvcc_store.cpp" bodystart="429" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1a4e9d29f741fd31411206d90cf77a8c21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::MVCCStore::updateClock</definition>
+        <argsstring>(HLCTimestamp received)</argsstring>
+        <name>updateClock</name>
+        <qualifiedname>themis::MVCCStore::updateClock</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>received</declname>
+        </param>
+        <briefdescription>
+<para>Update <ref refid="test__storage__latency__bench_8cpp_1a19bfb27380067c74ae297dd7dad5fb37" kindref="member">Clock</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Advance the HLC after receiving a remote timestamp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">received</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: update(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="248" column="18" bodyfile="src/storage/mvcc_store.cpp" bodystart="439" bodyend="441"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1a8190bf183a0cdd5053af949666202598" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::MVCCStore::encodeVersionedKey</definition>
+        <argsstring>(std::string_view base_key, HLCTimestamp ts)</argsstring>
+        <name>encodeVersionedKey</name>
+        <qualifiedname>themis::MVCCStore::encodeVersionedKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>base_key</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+<para>Build the versioned storage key for <computeroutput>base_key</computeroutput> at <computeroutput>ts</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode Versioned Key.</para>
+<para>Format: <computeroutput>&lt;base_key&gt;&apos;\\0&apos;&lt;8-byte-big-endian-ts&gt;</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), append(), data(), push_back(), encodeToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="257" column="24" bodyfile="src/storage/mvcc_store.cpp" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1a31147a67261939008f3f10a132216ea1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::MVCCStore::encodeVersionPrefix</definition>
+        <argsstring>(std::string_view base_key)</argsstring>
+        <name>encodeVersionPrefix</name>
+        <qualifiedname>themis::MVCCStore::encodeVersionPrefix</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>base_key</declname>
+        </param>
+        <briefdescription>
+<para>Build the prefix used to scan all versions of <computeroutput>base_key</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode Version Prefix.</para>
+<para>Format: <computeroutput>&lt;base_key&gt;&apos;\\0&apos;</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), append(), data(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="264" column="24" bodyfile="src/storage/mvcc_store.cpp" bodystart="66" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_store_1aa707b914a01f384801ed8e951268fd52" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::MVCCStore::decodeTimestamp</definition>
+        <argsstring>(std::string_view versioned_key)</argsstring>
+        <name>decodeTimestamp</name>
+        <qualifiedname>themis::MVCCStore::decodeTimestamp</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>versioned_key</declname>
+        </param>
+        <briefdescription>
+<para>Extract the timestamp from a versioned key produced by <ref refid="classthemis_1_1_m_v_c_c_store_1a8190bf183a0cdd5053af949666202598" kindref="member">encodeVersionedKey()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode Timestamp.</para>
+<para>The timestamp occupies the last 8 bytes of a versioned key. This function uses a fixed-width offset from the end of the key rather than searching for the &apos;\0&apos; separator, because the 8-byte big-endian timestamp can itself contain &apos;\0&apos; bytes.</para>
+<para><simplesect kind="return"><para>The decoded <ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref>, or a zero-valued timestamp if <computeroutput>key</computeroutput> is shorter than 9 bytes (and therefore cannot be a valid versioned key).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">versioned_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), data(), <ref refid="structthemis_1_1_h_l_c_timestamp_1a69ac72af9151e9f57762832b85f4a65e" kindref="member">HLCTimestamp::decodeFromBytes()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="277" column="25" bodyfile="src/storage/mvcc_store.cpp" bodystart="80" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>MVCC Store – per-record multi-version concurrency control. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> layers per-record versioning on top of <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref>. Each write is stored under a versioned key that embeds an HLC timestamp, so older versions are never overwritten in-place. This enables:</para>
+<para>• Snapshot reads – read the most-recent version committed before a given timestamp without taking any lock. • Linearizable reads – read the absolutely latest committed version. • Version history – iterate all versions of a single key. • Garbage collection – remove versions older than a watermark.</para>
+<sect1 id="classthemis_1_1_m_v_c_c_store_1autotoc_md9_1s1"><sect2 id="classthemis_1_1_m_v_c_c_store_1autotoc_md9">
+<title>Key encoding</title><para>Versioned keys are encoded as: <verbatim>&lt;base_key&gt; &apos;\x00&apos; &lt;8-byte-big-endian-HLC-timestamp&gt;
+</verbatim></para>
+<para>The null-byte separator <computeroutput>\x00</computeroutput> terminates the logical key, and the 8-byte big-endian timestamp ensures that RocksDB&apos;s bytewise comparator sorts versions in chronological order. A prefix scan over <computeroutput>&lt;base_key&gt;\x00</computeroutput> therefore traverses all versions of that key from oldest to newest.</para>
+<para>To find the latest version at-or-before timestamp T:<orderedlist>
+<listitem><para>Seek to <computeroutput>&lt;base_key&gt;\x00&lt;T+1_be&gt;</computeroutput> (exclusive upper bound).</para>
+</listitem><listitem><para>Step one entry backward with Prev().</para>
+</listitem><listitem><para>If the resulting key still starts with <computeroutput>&lt;base_key&gt;\x00</computeroutput>, it is the answer; otherwise the key has no version at or before T.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_m_v_c_c_store_1autotoc_md10_1s1"><sect2 id="classthemis_1_1_m_v_c_c_store_1autotoc_md10">
+<title>Thread safety</title><para><ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> is thread-safe: the underlying <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> and <ref refid="classthemis_1_1_hybrid_logical_clock" kindref="compound">HybridLogicalClock</ref> are both internally synchronized. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/storage/mvcc_store.h" line="66" column="1" bodyfile="include/storage/mvcc_store.h" bodystart="66" bodyend="293"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a7b51f9bc8635be41e9009f8119d0b64d" prot="private" virt="non-virtual"><scope>themis::MVCCStore</scope><name>clock_</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a711cbf11108d495f1e9b8b5d403ca9de" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>currentTimestamp</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1aeecb9cc9dc81561072f5f9c4514c5235" prot="private" virt="non-virtual"><scope>themis::MVCCStore</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1aa707b914a01f384801ed8e951268fd52" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>decodeTimestamp</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1ae7c444afa544777daabc5258c587718d" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>delInTxn</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a8190bf183a0cdd5053af949666202598" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>encodeVersionedKey</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a31147a67261939008f3f10a132216ea1" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>encodeVersionPrefix</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a7ce1b12bd53f4a61180c3389010dc446" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>gcAllBefore</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a2fc3062185059fa1a782a586a9e288df" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>gcAllBefore</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a02130143255aced885032b4ffc79825f" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>gcVersionsBefore</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1adf60e934df39657c6d27480899dc6354" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>gcVersionsBefore</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a5d4696c10a5d34994f5823595acbc17c" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>getAtTimestamp</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1ade338f367ebcd1730e0b37361776e61f" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>getLatest</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a2dec0f8fc6d6c697ad405a2aab6f4777" prot="private" virt="non-virtual"><scope>themis::MVCCStore</scope><name>latest_mu_</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1aee3ad28d00c10e424f22fdc7444429df" prot="private" virt="non-virtual"><scope>themis::MVCCStore</scope><name>latest_ts_map_</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1ad660cd28fdff311ff0880d08b0339cc1" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>MVCCStore</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1ace7f23b7def5df90dca58b3b722351a7" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>put</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1aa70279b8c52eb934f3cf8821b92dc5a6" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>putInTxn</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a7149c634e395b1581f423adbccd18968" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>putWithTimestamp</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a619a921d0d5bd9a72f2c14c22f5dac10" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>scanBaseKeys</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1ad13c5998b9ef3bbc0b12644689675d52" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>scanVersions</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_store_1a4e9d29f741fd31411206d90cf77a8c21" prot="public" virt="non-virtual"><scope>themis::MVCCStore</scope><name>updateClock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

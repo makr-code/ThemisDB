@@ -1,0 +1,620 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__query__diff__explainer_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_query_diff_explainer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="aql__query__diff__explainer_8h" local="yes">aql/aql_query_diff_explainer.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>aql/aql_query_diff_explainer.h</label>
+        <link refid="aql__query__diff__explainer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/aql/test_aql_query_diff_explainer.cpp</label>
+        <link refid="test__aql__query__diff__explainer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_q_l_query_diff_explainer_test" prot="public">AQLQueryDiffExplainerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a758cfe3db256e261a1ccf1aeb1659564" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool hasDiffKind</definition>
+        <argsstring>(const QueryDiffResult &amp;r, QueryDiffEntry::Kind k)</argsstring>
+        <name>hasDiffKind</name>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_query_diff_result" kindref="compound">QueryDiffResult</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945" kindref="member">QueryDiffEntry::Kind</ref></type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="15" column="13" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="15" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a5047118ef5161a1d1db87486de07d219" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool explanationContains</definition>
+        <argsstring>(const QueryDiffResult &amp;r, const std::string &amp;substr)</argsstring>
+        <name>explanationContains</name>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_query_diff_result" kindref="compound">QueryDiffResult</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>substr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="20" column="13" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="20" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a25369f461665bb829dc4b6bb65d2df8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF01_IdenticalQueries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF01_IdenticalQueries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="35" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="35" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a25ca35b7bedc1db3f6c967fc3cd76750" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF02_WhitespaceDiff)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF02_WhitespaceDiff</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="43" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="43" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a622a25a4818e25f02c487da0975e1fcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF03_FilterAdded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF03_FilterAdded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="51" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="51" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1aef92155374ce3a60e33feeaf0bd89ed6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF04_FilterRemoved)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF04_FilterRemoved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="60" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="60" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a1eaf403d45b7ffc28e10c6bf896c2378" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF05_SortAdded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF05_SortAdded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="69" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="69" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a3908868824019a0e1cd8d1c4c18b0a28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF06_LimitChanged)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF06_LimitChanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="78" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="78" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a6f81de85b3d3f72f8b75812339470c81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF07_ReturnChanged)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF07_ReturnChanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="87" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="87" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a2e4af58f813eee6bd05ea908729818ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF08_FunctionAdded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF08_FunctionAdded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="96" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="96" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1affab98a0e47cbdeec9906db107e92de1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF09_FunctionRemoved)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF09_FunctionRemoved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="105" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="105" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1ac27849f05bd3d69e2516eea759093ae3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF10_BothEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF10_BothEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="114" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="114" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1aba178ea40be0f3e798631ad204d48ac7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF11_AEmptyBNonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF11_AEmptyBNonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="120" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="120" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a7c10702a2ec82d14fab892d96b5e2f74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF12_LetAdded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF12_LetAdded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="126" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="126" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a64d15c16198790938e6d9e8313b18c57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF13_SummaryNonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF13_SummaryNonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="135" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="135" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a538399311ce21b50a0478137dc85f5cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF14_CountHelper)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF14_CountHelper</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="144" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="144" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a8284880050ae0f3fa5eefdb379bf1b55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF15_InsertCollectionChanged)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF15_InsertCollectionChanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="154" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="154" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a3a683d8f429940dcceb693b5541e6d3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF16_CollectAdded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF16_CollectAdded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="162" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="162" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1ac6640790de468cd8ec41036e2be5d400" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF17_DifferentFunctions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF17_DifferentFunctions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="171" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="171" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__query__diff__explainer_8cpp_1a91db28f567139999d3d0934f2ff00046" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLQueryDiffExplainerTest, DIFF18_PolymorphicAccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref></type>
+        </param>
+        <param>
+          <type>DIFF18_PolymorphicAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_diff_explainer.cpp" line="179" column="1" bodyfile="tests/aql/test_aql_query_diff_explainer.cpp" bodystart="179" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer" kindref="compound">AQLQueryDiffExplainer</ref> (DIFF-01..18). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__query__diff__explainer_8h" kindref="compound">aql/aql_query_diff_explainer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasDiffKind(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_result" kindref="compound">QueryDiffResult</ref>&amp;<sp/>r,<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945" kindref="member">QueryDiffEntry::Kind</ref><sp/>k)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::any_of(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1ac6240311ecb0312946e12380b3950346" kindref="member">diffs</ref>.begin(),<sp/>r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1ac6240311ecb0312946e12380b3950346" kindref="member">diffs</ref>.end(),</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[k](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry" kindref="compound">QueryDiffEntry</ref>&amp;<sp/>e)<sp/>{<sp/>return<sp/>e.kind<sp/>==<sp/>k;<sp/>});</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>explanationContains(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_result" kindref="compound">QueryDiffResult</ref>&amp;<sp/>r,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>substr)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>d<sp/>:<sp/>r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1ac6240311ecb0312946e12380b3950346" kindref="member">diffs</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(d.explanation.find(substr)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a92716dd581bb9112d66d89d138c13857" kindref="member">summary</ref>.find(substr)<sp/>!=<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="class_a_q_l_query_diff_explainer_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer" kindref="compound">AQLQueryDiffExplainer</ref><sp/><ref refid="class_a_q_l_query_diff_explainer_test_1ad8c2f740c3ccaf76d6a45ad00d8cdef4" kindref="member">explainer</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-01:<sp/>Identical<sp/>queries<sp/>→<sp/>is_equivalent<sp/>=<sp/>true,<sp/>no<sp/>diffs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF01_IdenticalQueries)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>q<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>d.age<sp/>&gt;<sp/>18<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(q,<sp/>q);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1ac6240311ecb0312946e12380b3950346" kindref="member">diffs</ref>.empty());</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-02:<sp/>Whitespace-only<sp/>differences<sp/>→<sp/>equivalent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF02_WhitespaceDiff)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>d.age<sp/>&gt;<sp/>18<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/><sp/>d<sp/><sp/>IN<sp/><sp/>docs<sp/><sp/>FILTER<sp/><sp/>d.age<sp/><sp/>&gt;<sp/><sp/>18<sp/><sp/>RETURN<sp/><sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-03:<sp/>FILTER<sp/>clause<sp/>added</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF03_FilterAdded)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>d.active<sp/>==<sp/>true<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasDiffKind(r,<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945ac83f569c25bdb00ea7efe5aa413be336" kindref="member">QueryDiffEntry::Kind::CLAUSE_ADDED</ref>));</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-04:<sp/>FILTER<sp/>clause<sp/>removed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF04_FilterRemoved)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>d.active<sp/>==<sp/>true<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasDiffKind(r,<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a2438bf81baf2ddc8313bee90b5093c13" kindref="member">QueryDiffEntry::Kind::CLAUSE_REMOVED</ref>));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-05:<sp/>SORT<sp/>clause<sp/>added</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF05_SortAdded)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>d.age<sp/>&gt;<sp/>0<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>d.age<sp/>&gt;<sp/>0<sp/>SORT<sp/>d.name<sp/>ASC<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasDiffKind(r,<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945ac83f569c25bdb00ea7efe5aa413be336" kindref="member">QueryDiffEntry::Kind::CLAUSE_ADDED</ref>));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-06:<sp/>LIMIT<sp/>changed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF06_LimitChanged)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>LIMIT<sp/>10<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>LIMIT<sp/>100<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasDiffKind(r,<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945afef27de339b4c599360e6397bff81aec" kindref="member">QueryDiffEntry::Kind::LIMIT_CHANGED</ref>));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-07:<sp/>RETURN<sp/>clause<sp/>changed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF07_ReturnChanged)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d.name&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasDiffKind(r,<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a9a3bf1fb0ea091e1c4a9676f633e8f10" kindref="member">QueryDiffEntry::Kind::RETURN_CHANGED</ref>));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-08:<sp/>Function<sp/>added<sp/>(KNN<sp/>appears<sp/>in<sp/>B<sp/>but<sp/>not<sp/>A)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF08_FunctionAdded)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>d.score<sp/>&gt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>KNN(d.vec,<sp/>@q)<sp/>&lt;<sp/>0.1<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasDiffKind(r,<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a070f591767330b043989f75263fdf696" kindref="member">QueryDiffEntry::Kind::FUNCTION_ADDED</ref>));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-09:<sp/>Function<sp/>removed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF09_FunctionRemoved)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>BM25(d,<sp/>@q)<sp/>&gt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>d.text<sp/>LIKE<sp/>@q<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasDiffKind(r,<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a44b59be4673f498cf4dc5af215f49359" kindref="member">QueryDiffEntry::Kind::FUNCTION_REMOVED</ref>));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-10:<sp/>Both<sp/>queries<sp/>empty<sp/>→<sp/>equivalent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF10_BothEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-11:<sp/>A<sp/>empty,<sp/>B<sp/>non-empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF11_AEmptyBNonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-12:<sp/>LET<sp/>clause<sp/>added</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF12_LetAdded)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>LET<sp/>x<sp/>=<sp/>d.value<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1ac6240311ecb0312946e12380b3950346" kindref="member">diffs</ref>.empty());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-13:<sp/>Summary<sp/>is<sp/>not<sp/>empty<sp/>on<sp/>non-equivalent<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF13_SummaryNonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>a<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>b<sp/>RETURN<sp/>d.name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a92716dd581bb9112d66d89d138c13857" kindref="member">summary</ref>.empty());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-14:<sp/>count()<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF14_CountHelper)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>LIMIT<sp/>10<sp/>RETURN<sp/>d.name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>added<sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a35c1b7363cdc7bde0c84767e6d987b10" kindref="member">count</ref>(<ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945ac83f569c25bdb00ea7efe5aa413be336" kindref="member">QueryDiffEntry::Kind::CLAUSE_ADDED</ref>);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>changed<sp/>=<sp/>r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a35c1b7363cdc7bde0c84767e6d987b10" kindref="member">count</ref>(<ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a9a3bf1fb0ea091e1c4a9676f633e8f10" kindref="member">QueryDiffEntry::Kind::RETURN_CHANGED</ref>);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(added<sp/>+<sp/>changed,<sp/>1);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-15:<sp/>Both<sp/>queries<sp/>have<sp/>INSERT<sp/>(different<sp/>collections)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF15_InsertCollectionChanged)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>src<sp/>INSERT<sp/>d<sp/>INTO<sp/>dest1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>src<sp/>INSERT<sp/>d<sp/>INTO<sp/>dest2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-16:<sp/>COLLECT<sp/>clause<sp/>added</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF16_CollectAdded)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>COLLECT<sp/>city<sp/>=<sp/>d.city<sp/>RETURN<sp/>city&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1ac6240311ecb0312946e12380b3950346" kindref="member">diffs</ref>.empty());</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-17:<sp/>Different<sp/>functions<sp/>same<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF17_DifferentFunctions)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>BM25(d,<sp/>@q)<sp/>&gt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>KNN(d.vec,<sp/>@q)<sp/>&lt;<sp/>0.2<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>explainer.explain(a,<sp/>b);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DIFF-18:<sp/>IAQLQueryDiffExplainer<sp/>interface<sp/>is<sp/>accessible<sp/>via<sp/>polymorphism</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_query_diff_explainer_test" kindref="compound">AQLQueryDiffExplainerTest</ref>,<sp/>DIFF18_PolymorphicAccess)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IAQLQueryDiffExplainer&gt;<sp/>iface<sp/>=</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_unique&lt;AQLQueryDiffExplainer&gt;();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>iface-&gt;explain(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>a<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>a<sp/>RETURN<sp/>d.x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref>);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_query_diff_explainer.cpp"/>
+  </compounddef>
+</doxygen>

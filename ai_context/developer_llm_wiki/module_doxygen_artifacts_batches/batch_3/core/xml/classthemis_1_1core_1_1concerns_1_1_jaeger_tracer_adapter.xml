@@ -1,0 +1,404 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::JaegerTracerAdapter</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer" prot="public" virt="non-virtual">themis::core::concerns::ITracer</basecompoundref>
+    <includes refid="jaeger__tracer__adapter_8h" local="no">jaeger_tracer_adapter.h</includes>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1_1_circuit_breaker_config" prot="public">themis::core::concerns::JaegerTracerAdapter::CircuitBreakerConfig</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1_1_jaeger_span_adapter" prot="public">themis::core::concerns::JaegerTracerAdapter::JaegerSpanAdapter</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1_1_uber_trace_ids" prot="private">themis::core::concerns::JaegerTracerAdapter::UberTraceIds</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ab416443c1d9ffe517d49dfcee16203d1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::core::concerns::JaegerTracerAdapter::kDefaultEndpoint</definition>
+        <argsstring></argsstring>
+        <name>kDefaultEndpoint</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::kDefaultEndpoint</qualifiedname>
+        <initializer>= &quot;http://localhost:14268/api/traces&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="30" column="33" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a3f565a17a53cfeace3f0391f63907a89" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::JaegerTracerAdapter::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="240" column="10" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ae4a2570e7eacb1305678d9cd16b5e1fd" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; sharding::CircuitBreaker &gt;</type>
+        <definition>std::unique_ptr&lt;sharding::CircuitBreaker&gt; themis::core::concerns::JaegerTracerAdapter::circuit_breaker_</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::circuit_breaker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="241" column="21" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a96c87d07e5f38a10dd36a713ce8f3950" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::JaegerTracerAdapter::JaegerTracerAdapter</definition>
+        <argsstring>(const CircuitBreakerConfig &amp;cb_config)</argsstring>
+        <name>JaegerTracerAdapter</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::JaegerTracerAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref> &amp;</type>
+          <declname>cb_config</declname>
+        </param>
+        <briefdescription>
+<para>Jaeger Tracer Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements <ref refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter" kindref="compound">JaegerTracerAdapter</ref> without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="44" column="14" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="44" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a281f4537ef371581b1f00c259ac111b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::JaegerTracerAdapter::JaegerTracerAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>JaegerTracerAdapter</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::JaegerTracerAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="52" column="5" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a0180c1986979d78e9f142b48764753b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ISpan &gt; themis::core::concerns::JaegerTracerAdapter::startSpan</definition>
+        <argsstring>(const std::string &amp;name) override</argsstring>
+        <name>startSpan</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::startSpan</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1ade5274037780d28fdaa149bb091f317d">startSpan</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="111" column="21" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="111" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ac8507bcfffcff9073e05d5ccc8903baa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ISpan &gt; themis::core::concerns::JaegerTracerAdapter::startChildSpan</definition>
+        <argsstring>(const std::string &amp;name, const ISpan &amp;parent) override</argsstring>
+        <name>startChildSpan</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::startChildSpan</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a5ea098dc9baf798a4272cc0cd09c4448">startChildSpan</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ISpan</ref> &amp;</type>
+          <declname>parent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="121" column="21" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="121" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ae3e04b754be92e8d0d121a711ddaa132" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ISpan &gt; themis::core::concerns::JaegerTracerAdapter::startSpanFromHeaders</definition>
+        <argsstring>(const std::string &amp;name, const std::map&lt; std::string, std::string &gt; &amp;carrier_headers) override</argsstring>
+        <name>startSpanFromHeaders</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::startSpanFromHeaders</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a9f1315fac9d96be4e9b13920f9d59721">startSpanFromHeaders</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>carrier_headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="140" column="21" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="140" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ae0a9ddb37fcab9f66a166bafecfd1e30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::JaegerTracerAdapter::injectContext</definition>
+        <argsstring>(std::map&lt; std::string, std::string &gt; &amp;carrier_headers) override</argsstring>
+        <name>injectContext</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::injectContext</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a72a1f3e019ae0887da0a5b183ad30d8c">injectContext</reimplements>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>carrier_headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="184" column="10" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="184" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a4abae67f9ff117442bed6f88c9b1c66b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::JaegerTracerAdapter::initialize</definition>
+        <argsstring>(const std::string &amp;serviceName, const std::string &amp;endpoint) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a480e61380517bbc332934eb9e128c1a4">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serviceName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="204" column="10" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="204" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1adba938a70d2f6e2bb8d290fa17e0a6d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::JaegerTracerAdapter::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a67ca225528cabbbbe0053038eebd6210">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="214" column="10" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="214" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1aefe030dfb0b812f86536e288973b5069" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::JaegerTracerAdapter::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::isInitialized</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a6a32f83bcc54bc627427ff4ce8a4d34c">isInitialized</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="219" column="10" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ab7cef993eec073be2f7b4d3ac8be434c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::JaegerTracerAdapter::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a0002c4a9f062583e107b625f37ac832e">flush</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="221" column="10" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="221" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a702c7dad67b7aaee77872623f53b4b8f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::JaegerTracerAdapter::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1a70e24d90a3bfab09b431c70e22e799b3">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="225" column="17" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="225" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a388287b31ccfc8882feee60b708bef14" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>sharding::CircuitBreaker::State</type>
+        <definition>sharding::CircuitBreaker::State themis::core::concerns::JaegerTracerAdapter::circuitBreakerState</definition>
+        <argsstring>() const</argsstring>
+        <name>circuitBreakerState</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::circuitBreakerState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="235" column="37" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="235" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a8d1ac005028c2440bbc794466e324350" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::core::concerns::JaegerTracerAdapter::headerValueCI</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;headers, const std::string &amp;name)</argsstring>
+        <name>headerValueCI</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::headerValueCI</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="247" column="24" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="247" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1aa72bdce8ae4ef029388da402815b3e16" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::core::concerns::JaegerTracerAdapter::parseUberTraceId</definition>
+        <argsstring>(const std::string &amp;value, UberTraceIds &amp;out)</argsstring>
+        <name>parseUberTraceId</name>
+        <qualifiedname>themis::core::concerns::JaegerTracerAdapter::parseUberTraceId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>UberTraceIds &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Parse Uber Trace Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: reserve(), find(), push_back(), substr(), size(), empty(), std::all_of(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/jaeger_tracer_adapter.h" line="279" column="17" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="279" bodyend="320"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::ITracer</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_tracer"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::JaegerTracerAdapter</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::ITracer</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_tracer"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::JaegerTracerAdapter</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/jaeger_tracer_adapter.h" line="28" column="1" bodyfile="include/core/concerns/jaeger_tracer_adapter.h" bodystart="28" bodyend="321"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ae4a2570e7eacb1305678d9cd16b5e1fd" prot="private" virt="non-virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>circuit_breaker_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a388287b31ccfc8882feee60b708bef14" prot="public" virt="non-virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>circuitBreakerState</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ab7cef993eec073be2f7b4d3ac8be434c" prot="public" virt="virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a8d1ac005028c2440bbc794466e324350" prot="private" virt="non-virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>headerValueCI</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a4abae67f9ff117442bed6f88c9b1c66b" prot="public" virt="virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a3f565a17a53cfeace3f0391f63907a89" prot="private" virt="non-virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ae0a9ddb37fcab9f66a166bafecfd1e30" prot="public" virt="virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>injectContext</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a702c7dad67b7aaee77872623f53b4b8f" prot="public" virt="virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1aefe030dfb0b812f86536e288973b5069" prot="public" virt="virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a96c87d07e5f38a10dd36a713ce8f3950" prot="public" virt="non-virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>JaegerTracerAdapter</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a281f4537ef371581b1f00c259ac111b0" prot="public" virt="non-virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>JaegerTracerAdapter</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ab416443c1d9ffe517d49dfcee16203d1" prot="public" virt="non-virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>kDefaultEndpoint</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1aa72bdce8ae4ef029388da402815b3e16" prot="private" virt="non-virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>parseUberTraceId</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1adba938a70d2f6e2bb8d290fa17e0a6d2" prot="public" virt="virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ac8507bcfffcff9073e05d5ccc8903baa" prot="public" virt="virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>startChildSpan</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1a0180c1986979d78e9f142b48764753b0" prot="public" virt="virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>startSpan</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter_1ae3e04b754be92e8d0d121a711ddaa132" prot="public" virt="virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>startSpanFromHeaders</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1ab3c6a864f40c851a25c4d0118fa5ccd1" prot="public" virt="virtual"><scope>themis::core::concerns::JaegerTracerAdapter</scope><name>~ITracer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

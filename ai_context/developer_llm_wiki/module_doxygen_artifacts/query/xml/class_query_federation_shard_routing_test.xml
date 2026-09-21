@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_federation_shard_routing_test" kind="class" language="C++" prot="public">
+    <compoundname>QueryFederationShardRoutingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_query_federation_shard_routing_test_1a8a8906dc631b1510223f169e30468d69" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* QueryFederationShardRoutingTest::kShard1</definition>
+        <argsstring></argsstring>
+        <name>kShard1</name>
+        <qualifiedname>QueryFederationShardRoutingTest::kShard1</qualifiedname>
+        <initializer>= &quot;shard-001&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="100" column="33" bodyfile="tests/query/test_query_federation.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_federation_shard_routing_test_1a58649673adbff289abd9ed4554ba53a7" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* QueryFederationShardRoutingTest::kShard2</definition>
+        <argsstring></argsstring>
+        <name>kShard2</name>
+        <qualifiedname>QueryFederationShardRoutingTest::kShard2</qualifiedname>
+        <initializer>= &quot;shard-002&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="101" column="33" bodyfile="tests/query/test_query_federation.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_federation_shard_routing_test_1a42d3ddd577a61984f3ccb385aea8acc7" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* QueryFederationShardRoutingTest::kShard3</definition>
+        <argsstring></argsstring>
+        <name>kShard3</name>
+        <qualifiedname>QueryFederationShardRoutingTest::kShard3</qualifiedname>
+        <initializer>= &quot;shard-003&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="102" column="33" bodyfile="tests/query/test_query_federation.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_federation_shard_routing_test_1a2d3e2d413a4949aa7774a11aa11b5ce5" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ConsistentHashRing &gt;</type>
+        <definition>std::shared_ptr&lt;ConsistentHashRing&gt; QueryFederationShardRoutingTest::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>QueryFederationShardRoutingTest::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="125" column="27" bodyfile="tests/query/test_query_federation.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_federation_shard_routing_test_1a59a2fb67e7cf692f5deab711f8503241" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ShardTopology &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; QueryFederationShardRoutingTest::topology</definition>
+        <argsstring></argsstring>
+        <name>topology</name>
+        <qualifiedname>QueryFederationShardRoutingTest::topology</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="126" column="32" bodyfile="tests/query/test_query_federation.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_federation_shard_routing_test_1a85144108fe0d6045a554cad13d35de37" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; URNResolver &gt;</type>
+        <definition>std::shared_ptr&lt;URNResolver&gt; QueryFederationShardRoutingTest::resolver</definition>
+        <argsstring></argsstring>
+        <name>resolver</name>
+        <qualifiedname>QueryFederationShardRoutingTest::resolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="127" column="34" bodyfile="tests/query/test_query_federation.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_federation_shard_routing_test_1ae3bae45d4a310dfb94d77dc1f8fd8912" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_instrumented_shard_router" kindref="compound">InstrumentedShardRouter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;InstrumentedShardRouter&gt; QueryFederationShardRoutingTest::router</definition>
+        <argsstring></argsstring>
+        <name>router</name>
+        <qualifiedname>QueryFederationShardRoutingTest::router</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="128" column="22" bodyfile="tests/query/test_query_federation.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_federation_shard_routing_test_1a6e1baba0a4d023e7134e0587d3f538c6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_query_federation" kindref="compound">QueryFederation</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;QueryFederation&gt; QueryFederationShardRoutingTest::fed</definition>
+        <argsstring></argsstring>
+        <name>fed</name>
+        <qualifiedname>QueryFederationShardRoutingTest::fed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="129" column="30" bodyfile="tests/query/test_query_federation.cpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_query_federation_shard_routing_test_1a1cbeef759283c60b18a4900a100c1cc4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryFederationShardRoutingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>QueryFederationShardRoutingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="104" column="10" bodyfile="tests/query/test_query_federation.cpp" bodystart="104" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryFederationShardRoutingTest</label>
+        <link refid="class_query_federation_shard_routing_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryFederationShardRoutingTest</label>
+        <link refid="class_query_federation_shard_routing_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_federation.cpp" line="98" column="1" bodyfile="tests/query/test_query_federation.cpp" bodystart="98" bodyend="130"/>
+    <listofallmembers>
+      <member refid="class_query_federation_shard_routing_test_1a6e1baba0a4d023e7134e0587d3f538c6" prot="protected" virt="non-virtual"><scope>QueryFederationShardRoutingTest</scope><name>fed</name></member>
+      <member refid="class_query_federation_shard_routing_test_1a8a8906dc631b1510223f169e30468d69" prot="protected" virt="non-virtual"><scope>QueryFederationShardRoutingTest</scope><name>kShard1</name></member>
+      <member refid="class_query_federation_shard_routing_test_1a58649673adbff289abd9ed4554ba53a7" prot="protected" virt="non-virtual"><scope>QueryFederationShardRoutingTest</scope><name>kShard2</name></member>
+      <member refid="class_query_federation_shard_routing_test_1a42d3ddd577a61984f3ccb385aea8acc7" prot="protected" virt="non-virtual"><scope>QueryFederationShardRoutingTest</scope><name>kShard3</name></member>
+      <member refid="class_query_federation_shard_routing_test_1a85144108fe0d6045a554cad13d35de37" prot="protected" virt="non-virtual"><scope>QueryFederationShardRoutingTest</scope><name>resolver</name></member>
+      <member refid="class_query_federation_shard_routing_test_1a2d3e2d413a4949aa7774a11aa11b5ce5" prot="protected" virt="non-virtual"><scope>QueryFederationShardRoutingTest</scope><name>ring_</name></member>
+      <member refid="class_query_federation_shard_routing_test_1ae3bae45d4a310dfb94d77dc1f8fd8912" prot="protected" virt="non-virtual"><scope>QueryFederationShardRoutingTest</scope><name>router</name></member>
+      <member refid="class_query_federation_shard_routing_test_1a1cbeef759283c60b18a4900a100c1cc4" prot="protected" virt="non-virtual"><scope>QueryFederationShardRoutingTest</scope><name>SetUp</name></member>
+      <member refid="class_query_federation_shard_routing_test_1a59a2fb67e7cf692f5deab711f8503241" prot="protected" virt="non-virtual"><scope>QueryFederationShardRoutingTest</scope><name>topology</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

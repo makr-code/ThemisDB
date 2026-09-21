@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_document_diff" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::DocumentDiff</compoundname>
+    <includes refid="document__diff__merge_8h" local="no">document_diff_merge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_diff_1a0ee76d5b618eda7fc7cb0b3bc4c9acc7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::document::DocumentDiff::added_fields</definition>
+        <argsstring></argsstring>
+        <name>added_fields</name>
+        <qualifiedname>themis::document::DocumentDiff::added_fields</qualifiedname>
+        <briefdescription>
+<para>Keys present in target but not base. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="53" column="18" bodyfile="include/document/document_diff_merge.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_diff_1af44edc33c870810db2c7129a9ed87112" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::document::DocumentDiff::removed_fields</definition>
+        <argsstring></argsstring>
+        <name>removed_fields</name>
+        <qualifiedname>themis::document::DocumentDiff::removed_fields</qualifiedname>
+        <briefdescription>
+<para>Keys present in base but not target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="54" column="18" bodyfile="include/document/document_diff_merge.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_diff_1a1edfd7a9fae73b8dd2c60475d4b46801" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1document_1_1_field_change" kindref="compound">FieldChange</ref> &gt;</type>
+        <definition>std::vector&lt;FieldChange&gt; themis::document::DocumentDiff::modified_fields</definition>
+        <argsstring></argsstring>
+        <name>modified_fields</name>
+        <qualifiedname>themis::document::DocumentDiff::modified_fields</qualifiedname>
+        <briefdescription>
+<para>Keys present in both, value changed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="55" column="18" bodyfile="include/document/document_diff_merge.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1document_1_1_document_diff_1ad5105b4d35717967c844a500ad72ba5c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::document::DocumentDiff::isEmpty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isEmpty</name>
+        <qualifiedname>themis::document::DocumentDiff::isEmpty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="57" column="10" bodyfile="include/document/document_diff_merge.h" bodystart="57" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_diff_merge.h" line="52" column="1" bodyfile="include/document/document_diff_merge.h" bodystart="52" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_document_diff_1a0ee76d5b618eda7fc7cb0b3bc4c9acc7" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiff</scope><name>added_fields</name></member>
+      <member refid="structthemis_1_1document_1_1_document_diff_1ad5105b4d35717967c844a500ad72ba5c" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiff</scope><name>isEmpty</name></member>
+      <member refid="structthemis_1_1document_1_1_document_diff_1a1edfd7a9fae73b8dd2c60475d4b46801" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiff</scope><name>modified_fields</name></member>
+      <member refid="structthemis_1_1document_1_1_document_diff_1af44edc33c870810db2c7129a9ed87112" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiff</scope><name>removed_fields</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

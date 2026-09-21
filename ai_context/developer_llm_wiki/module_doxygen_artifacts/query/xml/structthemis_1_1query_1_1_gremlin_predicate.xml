@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_gremlin_predicate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::GremlinPredicate</compoundname>
+    <includes refid="gremlin__parser_8h" local="no">gremlin_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_predicate_1a1d7bb0146797aa5c6a8545313810b3eb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1ad1d36576fad0c37dc7d12cb5e47b76ce" kindref="member">GremlinPredOp</ref></type>
+        <definition>GremlinPredOp themis::query::GremlinPredicate::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::query::GremlinPredicate::op</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="52" column="19" bodyfile="include/query/gremlin_parser.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_predicate_1ab7beff5077851e45f802e67d6f3b50cb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1query_1a2d5d4167ca04545899c6c8b57ece117c" kindref="member">GremlinValue</ref> &gt;</type>
+        <definition>std::vector&lt;GremlinValue&gt; themis::query::GremlinPredicate::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::query::GremlinPredicate::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="53" column="17" bodyfile="include/query/gremlin_parser.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/gremlin_parser.h" line="51" column="1" bodyfile="include/query/gremlin_parser.h" bodystart="51" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_gremlin_predicate_1a1d7bb0146797aa5c6a8545313810b3eb" prot="public" virt="non-virtual"><scope>themis::query::GremlinPredicate</scope><name>op</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_predicate_1ab7beff5077851e45f802e67d6f3b50cb" prot="public" virt="non-virtual"><scope>themis::query::GremlinPredicate</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::adapters::FormatExtractorFactory</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ingestion::IFormatExtractorFactory</basecompoundref>
+    <includes refid="format__extractor__adapters_8h" local="no">format_extractor_adapters.h</includes>
+    <innerclass refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1_1_impl" prot="public">themis::content::adapters::FormatExtractorFactory::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a8ecbe3f2162e8587a14fd7787c508296" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::content::adapters::FormatExtractorFactory::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::content::adapters::FormatExtractorFactory::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/adapters/format_extractor_adapters.h" line="81" column="21" bodyfile="include/content/adapters/format_extractor_adapters.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1adb84eff9711c44c7ffbead5b1242fcc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::FormatExtractorFactory::FormatExtractorFactory</definition>
+        <argsstring>()</argsstring>
+        <name>FormatExtractorFactory</name>
+        <qualifiedname>themis::content::adapters::FormatExtractorFactory::FormatExtractorFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/adapters/format_extractor_adapters.h" line="68" column="5" bodyfile="src/content/adapters/format_extractor_factory.cpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a08dd69fd083ce0f82084f2ef7971253a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::adapters::FormatExtractorFactory::~FormatExtractorFactory</definition>
+        <argsstring>() override</argsstring>
+        <name>~FormatExtractorFactory</name>
+        <qualifiedname>themis::content::adapters::FormatExtractorFactory::~FormatExtractorFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/adapters/format_extractor_adapters.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a5e967c3b441031dc655c77f3f7f2e818" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IFormatExtractor &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IFormatExtractor &gt; themis::content::adapters::FormatExtractorFactory::extractorFor</definition>
+        <argsstring>(const std::string &amp;mime_type) const override</argsstring>
+        <name>extractorFor</name>
+        <qualifiedname>themis::content::adapters::FormatExtractorFactory::extractorFor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/adapters/format_extractor_adapters.h" line="71" column="21" bodyfile="src/content/adapters/format_extractor_factory.cpp" bodystart="39" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a3c8f08c7305be3ce2738186ce8eb6c40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::adapters::FormatExtractorFactory::registerExtractor</definition>
+        <argsstring>(std::shared_ptr&lt; ingestion::IFormatExtractor &gt; extractor) override</argsstring>
+        <name>registerExtractor</name>
+        <qualifiedname>themis::content::adapters::FormatExtractorFactory::registerExtractor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::IFormatExtractor &gt;</type>
+          <declname>extractor</declname>
+        </param>
+        <briefdescription>
+<para>Register Extractor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), supportedMimeTypes(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/adapters/format_extractor_adapters.h" line="74" column="10" bodyfile="src/content/adapters/format_extractor_factory.cpp" bodystart="53" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a366ff0144c8f9c5fa9df984e671e13e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::content::adapters::FormatExtractorFactory::registeredMimeTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>registeredMimeTypes</name>
+        <qualifiedname>themis::content::adapters::FormatExtractorFactory::registeredMimeTypes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/adapters/format_extractor_adapters.h" line="77" column="17" bodyfile="src/content/adapters/format_extractor_factory.cpp" bodystart="63" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ingestion::IFormatExtractorFactory</label>
+      </node>
+      <node id="1">
+        <label>themis::content::adapters::FormatExtractorFactory</label>
+        <link refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ingestion::IFormatExtractorFactory</label>
+      </node>
+      <node id="1">
+        <label>themis::content::adapters::FormatExtractorFactory</label>
+        <link refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/adapters/format_extractor_adapters.h" line="66" column="1" bodyfile="include/content/adapters/format_extractor_adapters.h" bodystart="66" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a5e967c3b441031dc655c77f3f7f2e818" prot="public" virt="non-virtual"><scope>themis::content::adapters::FormatExtractorFactory</scope><name>extractorFor</name></member>
+      <member refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1adb84eff9711c44c7ffbead5b1242fcc3" prot="public" virt="non-virtual"><scope>themis::content::adapters::FormatExtractorFactory</scope><name>FormatExtractorFactory</name></member>
+      <member refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a8ecbe3f2162e8587a14fd7787c508296" prot="private" virt="non-virtual"><scope>themis::content::adapters::FormatExtractorFactory</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a366ff0144c8f9c5fa9df984e671e13e9" prot="public" virt="non-virtual"><scope>themis::content::adapters::FormatExtractorFactory</scope><name>registeredMimeTypes</name></member>
+      <member refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a3c8f08c7305be3ce2738186ce8eb6c40" prot="public" virt="non-virtual"><scope>themis::content::adapters::FormatExtractorFactory</scope><name>registerExtractor</name></member>
+      <member refid="classthemis_1_1content_1_1adapters_1_1_format_extractor_factory_1a08dd69fd083ce0f82084f2ef7971253a" prot="public" virt="non-virtual"><scope>themis::content::adapters::FormatExtractorFactory</scope><name>~FormatExtractorFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

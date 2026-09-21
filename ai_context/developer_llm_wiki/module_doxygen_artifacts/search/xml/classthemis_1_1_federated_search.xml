@@ -1,0 +1,535 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_federated_search" kind="class" language="C++" prot="public">
+    <compoundname>themis::FederatedSearch</compoundname>
+    <includes refid="federated__search_8h" local="no">federated_search.h</includes>
+    <innerclass refid="structthemis_1_1_federated_search_1_1_config" prot="public">themis::FederatedSearch::Config</innerclass>
+    <innerclass refid="structthemis_1_1_federated_search_1_1_result" prot="public">themis::FederatedSearch::Result</innerclass>
+    <innerclass refid="structthemis_1_1_federated_search_1_1_tenant_stats" prot="public">themis::FederatedSearch::TenantStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_federated_search_1a03af440b412dfa39a82040b67331c19f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_federated_search_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::FederatedSearch::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::FederatedSearch::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="225" column="12" bodyfile="include/search/federated_search.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_federated_search_1ad45bb20629798836b8405e186ea9c17f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> * &gt;</type>
+        <definition>std::unordered_map&lt;std::string, HybridSearch*&gt; themis::FederatedSearch::tenants_</definition>
+        <argsstring></argsstring>
+        <name>tenants_</name>
+        <qualifiedname>themis::FederatedSearch::tenants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="226" column="24" bodyfile="include/search/federated_search.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_federated_search_1a8ac3b353524b66aca5c87d8cb89b8820" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::FederatedSearch::tenant_weights_</definition>
+        <argsstring></argsstring>
+        <name>tenant_weights_</name>
+        <qualifiedname>themis::FederatedSearch::tenant_weights_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="227" column="24" bodyfile="include/search/federated_search.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_federated_search_1a77d9750b5c4d7f752edf1e44d1567e2c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FederatedSearch::FederatedSearch</definition>
+        <argsstring>()</argsstring>
+        <name>FederatedSearch</name>
+        <qualifiedname>themis::FederatedSearch::FederatedSearch</qualifiedname>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_federated_search" kindref="compound">FederatedSearch</ref> engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid config values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="123" column="14" bodyfile="src/search/federated_search.cpp" bodystart="23" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_federated_search_1a9142c7cc02e0a5067ea72fba4d9d17dc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FederatedSearch::FederatedSearch</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>FederatedSearch</name>
+        <qualifiedname>themis::FederatedSearch::FederatedSearch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_federated_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_federated_search" kindref="compound">FederatedSearch</ref> engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid config values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="130" column="14" bodyfile="src/search/federated_search.cpp" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_federated_search_1a8cb5d92bf9920715bf331c3189348a8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::FederatedSearch::registerTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id, HybridSearch *hybrid_search)</argsstring>
+        <name>registerTenant</name>
+        <qualifiedname>themis::FederatedSearch::registerTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> *</type>
+          <declname>hybrid_search</declname>
+        </param>
+        <briefdescription>
+<para>Register a tenant <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Tenant.</para>
+<para>Replaces any previously registered instance for the same tenant ID. The pointer is non-owning; the caller retains ownership.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hybrid_search</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the tenant&apos;s <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> engine. May be null; the tenant will be skipped during search.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">hybrid_search</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerTenant without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="146" column="10" bodyfile="src/search/federated_search.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_federated_search_1a3535bc47f1a44dc61e4092dbdecadef5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::FederatedSearch::removeTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>removeTenant</name>
+        <qualifiedname>themis::FederatedSearch::removeTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a previously registered tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Tenant.</para>
+<para>No-op when the tenant ID is not registered.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant to remove.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="156" column="10" bodyfile="src/search/federated_search.cpp" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_federated_search_1a309ca6f4bd0b1c13c5978a5737508127" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::FederatedSearch::setTenantWeight</definition>
+        <argsstring>(const std::string &amp;tenant_id, double weight)</argsstring>
+        <name>setTenantWeight</name>
+        <qualifiedname>themis::FederatedSearch::setTenantWeight</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight</declname>
+        </param>
+        <briefdescription>
+<para>Set the contribution weight for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Tenant Weight.</para>
+<para>Weights are multiplied into the tenant&apos;s per-document RRF contribution before cross-tenant fusion. A weight of 0.0 effectively excludes the tenant. Weights are clamped to [0.0, 1.0].</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Contribution weight in [0.0, 1.0].</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="168" column="10" bodyfile="src/search/federated_search.cpp" bodystart="66" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_federated_search_1ab3ce864e7987cc3318ed1d67e17d04c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::FederatedSearch::getTenantWeight</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantWeight</name>
+        <qualifiedname>themis::FederatedSearch::getTenantWeight</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the weight associated with a tenant (default 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="173" column="12" bodyfile="src/search/federated_search.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_federated_search_1a14bca756df6dd1431d3309df6736a735" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::FederatedSearch::tenantCount</definition>
+        <argsstring>() const</argsstring>
+        <name>tenantCount</name>
+        <qualifiedname>themis::FederatedSearch::tenantCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of registered tenants. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="178" column="12" bodyfile="include/search/federated_search.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_federated_search_1ad496b7f7b452afaec754b8b208efc4b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_federated_search_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::vector&lt; FederatedSearch::Result &gt; themis::FederatedSearch::search</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; float &gt; &amp;vector_query={}, std::vector&lt; TenantStats &gt; *tenant_stats=nullptr)</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::FederatedSearch::search</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector_query</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1_federated_search_1_1_tenant_stats" kindref="compound">TenantStats</ref> &gt; *</type>
+          <declname>tenant_stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute a federated search across all registered tenants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Search.</para>
+<para>Queries each non-skipped tenant <computeroutput><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref></computeroutput> instance in sequence, applies per-tenant weights, merges results via Reciprocal Rank Fusion, and returns the top-k globally ranked results.</para>
+<para>Per-tenant diagnostics are written to <computeroutput>tenant_stats</computeroutput> when non-null.</para>
+<para>Never throws; all per-tenant exceptions are caught internally.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full-text query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional semantic embedding vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional: per-tenant diagnostics output. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Top-k merged results sorted by score descending.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">tenant_stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_federated_search_1ab3ce864e7987cc3318ed1d67e17d04c3" kindref="member">getTenantWeight()</ref>, push_back(), THEMIS_ERROR(), size(), std::move(), what(), <ref refid="classthemis_1_1_federated_search_1aabd3e83bdfe3779a057ad8d610f9ee65" kindref="member">mergeTenantResults()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="200" column="17" bodyfile="src/search/federated_search.cpp" bodystart="109" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_federated_search_1aabd3e83bdfe3779a057ad8d610f9ee65" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_federated_search_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::vector&lt; FederatedSearch::Result &gt; themis::FederatedSearch::mergeTenantResults</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::vector&lt; HybridSearch::Result &gt; &gt; &amp;tenant_results) const</argsstring>
+        <name>mergeTenantResults</name>
+        <qualifiedname>themis::FederatedSearch::mergeTenantResults</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref> &gt; &gt; &amp;</type>
+          <declname>tenant_results</declname>
+        </param>
+        <briefdescription>
+<para>Merge per-tenant result lists via weighted RRF (public for tests). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of tenant_id to result list. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Merged results sorted by score descending, capped at <ref refid="structthemis_1_1_federated_search_1_1_config_1a5a5df660424bf4fd21a2cdc6529be3e8" kindref="member">Config::k</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="212" column="17" bodyfile="src/search/federated_search.cpp" bodystart="168" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_federated_search_1abf0063b4113b3b5cce31f55fce8dc485" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_federated_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::FederatedSearch::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::FederatedSearch::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="221" column="18" bodyfile="include/search/federated_search.h" bodystart="221" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_federated_search_1a5c6253684c3d85ac0ce6df9508931354" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::FederatedSearch::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::FederatedSearch::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_federated_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1_federated_search_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="222" column="10" bodyfile="src/search/federated_search.cpp" bodystart="87" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Federated search across isolated per-tenant <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> indexes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_federated_search" kindref="compound">FederatedSearch</ref> allows a single query to be executed concurrently across multiple tenant-isolated <computeroutput><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref></computeroutput> instances and returns a merged, globally ranked result set.</para>
+<para><heading level="3">Design</heading>
+</para>
+<para>Each tenant is represented by a named <computeroutput><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref></computeroutput> instance (or null for an unknown tenant). Results from each tenant are labelled with the <computeroutput>tenant_id</computeroutput> and optionally weighted before cross-tenant Reciprocal Rank Fusion (RRF) produces the final ranked list.</para>
+<para><heading level="3">Privacy isolation</heading>
+</para>
+<para>Results from each tenant index are completely isolated: a result from tenant A cannot be boosted or suppressed by data from tenant B. The <computeroutput><ref refid="structthemis_1_1_federated_search_1_1_result_1aaff5643888aaebfe2ab34b429933dbbe" kindref="member">Result::tenant_id</ref></computeroutput> field makes the provenance of every result explicit.</para>
+<para><heading level="3">Tenant weights</heading>
+</para>
+<para>Tenants can be assigned a <computeroutput>double</computeroutput> weight in [0, 1] via <computeroutput><ref refid="classthemis_1_1_federated_search_1a309ca6f4bd0b1c13c5978a5737508127" kindref="member">setTenantWeight()</ref></computeroutput>. A weight of 0 excludes the tenant from the merged result. The default weight for unregistered tenants is 1.0.</para>
+<para><heading level="3">Typical usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">FederatedSearch::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.k<sp/>=<sp/>20;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_federated_search_1a77d9750b5c4d7f752edf1e44d1567e2c" kindref="member">FederatedSearch</ref><sp/>fs(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">fs.registerTenant(</highlight><highlight class="stringliteral">&quot;tenant_A&quot;</highlight><highlight class="normal">,<sp/>&amp;hs_a);</highlight></codeline>
+<codeline><highlight class="normal">fs.registerTenant(</highlight><highlight class="stringliteral">&quot;tenant_B&quot;</highlight><highlight class="normal">,<sp/>&amp;hs_b);</highlight></codeline>
+<codeline><highlight class="normal">fs.setTenantWeight(</highlight><highlight class="stringliteral">&quot;tenant_A&quot;</highlight><highlight class="normal">,<sp/>0.8);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>fs.search(</highlight><highlight class="stringliteral">&quot;machine<sp/>learning&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>r.tenant_id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;/&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.document_id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.score<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Thread Safety: A single <ref refid="classthemis_1_1_federated_search" kindref="compound">FederatedSearch</ref> instance is NOT thread-safe. Calls to <computeroutput><ref refid="classthemis_1_1_federated_search_1a8cb5d92bf9920715bf331c3189348a8e" kindref="member">registerTenant()</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_federated_search_1a309ca6f4bd0b1c13c5978a5737508127" kindref="member">setTenantWeight()</ref></computeroutput>, and <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput> must not occur concurrently. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput> never throws; all per-tenant exceptions are caught internally. The constructor throws <computeroutput>std::invalid_argument</computeroutput> on invalid config values.</para>
+</simplesect>
+<simplesect kind="since"><para>v2.4.0 (Phase 5 — Federated Search) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/federated_search.h" line="73" column="1" bodyfile="include/search/federated_search.h" bodystart="73" bodyend="228"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_federated_search_1a03af440b412dfa39a82040b67331c19f" prot="private" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_federated_search_1a77d9750b5c4d7f752edf1e44d1567e2c" prot="public" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>FederatedSearch</name></member>
+      <member refid="classthemis_1_1_federated_search_1a9142c7cc02e0a5067ea72fba4d9d17dc" prot="public" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>FederatedSearch</name></member>
+      <member refid="classthemis_1_1_federated_search_1abf0063b4113b3b5cce31f55fce8dc485" prot="public" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_federated_search_1ab3ce864e7987cc3318ed1d67e17d04c3" prot="public" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>getTenantWeight</name></member>
+      <member refid="classthemis_1_1_federated_search_1aabd3e83bdfe3779a057ad8d610f9ee65" prot="public" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>mergeTenantResults</name></member>
+      <member refid="classthemis_1_1_federated_search_1a8cb5d92bf9920715bf331c3189348a8e" prot="public" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>registerTenant</name></member>
+      <member refid="classthemis_1_1_federated_search_1a3535bc47f1a44dc61e4092dbdecadef5" prot="public" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>removeTenant</name></member>
+      <member refid="classthemis_1_1_federated_search_1ad496b7f7b452afaec754b8b208efc4b1" prot="public" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>search</name></member>
+      <member refid="classthemis_1_1_federated_search_1a5c6253684c3d85ac0ce6df9508931354" prot="public" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_federated_search_1a309ca6f4bd0b1c13c5978a5737508127" prot="public" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>setTenantWeight</name></member>
+      <member refid="classthemis_1_1_federated_search_1a8ac3b353524b66aca5c87d8cb89b8820" prot="private" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>tenant_weights_</name></member>
+      <member refid="classthemis_1_1_federated_search_1a14bca756df6dd1431d3309df6736a735" prot="public" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>tenantCount</name></member>
+      <member refid="classthemis_1_1_federated_search_1ad45bb20629798836b8405e186ea9c17f" prot="private" virt="non-virtual"><scope>themis::FederatedSearch</scope><name>tenants_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

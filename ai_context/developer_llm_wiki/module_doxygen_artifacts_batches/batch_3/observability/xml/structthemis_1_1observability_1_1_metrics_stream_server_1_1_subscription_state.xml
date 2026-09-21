@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metrics_stream_server_1_1_subscription_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::observability::MetricsStreamServer::SubscriptionState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_stream_server_1_1_subscription_state_1ae4eb8b41c6e455faf3d3ff2c21c5ba86" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_stream_subscription" kindref="compound">StreamSubscription</ref></type>
+        <definition>StreamSubscription themis::observability::MetricsStreamServer::SubscriptionState::subscription</definition>
+        <argsstring></argsstring>
+        <name>subscription</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::SubscriptionState::subscription</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="293" column="28" bodyfile="include/observability/metrics_stream_server.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_stream_server_1_1_subscription_state_1a790b1f29482993071a8fe174f57a9103" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::observability::MetricsStreamServer::SubscriptionState::last_delivery</definition>
+        <argsstring></argsstring>
+        <name>last_delivery</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::SubscriptionState::last_delivery</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Wall-clock timestamp of the last successful delivery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="295" column="47" bodyfile="include/observability/metrics_stream_server.h" bodystart="295" bodyend="295"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::observability::MetricsStreamServer::SubscriptionState</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>subscription</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::observability::StreamSubscription</label>
+        <link refid="structthemis_1_1observability_1_1_stream_subscription"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/metrics_stream_server.h" line="292" column="5" bodyfile="include/observability/metrics_stream_server.h" bodystart="292" bodyend="296"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metrics_stream_server_1_1_subscription_state_1a790b1f29482993071a8fe174f57a9103" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer::SubscriptionState</scope><name>last_delivery</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_stream_server_1_1_subscription_state_1ae4eb8b41c6e455faf3d3ff2c21c5ba86" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer::SubscriptionState</scope><name>subscription</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

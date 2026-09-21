@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::Token</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_token_1a50e4383f869075e15c2d25122e5f85b0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a4a64d98c66d201cc2e5b35f71a6543f3" kindref="member">TokenType</ref></type>
+        <definition>TokenType themis::query::Token::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::Token::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="235" column="15" bodyfile="src/query/aql_parser.cpp" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_token_1a0c72c43542fe3265909079fa4ae0198c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::Token::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::Token::value</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="236" column="17" bodyfile="src/query/aql_parser.cpp" bodystart="236" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_token_1ab6a24d5f6ed512a991b49be76849cad2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::Token::line</definition>
+        <argsstring></argsstring>
+        <name>line</name>
+        <qualifiedname>themis::query::Token::line</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="237" column="12" bodyfile="src/query/aql_parser.cpp" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_token_1a5097ab539017ca4d0114f835ea86cc29" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::Token::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::query::Token::column</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="238" column="12" bodyfile="src/query/aql_parser.cpp" bodystart="238" bodyend="238"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_token_1af6434b876664c85a28219441d88d595e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::Token::Token</definition>
+        <argsstring>(TokenType t, std::string v, size_t l, size_t c)</argsstring>
+        <name>Token</name>
+        <qualifiedname>themis::query::Token::Token</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a4a64d98c66d201cc2e5b35f71a6543f3" kindref="member">TokenType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="240" column="5" bodyfile="src/query/aql_parser.cpp" bodystart="240" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/aql_parser.cpp" line="234" column="1" bodyfile="src/query/aql_parser.cpp" bodystart="234" bodyend="242"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_token_1a5097ab539017ca4d0114f835ea86cc29" prot="public" virt="non-virtual"><scope>themis::query::Token</scope><name>column</name></member>
+      <member refid="structthemis_1_1query_1_1_token_1ab6a24d5f6ed512a991b49be76849cad2" prot="public" virt="non-virtual"><scope>themis::query::Token</scope><name>line</name></member>
+      <member refid="structthemis_1_1query_1_1_token_1af6434b876664c85a28219441d88d595e" prot="public" virt="non-virtual"><scope>themis::query::Token</scope><name>Token</name></member>
+      <member refid="structthemis_1_1query_1_1_token_1a50e4383f869075e15c2d25122e5f85b0" prot="public" virt="non-virtual"><scope>themis::query::Token</scope><name>type</name></member>
+      <member refid="structthemis_1_1query_1_1_token_1a0c72c43542fe3265909079fa4ae0198c" prot="public" virt="non-virtual"><scope>themis::query::Token</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

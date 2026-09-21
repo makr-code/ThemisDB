@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_window_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::WindowResult</compoundname>
+    <includes refid="streaming__window_8h" local="no">streaming_window.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_result_1a750183324d1ec0c7c59fdc9c1c9c6c2f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::WindowResult::window_id</definition>
+        <argsstring></argsstring>
+        <name>window_id</name>
+        <qualifiedname>themisdb::analytics::WindowResult::window_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="157" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_result_1a89d33f8b38fc5f4e885b8e9b111f71ed" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::WindowResult::window_start</definition>
+        <argsstring></argsstring>
+        <name>window_start</name>
+        <qualifiedname>themisdb::analytics::WindowResult::window_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="158" column="43" bodyfile="include/analytics/streaming_window.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_result_1a2739aafa603cb3450712ece6cdb1df12" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::WindowResult::window_end</definition>
+        <argsstring></argsstring>
+        <name>window_end</name>
+        <qualifiedname>themisdb::analytics::WindowResult::window_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="159" column="43" bodyfile="include/analytics/streaming_window.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_result_1a40e50c401d521a155d4f00d4e82ce583" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::WindowResult::partition_key</definition>
+        <argsstring></argsstring>
+        <name>partition_key</name>
+        <qualifiedname>themisdb::analytics::WindowResult::partition_key</qualifiedname>
+        <briefdescription>
+<para>non-empty for session windows </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="160" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_result_1a8ae20e9b1e7d707c7b6b833db5393f94" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowResult::record_count</definition>
+        <argsstring></argsstring>
+        <name>record_count</name>
+        <qualifiedname>themisdb::analytics::WindowResult::record_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="161" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_result_1a2b83cf27e83a2a53248e29dc8d7454b7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_aggregated_value" kindref="compound">AggregatedValue</ref> &gt;</type>
+        <definition>std::vector&lt;AggregatedValue&gt; themisdb::analytics::WindowResult::aggregations</definition>
+        <argsstring></argsstring>
+        <name>aggregations</name>
+        <qualifiedname>themisdb::analytics::WindowResult::aggregations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="162" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_result_1aa8cf73dc91d04c58076e261b80832963" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::WindowResult::is_late_firing</definition>
+        <argsstring></argsstring>
+        <name>is_late_firing</name>
+        <qualifiedname>themisdb::analytics::WindowResult::is_late_firing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when triggered by late data </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="163" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_result_1abe6c1d4c6f3b2e923eb13b8bbe0324e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::WindowResult::is_early_firing</definition>
+        <argsstring></argsstring>
+        <name>is_early_firing</name>
+        <qualifiedname>themisdb::analytics::WindowResult::is_early_firing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when triggered before window close </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="164" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_window_result_1a3c9e2cfaa4678b444510645c05093662" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemisdb_1_1analytics_1ab697aeb8605251dcb3b100ee740f509c" kindref="member">RecordValue</ref> &gt;</type>
+        <definition>std::optional&lt; RecordValue &gt; themisdb::analytics::WindowResult::get</definition>
+        <argsstring>(const std::string &amp;agg_name) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themisdb::analytics::WindowResult::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>agg_name</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the agg. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="171" column="19" bodyfile="src/analytics/streaming_window.cpp" bodystart="340" bodyend="347"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/streaming_window.h" line="156" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="156" bodyend="172"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_window_result_1a2b83cf27e83a2a53248e29dc8d7454b7" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowResult</scope><name>aggregations</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_result_1a3c9e2cfaa4678b444510645c05093662" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowResult</scope><name>get</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_result_1abe6c1d4c6f3b2e923eb13b8bbe0324e0" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowResult</scope><name>is_early_firing</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_result_1aa8cf73dc91d04c58076e261b80832963" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowResult</scope><name>is_late_firing</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_result_1a40e50c401d521a155d4f00d4e82ce583" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowResult</scope><name>partition_key</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_result_1a8ae20e9b1e7d707c7b6b833db5393f94" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowResult</scope><name>record_count</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_result_1a2739aafa603cb3450712ece6cdb1df12" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowResult</scope><name>window_end</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_result_1a750183324d1ec0c7c59fdc9c1c9c6c2f" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowResult</scope><name>window_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_result_1a89d33f8b38fc5f4e885b8e9b111f71ed" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowResult</scope><name>window_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

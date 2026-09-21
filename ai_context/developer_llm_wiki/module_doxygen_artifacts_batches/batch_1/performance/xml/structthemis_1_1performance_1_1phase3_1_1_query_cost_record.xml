@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_query_cost_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::QueryCostRecord</compoundname>
+    <includes refid="per__query__cost__model_8h" local="no">per_query_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ab0675932451a7ea8029cece733458f7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::phase3::QueryCostRecord::query_type</definition>
+        <argsstring></argsstring>
+        <name>query_type</name>
+        <qualifiedname>themis::performance::phase3::QueryCostRecord::query_type</qualifiedname>
+        <briefdescription>
+<para>&quot;table_scan&quot;, &quot;index_scan&quot;, &quot;join&quot;, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="48" column="17" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ab40c303b6f1f6a4876bc908935710bd3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase3::QueryCostRecord::cycles_elapsed</definition>
+        <argsstring></argsstring>
+        <name>cycles_elapsed</name>
+        <qualifiedname>themis::performance::phase3::QueryCostRecord::cycles_elapsed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CPU cycles measured with RDTSCP. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="49" column="17" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ac56ff079b2c95ce729d04abeac25db9c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::QueryCostRecord::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::performance::phase3::QueryCostRecord::execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock duration in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="50" column="17" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a06be519eab6c4c3c62cca1db53928521" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::QueryCostRecord::rows_processed</definition>
+        <argsstring></argsstring>
+        <name>rows_processed</name>
+        <qualifiedname>themis::performance::phase3::QueryCostRecord::rows_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Rows touched during execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="51" column="17" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a8be9df941bd66b45b39593294f84315e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::QueryCostRecord::pages_read</definition>
+        <argsstring></argsstring>
+        <name>pages_read</name>
+        <qualifiedname>themis::performance::phase3::QueryCostRecord::pages_read</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Pages fetched from storage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="52" column="17" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a96ae841313d77d246312faad60ff18de" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::QueryCostRecord::estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost</name>
+        <qualifiedname>themis::performance::phase3::QueryCostRecord::estimated_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>OptimizerCostModel estimate at plan time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="53" column="17" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1aae6b1ba15f1b53860dbfc6c848f09d68" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::QueryCostRecord::cost_ratio</definition>
+        <argsstring></argsstring>
+        <name>cost_ratio</name>
+        <qualifiedname>themis::performance::phase3::QueryCostRecord::cost_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>estimated_cost / actual_cost (&gt;1 = over-estimated) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="54" column="17" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a8d9b3207b98fd88ddd5596f04029b519" prot="public" static="no" mutable="no">
+        <type>OptimizerCostModel::SerializationAdvice::ExecutionPath</type>
+        <definition>OptimizerCostModel::SerializationAdvice::ExecutionPath themis::performance::phase3::QueryCostRecord::exec_path_used</definition>
+        <argsstring></argsstring>
+        <name>exec_path_used</name>
+        <qualifiedname>themis::performance::phase3::QueryCostRecord::exec_path_used</qualifiedname>
+        <initializer>                                                                  =
+OptimizerCostModel::SerializationAdvice::ExecutionPath::CPU_SINGLE</initializer>
+        <briefdescription>
+<para>Execution path actually used (set by higher-level consumer after planning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="57" column="60" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1adeae5a36ce88ae8fa9e833e5a5df6c1c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::QueryCostRecord::serialization_time_ms</definition>
+        <argsstring></argsstring>
+        <name>serialization_time_ms</name>
+        <qualifiedname>themis::performance::phase3::QueryCostRecord::serialization_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Time spent on serialization/deserialization within this query (ms). Populated by consumers that measure serialization overhead separately. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="62" column="12" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-query execution cost record. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures both hardware cycle counts (from CycleMetrics) and derived wall-clock time for a single query execution. Stored in the ring buffer inside <ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model" kindref="compound">PerQueryCostModel</ref>. </para>
+    </detaileddescription>
+    <location file="include/performance/phase3/per_query_cost_model.h" line="47" column="1" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="47" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1aae6b1ba15f1b53860dbfc6c848f09d68" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryCostRecord</scope><name>cost_ratio</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ab40c303b6f1f6a4876bc908935710bd3" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryCostRecord</scope><name>cycles_elapsed</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a96ae841313d77d246312faad60ff18de" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryCostRecord</scope><name>estimated_cost</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a8d9b3207b98fd88ddd5596f04029b519" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryCostRecord</scope><name>exec_path_used</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ac56ff079b2c95ce729d04abeac25db9c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryCostRecord</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a8be9df941bd66b45b39593294f84315e" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryCostRecord</scope><name>pages_read</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1ab0675932451a7ea8029cece733458f7b" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryCostRecord</scope><name>query_type</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1a06be519eab6c4c3c62cca1db53928521" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryCostRecord</scope><name>rows_processed</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record_1adeae5a36ce88ae8fa9e833e5a5df6c1c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryCostRecord</scope><name>serialization_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

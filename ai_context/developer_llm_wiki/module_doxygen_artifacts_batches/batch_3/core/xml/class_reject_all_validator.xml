@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_reject_all_validator" kind="class" language="C++" prot="public">
+    <compoundname>RejectAllValidator</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator" prot="public" virt="non-virtual">themis::core::concerns::AdapterValidator</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_reject_all_validator_1a50e3d9dbd221b815b59af27085f986be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool RejectAllValidator::validate</definition>
+        <argsstring>(const AdapterMetadata &amp;) override</argsstring>
+        <name>validate</name>
+        <qualifiedname>RejectAllValidator::validate</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator_1acbe645cbadc888d1fc6d80e51544bc59">validate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="128" column="10" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="128" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RejectAllValidator</label>
+        <link refid="class_reject_all_validator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::AdapterValidator</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RejectAllValidator</label>
+        <link refid="class_reject_all_validator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::AdapterValidator</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/core/test_adapter_registry_focused.cpp" line="126" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="126" bodyend="129"/>
+    <listofallmembers>
+      <member refid="class_reject_all_validator_1a50e3d9dbd221b815b59af27085f986be" prot="public" virt="virtual"><scope>RejectAllValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator_1a7a456e9218f1bb1d5f0d56377225c904" prot="public" virt="virtual"><scope>RejectAllValidator</scope><name>~AdapterValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

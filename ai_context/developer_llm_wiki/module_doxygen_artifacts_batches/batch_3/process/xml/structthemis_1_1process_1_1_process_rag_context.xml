@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_rag_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessRagContext</compoundname>
+    <includes refid="process__graph__rag_8h" local="no">process_graph_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1a5235aceb7a2f364c3c2c08aea36cb24b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessRagContext::instance_id</definition>
+        <argsstring></argsstring>
+        <name>instance_id</name>
+        <qualifiedname>themis::process::ProcessRagContext::instance_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="95" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1a1b575e16d97fcfa46fd5e15cf8cf1ebf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessRagContext::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::process::ProcessRagContext::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="96" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1ae50b0c8fd2b2805e67e66ead5636edbb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessRagContext::process_definition_id</definition>
+        <argsstring></argsstring>
+        <name>process_definition_id</name>
+        <qualifiedname>themis::process::ProcessRagContext::process_definition_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="99" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1ab1c39f7475ada30631b64334ff76b4d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessRagContext::process_name</definition>
+        <argsstring></argsstring>
+        <name>process_name</name>
+        <qualifiedname>themis::process::ProcessRagContext::process_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="100" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1a7d3f8b7dafc4751436fe741da64a98ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessRagContext::current_state</definition>
+        <argsstring></argsstring>
+        <name>current_state</name>
+        <qualifiedname>themis::process::ProcessRagContext::current_state</qualifiedname>
+        <briefdescription>
+<para>&quot;RUNNING&quot;, &quot;SUSPENDED&quot;, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="101" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1a004f715c333d31dcee825284f2d8b6e3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ProcessRagContext::active_nodes</definition>
+        <argsstring></argsstring>
+        <name>active_nodes</name>
+        <qualifiedname>themis::process::ProcessRagContext::active_nodes</qualifiedname>
+        <briefdescription>
+<para>Node IDs currently holding tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="102" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1a534c79778e6d339394502ae511a84ec6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ProcessRagContext::visited_nodes</definition>
+        <argsstring></argsstring>
+        <name>visited_nodes</name>
+        <qualifiedname>themis::process::ProcessRagContext::visited_nodes</qualifiedname>
+        <briefdescription>
+<para>All nodes visited so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="103" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1a0f1da3344becf58abae5c330e0dbf539" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::ProcessRagContext::subgraph</definition>
+        <argsstring></argsstring>
+        <name>subgraph</name>
+        <qualifiedname>themis::process::ProcessRagContext::subgraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>JSON object with keys &quot;nodes&quot; (array) and &quot;edges&quot; (array) – the portion of the process model graph relevant to the query. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="108" column="20" bodyfile="include/process/process_graph_rag.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1a56dfda4240b8f1e769b718eabc5134e8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt;nlohmann::json&gt; themis::process::ProcessRagContext::attachments</definition>
+        <argsstring></argsstring>
+        <name>attachments</name>
+        <qualifiedname>themis::process::ProcessRagContext::attachments</qualifiedname>
+        <briefdescription>
+<para>Attached documents / metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="111" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1aa5399a1e27938a74cd75e66e19289055" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt;nlohmann::json&gt; themis::process::ProcessRagContext::similar_cases</definition>
+        <argsstring></argsstring>
+        <name>similar_cases</name>
+        <qualifiedname>themis::process::ProcessRagContext::similar_cases</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="114" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1ae2c9e5b6a3df6affb0adfccf055e4950" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ProcessRagContext::missing_documents</definition>
+        <argsstring></argsstring>
+        <name>missing_documents</name>
+        <qualifiedname>themis::process::ProcessRagContext::missing_documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="117" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1ad30e198fc311cfaaab67d29bc1128cfc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::ProcessRagContext::compliance_tags</definition>
+        <argsstring></argsstring>
+        <name>compliance_tags</name>
+        <qualifiedname>themis::process::ProcessRagContext::compliance_tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="120" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1acbe7158c07382c146f142ef838a96043" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessRagContext::llm_prompt</definition>
+        <argsstring></argsstring>
+        <name>llm_prompt</name>
+        <qualifiedname>themis::process::ProcessRagContext::llm_prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="123" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1ac961562fa96fe84ed80c30ced67bb2f8" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, float &gt;</type>
+        <definition>std::map&lt;std::string, float&gt; themis::process::ProcessRagContext::node_scores</definition>
+        <argsstring></argsstring>
+        <name>node_scores</name>
+        <qualifiedname>themis::process::ProcessRagContext::node_scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="126" column="14" bodyfile="include/process/process_graph_rag.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_context_1a17aa15d231ce3dbd3beaf2b461c029f5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::process::ProcessRagContext::overall_relevance</definition>
+        <argsstring></argsstring>
+        <name>overall_relevance</name>
+        <qualifiedname>themis::process::ProcessRagContext::overall_relevance</qualifiedname>
+        <initializer>{0.f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="127" column="11" bodyfile="include/process/process_graph_rag.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Full retrieval context built from the process graph for LLM consumption. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Produced by <computeroutput><ref refid="classthemis_1_1process_1_1_process_graph_rag_1ad0fea75fe4ff6855dba1bd2295123bc0" kindref="member">ProcessGraphRag::retrieve()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1process_1_1_process_graph_rag_1ad8de218c5631b89aae55bf26a77e0ee4" kindref="member">ProcessGraphRag::retrieveForNode()</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/process/process_graph_rag.h" line="94" column="1" bodyfile="include/process/process_graph_rag.h" bodystart="94" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1a004f715c333d31dcee825284f2d8b6e3" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>active_nodes</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1a56dfda4240b8f1e769b718eabc5134e8" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>attachments</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1ad30e198fc311cfaaab67d29bc1128cfc" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>compliance_tags</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1a7d3f8b7dafc4751436fe741da64a98ad" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>current_state</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1a5235aceb7a2f364c3c2c08aea36cb24b" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>instance_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1acbe7158c07382c146f142ef838a96043" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>llm_prompt</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1ae2c9e5b6a3df6affb0adfccf055e4950" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>missing_documents</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1ac961562fa96fe84ed80c30ced67bb2f8" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>node_scores</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1a17aa15d231ce3dbd3beaf2b461c029f5" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>overall_relevance</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1ae50b0c8fd2b2805e67e66ead5636edbb" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>process_definition_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1ab1c39f7475ada30631b64334ff76b4d8" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>process_name</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1a1b575e16d97fcfa46fd5e15cf8cf1ebf" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>query</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1aa5399a1e27938a74cd75e66e19289055" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>similar_cases</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1a0f1da3344becf58abae5c330e0dbf539" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>subgraph</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_context_1a534c79778e6d339394502ae511a84ec6" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagContext</scope><name>visited_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

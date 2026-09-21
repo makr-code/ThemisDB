@@ -1,0 +1,448 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__reflection__adapter__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_reflection_adapter_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="llm__reflection__adapter_8h" local="yes">prompt_engineering/llm_reflection_adapter.h</includes>
+    <includes refid="meta__prompt__generator_8h" local="yes">prompt_engineering/meta_prompt_generator.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>prompt_engineering/llm_reflection_adapter.h</label>
+        <link refid="llm__reflection__adapter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>meta_prompt_generator.h</label>
+        <link refid="meta__prompt__generator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>reflection_tuner.h</label>
+        <link refid="reflection__tuner_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp</label>
+        <link refid="test__llm__reflection__adapter__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_echo_l_l_m_provider" prot="public">EchoLLMProvider</innerclass>
+    <innerclass refid="class_fixed_scorer" prot="public">FixedScorer</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmReflectionAdapterFocused, RA1_NullProvider_GenerateReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmReflectionAdapterFocused</type>
+        </param>
+        <param>
+          <type>RA1_NullProvider_GenerateReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="48" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reflection__adapter__focused_8cpp_1a25d47967a18a77eee7bebbc20d869cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmReflectionAdapterFocused, RA2_NullProvider_CritiqueReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmReflectionAdapterFocused</type>
+        </param>
+        <param>
+          <type>RA2_NullProvider_CritiqueReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="54" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reflection__adapter__focused_8cpp_1a6946b6df8316b946d23591e13b272c81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmReflectionAdapterFocused, RA3_NullProvider_ReviseReturnsOriginalResponse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmReflectionAdapterFocused</type>
+        </param>
+        <param>
+          <type>RA3_NullProvider_ReviseReturnsOriginalResponse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="60" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reflection__adapter__focused_8cpp_1aa7d499eaf6c34a289812ce8bbadf6ac7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmReflectionAdapterFocused, RA4_ValidProvider_GenerateDelegatesToComplete)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmReflectionAdapterFocused</type>
+        </param>
+        <param>
+          <type>RA4_ValidProvider_GenerateDelegatesToComplete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="66" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="66" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reflection__adapter__focused_8cpp_1ac03c809c06168499fc2ebc50097bd53a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmReflectionAdapterFocused, RA5_ScorerLifecycle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmReflectionAdapterFocused</type>
+        </param>
+        <param>
+          <type>RA5_ScorerLifecycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="76" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="76" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reflection__adapter__focused_8cpp_1adf40f035d96d204199caf738f7bdcc1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmReflectionAdapterFocused, RA6_InjectedScorer_UsedByScore)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmReflectionAdapterFocused</type>
+        </param>
+        <param>
+          <type>RA6_InjectedScorer_UsedByScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="90" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="90" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reflection__adapter__focused_8cpp_1ad57941ae5c8658ffeba819d1c4be9144" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmReflectionAdapterFocused, RA7_NoScorer_HeuristicScoreNonNegative)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmReflectionAdapterFocused</type>
+        </param>
+        <param>
+          <type>RA7_NoScorer_HeuristicScoreNonNegative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="100" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="100" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reflection__adapter__focused_8cpp_1af1bac5df3d0578b61ce28a4939d8979c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmReflectionAdapterFocused, RA8_NoScorer_EmptyResponse_ScoreZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmReflectionAdapterFocused</type>
+        </param>
+        <param>
+          <type>RA8_NoScorer_EmptyResponse_ScoreZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="110" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="110" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reflection__adapter__focused_8cpp_1a0a3454b95bbd25e91f71ad9a131d6795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmReflectionAdapterFocused, RA9_SetGetStrategy_Roundtrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmReflectionAdapterFocused</type>
+        </param>
+        <param>
+          <type>RA9_SetGetStrategy_Roundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="119" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="119" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reflection__adapter__focused_8cpp_1adfffb6edf2eaeaef79a2892dca3ecb2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmReflectionAdapterFocused, RA10_Name_ContainsProviderName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmReflectionAdapterFocused</type>
+        </param>
+        <param>
+          <type>RA10_Name_ContainsProviderName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="129" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="129" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__reflection__adapter__focused_8cpp_1acad687e7f7ae5a652ce5264956e85c0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmReflectionAdapterFocused, RA11_NullProvider_NameDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmReflectionAdapterFocused</type>
+        </param>
+        <param>
+          <type>RA11_NullProvider_NameDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="136" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="136" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group RA — <ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref> interface-contract and LLM-path tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__reflection__adapter_8h" kindref="compound">prompt_engineering/llm_reflection_adapter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="meta__prompt__generator_8h" kindref="compound">prompt_engineering/meta_prompt_generator.h</ref>&quot;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>ILLMProvider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">themis::prompt_engineering</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Minimal<sp/>ILLMProvider<sp/>stub<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="class_echo_l_l_m_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_echo_l_l_m_provider_1ab5a9f2b79a0f66a954087577fa666cb7" kindref="member">EchoLLMProvider</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider" kindref="compound">ILLMProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_echo_l_l_m_provider_1ab5a9f2b79a0f66a954087577fa666cb7" kindref="member">EchoLLMProvider</ref>(std::string<sp/>tag<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;echo&quot;</highlight><highlight class="normal">)<sp/>:<sp/>tag_(std::move(tag))<sp/>{}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_echo_l_l_m_provider_1ac5f3c6f91c1f967d8797756c9ee83378" kindref="member">complete</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_echo_l_l_m_provider_1a82e0c674e0277fc8203b0555b0d20ef4" kindref="member">last_prompt_</ref><sp/>=<sp/>prompt;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tag_<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal"><sp/>+<sp/>prompt;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_echo_l_l_m_provider_1a68efdac1421d7f855cda76b4547c4241" kindref="member">name</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tag_;<sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_echo_l_l_m_provider_1a82e0c674e0277fc8203b0555b0d20ef4" kindref="member">last_prompt_</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tag_;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Minimal<sp/>IReflectionScorer<sp/>stub<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="class_fixed_scorer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_fixed_scorer_1a10b33fdaf28aca2297f86a725636ad6b" kindref="member">FixedScorer</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer" kindref="compound">IReflectionScorer</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_fixed_scorer_1a10b33fdaf28aca2297f86a725636ad6b" kindref="member">FixedScorer</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value)<sp/>:<sp/>value_(value)<sp/>{}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_fixed_scorer_1a2f0ad7ee782cad1b0794091cc171788c" kindref="member">score</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*p*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*r*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value_;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value_;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RA1:<sp/>null<sp/>llm<sp/>provider<sp/>→<sp/>generate<sp/>returns<sp/>empty<sp/>string<sp/>───────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" kindref="member">TEST</ref>(LlmReflectionAdapterFocused,<sp/>RA1_NullProvider_GenerateReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref><sp/>adapter(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapter.generate(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RA2:<sp/>null<sp/>llm<sp/>provider<sp/>→<sp/>critique<sp/>returns<sp/>empty<sp/>string<sp/>───────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" kindref="member">TEST</ref>(LlmReflectionAdapterFocused,<sp/>RA2_NullProvider_CritiqueReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref><sp/>adapter(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapter.critique(</highlight><highlight class="stringliteral">&quot;prompt&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RA3:<sp/>null<sp/>llm<sp/>provider<sp/>→<sp/>revise<sp/>returns<sp/>original<sp/>response<sp/>────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" kindref="member">TEST</ref>(LlmReflectionAdapterFocused,<sp/>RA3_NullProvider_ReviseReturnsOriginalResponse)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref><sp/>adapter(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapter.revise(</highlight><highlight class="stringliteral">&quot;prompt&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;my<sp/>response&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;critique&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;my<sp/>response&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RA4:<sp/>valid<sp/>provider<sp/>→<sp/>generate<sp/>delegates<sp/>to<sp/>complete()<sp/>───────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" kindref="member">TEST</ref>(LlmReflectionAdapterFocused,<sp/>RA4_ValidProvider_GenerateDelegatesToComplete)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>llm<sp/><sp/>=<sp/>std::make_shared&lt;EchoLLMProvider&gt;(</highlight><highlight class="stringliteral">&quot;gpt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref><sp/>adapter(llm);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>result<sp/>=<sp/>adapter.generate(</highlight><highlight class="stringliteral">&quot;test<sp/>prompt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.empty());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(llm-&gt;last_prompt_.empty());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RA5:<sp/>setScorer<sp/>/<sp/>hasScorer<sp/>/<sp/>clearScorer<sp/>lifecycle<sp/>────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" kindref="member">TEST</ref>(LlmReflectionAdapterFocused,<sp/>RA5_ScorerLifecycle)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>llm<sp/><sp/>=<sp/>std::make_shared&lt;EchoLLMProvider&gt;();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref><sp/>adapter(llm);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(adapter.hasScorer());</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.setScorer(std::make_shared&lt;FixedScorer&gt;(0.8));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(adapter.hasScorer());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.clearScorer();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(adapter.hasScorer());</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RA6:<sp/>injected<sp/>scorer<sp/>is<sp/>used<sp/>by<sp/>score()<sp/>───────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" kindref="member">TEST</ref>(LlmReflectionAdapterFocused,<sp/>RA6_InjectedScorer_UsedByScore)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>llm<sp/>=<sp/>std::make_shared&lt;EchoLLMProvider&gt;();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref><sp/>adapter(llm);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.setScorer(std::make_shared&lt;FixedScorer&gt;(0.99));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>adapter.score(</highlight><highlight class="stringliteral">&quot;prompt&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s,<sp/>0.99);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RA7:<sp/>without<sp/>scorer,<sp/>score()<sp/>falls<sp/>back<sp/>to<sp/>heuristic<sp/>(non-negative)<sp/>───────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" kindref="member">TEST</ref>(LlmReflectionAdapterFocused,<sp/>RA7_NoScorer_HeuristicScoreNonNegative)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>llm<sp/>=<sp/>std::make_shared&lt;EchoLLMProvider&gt;();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref><sp/>adapter(llm);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>adapter.score(</highlight><highlight class="stringliteral">&quot;prompt&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a<sp/>meaningful<sp/>non-empty<sp/>response&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(s,<sp/>0.0);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(s,<sp/>1.0);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RA8:<sp/>heuristic<sp/>score<sp/>for<sp/>empty<sp/>response<sp/>is<sp/>0<sp/>────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" kindref="member">TEST</ref>(LlmReflectionAdapterFocused,<sp/>RA8_NoScorer_EmptyResponse_ScoreZero)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>llm<sp/>=<sp/>std::make_shared&lt;EchoLLMProvider&gt;();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref><sp/>adapter(llm);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>adapter.score(</highlight><highlight class="stringliteral">&quot;prompt&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s,<sp/>0.0);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RA9:<sp/>setStrategy<sp/>/<sp/>getStrategy<sp/>roundtrip<sp/>─────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" kindref="member">TEST</ref>(LlmReflectionAdapterFocused,<sp/>RA9_SetGetStrategy_Roundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>llm<sp/>=<sp/>std::make_shared&lt;EchoLLMProvider&gt;();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref><sp/>adapter(llm,<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921fa440d48e0b4aa56402fc8e62af4acdd4c" kindref="member">ReflectionStrategy::SELF_REFINE</ref>);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapter.getStrategy(),<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921fa440d48e0b4aa56402fc8e62af4acdd4c" kindref="member">ReflectionStrategy::SELF_REFINE</ref>);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.setStrategy(<ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921faece65a2dff2c0356d2ead07c0fa4b6c2" kindref="member">ReflectionStrategy::REFLEXION</ref>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(adapter.getStrategy(),<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921faece65a2dff2c0356d2ead07c0fa4b6c2" kindref="member">ReflectionStrategy::REFLEXION</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RA10:<sp/>name()<sp/>reflects<sp/>wrapped<sp/>provider<sp/>────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" kindref="member">TEST</ref>(LlmReflectionAdapterFocused,<sp/>RA10_Name_ContainsProviderName)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>llm<sp/>=<sp/>std::make_shared&lt;EchoLLMProvider&gt;(</highlight><highlight class="stringliteral">&quot;my-provider&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref><sp/>adapter(llm);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(adapter.name().find(</highlight><highlight class="stringliteral">&quot;my-provider&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RA11:<sp/>name()<sp/>with<sp/>null<sp/>provider<sp/>does<sp/>not<sp/>crash<sp/>────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__llm__reflection__adapter__focused_8cpp_1aee0b3b722633a6708955237d96b84e2b" kindref="member">TEST</ref>(LlmReflectionAdapterFocused,<sp/>RA11_NullProvider_NameDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kindref="compound">ILLMProviderReflectionAdapter</ref><sp/>adapter(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(adapter.name(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;null&quot;<sp/>variant<sp/>expected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_log_search_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::LogSearchQuery</compoundname>
+    <includes refid="log__search__engine_8h" local="no">log_search_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_query_1a928d8c8e1de00961a4276834462437be" prot="public" static="no" mutable="no">
+        <type>core::concerns::ILogger::Level</type>
+        <definition>core::concerns::ILogger::Level themis::observability::LogSearchQuery::min_level</definition>
+        <argsstring></argsstring>
+        <name>min_level</name>
+        <qualifiedname>themis::observability::LogSearchQuery::min_level</qualifiedname>
+        <initializer>{
+        core::concerns::ILogger::Level::TRACE}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Include only entries at or above this severity. Defaults to TRACE (include all levels). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="72" column="36" bodyfile="include/observability/log_search_engine.h" bodystart="72" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_query_1a6a595109138be4eeebd40b5fdc81bd66" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::LogSearchQuery::from_time</definition>
+        <argsstring></argsstring>
+        <name>from_time</name>
+        <qualifiedname>themis::observability::LogSearchQuery::from_time</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>If has_from_time is true, include only entries with timestamp &gt;= from_time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="77" column="43" bodyfile="include/observability/log_search_engine.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_query_1a2b0ea0a0281db6c9720c4091e69d2e3c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::LogSearchQuery::has_from_time</definition>
+        <argsstring></argsstring>
+        <name>has_from_time</name>
+        <qualifiedname>themis::observability::LogSearchQuery::has_from_time</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="78" column="10" bodyfile="include/observability/log_search_engine.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_query_1a21b3f68896866913e64586564df73003" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::LogSearchQuery::to_time</definition>
+        <argsstring></argsstring>
+        <name>to_time</name>
+        <qualifiedname>themis::observability::LogSearchQuery::to_time</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>If has_to_time is true, include only entries with timestamp &lt; to_time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="81" column="43" bodyfile="include/observability/log_search_engine.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_query_1ac4807fc4508a71f8b7c2f22adca68a3d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::LogSearchQuery::has_to_time</definition>
+        <argsstring></argsstring>
+        <name>has_to_time</name>
+        <qualifiedname>themis::observability::LogSearchQuery::has_to_time</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="82" column="10" bodyfile="include/observability/log_search_engine.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_query_1aae617f4cc33063e1fb3f11e5d698b6e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::LogSearchQuery::message_contains</definition>
+        <argsstring></argsstring>
+        <name>message_contains</name>
+        <qualifiedname>themis::observability::LogSearchQuery::message_contains</qualifiedname>
+        <briefdescription>
+<para>If non-empty, include only entries whose message contains this substring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="86" column="17" bodyfile="include/observability/log_search_engine.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_query_1ac6eb5449dd2db35ca44562081617d968" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_log_field_filter" kindref="compound">LogFieldFilter</ref> &gt;</type>
+        <definition>std::vector&lt;LogFieldFilter&gt; themis::observability::LogSearchQuery::field_filters</definition>
+        <argsstring></argsstring>
+        <name>field_filters</name>
+        <qualifiedname>themis::observability::LogSearchQuery::field_filters</qualifiedname>
+        <briefdescription>
+<para>All filters must match (AND semantics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="90" column="17" bodyfile="include/observability/log_search_engine.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_query_1aab5d38eb41c3fd63014b944433fad2f3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::LogSearchQuery::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::observability::LogSearchQuery::limit</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Maximum number of entries to return. 0 = no limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="94" column="12" bodyfile="include/observability/log_search_engine.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_query_1abf6daffc2f234c2794640a15f61ad932" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::LogSearchQuery::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::observability::LogSearchQuery::offset</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of matching entries to skip before collecting results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="96" column="12" bodyfile="include/observability/log_search_engine.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_query_1a32c9a293e928a0fcd09b81570037bb8c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::LogSearchQuery::ascending</definition>
+        <argsstring></argsstring>
+        <name>ascending</name>
+        <qualifiedname>themis::observability::LogSearchQuery::ascending</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>When true, results are ordered oldest-first; when false, newest-first. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="100" column="10" bodyfile="include/observability/log_search_engine.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a structured log search request. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All filter conditions are combined with AND semantics: an entry is included in the result only when ALL specified conditions are satisfied. </para>
+    </detaileddescription>
+    <location file="include/observability/log_search_engine.h" line="68" column="1" bodyfile="include/observability/log_search_engine.h" bodystart="68" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_log_search_query_1a32c9a293e928a0fcd09b81570037bb8c" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchQuery</scope><name>ascending</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_query_1ac6eb5449dd2db35ca44562081617d968" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchQuery</scope><name>field_filters</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_query_1a6a595109138be4eeebd40b5fdc81bd66" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchQuery</scope><name>from_time</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_query_1a2b0ea0a0281db6c9720c4091e69d2e3c" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchQuery</scope><name>has_from_time</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_query_1ac4807fc4508a71f8b7c2f22adca68a3d" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchQuery</scope><name>has_to_time</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_query_1aab5d38eb41c3fd63014b944433fad2f3" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchQuery</scope><name>limit</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_query_1aae617f4cc33063e1fb3f11e5d698b6e3" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchQuery</scope><name>message_contains</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_query_1a928d8c8e1de00961a4276834462437be" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchQuery</scope><name>min_level</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_query_1abf6daffc2f234c2794640a15f61ad932" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchQuery</scope><name>offset</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_query_1a21b3f68896866913e64586564df73003" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchQuery</scope><name>to_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMemoryAllocator::Config</compoundname>
+    <includes refid="gpu__memory__allocator_8h" local="no">gpu_memory_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1adaa5e8b6840af3f421f748644d0066ad" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a229d230694f69ee3635b7bd6ea08a69a" kindref="member">Strategy</ref></type>
+        <definition>Strategy themis::gpu::GPUMemoryAllocator::Config::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::Config::strategy</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator_1a229d230694f69ee3635b7bd6ea08a69aaf85e332d28ad3c80c0404a9e49d1d76c" kindref="member">Strategy::CUDAMALLOC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="46" column="18" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1ac282260aadd66d96b3c87ea83395e565" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryAllocator::Config::pool_size</definition>
+        <argsstring></argsstring>
+        <name>pool_size</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::Config::pool_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Pre-allocate pool (0 = no pool). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="47" column="16" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1ab23b0080ce1a1939c76314094d31721e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryAllocator::Config::enable_defrags</definition>
+        <argsstring></argsstring>
+        <name>enable_defrags</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::Config::enable_defrags</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable memory defragmentation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="48" column="14" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1a164db58ee66e51e4c8fe12444196d138" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUMemoryAllocator::Config::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::Config::device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Target GPU device. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="49" column="18" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1a63c5dd9fe61635add5229d8e3466e993" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryAllocator::Config::enable_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_caching</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::Config::enable_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Cache freed allocations for reuse. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="50" column="14" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1a5abffa2d42a9a8ea82bcc88944bbb84d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryAllocator::Config::max_alloc_size</definition>
+        <argsstring></argsstring>
+        <name>max_alloc_size</name>
+        <qualifiedname>themis::gpu::GPUMemoryAllocator::Config::max_alloc_size</qualifiedname>
+        <initializer>= 1UL &lt;&lt; 30</initializer>
+        <briefdescription>
+<para>Max per-allocation size (default: 1 GB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="51" column="16" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_memory_allocator.h" line="45" column="5" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="45" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1a164db58ee66e51e4c8fe12444196d138" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator::Config</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1a63c5dd9fe61635add5229d8e3466e993" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator::Config</scope><name>enable_caching</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1ab23b0080ce1a1939c76314094d31721e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator::Config</scope><name>enable_defrags</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1a5abffa2d42a9a8ea82bcc88944bbb84d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator::Config</scope><name>max_alloc_size</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1ac282260aadd66d96b3c87ea83395e565" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator::Config</scope><name>pool_size</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1adaa5e8b6840af3f421f748644d0066ad" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryAllocator::Config</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

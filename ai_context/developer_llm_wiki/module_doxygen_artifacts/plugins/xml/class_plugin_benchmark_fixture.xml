@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_plugin_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>PluginBenchmarkFixture</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_plugin_benchmark_fixture_1ae08f0a27458294eca716fb2ab8333e63" prot="public" static="yes" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PluginBenchmarkFixture::test_dir</definition>
+        <argsstring></argsstring>
+        <name>test_dir</name>
+        <qualifiedname>PluginBenchmarkFixture::test_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugin_system.cpp" line="31" column="24" bodyfile="benchmarks/plugins/bench_plugin_system.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plugin_benchmark_fixture_1a46ff20c504c91613475a554d5edfc477" prot="public" static="yes" mutable="no">
+        <type>std::once_flag</type>
+        <definition>std::once_flag PluginBenchmarkFixture::setup_flag</definition>
+        <argsstring></argsstring>
+        <name>setup_flag</name>
+        <qualifiedname>PluginBenchmarkFixture::setup_flag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugin_system.cpp" line="32" column="27" bodyfile="benchmarks/plugins/bench_plugin_system.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_plugin_benchmark_fixture_1a96ac5ea7df5cf099003f8c79d509f72d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void PluginBenchmarkFixture::setupOnce</definition>
+        <argsstring>()</argsstring>
+        <name>setupOnce</name>
+        <qualifiedname>PluginBenchmarkFixture::setupOnce</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugin_system.cpp" line="34" column="17" bodyfile="benchmarks/plugins/bench_plugin_system.cpp" bodystart="34" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_benchmark_fixture_1a7d74b20021c1cb1403f94f7d1ec696ba" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void PluginBenchmarkFixture::createManifest</definition>
+        <argsstring>(const std::string &amp;name, PluginType type)</argsstring>
+        <name>createManifest</name>
+        <qualifiedname>PluginBenchmarkFixture::createManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/plugins/bench_plugin_system.cpp" line="47" column="17" bodyfile="benchmarks/plugins/bench_plugin_system.cpp" bodystart="47" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/plugins/bench_plugin_system.cpp" line="29" column="1" bodyfile="benchmarks/plugins/bench_plugin_system.cpp" bodystart="29" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_plugin_benchmark_fixture_1a7d74b20021c1cb1403f94f7d1ec696ba" prot="public" virt="non-virtual"><scope>PluginBenchmarkFixture</scope><name>createManifest</name></member>
+      <member refid="class_plugin_benchmark_fixture_1a46ff20c504c91613475a554d5edfc477" prot="public" virt="non-virtual"><scope>PluginBenchmarkFixture</scope><name>setup_flag</name></member>
+      <member refid="class_plugin_benchmark_fixture_1a96ac5ea7df5cf099003f8c79d509f72d" prot="public" virt="non-virtual"><scope>PluginBenchmarkFixture</scope><name>setupOnce</name></member>
+      <member refid="class_plugin_benchmark_fixture_1ae08f0a27458294eca716fb2ab8333e63" prot="public" virt="non-virtual"><scope>PluginBenchmarkFixture</scope><name>test_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_throwing_dtor_plugin" kind="struct" language="C++" prot="public">
+    <compoundname>ThrowingDtorPlugin</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_throwing_dtor_plugin_1a6d4f58bceecbd35a4be59e3d922d93e5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>ThrowingDtorPlugin::~ThrowingDtorPlugin</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ThrowingDtorPlugin</name>
+        <qualifiedname>ThrowingDtorPlugin::~ThrowingDtorPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="112" column="5" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin whose destructor would propagate an exception without the noexcept guard. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="111" column="1" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="111" bodyend="116"/>
+    <listofallmembers>
+      <member refid="struct_throwing_dtor_plugin_1a6d4f58bceecbd35a4be59e3d922d93e5" prot="public" virt="non-virtual"><scope>ThrowingDtorPlugin</scope><name>~ThrowingDtorPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

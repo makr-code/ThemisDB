@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_rate_limiter" kind="class" language="C++" prot="public">
+    <compoundname>StubRateLimiter</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_rate_limiter_1accb43dffd56ce9b3c3b5756a36d2e3aa" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double StubRateLimiter::rps_</definition>
+        <argsstring></argsstring>
+        <name>rps_</name>
+        <qualifiedname>StubRateLimiter::rps_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="72" column="12" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_rate_limiter_1afff8676ee750916d4708530f99e875bf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubRateLimiter::attempts_</definition>
+        <argsstring></argsstring>
+        <name>attempts_</name>
+        <qualifiedname>StubRateLimiter::attempts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="73" column="17" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_rate_limiter_1ab61ed80db389ea1808a18b5ab08133f6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubRateLimiter::StubRateLimiter</definition>
+        <argsstring>(double rps)</argsstring>
+        <name>StubRateLimiter</name>
+        <qualifiedname>StubRateLimiter::StubRateLimiter</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>rps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="61" column="14" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_rate_limiter_1ac83544a241173b5aee8112d8a1736c1e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubRateLimiter::tryAcquire</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>tryAcquire</name>
+        <qualifiedname>StubRateLimiter::tryAcquire</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="63" column="10" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_rate_limiter_1a4b56a2d8ce3ccea155c5f5df61e5f159" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubRateLimiter::attempts</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>attempts</name>
+        <qualifiedname>StubRateLimiter::attempts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="69" column="14" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/scraper/test_scraper_highcardinality_stress.cpp" line="59" column="1" bodyfile="tests/scraper/test_scraper_highcardinality_stress.cpp" bodystart="59" bodyend="74"/>
+    <listofallmembers>
+      <member refid="class_stub_rate_limiter_1a4b56a2d8ce3ccea155c5f5df61e5f159" prot="public" virt="non-virtual"><scope>StubRateLimiter</scope><name>attempts</name></member>
+      <member refid="class_stub_rate_limiter_1afff8676ee750916d4708530f99e875bf" prot="private" virt="non-virtual"><scope>StubRateLimiter</scope><name>attempts_</name></member>
+      <member refid="class_stub_rate_limiter_1accb43dffd56ce9b3c3b5756a36d2e3aa" prot="private" virt="non-virtual"><scope>StubRateLimiter</scope><name>rps_</name></member>
+      <member refid="class_stub_rate_limiter_1ab61ed80db389ea1808a18b5ab08133f6" prot="public" virt="non-virtual"><scope>StubRateLimiter</scope><name>StubRateLimiter</name></member>
+      <member refid="class_stub_rate_limiter_1ac83544a241173b5aee8112d8a1736c1e" prot="public" virt="non-virtual"><scope>StubRateLimiter</scope><name>tryAcquire</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

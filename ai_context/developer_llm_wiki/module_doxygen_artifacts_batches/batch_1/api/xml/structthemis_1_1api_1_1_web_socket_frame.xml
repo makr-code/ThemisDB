@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_web_socket_frame" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::WebSocketFrame</compoundname>
+    <includes refid="websocket__handler_8h" local="no">websocket_handler.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::api::WebSocketFrame::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a9dffbf69ffba8bc38bc4e01abf4b1675" prot="public">
+          <name>Text</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a6ce976e8f061b2b5cfe4d0c50c3405dd" prot="public">
+          <name>Binary</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487ab85815d04cec053ce6deb8021f2df1b8" prot="public">
+          <name>Ping</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a4d94412495a32342e1b8c78f7960f2bc" prot="public">
+          <name>Pong</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487ad3d2e617335f08df83599665eef8a418" prot="public">
+          <name>Close</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="86" column="5" bodyfile="include/api/websocket_handler.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_web_socket_frame_1a3bd57ae0553c97665654a8f2678f22fb" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487" kindref="member">Type</ref></type>
+        <definition>Type themis::api::WebSocketFrame::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::api::WebSocketFrame::type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487a9dffbf69ffba8bc38bc4e01abf4b1675" kindref="member">Type::Text</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="88" column="17" bodyfile="include/api/websocket_handler.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_web_socket_frame_1a39aef7314846d44ae32ed7838988bffb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::WebSocketFrame::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::api::WebSocketFrame::payload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="89" column="17" bodyfile="include/api/websocket_handler.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1api_1_1_web_socket_frame_1a3bebcef22b5d63476bda1fa475989816" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_web_socket_frame" kindref="compound">WebSocketFrame</ref></type>
+        <definition>static WebSocketFrame themis::api::WebSocketFrame::text</definition>
+        <argsstring>(std::string data)</argsstring>
+        <name>text</name>
+        <qualifiedname>themis::api::WebSocketFrame::text</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="97" column="27" bodyfile="include/api/websocket_handler.h" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1api_1_1_web_socket_frame_1a53c7840b1b22771d9adc359937ea1e23" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_web_socket_frame" kindref="compound">WebSocketFrame</ref></type>
+        <definition>static WebSocketFrame themis::api::WebSocketFrame::binary</definition>
+        <argsstring>(std::string data)</argsstring>
+        <name>binary</name>
+        <qualifiedname>themis::api::WebSocketFrame::binary</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Binary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/websocket_handler.h" line="107" column="27" bodyfile="include/api/websocket_handler.h" bodystart="107" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/websocket_handler.h" line="85" column="1" bodyfile="include/api/websocket_handler.h" bodystart="85" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_web_socket_frame_1a53c7840b1b22771d9adc359937ea1e23" prot="public" virt="non-virtual"><scope>themis::api::WebSocketFrame</scope><name>binary</name></member>
+      <member refid="structthemis_1_1api_1_1_web_socket_frame_1a39aef7314846d44ae32ed7838988bffb" prot="public" virt="non-virtual"><scope>themis::api::WebSocketFrame</scope><name>payload</name></member>
+      <member refid="structthemis_1_1api_1_1_web_socket_frame_1a3bebcef22b5d63476bda1fa475989816" prot="public" virt="non-virtual"><scope>themis::api::WebSocketFrame</scope><name>text</name></member>
+      <member refid="structthemis_1_1api_1_1_web_socket_frame_1a206694c7cac8ab958cc23ebb6f540487" prot="public" virt="non-virtual"><scope>themis::api::WebSocketFrame</scope><name>Type</name></member>
+      <member refid="structthemis_1_1api_1_1_web_socket_frame_1a3bd57ae0553c97665654a8f2678f22fb" prot="public" virt="non-virtual"><scope>themis::api::WebSocketFrame</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

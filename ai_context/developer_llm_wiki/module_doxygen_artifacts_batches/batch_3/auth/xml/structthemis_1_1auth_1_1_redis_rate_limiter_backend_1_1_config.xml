@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::RedisRateLimiterBackend::Config</compoundname>
+    <includes refid="rate__limiter__backend_8h" local="no">rate_limiter_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1ac02591636746fafd5865df786a8661b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::RedisRateLimiterBackend::Config::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::Config::host</qualifiedname>
+        <initializer>= &quot;127.0.0.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="90" column="21" bodyfile="include/auth/rate_limiter_backend.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a606faa18f0f53b210c353bb554d66507" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::RedisRateLimiterBackend::Config::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::Config::port</qualifiedname>
+        <initializer>= 6379</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="91" column="13" bodyfile="include/auth/rate_limiter_backend.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a3c5c59fda6c757b94fcc310eea4bc29c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::RedisRateLimiterBackend::Config::auth</definition>
+        <argsstring></argsstring>
+        <name>auth</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::Config::auth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="92" column="21" bodyfile="include/auth/rate_limiter_backend.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a42a9bbafa9f74aec9b124fc7a51dc44f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::RedisRateLimiterBackend::Config::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::Config::key_prefix</qualifiedname>
+        <initializer>= &quot;themis:rl:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="93" column="21" bodyfile="include/auth/rate_limiter_backend.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1aa65b278c20e9f4c2e0daa3eb8ee5c4a2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::RedisRateLimiterBackend::Config::connect_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_ms</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::Config::connect_timeout_ms</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="94" column="13" bodyfile="include/auth/rate_limiter_backend.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1abdad4f3aba44b30e4017001eca5b2bcb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::auth::RedisRateLimiterBackend::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::Config::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="101" column="23" bodyfile="include/auth/rate_limiter_backend.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/rate_limiter_backend.h" line="89" column="5" bodyfile="include/auth/rate_limiter_backend.h" bodystart="89" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a3c5c59fda6c757b94fcc310eea4bc29c" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend::Config</scope><name>auth</name></member>
+      <member refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1aa65b278c20e9f4c2e0daa3eb8ee5c4a2" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend::Config</scope><name>connect_timeout_ms</name></member>
+      <member refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1abdad4f3aba44b30e4017001eca5b2bcb" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1ac02591636746fafd5865df786a8661b9" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend::Config</scope><name>host</name></member>
+      <member refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a42a9bbafa9f74aec9b124fc7a51dc44f" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend::Config</scope><name>key_prefix</name></member>
+      <member refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1a606faa18f0f53b210c353bb554d66507" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend::Config</scope><name>port</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

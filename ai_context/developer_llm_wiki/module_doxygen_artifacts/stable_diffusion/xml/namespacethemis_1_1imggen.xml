@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1imggen" kind="namespace" language="C++">
+    <compoundname>themis::imggen</compoundname>
+    <innerclass refid="classthemis_1_1imggen_1_1_in_memory_s_d_generator" prot="public">themis::imggen::InMemorySDGenerator</innerclass>
+    <innerclass refid="classthemis_1_1imggen_1_1_i_s_d_generator" prot="public">themis::imggen::ISDGenerator</innerclass>
+    <innerclass refid="structthemis_1_1imggen_1_1_s_d_config" prot="public">themis::imggen::SDConfig</innerclass>
+    <innerclass refid="classthemis_1_1imggen_1_1_s_d_plugin" prot="public">themis::imggen::SDPlugin</innerclass>
+    <innerclass refid="classthemis_1_1imggen_1_1_s_d_plugin_adapter" prot="public">themis::imggen::SDPluginAdapter</innerclass>
+    <innerclass refid="classthemis_1_1imggen_1_1_s_d_plugin_registrar" prot="public">themis::imggen::SDPluginRegistrar</innerclass>
+    <innerclass refid="classthemis_1_1imggen_1_1_s_d_prompt_sanitizer" prot="public">themis::imggen::SDPromptSanitizer</innerclass>
+    <innerclass refid="classthemis_1_1imggen_1_1_s_d_stub_generator" prot="public">themis::imggen::SDStubGenerator</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::imggen::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::imggen::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_config.h" line="20" column="1" bodyfile="include/stable_diffusion/sd_config.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/stable_diffusion/sd_config.h" line="18" column="1"/>
+  </compounddef>
+</doxygen>

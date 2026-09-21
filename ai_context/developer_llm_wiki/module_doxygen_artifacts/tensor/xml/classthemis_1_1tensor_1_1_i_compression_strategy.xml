@@ -1,0 +1,281 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_i_compression_strategy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::tensor::ICompressionStrategy</compoundname>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_fallback_compression_strategy" prot="public" virt="non-virtual">themis::tensor::FallbackCompressionStrategy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_hashing_strategy" prot="public" virt="non-virtual">themis::tensor::HashingStrategy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_quantization_strategy" prot="public" virt="non-virtual">themis::tensor::QuantizationStrategy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_sampling_strategy" prot="public" virt="non-virtual">themis::tensor::SamplingStrategy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy" prot="public" virt="non-virtual">themis::tensor::TTDecompositionStrategy</derivedcompoundref>
+    <includes refid="compression__strategy_8h" local="no">compression_strategy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_compression_strategy_1a484c45d1998b33b907273eda4216678a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::tensor::ICompressionStrategy::~ICompressionStrategy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICompressionStrategy</name>
+        <qualifiedname>themis::tensor::ICompressionStrategy::~ICompressionStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="108" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_compression_strategy_1a034e76cf7a13b1ec33b7ab264bd0faeb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::tensor::ICompressionStrategy::name</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::ICompressionStrategy::name</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a129aeb83333da80b85395d44f08383f4">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_hashing_strategy_1aeb0430d240553548c09c786d244f4a52">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_quantization_strategy_1a29cc40c29d924077ba1b727a2297a188">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_sampling_strategy_1ac4c3bbaf911018a39b709e648de72dc7">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1a395330e6c806443e7c71d99a025f57b6">name</reimplementedby>
+        <briefdescription>
+<para>Get the name of this compression strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name (e.g., &quot;TT_DECOMPOSITION&quot;, &quot;QUANTIZE_INT8&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="114" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_compression_strategy_1aaa88d1aa11525f2666b42f855e626720" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>virtual CompressionResult themis::tensor::ICompressionStrategy::compress</definition>
+        <argsstring>(const float *data, std::size_t dim, const std::vector&lt; size_t &gt; &amp;mode_sizes, const CompressionConfig &amp;config) const =0</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::tensor::ICompressionStrategy::compress</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a71abb94ce2490af9684c92705b236b8d">compress</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_hashing_strategy_1a7f32396af99979ec0d0fb389951c43ee">compress</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_quantization_strategy_1a3184ed1a739638347f6098b80e121ba4">compress</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_sampling_strategy_1a9b7434c1038b6c14dcfabff4cd7e1786">compress</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1ad518b19e25fa449b670e5257bac66188">compress</reimplementedby>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress a candidate represented as a flat vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat vector data (dim elements of float). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tensor mode sizes (for reshape operations). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Compression result with success flag and metrics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="125" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_compression_strategy_1a6b0d38e0f14137d0a154dfddfdb57d56" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>virtual CompressionResult themis::tensor::ICompressionStrategy::compressTTTrain</definition>
+        <argsstring>(const storage::TTTrain &amp;train, const CompressionConfig &amp;config) const =0</argsstring>
+        <name>compressTTTrain</name>
+        <qualifiedname>themis::tensor::ICompressionStrategy::compressTTTrain</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_fallback_compression_strategy_1ad3dab6f105b60b7099445fc9e9203024">compressTTTrain</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_hashing_strategy_1a3d95e1ee8f21dca36fa303628310a981">compressTTTrain</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_quantization_strategy_1a2701be0c794fd31b61e58717ffa2a220">compressTTTrain</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_sampling_strategy_1a2f565d9893c63c8032762d99d30c876d">compressTTTrain</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1addad8f2e9964d7ab9e8055fa223c34ad">compressTTTrain</reimplementedby>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress a Tensor-Train representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TT-format candidate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Compression result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="138" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_i_compression_strategy_1a701d7e2d1d0f7eac9ec6d9455b1b35a7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>float</type>
+        <definition>virtual float themis::tensor::ICompressionStrategy::estimateRatio</definition>
+        <argsstring>(const float *data, std::size_t dim, const CompressionConfig &amp;config) const =0</argsstring>
+        <name>estimateRatio</name>
+        <qualifiedname>themis::tensor::ICompressionStrategy::estimateRatio</qualifiedname>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_fallback_compression_strategy_1ac5fbd01539576a612e15720f56108c26">estimateRatio</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_hashing_strategy_1ab9003005f46761b70e4f4a22407de861">estimateRatio</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_quantization_strategy_1ace8a7c961a1da61c5eabfd728cbf2630">estimateRatio</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_sampling_strategy_1a1f50d136763333ca3bb2d91da68a2600">estimateRatio</reimplementedby>
+        <reimplementedby refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy_1a40ca4e40eac127f8adb515581f15f09f">estimateRatio</reimplementedby>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Estimate compression ratio without performing actual compression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample data (may be partial). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Estimated compression ratio. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="150" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for candidate compression strategies. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations provide specific compression algorithms (TT, quantization, sampling, etc.) with standardized configuration and result reporting. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::FallbackCompressionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_fallback_compression_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::tensor::HashingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_hashing_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::tensor::ICompressionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_compression_strategy"/>
+      </node>
+      <node id="4">
+        <label>themis::tensor::QuantizationStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_quantization_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::tensor::SamplingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_sampling_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::tensor::TTDecompositionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_t_t_decomposition_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/tensor/compression_strategy.h" line="106" column="1" bodyfile="include/tensor/compression_strategy.h" bodystart="106" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_i_compression_strategy_1aaa88d1aa11525f2666b42f855e626720" prot="public" virt="pure-virtual"><scope>themis::tensor::ICompressionStrategy</scope><name>compress</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a6b0d38e0f14137d0a154dfddfdb57d56" prot="public" virt="pure-virtual"><scope>themis::tensor::ICompressionStrategy</scope><name>compressTTTrain</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a701d7e2d1d0f7eac9ec6d9455b1b35a7" prot="public" virt="pure-virtual"><scope>themis::tensor::ICompressionStrategy</scope><name>estimateRatio</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a034e76cf7a13b1ec33b7ab264bd0faeb" prot="public" virt="pure-virtual"><scope>themis::tensor::ICompressionStrategy</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a484c45d1998b33b907273eda4216678a" prot="public" virt="virtual"><scope>themis::tensor::ICompressionStrategy</scope><name>~ICompressionStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

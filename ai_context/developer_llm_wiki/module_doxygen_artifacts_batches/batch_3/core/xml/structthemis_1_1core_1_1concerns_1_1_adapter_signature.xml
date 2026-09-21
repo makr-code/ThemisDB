@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::concerns::AdapterSignature</compoundname>
+    <includes refid="adapter__metadata_8h" local="no">adapter_metadata.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_adapter_signature_1ab4423db58850520f057e53ca7856de5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::AdapterSignature::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::core::concerns::AdapterSignature::algorithm</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_metadata.h" line="42" column="17" bodyfile="include/core/concerns/adapter_metadata.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_adapter_signature_1a24ff46c053c34f219080601fd61a946f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::AdapterSignature::digest</definition>
+        <argsstring></argsstring>
+        <name>digest</name>
+        <qualifiedname>themis::core::concerns::AdapterSignature::digest</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_metadata.h" line="44" column="17" bodyfile="include/core/concerns/adapter_metadata.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_adapter_signature_1ac5dc08597b3a9e8f2e50716489cf7313" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::AdapterSignature::present</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>present</name>
+        <qualifiedname>themis::core::concerns::AdapterSignature::present</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_metadata.h" line="46" column="11" bodyfile="include/core/concerns/adapter_metadata.h" bodystart="46" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/adapter_metadata.h" line="41" column="1" bodyfile="include/core/concerns/adapter_metadata.h" bodystart="41" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature_1ab4423db58850520f057e53ca7856de5f" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterSignature</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature_1a24ff46c053c34f219080601fd61a946f" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterSignature</scope><name>digest</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature_1ac5dc08597b3a9e8f2e50716489cf7313" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterSignature</scope><name>present</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

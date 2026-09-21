@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_temporal_aggregation_test" kind="class" language="C++" prot="public">
+    <compoundname>TemporalAggregationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_temporal_aggregation_test_1aa34987e553d7d2a1f510b73dd5e1d70c" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TemporalAggregationTest::testDbPath_</definition>
+        <argsstring></argsstring>
+        <name>testDbPath_</name>
+        <qualifiedname>TemporalAggregationTest::testDbPath_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_aggregation.cpp" line="106" column="17" bodyfile="tests/temporal/test_temporal_aggregation.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_temporal_aggregation_test_1a801d59a4c9a235238d2f3d83967b74c6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; TemporalAggregationTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>TemporalAggregationTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_aggregation.cpp" line="107" column="21" bodyfile="tests/temporal/test_temporal_aggregation.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_temporal_aggregation_test_1a6f1040842ade888d5231c7f8bd993c9c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; TemporalAggregationTest::graphIdx_</definition>
+        <argsstring></argsstring>
+        <name>graphIdx_</name>
+        <qualifiedname>TemporalAggregationTest::graphIdx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_aggregation.cpp" line="108" column="21" bodyfile="tests/temporal/test_temporal_aggregation.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_temporal_aggregation_test_1a7f089d1bcd5a21f049e5a18ffb20d6a1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TemporalAggregationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TemporalAggregationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_aggregation.cpp" line="12" column="10" bodyfile="tests/temporal/test_temporal_aggregation.cpp" bodystart="12" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_temporal_aggregation_test_1aa9dcb07ee242b1bdb88768c5dbfbf711" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TemporalAggregationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TemporalAggregationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_aggregation.cpp" line="33" column="10" bodyfile="tests/temporal/test_temporal_aggregation.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_temporal_aggregation_test_1a53b88c530d8e83b0abc3ea90db6bc599" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TemporalAggregationTest::createTemporalTestGraph</definition>
+        <argsstring>()</argsstring>
+        <name>createTemporalTestGraph</name>
+        <qualifiedname>TemporalAggregationTest::createTemporalTestGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_aggregation.cpp" line="40" column="10" bodyfile="tests/temporal/test_temporal_aggregation.cpp" bodystart="40" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TemporalAggregationTest</label>
+        <link refid="class_temporal_aggregation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TemporalAggregationTest</label>
+        <link refid="class_temporal_aggregation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_aggregation.cpp" line="10" column="1" bodyfile="tests/temporal/test_temporal_aggregation.cpp" bodystart="10" bodyend="109"/>
+    <listofallmembers>
+      <member refid="class_temporal_aggregation_test_1a53b88c530d8e83b0abc3ea90db6bc599" prot="protected" virt="non-virtual"><scope>TemporalAggregationTest</scope><name>createTemporalTestGraph</name></member>
+      <member refid="class_temporal_aggregation_test_1a801d59a4c9a235238d2f3d83967b74c6" prot="protected" virt="non-virtual"><scope>TemporalAggregationTest</scope><name>db_</name></member>
+      <member refid="class_temporal_aggregation_test_1a6f1040842ade888d5231c7f8bd993c9c" prot="protected" virt="non-virtual"><scope>TemporalAggregationTest</scope><name>graphIdx_</name></member>
+      <member refid="class_temporal_aggregation_test_1a7f089d1bcd5a21f049e5a18ffb20d6a1" prot="protected" virt="non-virtual"><scope>TemporalAggregationTest</scope><name>SetUp</name></member>
+      <member refid="class_temporal_aggregation_test_1aa9dcb07ee242b1bdb88768c5dbfbf711" prot="protected" virt="non-virtual"><scope>TemporalAggregationTest</scope><name>TearDown</name></member>
+      <member refid="class_temporal_aggregation_test_1aa34987e553d7d2a1f510b73dd5e1d70c" prot="protected" virt="non-virtual"><scope>TemporalAggregationTest</scope><name>testDbPath_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

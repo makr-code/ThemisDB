@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_schema_registry_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::SchemaRegistryConfig</compoundname>
+    <includes refid="schema__registry_8h" local="no">schema_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_registry_config_1a99f1a896c6670d49bcfa95914fe9ec09" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaRegistryConfig::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>themis::cdc::SchemaRegistryConfig::url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="102" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_registry_config_1a06105fc2ce4aeaa33c0e6e9b892b2dc1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaRegistryConfig::username</definition>
+        <argsstring></argsstring>
+        <name>username</name>
+        <qualifiedname>themis::cdc::SchemaRegistryConfig::username</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="104" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_registry_config_1a9e37977f446937d28d91d71805e6d520" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaRegistryConfig::password</definition>
+        <argsstring></argsstring>
+        <name>password</name>
+        <qualifiedname>themis::cdc::SchemaRegistryConfig::password</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="106" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_registry_config_1a9d57bf0b6ad7c487be95998e17075e0d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaRegistryConfig::subject_name_strategy</definition>
+        <argsstring></argsstring>
+        <name>subject_name_strategy</name>
+        <qualifiedname>themis::cdc::SchemaRegistryConfig::subject_name_strategy</qualifiedname>
+        <initializer>{&quot;TopicName&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="108" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_registry_config_1abbcdb5011356341615f717bae62f2948" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaRegistryConfig::topic_prefix</definition>
+        <argsstring></argsstring>
+        <name>topic_prefix</name>
+        <qualifiedname>themis::cdc::SchemaRegistryConfig::topic_prefix</qualifiedname>
+        <initializer>{&quot;themis.cdc.&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="110" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_registry_config_1a7feff84a477aabd24de115492aa7b54d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3" kindref="member">SchemaFormat</ref></type>
+        <definition>SchemaFormat themis::cdc::SchemaRegistryConfig::default_format</definition>
+        <argsstring></argsstring>
+        <name>default_format</name>
+        <qualifiedname>themis::cdc::SchemaRegistryConfig::default_format</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3a0ecd11c1d7a287401d148a23bbd7a2f8" kindref="member">SchemaFormat::JSON</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="112" column="18" bodyfile="include/cdc/schema_registry.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_registry_config_1a09aad7dcdce00d1ff27da95fd752292f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::SchemaRegistryConfig::auto_register_schemas</definition>
+        <argsstring></argsstring>
+        <name>auto_register_schemas</name>
+        <qualifiedname>themis::cdc::SchemaRegistryConfig::auto_register_schemas</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="114" column="10" bodyfile="include/cdc/schema_registry.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_registry_config_1a74503406f169e49dd959c48a49eb170e" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::cdc::SchemaRegistryConfig::cache_ttl</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl</name>
+        <qualifiedname>themis::cdc::SchemaRegistryConfig::cache_ttl</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="116" column="26" bodyfile="include/cdc/schema_registry.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_registry_config_1a7c5ab2bc7eee00dfc4822d59b59a991d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::SchemaRegistryConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::cdc::SchemaRegistryConfig::max_retries</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="118" column="14" bodyfile="include/cdc/schema_registry.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_registry_config_1ac9f06c75e10fd0324b56c344a5353b89" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cdc::SchemaRegistryConfig::request_timeout</definition>
+        <argsstring></argsstring>
+        <name>request_timeout</name>
+        <qualifiedname>themis::cdc::SchemaRegistryConfig::request_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="120" column="31" bodyfile="include/cdc/schema_registry.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_registry_config_1ae33d7f5f9bbc5df373d12e65e45843e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaRegistryConfig::ssl_ca_location</definition>
+        <argsstring></argsstring>
+        <name>ssl_ca_location</name>
+        <qualifiedname>themis::cdc::SchemaRegistryConfig::ssl_ca_location</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="122" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/schema_registry.h" line="101" column="1" bodyfile="include/cdc/schema_registry.h" bodystart="101" bodyend="123"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_schema_registry_config_1a09aad7dcdce00d1ff27da95fd752292f" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaRegistryConfig</scope><name>auto_register_schemas</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_registry_config_1a74503406f169e49dd959c48a49eb170e" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaRegistryConfig</scope><name>cache_ttl</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_registry_config_1a7feff84a477aabd24de115492aa7b54d" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaRegistryConfig</scope><name>default_format</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_registry_config_1a7c5ab2bc7eee00dfc4822d59b59a991d" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaRegistryConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_registry_config_1a9e37977f446937d28d91d71805e6d520" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaRegistryConfig</scope><name>password</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_registry_config_1ac9f06c75e10fd0324b56c344a5353b89" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaRegistryConfig</scope><name>request_timeout</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_registry_config_1ae33d7f5f9bbc5df373d12e65e45843e9" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaRegistryConfig</scope><name>ssl_ca_location</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_registry_config_1a9d57bf0b6ad7c487be95998e17075e0d" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaRegistryConfig</scope><name>subject_name_strategy</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_registry_config_1abbcdb5011356341615f717bae62f2948" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaRegistryConfig</scope><name>topic_prefix</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_registry_config_1a99f1a896c6670d49bcfa95914fe9ec09" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaRegistryConfig</scope><name>url</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_registry_config_1a06105fc2ce4aeaa33c0e6e9b892b2dc1" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaRegistryConfig</scope><name>username</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

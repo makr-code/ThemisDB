@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_auth_middleware_1_1_auth_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AuthMiddleware::AuthResult</compoundname>
+    <includes refid="auth__middleware_8h" local="no">auth_middleware.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_auth_middleware_1_1_auth_result_1aac18dc3446662bf933ea5d6779bae878" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::AuthResult::authorized</definition>
+        <argsstring></argsstring>
+        <name>authorized</name>
+        <qualifiedname>themis::AuthMiddleware::AuthResult::authorized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="48" column="14" bodyfile="include/server/auth_middleware.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_auth_middleware_1_1_auth_result_1aa091e7ccb36f909434521a8caada8cfb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AuthMiddleware::AuthResult::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::AuthMiddleware::AuthResult::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="49" column="21" bodyfile="include/server/auth_middleware.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_auth_middleware_1_1_auth_result_1a7896e5c18d025724b451eda77488e543" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AuthMiddleware::AuthResult::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::AuthMiddleware::AuthResult::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="50" column="21" bodyfile="include/server/auth_middleware.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_auth_middleware_1_1_auth_result_1a70b11f746a8f54b29aaee5b1144bbe02" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::AuthMiddleware::AuthResult::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <qualifiedname>themis::AuthMiddleware::AuthResult::groups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="51" column="21" bodyfile="include/server/auth_middleware.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_auth_middleware_1_1_auth_result_1a934e887a9f155e02f3550db1b8cd7f38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AuthMiddleware::AuthResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::AuthMiddleware::AuthResult::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="52" column="21" bodyfile="include/server/auth_middleware.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_auth_middleware_1_1_auth_result_1a7eeb25d435ec55c38f28b1759da8aec0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthResult</ref></type>
+        <definition>static AuthResult themis::AuthMiddleware::AuthResult::OK</definition>
+        <argsstring>(std::string_view uid, std::string_view tid=&quot;&quot;, std::vector&lt; std::string &gt; grps={})</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::AuthMiddleware::AuthResult::OK</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>uid</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>tid</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>grps</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="53" column="27" bodyfile="include/server/auth_middleware.h" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_auth_middleware_1_1_auth_result_1a00f386dfe36c2fbbd1577f9f5b67b54e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthResult</ref></type>
+        <definition>static AuthResult themis::AuthMiddleware::AuthResult::Denied</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Denied</name>
+        <qualifiedname>themis::AuthMiddleware::AuthResult::Denied</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Denied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="62" column="27" bodyfile="include/server/auth_middleware.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/auth_middleware.h" line="47" column="5" bodyfile="include/server/auth_middleware.h" bodystart="47" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_auth_middleware_1_1_auth_result_1aac18dc3446662bf933ea5d6779bae878" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware::AuthResult</scope><name>authorized</name></member>
+      <member refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a00f386dfe36c2fbbd1577f9f5b67b54e" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware::AuthResult</scope><name>Denied</name></member>
+      <member refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a70b11f746a8f54b29aaee5b1144bbe02" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware::AuthResult</scope><name>groups</name></member>
+      <member refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a7eeb25d435ec55c38f28b1759da8aec0" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware::AuthResult</scope><name>OK</name></member>
+      <member refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a934e887a9f155e02f3550db1b8cd7f38" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware::AuthResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a7896e5c18d025724b451eda77488e543" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware::AuthResult</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1_auth_middleware_1_1_auth_result_1aa091e7ccb36f909434521a8caada8cfb" prot="public" virt="non-virtual"><scope>themis::AuthMiddleware::AuthResult</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

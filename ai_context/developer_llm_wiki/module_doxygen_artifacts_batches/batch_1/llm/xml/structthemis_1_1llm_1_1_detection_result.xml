@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_detection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DetectionResult</compoundname>
+    <includes refid="byzantine__detector_8h" local="no">byzantine_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_detection_result_1a5a3b139a7cdcaace1f57d8adddb582a6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::DetectionResult::suspected_shards</definition>
+        <argsstring></argsstring>
+        <name>suspected_shards</name>
+        <qualifiedname>themis::llm::DetectionResult::suspected_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="78" column="17" bodyfile="include/llm/byzantine_detector.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_detection_result_1ad2f732ff08d2fed2dafaa52b399247a9" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, float &gt;</type>
+        <definition>std::map&lt;std::string, float&gt; themis::llm::DetectionResult::anomaly_scores</definition>
+        <argsstring></argsstring>
+        <name>anomaly_scores</name>
+        <qualifiedname>themis::llm::DetectionResult::anomaly_scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="79" column="14" bodyfile="include/llm/byzantine_detector.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_detection_result_1a2fad4869fd102990f5b371807456796e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DetectionResult::detection_method</definition>
+        <argsstring></argsstring>
+        <name>detection_method</name>
+        <qualifiedname>themis::llm::DetectionResult::detection_method</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="80" column="17" bodyfile="include/llm/byzantine_detector.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_detection_result_1a6a4977f8c502ff98723f8fc5936d82a2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DetectionResult::requires_action</definition>
+        <argsstring></argsstring>
+        <name>requires_action</name>
+        <qualifiedname>themis::llm::DetectionResult::requires_action</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="81" column="10" bodyfile="include/llm/byzantine_detector.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_detection_result_1aa177b70ceee38938e39baa1d91917dfb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::llm::DetectionResult::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::DetectionResult::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="87" column="20" bodyfile="src/llm/byzantine_detector.cpp" bodystart="69" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_detection_result_1a232310b6ac9ac65a98bef2ebcac959c0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::llm::DetectionResult::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::DetectionResult::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="93" column="28" bodyfile="src/llm/byzantine_detector.cpp" bodystart="84" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/byzantine_detector.h" line="77" column="1" bodyfile="include/llm/byzantine_detector.h" bodystart="77" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_detection_result_1ad2f732ff08d2fed2dafaa52b399247a9" prot="public" virt="non-virtual"><scope>themis::llm::DetectionResult</scope><name>anomaly_scores</name></member>
+      <member refid="structthemis_1_1llm_1_1_detection_result_1a2fad4869fd102990f5b371807456796e" prot="public" virt="non-virtual"><scope>themis::llm::DetectionResult</scope><name>detection_method</name></member>
+      <member refid="structthemis_1_1llm_1_1_detection_result_1a232310b6ac9ac65a98bef2ebcac959c0" prot="public" virt="non-virtual"><scope>themis::llm::DetectionResult</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_detection_result_1a6a4977f8c502ff98723f8fc5936d82a2" prot="public" virt="non-virtual"><scope>themis::llm::DetectionResult</scope><name>requires_action</name></member>
+      <member refid="structthemis_1_1llm_1_1_detection_result_1a5a3b139a7cdcaace1f57d8adddb582a6" prot="public" virt="non-virtual"><scope>themis::llm::DetectionResult</scope><name>suspected_shards</name></member>
+      <member refid="structthemis_1_1llm_1_1_detection_result_1aa177b70ceee38938e39baa1d91917dfb" prot="public" virt="non-virtual"><scope>themis::llm::DetectionResult</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

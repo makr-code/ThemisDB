@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_i_s_referential_constraint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ISReferentialConstraint</compoundname>
+    <includes refid="information__schema_8h" local="no">information_schema.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_i_s_referential_constraint_1a525c59f31bbd796a57d865f2a2933939" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISReferentialConstraint::constraint_catalog</definition>
+        <argsstring></argsstring>
+        <name>constraint_catalog</name>
+        <qualifiedname>themis::ISReferentialConstraint::constraint_catalog</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="117" column="17" bodyfile="include/metadata/information_schema.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_referential_constraint_1a4bc2c65ca129c970701ef53860c5b3b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISReferentialConstraint::constraint_schema</definition>
+        <argsstring></argsstring>
+        <name>constraint_schema</name>
+        <qualifiedname>themis::ISReferentialConstraint::constraint_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="118" column="17" bodyfile="include/metadata/information_schema.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_referential_constraint_1a30557f8e6d8a1221fc46aad9aadcb0a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISReferentialConstraint::constraint_name</definition>
+        <argsstring></argsstring>
+        <name>constraint_name</name>
+        <qualifiedname>themis::ISReferentialConstraint::constraint_name</qualifiedname>
+        <briefdescription>
+<para>FK constraint name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="119" column="17" bodyfile="include/metadata/information_schema.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_referential_constraint_1afc588ae0fb37d59af01edcca064e2c7e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISReferentialConstraint::unique_constraint_catalog</definition>
+        <argsstring></argsstring>
+        <name>unique_constraint_catalog</name>
+        <qualifiedname>themis::ISReferentialConstraint::unique_constraint_catalog</qualifiedname>
+        <briefdescription>
+<para>Catalog of referenced constraint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="120" column="17" bodyfile="include/metadata/information_schema.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_referential_constraint_1aaf6fe755bf408ff3dc89aad5dc2bdcf7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISReferentialConstraint::unique_constraint_schema</definition>
+        <argsstring></argsstring>
+        <name>unique_constraint_schema</name>
+        <qualifiedname>themis::ISReferentialConstraint::unique_constraint_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="121" column="17" bodyfile="include/metadata/information_schema.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_referential_constraint_1a909aacfb5b02ba29faf7d20ab21cceb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISReferentialConstraint::unique_constraint_name</definition>
+        <argsstring></argsstring>
+        <name>unique_constraint_name</name>
+        <qualifiedname>themis::ISReferentialConstraint::unique_constraint_name</qualifiedname>
+        <briefdescription>
+<para>Name of the referenced unique/PK constraint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="122" column="17" bodyfile="include/metadata/information_schema.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_referential_constraint_1a52113a07d42b1a1965c839502810b55b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISReferentialConstraint::match_option</definition>
+        <argsstring></argsstring>
+        <name>match_option</name>
+        <qualifiedname>themis::ISReferentialConstraint::match_option</qualifiedname>
+        <briefdescription>
+<para>&quot;NONE&quot;, &quot;PARTIAL&quot;, &quot;FULL&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="123" column="17" bodyfile="include/metadata/information_schema.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_referential_constraint_1a7b8ac7002afdfb8571d94bec8c03431e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISReferentialConstraint::update_rule</definition>
+        <argsstring></argsstring>
+        <name>update_rule</name>
+        <qualifiedname>themis::ISReferentialConstraint::update_rule</qualifiedname>
+        <briefdescription>
+<para>&quot;RESTRICT&quot;, &quot;CASCADE&quot;, &quot;NO ACTION&quot;, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="124" column="17" bodyfile="include/metadata/information_schema.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_referential_constraint_1a2ef4bb8fe1055010bfa64024429ecd4f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISReferentialConstraint::delete_rule</definition>
+        <argsstring></argsstring>
+        <name>delete_rule</name>
+        <qualifiedname>themis::ISReferentialConstraint::delete_rule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="125" column="17" bodyfile="include/metadata/information_schema.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_i_s_referential_constraint_1a82c8150f2c3cac46a835a575b388290b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::ISReferentialConstraint::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::ISReferentialConstraint::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this REFERENTIAL_CONSTRAINTS row to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object representing the row fields. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="131" column="10" bodyfile="src/metadata/information_schema.cpp" bodystart="115" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Row model for <computeroutput>INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/information_schema.h" line="116" column="1" bodyfile="include/metadata/information_schema.h" bodystart="116" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_i_s_referential_constraint_1a525c59f31bbd796a57d865f2a2933939" prot="public" virt="non-virtual"><scope>themis::ISReferentialConstraint</scope><name>constraint_catalog</name></member>
+      <member refid="structthemis_1_1_i_s_referential_constraint_1a30557f8e6d8a1221fc46aad9aadcb0a0" prot="public" virt="non-virtual"><scope>themis::ISReferentialConstraint</scope><name>constraint_name</name></member>
+      <member refid="structthemis_1_1_i_s_referential_constraint_1a4bc2c65ca129c970701ef53860c5b3b1" prot="public" virt="non-virtual"><scope>themis::ISReferentialConstraint</scope><name>constraint_schema</name></member>
+      <member refid="structthemis_1_1_i_s_referential_constraint_1a2ef4bb8fe1055010bfa64024429ecd4f" prot="public" virt="non-virtual"><scope>themis::ISReferentialConstraint</scope><name>delete_rule</name></member>
+      <member refid="structthemis_1_1_i_s_referential_constraint_1a52113a07d42b1a1965c839502810b55b" prot="public" virt="non-virtual"><scope>themis::ISReferentialConstraint</scope><name>match_option</name></member>
+      <member refid="structthemis_1_1_i_s_referential_constraint_1a82c8150f2c3cac46a835a575b388290b" prot="public" virt="non-virtual"><scope>themis::ISReferentialConstraint</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1_i_s_referential_constraint_1afc588ae0fb37d59af01edcca064e2c7e" prot="public" virt="non-virtual"><scope>themis::ISReferentialConstraint</scope><name>unique_constraint_catalog</name></member>
+      <member refid="structthemis_1_1_i_s_referential_constraint_1a909aacfb5b02ba29faf7d20ab21cceb2" prot="public" virt="non-virtual"><scope>themis::ISReferentialConstraint</scope><name>unique_constraint_name</name></member>
+      <member refid="structthemis_1_1_i_s_referential_constraint_1aaf6fe755bf408ff3dc89aad5dc2bdcf7" prot="public" virt="non-virtual"><scope>themis::ISReferentialConstraint</scope><name>unique_constraint_schema</name></member>
+      <member refid="structthemis_1_1_i_s_referential_constraint_1a7b8ac7002afdfb8571d94bec8c03431e" prot="public" virt="non-virtual"><scope>themis::ISReferentialConstraint</scope><name>update_rule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

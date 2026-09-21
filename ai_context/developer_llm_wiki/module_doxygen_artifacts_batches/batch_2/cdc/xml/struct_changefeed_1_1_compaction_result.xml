@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_changefeed_1_1_compaction_result" kind="struct" language="C++" prot="public">
+    <compoundname>Changefeed::CompactionResult</compoundname>
+    <includes refid="changefeed_8h" local="no">changefeed.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_changefeed_1_1_compaction_result_1a8c5742401062e65d61e2930b101e100b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::CompactionResult::events_scanned</definition>
+        <argsstring></argsstring>
+        <name>events_scanned</name>
+        <qualifiedname>Changefeed::CompactionResult::events_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total events examined. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="207" column="16" bodyfile="include/cdc/changefeed.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_compaction_result_1aff247cb6de7826aeb97ee665b7ac74dc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::CompactionResult::events_deleted</definition>
+        <argsstring></argsstring>
+        <name>events_deleted</name>
+        <qualifiedname>Changefeed::CompactionResult::events_deleted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Superseded events removed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="208" column="16" bodyfile="include/cdc/changefeed.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_compaction_result_1a813dd91f74c2a94c496e35a6b005a929" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::CompactionResult::keys_compacted</definition>
+        <argsstring></argsstring>
+        <name>keys_compacted</name>
+        <qualifiedname>Changefeed::CompactionResult::keys_compacted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Distinct keys that had older entries removed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="209" column="16" bodyfile="include/cdc/changefeed.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_compaction_result_1a7934b56257c924281d78f23b62958c72" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::CompactionResult::events_retained</definition>
+        <argsstring></argsstring>
+        <name>events_retained</name>
+        <qualifiedname>Changefeed::CompactionResult::events_retained</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Events kept (latest per key + tombstones). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="210" column="16" bodyfile="include/cdc/changefeed.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/changefeed.h" line="206" column="5" bodyfile="include/cdc/changefeed.h" bodystart="206" bodyend="211"/>
+    <listofallmembers>
+      <member refid="struct_changefeed_1_1_compaction_result_1aff247cb6de7826aeb97ee665b7ac74dc" prot="public" virt="non-virtual"><scope>Changefeed::CompactionResult</scope><name>events_deleted</name></member>
+      <member refid="struct_changefeed_1_1_compaction_result_1a7934b56257c924281d78f23b62958c72" prot="public" virt="non-virtual"><scope>Changefeed::CompactionResult</scope><name>events_retained</name></member>
+      <member refid="struct_changefeed_1_1_compaction_result_1a8c5742401062e65d61e2930b101e100b" prot="public" virt="non-virtual"><scope>Changefeed::CompactionResult</scope><name>events_scanned</name></member>
+      <member refid="struct_changefeed_1_1_compaction_result_1a813dd91f74c2a94c496e35a6b005a929" prot="public" virt="non-virtual"><scope>Changefeed::CompactionResult</scope><name>keys_compacted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

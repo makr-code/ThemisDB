@@ -1,0 +1,567 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_g_g_u_f_metadata" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::GGUFMetadata</compoundname>
+    <includes refid="gguf__metadata_8h" local="no">gguf_metadata.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ae896716083f7c6a5dc9ec7a6c5d92d85" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;data, const std::string &amp;key)&gt;</type>
+        <definition>using themis::storage::GGUFMetadata::HmacFn = std::function&lt;std::string(const std::string&amp; data,
+                                             const std::string&amp; key)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HmacFn</name>
+        <qualifiedname>themis::storage::GGUFMetadata::HmacFn</qualifiedname>
+        <briefdescription>
+<para>Callable type for a real HMAC-SHA256 implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Signature: <computeroutput>std::string hmac(const std::string&amp; data, const std::string&amp; key)</computeroutput></para>
+<para><computeroutput><ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata" kindref="compound">GGUFMetadata</ref></computeroutput> includes a secure OpenSSL HMAC-SHA256 default path. Inject a custom implementation via <computeroutput><ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a03469be6dabbbf892d4469529db1d233" kindref="member">setHmacFn()</ref></computeroutput> only when external crypto backends (e.g. KMS/HSM gateways) are required. The function must be thread-safe; it is called under no lock. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="167" column="5" bodyfile="include/storage/gguf_metadata.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a46cdb5791c97b669df932e42c032d616" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::storage::GGUFMetadata::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::storage::GGUFMetadata::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="232" column="33" bodyfile="include/storage/gguf_metadata.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a9bf62c8913a729ef2ba8ae407c8c9a26" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1storage_1_1_provenance_record" kindref="compound">ProvenanceRecord</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ProvenanceRecord&gt; themis::storage::GGUFMetadata::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::storage::GGUFMetadata::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="233" column="24" bodyfile="include/storage/gguf_metadata.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a89063f98fbae5c2229aef210a123ffe8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::GGUFMetadata::GGUFMetadata</definition>
+        <argsstring>()=default</argsstring>
+        <name>GGUFMetadata</name>
+        <qualifiedname>themis::storage::GGUFMetadata::GGUFMetadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="113" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ac5902cb04c3b52a1756639c16f637f44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::GGUFMetadata::attach</definition>
+        <argsstring>(const std::string &amp;storage_key, const ProvenanceRecord &amp;record)</argsstring>
+        <name>attach</name>
+        <qualifiedname>themis::storage::GGUFMetadata::attach</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>storage_key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_provenance_record" kindref="compound">ProvenanceRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Attach provenance metadata to a storage key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach.</para>
+<para>Overwrites any previously attached record for the same key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>storage_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key under which the tensor / adapter is stored. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Provenance record to attach.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="125" column="10" bodyfile="src/storage/gguf_metadata.cpp" bodystart="264" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a6480b2aa892f636a89d4c836d4ebe6b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::GGUFMetadata::detach</definition>
+        <argsstring>(const std::string &amp;storage_key)</argsstring>
+        <name>detach</name>
+        <qualifiedname>themis::storage::GGUFMetadata::detach</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>storage_key</declname>
+        </param>
+        <briefdescription>
+<para>Remove the metadata entry for a storage key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detach.</para>
+<para><simplesect kind="return"><para>true if the key was found and removed, false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="133" column="10" bodyfile="src/storage/gguf_metadata.cpp" bodystart="276" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a5b9c11802ff23fa0d943b3f71c929e6f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1storage_1_1_provenance_record" kindref="compound">ProvenanceRecord</ref> &gt;</type>
+        <definition>std::optional&lt; ProvenanceRecord &gt; themis::storage::GGUFMetadata::retrieve</definition>
+        <argsstring>(const std::string &amp;storage_key) const</argsstring>
+        <name>retrieve</name>
+        <qualifiedname>themis::storage::GGUFMetadata::retrieve</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>storage_key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the provenance record for a storage key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The record if found, std::nullopt otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="143" column="9" bodyfile="src/storage/gguf_metadata.cpp" bodystart="286" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1afd45baaf1a8d392982c5b49e4bcd08b7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::GGUFMetadata::has</definition>
+        <argsstring>(const std::string &amp;storage_key) const</argsstring>
+        <name>has</name>
+        <qualifiedname>themis::storage::GGUFMetadata::has</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>storage_key</declname>
+        </param>
+        <briefdescription>
+<para>Test whether a provenance record exists for the given key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="148" column="11" bodyfile="src/storage/gguf_metadata.cpp" bodystart="300" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a3831a3f6a1933a8d1140ab757a5472ee" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::storage::GGUFMetadata::keys</definition>
+        <argsstring>() const</argsstring>
+        <name>keys</name>
+        <qualifiedname>themis::storage::GGUFMetadata::keys</qualifiedname>
+        <briefdescription>
+<para>Return all storage keys that have attached provenance records. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="153" column="18" bodyfile="src/storage/gguf_metadata.cpp" bodystart="310" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a2eb44b31064e650a77b488ca42d1444b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::storage::GGUFMetadata::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::storage::GGUFMetadata::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialise all stored records to a flat binary blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Format:<itemizedlist>
+<listitem><para>uint32_t : number of records</para>
+</listitem><listitem><para>per record:<itemizedlist>
+<listitem><para>uint32_t key_len + key bytes</para>
+</listitem><listitem><para><ref refid="structthemis_1_1storage_1_1_provenance_record" kindref="compound">ProvenanceRecord</ref> fields (length-prefixed strings + int32_t fields) </para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="216" column="18" bodyfile="src/storage/gguf_metadata.cpp" bodystart="436" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ac5b2b6cd3e96fdc619847c4e2fcc9269" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::GGUFMetadata::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::storage::GGUFMetadata::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise records from a binary blob produced by <computeroutput><ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a2eb44b31064e650a77b488ca42d1444b" kindref="member">serialize()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Binary blob. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if the blob is malformed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), data(), <ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ac8a8fd426a34f3829d2206c5537ad5cf" kindref="member">size()</ref>, readU32(), reserve(), readStr(), readI32(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="224" column="10" bodyfile="src/storage/gguf_metadata.cpp" bodystart="468" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ac8a8fd426a34f3829d2206c5537ad5cf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::GGUFMetadata::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::storage::GGUFMetadata::size</qualifiedname>
+        <briefdescription>
+<para>Total number of provenance records stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="229" column="18" bodyfile="src/storage/gguf_metadata.cpp" bodystart="327" bodyend="335"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a03469be6dabbbf892d4469529db1d233" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::GGUFMetadata::setHmacFn</definition>
+        <argsstring>(HmacFn fn)</argsstring>
+        <name>setHmacFn</name>
+        <qualifiedname>themis::storage::GGUFMetadata::setHmacFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ae896716083f7c6a5dc9ec7a6c5d92d85" kindref="member">HmacFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a real HMAC implementation (thread-safe, process-global). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Once set, all subsequent calls to <computeroutput><ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1abdb64fd32d61d367325dac343da38522" kindref="member">sign()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a30965b95e186a5a77c23ba2930063c44" kindref="member">verify()</ref></computeroutput> will delegate to <computeroutput>fn</computeroutput> instead of using the built-in OpenSSL HMAC-SHA256 path. Pass a null fn to restore the built-in implementation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HMAC function, e.g. wrapping OpenSSL <computeroutput>HMAC()</computeroutput> with SHA-256.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), hmacFnMutex(), hmacFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="179" column="17" bodyfile="src/storage/gguf_metadata.cpp" bodystart="249" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1abdb64fd32d61d367325dac343da38522" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::GGUFMetadata::sign</definition>
+        <argsstring>(ProvenanceRecord &amp;record, const std::string &amp;hmac_key)</argsstring>
+        <name>sign</name>
+        <qualifiedname>themis::storage::GGUFMetadata::sign</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1storage_1_1_provenance_record" kindref="compound">ProvenanceRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hmac_key</declname>
+        </param>
+        <briefdescription>
+<para>Compute a signature tag and write it to <computeroutput>record.hmac_signature</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sign.</para>
+<para>Delegates to the injected <computeroutput><ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ae896716083f7c6a5dc9ec7a6c5d92d85" kindref="member">HmacFn</ref></computeroutput> when one has been set via <computeroutput><ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a03469be6dabbbf892d4469529db1d233" kindref="member">setHmacFn()</ref></computeroutput>; otherwise uses the built-in OpenSSL HMAC-SHA256 path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Record to sign (modifies <computeroutput>hmac_signature</computeroutput> in-place). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hmac_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant-specific signing key (arbitrary bytes).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hmac_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: canonicalBytes(), lk(), hmacFnMutex(), hmacFnStorage(), fn(), empty(), THEMIS_WARN(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="190" column="17" bodyfile="src/storage/gguf_metadata.cpp" bodystart="347" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a30965b95e186a5a77c23ba2930063c44" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::GGUFMetadata::verify</definition>
+        <argsstring>(const ProvenanceRecord &amp;record, const std::string &amp;hmac_key)</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::storage::GGUFMetadata::verify</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_provenance_record" kindref="compound">ProvenanceRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hmac_key</declname>
+        </param>
+        <briefdescription>
+<para>Verify that <computeroutput>record.hmac_signature</computeroutput> matches a freshly computed tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify identity and enforce network policies for a request.</para>
+<para>Uses the same HMAC source (injected fn or built-in OpenSSL path) as <computeroutput><ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1abdb64fd32d61d367325dac343da38522" kindref="member">sign()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Record whose signature should be checked. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hmac_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant-specific signing key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the signature is valid, false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hmac_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: empty(), canonicalBytes(), lk(), hmacFnMutex(), hmacFnStorage(), fn(), THEMIS_WARN(), constantTimeEquals(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="202" column="18" bodyfile="src/storage/gguf_metadata.cpp" bodystart="393" bodyend="430"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory GGUF v3 metadata store for TT-cores and adapters. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each entry is keyed by the storage key used for the tensor or adapter (e.g. <computeroutput>__ttcore__:&lt;tenant&gt;:&lt;file_id&gt;:&lt;chunk_id&gt;</computeroutput>). The metadata can be serialised to / deserialised from a flat binary format for embedding inside a GGUF file.</para>
+<para><heading level="3">Typical usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a89063f98fbae5c2229aef210a123ffe8" kindref="member">GGUFMetadata</ref><sp/>meta;</highlight></codeline>
+<codeline><highlight class="normal">ProvenanceRecord<sp/>rec;</highlight></codeline>
+<codeline><highlight class="normal">rec.source_filename<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;contract.pdf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">rec.source_doc_id<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc-uuid-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">rec.tenant_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;legal_team&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">rec.ingest_timestamp<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2026-05-06T19:00:00Z&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">meta.sign(rec,<sp/></highlight><highlight class="stringliteral">&quot;tenant_hmac_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">meta.attach(</highlight><highlight class="stringliteral">&quot;__ttcore__:legal_team:file42:chunk7&quot;</highlight><highlight class="normal">,<sp/>rec);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>meta.retrieve(</highlight><highlight class="stringliteral">&quot;__ttcore__:legal_team:file42:chunk7&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(retrieved<sp/>&amp;&amp;<sp/>meta.verify(*retrieved,<sp/></highlight><highlight class="stringliteral">&quot;tenant_hmac_key&quot;</highlight><highlight class="normal">))<sp/>{<sp/>...<sp/>}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/storage/gguf_metadata.h" line="111" column="1" bodyfile="include/storage/gguf_metadata.h" bodystart="111" bodyend="234"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ac5902cb04c3b52a1756639c16f637f44" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>attach</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ac5b2b6cd3e96fdc619847c4e2fcc9269" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>deserialize</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a6480b2aa892f636a89d4c836d4ebe6b4" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>detach</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a89063f98fbae5c2229aef210a123ffe8" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>GGUFMetadata</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1afd45baaf1a8d392982c5b49e4bcd08b7" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>has</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ae896716083f7c6a5dc9ec7a6c5d92d85" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>HmacFn</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a3831a3f6a1933a8d1140ab757a5472ee" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>keys</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a46cdb5791c97b669df932e42c032d616" prot="private" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a5b9c11802ff23fa0d943b3f71c929e6f" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>retrieve</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a2eb44b31064e650a77b488ca42d1444b" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a03469be6dabbbf892d4469529db1d233" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>setHmacFn</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1abdb64fd32d61d367325dac343da38522" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>sign</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1ac8a8fd426a34f3829d2206c5537ad5cf" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>size</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a9bf62c8913a729ef2ba8ae407c8c9a26" prot="private" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>store_</name></member>
+      <member refid="classthemis_1_1storage_1_1_g_g_u_f_metadata_1a30965b95e186a5a77c23ba2930063c44" prot="public" virt="non-virtual"><scope>themis::storage::GGUFMetadata</scope><name>verify</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

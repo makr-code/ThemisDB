@@ -1,0 +1,694 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::llm::SSMStateRocksDBStore</compoundname>
+    <basecompoundref refid="structthemis_1_1llm_1_1_i_s_s_m_state_store" prot="public" virt="non-virtual">themis::llm::ISSMStateStore</basecompoundref>
+    <includes refid="ssm__state__rocksdb__store_8h" local="no">ssm_state_rocksdb_store.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a746685deeff9035b8bc8beede1bbf485" prot="public" static="no">
+        <type><ref refid="structthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_config" kindref="compound">SSMStateRocksDBStoreConfig</ref></type>
+        <definition>using themis::llm::SSMStateRocksDBStore::Config = SSMStateRocksDBStoreConfig</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="48" column="5" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a0c3df11b1d64b077b6b256c403322ba8" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::llm::SSMStateRocksDBStore::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="86" column="28" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a43028f87fce013cb8cdb790b3e3cc423" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::llm::SSMStateRocksDBStore::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::cf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="87" column="33" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1ab81c2c029972d62e682fbcca8607b533" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a746685deeff9035b8bc8beede1bbf485" kindref="member">Config</ref></type>
+        <definition>Config themis::llm::SSMStateRocksDBStore::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="88" column="12" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a5ad0ea8c49596b57a56f8a7ef3704abb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::SSMStateRocksDBStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="89" column="24" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1adf1685949f604fdbb732e3e363ee3d72" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::SSMStateRocksDBStore::total_checkpoints_</definition>
+        <argsstring></argsstring>
+        <name>total_checkpoints_</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::total_checkpoints_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="92" column="13" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a3a5d215daf006172d1118f9d848627a6" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::SSMStateRocksDBStore::successful_checkpoints_</definition>
+        <argsstring></argsstring>
+        <name>successful_checkpoints_</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::successful_checkpoints_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="93" column="13" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a5acf4dbbf37396771c2b7c5b41f609f9" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::SSMStateRocksDBStore::failed_checkpoints_</definition>
+        <argsstring></argsstring>
+        <name>failed_checkpoints_</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::failed_checkpoints_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="94" column="13" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a1aa159eb8e49e01c05c2e86fdd6a49e9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SSMStateRocksDBStore::SSMStateRocksDBStore</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf, const Config &amp;config)</argsstring>
+        <name>SSMStateRocksDBStore</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::SSMStateRocksDBStore</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a746685deeff9035b8bc8beede1bbf485" kindref="member">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>SSMState Rocks DBStore. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">cf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="57" column="14" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="23" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a3647ab279e8e16e803ff88092217a95d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SSMStateRocksDBStore::SSMStateRocksDBStore</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf=nullptr)</argsstring>
+        <name>SSMStateRocksDBStore</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::SSMStateRocksDBStore</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="62" column="14" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a0170d76eb9265782450f8876a4992174" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SSMStateRocksDBStore::~SSMStateRocksDBStore</definition>
+        <argsstring>()</argsstring>
+        <name>~SSMStateRocksDBStore</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::~SSMStateRocksDBStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="66" column="5" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a0b6210b19f85cd2d505a8c43a11e5a39" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SSMStateRocksDBStore::checkpoint</definition>
+        <argsstring>(const std::string &amp;session_id, const SSMStateSnapshot &amp;snapshot) override</argsstring>
+        <name>checkpoint</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::checkpoint</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4e60ff6ad46841495b8274f605b72ce6">checkpoint</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lock(), makeSSMStateKey(), serializeSnapshot(), Put(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="69" column="10" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="51" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a9e3abd225ff6a08eb298d469e1c8c2c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; SSMStateSnapshot &gt; themis::llm::SSMStateRocksDBStore::resume</definition>
+        <argsstring>(const std::string &amp;session_id, const std::optional&lt; HLCTimestamp &gt; &amp;snapshot_ts=std::nullopt) override</argsstring>
+        <name>resume</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::resume</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a7d520be67201a61955405215bcb9ec8b">resume</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; HLCTimestamp &gt; &amp;</type>
+          <declname>snapshot_ts</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Resume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lock(), has_value(), makeSSMStateKey(), Get(), rocksdb::ReadOptions(), ok(), deserializeSnapshot(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="72" column="19" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="99" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1afe9077c01034c176ef922cc29161e112" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SSMStateRocksDBStore::invalidate</definition>
+        <argsstring>(const std::string &amp;session_id) override</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::invalidate</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4c26c6b2a920d4111506f01841c32f02">invalidate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lock(), NewIterator(), rocksdb::ReadOptions(), Seek(), Valid(), key(), starts_with(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="76" column="10" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="145" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1adeeb41ab16b7e2e7df88683c12d5320f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SSMStateRocksDBStore::compact</definition>
+        <argsstring>(uint64_t retention_window_ms=24 *60 *60 *1000) override</argsstring>
+        <name>compact</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::compact</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ae5150687cbca614d4a6c4139281233b5">compact</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>retention_window_ms</declname>
+          <defval>24 *60 *60 *1000</defval>
+        </param>
+        <briefdescription>
+<para>Compact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">retention_window_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="78" column="14" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="190" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a79d9e2cd4856195d03448d335ffa2dc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SSMStateRocksDBStore::getStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::getStats</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ad398a86b16c0cfe4a84ca387a7f0eb9a">getStats</reimplements>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="80" column="17" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="252" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a0dab5788282d23364b190869a1b626a0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SSMStateRocksDBStore::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="83" column="24" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1ac59685425c8a185ecba224986f8ef160" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SSMStateRocksDBStore::makeSSMStateKey</definition>
+        <argsstring>(const std::string &amp;session_id, const HLCTimestamp &amp;ts)</argsstring>
+        <name>makeSSMStateKey</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::makeSSMStateKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const HLCTimestamp &amp;</type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+<para>Make SSMState Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: physical(), logical(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="102" column="17" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="279" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1ab05b35bcbaee0e1fc45565604ab4d3c3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SSMStateRocksDBStore::serializeSnapshot</definition>
+        <argsstring>(const SSMStateSnapshot &amp;snapshot)</argsstring>
+        <name>serializeSnapshot</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::serializeSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Serialize Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), physical(), logical(), std::setw(), std::setfill(), str(), dump(), append(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="110" column="17" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="297" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a2fd561c36b67399f8fc37b217c17b9ff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; SSMStateSnapshot &gt; themis::llm::SSMStateRocksDBStore::deserializeSnapshot</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>deserializeSnapshot</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::deserializeSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), nlohmann::json::parse(), substr(), HLCTimestamp::from(), value(), std::string(), clear(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="117" column="19" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="331" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a1b028d9e5c3d7714f08027d0376fa136" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; HLCTimestamp &gt;</type>
+        <definition>std::optional&lt; HLCTimestamp &gt; themis::llm::SSMStateRocksDBStore::parseTimestampFromKey</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>parseTimestampFromKey</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::parseTimestampFromKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Parse Timestamp From Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rfind(), std::stoll(), substr(), HLCTimestamp::from(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="124" column="19" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="376" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1ac5690513fe91ca548d5865b306478eb5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::pair&lt; HLCTimestamp, std::string &gt; &gt;</type>
+        <definition>std::optional&lt; std::pair&lt; HLCTimestamp, std::string &gt; &gt; themis::llm::SSMStateRocksDBStore::findMostRecentSnapshot</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>findMostRecentSnapshot</name>
+        <qualifiedname>themis::llm::SSMStateRocksDBStore::findMostRecentSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_rocksdb_store.h" line="127" column="5" bodyfile="src/llm/ssm_state_rocksdb_store.cpp" bodystart="405" bodyend="432"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::ISSMStateStore</label>
+        <link refid="structthemis_1_1llm_1_1_i_s_s_m_state_store"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::SSMStateRocksDBStore</label>
+        <link refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::ISSMStateStore</label>
+        <link refid="structthemis_1_1llm_1_1_i_s_s_m_state_store"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::SSMStateRocksDBStore</label>
+        <link refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/ssm_state_rocksdb_store.h" line="46" column="1" bodyfile="include/llm/ssm_state_rocksdb_store.h" bodystart="46" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a43028f87fce013cb8cdb790b3e3cc423" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a0b6210b19f85cd2d505a8c43a11e5a39" prot="public" virt="virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>checkpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1adeeb41ab16b7e2e7df88683c12d5320f" prot="public" virt="virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>compact</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a746685deeff9035b8bc8beede1bbf485" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>Config</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1ab81c2c029972d62e682fbcca8607b533" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a0c3df11b1d64b077b6b256c403322ba8" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>db_</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a2fd561c36b67399f8fc37b217c17b9ff" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>deserializeSnapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a5acf4dbbf37396771c2b7c5b41f609f9" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>failed_checkpoints_</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1ac5690513fe91ca548d5865b306478eb5" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>findMostRecentSnapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a0dab5788282d23364b190869a1b626a0" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a79d9e2cd4856195d03448d335ffa2dc5" prot="public" virt="virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1afe9077c01034c176ef922cc29161e112" prot="public" virt="virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1ac59685425c8a185ecba224986f8ef160" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>makeSSMStateKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a5ad0ea8c49596b57a56f8a7ef3704abb" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a1b028d9e5c3d7714f08027d0376fa136" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>parseTimestampFromKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a9e3abd225ff6a08eb298d469e1c8c2c6" prot="public" virt="virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>resume</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1ab05b35bcbaee0e1fc45565604ab4d3c3" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>serializeSnapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a1aa159eb8e49e01c05c2e86fdd6a49e9" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>SSMStateRocksDBStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a3647ab279e8e16e803ff88092217a95d" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>SSMStateRocksDBStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a3a5d215daf006172d1118f9d848627a6" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>successful_checkpoints_</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1adf1685949f604fdbb732e3e363ee3d72" prot="private" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>total_checkpoints_</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a885727007764981a42486f792f059024" prot="public" virt="virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>~ISSMStateStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store_1a0170d76eb9265782450f8876a4992174" prot="public" virt="non-virtual"><scope>themis::llm::SSMStateRocksDBStore</scope><name>~SSMStateRocksDBStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

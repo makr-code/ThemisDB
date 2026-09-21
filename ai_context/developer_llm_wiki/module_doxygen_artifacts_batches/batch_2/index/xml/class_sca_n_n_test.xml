@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_sca_n_n_test" kind="class" language="C++" prot="public">
+    <compoundname>ScaNNTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_sca_n_n_test_1a043a9f9e270a3fe1d19b1568004adf8e" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ScaNNTest::N</definition>
+        <argsstring></argsstring>
+        <name>N</name>
+        <qualifiedname>ScaNNTest::N</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="93" column="29" bodyfile="tests/index/test_ann_index.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sca_n_n_test_1a0277133aeb1ab744af791fe51e80e2bc" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ScaNNTest::DIM</definition>
+        <argsstring></argsstring>
+        <name>DIM</name>
+        <qualifiedname>ScaNNTest::DIM</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="94" column="29" bodyfile="tests/index/test_ann_index.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sca_n_n_test_1ac12158cf2946876cf6f1e6e55522d050" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int ScaNNTest::K</definition>
+        <argsstring></argsstring>
+        <name>K</name>
+        <qualifiedname>ScaNNTest::K</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="95" column="29" bodyfile="tests/index/test_ann_index.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_sca_n_n_test_1a22f7edb7f1d163a5e4d0c18106266870" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; ScaNNTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ScaNNTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="97" column="17" bodyfile="tests/index/test_ann_index.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sca_n_n_test_1a43e23d850b9ad31871a0ca5b05a1af6a" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; ScaNNTest::flat_db_</definition>
+        <argsstring></argsstring>
+        <name>flat_db_</name>
+        <qualifiedname>ScaNNTest::flat_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="98" column="30" bodyfile="tests/index/test_ann_index.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sca_n_n_test_1a9d6fce0c6a7e7d4773fd48fa191ab696" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; ScaNNTest::ids_</definition>
+        <argsstring></argsstring>
+        <name>ids_</name>
+        <qualifiedname>ScaNNTest::ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="99" column="28" bodyfile="tests/index/test_ann_index.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sca_n_n_test_1add9566d1aeead8cb1b44bf9f555e0a93" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; ScaNNTest::query_</definition>
+        <argsstring></argsstring>
+        <name>query_</name>
+        <qualifiedname>ScaNNTest::query_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="100" column="30" bodyfile="tests/index/test_ann_index.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sca_n_n_test_1a8bd837d3b8ef190f77a2558d00b319ac" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path ScaNNTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>ScaNNTest::tmp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="101" column="37" bodyfile="tests/index/test_ann_index.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_sca_n_n_test_1af522dd83fd908715715fbbe6c24bdccf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ScaNNTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ScaNNTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="103" column="10" bodyfile="tests/index/test_ann_index.cpp" bodystart="103" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sca_n_n_test_1aa4046cbf590c5901e02a54ef082f99d5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ScaNNTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ScaNNTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_index.cpp" line="116" column="10" bodyfile="tests/index/test_ann_index.cpp" bodystart="116" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ScaNNTest</label>
+        <link refid="class_sca_n_n_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ScaNNTest</label>
+        <link refid="class_sca_n_n_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_ann_index.cpp" line="91" column="1" bodyfile="tests/index/test_ann_index.cpp" bodystart="91" bodyend="119"/>
+    <listofallmembers>
+      <member refid="class_sca_n_n_test_1a22f7edb7f1d163a5e4d0c18106266870" prot="protected" virt="non-virtual"><scope>ScaNNTest</scope><name>db_</name></member>
+      <member refid="class_sca_n_n_test_1a0277133aeb1ab744af791fe51e80e2bc" prot="protected" virt="non-virtual"><scope>ScaNNTest</scope><name>DIM</name></member>
+      <member refid="class_sca_n_n_test_1a43e23d850b9ad31871a0ca5b05a1af6a" prot="protected" virt="non-virtual"><scope>ScaNNTest</scope><name>flat_db_</name></member>
+      <member refid="class_sca_n_n_test_1a9d6fce0c6a7e7d4773fd48fa191ab696" prot="protected" virt="non-virtual"><scope>ScaNNTest</scope><name>ids_</name></member>
+      <member refid="class_sca_n_n_test_1ac12158cf2946876cf6f1e6e55522d050" prot="protected" virt="non-virtual"><scope>ScaNNTest</scope><name>K</name></member>
+      <member refid="class_sca_n_n_test_1a043a9f9e270a3fe1d19b1568004adf8e" prot="protected" virt="non-virtual"><scope>ScaNNTest</scope><name>N</name></member>
+      <member refid="class_sca_n_n_test_1add9566d1aeead8cb1b44bf9f555e0a93" prot="protected" virt="non-virtual"><scope>ScaNNTest</scope><name>query_</name></member>
+      <member refid="class_sca_n_n_test_1af522dd83fd908715715fbbe6c24bdccf" prot="protected" virt="non-virtual"><scope>ScaNNTest</scope><name>SetUp</name></member>
+      <member refid="class_sca_n_n_test_1aa4046cbf590c5901e02a54ef082f99d5" prot="protected" virt="non-virtual"><scope>ScaNNTest</scope><name>TearDown</name></member>
+      <member refid="class_sca_n_n_test_1a8bd837d3b8ef190f77a2558d00b319ac" prot="protected" virt="non-virtual"><scope>ScaNNTest</scope><name>tmp_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

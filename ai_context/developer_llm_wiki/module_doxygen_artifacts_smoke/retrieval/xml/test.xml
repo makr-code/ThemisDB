@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a36df12470ee570ec12e90be9184f744e" kindref="member">TEST</ref>  (LoRATrustBoundaryTest, LTB01a_CorrectChecksumAccepted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>LTB-01a: Adapter with matching checksum → verifyChecksum returns true.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a981781801af5837cca568f7589886cab" kindref="member">TEST</ref>  (LoRATrustBoundaryTest, LTB01b_FullCheckAdapterPipelineAccepted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>LTB-01b: Full checkAdapter pipeline with correct checksum → is_valid.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1ac67d975d40013bda2e3146cfd7e7fe5d" kindref="member">TEST</ref>  (LoRATrustBoundaryTest, LTB02a_TamperedDataRejectedByVerifyChecksum)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>LTB-02a: verifyChecksum with tampered data → returns false.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a6d23395f8c7618851d10ea19753d3304" kindref="member">TEST</ref>  (LoRATrustBoundaryTest, LTB02b_FullCheckAdapterRejectedOnMismatch)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>LTB-02b: checkAdapter with mismatched checksum in metadata → is_valid=false.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1adac1480ad54e5438bf61499e86d35d44" kindref="member">TEST</ref>  (LoRATrustBoundaryTest, LTB02c_EmptyDataWithChecksumRejected)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>LTB-02c: Empty adapter data with non-empty checksum → rejected.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a9521fd898fbde1b5fdaf3df7a669a431" kindref="member">TEST</ref>  (LoRATrustBoundaryTest, LTB03a_UnknownSignerRejectedUnderStrictPolicy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>LTB-03a: STRICT trust registry + unknown signer → adapter rejected. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a035282442e525894c07660270dd2e969" kindref="member">TEST</ref>  (LoRATrustBoundaryTest, LTB03b_UnknownSignerAcceptedWithWarningUnderLenientPolicy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>LTB-03b: LENIENT trust registry + unknown signer → loaded with warning. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1a933f934e98d4124fca91ce83eb11a1c2" kindref="member">TEST</ref>  (LoRATrustBoundaryTest, LTB03c_KnownSignerAcceptedWithoutWarningUnderStrictPolicy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>LTB-03c: Known signer under STRICT policy → no warning, accepted. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__retrieval__lora__trust__boundary__focused_8cpp_1aa24683c2f47dce5a0db117129a5022fd" kindref="member">TEST</ref>  (LoRATrustBoundaryTest, LTB03d_UnknownSignerStopsBeforeChecksumValidation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>LTB-03d: End-to-end load simulation — unknown signer under strict policy prevents the adapter from reaching checkAdapter.</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

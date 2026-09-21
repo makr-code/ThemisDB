@@ -1,0 +1,306 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ai__operation__guard_8h" kind="file" language="C++">
+    <compoundname>ai_operation_guard.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="ai__operation__guard_8cpp" local="yes">src/security/ai_operation_guard.cpp</includedby>
+    <includedby refid="test__ai__safety__chaos_8cpp" local="yes">tests/security/ai_safety/test_ai_safety_chaos.cpp</includedby>
+    <includedby refid="test__ai__operation__guard_8cpp" local="yes">tests/security/test_ai_operation_guard.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/ai_operation_guard.h</label>
+        <link refid="ai__operation__guard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/ai_operation_guard.h</label>
+        <link refid="ai__operation__guard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/ai_operation_guard.cpp</label>
+        <link refid="ai__operation__guard_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/security/ai_safety/test_ai_safety_chaos.cpp</label>
+        <link refid="test__ai__safety__chaos_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/security/test_ai_operation_guard.cpp</label>
+        <link refid="test__ai__operation__guard_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_operation_preview" prot="public">themis::security::OperationPreview</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_guard_decision" prot="public">themis::security::GuardDecision</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_ai_operation_guard" prot="public">themis::security::AiOperationGuard</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config" prot="public">themis::security::AiOperationGuard::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="ai__operation__guard_8h_1a5b4450c61fe3bdad6238e856e7060536" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisDefaultSnapshotDir</definition>
+        <argsstring>()</argsstring>
+        <name>themisDefaultSnapshotDir</name>
+        <briefdescription>
+<para>Returns the platform-portable default directory for AI pre-operation snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>Windows: <computeroutput>PROGRAMDATA%\<ref refid="namespacethemis" kindref="compound">themis</ref>\ai-snapshots</computeroutput> (via <computeroutput>PROGRAMDATA</computeroutput> env var, falls back to <computeroutput>C:\ProgramData\<ref refid="namespacethemis" kindref="compound">themis</ref>\ai-snapshots</computeroutput>)</para>
+</listitem><listitem><para>Other: <computeroutput>/var/themis/ai-snapshots</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>Absolute path string suitable for use as <computeroutput>Config::snapshot_dir</computeroutput>.</para>
+</simplesect>
+Calls: std::getenv(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="48" column="20" bodyfile="include/security/ai_operation_guard.h" bodystart="48" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AI<sp/>Safety<sp/>Layer<sp/>—<sp/>Schichten<sp/>1<sp/>&amp;<sp/>2:<sp/>Destructive<sp/>Operation<sp/>Guard<sp/>(DOG)<sp/>+<sp/>HILG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AiOperationGuard<sp/>classifies<sp/>every<sp/>AI-initiated<sp/>MCP<sp/>tool<sp/>call<sp/>by<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>destructive<sp/>potential<sp/>BEFORE<sp/>the<sp/>operation<sp/>is<sp/>executed.<sp/><sp/>It<sp/>is<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>primary<sp/>gate<sp/>that<sp/>the<sp/>McpServer<sp/>consults<sp/>for<sp/>any<sp/>mutating<sp/>tool.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Full<sp/>documentation:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Roadmap:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>src/security/ROADMAP.md<sp/>§<sp/>Phase<sp/>2<sp/>(ASL-4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Platform-portable<sp/>snapshot<sp/>directory<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="ai__operation__guard_8h_1a5b4450c61fe3bdad6238e856e7060536" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="ai__operation__guard_8h_1a5b4450c61fe3bdad6238e856e7060536" kindref="member">themisDefaultSnapshotDir</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>pd<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;PROGRAMDATA&quot;</highlight><highlight class="normal">);<sp/>pd<sp/>&amp;&amp;<sp/>*pd)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(pd)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\themis\\ai-snapshots&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C:\\ProgramData\\themis\\ai-snapshots&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;/var/themis/ai-snapshots&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OperationClass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a47c7e7cb36a953a8c47e02000036bb44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a47c7e7cb36a953a8c47e02000036bb44" kindref="member">READ_ONLY</ref><sp/><sp/><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a81b8f3746277c99c77fc6d0065063b2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a81b8f3746277c99c77fc6d0065063b2a" kindref="member">WRITE_SAFE</ref><sp/><sp/>=<sp/>1,<sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a097089d52775e5518152edde5edbf418" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a097089d52775e5518152edde5edbf418" kindref="member">DESTRUCTIVE</ref><sp/>=<sp/>2,<sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/><sp/><sp/><sp/>=<sp/>3,<sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1security_1a63c95189e5dfdc6a9b78007939db2244" kindref="member">operationClassName</ref>(<ref refid="test__ai__safety__chaos_8cpp_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref><sp/>c)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OperationPreview</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1security_1_1_operation_preview" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_operation_preview" kindref="compound">OperationPreview</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1security_1_1_operation_preview_1abaae92e2f7fdcbf1e02d70872bbfc797" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_operation_preview_1abaae92e2f7fdcbf1e02d70872bbfc797" kindref="member">tool_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1security_1_1_operation_preview_1a95fc1b6d38f955d9e853f31f3950ca8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_operation_preview_1a95fc1b6d38f955d9e853f31f3950ca8d" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1security_1_1_operation_preview_1aef6f8c5e59ad6a3ee3287610cb3c451d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_operation_preview_1aef6f8c5e59ad6a3ee3287610cb3c451d" kindref="member">args</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1security_1_1_operation_preview_1a16f90a6e7525fd4c37c564195edb6d5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_operation_preview_1a16f90a6e7525fd4c37c564195edb6d5f" kindref="member">aql_query</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1security_1_1_operation_preview_1a0054ad5b0e9538cf710ee153f716ac72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_operation_preview_1a0054ad5b0e9538cf710ee153f716ac72" kindref="member">target_collection</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1security_1_1_operation_preview_1af7f4b30658bcae42395f1bb34d2cf5d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_operation_preview_1af7f4b30658bcae42395f1bb34d2cf5d7" kindref="member">estimated_affected</ref>;<sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GuardDecision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1security_1_1_guard_decision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_guard_decision" kindref="compound">GuardDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1security_1_1_guard_decision_1a1d5599b74b072103bd063e4e43bc5cf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_guard_decision_1a1d5599b74b072103bd063e4e43bc5cf8" kindref="member">op_class</ref>;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1security_1_1_guard_decision_1aec174e9752d9bfb290e64ecb57b07f65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_operation_preview" kindref="compound">OperationPreview</ref><sp/><ref refid="structthemis_1_1security_1_1_guard_decision_1aec174e9752d9bfb290e64ecb57b07f65" kindref="member">preview</ref>;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1security_1_1_guard_decision_1a82e3cfa6cc0cb6373a45a91fba418786" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_guard_decision_1a82e3cfa6cc0cb6373a45a91fba418786" kindref="member">requires_approval</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1security_1_1_guard_decision_1ab3e6ebe7b4afe7a226f9a17a5bff3f6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_guard_decision_1ab3e6ebe7b4afe7a226f9a17a5bff3f6a" kindref="member">operation_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1security_1_1_guard_decision_1a317768a6121750da9bb58706797df2c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_guard_decision_1a317768a6121750da9bb58706797df2c5" kindref="member">block_reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AiOperationGuard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="class_ai_operation_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_ai_operation_guard_1a5fedd6cb00e9a603a22d3fc027b85b3d" kindref="member">AiOperationGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="struct_ai_operation_guard_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_ai_operation_guard_1_1_config_1a79be0d36d13203f3c80b293fa81db8f7" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ab90dd4e5b4efadc5e804177492aa6af8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ab90dd4e5b4efadc5e804177492aa6af8" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1abdb69f2a88c799599e05efc317e7a977" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref><sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1abdb69f2a88c799599e05efc317e7a977" kindref="member">approval_threshold</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a097089d52775e5518152edde5edbf418" kindref="member">OperationClass::DESTRUCTIVE</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1accb2dfe9be1dd07ca1e6d8580fb04782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1accb2dfe9be1dd07ca1e6d8580fb04782" kindref="member">approval_timeout_s</ref><sp/>=<sp/>60;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a5a3438a406d7604647f8fce9882ead7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a5a3438a406d7604647f8fce9882ead7b" kindref="member">auto_snapshot</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1aa4814cd4a65a40af37019007cb913047" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1aa4814cd4a65a40af37019007cb913047" kindref="member">snapshot_dir</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ae1401dba6bc62fe796e7e408dd3a3e81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ae1401dba6bc62fe796e7e408dd3a3e81" kindref="member">dry_run_preview</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Environment<sp/>Guard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a45719d9ede2095f9c70d1e9f0e953882" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a45719d9ede2095f9c70d1e9f0e953882" kindref="member">environment</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;development&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a66c1ccdf0b17f53974b6cd2fdccd2788" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a66c1ccdf0b17f53974b6cd2fdccd2788" kindref="member">block_critical_in_prod</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ad0fd04a95947d4551e44dd8c9f90acac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ad0fd04a95947d4551e44dd8c9f90acac" kindref="member">denied_collections</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a75ce868c67730c1cfe24a1a5d63e1e5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a75ce868c67730c1cfe24a1a5d63e1e5a" kindref="member">allowed_collections</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1af194ebb824dc4926b1ffc00741094955" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1af194ebb824dc4926b1ffc00741094955" kindref="member">critical_ops_role</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;AI_DESTRUCTIVE_PRODUCTION_OPS&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a79be0d36d13203f3c80b293fa81db8f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a79be0d36d13203f3c80b293fa81db8f7" kindref="member">Config</ref>()<sp/>:<sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1aa4814cd4a65a40af37019007cb913047" kindref="member">snapshot_dir</ref>(<ref refid="ai__operation__guard_8h_1a5b4450c61fe3bdad6238e856e7060536" kindref="member">themisDefaultSnapshotDir</ref>())<sp/>{}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_ai_operation_guard_1a5fedd6cb00e9a603a22d3fc027b85b3d" kindref="member">AiOperationGuard</ref>(<ref refid="test__tls__hot__reload_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1security_1_1_ai_operation_guard_1ad43093a3dbe202a8fbb472ac005fb8e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_ai_operation_guard_1ad43093a3dbe202a8fbb472ac005fb8e0" kindref="member">~AiOperationGuard</ref>()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1security_1_1_ai_operation_guard_1a84b2c2673889171af623878418e1f9c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_ai_operation_guard_1a84b2c2673889171af623878418e1f9c9" kindref="member">AiOperationGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_ai_operation_guard_1a5fedd6cb00e9a603a22d3fc027b85b3d" kindref="member">AiOperationGuard</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1security_1_1_ai_operation_guard_1a317e79d19bf6fbfbca8b63b1e144cb13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_ai_operation_guard_1a5fedd6cb00e9a603a22d3fc027b85b3d" kindref="member">AiOperationGuard</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_ai_operation_guard_1a317e79d19bf6fbfbca8b63b1e144cb13" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_ai_operation_guard_1a5fedd6cb00e9a603a22d3fc027b85b3d" kindref="member">AiOperationGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1security_1_1_guard_decision" kindref="compound">GuardDecision</ref><sp/><ref refid="classthemis_1_1security_1_1_ai_operation_guard_1ab2d087bcc1c60b51e54cc7aad00c3942" kindref="member">evaluate</ref>(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tool_name,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>args,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ai_session_id,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>caller_role<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/><ref refid="classthemis_1_1security_1_1_ai_operation_guard_1a0ddacd78fdaf99506a1284fb53a5f94f" kindref="member">buildRequiresApprovalResponse</ref>(</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_guard_decision" kindref="compound">GuardDecision</ref>&amp;<sp/>decision,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>now<sp/>=</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now()</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/><ref refid="classthemis_1_1security_1_1_ai_operation_guard_1a16eac1261b4595ecbd80276fe1c4e781" kindref="member">buildBlockedResponse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_guard_decision" kindref="compound">GuardDecision</ref>&amp;<sp/>decision)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1security_1_1_ai_operation_guard_1ad033c05f69ddc200e6ed234ead48192f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_ai_operation_guard_1ad033c05f69ddc200e6ed234ead48192f" kindref="member">config</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__tls__hot__reload_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Classification<sp/>helpers<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref><sp/>classifyByTool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tool_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref><sp/>classifyAql(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql_query)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1security_1_1_operation_preview" kindref="compound">OperationPreview</ref><sp/>buildPreview(</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tool_name,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>args,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref><sp/><sp/><sp/><sp/><sp/>op_class</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/>checkEnvironmentBlock(</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref><sp/><sp/><sp/><sp/><sp/>op_class,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_collection,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>caller_role</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isCollectionDenied(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>extractCollection(</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tool_name,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>args</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>toIso8601(std::chrono::system_clock::time_point<sp/>tp);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/ai_operation_guard.h"/>
+  </compounddef>
+</doxygen>

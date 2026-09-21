@@ -1,0 +1,391 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="lora__storage__service_8h" kind="file" language="C++">
+    <compoundname>lora_storage_service.h</compoundname>
+    <includes refid="lora__config_8h" local="yes">lora_config.h</includes>
+    <includes refid="lora__graph_8h" local="yes">lora_graph.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/blob_storage_manager.h</includes>
+    <includes local="yes">storage/security_signature_manager.h</includes>
+    <includes local="yes">security/encryption.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="bench__lora__framework_8cpp" local="yes">benchmarks/llm/bench_lora_framework.cpp</includedby>
+    <includedby refid="themis__help__lora_8h" local="yes">include/llm/applications/themis_help_lora.h</includedby>
+    <includedby refid="lora__checkpoint__manager_8h" local="yes">include/llm/lora_framework/lora_checkpoint_manager.h</includedby>
+    <includedby refid="lora__orchestrator_8h" local="yes">include/llm/lora_framework/lora_orchestrator.h</includedby>
+    <includedby refid="adapter__sync__manager_8cpp" local="yes">src/llm/lora_framework/adapter_sync_manager.cpp</includedby>
+    <includedby refid="lora__storage__service_8cpp" local="yes">src/llm/lora_framework/lora_storage_service.cpp</includedby>
+    <includedby refid="lora__storage__service__themisdb_8cpp" local="yes">src/llm/lora_framework/lora_storage_service_themisdb.cpp</includedby>
+    <includedby refid="lora__training__service_8cpp" local="yes">src/llm/lora_framework/lora_training_service.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>lora_config.h</label>
+        <link refid="lora__config_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>lora_graph.h</label>
+        <link refid="lora__graph_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/lora_storage_service.h</label>
+        <link refid="lora__storage__service_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="8">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="12">
+        <label>storage/blob_storage_manager.h</label>
+      </node>
+      <node id="11">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="13">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/llm/bench_lora_framework.cpp</label>
+        <link refid="bench__lora__framework_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/llm/applications/themis_help_lora.h</label>
+        <link refid="themis__help__lora_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/llm/lora_framework/lora_checkpoint_manager.h</label>
+        <link refid="lora__checkpoint__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/llm/lora_framework/lora_orchestrator.h</label>
+        <link refid="lora__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/lora_storage_service.h</label>
+        <link refid="lora__storage__service_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/llm/api/themis_help_lora_adapter.cpp</label>
+        <link refid="themis__help__lora__adapter_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/applications/themis_help_lora.cpp</label>
+        <link refid="themis__help__lora_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/llm/lora_framework/adapter_sync_manager.cpp</label>
+        <link refid="adapter__sync__manager_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/llm/lora_framework/lora_checkpoint_manager.cpp</label>
+        <link refid="lora__checkpoint__manager_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/llm/lora_framework/lora_orchestrator.cpp</label>
+        <link refid="lora__orchestrator_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/llm/lora_framework/lora_storage_service.cpp</label>
+        <link refid="lora__storage__service_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/llm/lora_framework/lora_storage_service_themisdb.cpp</label>
+        <link refid="lora__storage__service__themisdb_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/llm/lora_framework/lora_training_service.cpp</label>
+        <link refid="lora__training__service_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" prot="public">themis::llm::lora::AdapterWeights</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service" prot="public">themis::llm::lora::LoRAStorageService</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config" prot="public">themis::llm::lora::LoRAStorageService::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__config_8h" kindref="compound">lora_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__graph_8h" kindref="compound">lora_graph.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/blob_storage_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/security_signature_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/encryption.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1ad2e4d71a1d55870f49cd0fd8a6df144c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1ad2e4d71a1d55870f49cd0fd8a6df144c" kindref="member">~AdapterWeights</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1ac29c397929b4f4335ce0aa6384f1ec76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1ac29c397929b4f4335ce0aa6384f1ec76" kindref="member">data</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Binary<sp/>weight<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a6c7bc926ffcfc0160fe10ee95090bdb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a6c7bc926ffcfc0160fe10ee95090bdb1" kindref="member">hyperparameters</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a7597c57603a7fe63dfb1af75d74aa235" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a7597c57603a7fe63dfb1af75d74aa235" kindref="member">size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a8b4eff964642f865c3cec67463526a18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a8b4eff964642f865c3cec67463526a18" kindref="member">format</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;safetensors&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>&quot;safetensors&quot;,<sp/>&quot;pickle&quot;,<sp/>&quot;gguf&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a18aaff7cf6d0e3cc6f949fd58f74485e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a18aaff7cf6d0e3cc6f949fd58f74485e" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;size_bytes&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a7597c57603a7fe63dfb1af75d74aa235" kindref="member">size_bytes</ref>},</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;format&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a8b4eff964642f865c3cec67463526a18" kindref="member">format</ref>},</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hyperparameters&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a6c7bc926ffcfc0160fe10ee95090bdb1" kindref="member">hyperparameters</ref>.toJSON()}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1adb11c77e7a33ec07fcf8e000389024ad" kindref="member">LoRAStorageService</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0d" kindref="member">Backend</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0da9529b0149540f485ca93da16263be09b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0da9529b0149540f485ca93da16263be09b" kindref="member">ThemisDB</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>in<sp/>ThemisDB<sp/>collection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0dae2d63d195b2bce9c8d5bf797a268bcec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0dae2d63d195b2bce9c8d5bf797a268bcec" kindref="member">FileSystem</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>in<sp/>file<sp/>system</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0dae2ab7c65b21ed8cc1c3b642b5e36429e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0dae2ab7c65b21ed8cc1c3b642b5e36429e" kindref="member">S3</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>in<sp/>S3/object<sp/>storage<sp/>(future)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aa2a2f26eb5a312f99a3f30faeb765319" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0d" kindref="member">Backend</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aa2a2f26eb5a312f99a3f30faeb765319" kindref="member">backend</ref><sp/>=<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0da9529b0149540f485ca93da16263be09b" kindref="member">Backend::ThemisDB</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>ThemisDB<sp/>as<sp/>primary<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aa5355ca9130b0c8b145e6c13e0ac9b9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aa5355ca9130b0c8b145e6c13e0ac9b9a" kindref="member">collection_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lora_adapters&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a31021ab8252a084d0d9d545114e89f6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a31021ab8252a084d0d9d545114e89f6c" kindref="member">filesystem_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/lora_adapters&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8db306fd9231a8dcad38c324aece6cbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8db306fd9231a8dcad38c324aece6cbd" kindref="member">enable_versioning</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a3af30ca182b15a6d305c8f3406403b7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a3af30ca182b15a6d305c8f3406403b7b" kindref="member">max_versions</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a9a6592c69fb8c35d57e26a99bd1c10cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a9a6592c69fb8c35d57e26a99bd1c10cc" kindref="member">enable_compression</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a68a1aaf23f8bf8ffdf7a632eccc248b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a68a1aaf23f8bf8ffdf7a632eccc248b0" kindref="member">db</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>RocksDB<sp/>instance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6525cb580ee457c1f654df01ed393987" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;storage::BlobStorageManager&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6525cb580ee457c1f654df01ed393987" kindref="member">blob_manager</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Blob<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aaed0c62b0c865ef229bb1054d9c94b5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;storage::SecuritySignatureManager&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aaed0c62b0c865ef229bb1054d9c94b5f" kindref="member">signature_manager</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Signatures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Security<sp/>features</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aefb1d317718bdc774145f86bdcb1b32f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aefb1d317718bdc774145f86bdcb1b32f" kindref="member">enable_encryption</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Encrypt<sp/>adapter<sp/>weights</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae54f4f62d2a7d2f3eff2746aba3922d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae54f4f62d2a7d2f3eff2746aba3922d5" kindref="member">encryption_key_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lora_adapters&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>ID<sp/>for<sp/>encryption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae6fbeb80123384ac1ff2d1ea53cdc040" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae6fbeb80123384ac1ff2d1ea53cdc040" kindref="member">enable_signatures</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Digital<sp/>signatures<sp/>for<sp/>integrity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HSM<sp/>configuration<sp/>(Hardware<sp/>Security<sp/>Module)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6b21e442cc2bd3ca16d2b3aa0a38b4e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6b21e442cc2bd3ca16d2b3aa0a38b4e6" kindref="member">use_hsm_for_encryption</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>HSM-backed<sp/>encryption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8b8d42d67173934b6c8bb2e0722a1d39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8b8d42d67173934b6c8bb2e0722a1d39" kindref="member">hsm_library_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PKCS#11<sp/>library<sp/>path<sp/>(e.g.,<sp/>&quot;/usr/lib/softhsm/libsofthsm2.so&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ab532c7b6c8c67fde9bd7553940bd0f01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ab532c7b6c8c67fde9bd7553940bd0f01" kindref="member">hsm_slot_id</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HSM<sp/>slot<sp/>ID<sp/>(default:<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a4becb4fb78d82d77cf37c8be3dff8518" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a4becb4fb78d82d77cf37c8be3dff8518" kindref="member">hsm_pin</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HSM<sp/>user<sp/>PIN<sp/>(keep<sp/>secure!)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a7520a5953696855084f5e396b709be55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a7520a5953696855084f5e396b709be55" kindref="member">hsm_key_label</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lora-adapter-kek&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>HSM<sp/>key<sp/>label<sp/>for<sp/>KEK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aacb6fd022c13bcea01d925b876ca1d07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aacb6fd022c13bcea01d925b876ca1d07" kindref="member">hsm_session_pool_size</ref><sp/>=<sp/>4;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parallel<sp/>sessions<sp/>for<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PKI<sp/>configuration<sp/>for<sp/>certificate-based<sp/>encryption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a3366dd7360a49a07cdf5536589e64732" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a3366dd7360a49a07cdf5536589e64732" kindref="member">use_pki_for_encryption</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>PKI-based<sp/>encryption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8c95b3850cbf22f8ec51d6f5432f4ce6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8c95b3850cbf22f8ec51d6f5432f4ce6" kindref="member">pki_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Certificate<sp/>file<sp/>path<sp/>(PEM<sp/>format)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1abcb4006e34f804989c34dc01a3357c8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1abcb4006e34f804989c34dc01a3357c8b" kindref="member">pki_private_key_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Private<sp/>key<sp/>file<sp/>path<sp/>(PEM<sp/>format)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a0d1f9f3fb63461c969df1728d0a1dffc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a0d1f9f3fb63461c969df1728d0a1dffc" kindref="member">pki_ca_bundle_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CA<sp/>bundle<sp/>for<sp/>verification<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ac8a93948c62bc7bccb8cf26bde6abd16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ac8a93948c62bc7bccb8cf26bde6abd16" kindref="member">pki_verify_certificate</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>certificate<sp/>validity<sp/>(default:<sp/>true)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vault<sp/>Key<sp/>Provider<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a9f7c85cf68c6f94e9fb1d136f8792726" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a9f7c85cf68c6f94e9fb1d136f8792726" kindref="member">use_vault_for_encryption</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>Vault<sp/>encryption<sp/>(default:<sp/>false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a102e604ce62bf61bcb04303d746abfba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a102e604ce62bf61bcb04303d746abfba" kindref="member">vault_addr</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vault<sp/>server<sp/>address</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a63609bf72fefd4724ea752b5f445f6c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a63609bf72fefd4724ea752b5f445f6c9" kindref="member">vault_token</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vault<sp/>authentication<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8a797240a5dd40573a7dd46694de0680" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a8a797240a5dd40573a7dd46694de0680" kindref="member">vault_kv_mount</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KV<sp/>mount<sp/>path<sp/>(default:<sp/>&quot;themis&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID/Redundancy<sp/>(automatically<sp/>detected<sp/>from<sp/>environment)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a52ee4c547d254d1673b93a00cb5e3431" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a52ee4c547d254d1673b93a00cb5e3431" kindref="member">auto_detect_raid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-detect<sp/>RAID<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quorum-based<sp/>consistency<sp/>(for<sp/>distributed<sp/>LoRA<sp/>adapters)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae8ede3cc3a5d98271732cab0e1d4072b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae8ede3cc3a5d98271732cab0e1d4072b" kindref="member">enable_quorum_writes</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>quorum<sp/>enforcement<sp/>for<sp/>writes<sp/>(default:<sp/>OFF)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6a2a41a51af20de85a3f3ab32a5590c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a6a2a41a51af20de85a3f3ab32a5590c2" kindref="member">enable_partition_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>network<sp/>partition<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a08498c02da89b5d5ad71e8cbc1a2e04c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a08498c02da89b5d5ad71e8cbc1a2e04c" kindref="member">write_quorum_size</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>replicas<sp/>for<sp/>write<sp/>quorum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ab4c3aa94b0f67f2274168fa5ad989108" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ab4c3aa94b0f67f2274168fa5ad989108" kindref="member">read_quorum_size</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>replicas<sp/>for<sp/>read<sp/>quorum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1accb8e93d0bb6ef8babd4c45069aafcf6" kindref="member">LoRAStorageService</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1accb8e93d0bb6ef8babd4c45069aafcf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1accb8e93d0bb6ef8babd4c45069aafcf6" kindref="member">LoRAStorageService</ref>();</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a97e295fdaa8e0352ae65cfd9218f5c20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a97e295fdaa8e0352ae65cfd9218f5c20" kindref="member">~LoRAStorageService</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a27370493c6246e2eaa7233163571ad70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a27370493c6246e2eaa7233163571ad70" kindref="member">LoRAStorageService</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1adb11c77e7a33ec07fcf8e000389024ad" kindref="member">LoRAStorageService</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1ac5cf7ba3c20b70daeab3e0a6c120d568" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1adb11c77e7a33ec07fcf8e000389024ad" kindref="member">LoRAStorageService</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1ac5cf7ba3c20b70daeab3e0a6c120d568" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1adb11c77e7a33ec07fcf8e000389024ad" kindref="member">LoRAStorageService</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a3e5f4f66f1dc1c151b0e2257c2f335b6" kindref="member">saveAdapter</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref>&amp;<sp/>weights,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>metadata</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AdapterWeights&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a016b24180777a815525751d0e554b858" kindref="member">loadAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AdapterMetadata&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a5dd253a99fd207572074403857985574" kindref="member">loadMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a8b6eb2c1d542fefd507647a10ed6a4b3" kindref="member">deleteAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aee126482fb24967f2df05870498d125f" kindref="member">exists</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a993a5583e1d1079407ac693f94c64769" kindref="member">listAdapters</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a5bfc6d7547cc8f757aa6a84009435a57" kindref="member">createVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1ae3164448a287e78336249936acb8db59" kindref="member">rollbackToVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a70dd50ef2d189af3a3af5920a92b724e" kindref="member">listVersions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1af24e4c94b799bbf0a2c8e144c293e0b5" kindref="member">updateMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>metadata);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a4e18e2a30a3d73c0a2bcadcf640a7ecf" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graph<sp/>&amp;<sp/>Vector<sp/>Extensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a698c415ad1c60a2ac89690e65defc9fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a698c415ad1c60a2ac89690e65defc9fe" kindref="member">addGraphEdge</ref>(</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from_id,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to_id,</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a44aa4b6d37e81f2c3cb41af212ab42f7" kindref="member">LoRAEdgeType</ref><sp/>edge_type,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>weight<sp/>=<sp/>1.0f</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1afbf6bf6223efe1bd1710a97b09d39ff9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LoRAGraphEdge&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1afbf6bf6223efe1bd1710a97b09d39ff9" kindref="member">getGraphEdges</ref>(</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>direction<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;both&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1af63e0be329df151b82cd08944e441e6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path" kindref="compound">LoRAGraphPath</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1af63e0be329df151b82cd08944e441e6c" kindref="member">getLineagePath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a7a50300b412fe19bc45e0dbd23fe4794" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a7a50300b412fe19bc45e0dbd23fe4794" kindref="member">storeEmbedding</ref>(</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding" kindref="compound">LoRAVectorEmbedding</ref>&amp;<sp/>embedding</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1ad32952d831b902288f65a53b528d9fc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LoRAVectorEmbedding&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1ad32952d831b902288f65a53b528d9fc1" kindref="member">getEmbeddings</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1ae9b4743dd091a479acbe085faf27e70b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>float&gt;&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1ae9b4743dd091a479acbe085faf27e70b" kindref="member">findSimilarAdapters</ref>(</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k<sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>threshold<sp/>=<sp/>0.7f</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a6432379901acded6ab2daf533c53021b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AdapterInfoEnhanced&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1a6432379901acded6ab2daf533c53021b" kindref="member">getEnhancedInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/lora_storage_service.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="artifact__invalidation_8cc" kind="file" language="C++">
+    <compoundname>artifact_invalidation.cc</compoundname>
+    <includes refid="artifact__invalidation_8h" local="yes">../include/artifact_invalidation.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>../include/artifact_invalidation.h</label>
+        <link refid="artifact__invalidation_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>artifact_manifest.h</label>
+        <link refid="src_2distributed__tensor_2include_2artifact__manifest_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/distributed_tensor/src/artifact_invalidation.cc</label>
+        <link refid="artifact__invalidation_8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Implementation of artifact invalidation manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>ThemisDB EPIC 3 Implementation Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-07-03 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="artifact__invalidation_8h" kindref="compound">../include/artifact_invalidation.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a86c8e25d6b82e11e2e09d685363d8b94" kindref="member">ArtifactInvalidationManager::shouldInvalidateForStaleness</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>now_unix_sec)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>manifest.isStale(now_unix_sec);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1afe789f4877561a4ecd56ba709f63a16b" kindref="member">ArtifactInvalidationManager::shouldInvalidateForCorruption</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>manifest.isCorrupted();</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1aa0d4c4644d2aee6f8f6ae2f03aae97c9" kindref="member">ArtifactInvalidationManager::shouldInvalidateForRankBreach</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>manifest.rank_status<sp/>&gt;<sp/>manifest.rank_cap<sp/>&amp;&amp;<sp/>manifest.rank_cap<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1ae14d9594ce7d35623c7125c8f05a0dc5" kindref="member">ArtifactInvalidationManager::shouldInvalidateForResidual</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>residual_threshold)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>manifest.residual<sp/>&gt;<sp/>residual_threshold;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1ac7f79160e1243e4bc6a563186976a733" kindref="member">ArtifactInvalidationManager::markStale</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/>ArtifactManifest<sp/>updated<sp/>=<sp/>manifest;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/>updated.<ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a8974e579b9d256f4a3d6dc2aab3b5cf4" kindref="member">lifecycle_state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1a4d855a061b3066dc14a3b12ed26b5456" kindref="member">LifecycleState::STALE</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>updated;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a44704942b45f88cecd42e609486fa5a1" kindref="member">ArtifactInvalidationManager::invalidate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18b" kindref="member">InvalidationReason</ref><sp/>reason)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/>ArtifactManifest<sp/>updated<sp/>=<sp/>manifest;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/>updated.<ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a8974e579b9d256f4a3d6dc2aab3b5cf4" kindref="member">lifecycle_state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1a2b4710604f043a2056edb0c8d2462e39" kindref="member">LifecycleState::INVALIDATED</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/>updated.invalidation_reason<sp/>=<sp/>reason;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>updated;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a3e3487ba5c257ff44026ead073b6a5d3" kindref="member">ArtifactInvalidationManager::transitionToRebuilding</ref>(</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55f" kindref="member">UpdateMode</ref><sp/>mode,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>now_unix_sec)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/>ArtifactManifest<sp/>updated<sp/>=<sp/>manifest;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/>updated.<ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a8974e579b9d256f4a3d6dc2aab3b5cf4" kindref="member">lifecycle_state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1a509579b889462e42f8ff497733516749" kindref="member">LifecycleState::REBUILDING</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/>updated.update_mode<sp/>=<sp/>mode;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/>updated.updated_at_unix_sec<sp/>=<sp/>now_unix_sec;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>updated;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a2f4a3bbf5342075015c6f3d858862043" kindref="member">ArtifactInvalidationManager::transitionToReadyAfterRebuild</ref>(</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aef69197fe9938d007b491d40ec49995e" kindref="member">RebuildState</ref><sp/>rebuild_state,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>source_seq_start,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>source_seq_end,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>now_unix_sec)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/>ArtifactManifest<sp/>updated<sp/>=<sp/>manifest;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>updated.<ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a8974e579b9d256f4a3d6dc2aab3b5cf4" kindref="member">lifecycle_state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1a2baa69eafc7204f3bd8648eba580c489" kindref="member">LifecycleState::READY</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/>updated.rebuild_state<sp/>=<sp/>rebuild_state;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/>updated.source_seq_start<sp/>=<sp/>source_seq_start;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/>updated.source_seq_end<sp/>=<sp/>source_seq_end;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/>updated.delta_lag<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/>updated.artifact_age_ms<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>updated.invalidation_reason<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18ba696b031073e74bf2cb98e5ef201d4aa3" kindref="member">InvalidationReason::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/>updated.last_rebuild_at_unix_sec<sp/>=<sp/>now_unix_sec;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/>updated.last_verified_unix_sec<sp/>=<sp/>now_unix_sec;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/>updated.updated_at_unix_sec<sp/>=<sp/>now_unix_sec;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>updated;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a1d5428c980e146ff639ccc46fbd8a847" kindref="member">ArtifactInvalidationManager::transitionToFailed</ref>(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18b" kindref="member">InvalidationReason</ref><sp/>reason,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>now_unix_sec)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/>ArtifactManifest<sp/>updated<sp/>=<sp/>manifest;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/>updated.<ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest_1a8974e579b9d256f4a3d6dc2aab3b5cf4" kindref="member">lifecycle_state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1ab9e14d9b2886bcff408b85aefa780419" kindref="member">LifecycleState::FAILED</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/>updated.invalidation_reason<sp/>=<sp/>reason;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>updated.updated_at_unix_sec<sp/>=<sp/>now_unix_sec;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>updated;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1a24dd011b3b9a4e9ac96f0a1e367a0c71" kindref="member">ArtifactInvalidationManager::shouldRejectForPlanner</ref>(</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>now_unix_sec,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>max_delta_lag,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max_residual)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1distributed__tensor_1_1_artifact_lifecycle_policy_1a56788ed3c9375adab112b19e5757d147" kindref="member">ArtifactLifecyclePolicy::isUsableForPlanning</ref>(manifest.lifecycle_state))<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(manifest.isStale(now_unix_sec))<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(max_delta_lag<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>manifest.delta_lag<sp/>&gt;<sp/>max_delta_lag)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(max_residual<sp/>&gt;=<sp/>0.0<sp/>&amp;&amp;<sp/>manifest.residual<sp/>&gt;<sp/>max_residual)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager_1ae9489ed42fcc2c70a6fa8e3add5cc4cc" kindref="member">ArtifactInvalidationManager::getCascadeInvalidationTargets</ref>(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_artifact_id)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Placeholder<sp/>for<sp/>cascade<sp/>logic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Real<sp/>implementation<sp/>would<sp/>query<sp/>artifact<sp/>dependency<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/>targets;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>targets;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/distributed_tensor/src/artifact_invalidation.cc"/>
+  </compounddef>
+</doxygen>

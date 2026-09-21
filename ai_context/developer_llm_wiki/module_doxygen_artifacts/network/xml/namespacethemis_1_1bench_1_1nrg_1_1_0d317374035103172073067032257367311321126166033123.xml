@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1nrg_1_1_0d317374035103172073067032257367311321126166033123" kind="namespace" language="C++">
+    <compoundname>themis::bench::nrg::@317374035103172073067032257367311321126166033123</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/network/bench_network_release_gates.cpp" line="67" column="1"/>
+  </compounddef>
+</doxygen>

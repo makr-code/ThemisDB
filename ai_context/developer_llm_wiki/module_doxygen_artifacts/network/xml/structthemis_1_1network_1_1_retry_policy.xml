@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_retry_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::RetryPolicy</compoundname>
+    <includes refid="wire__protocol__server_8h" local="no">wire_protocol_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_retry_policy_1a1632c5d157c484e76f91907a72faba03" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::RetryPolicy::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::network::RetryPolicy::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum number of retry attempts (0 = no retries; first attempt is not counted). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="129" column="14" bodyfile="include/network/wire_protocol_server.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_retry_policy_1af8166bb573b47da9c1419ec2d28f8293" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::RetryPolicy::base_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>base_delay_ms</name>
+        <qualifiedname>themis::network::RetryPolicy::base_delay_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Base delay before the first retry, in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="131" column="14" bodyfile="include/network/wire_protocol_server.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_retry_policy_1a32c481f15d4a90075ec68a54a5d6bb86" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::RetryPolicy::jitter_ms</definition>
+        <argsstring></argsstring>
+        <name>jitter_ms</name>
+        <qualifiedname>themis::network::RetryPolicy::jitter_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Upper bound on random jitter added to each back-off delay, in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="133" column="14" bodyfile="include/network/wire_protocol_server.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_retry_policy_1a4a728b309e4e9808b35e15166efa3b19" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::RetryPolicy::max_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>max_delay_ms</name>
+        <qualifiedname>themis::network::RetryPolicy::max_delay_ms</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+<para>Absolute cap on any single back-off delay, in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="135" column="14" bodyfile="include/network/wire_protocol_server.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_retry_policy_1a831cd7b89db8f0cff3e733efdd23eaa4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::network::RetryPolicy::computeDelay</definition>
+        <argsstring>(uint32_t attempt) const noexcept</argsstring>
+        <name>computeDelay</name>
+        <qualifiedname>themis::network::RetryPolicy::computeDelay</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>attempt</declname>
+        </param>
+        <briefdescription>
+<para>Compute the back-off delay for the given zero-indexed attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses <computeroutput>std::chrono::steady_clock</computeroutput> epoch (cast to nanoseconds) as the random seed when the thread-local PRNG is first accessed so that the jitter is not deterministic across processes. The function never sleeps; callers are responsible for applying the returned duration (e.g. via <computeroutput>std::this_thread::sleep_for</computeroutput>).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>attempt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-based index: 0 = delay before the 1st retry, 1 = before the 2nd, and so on. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Back-off duration capped at <computeroutput>max_delay_ms</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="150" column="32" bodyfile="src/network/retry_policy.cpp" bodystart="25" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_retry_policy_1a99aec5676d492103c525a7b56b91eef9" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::RetryPolicy::isTransient</definition>
+        <argsstring>(int error_code) noexcept</argsstring>
+        <name>isTransient</name>
+        <qualifiedname>themis::network::RetryPolicy::isTransient</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Return <computeroutput>true</computeroutput> when <computeroutput>error_code</computeroutput> represents a transient error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recognised codes: <computeroutput>ECONNRESET</computeroutput>, <computeroutput>ETIMEDOUT</computeroutput>, <computeroutput>EAGAIN</computeroutput>, <computeroutput>EWOULDBLOCK</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>POSIX errno value. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="159" column="18" bodyfile="src/network/retry_policy.cpp" bodystart="53" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exponential back-off retry policy for transient wire-protocol faults. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Delay formula (all values in milliseconds): <programlisting><codeline><highlight class="normal">delay(n)<sp/>=<sp/>min(<sp/><ref refid="structthemis_1_1network_1_1_retry_policy_1af8166bb573b47da9c1419ec2d28f8293" kindref="member">base_delay_ms</ref><sp/>*<sp/>2^n<sp/>+<sp/>uniform(0,<sp/><ref refid="structthemis_1_1network_1_1_retry_policy_1a32c481f15d4a90075ec68a54a5d6bb86" kindref="member">jitter_ms</ref>),<sp/><ref refid="structthemis_1_1network_1_1_retry_policy_1a4a728b309e4e9808b35e15166efa3b19" kindref="member">max_delay_ms</ref><sp/>)</highlight></codeline>
+</programlisting></para>
+<para>Retryable error codes (POSIX):<itemizedlist>
+<listitem><para>ECONNRESET — connection reset by peer</para>
+</listitem><listitem><para>ETIMEDOUT — operation timed out</para>
+</listitem><listitem><para>EAGAIN / EWOULDBLOCK — transient resource unavailability</para>
+</listitem></itemizedlist>
+</para>
+<para>The policy object is value-copyable and thread-safe for read access; <computeroutput><ref refid="structthemis_1_1network_1_1_retry_policy_1a831cd7b89db8f0cff3e733efdd23eaa4" kindref="member">computeDelay()</ref></computeroutput> uses a thread-local PRNG so no external synchronisation is required. </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_server.h" line="127" column="1" bodyfile="include/network/wire_protocol_server.h" bodystart="127" bodyend="160"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_retry_policy_1af8166bb573b47da9c1419ec2d28f8293" prot="public" virt="non-virtual"><scope>themis::network::RetryPolicy</scope><name>base_delay_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_retry_policy_1a831cd7b89db8f0cff3e733efdd23eaa4" prot="public" virt="non-virtual"><scope>themis::network::RetryPolicy</scope><name>computeDelay</name></member>
+      <member refid="structthemis_1_1network_1_1_retry_policy_1a99aec5676d492103c525a7b56b91eef9" prot="public" virt="non-virtual"><scope>themis::network::RetryPolicy</scope><name>isTransient</name></member>
+      <member refid="structthemis_1_1network_1_1_retry_policy_1a32c481f15d4a90075ec68a54a5d6bb86" prot="public" virt="non-virtual"><scope>themis::network::RetryPolicy</scope><name>jitter_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_retry_policy_1a4a728b309e4e9808b35e15166efa3b19" prot="public" virt="non-virtual"><scope>themis::network::RetryPolicy</scope><name>max_delay_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_retry_policy_1a1632c5d157c484e76f91907a72faba03" prot="public" virt="non-virtual"><scope>themis::network::RetryPolicy</scope><name>max_retries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

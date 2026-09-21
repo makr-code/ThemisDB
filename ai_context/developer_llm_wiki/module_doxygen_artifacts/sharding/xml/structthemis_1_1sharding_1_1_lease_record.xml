@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_lease_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LeaseRecord</compoundname>
+    <includes refid="epoch__fencing_8h" local="no">epoch_fencing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_record_1a0ad9c42044bdc10d28d8fd66a84344e1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ac67492a28de0c53322984f526430ec5a" kindref="member">LeaseKey</ref></type>
+        <definition>LeaseKey themis::sharding::LeaseRecord::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::sharding::LeaseRecord::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="126" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_record_1a77c908ad0ec753c2125d66b4f2302eb4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref></type>
+        <definition>NodeId themis::sharding::LeaseRecord::holder</definition>
+        <argsstring></argsstring>
+        <name>holder</name>
+        <qualifiedname>themis::sharding::LeaseRecord::holder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="127" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_record_1ad9825471afa82944e310ee751d28f68e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ad5d3d2b12301f99467d09da6704fb04c" kindref="member">EpochNumber</ref></type>
+        <definition>EpochNumber themis::sharding::LeaseRecord::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>themis::sharding::LeaseRecord::epoch</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="128" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_record_1af619847948578749a5ab870f61e702fe" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::LeaseRecord::acquired_at</definition>
+        <argsstring></argsstring>
+        <name>acquired_at</name>
+        <qualifiedname>themis::sharding::LeaseRecord::acquired_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="129" column="43" bodyfile="include/sharding/epoch_fencing.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_record_1a0bb02e47933d0b8e6f8f45506c54dee9" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::LeaseRecord::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::sharding::LeaseRecord::expires_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="130" column="43" bodyfile="include/sharding/epoch_fencing.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_record_1a2869dfcf13bf296522d503df051a95a3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LeaseRecord::generation</definition>
+        <argsstring></argsstring>
+        <name>generation</name>
+        <qualifiedname>themis::sharding::LeaseRecord::generation</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Incremented on each acquisition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="131" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_record_1a68eea2264e5fd81e615906e9ec302818" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ae7dbd98fca358a63e17d72e4fb7ca28e" kindref="member">LeaseState</ref></type>
+        <definition>LeaseState themis::sharding::LeaseRecord::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::sharding::LeaseRecord::state</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1sharding_1ae7dbd98fca358a63e17d72e4fb7ca28ea1588118736b5ecdb1ac20c16428d8ea7" kindref="member">LeaseState::AVAILABLE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="132" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_lease_record_1a90f2e8cc6cd8247169504ffe79232afa" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::LeaseRecord::isActive</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isActive</name>
+        <qualifiedname>themis::sharding::LeaseRecord::isActive</qualifiedname>
+        <briefdescription>
+<para>True if the lease is currently held and has not expired. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="135" column="11" bodyfile="include/sharding/epoch_fencing.h" bodystart="135" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_lease_record_1aefd0e2a4022b797a36560d0e0ad922b8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::LeaseRecord::remainingTtl</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>remainingTtl</name>
+        <qualifiedname>themis::sharding::LeaseRecord::remainingTtl</qualifiedname>
+        <briefdescription>
+<para>Remaining TTL; negative means already expired. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="141" column="32" bodyfile="include/sharding/epoch_fencing.h" bodystart="141" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory representation of a lease. Serialised to WAL on every acquire / renew / release for crash safety. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/epoch_fencing.h" line="125" column="1" bodyfile="include/sharding/epoch_fencing.h" bodystart="125" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_lease_record_1af619847948578749a5ab870f61e702fe" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseRecord</scope><name>acquired_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_record_1ad9825471afa82944e310ee751d28f68e" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseRecord</scope><name>epoch</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_record_1a0bb02e47933d0b8e6f8f45506c54dee9" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseRecord</scope><name>expires_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_record_1a2869dfcf13bf296522d503df051a95a3" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseRecord</scope><name>generation</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_record_1a77c908ad0ec753c2125d66b4f2302eb4" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseRecord</scope><name>holder</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_record_1a90f2e8cc6cd8247169504ffe79232afa" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseRecord</scope><name>isActive</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_record_1a0ad9c42044bdc10d28d8fd66a84344e1" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseRecord</scope><name>key</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_record_1aefd0e2a4022b797a36560d0e0ad922b8" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseRecord</scope><name>remainingTtl</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_record_1a68eea2264e5fd81e615906e9ec302818" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseRecord</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

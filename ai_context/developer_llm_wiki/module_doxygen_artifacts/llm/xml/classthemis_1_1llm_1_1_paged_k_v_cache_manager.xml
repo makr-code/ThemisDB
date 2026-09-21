@@ -1,0 +1,1045 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_paged_k_v_cache_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::PagedKVCacheManager</compoundname>
+    <includes refid="paged__kv__cache__manager_8h" local="no">paged_kv_cache_manager.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_config" prot="public">themis::llm::PagedKVCacheManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block" prot="public">themis::llm::PagedKVCacheManager::Block</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_table" prot="public">themis::llm::PagedKVCacheManager::BlockTable</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats" prot="public">themis::llm::PagedKVCacheManager::MemoryStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics" prot="public">themis::llm::PagedKVCacheManager::WorkloadMetrics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info" prot="public">themis::llm::PagedKVCacheManager::BlockInfo</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2cbf87858204cd23b9d69663ccd5e55e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CacheType</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::CacheType</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2cbf87858204cd23b9d69663ccd5e55ea94e94133f4bdc1794c6b647b8ea134d0" prot="public">
+          <name>STANDARD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2cbf87858204cd23b9d69663ccd5e55eafa8cafe7eb7448d06c0b3365e406c0b7" prot="public">
+          <name>PREFIX_OPTIMIZED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2cbf87858204cd23b9d69663ccd5e55eab8f87bd0ae829f0fa0fcaa1a0a2bf91e" prot="public">
+          <name>STREAMING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="93" column="5" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="93" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a602c66810a1fb1050dc3f944450d279c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WorkloadPattern</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::WorkloadPattern</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a602c66810a1fb1050dc3f944450d279ca696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a602c66810a1fb1050dc3f944450d279ca0341c14ddf95d9587580640c12268664" prot="public">
+          <name>HIGH_PREFIX_REUSE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a602c66810a1fb1050dc3f944450d279cac5442500d9ecdbc771e03704bd188641" prot="public">
+          <name>LOW_PREFIX_REUSE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a602c66810a1fb1050dc3f944450d279ca516a2342953891f249b58ff1c3943723" prot="public">
+          <name>MIXED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="99" column="5" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="99" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a9467ca2af883b4be5c62a84aee013a07" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::BLOCK_SIZE</definition>
+        <argsstring></argsstring>
+        <name>BLOCK_SIZE</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::BLOCK_SIZE</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="26" column="29" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1ad810344e72ae1a21fb1f5c4aea60209c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::PagedKVCacheManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="231" column="12" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a586dec770f0d620f5db4ae12d2f2c086" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block" kindref="compound">Block</ref> &gt;</type>
+        <definition>std::vector&lt;Block&gt; themis::llm::PagedKVCacheManager::blocks_</definition>
+        <argsstring></argsstring>
+        <name>blocks_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::blocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="234" column="17" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a265da258cbe92602fcd2be06d99c6995" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::PagedKVCacheManager::free_block_ids_</definition>
+        <argsstring></argsstring>
+        <name>free_block_ids_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::free_block_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="235" column="17" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1ae5c13ede9af230a34997fed677703177" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, <ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_table" kindref="compound">BlockTable</ref> &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, BlockTable&gt; themis::llm::PagedKVCacheManager::sequence_tables_</definition>
+        <argsstring></argsstring>
+        <name>sequence_tables_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::sequence_tables_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="238" column="24" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a6e1afc6108fc04efa17d4f6b094d191e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, uint64_t&gt; themis::llm::PagedKVCacheManager::parent_map_</definition>
+        <argsstring></argsstring>
+        <name>parent_map_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::parent_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="241" column="24" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a7da2aaf86655b4bb8aa8e4978742938f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::PagedKVCacheManager::total_blocks_allocated_</definition>
+        <argsstring></argsstring>
+        <name>total_blocks_allocated_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::total_blocks_allocated_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="244" column="17" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1ae22f5ea2cc08c9560925870f53a21ed6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::PagedKVCacheManager::total_blocks_shared_</definition>
+        <argsstring></argsstring>
+        <name>total_blocks_shared_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::total_blocks_shared_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="245" column="17" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="245" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1aaa57143075f0154c646bd9e046802066" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2cbf87858204cd23b9d69663ccd5e55e" kindref="member">CacheType</ref></type>
+        <definition>CacheType themis::llm::PagedKVCacheManager::current_cache_type_</definition>
+        <argsstring></argsstring>
+        <name>current_cache_type_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::current_cache_type_</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2cbf87858204cd23b9d69663ccd5e55ea94e94133f4bdc1794c6b647b8ea134d0" kindref="member">CacheType::STANDARD</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="248" column="15" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a72a8f765852e6f88dfedb1c024f3d4a5" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::PagedKVCacheManager::auto_adaptation_enabled_</definition>
+        <argsstring></argsstring>
+        <name>auto_adaptation_enabled_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::auto_adaptation_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="249" column="10" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="249" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a6648e92fde2b52ae244b67b1b72cbd0e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::adaptation_check_interval_</definition>
+        <argsstring></argsstring>
+        <name>adaptation_check_interval_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::adaptation_check_interval_</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="250" column="12" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="250" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a841a8129c9d94bccba75934e83cf4c5f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::sequences_since_last_check_</definition>
+        <argsstring></argsstring>
+        <name>sequences_since_last_check_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::sequences_since_last_check_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="251" column="12" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a561a3cffb6c57b981a890b2251a7f308" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics" kindref="compound">WorkloadMetrics</ref></type>
+        <definition>WorkloadMetrics themis::llm::PagedKVCacheManager::workload_metrics_</definition>
+        <argsstring></argsstring>
+        <name>workload_metrics_</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::workload_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="252" column="21" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a32a168280330ffd023e172bc2de370d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PagedKVCacheManager::PagedKVCacheManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>PagedKVCacheManager</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::PagedKVCacheManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="114" column="5" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="21" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a4424298e2b80fa369099e9e79d3bbff5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PagedKVCacheManager::~PagedKVCacheManager</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~PagedKVCacheManager</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::~PagedKVCacheManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="115" column="5" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="30" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1abb1f0dd1502a6c67db69f27eb7d1fe53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::llm::PagedKVCacheManager::allocateBlocks</definition>
+        <argsstring>(size_t num_blocks)</argsstring>
+        <name>allocateBlocks</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::allocateBlocks</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_blocks</declname>
+        </param>
+        <briefdescription>
+<para>Allocate Blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), empty(), getFreeBlock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="122" column="17" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="62" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a9c0ea369b274a89398fcfcafe78bb506" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedKVCacheManager::freeBlocks</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;block_ids)</argsstring>
+        <name>freeBlocks</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::freeBlocks</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>block_ids</declname>
+        </param>
+        <briefdescription>
+<para>Free Blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">block_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), releaseBlock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="128" column="10" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="83" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1ad6ebe172d2a0a9bd516ca4d492a74634" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PagedKVCacheManager::enablePrefixCaching</definition>
+        <argsstring>(uint64_t seq_id, uint64_t parent_seq_id, size_t prefix_length)</argsstring>
+        <name>enablePrefixCaching</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::enablePrefixCaching</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>parent_seq_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>prefix_length</declname>
+        </param>
+        <briefdescription>
+<para>Enable Prefix Caching. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), std::min(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="137" column="10" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="99" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a507fbaecf7cf4e4c558b51f53f9cef21" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_table" kindref="compound">BlockTable</ref></type>
+        <definition>PagedKVCacheManager::BlockTable themis::llm::PagedKVCacheManager::getBlockTable</definition>
+        <argsstring>(uint64_t seq_id) const</argsstring>
+        <name>getBlockTable</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::getBlockTable</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq_id</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block" kindref="compound">Block</ref> Table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="148" column="16" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="140" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1aedec7054c8b0a5ae8fab0310fbc94a67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_table" kindref="compound">BlockTable</ref></type>
+        <definition>PagedKVCacheManager::BlockTable themis::llm::PagedKVCacheManager::addSequence</definition>
+        <argsstring>(uint64_t seq_id, size_t num_tokens)</argsstring>
+        <name>addSequence</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::addSequence</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Add Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="156" column="16" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="154" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a48c171c9a1f92224c0c779d9f5052568" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedKVCacheManager::removeSequence</definition>
+        <argsstring>(uint64_t seq_id)</argsstring>
+        <name>removeSequence</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::removeSequence</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the seq.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), <ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a9c0ea369b274a89398fcfcafe78bb506" kindref="member">freeBlocks()</ref>, erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="162" column="10" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="190" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2e3490fa9442351b42609b0c5d3e0a93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats" kindref="compound">MemoryStats</ref></type>
+        <definition>PagedKVCacheManager::MemoryStats themis::llm::PagedKVCacheManager::getMemoryStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::getMemoryStats</qualifiedname>
+        <briefdescription>
+<para>Get Memory Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="168" column="17" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="202" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1aa8eb46021973d7ba4521c0b1ae08f330" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PagedKVCacheManager::isBlockAvailable</definition>
+        <argsstring>(int block_id) const</argsstring>
+        <name>isBlockAvailable</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::isBlockAvailable</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Is <ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block" kindref="compound">Block</ref> Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="175" column="10" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="239" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a0e5e682ace4c362a86ae7cae7b669d48" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block_info" kindref="compound">BlockInfo</ref></type>
+        <definition>PagedKVCacheManager::BlockInfo themis::llm::PagedKVCacheManager::getBlockInfo</definition>
+        <argsstring>(int block_id) const</argsstring>
+        <name>getBlockInfo</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::getBlockInfo</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block" kindref="compound">Block</ref> Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="190" column="15" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="246" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a1e650915bae53c81612513f90d9a3853" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::defragment</definition>
+        <argsstring>()</argsstring>
+        <name>defragment</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::defragment</qualifiedname>
+        <briefdescription>
+<para>Defragment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: known_free(), begin(), end(), load(), find(), push_back(), insert(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="196" column="12" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="272" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a06a205c0fcfd43398e0d650b0ae215fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::PagedKVCacheManager::calculatePrefixSavings</definition>
+        <argsstring>() const</argsstring>
+        <name>calculatePrefixSavings</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::calculatePrefixSavings</qualifiedname>
+        <briefdescription>
+<para>Calculate Prefix Savings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="202" column="12" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="342" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a7118e66a67aa57ae2ad123a5e467ca89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2cbf87858204cd23b9d69663ccd5e55e" kindref="member">CacheType</ref></type>
+        <definition>PagedKVCacheManager::CacheType themis::llm::PagedKVCacheManager::getCacheType</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheType</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::getCacheType</qualifiedname>
+        <briefdescription>
+<para>Get Cache Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="208" column="15" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="353" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a59fe787e9c775583910954b2fe87b069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedKVCacheManager::setCacheType</definition>
+        <argsstring>(CacheType type)</argsstring>
+        <name>setCacheType</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::setCacheType</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2cbf87858204cd23b9d69663ccd5e55e" kindref="member">CacheType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Set Cache Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setCacheType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="214" column="10" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="362" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2650879a4f9c26f33379af6aee6fc4ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PagedKVCacheManager::analyzeAndAdaptCacheType</definition>
+        <argsstring>()</argsstring>
+        <name>analyzeAndAdaptCacheType</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::analyzeAndAdaptCacheType</qualifiedname>
+        <briefdescription>
+<para>Analyze And Adapt Cache Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: updateWorkloadMetrics(), detectWorkloadPattern(), selectOptimalCacheType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="220" column="10" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="371" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a7e0faa7722876244f2ddc166cb8a52ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics" kindref="compound">WorkloadMetrics</ref></type>
+        <definition>PagedKVCacheManager::WorkloadMetrics themis::llm::PagedKVCacheManager::getWorkloadMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getWorkloadMetrics</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::getWorkloadMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Workload Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="226" column="21" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="390" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a116d6bf28c83be69d2e961f7b5750176" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedKVCacheManager::setAutomaticAdaptation</definition>
+        <argsstring>(bool enable, size_t check_interval_sequences=100)</argsstring>
+        <name>setAutomaticAdaptation</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::setAutomaticAdaptation</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>check_interval_sequences</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Set Automatic Adaptation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">check_interval_sequences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAutomaticAdaptation without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="228" column="10" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="400" bodyend="404"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1abb64da78eab11e91a7760d143a5c32cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedKVCacheManager::initializeBlocks</definition>
+        <argsstring>()</argsstring>
+        <name>initializeBlocks</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::initializeBlocks</qualifiedname>
+        <briefdescription>
+<para>Initialize Blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: resize(), reserve(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="258" column="10" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="41" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1abb582fb0bb7c35c81bfd1023d6860848" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::PagedKVCacheManager::getFreeBlock</definition>
+        <argsstring>()</argsstring>
+        <name>getFreeBlock</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::getFreeBlock</qualifiedname>
+        <briefdescription>
+<para>Get Free <ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block" kindref="compound">Block</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="263" column="9" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="305" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a3f89dc2ee9849c46098add4f76e13a4f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedKVCacheManager::releaseBlock</definition>
+        <argsstring>(int block_id)</argsstring>
+        <name>releaseBlock</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::releaseBlock</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Release <ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block" kindref="compound">Block</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), fetch_sub(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="268" column="10" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="320" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a98ed4de3458b6aaee11d670b752f14c3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::calculateBlockMemorySize</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateBlockMemorySize</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::calculateBlockMemorySize</qualifiedname>
+        <briefdescription>
+<para>Calculate <ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_block" kindref="compound">Block</ref> Memory Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="273" column="12" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="335" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a86782fbf45e7b5a640b7eb1c16ad61a6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedKVCacheManager::updateWorkloadMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>updateWorkloadMetrics</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::updateWorkloadMetrics</qualifiedname>
+        <briefdescription>
+<para>Update Workload Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(), load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="277" column="10" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="410" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a4f0cc88952d4f792b7fa5eea7286038b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a602c66810a1fb1050dc3f944450d279c" kindref="member">WorkloadPattern</ref></type>
+        <definition>PagedKVCacheManager::WorkloadPattern themis::llm::PagedKVCacheManager::detectWorkloadPattern</definition>
+        <argsstring>() const</argsstring>
+        <name>detectWorkloadPattern</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::detectWorkloadPattern</qualifiedname>
+        <briefdescription>
+<para>Detect Workload Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="282" column="21" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="449" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1af64cb26c1d77d32d6477bdacf4e1e186" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2cbf87858204cd23b9d69663ccd5e55e" kindref="member">CacheType</ref></type>
+        <definition>PagedKVCacheManager::CacheType themis::llm::PagedKVCacheManager::selectOptimalCacheType</definition>
+        <argsstring>(WorkloadPattern pattern) const</argsstring>
+        <name>selectOptimalCacheType</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::selectOptimalCacheType</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a602c66810a1fb1050dc3f944450d279c" kindref="member">WorkloadPattern</ref></type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Select Optimal Cache Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="288" column="15" bodyfile="src/llm/paged_kv_cache_manager.cpp" bodystart="462" bodyend="475"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/paged_kv_cache_manager.h" line="24" column="1" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="24" bodyend="289"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a6648e92fde2b52ae244b67b1b72cbd0e" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>adaptation_check_interval_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1aedec7054c8b0a5ae8fab0310fbc94a67" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>addSequence</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1abb1f0dd1502a6c67db69f27eb7d1fe53" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>allocateBlocks</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2650879a4f9c26f33379af6aee6fc4ba" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>analyzeAndAdaptCacheType</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a72a8f765852e6f88dfedb1c024f3d4a5" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>auto_adaptation_enabled_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a9467ca2af883b4be5c62a84aee013a07" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>BLOCK_SIZE</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a586dec770f0d620f5db4ae12d2f2c086" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>blocks_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2cbf87858204cd23b9d69663ccd5e55e" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>CacheType</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a98ed4de3458b6aaee11d670b752f14c3" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>calculateBlockMemorySize</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a06a205c0fcfd43398e0d650b0ae215fc" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>calculatePrefixSavings</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1ad810344e72ae1a21fb1f5c4aea60209c" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1aaa57143075f0154c646bd9e046802066" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>current_cache_type_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a1e650915bae53c81612513f90d9a3853" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>defragment</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a4f0cc88952d4f792b7fa5eea7286038b" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>detectWorkloadPattern</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1ad6ebe172d2a0a9bd516ca4d492a74634" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>enablePrefixCaching</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a265da258cbe92602fcd2be06d99c6995" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>free_block_ids_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a9c0ea369b274a89398fcfcafe78bb506" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>freeBlocks</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a0e5e682ace4c362a86ae7cae7b669d48" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>getBlockInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a507fbaecf7cf4e4c558b51f53f9cef21" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>getBlockTable</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a7118e66a67aa57ae2ad123a5e467ca89" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>getCacheType</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1abb582fb0bb7c35c81bfd1023d6860848" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>getFreeBlock</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a2e3490fa9442351b42609b0c5d3e0a93" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a7e0faa7722876244f2ddc166cb8a52ac" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>getWorkloadMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1abb64da78eab11e91a7760d143a5c32cf" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>initializeBlocks</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1aa8eb46021973d7ba4521c0b1ae08f330" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>isBlockAvailable</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a32a168280330ffd023e172bc2de370d7" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>PagedKVCacheManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a6e1afc6108fc04efa17d4f6b094d191e" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>parent_map_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a3f89dc2ee9849c46098add4f76e13a4f" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>releaseBlock</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a48c171c9a1f92224c0c779d9f5052568" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>removeSequence</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1af64cb26c1d77d32d6477bdacf4e1e186" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>selectOptimalCacheType</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1ae5c13ede9af230a34997fed677703177" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>sequence_tables_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a841a8129c9d94bccba75934e83cf4c5f" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>sequences_since_last_check_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a116d6bf28c83be69d2e961f7b5750176" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>setAutomaticAdaptation</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a59fe787e9c775583910954b2fe87b069" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>setCacheType</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a7da2aaf86655b4bb8aa8e4978742938f" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>total_blocks_allocated_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1ae22f5ea2cc08c9560925870f53a21ed6" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>total_blocks_shared_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a86782fbf45e7b5a640b7eb1c16ad61a6" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>updateWorkloadMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a561a3cffb6c57b981a890b2251a7f308" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>workload_metrics_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a602c66810a1fb1050dc3f944450d279c" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>WorkloadPattern</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a4424298e2b80fa369099e9e79d3bbff5" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager</scope><name>~PagedKVCacheManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_i_cache_backend" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::ICacheBackend</compoundname>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_backend_1a57aad9805255276152e57cbe1316433f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::ICacheBackend&lt; K, V &gt;::~ICacheBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICacheBackend</name>
+        <qualifiedname>themis::cache::ICacheBackend::~ICacheBackend</qualifiedname>
+        <briefdescription>
+<para>ICache Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="234" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_backend_1a685c75dea3805213ead4f7b6012fac76" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; V &gt;</type>
+        <definition>virtual std::optional&lt; V &gt; themis::cache::ICacheBackend&lt; K, V &gt;::get</definition>
+        <argsstring>(const K &amp;key)=0</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::cache::ICacheBackend::get</qualifiedname>
+        <reimplementedby refid="class_adaptive_query_cache_1a9ef7ff91179a1dfe457fc717b4754ef3">get</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_adaptive_query_cache_1a9ef7ff91179a1dfe457fc717b4754ef3">get</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a562d7d0441d302fb44b40c7a39143c1b">get</reimplementedby>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="241" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_backend_1a6bacc96db167f50ab2c671cb1d6a84fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::ICacheBackend&lt; K, V &gt;::put</definition>
+        <argsstring>(const K &amp;key, V value, uint32_t ttl_seconds=0)=0</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::cache::ICacheBackend::put</qualifiedname>
+        <reimplementedby refid="class_adaptive_query_cache_1ab43211cfaacb6a1c24ee80439709659f">put</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_adaptive_query_cache_1ab43211cfaacb6a1c24ee80439709659f">put</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a554bb52074b9332ad1d97cb1c5edc8ff">put</reimplementedby>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>V</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ttl_seconds</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="243" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_backend_1ae4896e628aafae2aea8e540648b1e7fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cache::ICacheBackend&lt; K, V &gt;::remove</definition>
+        <argsstring>(const K &amp;key)=0</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::cache::ICacheBackend::remove</qualifiedname>
+        <reimplementedby refid="class_adaptive_query_cache_1a375b5f8e60df0187e7cfda02693a9d72">remove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_adaptive_query_cache_1a375b5f8e60df0187e7cfda02693a9d72">remove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1ae534205b1a981f9f8d0c7c1aa8919437">remove</reimplementedby>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="250" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_backend_1a77508b5c3ca52edaeffad4a703baa83d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cache::ICacheBackend&lt; K, V &gt;::contains</definition>
+        <argsstring>(const K &amp;key) const =0</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::cache::ICacheBackend::contains</qualifiedname>
+        <reimplementedby refid="class_adaptive_query_cache_1a3b602ba8d994a6a24b856d1c47ef818a">contains</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_adaptive_query_cache_1a3b602ba8d994a6a24b856d1c47ef818a">contains</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a56feb08d270cda8e60fd37234b3d70e9">contains</reimplementedby>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Contains. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="257" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_backend_1ad729e3356e2407a80272cf0ba7e146e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::ICacheBackend&lt; K, V &gt;::clear</definition>
+        <argsstring>()=0</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::cache::ICacheBackend::clear</qualifiedname>
+        <reimplementedby refid="class_adaptive_query_cache_1ac3df549dc11eb65a88cd2b86a80ded43">clear</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_adaptive_query_cache_1ac3df549dc11eb65a88cd2b86a80ded43">clear</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a1c40e1bd07896dd0fc0f7e820069e201">clear</reimplementedby>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="262" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_backend_1a710034ab39cd48a815d173b189c6eee8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::cache::ICacheBackend&lt; K, V &gt;::size</definition>
+        <argsstring>() const =0</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::cache::ICacheBackend::size</qualifiedname>
+        <reimplementedby refid="class_adaptive_query_cache_1aea95192c29147395ecb0bb0faba645ea">size</reimplementedby>
+        <reimplementedby refid="classthemis_1_1_adaptive_query_cache_1aea95192c29147395ecb0bb0faba645ea">size</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a3f99b7e738953ac3132b25f54b7ea5cc">size</reimplementedby>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="268" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_interfaces.h" line="229" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="229" bodyend="269"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_i_cache_backend_1ad729e3356e2407a80272cf0ba7e146e7" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheBackend</scope><name>clear</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_backend_1a77508b5c3ca52edaeffad4a703baa83d" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheBackend</scope><name>contains</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_backend_1a685c75dea3805213ead4f7b6012fac76" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheBackend</scope><name>get</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_backend_1a6bacc96db167f50ab2c671cb1d6a84fc" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheBackend</scope><name>put</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_backend_1ae4896e628aafae2aea8e540648b1e7fe" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheBackend</scope><name>remove</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_backend_1a710034ab39cd48a815d173b189c6eee8" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheBackend</scope><name>size</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_backend_1a57aad9805255276152e57cbe1316433f" prot="public" virt="virtual"><scope>themis::cache::ICacheBackend</scope><name>~ICacheBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

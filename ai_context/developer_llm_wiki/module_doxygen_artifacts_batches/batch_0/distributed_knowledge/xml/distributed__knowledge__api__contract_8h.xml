@@ -1,0 +1,408 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__knowledge__api__contract_8h" kind="file" language="C++">
+    <compoundname>distributed_knowledge_api_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__dk__release__gates_8cpp" local="yes">benchmarks/distributed_knowledge/bench_dk_release_gates.cpp</includedby>
+    <includedby refid="dk__diagnostic__emitter_8h" local="yes">include/distributed_knowledge/dk_diagnostic_emitter.h</includedby>
+    <includedby refid="federated__distillation__coordinator_8h" local="yes">include/distributed_knowledge/federated_distillation_coordinator.h</includedby>
+    <includedby refid="test__adapter__capability__announcement__focused_8cpp" local="yes">tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp</includedby>
+    <includedby refid="test__dk__contract__hardening__focused_8cpp" local="yes">tests/distributed_knowledge/test_dk_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/distributed_knowledge/distributed_knowledge_api_contract.h</label>
+        <link refid="distributed__knowledge__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/distributed_knowledge/bench_dk_release_gates.cpp</label>
+        <link refid="bench__dk__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/distributed_knowledge/distributed_knowledge_api_contract.h</label>
+        <link refid="distributed__knowledge__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/distributed_knowledge/dk_diagnostic_emitter.h</label>
+        <link refid="dk__diagnostic__emitter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/distributed_knowledge/federated_distillation_coordinator.h</label>
+        <link refid="federated__distillation__coordinator_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/distributed_knowledge/federated_distillation_coordinator.cpp</label>
+        <link refid="federated__distillation__coordinator_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp</label>
+        <link refid="test__adapter__capability__announcement__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/distributed_knowledge/test_dk_contract_hardening_focused.cpp</label>
+        <link refid="test__dk__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/distributed_knowledge/test_dk_diagnostics_focused.cpp</label>
+        <link refid="test__dk__diagnostics__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/distributed_knowledge/test_federated_distillation_coordinator_focused.cpp</label>
+        <link refid="test__federated__distillation__coordinator__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" prot="public">themis::distributed_knowledge::MergeHardeningPolicy</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy" prot="public">themis::distributed_knowledge::DistillationBoundedPolicy</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy" prot="public">themis::distributed_knowledge::IFederationTrustPolicy</innerclass>
+    <innerclass refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy" prot="public">themis::distributed_knowledge::AlwaysPermitTrustPolicy</innerclass>
+    <innerclass refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" prot="public">themis::distributed_knowledge::DKDiagnosticEvent</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__knowledge">themis::distributed_knowledge</innernamespace>
+    <briefdescription>
+<para>Frozen distributed knowledge contract: entity lifecycle, federation, retrieval, and LWW conflict resolution. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for the distributed_knowledge module. All components (entity stores, federation coordinators, retrieval engines, and conflict resolvers) must honour these semantics within the v1.x major line.</para>
+<sect1 id="distributed__knowledge__api__contract_8h_1autotoc_md0_1s1"><sect2 id="distributed__knowledge__api__contract_8h_1autotoc_md0">
+<title>Entity Contract</title><para>Entity-relation pairs are immutable after commit. Readers see a consistent snapshot; updates produce a new version rather than mutating in place. Reads are eventually consistent: a read immediately after a write on a different node may return the previous version until propagation completes.</para>
+</sect2></sect1>
+<sect1 id="distributed__knowledge__api__contract_8h_1autotoc_md1_1s1"><sect2 id="distributed__knowledge__api__contract_8h_1autotoc_md1">
+<title>Federation Contract</title><para>A cross-node query result is the union of per-node results with duplicates removed. The federation layer must not introduce phantom entities or omit entities that exist on at least one reachable node.</para>
+</sect2></sect1>
+<sect1 id="distributed__knowledge__api__contract_8h_1autotoc_md2_1s1"><sect2 id="distributed__knowledge__api__contract_8h_1autotoc_md2">
+<title>Conflict Resolution Contract</title><para>When the same entity is written on two nodes concurrently, the Last-Write-Wins (LWW) strategy is applied using the entity&apos;s wall-clock timestamp. On a timestamp tie, the node with the lexicographically larger node-ID wins.</para>
+</sect2></sect1>
+<sect1 id="distributed__knowledge__api__contract_8h_1autotoc_md3_1s1"><sect2 id="distributed__knowledge__api__contract_8h_1autotoc_md3">
+<title>Retrieval Contract</title><para><computeroutput>neighbours()</computeroutput> returns ALL direct edges from the given node within the local shard. The result set MUST be complete (no silent omissions) and MUST NOT contain duplicate edges.</para>
+</sect2></sect1>
+<sect1 id="distributed__knowledge__api__contract_8h_1autotoc_md4_1s1"><sect2 id="distributed__knowledge__api__contract_8h_1autotoc_md4">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump.</para>
+<para><simplesect kind="see"><para>src/distributed_knowledge/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="federated__rag__merger_8h" kindref="compound">include/distributed_knowledge/federated_rag_merger.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="lora__federation__coordinator_8h" kindref="compound">include/distributed_knowledge/lora_federation_coordinator.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="cross__shard__feedback__sync_8h" kindref="compound">include/distributed_knowledge/cross_shard_feedback_sync.h</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward-declared<sp/>in<sp/>this<sp/>header;<sp/>full<sp/>definition<sp/>in<sp/>adapter_capability_announcement.h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Include<sp/>that<sp/>header<sp/>directly<sp/>when<sp/>the<sp/>full<sp/>type<sp/>is<sp/>needed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">themis::distributed_knowledge</ref><sp/>{<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">distributed_knowledge</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Entity<sp/>size<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1distributed__knowledge_1ad9b0ca240878f6a7c2b8b108e8a9bf58" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1ad9b0ca240878f6a7c2b8b108e8a9bf58" kindref="member">kMaxEntityIdBytes</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1distributed__knowledge_1ab197597fefde532af5c063f90bfe2d1c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1ab197597fefde532af5c063f90bfe2d1c" kindref="member">kMaxRelationTypeBytes</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1distributed__knowledge_1a9403b9bfb781b21f5bd503c0538b3206" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a9403b9bfb781b21f5bd503c0538b3206" kindref="member">kMaxEntityPayloadBytes</ref><sp/>=<sp/>64<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1distributed__knowledge_1a2e10876f8c2055735e8cab53615538a3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a2e10876f8c2055735e8cab53615538a3" kindref="member">kMaxNeighboursPerQuery</ref><sp/>=<sp/>10&apos;000;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Federation<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1distributed__knowledge_1a0ca3b4997574e80a2f79940f8e1775d0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a0ca3b4997574e80a2f79940f8e1775d0" kindref="member">kFederationNodeTimeout</ref>{5&apos;000};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1distributed__knowledge_1aae6faa8307f40eb73391756aef9f3717" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1aae6faa8307f40eb73391756aef9f3717" kindref="member">kFederationMaxNodeTimeout</ref>{30&apos;000};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1distributed__knowledge_1afba41b1580d7e739660715c82b618298" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1afba41b1580d7e739660715c82b618298" kindref="member">kMaxFederationPeers</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1distributed__knowledge_1a6615ccb90b80a38940c1e5cb5c978fd5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a6615ccb90b80a38940c1e5cb5c978fd5" kindref="member">kMaxFederationResultEntities</ref><sp/>=<sp/>100&apos;000;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>LWW<sp/>conflict<sp/>resolution<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178b" kindref="member">LwwDecision</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bac1c699830d1f93e6006083c8e66f9329" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bac1c699830d1f93e6006083c8e66f9329" kindref="member">LocalWins</ref><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="89" refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bafb0d29ad4a448f485d741d1bb5590669" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bafb0d29ad4a448f485d741d1bb5590669" kindref="member">RemoteWins</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bab100297bc36c197e260e6d0399761ec9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bab100297bc36c197e260e6d0399761ec9" kindref="member">Identical</ref><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1distributed__knowledge_1acecd81fa31b64998a8606fe6b71cbad5" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178b" kindref="member">LwwDecision</ref><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1acecd81fa31b64998a8606fe6b71cbad5" kindref="member">resolveLww</ref>(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>local_ts,<sp/>std::int64_t<sp/>remote_ts,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>local_node,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>remote_node)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(local_ts<sp/>&gt;<sp/>remote_ts)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bac1c699830d1f93e6006083c8e66f9329" kindref="member">LwwDecision::LocalWins</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(remote_ts<sp/>&gt;<sp/>local_ts)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bafb0d29ad4a448f485d741d1bb5590669" kindref="member">LwwDecision::RemoteWins</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tie-break:<sp/>lexicographically<sp/>larger<sp/>node-ID<sp/>wins.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(local_node<sp/>&gt;<sp/>remote_node)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bac1c699830d1f93e6006083c8e66f9329" kindref="member">LwwDecision::LocalWins</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(remote_node<sp/>&gt;<sp/>local_node)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bafb0d29ad4a448f485d741d1bb5590669" kindref="member">LwwDecision::RemoteWins</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a268d66497aa30618b14309f7102a178bab100297bc36c197e260e6d0399761ec9" kindref="member">LwwDecision::Identical</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0b" kindref="member">DKErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1ab4e637edc3b093ebbf6544441e5759" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1ab4e637edc3b093ebbf6544441e5759" kindref="member">ENTITY_NOT_FOUND</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0baf1bcbf8e67ee40bb3f58cf89b17833b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0baf1bcbf8e67ee40bb3f58cf89b17833b7" kindref="member">FEDERATION_TIMEOUT</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba7f2ba9f1d809839e5f1365966a074a61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba7f2ba9f1d809839e5f1365966a074a61" kindref="member">CONFLICT_UNRESOLVABLE</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba2f63cbddf74f05c390552b36825550ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba2f63cbddf74f05c390552b36825550ff" kindref="member">GRAPH_CORRUPTED</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba9982a2360464eae76f585b2b923eaef8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba9982a2360464eae76f585b2b923eaef8" kindref="member">RETRIEVAL_LIMIT_EXCEEDED</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba082cfb8f68451ed0e607fd633561101b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba082cfb8f68451ed0e607fd633561101b" kindref="member">TOMBSTONE_PROPAGATION_FAILED</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bac9833d0686295366b459058715004097" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bac9833d0686295366b459058715004097" kindref="member">CRDT_MERGE_TYPE_MISMATCH</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0bae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1620d0f6d867933bc1b5ae4ea210e6e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba1620d0f6d867933bc1b5ae4ea210e6e5" kindref="member">TRUST_GATE_REJECTED</ref><sp/>=<sp/>9,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1distributed__knowledge_1a651df040528b35079a0648d1edad638c" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a651df040528b35079a0648d1edad638c" kindref="member">isRetryableCode</ref>(<ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0b" kindref="member">DKErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0baf1bcbf8e67ee40bb3f58cf89b17833b7" kindref="member">DKErrorCode::FEDERATION_TIMEOUT</ref></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5996c6b26d9923acf1d6978c524a0f0ba082cfb8f68451ed0e607fd633561101b" kindref="member">DKErrorCode::TOMBSTONE_PROPAGATION_FAILED</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Path<sp/>query<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1distributed__knowledge_1a0f2879c2c9a1c90707f29dbef14bddb8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a0f2879c2c9a1c90707f29dbef14bddb8" kindref="member">kMaxPathQueryDepth</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="namespacethemis_1_1distributed__knowledge_1a02fbe32e2956db0c8efbb0b0ead5e394" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a02fbe32e2956db0c8efbb0b0ead5e394" kindref="member">kMaxPathQueryResults</ref><sp/>=<sp/>1&apos;000;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Consistency<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reads<sp/>are<sp/>eventually<sp/>consistent<sp/>with<sp/>a<sp/>bounded<sp/>propagation<sp/>delay.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>maximum<sp/>expected<sp/>propagation<sp/>delay<sp/>under<sp/>normal<sp/>load<sp/>is<sp/>documented</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>here<sp/>as<sp/>a<sp/>SLO<sp/>reference<sp/>—<sp/>it<sp/>is<sp/>NOT<sp/>a<sp/>hard<sp/>guarantee.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="namespacethemis_1_1distributed__knowledge_1a00bd5a00545762a140ffbec28b13cc14" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a00bd5a00545762a140ffbec28b13cc14" kindref="member">kExpectedPropagationDelay</ref>{5};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Exception<sp/>Safety<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>destructors<sp/>in<sp/>the<sp/>distributed_knowledge<sp/>module<sp/>are<sp/>noexcept<sp/>and<sp/>may<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>throw<sp/>under<sp/>any<sp/>circumstances.<sp/>Violations<sp/>cause<sp/>std::terminate().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>8<sp/><sp/>Merge<sp/>Strategy<sp/>and<sp/>Conflict<sp/>Resolution<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>specification<sp/>for<sp/>cross-shard<sp/>RAG<sp/>result<sp/>merging<sp/>and<sp/>conflict</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>resolution<sp/>semantics<sp/>in<sp/>FederatedRAGMerger.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="namespacethemis_1_1distributed__knowledge_1a5b968f906f2037aa815c45347ac33775" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a5b968f906f2037aa815c45347ac33775" kindref="member">kMergeStrategyRRFDescription</ref><sp/>=</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Reciprocal<sp/>Rank<sp/>Fusion:<sp/>robust,<sp/>scales<sp/>scores<sp/>for<sp/>heterogeneous<sp/>shard<sp/>result<sp/>ranges&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="namespacethemis_1_1distributed__knowledge_1a55caadebb2b288c59ca185e4f8c64005" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a55caadebb2b288c59ca185e4f8c64005" kindref="member">kMergeStrategyWeightedDescription</ref><sp/>=</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Score-weighted:<sp/>respects<sp/>shard<sp/>accuracy,<sp/>lightweight<sp/>computation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="namespacethemis_1_1distributed__knowledge_1aa1fbff73e4b78baa049c80108d4d6a92" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1aa1fbff73e4b78baa049c80108d4d6a92" kindref="member">kMergeStrategyRoundRobinDescription</ref><sp/>=</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Round-robin:<sp/>interleaved<sp/>diversity<sp/>sampling<sp/>across<sp/>shards&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>9<sp/><sp/>Consistency<sp/>and<sp/>Version<sp/>Semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Specification<sp/>of<sp/>consistency<sp/>levels,<sp/>version<sp/>tracking,<sp/>replication<sp/>lag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>assumptions,<sp/>and<sp/>stale-read<sp/>handling<sp/>for<sp/>distributed<sp/>operations<sp/>across</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>federation,<sp/>aggregation,<sp/>merge,<sp/>and<sp/>feedback<sp/>synchronization<sp/>surfaces.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>10<sp/><sp/>Merge<sp/>Hardening<sp/>Policy<sp/>(Phase<sp/>2<sp/>/<sp/>Q4<sp/>2026)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Defines<sp/>deterministic<sp/>behaviour<sp/>under<sp/>multi-shard<sp/>timeout<sp/>permutations<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>bounded<sp/>deduplication<sp/>windows.<sp/><sp/>Applied<sp/>to<sp/>FederatedRAGMerger<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LoRAFederationCoordinator<sp/>to<sp/>harden<sp/>merge<sp/>paths<sp/>against<sp/>partial<sp/>failures.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79" kindref="member">TimeoutBehavior</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="209" refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79a7d8e2271b5e4fbbed93c60aa39bf350f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79a7d8e2271b5e4fbbed93c60aa39bf350f" kindref="member">FAIL_CLOSED</ref><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="210" refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79ac6d0b87b065348b4bc999742b2efd22c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79ac6d0b87b065348b4bc999742b2efd22c" kindref="member">BEST_EFFORT</ref><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" kindref="compound">MergeHardeningPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a4189f82f7a705b33b1054cac8acac583" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a4189f82f7a705b33b1054cac8acac583" kindref="member">max_merge_latency_ms</ref><sp/><sp/><sp/><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="215" refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1ae77346caff989a6a01868200d6e3315d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1ae77346caff989a6a01868200d6e3315d" kindref="member">dedup_window_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="216" refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a10aba593154b9638c2e4537919ca21a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a10aba593154b9638c2e4537919ca21a3" kindref="member">partial_shard_min_count</ref><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="217" refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1aaa25b4e3fde56a2a98c1046ce6e2d841" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79" kindref="member">TimeoutBehavior</ref><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1aaa25b4e3fde56a2a98c1046ce6e2d841" kindref="member">timeout_behavior</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79ac6d0b87b065348b4bc999742b2efd22c" kindref="member">TimeoutBehavior::BEST_EFFORT</ref>;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a426093e9bb2eb4eb5370e6a32f34f6fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a426093e9bb2eb4eb5370e6a32f34f6fe" kindref="member">isConstrained</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a4189f82f7a705b33b1054cac8acac583" kindref="member">max_merge_latency_ms</ref><sp/>!=<sp/>0u</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1ae77346caff989a6a01868200d6e3315d" kindref="member">dedup_window_size</ref><sp/><sp/><sp/><sp/>!=<sp/>0u</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a10aba593154b9638c2e4537919ca21a3" kindref="member">partial_shard_min_count</ref><sp/>!=<sp/>0u</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1aaa25b4e3fde56a2a98c1046ce6e2d841" kindref="member">timeout_behavior</ref><sp/>==<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79a7d8e2271b5e4fbbed93c60aa39bf350f" kindref="member">TimeoutBehavior::FAIL_CLOSED</ref>;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>11<sp/><sp/>Distillation<sp/>Bounded<sp/>Policy<sp/>(Phase<sp/>2<sp/>/<sp/>Q4<sp/>2026)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Applies<sp/>bounded<sp/>runtime<sp/>contracts<sp/>to<sp/>FederatedDistillationCoordinator<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>that<sp/>policy-gate<sp/>violations<sp/>surface<sp/>as<sp/>explicit<sp/>errors<sp/>rather<sp/>than<sp/>silent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>degradation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56" kindref="member">PolicyGateEnforcement</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="236" refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56a7d8e2271b5e4fbbed93c60aa39bf350f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79a7d8e2271b5e4fbbed93c60aa39bf350f" kindref="member">FAIL_CLOSED</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="237" refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56a1b51d7fd255c794f1d3f9a845c32c6e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56a1b51d7fd255c794f1d3f9a845c32c6e9" kindref="member">LOG_ONLY</ref><sp/><sp/><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy" kindref="compound">DistillationBoundedPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="241" refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a02afd3f09ee8b0754b346256f28671f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a02afd3f09ee8b0754b346256f28671f6" kindref="member">max_distillation_rounds</ref><sp/><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="242" refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a832014d13c0bc4dee5756eac7ee7dd25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a832014d13c0bc4dee5756eac7ee7dd25" kindref="member">privacy_budget_hard_limit</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="243" refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a4e8ebf7f2aac5a24b689cf3e96645f57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56" kindref="member">PolicyGateEnforcement</ref><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a4e8ebf7f2aac5a24b689cf3e96645f57" kindref="member">policy_gate_enforcement</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56a7d8e2271b5e4fbbed93c60aa39bf350f" kindref="member">PolicyGateEnforcement::FAIL_CLOSED</ref>;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a070340a40db3cff621473967982ea962" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a070340a40db3cff621473967982ea962" kindref="member">isConstrained</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a02afd3f09ee8b0754b346256f28671f6" kindref="member">max_distillation_rounds</ref><sp/>!=<sp/>0u<sp/>||<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a832014d13c0bc4dee5756eac7ee7dd25" kindref="member">privacy_budget_hard_limit</ref><sp/>&gt;<sp/>0.0;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>12<sp/><sp/>Federation<sp/>Trust<sp/>Policy<sp/>(Phase<sp/>3<sp/>/<sp/>Q4<sp/>2026)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Defines<sp/>a<sp/>fail-closed<sp/>trust<sp/>gate<sp/>evaluated<sp/>before<sp/>any<sp/>Aggregation<sp/>or<sp/>Merge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>operation<sp/>is<sp/>started.<sp/><sp/>If<sp/>the<sp/>gate<sp/>rejects<sp/>an<sp/>AdapterCapabilityAnnouncement,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>operation<sp/>MUST<sp/>NOT<sp/>proceed<sp/>and<sp/>MUST<sp/>return<sp/>TRUST_GATE_REJECTED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50b" kindref="member">TrustDecision</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="259" refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba695fb83069aa8ac43c138b05ccaa206d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba695fb83069aa8ac43c138b05ccaa206d" kindref="member">PERMIT</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="260" refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba59b228d9fec9b88833bfe5d812ed8ad4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba59b228d9fec9b88833bfe5d812ed8ad4" kindref="member">REJECT</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy" kindref="compound">IFederationTrustPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="269" refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy_1afc43a98a1a3ef30af21ff749ac2e0078" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy_1afc43a98a1a3ef30af21ff749ac2e0078" kindref="member">~IFederationTrustPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy_1a42cfc6b156e04084bdf3b034fb6378b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50b" kindref="member">TrustDecision</ref><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy_1a42cfc6b156e04084bdf3b034fb6378b8" kindref="member">evaluateTrustGate</ref>(</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref>&amp;<sp/>announcement)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy" kindref="compound">AlwaysPermitTrustPolicy</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy" kindref="compound">IFederationTrustPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="277" refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy_1aa172171a933cf9fdf3621b560648c0ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50b" kindref="member">TrustDecision</ref><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy_1aa172171a933cf9fdf3621b560648c0ac" kindref="member">evaluateTrustGate</ref>(</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref>&amp;<sp/></highlight><highlight class="comment">/*announcement*/</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50ba695fb83069aa8ac43c138b05ccaa206d" kindref="member">TrustDecision::PERMIT</ref>;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>13<sp/><sp/>Diagnostic<sp/>Event<sp/>Model<sp/>(Phase<sp/>3<sp/>/<sp/>Q4<sp/>2026)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Structured<sp/>events<sp/>emitted<sp/>by<sp/>the<sp/>distributed_knowledge<sp/>module<sp/>for<sp/>operator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>visibility<sp/>into<sp/>federation<sp/>incidents,<sp/>merge<sp/>failures,<sp/>and<sp/>dedup<sp/>collisions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331f" kindref="member">DKDiagnosticSeverity</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="291" refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa551b723eafd6a31d444fcb2f5920fbd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa551b723eafd6a31d444fcb2f5920fbd3" kindref="member">INFO</ref><sp/><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="292" refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa059e9861e0400dfbe05c98a841f3f96b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa059e9861e0400dfbe05c98a841f3f96b" kindref="member">WARNING</ref><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="293" refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fabb1ca97ec761fc37101737ba0aa2e7c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="294" refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa19da7170bea36556dde582519795f3fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa19da7170bea36556dde582519795f3fc" kindref="member">FATAL</ref><sp/><sp/><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="295"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297" refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87" kindref="member">DKDiagnosticEventType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="298" refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a1598e3942841ec8abd0cdb0e9ba49e70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a1598e3942841ec8abd0cdb0e9ba49e70" kindref="member">MERGE_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="299" refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87ac481361e74b8fb938b6d80993180c6ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87ac481361e74b8fb938b6d80993180c6ca" kindref="member">DEDUP_COLLISION</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="300" refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a46865df27a193a241689896dcd0f34da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a46865df27a193a241689896dcd0f34da" kindref="member">PARTIAL_SHARD_MERGE</ref><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="301" refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a549e0d5b792100b22681215d7f952a72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a549e0d5b792100b22681215d7f952a72" kindref="member">TRUST_GATE_REJECT</ref><sp/><sp/><sp/><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="302" refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a03abcb7bc53a5cceea76d291046dd385" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a03abcb7bc53a5cceea76d291046dd385" kindref="member">FEDERATION_ROLLBACK</ref><sp/><sp/>=<sp/>4,<sp/></highlight></codeline>
+<codeline lineno="303" refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a169cb04bda558347b02294770e4b9e0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a169cb04bda558347b02294770e4b9e0c" kindref="member">POLICY_VIOLATION</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>5,<sp/></highlight></codeline>
+<codeline lineno="304" refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87ab0c895fc1406351b83ece502f285efd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87ab0c895fc1406351b83ece502f285efd6" kindref="member">PRIVACY_BUDGET_WARN</ref><sp/><sp/>=<sp/>6,<sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307" refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="308" refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87" kindref="member">DKDiagnosticEventType</ref><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a4c7d45ded01f9c24c02eae7871ee0f98" kindref="member">type</ref>{<ref refid="namespacethemis_1_1distributed__knowledge_1a74e5263f1b7d7f097eb6c0ff36854f87a1598e3942841ec8abd0cdb0e9ba49e70" kindref="member">DKDiagnosticEventType::MERGE_TIMEOUT</ref>};</highlight></codeline>
+<codeline lineno="309" refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a348be5e273d96533e9784170df509b09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331f" kindref="member">DKDiagnosticSeverity</ref><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a348be5e273d96533e9784170df509b09" kindref="member">severity</ref>{<ref refid="namespacethemis_1_1distributed__knowledge_1a60f550c75f32b0e88ec555bdf785331fa059e9861e0400dfbe05c98a841f3f96b" kindref="member">DKDiagnosticSeverity::WARNING</ref>};</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311" refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ad77d5656f17016bb0df580bbf8260a16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ad77d5656f17016bb0df580bbf8260a16" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="312" refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ac8daf3920481b35b8dc10c29bf4ed06a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1ac8daf3920481b35b8dc10c29bf4ed06a" kindref="member">operation_id</ref>;</highlight></codeline>
+<codeline lineno="313" refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a0f50a689e663fa2188e119721911233f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1a0f50a689e663fa2188e119721911233f" kindref="member">timestamp_utc</ref>;</highlight></codeline>
+<codeline lineno="314" refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1acc186d03e62371b918c2e2727ff04adb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1acc186d03e62371b918c2e2727ff04adb" kindref="member">cause</ref>;</highlight></codeline>
+<codeline lineno="315" refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1aa3a53e6f5f535897a221f8bb6f5925f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event_1aa3a53e6f5f535897a221f8bb6f5925f9" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_knowledge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h"/>
+  </compounddef>
+</doxygen>

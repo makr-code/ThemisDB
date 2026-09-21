@@ -1,0 +1,594 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_import_wizard" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::ImportWizard</compoundname>
+    <includes refid="gui__import__wizard_8h" local="no">gui_import_wizard.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_import_wizard_1_1_config" prot="public">themis::importers::ImportWizard::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1importers_1_1_import_wizard_1a0a11e822824e8ec2d08aa5bc7c0f1c82" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref> &amp;)&gt;</type>
+        <definition>using themis::importers::ImportWizard::ProgressCallback = std::function&lt;void(const ImportWizardState&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProgressCallback</name>
+        <qualifiedname>themis::importers::ImportWizard::ProgressCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="112" column="5" bodyfile="include/importers/gui_import_wizard.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_import_wizard_1aa62a4f53ab3ebbd16eefe6498404e11a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_import_wizard_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::importers::ImportWizard::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::importers::ImportWizard::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="212" column="12" bodyfile="include/importers/gui_import_wizard.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_import_wizard_1a03ba55a8eae0af15e6da94a6eaecdb26" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ImportWizardState&gt; themis::importers::ImportWizard::sessions_</definition>
+        <argsstring></argsstring>
+        <name>sessions_</name>
+        <qualifiedname>themis::importers::ImportWizard::sessions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="213" column="24" bodyfile="include/importers/gui_import_wizard.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1ad4f6dd3f5cce2056c68b2c429c108e31" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::ImportWizard::ImportWizard</definition>
+        <argsstring>()</argsstring>
+        <name>ImportWizard</name>
+        <qualifiedname>themis::importers::ImportWizard::ImportWizard</qualifiedname>
+        <briefdescription>
+<para>Import Wizard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="125" column="14" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="170" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1a832f0e0d64ca3abada9cdf60785c5c67" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::ImportWizard::ImportWizard</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>ImportWizard</name>
+        <qualifiedname>themis::importers::ImportWizard::ImportWizard</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1importers_1_1_import_wizard_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Import Wizard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="131" column="14" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="173" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1ac40c6cc9b7f4ad3f49678213280e650d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportWizard::createSession</definition>
+        <argsstring>()</argsstring>
+        <name>createSession</name>
+        <qualifiedname>themis::importers::ImportWizard::createSession</qualifiedname>
+        <briefdescription>
+<para>── Session lifecycle ───────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a session for an authenticated user.</para>
+<para><simplesect kind="return"><para>Session token.</para>
+</simplesect>
+<simplesect kind="return"><para>Session token.</para>
+</simplesect>
+Calls: generateSessionId(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="138" column="17" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="200" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1a1137cc0ef5311a35cb2e9657908749d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref> &amp;</type>
+        <definition>const ImportWizardState &amp; themis::importers::ImportWizard::getState</definition>
+        <argsstring>(const std::string &amp;session_id) const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::importers::ImportWizard::getState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Get State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="145" column="29" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="209" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1a0e5f2a9feb61ab9a1c4d35df9d62d76a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref> &amp;</type>
+        <definition>ImportWizardState &amp; themis::importers::ImportWizard::setSource</definition>
+        <argsstring>(const std::string &amp;session_id, const std::string &amp;source_type)</argsstring>
+        <name>setSource</name>
+        <qualifiedname>themis::importers::ImportWizard::setSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_type</declname>
+        </param>
+        <briefdescription>
+<para>── Step handlers ───────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="154" column="23" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="218" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1a100ca193846a594bfbd8bd7178504ad2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref> &amp;</type>
+        <definition>ImportWizardState &amp; themis::importers::ImportWizard::connect</definition>
+        <argsstring>(const std::string &amp;session_id, const json &amp;connection_params)</argsstring>
+        <name>connect</name>
+        <qualifiedname>themis::importers::ImportWizard::connect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>connection_params</declname>
+        </param>
+        <briefdescription>
+<para>Connect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="163" column="23" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="229" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1ad47970b083a02cb1dbd72c2c10163640" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref> &amp;</type>
+        <definition>ImportWizardState &amp; themis::importers::ImportWizard::setColumnMappings</definition>
+        <argsstring>(const std::string &amp;session_id, const std::vector&lt; ColumnMapping &gt; &amp;mappings, const std::string &amp;target_collection)</argsstring>
+        <name>setColumnMappings</name>
+        <qualifiedname>themis::importers::ImportWizard::setColumnMappings</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_column_mapping" kindref="compound">ColumnMapping</ref> &gt; &amp;</type>
+          <declname>mappings</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <briefdescription>
+<para>Set Column Mappings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mappings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="173" column="23" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="287" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1a0c6cc36a2ef5a6aef5b922154337ebb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref> &amp;</type>
+        <definition>ImportWizardState &amp; themis::importers::ImportWizard::setOptions</definition>
+        <argsstring>(const std::string &amp;session_id, const std::string &amp;conflict_strategy, size_t batch_size, bool dry_run)</argsstring>
+        <name>setOptions</name>
+        <qualifiedname>themis::importers::ImportWizard::setOptions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>conflict_strategy</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>dry_run</declname>
+        </param>
+        <briefdescription>
+<para>Set Options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict_strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dry_run</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="185" column="23" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="300" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1a85a83b8439c302fbed7d8dbcde5e819e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::ImportWizard::runImport</definition>
+        <argsstring>(const std::string &amp;session_id, ProgressCallback on_progress={})</argsstring>
+        <name>runImport</name>
+        <qualifiedname>themis::importers::ImportWizard::runImport</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1_import_wizard_1a0a11e822824e8ec2d08aa5bc7c0f1c82" kindref="member">ProgressCallback</ref></type>
+          <declname>on_progress</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Run Import. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">on_progress</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: requireSession(), isoNow(), find(), end(), THEMIS_WARN(), second(), dump(), initialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="190" column="10" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="318" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1a257a9592e124144e7b7442137afc4e17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::ImportWizard::cancel</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::ImportWizard::cancel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), isoNow(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="197" column="10" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="394" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1a19acc5055f334fc15a4d0a5dc9516ad5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::ImportWizard::deleteSession</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>deleteSession</name>
+        <qualifiedname>themis::importers::ImportWizard::deleteSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="203" column="10" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="410" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1a3216bc22b9e09d2f46a9d35abc8104cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::ImportWizard::activeSessions</definition>
+        <argsstring>() const</argsstring>
+        <name>activeSessions</name>
+        <qualifiedname>themis::importers::ImportWizard::activeSessions</qualifiedname>
+        <briefdescription>
+<para>Active Sessions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="209" column="17" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="414" bodyend="422"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1aa439c309d825bed58b9674f7a76d2ac4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref> &amp;</type>
+        <definition>ImportWizardState &amp; themis::importers::ImportWizard::requireSession</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>requireSession</name>
+        <qualifiedname>themis::importers::ImportWizard::requireSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Require Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="220" column="23" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="187" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_wizard_1a8058b1dda1eb256888bde4b3a982afbf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportWizard::generateSessionId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateSessionId</name>
+        <qualifiedname>themis::importers::ImportWizard::generateSessionId</qualifiedname>
+        <briefdescription>
+<para>Generate Session Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="225" column="17" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="176" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/gui_import_wizard.h" line="110" column="1" bodyfile="include/importers/gui_import_wizard.h" bodystart="110" bodyend="226"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a3216bc22b9e09d2f46a9d35abc8104cc" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>activeSessions</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a257a9592e124144e7b7442137afc4e17" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1aa62a4f53ab3ebbd16eefe6498404e11a" prot="private" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>config_</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a100ca193846a594bfbd8bd7178504ad2" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>connect</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1ac40c6cc9b7f4ad3f49678213280e650d" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>createSession</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a19acc5055f334fc15a4d0a5dc9516ad5" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>deleteSession</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a8058b1dda1eb256888bde4b3a982afbf" prot="private" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>generateSessionId</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a1137cc0ef5311a35cb2e9657908749d1" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>getState</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1ad4f6dd3f5cce2056c68b2c429c108e31" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>ImportWizard</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a832f0e0d64ca3abada9cdf60785c5c67" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>ImportWizard</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a0a11e822824e8ec2d08aa5bc7c0f1c82" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>ProgressCallback</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1aa439c309d825bed58b9674f7a76d2ac4" prot="private" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>requireSession</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a85a83b8439c302fbed7d8dbcde5e819e" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>runImport</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a03ba55a8eae0af15e6da94a6eaecdb26" prot="private" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>sessions_</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1ad47970b083a02cb1dbd72c2c10163640" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>setColumnMappings</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a0c6cc36a2ef5a6aef5b922154337ebb8" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>setOptions</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_wizard_1a0e5f2a9feb61ab9a1c4d35df9d62d76a" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizard</scope><name>setSource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

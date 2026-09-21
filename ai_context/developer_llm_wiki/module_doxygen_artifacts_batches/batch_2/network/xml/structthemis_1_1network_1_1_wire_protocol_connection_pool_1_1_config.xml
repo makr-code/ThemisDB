@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolConnectionPool::Config</compoundname>
+    <includes refid="wire__protocol__connection__pool_8h" local="no">wire_protocol_connection_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a52482a385ae9ac46ed5c308fb8ffe829" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Config::min_connections_per_target</definition>
+        <argsstring></argsstring>
+        <name>min_connections_per_target</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::min_connections_per_target</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Minimum connections per target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="189" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ad1a49a72c393d1f86b7d5f2e76158a7d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Config::max_connections_per_target</definition>
+        <argsstring></argsstring>
+        <name>max_connections_per_target</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::max_connections_per_target</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Maximum connections per target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="190" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8c17c23c5f5ea7a52b0f128f1bd41b95" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::network::WireProtocolConnectionPool::Config::idle_timeout</definition>
+        <argsstring></argsstring>
+        <name>idle_timeout</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::idle_timeout</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Connection idle timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="191" column="30" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1afee845cc2586ac104c676da712760e39" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::network::WireProtocolConnectionPool::Config::connect_timeout</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::connect_timeout</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>Connection timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="192" column="30" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ab858a1ac59a6b18aaf8ac4e85a2e4f23" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::network::WireProtocolConnectionPool::Config::acquire_timeout</definition>
+        <argsstring></argsstring>
+        <name>acquire_timeout</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::acquire_timeout</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>Timeout for acquiring connection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="193" column="30" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a5586ab86fdcfeb51d7ce916b5d469dba" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::network::WireProtocolConnectionPool::Config::keepalive_interval</definition>
+        <argsstring></argsstring>
+        <name>keepalive_interval</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::keepalive_interval</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Keepalive ping interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="194" column="30" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ac27449389fcc1d1b047e5e8e36359249" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolConnectionPool::Config::enable_ssl</definition>
+        <argsstring></argsstring>
+        <name>enable_ssl</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::enable_ssl</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable SSL/TLS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="195" column="14" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a982cf87b747d29005bbef70e81463f9e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolConnectionPool::Config::enable_mtls</definition>
+        <argsstring></argsstring>
+        <name>enable_mtls</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::enable_mtls</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable mutual TLS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="196" column="14" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1afdaf377240a9100689fbe2286271c191" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::WireProtocolConnectionPool::Config::ssl_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ssl_cert_path</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::ssl_cert_path</qualifiedname>
+        <briefdescription>
+<para>Client certificate path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="197" column="21" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a625d57efb41f0a00801b69d5ac6d687b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::WireProtocolConnectionPool::Config::ssl_key_path</definition>
+        <argsstring></argsstring>
+        <name>ssl_key_path</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::ssl_key_path</qualifiedname>
+        <briefdescription>
+<para>Client key path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="198" column="21" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1aff14dd91a21f002ddf0dfa6394fe90ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::WireProtocolConnectionPool::Config::ssl_ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ssl_ca_cert_path</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::ssl_ca_cert_path</qualifiedname>
+        <briefdescription>
+<para>CA certificate path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="199" column="21" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8e903f9cec1054dc3d35ff78580f89c2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Max connection retry attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="200" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8beb8dd74f4fc7c3e727e151c2e74714" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolConnectionPool::Config::enable_warmup</definition>
+        <argsstring></argsstring>
+        <name>enable_warmup</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::enable_warmup</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pre-create min connections on startup </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="201" column="14" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1aece7016cc2f76478854dee41055cec24" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolConnectionPool::Config::enable_adaptive_sizing</definition>
+        <argsstring></argsstring>
+        <name>enable_adaptive_sizing</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::enable_adaptive_sizing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable adaptive pool sizing driven by real-time utilization metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="203" column="14" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a1a87a04ddb4e0d2bd768cd8102c3da8a" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_i_pooling_strategy" kindref="compound">IPoolingStrategy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IPoolingStrategy&gt; themis::network::WireProtocolConnectionPool::Config::adaptive_strategy</definition>
+        <argsstring></argsstring>
+        <name>adaptive_strategy</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Config::adaptive_strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Custom sizing strategy (default: <ref refid="classthemis_1_1network_1_1_adaptive_pooling_strategy" kindref="compound">AdaptivePoolingStrategy</ref> with default config). Only consulted when enable_adaptive_sizing is true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="206" column="25" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_connection_pool.h" line="188" column="5" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="188" bodyend="207"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ab858a1ac59a6b18aaf8ac4e85a2e4f23" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>acquire_timeout</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a1a87a04ddb4e0d2bd768cd8102c3da8a" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>adaptive_strategy</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1afee845cc2586ac104c676da712760e39" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>connect_timeout</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1aece7016cc2f76478854dee41055cec24" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>enable_adaptive_sizing</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a982cf87b747d29005bbef70e81463f9e" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>enable_mtls</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ac27449389fcc1d1b047e5e8e36359249" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>enable_ssl</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8beb8dd74f4fc7c3e727e151c2e74714" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>enable_warmup</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8c17c23c5f5ea7a52b0f128f1bd41b95" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>idle_timeout</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a5586ab86fdcfeb51d7ce916b5d469dba" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>keepalive_interval</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1ad1a49a72c393d1f86b7d5f2e76158a7d" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>max_connections_per_target</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a8e903f9cec1054dc3d35ff78580f89c2" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a52482a385ae9ac46ed5c308fb8ffe829" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>min_connections_per_target</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1aff14dd91a21f002ddf0dfa6394fe90ab" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>ssl_ca_cert_path</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1afdaf377240a9100689fbe2286271c191" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>ssl_cert_path</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_config_1a625d57efb41f0a00801b69d5ac6d687b" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Config</scope><name>ssl_key_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
